@@ -1,0 +1,101 @@
+/* CITURBAREA — Design System Global */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
+
+:root {
+  --c-ink:       #0a0f1e;
+  --c-ink2:      #1a2438;
+  --c-muted:     #566474;
+  --c-line:      #e2e6ec;
+  --c-bg:        #f6f5f0;
+  --c-card:      #ffffff;
+  --c-blue:      #0d3566;
+  --c-blue2:     #1450a3;
+  --c-blueSoft:  #e8eef8;
+  --c-gold:      #c48b1f;
+  --c-goldSoft:  #fef3dc;
+  --c-green:     #0f5c30;
+  --c-greenSoft: #e2f4eb;
+  --c-red:       #8b1c1c;
+  --c-redSoft:   #fde8e8;
+  --c-soon:      #7c3aed;
+  --c-soonSoft:  #ede9fe;
+  --shadow-sm:   0 2px 8px rgba(10,15,30,.06);
+  --shadow-md:   0 8px 24px rgba(10,15,30,.09);
+  --shadow-lg:   0 20px 60px rgba(10,15,30,.12);
+  --r:           16px;
+  --r-sm:        10px;
+  --font-display:'Syne', system-ui, sans-serif;
+  --font-body:   'DM Sans', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--c-bg);
+  color: var(--c-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a { text-decoration: none; color: inherit; }
+button { font-family: var(--font-body); cursor: pointer; }
+
+/* ── BADGE BIENTÔT DISPONIBLE ── */
+.badge-soon {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--c-soonSoft); color: var(--c-soon);
+  border: 1px solid rgba(124,58,237,.2);
+  padding: 4px 12px; border-radius: 99px;
+  font-size: 11px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.badge-soon::before { content: '⏳'; font-size: 12px; }
+
+.badge-live {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--c-greenSoft); color: var(--c-green);
+  border: 1px solid rgba(15,92,48,.15);
+  padding: 4px 12px; border-radius: 99px;
+  font-size: 11px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.badge-live::before { content: ''; width:6px; height:6px; border-radius:50%; background:var(--c-green); animation: pulse 2s infinite; }
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--c-line); border-radius: 3px; }
+
+/* ── Article content prose ── */
+.article-content p {
+  margin: 0 0 12px;
+  color: #334155;
+  line-height: 1.75;
+  font-size: 14px;
+}
+.article-content h3 {
+  margin: 20px 0 8px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #1e3a8a;
+}
+.article-content h4 {
+  margin: 16px 0 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+.article-content hr {
+  border: none;
+  border-top: 1px dashed #e2e8f0;
+  margin: 16px 0;
+}
+.article-content ul, .article-content ol {
+  padding-left: 20px;
+  margin: 0 0 12px;
+  color: #334155;
+  font-size: 14px;
+  line-height: 1.7;
+}

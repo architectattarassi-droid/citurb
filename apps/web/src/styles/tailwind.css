@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  CITURBAREA — UX Doctrine
+  - Any clickable/selectable element must provide feedback.
+  - Minimal, non-intrusive defaults (do not change layout).
+*/
+
+/* Accessible focus ring for all interactive controls */
+:where(a, button, [role="button"], input, select, textarea):focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.65); /* blue-500 */
+  outline-offset: 2px;
+}
+
+/* Standard selected state hook (apply via class) */
+.cit-selected {
+  border-color: rgba(180, 83, 9, 0.55) !important; /* amber-ish */
+  background: rgba(245, 158, 11, 0.12) !important; /* soft gold */
+}
+
+/* Mild hover affordance for cards */
+.cit-clickable:hover {
+  filter: brightness(1.02);
+}
+

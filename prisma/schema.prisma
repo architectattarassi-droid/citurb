@@ -1,0 +1,1035 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==============================
+// TOME 5 — AUTH/RBAC (minimal)
+// Source of truth for admin/ops access
+// ==============================
+
+enum UserRole {
+  CLIENT
+  OPERATOR
+  OPS
+  OWNER
+  ADMIN
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  role         UserRole @default(CLIENT)
+  plan         Plan     @default(PRO)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  username        String?
+  phone           String? // E.164, ex: +212612345678
+  phoneVerifiedAt DateTime?
+  emailVerifiedAt DateTime?
+  entitlements    UserEntitlements?
+
+  // Opposite side for Dossier.owner (required by Prisma)
+  ownedDossiers Dossier[] @relation("DossierOwner")
+
+  // S-FIRM-LINK
+  firmId String?
+  firm   Firm?   @relation("UserFirm", fields: [firmId], references: [id])
+
+  @@index([role])
+}
+
+// NOTE:
+// This is a **starter** schema to wire the monorepo.
+// Replace/extend it with your canonical Prisma master schema.
+// Keep: append-only logs, incidents, minimal project/state/order/entitlement.
+
+enum IncidentCategory {
+  DOCTRINE_BLOCK
+  BYPASS_RISK
+  DISINTERMEDIATION_RISK
+  STATE_TAMPER
+  PAYMENT_TAMPER
+  DATA_EXFILTRATION_RISK
+  OFF_PLATFORM_CHANNEL_RISK
+  IA_POLICY_VIOLATION
+  ENTITLEMENT_BYPASS
+  GEO_VIOLATION
+  CYCLE_OVERRUN
+}
+
+enum IncidentSeverity {
+  INFO
+  WARN
+  CRITICAL
+}
+
+enum NotificationChannel {
+  EMAIL
+  TELEGRAM
+}
+
+enum DeliveryStatus {
+  QUEUED
+  SENT
+  FAILED
+}
+
+enum ActorType {
+  CLIENT
+  OPERATOR
+  OPS
+  OWNER
+  ADMIN
+}
+
+enum GeoLevel {
+  REGION
+  PROVINCE
+  COMMUNE
+  ZONE
+}
+
+model GeoUnit {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  level GeoLevel
+  code  String? // optional: official code when available
+  name  String
+
+  parentId String?
+  parent   GeoUnit?  @relation("GeoUnitHierarchy", fields: [parentId], references: [id])
+  children GeoUnit[] @relation("GeoUnitHierarchy")
+
+  // Opposite side for Project.geo (required by Prisma)
+  projects Project[] @relation("ProjectGeo")
+
+  // Optional PostGIS geometry (polygon/point). Keep nullable for V1.
+  geom Unsupported("geometry")?
+
+  @@unique([level, name, parentId])
+  @@index([level])
+  @@index([parentId])
+}
+
+model Project {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  door  Int
+  geoId String?
+  geo   GeoUnit? @relation("ProjectGeo", fields: [geoId], references: [id])
+  state String   @default("E0")
+
+  // Sprint S4 — Dossier bridge
+  dossierId String?  @unique
+  ownerId   String?
+  dossier   Dossier? @relation("DossierProject")
+
+  econStatus   String    @default("NORMAL")
+  freezeReason String?
+  freezeOrigin String?
+  freezeAt     DateTime?
+  freezeScore  Float?
+
+  // V162D+ — chantier trust engine toggles
+  modActivated Boolean @default(false)
+  trustEnabled Boolean @default(false)
+
+  situations WorkSituation[]
+
+  orders       Order[]
+  entitlements Entitlement[]
+  stateHistory StateHistory[]
+  milestones   ProjectMilestone[]
+}
+
+enum SituationStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  PAID
+  REJECTED
+}
+
+model WorkSituation {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  // Amounts in MAD
+  amountDeclared Float
+  platformFee5   Float @default(0)
+  amountNet      Float @default(0)
+
+  // Validations
+  architectOk Boolean @default(false)
+  betOk       Boolean @default(false)
+  controlOk   Boolean @default(false)
+  topoOk      Boolean @default(false)
+
+  status SituationStatus @default(DRAFT)
+
+  @@index([projectId])
+}
+
+model Order {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  projectId     String
+  stripeSession String? @unique
+  amount        Int
+  currency      String  @default("MAD")
+  status        String  @default("PENDING") // PENDING|PAID|FAILED
+
+  project      Project       @relation(fields: [projectId], references: [id])
+  entitlements Entitlement[]
+}
+
+model Entitlement {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  projectId String
+  type      String
+  status    String @default("ACTIVE") // ACTIVE|EXPIRED|REVOKED|SUSPENDED
+
+  sourceOrderId String
+  order         Order  @relation(fields: [sourceOrderId], references: [id])
+
+  project Project @relation(fields: [projectId], references: [id])
+
+  @@index([projectId, type, status])
+}
+
+model StateHistory {
+  id           String     @id @default(uuid())
+  createdAt    DateTime   @default(now())
+  projectId    String
+  fromState    String
+  toState      String
+  action       String
+  actorId      String?
+  actorType    ActorType?
+  freezeReason String?
+  freezeOrigin String?
+
+  project Project @relation(fields: [projectId], references: [id])
+
+  @@index([projectId, createdAt])
+}
+
+model ProbativeLog {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  prevHash  String?
+  hash      String
+  payload   Json
+
+  @@index([createdAt])
+}
+
+model Incident {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  errorCode String
+  tomeRef   String?
+  sources   Json             @default("[]")
+  category  IncidentCategory
+  severity  IncidentSeverity
+
+  projectId String?
+  actorId   String?
+  actorType ActorType?
+  door      Int?
+  state     String?
+
+  status      String   @default("OPEN")
+  lastEventAt DateTime @default(now())
+
+  events     IncidentEvent[]
+  deliveries NotificationDelivery[]
+
+  @@index([createdAt])
+  @@index([projectId])
+  @@index([category, severity])
+}
+
+model IncidentEvent {
+  id         String   @id @default(uuid())
+  incidentId String
+  createdAt  DateTime @default(now())
+
+  eventCode String
+  payload   Json   @default("{}")
+
+  incident Incident @relation(fields: [incidentId], references: [id])
+
+  @@index([incidentId, createdAt])
+}
+
+model NotificationDelivery {
+  id         String   @id @default(uuid())
+  incidentId String
+  createdAt  DateTime @default(now())
+
+  channel   NotificationChannel
+  target    String
+  status    DeliveryStatus      @default(QUEUED)
+  attempts  Int                 @default(0)
+  lastError String?
+
+  incident Incident @relation(fields: [incidentId], references: [id])
+
+  @@index([incidentId])
+  @@index([status, channel])
+}
+
+enum Plan {
+  FREE
+  PRO
+  VVIP
+  ENTERPRISE
+}
+
+model UserEntitlements {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  features  Json
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum DossierStatus {
+  DRAFT
+  SUBMITTED
+  IN_REVIEW
+  NEEDS_CHANGES
+  APPROVED
+  REJECTED
+}
+
+// ==============================
+// MIN1 — Canonisation Surface/Plancher (P2)
+// Doctrine:
+// - Client peut "déclarer" une surface, mais elle n'est jamais la source de vérité.
+// - Seules ESTIMATED et VERIFIED peuvent piloter seuil/pricing.
+// - Append-only: on crée des snapshots, pas d'update destructif.
+// ==============================
+
+enum DossierAreaKind {
+  DECLARED
+  ESTIMATED
+  VERIFIED
+}
+
+enum DossierAreaMethod {
+  CLIENT_DECLARED
+  HEURISTIC_V1
+  VERIFIED_DOC_V1
+}
+
+// ==============================
+// OTP — Email/SMS verification (P1)
+// Doctrine:
+// - No in-memory OTP in production.
+// - Codes are NEVER stored in cleartext.
+// - Rate-limit & attempts are enforced at DB level.
+// ==============================
+
+enum OtpChannel {
+  EMAIL
+  SMS
+}
+
+enum OtpStatus {
+  PENDING
+  VERIFIED
+  EXPIRED
+  LOCKED
+}
+
+model OtpChallenge {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  channel OtpChannel
+  status  OtpStatus  @default(PENDING)
+
+  // Context binding (ex: "case:<id>")
+  contextKey  String
+  // Destination (email or E.164 phone). Always normalized.
+  destination String
+
+  // Security
+  salt        String
+  codeHash    String
+  expiresAt   DateTime
+  attempts    Int      @default(0)
+  maxAttempts Int      @default(5)
+  lastSentAt  DateTime @default(now())
+
+  verifiedAt DateTime?
+  lockedAt   DateTime?
+
+  meta Json @default("{}")
+
+  @@index([contextKey, channel, createdAt])
+  @@index([destination, channel, lastSentAt])
+  @@index([status, expiresAt])
+}
+
+model Dossier {
+  id          String        @id @default(cuid())
+  ownerId     String
+  title       String
+  commune     String?
+  address     String?
+  parcelRef   String?
+  status      DossierStatus @default(DRAFT)
+  payload     Json // raw inputs (lotissement rules, program, dims, etc.)
+  submittedAt DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Sprint S2 — pack selection
+  packSelected      String?
+  packPriceMAD      Float?
+  projectType       String?
+  constructionLevel String?
+  caseId            String?
+
+  // Sprint S4 — Project bridge
+  projectId String?  @unique
+  project   Project? @relation("DossierProject", fields: [projectId], references: [id])
+
+  // Sprint S-NOTIF1 — Rappels automatiques
+  lastReminderSentAt DateTime?
+  reminderCount      Int       @default(0)
+
+  // Sprint S10 — Disclaimer acceptance
+  disclaimerAcceptedAt DateTime?
+
+  // Sprint S16 — Note OPS feedback client
+  opsNote String? // Note OPS → client lors de NEEDS_CHANGES ou REJECTED
+
+  // Sprint S-ROKHAS — Suivi permis de construire
+  rokhas RokhasDossier?
+
+  owner User @relation("DossierOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  areas     DossierArea[]
+  documents DossierDocument[] @relation("DossierDocuments")
+  payments  Payment[]
+
+  // S-FIRM-LINK
+  firmId String?
+  firm   Firm?   @relation("DossierFirm", fields: [firmId], references: [id])
+
+  // Sprint S0 — nouveaux champs
+  porteType       String    @default("P1")
+  gestionMode     String    @default("AUTONOME")
+  phase           String    @default("PHASE_01_ESQUISSE")
+  refInterne      String?
+  mandatSigne     Boolean   @default(false)
+  mandatSigneAt   DateTime?
+  archivedAt      DateTime?
+  clientNom       String?
+  clientCin       String?
+  clientTel       String?
+  clientEmail     String?
+  clientAdresse   String?
+  raisonSociale   String?
+  rc              String?
+  ice             String?
+  representant    String?
+  sousTypeP2      String?
+  lambertX        Float?
+  lambertY        Float?
+  lambertSystem   String?   @default("Lambert_Maroc_Nord")
+  wgs84Lat        Float?
+  wgs84Lng        Float?
+  surfaceTerrain  Float?
+  surfacePlancher Float?
+  nbNiveaux       Int?
+  nbLogements     Int?
+  natureProjet    String?
+  usageBien       String?
+  budgetEstime    Float?
+  adresseTerrain  String?
+  arrondissement  String?
+
+  // Sprint S0 — nouvelles relations
+  phaseRecords   DossierPhaseRecord[]
+  sousPhases     DossierSousPhase[]
+  intervenants   DossierIntervenant[]
+  geoHistory     DossierGeoHistory[]
+  nonConformites DossierNonConformite[]
+  messages       DossierMessage[]
+  visios         DossierVisio[]
+  commandes      CommandePrestataire[]
+  phaseChats     PhaseChat[]
+  phaseReunions  PhaseReunion[]
+  devis          Devis[]
+  factures       Facture[]
+  phaseHistorique PhaseHistorique[]
+
+  @@index([ownerId, status])
+}
+
+model DossierArea {
+  id        String @id @default(cuid())
+  dossierId String
+
+  kind    DossierAreaKind
+  valueM2 Decimal         @db.Decimal(12, 2)
+
+  method        DossierAreaMethod
+  methodVersion String
+  inputsHash    String
+
+  // References to proofs (docs/pages/layers/etc). Keep flexible in V1.
+  sources Json @default("[]")
+
+  computedAt DateTime @default(now())
+
+  dossier Dossier @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+
+  @@index([dossierId, kind, computedAt])
+}
+
+model DossierDocument {
+  id           String   @id @default(cuid())
+  dossierId    String
+  dossier      Dossier  @relation("DossierDocuments", fields: [dossierId], references: [id])
+  docType      String
+  originalName String
+  storedName   String
+  mimeType     String?
+  sizeBytes    Int?
+  uploadedAt   DateTime @default(now())
+
+  @@index([dossierId])
+}
+
+// ==============================
+// ROKHAS — Suivi permis de construire
+// ==============================
+
+model RokhasDossier {
+  id                 String               @id @default(cuid())
+  dossierId          String               @unique
+  refRokhas          String               @default("")
+  numDossier         String               @default("")
+  refFoncieres       String[]
+  typePermis         String               @default("construire")
+  consistance        String               @default("")
+  naturProjet        String               @default("")
+  typeProjet         String               @default("")
+  niveaux            String               @default("")
+  surfaceTerrain     Float?
+  surfaceBatie       Float?
+  surfacePlancher    Float?
+  cus                Float?
+  cos                Float?
+  adresse            String?
+  prefecture         String?
+  commune            String?
+  guichetDepot       String?
+  phaseActuelle      Int                  @default(1)
+  statut             String               @default("BROUILLON")
+  decisionCommission String?
+  dateDepot          DateTime?
+  dateLivraison      DateTime?
+  delaiGlobalJours   Int?
+  clientNom          String? // Maître d'ouvrage — nom extrait de Rokhas
+  clientCin          String? // Maître d'ouvrage — CIN/identifiant
+  numArrete          String? // Numéro d'arrêté de permis
+  clientData         Json? // Données saisies par le maître d'ouvrage
+  pendingRokhasSync  Boolean              @default(false) // Flag : sync Puppeteer en attente
+  // Sprint S0 — champs miroir complets
+  dateDemande        DateTime?
+  dateArrete         DateTime?
+  clientIce          String?              @default("")
+  clientAdresse      String?              @default("")
+  douar              String?              @default("")
+  cercle             String?              @default("")
+  province           String?              @default("")
+  adresseBien        String?              @default("")
+  nbNiveaux          Int?
+  avecSousSol        Boolean              @default(false)
+  nbSousSols         Int?
+  hauteurBatiment    Float?
+  architecteNom      String?              @default("")
+  architecteOrdre    String?              @default("")
+  architecteTel      String?              @default("")
+  betStructureNom    String?              @default("")
+  betStructureAgr    String?              @default("")
+  betTechniquesNom   String?              @default("")
+  betTechniquesAgr   String?              @default("")
+  topographeNom      String?              @default("")
+  topographeOrdre    String?              @default("")
+  entrepreneurNom    String?              @default("")
+  entrepreneurIce    String?              @default("")
+  lastSyncAt         DateTime?
+  syncStatus         String?              @default("PENDING")
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  dossier            Dossier              @relation(fields: [dossierId], references: [id])
+  phases             RokhasPhaseHistory[]
+  documents          RokhasDocument[]
+}
+
+model RokhasPhaseHistory {
+  id              String        @id @default(cuid())
+  rokhasDossierId String
+  phase           Int
+  phaseLabel      String
+  dateEntree      DateTime?
+  dateSortie      DateTime?
+  delaiJours      Int?
+  statut          String        @default("EN_ATTENTE")
+  remarques       String?
+  responsable     String?
+  declenchePar    String        @default("systeme")
+  // Sprint S0
+  phaseNum        Int?
+  dateSaisie      DateTime?
+  dateTraitement  DateTime?
+  dateDecision    DateTime?
+  serviceTraitant String?
+  agentNom        String?
+  motifRejet      String?
+  pv              String?
+  createdAt       DateTime      @default(now())
+  rokhasDossier   RokhasDossier @relation(fields: [rokhasDossierId], references: [id])
+
+  @@index([rokhasDossierId])
+}
+
+model RokhasDocument {
+  id               String        @id @default(cuid())
+  rokhasDossierId  String
+  phase            Int
+  nom              String
+  type             String        @default("AUTRE")
+  origine          String        @default("ARCHITECTE")
+  urlRokhas        String?
+  urlCiturbarea    String?
+  statut           String        @default("EN_ATTENTE")
+  visibleClient    Boolean       @default(false)
+  dateRecuperation DateTime?
+  dateValidation   DateTime?
+  dateEnvoiClient  DateTime?
+  validePar        String?
+  uploadePar       String?
+  // Sprint S0
+  code             String?
+  categorie        String?       @default("PIECE_DEPOSEE")
+  phaseNum         Int?
+  dateDepot        DateTime?
+  motifRejet       String?
+  filePath         String?
+  fileSize         Int?
+  mimeType         String?
+  source           String?       @default("CLIENT")
+  createdAt        DateTime      @default(now())
+  rokhasDossier    RokhasDossier @relation(fields: [rokhasDossierId], references: [id])
+
+  @@index([rokhasDossierId])
+}
+
+// Sprint S11 — Paiements
+model Payment {
+  id          String    @id @default(cuid())
+  dossierId   String
+  mode        String // STRIPE | WISE | CMI | CASH | CHEQUE
+  status      String    @default("PENDING") // PENDING | CONFIRMED | REJECTED
+  amount      Float     @default(0)
+  currency    String    @default("MAD")
+  ref         String? // ref Stripe/Wise/CMI ou numéro chèque
+  proofDocId  String? // id du document uploadé (accusé caisse, bordereau chèque)
+  confirmedAt DateTime?
+  confirmedBy String? // userId OPS/OWNER qui a validé
+  ficheUrl    String? // URL fiche PDF auto-générée (CASH/CHEQUE)
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  dossier     Dossier   @relation(fields: [dossierId], references: [id])
+}
+
+// Sprint S14 — Jalons de projet E7→E12
+model ProjectMilestone {
+  id          String    @id @default(cuid())
+  projectId   String
+  phase       String // E7_ACTIVE | E8_DESIGN | E9_PERMIT | E10_CONSTRUCTION | E11_DELIVERY | E12_CLOSED
+  label       String
+  status      String    @default("PENDING") // PENDING | IN_PROGRESS | DONE | BLOCKED
+  startedAt   DateTime?
+  completedAt DateTime?
+  notes       String?
+  triggeredBy String? // userId
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  project     Project   @relation(fields: [projectId], references: [id])
+}
+
+// Sprint S-FIRM — Multi-tenant
+model Firm {
+  id         String   @id @default(cuid())
+  slug       String   @unique // ex: "arcbati"
+  name       String // ex: "Cabinet Arc Bati"
+  ownerEmail String
+  ownerPhone String?
+  logoUrl    String?
+  smtpUser   String?
+  smtpPass   String?
+  stripeKey  String?
+  planType   String   @default("STARTER") // STARTER | PRO | ENTERPRISE
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // S-FIRM-LINK — relations inverses
+  users    User[]    @relation("UserFirm")
+  dossiers Dossier[] @relation("DossierFirm")
+}
+
+// ══════════════════════════════════════════════════════════════
+// SPRINT S0 — NOUVEAUX MODÈLES
+// ══════════════════════════════════════════════════════════════
+
+model DossierPhaseRecord {
+  id              String             @id @default(cuid())
+  dossierId       String
+  phase           String
+  statut          String             @default("EN_ATTENTE")
+  dateDebut       DateTime?
+  dateFin         DateTime?
+  acteurId        String?
+  note            String?
+  rokhasRef       String?
+  niveauRef       String?
+  lotsGO          Json?
+  lotsSecondaires Json?
+  sousPhases      DossierSousPhase[]
+  dossier         Dossier            @relation(fields: [dossierId], references: [id])
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@unique([dossierId, phase])
+}
+
+model DossierSousPhase {
+  id              String              @id @default(cuid())
+  dossierId       String
+  phaseRecordId   String?
+  phaseRef        String?
+  numero          Int
+  label           String              @default("")
+  titre           String?
+  type            String              @default("PROVISOIRE")
+  statut          String              @default("EN_COURS")
+  createdById     String?
+  dateCreation    DateTime            @default(now())
+  dateSoumission  DateTime?
+  dateValidation  DateTime?
+  dateFin         DateTime?
+  valideParId     String?
+  validationMode  String?
+  motifRejet      String?
+  remarques       String?
+  photos          String[]
+  pvPath          String?
+  notePrestataire String?
+  noteAdmin       String?
+  noteClient      String?
+  semaine         Int?
+  documents       SousPhaseDocument[]
+  phaseRecord     DossierPhaseRecord? @relation(fields: [phaseRecordId], references: [id])
+  dossier         Dossier             @relation(fields: [dossierId], references: [id])
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+}
+
+model SousPhaseDocument {
+  id             String           @id @default(cuid())
+  sousPhaseId    String
+  nom            String
+  filePath       String
+  mimeType       String?
+  fileSize       Int?
+  visibleClient  Boolean          @default(false)
+  uploadePar     String
+  uploadeParRole String
+  statut         String           @default("EN_ATTENTE")
+  valideParId    String?
+  sousPhase      DossierSousPhase @relation(fields: [sousPhaseId], references: [id])
+  createdAt      DateTime         @default(now())
+}
+
+model DossierIntervenant {
+  id            String    @id @default(cuid())
+  dossierId     String
+  role          String
+  nom           String
+  tel           String?
+  email         String?
+  rc            String?
+  patente       String?
+  ordreNum      String?
+  mandatPath    String?
+  mandatSigne   Boolean   @default(false)
+  mandatSigneAt DateTime?
+  dossier       Dossier   @relation(fields: [dossierId], references: [id])
+  createdAt     DateTime  @default(now())
+}
+
+model DossierGeoHistory {
+  id            String   @id @default(cuid())
+  dossierId     String
+  lambertX      Float
+  lambertY      Float
+  lambertSystem String
+  wgs84Lat      Float?
+  wgs84Lng      Float?
+  source        String
+  acteur        String
+  note          String?
+  dossier       Dossier  @relation(fields: [dossierId], references: [id])
+  createdAt     DateTime @default(now())
+}
+
+model DossierNonConformite {
+  id             String    @id @default(cuid())
+  dossierId      String
+  intervenantId  String?
+  phase          String?
+  description    String
+  gravite        String
+  statut         String    @default("OUVERTE")
+  responsableId  String?
+  dateReleve     DateTime  @default(now())
+  dateResolution DateTime?
+  piecesJointes  String[]
+  dossier        Dossier   @relation(fields: [dossierId], references: [id])
+  createdAt      DateTime  @default(now())
+}
+
+model DossierMessage {
+  id             String    @id @default(cuid())
+  dossierId      String
+  canal          String
+  expediteurId   String
+  expediteurRole String
+  type           String    @default("TEXT")
+  contenu        String?
+  filePath       String?
+  phaseRef       String?
+  sousPhaseRef   String?
+  visibleClient  Boolean   @default(true)
+  lu             Boolean   @default(false)
+  luAt           DateTime?
+  dossier        Dossier   @relation(fields: [dossierId], references: [id])
+  createdAt      DateTime  @default(now())
+}
+
+model DossierVisio {
+  id             String   @id @default(cuid())
+  dossierId      String
+  organisateurId String
+  participants   String[]
+  lienVisio      String
+  provider       String   @default("WHEREBY")
+  roomName       String
+  dateHeure      DateTime
+  dureeEstimee   Int?
+  statut         String   @default("PLANIFIEE")
+  phaseRef       String?
+  objet          String?
+  recordingPath  String?
+  dossier        Dossier  @relation(fields: [dossierId], references: [id])
+  createdAt      DateTime @default(now())
+}
+
+model Prestataire {
+  id             String                @id @default(cuid())
+  nom            String
+  type           String
+  specialites    String[]
+  communes       String[]
+  note           Float                 @default(0)
+  certifications String[]
+  ice            String?
+  tel            String?
+  email          String?
+  actif          Boolean               @default(true)
+  commandes      CommandePrestataire[]
+  createdAt      DateTime              @default(now())
+}
+
+model CommandePrestataire {
+  id            String       @id @default(cuid())
+  dossierId     String
+  prestataireId String?
+  phase         String
+  lot           String?
+  type          String
+  montant       Float?
+  statut        String       @default("EN_ATTENTE")
+  declencheTCE  Boolean      @default(false)
+  dossier       Dossier      @relation(fields: [dossierId], references: [id])
+  prestataire   Prestataire? @relation(fields: [prestataireId], references: [id])
+  createdAt     DateTime     @default(now())
+}
+
+model ValidationPermission {
+  id                String   @id @default(cuid())
+  typeDocument      String
+  mode              String   @default("MANUEL")
+  delaiAuto         Int?
+  visibleClientAuto Boolean  @default(true)
+  createdByOwnerId  String
+  createdAt         DateTime @default(now())
+}
+
+// ══════════════════════════════════════════════════════════════
+// SPRINT 2 — ITÉRATIONS & COLLABORATION
+// ══════════════════════════════════════════════════════════════
+
+model PhaseChat {
+  id             String    @id @default(cuid())
+  dossierId      String
+  phaseRef       String
+  sousPhaseId    String?
+  expediteurId   String
+  expediteurRole String
+  expediteurNom  String?
+  contenu        String
+  type           String    @default("TEXT")
+  filePath       String?
+  fileName       String?
+  lu             Boolean   @default(false)
+  luAt           DateTime?
+  createdAt      DateTime  @default(now())
+  dossier        Dossier   @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+
+  @@index([dossierId])
+  @@index([phaseRef])
+}
+
+model PhaseReunion {
+  id               String    @id @default(cuid())
+  dossierId        String
+  phaseRef         String
+  titre            String
+  type             String    @default("PRESENTIEL")
+  statut           String    @default("PLANIFIEE")
+  dateDebut        DateTime
+  dateFin          DateTime?
+  dureeMinutes     Int?
+  lieu             String?
+  lienVisio        String?
+  organisateurId   String?
+  participants     String[]
+  noteOrdreJour    String?
+  noteCompteRendu  String?
+  rappelEnvoye     Boolean   @default(false)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  dossier          Dossier   @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+
+  @@index([dossierId])
+  @@index([phaseRef])
+}
+
+model Devis {
+  id              String    @id @default(cuid())
+  dossierId       String
+  phaseRef        String
+  numero          String    @unique
+  titre           String
+  statut          String    @default("BROUILLON")
+  montantHT       Float     @default(0)
+  tva             Float     @default(20)
+  montantTTC      Float     @default(0)
+  devise          String    @default("MAD")
+  lignes          Json      @default("[]")
+  conditions      String?
+  validiteJours   Int       @default(30)
+  dateEmission    DateTime  @default(now())
+  dateValidite    DateTime?
+  dateAcceptation DateTime?
+  dateRefus       DateTime?
+  noteRefus       String?
+  emetteurId      String
+  filePath        String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  dossier         Dossier   @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+
+  @@index([dossierId])
+}
+
+model Facture {
+  id            String    @id @default(cuid())
+  dossierId     String
+  phaseRef      String
+  devisId       String?
+  numero        String    @unique
+  titre         String
+  statut        String    @default("EMISE")
+  montantHT     Float     @default(0)
+  tva           Float     @default(20)
+  montantTTC    Float     @default(0)
+  montantPaye   Float     @default(0)
+  devise        String    @default("MAD")
+  lignes        Json      @default("[]")
+  dateEmission  DateTime  @default(now())
+  dateEcheance  DateTime?
+  datePaiement  DateTime?
+  modePaiement  String?
+  reference     String?
+  emetteurId    String
+  filePath      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  dossier       Dossier   @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+
+  @@index([dossierId])
+}
+
+model PhaseHistorique {
+  id         String   @id @default(cuid())
+  dossierId  String
+  phaseRef   String
+  action     String
+  acteurId   String?
+  acteurRole String?
+  acteurNom  String?
+  details    Json?
+  note       String?
+  createdAt  DateTime @default(now())
+  dossier    Dossier  @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+
+  @@index([dossierId])
+  @@index([phaseRef])
+}
