@@ -1,7 +1,5 @@
 import { Module } from "@nestjs/common";
 import { ScheduleModule } from "@nestjs/schedule";
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 
 // Kernel
 import { HealthModule } from "./modules/health/health.module";
@@ -39,10 +37,6 @@ import { SousPhaseModule } from "./modules/sous-phase/sous-phase.module";
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', 'apps', 'web', 'dist'),
-      exclude: ['/p2/(.*)', '/auth/(.*)', '/health(.*)', '/firms/(.*)', '/api/(.*)'],
-    }),
     ScheduleModule.forRoot(),
     HealthModule,
     PrismaDossiersModule,

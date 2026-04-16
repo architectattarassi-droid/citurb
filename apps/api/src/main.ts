@@ -7,28 +7,22 @@ import { TomeMetaInterceptor } from "./tomes/tome-at/kernel/tome-meta.intercepto
 import { MutationGateGuard } from "./common/guards/mutation-gate.guard";
 import { validateEnvOrThrow } from "./modules/kernel";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const express = require('express');
+
+const DIST_DIR = join(__dirname, '..', '..', 'web', 'dist');
+const API_PREFIXES = ['/p2', '/auth', '/health', '/firms', '/api', '/uploads'];
+
 async function bootstrap() {
-  // Fail-fast in production when critical providers are missing.
   validateEnvOrThrow();
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  // Serve uploaded files: GET /uploads/dossiers/{storedName}
+
+  // Uploaded files
   app.useStaticAssets(join(process.cwd(), "uploads"), { prefix: "/uploads" });
-  // Serve built React frontend from apps/web/dist (production mode)
-  const distPath = join(process.cwd(), "..", "web", "dist");
-  app.useStaticAssets(distPath, { prefix: "/" });
-  // SPA fallback — toutes les routes non-API renvoient index.html
-  const { existsSync } = await import("fs");
-  if (existsSync(distPath)) {
-    (app as any).getHttpAdapter().getInstance().get(/^(?!\/api|\/p2|\/auth|\/firms|\/uploads).*$/, (_req: any, res: any) => {
-      res.sendFile(join(distPath, "index.html"));
-    });
-  }
+
   const reflector = app.get(Reflector);
 
-  // ── DEV CORS (localhost only) ───────────────────────────────────────────
-  // Front-office runs on 5173, OPS back-office on 5174.
-  // We keep it permissive for any localhost:<port> to simplify iterations.
   app.enableCors({
     origin: [
       'https://citurbarea.com',
@@ -42,19 +36,22 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
-  // ── Filtres globaux ──────────────────────────────────────────────────────
   app.useGlobalFilters(new GlobalExceptionFilter());
-
-  // ── Intercepteurs globaux ────────────────────────────────────────────────
   app.useGlobalInterceptors(new TomeMetaInterceptor(reflector));
-
-  // ── Guards globaux ───────────────────────────────────────────────────────
-  // Doctrine T@-META-005 : toute mutation POST/PUT/PATCH/DELETE doit passer
-  // par /tomes/tome-at/orchestrator. Les exceptions sont listées dans le guard.
   app.useGlobalGuards(new MutationGateGuard());
 
+  const http = app.getHttpAdapter().getInstance();
+
+  // Serve static assets (JS/CSS/images) — falls through if file not found
+  http.use(express.static(DIST_DIR, { index: false }));
+
+  // SPA fallback — runs AFTER NestJS routes; API prefixes pass to NestJS
+  http.get('*', (req: any, res: any, next: any) => {
+    if (API_PREFIXES.some((p) => req.path.startsWith(p))) return next();
+    res.sendFile(join(DIST_DIR, 'index.html'));
+  });
+
   const port = process.env.PORT ? Number(process.env.PORT) : 4000;
-  // Bind to 0.0.0.0 so Windows exposes the port reliably on localhost
   await app.listen(port, '0.0.0.0');
   // eslint-disable-next-line no-console
   console.log(`API listening on http://localhost:${port}`);
