@@ -11,7 +11,7 @@ COPY apps/api/package.json ./apps/api/package.json
 COPY apps/web/dist/ ./apps/web/dist/
 COPY prisma/ ./prisma/
 
-RUN npm install --legacy-peer-deps --omit=dev
+RUN npm install --legacy-peer-deps
 
 EXPOSE 4000
 CMD ["node", "apps/api/dist/main.js"]
