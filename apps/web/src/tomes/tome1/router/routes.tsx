@@ -7,6 +7,9 @@ import P1Packs from "../../tome3/portals/p1/P1Packs";
 import P1Dossier from "../../tome3/portals/p1/P1Dossier";
 import P2Home from "../../tome3/portals/p2/P2Home";
 import P3Home from "../../tome3/portals/p3/P3Home";
+import P4Home from "../../tome3/portals/p4/P4Home";
+import P5Home from "../../tome3/portals/p5/P5Home";
+import P6Home from "../../tome3/portals/p6/P6Home";
 
 import Login from "../../tome5/pages/Login";
 import VerifyPhone from "../../tome5/pages/VerifyPhone";
@@ -63,6 +66,9 @@ export const router = createBrowserRouter([
       { path: '/p2/form', element: <P2Home /> },
       { path: '/p2/result', element: <P2Home /> },
       { path: '/p3', element: <P3Home /> },
+      { path: '/p4', element: <P4Home /> },
+      { path: '/p5', element: <P5Home /> },
+      { path: '/p6', element: <P6Home /> },
       { path: CANON.DEV_ROUTES, element: <DevRoutesPage /> },
       { path: '/simulateur', element: <SimulatorPage /> },
 

@@ -7,9 +7,9 @@ const DOORS = [
   { id:"p1", num:"01", icon:"🏠", color:"#0d3566", title:"Projet personnel & familial", desc:"Maison R+1 à R+3, villa individuelle, terrain nu. Conception, autorisation, orientation chantier.", result:"Plan + dossier autorisable + permis", live:true },
   { id:"p2", num:"02", icon:"🏢", color:"#c48b1f", title:"Projet immobilier & équipements", desc:"Immeuble, commerce, clinique, école. Faisabilité, scénarios réglementaires, conception optimisée.", result:"Dossier + scénarios + sécurisation", live:true },
   { id:"p3", num:"03", icon:"🏗️", color:"#0f5c30", title:"Réalisation clé en main (MOD)", desc:"Pilotage chantier, sélection entreprises, contrôle qualité, suivi budget et délais.", result:"Chantier piloté + budget maîtrisé", live:true },
-  { id:"p4", num:"04", icon:"📊", color:"#5c0f5c", title:"Investisseur & foncier", desc:"Analyse foncière, potentiel réglementaire, scénarios de valorisation, risques identifiés.", result:"Étude + potentiel + stratégie", live:false },
+  { id:"p4", num:"04", icon:"📊", color:"#5c0f5c", title:"Investisseur & foncier", desc:"Analyse foncière, potentiel réglementaire, scénarios de valorisation, risques identifiés.", result:"Étude + potentiel + stratégie", live:true },
   { id:"p5", num:"05", icon:"📋", color:"#0f5c5c", title:"Rapports & expertises", desc:"Estimation immobilière, rapport conformité, avis technique. Document exploitable banque / décision.", result:"Rapport premium opposable", live:true },
-  { id:"p6", num:"06", icon:"🤝", color:"#5c1a1a", title:"Entreprise & partenaire", desc:"Accès à des dossiers qualifiés, collaboration structurée, méthode qualité imposée.", result:"Écosystème + dossiers qualifiés", live:false },
+  { id:"p6", num:"06", icon:"🤝", color:"#5c1a1a", title:"Entreprise & partenaire", desc:"Accès à des dossiers qualifiés, collaboration structurée, méthode qualité imposée.", result:"Écosystème + dossiers qualifiés", live:true },
 ];
 
 export function DoorsSection() {
