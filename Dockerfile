@@ -10,7 +10,10 @@ COPY apps/api/dist/ ./apps/api/dist/
 COPY apps/api/package.json ./apps/api/package.json
 COPY apps/web/dist/ ./apps/web/dist/
 COPY prisma/ ./prisma/
-COPY node_modules/ ./node_modules/
+
+RUN npm install --legacy-peer-deps --omit=dev
+
+RUN npx prisma generate --schema prisma/schema.prisma
 
 EXPOSE 4000
 CMD ["node", "apps/api/dist/main.js"]
