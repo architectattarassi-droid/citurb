@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../node_modules/@prisma/client-dossiers"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DOSSIERS_DATABASE_URL")
+}
+
+model Dossier {
+  id                 String   @id @default(uuid())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  // Identity
+  phone               String
+  email               String?
+  maitreOuvrageName    String?
+
+  // Classification for backoffice filters
+  projectType          String?  // villa, immeuble, lotissement, etc.
+  regionCode           String?
+  provinceCode         String?
+  communeCode          String?
+  lotissementRef       String?
+
+  packCode             String?
+  stepCode             String?  // CREATED, STUDY, AUTH, EXEC, etc.
+
+  status               String   @default("CREATED")
+
+  documents            Document[]
+  events               DossierEvent[]
+
+  @@index([createdAt])
+  @@index([projectType])
+  @@index([regionCode])
+  @@index([provinceCode])
+  @@index([communeCode])
+  @@index([packCode])
+  @@index([stepCode])
+}
+
+model Document {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  dossierId String
+  dossier   Dossier  @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+
+  name      String
+  url       String
+  type      String
+}
+
+model DossierEvent {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  dossierId String
+  dossier   Dossier  @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+
+  type      String
+  payload   Json?
+
+  @@index([type])
+}

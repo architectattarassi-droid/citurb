@@ -1,0 +1,52 @@
+{
+  "name": "citurbarea",
+  "private": true,
+  "version": "0.1.0",
+  "dependencies": {
+    "@prisma/client": "^5.0.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm --prefix packages/contracts install && npm --prefix packages/config install && npm --prefix apps/api install && npm --prefix apps/web install && npm --prefix apps/ops install",
+    "setup": "bash scripts/setup.sh",
+    "setup:windows": "powershell -ExecutionPolicy Bypass -File scripts/setup.ps1",
+    "docker:up": "docker compose -f docker-compose.dev.yml up -d",
+    "docker:down": "docker compose -f docker-compose.dev.yml down",
+    "docker:logs": "docker compose -f docker-compose.dev.yml logs -f",
+    "docker:clean": "docker compose -f docker-compose.dev.yml down -v",
+    "tome:check": "node scripts/check-tome-structure.mjs",
+    "dev": "npx concurrently \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:front": "npm run dev:web",
+    "dev:windows": "start /B npm run dev:api & npm run dev:web",
+    "dev:ops": "npm --prefix apps/ops run dev",
+    "dev:all": "npx concurrently \"npm run dev:api\" \"npm run dev:web\" \"npm run dev:ops\"",
+    "predev": "npm run tome:check",
+    "predev:front": "npm run tome:check",
+    "dev:api": "npm --prefix apps/api run start:dev",
+    "dev:web": "npm --prefix apps/web run dev",
+    "build": "npm --prefix apps/api run build && npm --prefix apps/web run build",
+    "test": "npm --prefix apps/api run test && npm --prefix apps/web run test",
+    "lint": "npm run lint:api && npm run lint:web",
+    "lint:api": "npm --prefix apps/api run lint",
+    "lint:web": "npm --prefix apps/web run lint",
+    "prisma:generate": "npm --prefix apps/api run prisma:generate",
+    "prisma:generate:all": "npm run prisma:generate && node node_modules/.bin/prisma generate --schema prisma/dossiers/schema.prisma",
+    "prisma:migrate": "npm --prefix apps/api run prisma:migrate",
+    "prisma:studio": "npm --prefix apps/api run prisma:studio",
+    "seed:geo:regions": "tsx scripts/seed/01_seed_geo_regions.ts",
+    "seed:geo:provinces": "tsx scripts/seed/02_seed_geo_provinces.ts",
+    "seed:geo:communes": "tsx scripts/seed/03_seed_geo_communes.ts",
+    "seed:geo": "npm run seed:geo:regions && npm run seed:geo:provinces && npm run seed:geo:communes",
+    "start:dev": "npm --prefix apps/api run start:dev",
+    "citurbarea:start": "npx concurrently \"npm run docker:up\" \"npm run dev:api\" \"npm run dev:web\"",
+    "citurbarea:setup": "npm run prisma:generate && npm run seed:geo"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "concurrently": "^8.2.0",
+    "tsx": "^4.19.0"
+  }
+}

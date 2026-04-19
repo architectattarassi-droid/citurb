@@ -1,0 +1,237 @@
+// CITURBAREA V150 — Prisma Schema (Backend State Machine + Events)
+// PostgreSQL production-ready
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// USER & AUTH
+// ═══════════════════════════════════════════════════════════════════════════
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String?
+  role          UserRole @default(CLIENT)
+  
+  firstName     String?
+  lastName      String?
+  phone         String?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  dossiers      Dossier[]
+  events        DossierEvent[]
+  
+  @@index([email])
+}
+
+enum UserRole {
+  CLIENT
+  ARCHITECT
+  OPERATOR
+  ADMIN
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DOSSIER (State Machine)
+// ═══════════════════════════════════════════════════════════════════════════
+
+model Dossier {
+  id            String        @id @default(cuid())
+  userId        String
+  user          User          @relation(fields: [userId], references: [id])
+  
+  // State machine
+  state         DossierState  @default(E1_LANDING)
+  previousState DossierState?
+  
+  // Metadata
+  projectType   String?       // villa, immeuble, renovation
+  region        String?
+  province      String?
+  commune       String?
+  surface       Float?
+  budget        String?
+  
+  // Pack & Payment
+  packId        String?
+  stripeSessionId String?
+  paymentStatus PaymentStatus @default(PENDING)
+  
+  // Freeze
+  frozenAt      DateTime?
+  frozenReason  String?
+  
+  // Audit
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  events        DossierEvent[]
+  documents     Document[]
+  
+  @@index([userId])
+  @@index([state])
+  @@index([createdAt])
+}
+
+enum DossierState {
+  E1_LANDING
+  E2_QUALIFICATION
+  E3_DOCUMENTS
+  E4_PACK
+  E5_DISCLAIMER
+  E6_PAYMENT
+  E7_ACTIVE
+  E8_PRODUCTION
+  E9_AUTORISATION
+  E10_CHANTIER
+  E11_VALIDATION
+  E12_CLOTURE
+  EC_GEL
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// EVENTS (Append-only, probative logs)
+// ═══════════════════════════════════════════════════════════════════════════
+
+model DossierEvent {
+  id            String       @id @default(cuid())
+  dossierId     String
+  dossier       Dossier      @relation(fields: [dossierId], references: [id])
+  
+  userId        String?
+  user          User?        @relation(fields: [userId], references: [id])
+  
+  // Event data
+  eventType     String       // EVT_START, EVT_PAYMENT_CONFIRMED, etc.
+  fromState     DossierState?
+  toState       DossierState
+  payload       Json?
+  
+  // Probative (hash chain)
+  hash          String       // SHA256 of (prevHash + eventType + toState + timestamp)
+  prevHash      String?
+  
+  // Audit
+  createdAt     DateTime     @default(now())
+  ipAddress     String?
+  userAgent     String?
+  
+  @@index([dossierId])
+  @@index([createdAt])
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DOCUMENTS
+// ═══════════════════════════════════════════════════════════════════════════
+
+model Document {
+  id            String   @id @default(cuid())
+  dossierId     String
+  dossier       Dossier  @relation(fields: [dossierId], references: [id])
+  
+  filename      String
+  mimeType      String
+  size          Int
+  storageKey    String   // S3/R2 key
+  
+  category      String?  // plan, photo, document_officiel
+  
+  uploadedAt    DateTime @default(now())
+  
+  @@index([dossierId])
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CHATBOT (Conversations)
+// ═══════════════════════════════════════════════════════════════════════════
+
+model ChatConversation {
+  id            String        @id @default(cuid())
+  userId        String?
+  sessionId     String        @unique // For anonymous users
+  
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  messages      ChatMessage[]
+  
+  @@index([userId])
+  @@index([sessionId])
+}
+
+model ChatMessage {
+  id              String           @id @default(cuid())
+  conversationId  String
+  conversation    ChatConversation @relation(fields: [conversationId], references: [id])
+  
+  role            MessageRole
+  content         String           @db.Text
+  
+  // AI metadata
+  model           String?          // claude-haiku-3-5, etc.
+  tokensUsed      Int?
+  
+  createdAt       DateTime         @default(now())
+  
+  @@index([conversationId])
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// BACKOFFICE (SQLite local sync)
+// ═══════════════════════════════════════════════════════════════════════════
+
+model SyncLog {
+  id            String   @id @default(cuid())
+  instanceId    String   // Desktop app instance UUID
+  
+  dossierId     String
+  action        String   // PULL, PUSH, CONFLICT
+  
+  syncedAt      DateTime @default(now())
+  
+  @@index([instanceId])
+  @@index([dossierId])
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ANALYTICS & MONITORING
+// ═══════════════════════════════════════════════════════════════════════════
+
+model ApiLog {
+  id            String   @id @default(cuid())
+  
+  endpoint      String
+  method        String
+  statusCode    Int
+  responseTime  Int      // milliseconds
+  
+  userId        String?
+  ipAddress     String?
+  
+  createdAt     DateTime @default(now())
+  
+  @@index([endpoint])
+  @@index([createdAt])
+}

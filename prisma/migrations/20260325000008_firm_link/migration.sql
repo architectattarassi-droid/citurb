@@ -1,0 +1,5 @@
+-- Sprint S-FIRM-LINK — firmId sur User et Dossier
+ALTER TABLE "User" ADD COLUMN IF NOT EXISTS "firmId" TEXT
+  REFERENCES "Firm"("id") ON DELETE SET NULL;
+ALTER TABLE "Dossier" ADD COLUMN IF NOT EXISTS "firmId" TEXT
+  REFERENCES "Firm"("id") ON DELETE SET NULL;
