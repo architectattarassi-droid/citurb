@@ -13,7 +13,5 @@ COPY prisma/ ./prisma/
 
 RUN npm install --legacy-peer-deps --omit=dev
 
-RUN npx prisma generate --schema prisma/schema.prisma
-
 EXPOSE 4000
 CMD ["node", "apps/api/dist/main.js"]
