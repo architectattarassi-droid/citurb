@@ -12,6 +12,7 @@ COPY apps/web/dist/ ./apps/web/dist/
 COPY prisma/ ./prisma/
 
 RUN npm install --legacy-peer-deps
+RUN npm install --legacy-peer-deps --prefix apps/api
 
 EXPOSE 4000
 CMD ["node", "apps/api/dist/main.js"]
