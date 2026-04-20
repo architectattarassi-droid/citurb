@@ -1,6 +1,8 @@
 FROM node:20-alpine AS runner
 WORKDIR /app
 
+RUN apk add --no-cache openssl
+
 RUN mkdir -p /data/citurbarea /data/uploads /data/outputs
 
 COPY package*.json ./
@@ -11,6 +13,8 @@ COPY apps/api/dist/ ./apps/api/dist/
 COPY prisma/ ./prisma/
 
 RUN npm install --legacy-peer-deps
+
+RUN node ./node_modules/prisma/build/index.js generate --schema prisma/schema.prisma
 
 ENV NODE_ENV=production
 
