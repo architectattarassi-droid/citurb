@@ -1,6 +1,5 @@
 FROM node:20-alpine AS runner
 WORKDIR /app
-ENV NODE_ENV=production
 
 RUN mkdir -p /data/citurbarea /data/uploads /data/outputs
 
@@ -12,6 +11,8 @@ COPY apps/api/dist/ ./apps/api/dist/
 COPY prisma/ ./prisma/
 
 RUN npm install --legacy-peer-deps
+
+ENV NODE_ENV=production
 
 EXPOSE 4000
 CMD ["node", "apps/api/dist/main.js"]
