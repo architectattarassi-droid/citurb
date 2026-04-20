@@ -15,6 +15,7 @@ COPY prisma/ ./prisma/
 RUN npm install --legacy-peer-deps
 
 RUN node ./node_modules/prisma/build/index.js generate --schema prisma/schema.prisma
+RUN node ./node_modules/prisma/build/index.js generate --schema prisma/dossiers/schema.prisma
 
 ENV NODE_ENV=production
 
