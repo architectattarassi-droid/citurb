@@ -2,7 +2,7 @@
 dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "npx prisma generate --schema prisma/schema.prisma && npx prisma migrate deploy --schema prisma/schema.prisma && node apps/api/dist/main.js"
+startCommand = "./node_modules/.bin/prisma generate --schema prisma/schema.prisma && ./node_modules/.bin/prisma migrate deploy --schema prisma/schema.prisma && node apps/api/dist/main.js"
 healthcheckPath = "/health"
 healthcheckTimeout = 300
 restartPolicyType = "on_failure"
