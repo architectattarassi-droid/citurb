@@ -2,7 +2,7 @@
 dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "node ./node_modules/prisma/build/index.js migrate deploy --schema prisma/schema.prisma && node ./node_modules/prisma/build/index.js db push --schema prisma/dossiers/schema.prisma --accept-data-loss && node apps/api/dist/main.js"
+startCommand = "node ./node_modules/prisma/build/index.js migrate resolve --rolled-back 20260304011213_init --schema prisma/schema.prisma || true && node ./node_modules/prisma/build/index.js migrate deploy --schema prisma/schema.prisma && node ./node_modules/prisma/build/index.js db push --schema prisma/dossiers/schema.prisma --accept-data-loss && node apps/api/dist/main.js"
 healthcheckPath = "/health"
 healthcheckTimeout = 300
 restartPolicyType = "on_failure"
