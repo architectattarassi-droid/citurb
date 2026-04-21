@@ -22,6 +22,7 @@ async function bootstrap() {
             'https://citurbarea.com',
             'https://www.citurbarea.com',
             'https://api.citurbarea.com',
+            'https://citurb-production.up.railway.app',
             'http://localhost:5173',
             'http://localhost:4000',
         ],

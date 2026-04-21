@@ -3,5 +3,7 @@ dockerfilePath = "Dockerfile"
 
 [deploy]
 startCommand = "node ./node_modules/prisma/build/index.js db push --schema prisma/schema.prisma --skip-generate --accept-data-loss && node apps/api/dist/main.js"
+healthcheckPath = "/health"
+healthcheckTimeout = 300
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
