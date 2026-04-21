@@ -57,4 +57,8 @@ async function bootstrap() {
   // eslint-disable-next-line no-console
   console.log(`API listening on http://localhost:${port}`);
 }
-bootstrap();
+bootstrap().catch(err => {
+  // eslint-disable-next-line no-console
+  console.error('[FATAL] Bootstrap failed:', err);
+  process.exit(1);
+});

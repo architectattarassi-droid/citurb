@@ -3,7 +3,7 @@ WORKDIR /app
 
 RUN apk add --no-cache openssl
 
-RUN mkdir -p /data/citurbarea /data/uploads /data/outputs
+RUN mkdir -p /data/citurbarea /data/uploads /data/outputs /app/uploads/dossiers
 
 COPY package*.json ./
 COPY packages/ ./packages/
