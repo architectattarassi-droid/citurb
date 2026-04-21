@@ -114,9 +114,6 @@ model GeoUnit {
   // Opposite side for Project.geo (required by Prisma)
   projects Project[] @relation("ProjectGeo")
 
-  // Optional PostGIS geometry (polygon/point). Keep nullable for V1.
-  geom Unsupported("geometry")?
-
   @@unique([level, name, parentId])
   @@index([level])
   @@index([parentId])
