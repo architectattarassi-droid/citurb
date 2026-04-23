@@ -14,6 +14,7 @@ COPY prisma/ ./prisma/
 
 RUN npm install --legacy-peer-deps
 
+# cache-bust: v2 — force prisma generate with correct binaryTargets for musl
 RUN node ./node_modules/prisma/build/index.js generate --schema prisma/schema.prisma
 RUN node ./node_modules/prisma/build/index.js generate --schema prisma/dossiers/schema.prisma
 
