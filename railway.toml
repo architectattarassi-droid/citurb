@@ -2,6 +2,6 @@
 dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "node ./node_modules/prisma/build/index.js db push --schema prisma/schema.prisma --skip-generate --accept-data-loss 2>&1 || echo '[WARN] db push failed, starting anyway'; node apps/api/dist/main.js"
+startCommand = "node -e \"const os=require('os');console.log('=DIAG=','platform:',os.platform(),os.arch(),'PORT:',process.env.PORT,'DB:',process.env.DATABASE_URL?'SET':'MISSING');try{require('@prisma/client');console.log('prisma/client OK')}catch(e){console.error('prisma/client FAIL',e.message)};try{require('@prisma/client-dossiers');console.log('prisma/client-dossiers OK')}catch(e){console.error('prisma/client-dossiers FAIL',e.message)}\" ; node ./node_modules/prisma/build/index.js db push --schema prisma/schema.prisma --skip-generate --accept-data-loss 2>&1 || echo '[WARN] db push failed' ; node apps/api/dist/main.js"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
