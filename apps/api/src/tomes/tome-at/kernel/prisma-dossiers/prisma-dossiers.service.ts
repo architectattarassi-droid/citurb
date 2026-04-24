@@ -6,16 +6,7 @@ export class PrismaDossiersService extends PrismaClientDossiers implements OnMod
   private readonly logger = new Logger(PrismaDossiersService.name);
 
   async onModuleInit() {
-    try {
-      await this.$connect();
-      this.logger.log("PrismaDossiers connected to database.");
-    } catch (err: any) {
-      this.logger.warn(
-        `PrismaDossiers could not connect (DOSSIERS_DATABASE_URL absent ou DB inaccessible). ` +
-        `L'API démarre en mode dégradé — endpoints DB retourneront 503. ` +
-        `Erreur : ${err?.message ?? err}`
-      );
-    }
+    this.logger.log("PrismaDossiersService ready (lazy connect).");
   }
 
   async onModuleDestroy() {

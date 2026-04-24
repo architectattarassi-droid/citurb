@@ -13,15 +13,7 @@ const client_dossiers_1 = require("@prisma/client-dossiers");
 let PrismaDossiersService = PrismaDossiersService_1 = class PrismaDossiersService extends client_dossiers_1.PrismaClient {
     logger = new common_1.Logger(PrismaDossiersService_1.name);
     async onModuleInit() {
-        try {
-            await this.$connect();
-            this.logger.log("PrismaDossiers connected to database.");
-        }
-        catch (err) {
-            this.logger.warn(`PrismaDossiers could not connect (DOSSIERS_DATABASE_URL absent ou DB inaccessible). ` +
-                `L'API démarre en mode dégradé — endpoints DB retourneront 503. ` +
-                `Erreur : ${err?.message ?? err}`);
-        }
+        this.logger.log("PrismaDossiersService ready (lazy connect).");
     }
     async onModuleDestroy() {
         try {

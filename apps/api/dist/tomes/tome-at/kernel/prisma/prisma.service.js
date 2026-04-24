@@ -13,17 +13,7 @@ const client_1 = require("@prisma/client");
 let PrismaService = PrismaService_1 = class PrismaService extends client_1.PrismaClient {
     logger = new common_1.Logger(PrismaService_1.name);
     async onModuleInit() {
-        try {
-            await this.$connect();
-            this.logger.log("Prisma connected to database.");
-        }
-        catch (err) {
-            // En dev sans DATABASE_URL, on log un warning mais on ne bloque PAS le démarrage.
-            // Les endpoints qui nécessitent la DB renverront une erreur claire à la demande.
-            this.logger.warn(`Prisma could not connect (DATABASE_URL absent ou DB inaccessible). ` +
-                `L'API démarre en mode dégradé — endpoints DB retourneront 503. ` +
-                `Erreur : ${err?.message ?? err}`);
-        }
+        this.logger.log("PrismaService ready (lazy connect).");
     }
     async onModuleDestroy() {
         try {
