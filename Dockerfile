@@ -1,7 +1,7 @@
 FROM node:20-alpine AS runner
 WORKDIR /app
 
-ARG CACHE_BUST=20260430b
+ARG CACHE_BUST=20260430c
 
 RUN apk add --no-cache openssl
 
@@ -10,7 +10,6 @@ RUN mkdir -p /data/citurbarea /data/uploads /data/outputs /app/uploads/dossiers
 COPY package*.json ./
 COPY packages/ ./packages/
 COPY apps/api/package.json ./apps/api/package.json
-COPY apps/web/dist/ ./apps/web/dist/
 COPY apps/api/dist/ ./apps/api/dist/
 COPY prisma/ ./prisma/
 
