@@ -21,7 +21,7 @@ async function bootstrap() {
         ],
         credentials: true,
         methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
+        allowedHeaders: ['Content-Type', 'Authorization', 'X-Firm-Slug', 'X-Requested-With'],
     });
     app.useGlobalFilters(new global_exception_filter_1.GlobalExceptionFilter());
     app.useGlobalInterceptors(new tome_meta_interceptor_1.TomeMetaInterceptor(reflector));
