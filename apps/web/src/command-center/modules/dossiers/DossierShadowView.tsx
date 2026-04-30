@@ -26,15 +26,23 @@ export default function DossierShadowView() {
   const [opsNoteDraft, setOpsNoteDraft] = useState("");
 
   const load = async () => {
-    if (!id) return;
+    if (!id) {
+      setError("Aucun ID de dossier dans l'URL");
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
       const d: any = await apiFetch(`/p2/dossier/${id}/complet`);
-      setDossier(d);
-      setOpsNoteDraft(d?.opsNote || "");
+      if (!d || typeof d !== "object" || !d.id) {
+        setError(`Réponse inattendue de l'API (id reçu: ${id}). Réponse: ${JSON.stringify(d).slice(0, 200)}`);
+      } else {
+        setDossier(d);
+        setOpsNoteDraft(d?.opsNote || "");
+      }
     } catch (e: any) {
-      setError(e?.message || "Erreur chargement dossier");
+      setError(`API ${e?.status || "?"} sur /p2/dossier/${id}/complet — ${e?.message || "erreur inconnue"}`);
     } finally {
       setLoading(false);
     }
@@ -67,8 +75,21 @@ export default function DossierShadowView() {
   );
 
   if (loading) return <div style={{ padding: 24, color: "#94a3b8", background: "#0d1117", height: "100%" }}>Chargement…</div>;
-  if (error)   return <div style={{ padding: 24, color: "#ef4444", background: "#0d1117", height: "100%" }}>⚠️ {error}</div>;
-  if (!dossier) return <div style={{ padding: 24, color: "#94a3b8", background: "#0d1117", height: "100%" }}>Dossier introuvable</div>;
+  if (error)   return (
+    <div style={{ padding: 24, color: "#ef4444", background: "#0d1117", height: "100%" }}>
+      <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8 }}>⚠️ Erreur</div>
+      <div style={{ fontSize: 13, color: "#fca5a5", fontFamily: "monospace", whiteSpace: "pre-wrap" }}>{error}</div>
+      <div style={{ marginTop: 16, fontSize: 11, color: "#64748b" }}>URL : {window.location.pathname} · ID param : {id || "(vide)"}</div>
+      <button onClick={load} style={{ marginTop: 16, background: "#1d4ed8", color: "#fff", border: 0, padding: "8px 14px", borderRadius: 4, cursor: "pointer", fontSize: 12 }}>Réessayer</button>
+    </div>
+  );
+  if (!dossier) return (
+    <div style={{ padding: 24, color: "#94a3b8", background: "#0d1117", height: "100%" }}>
+      Dossier introuvable
+      <div style={{ marginTop: 8, fontSize: 11, color: "#64748b", fontFamily: "monospace" }}>ID demandé: {id || "(vide)"}</div>
+      <button onClick={load} style={{ marginTop: 16, background: "#1d4ed8", color: "#fff", border: 0, padding: "8px 14px", borderRadius: 4, cursor: "pointer", fontSize: 12 }}>Réessayer</button>
+    </div>
+  );
 
   const apiStatus: string = dossier.status;
   const opsNote: string | null = dossier.opsNote;
