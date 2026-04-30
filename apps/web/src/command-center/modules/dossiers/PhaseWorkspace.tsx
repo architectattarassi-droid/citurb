@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { apiBase } from '../../../tomes/tome4/apiClient';
 
 const tk = () => localStorage.getItem('citurbarea.token') || '';
 const api = async (path: string, opts?: RequestInit) => {
-  const r = await fetch(path, { ...opts, headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${tk()}`, ...(opts?.headers ?? {}) } });
-  if (!r.ok) throw new Error(await r.text());
+  const url = path.startsWith('http') ? path : `${apiBase()}${path.startsWith('/') ? path : `/${path}`}`;
+  const r = await fetch(url, { ...opts, headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${tk()}`, ...(opts?.headers ?? {}) } });
+  if (!r.ok) throw new Error(`HTTP ${r.status}: ${await r.text()}`);
   return r.json();
 };
 
