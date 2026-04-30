@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SousPhaseController = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_auth_guard_1 = require("../../tomes/tome-at/security/jwt-auth.guard");
+const tome_at_1 = require("../../tomes/tome-at");
 const roles_guard_1 = require("../../tomes/tome-5/auth/roles.guard");
 const roles_decorator_1 = require("../../tomes/tome-5/auth/roles.decorator");
 const sous_phase_service_1 = require("./sous-phase.service");
@@ -265,6 +266,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], SousPhaseController.prototype, "adminPatch", null);
 exports.SousPhaseController = SousPhaseController = __decorate([
+    (0, tome_at_1.Tome)('tome2'),
     (0, common_1.Controller)('p2/dossier/:id'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [sous_phase_service_1.SousPhaseService])

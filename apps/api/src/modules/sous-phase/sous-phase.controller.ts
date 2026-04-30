@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Patch, Param, Body, Req, UseGuards, Query, SetMetadata } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Param, Body, Req, UseGuards, Query } from '@nestjs/common';
 import { JwtAuthGuard } from '../../tomes/tome-at/security/jwt-auth.guard';
+import { Tome } from '../../tomes/tome-at';
 import { RolesGuard } from '../../tomes/tome-5/auth/roles.guard';
 import { Roles } from '../../tomes/tome-5/auth/roles.decorator';
 import { SousPhaseService } from './sous-phase.service';
 
+@Tome('tome2')
 @Controller('p2/dossier/:id')
 @UseGuards(JwtAuthGuard)
 export class SousPhaseController {
