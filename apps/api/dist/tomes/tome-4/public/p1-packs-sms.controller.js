@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.P1PacksSmsController = void 0;
 const common_1 = require("@nestjs/common");
 const otp_service_1 = require("../../../modules/otp/otp.service");
+const tome_at_1 = require("../../tome-at");
 let P1PacksSmsController = class P1PacksSmsController {
     otp;
     constructor(otp) {
@@ -51,6 +52,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], P1PacksSmsController.prototype, "verify", null);
 exports.P1PacksSmsController = P1PacksSmsController = __decorate([
+    (0, tome_at_1.Tome)('tome4'),
     (0, common_1.Controller)("p1/packs/sms"),
     __metadata("design:paramtypes", [otp_service_1.OtpService])
 ], P1PacksSmsController);

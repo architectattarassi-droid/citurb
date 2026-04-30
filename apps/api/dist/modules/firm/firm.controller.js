@@ -111,6 +111,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], FirmController.prototype, "listDossiers", null);
 exports.FirmController = FirmController = __decorate([
+    (0, tome_at_1.Tome)('tome2'),
     (0, common_1.Controller)('firms'),
     __metadata("design:paramtypes", [firm_service_1.FirmService])
 ], FirmController);

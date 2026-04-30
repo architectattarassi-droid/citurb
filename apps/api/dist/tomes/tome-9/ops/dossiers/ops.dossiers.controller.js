@@ -18,6 +18,7 @@ const prisma_dossiers_service_1 = require("../../../tome-at/kernel/prisma-dossie
 const jwt_auth_guard_1 = require("../../../tome-5/auth/jwt-auth.guard");
 const roles_guard_1 = require("../../../tome-5/auth/roles.guard");
 const roles_decorator_1 = require("../../../tome-5/auth/roles.decorator");
+const tome_at_1 = require("../../../tome-at");
 let OpsDossiersController = class OpsDossiersController {
     dossiers;
     constructor(dossiers) {
@@ -85,6 +86,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], OpsDossiersController.prototype, "list", null);
 exports.OpsDossiersController = OpsDossiersController = __decorate([
+    (0, tome_at_1.Tome)('tome9'),
     (0, common_1.Controller)("ops/dossiers"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)("OWNER", "ADMIN"),

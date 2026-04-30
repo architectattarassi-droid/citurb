@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CCController = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../tomes/tome-at/kernel/prisma/prisma.service");
+const tome_at_1 = require("../tomes/tome-at");
 const cc_snapshot_service_1 = require("./cc-snapshot.service");
 let CCController = class CCController {
     prisma;
@@ -101,6 +102,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CCController.prototype, "createLead", null);
 exports.CCController = CCController = __decorate([
+    (0, tome_at_1.Tome)('tome9'),
     (0, common_1.Controller)("api/cc"),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
         cc_snapshot_service_1.CCSnapshotService])

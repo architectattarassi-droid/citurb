@@ -217,6 +217,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], RokhasController.prototype, "syncComplete", null);
 exports.RokhasController = RokhasController = __decorate([
+    (0, tome_at_1.Tome)('tome2'),
     (0, common_1.Controller)('p2'),
     (0, common_1.UseGuards)(tome_at_1.JwtAuthGuard),
     __metadata("design:paramtypes", [rokhas_service_1.RokhasService])

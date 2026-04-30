@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Body, Param, Req, UseGuards, ForbiddenException } from '@nestjs/common';
-import { JwtAuthGuard } from '../../tome-at';
+import { JwtAuthGuard, Tome } from '../../tome-at';
 import { RokhasService, PHASES_ARCHITECTE_ONLY } from './rokhas.service';
 
+@Tome('tome2')
 @Controller('p2')
 @UseGuards(JwtAuthGuard)
 export class RokhasController {

@@ -52,6 +52,21 @@ let DossierService = class DossierService {
                 constructionLevel: input?.constructionLevel ?? null,
                 caseId: input?.caseId ?? null,
                 firmId: owner?.firmId ?? null,
+                // P2 / multi-porte fields
+                porteType: input?.porteType ?? 'P1',
+                gestionMode: input?.gestionMode ?? 'AUTONOME',
+                sousTypeP2: input?.sousTypeP2 ?? null,
+                surfaceTerrain: input?.surfaceTerrain != null ? Number(input.surfaceTerrain) : null,
+                surfacePlancher: input?.surfacePlancher != null ? Number(input.surfacePlancher) : null,
+                nbNiveaux: input?.nbNiveaux != null ? Number(input.nbNiveaux) : null,
+                natureProjet: input?.natureProjet ?? null,
+                raisonSociale: input?.raisonSociale ?? null,
+                rc: input?.rc ?? null,
+                ice: input?.ice ?? null,
+                representant: input?.representant ?? null,
+                clientNom: input?.clientNom ?? null,
+                clientTel: input?.clientTel ?? null,
+                clientEmail: input?.clientEmail ?? null,
             },
         });
         this.ownerNotify.notify('DOSSIER_CREATED', { title: result.title, commune: result.commune, packSelected: result.packSelected, dossierId: result.id }).catch(() => { });

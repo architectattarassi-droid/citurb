@@ -1,6 +1,8 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { OtpService } from "../../../modules/otp/otp.service";
+import { Tome } from "../../tome-at";
 
+@Tome('tome4')
 @Controller("p1/packs/sms")
 export class P1PacksSmsController {
   constructor(private readonly otp: OtpService) {}

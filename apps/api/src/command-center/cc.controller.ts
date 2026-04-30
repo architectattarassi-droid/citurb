@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Patch, Post } from "@nestjs/common";
 import { PrismaService } from "../tomes/tome-at/kernel/prisma/prisma.service";
+import { Tome } from "../tomes/tome-at";
 import { CCSnapshotService } from "./cc-snapshot.service";
 
+@Tome('tome9')
 @Controller("api/cc")
 export class CCController {
   constructor(

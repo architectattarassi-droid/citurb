@@ -3,7 +3,9 @@ import { PrismaDossiersService } from "../../../tome-at/kernel/prisma-dossiers/p
 import { JwtAuthGuard } from "../../../tome-5/auth/jwt-auth.guard";
 import { RolesGuard } from "../../../tome-5/auth/roles.guard";
 import { Roles } from "../../../tome-5/auth/roles.decorator";
+import { Tome } from "../../../tome-at";
 
+@Tome('tome9')
 @Controller("ops/dossiers")
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles("OWNER", "ADMIN")

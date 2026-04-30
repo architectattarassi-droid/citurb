@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Patch, Param, Body, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../../tomes/tome-at';
+import { JwtAuthGuard, Tome } from '../../tomes/tome-at';
 import { FirmService } from './firm.service';
 
+@Tome('tome2')
 @Controller('firms')
 export class FirmController {
   constructor(private readonly firmService: FirmService) {}
