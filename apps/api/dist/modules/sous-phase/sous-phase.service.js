@@ -59,6 +59,31 @@ let SousPhaseService = class SousPhaseService {
             historique,
         };
     }
+    async adminUnblock(dossierId, opts) {
+        const targetStatus = opts.newStatus || 'DRAFT';
+        const updated = await this.db.dossier.update({
+            where: { id: dossierId },
+            data: {
+                status: targetStatus,
+                opsNote: opts.clearOpsNote ? null : (opts.opsNote ?? undefined),
+            },
+            select: { id: true, status: true, opsNote: true, updatedAt: true, ownerId: true },
+        });
+        await this.log(dossierId, '', 'ADMIN_UNBLOCK', opts.actorId, undefined, undefined, { newStatus: targetStatus, clearOpsNote: !!opts.clearOpsNote });
+        return updated;
+    }
+    async adminPatch(dossierId, patch, actorId) {
+        const updated = await this.db.dossier.update({
+            where: { id: dossierId },
+            data: {
+                ...(patch.status !== undefined ? { status: patch.status } : {}),
+                ...(patch.opsNote !== undefined ? { opsNote: patch.opsNote } : {}),
+            },
+            select: { id: true, status: true, opsNote: true, updatedAt: true },
+        });
+        await this.log(dossierId, '', 'ADMIN_PATCH', actorId, undefined, undefined, { patch });
+        return updated;
+    }
     async createSousPhase(dossierId, phaseRef, titre, notePrestataire, createdById) {
         const last = await this.db.dossierSousPhase.findFirst({ where: { dossierId, phaseRef }, orderBy: { numero: 'desc' } });
         const numero = (last?.numero ?? 0) + 1;

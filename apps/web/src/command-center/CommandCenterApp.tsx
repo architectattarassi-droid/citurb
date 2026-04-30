@@ -20,6 +20,7 @@ import BusinessModule from './modules/business/BusinessModule';
 import DossiersModule from './modules/dossiers/DossiersModule';
 import DossierDetail from './modules/dossiers/DossierDetail';
 import PhaseWorkspace from './modules/dossiers/PhaseWorkspace';
+import DossierShadowView from './modules/dossiers/DossierShadowView';
 import OwnerLive from './pages/OwnerLive';
 import FirmsModule from './modules/firms/FirmsModule';
 import CCLogin from './pages/CCLogin';
@@ -56,6 +57,7 @@ export default function CommandCenterApp() {
               <Route path="business/*" element={<BusinessModule />} />
               <Route path="dossiers" element={<DossiersModule />} />
               <Route path="dossiers/:id" element={<PhaseWorkspace />} />
+              <Route path="dossiers/:id/shadow" element={<DossierShadowView />} />
               <Route path="live" element={<OwnerLive />} />
               <Route path="firms/*" element={<FirmsModule />} />
               <Route path="*" element={<Navigate to="dashboard" replace />} />

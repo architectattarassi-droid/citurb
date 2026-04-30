@@ -49,6 +49,33 @@ export class SousPhaseService {
     };
   }
 
+  async adminUnblock(dossierId: string, opts: { newStatus?: string; clearOpsNote?: boolean; opsNote?: string; actorId?: string }) {
+    const targetStatus = (opts.newStatus as any) || 'DRAFT';
+    const updated = await this.db.dossier.update({
+      where: { id: dossierId },
+      data: {
+        status: targetStatus,
+        opsNote: opts.clearOpsNote ? null : (opts.opsNote ?? undefined),
+      },
+      select: { id: true, status: true, opsNote: true, updatedAt: true, ownerId: true },
+    });
+    await this.log(dossierId, '', 'ADMIN_UNBLOCK', opts.actorId, undefined, undefined, { newStatus: targetStatus, clearOpsNote: !!opts.clearOpsNote });
+    return updated;
+  }
+
+  async adminPatch(dossierId: string, patch: { opsNote?: string | null; status?: string }, actorId?: string) {
+    const updated = await this.db.dossier.update({
+      where: { id: dossierId },
+      data: {
+        ...(patch.status !== undefined ? { status: patch.status as any } : {}),
+        ...(patch.opsNote !== undefined ? { opsNote: patch.opsNote } : {}),
+      },
+      select: { id: true, status: true, opsNote: true, updatedAt: true },
+    });
+    await this.log(dossierId, '', 'ADMIN_PATCH', actorId, undefined, undefined, { patch });
+    return updated;
+  }
+
   async createSousPhase(dossierId: string, phaseRef: string, titre?: string, notePrestataire?: string, createdById?: string) {
     const last = await this.db.dossierSousPhase.findFirst({ where: { dossierId, phaseRef }, orderBy: { numero: 'desc' } });
     const numero = (last?.numero ?? 0) + 1;

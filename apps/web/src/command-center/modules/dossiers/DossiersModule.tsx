@@ -173,7 +173,8 @@ export default function DossiersModule() {
                   >
                     <td style={td}>
                       <span style={{ fontFamily: "monospace", color: "#4a5568", fontSize: 10 }}>{d.id.slice(0, 8)}…</span>
-                      <button onClick={e => { e.stopPropagation(); navigate(`/cc/dossiers/${d.id}`); }} style={{ marginLeft: 6, fontSize: 10, padding: '1px 5px', background: 'rgba(96,165,250,0.1)', color: '#60a5fa', border: '1px solid #1e40af', borderRadius: 3, cursor: 'pointer' }}>→</button>
+                      <button onClick={e => { e.stopPropagation(); navigate(`/cc/dossiers/${d.id}`); }} title="Vue admin (PhaseWorkspace)" style={{ marginLeft: 6, fontSize: 10, padding: '1px 5px', background: 'rgba(96,165,250,0.1)', color: '#60a5fa', border: '1px solid #1e40af', borderRadius: 3, cursor: 'pointer' }}>→</button>
+                      <button onClick={e => { e.stopPropagation(); navigate(`/cc/dossiers/${d.id}/shadow`); }} title="Voir comme client (shadow view) + actions de déblocage" style={{ marginLeft: 4, fontSize: 10, padding: '1px 5px', background: 'rgba(124,58,237,0.15)', color: '#a78bfa', border: '1px solid #6d28d9', borderRadius: 3, cursor: 'pointer' }}>👁️</button>
                     </td>
                     <td style={td}>{d.title}</td>
                     <td style={td}>

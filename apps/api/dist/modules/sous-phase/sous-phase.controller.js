@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SousPhaseController = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_auth_guard_1 = require("../../tomes/tome-at/security/jwt-auth.guard");
+const roles_guard_1 = require("../../tomes/tome-5/auth/roles.guard");
+const roles_decorator_1 = require("../../tomes/tome-5/auth/roles.decorator");
 const sous_phase_service_1 = require("./sous-phase.service");
 let SousPhaseController = class SousPhaseController {
     svc;
@@ -46,6 +48,21 @@ let SousPhaseController = class SousPhaseController {
     createFac(id, b, r) { return this.svc.createFacture(id, b.phaseRef, r.user?.userId, b.titre, b.lignes, b); }
     paiement(fid, b) { return this.svc.paiement(fid, b.montantPaye, b.modePaiement, b.reference); }
     hist(id, pr) { return this.svc.getHistorique(id, pr); }
+    // ─── ADMIN: Shadow view + déblocage ────────────────────────────────────────
+    // Ces routes sont protégées par RolesGuard (ADMIN/OWNER uniquement).
+    // Permettent à l'admin d'agir sur le dossier d'un autre utilisateur depuis
+    // la page shadow-view du Command Center.
+    adminUnblock(id, b, r) {
+        return this.svc.adminUnblock(id, {
+            newStatus: b?.newStatus,
+            clearOpsNote: b?.clearOpsNote,
+            opsNote: b?.opsNote,
+            actorId: r.user?.userId,
+        });
+    }
+    adminPatch(id, b, r) {
+        return this.svc.adminPatch(id, b, r.user?.userId);
+    }
 };
 exports.SousPhaseController = SousPhaseController;
 __decorate([
@@ -225,6 +242,28 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], SousPhaseController.prototype, "hist", null);
+__decorate([
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'OWNER'),
+    (0, common_1.Post)('admin/unblock'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", void 0)
+], SousPhaseController.prototype, "adminUnblock", null);
+__decorate([
+    (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)('ADMIN', 'OWNER'),
+    (0, common_1.Patch)('admin/patch'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", void 0)
+], SousPhaseController.prototype, "adminPatch", null);
 exports.SousPhaseController = SousPhaseController = __decorate([
     (0, common_1.Controller)('p2/dossier/:id'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),

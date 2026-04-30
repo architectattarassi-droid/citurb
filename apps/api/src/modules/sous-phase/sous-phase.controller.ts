@@ -1,5 +1,7 @@
-import { Controller, Get, Post, Patch, Param, Body, Req, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Param, Body, Req, UseGuards, Query, SetMetadata } from '@nestjs/common';
 import { JwtAuthGuard } from '../../tomes/tome-at/security/jwt-auth.guard';
+import { RolesGuard } from '../../tomes/tome-5/auth/roles.guard';
+import { Roles } from '../../tomes/tome-5/auth/roles.decorator';
 import { SousPhaseService } from './sous-phase.service';
 
 @Controller('p2/dossier/:id')
@@ -73,4 +75,28 @@ export class SousPhaseController {
 
   @Get('historique')
   hist(@Param('id') id: string, @Query('phaseRef') pr?: string) { return this.svc.getHistorique(id, pr); }
+
+  // ─── ADMIN: Shadow view + déblocage ────────────────────────────────────────
+  // Ces routes sont protégées par RolesGuard (ADMIN/OWNER uniquement).
+  // Permettent à l'admin d'agir sur le dossier d'un autre utilisateur depuis
+  // la page shadow-view du Command Center.
+
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'OWNER')
+  @Post('admin/unblock')
+  adminUnblock(@Param('id') id: string, @Body() b: { newStatus?: string; clearOpsNote?: boolean; opsNote?: string }, @Req() r: any) {
+    return this.svc.adminUnblock(id, {
+      newStatus: b?.newStatus,
+      clearOpsNote: b?.clearOpsNote,
+      opsNote: b?.opsNote,
+      actorId: r.user?.userId,
+    });
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN', 'OWNER')
+  @Patch('admin/patch')
+  adminPatch(@Param('id') id: string, @Body() b: { opsNote?: string | null; status?: string }, @Req() r: any) {
+    return this.svc.adminPatch(id, b, r.user?.userId);
+  }
 }
