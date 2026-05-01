@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { apiFetch } from "../../../tomes/tome4/apiClient";
+import { apiFetch, apiBase } from "../../../tomes/tome4/apiClient";
 import RokhasPhaseTimeline from "../../../tomes/tome2/RokhasPhaseTimeline";
+import FileViewer from "../../../ui/FileViewer";
 
 /**
  * DossierShadowView — Admin Shadow Mode
@@ -124,15 +125,9 @@ export default function DossierShadowView() {
         {id && <RokhasPhaseTimeline dossierId={id} mode="client" />}
 
         <div style={{ padding: "16px 20px" }}>
-          <h3 style={{ fontSize: 13, color: "#94a3b8", textTransform: "uppercase", letterSpacing: 1, marginTop: 0 }}>Sous-phases</h3>
+          <h3 style={{ fontSize: 13, color: "#94a3b8", textTransform: "uppercase", letterSpacing: 1, marginTop: 0 }}>Sous-phases & Documents</h3>
           {(dossier.sousPhases || []).map((sp: any) => (
-            <div key={sp.id} style={{ background: "#111827", border: "1px solid #1e2330", borderRadius: 6, padding: "10px 14px", marginBottom: 8, fontSize: 13 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontWeight: 600 }}>{sp.titre || sp.label}</span>
-                <span style={{ background: "#0a0f1a", color: "#60a5fa", padding: "3px 9px", borderRadius: 4, fontSize: 11, fontWeight: 700 }}>{sp.statut}</span>
-              </div>
-              <div style={{ fontSize: 11, color: "#64748b", marginTop: 4 }}>{sp.phaseRef} · numéro {sp.numero}</div>
-            </div>
+            <SousPhaseCard key={sp.id} sp={sp} dossierId={id!} onChange={load} />
           ))}
           {(!dossier.sousPhases || dossier.sousPhases.length === 0) && (
             <div style={{ color: "#64748b", fontStyle: "italic", fontSize: 12 }}>Aucune sous-phase pour ce dossier</div>
@@ -235,4 +230,168 @@ export default function DossierShadowView() {
       </aside>
     </div>
   );
+}
+
+// ─── SousPhaseCard : carte sous-phase + upload + viewer (admin) ─────────────
+function SousPhaseCard({ sp, dossierId, onChange }: { sp: any; dossierId: string; onChange: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [openDoc, setOpenDoc] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [busy, setBusy] = useState<string | null>(null);
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+
+  const docUrl = (docId: string) => {
+    const tk = localStorage.getItem("citurbarea.token") || "";
+    return `${apiBase()}/p2/dossier/${dossierId}/sous-phases/${sp.id}/documents/${docId}/download?_t=${encodeURIComponent(tk)}`;
+  };
+
+  const handleUpload = async (file: File) => {
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("nom", file.name);
+      const tk = localStorage.getItem("citurbarea.token") || "";
+      const res = await fetch(`${apiBase()}/p2/dossier/${dossierId}/sous-phases/${sp.id}/documents`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${tk}` },
+        body: fd,
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+      onChange();
+    } catch (e: any) {
+      alert("Upload échoué : " + (e?.message || ""));
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const adminAction = async (action: "soumettre" | "valider" | "rejeter", note?: string) => {
+    setBusy(action);
+    try {
+      await apiFetch(`/p2/dossier/${dossierId}/sous-phases/${sp.id}/${action}`, {
+        method: "POST",
+        body: note ? { note } : {},
+      });
+      onChange();
+    } catch (e: any) {
+      alert("Erreur : " + (e?.message || ""));
+    } finally { setBusy(null); }
+  };
+
+  const statColor =
+    sp.statut === "VALIDEE" ? "#22c55e"
+    : sp.statut === "REJETEE" ? "#ef4444"
+    : sp.statut === "SOUMISE" ? "#f59e0b"
+    : "#60a5fa";
+
+  return (
+    <div style={{ background: "#111827", border: "1px solid #1e2330", borderRadius: 6, marginBottom: 8, fontSize: 13 }}>
+      <div onClick={() => setOpen(!open)} style={{ padding: "10px 14px", cursor: "pointer", display: "flex", alignItems: "center", gap: 10 }}>
+        <span style={{ fontSize: 11, color: "#64748b" }}>v{sp.numero}</span>
+        <span style={{ flex: 1, fontWeight: 500 }}>{sp.titre || sp.label}</span>
+        <span style={{ fontSize: 11, color: "#94a3b8" }}>{(sp.documents || []).length} doc{(sp.documents || []).length > 1 ? "s" : ""}</span>
+        <span style={{ background: statColor, color: "#fff", padding: "3px 10px", borderRadius: 12, fontSize: 11, fontWeight: 700 }}>{sp.statut}</span>
+        <span style={{ color: "#94a3b8" }}>{open ? "▾" : "▸"}</span>
+      </div>
+
+      {open && (
+        <div style={{ padding: "10px 14px 14px", borderTop: "1px solid #1e2330" }}>
+          <div style={{ fontSize: 11, color: "#64748b", marginBottom: 8 }}>{sp.phaseRef}</div>
+
+          {sp.notePrestataire && (
+            <div style={{ background: "#1e293b", borderRadius: 6, padding: "8px 10px", fontSize: 12, color: "#cbd5e1", marginBottom: 10 }}>
+              💬 <b>Note prestataire :</b> {sp.notePrestataire}
+            </div>
+          )}
+          {sp.noteClient && (
+            <div style={{ background: "#3a1a1a", borderRadius: 6, padding: "8px 10px", fontSize: 12, color: "#fca5a5", marginBottom: 10 }}>
+              ⚠️ <b>Note client (rejet) :</b> {sp.noteClient}
+            </div>
+          )}
+
+          {/* Documents */}
+          <div style={{ display: "grid", gap: 8, marginBottom: 12 }}>
+            {(sp.documents || []).map((doc: any) => {
+              const isOpen = openDoc === doc.id;
+              return (
+                <div key={doc.id} style={{ background: "#0a0f1a", border: "1px solid #1e2330", borderRadius: 6 }}>
+                  <div style={{ padding: "8px 12px", display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ fontSize: 14 }}>{iconFor(doc.nom, doc.mimeType)}</span>
+                    <span style={{ flex: 1, fontSize: 12 }}>{doc.nom || doc.filePath}</span>
+                    <span style={{ fontSize: 10, color: "#94a3b8" }}>{doc.mimeType?.split("/")[1] || "?"} · {fmtSizeAdmin(doc.fileSize)}</span>
+                    <span style={{ fontSize: 9, padding: "2px 6px", borderRadius: 3, background: doc.visibleClient ? "#16a34a" : "#64748b", color: "#fff" }}>
+                      {doc.visibleClient ? "👁 visible client" : "🔒 admin only"}
+                    </span>
+                    <button onClick={() => setOpenDoc(isOpen ? null : doc.id)} style={{ background: "#1d4ed8", color: "#fff", border: 0, padding: "4px 10px", borderRadius: 4, cursor: "pointer", fontSize: 11 }}>
+                      {isOpen ? "▴ Masquer" : "👁 Voir"}
+                    </button>
+                  </div>
+                  {isOpen && (
+                    <div style={{ padding: 10 }}>
+                      <FileViewer url={docUrl(doc.id)} fileName={doc.nom || doc.filePath} mimeType={doc.mimeType} height={450} />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+            {(!sp.documents || sp.documents.length === 0) && (
+              <div style={{ color: "#64748b", fontStyle: "italic", fontSize: 12, padding: 8 }}>Aucun document</div>
+            )}
+          </div>
+
+          {/* Upload + Actions admin */}
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", borderTop: "1px solid #1e2330", paddingTop: 10 }}>
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0])}
+            />
+            <button onClick={() => fileInputRef.current?.click()} disabled={uploading} style={{ background: "#1d4ed8", color: "#fff", border: 0, padding: "6px 12px", borderRadius: 4, cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
+              {uploading ? "📤 Upload…" : "📎 Uploader fichier"}
+            </button>
+
+            {sp.statut === "EN_COURS" && (
+              <button onClick={() => adminAction("soumettre")} disabled={busy !== null} style={{ background: "#f59e0b", color: "#fff", border: 0, padding: "6px 12px", borderRadius: 4, cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
+                {busy === "soumettre" ? "…" : "📤 Envoyer au client"}
+              </button>
+            )}
+            {sp.statut === "SOUMISE" && (
+              <>
+                <button onClick={() => adminAction("valider", "Validé par admin")} disabled={busy !== null} style={{ background: "#16a34a", color: "#fff", border: 0, padding: "6px 12px", borderRadius: 4, cursor: "pointer", fontSize: 12 }}>
+                  ✓ Valider direct
+                </button>
+                <button onClick={() => { const n = prompt("Note de rejet:"); if (n) adminAction("rejeter", n); }} disabled={busy !== null} style={{ background: "#dc2626", color: "#fff", border: 0, padding: "6px 12px", borderRadius: 4, cursor: "pointer", fontSize: 12 }}>
+                  ✕ Rejeter
+                </button>
+              </>
+            )}
+          </div>
+
+          <div style={{ marginTop: 8, fontSize: 10, color: "#64748b" }}>
+            Soumise : {sp.dateSoumission ? new Date(sp.dateSoumission).toLocaleString("fr-FR") : "—"} · Validée : {sp.dateValidation ? new Date(sp.dateValidation).toLocaleString("fr-FR") : "—"}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function fmtSizeAdmin(b?: number): string {
+  if (!b) return "?";
+  if (b < 1024) return `${b}o`;
+  if (b < 1024 * 1024) return `${(b / 1024).toFixed(0)}Ko`;
+  return `${(b / 1024 / 1024).toFixed(1)}Mo`;
+}
+
+function iconFor(name: string, mime?: string): string {
+  const e = (name?.split(".").pop() || "").toLowerCase();
+  if (mime?.startsWith("image/") || ["jpg", "jpeg", "png", "gif", "webp"].includes(e)) return "🖼";
+  if (e === "pdf" || mime === "application/pdf") return "📄";
+  if (e === "ifc") return "🏗";
+  if (e === "dwg" || e === "dxf") return "📐";
+  if (e === "rvt" || e === "pln" || e === "skp") return "🏢";
+  return "📎";
 }

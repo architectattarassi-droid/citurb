@@ -14,11 +14,17 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SousPhaseController = void 0;
 const common_1 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { diskStorage } = require('multer');
+const path_1 = require("path");
+const fs_1 = require("fs");
 const jwt_auth_guard_1 = require("../../tomes/tome-at/security/jwt-auth.guard");
 const tome_at_1 = require("../../tomes/tome-at");
 const roles_guard_1 = require("../../tomes/tome-5/auth/roles.guard");
 const roles_decorator_1 = require("../../tomes/tome-5/auth/roles.decorator");
 const sous_phase_service_1 = require("./sous-phase.service");
+const SOUSPHASE_UPLOAD_DIR = (0, path_1.join)(process.cwd(), 'uploads', 'sous-phases');
 let SousPhaseController = class SousPhaseController {
     svc;
     constructor(svc) {
@@ -49,6 +55,34 @@ let SousPhaseController = class SousPhaseController {
     createFac(id, b, r) { return this.svc.createFacture(id, b.phaseRef, r.user?.userId, b.titre, b.lignes, b); }
     paiement(fid, b) { return this.svc.paiement(fid, b.montantPaye, b.modePaiement, b.reference); }
     hist(id, pr) { return this.svc.getHistorique(id, pr); }
+    // ─── Documents par sous-phase ──────────────────────────────────────────────
+    uploadDoc(sid, file, body, req) {
+        return this.svc.addDocumentToSousPhase(sid, file, {
+            uploadedBy: req.user?.userId,
+            uploadedByRole: req.user?.role,
+            visibleClient: body?.visibleClient !== 'false',
+            nom: body?.nom,
+        });
+    }
+    async downloadDoc(did, req, res) {
+        const doc = await this.svc.getDocumentForDownload(did, req.user?.userId, req.user?.role);
+        const filePath = (0, path_1.join)(SOUSPHASE_UPLOAD_DIR, doc.filePath);
+        res.set({
+            'Content-Type': doc.mimeType || 'application/octet-stream',
+            'Content-Disposition': `inline; filename="${(doc.nom || doc.filePath).replace(/"/g, '')}"`,
+        });
+        return new common_1.StreamableFile((0, fs_1.createReadStream)(filePath));
+    }
+    // ─── Actions client (validation/rejet) ────────────────────────────────────
+    clientValidate(sid, req) {
+        return this.svc.clientValidateSousPhase(sid, req.user?.userId);
+    }
+    clientReject(sid, body, req) {
+        return this.svc.clientRejectSousPhase(sid, req.user?.userId, body?.note || '');
+    }
+    listClientSP(id, req) {
+        return this.svc.listClientSousPhases(id, req.user?.userId);
+    }
     // ─── ADMIN: Shadow view + déblocage ────────────────────────────────────────
     // Ces routes sont protégées par RolesGuard (ADMIN/OWNER uniquement).
     // Permettent à l'admin d'agir sur le dossier d'un autre utilisateur depuis
@@ -243,6 +277,60 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], SousPhaseController.prototype, "hist", null);
+__decorate([
+    (0, common_1.Post)('sous-phases/:sid/documents'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
+        storage: diskStorage({
+            destination: SOUSPHASE_UPLOAD_DIR,
+            filename: (_req, file, cb) => {
+                const safe = String(file.originalname || 'file').replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 80);
+                cb(null, `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safe}`);
+            },
+        }),
+        limits: { fileSize: 100 * 1024 * 1024 }, // 100 MB pour fichiers IFC/DWG
+    })),
+    __param(0, (0, common_1.Param)('sid')),
+    __param(1, (0, common_1.UploadedFile)()),
+    __param(2, (0, common_1.Body)()),
+    __param(3, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], SousPhaseController.prototype, "uploadDoc", null);
+__decorate([
+    (0, common_1.Get)('sous-phases/:sid/documents/:did/download'),
+    __param(0, (0, common_1.Param)('did')),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)({ passthrough: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", Promise)
+], SousPhaseController.prototype, "downloadDoc", null);
+__decorate([
+    (0, common_1.Post)('sous-phases/:sid/client-validate'),
+    __param(0, (0, common_1.Param)('sid')),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], SousPhaseController.prototype, "clientValidate", null);
+__decorate([
+    (0, common_1.Post)('sous-phases/:sid/client-reject'),
+    __param(0, (0, common_1.Param)('sid')),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", void 0)
+], SousPhaseController.prototype, "clientReject", null);
+__decorate([
+    (0, common_1.Get)('client/sous-phases'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], SousPhaseController.prototype, "listClientSP", null);
 __decorate([
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('ADMIN', 'OWNER'),

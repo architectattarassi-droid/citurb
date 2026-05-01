@@ -49,6 +49,89 @@ export class SousPhaseService {
     };
   }
 
+  async addDocumentToSousPhase(
+    sousPhaseId: string,
+    file: { originalname: string; filename: string; mimetype: string; size: number; path: string },
+    opts: { uploadedBy?: string; uploadedByRole?: string; visibleClient?: boolean; nom?: string },
+  ) {
+    const sp = await this.db.dossierSousPhase.findUniqueOrThrow({ where: { id: sousPhaseId } });
+    const doc = await this.db.sousPhaseDocument.create({
+      data: {
+        sousPhaseId,
+        nom: opts.nom || file.originalname,
+        filePath: file.filename,
+        mimeType: file.mimetype,
+        fileSize: file.size,
+        visibleClient: opts.visibleClient !== false,
+        uploadePar: opts.uploadedBy || 'admin',
+        uploadeParRole: opts.uploadedByRole || 'ADMIN',
+        statut: 'UPLOADED',
+      } as any,
+    });
+    await this.log(sp.dossierId, sp.phaseRef ?? '', 'SOUSPHASE_DOC_UPLOADED', opts.uploadedBy, undefined, undefined, {
+      sousPhaseId, docId: doc.id, originalName: file.originalname, mimeType: file.mimetype, size: file.size,
+    });
+    return doc;
+  }
+
+  async getDocumentForDownload(docId: string, requesterId?: string, requesterRole?: string) {
+    const doc = await this.db.sousPhaseDocument.findUniqueOrThrow({
+      where: { id: docId },
+      include: { sousPhase: { include: { dossier: { select: { ownerId: true } } } } },
+    });
+    const ownerId = doc.sousPhase.dossier.ownerId;
+    const isAdmin = requesterRole === 'ADMIN' || requesterRole === 'OWNER' || requesterRole === 'OPS';
+    const isOwner = requesterId === ownerId;
+    if (!isAdmin && !isOwner) throw new Error('Forbidden');
+    if (!isAdmin && !doc.visibleClient) throw new Error('Document non visible client');
+    return doc;
+  }
+
+  async clientValidateSousPhase(sousPhaseId: string, clientId: string) {
+    const sp = await this.db.dossierSousPhase.findUniqueOrThrow({
+      where: { id: sousPhaseId },
+      include: { dossier: { select: { ownerId: true } } },
+    });
+    if (sp.dossier.ownerId !== clientId) throw new Error('Forbidden');
+    if (sp.statut !== 'SOUMISE') throw new Error(`Statut courant ${sp.statut} — validation possible uniquement en SOUMISE`);
+    const updated = await this.db.dossierSousPhase.update({
+      where: { id: sousPhaseId },
+      data: { statut: 'VALIDEE', dateValidation: new Date(), type: 'DEFINITIVE' },
+    });
+    await this.log(sp.dossierId, sp.phaseRef ?? '', 'CLIENT_VALIDE', clientId, undefined, undefined, { sousPhaseId });
+    return updated;
+  }
+
+  async clientRejectSousPhase(sousPhaseId: string, clientId: string, note: string) {
+    const sp = await this.db.dossierSousPhase.findUniqueOrThrow({
+      where: { id: sousPhaseId },
+      include: { dossier: { select: { ownerId: true } } },
+    });
+    if (sp.dossier.ownerId !== clientId) throw new Error('Forbidden');
+    if (sp.statut !== 'SOUMISE') throw new Error(`Statut courant ${sp.statut} — rejet possible uniquement en SOUMISE`);
+    const updated = await this.db.dossierSousPhase.update({
+      where: { id: sousPhaseId },
+      data: { statut: 'REJETEE', noteClient: note },
+    });
+    await this.log(sp.dossierId, sp.phaseRef ?? '', 'CLIENT_REJETE', clientId, undefined, undefined, { sousPhaseId, note });
+    return updated;
+  }
+
+  async listClientSousPhases(dossierId: string, clientId: string) {
+    const dossier = await this.db.dossier.findUniqueOrThrow({ where: { id: dossierId }, select: { ownerId: true } });
+    if (dossier.ownerId !== clientId) throw new Error('Forbidden');
+    return this.db.dossierSousPhase.findMany({
+      where: { dossierId, statut: { in: ['SOUMISE', 'VALIDEE', 'REJETEE'] } },
+      orderBy: [{ phaseRef: 'asc' }, { numero: 'asc' }],
+      include: {
+        documents: {
+          where: { visibleClient: true },
+          orderBy: { createdAt: 'asc' },
+        },
+      },
+    });
+  }
+
   async adminUnblock(dossierId: string, opts: { newStatus?: string; clearOpsNote?: boolean; opsNote?: string; actorId?: string }) {
     const targetStatus = (opts.newStatus as any) || 'DRAFT';
     const updated = await this.db.dossier.update({

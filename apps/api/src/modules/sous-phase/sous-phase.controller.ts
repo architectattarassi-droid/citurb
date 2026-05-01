@@ -1,9 +1,17 @@
-import { Controller, Get, Post, Patch, Param, Body, Req, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Param, Body, Req, Res, UseGuards, UseInterceptors, UploadedFile, Query, StreamableFile } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { diskStorage } = require('multer');
+import { join } from 'path';
+import { createReadStream } from 'fs';
+import type { Response } from 'express';
 import { JwtAuthGuard } from '../../tomes/tome-at/security/jwt-auth.guard';
 import { Tome } from '../../tomes/tome-at';
 import { RolesGuard } from '../../tomes/tome-5/auth/roles.guard';
 import { Roles } from '../../tomes/tome-5/auth/roles.decorator';
 import { SousPhaseService } from './sous-phase.service';
+
+const SOUSPHASE_UPLOAD_DIR = join(process.cwd(), 'uploads', 'sous-phases');
 
 @Tome('tome2')
 @Controller('p2/dossier/:id')
@@ -77,6 +85,63 @@ export class SousPhaseController {
 
   @Get('historique')
   hist(@Param('id') id: string, @Query('phaseRef') pr?: string) { return this.svc.getHistorique(id, pr); }
+
+  // ─── Documents par sous-phase ──────────────────────────────────────────────
+  @Post('sous-phases/:sid/documents')
+  @UseInterceptors(FileInterceptor('file', {
+    storage: diskStorage({
+      destination: SOUSPHASE_UPLOAD_DIR,
+      filename: (_req: any, file: any, cb: any) => {
+        const safe = String(file.originalname || 'file').replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 80);
+        cb(null, `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safe}`);
+      },
+    }),
+    limits: { fileSize: 100 * 1024 * 1024 }, // 100 MB pour fichiers IFC/DWG
+  }))
+  uploadDoc(
+    @Param('sid') sid: string,
+    @UploadedFile() file: any,
+    @Body() body: { nom?: string; visibleClient?: string },
+    @Req() req: any,
+  ) {
+    return this.svc.addDocumentToSousPhase(sid, file, {
+      uploadedBy: req.user?.userId,
+      uploadedByRole: req.user?.role,
+      visibleClient: body?.visibleClient !== 'false',
+      nom: body?.nom,
+    });
+  }
+
+  @Get('sous-phases/:sid/documents/:did/download')
+  async downloadDoc(
+    @Param('did') did: string,
+    @Req() req: any,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const doc = await this.svc.getDocumentForDownload(did, req.user?.userId, req.user?.role);
+    const filePath = join(SOUSPHASE_UPLOAD_DIR, doc.filePath);
+    res.set({
+      'Content-Type': doc.mimeType || 'application/octet-stream',
+      'Content-Disposition': `inline; filename="${(doc.nom || doc.filePath).replace(/"/g, '')}"`,
+    });
+    return new StreamableFile(createReadStream(filePath));
+  }
+
+  // ─── Actions client (validation/rejet) ────────────────────────────────────
+  @Post('sous-phases/:sid/client-validate')
+  clientValidate(@Param('sid') sid: string, @Req() req: any) {
+    return this.svc.clientValidateSousPhase(sid, req.user?.userId);
+  }
+
+  @Post('sous-phases/:sid/client-reject')
+  clientReject(@Param('sid') sid: string, @Body() body: { note: string }, @Req() req: any) {
+    return this.svc.clientRejectSousPhase(sid, req.user?.userId, body?.note || '');
+  }
+
+  @Get('client/sous-phases')
+  listClientSP(@Param('id') id: string, @Req() req: any) {
+    return this.svc.listClientSousPhases(id, req.user?.userId);
+  }
 
   // ─── ADMIN: Shadow view + déblocage ────────────────────────────────────────
   // Ces routes sont protégées par RolesGuard (ADMIN/OWNER uniquement).

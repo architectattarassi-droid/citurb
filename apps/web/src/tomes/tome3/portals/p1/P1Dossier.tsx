@@ -62,6 +62,13 @@ export default function P1Dossier() {
           {opsNote}
         </div>
       )}
+      {dossierId && (
+        <div style={{ margin: "12px 20px" }}>
+          <a href={`/p1/dossier/phases?dossier=${dossierId}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#1d4ed8", color: "#fff", padding: "10px 16px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 600 }}>
+            📁 Voir les documents et phases du projet
+          </a>
+        </div>
+      )}
       {dossierId && <RokhasPhaseTimeline dossierId={dossierId} mode="client" />}
       <P1Dashboard dossier={dossier} onReset={handleReset} dossierId={dossierId ?? undefined} />
     </>

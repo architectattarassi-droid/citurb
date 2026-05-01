@@ -5,6 +5,7 @@ import { PublicLayout } from "./layouts";
 import P1Home from "../../tome3/portals/p1/P1Home";
 import P1Packs from "../../tome3/portals/p1/P1Packs";
 import P1Dossier from "../../tome3/portals/p1/P1Dossier";
+import P1ClientPhases from "../../tome3/portals/p1/P1ClientPhases";
 import P2Home from "../../tome3/portals/p2/P2Home";
 import P3Home from "../../tome3/portals/p3/P3Home";
 import P4Home from "../../tome3/portals/p4/P4Home";
@@ -62,6 +63,7 @@ export const router = createBrowserRouter([
       { path: CANON.P1, element: <P1Home /> },
       { path: CANON.P1_PACKS, element: <P1Packs /> },
       { path: CANON.P1_DOSSIER, element: <P1Dossier /> },
+      { path: '/p1/dossier/phases', element: <P1ClientPhases /> },
       { path: '/p2', element: <P2Home /> },
       { path: '/p2/form', element: <P2Home /> },
       { path: '/p2/result', element: <P2Home /> },
