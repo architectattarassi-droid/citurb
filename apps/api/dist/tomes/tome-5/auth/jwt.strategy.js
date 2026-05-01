@@ -17,7 +17,12 @@ const passport_jwt_1 = require("passport-jwt");
 let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
     constructor() {
         super({
-            jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
+            // Extract from Authorization: Bearer ... OR ?_t=<jwt> query (needed for
+            // <iframe>/<img> downloads where browser can't set Authorization header).
+            jwtFromRequest: passport_jwt_1.ExtractJwt.fromExtractors([
+                passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
+                passport_jwt_1.ExtractJwt.fromUrlQueryParameter("_t"),
+            ]),
             ignoreExpiration: false,
             secretOrKey: process.env.JWT_SECRET || "dev-secret-change-me",
         });

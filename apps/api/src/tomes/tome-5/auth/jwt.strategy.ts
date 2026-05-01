@@ -7,7 +7,12 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      // Extract from Authorization: Bearer ... OR ?_t=<jwt> query (needed for
+      // <iframe>/<img> downloads where browser can't set Authorization header).
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
+        ExtractJwt.fromUrlQueryParameter("_t"),
+      ]),
       ignoreExpiration: false,
       secretOrKey: process.env.JWT_SECRET || "dev-secret-change-me",
     });
