@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { apiBase } from '../../../tomes/tome4/apiClient';
+import FileViewer from '../../../ui/FileViewer';
 
 const tk = () => localStorage.getItem('citurbarea.token') || '';
 const api = async (path: string, opts?: RequestInit) => {
@@ -250,7 +251,7 @@ function IterTab({ id, pr, snap, onR }: any) {
             <div style={{ ...C.card, margin: '-4px 0 10px', borderTopLeftRadius: 0, borderTopRightRadius: 0, borderTop: 'none' }}>
               {sp.notePrestataire && <div style={{ marginBottom: 8, padding: 8, background: '#0f1520', borderRadius: 6, fontSize: 12 }}><span style={{ color: '#60a5fa', fontWeight: 600 }}>Note prestataire: </span>{sp.notePrestataire}</div>}
               {sp.noteClient && <div style={{ marginBottom: 8, padding: 8, background: '#0f1520', borderRadius: 6, fontSize: 12 }}><span style={{ color: '#4ade80', fontWeight: 600 }}>Note client: </span>{sp.noteClient}</div>}
-              <div style={{ fontSize: 12, color: '#4a5568', marginBottom: 10 }}>📎 {sp.documents?.length ?? 0} document(s)</div>
+              <DocsBlock dossierId={id} sp={sp} onChange={onR} />
               {sp.statut === 'EN_COURS' && <button style={btn('w')} onClick={() => act(sp.id, 'soumettre')}>📤 Soumettre au client</button>}
               {sp.statut === 'SOUMISE' && (
                 <div>
@@ -268,6 +269,85 @@ function IterTab({ id, pr, snap, onR }: any) {
       {sps.length === 0 && !creating && <div style={{ color: '#3d4f6a', textAlign: 'center', padding: '20px 0' }}>Aucune version. Cliquez "+ Nouvelle version".</div>}
     </div>
   );
+}
+
+// ── DocsBlock : upload + viewer pour une sous-phase ──────
+function DocsBlock({ dossierId, sp, onChange }: { dossierId: string; sp: any; onChange: () => void }) {
+  const fileRef = useRef<HTMLInputElement | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [openDoc, setOpenDoc] = useState<string | null>(null);
+
+  const docUrl = (docId: string) => {
+    const tk = localStorage.getItem('citurbarea.token') || '';
+    return `${apiBase()}/p2/dossier/${dossierId}/sous-phases/${sp.id}/documents/${docId}/download?_t=${encodeURIComponent(tk)}`;
+  };
+
+  const upload = async (file: File) => {
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('nom', file.name);
+      const tk = localStorage.getItem('citurbarea.token') || '';
+      const res = await fetch(`${apiBase()}/p2/dossier/${dossierId}/sous-phases/${sp.id}/documents`, {
+        method: 'POST', headers: { Authorization: `Bearer ${tk}` }, body: fd,
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+      onChange();
+    } catch (e: any) { alert('Upload échoué: ' + (e?.message || '')); }
+    finally { setUploading(false); if (fileRef.current) fileRef.current.value = ''; }
+  };
+
+  const docs = sp.documents || [];
+
+  return (
+    <div style={{ marginBottom: 10 }}>
+      <div style={{ fontSize: 11, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span>📎 Documents ({docs.length})</span>
+        <input ref={fileRef} type="file" style={{ display: 'none' }} onChange={(e) => e.target.files?.[0] && upload(e.target.files[0])} />
+        <button onClick={() => fileRef.current?.click()} disabled={uploading} style={{ background: '#1d4ed8', color: '#fff', border: 0, padding: '4px 10px', borderRadius: 4, cursor: uploading ? 'wait' : 'pointer', fontSize: 11, fontWeight: 600 }}>
+          {uploading ? '📤 Upload…' : '📎 + Ajouter fichier'}
+        </button>
+      </div>
+      {docs.length === 0 && <div style={{ color: '#3d4f6a', fontSize: 12, fontStyle: 'italic', padding: '6px 0' }}>Aucun fichier — uploade IFC, PDF, JPG, DWG, RVT, etc.</div>}
+      <div style={{ display: 'grid', gap: 6 }}>
+        {docs.map((doc: any) => {
+          const isOpen = openDoc === doc.id;
+          const ext = (doc.nom || '').split('.').pop()?.toLowerCase() || '';
+          const icon = doc.mimeType?.startsWith('image/') || ['jpg','jpeg','png','gif','webp'].includes(ext) ? '🖼' :
+                       (ext === 'pdf' || doc.mimeType === 'application/pdf') ? '📄' :
+                       ext === 'ifc' ? '🏗' :
+                       ['dwg','dxf'].includes(ext) ? '📐' :
+                       ['rvt','pln','skp'].includes(ext) ? '🏢' : '📎';
+          return (
+            <div key={doc.id} style={{ background: '#0a0f1a', border: '1px solid #1e2330', borderRadius: 6 }}>
+              <div style={{ padding: '7px 10px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: 14 }}>{icon}</span>
+                <span style={{ flex: 1, fontSize: 12, color: '#e8eaf0' }}>{doc.nom || doc.filePath}</span>
+                <span style={{ fontSize: 10, color: '#64748b' }}>{doc.mimeType?.split('/')[1] || ext} · {fmtSizeWS(doc.fileSize)}</span>
+                <button onClick={() => setOpenDoc(isOpen ? null : doc.id)} style={{ background: '#1d4ed8', color: '#fff', border: 0, padding: '3px 9px', borderRadius: 3, cursor: 'pointer', fontSize: 11 }}>
+                  {isOpen ? '▴' : '👁 Voir'}
+                </button>
+                <a href={docUrl(doc.id)} download={doc.nom} style={{ background: '#1e2330', color: '#94a3b8', padding: '3px 8px', borderRadius: 3, fontSize: 11, textDecoration: 'none' }}>⬇</a>
+              </div>
+              {isOpen && (
+                <div style={{ padding: 8 }}>
+                  <FileViewer url={docUrl(doc.id)} fileName={doc.nom || doc.filePath} mimeType={doc.mimeType} height={420} />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function fmtSizeWS(b?: number): string {
+  if (!b) return '?';
+  if (b < 1024) return `${b}o`;
+  if (b < 1024 * 1024) return `${(b / 1024).toFixed(0)}Ko`;
+  return `${(b / 1024 / 1024).toFixed(1)}Mo`;
 }
 
 // ── Chat ────────────────────────────────────────────────
