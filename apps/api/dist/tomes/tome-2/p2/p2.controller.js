@@ -225,8 +225,16 @@ __decorate([
     (0, tome_at_3.RequireCaps)("dossier:create"),
     (0, common_1.Post)("dossier/:id/documents"),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)("file", {
-        dest: "./uploads/dossiers",
-        limits: { fileSize: 10 * 1024 * 1024 },
+        dest: (() => {
+            const base = process.env.UPLOADS_DIR || "./uploads";
+            const dir = `${base}/dossiers`;
+            try {
+                require("fs").mkdirSync(dir, { recursive: true });
+            }
+            catch { }
+            return dir;
+        })(),
+        limits: { fileSize: 100 * 1024 * 1024 },
     })),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),

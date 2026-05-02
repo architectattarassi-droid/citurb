@@ -12,7 +12,8 @@ async function bootstrap() {
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.useStaticAssets(join(process.cwd(), "uploads"), { prefix: "/uploads" });
+  const uploadsDir = process.env.UPLOADS_DIR || join(process.cwd(), "uploads");
+  app.useStaticAssets(uploadsDir, { prefix: "/uploads" });
 
   const reflector = app.get(Reflector);
 

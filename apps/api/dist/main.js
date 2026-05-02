@@ -10,7 +10,8 @@ const kernel_1 = require("./modules/kernel");
 async function bootstrap() {
     (0, kernel_1.validateEnvOrThrow)();
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
-    app.useStaticAssets((0, path_1.join)(process.cwd(), "uploads"), { prefix: "/uploads" });
+    const uploadsDir = process.env.UPLOADS_DIR || (0, path_1.join)(process.cwd(), "uploads");
+    app.useStaticAssets(uploadsDir, { prefix: "/uploads" });
     const reflector = app.get(core_1.Reflector);
     app.enableCors({
         origin: [

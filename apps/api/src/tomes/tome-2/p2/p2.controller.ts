@@ -91,8 +91,13 @@ export class P2Controller {
   @RequireCaps("dossier:create")
   @Post("dossier/:id/documents")
   @UseInterceptors(FileInterceptor("file", {
-    dest: "./uploads/dossiers",
-    limits: { fileSize: 10 * 1024 * 1024 },
+    dest: (() => {
+      const base = process.env.UPLOADS_DIR || "./uploads";
+      const dir = `${base}/dossiers`;
+      try { require("fs").mkdirSync(dir, { recursive: true }); } catch {}
+      return dir;
+    })(),
+    limits: { fileSize: 100 * 1024 * 1024 },
   }))
   async uploadDocument(
     @Req() req: any,

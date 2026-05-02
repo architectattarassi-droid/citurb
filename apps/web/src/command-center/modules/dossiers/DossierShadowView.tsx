@@ -123,6 +123,8 @@ export default function DossierShadowView() {
           </div>
         )}
 
+        {id && <BaseDossierDocsSection dossierId={id} dossier={dossier} onChange={load} />}
+
         {id && <RokhasPhaseTimeline dossierId={id} mode="client" />}
 
         <div style={{ padding: "16px 20px" }}>
@@ -351,6 +353,81 @@ function SousPhaseCard({ sp, dossierId, onChange }: { sp: any; dossierId: string
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// ─── BaseDossierDocsSection : docs de base du dossier (titre foncier, etc.) ──
+const BASE_DOC_TYPES = [
+  { key: "doc_titre",       label: "Titre foncier / Attestation propriété", required: true },
+  { key: "doc_cadastre",    label: "Plan cadastral",                         required: true },
+  { key: "doc_contenances", label: "Fiche des contenances",                  required: true },
+  { key: "doc_cin",         label: "CIN / Passeport copie",                  required: true },
+  { key: "doc_contrat",     label: "Contrat architecte",                     required: true },
+  { key: "doc_autres",      label: "Autres documents",                       required: false },
+];
+
+function BaseDossierDocsSection({ dossierId, dossier, onChange }: { dossierId: string; dossier: any; onChange: () => void }) {
+  const [openDoc, setOpenDoc] = useState<string | null>(null);
+  const docs: any[] = dossier.documents || [];
+
+  const docUrl = (doc: any) => {
+    const tk = localStorage.getItem("citurbarea.token") || "";
+    return `${apiBase()}/uploads/dossiers/${doc.storedName}?_t=${encodeURIComponent(tk)}`;
+  };
+
+  const findDoc = (type: string) => docs.find(d => d.docType === type);
+  const tk = localStorage.getItem("citurbarea.token") || "";
+
+  return (
+    <div style={{ padding: "16px 20px", borderBottom: "1px solid #1e2330" }}>
+      <h3 style={{ fontSize: 13, color: "#94a3b8", textTransform: "uppercase", letterSpacing: 1, marginTop: 0, marginBottom: 12 }}>
+        📁 Documents de base ({docs.length})
+      </h3>
+      <div style={{ display: "grid", gap: 8 }}>
+        {BASE_DOC_TYPES.map((dt) => {
+          const doc = findDoc(dt.key);
+          const isOpen = openDoc === dt.key;
+          return (
+            <div key={dt.key} style={{ background: doc ? "#0a1f10" : "#1e2330", border: `1px solid ${doc ? "#16a34a" : "#3a3a4a"}`, borderRadius: 6 }}>
+              <div style={{ padding: "8px 12px", display: "flex", alignItems: "center", gap: 10 }}>
+                <span style={{ fontSize: 16 }}>{doc ? "✅" : (dt.required ? "⚠️" : "•")}</span>
+                <span style={{ flex: 1, fontSize: 13, color: doc ? "#e8eaf0" : "#94a3b8", fontWeight: dt.required ? 600 : 400 }}>
+                  {dt.label}
+                  {dt.required && !doc && <span style={{ marginLeft: 6, fontSize: 10, color: "#fbbf24" }}>(requis, manquant)</span>}
+                </span>
+                {doc && (
+                  <>
+                    <span style={{ fontSize: 10, color: "#64748b" }}>{doc.originalName} · {fmtSizeAdmin(doc.sizeBytes)}</span>
+                    <button onClick={() => setOpenDoc(isOpen ? null : dt.key)} style={{ background: "#1d4ed8", color: "#fff", border: 0, padding: "3px 9px", borderRadius: 3, cursor: "pointer", fontSize: 11 }}>
+                      {isOpen ? "▴" : "👁 Voir"}
+                    </button>
+                    <a href={docUrl(doc)} download={doc.originalName} style={{ background: "#1e2330", color: "#94a3b8", padding: "3px 8px", borderRadius: 3, fontSize: 11, textDecoration: "none" }}>⬇</a>
+                  </>
+                )}
+                {!doc && (
+                  <UploadButton
+                    url={`${apiBase()}/p2/dossier/${dossierId}/documents?docType=${dt.key}`}
+                    headers={{ Authorization: `Bearer ${tk}` }}
+                    label="📎 Ajouter"
+                    maxSizeMB={50}
+                    onComplete={() => onChange()}
+                    onError={(e) => alert("Upload échoué : " + e.message)}
+                  />
+                )}
+              </div>
+              {isOpen && doc && (
+                <div style={{ padding: 8 }}>
+                  <FileViewer url={docUrl(doc)} fileName={doc.originalName} mimeType={doc.mimeType} height={420} />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ marginTop: 8, fontSize: 11, color: "#64748b", fontStyle: "italic" }}>
+        💡 Ces documents sont uploadés depuis l'espace client OU directement par l'admin ici. Ils sont visibles dans les deux interfaces (front + back).
+      </div>
     </div>
   );
 }
