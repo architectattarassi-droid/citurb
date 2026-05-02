@@ -708,23 +708,23 @@ const PRE_HTML = `
               <strong>Projet personnel / familial</strong>
               <small>Villa, maison, extension : conception + autorisation + dossier conforme.</small>
             </a>
-            <a href="#" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20diagnostic%20immobilier.','_blank');return false;">
+            <a href="/p2" onclick="window.location.href='/p2';return false;">
               <strong>Projet immobilier & équipements</strong>
               <small>Immeuble, commerce, école, clinique : études + autorisations + stratégie.</small>
             </a>
-            <a href="#" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20cl%C3%A9%20en%20main.','_blank');return false;">
+            <a href="/p3" onclick="window.location.href='/p3';return false;">
               <strong>Réalisation clé en main</strong>
               <small>Pilotage chantier : qualité, budget, délais, entreprises, contrôle.</small>
             </a>
-            <a href="#" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20analyse%20fonci%C3%A8re.','_blank');return false;">
+            <a href="/p4" onclick="window.location.href='/p4';return false;">
               <strong>Investisseur & foncier</strong>
               <small>Analyse foncière, valorisation, pré-commercialisation, opérations filtrées.</small>
             </a>
-            <a href="#" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20rapport%20expertise.','_blank');return false;">
+            <a href="/p5" onclick="window.location.href='/p5';return false;">
               <strong>Rapports & expertises</strong>
               <small>Rapports premium : prix, règles, risques, faisabilité, décision.</small>
             </a>
-            <a href="#" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20rejoindre%20CITURBAREA.','_blank');return false;">
+            <a href="/p6" onclick="window.location.href='/p6';return false;">
               <strong>Entreprise / partenaire</strong>
               <small>Rejoindre l’écosystème : dossiers qualifiés, exécution fiable.</small>
             </a>
@@ -774,31 +774,31 @@ const PRE_HTML = `
           <div class="deliver">Résultat : plan + dossier autorisable + orientation chantier.</div>
         </article>
 
-        <article class="cat" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20diagnostic%20immobilier.','_blank')">
+        <article class="cat" onclick="window.location.href='/p2'">
           <h3>Projet immobilier & équipements</h3>
           <p>Faisabilité, conception, optimisation, règles, stratégie d’autorisation.</p>
           <div class="deliver">Résultat : dossier + scénarios + sécurisation réglementaire.</div>
         </article>
 
-        <article class="cat" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20cl%C3%A9%20en%20main.','_blank')">
+        <article class="cat" onclick="window.location.href='/p3'">
           <h3>Réalisation clé en main</h3>
           <p>Sélection entreprises, planning, contrôle qualité, suivi financier.</p>
           <div class="deliver">Résultat : chantier piloté + budget/délais maîtrisés.</div>
         </article>
 
-        <article class="cat" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20analyse%20fonci%C3%A8re.','_blank')">
+        <article class="cat" onclick="window.location.href='/p4'">
           <h3>Investisseur & foncier</h3>
           <p>Analyse foncière, potentiel réel, risques, stratégie de valorisation.</p>
           <div class="deliver">Résultat : étude + potentiel + stratégie d’exploitation/vente.</div>
         </article>
 
-        <article class="cat" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20rapport%20expertise.','_blank')">
+        <article class="cat" onclick="window.location.href='/p5'">
           <h3>Rapports & expertises</h3>
           <p>Estimation, conformité, risques : document exploitable (banque/décision).</p>
           <div class="deliver">Résultat : rapport premium exploitable.</div>
         </article>
 
-        <article class="cat" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20rejoindre%20CITURBAREA.','_blank')">
+        <article class="cat" onclick="window.location.href='/p6'">
           <h3>Entreprise / partenaire</h3>
           <p>Accès à dossiers qualifiés, collaboration structurée, méthode qualité.</p>
           <div class="deliver">Résultat : écosystème + dossiers + collaboration.</div>
