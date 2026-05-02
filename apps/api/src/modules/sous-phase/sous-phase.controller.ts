@@ -11,7 +11,10 @@ import { RolesGuard } from '../../tomes/tome-5/auth/roles.guard';
 import { Roles } from '../../tomes/tome-5/auth/roles.decorator';
 import { SousPhaseService } from './sous-phase.service';
 
-const SOUSPHASE_UPLOAD_DIR = join(process.cwd(), 'uploads', 'sous-phases');
+const UPLOAD_BASE = process.env.UPLOADS_DIR || join(process.cwd(), 'uploads');
+const SOUSPHASE_UPLOAD_DIR = join(UPLOAD_BASE, 'sous-phases');
+// Ensure directory exists (Railway Volume mounts an empty dir on first boot)
+try { require('fs').mkdirSync(SOUSPHASE_UPLOAD_DIR, { recursive: true }); } catch {}
 
 @Tome('tome2')
 @Controller('p2/dossier/:id')

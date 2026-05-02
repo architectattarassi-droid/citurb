@@ -24,7 +24,13 @@ const tome_at_1 = require("../../tomes/tome-at");
 const roles_guard_1 = require("../../tomes/tome-5/auth/roles.guard");
 const roles_decorator_1 = require("../../tomes/tome-5/auth/roles.decorator");
 const sous_phase_service_1 = require("./sous-phase.service");
-const SOUSPHASE_UPLOAD_DIR = (0, path_1.join)(process.cwd(), 'uploads', 'sous-phases');
+const UPLOAD_BASE = process.env.UPLOADS_DIR || (0, path_1.join)(process.cwd(), 'uploads');
+const SOUSPHASE_UPLOAD_DIR = (0, path_1.join)(UPLOAD_BASE, 'sous-phases');
+// Ensure directory exists (Railway Volume mounts an empty dir on first boot)
+try {
+    require('fs').mkdirSync(SOUSPHASE_UPLOAD_DIR, { recursive: true });
+}
+catch { }
 let SousPhaseController = class SousPhaseController {
     svc;
     constructor(svc) {
