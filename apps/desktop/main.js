@@ -115,7 +115,7 @@ function buildInjectionCode() {
             if (seConnecter && !seConnecter.dataset.citPatched) {
               seConnecter.dataset.citPatched = '1';
               seConnecter.textContent = 'Mon espace';
-              seConnecter.setAttribute('href', '/p1');
+              seConnecter.setAttribute('href', '/portal');
             }
             if (creerCompte && !creerCompte.dataset.citPatched) {
               creerCompte.dataset.citPatched = '1';
@@ -257,13 +257,6 @@ app.whenReady().then(async () => {
   });
   win.webContents.on('did-frame-finish-load', (_e, isMainFrame) => {
     if (isMainFrame) win.webContents.executeJavaScript(buildInjectionCode()).catch(() => {});
-  });
-  win.webContents.on('will-navigate', (event, url) => {
-    if (/\/portal(\?|$|\/)/.test(url)) {
-      event.preventDefault();
-      log('intercept /portal → /p1');
-      win.webContents.executeJavaScript(`location.assign('/p1');`).catch(() => {});
-    }
   });
   win.webContents.on('did-navigate', (_e, url) => log('did-navigate: ' + url));
   win.webContents.on('did-navigate-in-page', (_e, url) => log('did-navigate-in-page: ' + url));
