@@ -121,7 +121,17 @@ const STYLES = `
 
   .header-bottom{ padding:12px 0; }
   .brand{ font-weight:900; letter-spacing:.8px; color:var(--blue); font-size:16px; }
-  .nav{ display:flex; gap:12px; margin-left:auto; align-items:center; flex-wrap:nowrap; }
+  .nav{ display:flex; gap:12px; margin-left:auto; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+  /* Auth buttons : toujours visibles, même si la nav wrap */
+  .btn-login, .btn-signup { order: 100; }
+  .lang-switcher { order: 99; }
+  /* Sur fenêtres étroites (<1400px) : cacher les items secondaires pour garder Connexion + langues visibles */
+  @media (max-width: 1400px) {
+    .pill.vip, .pill.vvip { display:none; }
+  }
+  @media (max-width: 1200px) {
+    .nav .pill { font-size: 11px; padding: 5px 10px; }
+  }
 
   .pill{
     background:var(--blue);

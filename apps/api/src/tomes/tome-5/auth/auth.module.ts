@@ -20,7 +20,7 @@ import { OwnerNotifyModule } from "../../../modules/owner-notify/owner-notify.mo
     OwnerNotifyModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET || "dev-secret-change-me",
-      signOptions: { expiresIn: "2h" },
+      signOptions: { expiresIn: "7d" },
     }),
   ],
   controllers: [AuthController],
