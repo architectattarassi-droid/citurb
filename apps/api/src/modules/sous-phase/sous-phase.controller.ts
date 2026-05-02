@@ -96,7 +96,7 @@ export class SousPhaseController {
         cb(null, `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safe}`);
       },
     }),
-    limits: { fileSize: 100 * 1024 * 1024 }, // 100 MB pour fichiers IFC/DWG
+    limits: { fileSize: 500 * 1024 * 1024 }, // 500 MB pour fichiers IFC/DWG/RVT/PLN volumineux
   }))
   uploadDoc(
     @Param('sid') sid: string,

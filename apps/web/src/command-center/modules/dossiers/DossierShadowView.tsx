@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { apiFetch, apiBase } from "../../../tomes/tome4/apiClient";
 import RokhasPhaseTimeline from "../../../tomes/tome2/RokhasPhaseTimeline";
 import FileViewer from "../../../ui/FileViewer";
+import UploadButton from "../../../ui/UploadButton";
 
 /**
  * DossierShadowView — Admin Shadow Mode
@@ -236,35 +237,11 @@ export default function DossierShadowView() {
 function SousPhaseCard({ sp, dossierId, onChange }: { sp: any; dossierId: string; onChange: () => void }) {
   const [open, setOpen] = useState(false);
   const [openDoc, setOpenDoc] = useState<string | null>(null);
-  const [uploading, setUploading] = useState(false);
   const [busy, setBusy] = useState<string | null>(null);
-  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
   const docUrl = (docId: string) => {
     const tk = localStorage.getItem("citurbarea.token") || "";
     return `${apiBase()}/p2/dossier/${dossierId}/sous-phases/${sp.id}/documents/${docId}/download?_t=${encodeURIComponent(tk)}`;
-  };
-
-  const handleUpload = async (file: File) => {
-    setUploading(true);
-    try {
-      const fd = new FormData();
-      fd.append("file", file);
-      fd.append("nom", file.name);
-      const tk = localStorage.getItem("citurbarea.token") || "";
-      const res = await fetch(`${apiBase()}/p2/dossier/${dossierId}/sous-phases/${sp.id}/documents`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${tk}` },
-        body: fd,
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
-      onChange();
-    } catch (e: any) {
-      alert("Upload échoué : " + (e?.message || ""));
-    } finally {
-      setUploading(false);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    }
   };
 
   const adminAction = async (action: "soumettre" | "valider" | "rejeter", note?: string) => {
@@ -342,16 +319,15 @@ function SousPhaseCard({ sp, dossierId, onChange }: { sp: any; dossierId: string
           </div>
 
           {/* Upload + Actions admin */}
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", borderTop: "1px solid #1e2330", paddingTop: 10 }}>
-            <input
-              type="file"
-              ref={fileInputRef}
-              style={{ display: "none" }}
-              onChange={(e) => e.target.files?.[0] && handleUpload(e.target.files[0])}
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", borderTop: "1px solid #1e2330", paddingTop: 10, alignItems: "flex-start" }}>
+            <UploadButton
+              url={`${apiBase()}/p2/dossier/${dossierId}/sous-phases/${sp.id}/documents`}
+              headers={{ Authorization: `Bearer ${localStorage.getItem("citurbarea.token") || ""}` }}
+              maxSizeMB={500}
+              label="📎 Uploader fichier"
+              onComplete={() => onChange()}
+              onError={(e) => alert("Upload échoué : " + e.message)}
             />
-            <button onClick={() => fileInputRef.current?.click()} disabled={uploading} style={{ background: "#1d4ed8", color: "#fff", border: 0, padding: "6px 12px", borderRadius: 4, cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
-              {uploading ? "📤 Upload…" : "📎 Uploader fichier"}
-            </button>
 
             {sp.statut === "EN_COURS" && (
               <button onClick={() => adminAction("soumettre")} disabled={busy !== null} style={{ background: "#f59e0b", color: "#fff", border: 0, padding: "6px 12px", borderRadius: 4, cursor: "pointer", fontSize: 12, fontWeight: 600 }}>

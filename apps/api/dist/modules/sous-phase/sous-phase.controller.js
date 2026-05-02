@@ -287,7 +287,7 @@ __decorate([
                 cb(null, `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safe}`);
             },
         }),
-        limits: { fileSize: 100 * 1024 * 1024 }, // 100 MB pour fichiers IFC/DWG
+        limits: { fileSize: 500 * 1024 * 1024 }, // 500 MB pour fichiers IFC/DWG/RVT/PLN volumineux
     })),
     __param(0, (0, common_1.Param)('sid')),
     __param(1, (0, common_1.UploadedFile)()),
