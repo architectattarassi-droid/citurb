@@ -121,7 +121,9 @@ export default function PhaseWorkspace() {
         {dos.clientNom && <span style={{ color: '#8892a4' }}>· <strong style={{ color: '#e8eaf0' }}>{dos.clientNom}</strong></span>}
         {dos.firm?.name && <span style={{ color: '#4a5568' }}>· <strong style={{ color: '#60a5fa' }}>{dos.firm.name}</strong></span>}
         <span style={{ marginLeft: 'auto', fontSize: 11, color: '#3d4f6a' }}>{dos.owner?.email}</span>
+        <button onClick={() => nav(`/cc/dossiers/${id}/shadow`)} style={{ background: '#7c3aed', color: '#fff', border: 0, padding: '5px 12px', borderRadius: 5, cursor: 'pointer', fontSize: 11, fontWeight: 600 }}>👁️ Vue client + docs base</button>
       </div>
+      <BaseDocsBanner dos={dos} onShadow={() => nav(`/cc/dossiers/${id}/shadow`)} />
       <div style={C.body}>
         {/* NAV */}
         <div style={C.nav}>
@@ -268,6 +270,41 @@ function IterTab({ id, pr, snap, onR }: any) {
         </div>
       ))}
       {sps.length === 0 && !creating && <div style={{ color: '#3d4f6a', textAlign: 'center', padding: '20px 0' }}>Aucune version. Cliquez "+ Nouvelle version".</div>}
+    </div>
+  );
+}
+
+// ── BaseDocsBanner : banner status docs de base ──────────
+const BASE_DOCS = [
+  { key: 'doc_titre', label: 'Titre' },
+  { key: 'doc_cadastre', label: 'Cadastre' },
+  { key: 'doc_contenances', label: 'Contenances' },
+  { key: 'doc_cin', label: 'CIN' },
+  { key: 'doc_contrat', label: 'Contrat' },
+];
+
+function BaseDocsBanner({ dos, onShadow }: { dos: any; onShadow: () => void }) {
+  const docs: any[] = dos.documents || [];
+  const present = BASE_DOCS.filter(b => docs.some(d => d.docType === b.key));
+  const missing = BASE_DOCS.filter(b => !docs.some(d => d.docType === b.key));
+  const allPresent = missing.length === 0;
+  const bg = allPresent ? '#0a1f10' : missing.length === BASE_DOCS.length ? '#3a1a1a' : '#2a2a1a';
+  const border = allPresent ? '#16a34a' : missing.length === BASE_DOCS.length ? '#dc2626' : '#f59e0b';
+  return (
+    <div style={{ padding: '8px 16px', background: bg, borderBottom: `1px solid ${border}`, fontSize: 12, display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+      <span style={{ fontWeight: 700, color: '#e8eaf0' }}>📁 Docs de base : {present.length}/{BASE_DOCS.length}</span>
+      {BASE_DOCS.map(b => {
+        const has = docs.some(d => d.docType === b.key);
+        return (
+          <span key={b.key} style={{ fontSize: 11, padding: '2px 8px', borderRadius: 12, background: has ? '#15803d' : '#374151', color: '#fff', fontWeight: 600 }}>
+            {has ? '✓' : '✗'} {b.label}
+          </span>
+        );
+      })}
+      <span style={{ flex: 1 }} />
+      <button onClick={onShadow} style={{ background: '#7c3aed', color: '#fff', border: 0, padding: '4px 12px', borderRadius: 4, cursor: 'pointer', fontSize: 11, fontWeight: 600 }}>
+        Gérer les docs de base →
+      </button>
     </div>
   );
 }
