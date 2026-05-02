@@ -3,6 +3,7 @@ import { Tome } from "../../tome-at";
 import { PrismaService } from "../../tome-at/kernel/prisma/prisma.service";
 import { AuthService } from "../../tome-5/auth/auth.service";
 import { DossierService } from "./dossier.service";
+import { OwnerNotifyService } from "../../../modules/owner-notify/owner-notify.service";
 
 /**
  * IntakeController — Capture publique des leads sur les 6 portes
@@ -51,6 +52,7 @@ export class IntakeController {
     private readonly prisma: PrismaService,
     private readonly auth: AuthService,
     private readonly dossiers: DossierService,
+    private readonly ownerNotify: OwnerNotifyService,
   ) {}
 
   @Post("intake")
@@ -99,7 +101,23 @@ export class IntakeController {
       },
     });
 
-    // 3. Return public-safe response (no token, no internal IDs of related)
+    // 3. Fire owner alerts (SMS + email) — fire-and-forget, never block client response
+    this.ownerNotify.notify("NEW_USER_REGISTERED", {
+      email,
+      username: body.clientNom,
+      porteType,
+      tel: body.clientTel,
+    }).catch(() => { /* logged in service */ });
+    this.ownerNotify.notify("DOSSIER_CREATED", {
+      title,
+      commune: body.commune,
+      packSelected: `${porteType} ${body.gestionMode || "AUTONOME"}`,
+      dossierId: dossier.id,
+      clientTel: body.clientTel,
+      clientNom: body.clientNom,
+    }).catch(() => { /* logged in service */ });
+
+    // 4. Return public-safe response (no token, no internal IDs of related)
     return {
       ok: true,
       dossierId: dossier.id,

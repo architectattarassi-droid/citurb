@@ -18,14 +18,17 @@ const tome_at_1 = require("../../tome-at");
 const prisma_service_1 = require("../../tome-at/kernel/prisma/prisma.service");
 const auth_service_1 = require("../../tome-5/auth/auth.service");
 const dossier_service_1 = require("./dossier.service");
+const owner_notify_service_1 = require("../../../modules/owner-notify/owner-notify.service");
 let IntakeController = class IntakeController {
     prisma;
     auth;
     dossiers;
-    constructor(prisma, auth, dossiers) {
+    ownerNotify;
+    constructor(prisma, auth, dossiers, ownerNotify) {
         this.prisma = prisma;
         this.auth = auth;
         this.dossiers = dossiers;
+        this.ownerNotify = ownerNotify;
     }
     async intake(body) {
         if (!body.clientEmail && !body.clientTel) {
@@ -70,7 +73,22 @@ let IntakeController = class IntakeController {
                 utm: body.utm,
             },
         });
-        // 3. Return public-safe response (no token, no internal IDs of related)
+        // 3. Fire owner alerts (SMS + email) — fire-and-forget, never block client response
+        this.ownerNotify.notify("NEW_USER_REGISTERED", {
+            email,
+            username: body.clientNom,
+            porteType,
+            tel: body.clientTel,
+        }).catch(() => { });
+        this.ownerNotify.notify("DOSSIER_CREATED", {
+            title,
+            commune: body.commune,
+            packSelected: `${porteType} ${body.gestionMode || "AUTONOME"}`,
+            dossierId: dossier.id,
+            clientTel: body.clientTel,
+            clientNom: body.clientNom,
+        }).catch(() => { });
+        // 4. Return public-safe response (no token, no internal IDs of related)
         return {
             ok: true,
             dossierId: dossier.id,
@@ -93,5 +111,6 @@ exports.IntakeController = IntakeController = __decorate([
     (0, common_1.Controller)("p2"),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
         auth_service_1.AuthService,
-        dossier_service_1.DossierService])
+        dossier_service_1.DossierService,
+        owner_notify_service_1.OwnerNotifyService])
 ], IntakeController);
