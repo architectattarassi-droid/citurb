@@ -38,18 +38,27 @@ let CCController = class CCController {
     async leads() {
         const items = await this.prisma.dossier.findMany({
             orderBy: { createdAt: "desc" },
-            take: 50,
-            select: { id: true, createdAt: true, title: true, commune: true, status: true },
+            take: 100,
+            select: {
+                id: true, createdAt: true, title: true, commune: true, status: true,
+                porteType: true, gestionMode: true,
+                clientNom: true, clientEmail: true, clientTel: true, raisonSociale: true,
+                owner: { select: { email: true } },
+            },
         });
         return items.map((d) => ({
             id: d.id,
             createdAt: d.createdAt,
-            nom: d.title || "Lead",
+            nom: d.clientNom || d.raisonSociale || d.title || "Lead",
             ville: d.commune || "—",
-            type: "PARTICULIER",
+            type: d.porteType || "P1",
             source: "SITE",
             status: mapStatus(d.status),
             interet: d.title,
+            gestionMode: d.gestionMode,
+            email: d.clientEmail || d.owner?.email,
+            tel: d.clientTel,
+            raisonSociale: d.raisonSociale,
         }));
     }
     async updateLead() {
