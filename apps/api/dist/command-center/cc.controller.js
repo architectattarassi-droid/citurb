@@ -16,7 +16,11 @@ exports.CCController = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../tomes/tome-at/kernel/prisma/prisma.service");
 const tome_at_1 = require("../tomes/tome-at");
+const jwt_auth_guard_1 = require("../tomes/tome-5/auth/jwt-auth.guard");
+const roles_guard_1 = require("../tomes/tome-5/auth/roles.guard");
+const roles_decorator_1 = require("../tomes/tome-5/auth/roles.decorator");
 const cc_snapshot_service_1 = require("./cc-snapshot.service");
+const LEAD_STATUS = ["NEW", "CONTACTED", "QUALIFIED", "WON", "LOST", "SPAM"];
 let CCController = class CCController {
     prisma;
     snapshotService;
@@ -28,54 +32,79 @@ let CCController = class CCController {
         return this.snapshotService.current();
     }
     media() {
-        return { items: [
+        return {
+            items: [
                 { id: "m1", title: "500 000 DH : نستثمر ولا نبني؟", type: "VIDEO_LONG", status: "PLANNED", weekNumber: 1, views: 0, leads: 0 },
                 { id: "m2", title: "5 أخطاء كتخسر الملايين", type: "VIDEO_LONG", status: "PLANNED", weekNumber: 2, views: 0, leads: 0 },
                 { id: "m3", title: "Étape 6: التسوية Terrassement", type: "SHORT", status: "PLANNED", weekNumber: 1, views: 0, leads: 0 },
                 { id: "m4", title: "بئر الرامي : تحليل شامل", type: "VIDEO_LONG", status: "PLANNED", weekNumber: 3, views: 0, leads: 0 },
-            ] };
+            ],
+        };
     }
     async leads() {
         const items = await this.prisma.dossier.findMany({
             orderBy: { createdAt: "desc" },
-            take: 100,
+            take: 200,
             select: {
-                id: true, createdAt: true, title: true, commune: true, status: true,
-                porteType: true, gestionMode: true,
+                id: true, createdAt: true, updatedAt: true, title: true, commune: true, status: true,
+                porteType: true, gestionMode: true, payload: true,
                 clientNom: true, clientEmail: true, clientTel: true, raisonSociale: true,
                 owner: { select: { email: true } },
             },
         });
-        return items.map((d) => ({
-            id: d.id,
-            createdAt: d.createdAt,
-            nom: d.clientNom || d.raisonSociale || d.title || "Lead",
-            ville: d.commune || "—",
-            type: d.porteType || "P1",
-            source: "SITE",
-            status: mapStatus(d.status),
-            interet: d.title,
-            gestionMode: d.gestionMode,
-            email: d.clientEmail || d.owner?.email,
-            tel: d.clientTel,
-            raisonSociale: d.raisonSociale,
-        }));
+        return items.map((d) => extractLeadView(d));
     }
-    async updateLead() {
-        return { ok: true };
+    async updateLead(id, body, req) {
+        const dossier = await this.prisma.dossier.findUniqueOrThrow({ where: { id }, select: { payload: true } });
+        const payload = (dossier.payload && typeof dossier.payload === "object") ? { ...dossier.payload } : {};
+        const qualif = (payload.leadQualif && typeof payload.leadQualif === "object")
+            ? payload.leadQualif
+            : { status: "NEW", notes: [] };
+        if (body.status && LEAD_STATUS.includes(body.status)) {
+            qualif.status = body.status;
+            qualif.lastContactAt = new Date().toISOString();
+        }
+        if (body.note && body.note.trim()) {
+            qualif.notes = qualif.notes || [];
+            qualif.notes.push({
+                ts: new Date().toISOString(),
+                author: req.user?.email || req.user?.userId || "admin",
+                text: body.note.trim(),
+                status: body.status,
+            });
+        }
+        payload.leadQualif = qualif;
+        const updated = await this.prisma.dossier.update({
+            where: { id },
+            data: { payload },
+            select: { id: true, payload: true },
+        });
+        return { ok: true, leadQualif: updated.payload?.leadQualif };
     }
-    async createLead(body) {
+    async createLead(body, req) {
+        // Admin manual lead creation. Creates a Dossier in name of admin (or specified owner).
+        const ownerId = body.ownerId || req.user?.userId;
+        if (!ownerId)
+            throw new Error("ownerId requis");
         const item = await this.prisma.dossier.create({
             data: {
-                ownerId: body.ownerId || "owner-dev",
-                title: body.nom || "Lead manuel",
-                commune: body.ville || null,
-                payload: body,
+                ownerId,
+                title: body.title || body.nom || "Lead manuel",
+                commune: body.commune || body.ville || null,
+                payload: {
+                    ...body,
+                    leadQualif: { status: "NEW", notes: [{ ts: new Date().toISOString(), author: req.user?.email || "admin", text: "Lead créé manuellement par admin" }] },
+                },
+                porteType: body.porteType || "P1",
+                gestionMode: body.gestionMode || "AUTONOME",
+                clientNom: body.clientNom || body.nom || null,
+                clientEmail: body.clientEmail || body.email || null,
+                clientTel: body.clientTel || body.tel || null,
+                raisonSociale: body.raisonSociale || null,
             },
+            select: { id: true, createdAt: true, title: true, commune: true, porteType: true, payload: true, clientNom: true, clientEmail: true, clientTel: true, raisonSociale: true, owner: { select: { email: true } }, status: true, gestionMode: true, updatedAt: true },
         });
-        return {
-            id: item.id, createdAt: item.createdAt, nom: item.title, ville: item.commune || "—", type: "PARTICULIER", source: "DIRECT", status: "NEW", interet: item.title,
-        };
+        return extractLeadView(item);
     }
 };
 exports.CCController = CCController;
@@ -98,30 +127,55 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CCController.prototype, "leads", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)("ADMIN", "OWNER", "OPS"),
     (0, common_1.Patch)("leads/:id"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String, Object, Object]),
     __metadata("design:returntype", Promise)
 ], CCController.prototype, "updateLead", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)("ADMIN", "OWNER", "OPS"),
     (0, common_1.Post)("leads"),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], CCController.prototype, "createLead", null);
 exports.CCController = CCController = __decorate([
-    (0, tome_at_1.Tome)('tome9'),
+    (0, tome_at_1.Tome)("tome9"),
     (0, common_1.Controller)("api/cc"),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
         cc_snapshot_service_1.CCSnapshotService])
 ], CCController);
-function mapStatus(status) {
-    if (status === "APPROVED")
-        return "CLIENT";
-    if (status === "SUBMITTED")
-        return "QUALIFIED";
-    if (status === "NEEDS_CHANGES")
-        return "CONTACTED";
-    return "NEW";
+function extractLeadView(d) {
+    const qualif = (d.payload?.leadQualif && typeof d.payload.leadQualif === "object")
+        ? d.payload.leadQualif
+        : { status: "NEW", notes: [] };
+    return {
+        id: d.id,
+        createdAt: d.createdAt,
+        updatedAt: d.updatedAt,
+        nom: d.clientNom || d.raisonSociale || d.title || "Lead",
+        ville: d.commune || "—",
+        type: d.porteType || "P1",
+        source: d.payload?.source || "SITE",
+        status: qualif.status,
+        dossierStatus: d.status,
+        interet: d.title,
+        gestionMode: d.gestionMode,
+        email: d.clientEmail || d.owner?.email,
+        tel: d.clientTel,
+        raisonSociale: d.raisonSociale,
+        notesCount: qualif.notes?.length || 0,
+        lastContactAt: qualif.lastContactAt,
+        lastNote: qualif.notes?.length ? qualif.notes[qualif.notes.length - 1] : null,
+        notes: qualif.notes || [],
+        brief: d.payload?.brief,
+    };
 }
