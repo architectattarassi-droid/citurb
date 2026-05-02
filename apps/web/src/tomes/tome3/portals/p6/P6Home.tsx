@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiBase } from "../../../tome4/apiClient";
 
 const TYPES_PRESTATAIRE = [
   { id: "ARCHITECTE", label: "Architecte", icon: "🏛️", desc: "Conception, maîtrise d'œuvre, suivi chantier. Agréé CNOA." },
@@ -65,7 +66,7 @@ export default function P6Home() {
       form.certifications && `Certifications: ${form.certifications}`,
     ].filter(Boolean).join(" | ");
     try {
-      const res = await fetch("/p2/dossier/create", {
+      const res = await fetch(`${apiBase()}/p2/dossier/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${tk()}` },
         body: JSON.stringify({

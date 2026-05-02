@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiBase } from "../../../tome4/apiClient";
 
 const TYPES_PROJET = [
   { id: "VILLA", label: "Villa clé en main", icon: "🏠", desc: "De la conception à la remise des clés — villa individuelle ou jumelée." },
@@ -65,7 +66,7 @@ export default function P3Home() {
     }
     setStep("loading"); setError("");
     try {
-      const res = await fetch("/p2/dossier/create", {
+      const res = await fetch(`${apiBase()}/p2/dossier/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${tk()}` },
         body: JSON.stringify({

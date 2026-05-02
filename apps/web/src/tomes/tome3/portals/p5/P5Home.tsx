@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiBase } from "../../../tome4/apiClient";
 
 const TYPES_RAPPORT = [
   { id: "ETAT_LIEUX", label: "État des lieux contradictoire", icon: "📋", desc: "Constat technique d'un bien avant acquisition, location ou litige." },
@@ -54,7 +55,7 @@ export default function P5Home() {
     if (!typeRapport || !form.commune) { setError("Commune obligatoire."); return; }
     setStep("loading"); setError("");
     try {
-      const res = await fetch("/p2/dossier/create", {
+      const res = await fetch(`${apiBase()}/p2/dossier/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${tk()}` },
         body: JSON.stringify({

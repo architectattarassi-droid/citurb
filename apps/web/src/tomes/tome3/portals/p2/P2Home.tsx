@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { apiBase } from "../../../tome4/apiClient";
 
 const SOUS_TYPES = [
   { id: "COMMERCE", label: "Local commercial", icon: "🏪", desc: "Boutique, restaurant, commerce de détail" },
@@ -65,7 +66,7 @@ export default function P2Home() {
     setStep("loading");
     setError("");
     try {
-      const res = await fetch("/p2/dossier/create", {
+      const res = await fetch(`${apiBase()}/p2/dossier/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${tk()}` },
         body: JSON.stringify({
