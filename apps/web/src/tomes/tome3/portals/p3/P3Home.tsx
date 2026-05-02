@@ -66,7 +66,7 @@ export default function P3Home() {
     }
     setStep("loading"); setError("");
     try {
-      const res = await fetch(`${apiBase()}/p2/dossier/create`, {
+      const res = await fetch(`${apiBase()}/p2/intake`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${tk()}` },
         body: JSON.stringify({

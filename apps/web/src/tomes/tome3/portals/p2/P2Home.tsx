@@ -66,9 +66,9 @@ export default function P2Home() {
     setStep("loading");
     setError("");
     try {
-      const res = await fetch(`${apiBase()}/p2/dossier/create`, {
+      const res = await fetch(`${apiBase()}/p2/intake`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${tk()}` },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           porteType: "P2",
           gestionMode: "AUTONOME",

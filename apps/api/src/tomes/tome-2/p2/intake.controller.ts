@@ -1,0 +1,111 @@
+import { Body, Controller, Post } from "@nestjs/common";
+import { Tome } from "../../tome-at";
+import { PrismaService } from "../../tome-at/kernel/prisma/prisma.service";
+import { AuthService } from "../../tome-5/auth/auth.service";
+import { DossierService } from "./dossier.service";
+
+/**
+ * IntakeController — Capture publique des leads sur les 6 portes
+ *
+ * Endpoint PUBLIC (pas de JwtAuthGuard) qui :
+ *   1. Reçoit les données du formulaire d'une porte (P1-P6)
+ *   2. Auto-crée un User CLIENT si l'email n'existe pas
+ *   3. Crée un Dossier owned par ce user avec porteType discriminant
+ *   4. Retourne le dossier ID (jamais le token côté public)
+ *
+ * Aucun document n'est requis ici — le visiteur laisse juste ses coordonnées
+ * et son brief, l'admin contacte ensuite via le LeadsModule du backoffice.
+ */
+
+type IntakePayload = {
+  porteType: "P1" | "P2" | "P3" | "P4" | "P5" | "P6";
+  sousType?: string;
+  sousTypeP2?: string;
+  gestionMode?: string;
+  // Lead identity
+  clientNom?: string;
+  clientTel?: string;
+  clientEmail?: string;
+  raisonSociale?: string;
+  rc?: string;
+  ice?: string;
+  representant?: string;
+  // Project
+  title?: string;
+  commune?: string;
+  natureProjet?: string;
+  surfaceTerrain?: number;
+  surfacePlancher?: number;
+  nbNiveaux?: number;
+  // Free brief
+  brief?: string;
+  // SEO / source tracking
+  source?: string;
+  utm?: Record<string, string>;
+};
+
+@Tome("tome2")
+@Controller("p2")
+export class IntakeController {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly auth: AuthService,
+    private readonly dossiers: DossierService,
+  ) {}
+
+  @Post("intake")
+  async intake(@Body() body: IntakePayload) {
+    if (!body.clientEmail && !body.clientTel) {
+      throw new Error("Email ou téléphone obligatoire pour vous recontacter");
+    }
+    const email = (body.clientEmail || `lead-${Date.now()}@citurbarea.unknown`).toLowerCase().trim();
+    const porteType = body.porteType || "P2";
+
+    // 1. Find or create user (CLIENT role)
+    let user = await this.prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      // Auto-register with a random password (user receives credentials by email later)
+      const tempPassword = `Citurb-${Math.random().toString(36).slice(2, 10)}!`;
+      const reg = await this.auth.register(email, tempPassword, body.clientNom || undefined);
+      user = await this.prisma.user.findUnique({ where: { id: reg.user.id } });
+    }
+    if (!user) throw new Error("Échec création/récupération du compte");
+
+    // 2. Create dossier owned by this user
+    const title = body.title || `${porteType} — ${body.commune || body.sousType || body.sousTypeP2 || "Demande"}`;
+    const dossier = await this.dossiers.create(user.id, {
+      title,
+      commune: body.commune,
+      porteType,
+      gestionMode: body.gestionMode || "AUTONOME",
+      sousTypeP2: body.sousTypeP2 || body.sousType,
+      natureProjet: body.natureProjet,
+      raisonSociale: body.raisonSociale,
+      rc: body.rc,
+      ice: body.ice,
+      representant: body.representant,
+      clientNom: body.clientNom,
+      clientTel: body.clientTel,
+      clientEmail: email,
+      payload: {
+        commune: body.commune,
+        surfaceTerrain: body.surfaceTerrain,
+        surfacePlancher: body.surfacePlancher,
+        nbNiveaux: body.nbNiveaux,
+        natureProjet: body.natureProjet,
+        brief: body.brief,
+        source: body.source,
+        utm: body.utm,
+      },
+    });
+
+    // 3. Return public-safe response (no token, no internal IDs of related)
+    return {
+      ok: true,
+      dossierId: dossier.id,
+      message: `Merci ! Votre demande ${porteType} a été enregistrée. Notre équipe vous recontacte sous 24h au ${body.clientTel || email}.`,
+      // Hint to redirect to login if the user wants to track the dossier
+      loginHint: { email, redirect: `/p1/dossier?dossier=${dossier.id}` },
+    };
+  }
+}

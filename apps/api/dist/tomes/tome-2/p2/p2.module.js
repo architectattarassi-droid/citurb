@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.P2Module = void 0;
 const common_1 = require("@nestjs/common");
 const p2_controller_1 = require("./p2.controller");
+const intake_controller_1 = require("./intake.controller");
 const dossier_service_1 = require("./dossier.service");
 const reminder_service_1 = require("./reminder.service");
 const tome_at_1 = require("../../tome-at");
@@ -18,13 +19,14 @@ const owner_notify_module_1 = require("../../../modules/owner-notify/owner-notif
 const storage_module_1 = require("../../../modules/storage/storage.module");
 const phase_engine_module_1 = require("../../../modules/phase-engine/phase-engine.module");
 const messagerie_module_1 = require("../../../modules/messagerie/messagerie.module");
+const auth_module_1 = require("../../tome-5/auth/auth.module");
 let P2Module = class P2Module {
 };
 exports.P2Module = P2Module;
 exports.P2Module = P2Module = __decorate([
     (0, common_1.Module)({
-        imports: [tome_at_1.PrismaModule, owner_notify_module_1.OwnerNotifyModule, storage_module_1.StorageModule, phase_engine_module_1.PhaseEngineModule, messagerie_module_1.MessagerieModule],
-        controllers: [p2_controller_1.P2Controller, area_controller_1.AreaController],
+        imports: [tome_at_1.PrismaModule, owner_notify_module_1.OwnerNotifyModule, storage_module_1.StorageModule, phase_engine_module_1.PhaseEngineModule, messagerie_module_1.MessagerieModule, auth_module_1.Tome5AuthModule],
+        controllers: [p2_controller_1.P2Controller, area_controller_1.AreaController, intake_controller_1.IntakeController],
         providers: [dossier_service_1.DossierService, area_service_1.AreaService, reminder_service_1.ReminderService],
     })
 ], P2Module);
