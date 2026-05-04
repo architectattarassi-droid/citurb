@@ -9,11 +9,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.P4Module = void 0;
 const common_1 = require("@nestjs/common");
 const p4_controller_1 = require("./p4.controller");
+const quote_controller_1 = require("./quote.controller");
+const pricing_service_1 = require("./pricing.service");
 let P4Module = class P4Module {
 };
 exports.P4Module = P4Module;
 exports.P4Module = P4Module = __decorate([
     (0, common_1.Module)({
-        controllers: [p4_controller_1.P4Controller],
+        controllers: [p4_controller_1.P4Controller, quote_controller_1.P4QuoteController],
+        providers: [pricing_service_1.P4PricingService],
     })
 ], P4Module);
