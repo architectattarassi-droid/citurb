@@ -9,6 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.P3Module = void 0;
 const common_1 = require("@nestjs/common");
 const p3_controller_1 = require("./p3.controller");
+const quote_controller_1 = require("./quote.controller");
+const pricing_service_1 = require("./pricing.service");
 const state_machine_service_1 = require("../state-machine.service");
 const dossier_service_1 = require("../../tome-2/p2/dossier.service");
 const tome_at_1 = require("../../tome-at");
@@ -22,8 +24,8 @@ exports.P3Module = P3Module;
 exports.P3Module = P3Module = __decorate([
     (0, common_1.Module)({
         imports: [tome_at_1.PrismaModule, owner_notify_module_1.OwnerNotifyModule, storage_module_1.StorageModule, phase_engine_module_1.PhaseEngineModule, messagerie_module_1.MessagerieModule],
-        controllers: [p3_controller_1.P3Controller],
-        providers: [state_machine_service_1.DossierStateMachineService, dossier_service_1.DossierService],
+        controllers: [p3_controller_1.P3Controller, quote_controller_1.P3QuoteController],
+        providers: [state_machine_service_1.DossierStateMachineService, dossier_service_1.DossierService, pricing_service_1.P3PricingService],
         exports: [state_machine_service_1.DossierStateMachineService],
     })
 ], P3Module);

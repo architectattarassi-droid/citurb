@@ -1,5 +1,7 @@
 import { Module } from "@nestjs/common";
 import { P3Controller } from "./p3.controller";
+import { P3QuoteController } from "./quote.controller";
+import { P3PricingService } from "./pricing.service";
 import { DossierStateMachineService } from "../state-machine.service";
 import { DossierService } from "../../tome-2/p2/dossier.service";
 import { PrismaModule } from "../../tome-at";
@@ -10,8 +12,8 @@ import { MessagerieModule } from "../../../modules/messagerie/messagerie.module"
 
 @Module({
   imports: [PrismaModule, OwnerNotifyModule, StorageModule, PhaseEngineModule, MessagerieModule],
-  controllers: [P3Controller],
-  providers: [DossierStateMachineService, DossierService],
+  controllers: [P3Controller, P3QuoteController],
+  providers: [DossierStateMachineService, DossierService, P3PricingService],
   exports: [DossierStateMachineService],
 })
 export class P3Module {}
