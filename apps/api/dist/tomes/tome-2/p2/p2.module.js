@@ -10,8 +10,10 @@ exports.P2Module = void 0;
 const common_1 = require("@nestjs/common");
 const p2_controller_1 = require("./p2.controller");
 const intake_controller_1 = require("./intake.controller");
+const quote_controller_1 = require("./quote.controller");
 const dossier_service_1 = require("./dossier.service");
 const reminder_service_1 = require("./reminder.service");
+const pricing_service_1 = require("./pricing.service");
 const tome_at_1 = require("../../tome-at");
 const area_controller_1 = require("./area/area.controller");
 const area_service_1 = require("./area/area.service");
@@ -26,7 +28,7 @@ exports.P2Module = P2Module;
 exports.P2Module = P2Module = __decorate([
     (0, common_1.Module)({
         imports: [tome_at_1.PrismaModule, owner_notify_module_1.OwnerNotifyModule, storage_module_1.StorageModule, phase_engine_module_1.PhaseEngineModule, messagerie_module_1.MessagerieModule, auth_module_1.Tome5AuthModule],
-        controllers: [p2_controller_1.P2Controller, area_controller_1.AreaController, intake_controller_1.IntakeController],
-        providers: [dossier_service_1.DossierService, area_service_1.AreaService, reminder_service_1.ReminderService],
+        controllers: [p2_controller_1.P2Controller, area_controller_1.AreaController, intake_controller_1.IntakeController, quote_controller_1.QuoteController],
+        providers: [dossier_service_1.DossierService, area_service_1.AreaService, reminder_service_1.ReminderService, pricing_service_1.P2PricingService],
     })
 ], P2Module);
