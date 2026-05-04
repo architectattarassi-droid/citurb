@@ -223,6 +223,8 @@ export default function DossierShadowView() {
 
         <ContractGeneratorBlock dossierId={dossier.id} />
 
+        <VisaCroaBlock dossierId={dossier.id} />
+
         <div style={{ background: "#111827", border: "1px solid #1e2330", borderRadius: 6, padding: 14, fontSize: 11, color: "#94a3b8", lineHeight: 1.6 }}>
           <div style={{ fontSize: 10, color: "#4a5568", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Métadonnées</div>
           <div><b>ID :</b> {dossier.id}</div>
@@ -540,6 +542,166 @@ function Inp(props: { v: string; onChange: (e: React.ChangeEvent<HTMLInputElemen
       type={props.type || "text"}
       style={{ width: "100%", background: "#0a0f1a", color: "#e8eaf0", border: "1px solid #1e2330", borderRadius: 4, padding: "6px 8px", fontSize: 11, fontFamily: "inherit", boxSizing: "border-box" }}
     />
+  );
+}
+
+// ─── VisaCroaBlock — admin sidebar bloc visa CROA (Chap V RI CNOA, J-15) ────
+type VisaStatus = "NON_DEMANDE" | "DEMANDE_ENVOYEE" | "EN_COURS" | "OBTENU" | "REFUSE" | "EXPIRE";
+
+const VISA_LABELS: Record<VisaStatus, { label: string; color: string; bg: string }> = {
+  NON_DEMANDE: { label: "Non demandé", color: "#6b7280", bg: "rgba(107,114,128,0.15)" },
+  DEMANDE_ENVOYEE: { label: "Demande envoyée", color: "#3b82f6", bg: "rgba(59,130,246,0.15)" },
+  EN_COURS: { label: "En cours d'examen", color: "#f59e0b", bg: "rgba(245,158,11,0.15)" },
+  OBTENU: { label: "Visa obtenu ✓", color: "#34d399", bg: "rgba(52,211,153,0.15)" },
+  REFUSE: { label: "Refusé", color: "#ef4444", bg: "rgba(239,68,68,0.15)" },
+  EXPIRE: { label: "Délai dépassé", color: "#dc2626", bg: "rgba(220,38,38,0.2)" },
+};
+
+function VisaCroaBlock({ dossierId }: { dossierId: string }) {
+  const [state, setState] = useState<any>(null);
+  const [daysRemaining, setDaysRemaining] = useState<number | null>(null);
+  const [show, setShow] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  const [draft, setDraft] = useState({
+    status: "" as VisaStatus | "",
+    croaName: "",
+    numero: "",
+    dateDemande: "",
+    dateObtention: "",
+    motifRefus: "",
+    scanUrl: "",
+    note: "",
+  });
+
+  const load = async () => {
+    try {
+      const r: any = await apiFetch(`/p2/dossiers/${dossierId}/visa-croa`);
+      setState(r.visaCroa);
+      setDaysRemaining(r.daysRemaining);
+      if (r.visaCroa?.croaName) setDraft((d) => ({ ...d, croaName: d.croaName || r.visaCroa.croaName }));
+      if (r.visaCroa?.numero) setDraft((d) => ({ ...d, numero: d.numero || r.visaCroa.numero }));
+    } catch (e: any) {
+      setErr(e?.message || "Erreur chargement");
+    }
+  };
+  useEffect(() => { load(); /* eslint-disable-next-line */ }, [dossierId]);
+
+  const save = async () => {
+    setBusy(true); setErr("");
+    try {
+      const body: any = {};
+      if (draft.status) body.status = draft.status;
+      if (draft.croaName) body.croaName = draft.croaName;
+      if (draft.numero) body.numero = draft.numero;
+      if (draft.dateDemande) body.dateDemande = new Date(draft.dateDemande).toISOString();
+      if (draft.dateObtention) body.dateObtention = new Date(draft.dateObtention).toISOString();
+      if (draft.motifRefus) body.motifRefus = draft.motifRefus;
+      if (draft.scanUrl) body.scanUrl = draft.scanUrl;
+      if (draft.note) body.note = draft.note;
+      const r: any = await apiFetch(`/p2/dossiers/${dossierId}/visa-croa`, { method: "PATCH", body });
+      setState(r.visaCroa);
+      setDaysRemaining(r.daysRemaining);
+      setDraft({ status: "", croaName: r.visaCroa?.croaName || "", numero: r.visaCroa?.numero || "", dateDemande: "", dateObtention: "", motifRefus: "", scanUrl: "", note: "" });
+    } catch (e: any) {
+      setErr(e?.message || "Erreur");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const status = (state?.status || "NON_DEMANDE") as VisaStatus;
+  const cfg = VISA_LABELS[status] ?? VISA_LABELS.NON_DEMANDE;
+  const isPending = status === "DEMANDE_ENVOYEE" || status === "EN_COURS";
+  const dangerDays = daysRemaining != null && daysRemaining <= 3;
+  const expired = daysRemaining != null && daysRemaining < 0;
+
+  return (
+    <div style={{ background: "#111827", border: "1px solid #1e2330", borderRadius: 6, padding: 14, marginBottom: 12 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+        <div style={{ fontSize: 10, color: "#4a5568", textTransform: "uppercase", letterSpacing: 1 }}>Visa CROA (Chap V RI CNOA)</div>
+        <button onClick={() => setShow((s) => !s)} style={{ background: "transparent", border: 0, color: "#a78bfa", fontSize: 11, cursor: "pointer" }}>
+          {show ? "Masquer ▲" : "Modifier ▼"}
+        </button>
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+        <span style={{ display: "inline-block", padding: "3px 10px", borderRadius: 10, fontSize: 11, fontWeight: 600, color: cfg.color, background: cfg.bg }}>
+          {cfg.label}
+        </span>
+        {state?.numero && <span style={{ fontSize: 11, color: "#9ca3af" }}>n° {state.numero}</span>}
+        {state?.croaName && <span style={{ fontSize: 10, color: "#6b7280" }}>· {state.croaName}</span>}
+      </div>
+
+      {isPending && daysRemaining != null && (
+        <div style={{ marginTop: 8, fontSize: 11, color: expired ? "#fca5a5" : (dangerDays ? "#fcd34d" : "#9ca3af") }}>
+          {expired
+            ? `⚠ Délai 15j dépassé de ${Math.abs(daysRemaining)} j (limite ${state.dateLimite?.slice(0, 10)})`
+            : dangerDays
+              ? `⚠ Plus que ${daysRemaining} j (limite ${state.dateLimite?.slice(0, 10)})`
+              : `${daysRemaining} j restants — limite ${state.dateLimite?.slice(0, 10)}`}
+        </div>
+      )}
+
+      {state?.dateObtention && (
+        <div style={{ fontSize: 10, color: "#6b7280", marginTop: 6 }}>Obtenu le {state.dateObtention.slice(0, 10)}</div>
+      )}
+      {state?.scanUrl && (
+        <a href={state.scanUrl} target="_blank" rel="noopener" style={{ display: "inline-block", marginTop: 6, color: "#a78bfa", fontSize: 11, textDecoration: "none" }}>
+          📄 Voir scan visa
+        </a>
+      )}
+
+      {show && (
+        <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #1e2330", fontSize: 11 }}>
+          {err && <div style={{ color: "#fca5a5", fontSize: 11, marginBottom: 8 }}>⚠ {err}</div>}
+
+          <Sub label="Changer statut">
+            <select
+              value={draft.status}
+              onChange={(e) => setDraft({ ...draft, status: e.target.value as any })}
+              style={{ width: "100%", background: "#0a0f1a", color: "#e8eaf0", border: "1px solid #1e2330", borderRadius: 4, padding: "6px 8px", fontSize: 11, fontFamily: "inherit" }}
+            >
+              <option value="">— Conserver —</option>
+              {(Object.keys(VISA_LABELS) as VisaStatus[]).map((s) => (
+                <option key={s} value={s}>{VISA_LABELS[s].label}</option>
+              ))}
+            </select>
+          </Sub>
+
+          <Sub label="CROA territorial"><Inp v={draft.croaName} onChange={(e) => setDraft({ ...draft, croaName: e.target.value })} placeholder="CROA Rabat" /></Sub>
+          <Sub label="N° visa"><Inp v={draft.numero} onChange={(e) => setDraft({ ...draft, numero: e.target.value })} placeholder="2026/…" /></Sub>
+          <Sub label="Date demande"><Inp v={draft.dateDemande} onChange={(e) => setDraft({ ...draft, dateDemande: e.target.value })} type="date" /></Sub>
+          <Sub label="Date obtention"><Inp v={draft.dateObtention} onChange={(e) => setDraft({ ...draft, dateObtention: e.target.value })} type="date" /></Sub>
+          <Sub label="URL scan visa (PDF)"><Inp v={draft.scanUrl} onChange={(e) => setDraft({ ...draft, scanUrl: e.target.value })} placeholder="https://..." /></Sub>
+          {draft.status === "REFUSE" && (
+            <Sub label="Motif refus"><Inp v={draft.motifRefus} onChange={(e) => setDraft({ ...draft, motifRefus: e.target.value })} placeholder="…" /></Sub>
+          )}
+          <Sub label="Note (optionnelle)"><Inp v={draft.note} onChange={(e) => setDraft({ ...draft, note: e.target.value })} placeholder="Commentaire admin" /></Sub>
+
+          <button
+            onClick={save}
+            disabled={busy}
+            style={{ marginTop: 8, background: "#7c3aed", color: "#fff", border: 0, padding: "8px 12px", borderRadius: 4, cursor: busy ? "wait" : "pointer", fontSize: 12, fontWeight: 600, width: "100%" }}
+          >
+            {busy ? "…" : "Enregistrer"}
+          </button>
+
+          {state?.history?.length > 0 && (
+            <div style={{ marginTop: 12 }}>
+              <div style={{ fontSize: 9, color: "#7c3aed", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Historique</div>
+              {[...state.history].reverse().slice(0, 5).map((h: any, i: number) => (
+                <div key={i} style={{ fontSize: 10, color: "#9ca3af", marginBottom: 4, paddingBottom: 4, borderBottom: "1px solid #1a1f2e" }}>
+                  <span style={{ color: VISA_LABELS[h.status as VisaStatus]?.color }}>● {VISA_LABELS[h.status as VisaStatus]?.label}</span>
+                  <span style={{ color: "#6b7280", marginLeft: 6 }}>{new Date(h.ts).toLocaleString("fr-MA", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</span>
+                  {h.note && <div style={{ color: "#cbd5e1", marginTop: 2 }}>{h.note}</div>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 
