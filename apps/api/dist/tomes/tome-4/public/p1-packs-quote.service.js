@@ -15,15 +15,15 @@ class P1PacksQuoteService {
         if (!Number.isFinite(surface) || surface <= 0) {
             throw new Error("Surface invalide.");
         }
-        // Basement: counts as an additional full level (Sous-sol = RDC)
-        // IMPORTANT: we do not expose this rule to the client UI; only the final pack amounts.
-        const effectiveSurface = surface * (input.hasBasement ? 2.0 : 1.0);
+        // Surface plancher totale = somme de TOUS les niveaux y compris sous-sols
+        // (art. 4 contrat type unifié Construction CNOA 2024).
+        // Le checkbox hasBasement ne majore PAS la surface : le client déclare déjà la totale.
         if (input.hasBasement)
-            notes.push("Sous-sol pris en compte dans l’estimation.");
-        const costPerM2 = this.costPerM2(input.constructionLevel, input.blackBudgetMAD, effectiveSurface);
+            notes.push("Sous-sol inclus dans la surface plancher déclarée (conforme contrat type CNOA art. 4).");
+        const costPerM2 = this.costPerM2(input.constructionLevel, input.blackBudgetMAD, surface);
         const budgetB = input.constructionLevel === "BLACK" && input.blackBudgetMAD && input.blackBudgetMAD > 0
             ? Number(input.blackBudgetMAD)
-            : effectiveSurface * costPerM2;
+            : surface * costPerM2;
         const architectH = budgetB * 0.05;
         const packRatio = input.pack === "ESSENTIEL" ? 0.20 : input.pack === "AVANCE" ? 0.40 : 1.00;
         const packMAD = architectH * packRatio;

@@ -75,14 +75,16 @@ export function quoteLocal(input: QuoteInput): QuoteOutput {
     throw new Error("Surface invalide.");
   }
 
-  const effectiveSurface = surface * (input.hasBasement ? 2.0 : 1.0);
-  if (input.hasBasement) notes.push("Sous-sol pris en compte dans l'estimation.");
+  // Surface plancher totale = somme de TOUS les niveaux y compris sous-sols
+  // (art. 4 contrat type unifié Construction CNOA 2024).
+  // Le checkbox hasBasement ne majore PAS la surface : le client déclare déjà la totale.
+  if (input.hasBasement) notes.push("Sous-sol inclus dans la surface plancher déclarée (conforme contrat type CNOA art. 4).");
 
-  const cpm2 = costPerM2(input.constructionLevel, input.blackBudgetMAD, effectiveSurface);
+  const cpm2 = costPerM2(input.constructionLevel, input.blackBudgetMAD, surface);
   const budgetB =
     input.constructionLevel === "BLACK" && input.blackBudgetMAD && input.blackBudgetMAD > 0
       ? Number(input.blackBudgetMAD)
-      : effectiveSurface * cpm2;
+      : surface * cpm2;
 
   const architectH = budgetB * 0.05;
 
