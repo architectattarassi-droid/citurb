@@ -221,6 +221,8 @@ export default function DossierShadowView() {
           </button>
         </div>
 
+        <ContractGeneratorBlock dossierId={dossier.id} />
+
         <div style={{ background: "#111827", border: "1px solid #1e2330", borderRadius: 6, padding: 14, fontSize: 11, color: "#94a3b8", lineHeight: 1.6 }}>
           <div style={{ fontSize: 10, color: "#4a5568", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Métadonnées</div>
           <div><b>ID :</b> {dossier.id}</div>
@@ -437,6 +439,108 @@ function fmtSizeAdmin(b?: number): string {
   if (b < 1024) return `${b}o`;
   if (b < 1024 * 1024) return `${(b / 1024).toFixed(0)}Ko`;
   return `${(b / 1024 / 1024).toFixed(1)}Mo`;
+}
+
+// ─── ContractGeneratorBlock — admin sidebar bloc "Générer contrat type" ────
+function ContractGeneratorBlock({ dossierId }: { dossierId: string }) {
+  const [show, setShow] = useState(false);
+  const [params, setParams] = useState({
+    contratNumero: "",
+    croaName: "",
+    archNom: "",
+    archCIN: "",
+    archDomicile: "",
+    archAutorisation: "",
+    archAutorisationAnnee: "",
+    archICE: "",
+    archRC: "",
+    archCNSS: "",
+    archTel: "",
+    archEmail: "",
+    delaiEtudesJours: "",
+    delaiTravauxMois: "",
+    penaliteMOPourcentJour: "",
+    penaliteMOEPourcentJour: "",
+  });
+  const set = (k: keyof typeof params) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setParams((p) => ({ ...p, [k]: e.target.value }));
+
+  const open = () => {
+    const tk = localStorage.getItem("citurbarea.token") || "";
+    const qs = new URLSearchParams();
+    Object.entries(params).forEach(([k, v]) => { if (v) qs.append(k, String(v)); });
+    qs.append("_t", tk);
+    const url = `${apiBase()}/p2/dossiers/${dossierId}/contrat?${qs.toString()}`;
+    window.open(url, "_blank", "noopener");
+  };
+
+  return (
+    <div style={{ background: "#111827", border: "1px solid #1e2330", borderRadius: 6, padding: 14, marginBottom: 12 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ fontSize: 10, color: "#4a5568", textTransform: "uppercase", letterSpacing: 1 }}>Contrat type unifié CNOA</div>
+        <button onClick={() => setShow((s) => !s)} style={{ background: "transparent", border: 0, color: "#a78bfa", fontSize: 11, cursor: "pointer" }}>
+          {show ? "Masquer ▲" : "Configurer ▼"}
+        </button>
+      </div>
+      <div style={{ fontSize: 10, color: "#64748b", marginTop: 6 }}>
+        Génère le contrat HTML imprimable (Construction CNOA 2024). Surface, honoraires et phases sont auto-remplis depuis le devis du dossier.
+      </div>
+
+      {show && (
+        <div style={{ marginTop: 10, fontSize: 11 }}>
+          <Sub label="N° contrat"><Inp v={params.contratNumero} onChange={set("contratNumero")} placeholder="2026-P2-0001" /></Sub>
+          <Sub label="CROA territorial"><Inp v={params.croaName} onChange={set("croaName")} placeholder="CROA Rabat" /></Sub>
+          <div style={{ fontSize: 9, color: "#7c3aed", textTransform: "uppercase", letterSpacing: 1, margin: "10px 0 4px" }}>Architecte (Maître d'Œuvre)</div>
+          <Sub label="Nom complet"><Inp v={params.archNom} onChange={set("archNom")} placeholder="Mr. Yassine Attarassi" /></Sub>
+          <Sub label="N° autorisation Ordre"><Inp v={params.archAutorisation} onChange={set("archAutorisation")} placeholder="1234" /></Sub>
+          <Sub label="Année autorisation"><Inp v={params.archAutorisationAnnee} onChange={set("archAutorisationAnnee")} placeholder="2018" /></Sub>
+          <Sub label="CIN"><Inp v={params.archCIN} onChange={set("archCIN")} placeholder="A123456" /></Sub>
+          <Sub label="ICE"><Inp v={params.archICE} onChange={set("archICE")} placeholder="0000…" /></Sub>
+          <Sub label="RC"><Inp v={params.archRC} onChange={set("archRC")} placeholder="…" /></Sub>
+          <Sub label="CNSS"><Inp v={params.archCNSS} onChange={set("archCNSS")} placeholder="…" /></Sub>
+          <Sub label="Domicile cabinet"><Inp v={params.archDomicile} onChange={set("archDomicile")} placeholder="Adresse cabinet" /></Sub>
+          <Sub label="Téléphone"><Inp v={params.archTel} onChange={set("archTel")} placeholder="+212…" /></Sub>
+          <Sub label="Email"><Inp v={params.archEmail} onChange={set("archEmail")} placeholder="contact@cabinet.ma" /></Sub>
+          <div style={{ fontSize: 9, color: "#7c3aed", textTransform: "uppercase", letterSpacing: 1, margin: "10px 0 4px" }}>Délais & pénalités (Article 8)</div>
+          <Sub label="Délai études (jours ouvrables)"><Inp v={params.delaiEtudesJours} onChange={set("delaiEtudesJours")} type="number" placeholder="60" /></Sub>
+          <Sub label="Délai travaux (mois)"><Inp v={params.delaiTravauxMois} onChange={set("delaiTravauxMois")} type="number" placeholder="12" /></Sub>
+          <Sub label="Pénalité MO (%/jour)"><Inp v={params.penaliteMOPourcentJour} onChange={set("penaliteMOPourcentJour")} type="number" placeholder="0.05" /></Sub>
+          <Sub label="Pénalité Architecte (%/jour)"><Inp v={params.penaliteMOEPourcentJour} onChange={set("penaliteMOEPourcentJour")} type="number" placeholder="0.05" /></Sub>
+        </div>
+      )}
+
+      <button
+        onClick={open}
+        style={{ marginTop: 10, background: "#7c3aed", color: "#fff", border: 0, padding: "8px 12px", borderRadius: 4, cursor: "pointer", fontSize: 12, fontWeight: 600, width: "100%" }}
+      >
+        📄 Générer contrat (nouvel onglet)
+      </button>
+      <div style={{ fontSize: 10, color: "#64748b", marginTop: 6, lineHeight: 1.4 }}>
+        Une fois ouvert, l'architecte clique <strong>Imprimer / Sauvegarder en PDF</strong> dans la barre haut.
+      </div>
+    </div>
+  );
+}
+
+function Sub({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <label style={{ display: "block", marginBottom: 6 }}>
+      <span style={{ fontSize: 10, color: "#94a3b8" }}>{label}</span>
+      <div style={{ marginTop: 2 }}>{children}</div>
+    </label>
+  );
+}
+
+function Inp(props: { v: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; placeholder?: string; type?: string }) {
+  return (
+    <input
+      value={props.v}
+      onChange={props.onChange}
+      placeholder={props.placeholder}
+      type={props.type || "text"}
+      style={{ width: "100%", background: "#0a0f1a", color: "#e8eaf0", border: "1px solid #1e2330", borderRadius: 4, padding: "6px 8px", fontSize: 11, fontFamily: "inherit", boxSizing: "border-box" }}
+    />
+  );
 }
 
 function iconFor(name: string, mime?: string): string {
