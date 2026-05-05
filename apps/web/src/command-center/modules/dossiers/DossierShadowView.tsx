@@ -221,6 +221,8 @@ export default function DossierShadowView() {
           </button>
         </div>
 
+        <PackValidationBlock dossierId={dossier.id} />
+
         <ContractGeneratorBlock dossierId={dossier.id} />
 
         <VisaCroaBlock dossierId={dossier.id} />
@@ -441,6 +443,159 @@ function fmtSizeAdmin(b?: number): string {
   if (b < 1024) return `${b}o`;
   if (b < 1024 * 1024) return `${(b / 1024).toFixed(0)}Ko`;
   return `${(b / 1024 / 1024).toFixed(1)}Mo`;
+}
+
+// ─── PackValidationBlock — workflow "Pack pending → admin valide → ACTIVATED" ──
+type PackValidationStatus = "PENDING_PAYMENT" | "PAYMENT_RECEIVED" | "PENDING_ADMIN_VALIDATION" | "ACTIVATED" | "REVOKED";
+const PACK_VALIDATION_LABELS: Record<PackValidationStatus, { label: string; color: string; bg: string }> = {
+  PENDING_PAYMENT:          { label: "En attente paiement", color: "#94a3b8", bg: "rgba(148,163,184,0.15)" },
+  PAYMENT_RECEIVED:         { label: "Paiement reçu",       color: "#3b82f6", bg: "rgba(59,130,246,0.15)" },
+  PENDING_ADMIN_VALIDATION: { label: "À valider",            color: "#f59e0b", bg: "rgba(245,158,11,0.15)" },
+  ACTIVATED:                { label: "Pack activé ✓",        color: "#34d399", bg: "rgba(52,211,153,0.15)" },
+  REVOKED:                  { label: "Révoqué",              color: "#ef4444", bg: "rgba(239,68,68,0.15)" },
+};
+
+function PackValidationBlock({ dossierId }: { dossierId: string }) {
+  const [state, setState] = useState<any>(null);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  const [show, setShow] = useState(false);
+  const [paidAmount, setPaidAmount] = useState("");
+  const [validateNote, setValidateNote] = useState("");
+  const [revokeReason, setRevokeReason] = useState("");
+
+  const load = async () => {
+    try {
+      const r: any = await apiFetch(`/api/cc/pack-validation/${dossierId}`);
+      setState(r.packValidation);
+    } catch (e: any) { setErr(e?.message || "Erreur"); }
+  };
+  useEffect(() => { load(); /* eslint-disable-next-line */ }, [dossierId]);
+
+  const markPaid = async () => {
+    if (!paidAmount || +paidAmount <= 0) { setErr("Montant requis"); return; }
+    setBusy(true); setErr("");
+    try {
+      const r: any = await apiFetch(`/api/cc/pack-validation/${dossierId}/mark-paid`, {
+        method: "POST",
+        body: { amount: +paidAmount, currency: "MAD" },
+      });
+      setState(r.packValidation); setPaidAmount("");
+    } catch (e: any) { setErr(e?.message || "Erreur"); }
+    finally { setBusy(false); }
+  };
+
+  const validate = async () => {
+    setBusy(true); setErr("");
+    try {
+      const r: any = await apiFetch(`/api/cc/pack-validation/${dossierId}/validate`, {
+        method: "PATCH",
+        body: { note: validateNote || undefined },
+      });
+      setState(r.packValidation); setValidateNote("");
+    } catch (e: any) { setErr(e?.message || "Erreur"); }
+    finally { setBusy(false); }
+  };
+
+  const revoke = async () => {
+    if (!revokeReason.trim()) { setErr("Motif révocation requis"); return; }
+    if (!window.confirm(`Révoquer le pack ?\nMotif: ${revokeReason}`)) return;
+    setBusy(true); setErr("");
+    try {
+      const r: any = await apiFetch(`/api/cc/pack-validation/${dossierId}/revoke`, {
+        method: "PATCH",
+        body: { reason: revokeReason },
+      });
+      setState(r.packValidation); setRevokeReason("");
+    } catch (e: any) { setErr(e?.message || "Erreur"); }
+    finally { setBusy(false); }
+  };
+
+  const status = (state?.status || "PENDING_PAYMENT") as PackValidationStatus;
+  const cfg = PACK_VALIDATION_LABELS[status];
+  const canMarkPaid = status === "PENDING_PAYMENT";
+  const canValidate = status === "PENDING_ADMIN_VALIDATION" || status === "PAYMENT_RECEIVED";
+  const canRevoke = status === "ACTIVATED";
+
+  return (
+    <div style={{ background: "#111827", border: "1px solid #1e2330", borderRadius: 6, padding: 14, marginBottom: 12 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+        <div style={{ fontSize: 10, color: "#4a5568", textTransform: "uppercase", letterSpacing: 1 }}>Validation Pack (Tome 1)</div>
+        <button onClick={() => setShow(s => !s)} style={{ background: "transparent", border: 0, color: "#a78bfa", fontSize: 11, cursor: "pointer" }}>
+          {show ? "Masquer ▲" : "Actions ▼"}
+        </button>
+      </div>
+
+      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+        <span style={{ display: "inline-block", padding: "3px 10px", borderRadius: 10, fontSize: 11, fontWeight: 600, color: cfg.color, background: cfg.bg }}>
+          {cfg.label}
+        </span>
+        {state?.paymentRef && <span style={{ fontSize: 10, color: "#6b7280" }}>ref: {state.paymentRef}</span>}
+        {state?.paymentAmount && <span style={{ fontSize: 11, color: "#9ca3af" }}>{state.paymentAmount} {state.paymentCurrency}</span>}
+      </div>
+
+      {state?.validatedAt && (
+        <div style={{ fontSize: 10, color: "#34d399", marginTop: 6 }}>
+          ✓ Validé {new Date(state.validatedAt).toLocaleString("fr-MA", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })} par {state.validatedBy}
+          {state.validationNote && <div style={{ color: "#9ca3af", fontSize: 10, marginTop: 2 }}>"{state.validationNote}"</div>}
+        </div>
+      )}
+
+      {state?.revokedAt && (
+        <div style={{ fontSize: 10, color: "#fca5a5", marginTop: 6 }}>
+          ✗ Révoqué {new Date(state.revokedAt).toLocaleString("fr-MA")} par {state.revokedBy}<br/>
+          Motif: {state.revokedReason}
+        </div>
+      )}
+
+      {show && (
+        <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #1e2330", fontSize: 11 }}>
+          {err && <div style={{ color: "#fca5a5", fontSize: 11, marginBottom: 8 }}>⚠ {err}</div>}
+
+          {canMarkPaid && (
+            <>
+              <div style={{ fontSize: 10, color: "#3b82f6", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Marquer comme payé (manuel)</div>
+              <div style={{ display: "flex", gap: 6 }}>
+                <input type="number" placeholder="Montant DH" value={paidAmount} onChange={e => setPaidAmount(e.target.value)} style={{ flex: 1, background: "#0a0f1a", color: "#e8eaf0", border: "1px solid #1e2330", borderRadius: 4, padding: "6px 8px", fontSize: 11 }} />
+                <button onClick={markPaid} disabled={busy} style={{ background: "#1d4ed8", color: "#fff", border: 0, padding: "6px 12px", borderRadius: 4, cursor: busy ? "wait" : "pointer", fontSize: 11 }}>{busy ? "…" : "Mark paid"}</button>
+              </div>
+              <div style={{ fontSize: 10, color: "#6b7280", marginTop: 4 }}>Cas hors Stripe (paiement direct, virement…)</div>
+            </>
+          )}
+
+          {canValidate && (
+            <>
+              <div style={{ fontSize: 10, color: "#f59e0b", textTransform: "uppercase", letterSpacing: 1, marginTop: canMarkPaid ? 12 : 0, marginBottom: 6 }}>Activer le pack</div>
+              <input value={validateNote} onChange={e => setValidateNote(e.target.value)} placeholder="Note validation (optionnel)" style={{ width: "100%", background: "#0a0f1a", color: "#e8eaf0", border: "1px solid #1e2330", borderRadius: 4, padding: "6px 8px", fontSize: 11, marginBottom: 6, boxSizing: "border-box" }} />
+              <button onClick={validate} disabled={busy} style={{ background: "#10b981", color: "#fff", border: 0, padding: "8px 14px", borderRadius: 4, cursor: busy ? "wait" : "pointer", fontSize: 12, fontWeight: 600, width: "100%" }}>{busy ? "…" : "✓ Valider le pack (ACTIVÉ)"}</button>
+            </>
+          )}
+
+          {canRevoke && (
+            <>
+              <div style={{ fontSize: 10, color: "#ef4444", textTransform: "uppercase", letterSpacing: 1, marginTop: 12, marginBottom: 6 }}>Révoquer (issue détectée)</div>
+              <input value={revokeReason} onChange={e => setRevokeReason(e.target.value)} placeholder="Motif révocation *" style={{ width: "100%", background: "#0a0f1a", color: "#e8eaf0", border: "1px solid #1e2330", borderRadius: 4, padding: "6px 8px", fontSize: 11, marginBottom: 6, boxSizing: "border-box" }} />
+              <button onClick={revoke} disabled={busy} style={{ background: "#dc2626", color: "#fff", border: 0, padding: "8px 14px", borderRadius: 4, cursor: busy ? "wait" : "pointer", fontSize: 12, fontWeight: 600, width: "100%" }}>{busy ? "…" : "Révoquer"}</button>
+            </>
+          )}
+
+          {state?.history?.length > 0 && (
+            <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #1e2330" }}>
+              <div style={{ fontSize: 9, color: "#7c3aed", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Historique</div>
+              {[...state.history].reverse().slice(0, 6).map((h: any, i: number) => (
+                <div key={i} style={{ fontSize: 10, color: "#9ca3af", marginBottom: 4, paddingBottom: 4, borderBottom: "1px solid #1a1f2e" }}>
+                  <span style={{ color: PACK_VALIDATION_LABELS[h.status as PackValidationStatus]?.color }}>● {PACK_VALIDATION_LABELS[h.status as PackValidationStatus]?.label}</span>
+                  <span style={{ color: "#6b7280", marginLeft: 6 }}>{new Date(h.ts).toLocaleString("fr-MA", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</span>
+                  <span style={{ color: "#6b7280", marginLeft: 6 }}>· {h.author}</span>
+                  {h.note && <div style={{ color: "#cbd5e1", marginTop: 2 }}>{h.note}</div>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
 }
 
 // ─── ContractGeneratorBlock — admin sidebar bloc "Générer contrat type" ────

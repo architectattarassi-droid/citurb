@@ -9,12 +9,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tome1Module = void 0;
 const common_1 = require("@nestjs/common");
 const tome_1_service_1 = require("./tome-1.service");
+const pack_validation_service_1 = require("./pack-validation.service");
+const pack_validation_controller_1 = require("./pack-validation.controller");
+const stripe_webhook_controller_1 = require("./stripe-webhook.controller");
+const tome_at_1 = require("../tome-at");
+const auth_module_1 = require("../tome-5/auth/auth.module");
 let Tome1Module = class Tome1Module {
 };
 exports.Tome1Module = Tome1Module;
 exports.Tome1Module = Tome1Module = __decorate([
     (0, common_1.Module)({
-        providers: [tome_1_service_1.Tome1Service],
-        exports: [tome_1_service_1.Tome1Service],
+        imports: [tome_at_1.PrismaModule, auth_module_1.Tome5AuthModule],
+        controllers: [pack_validation_controller_1.PackValidationController, stripe_webhook_controller_1.StripeWebhookController],
+        providers: [tome_1_service_1.Tome1Service, pack_validation_service_1.PackValidationService],
+        exports: [tome_1_service_1.Tome1Service, pack_validation_service_1.PackValidationService],
     })
 ], Tome1Module);

@@ -28,11 +28,13 @@ let MutationGateGuard = class MutationGateGuard {
             return true;
         // Allow-list (mutations autorisées hors orchestrator)
         const allow = [
-            "/tomes/tome-at/stripe/webhook", // Stripe
-            "/auth", // login/refresh (si présent)
+            "/webhooks", // Stripe webhook (public, signature-verified)
+            "/tomes/tome-at/stripe/webhook", // Stripe (legacy path)
+            "/auth", // login/refresh
             "/health", // health checks
             "/docs", // swagger (si exposé)
             "/tomes/tome-at/orchestrator", // pipeline canonique
+            "/api/cc", // backoffice CC (admin mutations: leads, pack-validation, etc.)
             "/p1",
             "/p2",
             "/p3",
