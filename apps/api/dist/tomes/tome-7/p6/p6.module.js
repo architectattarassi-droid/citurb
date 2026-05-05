@@ -9,11 +9,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.P6Module = void 0;
 const common_1 = require("@nestjs/common");
 const p6_controller_1 = require("./p6.controller");
+const registry_controller_1 = require("./registry.controller");
+const scoring_service_1 = require("./scoring.service");
 let P6Module = class P6Module {
 };
 exports.P6Module = P6Module;
 exports.P6Module = P6Module = __decorate([
     (0, common_1.Module)({
-        controllers: [p6_controller_1.P6Controller],
+        controllers: [p6_controller_1.P6Controller, registry_controller_1.P6RegistryController],
+        providers: [scoring_service_1.P6ScoringService],
     })
 ], P6Module);
