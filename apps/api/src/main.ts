@@ -2,7 +2,6 @@ import { NestFactory, Reflector } from "@nestjs/core";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 import { join } from "path";
 import { AppModule } from "./app.module";
-import { GlobalExceptionFilter } from "./modules/kernel/global-exception.filter";
 import { TomeMetaInterceptor } from "./tomes/tome-at/kernel/tome-meta.interceptor";
 import { MutationGateGuard } from "./common/guards/mutation-gate.guard";
 import { validateEnvOrThrow } from "./modules/kernel";
@@ -29,7 +28,8 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Firm-Slug', 'X-Requested-With'],
   });
 
-  app.useGlobalFilters(new GlobalExceptionFilter());
+  // GlobalExceptionFilter is now registered via APP_FILTER token in KernelModule
+  // (so it can DI-inject IncidentsService for real Incident persistence).
   app.useGlobalInterceptors(new TomeMetaInterceptor(reflector));
   app.useGlobalGuards(new MutationGateGuard());
 

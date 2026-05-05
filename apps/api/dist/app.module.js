@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const schedule_1 = require("@nestjs/schedule");
 // Kernel
 const health_module_1 = require("./modules/health/health.module");
+const kernel_module_1 = require("./modules/kernel/kernel.module");
 // Infra
 const prisma_dossiers_module_1 = require("./tomes/tome-at/kernel/prisma-dossiers/prisma-dossiers.module");
 // Modules
@@ -46,6 +47,7 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             schedule_1.ScheduleModule.forRoot(),
             health_module_1.HealthModule,
+            kernel_module_1.KernelModule, // doit venir tôt: enregistre GlobalExceptionFilter via APP_FILTER + IncidentsService/ProbativeLogService
             prisma_dossiers_module_1.PrismaDossiersModule,
             cc_module_1.CCModule,
             // ── Tomes (@ → 0 → 1 → … → 10)

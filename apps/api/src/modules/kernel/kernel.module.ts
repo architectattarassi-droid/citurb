@@ -1,11 +1,17 @@
 import { Module } from "@nestjs/common";
-import { APP_GUARD } from "@nestjs/core";
-import { MutationGateGuard } from "../../common/guards/mutation-gate.guard";
+import { APP_FILTER } from "@nestjs/core";
 import { IncidentsService } from "./services/incidents.service";
 import { ProbativeLogService } from "./services/probative-log.service";
+import { GlobalExceptionFilter } from "./global-exception.filter";
+import { PrismaModule } from "../../tomes/tome-at";
 
 @Module({
-  providers: [IncidentsService, ProbativeLogService],
+  imports: [PrismaModule],
+  providers: [
+    IncidentsService,
+    ProbativeLogService,
+    { provide: APP_FILTER, useClass: GlobalExceptionFilter },
+  ],
   exports: [IncidentsService, ProbativeLogService],
 })
 export class KernelModule {}

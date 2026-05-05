@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@nestjs/core");
 const path_1 = require("path");
 const app_module_1 = require("./app.module");
-const global_exception_filter_1 = require("./modules/kernel/global-exception.filter");
 const tome_meta_interceptor_1 = require("./tomes/tome-at/kernel/tome-meta.interceptor");
 const mutation_gate_guard_1 = require("./common/guards/mutation-gate.guard");
 const kernel_1 = require("./modules/kernel");
@@ -24,7 +23,8 @@ async function bootstrap() {
         methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization', 'X-Firm-Slug', 'X-Requested-With'],
     });
-    app.useGlobalFilters(new global_exception_filter_1.GlobalExceptionFilter());
+    // GlobalExceptionFilter is now registered via APP_FILTER token in KernelModule
+    // (so it can DI-inject IncidentsService for real Incident persistence).
     app.useGlobalInterceptors(new tome_meta_interceptor_1.TomeMetaInterceptor(reflector));
     app.useGlobalGuards(new mutation_gate_guard_1.MutationGateGuard());
     const port = process.env.PORT ? Number(process.env.PORT) : 4000;

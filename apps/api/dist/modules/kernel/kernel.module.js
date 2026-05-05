@@ -8,14 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.KernelModule = void 0;
 const common_1 = require("@nestjs/common");
+const core_1 = require("@nestjs/core");
 const incidents_service_1 = require("./services/incidents.service");
 const probative_log_service_1 = require("./services/probative-log.service");
+const global_exception_filter_1 = require("./global-exception.filter");
+const tome_at_1 = require("../../tomes/tome-at");
 let KernelModule = class KernelModule {
 };
 exports.KernelModule = KernelModule;
 exports.KernelModule = KernelModule = __decorate([
     (0, common_1.Module)({
-        providers: [incidents_service_1.IncidentsService, probative_log_service_1.ProbativeLogService],
+        imports: [tome_at_1.PrismaModule],
+        providers: [
+            incidents_service_1.IncidentsService,
+            probative_log_service_1.ProbativeLogService,
+            { provide: core_1.APP_FILTER, useClass: global_exception_filter_1.GlobalExceptionFilter },
+        ],
         exports: [incidents_service_1.IncidentsService, probative_log_service_1.ProbativeLogService],
     })
 ], KernelModule);
