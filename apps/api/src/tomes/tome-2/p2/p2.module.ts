@@ -12,13 +12,14 @@ import { PrismaModule } from "../../tome-at";
 import { AreaController } from "./area/area.controller";
 import { AreaService } from "./area/area.service";
 import { OwnerNotifyModule } from "../../../modules/owner-notify/owner-notify.module";
+import { ClientNotifyModule } from "../../../modules/client-notify/client-notify.module";
 import { StorageModule } from "../../../modules/storage/storage.module";
 import { PhaseEngineModule } from "../../../modules/phase-engine/phase-engine.module";
 import { MessagerieModule } from "../../../modules/messagerie/messagerie.module";
 import { Tome5AuthModule } from "../../tome-5/auth/auth.module";
 
 @Module({
-  imports: [PrismaModule, OwnerNotifyModule, StorageModule, PhaseEngineModule, MessagerieModule, Tome5AuthModule],
+  imports: [PrismaModule, OwnerNotifyModule, ClientNotifyModule, StorageModule, PhaseEngineModule, MessagerieModule, Tome5AuthModule],
   controllers: [P2Controller, AreaController, IntakeController, QuoteController, ContractController, VisaCroaController],
   providers: [DossierService, AreaService, ReminderService, P2PricingService, P2ContractService],
 })

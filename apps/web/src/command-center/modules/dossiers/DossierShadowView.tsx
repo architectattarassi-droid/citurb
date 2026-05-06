@@ -738,6 +738,18 @@ function ReportPreviewBlock({ dossierId, porteType }: { dossierId: string; porte
       >
         🔗 Lien client (gaté sur ACTIVÉ)
       </a>
+      <button
+        onClick={async () => {
+          try {
+            const r: any = await apiFetch(`/api/cc/dossiers/${dossierId}/notify-report-ready`, { method: "POST", body: {} });
+            if (r.ok) alert(`✅ Email envoyé à ${r.sent}`);
+            else alert(`⚠ ${r.error || "Erreur"}`);
+          } catch (e: any) { alert("Erreur: " + (e?.message || "?")); }
+        }}
+        style={{ marginTop: 6, background: "#10b981", color: "#fff", border: 0, padding: "8px 12px", borderRadius: 4, cursor: "pointer", fontSize: 12, fontWeight: 600, width: "100%" }}
+      >
+        ✉ Notifier le client (rapport prêt)
+      </button>
       <div style={{ fontSize: 10, color: "#64748b", marginTop: 6 }}>
         Le client recevra ce lien après validation du pack. Tant que statut ≠ ACTIVATED → 402 paywall.
       </div>

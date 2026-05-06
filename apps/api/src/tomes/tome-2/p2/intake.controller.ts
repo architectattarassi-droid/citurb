@@ -4,6 +4,7 @@ import { PrismaService } from "../../tome-at/kernel/prisma/prisma.service";
 import { AuthService } from "../../tome-5/auth/auth.service";
 import { DossierService } from "./dossier.service";
 import { OwnerNotifyService } from "../../../modules/owner-notify/owner-notify.service";
+import { ClientNotifyService } from "../../../modules/client-notify/client-notify.service";
 
 /**
  * IntakeController — Capture publique des leads sur les 6 portes
@@ -53,6 +54,7 @@ export class IntakeController {
     private readonly auth: AuthService,
     private readonly dossiers: DossierService,
     private readonly ownerNotify: OwnerNotifyService,
+    private readonly clientNotify: ClientNotifyService,
   ) {}
 
   @Post("intake")
@@ -122,6 +124,15 @@ export class IntakeController {
       dossierId: dossier.id,
       clientTel: body.clientTel,
       clientNom: body.clientNom,
+    }).catch(() => { /* logged in service */ });
+
+    // Email client confirmation + lien paiement (fire-and-forget)
+    this.clientNotify.demandeRecue({
+      to: email,
+      porteType,
+      dossierId: dossier.id,
+      clientNom: body.clientNom,
+      title,
     }).catch(() => { /* logged in service */ });
 
     // 4. Return response with magic-login token

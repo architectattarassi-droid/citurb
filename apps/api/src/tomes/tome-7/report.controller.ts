@@ -1,4 +1,4 @@
-import { Controller, Get, Header, Param, Query, Req, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Header, Param, Post, Query, Req, Res, UseGuards } from "@nestjs/common";
 import type { Response } from "express";
 import { Tome } from "../tome-at";
 import { JwtAuthGuard } from "../tome-5/auth/jwt-auth.guard";
@@ -6,6 +6,7 @@ import { RolesGuard } from "../tome-5/auth/roles.guard";
 import { Roles } from "../tome-5/auth/roles.decorator";
 import { PrismaService } from "../tome-at/kernel/prisma/prisma.service";
 import { ReportRendererService } from "./report-renderer.service";
+import { ClientNotifyService } from "../../modules/client-notify/client-notify.service";
 import { raiseDoctrine } from "../../modules/kernel/raise-doctrine";
 
 /**
@@ -27,7 +28,43 @@ export class ReportController {
   constructor(
     private readonly prisma: PrismaService,
     private readonly renderer: ReportRendererService,
+    private readonly clientNotify: ClientNotifyService,
   ) {}
+
+  /**
+   * Admin notifie le client que son rapport est prêt à télécharger.
+   * Endpoint manuel: l'admin clique "Notifier le client" depuis le shadow view
+   * une fois le rapport finalisé.
+   */
+  @Post("api/cc/dossiers/:id/notify-report-ready")
+  @Roles("ADMIN", "OWNER", "OPS")
+  async notifyReportReady(
+    @Param("id") dossierId: string,
+    @Body() body: { reportName?: string },
+  ) {
+    const dossier = await this.prisma.dossier.findUniqueOrThrow({
+      where: { id: dossierId },
+      select: { id: true, porteType: true, title: true, clientNom: true, clientEmail: true, payload: true },
+    });
+    if (dossier.porteType !== "P4" && dossier.porteType !== "P5") {
+      return { ok: false, error: "Notification rapport disponible uniquement pour P4 / P5" };
+    }
+    if (!dossier.clientEmail) {
+      return { ok: false, error: "Aucune adresse email client" };
+    }
+    const status = (dossier.payload as any)?.packValidation?.status;
+    if (status !== "ACTIVATED") {
+      return { ok: false, error: `Pack non activé (status: ${status ?? "PENDING"}). Activez d'abord le pack.` };
+    }
+    await this.clientNotify.rapportPret({
+      to: dossier.clientEmail,
+      dossierId: dossier.id,
+      porteType: dossier.porteType as "P4" | "P5",
+      reportName: body.reportName || dossier.title || undefined,
+      clientNom: dossier.clientNom ?? undefined,
+    });
+    return { ok: true, sent: dossier.clientEmail };
+  }
 
   // ── P4 client (gated) ─────────────────────────────────────────────────
   @Get("p4/dossiers/:id/rapport")

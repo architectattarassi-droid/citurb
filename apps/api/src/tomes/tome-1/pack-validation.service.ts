@@ -1,5 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { PrismaService } from "../tome-at/kernel/prisma/prisma.service";
+import { ClientNotifyService } from "../../modules/client-notify/client-notify.service";
 
 /**
  * PackValidationService — workflow de validation admin des packs achetés
@@ -40,7 +41,10 @@ export type PackValidationState = {
 export class PackValidationService {
   private readonly logger = new Logger(PackValidationService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly clientNotify: ClientNotifyService,
+  ) {}
 
   async getState(dossierId: string): Promise<PackValidationState> {
     const dossier = await this.prisma.dossier.findUniqueOrThrow({
@@ -57,7 +61,7 @@ export class PackValidationService {
   async handlePaymentReceived(opts: { dossierId: string; paymentRef: string; amount: number; currency?: string; author: string }) {
     const dossier = await this.prisma.dossier.findUniqueOrThrow({
       where: { id: opts.dossierId },
-      select: { payload: true },
+      select: { payload: true, clientEmail: true, clientNom: true },
     });
     const payload: any = dossier.payload && typeof dossier.payload === "object" ? { ...dossier.payload } : {};
     const prev: PackValidationState = payload.packValidation ?? { status: "PENDING_PAYMENT", history: [] };
@@ -80,6 +84,18 @@ export class PackValidationService {
     payload.packValidation = next;
     await this.prisma.dossier.update({ where: { id: opts.dossierId }, data: { payload } });
     this.logger.log(`[PackValidation] ${opts.dossierId} → PENDING_ADMIN_VALIDATION (paid ${opts.amount} ${opts.currency})`);
+
+    // Email confirmation paiement (fire-and-forget)
+    if (dossier.clientEmail) {
+      this.clientNotify.paiementRecu({
+        to: dossier.clientEmail,
+        dossierId: opts.dossierId,
+        amount: opts.amount,
+        currency: opts.currency,
+        paymentRef: opts.paymentRef,
+        clientNom: dossier.clientNom ?? undefined,
+      }).catch(() => {});
+    }
     return next;
   }
 
@@ -90,7 +106,7 @@ export class PackValidationService {
   async adminValidate(opts: { dossierId: string; author: string; note?: string }) {
     const dossier = await this.prisma.dossier.findUniqueOrThrow({
       where: { id: opts.dossierId },
-      select: { payload: true },
+      select: { payload: true, clientEmail: true, clientNom: true, porteType: true, title: true },
     });
     const payload: any = dossier.payload && typeof dossier.payload === "object" ? { ...dossier.payload } : {};
     const prev: PackValidationState = payload.packValidation ?? { status: "PENDING_PAYMENT", history: [] };
@@ -115,6 +131,17 @@ export class PackValidationService {
     payload.packValidation = next;
     await this.prisma.dossier.update({ where: { id: opts.dossierId }, data: { payload } });
     this.logger.log(`[PackValidation] ${opts.dossierId} → ACTIVATED by ${opts.author}`);
+
+    // Email pack activé (fire-and-forget)
+    if (dossier.clientEmail) {
+      this.clientNotify.packActive({
+        to: dossier.clientEmail,
+        dossierId: opts.dossierId,
+        porteType: dossier.porteType ?? "—",
+        title: dossier.title ?? undefined,
+        clientNom: dossier.clientNom ?? undefined,
+      }).catch(() => {});
+    }
     return next;
   }
 

@@ -13,11 +13,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PackValidationService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../tome-at/kernel/prisma/prisma.service");
+const client_notify_service_1 = require("../../modules/client-notify/client-notify.service");
 let PackValidationService = PackValidationService_1 = class PackValidationService {
     prisma;
+    clientNotify;
     logger = new common_1.Logger(PackValidationService_1.name);
-    constructor(prisma) {
+    constructor(prisma, clientNotify) {
         this.prisma = prisma;
+        this.clientNotify = clientNotify;
     }
     async getState(dossierId) {
         const dossier = await this.prisma.dossier.findUniqueOrThrow({
@@ -33,7 +36,7 @@ let PackValidationService = PackValidationService_1 = class PackValidationServic
     async handlePaymentReceived(opts) {
         const dossier = await this.prisma.dossier.findUniqueOrThrow({
             where: { id: opts.dossierId },
-            select: { payload: true },
+            select: { payload: true, clientEmail: true, clientNom: true },
         });
         const payload = dossier.payload && typeof dossier.payload === "object" ? { ...dossier.payload } : {};
         const prev = payload.packValidation ?? { status: "PENDING_PAYMENT", history: [] };
@@ -54,6 +57,17 @@ let PackValidationService = PackValidationService_1 = class PackValidationServic
         payload.packValidation = next;
         await this.prisma.dossier.update({ where: { id: opts.dossierId }, data: { payload } });
         this.logger.log(`[PackValidation] ${opts.dossierId} → PENDING_ADMIN_VALIDATION (paid ${opts.amount} ${opts.currency})`);
+        // Email confirmation paiement (fire-and-forget)
+        if (dossier.clientEmail) {
+            this.clientNotify.paiementRecu({
+                to: dossier.clientEmail,
+                dossierId: opts.dossierId,
+                amount: opts.amount,
+                currency: opts.currency,
+                paymentRef: opts.paymentRef,
+                clientNom: dossier.clientNom ?? undefined,
+            }).catch(() => { });
+        }
         return next;
     }
     /**
@@ -63,7 +77,7 @@ let PackValidationService = PackValidationService_1 = class PackValidationServic
     async adminValidate(opts) {
         const dossier = await this.prisma.dossier.findUniqueOrThrow({
             where: { id: opts.dossierId },
-            select: { payload: true },
+            select: { payload: true, clientEmail: true, clientNom: true, porteType: true, title: true },
         });
         const payload = dossier.payload && typeof dossier.payload === "object" ? { ...dossier.payload } : {};
         const prev = payload.packValidation ?? { status: "PENDING_PAYMENT", history: [] };
@@ -85,6 +99,16 @@ let PackValidationService = PackValidationService_1 = class PackValidationServic
         payload.packValidation = next;
         await this.prisma.dossier.update({ where: { id: opts.dossierId }, data: { payload } });
         this.logger.log(`[PackValidation] ${opts.dossierId} → ACTIVATED by ${opts.author}`);
+        // Email pack activé (fire-and-forget)
+        if (dossier.clientEmail) {
+            this.clientNotify.packActive({
+                to: dossier.clientEmail,
+                dossierId: opts.dossierId,
+                porteType: dossier.porteType ?? "—",
+                title: dossier.title ?? undefined,
+                clientNom: dossier.clientNom ?? undefined,
+            }).catch(() => { });
+        }
         return next;
     }
     /**
@@ -137,5 +161,6 @@ let PackValidationService = PackValidationService_1 = class PackValidationServic
 exports.PackValidationService = PackValidationService;
 exports.PackValidationService = PackValidationService = PackValidationService_1 = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        client_notify_service_1.ClientNotifyService])
 ], PackValidationService);

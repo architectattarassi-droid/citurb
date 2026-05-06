@@ -20,6 +20,7 @@ const roles_guard_1 = require("../tome-5/auth/roles.guard");
 const roles_decorator_1 = require("../tome-5/auth/roles.decorator");
 const prisma_service_1 = require("../tome-at/kernel/prisma/prisma.service");
 const report_renderer_service_1 = require("./report-renderer.service");
+const client_notify_service_1 = require("../../modules/client-notify/client-notify.service");
 const raise_doctrine_1 = require("../../modules/kernel/raise-doctrine");
 /**
  * Endpoints de téléchargement rapport P4 / P5 (HTML watermarqué imprimable)
@@ -36,9 +37,40 @@ const raise_doctrine_1 = require("../../modules/kernel/raise-doctrine");
 let ReportController = class ReportController {
     prisma;
     renderer;
-    constructor(prisma, renderer) {
+    clientNotify;
+    constructor(prisma, renderer, clientNotify) {
         this.prisma = prisma;
         this.renderer = renderer;
+        this.clientNotify = clientNotify;
+    }
+    /**
+     * Admin notifie le client que son rapport est prêt à télécharger.
+     * Endpoint manuel: l'admin clique "Notifier le client" depuis le shadow view
+     * une fois le rapport finalisé.
+     */
+    async notifyReportReady(dossierId, body) {
+        const dossier = await this.prisma.dossier.findUniqueOrThrow({
+            where: { id: dossierId },
+            select: { id: true, porteType: true, title: true, clientNom: true, clientEmail: true, payload: true },
+        });
+        if (dossier.porteType !== "P4" && dossier.porteType !== "P5") {
+            return { ok: false, error: "Notification rapport disponible uniquement pour P4 / P5" };
+        }
+        if (!dossier.clientEmail) {
+            return { ok: false, error: "Aucune adresse email client" };
+        }
+        const status = dossier.payload?.packValidation?.status;
+        if (status !== "ACTIVATED") {
+            return { ok: false, error: `Pack non activé (status: ${status ?? "PENDING"}). Activez d'abord le pack.` };
+        }
+        await this.clientNotify.rapportPret({
+            to: dossier.clientEmail,
+            dossierId: dossier.id,
+            porteType: dossier.porteType,
+            reportName: body.reportName || dossier.title || undefined,
+            clientNom: dossier.clientNom ?? undefined,
+        });
+        return { ok: true, sent: dossier.clientEmail };
     }
     // ── P4 client (gated) ─────────────────────────────────────────────────
     async p4Client(id, req, res) {
@@ -181,6 +213,15 @@ let ReportController = class ReportController {
 };
 exports.ReportController = ReportController;
 __decorate([
+    (0, common_1.Post)("api/cc/dossiers/:id/notify-report-ready"),
+    (0, roles_decorator_1.Roles)("ADMIN", "OWNER", "OPS"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], ReportController.prototype, "notifyReportReady", null);
+__decorate([
     (0, common_1.Get)("p4/dossiers/:id/rapport"),
     (0, common_1.Header)("Content-Type", "text/html; charset=utf-8"),
     __param(0, (0, common_1.Param)("id")),
@@ -227,5 +268,6 @@ exports.ReportController = ReportController = __decorate([
     (0, common_1.Controller)(),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
-        report_renderer_service_1.ReportRendererService])
+        report_renderer_service_1.ReportRendererService,
+        client_notify_service_1.ClientNotifyService])
 ], ReportController);

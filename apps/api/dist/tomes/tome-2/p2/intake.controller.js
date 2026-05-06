@@ -19,16 +19,19 @@ const prisma_service_1 = require("../../tome-at/kernel/prisma/prisma.service");
 const auth_service_1 = require("../../tome-5/auth/auth.service");
 const dossier_service_1 = require("./dossier.service");
 const owner_notify_service_1 = require("../../../modules/owner-notify/owner-notify.service");
+const client_notify_service_1 = require("../../../modules/client-notify/client-notify.service");
 let IntakeController = class IntakeController {
     prisma;
     auth;
     dossiers;
     ownerNotify;
-    constructor(prisma, auth, dossiers, ownerNotify) {
+    clientNotify;
+    constructor(prisma, auth, dossiers, ownerNotify, clientNotify) {
         this.prisma = prisma;
         this.auth = auth;
         this.dossiers = dossiers;
         this.ownerNotify = ownerNotify;
+        this.clientNotify = clientNotify;
     }
     async intake(body) {
         if (!body.clientEmail && !body.clientTel) {
@@ -96,6 +99,14 @@ let IntakeController = class IntakeController {
             clientTel: body.clientTel,
             clientNom: body.clientNom,
         }).catch(() => { });
+        // Email client confirmation + lien paiement (fire-and-forget)
+        this.clientNotify.demandeRecue({
+            to: email,
+            porteType,
+            dossierId: dossier.id,
+            clientNom: body.clientNom,
+            title,
+        }).catch(() => { });
         // 4. Return response with magic-login token
         //    Le token permet à l'utilisateur d'enchaîner directement vers /portal
         //    et /payment/start sans étape de login séparée. C'est sécurisé car:
@@ -127,5 +138,6 @@ exports.IntakeController = IntakeController = __decorate([
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
         auth_service_1.AuthService,
         dossier_service_1.DossierService,
-        owner_notify_service_1.OwnerNotifyService])
+        owner_notify_service_1.OwnerNotifyService,
+        client_notify_service_1.ClientNotifyService])
 ], IntakeController);
