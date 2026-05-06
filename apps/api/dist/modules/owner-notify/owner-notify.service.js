@@ -35,6 +35,14 @@ let OwnerNotifyService = OwnerNotifyService_1 = class OwnerNotifyService {
                 return `🚀 [${now}] Dossier soumis : "${meta.title || '?'}" — ${meta.commune || '?'}`;
             case 'DOSSIER_APPROVED':
                 return `✅ [${now}] Dossier APPROUVÉ : "${meta.title || '?'}" → Project ${String(meta.projectId || '').slice(0, 8)}...`;
+            case 'PAYMENT_RECEIVED':
+                return `💰 [${now}] Paiement reçu : ${meta.amount || '?'} ${meta.currency || 'MAD'} — ${meta.porteType || '?'} — ${meta.clientNom || meta.email || '?'} → À VALIDER`;
+            case 'PACK_AWAITING_VALIDATION':
+                return `⏳ [${now}] Pack en attente de validation admin : "${meta.title || '?'}" — ${meta.porteType || '?'}`;
+            case 'P6_FICHE_AWAITING_REVIEW':
+                return `🛠️ [${now}] Nouvelle fiche P6 à reviewer : ${meta.raisonSociale || meta.email || '?'} (${meta.p6Type || '?'}, score ${meta.score ?? '?'}/100)`;
+            case 'ANTI_DESINT_CRITICAL':
+                return `🚨 [${now}] ALERTE anti-désintermédiation CRITIQUE : ${meta.flagsCount || '?'} flags HIGH/7j sur dossier ${String(meta.dossierId || '').slice(0, 8)}...`;
             default:
                 return `📬 [${now}] Event CITURBAREA : ${event}`;
         }
@@ -68,6 +76,10 @@ let OwnerNotifyService = OwnerNotifyService_1 = class OwnerNotifyService {
             DOSSIER_SUBMITTED: 'Dossier soumis',
             NEW_USER_REGISTERED: 'Nouveau client',
             DOSSIER_APPROVED: 'Dossier approuvé',
+            PAYMENT_RECEIVED: 'Paiement reçu — à valider',
+            PACK_AWAITING_VALIDATION: 'Pack en attente validation',
+            P6_FICHE_AWAITING_REVIEW: 'Fiche P6 à reviewer',
+            ANTI_DESINT_CRITICAL: '🚨 Anti-désintermédiation CRITIQUE',
         };
         try {
             const transporter = nodemailer.createTransport({

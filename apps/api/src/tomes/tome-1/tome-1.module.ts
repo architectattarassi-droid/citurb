@@ -9,9 +9,10 @@ import { UniversalContractController } from "./universal-contract.controller";
 import { PrismaModule } from "../tome-at";
 import { Tome5AuthModule } from "../tome-5/auth/auth.module";
 import { ClientNotifyModule } from "../../modules/client-notify/client-notify.module";
+import { OwnerNotifyModule } from "../../modules/owner-notify/owner-notify.module";
 
 @Module({
-  imports: [PrismaModule, Tome5AuthModule, ClientNotifyModule],
+  imports: [PrismaModule, Tome5AuthModule, ClientNotifyModule, OwnerNotifyModule],
   controllers: [PackValidationController, StripeWebhookController, StripeCheckoutController, UniversalContractController],
   providers: [Tome1Service, PackValidationService, UniversalContractService],
   exports: [Tome1Service, PackValidationService, UniversalContractService],

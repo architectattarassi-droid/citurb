@@ -1,6 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { PrismaService } from "../tome-at/kernel/prisma/prisma.service";
 import { ClientNotifyService } from "../../modules/client-notify/client-notify.service";
+import { OwnerNotifyService } from "../../modules/owner-notify/owner-notify.service";
 
 /**
  * PackValidationService — workflow de validation admin des packs achetés
@@ -44,6 +45,7 @@ export class PackValidationService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly clientNotify: ClientNotifyService,
+    private readonly ownerNotify: OwnerNotifyService,
   ) {}
 
   async getState(dossierId: string): Promise<PackValidationState> {
@@ -61,7 +63,7 @@ export class PackValidationService {
   async handlePaymentReceived(opts: { dossierId: string; paymentRef: string; amount: number; currency?: string; author: string }) {
     const dossier = await this.prisma.dossier.findUniqueOrThrow({
       where: { id: opts.dossierId },
-      select: { payload: true, clientEmail: true, clientNom: true },
+      select: { payload: true, clientEmail: true, clientNom: true, porteType: true, title: true },
     });
     const payload: any = dossier.payload && typeof dossier.payload === "object" ? { ...dossier.payload } : {};
     const prev: PackValidationState = payload.packValidation ?? { status: "PENDING_PAYMENT", history: [] };
@@ -85,7 +87,7 @@ export class PackValidationService {
     await this.prisma.dossier.update({ where: { id: opts.dossierId }, data: { payload } });
     this.logger.log(`[PackValidation] ${opts.dossierId} → PENDING_ADMIN_VALIDATION (paid ${opts.amount} ${opts.currency})`);
 
-    // Email confirmation paiement (fire-and-forget)
+    // Email confirmation paiement au client (fire-and-forget)
     if (dossier.clientEmail) {
       this.clientNotify.paiementRecu({
         to: dossier.clientEmail,
@@ -96,6 +98,16 @@ export class PackValidationService {
         clientNom: dossier.clientNom ?? undefined,
       }).catch(() => {});
     }
+    // Notif owner: nouveau pack à valider
+    this.ownerNotify.notify("PAYMENT_RECEIVED", {
+      amount: opts.amount,
+      currency: opts.currency ?? "MAD",
+      porteType: dossier.porteType,
+      clientNom: dossier.clientNom,
+      email: dossier.clientEmail,
+      dossierId: opts.dossierId,
+      title: dossier.title,
+    }).catch(() => {});
     return next;
   }
 

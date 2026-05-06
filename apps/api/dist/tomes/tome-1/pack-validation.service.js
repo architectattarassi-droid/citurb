@@ -14,13 +14,16 @@ exports.PackValidationService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../tome-at/kernel/prisma/prisma.service");
 const client_notify_service_1 = require("../../modules/client-notify/client-notify.service");
+const owner_notify_service_1 = require("../../modules/owner-notify/owner-notify.service");
 let PackValidationService = PackValidationService_1 = class PackValidationService {
     prisma;
     clientNotify;
+    ownerNotify;
     logger = new common_1.Logger(PackValidationService_1.name);
-    constructor(prisma, clientNotify) {
+    constructor(prisma, clientNotify, ownerNotify) {
         this.prisma = prisma;
         this.clientNotify = clientNotify;
+        this.ownerNotify = ownerNotify;
     }
     async getState(dossierId) {
         const dossier = await this.prisma.dossier.findUniqueOrThrow({
@@ -36,7 +39,7 @@ let PackValidationService = PackValidationService_1 = class PackValidationServic
     async handlePaymentReceived(opts) {
         const dossier = await this.prisma.dossier.findUniqueOrThrow({
             where: { id: opts.dossierId },
-            select: { payload: true, clientEmail: true, clientNom: true },
+            select: { payload: true, clientEmail: true, clientNom: true, porteType: true, title: true },
         });
         const payload = dossier.payload && typeof dossier.payload === "object" ? { ...dossier.payload } : {};
         const prev = payload.packValidation ?? { status: "PENDING_PAYMENT", history: [] };
@@ -57,7 +60,7 @@ let PackValidationService = PackValidationService_1 = class PackValidationServic
         payload.packValidation = next;
         await this.prisma.dossier.update({ where: { id: opts.dossierId }, data: { payload } });
         this.logger.log(`[PackValidation] ${opts.dossierId} → PENDING_ADMIN_VALIDATION (paid ${opts.amount} ${opts.currency})`);
-        // Email confirmation paiement (fire-and-forget)
+        // Email confirmation paiement au client (fire-and-forget)
         if (dossier.clientEmail) {
             this.clientNotify.paiementRecu({
                 to: dossier.clientEmail,
@@ -68,6 +71,16 @@ let PackValidationService = PackValidationService_1 = class PackValidationServic
                 clientNom: dossier.clientNom ?? undefined,
             }).catch(() => { });
         }
+        // Notif owner: nouveau pack à valider
+        this.ownerNotify.notify("PAYMENT_RECEIVED", {
+            amount: opts.amount,
+            currency: opts.currency ?? "MAD",
+            porteType: dossier.porteType,
+            clientNom: dossier.clientNom,
+            email: dossier.clientEmail,
+            dossierId: opts.dossierId,
+            title: dossier.title,
+        }).catch(() => { });
         return next;
     }
     /**
@@ -162,5 +175,6 @@ exports.PackValidationService = PackValidationService;
 exports.PackValidationService = PackValidationService = PackValidationService_1 = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
-        client_notify_service_1.ClientNotifyService])
+        client_notify_service_1.ClientNotifyService,
+        owner_notify_service_1.OwnerNotifyService])
 ], PackValidationService);

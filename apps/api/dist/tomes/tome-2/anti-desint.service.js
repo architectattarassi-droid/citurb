@@ -54,10 +54,11 @@ let AntiDesintService = AntiDesintService_1 = class AntiDesintService {
         const stats = await this.scanSince(since);
         this.logger.log(`[AntiDesint] Scan terminé. ${stats.messagesScanned} messages, ${stats.flagsCreated} flags, ${stats.dossiersAffected} dossiers, ${stats.criticalCases} alertes critiques.`);
         if (stats.criticalCases > 0) {
-            await this.ownerNotify.notify("DOCUMENT_UPLOADED", {
-                docType: "ANTI_DESINT_REPORT",
-                originalName: `${stats.criticalCases} dossier(s) avec ≥${FLAG_THRESHOLD_CRITICAL} signalements HIGH sur 7j`,
-                dossierId: "—",
+            await this.ownerNotify.notify("ANTI_DESINT_CRITICAL", {
+                flagsCount: stats.flagsCreated,
+                dossierId: `${stats.criticalCases} dossiers`,
+                criticalCases: stats.criticalCases,
+                period: "7j",
             });
         }
         return stats;

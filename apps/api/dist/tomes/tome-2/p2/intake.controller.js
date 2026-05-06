@@ -107,6 +107,17 @@ let IntakeController = class IntakeController {
             clientNom: body.clientNom,
             title,
         }).catch(() => { });
+        // Notif spécifique pour P6 (fiche prestataire/fournisseur à reviewer)
+        if (porteType === "P6") {
+            const briefAny = body;
+            this.ownerNotify.notify("P6_FICHE_AWAITING_REVIEW", {
+                raisonSociale: body.raisonSociale,
+                email,
+                p6Type: briefAny.brief?.p6Type ?? "—",
+                score: briefAny.brief?.scoreSnapshot?.score,
+                dossierId: dossier.id,
+            }).catch(() => { });
+        }
         // 4. Return response with magic-login token
         //    Le token permet à l'utilisateur d'enchaîner directement vers /portal
         //    et /payment/start sans étape de login séparée. C'est sécurisé car:
