@@ -11,12 +11,18 @@ const common_1 = require("@nestjs/common");
 const p6_controller_1 = require("./p6.controller");
 const registry_controller_1 = require("./registry.controller");
 const scoring_service_1 = require("./scoring.service");
+const supplier_catalog_service_1 = require("./supplier-catalog.service");
+const supplier_catalog_controller_1 = require("./supplier-catalog.controller");
+const tome_at_1 = require("../../tome-at");
+const auth_module_1 = require("../../tome-5/auth/auth.module");
 let P6Module = class P6Module {
 };
 exports.P6Module = P6Module;
 exports.P6Module = P6Module = __decorate([
     (0, common_1.Module)({
-        controllers: [p6_controller_1.P6Controller, registry_controller_1.P6RegistryController],
-        providers: [scoring_service_1.P6ScoringService],
+        imports: [tome_at_1.PrismaModule, auth_module_1.Tome5AuthModule],
+        controllers: [p6_controller_1.P6Controller, registry_controller_1.P6RegistryController, supplier_catalog_controller_1.SupplierCatalogController],
+        providers: [scoring_service_1.P6ScoringService, supplier_catalog_service_1.SupplierCatalogService],
+        exports: [supplier_catalog_service_1.SupplierCatalogService],
     })
 ], P6Module);
