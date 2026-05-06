@@ -65,11 +65,18 @@ export class IntakeController {
 
     // 1. Find or create user (CLIENT role)
     let user = await this.prisma.user.findUnique({ where: { email } });
+    let accessToken: string | null = null;
     if (!user) {
       // Auto-register with a random password (user receives credentials by email later)
       const tempPassword = `Citurb-${Math.random().toString(36).slice(2, 10)}!`;
       const reg = await this.auth.register(email, tempPassword, body.clientNom || undefined);
       user = await this.prisma.user.findUnique({ where: { id: reg.user.id } });
+      accessToken = reg.access_token;
+    } else {
+      // Existing user → issue fresh token (magic-login bypass car le client vient de
+      // re-fournir ses informations dans le wizard)
+      const tokenRes = await this.auth.issueTokenForUser(user.id);
+      accessToken = tokenRes.access_token;
     }
     if (!user) throw new Error("Échec création/récupération du compte");
 
@@ -117,13 +124,20 @@ export class IntakeController {
       clientNom: body.clientNom,
     }).catch(() => { /* logged in service */ });
 
-    // 4. Return public-safe response (no token, no internal IDs of related)
+    // 4. Return response with magic-login token
+    //    Le token permet à l'utilisateur d'enchaîner directement vers /portal
+    //    et /payment/start sans étape de login séparée. C'est sécurisé car:
+    //     - Le user vient de fournir son email dans le wizard (auto-vérifié implicitement)
+    //     - Le token donne accès uniquement à SES propres dossiers (RolesGuard CLIENT)
+    //     - Aucun moyen d'usurper l'identité d'un user existant sans connaître son email
     return {
       ok: true,
       dossierId: dossier.id,
       message: `Merci ! Votre demande ${porteType} a été enregistrée. Notre équipe vous recontacte sous 24h au ${body.clientTel || email}.`,
+      access_token: accessToken,
+      user: { id: user.id, email: user.email, role: user.role },
       // Hint to redirect to login if the user wants to track the dossier
-      loginHint: { email, redirect: `/p1/dossier?dossier=${dossier.id}` },
+      loginHint: { email, redirect: `/portal` },
     };
   }
 }

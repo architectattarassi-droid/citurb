@@ -190,6 +190,7 @@ export default function P5Home() {
       });
       const data = await res.json();
       if (!data.ok) throw new Error(data.message || "Erreur soumission");
+      if (data.access_token) { try { localStorage.setItem("citurbarea.token", data.access_token); } catch {} }
       setDossierId(data.dossierId);
       setStep("success");
     } catch (e: any) {
@@ -212,7 +213,11 @@ export default function P5Home() {
             La mission démarre à réception du paiement, le rapport vous sera livré sous {quote?.meta.deliveryDays} jours ouvrables.<br/><br/>
             <span style={{ color: "#6b7280", fontSize: 12 }}>Ref dossier : {dossierId?.slice(0, 12)}…</span>
           </div>
-          <a href="/" style={{ color: "#22d3ee", textDecoration: "none", fontSize: 13, fontWeight: 600 }}>← Retour à l'accueil</a>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+            <a href={`/payment/start?dossier=${dossierId}`} style={{ background: "#dc2626", color: "#fff", padding: "12px 24px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>💳 Payer maintenant</a>
+            <a href="/portal" style={{ background: "#1d4ed8", color: "#fff", padding: "12px 24px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>📁 Mes dossiers</a>
+            <a href="/" style={{ color: "#9ca3af", textDecoration: "none", fontSize: 13, fontWeight: 600, padding: "12px 16px" }}>← Accueil</a>
+          </div>
         </div>
       </div>
     );

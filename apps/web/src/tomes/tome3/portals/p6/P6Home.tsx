@@ -208,6 +208,7 @@ export default function P6Home() {
       });
       const data = await res.json();
       if (!data.ok) throw new Error(data.message || "Erreur soumission");
+      if (data.access_token) { try { localStorage.setItem("citurbarea.token", data.access_token); } catch {} }
       setDossierId(data.dossierId);
       setStep("success");
     } catch (e: any) { setError(e.message); setStep("contact"); }

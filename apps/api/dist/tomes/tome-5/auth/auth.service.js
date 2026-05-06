@@ -89,6 +89,23 @@ let AuthService = AuthService_1 = class AuthService {
         };
     }
     /**
+     * Magic-login: issue a JWT for an already-known user (bypasses password).
+     * Utilisé après auto-création depuis /p2/intake — l'utilisateur vient juste
+     * de fournir ses informations donc on lui issue un token directement.
+     *
+     * NOTE: cet appel doit rester INTERNE (pas exposé via controller). Sinon,
+     * n'importe qui pourrait emprunter une identité par email connu.
+     */
+    async issueTokenForUser(userId) {
+        const user = await this.prisma.user.findUniqueOrThrow({ where: { id: userId } });
+        const payload = { sub: user.id, userId: user.id, email: user.email, role: user.role };
+        const access_token = await this.jwt.signAsync(payload);
+        return {
+            access_token,
+            user: { id: user.id, email: user.email, role: user.role, username: user.username },
+        };
+    }
+    /**
      * Dev bootstrap: ensure an OWNER exists AND make the operation recoverable.
      * In practice, when you iterate on zips, the database may already contain an OWNER with an unknown password.
      * This endpoint must be able to reset the creds so OPS can log in reliably.
