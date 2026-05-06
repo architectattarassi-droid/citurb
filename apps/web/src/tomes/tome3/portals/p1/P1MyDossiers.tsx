@@ -129,12 +129,15 @@ export default function P1MyDossiers() {
                   {d.submittedAt && <> · Soumis le {new Date(d.submittedAt).toLocaleDateString("fr-FR")}</>}
                 </div>
 
-                <div style={{ display: "flex", gap: 8 }}>
-                  <button onClick={() => navigate(`/p1/dossier?dossier=${d.id}`)} style={{ flex: 1, background: "#1d4ed8", color: "#fff", border: 0, padding: "9px 12px", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
-                    📂 Ouvrir le dossier
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <button onClick={() => navigate(`/p1/dossier?dossier=${d.id}`)} style={{ flex: 1, minWidth: 130, background: "#1d4ed8", color: "#fff", border: 0, padding: "9px 12px", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
+                    📂 Ouvrir
                   </button>
                   <button onClick={() => navigate(`/p1/dossier/phases?dossier=${d.id}`)} style={{ background: "#f1f5f9", color: "#475569", border: "1px solid #e2e8f0", padding: "9px 12px", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 500 }}>
                     📁 Documents
+                  </button>
+                  <button onClick={() => navigate(`/payment/start?dossier=${d.id}`)} style={{ background: "#dc2626", color: "#fff", border: 0, padding: "9px 12px", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
+                    💳 Payer
                   </button>
                 </div>
               </div>
