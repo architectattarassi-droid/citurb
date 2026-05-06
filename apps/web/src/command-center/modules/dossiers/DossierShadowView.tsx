@@ -227,7 +227,11 @@ export default function DossierShadowView() {
           <ReportPreviewBlock dossierId={dossier.id} porteType={dossier.porteType} />
         )}
 
-        <ContractGeneratorBlock dossierId={dossier.id} />
+        {dossier.porteType === "P2" && <ContractGeneratorBlock dossierId={dossier.id} />}
+
+        {(dossier.porteType === "P3" || dossier.porteType === "P4" || dossier.porteType === "P5" || dossier.porteType === "P6") && (
+          <UniversalContractBlock dossierId={dossier.id} porteType={dossier.porteType} />
+        )}
 
         <VisaCroaBlock dossierId={dossier.id} />
 
@@ -598,6 +602,70 @@ function PackValidationBlock({ dossierId }: { dossierId: string }) {
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+// ─── UniversalContractBlock — contrat HTML pour P3/P4/P5/P6 ─────────────
+function UniversalContractBlock({ dossierId, porteType }: { dossierId: string; porteType: string }) {
+  const [show, setShow] = useState(false);
+  const [params, setParams] = useState({
+    contratNumero: "", archNom: "", archICE: "", archRC: "",
+    archDomicile: "", archTel: "", archEmail: "",
+    delaiJours: "", penaliteRetardPourcent: "",
+  });
+  const set = (k: keyof typeof params) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setParams(p => ({ ...p, [k]: e.target.value }));
+
+  const open = () => {
+    const tk = localStorage.getItem("citurbarea.token") || "";
+    const qs = new URLSearchParams();
+    Object.entries(params).forEach(([k, v]) => { if (v) qs.append(k, String(v)); });
+    qs.append("_t", tk);
+    const url = `${apiBase()}/api/cc/contract/${dossierId}?${qs.toString()}`;
+    window.open(url, "_blank", "noopener");
+  };
+
+  const titles: Record<string, string> = {
+    P3: "Contrat MOD (P3)",
+    P4: "Contrat analyse foncière (P4)",
+    P5: "Contrat expertise (P5)",
+    P6: "Contrat-cadre prestataire (P6)",
+  };
+  return (
+    <div style={{ background: "#111827", border: "1px solid #1e2330", borderRadius: 6, padding: 14, marginBottom: 12 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ fontSize: 10, color: "#4a5568", textTransform: "uppercase", letterSpacing: 1 }}>{titles[porteType] || "Contrat"}</div>
+        <button onClick={() => setShow(s => !s)} style={{ background: "transparent", border: 0, color: "#a78bfa", fontSize: 11, cursor: "pointer" }}>
+          {show ? "Masquer ▲" : "Configurer ▼"}
+        </button>
+      </div>
+      <div style={{ fontSize: 10, color: "#64748b", marginTop: 6 }}>
+        Génère le contrat HTML imprimable. Identité client + brief + devis sont auto-remplis.
+      </div>
+
+      {show && (
+        <div style={{ marginTop: 10, fontSize: 11 }}>
+          <Sub label="N° contrat"><Inp v={params.contratNumero} onChange={set("contratNumero")} placeholder="2026-P3-0001" /></Sub>
+          <div style={{ fontSize: 9, color: "#7c3aed", textTransform: "uppercase", letterSpacing: 1, margin: "10px 0 4px" }}>Représentant CITURBAREA</div>
+          <Sub label="Nom signataire"><Inp v={params.archNom} onChange={set("archNom")} placeholder="Mr. …" /></Sub>
+          <Sub label="ICE"><Inp v={params.archICE} onChange={set("archICE")} /></Sub>
+          <Sub label="RC"><Inp v={params.archRC} onChange={set("archRC")} /></Sub>
+          <Sub label="Domicile cabinet"><Inp v={params.archDomicile} onChange={set("archDomicile")} /></Sub>
+          <Sub label="Téléphone"><Inp v={params.archTel} onChange={set("archTel")} /></Sub>
+          <Sub label="Email"><Inp v={params.archEmail} onChange={set("archEmail")} /></Sub>
+          <div style={{ fontSize: 9, color: "#7c3aed", textTransform: "uppercase", letterSpacing: 1, margin: "10px 0 4px" }}>Délais & pénalités</div>
+          <Sub label="Délai global (jours)"><Inp v={params.delaiJours} onChange={set("delaiJours")} type="number" /></Sub>
+          <Sub label="Pénalité retard (%/jour)"><Inp v={params.penaliteRetardPourcent} onChange={set("penaliteRetardPourcent")} type="number" placeholder="0.05" /></Sub>
+        </div>
+      )}
+
+      <button
+        onClick={open}
+        style={{ marginTop: 10, background: "#047857", color: "#fff", border: 0, padding: "8px 12px", borderRadius: 4, cursor: "pointer", fontSize: 12, fontWeight: 600, width: "100%" }}
+      >
+        📄 Générer contrat (nouvel onglet)
+      </button>
     </div>
   );
 }
