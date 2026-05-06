@@ -223,6 +223,10 @@ export default function DossierShadowView() {
 
         <PackValidationBlock dossierId={dossier.id} />
 
+        {(dossier.porteType === "P4" || dossier.porteType === "P5") && (
+          <ReportPreviewBlock dossierId={dossier.id} porteType={dossier.porteType} />
+        )}
+
         <ContractGeneratorBlock dossierId={dossier.id} />
 
         <VisaCroaBlock dossierId={dossier.id} />
@@ -594,6 +598,81 @@ function PackValidationBlock({ dossierId }: { dossierId: string }) {
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+// ─── ReportPreviewBlock — preview rapport P4/P5 + lien download client ─────
+function ReportPreviewBlock({ dossierId, porteType }: { dossierId: string; porteType: string }) {
+  const [show, setShow] = useState(false);
+  const [params, setParams] = useState({ expertNom: "", expertNumeroOrdre: "", conclusion: "" });
+  const set = (k: keyof typeof params) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setParams(p => ({ ...p, [k]: e.target.value }));
+
+  const adminPreview = () => {
+    const tk = localStorage.getItem("citurbarea.token") || "";
+    const qs = new URLSearchParams();
+    if (params.expertNom) qs.append("expertNom", params.expertNom);
+    if (params.expertNumeroOrdre) qs.append("expertNumeroOrdre", params.expertNumeroOrdre);
+    if (params.conclusion) qs.append("conclusion", params.conclusion);
+    qs.append("_t", tk);
+    const url = `${apiBase()}/${porteType.toLowerCase()}/dossiers/${dossierId}/rapport/admin?${qs.toString()}`;
+    window.open(url, "_blank", "noopener");
+  };
+
+  const clientLink = () => {
+    const tk = localStorage.getItem("citurbarea.token") || "";
+    const qs = new URLSearchParams();
+    qs.append("_t", tk);
+    return `${apiBase()}/${porteType.toLowerCase()}/dossiers/${dossierId}/rapport?${qs.toString()}`;
+  };
+
+  return (
+    <div style={{ background: "#111827", border: "1px solid #1e2330", borderRadius: 6, padding: 14, marginBottom: 12 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ fontSize: 10, color: "#4a5568", textTransform: "uppercase", letterSpacing: 1 }}>Rapport {porteType} (watermarqué)</div>
+        <button onClick={() => setShow(s => !s)} style={{ background: "transparent", border: 0, color: "#a78bfa", fontSize: 11, cursor: "pointer" }}>
+          {show ? "Masquer ▲" : "Configurer ▼"}
+        </button>
+      </div>
+      <div style={{ fontSize: 10, color: "#64748b", marginTop: 6 }}>
+        Rapport HTML imprimable avec watermark "Rapport exclusif CITURBAREA". Téléchargement client gaté sur pack activé.
+      </div>
+
+      {show && (
+        <div style={{ marginTop: 10, fontSize: 11 }}>
+          <Sub label="Nom expert"><Inp v={params.expertNom} onChange={set("expertNom")} placeholder="Mr. …" /></Sub>
+          <Sub label="N° Ordre"><Inp v={params.expertNumeroOrdre} onChange={set("expertNumeroOrdre")} placeholder="—" /></Sub>
+          <label style={{ display: "block", marginBottom: 6 }}>
+            <span style={{ fontSize: 10, color: "#94a3b8" }}>Conclusion (texte court)</span>
+            <textarea
+              value={params.conclusion}
+              onChange={set("conclusion")}
+              rows={3}
+              placeholder="Avis synthétique de l'expert…"
+              style={{ width: "100%", marginTop: 2, background: "#0a0f1a", color: "#e8eaf0", border: "1px solid #1e2330", borderRadius: 4, padding: "6px 8px", fontSize: 11, fontFamily: "inherit", boxSizing: "border-box", resize: "vertical" }}
+            />
+          </label>
+        </div>
+      )}
+
+      <button
+        onClick={adminPreview}
+        style={{ marginTop: 10, background: "#7c3aed", color: "#fff", border: 0, padding: "8px 12px", borderRadius: 4, cursor: "pointer", fontSize: 12, fontWeight: 600, width: "100%" }}
+      >
+        👁️ Aperçu admin (sans gating)
+      </button>
+      <a
+        href={clientLink()}
+        target="_blank"
+        rel="noopener"
+        style={{ display: "block", marginTop: 6, padding: "8px 12px", background: "#1e293b", color: "#e8eaf0", border: "1px solid #334155", borderRadius: 4, fontSize: 12, fontWeight: 600, textAlign: "center", textDecoration: "none" }}
+      >
+        🔗 Lien client (gaté sur ACTIVÉ)
+      </a>
+      <div style={{ fontSize: 10, color: "#64748b", marginTop: 6 }}>
+        Le client recevra ce lien après validation du pack. Tant que statut ≠ ACTIVATED → 402 paywall.
+      </div>
     </div>
   );
 }
