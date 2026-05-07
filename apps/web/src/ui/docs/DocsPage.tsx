@@ -264,15 +264,16 @@ const S: Record<string, React.CSSProperties> = {
   layout: { display: "grid", gridTemplateColumns: "240px 1fr", maxWidth: 1100, margin: "0 auto", gap: 24, padding: "24px" },
   sidebar: { background: "#fff", borderRadius: 12, padding: 16, height: "fit-content", border: "1px solid #e2e8f0", position: "sticky" as const, top: 16 },
   sidebarTitle: { fontSize: 11, color: "#64748b", textTransform: "uppercase" as const, letterSpacing: 1, marginBottom: 10 },
-  navItem: (active: boolean): React.CSSProperties => ({
-    display: "block", padding: "8px 12px", borderRadius: 6, marginBottom: 4,
-    fontSize: 14, fontWeight: active ? 700 : 500,
-    color: active ? "#1e3a8a" : "#475569",
-    background: active ? "#eff6ff" : "transparent",
-    cursor: "pointer", border: 0, width: "100%", textAlign: "left" as const,
-  }),
   content: { background: "#fff", borderRadius: 12, padding: 32, border: "1px solid #e2e8f0", lineHeight: 1.6, fontSize: 15 },
 };
+
+const navItemStyle = (active: boolean): React.CSSProperties => ({
+  display: "block", padding: "8px 12px", borderRadius: 6, marginBottom: 4,
+  fontSize: 14, fontWeight: active ? 700 : 500,
+  color: active ? "#1e3a8a" : "#475569",
+  background: active ? "#eff6ff" : "transparent",
+  cursor: "pointer", border: 0, width: "100%", textAlign: "left" as const,
+});
 
 export default function DocsPage() {
   const t = useT();
@@ -297,7 +298,7 @@ export default function DocsPage() {
           {SECTIONS.map(s => (
             <button
               key={s.id}
-              style={S.navItem(activeSection === s.id)}
+              style={navItemStyle(activeSection === s.id)}
               onClick={() => setActiveSection(s.id)}
             >
               {s.icon} {t(s.tKey)}

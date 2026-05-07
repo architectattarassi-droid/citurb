@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
+import { getStoredLang } from "../../../../i18n/i18n";
 
 /**
  * P5Home — Wizard rapports d'expertise (one-shot)
@@ -178,6 +179,7 @@ export default function P5Home() {
           natureProjet: identity.adresseBien || undefined,
           title,
           source: "P5_WIZARD",
+          lang: getStoredLang(),
           brief: {
             reportType,
             reportLabel: selectedReport?.label,

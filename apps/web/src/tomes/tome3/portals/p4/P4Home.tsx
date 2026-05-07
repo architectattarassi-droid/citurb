@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
+import { getStoredLang } from "../../../../i18n/i18n";
 
 /**
  * P4Home — Wizard analyse foncière (3 packs)
@@ -168,6 +169,7 @@ export default function P4Home() {
           surfaceTerrain: foncier.surfaceTerrainM2 ? +foncier.surfaceTerrainM2 : undefined,
           title,
           source: "P4_WIZARD",
+          lang: getStoredLang(),
           brief: {
             pack,
             packLabel: selectedPack?.label,

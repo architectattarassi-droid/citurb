@@ -87,7 +87,7 @@ export class PackValidationService {
     await this.prisma.dossier.update({ where: { id: opts.dossierId }, data: { payload } });
     this.logger.log(`[PackValidation] ${opts.dossierId} → PENDING_ADMIN_VALIDATION (paid ${opts.amount} ${opts.currency})`);
 
-    // Email confirmation paiement au client (fire-and-forget)
+    // Email confirmation paiement au client (fire-and-forget) — langue du dossier
     if (dossier.clientEmail) {
       this.clientNotify.paiementRecu({
         to: dossier.clientEmail,
@@ -96,6 +96,7 @@ export class PackValidationService {
         currency: opts.currency,
         paymentRef: opts.paymentRef,
         clientNom: dossier.clientNom ?? undefined,
+        lang: this.readLang(payload),
       }).catch(() => {});
     }
     // Notif owner: nouveau pack à valider
@@ -144,7 +145,7 @@ export class PackValidationService {
     await this.prisma.dossier.update({ where: { id: opts.dossierId }, data: { payload } });
     this.logger.log(`[PackValidation] ${opts.dossierId} → ACTIVATED by ${opts.author}`);
 
-    // Email pack activé (fire-and-forget)
+    // Email pack activé (fire-and-forget) — langue du dossier
     if (dossier.clientEmail) {
       this.clientNotify.packActive({
         to: dossier.clientEmail,
@@ -152,6 +153,7 @@ export class PackValidationService {
         porteType: dossier.porteType ?? "—",
         title: dossier.title ?? undefined,
         clientNom: dossier.clientNom ?? undefined,
+        lang: this.readLang(payload),
       }).catch(() => {});
     }
     return next;
@@ -184,6 +186,12 @@ export class PackValidationService {
     payload.packValidation = next;
     await this.prisma.dossier.update({ where: { id: opts.dossierId }, data: { payload } });
     return next;
+  }
+
+  /** Langue persistée dans Dossier.payload.lang (alimentée par le wizard). */
+  private readLang(payload: any): "fr" | "en" | "ar" {
+    const v = String(payload?.lang ?? "").toLowerCase();
+    return v === "en" || v === "ar" ? (v as "en" | "ar") : "fr";
   }
 
   /**

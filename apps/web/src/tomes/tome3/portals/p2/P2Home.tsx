@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
+import { getStoredLang } from "../../../../i18n/i18n";
 
 /**
  * P2Home — Wizard 5-sections × pricing CNOA 2021
@@ -241,6 +242,7 @@ export default function P2Home() {
           clientTel: identity.clientTel,
           clientEmail: identity.clientEmail || undefined,
           title,
+          lang: getStoredLang(),
           // Stocké dans payload
           source: "P2_WIZARD",
           brief: {

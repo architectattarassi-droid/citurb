@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
+import { getStoredLang } from "../../../../i18n/i18n";
 
 /**
  * P6Home — Onboarding réseau prestataires & fournisseurs
@@ -189,7 +190,7 @@ export default function P6Home() {
           clientNom: identite.clientNom,
           clientTel: identite.clientTel,
           clientEmail: identite.clientEmail || undefined,
-          title, source: "P6_WIZARD",
+          title, source: "P6_WIZARD", lang: getStoredLang(),
           brief: {
             p6Type: type,
             classeBTP: classeBTP || undefined,

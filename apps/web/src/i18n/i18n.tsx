@@ -47,6 +47,13 @@ const detectInitialLang = (): Lang => {
   return "fr";
 };
 
+/**
+ * Lecture stand-alone (hors composant React) — utile pour les soumissions
+ * d'intake afin que l'API persiste la langue dans Dossier.payload.lang
+ * et envoie les emails transactionnels dans la bonne langue.
+ */
+export const getStoredLang = (): Lang => detectInitialLang();
+
 // ─────────────────────────────────────────────────────────────────
 // DICTIONNAIRE — ajoute des clés ici, dans les 3 langues
 // ─────────────────────────────────────────────────────────────────

@@ -56,12 +56,15 @@ export class ReportController {
     if (status !== "ACTIVATED") {
       return { ok: false, error: `Pack non activé (status: ${status ?? "PENDING"}). Activez d'abord le pack.` };
     }
+    const langRaw = String((dossier.payload as any)?.lang ?? "").toLowerCase();
+    const lang: "fr" | "en" | "ar" = langRaw === "en" || langRaw === "ar" ? (langRaw as "en" | "ar") : "fr";
     await this.clientNotify.rapportPret({
       to: dossier.clientEmail,
       dossierId: dossier.id,
       porteType: dossier.porteType as "P4" | "P5",
       reportName: body.reportName || dossier.title || undefined,
       clientNom: dossier.clientNom ?? undefined,
+      lang,
     });
     return { ok: true, sent: dossier.clientEmail };
   }

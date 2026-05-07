@@ -44,6 +44,8 @@ type IntakePayload = {
   // SEO / source tracking
   source?: string;
   utm?: Record<string, string>;
+  // Locale du wizard (pour emails transactionnels)
+  lang?: "fr" | "en" | "ar";
 };
 
 @Tome("tome2")
@@ -107,6 +109,7 @@ export class IntakeController {
         brief: body.brief,
         source: body.source,
         utm: body.utm,
+        lang: body.lang === "en" || body.lang === "ar" ? body.lang : "fr",
       },
     });
 
@@ -133,6 +136,7 @@ export class IntakeController {
       dossierId: dossier.id,
       clientNom: body.clientNom,
       title,
+      lang: body.lang === "en" || body.lang === "ar" ? body.lang : "fr",
     }).catch(() => { /* logged in service */ });
 
     // Notif spécifique pour P6 (fiche prestataire/fournisseur à reviewer)

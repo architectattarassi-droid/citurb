@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
+import { getStoredLang } from "../../../../i18n/i18n";
 
 /**
  * P3Home — Wizard MOD (Maîtrise d'Ouvrage Déléguée)
@@ -177,7 +178,7 @@ export default function P3Home() {
           representant: identity.representant || undefined,
           clientNom: identity.clientNom, clientTel: identity.clientTel,
           clientEmail: identity.clientEmail || undefined,
-          title, source: "P3_WIZARD",
+          title, source: "P3_WIZARD", lang: getStoredLang(),
           brief: {
             section, categoryCode,
             categoryLabel: selectedCategory?.label,
