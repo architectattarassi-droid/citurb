@@ -1,0 +1,24 @@
+{
+  "appId": "com.citurbarea.doc",
+  "productName": "CITURBAREA Doc",
+  "asar": true,
+  "directories": {
+    "output": "dist/doc"
+  },
+  "files": [
+    "main.js",
+    "offline.html",
+    "package.json"
+  ],
+  "win": {
+    "target": [
+      { "target": "dir", "arch": ["x64"] }
+    ],
+    "signAndEditExecutable": false
+  },
+  "extraMetadata": {
+    "name": "citurbarea-doc",
+    "main": "main.js",
+    "citVariant": "doc"
+  }
+}

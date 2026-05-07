@@ -14,6 +14,7 @@ import P5Home from "../../tome3/portals/p5/P5Home";
 import P6Home from "../../tome3/portals/p6/P6Home";
 import P6Dashboard from "../../tome3/portals/p6/P6Dashboard";
 import { PaymentSuccessPage, PaymentCancelPage, PaymentStartPage } from "../../tome3/portals/payment/PaymentPages";
+import DocsPage from "../../../ui/docs/DocsPage";
 
 import Login from "../../tome5/pages/Login";
 import VerifyPhone from "../../tome5/pages/VerifyPhone";
@@ -78,6 +79,7 @@ export const router = createBrowserRouter([
       { path: '/p6', element: <P6Home /> },
       { path: '/p6/dashboard', element: <P6Dashboard /> },
       { path: '/payment/start', element: <PaymentStartPage /> },
+      { path: '/docs', element: <DocsPage /> },
       { path: '/payment/success', element: <PaymentSuccessPage /> },
       { path: '/payment/cancel', element: <PaymentCancelPage /> },
       { path: CANON.DEV_ROUTES, element: <DevRoutesPage /> },

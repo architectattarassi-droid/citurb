@@ -102,6 +102,90 @@ const DICT: Record<string, Record<Lang, string>> = {
   "lang.fr":            { fr: "Français",        ar: "الفرنسية",     en: "French" },
   "lang.ar":            { fr: "Arabe",           ar: "العربية",      en: "Arabic" },
   "lang.en":            { fr: "Anglais",         ar: "الإنجليزية",   en: "English" },
+
+  // ─── Wizards portes ─────────────────────────────────────────────────
+  "wizard.step":             { fr: "Étape",                  ar: "الخطوة",                en: "Step" },
+  "wizard.choose_section":   { fr: "Quel type de projet ?",  ar: "ما نوع المشروع؟",        en: "What kind of project?" },
+  "wizard.choose_category":  { fr: "Catégorie de projet",    ar: "فئة المشروع",           en: "Project category" },
+  "wizard.dimensions":       { fr: "Dimensions du projet",   ar: "أبعاد المشروع",         en: "Project dimensions" },
+  "wizard.surface_plancher": { fr: "Surface plancher (m²)",  ar: "المساحة الأرضية (م²)",   en: "Floor area (m²)" },
+  "wizard.surface_terrain":  { fr: "Surface terrain (m²)",   ar: "مساحة الأرض (م²)",       en: "Land area (m²)" },
+  "wizard.nb_batiments":     { fr: "Nombre de bâtiments",    ar: "عدد المباني",           en: "Number of buildings" },
+  "wizard.follow_mode":      { fr: "Mode de suivi du chantier", ar: "وضع متابعة الورش",   en: "Site monitoring mode" },
+  "wizard.follow_onsite":    { fr: "Suivi physique",         ar: "متابعة ميدانية",         en: "On-site monitoring" },
+  "wizard.follow_photos":    { fr: "Suivi par photos",       ar: "متابعة بالصور",         en: "Photo monitoring" },
+  "wizard.compute_quote":    { fr: "Calculer le devis",      ar: "احتساب العرض",          en: "Compute quote" },
+  "wizard.quote_details":    { fr: "Devis détaillé",         ar: "تفاصيل العرض",          en: "Quote details" },
+  "wizard.continue_id":      { fr: "Continuer : identité",   ar: "متابعة: الهوية",         en: "Continue: identity" },
+  "wizard.client_id":        { fr: "Identification client",  ar: "تحديد هوية العميل",      en: "Client identification" },
+  "wizard.submit":           { fr: "Soumettre la demande",   ar: "إرسال الطلب",           en: "Submit request" },
+  "wizard.submitting":       { fr: "Envoi en cours…",        ar: "جارٍ الإرسال…",         en: "Submitting…" },
+  "wizard.success":          { fr: "Demande enregistrée",    ar: "تم تسجيل الطلب",         en: "Request received" },
+  "wizard.success_msg":      { fr: "Notre équipe vous recontacte sous 24h.", ar: "سيعود إليك فريقنا خلال 24 ساعة.", en: "Our team will get back to you within 24h." },
+  "wizard.modify":            { fr: "Modifier",              ar: "تعديل",                 en: "Modify" },
+  "wizard.return_home":      { fr: "Retour à l'accueil",     ar: "العودة إلى الرئيسية",    en: "Back to home" },
+
+  // ─── Form fields ────────────────────────────────────────────────────
+  "form.raison_sociale":  { fr: "Raison sociale",        ar: "اسم الشركة",            en: "Company name" },
+  "form.representant":    { fr: "Représentant légal",    ar: "الممثل القانوني",        en: "Legal representative" },
+  "form.rc":              { fr: "Registre de commerce",  ar: "السجل التجاري",         en: "Commercial register" },
+  "form.ice":             { fr: "ICE",                   ar: "ICE",                  en: "Tax ID (ICE)" },
+  "form.cin":             { fr: "CIN",                   ar: "بطاقة التعريف الوطنية",  en: "National ID" },
+  "form.titre_foncier":   { fr: "Titre foncier",         ar: "الرسم العقاري",         en: "Land title" },
+  "form.surface_terrain": { fr: "Surface terrain (m²)",  ar: "مساحة الأرض (م²)",       en: "Land area (m²)" },
+  "form.budget":          { fr: "Budget estimé",         ar: "الميزانية المقدرة",      en: "Estimated budget" },
+  "form.optional":        { fr: "(optionnel)",           ar: "(اختياري)",             en: "(optional)" },
+
+  // ─── P2 sections ────────────────────────────────────────────────────
+  "p2.section.imm":       { fr: "Immeuble",              ar: "عمارة",                en: "Building" },
+  "p2.section.gr":        { fr: "Groupement résidentiel", ar: "تجمع سكني",           en: "Residential complex" },
+  "p2.section.lot":       { fr: "Lotissement",           ar: "تجزئة",                en: "Subdivision" },
+  "p2.section.epig":      { fr: "Équipement privé",      ar: "منشأة خاصة",           en: "Private facility" },
+  "p2.section.amg":       { fr: "Aménagement",           ar: "تهيئة",                en: "Fit-out" },
+
+  // ─── P3 MOD ─────────────────────────────────────────────────────────
+  "p3.title":             { fr: "Maîtrise d'Ouvrage Déléguée", ar: "إدارة التفويض",      en: "Delegated Project Management" },
+  "p3.tagline":           { fr: "Pilotage chantier complet",   ar: "إشراف ورش متكامل", en: "Complete site management" },
+  "p3.corps_metiers":     { fr: "Corps de métiers à coordonner", ar: "الحرف اللازم تنسيقها", en: "Trades to coordinate" },
+  "p3.escrow_notice":     { fr: "Paiements via escrow plateforme", ar: "المدفوعات عبر منصة الضمان", en: "Payments via platform escrow" },
+
+  // ─── P4 Foncier ─────────────────────────────────────────────────────
+  "p4.title":             { fr: "Analyse foncière",       ar: "تحليل عقاري",          en: "Land analysis" },
+  "p4.pack_basique":      { fr: "Pack BASIQUE",           ar: "باقة أساسية",          en: "BASIC pack" },
+  "p4.pack_moyen":        { fr: "Pack MOYEN",             ar: "باقة متوسطة",          en: "MEDIUM pack" },
+  "p4.pack_rentabilite":  { fr: "Pack RENTABILITÉ",       ar: "باقة المردودية",        en: "PROFITABILITY pack" },
+  "p4.watermark_notice":  { fr: "Rapport watermarqué — utilisable sur autorisation écrite", ar: "تقرير بعلامة مائية — استخدام بإذن مكتوب", en: "Watermarked report — use under written authorization" },
+
+  // ─── P5 Rapports ────────────────────────────────────────────────────
+  "p5.title":             { fr: "Rapports & expertises",  ar: "تقارير وخبرات",         en: "Reports & expertise" },
+  "p5.report.estimation": { fr: "Estimation valeur vénale", ar: "تقدير القيمة السوقية",  en: "Market valuation" },
+  "p5.report.conformite": { fr: "Conformité urbanistique", ar: "الامتثال العمراني",     en: "Urban compliance" },
+  "p5.report.risque":     { fr: "Audit de risque",        ar: "تدقيق المخاطر",         en: "Risk audit" },
+  "p5.report.expertise":  { fr: "Expertise technique",    ar: "خبرة تقنية",            en: "Technical expertise" },
+
+  // ─── P6 Prestataires ────────────────────────────────────────────────
+  "p6.title":             { fr: "Réseau prestataires & fournisseurs", ar: "شبكة مزودي الخدمات والموردين", en: "Service providers & suppliers network" },
+  "p6.score":             { fr: "Score CITURBAREA L7",    ar: "نقاط CITURBAREA L7",    en: "CITURBAREA L7 score" },
+  "p6.tier_gold":         { fr: "Tier OR",                ar: "المستوى الذهبي",        en: "GOLD tier" },
+  "p6.tier_silver":       { fr: "Tier ARGENT",            ar: "المستوى الفضي",         en: "SILVER tier" },
+  "p6.tier_bronze":       { fr: "Tier BRONZE",            ar: "المستوى البرونزي",      en: "BRONZE tier" },
+
+  // ─── Login / Signup ─────────────────────────────────────────────────
+  "auth.title_login":     { fr: "Connexion à votre compte", ar: "تسجيل الدخول إلى حسابك", en: "Sign in to your account" },
+  "auth.title_signup":    { fr: "Créer un compte",        ar: "إنشاء حساب",            en: "Create an account" },
+  "auth.password":        { fr: "Mot de passe",           ar: "كلمة المرور",           en: "Password" },
+  "auth.forgot":          { fr: "Mot de passe oublié ?",  ar: "نسيت كلمة المرور؟",     en: "Forgot password?" },
+  "auth.no_account":      { fr: "Pas de compte ?",        ar: "ليس لديك حساب؟",        en: "No account?" },
+  "auth.have_account":    { fr: "Déjà un compte ?",       ar: "لديك حساب بالفعل؟",     en: "Already have an account?" },
+
+  // ─── Documentation page ─────────────────────────────────────────────
+  "docs.title":           { fr: "Documentation CITURBAREA", ar: "وثائق CITURBAREA",   en: "CITURBAREA Documentation" },
+  "docs.intro":           { fr: "Guide d'utilisation et architecture de la plateforme.", ar: "دليل الاستخدام وهيكل المنصة.", en: "User guide and platform architecture." },
+  "docs.section_overview": { fr: "Vue d'ensemble",        ar: "نظرة عامة",             en: "Overview" },
+  "docs.section_portes":   { fr: "Les 6 portes",          ar: "البوابات الستة",         en: "The 6 portes" },
+  "docs.section_workflow": { fr: "Workflow client",       ar: "سير عمل العميل",         en: "Client workflow" },
+  "docs.section_admin":    { fr: "Backoffice admin",      ar: "الإدارة الخلفية",        en: "Admin backoffice" },
+  "docs.section_support":  { fr: "Support",               ar: "الدعم",                en: "Support" },
 };
 
 type I18nContextValue = {

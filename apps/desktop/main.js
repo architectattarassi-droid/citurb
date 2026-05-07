@@ -33,7 +33,18 @@ const CONFIG_BACK = {
   password: 'Admin123!',
   url: 'https://citurb-web-production.up.railway.app/cc/login',
 };
-const CONFIG = VARIANT === 'backoffice' ? CONFIG_BACK : CONFIG_PORTAL;
+const CONFIG_DOC = {
+  title: 'CITURBAREA — Documentation',
+  accent: '#0d9488',
+  badge: 'DOCUMENTATION',
+  email: '',
+  password: '',
+  url: 'https://citurb-web-production.up.railway.app/docs',
+};
+const CONFIG =
+  VARIANT === 'backoffice' ? CONFIG_BACK :
+  VARIANT === 'doc'        ? CONFIG_DOC :
+  CONFIG_PORTAL;
 
 const TARGET_URL = CONFIG.url;
 

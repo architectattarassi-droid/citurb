@@ -1,0 +1,21 @@
+{
+  "name": "citurbarea-desktop",
+  "private": true,
+  "version": "1.0.0",
+  "description": "CITURBAREA desktop apps (Portail + Backoffice)",
+  "main": "main.js",
+  "scripts": {
+    "start:portal": "cross-env CIT_VARIANT=portal electron .",
+    "start:backoffice": "cross-env CIT_VARIANT=backoffice electron .",
+    "start:doc": "cross-env CIT_VARIANT=doc electron .",
+    "build:portal": "cross-env CIT_VARIANT=portal electron-builder --win dir --config electron-builder.portal.json",
+    "build:backoffice": "cross-env CIT_VARIANT=backoffice electron-builder --win dir --config electron-builder.backoffice.json",
+    "build:doc": "cross-env CIT_VARIANT=doc electron-builder --win dir --config electron-builder.doc.json",
+    "build:all": "npm run build:portal && npm run build:backoffice && npm run build:doc"
+  },
+  "devDependencies": {
+    "electron": "^32.0.0",
+    "electron-builder": "^25.0.0",
+    "cross-env": "^7.0.3"
+  }
+}
