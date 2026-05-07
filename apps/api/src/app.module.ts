@@ -4,6 +4,7 @@ import { ScheduleModule } from "@nestjs/schedule";
 // Kernel
 import { HealthModule } from "./modules/health/health.module";
 import { KernelModule } from "./modules/kernel/kernel.module";
+import { ArchiveModule } from "./modules/archive/archive.module";
 
 // Infra
 import { PrismaDossiersModule } from "./tomes/tome-at/kernel/prisma-dossiers/prisma-dossiers.module";
@@ -43,6 +44,7 @@ import { SousPhaseModule } from "./modules/sous-phase/sous-phase.module";
     KernelModule, // doit venir tôt: enregistre GlobalExceptionFilter via APP_FILTER + IncidentsService/ProbativeLogService
     PrismaDossiersModule,
     CCModule,
+    ArchiveModule,
 
     // ── Tomes (@ → 0 → 1 → … → 10)
     TomeAtModule,

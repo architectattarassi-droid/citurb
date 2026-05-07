@@ -25,6 +25,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'media',        label: 'Media · Cities Talk',  icon: '▶',  path: '/cc/media' },
   { id: 'leads',        label: 'Leads',                icon: '◉',  path: '/cc/leads' },
   { id: 'validations',  label: 'Validations',          icon: '◇',  path: '/cc/validations' },
+  { id: 'archive',      label: 'Archive',              icon: '📚', path: '/cc/archive' },
   { id: 'projects',     label: 'Projets',              icon: '⬡',  path: '/cc/projects' },
   { id: 'territorial',  label: 'Intelligence Territo.', icon: '◎', path: '/cc/territorial' },
   { id: 'business',     label: 'Business',             icon: '◆',  path: '/cc/business' },

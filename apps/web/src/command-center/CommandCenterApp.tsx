@@ -22,6 +22,8 @@ import DossierDetail from './modules/dossiers/DossierDetail';
 import PhaseWorkspace from './modules/dossiers/PhaseWorkspace';
 import DossierShadowView from './modules/dossiers/DossierShadowView';
 import ValidationsModule from './modules/validations/ValidationsModule';
+import ArchiveModule from './modules/archive/ArchiveModule';
+import ArchiveDossierView from './modules/archive/ArchiveDossierView';
 import OwnerLive from './pages/OwnerLive';
 import FirmsModule from './modules/firms/FirmsModule';
 import CCLogin from './pages/CCLogin';
@@ -60,6 +62,8 @@ export default function CommandCenterApp() {
               <Route path="dossiers/:id" element={<PhaseWorkspace />} />
               <Route path="dossiers/:id/shadow" element={<DossierShadowView />} />
               <Route path="validations" element={<ValidationsModule />} />
+              <Route path="archive" element={<ArchiveModule />} />
+              <Route path="archive/:id" element={<ArchiveDossierView />} />
               <Route path="live" element={<OwnerLive />} />
               <Route path="firms/*" element={<FirmsModule />} />
               <Route path="*" element={<Navigate to="dashboard" replace />} />
