@@ -1168,6 +1168,10 @@ export default function LandingV4() {
         el.classList.toggle("active", el.textContent.trim().toLowerCase() === lang);
       });
       document.body.dir = lang === "ar" ? "rtl" : "ltr";
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+      // Persiste pour partage avec i18n React (même clé localStorage)
+      try { localStorage.setItem("citurbarea.lang", lang); } catch { /* ignore */ }
       const t = (I18N as any)[lang] || I18N.fr;
       const byId = (id: string) => document.getElementById(id);
       const ql = (sel: string) => document.querySelector(sel) as HTMLElement | null;
@@ -1179,6 +1183,15 @@ export default function LandingV4() {
       if (byId("see-all-btn")) byId("see-all-btn")!.textContent = t.see_all;
     }
     (window as any).setLang = setLang;
+    // Au chargement, applique la langue depuis localStorage (synchronise avec
+    // l'état choisi sur d'autres pages).
+    try {
+      const saved = localStorage.getItem("citurbarea.lang");
+      if (saved && (saved === "fr" || saved === "ar" || saved === "en")) {
+        // Délai pour laisser le DOM se monter
+        setTimeout(() => setLang(saved), 0);
+      }
+    } catch { /* ignore */ }
 
     // Search redirects to /media (frontend-only).
     ensureGlobal("runSearch", () => {

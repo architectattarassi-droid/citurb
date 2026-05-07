@@ -2,31 +2,42 @@ import React, { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../../tome5/AuthProvider";
 import { NAV_ROUTES } from "../../../application/routeRegistry";
+import { useT } from "../../../i18n/i18n";
+import LangSwitcher from "../../../i18n/LangSwitcher";
 
 /* ── PublicLayout ─────────────────────────────────────────────────────────── */
 export function PublicLayout() {
   const loc = useLocation();
   const auth = useAuth();
+  const t = useT();
   // /p1 is a landing + pricing/qualification flow: it needs wide layout.
   const isP1 = loc.pathname.startsWith("/p1");
+  // La home `/` utilise LandingV4 qui a son propre header complet.
+  // → on cache notre header sur `/` pour éviter doublon.
+  const isHome = loc.pathname === "/";
   return (
     <div style={{ minHeight: "100vh", fontFamily: "var(--font-body)", background: "var(--c-bg)" }}>
-      <header style={{ background: "var(--c-card)", borderBottom: "1px solid var(--c-line)", position: "sticky", top: 0, zIndex: 100 }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60 }}>
-          <Link to="/" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18, color: "var(--c-blue)" }}>
-            CITU<span style={{ color: "var(--c-gold)" }}>RBAREA</span>
-          </Link>
-          <div style={{ display: "flex", gap: 10 }}>
-            <Link to="/" style={{ fontSize: 13, color: "var(--c-muted)", padding: "7px 14px", borderRadius: 8, border: "1px solid var(--c-line)" }}>Accueil</Link>
-            {auth.isAuthed ? (
-              <Link to="/portal" style={{ fontSize: 13, fontWeight: 600, color: "#fff", padding: "7px 16px", borderRadius: 8, background: "var(--c-blue)" }}>Mon espace</Link>
-            ) : (
-              <Link to="/login" style={{ fontSize: 13, fontWeight: 600, color: "#fff", padding: "7px 16px", borderRadius: 8, background: "var(--c-blue)" }}>Connexion</Link>
-            )}
+      {!isHome && (
+        <header style={{ background: "var(--c-card)", borderBottom: "1px solid var(--c-line)", position: "sticky", top: 0, zIndex: 100 }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60, gap: 12, flexWrap: "wrap" }}>
+            <Link to="/" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18, color: "var(--c-blue)", whiteSpace: "nowrap" }}>
+              CITU<span style={{ color: "var(--c-gold)" }}>RBAREA</span>
+            </Link>
+            <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+              {/* Order explicite pour éviter overlap si flex-wrap.
+                  LangSwitcher TOUJOURS avant les boutons auth. */}
+              <LangSwitcher variant="default" style={{ order: 1 }} />
+              <Link to="/" style={{ order: 2, fontSize: 13, color: "var(--c-muted)", padding: "7px 14px", borderRadius: 8, border: "1px solid var(--c-line)", whiteSpace: "nowrap" }}>{t("nav.home")}</Link>
+              {auth.isAuthed ? (
+                <Link to="/portal" style={{ order: 3, fontSize: 13, fontWeight: 600, color: "#fff", padding: "7px 16px", borderRadius: 8, background: "var(--c-blue)", whiteSpace: "nowrap" }}>{t("nav.my_space")}</Link>
+              ) : (
+                <Link to="/login" style={{ order: 3, fontSize: 13, fontWeight: 600, color: "#fff", padding: "7px 16px", borderRadius: 8, background: "var(--c-blue)", whiteSpace: "nowrap" }}>{t("nav.login")}</Link>
+              )}
+            </div>
           </div>
-        </div>
-      </header>
-      <main style={{ maxWidth: isP1 ? 1240 : 560, margin: isP1 ? "34px auto" : "80px auto", padding: "0 24px" }}>
+        </header>
+      )}
+      <main style={{ maxWidth: isHome ? "none" : (isP1 ? 1240 : 560), margin: isHome ? "0" : (isP1 ? "34px auto" : "80px auto"), padding: isHome ? 0 : "0 24px" }}>
         <Outlet />
       </main>
     </div>
@@ -37,6 +48,7 @@ export function PublicLayout() {
 export function PortalLayout() {
   const auth = useAuth();
   const loc  = useLocation();
+  const t = useT();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const isMedia = loc.pathname === "/media";
@@ -103,10 +115,10 @@ export function PortalLayout() {
 
             <div style={{ marginTop: "auto", paddingTop: 16, borderTop: "1px solid #f1f5f9" }}>
               <div style={{ fontSize: 11, color: "#94a3b8", marginBottom: 8 }}>
-                {auth.isAuthed ? (auth.email || auth.username || "Connecté") : "Non connecté"} · {auth.role || "—"}
+                {auth.isAuthed ? (auth.email || auth.username || t("common.connected")) : t("common.not_connected")} · {auth.role || "—"}
               </div>
               <button onClick={() => auth.logout()} style={{ width: "100%", padding: "8px 12px", borderRadius: 8, border: "1px solid #e2e8f0", background: "transparent", fontSize: 13, color: "#64748b", cursor: "pointer" }}>
-                Déconnexion
+                {t("nav.logout")}
               </button>
             </div>
           </>
@@ -146,8 +158,13 @@ export function PortalLayout() {
 
           {/* Breadcrumb */}
           <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 500 }}>
-            {isMedia ? "Médias" : loc.pathname.replace("/", "").toUpperCase()}
+            {isMedia ? t("nav.media") : loc.pathname.replace("/", "").toUpperCase()}
           </span>
+
+          {/* Lang switcher à droite — dark variant pour topbar claire */}
+          <div style={{ marginLeft: "auto" }}>
+            <LangSwitcher variant="default" />
+          </div>
         </div>
 
         {/* Page content — pleine largeur disponible */}

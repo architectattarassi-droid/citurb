@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../tome5/AuthProvider";
 import { apiFetch } from "../../../tome4/apiClient";
+import { useT } from "../../../../i18n/i18n";
 
 /**
  * P1MyDossiers — "Mon Espace" client
@@ -37,6 +38,7 @@ const STATUS_BADGE: Record<string, { label: string; bg: string; color: string }>
 export default function P1MyDossiers() {
   const auth = useAuth();
   const navigate = useNavigate();
+  const t = useT();
   const [dossiers, setDossiers] = useState<Dossier[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -59,29 +61,29 @@ export default function P1MyDossiers() {
   if (!auth.isAuthed) {
     return (
       <div style={{ padding: 32, textAlign: "center", maxWidth: 600, margin: "60px auto", background: "#fff", border: "1px solid #e2e8f0", borderRadius: 12 }}>
-        <h2>Connexion requise</h2>
-        <p style={{ color: "#64748b" }}>Vous devez être connecté pour voir votre espace.</p>
-        <button onClick={() => navigate("/login?next=/portal")} style={{ background: "#1d4ed8", color: "#fff", border: 0, padding: "10px 20px", borderRadius: 6, cursor: "pointer", fontSize: 14, fontWeight: 600 }}>Se connecter</button>
+        <h2>{t("nav.login")}</h2>
+        <p style={{ color: "#64748b" }}>{t("common.not_connected")}.</p>
+        <button onClick={() => navigate("/login?next=/portal")} style={{ background: "#1d4ed8", color: "#fff", border: 0, padding: "10px 20px", borderRadius: 6, cursor: "pointer", fontSize: 14, fontWeight: 600 }}>{t("nav.login")}</button>
       </div>
     );
   }
 
   return (
     <div style={{ padding: "24px 28px", maxWidth: 1200, margin: "0 auto" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: 24, color: "#0f172a" }}>📁 Mon espace</h1>
+          <h1 style={{ margin: 0, fontSize: 24, color: "#0f172a" }}>📁 {t("nav.my_space")}</h1>
           <p style={{ fontSize: 14, color: "#64748b", margin: "4px 0 0" }}>
-            Bonjour <b>{auth.email}</b> — voici vos dossiers projet.
+            <b>{auth.email}</b> — {t("nav.my_dossiers")}.
           </p>
         </div>
         <div style={{ display: "flex", gap: 10 }}>
-          <button onClick={load} style={{ background: "#fff", color: "#475569", border: "1px solid #e2e8f0", padding: "8px 14px", borderRadius: 6, cursor: "pointer", fontSize: 13 }}>↻ Rafraîchir</button>
-          <button onClick={() => navigate("/p1")} style={{ background: "#1d4ed8", color: "#fff", border: 0, padding: "8px 16px", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>+ Nouveau dossier</button>
+          <button onClick={load} style={{ background: "#fff", color: "#475569", border: "1px solid #e2e8f0", padding: "8px 14px", borderRadius: 6, cursor: "pointer", fontSize: 13 }}>↻ {t("common.loading")}</button>
+          <button onClick={() => navigate("/p1")} style={{ background: "#1d4ed8", color: "#fff", border: 0, padding: "8px 16px", borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600 }}>+ {t("common.next")}</button>
         </div>
       </div>
 
-      {loading && <div style={{ padding: 32, textAlign: "center", color: "#94a3b8" }}>Chargement…</div>}
+      {loading && <div style={{ padding: 32, textAlign: "center", color: "#94a3b8" }}>{t("common.loading")}</div>}
 
       {error && (
         <div style={{ padding: "12px 16px", background: "#fee2e2", border: "1px solid #fecaca", color: "#991b1b", borderRadius: 8, marginBottom: 16 }}>
