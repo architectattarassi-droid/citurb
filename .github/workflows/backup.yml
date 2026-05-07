@@ -49,14 +49,23 @@ jobs:
           node scripts/snapshot-archive.mjs
 
       - name: Clone or init backup repo
+        env:
+          BACKUP_REPO_RAW: ${{ secrets.BACKUP_REPO }}
+          BACKUP_TOKEN_RAW: ${{ secrets.BACKUP_REPO_TOKEN }}
         run: |
+          # Strip whitespace/newlines des secrets (au cas où l'utilisateur
+          # aurait collé avec un newline trailing — sinon git rejette l'URL).
+          REPO=$(printf '%s' "$BACKUP_REPO_RAW" | tr -d '[:space:]')
+          TOKEN=$(printf '%s' "$BACKUP_TOKEN_RAW" | tr -d '[:space:]')
+          REPO_URL="https://x-access-token:${TOKEN}@github.com/${REPO}.git"
+
           # Clone le repo backup. Si le repo est vide (pas de branche main),
           # le clone réussit mais la working dir n'a pas de HEAD. On init dans ce cas.
-          git clone "https://x-access-token:${{ secrets.BACKUP_REPO_TOKEN }}@github.com/${{ secrets.BACKUP_REPO }}.git" citurb-backup || (
+          git clone "$REPO_URL" citurb-backup || (
             mkdir -p citurb-backup
             cd citurb-backup
             git init
-            git remote add origin "https://x-access-token:${{ secrets.BACKUP_REPO_TOKEN }}@github.com/${{ secrets.BACKUP_REPO }}.git"
+            git remote add origin "$REPO_URL"
           )
           cd citurb-backup
           git config user.name "citurb-backup-bot"
