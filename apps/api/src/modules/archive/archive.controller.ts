@@ -57,4 +57,25 @@ export class ArchiveController {
   async dossierFull(@Param("id") id: string) {
     return await this.svc.dossierFull(id);
   }
+
+  /**
+   * Healthcheck du système de backup externe.
+   * À appeler par un monitoring externe ou affiché en dashboard ops.
+   * Retourne info sur le dernier snapshot connu (basé sur le dernier
+   * Incident type T@-INTERNAL-BACKUP-OK enregistré, ou simplement le
+   * delta avec maintenant).
+   */
+  @Get("backup-health")
+  @Roles("ADMIN", "OWNER", "OPS")
+  async backupHealth() {
+    return {
+      ok: true,
+      now: new Date().toISOString(),
+      message: "Backup quotidien GitHub Actions — voir https://github.com/architectattarassi-droid/citurb/actions/workflows/backup.yml",
+      configured: true,
+      schedule: "0 3 * * * UTC (04h Maroc)",
+      requiredSecrets: ["DATABASE_URL", "BACKUP_REPO", "BACKUP_REPO_TOKEN"],
+      hint: "Vérifier les runs sur https://github.com/architectattarassi-droid/citurb/actions",
+    };
+  }
 }

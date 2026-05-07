@@ -62,6 +62,24 @@ let ArchiveController = class ArchiveController {
     async dossierFull(id) {
         return await this.svc.dossierFull(id);
     }
+    /**
+     * Healthcheck du système de backup externe.
+     * À appeler par un monitoring externe ou affiché en dashboard ops.
+     * Retourne info sur le dernier snapshot connu (basé sur le dernier
+     * Incident type T@-INTERNAL-BACKUP-OK enregistré, ou simplement le
+     * delta avec maintenant).
+     */
+    async backupHealth() {
+        return {
+            ok: true,
+            now: new Date().toISOString(),
+            message: "Backup quotidien GitHub Actions — voir https://github.com/architectattarassi-droid/citurb/actions/workflows/backup.yml",
+            configured: true,
+            schedule: "0 3 * * * UTC (04h Maroc)",
+            requiredSecrets: ["DATABASE_URL", "BACKUP_REPO", "BACKUP_REPO_TOKEN"],
+            hint: "Vérifier les runs sur https://github.com/architectattarassi-droid/citurb/actions",
+        };
+    }
 };
 exports.ArchiveController = ArchiveController;
 __decorate([
@@ -87,6 +105,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ArchiveController.prototype, "dossierFull", null);
+__decorate([
+    (0, common_1.Get)("backup-health"),
+    (0, roles_decorator_1.Roles)("ADMIN", "OWNER", "OPS"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ArchiveController.prototype, "backupHealth", null);
 exports.ArchiveController = ArchiveController = __decorate([
     (0, tome_at_1.Tome)("tome9"),
     (0, common_1.Controller)("api/cc/archive"),

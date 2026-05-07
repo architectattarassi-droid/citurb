@@ -1,0 +1,91 @@
+name: Daily Backup CITURBAREA
+
+# Layer 3 disaster recovery — snapshot quotidien indépendant des 2 apps Railway.
+# Déclenche tous les jours à 03h UTC (= 04h Maroc).
+# Push le snapshot vers un repo backup privé organisé par porte.
+
+on:
+  schedule:
+    # 0 3 * * * → 03h00 UTC tous les jours
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+    # Permet de déclencher manuellement depuis l'onglet Actions
+    inputs:
+      reason:
+        description: "Raison du backup manuel"
+        required: false
+        default: "Manual trigger"
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout citurb (source)
+        uses: actions/checkout@v4
+        with:
+          path: citurb-source
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: citurb-source/package-lock.json
+
+      - name: Install Prisma client
+        run: |
+          cd citurb-source
+          npm install --legacy-peer-deps --omit=dev || npm install --legacy-peer-deps
+          # Generate prisma client
+          node ./node_modules/prisma/build/index.js generate --schema prisma/schema.prisma
+
+      - name: Run snapshot script
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          cd citurb-source
+          node scripts/snapshot-archive.mjs
+
+      - name: Checkout backup repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.BACKUP_REPO }}
+          token: ${{ secrets.BACKUP_REPO_TOKEN }}
+          path: citurb-backup
+          fetch-depth: 1
+
+      - name: Move snapshot into backup repo
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          mkdir -p citurb-backup/snapshots
+          rm -rf citurb-backup/snapshots/$DATE 2>/dev/null || true
+          mv citurb-source/snapshots/$DATE citurb-backup/snapshots/$DATE
+          # Garde au max 90 derniers snapshots (3 mois)
+          cd citurb-backup/snapshots
+          ls -1 -d */ 2>/dev/null | head -n -90 | xargs -r rm -rf || true
+
+      - name: Commit + push backup
+        run: |
+          cd citurb-backup
+          git config user.name "citurb-backup-bot"
+          git config user.email "backup@citurbarea.local"
+          git add -A
+          DATE=$(date -u +%Y-%m-%d)
+          if git diff --cached --quiet; then
+            echo "Aucun changement à commit (snapshot identique au précédent?)"
+          else
+            git commit -m "snapshot: $DATE [auto]"
+            git push
+          fi
+
+      - name: Summary report
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          echo "✅ Backup $DATE pushed to ${{ secrets.BACKUP_REPO }}"
+          if [ -d citurb-backup/snapshots/$DATE ]; then
+            echo "📊 Stats:"
+            wc -l citurb-backup/snapshots/$DATE/*.json 2>/dev/null || true
+            ls -la citurb-backup/snapshots/$DATE/dossiers/ 2>/dev/null || true
+          fi
