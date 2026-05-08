@@ -1,0 +1,24 @@
+{
+  "appId": "com.citurbarea.archive",
+  "productName": "CITURBAREA Archive",
+  "asar": true,
+  "directories": {
+    "output": "dist/archive"
+  },
+  "files": [
+    "main.js",
+    "offline.html",
+    "package.json"
+  ],
+  "win": {
+    "target": [
+      { "target": "dir", "arch": ["x64"] }
+    ],
+    "signAndEditExecutable": false
+  },
+  "extraMetadata": {
+    "name": "citurbarea-archive",
+    "main": "main.js",
+    "citVariant": "archive"
+  }
+}

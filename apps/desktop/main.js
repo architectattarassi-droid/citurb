@@ -49,9 +49,18 @@ const CONFIG_DOC = {
   password: '',
   url: BASE + '/docs',
 };
+const CONFIG_ARCHIVE = {
+  title: 'CITURBAREA — Archive' + (LOCAL_MODE ? ' (LOCAL)' : ''),
+  accent: '#B08D57',
+  badge: 'ARCHIVE · CONSULTATION DOSSIERS' + (LOCAL_MODE ? ' · LOCAL' : ''),
+  email: 'admin@citurbarea.test',
+  password: 'Admin123!',
+  url: BASE + '/cc/archive',
+};
 const CONFIG =
   VARIANT === 'backoffice' ? CONFIG_BACK :
-  VARIANT === 'doc'        ? CONFIG_DOC :
+  VARIANT === 'doc'        ? CONFIG_DOC  :
+  VARIANT === 'archive'    ? CONFIG_ARCHIVE :
   CONFIG_PORTAL;
 
 const TARGET_URL = CONFIG.url;
