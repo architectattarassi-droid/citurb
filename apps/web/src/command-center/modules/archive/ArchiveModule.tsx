@@ -11,6 +11,8 @@
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../../../tomes/tome4/apiClient";
+import ArchiveVault from "./ArchiveVault";
+import { CC } from "../../theme/tokens";
 
 type Facet = { name: string; count: number };
 type Facets = {
@@ -131,13 +133,32 @@ export default function ArchiveModule() {
   }, [search]);
 
   const isFilterActive = useMemo(() => Object.values(filters).some(v => !!v), [filters]);
+  const [tab, setTab] = useState<"vault" | "search">("vault");
 
   return (
     <div>
+      <div style={{ marginBottom: 20, display: "flex", alignItems: "flex-end", gap: 32, borderBottom: `1px solid ${CC.color.border}`, paddingBottom: 12 }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 10, color: CC.color.or, letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 600 }}>Atelier · Mémoire</div>
+          <h1 style={{ margin: "4px 0 0", fontFamily: CC.font.display, fontSize: 28, fontWeight: 600, color: CC.color.navy, letterSpacing: "-0.01em" }}>Archive</h1>
+        </div>
+        <div style={{ display: "flex", gap: 4 }}>
+          <button onClick={() => setTab("vault")} style={tabBtn(tab === "vault")}>Coffre-fort</button>
+          <button onClick={() => setTab("search")} style={tabBtn(tab === "search")}>Recherche</button>
+        </div>
+      </div>
+
+      {tab === "vault" && <ArchiveVault />}
+      {tab === "search" && <div>{renderSearch()}</div>}
+    </div>
+  );
+
+  function renderSearch() {
+    return (
+    <div>
       <div style={{ marginBottom: 16 }}>
-        <h1 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: "#e8eaf0", fontFamily: "'DM Mono', monospace" }}>📚 Archive — Recherche multi-dimensionnelle</h1>
-        <p style={{ margin: "4px 0 0", fontSize: 12, color: "#4a5568" }}>
-          {facets?.total ?? "..."} dossiers indexés · accès complet aux données + documents · accessible 24/7 depuis n'importe quel poste
+        <p style={{ margin: 0, fontSize: 13.5, color: CC.color.inkMid, fontStyle: "italic" }}>
+          {facets?.total ?? "..."} dossiers indexés · recherche par commune, ICE, titre foncier, lotissement, dates…
         </p>
       </div>
 
@@ -269,8 +290,17 @@ export default function ArchiveModule() {
         </main>
       </div>
     </div>
-  );
+    );
+  }
 }
+
+const tabBtn = (active: boolean): React.CSSProperties => ({
+  background: active ? CC.color.navy : "transparent",
+  color: active ? CC.color.bg : CC.color.inkMid,
+  border: `1px solid ${active ? CC.color.navy : CC.color.border}`,
+  padding: "9px 18px", borderRadius: 6, cursor: "pointer", fontSize: 12.5, fontWeight: 600,
+  fontFamily: "inherit", letterSpacing: "0.04em",
+});
 
 // ─── Sidebar Facet Group ─────────────────────────────────────────────
 

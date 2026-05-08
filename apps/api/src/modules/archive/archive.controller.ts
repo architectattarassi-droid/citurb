@@ -59,6 +59,16 @@ export class ArchiveController {
   }
 
   /**
+   * VAULT — Coffre-fort de fichiers, arborescence Porte > Client > Dossier > Phase > Doc.
+   * Vue dédiée à l'app Archive (différente de la liste de dossiers).
+   */
+  @Get("vault")
+  @Roles("ADMIN", "OWNER", "OPS")
+  async vault() {
+    return { ok: true, ...(await this.svc.vault()) };
+  }
+
+  /**
    * Healthcheck du système de backup externe.
    * À appeler par un monitoring externe ou affiché en dashboard ops.
    * Retourne info sur le dernier snapshot connu (basé sur le dernier

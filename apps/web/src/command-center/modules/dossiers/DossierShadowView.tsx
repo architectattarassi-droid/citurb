@@ -127,16 +127,28 @@ export default function DossierShadowView() {
           </div>
         )}
 
-        {/* Frise atelier (12 phases) */}
+        {/* Frise atelier (13 phases) — TOUJOURS visible en haut, source de vérité du parcours */}
         {id && (
-          <div style={{ padding: "20px 24px", borderBottom: `1px solid ${CC.color.border}`, background: CC.color.bgRaised }}>
+          <div style={{ padding: "24px 24px 20px", borderBottom: `1px solid ${CC.color.border}`, background: CC.color.bgRaised }}>
             <DossierPhaseTimeline dossierId={id} />
           </div>
         )}
 
+        {/* Documents de base du dossier (titres, plans, CIN, contrat) */}
         {id && <BaseDossierDocsSection dossierId={id} dossier={dossier} onChange={load} />}
 
-        {id && <RokhasPhaseTimeline dossierId={id} mode="client" />}
+        {/* Sous-flux Rokhas : repli dans la Phase 5 Autorisation, pas en première vue */}
+        {id && (
+          <details style={{ margin: "16px 24px", background: CC.color.bgRaised, border: `1px solid ${CC.color.border}`, borderRadius: 8, padding: "12px 16px" }}>
+            <summary style={{ cursor: "pointer", fontFamily: CC.font.display, fontSize: 15, color: CC.color.navy, fontWeight: 600, listStyle: "none" }}>
+              <span style={{ fontSize: 9.5, color: CC.color.or, letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 600, display: "block", marginBottom: 2 }}>Phase 5 · sous-flux</span>
+              Plateforme Rokhas — instruction administrative
+            </summary>
+            <div style={{ marginTop: 12, padding: "0 0 0 4px" }}>
+              <RokhasPhaseTimeline dossierId={id} mode="client" />
+            </div>
+          </details>
+        )}
 
         <div style={{ padding: "20px 24px" }}>
           <SectionHead eyebrow="Atelier · Dossier" title="Sous-phases & Documents" />

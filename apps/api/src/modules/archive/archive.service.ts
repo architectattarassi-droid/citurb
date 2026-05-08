@@ -290,4 +290,139 @@ export class ArchiveService {
 
     return events.sort((a, b) => new Date(a.ts).getTime() - new Date(b.ts).getTime());
   }
+
+  /**
+   * VAULT — Coffre-fort de fichiers classés.
+   *
+   * Retourne l'arborescence : Porte > Client > Dossier > Phase > Documents.
+   * Exploite tous les Documents et SousPhase.documents existants. Cohérent
+   * avec la structure StorageService :
+   *   C:/CITURBAREA_DATA/dossiers/<id>/<phase>/finale|sources/<file>
+   */
+  async vault() {
+    const dossiers = await this.prisma.dossier.findMany({
+      select: {
+        id: true, title: true, porteType: true, commune: true, parcelRef: true,
+        clientNom: true, clientEmail: true, raisonSociale: true,
+        createdAt: true, phase: true, payload: true,
+        documents: {
+          select: { id: true, docType: true, originalName: true, storedName: true, uploadedAt: true, mimeType: true, sizeBytes: true },
+        },
+        sousPhases: {
+          select: {
+            id: true, phaseRef: true, numero: true, titre: true, statut: true,
+            documents: { select: { id: true, nom: true, filePath: true, mimeType: true, fileSize: true, createdAt: true, visibleClient: true } },
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    type FileNode = {
+      id: string;
+      name: string;
+      type: "BASE" | "SOUS_PHASE";
+      phase: string | null;
+      mimeType?: string | null;
+      fileSize?: number | null;
+      uploadedAt: string;
+      sousPhaseId?: string;
+      visibleClient?: boolean;
+    };
+    type DossierNode = {
+      id: string;
+      title: string;
+      porteType: string;
+      commune: string | null;
+      parcelRef: string | null;
+      clientLabel: string;
+      currentPhase: string | null;
+      createdAt: string;
+      filesCount: number;
+      filesByPhase: Record<string, FileNode[]>;
+    };
+    type ClientGroup = { clientLabel: string; clientEmail: string | null; dossiers: DossierNode[] };
+    type PorteGroup = { porteType: string; clients: ClientGroup[] };
+
+    const portesMap = new Map<string, Map<string, DossierNode[]>>();
+
+    for (const d of dossiers) {
+      const porte = d.porteType || "AUTRE";
+      const clientLabel = d.raisonSociale || d.clientNom || (d.clientEmail || "Client").split("@")[0];
+
+      const filesByPhase: Record<string, FileNode[]> = {};
+      let total = 0;
+      // Documents de base — DossierDocument n'a pas de colonne phase, on les
+      // attribue à la phase courante du dossier (BRIEF par défaut).
+      const basePhase = d.phase || "PHASE_00_BRIEF";
+      for (const doc of d.documents || []) {
+        const node: FileNode = {
+          id: doc.id,
+          name: doc.originalName || doc.storedName || doc.id,
+          type: "BASE",
+          phase: basePhase,
+          mimeType: doc.mimeType ?? null,
+          fileSize: doc.sizeBytes ?? null,
+          uploadedAt: doc.uploadedAt instanceof Date ? doc.uploadedAt.toISOString() : String(doc.uploadedAt),
+        };
+        (filesByPhase[basePhase] ||= []).push(node);
+        total++;
+      }
+      // Documents de sous-phases
+      for (const sp of d.sousPhases || []) {
+        const phase = sp.phaseRef || "PHASE_00_BRIEF";
+        for (const doc of sp.documents || []) {
+          const node: FileNode = {
+            id: doc.id,
+            name: doc.nom || doc.id,
+            type: "SOUS_PHASE",
+            phase,
+            mimeType: doc.mimeType ?? null,
+            fileSize: doc.fileSize ?? null,
+            uploadedAt: doc.createdAt instanceof Date ? doc.createdAt.toISOString() : String(doc.createdAt),
+            sousPhaseId: sp.id,
+            visibleClient: doc.visibleClient,
+          };
+          (filesByPhase[phase] ||= []).push(node);
+          total++;
+        }
+      }
+
+      const dossierNode: DossierNode = {
+        id: d.id,
+        title: d.title || "(sans titre)",
+        porteType: porte,
+        commune: d.commune ?? null,
+        parcelRef: d.parcelRef ?? null,
+        clientLabel,
+        currentPhase: d.phase ?? null,
+        createdAt: d.createdAt instanceof Date ? d.createdAt.toISOString() : String(d.createdAt),
+        filesCount: total,
+        filesByPhase,
+      };
+
+      const clientsMap = portesMap.get(porte) || new Map<string, DossierNode[]>();
+      const arr = clientsMap.get(clientLabel) || [];
+      arr.push(dossierNode);
+      clientsMap.set(clientLabel, arr);
+      portesMap.set(porte, clientsMap);
+    }
+
+    const portes: PorteGroup[] = [];
+    for (const [porteType, clientsMap] of portesMap) {
+      const clients: ClientGroup[] = [];
+      for (const [clientLabel, dossiersArr] of clientsMap) {
+        const sample = dossiers.find(x => (x.raisonSociale || x.clientNom || (x.clientEmail || "").split("@")[0]) === clientLabel);
+        clients.push({ clientLabel, clientEmail: sample?.clientEmail ?? null, dossiers: dossiersArr });
+      }
+      clients.sort((a, b) => a.clientLabel.localeCompare(b.clientLabel));
+      portes.push({ porteType, clients });
+    }
+    portes.sort((a, b) => a.porteType.localeCompare(b.porteType));
+
+    const totalFiles = portes.reduce((s, p) => s + p.clients.reduce((s2, c) => s2 + c.dossiers.reduce((s3, d) => s3 + d.filesCount, 0), 0), 0);
+    const totalDossiers = dossiers.length;
+
+    return { totalDossiers, totalFiles, portes };
+  }
 }

@@ -41,6 +41,7 @@ type SP = {
 };
 
 const PHASE_LABELS: Record<string, string> = {
+  PHASE_00_BRIEF: "00 · Brief",
   PHASE_01_ESQUISSE: "01 · Esquisse",
   PHASE_02_APS: "02 · APS",
   PHASE_03_APD: "03 · APD",
@@ -55,6 +56,20 @@ const PHASE_LABELS: Record<string, string> = {
   PHASE_PERMIS_HABITER: "Permis d'habiter",
 };
 
+const ALL_PHASES = [
+  "PHASE_00_BRIEF", "PHASE_01_ESQUISSE", "PHASE_02_APS", "PHASE_03_APD",
+  "PHASE_04_MANDAT_BET", "PHASE_05_AUTORISATION", "PHASE_06_DOSSIER_EXECUTION",
+  "PHASE_07_DCE", "PHASE_08_MANDATS", "PHASE_09_OUVERTURE_CHANTIER",
+  "PHASE_RECEPTION_PROVISOIRE", "PHASE_RECEPTION_DEFINITIVE", "PHASE_PERMIS_HABITER",
+];
+
+const PHASE_GROUPS: { id: string; label: string; phases: string[] }[] = [
+  { id: "amorce",        label: "Amorce",        phases: ["PHASE_00_BRIEF"] },
+  { id: "etudes",        label: "Études",        phases: ["PHASE_01_ESQUISSE","PHASE_02_APS","PHASE_03_APD","PHASE_04_MANDAT_BET","PHASE_05_AUTORISATION"] },
+  { id: "execution",     label: "Exécution",     phases: ["PHASE_06_DOSSIER_EXECUTION","PHASE_07_DCE","PHASE_08_MANDATS","PHASE_09_OUVERTURE_CHANTIER"] },
+  { id: "aboutissement", label: "Aboutissement", phases: ["PHASE_RECEPTION_PROVISOIRE","PHASE_RECEPTION_DEFINITIVE","PHASE_PERMIS_HABITER"] },
+];
+
 export default function P1ClientPhases() {
   const auth = useAuth();
   const navigate = useNavigate();
@@ -63,6 +78,7 @@ export default function P1ClientPhases() {
     || (auth.userId ? localStorage.getItem(`citurbarea:p1:dossierId:${auth.userId}:v1`) : null);
 
   const [sousPhases, setSousPhases] = useState<SP[]>([]);
+  const [phaseStatus, setPhaseStatus] = useState<{ current: string | null; completed: string[] } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [openSP, setOpenSP] = useState<string | null>(null);
@@ -79,8 +95,12 @@ export default function P1ClientPhases() {
     setLoading(true);
     setError(null);
     try {
-      const list: SP[] = await apiFetch(`/p2/dossier/${dossierId}/client/sous-phases`);
-      setSousPhases(Array.isArray(list) ? list : []);
+      const [list, ps] = await Promise.all([
+        apiFetch(`/p2/dossier/${dossierId}/client/sous-phases`).catch(() => []),
+        apiFetch(`/p2/dossier/${dossierId}/phase/status`).catch(() => null),
+      ]);
+      setSousPhases(Array.isArray(list) ? list as SP[] : []);
+      setPhaseStatus(ps && typeof ps === "object" ? ps as { current: string | null; completed: string[] } : null);
     } catch (e: any) {
       setError(e?.message || "Erreur chargement");
     } finally {
@@ -134,25 +154,63 @@ export default function P1ClientPhases() {
   }
   const phaseRefs = Object.keys(byPhase).sort();
 
+  const completedSet = new Set(phaseStatus?.completed || []);
+  const currentPhase = phaseStatus?.current || null;
+
   return (
-    <div style={{ padding: "20px 24px", maxWidth: 1200, margin: "0 auto" }}>
+    <div style={{ padding: "20px 24px", maxWidth: 1200, margin: "0 auto", fontFamily: "'Inter', -apple-system, sans-serif" }}>
       <div style={{ marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div>
-          <h1 style={{ fontSize: 22, margin: 0, color: "#0f172a" }}>📁 Documents et phases</h1>
-          <p style={{ fontSize: 13, color: "#64748b", margin: "4px 0 0" }}>
-            Documents soumis par votre architecte. Visualisez, validez ou demandez des modifications.
+          <div style={{ fontSize: 10, color: "#B08D57", letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 600 }}>Votre dossier</div>
+          <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 30, margin: "4px 0 0", color: "#0F2A4A", fontWeight: 600, letterSpacing: "-0.01em" }}>Suivi de votre projet</h1>
+          <p style={{ fontSize: 13.5, color: "#5C6373", margin: "6px 0 0", fontStyle: "italic", maxWidth: 540 }}>
+            Votre architecte vous fait avancer phase par phase. Voici où en est votre projet, et les documents à valider quand ils sont prêts.
           </p>
         </div>
-        <button onClick={load} style={{ background: "#1d4ed8", color: "#fff", border: 0, padding: "8px 14px", borderRadius: 6, cursor: "pointer", fontSize: 13 }}>
+        <button onClick={load} style={{ background: "#0F2A4A", color: "#FAF7F2", border: 0, padding: "9px 16px", borderRadius: 6, cursor: "pointer", fontSize: 12.5, fontWeight: 600, letterSpacing: "0.04em" }}>
           ↻ Rafraîchir
         </button>
       </div>
 
+      {/* ── Frise atelier 13 phases ── */}
+      <div style={{ background: "#FFFFFF", border: "1px solid #E8E2D5", borderRadius: 12, padding: "20px 22px", marginBottom: 20, boxShadow: "0 1px 3px rgba(15,42,74,0.06)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 14, paddingBottom: 10, borderBottom: "1px solid #F0EBE0" }}>
+          <div>
+            <div style={{ fontSize: 9.5, color: "#B08D57", letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 600 }}>Progression</div>
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 17, color: "#0F2A4A", fontWeight: 600, marginTop: 2 }}>
+              {currentPhase ? PHASE_LABELS[currentPhase] || currentPhase : "—"}
+            </div>
+          </div>
+          <div style={{ fontSize: 12, color: "#5C6373" }}>
+            {completedSet.size} / {ALL_PHASES.length} phases <span style={{ color: "#B08D57", fontWeight: 600 }}>· {Math.round((completedSet.size / ALL_PHASES.length) * 100)}%</span>
+          </div>
+        </div>
+        {PHASE_GROUPS.map(g => (
+          <div key={g.id} style={{ marginBottom: 12 }}>
+            <div style={{ fontSize: 9.5, color: "#B08D57", letterSpacing: "0.20em", textTransform: "uppercase", fontWeight: 600, marginBottom: 6 }}>{g.label}</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {g.phases.map(p => {
+                const isDone = completedSet.has(p);
+                const isCur  = currentPhase === p;
+                const fg = isDone ? "#6B7F5C" : isCur ? "#B08D57" : "#8B91A1";
+                const bg = isDone ? "#EEF2E8" : isCur ? "#F2EDE3" : "transparent";
+                const border = isDone ? "#6B7F5C" : isCur ? "#B08D57" : "#E8E2D5";
+                return (
+                  <div key={p} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "5px 10px", borderRadius: 4, background: bg, border: `1px solid ${border}`, color: fg, fontSize: 11.5, fontWeight: isCur ? 600 : 500 }}>
+                    <span>{isDone ? "✓" : isCur ? "●" : "○"}</span>
+                    <span>{(PHASE_LABELS[p] || p).replace(/^\d+\s·\s/, "")}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
       {phaseRefs.length === 0 && (
-        <div style={{ padding: 32, textAlign: "center", color: "#94a3b8", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 12 }}>
-          <div style={{ fontSize: 32, marginBottom: 8 }}>📭</div>
-          <div>Aucun document soumis pour le moment.</div>
-          <div style={{ fontSize: 12, marginTop: 4 }}>Votre architecte vous enverra des documents à valider lorsqu'ils seront prêts.</div>
+        <div style={{ padding: 32, textAlign: "center", color: "#5C6373", background: "#FFFFFF", border: "1px solid #E8E2D5", borderRadius: 12, fontFamily: "'Inter', sans-serif" }}>
+          <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, color: "#0F2A4A", marginBottom: 6 }}>En attente de documents</div>
+          <div style={{ fontSize: 13.5, fontStyle: "italic" }}>Votre architecte vous enverra des documents à valider lorsqu'ils seront prêts pour la phase en cours.</div>
         </div>
       )}
 

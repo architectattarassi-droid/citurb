@@ -63,6 +63,13 @@ let ArchiveController = class ArchiveController {
         return await this.svc.dossierFull(id);
     }
     /**
+     * VAULT — Coffre-fort de fichiers, arborescence Porte > Client > Dossier > Phase > Doc.
+     * Vue dédiée à l'app Archive (différente de la liste de dossiers).
+     */
+    async vault() {
+        return { ok: true, ...(await this.svc.vault()) };
+    }
+    /**
      * Healthcheck du système de backup externe.
      * À appeler par un monitoring externe ou affiché en dashboard ops.
      * Retourne info sur le dernier snapshot connu (basé sur le dernier
@@ -105,6 +112,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ArchiveController.prototype, "dossierFull", null);
+__decorate([
+    (0, common_1.Get)("vault"),
+    (0, roles_decorator_1.Roles)("ADMIN", "OWNER", "OPS"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ArchiveController.prototype, "vault", null);
 __decorate([
     (0, common_1.Get)("backup-health"),
     (0, roles_decorator_1.Roles)("ADMIN", "OWNER", "OPS"),
