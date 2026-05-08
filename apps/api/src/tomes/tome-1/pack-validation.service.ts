@@ -2,6 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { PrismaService } from "../tome-at/kernel/prisma/prisma.service";
 import { ClientNotifyService } from "../../modules/client-notify/client-notify.service";
 import { OwnerNotifyService } from "../../modules/owner-notify/owner-notify.service";
+import { PhaseEngineService } from "../../modules/phase-engine/phase-engine.service";
 
 /**
  * PackValidationService — workflow de validation admin des packs achetés
@@ -46,6 +47,7 @@ export class PackValidationService {
     private readonly prisma: PrismaService,
     private readonly clientNotify: ClientNotifyService,
     private readonly ownerNotify: OwnerNotifyService,
+    private readonly phaseEngine: PhaseEngineService,
   ) {}
 
   async getState(dossierId: string): Promise<PackValidationState> {
@@ -144,6 +146,11 @@ export class PackValidationService {
     payload.packValidation = next;
     await this.prisma.dossier.update({ where: { id: opts.dossierId }, data: { payload } });
     this.logger.log(`[PackValidation] ${opts.dossierId} → ACTIVATED by ${opts.author}`);
+
+    // Auto-advance phase BRIEF → ESQUISSE (le projet entre en études)
+    this.phaseEngine.advanceBriefToEsquisse(opts.dossierId, opts.author).catch(err => {
+      this.logger.warn(`[PackValidation] advanceBriefToEsquisse failed for ${opts.dossierId}: ${err?.message}`);
+    });
 
     // Email pack activé (fire-and-forget) — langue du dossier
     if (dossier.clientEmail) {

@@ -39,6 +39,8 @@ export class DossierService {
         constructionLevel: input?.constructionLevel ?? null,
         caseId: input?.caseId ?? null,
         firmId: owner?.firmId ?? null,
+        // Phase d'amorce — BRIEF tant que le pack n'est pas validé par l'admin
+        phase: 'PHASE_00_BRIEF',
         // P2 / multi-porte fields
         porteType: input?.porteType ?? 'P1',
         gestionMode: input?.gestionMode ?? 'AUTONOME',
@@ -58,6 +60,8 @@ export class DossierService {
     });
     this.ownerNotify.notify('DOSSIER_CREATED', { title: result.title, commune: result.commune, packSelected: result.packSelected, dossierId: result.id }).catch(() => {});
     this.storage.ensureDossierStructure(result.id, result.refInterne ?? undefined).catch(() => {});
+    // Crée le record de phase BRIEF (collecte des données en cours)
+    this.phaseEngine.initBrief(result.id).catch(() => {});
     return result;
   }
 

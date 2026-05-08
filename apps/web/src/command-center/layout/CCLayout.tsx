@@ -1,38 +1,56 @@
 /**
- * CCLayout.tsx
- * Layout principal du Command Center
- * Sidebar gauche + header haut + KPI bar + contenu
+ * CCLayout.tsx — Studio architecte premium
+ *
+ * Layout principal du Command Center : ivoire chaud, navy profond, accents or.
+ * Sidebar + en-tête + KPI bar + contenu, avec typographie Playfair (display)
+ * et Inter (body).
  */
 
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import CCKpiBar from './CCKpiBar';
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import CCKpiBar from "./CCKpiBar";
+import { CC } from "../theme/tokens";
 
 // ─── Types ───────────────────────────────────────────────────
 
-interface NavItem {
-  id: string;
-  label: string;
-  icon: string;
-  path: string;
-  badge?: number;
-}
+type NavGroup = { id: string; title: string; items: NavItem[] };
+type NavItem = { id: string; label: string; path: string; mark: string };
 
-// ─── Navigation config ───────────────────────────────────────
+// ─── Navigation, regroupée par intention métier ─────────────
 
-const NAV_ITEMS: NavItem[] = [
-  { id: 'dashboard',    label: 'Dashboard',            icon: '◈',  path: '/cc/dashboard' },
-  { id: 'media',        label: 'Media · Cities Talk',  icon: '▶',  path: '/cc/media' },
-  { id: 'leads',        label: 'Leads',                icon: '◉',  path: '/cc/leads' },
-  { id: 'validations',  label: 'Validations',          icon: '◇',  path: '/cc/validations' },
-  { id: 'archive',      label: 'Archive',              icon: '📚', path: '/cc/archive' },
-  { id: 'projects',     label: 'Projets',              icon: '⬡',  path: '/cc/projects' },
-  { id: 'territorial',  label: 'Intelligence Territo.', icon: '◎', path: '/cc/territorial' },
-  { id: 'business',     label: 'Business',             icon: '◆',  path: '/cc/business' },
-  { id: 'dossiers',    label: 'Dossiers',             icon: '▣',  path: '/cc/dossiers' },
-  { id: 'live',        label: 'Live 📡',              icon: '📡', path: '/cc/live' },
-  { id: 'firms',       label: '🏢 Cabinets',          icon: '🏢', path: '/cc/firms' },
+const NAV_GROUPS: NavGroup[] = [
+  {
+    id: "atelier",
+    title: "Atelier",
+    items: [
+      { id: "dashboard",   label: "Tableau de bord", path: "/cc/dashboard",   mark: "I"   },
+      { id: "leads",       label: "Leads",           path: "/cc/leads",       mark: "II"  },
+      { id: "validations", label: "Validations",     path: "/cc/validations", mark: "III" },
+    ],
+  },
+  {
+    id: "production",
+    title: "Production",
+    items: [
+      { id: "dossiers", label: "Dossiers",  path: "/cc/dossiers", mark: "IV" },
+      { id: "projects", label: "Projets",   path: "/cc/projects", mark: "V"  },
+      { id: "archive",  label: "Archive",   path: "/cc/archive",  mark: "VI" },
+    ],
+  },
+  {
+    id: "rayonnement",
+    title: "Rayonnement",
+    items: [
+      { id: "media",       label: "Médias",                 path: "/cc/media",       mark: "VII"  },
+      { id: "territorial", label: "Intelligence territoire", path: "/cc/territorial", mark: "VIII" },
+      { id: "business",    label: "Business",                path: "/cc/business",    mark: "IX"   },
+      { id: "firms",       label: "Cabinets",                path: "/cc/firms",       mark: "X"    },
+      { id: "live",        label: "Live",                    path: "/cc/live",        mark: "XI"   },
+    ],
+  },
 ];
+
+const ALL_ITEMS = NAV_GROUPS.flatMap(g => g.items);
 
 // ─── Composant ───────────────────────────────────────────────
 
@@ -41,94 +59,101 @@ export default function CCLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
 
-  const activeId = NAV_ITEMS.find(n => location.pathname.startsWith(n.path))?.id ?? 'dashboard';
-  const activeLabel = NAV_ITEMS.find(n => n.id === activeId)?.label ?? 'Dashboard';
+  // Charge les fontes Google une seule fois (Playfair + Inter)
+  useEffect(() => {
+    const id = "cc-fonts";
+    if (document.getElementById(id)) return;
+    const link = document.createElement("link");
+    link.id = id;
+    link.rel = "stylesheet";
+    link.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap";
+    document.head.appendChild(link);
+  }, []);
+
+  const active = ALL_ITEMS.find(n => location.pathname.startsWith(n.path)) ?? ALL_ITEMS[0];
+  const activeGroup = NAV_GROUPS.find(g => g.items.some(i => i.id === active.id));
+
+  const today = new Date().toLocaleDateString("fr-MA", {
+    weekday: "long", day: "numeric", month: "long", year: "numeric",
+  });
 
   return (
-    <div style={styles.root}>
+    <div style={S.root}>
       {/* ── Sidebar ── */}
-      <aside style={{ ...styles.sidebar, width: collapsed ? 64 : 220 }}>
-        {/* Logo */}
-        <div style={styles.logoWrap}>
-          <div style={styles.logoMark}>C</div>
+      <aside style={{ ...S.sidebar, width: collapsed ? 72 : 240 }}>
+        <div style={S.brand}>
+          <div style={S.brandSeal}>C</div>
           {!collapsed && (
-            <div style={styles.logoText}>
-              <span style={styles.logoMain}>CITURBAREA</span>
-              <span style={styles.logoSub}>Command Center</span>
+            <div style={S.brandText}>
+              <span style={S.brandName}>CITURBAREA</span>
+              <span style={S.brandSub}>Atelier · Command Center</span>
             </div>
           )}
         </div>
 
-        {/* Nav */}
-        <nav style={styles.nav}>
-          {NAV_ITEMS.map(item => {
-            const isActive = item.id === activeId;
-            return (
-              <button
-                key={item.id}
-                onClick={() => navigate(item.path)}
-                title={collapsed ? item.label : undefined}
-                style={{
-                  ...styles.navItem,
-                  ...(isActive ? styles.navItemActive : {}),
-                  justifyContent: collapsed ? 'center' : 'flex-start',
-                  padding: collapsed ? '10px 0' : '10px 16px',
-                }}
-              >
-                <span style={styles.navIcon}>{item.icon}</span>
-                {!collapsed && <span style={styles.navLabel}>{item.label}</span>}
-                {!collapsed && item.badge != null && item.badge > 0 && (
-                  <span style={styles.badge}>{item.badge}</span>
-                )}
-              </button>
-            );
-          })}
+        <nav style={S.nav}>
+          {NAV_GROUPS.map(group => (
+            <div key={group.id} style={S.navGroup}>
+              {!collapsed && <div style={S.navGroupTitle}>{group.title}</div>}
+              {group.items.map(item => {
+                const isActive = item.id === active.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => navigate(item.path)}
+                    title={collapsed ? item.label : undefined}
+                    style={{
+                      ...S.navItem,
+                      ...(isActive ? S.navItemActive : {}),
+                      justifyContent: collapsed ? "center" : "flex-start",
+                      padding: collapsed ? "10px 0" : "9px 14px",
+                    }}
+                  >
+                    <span style={{ ...S.navMark, color: isActive ? CC.color.or : CC.color.inkMuted }}>
+                      {item.mark}
+                    </span>
+                    {!collapsed && <span style={S.navLabel}>{item.label}</span>}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
         </nav>
 
-        {/* Collapse toggle */}
-        <button
-          onClick={() => setCollapsed(c => !c)}
-          style={styles.collapseBtn}
-          title={collapsed ? 'Étendre' : 'Réduire'}
-        >
-          {collapsed ? '→' : '←'}
-        </button>
-
-        {/* Footer sidebar */}
-        {!collapsed && (
-          <div style={styles.sidebarFooter}>
-            <span style={styles.versionTag}>V166 · CC</span>
-          </div>
-        )}
+        <div style={S.sidebarFooter}>
+          <button
+            onClick={() => setCollapsed(c => !c)}
+            style={S.collapseBtn}
+            title={collapsed ? "Étendre" : "Réduire"}
+          >
+            {collapsed ? "›" : "‹  Réduire"}
+          </button>
+          {!collapsed && <div style={S.versionTag}>V166 · Atelier</div>}
+        </div>
       </aside>
 
       {/* ── Main ── */}
-      <div style={styles.main}>
-        {/* Header */}
-        <header style={styles.header}>
-          <div style={styles.headerLeft}>
-            <span style={styles.breadcrumb}>
-              <span style={styles.breadcrumbRoot}>CC</span>
-              <span style={styles.breadcrumbSep}>/</span>
-              <span style={styles.breadcrumbCurrent}>{activeLabel}</span>
-            </span>
+      <div style={S.main}>
+        <header style={S.header}>
+          <div style={S.headerLeft}>
+            <div style={S.crumbGroup}>{activeGroup?.title ?? ""}</div>
+            <h1 style={S.crumbTitle}>{active.label}</h1>
           </div>
-          <div style={styles.headerRight}>
-            <span style={styles.clockBadge}>{new Date().toLocaleDateString('fr-MA', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
-            <div style={styles.userChip}>
-              <span style={styles.userAvatar}>Y</span>
-              <span style={styles.userName}>Yassine</span>
+          <div style={S.headerRight}>
+            <span style={S.dateChip}>{today}</span>
+            <div style={S.userChip}>
+              <span style={S.userAvatar}>Y</span>
+              <div style={S.userMeta}>
+                <span style={S.userName}>Yassine</span>
+                <span style={S.userRole}>Architecte fondateur</span>
+              </div>
             </div>
           </div>
         </header>
 
-        {/* KPI Bar */}
         <CCKpiBar />
 
-        {/* Content */}
-        <main style={styles.content}>
-          {children}
-        </main>
+        <main style={S.content}>{children}</main>
       </div>
     </div>
   );
@@ -136,225 +161,224 @@ export default function CCLayout({ children }: { children: React.ReactNode }) {
 
 // ─── Styles ──────────────────────────────────────────────────
 
-const styles: Record<string, React.CSSProperties> = {
+const S: Record<string, React.CSSProperties> = {
   root: {
-    display: 'flex',
-    height: '100vh',
-    overflow: 'hidden',
-    background: '#0a0c10',
-    fontFamily: "'DM Mono', 'IBM Plex Mono', 'Fira Code', monospace",
-    color: '#e8eaf0',
+    display: "flex",
+    height: "100vh",
+    overflow: "hidden",
+    background: CC.color.bg,
+    fontFamily: CC.font.body,
+    color: CC.color.ink,
   },
 
-  // Sidebar
+  // ── Sidebar ──
   sidebar: {
-    display: 'flex',
-    flexDirection: 'column',
-    background: '#0d1017',
-    borderRight: '1px solid #1e2330',
+    display: "flex",
+    flexDirection: "column",
+    background: CC.color.bgRaised,
+    borderRight: `1px solid ${CC.color.border}`,
     flexShrink: 0,
-    transition: 'width 0.25s ease',
-    overflow: 'hidden',
+    transition: `width 0.3s ${CC.ease}`,
+    overflow: "hidden",
   },
-  logoWrap: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 10,
-    padding: '20px 16px 16px',
-    borderBottom: '1px solid #1e2330',
-    minHeight: 64,
+  brand: {
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    padding: "22px 18px 20px",
+    borderBottom: `1px solid ${CC.color.border}`,
+    minHeight: 76,
   },
-  logoMark: {
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    background: 'linear-gradient(135deg, #00d4aa, #0088ff)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 900,
-    fontSize: 16,
-    color: '#0a0c10',
-    flexShrink: 0,
-    letterSpacing: '-0.05em',
-  },
-  logoText: {
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'hidden',
-  },
-  logoMain: {
-    fontSize: 11,
+  brandSeal: {
+    width: 38,
+    height: 38,
+    borderRadius: 6,
+    background: CC.color.bgDeep,
+    color: CC.color.or,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontFamily: CC.font.display,
     fontWeight: 700,
-    letterSpacing: '0.12em',
-    color: '#e8eaf0',
-    whiteSpace: 'nowrap',
+    fontSize: 22,
+    flexShrink: 0,
+    letterSpacing: "-0.02em",
   },
-  logoSub: {
-    fontSize: 9,
+  brandText: { display: "flex", flexDirection: "column", overflow: "hidden" },
+  brandName: {
+    fontSize: 13,
+    fontWeight: 700,
+    letterSpacing: "0.18em",
+    color: CC.color.ink,
+    whiteSpace: "nowrap",
+    fontFamily: CC.font.body,
+  },
+  brandSub: {
+    fontSize: 10,
     fontWeight: 400,
-    letterSpacing: '0.08em',
-    color: '#4a5568',
-    whiteSpace: 'nowrap',
-    textTransform: 'uppercase',
+    letterSpacing: "0.10em",
+    color: CC.color.inkMuted,
+    whiteSpace: "nowrap",
+    fontStyle: "italic",
+    marginTop: 2,
   },
 
   nav: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 2,
-    padding: '12px 8px',
+    display: "flex",
+    flexDirection: "column",
+    gap: 18,
+    padding: "20px 12px",
+    overflowY: "auto",
+  },
+  navGroup: { display: "flex", flexDirection: "column", gap: 2 },
+  navGroupTitle: {
+    fontSize: 9,
+    fontWeight: 600,
+    letterSpacing: "0.20em",
+    color: CC.color.or,
+    textTransform: "uppercase",
+    padding: "0 14px 8px",
+    borderBottom: `1px dotted ${CC.color.border}`,
+    marginBottom: 6,
+    fontFamily: CC.font.body,
   },
   navItem: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 10,
-    border: 'none',
-    background: 'transparent',
-    color: '#4a5568',
-    borderRadius: 8,
-    cursor: 'pointer',
-    fontSize: 12,
-    fontFamily: 'inherit',
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    border: "none",
+    background: "transparent",
+    color: CC.color.inkMid,
+    borderRadius: 6,
+    cursor: "pointer",
+    fontSize: 13.5,
+    fontFamily: CC.font.body,
     fontWeight: 500,
-    transition: 'all 0.15s ease',
-    width: '100%',
-    textAlign: 'left',
-    letterSpacing: '0.02em',
+    transition: `all 0.18s ${CC.ease}`,
+    width: "100%",
+    textAlign: "left",
   },
   navItemActive: {
-    background: 'rgba(0, 212, 170, 0.08)',
-    color: '#00d4aa',
-    borderLeft: '2px solid #00d4aa',
+    background: CC.color.bgSoft,
+    color: CC.color.navy,
+    fontWeight: 600,
+    boxShadow: `inset 2px 0 0 ${CC.color.or}`,
   },
-  navIcon: {
-    fontSize: 14,
-    width: 20,
-    textAlign: 'center',
+  navMark: {
+    fontFamily: CC.font.display,
+    fontStyle: "italic",
+    fontSize: 12,
+    fontWeight: 600,
+    width: 28,
+    textAlign: "center",
+    letterSpacing: "0.05em",
     flexShrink: 0,
   },
   navLabel: {
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
     flex: 1,
+    letterSpacing: "0.01em",
   },
-  badge: {
-    background: '#00d4aa',
-    color: '#0a0c10',
-    borderRadius: 10,
-    padding: '1px 6px',
-    fontSize: 10,
-    fontWeight: 700,
-    flexShrink: 0,
+
+  sidebarFooter: {
+    padding: "14px 14px 18px",
+    borderTop: `1px solid ${CC.color.border}`,
+    display: "flex",
+    flexDirection: "column",
+    gap: 8,
   },
   collapseBtn: {
-    margin: '8px',
-    padding: '8px',
-    border: '1px solid #1e2330',
-    borderRadius: 6,
-    background: 'transparent',
-    color: '#4a5568',
-    cursor: 'pointer',
-    fontFamily: 'inherit',
-    fontSize: 12,
-    transition: 'all 0.15s',
-  },
-  sidebarFooter: {
-    padding: '8px 16px 16px',
-    borderTop: '1px solid #1e2330',
+    padding: "7px 10px",
+    border: `1px solid ${CC.color.border}`,
+    borderRadius: 5,
+    background: "transparent",
+    color: CC.color.inkMid,
+    cursor: "pointer",
+    fontFamily: CC.font.body,
+    fontSize: 11,
+    letterSpacing: "0.04em",
+    transition: `all 0.15s ${CC.ease}`,
   },
   versionTag: {
     fontSize: 9,
-    color: '#2d3748',
-    letterSpacing: '0.1em',
-    textTransform: 'uppercase',
+    color: CC.color.inkMuted,
+    letterSpacing: "0.18em",
+    textTransform: "uppercase",
+    textAlign: "center",
+    fontStyle: "italic",
   },
 
-  // Main area
-  main: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'hidden',
-  },
+  // ── Main ──
+  main: { flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" },
   header: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: '0 24px',
-    height: 52,
-    background: '#0d1017',
-    borderBottom: '1px solid #1e2330',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "18px 32px 16px",
+    background: CC.color.bgRaised,
+    borderBottom: `1px solid ${CC.color.border}`,
     flexShrink: 0,
+    minHeight: 80,
   },
-  headerLeft: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 12,
-  },
-  breadcrumb: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 6,
-    fontSize: 12,
-  },
-  breadcrumbRoot: {
-    color: '#4a5568',
-    letterSpacing: '0.1em',
-  },
-  breadcrumbSep: {
-    color: '#2d3748',
-  },
-  breadcrumbCurrent: {
-    color: '#00d4aa',
+  headerLeft: { display: "flex", flexDirection: "column", gap: 2 },
+  crumbGroup: {
+    fontSize: 10,
+    color: CC.color.or,
+    letterSpacing: "0.22em",
+    textTransform: "uppercase",
     fontWeight: 600,
   },
-  headerRight: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 12,
+  crumbTitle: {
+    margin: 0,
+    fontFamily: CC.font.display,
+    fontSize: 26,
+    fontWeight: 600,
+    color: CC.color.navy,
+    letterSpacing: "-0.01em",
+    lineHeight: 1.1,
   },
-  clockBadge: {
+  headerRight: { display: "flex", alignItems: "center", gap: 16 },
+  dateChip: {
     fontSize: 11,
-    color: '#4a5568',
-    padding: '3px 8px',
-    border: '1px solid #1e2330',
-    borderRadius: 4,
-    letterSpacing: '0.05em',
+    color: CC.color.inkMid,
+    fontStyle: "italic",
+    letterSpacing: "0.02em",
   },
   userChip: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 6,
-    padding: '4px 10px',
-    background: '#131820',
-    border: '1px solid #1e2330',
-    borderRadius: 20,
-    cursor: 'pointer',
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    padding: "6px 14px 6px 6px",
+    background: CC.color.bgSoft,
+    border: `1px solid ${CC.color.border}`,
+    borderRadius: 24,
+    cursor: "pointer",
+    transition: `all 0.15s ${CC.ease}`,
   },
   userAvatar: {
-    width: 22,
-    height: 22,
-    borderRadius: '50%',
-    background: 'linear-gradient(135deg, #00d4aa, #0088ff)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: 10,
+    width: 30,
+    height: 30,
+    borderRadius: "50%",
+    background: CC.color.bgDeep,
+    color: CC.color.or,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 13,
     fontWeight: 700,
-    color: '#0a0c10',
+    fontFamily: CC.font.display,
   },
-  userName: {
-    fontSize: 11,
-    color: '#8892a4',
-    fontWeight: 500,
-  },
+  userMeta: { display: "flex", flexDirection: "column", lineHeight: 1.15 },
+  userName: { fontSize: 13, color: CC.color.ink, fontWeight: 600, letterSpacing: "0.01em" },
+  userRole: { fontSize: 10, color: CC.color.inkMuted, fontStyle: "italic", letterSpacing: "0.04em" },
 
   content: {
     flex: 1,
-    overflowY: 'auto',
-    padding: '20px 24px',
+    overflowY: "auto",
+    padding: "28px 32px 40px",
+    background: CC.color.bg,
   },
 };

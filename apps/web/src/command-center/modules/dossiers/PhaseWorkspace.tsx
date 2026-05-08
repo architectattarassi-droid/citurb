@@ -13,6 +13,7 @@ const api = async (path: string, opts?: RequestInit) => {
 };
 
 const PHASES = [
+  { key: 'PHASE_00_BRIEF', label: '00 Brief', icon: '🗒️' },
   { key: 'PHASE_01_ESQUISSE', label: '01 Esquisse', icon: '✏️' },
   { key: 'PHASE_02_APS', label: '02 APS', icon: '📐' },
   { key: 'PHASE_03_APD', label: '03 APD', icon: '📋' },

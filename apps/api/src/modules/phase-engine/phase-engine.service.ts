@@ -2,7 +2,18 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../../tomes/tome-at/kernel/prisma/prisma.service';
 import { StorageService } from '../storage/storage.service';
 
+export const PHASE_BRIEF = 'PHASE_00_BRIEF' as const;
+
+/**
+ * BRIEF est la phase d'amorce :
+ *   - Créée automatiquement à l'intake (collecte des données client)
+ *   - Le pack n'est pas encore activé (ou paiement en attente)
+ *   - Le dossier reste en BRIEF tant que l'admin n'a pas validé le pack
+ * Dès que `PackValidation` passe à ACTIVATED, l'engine avance vers ESQUISSE.
+ */
+
 export const PHASES_ETUDES = [
+  PHASE_BRIEF,
   'PHASE_01_ESQUISSE',
   'PHASE_02_APS',
   'PHASE_03_APD',
@@ -77,6 +88,41 @@ export class PhaseEngineService {
     });
 
     return record;
+  }
+
+  /**
+   * Crée la phase BRIEF à l'intake d'un nouveau dossier.
+   * Idempotent (skip si déjà initialisé).
+   */
+  async initBrief(dossierId: string) {
+    const existing = await this.prisma.dossierPhaseRecord.findFirst({
+      where: { dossierId, phase: PHASE_BRIEF },
+    });
+    if (existing) return existing;
+    return this.prisma.dossierPhaseRecord.create({
+      data: {
+        dossierId,
+        phase: PHASE_BRIEF,
+        statut: 'EN_COURS',
+        dateDebut: new Date(),
+      },
+    });
+  }
+
+  /**
+   * Avance automatique BRIEF → ESQUISSE.
+   * Déclenchée à la validation admin du pack (PackValidationService.adminValidate).
+   * No-op si le dossier n'est pas en BRIEF.
+   */
+  async advanceBriefToEsquisse(dossierId: string, author: string) {
+    const dossier = await this.prisma.dossier.findUnique({
+      where: { id: dossierId },
+      select: { phase: true },
+    });
+    if (!dossier) return null;
+    const currentPhase = dossier.phase ?? PHASE_BRIEF;
+    if (currentPhase !== PHASE_BRIEF) return null; // déjà avancé manuellement
+    return this.advancePhase(dossierId, PHASE_BRIEF, 'PHASE_01_ESQUISSE', author, 'Pack validé — début études');
   }
 
   async getPhaseStatus(dossierId: string) {

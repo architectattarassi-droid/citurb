@@ -5,6 +5,7 @@ import { apiFetch } from "../../../tomes/tome4/apiClient";
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const PHASES_CITURB: { key: string; label: string }[] = [
+  { key: 'PHASE_00_BRIEF',               label: '00 Brief client' },
   { key: 'PHASE_01_ESQUISSE',            label: '01 Esquisse' },
   { key: 'PHASE_02_APS',                 label: '02 APS' },
   { key: 'PHASE_03_APD',                 label: '03 APD' },

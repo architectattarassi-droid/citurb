@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import { CC } from "../../theme/tokens";
 
 type Snapshot = {
   ytSubscribers?: number;
@@ -12,13 +13,16 @@ type Snapshot = {
   approvedCount?: number;
 };
 
-type MediaItem = { title: string; type: string; status: string; weekNumber: number; };
+type MediaItem = { title: string; type: string; status: string; weekNumber: number };
 
-const fallbackSnapshot: Snapshot = { ytSubscribers: 0, emailsCollected: 0, leadsNew: 0, consultationsDone: 0, projectsActive: 0, revenueMois: 0, dossierCount: 0, blockedCount: 0, approvedCount: 0 };
+const fallbackSnapshot: Snapshot = {
+  ytSubscribers: 0, emailsCollected: 0, leadsNew: 0, consultationsDone: 0,
+  projectsActive: 0, revenueMois: 0, dossierCount: 0, blockedCount: 0, approvedCount: 0,
+};
 const fallbackMedia: MediaItem[] = [
-  { title: '500 000 DH : نستثمر ولا نبني؟', type: 'VIDEO_LONG', status: 'PLANNED', weekNumber: 1 },
-  { title: '5 أخطاء كتخسر الملايين', type: 'VIDEO_LONG', status: 'PLANNED', weekNumber: 2 },
-  { title: 'Étape 6: التسوية Terrassement', type: 'SHORT', status: 'PLANNED', weekNumber: 1 },
+  { title: "500 000 DH : نستثمر ولا نبني؟", type: "VIDEO_LONG", status: "PLANNED", weekNumber: 1 },
+  { title: "5 أخطاء كتخسر الملايين", type: "VIDEO_LONG", status: "PLANNED", weekNumber: 2 },
+  { title: "Étape 6: التسوية Terrassement", type: "SHORT", status: "PLANNED", weekNumber: 1 },
 ];
 
 export default function CCDashboard() {
@@ -29,111 +33,242 @@ export default function CCDashboard() {
     (async () => {
       try {
         const [s, m] = await Promise.all([
-          fetch('/api/cc/snapshot/current').then(r => r.ok ? r.json() : fallbackSnapshot),
-          fetch('/api/cc/media').then(r => r.ok ? r.json() : { items: fallbackMedia }),
+          fetch("/api/cc/snapshot/current").then(r => (r.ok ? r.json() : fallbackSnapshot)),
+          fetch("/api/cc/media").then(r => (r.ok ? r.json() : { items: fallbackMedia })),
         ]);
         setSnapshot(s);
         setMedia(m.items || fallbackMedia);
-      } catch {}
+      } catch {
+        /* fallback déjà appliqué */
+      }
     })();
   }, []);
 
-  const kpis = [
-    { label: 'Dossiers', value: snapshot.dossierCount ?? 0, color: '#00d4aa' },
-    { label: 'Leads nouveaux', value: snapshot.leadsNew ?? 0, color: '#0088ff' },
-    { label: 'Projets actifs', value: snapshot.projectsActive ?? 0, color: '#a855f7' },
-    { label: 'Blocages', value: snapshot.blockedCount ?? 0, color: '#f59e0b' },
-  ];
-
   return (
-    <div style={styles.root}>
-      <div style={styles.pageHeader}>
+    <div style={S.root}>
+      <header style={S.intro}>
         <div>
-          <h1 style={styles.pageTitle}>◈ CITURBAREA OS</h1>
-          <div style={styles.pageSub}>Cockpit consolidé — vue propriétaire</div>
+          <div style={S.eyebrow}>Atelier · Vue propriétaire</div>
+          <h2 style={S.title}>Cockpit consolidé</h2>
+          <p style={S.lead}>
+            Suivez l'activité de l'atelier, l'avancement des dossiers et les chantiers en
+            cours, jour après jour.
+          </p>
         </div>
-        <a href="/simulateur" style={styles.simButton}>Ouvrir le simulateur</a>
-      </div>
+        <a href="/simulateur" style={S.cta}>Ouvrir le simulateur</a>
+      </header>
 
-      <div style={styles.today}>
-        <div style={styles.todayTitle}>Today</div>
-        <div style={styles.todayGrid}>
-          <div style={styles.todayCard}><b>Priorité 1</b><span>Brancher les vraies données du cockpit</span></div>
-          <div style={styles.todayCard}><b>Priorité 2</b><span>Suivre les dossiers actifs et blocages</span></div>
-          <div style={styles.todayCard}><b>Priorité 3</b><span>Respecter le plan Cities Talk</span></div>
+      {/* Aujourd'hui — priorités */}
+      <section style={S.section}>
+        <SectionTitle eyebrow="Aujourd'hui" title="Trois priorités" />
+        <div style={S.priorityGrid}>
+          <PriorityCard mark="I"   title="Brancher les données" body="Remplacer les snapshots de démo par les flux réels du cockpit." />
+          <PriorityCard mark="II"  title="Dossiers & blocages"   body="Faire avancer les dossiers en BRIEF / ESQUISSE et lever les blocages." />
+          <PriorityCard mark="III" title="Cities Talk"           body="Tenir le rythme de publication hebdomadaire." />
         </div>
-      </div>
+      </section>
 
-      <div style={styles.kpiGrid}>
-        {kpis.map((k) => <div key={k.label} style={styles.kpiCard}><div style={{...styles.kpiValue,color:k.color}}>{k.value}</div><div style={styles.kpiLabel}>{k.label}</div></div>)}
-      </div>
-
-      <div style={styles.grid}>
-        <div style={styles.card}>
-          <SectionHeader title="Axe 1 — Développement CITURBAREA" sub="Back-office et noyau métier" />
-          <div style={styles.metricRow}><span>Sprint courant</span><b>S2 → cockpit branché</b></div>
-          <div style={styles.metricRow}><span>Route clé</span><code>/cc</code></div>
-          <div style={styles.metricRow}><span>Prochaine étape</span><b>Remplacer les mocks</b></div>
+      {/* KPIs détaillés */}
+      <section style={S.section}>
+        <SectionTitle eyebrow="Indicateurs clés" title="État de l'atelier" />
+        <div style={S.kpiGrid}>
+          <KpiBlock value={snapshot.dossierCount ?? 0}    label="Dossiers"        accent={CC.color.navy}    />
+          <KpiBlock value={snapshot.leadsNew ?? 0}        label="Leads nouveaux"  accent={CC.color.or}      />
+          <KpiBlock value={snapshot.projectsActive ?? 0}  label="Projets actifs"  accent={CC.color.success} />
+          <KpiBlock value={snapshot.blockedCount ?? 0}    label="Blocages"        accent={CC.color.warn}    />
         </div>
+      </section>
 
-        <div style={styles.card}>
-          <SectionHeader title="Axe 2 — Cities Talk" sub="Conversion média" />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {media.map((m) => <div key={m.title} style={styles.mediaRow}><span>{m.type === 'SHORT' ? 'S' : 'V'}</span><span style={{flex:1}}>{m.title}</span><span>S{m.weekNumber}</span></div>)}
-          </div>
-        </div>
+      {/* Six axes — vue stratégique */}
+      <section style={S.section}>
+        <SectionTitle eyebrow="Stratégie" title="Six axes de l'atelier" />
+        <div style={S.axesGrid}>
+          <AxeCard mark="I"   title="Développement CITURBAREA"
+            sub="Back-office et noyau métier"
+            rows={[
+              { k: "Sprint courant",  v: "S2 → cockpit branché" },
+              { k: "Route clé",       v: "/cc" },
+              { k: "Prochaine étape", v: "Remplacer les mocks" },
+            ]} />
 
-        <div style={styles.card}>
-          <SectionHeader title="Axe 3 — Réseaux & branding" sub="Présence et constance" />
-          <div style={styles.metricRow}><span>Dernière publication</span><b>À brancher</b></div>
-          <div style={styles.metricRow}><span>Signal</span><b style={{color:'#f59e0b'}}>Surveillance requise</b></div>
-        </div>
+          <AxeCard mark="II"  title="Cities Talk"
+            sub="Conversion média"
+            children={
+              <div style={S.mediaList}>
+                {media.map(m => (
+                  <div key={m.title} style={S.mediaRow}>
+                    <span style={{ ...S.mediaType, background: m.type === "SHORT" ? CC.color.warnBg : CC.color.infoBg, color: m.type === "SHORT" ? CC.color.warn : CC.color.info }}>
+                      {m.type === "SHORT" ? "Short" : "Vidéo"}
+                    </span>
+                    <span style={S.mediaTitle}>{m.title}</span>
+                    <span style={S.mediaWeek}>S{m.weekNumber}</span>
+                  </div>
+                ))}
+              </div>
+            } />
 
-        <div style={styles.card}>
-          <SectionHeader title="Axe 4 — Dossiers & projets" sub="Cabinet et opérations" />
-          <div style={styles.metricRow}><span>Dossiers total</span><b>{snapshot.dossierCount ?? 0}</b></div>
-          <div style={styles.metricRow}><span>Projets actifs</span><b>{snapshot.projectsActive ?? 0}</b></div>
-          <div style={styles.metricRow}><span>Blocages</span><b style={{color:'#f59e0b'}}>{snapshot.blockedCount ?? 0}</b></div>
-        </div>
+          <AxeCard mark="III" title="Réseaux & branding"
+            sub="Présence et constance"
+            rows={[
+              { k: "Dernière publication", v: "À brancher" },
+              { k: "Signal",               v: "Surveillance", warn: true },
+            ]} />
 
-        <div style={styles.card}>
-          <SectionHeader title="Axe 5 — Écosystème prestataires" sub="Entreprises, bureaux d'études, partenaires" />
-          <div style={styles.metricRow}><span>Réseau</span><b>À structurer</b></div>
-          <div style={styles.metricRow}><span>Objectif</span><b>Hub territorial</b></div>
-        </div>
+          <AxeCard mark="IV"  title="Dossiers & projets"
+            sub="Cabinet et opérations"
+            rows={[
+              { k: "Dossiers total",  v: String(snapshot.dossierCount ?? 0) },
+              { k: "Projets actifs",  v: String(snapshot.projectsActive ?? 0) },
+              { k: "Blocages",        v: String(snapshot.blockedCount ?? 0), warn: (snapshot.blockedCount ?? 0) > 0 },
+            ]} />
 
-        <div style={styles.card}>
-          <SectionHeader title="Axe 6 — Recherche doctorale" sub="Production scientifique" />
-          <div style={styles.metricRow}><span>Backlog articles</span><b>À brancher</b></div>
-          <div style={styles.metricRow}><span>Discipline</span><b>1 créneau hebdo minimum</b></div>
+          <AxeCard mark="V"   title="Écosystème prestataires"
+            sub="Entreprises, bureaux d'études, partenaires"
+            rows={[
+              { k: "Réseau",   v: "À structurer" },
+              { k: "Objectif", v: "Hub territorial" },
+            ]} />
+
+          <AxeCard mark="VI"  title="Recherche doctorale"
+            sub="Production scientifique"
+            rows={[
+              { k: "Backlog articles", v: "À brancher" },
+              { k: "Discipline",       v: "1 créneau hebdo min." },
+            ]} />
         </div>
+      </section>
+    </div>
+  );
+}
+
+// ─── Sub-components ─────────────────────────────────────────
+
+function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
+  return (
+    <div style={S.sectionHead}>
+      <div style={S.sectionEyebrow}>{eyebrow}</div>
+      <h3 style={S.sectionTitle}>{title}</h3>
+    </div>
+  );
+}
+
+function PriorityCard({ mark, title, body }: { mark: string; title: string; body: string }) {
+  return (
+    <div style={S.priorityCard}>
+      <div style={S.priorityMark}>{mark}</div>
+      <div>
+        <div style={S.priorityTitle}>{title}</div>
+        <div style={S.priorityBody}>{body}</div>
       </div>
     </div>
   );
 }
 
-function SectionHeader({ title, sub }: { title: string; sub: string }) {
-  return <div><div style={styles.sectionTitle}>{title}</div><div style={styles.sectionSub}>{sub}</div></div>;
+function KpiBlock({ value, label, accent }: { value: number; label: string; accent: string }) {
+  return (
+    <div style={S.kpiCard}>
+      <div style={{ ...S.kpiValue, color: accent }}>{value}</div>
+      <div style={S.kpiLabel}>{label}</div>
+      <div style={{ ...S.kpiUnderline, background: accent }} />
+    </div>
+  );
 }
 
-const styles: Record<string, React.CSSProperties> = {
-  root: { display: 'flex', flexDirection: 'column', gap: 16 },
-  pageHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
-  pageTitle: { margin: 0, fontSize: 22, color: '#e8eaf0', fontWeight: 700 },
-  pageSub: { color: '#4a5568', fontSize: 12, marginTop: 4 },
-  simButton: { background: '#00d4aa', color: '#0a0c10', padding: '10px 14px', borderRadius: 8, textDecoration: 'none', fontWeight: 700, fontSize: 12 },
-  today: { background: '#0d1017', border: '1px solid #1e2330', borderRadius: 10, padding: 20 },
-  todayTitle: { color: '#e8eaf0', fontWeight: 700, marginBottom: 12 },
-  todayGrid: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 },
-  todayCard: { background: '#131820', border: '1px solid #1e2330', borderRadius: 8, padding: 12, color: '#8892a4', display: 'flex', flexDirection: 'column', gap: 6 },
-  kpiGrid: { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 },
-  kpiCard: { background: '#0d1017', border: '1px solid #1e2330', borderRadius: 10, padding: 18 },
-  kpiValue: { fontSize: 24, fontWeight: 800, fontFamily: "'DM Mono', monospace" },
-  kpiLabel: { color: '#4a5568', fontSize: 11, marginTop: 4, textTransform: 'uppercase' },
-  grid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 },
-  card: { background: '#0d1017', border: '1px solid #1e2330', borderRadius: 10, padding: 20, display: 'flex', flexDirection: 'column', gap: 12 },
-  sectionTitle: { color: '#e8eaf0', fontWeight: 700, fontSize: 13 },
-  sectionSub: { color: '#4a5568', fontSize: 10, marginTop: 3, textTransform: 'uppercase', letterSpacing: '0.05em' },
-  metricRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#8892a4', fontSize: 12, borderBottom: '1px solid #131820', paddingBottom: 8 },
-  mediaRow: { display: 'flex', gap: 8, color: '#8892a4', fontSize: 12, padding: '6px 0', borderBottom: '1px solid #131820' },
+function AxeCard(props: {
+  mark: string;
+  title: string;
+  sub: string;
+  rows?: { k: string; v: string; warn?: boolean }[];
+  children?: React.ReactNode;
+}) {
+  return (
+    <div style={S.axeCard}>
+      <div style={S.axeHead}>
+        <div style={S.axeMark}>{props.mark}</div>
+        <div>
+          <div style={S.axeTitle}>{props.title}</div>
+          <div style={S.axeSub}>{props.sub}</div>
+        </div>
+      </div>
+      <div style={S.axeBody}>
+        {props.rows?.map(r => (
+          <div key={r.k} style={S.metricRow}>
+            <span style={S.metricK}>{r.k}</span>
+            <span style={{ ...S.metricV, color: r.warn ? CC.color.warn : CC.color.ink }}>{r.v}</span>
+          </div>
+        ))}
+        {props.children}
+      </div>
+    </div>
+  );
+}
+
+// ─── Styles ─────────────────────────────────────────────────
+
+const S: Record<string, React.CSSProperties> = {
+  root: { display: "flex", flexDirection: "column", gap: 36, maxWidth: 1280 },
+
+  intro: { display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: 24, paddingBottom: 8, borderBottom: `1px solid ${CC.color.border}` },
+  eyebrow: { fontSize: 10, color: CC.color.or, letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 600 },
+  title: { margin: "6px 0 8px", fontFamily: CC.font.display, fontSize: 36, fontWeight: 600, color: CC.color.navy, letterSpacing: "-0.02em", lineHeight: 1.1 },
+  lead: { margin: 0, color: CC.color.inkMid, fontSize: 14, fontStyle: "italic", maxWidth: 480, lineHeight: 1.55 },
+  cta: { background: CC.color.navy, color: CC.color.bg, padding: "11px 18px", borderRadius: 6, textDecoration: "none", fontWeight: 600, fontSize: 12.5, letterSpacing: "0.04em", boxShadow: CC.shadow.soft, transition: `all 0.18s ${CC.ease}` },
+
+  section: { display: "flex", flexDirection: "column", gap: 16 },
+  sectionHead: { display: "flex", flexDirection: "column", gap: 2 },
+  sectionEyebrow: { fontSize: 10, color: CC.color.or, letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 600 },
+  sectionTitle: { margin: 0, fontFamily: CC.font.display, fontSize: 22, fontWeight: 600, color: CC.color.navy, letterSpacing: "-0.01em" },
+
+  // Priorités
+  priorityGrid: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 },
+  priorityCard: {
+    display: "flex", alignItems: "flex-start", gap: 14,
+    background: CC.color.bgRaised, border: `1px solid ${CC.color.border}`,
+    borderRadius: CC.size.radiusLg, padding: "20px 22px",
+    boxShadow: CC.shadow.soft,
+  },
+  priorityMark: {
+    fontFamily: CC.font.display, fontStyle: "italic", fontSize: 28, fontWeight: 600,
+    color: CC.color.or, lineHeight: 1, width: 36, flexShrink: 0,
+  },
+  priorityTitle: { fontFamily: CC.font.display, fontSize: 16, fontWeight: 600, color: CC.color.navy, marginBottom: 4 },
+  priorityBody: { fontSize: 13, color: CC.color.inkMid, lineHeight: 1.55 },
+
+  // KPI
+  kpiGrid: { display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 },
+  kpiCard: {
+    background: CC.color.bgRaised, border: `1px solid ${CC.color.border}`,
+    borderRadius: CC.size.radiusLg, padding: "22px 24px", position: "relative",
+    boxShadow: CC.shadow.soft, overflow: "hidden",
+  },
+  kpiValue: { fontFamily: CC.font.display, fontSize: 38, fontWeight: 600, lineHeight: 1, letterSpacing: "-0.02em" },
+  kpiLabel: { color: CC.color.inkMuted, fontSize: 11, marginTop: 8, textTransform: "uppercase", letterSpacing: "0.16em", fontWeight: 500 },
+  kpiUnderline: { position: "absolute", bottom: 0, left: 0, right: 0, height: 3, opacity: 0.6 },
+
+  // Axes
+  axesGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 },
+  axeCard: {
+    background: CC.color.bgRaised, border: `1px solid ${CC.color.border}`,
+    borderRadius: CC.size.radiusLg, padding: "22px 26px",
+    display: "flex", flexDirection: "column", gap: 14,
+    boxShadow: CC.shadow.soft,
+  },
+  axeHead: { display: "flex", alignItems: "flex-start", gap: 14, paddingBottom: 12, borderBottom: `1px dotted ${CC.color.border}` },
+  axeMark: {
+    fontFamily: CC.font.display, fontStyle: "italic", fontSize: 22, fontWeight: 600,
+    color: CC.color.or, lineHeight: 1, width: 32, flexShrink: 0, paddingTop: 2,
+  },
+  axeTitle: { fontFamily: CC.font.display, fontSize: 18, fontWeight: 600, color: CC.color.navy, lineHeight: 1.2 },
+  axeSub: { color: CC.color.inkMuted, fontSize: 11, marginTop: 4, textTransform: "uppercase", letterSpacing: "0.12em" },
+  axeBody: { display: "flex", flexDirection: "column", gap: 10 },
+
+  metricRow: { display: "flex", justifyContent: "space-between", alignItems: "baseline", fontSize: 13, paddingBottom: 8, borderBottom: `1px solid ${CC.color.borderSoft}` },
+  metricK: { color: CC.color.inkMid },
+  metricV: { fontWeight: 600, color: CC.color.ink },
+
+  mediaList: { display: "flex", flexDirection: "column", gap: 8 },
+  mediaRow: { display: "flex", alignItems: "center", gap: 10, fontSize: 12.5, paddingBottom: 8, borderBottom: `1px solid ${CC.color.borderSoft}` },
+  mediaType: { fontSize: 9.5, fontWeight: 700, padding: "3px 8px", borderRadius: 3, letterSpacing: "0.06em", textTransform: "uppercase", flexShrink: 0 },
+  mediaTitle: { flex: 1, color: CC.color.ink, lineHeight: 1.4 },
+  mediaWeek: { color: CC.color.inkMuted, fontSize: 10.5, letterSpacing: "0.08em", flexShrink: 0 },
 };
