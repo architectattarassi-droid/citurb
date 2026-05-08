@@ -6,6 +6,8 @@ import { StripeWebhookController } from "./stripe-webhook.controller";
 import { StripeCheckoutController } from "./stripe-checkout.controller";
 import { UniversalContractService } from "./universal-contract.service";
 import { UniversalContractController } from "./universal-contract.controller";
+import { QuoteInvoiceService } from "./quote-invoice.service";
+import { QuoteInvoiceController } from "./quote-invoice.controller";
 import { PrismaModule } from "../tome-at";
 import { Tome5AuthModule } from "../tome-5/auth/auth.module";
 import { ClientNotifyModule } from "../../modules/client-notify/client-notify.module";
@@ -14,8 +16,8 @@ import { PhaseEngineModule } from "../../modules/phase-engine/phase-engine.modul
 
 @Module({
   imports: [PrismaModule, Tome5AuthModule, ClientNotifyModule, OwnerNotifyModule, PhaseEngineModule],
-  controllers: [PackValidationController, StripeWebhookController, StripeCheckoutController, UniversalContractController],
-  providers: [Tome1Service, PackValidationService, UniversalContractService],
-  exports: [Tome1Service, PackValidationService, UniversalContractService],
+  controllers: [PackValidationController, StripeWebhookController, StripeCheckoutController, UniversalContractController, QuoteInvoiceController],
+  providers: [Tome1Service, PackValidationService, UniversalContractService, QuoteInvoiceService],
+  exports: [Tome1Service, PackValidationService, UniversalContractService, QuoteInvoiceService],
 })
 export class Tome1Module {}

@@ -3,6 +3,31 @@ import { useNavigate } from "react-router-dom";
 import { apiFetch } from "../../../tomes/tome4/apiClient";
 import ProjectMilestonesTimeline from "./ProjectMilestonesTimeline";
 import PaymentFicheModal from "./PaymentFicheModal";
+import DossierAdminCreate from "./DossierAdminCreate";
+import DossierPhaseTimeline from "./DossierPhaseTimeline";
+
+const API_ORIGIN = (import.meta as any).env?.VITE_API_URL || "http://localhost:4000";
+
+/**
+ * Ouvre un endpoint API HTML protégé JWT dans un nouvel onglet :
+ * fetch avec Authorization → Blob → window.open(URL.createObjectURL).
+ */
+const openHtmlInTab = async (path: string) => {
+  const token = localStorage.getItem("citurbarea.token") || "";
+  const res = await fetch(`${API_ORIGIN}${path}`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+  if (!res.ok) {
+    alert(`Erreur ${res.status} : ${await res.text()}`);
+    return;
+  }
+  const html = await res.text();
+  const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  window.open(url, "_blank", "noopener");
+  // Libère après une courte période (l'onglet a déjà chargé le contenu)
+  setTimeout(() => URL.revokeObjectURL(url), 60_000);
+};
 
 type Dossier = {
   id: string;
@@ -136,14 +161,50 @@ export default function DossiersModule() {
     }
   };
 
+  const inviteClient = async (dossierId: string, email: string | null | undefined) => {
+    if (!email || email.endsWith(".local") || email.endsWith(".unknown")) {
+      alert("Aucun email valide sur ce dossier — éditez les coordonnées d'abord.");
+      return;
+    }
+    try {
+      const res = await apiFetch<{ ok: boolean; magicLoginUrl?: string; sent?: string; error?: string }>(
+        `/api/cc/dossiers/${dossierId}/invite`,
+        { method: "POST", body: {} },
+      );
+      if (!res.ok) {
+        alert(`Erreur invitation : ${res.error || "inconnue"}`);
+        return;
+      }
+      alert(`Invitation envoyée à ${res.sent}.\nLien magique : ${res.magicLoginUrl ?? "(non disponible)"}`);
+    } catch (e: any) {
+      alert(`Erreur invitation : ${e?.message || "inconnue"}`);
+    }
+  };
+
+  const [showCreate, setShowCreate] = useState(false);
+
   return (
     <div style={{ color: "#e8eaf0" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
         <h2 style={{ margin: 0, fontSize: 16, fontWeight: 600, letterSpacing: "0.04em" }}>Dossiers</h2>
-        <button onClick={fetchDossiers} style={btnStyle("#1e2330", "#8892a4")} disabled={loading}>
-          {loading ? "…" : "↺ Rafraîchir"}
-        </button>
+        <div style={{ display: "flex", gap: 10 }}>
+          <button
+            onClick={() => setShowCreate(true)}
+            style={{ background: "#0F2A4A", color: "#FAF7F2", border: 0, padding: "8px 16px", borderRadius: 6, fontSize: 12, fontWeight: 600, letterSpacing: "0.04em", cursor: "pointer" }}
+          >
+            ＋ Nouveau dossier
+          </button>
+          <button onClick={fetchDossiers} style={btnStyle("#1e2330", "#8892a4")} disabled={loading}>
+            {loading ? "…" : "↺ Rafraîchir"}
+          </button>
+        </div>
       </div>
+      {showCreate && (
+        <DossierAdminCreate
+          onClose={() => setShowCreate(false)}
+          onCreated={() => { setShowCreate(false); fetchDossiers(); }}
+        />
+      )}
 
       {error && <div style={{ padding: "10px 14px", background: "rgba(248,113,113,0.1)", border: "1px solid #f87171", borderRadius: 8, color: "#f87171", marginBottom: 16, fontSize: 13 }}>{error}</div>}
 
@@ -207,23 +268,47 @@ export default function DossiersModule() {
                     </td>
                     <td style={td}>{d.submittedAt ? new Date(d.submittedAt).toLocaleDateString("fr-MA") : "—"}</td>
                     <td style={td} onClick={e => e.stopPropagation()}>
-                      {d.status === "SUBMITTED" && (
-                        <div>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                        <button
+                          onClick={() => openHtmlInTab(`/api/cc/quote/${d.id}/html`)}
+                          title="Devis imprimable"
+                          style={{ ...btnStyle("rgba(176,141,87,0.15)", "#B08D57"), fontSize: 10.5 }}
+                        >
+                          📄 Devis
+                        </button>
+                        <button
+                          onClick={() => openHtmlInTab(`/api/cc/invoice/${d.id}/html`)}
+                          title="Facture imprimable"
+                          style={{ ...btnStyle("rgba(15,42,74,0.15)", "#0F2A4A"), fontSize: 10.5 }}
+                        >
+                          🧾 Facture
+                        </button>
+                        <button
+                          onClick={() => inviteClient(d.id, d.owner?.email)}
+                          title="Envoyer un lien magic-login au client"
+                          style={{ ...btnStyle("rgba(107,127,92,0.15)", "#6B7F5C"), fontSize: 10.5 }}
+                        >
+                          ✉ Inviter
+                        </button>
+                        {d.status === "SUBMITTED" && (
                           <button
                             onClick={() => startReview(d.id)}
                             disabled={transitioning === d.id}
-                            style={btnStyle("rgba(96,165,250,0.15)", "#60a5fa")}
+                            style={{ ...btnStyle("rgba(96,165,250,0.15)", "#60a5fa"), fontSize: 10.5 }}
                           >
-                            {transitioning === d.id ? "…" : "Passer en review"}
+                            {transitioning === d.id ? "…" : "▶ Review"}
                           </button>
-                          {txError[d.id] && <div style={{ color: "#f87171", fontSize: 11, marginTop: 4 }}>{txError[d.id]}</div>}
-                        </div>
-                      )}
+                        )}
+                      </div>
+                      {txError[d.id] && <div style={{ color: "#f87171", fontSize: 11, marginTop: 4 }}>{txError[d.id]}</div>}
                     </td>
                   </tr>
                   {isSelected && (
                     <tr style={{ background: "#0d1117" }}>
-                      <td colSpan={7} style={{ padding: "16px 20px" }}>
+                      <td colSpan={8} style={{ padding: "16px 20px" }}>
+                        <div style={{ background: "#FAF7F2", borderRadius: 8, padding: "20px 24px", marginBottom: 16, color: "#1A1F2E" }}>
+                          <DossierPhaseTimeline dossierId={d.id} compact />
+                        </div>
                         <div style={{ fontSize: 11, fontWeight: 700, color: "#60a5fa", marginBottom: 10, letterSpacing: "0.06em", textTransform: "uppercase" }}>
                           Documents — {d.title}
                         </div>

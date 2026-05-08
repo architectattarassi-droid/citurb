@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { P2Controller } from "./p2.controller";
 import { IntakeController } from "./intake.controller";
+import { AdminDossierController } from "./admin-dossier.controller";
 import { QuoteController } from "./quote.controller";
 import { ContractController } from "./contract.controller";
 import { VisaCroaController } from "./visa-croa.controller";
@@ -20,7 +21,7 @@ import { Tome5AuthModule } from "../../tome-5/auth/auth.module";
 
 @Module({
   imports: [PrismaModule, OwnerNotifyModule, ClientNotifyModule, StorageModule, PhaseEngineModule, MessagerieModule, Tome5AuthModule],
-  controllers: [P2Controller, AreaController, IntakeController, QuoteController, ContractController, VisaCroaController],
+  controllers: [P2Controller, AreaController, IntakeController, AdminDossierController, QuoteController, ContractController, VisaCroaController],
   providers: [DossierService, AreaService, ReminderService, P2PricingService, P2ContractService],
 })
 export class P2Module {}

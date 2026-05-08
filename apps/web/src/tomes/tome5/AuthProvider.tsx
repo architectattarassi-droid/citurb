@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useMemo, useState } from "react";
-import { login, setToken, getToken, apiFetch } from "../../tomes/tome4/apiClient";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { login, setToken, getToken, apiFetch, me as fetchMe } from "../../tomes/tome4/apiClient";
 
 /**
  * AUTH PROVIDER — JWT réel via API
@@ -159,6 +159,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       phoneVerifiedAt: null,
     });
   };
+
+  // ── Magic-login : si l'URL contient ?magicToken=…, on l'enregistre et on
+  //    appelle /auth/me pour résoudre l'utilisateur. Émis par
+  //    l'admin (POST /api/cc/dossiers/:id/invite) pour permettre au client
+  //    de revenir sans saisir mot de passe.
+  useEffect(() => {
+    if (state.isAuthed) return;
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const magicToken = params.get("magicToken");
+    if (!magicToken) return;
+
+    setToken(magicToken);
+    fetchMe()
+      .then(resp => {
+        const u = {
+          userId: resp.user.userId,
+          email: resp.user.email,
+          role: resp.user.role as AuthState["role"],
+        };
+        localStorage.setItem("citurbarea_user", JSON.stringify(u));
+        setState({ isAuthed: true, ...u, token: magicToken, loading: false, phone: undefined, phoneVerifiedAt: null, username: undefined });
+      })
+      .catch(() => {
+        setToken(null);
+        localStorage.removeItem("citurbarea_user");
+      })
+      .finally(() => {
+        // Nettoie le paramètre de l'URL pour ne pas le ré-utiliser
+        params.delete("magicToken");
+        const cleanQs = params.toString();
+        const cleanUrl = window.location.pathname + (cleanQs ? `?${cleanQs}` : "") + window.location.hash;
+        window.history.replaceState({}, "", cleanUrl);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const api = useMemo<AuthApi>(
     () => ({ ...state, loginWithPassword, signup, startPhoneVerification, verifyPhoneOtp, logout }),
