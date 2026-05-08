@@ -15,15 +15,18 @@ const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../tome-at/kernel/prisma/prisma.service");
 const client_notify_service_1 = require("../../modules/client-notify/client-notify.service");
 const owner_notify_service_1 = require("../../modules/owner-notify/owner-notify.service");
+const phase_engine_service_1 = require("../../modules/phase-engine/phase-engine.service");
 let PackValidationService = PackValidationService_1 = class PackValidationService {
     prisma;
     clientNotify;
     ownerNotify;
+    phaseEngine;
     logger = new common_1.Logger(PackValidationService_1.name);
-    constructor(prisma, clientNotify, ownerNotify) {
+    constructor(prisma, clientNotify, ownerNotify, phaseEngine) {
         this.prisma = prisma;
         this.clientNotify = clientNotify;
         this.ownerNotify = ownerNotify;
+        this.phaseEngine = phaseEngine;
     }
     async getState(dossierId) {
         const dossier = await this.prisma.dossier.findUniqueOrThrow({
@@ -60,7 +63,7 @@ let PackValidationService = PackValidationService_1 = class PackValidationServic
         payload.packValidation = next;
         await this.prisma.dossier.update({ where: { id: opts.dossierId }, data: { payload } });
         this.logger.log(`[PackValidation] ${opts.dossierId} → PENDING_ADMIN_VALIDATION (paid ${opts.amount} ${opts.currency})`);
-        // Email confirmation paiement au client (fire-and-forget)
+        // Email confirmation paiement au client (fire-and-forget) — langue du dossier
         if (dossier.clientEmail) {
             this.clientNotify.paiementRecu({
                 to: dossier.clientEmail,
@@ -69,6 +72,7 @@ let PackValidationService = PackValidationService_1 = class PackValidationServic
                 currency: opts.currency,
                 paymentRef: opts.paymentRef,
                 clientNom: dossier.clientNom ?? undefined,
+                lang: this.readLang(payload),
             }).catch(() => { });
         }
         // Notif owner: nouveau pack à valider
@@ -112,7 +116,11 @@ let PackValidationService = PackValidationService_1 = class PackValidationServic
         payload.packValidation = next;
         await this.prisma.dossier.update({ where: { id: opts.dossierId }, data: { payload } });
         this.logger.log(`[PackValidation] ${opts.dossierId} → ACTIVATED by ${opts.author}`);
-        // Email pack activé (fire-and-forget)
+        // Auto-advance phase BRIEF → ESQUISSE (le projet entre en études)
+        this.phaseEngine.advanceBriefToEsquisse(opts.dossierId, opts.author).catch(err => {
+            this.logger.warn(`[PackValidation] advanceBriefToEsquisse failed for ${opts.dossierId}: ${err?.message}`);
+        });
+        // Email pack activé (fire-and-forget) — langue du dossier
         if (dossier.clientEmail) {
             this.clientNotify.packActive({
                 to: dossier.clientEmail,
@@ -120,6 +128,7 @@ let PackValidationService = PackValidationService_1 = class PackValidationServic
                 porteType: dossier.porteType ?? "—",
                 title: dossier.title ?? undefined,
                 clientNom: dossier.clientNom ?? undefined,
+                lang: this.readLang(payload),
             }).catch(() => { });
         }
         return next;
@@ -150,6 +159,11 @@ let PackValidationService = PackValidationService_1 = class PackValidationServic
         await this.prisma.dossier.update({ where: { id: opts.dossierId }, data: { payload } });
         return next;
     }
+    /** Langue persistée dans Dossier.payload.lang (alimentée par le wizard). */
+    readLang(payload) {
+        const v = String(payload?.lang ?? "").toLowerCase();
+        return v === "en" || v === "ar" ? v : "fr";
+    }
     /**
      * Liste les dossiers en attente de validation admin (backoffice).
      */
@@ -176,5 +190,6 @@ exports.PackValidationService = PackValidationService = PackValidationService_1 
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
         client_notify_service_1.ClientNotifyService,
-        owner_notify_service_1.OwnerNotifyService])
+        owner_notify_service_1.OwnerNotifyService,
+        phase_engine_service_1.PhaseEngineService])
 ], PackValidationService);

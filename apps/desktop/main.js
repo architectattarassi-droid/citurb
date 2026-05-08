@@ -17,29 +17,37 @@ try {
 } catch (e) { log('pkg-read-fail ' + e.message); }
 log('VARIANT=' + VARIANT);
 
+// CIT_LOCAL=1 → pointe sur localhost (npm run dev:web). Pratique pour tester
+// les refontes UI immédiatement sans attendre un déploiement Railway.
+const LOCAL_MODE = process.env.CIT_LOCAL === '1' || process.env.CIT_LOCAL === 'true';
+const PROD_BASE  = 'https://citurb-web-production.up.railway.app';
+const LOCAL_BASE = process.env.CIT_LOCAL_URL || 'http://localhost:5173';
+const BASE = LOCAL_MODE ? LOCAL_BASE : PROD_BASE;
+log('LOCAL_MODE=' + LOCAL_MODE + ' BASE=' + BASE);
+
 const CONFIG_PORTAL = {
-  title: 'CITURBAREA — Portail',
+  title: 'CITURBAREA — Portail' + (LOCAL_MODE ? ' (LOCAL)' : ''),
   accent: '#3b82f6',
-  badge: 'PORTAIL',
+  badge: 'PORTAIL' + (LOCAL_MODE ? ' · LOCAL' : ''),
   email: 'user@citurbarea.test',
   password: 'User123!',
-  url: 'https://citurb-web-production.up.railway.app/',
+  url: BASE + '/',
 };
 const CONFIG_BACK = {
-  title: 'CITURBAREA — Command Center',
-  accent: '#7c3aed',
-  badge: 'COMMAND CENTER ADMIN',
+  title: 'CITURBAREA — Command Center' + (LOCAL_MODE ? ' (LOCAL)' : ''),
+  accent: '#0F2A4A',
+  badge: 'COMMAND CENTER ADMIN' + (LOCAL_MODE ? ' · LOCAL' : ''),
   email: 'admin@citurbarea.test',
   password: 'Admin123!',
-  url: 'https://citurb-web-production.up.railway.app/cc/login',
+  url: BASE + '/cc/login',
 };
 const CONFIG_DOC = {
-  title: 'CITURBAREA — Documentation',
+  title: 'CITURBAREA — Documentation' + (LOCAL_MODE ? ' (LOCAL)' : ''),
   accent: '#0d9488',
-  badge: 'DOCUMENTATION',
+  badge: 'DOCUMENTATION' + (LOCAL_MODE ? ' · LOCAL' : ''),
   email: '',
   password: '',
-  url: 'https://citurb-web-production.up.railway.app/docs',
+  url: BASE + '/docs',
 };
 const CONFIG =
   VARIANT === 'backoffice' ? CONFIG_BACK :

@@ -9,11 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PhaseEngineService = exports.PHASES_ABOUTISSEMENT = exports.PHASES_ETUDES = void 0;
+exports.PhaseEngineService = exports.PHASES_ABOUTISSEMENT = exports.PHASES_ETUDES = exports.PHASE_BRIEF = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../tomes/tome-at/kernel/prisma/prisma.service");
 const storage_service_1 = require("../storage/storage.service");
+exports.PHASE_BRIEF = 'PHASE_00_BRIEF';
+/**
+ * BRIEF est la phase d'amorce :
+ *   - Créée automatiquement à l'intake (collecte des données client)
+ *   - Le pack n'est pas encore activé (ou paiement en attente)
+ *   - Le dossier reste en BRIEF tant que l'admin n'a pas validé le pack
+ * Dès que `PackValidation` passe à ACTIVATED, l'engine avance vers ESQUISSE.
+ */
 exports.PHASES_ETUDES = [
+    exports.PHASE_BRIEF,
     'PHASE_01_ESQUISSE',
     'PHASE_02_APS',
     'PHASE_03_APD',
@@ -72,6 +81,42 @@ let PhaseEngineService = class PhaseEngineService {
             data: { phase: toPhase },
         });
         return record;
+    }
+    /**
+     * Crée la phase BRIEF à l'intake d'un nouveau dossier.
+     * Idempotent (skip si déjà initialisé).
+     */
+    async initBrief(dossierId) {
+        const existing = await this.prisma.dossierPhaseRecord.findFirst({
+            where: { dossierId, phase: exports.PHASE_BRIEF },
+        });
+        if (existing)
+            return existing;
+        return this.prisma.dossierPhaseRecord.create({
+            data: {
+                dossierId,
+                phase: exports.PHASE_BRIEF,
+                statut: 'EN_COURS',
+                dateDebut: new Date(),
+            },
+        });
+    }
+    /**
+     * Avance automatique BRIEF → ESQUISSE.
+     * Déclenchée à la validation admin du pack (PackValidationService.adminValidate).
+     * No-op si le dossier n'est pas en BRIEF.
+     */
+    async advanceBriefToEsquisse(dossierId, author) {
+        const dossier = await this.prisma.dossier.findUnique({
+            where: { id: dossierId },
+            select: { phase: true },
+        });
+        if (!dossier)
+            return null;
+        const currentPhase = dossier.phase ?? exports.PHASE_BRIEF;
+        if (currentPhase !== exports.PHASE_BRIEF)
+            return null; // déjà avancé manuellement
+        return this.advancePhase(dossierId, exports.PHASE_BRIEF, 'PHASE_01_ESQUISSE', author, 'Pack validé — début études');
     }
     async getPhaseStatus(dossierId) {
         const records = await this.prisma.dossierPhaseRecord.findMany({

@@ -82,6 +82,7 @@ let IntakeController = class IntakeController {
                 brief: body.brief,
                 source: body.source,
                 utm: body.utm,
+                lang: body.lang === "en" || body.lang === "ar" ? body.lang : "fr",
             },
         });
         // 3. Fire owner alerts (SMS + email) — fire-and-forget, never block client response
@@ -106,6 +107,7 @@ let IntakeController = class IntakeController {
             dossierId: dossier.id,
             clientNom: body.clientNom,
             title,
+            lang: body.lang === "en" || body.lang === "ar" ? body.lang : "fr",
         }).catch(() => { });
         // Notif spécifique pour P6 (fiche prestataire/fournisseur à reviewer)
         if (porteType === "P6") {

@@ -4,6 +4,8 @@ import { apiFetch, apiBase } from "../../../tomes/tome4/apiClient";
 import RokhasPhaseTimeline from "../../../tomes/tome2/RokhasPhaseTimeline";
 import FileViewer from "../../../ui/FileViewer";
 import UploadButton from "../../../ui/UploadButton";
+import DossierPhaseTimeline from "./DossierPhaseTimeline";
+import { CC } from "../../theme/tokens";
 
 /**
  * DossierShadowView — Admin Shadow Mode
@@ -76,50 +78,59 @@ export default function DossierShadowView() {
     apiFetch(`/p2/dossier/${id}/admin/patch`, { method: "PATCH", body: { opsNote: opsNoteDraft || null } })
   );
 
-  if (loading) return <div style={{ padding: 24, color: "#94a3b8", background: "#0d1117", height: "100%" }}>Chargement…</div>;
+  if (loading) return <div style={{ padding: 24, color: CC.color.inkMid, background: CC.color.bg, height: "100%", fontFamily: CC.font.body, fontStyle: "italic" }}>Chargement du dossier…</div>;
   if (error)   return (
-    <div style={{ padding: 24, color: "#ef4444", background: "#0d1117", height: "100%" }}>
-      <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8 }}>⚠️ Erreur</div>
-      <div style={{ fontSize: 13, color: "#fca5a5", fontFamily: "monospace", whiteSpace: "pre-wrap" }}>{error}</div>
-      <div style={{ marginTop: 16, fontSize: 11, color: "#64748b" }}>URL : {window.location.pathname} · ID param : {id || "(vide)"}</div>
-      <button onClick={load} style={{ marginTop: 16, background: "#1d4ed8", color: "#fff", border: 0, padding: "8px 14px", borderRadius: 4, cursor: "pointer", fontSize: 12 }}>Réessayer</button>
+    <div style={{ padding: 24, color: CC.color.danger, background: CC.color.bg, height: "100%", fontFamily: CC.font.body }}>
+      <div style={{ fontFamily: CC.font.display, fontSize: 22, color: CC.color.danger, marginBottom: 10 }}>Erreur</div>
+      <div style={{ fontSize: 13, color: CC.color.inkMid, fontFamily: CC.font.mono, whiteSpace: "pre-wrap", padding: 12, background: CC.color.dangerBg, borderRadius: 6, border: `1px solid ${CC.color.danger}40` }}>{error}</div>
+      <div style={{ marginTop: 16, fontSize: 11, color: CC.color.inkMuted }}>URL : {window.location.pathname} · ID param : {id || "(vide)"}</div>
+      <button onClick={load} style={{ marginTop: 16, background: CC.color.navy, color: CC.color.bg, border: 0, padding: "10px 18px", borderRadius: 6, cursor: "pointer", fontSize: 12.5, fontFamily: "inherit", fontWeight: 600 }}>Réessayer</button>
     </div>
   );
   if (!dossier) return (
-    <div style={{ padding: 24, color: "#94a3b8", background: "#0d1117", height: "100%" }}>
-      Dossier introuvable
-      <div style={{ marginTop: 8, fontSize: 11, color: "#64748b", fontFamily: "monospace" }}>ID demandé: {id || "(vide)"}</div>
-      <button onClick={load} style={{ marginTop: 16, background: "#1d4ed8", color: "#fff", border: 0, padding: "8px 14px", borderRadius: 4, cursor: "pointer", fontSize: 12 }}>Réessayer</button>
+    <div style={{ padding: 24, color: CC.color.inkMid, background: CC.color.bg, height: "100%", fontFamily: CC.font.body }}>
+      <div style={{ fontFamily: CC.font.display, fontSize: 22, color: CC.color.navy, marginBottom: 10 }}>Dossier introuvable</div>
+      <div style={{ marginTop: 8, fontSize: 11, color: CC.color.inkMuted, fontFamily: CC.font.mono }}>ID demandé : {id || "(vide)"}</div>
+      <button onClick={load} style={{ marginTop: 16, background: CC.color.navy, color: CC.color.bg, border: 0, padding: "10px 18px", borderRadius: 6, cursor: "pointer", fontSize: 12.5, fontFamily: "inherit", fontWeight: 600 }}>Réessayer</button>
     </div>
   );
 
   const apiStatus: string = dossier.status;
   const opsNote: string | null = dossier.opsNote;
   const statusColor =
-    apiStatus === "REJECTED" ? "#ef4444"
-    : apiStatus === "APPROVED" ? "#22c55e"
-    : apiStatus === "NEEDS_CHANGES" ? "#f59e0b"
-    : "#3b82f6";
+    apiStatus === "REJECTED" ? CC.color.danger
+    : apiStatus === "APPROVED" ? CC.color.success
+    : apiStatus === "NEEDS_CHANGES" ? CC.color.warn
+    : CC.color.info;
 
   return (
-    <div style={{ display: "flex", height: "100%", background: "#0d1117", color: "#e8eaf0", overflow: "hidden" }}>
+    <div style={{ display: "flex", height: "100%", background: CC.color.bg, color: CC.color.ink, overflow: "hidden", fontFamily: CC.font.body }}>
 
       {/* ─── PANNEAU GAUCHE : VUE EXACTE CLIENT ─── */}
-      <div style={{ flex: 1, overflowY: "auto", borderRight: "1px solid #1e2330" }}>
-        <div style={{ background: "#1d4ed8", color: "#fff", padding: "10px 20px", fontSize: 11, fontWeight: 800, letterSpacing: 2 }}>
-          🔍 SHADOW VIEW — CE QUE VOIT EXACTEMENT LE CLIENT
+      <div style={{ flex: 1, overflowY: "auto", borderRight: `1px solid ${CC.color.border}` }}>
+        <div style={{ background: CC.color.bgDeep, color: CC.color.or, padding: "12px 24px", fontSize: 10.5, fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", display: "flex", alignItems: "center", gap: 12 }}>
+          <span style={{ fontFamily: CC.font.display, fontStyle: "italic", fontSize: 14 }}>Shadow view</span>
+          <span style={{ flex: 1, color: CC.color.bg, opacity: 0.85, fontWeight: 400, letterSpacing: "0.10em" }}>· vue exacte du client</span>
         </div>
 
-        <div style={{ padding: "8px 20px", background: "#f0f9ff", color: "#0369a1", borderBottom: "1px solid #bae6fd", display: "flex", gap: 20, fontSize: 12, flexWrap: "wrap" }}>
-          <span><b>Statut DB :</b> {apiStatus}</span>
-          {dossier.packSelected && <span><b>Pack :</b> {dossier.packSelected}{dossier.packPriceMAD ? ` — ${Number(dossier.packPriceMAD).toLocaleString("fr-FR")} MAD` : ""}</span>}
-          <span><b>Owner :</b> {dossier.owner?.email || "—"}</span>
+        <div style={{ padding: "14px 24px", background: CC.color.bgSoft, color: CC.color.ink, borderBottom: `1px solid ${CC.color.border}`, display: "flex", gap: 28, fontSize: 12.5, flexWrap: "wrap" }}>
+          <Pair k="Statut DB" v={apiStatus} accent={statusColor} />
+          {dossier.packSelected && <Pair k="Pack" v={`${dossier.packSelected}${dossier.packPriceMAD ? ` — ${Number(dossier.packPriceMAD).toLocaleString("fr-FR")} MAD` : ""}`} />}
+          <Pair k="Owner" v={dossier.owner?.email || "—"} />
+          <Pair k="Phase" v={dossier.phase || "—"} accent={CC.color.or} />
         </div>
 
         {(apiStatus === "NEEDS_CHANGES" || apiStatus === "REJECTED") && opsNote && (
-          <div style={{ margin: "12px 20px", padding: "10px 14px", background: "#fef9c3", border: "1px solid #fde047", borderRadius: 8, fontSize: 13, color: "#854d0e" }}>
-            <strong>Message de votre architecte :</strong><br />
-            {opsNote}
+          <div style={{ margin: "16px 24px", padding: "14px 18px", background: CC.color.warnBg, borderLeft: `3px solid ${CC.color.warn}`, borderRadius: 4, fontSize: 13, color: CC.color.ink, lineHeight: 1.55 }}>
+            <strong style={{ color: CC.color.warn, fontFamily: CC.font.display, fontSize: 13.5 }}>Message de votre architecte</strong>
+            <div style={{ marginTop: 6 }}>{opsNote}</div>
+          </div>
+        )}
+
+        {/* Frise atelier (12 phases) */}
+        {id && (
+          <div style={{ padding: "20px 24px", borderBottom: `1px solid ${CC.color.border}`, background: CC.color.bgRaised }}>
+            <DossierPhaseTimeline dossierId={id} />
           </div>
         )}
 
@@ -127,99 +138,89 @@ export default function DossierShadowView() {
 
         {id && <RokhasPhaseTimeline dossierId={id} mode="client" />}
 
-        <div style={{ padding: "16px 20px" }}>
-          <h3 style={{ fontSize: 13, color: "#94a3b8", textTransform: "uppercase", letterSpacing: 1, marginTop: 0 }}>Sous-phases & Documents</h3>
+        <div style={{ padding: "20px 24px" }}>
+          <SectionHead eyebrow="Atelier · Dossier" title="Sous-phases & Documents" />
           {(dossier.sousPhases || []).map((sp: any) => (
             <SousPhaseCard key={sp.id} sp={sp} dossierId={id!} onChange={load} />
           ))}
           {(!dossier.sousPhases || dossier.sousPhases.length === 0) && (
-            <div style={{ color: "#64748b", fontStyle: "italic", fontSize: 12 }}>Aucune sous-phase pour ce dossier</div>
+            <div style={{ color: CC.color.inkMuted, fontStyle: "italic", fontSize: 12.5, padding: "12px 0" }}>Aucune sous-phase pour ce dossier</div>
           )}
         </div>
 
-        <div style={{ padding: "16px 20px" }}>
-          <h3 style={{ fontSize: 13, color: "#94a3b8", textTransform: "uppercase", letterSpacing: 1, marginTop: 0 }}>Documents ({(dossier.documents || []).length})</h3>
+        <div style={{ padding: "20px 24px", borderTop: `1px solid ${CC.color.border}` }}>
+          <SectionHead eyebrow="Atelier · Dossier" title={`Documents (${(dossier.documents || []).length})`} />
           {(dossier.documents || []).slice(0, 8).map((doc: any) => (
-            <div key={doc.id} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: "1px solid #1e2330", fontSize: 12 }}>
-              <span>{doc.docType || doc.storedName || doc.id}</span>
-              <span style={{ color: "#64748b" }}>{doc.uploadedAt && new Date(doc.uploadedAt).toLocaleDateString("fr-FR")}</span>
+            <div key={doc.id} style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderBottom: `1px solid ${CC.color.borderSoft}`, fontSize: 12.5 }}>
+              <span style={{ color: CC.color.ink }}>{doc.docType || doc.storedName || doc.id}</span>
+              <span style={{ color: CC.color.inkMuted, fontStyle: "italic" }}>{doc.uploadedAt && new Date(doc.uploadedAt).toLocaleDateString("fr-FR")}</span>
             </div>
           ))}
           {(!dossier.documents || dossier.documents.length === 0) && (
-            <div style={{ color: "#64748b", fontStyle: "italic", fontSize: 12 }}>Aucun document</div>
+            <div style={{ color: CC.color.inkMuted, fontStyle: "italic", fontSize: 12.5, padding: "8px 0" }}>Aucun document</div>
           )}
         </div>
       </div>
 
-      {/* ─── PANNEAU DROIT : ACTIONS ADMIN ─── */}
-      <aside style={{ width: 380, padding: 16, background: "#090e18", overflowY: "auto", flexShrink: 0 }}>
-        <div style={{ marginBottom: 14 }}>
-          <button onClick={() => navigate(`/cc/dossiers/${id}`)} style={{ background: "#1e2330", color: "#94a3b8", border: 0, padding: "6px 12px", borderRadius: 4, cursor: "pointer", fontSize: 12 }}>
-            ← PhaseWorkspace (vue admin classique)
-          </button>
+      {/* ─── PANNEAU DROIT : ACTIONS ADMIN (atelier premium) ─── */}
+      <aside style={{ width: 400, padding: "20px 22px", background: CC.color.bgRaised, overflowY: "auto", flexShrink: 0, borderLeft: `1px solid ${CC.color.border}` }}>
+        <div style={{ marginBottom: 18 }}>
+          <button onClick={() => navigate(`/cc/dossiers/${id}`)} style={btnGhost()}>← Vue admin classique</button>
         </div>
 
-        <h2 style={{ fontSize: 13, color: "#60a5fa", marginTop: 0, textTransform: "uppercase", letterSpacing: 2 }}>🛠️ Actions Admin</h2>
+        <SectionHead eyebrow="Atelier" title="Actions admin" />
 
-        <div style={{ background: "#111827", border: "1px solid #1e2330", borderRadius: 6, padding: 14, marginBottom: 12 }}>
-          <div style={{ fontSize: 10, color: "#4a5568", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Statut courant</div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: statusColor }}>{apiStatus}</div>
-        </div>
+        <CardBlock>
+          <Eyebrow>Statut courant</Eyebrow>
+          <div style={{ fontFamily: CC.font.display, fontSize: 22, fontWeight: 600, color: statusColor, marginTop: 4 }}>{apiStatus}</div>
+        </CardBlock>
 
-        <div style={{ background: "#111827", border: "1px solid #991b1b", borderRadius: 6, padding: 14, marginBottom: 12 }}>
-          <div style={{ fontSize: 10, color: "#fca5a5", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>⚡ Déblocage rapide</div>
+        <CardBlock danger>
+          <Eyebrow color={CC.color.danger}>Déblocage rapide</Eyebrow>
           <button
             onClick={unblock}
             disabled={busy === "unblock"}
-            style={{ width: "100%", background: "#dc2626", color: "#fff", border: 0, padding: "10px 14px", borderRadius: 6, cursor: busy === "unblock" ? "wait" : "pointer", fontWeight: 700, fontSize: 12 }}
+            style={btnDanger(busy === "unblock")}
           >
-            {busy === "unblock" ? "Déblocage…" : "Débloquer le dossier (→ DRAFT, ops note effacée)"}
+            {busy === "unblock" ? "Déblocage…" : "Débloquer le dossier"}
           </button>
-          <div style={{ fontSize: 10, color: "#64748b", marginTop: 8, lineHeight: 1.4 }}>
-            Remet le dossier en brouillon et efface le message OPS — le client peut alors reprendre la main.
-          </div>
-        </div>
+          <div style={hint()}>Remet le dossier en brouillon et efface le message OPS — le client peut alors reprendre la main.</div>
+        </CardBlock>
 
-        <div style={{ background: "#111827", border: "1px solid #1e2330", borderRadius: 6, padding: 14, marginBottom: 12 }}>
-          <div style={{ fontSize: 10, color: "#4a5568", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Forcer un statut</div>
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+        <CardBlock>
+          <Eyebrow>Forcer un statut</Eyebrow>
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 4 }}>
             {STATUSES.map((s) => (
               <button
                 key={s}
                 onClick={() => setStatus(s)}
                 disabled={s === apiStatus || busy === "setStatus"}
-                style={{
-                  background: s === apiStatus ? "#0a0f1a" : "#1e2330",
-                  color: s === apiStatus ? "#4a5568" : "#e8eaf0",
-                  border: 0, padding: "5px 10px", borderRadius: 4,
-                  cursor: s === apiStatus ? "not-allowed" : "pointer",
-                  fontSize: 11,
-                }}
+                style={btnChip(s === apiStatus)}
               >
                 {s}
               </button>
             ))}
           </div>
-        </div>
+        </CardBlock>
 
-        <div style={{ background: "#111827", border: "1px solid #1e2330", borderRadius: 6, padding: 14, marginBottom: 12 }}>
-          <div style={{ fontSize: 10, color: "#4a5568", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Note OPS</div>
-          <div style={{ fontSize: 10, color: "#64748b", marginBottom: 6 }}>Visible côté client uniquement si NEEDS_CHANGES ou REJECTED</div>
+        <CardBlock>
+          <Eyebrow>Note OPS</Eyebrow>
+          <div style={hint()}>Visible côté client uniquement si NEEDS_CHANGES ou REJECTED.</div>
           <textarea
             value={opsNoteDraft}
             onChange={(e) => setOpsNoteDraft(e.target.value)}
             rows={4}
-            placeholder="Ex: documents manquants…"
-            style={{ width: "100%", background: "#0a0f1a", color: "#e8eaf0", border: "1px solid #1e2330", borderRadius: 4, padding: 8, fontSize: 12, fontFamily: "inherit", boxSizing: "border-box", resize: "vertical" }}
+            placeholder="Ex: documents manquants, point bloquant…"
+            style={{ width: "100%", background: CC.color.bg, color: CC.color.ink, border: `1px solid ${CC.color.border}`, borderRadius: 6, padding: 10, fontSize: 12.5, fontFamily: CC.font.body, boxSizing: "border-box", resize: "vertical", marginTop: 8 }}
           />
           <button
             onClick={saveOpsNote}
             disabled={busy === "opsNote"}
-            style={{ marginTop: 6, background: "#1d4ed8", color: "#fff", border: 0, padding: "6px 12px", borderRadius: 4, cursor: busy === "opsNote" ? "wait" : "pointer", fontSize: 12 }}
+            style={btnPrimary(busy === "opsNote")}
           >
             {busy === "opsNote" ? "Sauvegarde…" : "Enregistrer note"}
           </button>
-        </div>
+        </CardBlock>
 
         <PackValidationBlock dossierId={dossier.id} />
 
@@ -235,19 +236,87 @@ export default function DossierShadowView() {
 
         <VisaCroaBlock dossierId={dossier.id} />
 
-        <div style={{ background: "#111827", border: "1px solid #1e2330", borderRadius: 6, padding: 14, fontSize: 11, color: "#94a3b8", lineHeight: 1.6 }}>
-          <div style={{ fontSize: 10, color: "#4a5568", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Métadonnées</div>
-          <div><b>ID :</b> {dossier.id}</div>
-          <div><b>Owner :</b> {dossier.owner?.email || "—"}</div>
-          <div><b>Pack :</b> {dossier.packSelected || "—"}</div>
-          <div><b>Phase :</b> {dossier.phase || "—"}</div>
-          <div><b>Créé :</b> {dossier.createdAt && new Date(dossier.createdAt).toLocaleString("fr-FR")}</div>
-          <div><b>MAJ :</b> {dossier.updatedAt && new Date(dossier.updatedAt).toLocaleString("fr-FR")}</div>
-        </div>
+        <CardBlock>
+          <Eyebrow>Métadonnées</Eyebrow>
+          <div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 11.5, color: CC.color.inkMid, lineHeight: 1.6, marginTop: 6 }}>
+            <Meta k="ID"     v={dossier.id} mono />
+            <Meta k="Owner"  v={dossier.owner?.email || "—"} />
+            <Meta k="Pack"   v={dossier.packSelected || "—"} />
+            <Meta k="Phase"  v={dossier.phase || "—"} />
+            <Meta k="Créé"   v={dossier.createdAt && new Date(dossier.createdAt).toLocaleString("fr-FR")} />
+            <Meta k="MAJ"    v={dossier.updatedAt && new Date(dossier.updatedAt).toLocaleString("fr-FR")} />
+          </div>
+        </CardBlock>
       </aside>
     </div>
   );
 }
+
+// ─── Atelier helpers (DossierShadowView only) ──────────────────────────
+
+function Pair({ k, v, accent }: { k: string; v: string; accent?: string }) {
+  return (
+    <span style={{ display: "inline-flex", flexDirection: "column", gap: 2 }}>
+      <span style={{ fontSize: 9.5, color: CC.color.or, letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 600 }}>{k}</span>
+      <span style={{ color: accent || CC.color.ink, fontWeight: 600, fontSize: 13 }}>{v}</span>
+    </span>
+  );
+}
+
+function SectionHead({ eyebrow, title }: { eyebrow: string; title: string }) {
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <div style={{ fontSize: 9.5, color: CC.color.or, letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 600 }}>{eyebrow}</div>
+      <h3 style={{ margin: "4px 0 0", fontFamily: CC.font.display, fontSize: 18, fontWeight: 600, color: CC.color.navy, letterSpacing: "-0.01em" }}>{title}</h3>
+    </div>
+  );
+}
+
+function CardBlock({ children, danger }: { children: React.ReactNode; danger?: boolean }) {
+  return (
+    <div style={{
+      background: CC.color.bg, border: `1px solid ${danger ? CC.color.danger + "40" : CC.color.border}`,
+      borderRadius: 8, padding: "14px 16px", marginBottom: 12,
+      boxShadow: danger ? `inset 3px 0 0 ${CC.color.danger}` : "none",
+    }}>{children}</div>
+  );
+}
+
+function Eyebrow({ children, color }: { children: React.ReactNode; color?: string }) {
+  return <div style={{ fontSize: 9.5, color: color || CC.color.or, letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 600 }}>{children}</div>;
+}
+
+function Meta({ k, v, mono }: { k: string; v: any; mono?: boolean }) {
+  return (
+    <div style={{ display: "flex", gap: 8 }}>
+      <span style={{ color: CC.color.inkMuted, minWidth: 60 }}>{k} :</span>
+      <span style={{ color: CC.color.ink, fontFamily: mono ? CC.font.mono : CC.font.body, wordBreak: "break-all" }}>{v}</span>
+    </div>
+  );
+}
+
+const btnPrimary = (busy: boolean): React.CSSProperties => ({
+  marginTop: 10, background: CC.color.navy, color: CC.color.bg, border: 0, padding: "9px 18px",
+  borderRadius: 6, cursor: busy ? "wait" : "pointer", fontSize: 12.5, fontWeight: 600, letterSpacing: "0.04em", fontFamily: "inherit",
+});
+const btnDanger = (busy: boolean): React.CSSProperties => ({
+  width: "100%", background: CC.color.danger, color: "#FFF", border: 0, padding: "10px 14px",
+  borderRadius: 6, cursor: busy ? "wait" : "pointer", fontWeight: 600, fontSize: 12.5, marginTop: 8, fontFamily: "inherit",
+});
+const btnGhost = (): React.CSSProperties => ({
+  background: "transparent", color: CC.color.inkMid, border: `1px solid ${CC.color.border}`,
+  padding: "7px 14px", borderRadius: 5, cursor: "pointer", fontSize: 12, fontFamily: "inherit",
+});
+const btnChip = (active: boolean): React.CSSProperties => ({
+  background: active ? CC.color.bgSoft : CC.color.bgRaised,
+  color: active ? CC.color.inkMuted : CC.color.ink,
+  border: `1px solid ${active ? CC.color.border : CC.color.borderSoft}`,
+  padding: "5px 11px", borderRadius: 4, cursor: active ? "not-allowed" : "pointer",
+  fontSize: 11, fontWeight: 500, fontFamily: "inherit",
+});
+const hint = (): React.CSSProperties => ({
+  fontSize: 10.5, color: CC.color.inkMuted, marginTop: 6, lineHeight: 1.5, fontStyle: "italic",
+});
 
 // ─── SousPhaseCard : carte sous-phase + upload + viewer (admin) ─────────────
 function SousPhaseCard({ sp, dossierId, onChange }: { sp: any; dossierId: string; onChange: () => void }) {
