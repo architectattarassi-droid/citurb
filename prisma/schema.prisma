@@ -52,6 +52,12 @@ model User {
   liveRoomsHosted     LiveRoom[]          @relation("LiveRoomHost")
   roomParticipations  RoomParticipation[] @relation("RoomParticipant")
 
+  // Annuaire pro (Sprint D1)
+  proProfile          ProProfile?         @relation("UserProProfile")
+  connectionsFrom     Connection[]        @relation("ConnectionFrom")
+  connectionsTo       Connection[]        @relation("ConnectionTo")
+  notifications       Notification[]      @relation("UserNotifications")
+
   @@index([role])
 }
 
@@ -1254,4 +1260,134 @@ model EgressTarget {
   errorMessage    String?
 
   createdAt DateTime @default(now())
+}
+
+// ==============================
+// ANNUAIRE PRO — réseau social BTP marocain
+// Sprint D1 : ProProfile, Connection, Notification
+// ==============================
+
+enum ProMetier {
+  ARCHITECTE
+  BET_STRUCTURE
+  BET_FLUIDES
+  BET_VRD
+  TOPOGRAPHE
+  GEOMETRE
+  CONTROLE_TECHNIQUE
+  LABORATOIRE
+  ENTREPRISE_GO
+  ENTREPRISE_SECOND_OEUVRE
+  FOURNISSEUR_MATERIAUX
+  PROMOTEUR
+  MOA_PUBLIQUE
+  MOA_PRIVEE
+  ARTISAN_QUALIFIE
+}
+
+enum ProClasseBTP {
+  CL1 // jusqu'à 1 MMAD
+  CL2 // jusqu'à 5 MMAD
+  CL3 // jusqu'à 25 MMAD
+  CL4 // jusqu'à 100 MMAD
+  CL5 // au-delà de 100 MMAD
+  HC  // hors classe (pas concerné — architectes, fournisseurs)
+}
+
+model ProProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation("UserProProfile", fields: [userId], references: [id], onDelete: Cascade)
+
+  // Identité publique
+  displayName  String
+  title        String? // "Architecte associé", "Directeur technique", etc.
+  bio          String? @db.Text
+  avatarUrl    String?
+  coverUrl     String?
+
+  // Méta-métier
+  metier       ProMetier
+  classeBTP    ProClasseBTP?
+  agrements    String[] // ["CNOA-12345", "ONI-654", "AGREMENT_MEFD_BAT_CL3"]
+  specialites  String[] // tags libres : "BIM", "Béton précontraint", "Terre crue"…
+
+  // Localisation
+  regions      String[] // 12 régions Maroc où le pro intervient
+  villePrincipale String?
+
+  // Réseaux + identité publique
+  websiteUrl   String?
+  linkedinUrl  String?
+  phonePublic  String?
+  emailPublic  String?
+
+  // Vérification
+  isVerified   Boolean @default(false) // badge bleu
+  verifiedAt   DateTime?
+  verifierNote String?
+
+  // Stats dérivées (optionnel — peut rester null et calculé à la volée)
+  projectsCount    Int @default(0)
+  connectionsCount Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([metier])
+  @@index([classeBTP])
+}
+
+enum ConnectionStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  BLOCKED
+}
+
+model Connection {
+  id            String           @id @default(cuid())
+  fromUserId    String
+  fromUser      User             @relation("ConnectionFrom", fields: [fromUserId], references: [id])
+  toUserId      String
+  toUser        User             @relation("ConnectionTo",   fields: [toUserId], references: [id])
+  status        ConnectionStatus @default(PENDING)
+  message       String?          // mot accompagnant la demande
+  respondedAt   DateTime?
+  createdAt     DateTime         @default(now())
+
+  @@unique([fromUserId, toUserId])
+  @@index([fromUserId])
+  @@index([toUserId])
+}
+
+enum NotificationType {
+  CONNECTION_REQUEST
+  CONNECTION_ACCEPTED
+  CERCLE_INVITE
+  CERCLE_REQUEST_APPROVED
+  POST_REPLY
+  POST_MENTION
+  ROOM_STARTING
+  ROOM_INVITE
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  body      String?
+  // Lien d'action — ouvre cette URL au clic
+  actionUrl String?
+  // Référence libre vers entité concernée
+  refType   String?          // "cercle" | "post" | "room" | "connection"
+  refId     String?
+  // Lecture
+  readAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  @@index([userId, readAt])
+  @@index([userId, createdAt])
 }

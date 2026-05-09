@@ -7,6 +7,9 @@ import { PostsService } from "./posts.service";
 import { RoomsService } from "./rooms.service";
 import { LiveKitService } from "./livekit.service";
 import { EncryptionService } from "./encryption.service";
+import { AnnuaireService } from "./annuaire.service";
+import { FeedService } from "./feed.service";
+import { SeedCerclesService } from "./seed-cercles.service";
 import { CerclesController } from "./cercles.controller";
 
 @Module({
@@ -19,7 +22,10 @@ import { CerclesController } from "./cercles.controller";
     RoomsService,
     LiveKitService,
     EncryptionService,
+    AnnuaireService,
+    FeedService,
+    SeedCerclesService,
   ],
-  exports: [CerclesService, MembershipsService, PostsService, RoomsService],
+  exports: [CerclesService, MembershipsService, PostsService, RoomsService, AnnuaireService, FeedService],
 })
 export class CerclesModule {}

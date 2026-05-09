@@ -5,6 +5,8 @@ import { CerclesService, CreateCercleInput, UpdateCercleInput } from "./cercles.
 import { MembershipsService } from "./memberships.service";
 import { PostsService } from "./posts.service";
 import { RoomsService } from "./rooms.service";
+import { AnnuaireService, ProProfileInput, AnnuaireSearchInput } from "./annuaire.service";
+import { FeedService } from "./feed.service";
 
 /**
  * CerclesController — Sprint C0–C3
@@ -23,6 +25,8 @@ export class CerclesController {
     private readonly memberships: MembershipsService,
     private readonly posts: PostsService,
     private readonly rooms: RoomsService,
+    private readonly annuaire: AnnuaireService,
+    private readonly feed: FeedService,
   ) {}
 
   private uid(req: any): string {
@@ -31,6 +35,85 @@ export class CerclesController {
 
   private displayName(req: any): string {
     return req?.user?.username || req?.user?.email || "Membre";
+  }
+
+  // ── Feed (Sprint D2) ──────────────────────────────────────────
+
+  @Get("feed")
+  async homeFeed(@Req() req: any) {
+    return { ok: true, data: await this.feed.homeFeed(this.uid(req)) };
+  }
+
+  @Get("discovery")
+  async discoveryCercles(@Req() req: any) {
+    return { ok: true, data: await this.feed.discoveryCercles(this.uid(req)) };
+  }
+
+  // ── Annuaire pro (Sprint D1) ──────────────────────────────────
+
+  @Get("annuaire/facets")
+  async annuaireFacets() {
+    return { ok: true, data: await this.annuaire.facets() };
+  }
+
+  @Get("annuaire/search")
+  async annuaireSearch(@Query() q: any) {
+    const input: AnnuaireSearchInput = {
+      q: q.q || undefined,
+      metier: q.metier || undefined,
+      classeBTP: q.classeBTP || undefined,
+      region: q.region || undefined,
+      specialite: q.specialite || undefined,
+      isVerified: q.verified === "true" ? true : q.verified === "false" ? false : undefined,
+      page: q.page ? Number(q.page) : undefined,
+      pageSize: q.pageSize ? Number(q.pageSize) : undefined,
+    };
+    return { ok: true, ...(await this.annuaire.search(input)) };
+  }
+
+  @Get("annuaire/suggestions")
+  async annuaireSuggestions(@Req() req: any, @Query("take") take?: string) {
+    return { ok: true, data: await this.annuaire.suggestions(this.uid(req), take ? Number(take) : 6) };
+  }
+
+  @Get("me/profile")
+  async myProfile(@Req() req: any) {
+    return { ok: true, data: await this.annuaire.getMyProfile(this.uid(req)) };
+  }
+
+  @Post("me/profile")
+  async upsertMyProfile(@Req() req: any, @Body() body: ProProfileInput) {
+    return { ok: true, data: await this.annuaire.upsertMyProfile(this.uid(req), body) };
+  }
+
+  @Get("profile/:userIdOrId")
+  async publicProfile(@Param("userIdOrId") userIdOrId: string) {
+    return { ok: true, data: await this.annuaire.getProfile(userIdOrId) };
+  }
+
+  @Post("connections/:toUserId")
+  async sendConnection(@Req() req: any, @Param("toUserId") toUserId: string, @Body() body: { message?: string }) {
+    return { ok: true, data: await this.annuaire.sendConnection(this.uid(req), toUserId, body?.message) };
+  }
+
+  @Post("connections/:fromUserId/accept")
+  async acceptConnection(@Req() req: any, @Param("fromUserId") fromUserId: string) {
+    return { ok: true, data: await this.annuaire.respondConnection(this.uid(req), fromUserId, true) };
+  }
+
+  @Post("connections/:fromUserId/reject")
+  async rejectConnection(@Req() req: any, @Param("fromUserId") fromUserId: string) {
+    return { ok: true, data: await this.annuaire.respondConnection(this.uid(req), fromUserId, false) };
+  }
+
+  @Get("connections")
+  async connections(@Req() req: any) {
+    return { ok: true, data: await this.annuaire.listConnections(this.uid(req)) };
+  }
+
+  @Get("connections/pending")
+  async pendingConnections(@Req() req: any) {
+    return { ok: true, data: await this.annuaire.listPendingRequests(this.uid(req)) };
   }
 
   // ── Cercles ──────────────────────────────────────────────────

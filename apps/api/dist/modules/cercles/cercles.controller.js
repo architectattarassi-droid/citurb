@@ -20,6 +20,8 @@ const cercles_service_1 = require("./cercles.service");
 const memberships_service_1 = require("./memberships.service");
 const posts_service_1 = require("./posts.service");
 const rooms_service_1 = require("./rooms.service");
+const annuaire_service_1 = require("./annuaire.service");
+const feed_service_1 = require("./feed.service");
 /**
  * CerclesController — Sprint C0–C3
  *
@@ -33,17 +35,72 @@ let CerclesController = class CerclesController {
     memberships;
     posts;
     rooms;
-    constructor(cercles, memberships, posts, rooms) {
+    annuaire;
+    feed;
+    constructor(cercles, memberships, posts, rooms, annuaire, feed) {
         this.cercles = cercles;
         this.memberships = memberships;
         this.posts = posts;
         this.rooms = rooms;
+        this.annuaire = annuaire;
+        this.feed = feed;
     }
     uid(req) {
         return req?.user?.userId || req?.user?.sub;
     }
     displayName(req) {
         return req?.user?.username || req?.user?.email || "Membre";
+    }
+    // ── Feed (Sprint D2) ──────────────────────────────────────────
+    async homeFeed(req) {
+        return { ok: true, data: await this.feed.homeFeed(this.uid(req)) };
+    }
+    async discoveryCercles(req) {
+        return { ok: true, data: await this.feed.discoveryCercles(this.uid(req)) };
+    }
+    // ── Annuaire pro (Sprint D1) ──────────────────────────────────
+    async annuaireFacets() {
+        return { ok: true, data: await this.annuaire.facets() };
+    }
+    async annuaireSearch(q) {
+        const input = {
+            q: q.q || undefined,
+            metier: q.metier || undefined,
+            classeBTP: q.classeBTP || undefined,
+            region: q.region || undefined,
+            specialite: q.specialite || undefined,
+            isVerified: q.verified === "true" ? true : q.verified === "false" ? false : undefined,
+            page: q.page ? Number(q.page) : undefined,
+            pageSize: q.pageSize ? Number(q.pageSize) : undefined,
+        };
+        return { ok: true, ...(await this.annuaire.search(input)) };
+    }
+    async annuaireSuggestions(req, take) {
+        return { ok: true, data: await this.annuaire.suggestions(this.uid(req), take ? Number(take) : 6) };
+    }
+    async myProfile(req) {
+        return { ok: true, data: await this.annuaire.getMyProfile(this.uid(req)) };
+    }
+    async upsertMyProfile(req, body) {
+        return { ok: true, data: await this.annuaire.upsertMyProfile(this.uid(req), body) };
+    }
+    async publicProfile(userIdOrId) {
+        return { ok: true, data: await this.annuaire.getProfile(userIdOrId) };
+    }
+    async sendConnection(req, toUserId, body) {
+        return { ok: true, data: await this.annuaire.sendConnection(this.uid(req), toUserId, body?.message) };
+    }
+    async acceptConnection(req, fromUserId) {
+        return { ok: true, data: await this.annuaire.respondConnection(this.uid(req), fromUserId, true) };
+    }
+    async rejectConnection(req, fromUserId) {
+        return { ok: true, data: await this.annuaire.respondConnection(this.uid(req), fromUserId, false) };
+    }
+    async connections(req) {
+        return { ok: true, data: await this.annuaire.listConnections(this.uid(req)) };
+    }
+    async pendingConnections(req) {
+        return { ok: true, data: await this.annuaire.listPendingRequests(this.uid(req)) };
     }
     // ── Cercles ──────────────────────────────────────────────────
     async list(req, page, pageSize) {
@@ -156,6 +213,102 @@ let CerclesController = class CerclesController {
     }
 };
 exports.CerclesController = CerclesController;
+__decorate([
+    (0, common_1.Get)("feed"),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "homeFeed", null);
+__decorate([
+    (0, common_1.Get)("discovery"),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "discoveryCercles", null);
+__decorate([
+    (0, common_1.Get)("annuaire/facets"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "annuaireFacets", null);
+__decorate([
+    (0, common_1.Get)("annuaire/search"),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "annuaireSearch", null);
+__decorate([
+    (0, common_1.Get)("annuaire/suggestions"),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)("take")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "annuaireSuggestions", null);
+__decorate([
+    (0, common_1.Get)("me/profile"),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "myProfile", null);
+__decorate([
+    (0, common_1.Post)("me/profile"),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "upsertMyProfile", null);
+__decorate([
+    (0, common_1.Get)("profile/:userIdOrId"),
+    __param(0, (0, common_1.Param)("userIdOrId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "publicProfile", null);
+__decorate([
+    (0, common_1.Post)("connections/:toUserId"),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)("toUserId")),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, Object]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "sendConnection", null);
+__decorate([
+    (0, common_1.Post)("connections/:fromUserId/accept"),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)("fromUserId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "acceptConnection", null);
+__decorate([
+    (0, common_1.Post)("connections/:fromUserId/reject"),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)("fromUserId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "rejectConnection", null);
+__decorate([
+    (0, common_1.Get)("connections"),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "connections", null);
+__decorate([
+    (0, common_1.Get)("connections/pending"),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "pendingConnections", null);
 __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Req)()),
@@ -428,5 +581,7 @@ exports.CerclesController = CerclesController = __decorate([
     __metadata("design:paramtypes", [cercles_service_1.CerclesService,
         memberships_service_1.MembershipsService,
         posts_service_1.PostsService,
-        rooms_service_1.RoomsService])
+        rooms_service_1.RoomsService,
+        annuaire_service_1.AnnuaireService,
+        feed_service_1.FeedService])
 ], CerclesController);

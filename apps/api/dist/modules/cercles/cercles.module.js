@@ -16,6 +16,9 @@ const posts_service_1 = require("./posts.service");
 const rooms_service_1 = require("./rooms.service");
 const livekit_service_1 = require("./livekit.service");
 const encryption_service_1 = require("./encryption.service");
+const annuaire_service_1 = require("./annuaire.service");
+const feed_service_1 = require("./feed.service");
+const seed_cercles_service_1 = require("./seed-cercles.service");
 const cercles_controller_1 = require("./cercles.controller");
 let CerclesModule = class CerclesModule {
 };
@@ -31,7 +34,10 @@ exports.CerclesModule = CerclesModule = __decorate([
             rooms_service_1.RoomsService,
             livekit_service_1.LiveKitService,
             encryption_service_1.EncryptionService,
+            annuaire_service_1.AnnuaireService,
+            feed_service_1.FeedService,
+            seed_cercles_service_1.SeedCerclesService,
         ],
-        exports: [cercles_service_1.CerclesService, memberships_service_1.MembershipsService, posts_service_1.PostsService, rooms_service_1.RoomsService],
+        exports: [cercles_service_1.CerclesService, memberships_service_1.MembershipsService, posts_service_1.PostsService, rooms_service_1.RoomsService, annuaire_service_1.AnnuaireService, feed_service_1.FeedService],
     })
 ], CerclesModule);

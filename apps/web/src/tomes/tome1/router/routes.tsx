@@ -28,12 +28,15 @@ import { CANON, REDIRECTS } from "../../../application/routeRegistry";
 import CommandCenterApp from '../../../command-center/CommandCenterApp';
 import { PorteLanding, VilleLanding } from '../../../ui/seo';
 
-// Cercles — réseau pro (Sprint C0-C3)
+// Cercles — réseau pro BTP (Sprints C0-C3 + D1-D3)
+import FeedHomePage     from "../../../features/cercles/FeedHomePage";
 import CerclesHomePage  from "../../../features/cercles/CerclesHomePage";
 import CercleDetailPage from "../../../features/cercles/CercleDetailPage";
 import NewCerclePage    from "../../../features/cercles/NewCerclePage";
 import PostDetailPage   from "../../../features/cercles/PostDetailPage";
 import LiveRoomPage     from "../../../features/cercles/LiveRoomPage";
+import AnnuairePage     from "../../../features/cercles/AnnuairePage";
+import ProfilePage      from "../../../features/cercles/ProfilePage";
 
 /**
  * V152-B1 — Canonisation Routes (memo)
@@ -64,8 +67,11 @@ export const router = createBrowserRouter([
   // Command Center interne
   { path: '/cc/*', element: <CommandCenterApp /> },
 
-  // Cercles — réseau pro (auth requis côté API JWT)
-  { path: '/cercles',                              element: <CerclesHomePage /> },
+  // Cercles — réseau pro BTP marocain (auth requis côté API JWT)
+  { path: '/cercles',                              element: <FeedHomePage /> },
+  { path: '/cercles/bienvenue',                    element: <CerclesHomePage /> },
+  { path: '/cercles/annuaire',                     element: <AnnuairePage /> },
+  { path: '/cercles/profile/:userIdOrId',          element: <ProfilePage /> },
   { path: '/cercles/nouveau',                      element: <NewCerclePage /> },
   { path: '/cercles/:slug',                        element: <CercleDetailPage /> },
   { path: '/cercles/:slug/posts/:postId',          element: <PostDetailPage /> },
