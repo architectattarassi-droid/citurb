@@ -57,10 +57,19 @@ const CONFIG_ARCHIVE = {
   password: 'Admin123!',
   url: BASE + '/cc/archive',
 };
+const CONFIG_CERCLES = {
+  title: 'CITURBAREA — Cercles' + (LOCAL_MODE ? ' (LOCAL)' : ''),
+  accent: '#0F2A4A',
+  badge: 'CERCLES · LES PROS SE PARLENT ICI' + (LOCAL_MODE ? ' · LOCAL' : ''),
+  email: '',
+  password: '',
+  url: BASE + '/cercles',
+};
 const CONFIG =
   VARIANT === 'backoffice' ? CONFIG_BACK :
   VARIANT === 'doc'        ? CONFIG_DOC  :
   VARIANT === 'archive'    ? CONFIG_ARCHIVE :
+  VARIANT === 'cercles'    ? CONFIG_CERCLES :
   CONFIG_PORTAL;
 
 const TARGET_URL = CONFIG.url;

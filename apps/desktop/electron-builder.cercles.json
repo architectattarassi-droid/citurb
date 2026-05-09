@@ -1,0 +1,24 @@
+{
+  "appId": "com.citurbarea.cercles",
+  "productName": "CITURBAREA Cercles",
+  "asar": true,
+  "directories": {
+    "output": "dist/cercles"
+  },
+  "files": [
+    "main.js",
+    "offline.html",
+    "package.json"
+  ],
+  "win": {
+    "target": [
+      { "target": "dir", "arch": ["x64"] }
+    ],
+    "signAndEditExecutable": false
+  },
+  "extraMetadata": {
+    "name": "citurbarea-cercles",
+    "main": "main.js",
+    "citVariant": "cercles"
+  }
+}

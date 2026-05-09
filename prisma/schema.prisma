@@ -44,6 +44,14 @@ model User {
   firmId String?
   firm   Firm?   @relation("UserFirm", fields: [firmId], references: [id])
 
+  // Cercles professionnels (réseau pro CITURBAREA)
+  cerclesOwned        Cercle[]            @relation("CercleOwner")
+  cercleMemberships   CercleMembership[]  @relation("CercleMemberships")
+  cercleModerations   CercleModerator[]   @relation("CercleModerators")
+  cerclePosts         CerclePost[]        @relation("CerclePostAuthor")
+  liveRoomsHosted     LiveRoom[]          @relation("LiveRoomHost")
+  roomParticipations  RoomParticipation[] @relation("RoomParticipant")
+
   @@index([role])
 }
 
@@ -476,18 +484,18 @@ model Dossier {
   arrondissement  String?
 
   // Sprint S0 — nouvelles relations
-  phaseRecords   DossierPhaseRecord[]
-  sousPhases     DossierSousPhase[]
-  intervenants   DossierIntervenant[]
-  geoHistory     DossierGeoHistory[]
-  nonConformites DossierNonConformite[]
-  messages       DossierMessage[]
-  visios         DossierVisio[]
-  commandes      CommandePrestataire[]
-  phaseChats     PhaseChat[]
-  phaseReunions  PhaseReunion[]
-  devis          Devis[]
-  factures       Facture[]
+  phaseRecords    DossierPhaseRecord[]
+  sousPhases      DossierSousPhase[]
+  intervenants    DossierIntervenant[]
+  geoHistory      DossierGeoHistory[]
+  nonConformites  DossierNonConformite[]
+  messages        DossierMessage[]
+  visios          DossierVisio[]
+  commandes       CommandePrestataire[]
+  phaseChats      PhaseChat[]
+  phaseReunions   PhaseReunion[]
+  devis           Devis[]
+  factures        Facture[]
   phaseHistorique PhaseHistorique[]
 
   @@index([ownerId, status])
@@ -709,6 +717,7 @@ model Firm {
   // S-FIRM-LINK — relations inverses
   users    User[]    @relation("UserFirm")
   dossiers Dossier[] @relation("DossierFirm")
+  cercles  Cercle[]  @relation("CercleFirm")
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -935,25 +944,25 @@ model PhaseChat {
 }
 
 model PhaseReunion {
-  id               String    @id @default(cuid())
-  dossierId        String
-  phaseRef         String
-  titre            String
-  type             String    @default("PRESENTIEL")
-  statut           String    @default("PLANIFIEE")
-  dateDebut        DateTime
-  dateFin          DateTime?
-  dureeMinutes     Int?
-  lieu             String?
-  lienVisio        String?
-  organisateurId   String?
-  participants     String[]
-  noteOrdreJour    String?
-  noteCompteRendu  String?
-  rappelEnvoye     Boolean   @default(false)
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-  dossier          Dossier   @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+  id              String    @id @default(cuid())
+  dossierId       String
+  phaseRef        String
+  titre           String
+  type            String    @default("PRESENTIEL")
+  statut          String    @default("PLANIFIEE")
+  dateDebut       DateTime
+  dateFin         DateTime?
+  dureeMinutes    Int?
+  lieu            String?
+  lienVisio       String?
+  organisateurId  String?
+  participants    String[]
+  noteOrdreJour   String?
+  noteCompteRendu String?
+  rappelEnvoye    Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  dossier         Dossier   @relation(fields: [dossierId], references: [id], onDelete: Cascade)
 
   @@index([dossierId])
   @@index([phaseRef])
@@ -988,29 +997,29 @@ model Devis {
 }
 
 model Facture {
-  id            String    @id @default(cuid())
-  dossierId     String
-  phaseRef      String
-  devisId       String?
-  numero        String    @unique
-  titre         String
-  statut        String    @default("EMISE")
-  montantHT     Float     @default(0)
-  tva           Float     @default(20)
-  montantTTC    Float     @default(0)
-  montantPaye   Float     @default(0)
-  devise        String    @default("MAD")
-  lignes        Json      @default("[]")
-  dateEmission  DateTime  @default(now())
-  dateEcheance  DateTime?
-  datePaiement  DateTime?
-  modePaiement  String?
-  reference     String?
-  emetteurId    String
-  filePath      String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  dossier       Dossier   @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+  id           String    @id @default(cuid())
+  dossierId    String
+  phaseRef     String
+  devisId      String?
+  numero       String    @unique
+  titre        String
+  statut       String    @default("EMISE")
+  montantHT    Float     @default(0)
+  tva          Float     @default(20)
+  montantTTC   Float     @default(0)
+  montantPaye  Float     @default(0)
+  devise       String    @default("MAD")
+  lignes       Json      @default("[]")
+  dateEmission DateTime  @default(now())
+  dateEcheance DateTime?
+  datePaiement DateTime?
+  modePaiement String?
+  reference    String?
+  emetteurId   String
+  filePath     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  dossier      Dossier   @relation(fields: [dossierId], references: [id], onDelete: Cascade)
 
   @@index([dossierId])
 }
@@ -1030,4 +1039,219 @@ model PhaseHistorique {
 
   @@index([dossierId])
   @@index([phaseRef])
+}
+
+// ==============================
+// CERCLES PROFESSIONNELS — réseau pro CITURBAREA
+// Spec : CERCLES-prompt-claude-code.md
+// Architecture : Cercles + Memberships + Posts + LiveRooms (LiveKit) + Egress multi-RTMP
+// ==============================
+
+enum CercleVisibility {
+  PUBLIC
+  MEMBERS_ONLY
+  PRIVATE
+}
+
+enum CercleRole {
+  MEMBER
+  CONTRIBUTOR
+  MODERATOR
+  OWNER
+}
+
+enum MembershipStatus {
+  PENDING_REQUEST
+  PENDING_INVITE
+  ACTIVE
+  BANNED
+  LEFT
+}
+
+enum RoomStatus {
+  SCHEDULED
+  LIVE
+  ENDED
+  CANCELLED
+}
+
+enum StreamPlatform {
+  YOUTUBE
+  FACEBOOK_PAGE
+  LINKEDIN_LIVE
+  CUSTOM_RTMP
+}
+
+enum EgressStatus {
+  IDLE
+  STARTING
+  ACTIVE
+  STOPPING
+  ENDED
+  FAILED
+}
+
+model Cercle {
+  id          String           @id @default(cuid())
+  slug        String           @unique
+  name        String
+  description String?
+  visibility  CercleVisibility @default(MEMBERS_ONLY)
+
+  region String? // une des 12 régions marocaines (nullable = national)
+  themes String[] // tags ["BIM", "VRD lotissements", ...]
+
+  ownerId String
+  owner   User   @relation("CercleOwner", fields: [ownerId], references: [id])
+
+  // Cabinet d'appartenance — multi-cabinet isolation via firmId existant
+  firmId String?
+  firm   Firm?   @relation("CercleFirm", fields: [firmId], references: [id])
+
+  moderators CercleModerator[]
+  members    CercleMembership[]
+  posts      CerclePost[]
+  rooms      LiveRoom[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime? // soft delete uniquement
+
+  @@index([firmId])
+  @@index([visibility, deletedAt])
+}
+
+model CercleMembership {
+  id       String           @id @default(cuid())
+  cercleId String
+  cercle   Cercle           @relation(fields: [cercleId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User             @relation("CercleMemberships", fields: [userId], references: [id])
+  role     CercleRole       @default(MEMBER)
+  status   MembershipStatus @default(ACTIVE)
+  joinedAt DateTime         @default(now())
+  leftAt   DateTime?
+
+  @@unique([cercleId, userId])
+  @@index([userId])
+}
+
+model CercleModerator {
+  id        String   @id @default(cuid())
+  cercleId  String
+  cercle    Cercle   @relation(fields: [cercleId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation("CercleModerators", fields: [userId], references: [id])
+  grantedAt DateTime @default(now())
+
+  @@unique([cercleId, userId])
+}
+
+model CerclePost {
+  id       String @id @default(cuid())
+  cercleId String
+  cercle   Cercle @relation(fields: [cercleId], references: [id], onDelete: Cascade)
+  authorId String
+  author   User   @relation("CerclePostAuthor", fields: [authorId], references: [id])
+
+  title String?
+  body  String  @db.Text // markdown autorisé, sanitizé serveur
+
+  attachments PostAttachment[]
+
+  parentId String?
+  parent   CerclePost?  @relation("Replies", fields: [parentId], references: [id])
+  replies  CerclePost[] @relation("Replies")
+
+  upvotes    Int @default(0)
+  replyCount Int @default(0)
+
+  isPinned   Boolean @default(false)
+  isResolved Boolean @default(false)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@index([cercleId, createdAt(sort: Desc)])
+  @@index([parentId])
+}
+
+model PostAttachment {
+  id        String     @id @default(cuid())
+  postId    String
+  post      CerclePost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  fileKey   String // S3 key (bucket Cercles)
+  filename  String
+  mimeType  String
+  sizeBytes Int
+  createdAt DateTime   @default(now())
+}
+
+model LiveRoom {
+  id       String @id @default(cuid())
+  cercleId String
+  cercle   Cercle @relation(fields: [cercleId], references: [id], onDelete: Cascade)
+  hostId   String
+  host     User   @relation("LiveRoomHost", fields: [hostId], references: [id])
+
+  slug        String  @unique
+  title       String
+  description String?
+
+  livekitRoomName String @unique
+
+  scheduledAt DateTime?
+  startedAt   DateTime?
+  endedAt     DateTime?
+
+  maxParticipants Int     @default(50)
+  isRecording     Boolean @default(false)
+  isLiveBroadcast Boolean @default(false)
+
+  status RoomStatus @default(SCHEDULED)
+
+  egressTargets EgressTarget[]
+
+  recordingUrl         String?
+  recordingDurationSec Int?
+
+  participants RoomParticipation[]
+
+  createdAt DateTime @default(now())
+
+  @@index([cercleId, scheduledAt])
+  @@index([status])
+}
+
+model RoomParticipation {
+  id          String    @id @default(cuid())
+  roomId      String
+  room        LiveRoom  @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User      @relation("RoomParticipant", fields: [userId], references: [id])
+  joinedAt    DateTime  @default(now())
+  leftAt      DateTime?
+  durationSec Int?
+
+  @@unique([roomId, userId])
+}
+
+model EgressTarget {
+  id     String   @id @default(cuid())
+  roomId String
+  room   LiveRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  platform  StreamPlatform
+  rtmpUrl   String
+  streamKey String // chiffré au repos AES-256-GCM (iv:authTag:ciphertext base64)
+  label     String
+
+  status          EgressStatus @default(IDLE)
+  livekitEgressId String?
+  startedAt       DateTime?
+  endedAt         DateTime?
+  errorMessage    String?
+
+  createdAt DateTime @default(now())
 }

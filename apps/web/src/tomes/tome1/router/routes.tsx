@@ -28,6 +28,13 @@ import { CANON, REDIRECTS } from "../../../application/routeRegistry";
 import CommandCenterApp from '../../../command-center/CommandCenterApp';
 import { PorteLanding, VilleLanding } from '../../../ui/seo';
 
+// Cercles — réseau pro (Sprint C0-C3)
+import CerclesHomePage  from "../../../features/cercles/CerclesHomePage";
+import CercleDetailPage from "../../../features/cercles/CercleDetailPage";
+import NewCerclePage    from "../../../features/cercles/NewCerclePage";
+import PostDetailPage   from "../../../features/cercles/PostDetailPage";
+import LiveRoomPage     from "../../../features/cercles/LiveRoomPage";
+
 /**
  * V152-B1 — Canonisation Routes (memo)
  * Canon targets ONLY:
@@ -56,6 +63,14 @@ export const router = createBrowserRouter([
 
   // Command Center interne
   { path: '/cc/*', element: <CommandCenterApp /> },
+
+  // Cercles — réseau pro (auth requis côté API JWT)
+  { path: '/cercles',                              element: <CerclesHomePage /> },
+  { path: '/cercles/nouveau',                      element: <NewCerclePage /> },
+  { path: '/cercles/:slug',                        element: <CercleDetailPage /> },
+  { path: '/cercles/:slug/posts/:postId',          element: <PostDetailPage /> },
+  { path: '/cercles/:slug/rooms/:roomSlug/live',   element: <LiveRoomPage /> },
+  { path: '/cercles/:slug/rooms/:roomSlug',        element: <LiveRoomPage /> },
 
   // Public routes
   {

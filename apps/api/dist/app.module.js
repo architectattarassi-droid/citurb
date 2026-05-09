@@ -13,6 +13,7 @@ const schedule_1 = require("@nestjs/schedule");
 const health_module_1 = require("./modules/health/health.module");
 const kernel_module_1 = require("./modules/kernel/kernel.module");
 const archive_module_1 = require("./modules/archive/archive.module");
+const cercles_module_1 = require("./modules/cercles/cercles.module");
 // Infra
 const prisma_dossiers_module_1 = require("./tomes/tome-at/kernel/prisma-dossiers/prisma-dossiers.module");
 // Modules
@@ -52,6 +53,7 @@ exports.AppModule = AppModule = __decorate([
             prisma_dossiers_module_1.PrismaDossiersModule,
             cc_module_1.CCModule,
             archive_module_1.ArchiveModule,
+            cercles_module_1.CerclesModule,
             // ── Tomes (@ → 0 → 1 → … → 10)
             tome_at_module_1.TomeAtModule,
             orchestrator_module_1.OrchestratorModule,

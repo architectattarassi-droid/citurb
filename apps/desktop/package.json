@@ -13,11 +13,14 @@
     "start:doc:local": "cross-env CIT_VARIANT=doc CIT_LOCAL=1 electron .",
     "start:archive": "cross-env CIT_VARIANT=archive electron .",
     "start:archive:local": "cross-env CIT_VARIANT=archive CIT_LOCAL=1 electron .",
+    "start:cercles": "cross-env CIT_VARIANT=cercles electron .",
+    "start:cercles:local": "cross-env CIT_VARIANT=cercles CIT_LOCAL=1 electron .",
     "build:portal": "cross-env CIT_VARIANT=portal electron-builder --win dir --config electron-builder.portal.json",
     "build:backoffice": "cross-env CIT_VARIANT=backoffice electron-builder --win dir --config electron-builder.backoffice.json",
     "build:doc": "cross-env CIT_VARIANT=doc electron-builder --win dir --config electron-builder.doc.json",
     "build:archive": "cross-env CIT_VARIANT=archive electron-builder --win dir --config electron-builder.archive.json",
-    "build:all": "npm run build:portal && npm run build:backoffice && npm run build:doc && npm run build:archive"
+    "build:cercles": "cross-env CIT_VARIANT=cercles electron-builder --win dir --config electron-builder.cercles.json",
+    "build:all": "npm run build:portal && npm run build:backoffice && npm run build:doc && npm run build:archive && npm run build:cercles"
   },
   "devDependencies": {
     "electron": "^32.0.0",

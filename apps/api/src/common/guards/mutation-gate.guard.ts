@@ -29,6 +29,7 @@ export class MutationGateGuard implements CanActivate {
       "/docs",                          // swagger (si exposé)
       "/tomes/tome-at/orchestrator",     // pipeline canonique
       "/api/cc",                        // backoffice CC (admin mutations: leads, pack-validation, etc.)
+      "/api/cercles",                   // réseau pro CITURBAREA (chat, votes, pétitions, visios)
       "/api/payment",                   // Stripe checkout session creation (auth user)
       "/p1",
       "/p2",

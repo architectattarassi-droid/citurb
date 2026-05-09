@@ -1,0 +1,121 @@
+/**
+ * CerclesShell — chrome de l'app Cercles (header + sidebar + content slot)
+ *
+ * Style WhatsApp Desktop pour pros : sidebar gauche (liste cercles),
+ * panneau central (timeline / posts / room), header haut atelier ivoire/navy/or.
+ */
+
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import { CC_THEME, ensureFonts } from "./theme";
+import { cerclesApi, CercleListItem } from "./api";
+
+export default function CerclesShell({ children }: { children: React.ReactNode }) {
+  useEffect(() => { ensureFonts(); }, []);
+  const navigate = useNavigate();
+  const { slug: activeSlug } = useParams<{ slug?: string }>();
+  const [cercles, setCercles] = useState<CercleListItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState<string | null>(null);
+
+  const reload = () => {
+    setLoading(true);
+    cerclesApi.list()
+      .then(r => setCercles(r.data))
+      .catch((e: any) => setErr(e?.message || "Erreur chargement cercles"))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => { reload(); }, []);
+
+  return (
+    <div style={S.root}>
+      <aside style={S.sidebar}>
+        <div style={S.brand}>
+          <div style={S.brandSeal}>C</div>
+          <div>
+            <div style={S.brandName}>CERCLES</div>
+            <div style={S.brandSub}>Les pros se parlent ici</div>
+          </div>
+        </div>
+
+        <div style={S.searchBar}>
+          <input style={S.search} placeholder="Rechercher un cercle…" />
+        </div>
+
+        <button onClick={() => navigate("/cercles/nouveau")} style={S.newBtn}>
+          + Nouveau cercle
+        </button>
+
+        <div style={S.list}>
+          {loading && <div style={S.empty}>Chargement…</div>}
+          {err && <div style={{ ...S.empty, color: CC_THEME.danger }}>{err}</div>}
+          {!loading && cercles.length === 0 && (
+            <div style={S.empty}>
+              <div style={{ fontFamily: CC_THEME.fontDisplay, fontSize: 16, color: CC_THEME.navy, marginBottom: 6 }}>Aucun cercle</div>
+              <div style={{ fontStyle: "italic", color: CC_THEME.inkMuted }}>Créez le premier ou attendez une invitation.</div>
+            </div>
+          )}
+          {cercles.map(c => {
+            const isActive = c.slug === activeSlug;
+            return (
+              <Link
+                key={c.id}
+                to={`/cercles/${c.slug}`}
+                style={{ ...S.cercleRow, ...(isActive ? S.cercleRowActive : {}) }}
+              >
+                <div style={S.cercleAvatar}>{c.name.slice(0, 1).toUpperCase()}</div>
+                <div style={S.cercleBody}>
+                  <div style={S.cercleName}>{c.name}</div>
+                  <div style={S.cercleMeta}>
+                    {c._count.members} membre(s) · {c._count.posts} post(s)
+                  </div>
+                </div>
+                <span style={{ ...S.visBadge, color: visColor(c.visibility) }}>
+                  {visIcon(c.visibility)}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </aside>
+
+      <main style={S.main}>{children}</main>
+    </div>
+  );
+}
+
+function visIcon(v: string): string {
+  return v === "PUBLIC" ? "🌐" : v === "MEMBERS_ONLY" ? "👥" : "🔒";
+}
+function visColor(v: string): string {
+  return v === "PUBLIC" ? CC_THEME.success : v === "MEMBERS_ONLY" ? CC_THEME.info : CC_THEME.warn;
+}
+
+const S: Record<string, React.CSSProperties> = {
+  root: { display: "flex", height: "100vh", overflow: "hidden", background: CC_THEME.bg, fontFamily: CC_THEME.fontBody, color: CC_THEME.ink },
+
+  sidebar: { width: 320, flexShrink: 0, background: CC_THEME.bgRaised, borderRight: `1px solid ${CC_THEME.border}`, display: "flex", flexDirection: "column", overflow: "hidden" },
+  brand: { display: "flex", alignItems: "center", gap: 14, padding: "20px 22px", borderBottom: `1px solid ${CC_THEME.border}` },
+  brandSeal: { width: 42, height: 42, borderRadius: 8, background: CC_THEME.bgDeep, color: CC_THEME.or, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: CC_THEME.fontDisplay, fontSize: 24, fontWeight: 700, flexShrink: 0 },
+  brandName: { fontSize: 13, fontWeight: 700, letterSpacing: "0.20em", color: CC_THEME.ink },
+  brandSub: { fontSize: 10, color: CC_THEME.inkMuted, fontStyle: "italic", marginTop: 2 },
+
+  searchBar: { padding: "14px 18px 8px" },
+  search: { width: "100%", padding: "9px 12px", fontSize: 12.5, fontFamily: CC_THEME.fontBody, background: CC_THEME.bgSoft, border: `1px solid ${CC_THEME.border}`, borderRadius: 6, color: CC_THEME.ink, outline: "none", boxSizing: "border-box" as const },
+
+  newBtn: { margin: "0 18px 14px", padding: "10px 14px", background: CC_THEME.navy, color: CC_THEME.bg, border: 0, borderRadius: 6, fontFamily: CC_THEME.fontBody, fontSize: 12.5, fontWeight: 600, letterSpacing: "0.04em", cursor: "pointer" },
+
+  list: { flex: 1, overflowY: "auto", padding: "0 8px 12px" },
+  empty: { padding: "22px 14px", color: CC_THEME.inkMuted, fontSize: 13, textAlign: "center" },
+
+  cercleRow: { display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 6, textDecoration: "none", color: CC_THEME.ink, marginBottom: 2, transition: `background 0.15s ${CC_THEME.ease}` },
+  cercleRowActive: { background: CC_THEME.bgSoft, boxShadow: `inset 2px 0 0 ${CC_THEME.or}` },
+  cercleAvatar: { width: 38, height: 38, borderRadius: "50%", background: CC_THEME.orSoft, color: CC_THEME.bgDeep, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: CC_THEME.fontDisplay, fontSize: 16, fontWeight: 700, flexShrink: 0 },
+  cercleBody: { flex: 1, minWidth: 0 },
+  cercleName: { fontSize: 13.5, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" },
+  cercleMeta: { fontSize: 11, color: CC_THEME.inkMuted, marginTop: 2 },
+  visBadge: { fontSize: 12 },
+
+  main: { flex: 1, overflowY: "auto", background: CC_THEME.bg },
+};

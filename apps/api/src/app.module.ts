@@ -5,6 +5,7 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { HealthModule } from "./modules/health/health.module";
 import { KernelModule } from "./modules/kernel/kernel.module";
 import { ArchiveModule } from "./modules/archive/archive.module";
+import { CerclesModule } from "./modules/cercles/cercles.module";
 
 // Infra
 import { PrismaDossiersModule } from "./tomes/tome-at/kernel/prisma-dossiers/prisma-dossiers.module";
@@ -45,6 +46,7 @@ import { SousPhaseModule } from "./modules/sous-phase/sous-phase.module";
     PrismaDossiersModule,
     CCModule,
     ArchiveModule,
+    CerclesModule,
 
     // ── Tomes (@ → 0 → 1 → … → 10)
     TomeAtModule,
