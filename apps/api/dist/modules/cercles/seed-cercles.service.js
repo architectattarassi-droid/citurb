@@ -23,18 +23,92 @@ const prisma_service_1 = require("../../tomes/tome-at/kernel/prisma/prisma.servi
  * des cercles seedés. Si aucun utilisateur n'existe, le seed est différé.
  */
 const SEED_INSTITUTIONS = [
-    { slug: "cnoa-conseil-national", name: "CNOA — Conseil national",
-        description: "Cercle officiel du Conseil National de l'Ordre des Architectes du Maroc.",
-        visibility: "MEMBERS_ONLY", themes: ["Ordre", "Déontologie", "Réglementation"] },
-    { slug: "fnbtp-maroc", name: "FNBTP Maroc",
-        description: "Fédération Nationale du Bâtiment et des Travaux Publics — entreprises BTP.",
-        visibility: "MEMBERS_ONLY", themes: ["BTP", "Entrepreneurs", "Marchés"] },
-    { slug: "ordre-ingenieurs", name: "ONI — Ordre National des Ingénieurs",
-        description: "Cercle des ingénieurs civils, BET, contrôle technique.",
-        visibility: "MEMBERS_ONLY", themes: ["Ingénierie", "BET"] },
-    { slug: "amup-urbanistes", name: "AMUP — Urbanistes du Maroc",
+    // ── ARCHITECTURE / URBANISME (organisations professionnelles, sans CNOA national)
+    { slug: "snasp-architectes-prive",
+        name: "SNASP — Syndicat National des Architectes du Secteur Privé",
+        description: "Syndicat des architectes en exercice libéral. Défense de la profession, négociations honoraires, conditions d'exercice.",
+        visibility: "MEMBERS_ONLY",
+        themes: ["Syndicat", "Architectes libéraux", "Honoraires", "Profession"] },
+    { slug: "anjaum-jeunes-architectes",
+        name: "ANJAUM — Association Nationale des Jeunes Architectes et Urbanistes du Maroc",
+        description: "Réseau des jeunes architectes et urbanistes du Maroc — entraide, formation continue, événements, opportunités.",
+        visibility: "PUBLIC",
+        themes: ["Jeunes architectes", "Urbanistes", "Formation", "Réseau"] },
+    { slug: "amup-urbanistes",
+        name: "AMUP — Association Marocaine des Urbanistes Professionnels",
         description: "Association marocaine des urbanistes, planificateurs et aménageurs.",
-        visibility: "MEMBERS_ONLY", themes: ["Urbanisme", "Aménagement"] },
+        visibility: "MEMBERS_ONLY",
+        themes: ["Urbanisme", "Aménagement", "Planification"] },
+    { slug: "aaena-anciens-ena",
+        name: "AAENA — Association des Anciens de l'École Nationale d'Architecture",
+        description: "Réseau alumni ENA Rabat. Partage de pratique, mentorat, événements.",
+        visibility: "MEMBERS_ONLY",
+        themes: ["Alumni", "ENA Rabat", "Mentorat"] },
+    // ── TOPOGRAPHIE / GÉOMÈTRES
+    { slug: "onigt-geometres",
+        name: "ONIGT — Ordre National des Ingénieurs Géomètres-Topographes",
+        description: "Ordre professionnel des ingénieurs géomètres-topographes du Maroc.",
+        visibility: "MEMBERS_ONLY",
+        themes: ["Topographie", "Géomètre", "Cadastre", "Bornage"] },
+    { slug: "fnigt-federation-topographes",
+        name: "FNIGT — Fédération Nationale des Ingénieurs Géomètres-Topographes",
+        description: "Fédération des cabinets et bureaux d'études topographie au Maroc.",
+        visibility: "MEMBERS_ONLY",
+        themes: ["Topographie", "Cabinets", "Levés", "GNSS"] },
+    // ── INGÉNIEURS / GÉNIE CIVIL / BET
+    { slug: "oni-ordre-ingenieurs",
+        name: "ONI — Ordre National des Ingénieurs",
+        description: "Ordre national des ingénieurs civils, BET, contrôle technique, génie civil.",
+        visibility: "MEMBERS_ONLY",
+        themes: ["Ingénierie", "Génie civil", "BET", "Contrôle technique"] },
+    { slug: "aiehtp-ingenieurs-ehtp",
+        name: "AIEHTP — Association des Ingénieurs de l'EHTP",
+        description: "Réseau des ingénieurs diplômés de l'École Hassania des Travaux Publics.",
+        visibility: "MEMBERS_ONLY",
+        themes: ["EHTP", "Travaux publics", "Alumni"] },
+    { slug: "fmci-conseil-ingenierie",
+        name: "FMCI — Fédération Marocaine de Conseil et d'Ingénierie",
+        description: "Fédération des bureaux d'études et sociétés d'ingénierie marocaines.",
+        visibility: "MEMBERS_ONLY",
+        themes: ["BET", "Conseil", "Ingénierie", "Maîtrise d'œuvre"] },
+    // ── BTP / ENTREPRISES / PROMOTEURS
+    { slug: "fnbtp-batiment-tp",
+        name: "FNBTP — Fédération Nationale du Bâtiment et des Travaux Publics",
+        description: "Fédération des entreprises de bâtiment et travaux publics au Maroc.",
+        visibility: "MEMBERS_ONLY",
+        themes: ["BTP", "Entrepreneurs", "Marchés publics"] },
+    { slug: "cmb-confederation-batiment",
+        name: "CMB — Confédération Marocaine du Bâtiment",
+        description: "Confédération patronale des métiers du bâtiment.",
+        visibility: "MEMBERS_ONLY",
+        themes: ["Confédération", "Patronat", "Bâtiment"] },
+    { slug: "fnpi-promoteurs-immobiliers",
+        name: "FNPI — Fédération Nationale des Promoteurs Immobiliers",
+        description: "Fédération des promoteurs immobiliers du Maroc.",
+        visibility: "MEMBERS_ONLY",
+        themes: ["Promotion immobilière", "Logement", "Foncier"] },
+    // ── MATÉRIAUX
+    { slug: "fnimc-materiaux-construction",
+        name: "FNIMC — Fédération Nationale des Industries des Matériaux de Construction",
+        description: "Industriels marocains du ciment, granulats, acier, briques, carrelage.",
+        visibility: "MEMBERS_ONLY",
+        themes: ["Matériaux", "Industrie", "Ciment", "Acier"] },
+];
+// ── 12 CROA — Conseils Régionaux de l'Ordre des Architectes
+// (et non le Conseil National — focus sur l'échelle régionale)
+const SEED_CROA = [
+    { region: "tanger-tetouan-al-hoceima", label: "Tanger-Tétouan-Al Hoceïma" },
+    { region: "oriental", label: "Oriental" },
+    { region: "fes-meknes", label: "Fès-Meknès" },
+    { region: "rabat-sale-kenitra", label: "Rabat-Salé-Kénitra" },
+    { region: "beni-mellal-khenifra", label: "Béni Mellal-Khénifra" },
+    { region: "casablanca-settat", label: "Casablanca-Settat" },
+    { region: "marrakech-safi", label: "Marrakech-Safi" },
+    { region: "draa-tafilalet", label: "Drâa-Tafilalet" },
+    { region: "souss-massa", label: "Souss-Massa" },
+    { region: "guelmim-oued-noun", label: "Guelmim-Oued Noun" },
+    { region: "laayoune-sakia-el-hamra", label: "Laâyoune-Sakia El Hamra" },
+    { region: "dakhla-oued-ed-dahab", label: "Dakhla-Oued Ed-Dahab" },
 ];
 const SEED_THEMATIC = [
     { slug: "bim-maroc", name: "BIM Maroc",
@@ -95,6 +169,24 @@ let SeedCerclesService = SeedCerclesService_1 = class SeedCerclesService {
         // Délai pour ne pas bloquer le boot — seed asynchrone
         setTimeout(() => this.runSeed().catch(err => this.logger.error("Seed cercles failed:", err?.message)), 5000);
     }
+    /**
+     * Slugs d'anciennes itérations à supprimer (soft-delete) si encore présents.
+     * Ex: "cnoa-conseil-national" remplacé par les CROA régionaux + SNASP.
+     */
+    async purgeDeprecated() {
+        const deprecated = ["cnoa-conseil-national", "ordre-ingenieurs", "fnbtp-maroc"];
+        const found = await this.prisma.cercle.findMany({
+            where: { slug: { in: deprecated }, deletedAt: null },
+            select: { id: true, slug: true },
+        });
+        if (found.length > 0) {
+            await this.prisma.cercle.updateMany({
+                where: { slug: { in: deprecated }, deletedAt: null },
+                data: { deletedAt: new Date() },
+            });
+            this.logger.log(`[SeedCercles] purge déprécié : ${found.map(f => f.slug).join(", ")}`);
+        }
+    }
     async runSeed() {
         // Ne pas seeder si pas d'admin
         const owner = await this.prisma.user.findFirst({
@@ -106,15 +198,27 @@ let SeedCerclesService = SeedCerclesService_1 = class SeedCerclesService {
             this.logger.warn("Seed cercles différé : aucun OWNER/ADMIN trouvé");
             return;
         }
+        // 1. Purge des slugs dépréciés (CNOA national notamment)
+        await this.purgeDeprecated();
         let created = 0;
         let skipped = 0;
         const all = [
             ...SEED_INSTITUTIONS.map(c => ({ ...c, kind: "INSTITUTION" })),
+            // CROA — 1 cercle MEMBERS_ONLY par région
+            ...SEED_CROA.map(c => ({
+                slug: `croa-${c.region}`,
+                name: `CROA ${c.label} — Conseil Régional de l'Ordre des Architectes`,
+                description: `Cercle officiel du Conseil Régional de l'Ordre des Architectes de ${c.label}.`,
+                visibility: "MEMBERS_ONLY",
+                region: c.label,
+                themes: ["CROA", "Architectes", c.label, "Régional"],
+                kind: "CROA",
+            })),
             ...SEED_THEMATIC.map(c => ({ ...c, kind: "THEMATIC", visibility: "PUBLIC" })),
             ...SEED_REGIONS.map(slug => ({
                 slug: `region-${slug}`,
-                name: REGION_LABELS[slug] || slug,
-                description: `Cercle régional des pros BTP de la région ${REGION_LABELS[slug] || slug}.`,
+                name: `Pros BTP — ${REGION_LABELS[slug] || slug}`,
+                description: `Cercle régional des pros BTP toutes spécialités confondues — région ${REGION_LABELS[slug] || slug}.`,
                 visibility: "PUBLIC",
                 themes: ["Région", REGION_LABELS[slug] || slug],
                 kind: "REGION",
@@ -124,7 +228,17 @@ let SeedCerclesService = SeedCerclesService_1 = class SeedCerclesService {
         for (const c of all) {
             const existing = await this.prisma.cercle.findUnique({ where: { slug: c.slug } });
             if (existing) {
-                skipped++;
+                // Soft revive si on a un cercle deletedAt mais qu'on veut le ressusciter
+                if (existing.deletedAt) {
+                    await this.prisma.cercle.update({
+                        where: { slug: c.slug },
+                        data: { deletedAt: null, name: c.name, description: c.description, themes: c.themes },
+                    });
+                    created++;
+                }
+                else {
+                    skipped++;
+                }
                 continue;
             }
             await this.prisma.cercle.create({
@@ -142,7 +256,7 @@ let SeedCerclesService = SeedCerclesService_1 = class SeedCerclesService {
             });
             created++;
         }
-        this.logger.log(`[SeedCercles] créé=${created}, déjà présent=${skipped}, owner=${owner.email}`);
+        this.logger.log(`[SeedCercles] créé/ravivé=${created}, déjà présent=${skipped}, owner=${owner.email}`);
     }
 };
 exports.SeedCerclesService = SeedCerclesService;
