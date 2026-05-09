@@ -1,6 +1,7 @@
 # CITURBAREA
 
 Plateforme intégrée d'orchestration architecturale et urbanistique au Maroc.
+Réseau social BTP marocain · Cercles pro · Annuaire pro.
 
 🌍 **Documentation multilingue** : [Français](README.md) · [English](README.en.md) · [العربية](README.ar.md)
 
