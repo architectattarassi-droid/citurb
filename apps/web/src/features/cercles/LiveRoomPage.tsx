@@ -15,6 +15,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { CC_THEME } from "./theme";
 import { cerclesApi, JoinRoomResponse, LiveRoom, CercleDetail } from "./api";
+import JitsiEmbed from "./JitsiEmbed";
 
 export default function LiveRoomPage() {
   const { slug, roomSlug } = useParams<{ slug: string; roomSlug: string }>();
@@ -91,10 +92,32 @@ export default function LiveRoomPage() {
   );
 
   // phase === "joined"
+  if (join?.provider === "JITSI") {
+    return (
+      <div style={S.liveRoot}>
+        <div style={S.liveHeader}>
+          <span style={{ fontFamily: CC_THEME.fontDisplay, fontSize: 18, color: CC_THEME.bg }}>
+            {room.title} <span style={{ color: CC_THEME.or, fontSize: 12, marginLeft: 8 }}>· Jitsi</span>
+          </span>
+          <button onClick={() => navigate(`/cercles/${slug}`)} style={S.leaveBtn}>Quitter</button>
+        </div>
+        <JitsiEmbed
+          config={join}
+          displayName={cercle?.owner?.username || cercle?.owner?.email || "Membre"}
+          email={cercle?.owner?.email || ""}
+          onLeft={() => navigate(`/cercles/${slug}`)}
+        />
+      </div>
+    );
+  }
+
+  // LIVEKIT (placeholder existant)
   return (
     <div style={S.liveRoot}>
       <div style={S.liveHeader}>
-        <span style={{ fontFamily: CC_THEME.fontDisplay, fontSize: 18, color: CC_THEME.bg }}>{room.title}</span>
+        <span style={{ fontFamily: CC_THEME.fontDisplay, fontSize: 18, color: CC_THEME.bg }}>
+          {room.title} <span style={{ color: CC_THEME.or, fontSize: 12, marginLeft: 8 }}>· LiveKit</span>
+        </span>
         <button onClick={() => navigate(`/cercles/${slug}`)} style={S.leaveBtn}>Quitter</button>
       </div>
       <div style={S.placeholder}>
@@ -102,13 +125,10 @@ export default function LiveRoomPage() {
           📹 Salle prête
         </div>
         <div style={{ color: CC_THEME.inkOnDark, marginBottom: 8 }}>
-          Token JWT reçu. WebSocket : <code style={{ color: CC_THEME.or }}>{join?.wsUrl}</code>
+          Token JWT reçu. WebSocket : <code style={{ color: CC_THEME.or }}>{join && join.provider === "LIVEKIT" ? join.wsUrl : ""}</code>
         </div>
         <div style={{ color: CC_THEME.inkOnDark, opacity: 0.7, fontSize: 13, fontStyle: "italic" }}>
-          L'intégration vidéo native (LiveKit React) sera branchée à l'installation des dépendances <code>@livekit/components-react</code> + provisioning du serveur LiveKit (cf <code>docs/cercles/INFRA.md</code>).
-        </div>
-        <div style={{ color: CC_THEME.inkMuted, fontSize: 11, marginTop: 14, fontFamily: CC_THEME.fontMono, wordBreak: "break-all", maxWidth: 600 }}>
-          {join?.token.slice(0, 80)}…
+          L'intégration vidéo LiveKit native sera branchée à l'installation de <code>@livekit/components-react</code> + provisioning serveur. En attendant, choisis <strong>Jitsi</strong> à la création d'une room pour de la vraie visioconférence immédiate.
         </div>
       </div>
     </div>

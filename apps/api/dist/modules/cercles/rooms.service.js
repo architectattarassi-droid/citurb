@@ -15,6 +15,7 @@ const prisma_service_1 = require("../../tomes/tome-at/kernel/prisma/prisma.servi
 const cercles_service_1 = require("./cercles.service");
 const livekit_service_1 = require("./livekit.service");
 const encryption_service_1 = require("./encryption.service");
+const jaas_service_1 = require("./jaas.service");
 /**
  * RoomsService — Sprint C3 (visioconférence LiveKit)
  *
@@ -34,11 +35,13 @@ let RoomsService = class RoomsService {
     cercles;
     livekit;
     encryption;
-    constructor(prisma, cercles, livekit, encryption) {
+    jaas;
+    constructor(prisma, cercles, livekit, encryption, jaas) {
         this.prisma = prisma;
         this.cercles = cercles;
         this.livekit = livekit;
         this.encryption = encryption;
+        this.jaas = jaas;
     }
     async makeRoomSlug(cercleId, title) {
         const base = title.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
@@ -57,12 +60,18 @@ let RoomsService = class RoomsService {
         await this.cercles.assertModerator(cercleId, hostId);
         const slug = await this.makeRoomSlug(cercleId, input.title);
         const livekitRoomName = `cercle-${cercleId.slice(0, 8)}-${slug}`;
+        const provider = input.provider === "JITSI" ? "JITSI" : "LIVEKIT";
+        const jitsiRoomName = provider === "JITSI"
+            ? `cit-${cercleId.slice(0, 8)}-${slug}`.replace(/[^a-zA-Z0-9-]/g, "-")
+            : null;
         return this.prisma.liveRoom.create({
             data: {
                 cercleId,
                 hostId,
                 slug,
+                provider: provider,
                 livekitRoomName,
+                jitsiRoomName,
                 title: input.title.trim(),
                 description: input.description ?? null,
                 scheduledAt: input.scheduledAt ? new Date(input.scheduledAt) : null,
@@ -145,13 +154,33 @@ let RoomsService = class RoomsService {
      * Génère le token JWT LiveKit. Token court-vivant (1h),
      * jamais stocké en localStorage côté client (cf prompt §8.3).
      */
-    async getJoinToken(roomId, userId, displayName) {
+    async getJoinToken(roomId, userId, displayName, email = "") {
         const room = await this.prisma.liveRoom.findUniqueOrThrow({ where: { id: roomId } });
         if (room.status !== "LIVE" && room.status !== "SCHEDULED") {
             throw new common_1.BadRequestException("Room non joignable");
         }
         await this.cercles.assertMember(room.cercleId, userId);
         const role = room.hostId === userId ? "host" : "speaker";
+        // Crée la participation (ou met à jour joinedAt)
+        await this.prisma.roomParticipation.upsert({
+            where: { roomId_userId: { roomId, userId } },
+            update: { joinedAt: new Date(), leftAt: null },
+            create: { roomId, userId },
+        });
+        // Dispatch selon provider
+        if (room.provider === "JITSI") {
+            if (!room.jitsiRoomName) {
+                throw new common_1.BadRequestException("Room Jitsi sans nom — config invalide");
+            }
+            const config = this.jaas.buildConfig(room.jitsiRoomName, {
+                id: userId,
+                displayName: displayName || userId.slice(0, 8),
+                email,
+                isModerator: room.hostId === userId,
+            });
+            return { provider: "JITSI", role, ...config };
+        }
+        // LiveKit (default)
         const token = this.livekit.generateAccessToken({
             roomName: room.livekitRoomName,
             userId,
@@ -161,13 +190,7 @@ let RoomsService = class RoomsService {
             canSubscribe: true,
             canPublishData: true,
         });
-        // Crée la participation (ou met à jour joinedAt)
-        await this.prisma.roomParticipation.upsert({
-            where: { roomId_userId: { roomId, userId } },
-            update: { joinedAt: new Date(), leftAt: null },
-            create: { roomId, userId },
-        });
-        return { token, wsUrl: this.livekit.wsUrl, roomName: room.livekitRoomName, role };
+        return { provider: "LIVEKIT", token, wsUrl: this.livekit.wsUrl, roomName: room.livekitRoomName, role };
     }
     // ── Egress targets (Sprint C4 — placeholder routes implémentées) ──
     async addEgressTarget(roomId, hostId, input) {
@@ -207,5 +230,6 @@ exports.RoomsService = RoomsService = __decorate([
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
         cercles_service_1.CerclesService,
         livekit_service_1.LiveKitService,
-        encryption_service_1.EncryptionService])
+        encryption_service_1.EncryptionService,
+        jaas_service_1.JaasService])
 ], RoomsService);

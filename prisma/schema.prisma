@@ -49,6 +49,10 @@ model User {
   cercleMemberships   CercleMembership[]  @relation("CercleMemberships")
   cercleModerations   CercleModerator[]   @relation("CercleModerators")
   cerclePosts         CerclePost[]        @relation("CerclePostAuthor")
+  cercleMessages      CercleMessage[]     @relation("CercleMessageAuthor")
+  messageReactions    MessageReaction[]   @relation("MessageReactionUser")
+  messageReads        MessageRead[]       @relation("MessageReadUser")
+  cercleInvitations   CercleInvitation[]  @relation("CercleInvitationInviter")
   liveRoomsHosted     LiveRoom[]          @relation("LiveRoomHost")
   roomParticipations  RoomParticipation[] @relation("RoomParticipant")
 
@@ -1088,6 +1092,11 @@ enum StreamPlatform {
   CUSTOM_RTMP
 }
 
+enum RoomProvider {
+  LIVEKIT // visio interne CITURBAREA (rooms < 50, contrôle fin)
+  JITSI   // visio publique partageable (8x8.vc JaaS ou meet.jit.si fallback)
+}
+
 enum EgressStatus {
   IDLE
   STARTING
@@ -1114,10 +1123,12 @@ model Cercle {
   firmId String?
   firm   Firm?   @relation("CercleFirm", fields: [firmId], references: [id])
 
-  moderators CercleModerator[]
-  members    CercleMembership[]
-  posts      CerclePost[]
-  rooms      LiveRoom[]
+  moderators  CercleModerator[]
+  members     CercleMembership[]
+  posts       CerclePost[]
+  messages    CercleMessage[]
+  rooms       LiveRoom[]
+  invitations CercleInvitation[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -1205,7 +1216,10 @@ model LiveRoom {
   title       String
   description String?
 
-  livekitRoomName String @unique
+  // Provider — cohabitation LiveKit (interne) / Jitsi (public partageable)
+  provider     RoomProvider @default(LIVEKIT)
+  livekitRoomName String   @unique
+  jitsiRoomName   String?  @unique // utilisé seulement si provider = JITSI
 
   scheduledAt DateTime?
   startedAt   DateTime?
@@ -1260,6 +1274,88 @@ model EgressTarget {
   errorMessage    String?
 
   createdAt DateTime @default(now())
+}
+
+// ==============================
+// CHAT TEMPS RÉEL — messages de cercle
+// Sprint E1-E3 : CercleMessage, MessageAttachment, MessageReaction, MessageRead
+// ==============================
+
+enum AttachmentType {
+  IMAGE
+  VIDEO
+  AUDIO
+  FILE
+}
+
+model CercleMessage {
+  id       String @id @default(cuid())
+  cercleId String
+  cercle   Cercle @relation(fields: [cercleId], references: [id], onDelete: Cascade)
+  authorId String
+  author   User   @relation("CercleMessageAuthor", fields: [authorId], references: [id])
+
+  body String @db.Text // peut être vide si attachements seuls
+
+  // Reply 1 niveau (style WhatsApp/Messenger)
+  replyToId String?
+  replyTo   CercleMessage?  @relation("MessageReplies", fields: [replyToId], references: [id])
+  replies   CercleMessage[] @relation("MessageReplies")
+
+  attachments MessageAttachment[]
+  reactions   MessageReaction[]
+  reads       MessageRead[]
+
+  createdAt DateTime  @default(now())
+  editedAt  DateTime?
+  deletedAt DateTime?
+
+  @@index([cercleId, createdAt])
+  @@index([cercleId, deletedAt])
+  @@index([authorId])
+}
+
+model MessageAttachment {
+  id          String         @id @default(cuid())
+  messageId   String
+  message     CercleMessage  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  type        AttachmentType
+  fileKey     String // chemin sous uploads/cercles-chat/<cercleId>/<file>
+  filename    String
+  mimeType    String
+  sizeBytes   Int
+  width       Int?
+  height      Int?
+  durationSec Int?
+  posterKey   String? // poster image pour vidéo (frame extraite ou thumbnail uploadé)
+  createdAt   DateTime       @default(now())
+
+  @@index([messageId])
+}
+
+model MessageReaction {
+  id        String        @id @default(cuid())
+  messageId String
+  message   CercleMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User          @relation("MessageReactionUser", fields: [userId], references: [id])
+  emoji     String // 👍 ❤️ 😂 😮 😢 🙏 (whitelist côté serveur)
+  createdAt DateTime      @default(now())
+
+  @@unique([messageId, userId, emoji])
+  @@index([messageId])
+}
+
+model MessageRead {
+  id        String        @id @default(cuid())
+  messageId String
+  message   CercleMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User          @relation("MessageReadUser", fields: [userId], references: [id])
+  readAt    DateTime      @default(now())
+
+  @@unique([messageId, userId])
+  @@index([userId])
 }
 
 // ==============================
@@ -1390,4 +1486,27 @@ model Notification {
 
   @@index([userId, readAt])
   @@index([userId, createdAt])
+}
+
+// ==============================
+// INVITATIONS PAR EMAIL — onboarding via lien magique
+// Sprint F2
+// ==============================
+
+model CercleInvitation {
+  id          String    @id @default(cuid())
+  token       String    @unique // utilisé dans l'URL /inscription?invite=<token>
+  cercleId    String
+  cercle      Cercle    @relation(fields: [cercleId], references: [id], onDelete: Cascade)
+  invitedById String
+  invitedBy   User      @relation("CercleInvitationInviter", fields: [invitedById], references: [id])
+  email       String // email du destinataire (l'utilisateur peut ne pas exister encore)
+  message     String? // mot d'accompagnement de l'invitant
+  expiresAt   DateTime
+  usedAt      DateTime? // marqué quand le destinataire a créé son compte
+  createdAt   DateTime  @default(now())
+
+  @@index([email])
+  @@index([cercleId])
+  @@index([token])
 }

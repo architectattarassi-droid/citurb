@@ -196,7 +196,8 @@ let CerclesController = class CerclesController {
     }
     async joinRoom(req, roomId) {
         const userId = this.uid(req);
-        return { ok: true, data: await this.rooms.getJoinToken(roomId, userId, this.displayName(req)) };
+        const email = req?.user?.email || "";
+        return { ok: true, data: await this.rooms.getJoinToken(roomId, userId, this.displayName(req), email) };
     }
     async cancelRoom(req, roomId) {
         return { ok: true, data: await this.rooms.cancel(roomId, this.uid(req)) };

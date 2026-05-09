@@ -3,6 +3,7 @@ import { PrismaService } from "../../tomes/tome-at/kernel/prisma/prisma.service"
 import { CerclesService } from "./cercles.service";
 import { LiveKitService } from "./livekit.service";
 import { EncryptionService } from "./encryption.service";
+import { JaasService } from "./jaas.service";
 
 /**
  * RoomsService — Sprint C3 (visioconférence LiveKit)
@@ -25,6 +26,7 @@ export class RoomsService {
     private readonly cercles: CerclesService,
     private readonly livekit: LiveKitService,
     private readonly encryption: EncryptionService,
+    private readonly jaas: JaasService,
   ) {}
 
   private async makeRoomSlug(cercleId: string, title: string): Promise<string> {
@@ -44,17 +46,24 @@ export class RoomsService {
     description?: string;
     scheduledAt?: string;
     maxParticipants?: number;
+    provider?: "LIVEKIT" | "JITSI";
   }) {
     if (!input.title?.trim()) throw new BadRequestException("Titre requis");
     await this.cercles.assertModerator(cercleId, hostId);
     const slug = await this.makeRoomSlug(cercleId, input.title);
     const livekitRoomName = `cercle-${cercleId.slice(0, 8)}-${slug}`;
+    const provider = input.provider === "JITSI" ? "JITSI" : "LIVEKIT";
+    const jitsiRoomName = provider === "JITSI"
+      ? `cit-${cercleId.slice(0, 8)}-${slug}`.replace(/[^a-zA-Z0-9-]/g, "-")
+      : null;
     return this.prisma.liveRoom.create({
       data: {
         cercleId,
         hostId,
         slug,
+        provider: provider as any,
         livekitRoomName,
+        jitsiRoomName,
         title: input.title.trim(),
         description: input.description ?? null,
         scheduledAt: input.scheduledAt ? new Date(input.scheduledAt) : null,
@@ -136,13 +145,36 @@ export class RoomsService {
    * Génère le token JWT LiveKit. Token court-vivant (1h),
    * jamais stocké en localStorage côté client (cf prompt §8.3).
    */
-  async getJoinToken(roomId: string, userId: string, displayName: string) {
+  async getJoinToken(roomId: string, userId: string, displayName: string, email = "") {
     const room = await this.prisma.liveRoom.findUniqueOrThrow({ where: { id: roomId } });
     if (room.status !== "LIVE" && room.status !== "SCHEDULED") {
       throw new BadRequestException("Room non joignable");
     }
     await this.cercles.assertMember(room.cercleId, userId);
     const role = room.hostId === userId ? "host" : "speaker";
+
+    // Crée la participation (ou met à jour joinedAt)
+    await this.prisma.roomParticipation.upsert({
+      where: { roomId_userId: { roomId, userId } },
+      update: { joinedAt: new Date(), leftAt: null },
+      create: { roomId, userId },
+    });
+
+    // Dispatch selon provider
+    if (room.provider === "JITSI") {
+      if (!room.jitsiRoomName) {
+        throw new BadRequestException("Room Jitsi sans nom — config invalide");
+      }
+      const config = this.jaas.buildConfig(room.jitsiRoomName, {
+        id: userId,
+        displayName: displayName || userId.slice(0, 8),
+        email,
+        isModerator: room.hostId === userId,
+      });
+      return { provider: "JITSI" as const, role, ...config };
+    }
+
+    // LiveKit (default)
     const token = this.livekit.generateAccessToken({
       roomName: room.livekitRoomName,
       userId,
@@ -152,13 +184,7 @@ export class RoomsService {
       canSubscribe: true,
       canPublishData: true,
     });
-    // Crée la participation (ou met à jour joinedAt)
-    await this.prisma.roomParticipation.upsert({
-      where: { roomId_userId: { roomId, userId } },
-      update: { joinedAt: new Date(), leftAt: null },
-      create: { roomId, userId },
-    });
-    return { token, wsUrl: this.livekit.wsUrl, roomName: room.livekitRoomName, role };
+    return { provider: "LIVEKIT" as const, token, wsUrl: this.livekit.wsUrl, roomName: room.livekitRoomName, role };
   }
 
   // ── Egress targets (Sprint C4 — placeholder routes implémentées) ──

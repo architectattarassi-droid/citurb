@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CerclesModule = void 0;
 const common_1 = require("@nestjs/common");
+const jwt_1 = require("@nestjs/jwt");
 const tome_at_1 = require("../../tomes/tome-at");
 const auth_module_1 = require("../../tomes/tome-5/auth/auth.module");
 const cercles_service_1 = require("./cercles.service");
@@ -19,14 +20,27 @@ const encryption_service_1 = require("./encryption.service");
 const annuaire_service_1 = require("./annuaire.service");
 const feed_service_1 = require("./feed.service");
 const seed_cercles_service_1 = require("./seed-cercles.service");
+const messages_service_1 = require("./messages.service");
+const messages_stream_service_1 = require("./messages-stream.service");
+const jaas_service_1 = require("./jaas.service");
+const cercle_invitations_service_1 = require("./cercle-invitations.service");
 const cercles_controller_1 = require("./cercles.controller");
+const messages_controller_1 = require("./messages.controller");
+const cercle_invitations_controller_1 = require("./cercle-invitations.controller");
 let CerclesModule = class CerclesModule {
 };
 exports.CerclesModule = CerclesModule;
 exports.CerclesModule = CerclesModule = __decorate([
     (0, common_1.Module)({
-        imports: [tome_at_1.PrismaModule, auth_module_1.Tome5AuthModule],
-        controllers: [cercles_controller_1.CerclesController],
+        imports: [
+            tome_at_1.PrismaModule,
+            auth_module_1.Tome5AuthModule,
+            jwt_1.JwtModule.register({
+                secret: process.env.JWT_SECRET || "dev-secret-change-me",
+                signOptions: { expiresIn: "7d" },
+            }),
+        ],
+        controllers: [cercles_controller_1.CerclesController, messages_controller_1.MessagesController, cercle_invitations_controller_1.CercleInvitationsController],
         providers: [
             cercles_service_1.CerclesService,
             memberships_service_1.MembershipsService,
@@ -37,7 +51,19 @@ exports.CerclesModule = CerclesModule = __decorate([
             annuaire_service_1.AnnuaireService,
             feed_service_1.FeedService,
             seed_cercles_service_1.SeedCerclesService,
+            messages_service_1.MessagesService,
+            messages_stream_service_1.MessagesStreamService,
+            jaas_service_1.JaasService,
+            cercle_invitations_service_1.CercleInvitationsService,
         ],
-        exports: [cercles_service_1.CerclesService, memberships_service_1.MembershipsService, posts_service_1.PostsService, rooms_service_1.RoomsService, annuaire_service_1.AnnuaireService, feed_service_1.FeedService],
+        exports: [
+            cercles_service_1.CerclesService,
+            memberships_service_1.MembershipsService,
+            posts_service_1.PostsService,
+            rooms_service_1.RoomsService,
+            annuaire_service_1.AnnuaireService,
+            feed_service_1.FeedService,
+            messages_service_1.MessagesService,
+        ],
     })
 ], CerclesModule);

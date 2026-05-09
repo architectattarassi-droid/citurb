@@ -28,7 +28,7 @@ import { CANON, REDIRECTS } from "../../../application/routeRegistry";
 import CommandCenterApp from '../../../command-center/CommandCenterApp';
 import { PorteLanding, VilleLanding } from '../../../ui/seo';
 
-// Cercles — réseau pro BTP (Sprints C0-C3 + D1-D3)
+// Cercles — réseau pro BTP (Sprints C0-C3 + D1-D3 + E1-E3 chat)
 import FeedHomePage     from "../../../features/cercles/FeedHomePage";
 import CerclesHomePage  from "../../../features/cercles/CerclesHomePage";
 import CercleDetailPage from "../../../features/cercles/CercleDetailPage";
@@ -37,6 +37,8 @@ import PostDetailPage   from "../../../features/cercles/PostDetailPage";
 import LiveRoomPage     from "../../../features/cercles/LiveRoomPage";
 import AnnuairePage     from "../../../features/cercles/AnnuairePage";
 import ProfilePage      from "../../../features/cercles/ProfilePage";
+import CercleChatPage   from "../../../features/cercles/CercleChatPage";
+import InscriptionPage  from "../../../features/cercles/InscriptionPage";
 
 /**
  * V152-B1 — Canonisation Routes (memo)
@@ -68,12 +70,14 @@ export const router = createBrowserRouter([
   { path: '/cc/*', element: <CommandCenterApp /> },
 
   // Cercles — réseau pro BTP marocain (auth requis côté API JWT)
+  { path: '/inscription',                          element: <InscriptionPage /> },
   { path: '/cercles',                              element: <FeedHomePage /> },
   { path: '/cercles/bienvenue',                    element: <CerclesHomePage /> },
   { path: '/cercles/annuaire',                     element: <AnnuairePage /> },
   { path: '/cercles/profile/:userIdOrId',          element: <ProfilePage /> },
   { path: '/cercles/nouveau',                      element: <NewCerclePage /> },
   { path: '/cercles/:slug',                        element: <CercleDetailPage /> },
+  { path: '/cercles/:slug/chat',                   element: <CercleChatPage /> },
   { path: '/cercles/:slug/posts/:postId',          element: <PostDetailPage /> },
   { path: '/cercles/:slug/rooms/:roomSlug/live',   element: <LiveRoomPage /> },
   { path: '/cercles/:slug/rooms/:roomSlug',        element: <LiveRoomPage /> },

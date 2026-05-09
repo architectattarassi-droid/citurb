@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { JwtModule } from "@nestjs/jwt";
 import { PrismaModule } from "../../tomes/tome-at";
 import { Tome5AuthModule } from "../../tomes/tome-5/auth/auth.module";
 import { CerclesService } from "./cercles.service";
@@ -10,11 +11,24 @@ import { EncryptionService } from "./encryption.service";
 import { AnnuaireService } from "./annuaire.service";
 import { FeedService } from "./feed.service";
 import { SeedCerclesService } from "./seed-cercles.service";
+import { MessagesService } from "./messages.service";
+import { MessagesStreamService } from "./messages-stream.service";
+import { JaasService } from "./jaas.service";
+import { CercleInvitationsService } from "./cercle-invitations.service";
 import { CerclesController } from "./cercles.controller";
+import { MessagesController } from "./messages.controller";
+import { CercleInvitationsController } from "./cercle-invitations.controller";
 
 @Module({
-  imports: [PrismaModule, Tome5AuthModule],
-  controllers: [CerclesController],
+  imports: [
+    PrismaModule,
+    Tome5AuthModule,
+    JwtModule.register({
+      secret: process.env.JWT_SECRET || "dev-secret-change-me",
+      signOptions: { expiresIn: "7d" },
+    }),
+  ],
+  controllers: [CerclesController, MessagesController, CercleInvitationsController],
   providers: [
     CerclesService,
     MembershipsService,
@@ -25,7 +39,19 @@ import { CerclesController } from "./cercles.controller";
     AnnuaireService,
     FeedService,
     SeedCerclesService,
+    MessagesService,
+    MessagesStreamService,
+    JaasService,
+    CercleInvitationsService,
   ],
-  exports: [CerclesService, MembershipsService, PostsService, RoomsService, AnnuaireService, FeedService],
+  exports: [
+    CerclesService,
+    MembershipsService,
+    PostsService,
+    RoomsService,
+    AnnuaireService,
+    FeedService,
+    MessagesService,
+  ],
 })
 export class CerclesModule {}

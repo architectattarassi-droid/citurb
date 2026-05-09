@@ -74,37 +74,137 @@ export const ROUTE_USAGES = [
   {
     "route": "/p1",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 678
+    "line": 688
   },
   {
     "route": "/p1",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 697
+    "line": 707
+  },
+  {
+    "route": "/p2",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 711
+  },
+  {
+    "route": "/p3",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 715
+  },
+  {
+    "route": "/p4",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 719
+  },
+  {
+    "route": "/p5",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 723
+  },
+  {
+    "route": "/p6",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 727
   },
   {
     "route": "/login",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 741
+    "line": 751
   },
   {
     "route": "/login",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 742
+    "line": 752
   },
   {
     "route": "/p1",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 761
+    "line": 771
+  },
+  {
+    "route": "/p2",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 777
+  },
+  {
+    "route": "/p3",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 783
+  },
+  {
+    "route": "/p4",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 789
+  },
+  {
+    "route": "/p5",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 795
+  },
+  {
+    "route": "/p6",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 801
   },
   {
     "route": "/media",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1207
+    "line": 1230
   },
   {
     "route": "/media",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1221
+    "line": 1244
+  },
+  {
+    "route": "/cc",
+    "file": "src/ui/docs/DocsPage.tsx",
+    "line": 221
+  },
+  {
+    "route": "/p1",
+    "file": "src/ui/docs/DocsPage.tsx",
+    "line": 225
+  },
+  {
+    "route": "/p2",
+    "file": "src/ui/docs/DocsPage.tsx",
+    "line": 226
+  },
+  {
+    "route": "/p3",
+    "file": "src/ui/docs/DocsPage.tsx",
+    "line": 227
+  },
+  {
+    "route": "/p4",
+    "file": "src/ui/docs/DocsPage.tsx",
+    "line": 228
+  },
+  {
+    "route": "/p5",
+    "file": "src/ui/docs/DocsPage.tsx",
+    "line": 229
+  },
+  {
+    "route": "/p6",
+    "file": "src/ui/docs/DocsPage.tsx",
+    "line": 230
+  },
+  {
+    "route": "/cc",
+    "file": "src/ui/docs/DocsPage.tsx",
+    "line": 241
+  },
+  {
+    "route": "/cc",
+    "file": "src/ui/docs/DocsPage.tsx",
+    "line": 252
+  },
+  {
+    "route": "/",
+    "file": "src/ui/docs/DocsPage.tsx",
+    "line": 311
   },
   {
     "route": "/login",
@@ -187,6 +287,106 @@ export const ROUTE_USAGES = [
     "line": 89
   },
   {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
+    "line": 80
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
+    "line": 136
+  },
+  {
+    "route": "/",
+    "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
+    "line": 137
+  },
+  {
+    "route": "/",
+    "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
+    "line": 158
+  },
+  {
+    "route": "/login",
+    "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
+    "line": 38
+  },
+  {
+    "route": "/p6",
+    "file": "src/tomes/tome3/portals/p6/P6Dashboard.tsx",
+    "line": 167
+  },
+  {
+    "route": "/",
+    "file": "src/tomes/tome3/portals/p6/P6Home.tsx",
+    "line": 233
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 220
+  },
+  {
+    "route": "/",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 221
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 219
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p4/P4Home.tsx",
+    "line": 212
+  },
+  {
+    "route": "/",
+    "file": "src/tomes/tome3/portals/p4/P4Home.tsx",
+    "line": 213
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p4/P4Home.tsx",
+    "line": 211
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p3/P3Home.tsx",
+    "line": 216
+  },
+  {
+    "route": "/",
+    "file": "src/tomes/tome3/portals/p3/P3Home.tsx",
+    "line": 217
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p3/P3Home.tsx",
+    "line": 215
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
+    "line": 293
+  },
+  {
+    "route": "/",
+    "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
+    "line": 294
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
+    "line": 292
+  },
+  {
+    "route": "/p1",
+    "file": "src/tomes/tome3/portals/p1/P1ClientPhases.tsx",
+    "line": 146
+  },
+  {
     "route": "/p1",
     "file": "src/tomes/tome3/portals/p1/P1Dossier.tsx",
     "line": 49
@@ -197,6 +397,11 @@ export const ROUTE_USAGES = [
     "line": 46
   },
   {
+    "route": "/p1/dossier/phases",
+    "file": "src/tomes/tome3/portals/p1/P1Dossier.tsx",
+    "line": 67
+  },
+  {
     "route": "/p1/packs",
     "file": "src/tomes/tome3/portals/p1/P1Landing.tsx",
     "line": 878
@@ -205,6 +410,36 @@ export const ROUTE_USAGES = [
     "route": "/auth/login",
     "file": "src/tomes/tome3/portals/p1/P1Landing.tsx",
     "line": 2144
+  },
+  {
+    "route": "/login",
+    "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
+    "line": 66
+  },
+  {
+    "route": "/p1",
+    "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
+    "line": 82
+  },
+  {
+    "route": "/p1",
+    "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
+    "line": 99
+  },
+  {
+    "route": "/p1/dossier",
+    "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
+    "line": 135
+  },
+  {
+    "route": "/p1/dossier/phases",
+    "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
+    "line": 138
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
+    "line": 141
   },
   {
     "route": "/p1",
@@ -274,32 +509,32 @@ export const ROUTE_USAGES = [
   {
     "route": "/",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 16
+    "line": 23
   },
   {
     "route": "/",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 20
+    "line": 30
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 22
+    "line": 32
   },
   {
     "route": "/login",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 24
+    "line": 34
   },
   {
     "route": "/",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 69
+    "line": 81
   },
   {
     "route": "/",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 142
+    "line": 154
   },
   {
     "route": "/login",
@@ -312,9 +547,109 @@ export const ROUTE_USAGES = [
     "line": 213
   },
   {
+    "route": "/cercles/me/profile",
+    "file": "src/features/cercles/AnnuairePage.tsx",
+    "line": 127
+  },
+  {
+    "route": "/cercles/profile/",
+    "file": "src/features/cercles/AnnuairePage.tsx",
+    "line": 135
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 93
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 148
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 321
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 322
+  },
+  {
+    "route": "/cercles/nouveau",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 46
+  },
+  {
+    "route": "/cercles/annuaire",
+    "file": "src/features/cercles/FeedHomePage.tsx",
+    "line": 68
+  },
+  {
+    "route": "/cercles/annuaire",
+    "file": "src/features/cercles/FeedHomePage.tsx",
+    "line": 118
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/FeedHomePage.tsx",
+    "line": 56
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/FeedHomePage.tsx",
+    "line": 79
+  },
+  {
+    "route": "/",
+    "file": "src/features/cercles/InscriptionPage.tsx",
+    "line": 104
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/InscriptionPage.tsx",
+    "line": 90
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/LiveRoomPage.tsx",
+    "line": 58
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/LiveRoomPage.tsx",
+    "line": 65
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/LiveRoomPage.tsx",
+    "line": 102
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/LiveRoomPage.tsx",
+    "line": 108
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/LiveRoomPage.tsx",
+    "line": 121
+  },
+  {
+    "route": "/cercles",
+    "file": "src/features/cercles/NewCerclePage.tsx",
+    "line": 83
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/NewCerclePage.tsx",
+    "line": 24
+  },
+  {
     "route": "/cc/login",
     "file": "src/command-center/CommandCenterApp.tsx",
-    "line": 38
+    "line": 42
   },
   {
     "route": "/cc/dossiers",
@@ -323,28 +658,68 @@ export const ROUTE_USAGES = [
   },
   {
     "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/validations/ValidationsModule.tsx",
+    "line": 171
+  },
+  {
+    "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/validations/ValidationsModule.tsx",
+    "line": 249
+  },
+  {
+    "route": "/cc/dossiers/",
     "file": "src/command-center/modules/projects/ProjectsModule.tsx",
     "line": 91
   },
   {
+    "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/leads/LeadsModule.tsx",
+    "line": 212
+  },
+  {
     "route": "/cc/dossiers",
     "file": "src/command-center/modules/dossiers/DossierDetail.tsx",
-    "line": 369
+    "line": 370
+  },
+  {
+    "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/dossiers/DossierShadowView.tsx",
+    "line": 180
   },
   {
     "route": "/cc/dossiers/",
     "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
-    "line": 172
+    "line": 233
   },
   {
     "route": "/cc/dossiers/",
     "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
-    "line": 176
+    "line": 237
+  },
+  {
+    "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
+    "line": 238
   },
   {
     "route": "/simulateur",
     "file": "src/command-center/modules/dashboard/CCDashboard.tsx",
-    "line": 55
+    "line": 58
+  },
+  {
+    "route": "/cc/archive",
+    "file": "src/command-center/modules/archive/ArchiveDossierView.tsx",
+    "line": 83
+  },
+  {
+    "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/archive/ArchiveDossierView.tsx",
+    "line": 104
+  },
+  {
+    "route": "/cc/archive/",
+    "file": "src/command-center/modules/archive/ArchiveModule.tsx",
+    "line": 243
   }
 ] as const;
 export const UNKNOWN_ROUTE_USAGES = [
@@ -354,9 +729,89 @@ export const UNKNOWN_ROUTE_USAGES = [
     "line": 44
   },
   {
+    "route": "/cc",
+    "file": "src/ui/docs/DocsPage.tsx",
+    "line": 221
+  },
+  {
+    "route": "/cc",
+    "file": "src/ui/docs/DocsPage.tsx",
+    "line": 241
+  },
+  {
+    "route": "/cc",
+    "file": "src/ui/docs/DocsPage.tsx",
+    "line": 252
+  },
+  {
     "route": "/cc/login",
     "file": "src/tomes/tome4/apiClient.ts",
     "line": 89
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
+    "line": 80
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
+    "line": 136
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 220
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 219
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p4/P4Home.tsx",
+    "line": 212
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p4/P4Home.tsx",
+    "line": 211
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p3/P3Home.tsx",
+    "line": 216
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p3/P3Home.tsx",
+    "line": 215
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
+    "line": 293
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
+    "line": 292
+  },
+  {
+    "route": "/p1/dossier/phases",
+    "file": "src/tomes/tome3/portals/p1/P1Dossier.tsx",
+    "line": 67
+  },
+  {
+    "route": "/p1/dossier/phases",
+    "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
+    "line": 138
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
+    "line": 141
   },
   {
     "route": "/verify-phone",
@@ -366,12 +821,107 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/portal",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 22
+    "line": 32
+  },
+  {
+    "route": "/cercles/me/profile",
+    "file": "src/features/cercles/AnnuairePage.tsx",
+    "line": 127
+  },
+  {
+    "route": "/cercles/profile/",
+    "file": "src/features/cercles/AnnuairePage.tsx",
+    "line": 135
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 93
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 148
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 321
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 322
+  },
+  {
+    "route": "/cercles/nouveau",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 46
+  },
+  {
+    "route": "/cercles/annuaire",
+    "file": "src/features/cercles/FeedHomePage.tsx",
+    "line": 68
+  },
+  {
+    "route": "/cercles/annuaire",
+    "file": "src/features/cercles/FeedHomePage.tsx",
+    "line": 118
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/FeedHomePage.tsx",
+    "line": 56
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/FeedHomePage.tsx",
+    "line": 79
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/InscriptionPage.tsx",
+    "line": 90
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/LiveRoomPage.tsx",
+    "line": 58
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/LiveRoomPage.tsx",
+    "line": 65
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/LiveRoomPage.tsx",
+    "line": 102
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/LiveRoomPage.tsx",
+    "line": 108
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/LiveRoomPage.tsx",
+    "line": 121
+  },
+  {
+    "route": "/cercles",
+    "file": "src/features/cercles/NewCerclePage.tsx",
+    "line": 83
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/NewCerclePage.tsx",
+    "line": 24
   },
   {
     "route": "/cc/login",
     "file": "src/command-center/CommandCenterApp.tsx",
-    "line": 38
+    "line": 42
   },
   {
     "route": "/cc/dossiers",
@@ -380,28 +930,68 @@ export const UNKNOWN_ROUTE_USAGES = [
   },
   {
     "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/validations/ValidationsModule.tsx",
+    "line": 171
+  },
+  {
+    "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/validations/ValidationsModule.tsx",
+    "line": 249
+  },
+  {
+    "route": "/cc/dossiers/",
     "file": "src/command-center/modules/projects/ProjectsModule.tsx",
     "line": 91
   },
   {
+    "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/leads/LeadsModule.tsx",
+    "line": 212
+  },
+  {
     "route": "/cc/dossiers",
     "file": "src/command-center/modules/dossiers/DossierDetail.tsx",
-    "line": 369
+    "line": 370
+  },
+  {
+    "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/dossiers/DossierShadowView.tsx",
+    "line": 180
   },
   {
     "route": "/cc/dossiers/",
     "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
-    "line": 172
+    "line": 233
   },
   {
     "route": "/cc/dossiers/",
     "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
-    "line": 176
+    "line": 237
+  },
+  {
+    "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
+    "line": 238
   },
   {
     "route": "/simulateur",
     "file": "src/command-center/modules/dashboard/CCDashboard.tsx",
-    "line": 55
+    "line": 58
+  },
+  {
+    "route": "/cc/archive",
+    "file": "src/command-center/modules/archive/ArchiveDossierView.tsx",
+    "line": 83
+  },
+  {
+    "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/archive/ArchiveDossierView.tsx",
+    "line": 104
+  },
+  {
+    "route": "/cc/archive/",
+    "file": "src/command-center/modules/archive/ArchiveModule.tsx",
+    "line": 243
   }
 ] as const;
 export const UNUSED_DECLARED_ROUTES = [
@@ -409,332 +999,297 @@ export const UNUSED_DECLARED_ROUTES = [
   "/p1/qualification",
   "/p1/offres",
   "/p1/packs-personnalise",
-  "/p2",
   "/p2/form",
   "/p2/result",
-  "/p3",
-  "/p4",
-  "/p5",
-  "/p6",
   "/enterprise/api"
 ] as const;
 export const DEAD_CTA_HINTS = [
   {
     "kind": "href_hash",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 701,
-    "snippet": "/small> </a> <a href=\"#\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2"
-  },
-  {
-    "kind": "href_hash",
-    "file": "src/ui/landing/LandingV4.tsx",
-    "line": 705,
-    "snippet": "/small> </a> <a href=\"#\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2"
-  },
-  {
-    "kind": "href_hash",
-    "file": "src/ui/landing/LandingV4.tsx",
-    "line": 709,
-    "snippet": "/small> </a> <a href=\"#\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2"
-  },
-  {
-    "kind": "href_hash",
-    "file": "src/ui/landing/LandingV4.tsx",
-    "line": 713,
-    "snippet": "/small> </a> <a href=\"#\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2"
-  },
-  {
-    "kind": "href_hash",
-    "file": "src/ui/landing/LandingV4.tsx",
-    "line": 717,
-    "snippet": "/small> </a> <a href=\"#\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2"
-  },
-  {
-    "kind": "href_hash",
-    "file": "src/ui/landing/LandingV4.tsx",
-    "line": 731,
+    "line": 741,
     "snippet": "')\">VVIP</div> <a class=\"pill\" href=\"#\" onclick=\"soon('Panier activé après tunnel de commande');return false;\">"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 672,
+    "line": 682,
     "snippet": "itrine)\"> <button type=\"button\" onclick=\"window.open('https://web.facebook.com/yassineattarassi','_blank')\">f</b"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 673,
+    "line": 683,
     "snippet": "</button> <button type=\"button\" onclick=\"window.open('https://www.instagram.com/arc_bati_architecture','_blank')"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 674,
+    "line": 684,
     "snippet": "</button> <button type=\"button\" onclick=\"soon('LinkedIn — bientôt disponible')\">in</button> <button type"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 675,
+    "line": 685,
     "snippet": "</button> <button type=\"button\" onclick=\"soon('TikTok @arc_bati_architecture — bientôt')\">tt</button> </di"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 678,
+    "line": 688,
     "snippet": "> </div> <div class=\"chip\" onclick=\"window.location.href='/p1'\">Concevoir</div> <div class=\"chip\" onc"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 679,
+    "line": 689,
     "snippet": "Concevoir</div> <div class=\"chip\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20cl%C3"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 680,
+    "line": 690,
     "snippet": "é en main</div> <div class=\"chip\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20fonci"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 697,
+    "line": 707,
     "snippet": "role=\"menu\"> <a href=\"/p1\" onclick=\"window.location.href='/p1';return false;\"> <strong>Projet"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 701,
-    "snippet": "</a> <a href=\"#\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20diagn"
+    "line": 711,
+    "snippet": "</a> <a href=\"/p2\" onclick=\"window.location.href='/p2';return false;\"> <strong>Projet"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 705,
-    "snippet": "</a> <a href=\"#\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20cl%C3"
+    "line": 715,
+    "snippet": "</a> <a href=\"/p3\" onclick=\"window.location.href='/p3';return false;\"> <strong>Réalis"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 709,
-    "snippet": "</a> <a href=\"#\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20analy"
+    "line": 719,
+    "snippet": "</a> <a href=\"/p4\" onclick=\"window.location.href='/p4';return false;\"> <strong>Invest"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 713,
-    "snippet": "</a> <a href=\"#\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20rappo"
+    "line": 723,
+    "snippet": "</a> <a href=\"/p5\" onclick=\"window.location.href='/p5';return false;\"> <strong>Rappor"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 717,
-    "snippet": "</a> <a href=\"#\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20rejoi"
-  },
-  {
-    "kind": "inline_onclick",
-    "file": "src/ui/landing/LandingV4.tsx",
-    "line": 725,
-    "snippet": "<a class=\"pill\" href=\"#medias\" onclick=\"scrollToId('medias');return false;\">Médias</a> <!-- Vente abo"
-  },
-  {
-    "kind": "inline_onclick",
-    "file": "src/ui/landing/LandingV4.tsx",
-    "line": 728,
-    "snippet": "vice) --> <div class=\"pill vip\" onclick=\"openSubModal('vip')\">VIP</div> <div class=\"pill vvip\" onclick=\""
-  },
-  {
-    "kind": "inline_onclick",
-    "file": "src/ui/landing/LandingV4.tsx",
-    "line": 729,
-    "snippet": "IP</div> <div class=\"pill vvip\" onclick=\"openSubModal('vvip')\">VVIP</div> <a class=\"pill\" href=\"#\" oncl"
-  },
-  {
-    "kind": "inline_onclick",
-    "file": "src/ui/landing/LandingV4.tsx",
-    "line": 731,
-    "snippet": "/div> <a class=\"pill\" href=\"#\" onclick=\"soon('Panier activé après tunnel de commande');return false;\">Panier</a"
+    "line": 727,
+    "snippet": "</a> <a href=\"/p6\" onclick=\"window.location.href='/p6';return false;\"> <strong>Entrep"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 735,
+    "snippet": "<a class=\"pill\" href=\"#medias\" onclick=\"scrollToId('medias');return false;\">Médias</a> <!-- Vente abo"
+  },
+  {
+    "kind": "inline_onclick",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 738,
+    "snippet": "vice) --> <div class=\"pill vip\" onclick=\"openSubModal('vip')\">VIP</div> <div class=\"pill vvip\" onclick=\""
+  },
+  {
+    "kind": "inline_onclick",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 739,
+    "snippet": "IP</div> <div class=\"pill vvip\" onclick=\"openSubModal('vvip')\">VVIP</div> <a class=\"pill\" href=\"#\" oncl"
+  },
+  {
+    "kind": "inline_onclick",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 741,
+    "snippet": "/div> <a class=\"pill\" href=\"#\" onclick=\"soon('Panier activé après tunnel de commande');return false;\">Panier</a"
+  },
+  {
+    "kind": "inline_onclick",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 745,
     "snippet": "<button class=\"lang-btn active\" onclick=\"setLang('fr')\">FR</button> <button class=\"lang-btn\" onclick=\""
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 736,
+    "line": 746,
     "snippet": "ton> <button class=\"lang-btn\" onclick=\"setLang('ar')\">AR</button> <button class=\"lang-btn\" onclick=\""
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 737,
+    "line": 747,
     "snippet": "ton> <button class=\"lang-btn\" onclick=\"setLang('en')\">EN</button> </div> <!-- AUTH BUTTONS --"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 761,
+    "line": 771,
     "snippet": "tsApp) --> <article class=\"cat\" onclick=\"window.location.href='/p1'\"> <h3>Projet personnel / familial<"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 767,
-    "snippet": "/article> <article class=\"cat\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20diagn"
+    "line": 777,
+    "snippet": "/article> <article class=\"cat\" onclick=\"window.location.href='/p2'\"> <h3>Projet immobilier & équipeme"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 773,
-    "snippet": "/article> <article class=\"cat\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20cl%C3"
+    "line": 783,
+    "snippet": "/article> <article class=\"cat\" onclick=\"window.location.href='/p3'\"> <h3>Réalisation clé en main</h3>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 779,
-    "snippet": "/article> <article class=\"cat\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20analy"
+    "line": 789,
+    "snippet": "/article> <article class=\"cat\" onclick=\"window.location.href='/p4'\"> <h3>Investisseur & foncier</h3>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 785,
-    "snippet": "/article> <article class=\"cat\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20rappo"
+    "line": 795,
+    "snippet": "/article> <article class=\"cat\" onclick=\"window.location.href='/p5'\"> <h3>Rapports & expertises</h3>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 791,
-    "snippet": "/article> <article class=\"cat\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20rejoi"
+    "line": 801,
+    "snippet": "/article> <article class=\"cat\" onclick=\"window.location.href='/p6'\"> <h3>Entreprise / partenaire</h3>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 825,
+    "line": 835,
     "snippet": "elect> <button type=\"button\" onclick=\"autoOrient()\">Être orienté vers la bonne catégorie</button> </d"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 838,
+    "line": 848,
     "snippet": "on class=\"mbtn secondary\" type=\"button\" onclick=\"soon('Démo vidéo sera disponible en lecture interne.')\">Voir</button>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 839,
+    "line": 849,
     "snippet": "tton class=\"mbtn primary\" type=\"button\" onclick=\"scrollToId('medias')\">Aller aux Médias</button> </div> </"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 852,
+    "line": 862,
     "snippet": "on class=\"mbtn secondary\" type=\"button\" onclick=\"openSubModal('vip')\">VIP</button> <button class=\"mbtn primary"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 853,
+    "line": 863,
     "snippet": "tton class=\"mbtn primary\" type=\"button\" onclick=\"openSubModal('vvip')\">VVIP</button> </div> </div> </a"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 870,
+    "line": 880,
     "snippet": "oppScroller\"> <div class=\"tile\" onclick=\"soon('Détail opportunité: visible dans Médias / VIP selon type.');\">"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 882,
+    "line": 892,
     "snippet": "</div> <div class=\"tile\" onclick=\"soon('Détail opportunité: visible dans Médias / VIP selon type.');\">"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 894,
+    "line": 904,
     "snippet": "</div> <div class=\"tile\" onclick=\"soon('Bientôt.');\"> <div class=\"thumb\"> <div clas"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 945,
+    "line": 955,
     "snippet": "nt --> <div class=\"modal\" id=\"subModal\" onclick=\"modalBackdropClose(event,'subModal')\"> <div class=\"modal-card\" role=\""
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 949,
+    "line": 959,
     "snippet": "span> <button class=\"modal-close\" onclick=\"closeModal('subModal')\">Retour</button> </div> <div class=\"moda"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 960,
+    "line": 970,
     "snippet": "\"> <button class=\"mbtn primary\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20je%20"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 961,
+    "line": 971,
     "snippet": "<button class=\"mbtn secondary\" onclick=\"closeModal('subModal')\">Plus tard</button> </div> </div> </"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 968,
+    "line": 978,
     "snippet": ") --> <div class=\"modal\" id=\"leadModal\" onclick=\"modalBackdropClose(event,'leadModal')\"> <div class=\"modal-card\" role="
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 972,
+    "line": 982,
     "snippet": "span> <button class=\"modal-close\" onclick=\"closeModal('leadModal')\">Retour</button> </div> <div class=\"mod"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 995,
+    "line": 1005,
     "snippet": "\"> <button class=\"mbtn primary\" onclick=\"submitLead()\">Envoyer via plateforme</button> <button class=\"mb"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 996,
+    "line": 1006,
     "snippet": "<button class=\"mbtn secondary\" onclick=\"closeModal('leadModal')\">Annuler</button> </div> </div> </d"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1006,
+    "line": 1016,
     "snippet": "--> <div class=\"modal\" id=\"submitModal\" onclick=\"modalBackdropClose(event,'submitModal')\"> <div class=\"modal-card\" sty"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1010,
+    "line": 1020,
     "snippet": "span> <button class=\"modal-close\" onclick=\"closeModal('submitModal')\">Retour</button> </div> <div class=\"m"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1048,
+    "line": 1058,
     "snippet": "\"> <button class=\"mbtn primary\" onclick=\"submitArticle()\" style=\"flex:1;\">Envoyer pour mod&eacute;ration</button"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1049,
+    "line": 1059,
     "snippet": "<button class=\"mbtn secondary\" onclick=\"closeModal('submitModal')\">Annuler</button> </div> <p style"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1068,
+    "line": 1078,
     "snippet": "{ // Minimal global helpers used by onclick=\"...\" in the injected HTML. ensureGlobal(\"openModal\", (id: string) ="
   },
   {

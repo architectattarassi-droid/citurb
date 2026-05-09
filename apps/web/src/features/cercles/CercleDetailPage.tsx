@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import CerclesShell from "./CerclesShell";
 import { CC_THEME } from "./theme";
-import { cerclesApi, CercleDetail, CerclePost, LiveRoom } from "./api";
+import { cerclesApi, invitationsApi, CercleDetail, CerclePost, LiveRoom, InviteResultItem } from "./api";
 
 type Tab = "discussions" | "rooms" | "members";
 
@@ -89,6 +89,11 @@ export default function CercleDetailPage() {
               <Stat label="Membres" value={cercle._count.members} />
               <Stat label="Posts"   value={cercle._count.posts} accent={CC_THEME.or} />
               <Stat label="Salles"  value={cercle._count.rooms} accent={CC_THEME.success} />
+              {cercle.members && cercle.members.length > 0 && cercle.members[0]?.status === "ACTIVE" && (
+                <button onClick={() => navigate(`/cercles/${slug}/chat`)} style={S.chatBtn}>
+                  💬 Chat en direct
+                </button>
+              )}
               {(!cercle.members || cercle.members.length === 0 || cercle.members[0]?.status !== "ACTIVE") && (
                 <button onClick={join} style={S.joinBtn}>Rejoindre</button>
               )}
@@ -140,7 +145,7 @@ export default function CercleDetailPage() {
                 )}
 
                 {posts.map(p => (
-                  <PostCard key={p.id} post={p} onUpvote={() => upvote(p.id)} onOpen={() => navigate(`/cercles/${slug}/posts/${p.id}`)} />
+                  <PostCard key={p.id} post={p} cercleSlug={slug!} cercleName={cercle.name} onUpvote={() => upvote(p.id)} onOpen={() => navigate(`/cercles/${slug}/posts/${p.id}`)} />
                 ))}
               </>
             )}
@@ -150,7 +155,7 @@ export default function CercleDetailPage() {
             )}
 
             {tab === "members" && (
-              <MembersTab cercleId={cercle.id} />
+              <MembersTab cercleId={cercle.id} isMod={cercle.members?.[0]?.role === "OWNER" || cercle.members?.[0]?.role === "MODERATOR"} />
             )}
           </div>
         </div>
@@ -189,7 +194,27 @@ function TabBtn({ active, onClick, children }: { active: boolean; onClick: () =>
   );
 }
 
-function PostCard({ post, onUpvote, onOpen }: { post: CerclePost; onUpvote: () => void; onOpen: () => void }) {
+function PostCard({ post, cercleSlug, cercleName, onUpvote, onOpen }: { post: CerclePost; cercleSlug: string; cercleName: string; onUpvote: () => void; onOpen: () => void }) {
+  const [shareToast, setShareToast] = useState(false);
+  const sharePost = async () => {
+    const url = `${window.location.origin}/cercles/${cercleSlug}/posts/${post.id}`;
+    const title = post.title || `Post de ${post.author.username || post.author.email}`;
+    const text = `${title} — ${cercleName} sur CITURBAREA Cercles`;
+    try {
+      if ((navigator as any).share) {
+        await (navigator as any).share({ title, text, url });
+        return;
+      }
+    } catch { /* user cancelled */ return; }
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareToast(true);
+      setTimeout(() => setShareToast(false), 2000);
+    } catch {
+      window.prompt("Copiez le lien ci-dessous :", url);
+    }
+  };
+
   return (
     <article style={S.postCard}>
       <div style={S.postHead}>
@@ -205,8 +230,11 @@ function PostCard({ post, onUpvote, onOpen }: { post: CerclePost; onUpvote: () =
       <div style={S.postBody}>{truncate(post.body, 320)}</div>
       <div style={S.postFooter}>
         <button onClick={onUpvote} style={S.action}>👍 {post.upvotes}</button>
-        <button onClick={onOpen}  style={S.action}>💬 {post.replyCount}</button>
-        <button onClick={onOpen}  style={{ ...S.action, marginLeft: "auto", color: CC_THEME.or }}>Lire la suite →</button>
+        <button onClick={onOpen}   style={S.action}>💬 {post.replyCount}</button>
+        <button onClick={sharePost} style={S.action} title="Partager le lien du post">
+          🔗 {shareToast ? "Lien copié ✓" : "Partager"}
+        </button>
+        <button onClick={onOpen}   style={{ ...S.action, marginLeft: "auto", color: CC_THEME.or }}>Lire la suite →</button>
       </div>
     </article>
   );
@@ -217,6 +245,7 @@ function RoomsTab({ cercle, rooms, onChange }: { cercle: CercleDetail; rooms: Li
   const [creating, setCreating] = useState(false);
   const [title, setTitle] = useState("");
   const [scheduledAt, setScheduledAt] = useState("");
+  const [provider, setProvider] = useState<"LIVEKIT" | "JITSI">("JITSI");
   const [busy, setBusy] = useState(false);
 
   const isMod = cercle.members?.[0]?.role === "OWNER" || cercle.members?.[0]?.role === "MODERATOR";
@@ -225,7 +254,7 @@ function RoomsTab({ cercle, rooms, onChange }: { cercle: CercleDetail; rooms: Li
     if (!title.trim()) return;
     setBusy(true);
     try {
-      await cerclesApi.createRoom(cercle.id, { title, scheduledAt: scheduledAt || undefined });
+      await cerclesApi.createRoom(cercle.id, { title, scheduledAt: scheduledAt || undefined, provider });
       setCreating(false);
       setTitle("");
       setScheduledAt("");
@@ -247,6 +276,17 @@ function RoomsTab({ cercle, rooms, onChange }: { cercle: CercleDetail; rooms: Li
         <div style={S.composer}>
           <input style={S.composerTitle} placeholder="Titre de la salle" value={title} onChange={e => setTitle(e.target.value)} />
           <input type="datetime-local" style={{ ...S.composerTitle, marginTop: 8 }} value={scheduledAt} onChange={e => setScheduledAt(e.target.value)} />
+          <div style={{ marginTop: 10, display: "flex", gap: 10, alignItems: "center", fontSize: 12 }}>
+            <strong style={{ color: CC_THEME.inkMid }}>Plateforme :</strong>
+            <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer" }}>
+              <input type="radio" name="provider" checked={provider === "JITSI"} onChange={() => setProvider("JITSI")} />
+              Jitsi <span style={{ color: CC_THEME.inkMuted }}>(public, marche immédiatement)</span>
+            </label>
+            <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer" }}>
+              <input type="radio" name="provider" checked={provider === "LIVEKIT"} onChange={() => setProvider("LIVEKIT")} />
+              LiveKit <span style={{ color: CC_THEME.inkMuted }}>(interne, à provisionner)</span>
+            </label>
+          </div>
           <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 10 }}>
             <button onClick={() => setCreating(false)} style={S.btnGhost}>Annuler</button>
             <button onClick={create} disabled={busy || !title.trim()} style={S.btnPrimary}>{busy ? "Création…" : "Programmer"}</button>
@@ -288,18 +328,104 @@ function RoomsTab({ cercle, rooms, onChange }: { cercle: CercleDetail; rooms: Li
   );
 }
 
-function MembersTab({ cercleId }: { cercleId: string }) {
+function MembersTab({ cercleId, isMod }: { cercleId: string; isMod: boolean }) {
   const [members, setMembers] = useState<any[]>([]);
   const [err, setErr] = useState<string | null>(null);
+  const [showInvite, setShowInvite] = useState(false);
+  const [emailsInput, setEmailsInput] = useState("");
+  const [inviteMessage, setInviteMessage] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [results, setResults] = useState<InviteResultItem[] | null>(null);
+
   useEffect(() => {
     cerclesApi.members(cercleId)
       .then((r: any) => setMembers(r.data))
       .catch(e => setErr(e?.message || "Erreur"));
   }, [cercleId]);
 
+  const sendInvites = async () => {
+    const emails = emailsInput
+      .split(/[\s,;\n]+/)
+      .map(e => e.trim())
+      .filter(e => e.includes("@"));
+    if (emails.length === 0) return;
+    setBusy(true);
+    try {
+      const r = await invitationsApi.inviteByEmail(cercleId, emails, inviteMessage.trim() || undefined);
+      setResults(r.data.results);
+      setEmailsInput("");
+      setInviteMessage("");
+    } catch (e: any) {
+      alert("Erreur invitations : " + (e?.message || "inconnue"));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const copyLink = (link: string) => {
+    navigator.clipboard.writeText(link).then(
+      () => { /* toast passé pour brièveté */ },
+      () => window.prompt("Copiez le lien :", link),
+    );
+  };
+
   if (err) return <div style={{ color: CC_THEME.danger, padding: 12 }}>{err}</div>;
+
   return (
     <div>
+      {isMod && !showInvite && (
+        <button onClick={() => setShowInvite(true)} style={S.openComposeBtn}>
+          ✉ Inviter par email
+        </button>
+      )}
+
+      {showInvite && (
+        <div style={S.composer}>
+          <textarea
+            style={{ ...S.composerBody, minHeight: 80 }}
+            placeholder="Emails séparés par virgule, espace ou nouvelle ligne&#10;ex: archi1@cabinet.ma, archi2@cabinet.ma"
+            value={emailsInput}
+            onChange={e => setEmailsInput(e.target.value)}
+          />
+          <textarea
+            style={{ ...S.composerBody, marginTop: 8, minHeight: 60 }}
+            placeholder="Mot d'accompagnement (optionnel)"
+            value={inviteMessage}
+            onChange={e => setInviteMessage(e.target.value)}
+          />
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 10 }}>
+            <button onClick={() => { setShowInvite(false); setResults(null); }} style={S.btnGhost}>Fermer</button>
+            <button onClick={sendInvites} disabled={busy || !emailsInput.trim()} style={S.btnPrimary}>
+              {busy ? "Envoi…" : "Envoyer les invitations"}
+            </button>
+          </div>
+
+          {results && (
+            <div style={{ marginTop: 14, borderTop: `1px solid ${CC_THEME.border}`, paddingTop: 12 }}>
+              <div style={{ fontSize: 12, color: CC_THEME.inkMid, marginBottom: 8, fontWeight: 600 }}>
+                {results.filter(r => r.status === "sent").length} envoyé(s) ·{" "}
+                {results.filter(r => r.status === "link").length} lien(s) à copier ·{" "}
+                {results.filter(r => r.status === "already-member").length} déjà membre(s) ·{" "}
+                {results.filter(r => r.status === "failed").length} échec(s)
+              </div>
+              {results.map((r, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0", borderBottom: `1px solid ${CC_THEME.borderSoft}` }}>
+                  <span style={{ fontSize: 11, color: statusColor(r.status), fontWeight: 600, minWidth: 80 }}>
+                    {statusLabel(r.status)}
+                  </span>
+                  <span style={{ flex: 1, fontSize: 13 }}>{r.email}</span>
+                  {r.link && r.status === "link" && (
+                    <button onClick={() => copyLink(r.link)} style={{ ...S.btnGhost, fontSize: 11, padding: "4px 10px" }}>
+                      Copier le lien
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {members.map((m, i) => (
         <div key={m.id || i} style={S.memberRow}>
           <div style={S.postAvatar}>{(m.user.username || m.user.email).slice(0, 1).toUpperCase()}</div>
@@ -311,6 +437,13 @@ function MembersTab({ cercleId }: { cercleId: string }) {
       ))}
     </div>
   );
+}
+
+function statusLabel(s: string): string {
+  return s === "sent" ? "✓ envoyé" : s === "link" ? "🔗 lien" : s === "already-member" ? "membre" : "✗ échec";
+}
+function statusColor(s: string): string {
+  return s === "sent" ? CC_THEME.success : s === "link" ? CC_THEME.or : s === "already-member" ? CC_THEME.inkMid : CC_THEME.danger;
 }
 
 function visLabel(v: string): string {
@@ -334,6 +467,7 @@ const S: Record<string, React.CSSProperties> = {
   statValue: { fontFamily: CC_THEME.fontDisplay, fontSize: 22, fontWeight: 600, lineHeight: 1 },
   statLabel: { fontSize: 9.5, color: CC_THEME.inkMuted, letterSpacing: "0.16em", textTransform: "uppercase", marginTop: 4 },
   joinBtn: { background: CC_THEME.or, color: CC_THEME.bg, border: 0, padding: "10px 18px", borderRadius: 6, fontSize: 12.5, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" },
+  chatBtn: { background: CC_THEME.navy, color: CC_THEME.bg, border: 0, padding: "10px 18px", borderRadius: 6, fontSize: 12.5, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" },
 
   tabs: { display: "flex", gap: 4, padding: "0 36px", borderBottom: `1px solid ${CC_THEME.border}`, background: CC_THEME.bgRaised },
   body: { padding: "24px 36px 60px", maxWidth: 920 },

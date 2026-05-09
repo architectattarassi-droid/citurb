@@ -245,7 +245,7 @@ export class CerclesController {
   }
 
   @Post(":cercleId/rooms")
-  async createRoom(@Req() req: any, @Param("cercleId") cercleId: string, @Body() body: { title: string; description?: string; scheduledAt?: string; maxParticipants?: number }) {
+  async createRoom(@Req() req: any, @Param("cercleId") cercleId: string, @Body() body: { title: string; description?: string; scheduledAt?: string; maxParticipants?: number; provider?: "LIVEKIT" | "JITSI" }) {
     return { ok: true, data: await this.rooms.create(cercleId, this.uid(req), body) };
   }
 
@@ -267,7 +267,8 @@ export class CerclesController {
   @Post(":cercleId/rooms/:roomId/join")
   async joinRoom(@Req() req: any, @Param("roomId") roomId: string) {
     const userId = this.uid(req);
-    return { ok: true, data: await this.rooms.getJoinToken(roomId, userId, this.displayName(req)) };
+    const email = req?.user?.email || "";
+    return { ok: true, data: await this.rooms.getJoinToken(roomId, userId, this.displayName(req), email) };
   }
 
   @Delete(":cercleId/rooms/:roomId")
