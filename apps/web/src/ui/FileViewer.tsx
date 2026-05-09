@@ -95,9 +95,19 @@ function IFCViewer({ url, height }: { url: string; height: number | string }) {
       try {
         if (!containerRef.current) return;
 
-        const THREE = await import("three");
-        const orbitMod: any = await import("three/examples/jsm/controls/OrbitControls.js");
-        const ifcMod: any = await import("web-ifc-three/IFCLoader");
+        // Imports dynamiques avec variables pour empêcher Rollup de résoudre statiquement.
+        // Modules optionnels — la visu IFC nécessite `three` + `web-ifc-three` installés
+        // à la demande. À défaut, on retombe sur un message d'erreur.
+        const threeId = "three";
+        const orbitId = "three/examples/jsm/controls/OrbitControls.js";
+        const ifcId = "web-ifc-three/IFCLoader";
+        const THREE: any = await import(threeId).catch(() => null);
+        const orbitMod: any = await import(orbitId).catch(() => null);
+        const ifcMod: any = await import(ifcId).catch(() => null);
+        if (!THREE || !orbitMod || !ifcMod) {
+          if (!cancelled) setError("Visualiseur 3D non installé. Pour activer la visu IFC, installer : npm i three web-ifc-three");
+          return;
+        }
 
         const container = containerRef.current;
         if (!container) return;
