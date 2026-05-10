@@ -1407,14 +1407,38 @@ model ProProfile {
   classeBTP    ProClasseBTP?
   agrements    String[] // ["CNOA-12345", "ONI-654", "AGREMENT_MEFD_BAT_CL3"]
   specialites  String[] // tags libres : "BIM", "Béton précontraint", "Terre crue"…
+  cnoaNumero   String? // numéro d'inscription Conseil National (architectes uniquement)
+
+  // Cabinet / structure
+  cabinetName     String? // "Atelier Bensouda", "BET Idrissi"
+  cabinetSize     Int?    // nombre de collaborateurs
+  cabinetStatus   String? // "LIBERAL" | "ASSOCIE" | "SALARIE" | "FONCTIONNAIRE" | "INDEPENDANT"
+  yearsExperience Int?    // années d'expérience pro
+
+  // Formations & certifications & prix
+  formations      Json?    // [{ ecole, diplome, annee, ville }]
+  certifications  String[] // ["Revit Certified Pro", "BIM Manager", "RT-Maroc Auditeur"]
+  prix            String[] // récompenses ["Prix CNOA Jeune Architecte 2018"]
+  langues         String[] // ["FR", "AR", "EN", "BERBERE", "ES"]
+
+  // Projets phares (portfolio)
+  experiencesPhares Json? // [{ titre, description, anneeLivraison, surface, lieu, role, imageUrls[] }]
 
   // Localisation
   regions      String[] // 12 régions Maroc où le pro intervient
   villePrincipale String?
 
+  // Tarifs et disponibilité
+  tarifsRange       String? // ex "Honoraires 4–6% du coût travaux", "Forfait 30–80k MAD"
+  disponibilite     String? @default("DISPONIBLE") // "DISPONIBLE" | "OCCUPE" | "INDISPONIBLE"
+  disponibleAPartir DateTime?
+
   // Réseaux + identité publique
   websiteUrl   String?
   linkedinUrl  String?
+  behanceUrl   String?
+  instagramUrl String?
+  pinterestUrl String?
   phonePublic  String?
   emailPublic  String?
 
@@ -1426,12 +1450,14 @@ model ProProfile {
   // Stats dérivées (optionnel — peut rester null et calculé à la volée)
   projectsCount    Int @default(0)
   connectionsCount Int @default(0)
+  profileViews     Int @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([metier])
   @@index([classeBTP])
+  @@index([disponibilite])
 }
 
 enum ConnectionStatus {

@@ -39,6 +39,7 @@ import AnnuairePage     from "../../../features/cercles/AnnuairePage";
 import ProfilePage      from "../../../features/cercles/ProfilePage";
 import CercleChatPage   from "../../../features/cercles/CercleChatPage";
 import InscriptionPage  from "../../../features/cercles/InscriptionPage";
+import EditProfilePage  from "../../../features/cercles/EditProfilePage";
 
 /**
  * V152-B1 — Canonisation Routes (memo)
@@ -74,6 +75,7 @@ export const router = createBrowserRouter([
   { path: '/cercles',                              element: <FeedHomePage /> },
   { path: '/cercles/bienvenue',                    element: <CerclesHomePage /> },
   { path: '/cercles/annuaire',                     element: <AnnuairePage /> },
+  { path: '/cercles/me/edit',                      element: <EditProfilePage /> },
   { path: '/cercles/profile/:userIdOrId',          element: <ProfilePage /> },
   { path: '/cercles/nouveau',                      element: <NewCerclePage /> },
   { path: '/cercles/:slug',                        element: <CercleDetailPage /> },

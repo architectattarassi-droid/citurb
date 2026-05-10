@@ -582,6 +582,11 @@ export const ROUTE_USAGES = [
     "line": 46
   },
   {
+    "route": "/cercles/profile/",
+    "file": "src/features/cercles/EditProfilePage.tsx",
+    "line": 194
+  },
+  {
     "route": "/cercles/annuaire",
     "file": "src/features/cercles/FeedHomePage.tsx",
     "line": 68
@@ -645,6 +650,11 @@ export const ROUTE_USAGES = [
     "route": "/cercles/",
     "file": "src/features/cercles/NewCerclePage.tsx",
     "line": 24
+  },
+  {
+    "route": "/cercles/me/edit",
+    "file": "src/features/cercles/ProfilePage.tsx",
+    "line": 174
   },
   {
     "route": "/cc/login",
@@ -859,6 +869,11 @@ export const UNKNOWN_ROUTE_USAGES = [
     "line": 46
   },
   {
+    "route": "/cercles/profile/",
+    "file": "src/features/cercles/EditProfilePage.tsx",
+    "line": 194
+  },
+  {
     "route": "/cercles/annuaire",
     "file": "src/features/cercles/FeedHomePage.tsx",
     "line": 68
@@ -917,6 +932,11 @@ export const UNKNOWN_ROUTE_USAGES = [
     "route": "/cercles/",
     "file": "src/features/cercles/NewCerclePage.tsx",
     "line": 24
+  },
+  {
+    "route": "/cercles/me/edit",
+    "file": "src/features/cercles/ProfilePage.tsx",
+    "line": 174
   },
   {
     "route": "/cc/login",

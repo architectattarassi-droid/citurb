@@ -87,6 +87,15 @@ let CerclesController = class CerclesController {
     async publicProfile(userIdOrId) {
         return { ok: true, data: await this.annuaire.getProfile(userIdOrId) };
     }
+    async profileCercles(userIdOrId) {
+        return { ok: true, data: await this.annuaire.getUserCercles(userIdOrId) };
+    }
+    async profilePosts(userIdOrId) {
+        return { ok: true, data: await this.annuaire.getUserPosts(userIdOrId) };
+    }
+    async profileRooms(userIdOrId) {
+        return { ok: true, data: await this.annuaire.getUserRooms(userIdOrId) };
+    }
     async sendConnection(req, toUserId, body) {
         return { ok: true, data: await this.annuaire.sendConnection(this.uid(req), toUserId, body?.message) };
     }
@@ -271,6 +280,27 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], CerclesController.prototype, "publicProfile", null);
+__decorate([
+    (0, common_1.Get)("profile/:userIdOrId/cercles"),
+    __param(0, (0, common_1.Param)("userIdOrId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "profileCercles", null);
+__decorate([
+    (0, common_1.Get)("profile/:userIdOrId/posts"),
+    __param(0, (0, common_1.Param)("userIdOrId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "profilePosts", null);
+__decorate([
+    (0, common_1.Get)("profile/:userIdOrId/rooms"),
+    __param(0, (0, common_1.Param)("userIdOrId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "profileRooms", null);
 __decorate([
     (0, common_1.Post)("connections/:toUserId"),
     __param(0, (0, common_1.Req)()),

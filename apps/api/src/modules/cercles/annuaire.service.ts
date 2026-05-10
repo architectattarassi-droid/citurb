@@ -19,11 +19,23 @@ export type AnnuaireSearchInput = {
   pageSize?: number;
 };
 
+export type FormationEntry = { ecole: string; diplome: string; annee?: number; ville?: string };
+export type ExperiencePhare = {
+  titre: string;
+  description?: string;
+  anneeLivraison?: number;
+  surface?: string; // ex "1200 m²"
+  lieu?: string;
+  role?: string; // ex "Architecte mandataire"
+  imageUrls?: string[];
+};
+
 export type ProProfileInput = {
   displayName: string;
   title?: string;
   bio?: string;
   avatarUrl?: string;
+  coverUrl?: string;
   metier:
     | "ARCHITECTE" | "BET_STRUCTURE" | "BET_FLUIDES" | "BET_VRD"
     | "TOPOGRAPHE" | "GEOMETRE" | "CONTROLE_TECHNIQUE" | "LABORATOIRE"
@@ -32,10 +44,31 @@ export type ProProfileInput = {
   classeBTP?: "CL1" | "CL2" | "CL3" | "CL4" | "CL5" | "HC";
   agrements?: string[];
   specialites?: string[];
+  cnoaNumero?: string;
+  // Cabinet
+  cabinetName?: string;
+  cabinetSize?: number;
+  cabinetStatus?: string;
+  yearsExperience?: number;
+  // Formations & certifs
+  formations?: FormationEntry[];
+  certifications?: string[];
+  prix?: string[];
+  langues?: string[];
+  experiencesPhares?: ExperiencePhare[];
+  // Localisation
   regions?: string[];
   villePrincipale?: string;
+  // Tarifs/dispo
+  tarifsRange?: string;
+  disponibilite?: "DISPONIBLE" | "OCCUPE" | "INDISPONIBLE";
+  disponibleAPartir?: string;
+  // Réseaux
   websiteUrl?: string;
   linkedinUrl?: string;
+  behanceUrl?: string;
+  instagramUrl?: string;
+  pinterestUrl?: string;
   phonePublic?: string;
   emailPublic?: string;
 };
@@ -47,42 +80,101 @@ export class AnnuaireService {
   async upsertMyProfile(userId: string, input: ProProfileInput) {
     if (!input.displayName?.trim()) throw new BadRequestException("displayName requis");
     if (!input.metier) throw new BadRequestException("metier requis");
+
+    const payload: any = {
+      displayName: input.displayName.trim(),
+      title: input.title ?? null,
+      bio: input.bio ?? null,
+      avatarUrl: input.avatarUrl ?? null,
+      coverUrl: input.coverUrl ?? null,
+      metier: input.metier as any,
+      classeBTP: (input.classeBTP as any) ?? null,
+      agrements: input.agrements ?? [],
+      specialites: input.specialites ?? [],
+      cnoaNumero: input.cnoaNumero ?? null,
+      cabinetName: input.cabinetName ?? null,
+      cabinetSize: input.cabinetSize ?? null,
+      cabinetStatus: input.cabinetStatus ?? null,
+      yearsExperience: input.yearsExperience ?? null,
+      formations: input.formations ? (input.formations as any) : null,
+      certifications: input.certifications ?? [],
+      prix: input.prix ?? [],
+      langues: input.langues ?? [],
+      experiencesPhares: input.experiencesPhares ? (input.experiencesPhares as any) : null,
+      regions: input.regions ?? [],
+      villePrincipale: input.villePrincipale ?? null,
+      tarifsRange: input.tarifsRange ?? null,
+      disponibilite: input.disponibilite ?? "DISPONIBLE",
+      disponibleAPartir: input.disponibleAPartir ? new Date(input.disponibleAPartir) : null,
+      websiteUrl: input.websiteUrl ?? null,
+      linkedinUrl: input.linkedinUrl ?? null,
+      behanceUrl: input.behanceUrl ?? null,
+      instagramUrl: input.instagramUrl ?? null,
+      pinterestUrl: input.pinterestUrl ?? null,
+      phonePublic: input.phonePublic ?? null,
+      emailPublic: input.emailPublic ?? null,
+    };
+
     return this.prisma.proProfile.upsert({
       where: { userId },
-      update: {
-        displayName: input.displayName.trim(),
-        title: input.title ?? null,
-        bio: input.bio ?? null,
-        avatarUrl: input.avatarUrl ?? null,
-        metier: input.metier as any,
-        classeBTP: (input.classeBTP as any) ?? null,
-        agrements: input.agrements ?? [],
-        specialites: input.specialites ?? [],
-        regions: input.regions ?? [],
-        villePrincipale: input.villePrincipale ?? null,
-        websiteUrl: input.websiteUrl ?? null,
-        linkedinUrl: input.linkedinUrl ?? null,
-        phonePublic: input.phonePublic ?? null,
-        emailPublic: input.emailPublic ?? null,
-      },
-      create: {
-        userId,
-        displayName: input.displayName.trim(),
-        title: input.title ?? null,
-        bio: input.bio ?? null,
-        avatarUrl: input.avatarUrl ?? null,
-        metier: input.metier as any,
-        classeBTP: (input.classeBTP as any) ?? null,
-        agrements: input.agrements ?? [],
-        specialites: input.specialites ?? [],
-        regions: input.regions ?? [],
-        villePrincipale: input.villePrincipale ?? null,
-        websiteUrl: input.websiteUrl ?? null,
-        linkedinUrl: input.linkedinUrl ?? null,
-        phonePublic: input.phonePublic ?? null,
-        emailPublic: input.emailPublic ?? null,
+      update: payload,
+      create: { userId, ...payload },
+    });
+  }
+
+  // ── Données dérivées : posts/cercles/rooms de l'user ─────────
+
+  async getUserCercles(userIdOrId: string, viewerId?: string) {
+    const target = await this.resolveUserId(userIdOrId);
+    return this.prisma.cercleMembership.findMany({
+      where: { userId: target, status: "ACTIVE" },
+      orderBy: { joinedAt: "desc" },
+      take: 50,
+      include: {
+        cercle: {
+          select: {
+            id: true, slug: true, name: true, description: true, visibility: true,
+            region: true, themes: true,
+            _count: { select: { members: true, posts: true, rooms: true } },
+          },
+        },
       },
     });
+  }
+
+  async getUserPosts(userIdOrId: string) {
+    const target = await this.resolveUserId(userIdOrId);
+    return this.prisma.cerclePost.findMany({
+      where: { authorId: target, deletedAt: null, parentId: null },
+      orderBy: { createdAt: "desc" },
+      take: 20,
+      include: {
+        cercle: { select: { id: true, slug: true, name: true } },
+        _count: { select: { replies: true } },
+      },
+    });
+  }
+
+  async getUserRooms(userIdOrId: string) {
+    const target = await this.resolveUserId(userIdOrId);
+    return this.prisma.liveRoom.findMany({
+      where: { hostId: target },
+      orderBy: [{ status: "asc" }, { scheduledAt: "desc" }, { createdAt: "desc" }],
+      take: 20,
+      include: {
+        cercle: { select: { id: true, slug: true, name: true } },
+      },
+    });
+  }
+
+  private async resolveUserId(userIdOrProfileId: string): Promise<string> {
+    // Si c'est un userId direct
+    const u = await this.prisma.user.findUnique({ where: { id: userIdOrProfileId }, select: { id: true } });
+    if (u) return u.id;
+    // Sinon c'est peut-être un ProProfile.id
+    const p = await this.prisma.proProfile.findUnique({ where: { id: userIdOrProfileId }, select: { userId: true } });
+    if (p) return p.userId;
+    throw new NotFoundException("Utilisateur introuvable");
   }
 
   async getMyProfile(userId: string) {

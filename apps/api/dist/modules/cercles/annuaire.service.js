@@ -22,42 +22,96 @@ let AnnuaireService = class AnnuaireService {
             throw new common_1.BadRequestException("displayName requis");
         if (!input.metier)
             throw new common_1.BadRequestException("metier requis");
+        const payload = {
+            displayName: input.displayName.trim(),
+            title: input.title ?? null,
+            bio: input.bio ?? null,
+            avatarUrl: input.avatarUrl ?? null,
+            coverUrl: input.coverUrl ?? null,
+            metier: input.metier,
+            classeBTP: input.classeBTP ?? null,
+            agrements: input.agrements ?? [],
+            specialites: input.specialites ?? [],
+            cnoaNumero: input.cnoaNumero ?? null,
+            cabinetName: input.cabinetName ?? null,
+            cabinetSize: input.cabinetSize ?? null,
+            cabinetStatus: input.cabinetStatus ?? null,
+            yearsExperience: input.yearsExperience ?? null,
+            formations: input.formations ? input.formations : null,
+            certifications: input.certifications ?? [],
+            prix: input.prix ?? [],
+            langues: input.langues ?? [],
+            experiencesPhares: input.experiencesPhares ? input.experiencesPhares : null,
+            regions: input.regions ?? [],
+            villePrincipale: input.villePrincipale ?? null,
+            tarifsRange: input.tarifsRange ?? null,
+            disponibilite: input.disponibilite ?? "DISPONIBLE",
+            disponibleAPartir: input.disponibleAPartir ? new Date(input.disponibleAPartir) : null,
+            websiteUrl: input.websiteUrl ?? null,
+            linkedinUrl: input.linkedinUrl ?? null,
+            behanceUrl: input.behanceUrl ?? null,
+            instagramUrl: input.instagramUrl ?? null,
+            pinterestUrl: input.pinterestUrl ?? null,
+            phonePublic: input.phonePublic ?? null,
+            emailPublic: input.emailPublic ?? null,
+        };
         return this.prisma.proProfile.upsert({
             where: { userId },
-            update: {
-                displayName: input.displayName.trim(),
-                title: input.title ?? null,
-                bio: input.bio ?? null,
-                avatarUrl: input.avatarUrl ?? null,
-                metier: input.metier,
-                classeBTP: input.classeBTP ?? null,
-                agrements: input.agrements ?? [],
-                specialites: input.specialites ?? [],
-                regions: input.regions ?? [],
-                villePrincipale: input.villePrincipale ?? null,
-                websiteUrl: input.websiteUrl ?? null,
-                linkedinUrl: input.linkedinUrl ?? null,
-                phonePublic: input.phonePublic ?? null,
-                emailPublic: input.emailPublic ?? null,
-            },
-            create: {
-                userId,
-                displayName: input.displayName.trim(),
-                title: input.title ?? null,
-                bio: input.bio ?? null,
-                avatarUrl: input.avatarUrl ?? null,
-                metier: input.metier,
-                classeBTP: input.classeBTP ?? null,
-                agrements: input.agrements ?? [],
-                specialites: input.specialites ?? [],
-                regions: input.regions ?? [],
-                villePrincipale: input.villePrincipale ?? null,
-                websiteUrl: input.websiteUrl ?? null,
-                linkedinUrl: input.linkedinUrl ?? null,
-                phonePublic: input.phonePublic ?? null,
-                emailPublic: input.emailPublic ?? null,
+            update: payload,
+            create: { userId, ...payload },
+        });
+    }
+    // ── Données dérivées : posts/cercles/rooms de l'user ─────────
+    async getUserCercles(userIdOrId, viewerId) {
+        const target = await this.resolveUserId(userIdOrId);
+        return this.prisma.cercleMembership.findMany({
+            where: { userId: target, status: "ACTIVE" },
+            orderBy: { joinedAt: "desc" },
+            take: 50,
+            include: {
+                cercle: {
+                    select: {
+                        id: true, slug: true, name: true, description: true, visibility: true,
+                        region: true, themes: true,
+                        _count: { select: { members: true, posts: true, rooms: true } },
+                    },
+                },
             },
         });
+    }
+    async getUserPosts(userIdOrId) {
+        const target = await this.resolveUserId(userIdOrId);
+        return this.prisma.cerclePost.findMany({
+            where: { authorId: target, deletedAt: null, parentId: null },
+            orderBy: { createdAt: "desc" },
+            take: 20,
+            include: {
+                cercle: { select: { id: true, slug: true, name: true } },
+                _count: { select: { replies: true } },
+            },
+        });
+    }
+    async getUserRooms(userIdOrId) {
+        const target = await this.resolveUserId(userIdOrId);
+        return this.prisma.liveRoom.findMany({
+            where: { hostId: target },
+            orderBy: [{ status: "asc" }, { scheduledAt: "desc" }, { createdAt: "desc" }],
+            take: 20,
+            include: {
+                cercle: { select: { id: true, slug: true, name: true } },
+            },
+        });
+    }
+    async resolveUserId(userIdOrProfileId) {
+        // Si c'est un userId direct
+        const u = await this.prisma.user.findUnique({ where: { id: userIdOrProfileId }, select: { id: true } });
+        if (u)
+            return u.id;
+        // Sinon c'est peut-être un ProProfile.id
+        const p = await this.prisma.proProfile.findUnique({ where: { id: userIdOrProfileId }, select: { userId: true } });
+        if (p)
+            return p.userId;
+        throw new common_1.NotFoundException("Utilisateur introuvable");
     }
     async getMyProfile(userId) {
         return this.prisma.proProfile.findUnique({ where: { userId } });

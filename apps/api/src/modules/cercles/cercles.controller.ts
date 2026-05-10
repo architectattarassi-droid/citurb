@@ -91,6 +91,21 @@ export class CerclesController {
     return { ok: true, data: await this.annuaire.getProfile(userIdOrId) };
   }
 
+  @Get("profile/:userIdOrId/cercles")
+  async profileCercles(@Param("userIdOrId") userIdOrId: string) {
+    return { ok: true, data: await this.annuaire.getUserCercles(userIdOrId) };
+  }
+
+  @Get("profile/:userIdOrId/posts")
+  async profilePosts(@Param("userIdOrId") userIdOrId: string) {
+    return { ok: true, data: await this.annuaire.getUserPosts(userIdOrId) };
+  }
+
+  @Get("profile/:userIdOrId/rooms")
+  async profileRooms(@Param("userIdOrId") userIdOrId: string) {
+    return { ok: true, data: await this.annuaire.getUserRooms(userIdOrId) };
+  }
+
   @Post("connections/:toUserId")
   async sendConnection(@Req() req: any, @Param("toUserId") toUserId: string, @Body() body: { message?: string }) {
     return { ok: true, data: await this.annuaire.sendConnection(this.uid(req), toUserId, body?.message) };

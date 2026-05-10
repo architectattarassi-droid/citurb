@@ -118,6 +118,17 @@ export type ProMetier =
 
 export type ProClasseBTP = "CL1" | "CL2" | "CL3" | "CL4" | "CL5" | "HC";
 
+export type FormationEntry = { ecole: string; diplome: string; annee?: number; ville?: string };
+export type ExperiencePhare = {
+  titre: string;
+  description?: string;
+  anneeLivraison?: number;
+  surface?: string;
+  lieu?: string;
+  role?: string;
+  imageUrls?: string[];
+};
+
 export type ProProfile = {
   id: string;
   userId: string;
@@ -125,19 +136,67 @@ export type ProProfile = {
   title: string | null;
   bio: string | null;
   avatarUrl: string | null;
+  coverUrl: string | null;
   metier: ProMetier;
   classeBTP: ProClasseBTP | null;
   agrements: string[];
   specialites: string[];
+  cnoaNumero: string | null;
+  // Cabinet
+  cabinetName: string | null;
+  cabinetSize: number | null;
+  cabinetStatus: string | null;
+  yearsExperience: number | null;
+  // Formations & certifs
+  formations: FormationEntry[] | null;
+  certifications: string[];
+  prix: string[];
+  langues: string[];
+  experiencesPhares: ExperiencePhare[] | null;
+  // Localisation
   regions: string[];
   villePrincipale: string | null;
+  // Tarifs/dispo
+  tarifsRange: string | null;
+  disponibilite: "DISPONIBLE" | "OCCUPE" | "INDISPONIBLE" | null;
+  disponibleAPartir: string | null;
+  // Réseaux
   websiteUrl: string | null;
   linkedinUrl: string | null;
+  behanceUrl: string | null;
+  instagramUrl: string | null;
+  pinterestUrl: string | null;
   phonePublic: string | null;
   emailPublic: string | null;
+  // Méta
   isVerified: boolean;
   connectionsCount: number;
+  profileViews: number;
   user?: { id: string; email: string; username: string | null };
+};
+
+export type UserPost = {
+  id: string;
+  body: string;
+  title: string | null;
+  upvotes: number;
+  isPinned: boolean;
+  isResolved: boolean;
+  createdAt: string;
+  cercle: { id: string; slug: string; name: string };
+  _count: { replies: number };
+};
+
+export type UserCercleMembership = {
+  id: string;
+  role: CercleRole;
+  status: MembershipStatus;
+  joinedAt: string;
+  cercle: CercleListItem & { description: string | null };
+};
+
+export type UserRoom = LiveRoom & {
+  cercle: { id: string; slug: string; name: string };
 };
 
 export type FeedResponse = {
@@ -215,8 +274,11 @@ export const cerclesApi = {
   },
   annuaireSuggestions: () => apiFetch<{ ok: boolean; data: ProProfile[] }>(`/api/cercles/annuaire/suggestions`),
   myProfile: () => apiFetch<{ ok: boolean; data: ProProfile | null }>(`/api/cercles/me/profile`),
-  upsertMyProfile: (input: any) => apiFetch<{ ok: boolean; data: ProProfile }>(`/api/cercles/me/profile`, { method: "POST", body: input }),
+  upsertMyProfile: (input: Record<string, unknown>) => apiFetch<{ ok: boolean; data: ProProfile }>(`/api/cercles/me/profile`, { method: "POST", body: input }),
   publicProfile: (userIdOrId: string) => apiFetch<{ ok: boolean; data: ProProfile }>(`/api/cercles/profile/${userIdOrId}`),
+  profileCercles: (userIdOrId: string) => apiFetch<{ ok: boolean; data: UserCercleMembership[] }>(`/api/cercles/profile/${userIdOrId}/cercles`),
+  profilePosts: (userIdOrId: string) => apiFetch<{ ok: boolean; data: UserPost[] }>(`/api/cercles/profile/${userIdOrId}/posts`),
+  profileRooms: (userIdOrId: string) => apiFetch<{ ok: boolean; data: UserRoom[] }>(`/api/cercles/profile/${userIdOrId}/rooms`),
 
   // Connections
   sendConnection: (toUserId: string, message?: string) => apiFetch(`/api/cercles/connections/${toUserId}`, { method: "POST", body: { message } }),
