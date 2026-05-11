@@ -17,12 +17,11 @@ const admin_audit_service_1 = require("./admin-audit.service");
 const admin_rate_limit_service_1 = require("./admin-rate-limit.service");
 const admin_notify_service_1 = require("./admin-notify.service");
 const twilio_service_1 = require("../../modules/twilio/twilio.service");
+const email_service_1 = require("../../modules/email/email.service");
 const device_fingerprint_1 = require("../utils/device-fingerprint");
 const crypto_1 = require("crypto");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const bcrypt = require("bcryptjs");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const nodemailer = require("nodemailer");
 const OTP_TTL_MS = 5 * 60_000; // 5 min
 const SESSION_TTL_MS = 30 * 60_000; // 30 min pour finir tout le flow
 const JWT_TTL_MS = 15 * 60_000; // 15 min après FULLY_AUTH
@@ -33,14 +32,16 @@ let AdminAuthService = class AdminAuthService {
     rateLimit;
     notify;
     twilio;
+    email;
     log = new common_1.Logger("AdminAuthService");
-    constructor(prisma, jwt, audit, rateLimit, notify, twilio) {
+    constructor(prisma, jwt, audit, rateLimit, notify, twilio, email) {
         this.prisma = prisma;
         this.jwt = jwt;
         this.audit = audit;
         this.rateLimit = rateLimit;
         this.notify = notify;
         this.twilio = twilio;
+        this.email = email;
     }
     // ── Étape 1 : Password ───────────────────────────────────────────
     async loginPassword(email, password, ctx) {
@@ -340,31 +341,19 @@ let AdminAuthService = class AdminAuthService {
     </p>
   </div>
 </body></html>`;
-        const host = process.env.SMTP_HOST;
-        const user = process.env.SMTP_USER;
-        const pass = process.env.SMTP_PASS;
-        if (!host || !user || !pass) {
-            this.log.warn(`[ADMIN OTP EMAIL] SMTP non configuré — code ${code} pour ${to} (mode dev, ne pas utiliser en prod)`);
-            return;
+        const text = `CITURBAREA Admin — Code de connexion : ${code}\n\nValable 5 minutes. À ne partager avec personne.\n\nSi tu n'es pas à l'origine de cette connexion, change ton mot de passe.`;
+        const r = await this.email.send({
+            to,
+            subject,
+            html,
+            text,
+            from: process.env.ADMIN_EMAIL_FROM || `CITURBAREA Admin <${process.env.RESEND_FROM || process.env.SMTP_FROM || "onboarding@resend.dev"}>`,
+        });
+        if (r.ok) {
+            this.log.log(`[ADMIN OTP EMAIL] envoyé à ${to} via ${r.provider}`);
         }
-        const port = Number(process.env.SMTP_PORT) || 587;
-        const secure = String(process.env.SMTP_SECURE || "").toLowerCase() === "true" || port === 465;
-        try {
-            const transporter = nodemailer.createTransport({
-                host,
-                port,
-                secure, // true pour 465 (SSL direct), false pour 587 (STARTTLS)
-                auth: { user, pass },
-                connectionTimeout: 10000,
-                socketTimeout: 15000,
-            });
-            await transporter.sendMail({
-                from: `"CITURBAREA Admin" <${user}>`, to, subject, html,
-            });
-            this.log.log(`[ADMIN OTP EMAIL] envoyé à ${to} via ${host}:${port} (secure=${secure})`);
-        }
-        catch (e) {
-            this.log.error(`[ADMIN OTP EMAIL] fail to=${to} via ${host}:${port}: ${e?.message}`);
+        else {
+            this.log.warn(`[ADMIN OTP EMAIL] échec à ${to} — code ${code} (mode dev, ne pas utiliser en prod)`);
         }
     }
     // Note : sendSmsOtp() supprimé — on utilise désormais twilio.sendVerification()
@@ -452,5 +441,6 @@ exports.AdminAuthService = AdminAuthService = __decorate([
         admin_audit_service_1.AdminAuditService,
         admin_rate_limit_service_1.AdminRateLimitService,
         admin_notify_service_1.AdminNotifyService,
-        twilio_service_1.TwilioService])
+        twilio_service_1.TwilioService,
+        email_service_1.EmailService])
 ], AdminAuthService);

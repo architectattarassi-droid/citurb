@@ -5,12 +5,11 @@ import { AdminAuditService } from "./admin-audit.service";
 import { AdminRateLimitService } from "./admin-rate-limit.service";
 import { AdminNotifyService } from "./admin-notify.service";
 import { TwilioService } from "../../modules/twilio/twilio.service";
+import { EmailService } from "../../modules/email/email.service";
 import { generateSessionToken, ipInCidr } from "../utils/device-fingerprint";
 import { randomBytes, randomInt } from "crypto";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const bcrypt = require("bcryptjs");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const nodemailer = require("nodemailer");
 
 /**
  * AdminAuthService — Sprint H couches 1, 2, 3, 5, 7, 10.
@@ -41,6 +40,7 @@ export class AdminAuthService {
     private readonly rateLimit: AdminRateLimitService,
     private readonly notify: AdminNotifyService,
     private readonly twilio: TwilioService,
+    private readonly email: EmailService,
   ) {}
 
   // ── Étape 1 : Password ───────────────────────────────────────────
@@ -359,30 +359,18 @@ export class AdminAuthService {
   </div>
 </body></html>`;
 
-    const host = process.env.SMTP_HOST;
-    const user = process.env.SMTP_USER;
-    const pass = process.env.SMTP_PASS;
-    if (!host || !user || !pass) {
-      this.log.warn(`[ADMIN OTP EMAIL] SMTP non configuré — code ${code} pour ${to} (mode dev, ne pas utiliser en prod)`);
-      return;
-    }
-    const port = Number(process.env.SMTP_PORT) || 587;
-    const secure = String(process.env.SMTP_SECURE || "").toLowerCase() === "true" || port === 465;
-    try {
-      const transporter = nodemailer.createTransport({
-        host,
-        port,
-        secure, // true pour 465 (SSL direct), false pour 587 (STARTTLS)
-        auth: { user, pass },
-        connectionTimeout: 10000,
-        socketTimeout: 15000,
-      });
-      await transporter.sendMail({
-        from: `"CITURBAREA Admin" <${user}>`, to, subject, html,
-      });
-      this.log.log(`[ADMIN OTP EMAIL] envoyé à ${to} via ${host}:${port} (secure=${secure})`);
-    } catch (e: any) {
-      this.log.error(`[ADMIN OTP EMAIL] fail to=${to} via ${host}:${port}: ${e?.message}`);
+    const text = `CITURBAREA Admin — Code de connexion : ${code}\n\nValable 5 minutes. À ne partager avec personne.\n\nSi tu n'es pas à l'origine de cette connexion, change ton mot de passe.`;
+    const r = await this.email.send({
+      to,
+      subject,
+      html,
+      text,
+      from: process.env.ADMIN_EMAIL_FROM || `CITURBAREA Admin <${process.env.RESEND_FROM || process.env.SMTP_FROM || "onboarding@resend.dev"}>`,
+    });
+    if (r.ok) {
+      this.log.log(`[ADMIN OTP EMAIL] envoyé à ${to} via ${r.provider}`);
+    } else {
+      this.log.warn(`[ADMIN OTP EMAIL] échec à ${to} — code ${code} (mode dev, ne pas utiliser en prod)`);
     }
   }
 
