@@ -15,13 +15,25 @@ export function validateEnvOrThrow() {
     );
   }
 
-  // SMS is optional, but if enabled, Twilio must be complete.
+  // SMS is optional. Si activé, il faut TWILIO_ACCOUNT_SID + TWILIO_AUTH_TOKEN,
+  // ET au moins l'une des deux options : TWILIO_VERIFY_SID (Verify API)
+  // OU TWILIO_FROM (Programmable Messaging).
   const smsEnabled = String(process.env.SMS_ENABLED || "false") === "true";
   if (smsEnabled) {
-    const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM } = process.env;
-    if (!(TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN && TWILIO_FROM)) {
+    const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM, TWILIO_VERIFY_SID } = process.env;
+    if (!(TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN)) {
       throw new Error(
-        "[ENV] SMS_ENABLED=true but missing TWILIO_* variables. Required: TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM."
+        "[ENV] SMS_ENABLED=true mais TWILIO_ACCOUNT_SID ou TWILIO_AUTH_TOKEN manquant."
+      );
+    }
+    if (!TWILIO_FROM && !TWILIO_VERIFY_SID) {
+      throw new Error(
+        "[ENV] SMS_ENABLED=true mais ni TWILIO_FROM (Programmable) ni TWILIO_VERIFY_SID (Verify) configuré. Fournis au moins l'un des deux."
+      );
+    }
+    if (!TWILIO_FROM) {
+      console.warn(
+        "[ENV] TWILIO_FROM absent — seul Twilio Verify est disponible. Les SMS d'alerte libres (admin-notify) seront désactivés."
       );
     }
   }
