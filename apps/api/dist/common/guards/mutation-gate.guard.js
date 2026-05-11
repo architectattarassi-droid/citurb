@@ -36,6 +36,7 @@ let MutationGateGuard = class MutationGateGuard {
             "/tomes/tome-at/orchestrator", // pipeline canonique
             "/api/cc", // backoffice CC (admin mutations: leads, pack-validation, etc.)
             "/api/cercles", // réseau pro CITURBAREA (chat, votes, pétitions, visios)
+            "/admin", // app admin ultra-sécurisée Sprint H (silos étanche, garde dédié)
             "/api/payment", // Stripe checkout session creation (auth user)
             "/p1",
             "/p2",

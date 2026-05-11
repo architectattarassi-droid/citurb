@@ -6,6 +6,7 @@ import { HealthModule } from "./modules/health/health.module";
 import { KernelModule } from "./modules/kernel/kernel.module";
 import { ArchiveModule } from "./modules/archive/archive.module";
 import { CerclesModule } from "./modules/cercles/cercles.module";
+import { AdminModule } from "./admin/admin.module";
 
 // Infra
 import { PrismaDossiersModule } from "./tomes/tome-at/kernel/prisma-dossiers/prisma-dossiers.module";
@@ -47,6 +48,7 @@ import { SousPhaseModule } from "./modules/sous-phase/sous-phase.module";
     CCModule,
     ArchiveModule,
     CerclesModule,
+    AdminModule,
 
     // ── Tomes (@ → 0 → 1 → … → 10)
     TomeAtModule,

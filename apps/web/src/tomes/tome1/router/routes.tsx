@@ -41,6 +41,11 @@ import CercleChatPage   from "../../../features/cercles/CercleChatPage";
 import InscriptionPage  from "../../../features/cercles/InscriptionPage";
 import EditProfilePage  from "../../../features/cercles/EditProfilePage";
 
+// Admin Vault (Sprint H — app admin ultra-sécurisée)
+import AdminLoginPage           from "../../../features/admin/AdminLoginPage";
+import AdminDashboard           from "../../../features/admin/AdminDashboard";
+import AdminRegisterPasskeyPage from "../../../features/admin/AdminRegisterPasskeyPage";
+
 /**
  * V152-B1 — Canonisation Routes (memo)
  * Canon targets ONLY:
@@ -69,6 +74,12 @@ export const router = createBrowserRouter([
 
   // Command Center interne
   { path: '/cc/*', element: <CommandCenterApp /> },
+
+  // Admin Vault (Sprint H — app admin ultra-sécurisée)
+  { path: '/admin',                            element: <Navigate to="/admin/login" replace /> },
+  { path: '/admin/login',                      element: <AdminLoginPage /> },
+  { path: '/admin/dashboard',                  element: <AdminDashboard /> },
+  { path: '/admin/security/webauthn',          element: <AdminRegisterPasskeyPage /> },
 
   // Cercles — réseau pro BTP marocain (auth requis côté API JWT)
   { path: '/inscription',                          element: <InscriptionPage /> },

@@ -1467,6 +1467,214 @@ enum ConnectionStatus {
   BLOCKED
 }
 
+// ==============================
+// APP ADMIN ULTRA-SÉCURISÉE — Sprint H
+// Table séparée de User (silos étanches). 10 couches de protection.
+// ==============================
+
+enum AdminRole {
+  SUPER_ADMIN     // contrôle total ; un seul autorisé en DB (garde-fou)
+  ADMIN_AUDIT     // lecture + audit log + export RGPD ; pas de kill switch
+  ADMIN_SUPPORT   // lecture + suspendre user/contenu ; pas de DB override
+  ADMIN_READ_ONLY // lecture seule (dashboard + logs uniquement)
+}
+
+enum AdminSessionStep {
+  PASSWORD_OK    // étape 1 : password validé
+  EMAIL_OTP_OK   // étape 2 : OTP email validé
+  SMS_OTP_OK     // étape 3 : OTP SMS validé
+  WEBAUTHN_OK    // étape 4 : WebAuthn / passkey validé
+  FULLY_AUTH     // toutes étapes franchies, session active (JWT émis)
+  REVOKED        // kill-switch, fingerprint diff, suspicion vol token
+  EXPIRED        // TTL atteint
+}
+
+model AdminUser {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  passwordHash    String    // bcrypt cost 14
+  role            AdminRole @default(SUPER_ADMIN)
+  displayName     String
+
+  // Contacts pour OTP
+  phoneE164       String?
+  phoneVerifiedAt DateTime?
+  emailVerifiedAt DateTime?
+
+  // Kill-switch admin lui-même
+  isActive        Boolean   @default(true)
+  suspendedAt     DateTime?
+  suspendedReason String?
+
+  // Sécurité runtime
+  failedAttempts  Int       @default(0)
+  lockedUntil     DateTime?
+  lastLoginAt     DateTime?
+  lastLoginIp     String?
+  lastLoginFingerprint String?
+  loginCount      Int       @default(0)
+
+  // Création (audit qui-a-créé-qui)
+  createdById     String?   // null pour le SUPER_ADMIN initial (seed)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  sessions     AdminSession[]
+  credentials  WebAuthnCredential[]
+  auditLogs    AdminAuditLog[]
+  allowedIps   AdminAllowedIp[]
+  alerts       AdminAlert[]
+
+  @@index([role])
+  @@index([isActive])
+}
+
+model AdminSession {
+  id              String           @id @default(cuid())
+  adminUserId     String
+  adminUser       AdminUser        @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+
+  step            AdminSessionStep @default(PASSWORD_OK)
+  sessionToken    String           @unique // token éphémère qui débloque l'étape suivante (32 bytes random base64url)
+
+  // JWT final (généré seulement si step=FULLY_AUTH)
+  jwtJti          String?          @unique // jti du JWT pour révocation
+  jwtIssuedAt     DateTime?
+  jwtExpiresAt    DateTime?        // typiquement +15min
+
+  // Contexte de connexion (immuable)
+  ipAddress       String
+  userAgent       String           @db.Text
+  deviceFingerprint String         // hash SHA-256 (UA + canvas + WebGL + screen)
+
+  // Étapes franchies (timestamp pour audit)
+  passwordOkAt    DateTime?
+  emailOtpOkAt    DateTime?
+  smsOtpOkAt      DateTime?
+  webauthnOkAt    DateTime?
+  fullyAuthAt     DateTime?
+
+  // Lifecycle
+  expiresAt       DateTime         // TTL global de l'attempt (30min)
+  revokedAt       DateTime?
+  revokedReason   String?
+
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([adminUserId, step])
+  @@index([sessionToken])
+  @@index([jwtJti])
+  @@index([revokedAt])
+}
+
+model AdminAllowedIp {
+  id          String    @id @default(cuid())
+  adminUserId String
+  adminUser   AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+
+  cidr        String    // ex "41.140.0.0/16" ou "192.168.1.5/32"
+  label       String    // "Mon PC bureau Casa", "Mobile 4G IAM"
+
+  addedAt     DateTime  @default(now())
+  lastSeenAt  DateTime?
+  revokedAt   DateTime?
+
+  @@index([adminUserId])
+}
+
+model WebAuthnCredential {
+  id           String    @id @default(cuid())
+  adminUserId  String
+  adminUser    AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+
+  credentialId String    @unique // base64url du credentialId WebAuthn
+  publicKey    String    @db.Text // base64 de la clé publique COSE
+  counter      Int       @default(0)
+  deviceType   String?   // "Windows Hello PC bureau", "YubiKey 5C NFC backup"
+  transports   String[]  // ["internal", "usb", "nfc", "ble", "hybrid"]
+  aaguid       String?   // identifiant authenticateur (modèle de YubiKey, etc.)
+
+  addedAt      DateTime  @default(now())
+  lastUsedAt   DateTime?
+  revokedAt    DateTime?
+
+  @@index([adminUserId])
+}
+
+model AdminAuditLog {
+  id                String     @id @default(cuid())
+  adminUserId       String?
+  adminUser         AdminUser? @relation(fields: [adminUserId], references: [id])
+
+  // Hash chain immuable (SHA-256 du log précédent + payload)
+  prevHash          String?
+  hash              String     @unique
+
+  // Event
+  action            String     // "ADMIN_LOGIN", "USER_SUSPEND", "DOSSIER_OVERRIDE_STATUS", "IMPERSONATE_START"…
+  category          String     // "AUTH", "USER", "CERCLE", "DOSSIER", "PAYMENT", "EXPORT", "SYSTEM"
+  severity          String     // "INFO", "WARN", "CRITICAL"
+
+  // Cible (optionnel)
+  targetType        String?    // "User", "Cercle", "Dossier", "Payment", "AdminUser"
+  targetId          String?
+
+  // Détails contextuels (jamais de secrets en clair)
+  payload           Json?
+
+  // Contexte HTTP
+  ipAddress         String?
+  userAgent         String?    @db.Text
+  deviceFingerprint String?
+  sessionId         String?
+
+  createdAt         DateTime   @default(now())
+
+  @@index([adminUserId, createdAt])
+  @@index([action])
+  @@index([category, severity])
+  @@index([targetType, targetId])
+  @@index([createdAt])
+}
+
+model AdminAlert {
+  id              String    @id @default(cuid())
+  adminUserId     String?
+  adminUser       AdminUser? @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+
+  severity        String    // "INFO", "WARN", "CRITICAL"
+  category        String    // "LOGIN_NEW_IP", "FAILED_ATTEMPTS", "KILL_SWITCH", "EXPORT_RGPD", "WEBAUTHN_ADDED"
+  title           String
+  message         String    @db.Text
+
+  // Canaux de delivery
+  channelEmail    Boolean   @default(false)
+  channelSms      Boolean   @default(false)
+  emailDeliveredAt DateTime?
+  smsDeliveredAt   DateTime?
+
+  // Lifecycle
+  readAt          DateTime?
+  acknowledgedAt  DateTime?
+
+  createdAt       DateTime  @default(now())
+
+  @@index([adminUserId, readAt])
+  @@index([severity, createdAt])
+}
+
+// Sliding-window rate limiter (key = "login:email@x" ou "login:ip:...")
+model AdminRateLimit {
+  id          String    @id @default(cuid())
+  key         String    @unique
+  attempts    Int       @default(0)
+  windowStart DateTime  @default(now())
+  lockedUntil DateTime?
+
+  @@index([lockedUntil])
+}
+
 model Connection {
   id            String           @id @default(cuid())
   fromUserId    String

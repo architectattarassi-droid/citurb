@@ -537,6 +537,11 @@ export const ROUTE_USAGES = [
     "line": 154
   },
   {
+    "route": "/admin/login",
+    "file": "src/tomes/tome1/router/routes.tsx",
+    "line": 79
+  },
+  {
     "route": "/login",
     "file": "src/features/media/components/ArticleCard.tsx",
     "line": 263
@@ -655,6 +660,91 @@ export const ROUTE_USAGES = [
     "route": "/cercles/me/edit",
     "file": "src/features/cercles/ProfilePage.tsx",
     "line": 174
+  },
+  {
+    "route": "/admin/users",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 70
+  },
+  {
+    "route": "/admin/cercles",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 71
+  },
+  {
+    "route": "/admin/audit",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 72
+  },
+  {
+    "route": "/admin/admins",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 73
+  },
+  {
+    "route": "/admin/security",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 74
+  },
+  {
+    "route": "/admin/audit",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 131
+  },
+  {
+    "route": "/admin/users",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 171
+  },
+  {
+    "route": "/admin/security/webauthn",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 175
+  },
+  {
+    "route": "/admin/security/ips",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 179
+  },
+  {
+    "route": "/admin/admins/new",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 184
+  },
+  {
+    "route": "/admin/login",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 27
+  },
+  {
+    "route": "/admin/login",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 43
+  },
+  {
+    "route": "/admin/login",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 53
+  },
+  {
+    "route": "/admin/dashboard",
+    "file": "src/features/admin/AdminLoginPage.tsx",
+    "line": 36
+  },
+  {
+    "route": "/admin/dashboard",
+    "file": "src/features/admin/AdminLoginPage.tsx",
+    "line": 88
+  },
+  {
+    "route": "/admin/dashboard",
+    "file": "src/features/admin/AdminRegisterPasskeyPage.tsx",
+    "line": 42
+  },
+  {
+    "route": "/admin/login",
+    "file": "src/features/admin/AdminRegisterPasskeyPage.tsx",
+    "line": 22
   },
   {
     "route": "/cc/login",
@@ -834,6 +924,11 @@ export const UNKNOWN_ROUTE_USAGES = [
     "line": 32
   },
   {
+    "route": "/admin/login",
+    "file": "src/tomes/tome1/router/routes.tsx",
+    "line": 79
+  },
+  {
     "route": "/cercles/me/profile",
     "file": "src/features/cercles/AnnuairePage.tsx",
     "line": 127
@@ -937,6 +1032,91 @@ export const UNKNOWN_ROUTE_USAGES = [
     "route": "/cercles/me/edit",
     "file": "src/features/cercles/ProfilePage.tsx",
     "line": 174
+  },
+  {
+    "route": "/admin/users",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 70
+  },
+  {
+    "route": "/admin/cercles",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 71
+  },
+  {
+    "route": "/admin/audit",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 72
+  },
+  {
+    "route": "/admin/admins",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 73
+  },
+  {
+    "route": "/admin/security",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 74
+  },
+  {
+    "route": "/admin/audit",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 131
+  },
+  {
+    "route": "/admin/users",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 171
+  },
+  {
+    "route": "/admin/security/webauthn",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 175
+  },
+  {
+    "route": "/admin/security/ips",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 179
+  },
+  {
+    "route": "/admin/admins/new",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 184
+  },
+  {
+    "route": "/admin/login",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 27
+  },
+  {
+    "route": "/admin/login",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 43
+  },
+  {
+    "route": "/admin/login",
+    "file": "src/features/admin/AdminDashboard.tsx",
+    "line": 53
+  },
+  {
+    "route": "/admin/dashboard",
+    "file": "src/features/admin/AdminLoginPage.tsx",
+    "line": 36
+  },
+  {
+    "route": "/admin/dashboard",
+    "file": "src/features/admin/AdminLoginPage.tsx",
+    "line": 88
+  },
+  {
+    "route": "/admin/dashboard",
+    "file": "src/features/admin/AdminRegisterPasskeyPage.tsx",
+    "line": 42
+  },
+  {
+    "route": "/admin/login",
+    "file": "src/features/admin/AdminRegisterPasskeyPage.tsx",
+    "line": 22
   },
   {
     "route": "/cc/login",
