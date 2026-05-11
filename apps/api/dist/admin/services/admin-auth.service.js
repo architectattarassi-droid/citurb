@@ -162,14 +162,20 @@ let AdminAuthService = class AdminAuthService {
             where: { id: session.id },
             data: { step: "EMAIL_OTP_OK", emailOtpOkAt: new Date() },
         });
-        // Envoie OTP SMS
+        // Envoie OTP SMS via Twilio Verify (Twilio gère la génération + envoi du code)
         const admin = await this.prisma.adminUser.findUniqueOrThrow({ where: { id: session.adminUserId } });
         if (!admin.phoneE164) {
             throw new common_1.BadRequestException("Téléphone non configuré pour ce compte admin");
         }
-        const smsOtp = this.genOtpCode();
-        await this.storeOtp(session.id, "SMS", smsOtp);
-        await this.sendSmsOtp(admin.phoneE164, smsOtp);
+        const verifyResult = await this.twilio.sendVerification(admin.phoneE164, "sms");
+        if (!verifyResult.ok && !verifyResult.devCode) {
+            this.log.error(`[ADMIN] Twilio Verify fail pour ${admin.phoneE164}: ${verifyResult.error}`);
+        }
+        if (verifyResult.devCode) {
+            // Mode dev : on stocke le code local pour permettre verify offline
+            await this.storeOtp(session.id, "SMS", verifyResult.devCode);
+            this.log.warn(`[ADMIN OTP SMS] code dev ${verifyResult.devCode} pour ${admin.phoneE164}`);
+        }
         await this.audit.record({
             adminUserId: session.adminUserId,
             action: "ADMIN_LOGIN_STEP2_EMAIL_OK", category: "AUTH", severity: "INFO",
@@ -178,12 +184,31 @@ let AdminAuthService = class AdminAuthService {
         });
         return { step: "EMAIL_OTP_OK", nextStep: "SMS_OTP", message: `Code envoyé par SMS à ${this.maskPhone(admin.phoneE164)}` };
     }
-    // ── Étape 3 : OTP SMS ───────────────────────────────────────────
+    // ── Étape 3 : OTP SMS via Twilio Verify ──────────────────────────
     async verifySmsOtp(sessionToken, code, ctx) {
         const session = await this.loadSession(sessionToken);
         if (session.step !== "EMAIL_OTP_OK")
             throw new common_1.BadRequestException("Étape invalide");
-        await this.assertOtp(session.id, "SMS", code);
+        const admin = await this.prisma.adminUser.findUniqueOrThrow({ where: { id: session.adminUserId } });
+        if (!admin.phoneE164)
+            throw new common_1.BadRequestException("Téléphone non configuré");
+        // Si Twilio Verify dispo → check via Twilio. Sinon fallback DB locale (mode dev).
+        if (this.twilio.hasVerify()) {
+            const check = await this.twilio.checkVerification(admin.phoneE164, code);
+            if (!check.approved) {
+                await this.audit.record({
+                    adminUserId: session.adminUserId,
+                    action: "ADMIN_LOGIN_SMS_FAIL", category: "AUTH", severity: "WARN",
+                    payload: { reason: "twilio_verify_not_approved" },
+                    sessionId: session.id,
+                });
+                throw new common_1.UnauthorizedException("Code SMS incorrect ou expiré");
+            }
+        }
+        else {
+            // Fallback dev : utilise OtpChallenge DB
+            await this.assertOtp(session.id, "SMS", code);
+        }
         await this.prisma.adminSession.update({
             where: { id: session.id },
             data: { step: "SMS_OTP_OK", smsOtpOkAt: new Date() },
