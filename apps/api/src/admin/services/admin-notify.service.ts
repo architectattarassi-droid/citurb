@@ -1,5 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { PrismaService } from "../../tomes/tome-at/kernel/prisma/prisma.service";
+import { TwilioService } from "../../modules/twilio/twilio.service";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const nodemailer = require("nodemailer");
 
@@ -32,7 +33,10 @@ type AlertInput = {
 @Injectable()
 export class AdminNotifyService {
   private readonly log = new Logger("AdminNotifyService");
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly twilio: TwilioService,
+  ) {}
 
   async alert(input: AlertInput) {
     const channelEmail = !!input.emailTo;
@@ -122,35 +126,11 @@ export class AdminNotifyService {
     }
   }
 
-  // ── SMS via Twilio Verify Programmable Messaging ────────────────
+  // ── SMS via TwilioService centralisé ────────────────────────────
 
   private async sendSms(to: string, message: string): Promise<boolean> {
-    const sid = process.env.TWILIO_ACCOUNT_SID;
-    const token = process.env.TWILIO_AUTH_TOKEN;
-    const from = process.env.TWILIO_FROM;
-    if (!sid || !token || !from) {
-      this.log.warn(`[AdminNotify] Twilio non configuré — SMS à ${to} non envoyé`);
-      return false;
-    }
-    try {
-      const url = `https://api.twilio.com/2010-04-01/Accounts/${encodeURIComponent(sid)}/Messages.json`;
-      const body = new URLSearchParams({ From: from, To: to, Body: message.slice(0, 320) });
-      const auth = Buffer.from(`${sid}:${token}`).toString("base64");
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { Authorization: `Basic ${auth}`, "Content-Type": "application/x-www-form-urlencoded" },
-        body,
-      });
-      if (!res.ok) {
-        const txt = await res.text().catch(() => "");
-        this.log.error(`[AdminNotify] Twilio fail ${res.status}: ${txt.slice(0, 200)}`);
-        return false;
-      }
-      return true;
-    } catch (e: any) {
-      this.log.error(`[AdminNotify] SMS network fail: ${e?.message}`);
-      return false;
-    }
+    const r = await this.twilio.sendSms(to, message);
+    return r.ok;
   }
 
   private esc(s: string): string {

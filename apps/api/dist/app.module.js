@@ -15,6 +15,7 @@ const kernel_module_1 = require("./modules/kernel/kernel.module");
 const archive_module_1 = require("./modules/archive/archive.module");
 const cercles_module_1 = require("./modules/cercles/cercles.module");
 const admin_module_1 = require("./admin/admin.module");
+const twilio_module_1 = require("./modules/twilio/twilio.module");
 // Infra
 const prisma_dossiers_module_1 = require("./tomes/tome-at/kernel/prisma-dossiers/prisma-dossiers.module");
 // Modules
@@ -52,6 +53,7 @@ exports.AppModule = AppModule = __decorate([
             health_module_1.HealthModule,
             kernel_module_1.KernelModule, // doit venir tôt: enregistre GlobalExceptionFilter via APP_FILTER + IncidentsService/ProbativeLogService
             prisma_dossiers_module_1.PrismaDossiersModule,
+            twilio_module_1.TwilioModule, // global — disponible partout
             cc_module_1.CCModule,
             archive_module_1.ArchiveModule,
             cercles_module_1.CerclesModule,

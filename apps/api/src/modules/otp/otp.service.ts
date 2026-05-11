@@ -2,6 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import * as crypto from "crypto";
 import * as nodemailer from "nodemailer";
 import { PrismaService } from "../kernel";
+import { TwilioService } from "../twilio/twilio.service";
 
 type Channel = "EMAIL" | "SMS";
 
@@ -22,7 +23,10 @@ export class OtpService {
   private readonly cooldownMs = 60 * 1000;
   private readonly maxAttempts = 5;
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly twilio: TwilioService,
+  ) {}
 
   private isProd() {
     return (process.env.NODE_ENV || "development") === "production";
@@ -236,62 +240,30 @@ export class OtpService {
   }
 
   async sendVerification(phone: string): Promise<void> {
-    const accountSid = process.env.TWILIO_ACCOUNT_SID!;
-    const authToken = process.env.TWILIO_AUTH_TOKEN!;
-    const verifySid = process.env.TWILIO_VERIFY_SID!;
-    const twilio = require('twilio')(accountSid, authToken);
-    const result = await twilio.verify.v2.services(verifySid)
-      .verifications.create({ to: phone, channel: 'sms' });
-    console.log(`[OTP] Twilio Verify sent to ${phone} — status: ${result.status}`);
+    const r = await this.twilio.sendVerification(phone, "sms");
+    if (!r.ok) {
+      this.log.warn(`[OTP] Twilio Verify ${r.error || "fail"} pour ${phone}${r.devCode ? ` — code dev ${r.devCode}` : ""}`);
+    } else {
+      this.log.log(`[OTP] Twilio Verify SMS envoyé à ${phone}`);
+    }
   }
 
   async checkVerification(phone: string, code: string): Promise<boolean> {
-    const accountSid = process.env.TWILIO_ACCOUNT_SID!;
-    const authToken = process.env.TWILIO_AUTH_TOKEN!;
-    const verifySid = process.env.TWILIO_VERIFY_SID!;
-    const twilio = require('twilio')(accountSid, authToken);
-    const result = await twilio.verify.v2.services(verifySid)
-      .verificationChecks.create({ to: phone, code });
-    console.log(`[OTP] Twilio Verify check ${phone} — status: ${result.status}`);
-    return result.status === 'approved';
+    const r = await this.twilio.checkVerification(phone, code);
+    return r.approved;
   }
 
   private async sendSms(to: string, code: string) {
     const msg = `CITURBAREA: votre code est ${code}. Valable 10 min.`;
-    const twSid = process.env.TWILIO_ACCOUNT_SID;
-    const twToken = process.env.TWILIO_AUTH_TOKEN;
-    const twFrom = process.env.TWILIO_FROM;
-
     const smsEnabled = String(process.env.SMS_ENABLED || "false") === "true";
     if (!smsEnabled) {
       if (!this.isProd()) this.log.log(`[DEV][SMS disabled] to=${to} msg=${msg}`);
       return;
     }
-
-    if (twSid && twToken && twFrom) {
-      const url = `https://api.twilio.com/2010-04-01/Accounts/${encodeURIComponent(twSid)}/Messages.json`;
-      const body = new URLSearchParams({ From: twFrom, To: to, Body: msg });
-      const auth = Buffer.from(`${twSid}:${twToken}`).toString("base64");
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: `Basic ${auth}`,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body,
-      });
-      if (!res.ok) {
-        const txt = await res.text().catch(() => "");
-        this.log.warn(`Twilio SMS failed: ${res.status} ${txt}`);
-        if (this.isProd()) throw new Error("Envoi SMS impossible.");
-      }
-      return;
+    const r = await this.twilio.sendSms(to, msg);
+    if (!r.ok) {
+      this.log.warn(`Twilio SMS failed: ${r.error}`);
+      if (this.isProd()) throw new Error("Envoi SMS impossible.");
     }
-
-    if (this.isProd()) {
-      throw new Error("Provider SMS non configuré.");
-    }
-
-    this.log.log(`[DEV][SMS] to=${to}: ${msg}`);
   }
 }

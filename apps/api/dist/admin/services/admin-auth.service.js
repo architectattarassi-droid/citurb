@@ -16,6 +16,7 @@ const prisma_service_1 = require("../../tomes/tome-at/kernel/prisma/prisma.servi
 const admin_audit_service_1 = require("./admin-audit.service");
 const admin_rate_limit_service_1 = require("./admin-rate-limit.service");
 const admin_notify_service_1 = require("./admin-notify.service");
+const twilio_service_1 = require("../../modules/twilio/twilio.service");
 const device_fingerprint_1 = require("../utils/device-fingerprint");
 const crypto_1 = require("crypto");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -31,13 +32,15 @@ let AdminAuthService = class AdminAuthService {
     audit;
     rateLimit;
     notify;
+    twilio;
     log = new common_1.Logger("AdminAuthService");
-    constructor(prisma, jwt, audit, rateLimit, notify) {
+    constructor(prisma, jwt, audit, rateLimit, notify, twilio) {
         this.prisma = prisma;
         this.jwt = jwt;
         this.audit = audit;
         this.rateLimit = rateLimit;
         this.notify = notify;
+        this.twilio = twilio;
     }
     // ── Étape 1 : Password ───────────────────────────────────────────
     async loginPassword(email, password, ctx) {
@@ -333,31 +336,10 @@ let AdminAuthService = class AdminAuthService {
         }
     }
     async sendSmsOtp(toE164, code) {
-        const sid = process.env.TWILIO_ACCOUNT_SID;
-        const token = process.env.TWILIO_AUTH_TOKEN;
-        const from = process.env.TWILIO_FROM;
-        if (!sid || !token || !from) {
-            this.log.warn(`[ADMIN OTP SMS] Twilio non configuré — code ${code} pour ${toE164} (mode dev, ne pas utiliser en prod)`);
-            return;
-        }
-        try {
-            const url = `https://api.twilio.com/2010-04-01/Accounts/${encodeURIComponent(sid)}/Messages.json`;
-            const body = new URLSearchParams({
-                From: from, To: toE164,
-                Body: `CITURBAREA Admin: ${code}. Valable 5min. Ne partage jamais ce code.`,
-            });
-            const auth = Buffer.from(`${sid}:${token}`).toString("base64");
-            const res = await fetch(url, {
-                method: "POST",
-                headers: { Authorization: `Basic ${auth}`, "Content-Type": "application/x-www-form-urlencoded" },
-                body,
-            });
-            if (!res.ok) {
-                this.log.error(`[ADMIN OTP SMS] Twilio fail ${res.status}: ${await res.text()}`);
-            }
-        }
-        catch (e) {
-            this.log.error(`[ADMIN OTP SMS] network fail: ${e?.message}`);
+        const result = await this.twilio.sendSms(toE164, `CITURBAREA Admin: ${code}. Valable 5min. Ne partage jamais ce code.`);
+        if (!result.ok) {
+            // Mode dev : le code est déjà loggé par TwilioService.sendSms
+            this.log.warn(`[ADMIN OTP SMS] code ${code} pour ${toE164} (Twilio non configuré, mode dev)`);
         }
     }
     // ── Génération JWT final (appelé après WebAuthn OK) ────────────
@@ -442,5 +424,6 @@ exports.AdminAuthService = AdminAuthService = __decorate([
         jwt_1.JwtService,
         admin_audit_service_1.AdminAuditService,
         admin_rate_limit_service_1.AdminRateLimitService,
-        admin_notify_service_1.AdminNotifyService])
+        admin_notify_service_1.AdminNotifyService,
+        twilio_service_1.TwilioService])
 ], AdminAuthService);

@@ -7,6 +7,7 @@ import { KernelModule } from "./modules/kernel/kernel.module";
 import { ArchiveModule } from "./modules/archive/archive.module";
 import { CerclesModule } from "./modules/cercles/cercles.module";
 import { AdminModule } from "./admin/admin.module";
+import { TwilioModule } from "./modules/twilio/twilio.module";
 
 // Infra
 import { PrismaDossiersModule } from "./tomes/tome-at/kernel/prisma-dossiers/prisma-dossiers.module";
@@ -45,6 +46,7 @@ import { SousPhaseModule } from "./modules/sous-phase/sous-phase.module";
     HealthModule,
     KernelModule, // doit venir tôt: enregistre GlobalExceptionFilter via APP_FILTER + IncidentsService/ProbativeLogService
     PrismaDossiersModule,
+    TwilioModule, // global — disponible partout
     CCModule,
     ArchiveModule,
     CerclesModule,

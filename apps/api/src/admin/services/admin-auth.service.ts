@@ -4,6 +4,7 @@ import { PrismaService } from "../../tomes/tome-at/kernel/prisma/prisma.service"
 import { AdminAuditService } from "./admin-audit.service";
 import { AdminRateLimitService } from "./admin-rate-limit.service";
 import { AdminNotifyService } from "./admin-notify.service";
+import { TwilioService } from "../../modules/twilio/twilio.service";
 import { generateSessionToken, ipInCidr } from "../utils/device-fingerprint";
 import { randomBytes, randomInt } from "crypto";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -39,6 +40,7 @@ export class AdminAuthService {
     private readonly audit: AdminAuditService,
     private readonly rateLimit: AdminRateLimitService,
     private readonly notify: AdminNotifyService,
+    private readonly twilio: TwilioService,
   ) {}
 
   // ── Étape 1 : Password ───────────────────────────────────────────
@@ -353,30 +355,10 @@ export class AdminAuthService {
   }
 
   private async sendSmsOtp(toE164: string, code: string) {
-    const sid = process.env.TWILIO_ACCOUNT_SID;
-    const token = process.env.TWILIO_AUTH_TOKEN;
-    const from = process.env.TWILIO_FROM;
-    if (!sid || !token || !from) {
-      this.log.warn(`[ADMIN OTP SMS] Twilio non configuré — code ${code} pour ${toE164} (mode dev, ne pas utiliser en prod)`);
-      return;
-    }
-    try {
-      const url = `https://api.twilio.com/2010-04-01/Accounts/${encodeURIComponent(sid)}/Messages.json`;
-      const body = new URLSearchParams({
-        From: from, To: toE164,
-        Body: `CITURBAREA Admin: ${code}. Valable 5min. Ne partage jamais ce code.`,
-      });
-      const auth = Buffer.from(`${sid}:${token}`).toString("base64");
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { Authorization: `Basic ${auth}`, "Content-Type": "application/x-www-form-urlencoded" },
-        body,
-      });
-      if (!res.ok) {
-        this.log.error(`[ADMIN OTP SMS] Twilio fail ${res.status}: ${await res.text()}`);
-      }
-    } catch (e: any) {
-      this.log.error(`[ADMIN OTP SMS] network fail: ${e?.message}`);
+    const result = await this.twilio.sendSms(toE164, `CITURBAREA Admin: ${code}. Valable 5min. Ne partage jamais ce code.`);
+    if (!result.ok) {
+      // Mode dev : le code est déjà loggé par TwilioService.sendSms
+      this.log.warn(`[ADMIN OTP SMS] code ${code} pour ${toE164} (Twilio non configuré, mode dev)`);
     }
   }
 

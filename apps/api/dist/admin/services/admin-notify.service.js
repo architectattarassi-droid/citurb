@@ -12,13 +12,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminNotifyService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../tomes/tome-at/kernel/prisma/prisma.service");
+const twilio_service_1 = require("../../modules/twilio/twilio.service");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const nodemailer = require("nodemailer");
 let AdminNotifyService = class AdminNotifyService {
     prisma;
+    twilio;
     log = new common_1.Logger("AdminNotifyService");
-    constructor(prisma) {
+    constructor(prisma, twilio) {
         this.prisma = prisma;
+        this.twilio = twilio;
     }
     async alert(input) {
         const channelEmail = !!input.emailTo;
@@ -101,35 +104,10 @@ let AdminNotifyService = class AdminNotifyService {
             return false;
         }
     }
-    // ── SMS via Twilio Verify Programmable Messaging ────────────────
+    // ── SMS via TwilioService centralisé ────────────────────────────
     async sendSms(to, message) {
-        const sid = process.env.TWILIO_ACCOUNT_SID;
-        const token = process.env.TWILIO_AUTH_TOKEN;
-        const from = process.env.TWILIO_FROM;
-        if (!sid || !token || !from) {
-            this.log.warn(`[AdminNotify] Twilio non configuré — SMS à ${to} non envoyé`);
-            return false;
-        }
-        try {
-            const url = `https://api.twilio.com/2010-04-01/Accounts/${encodeURIComponent(sid)}/Messages.json`;
-            const body = new URLSearchParams({ From: from, To: to, Body: message.slice(0, 320) });
-            const auth = Buffer.from(`${sid}:${token}`).toString("base64");
-            const res = await fetch(url, {
-                method: "POST",
-                headers: { Authorization: `Basic ${auth}`, "Content-Type": "application/x-www-form-urlencoded" },
-                body,
-            });
-            if (!res.ok) {
-                const txt = await res.text().catch(() => "");
-                this.log.error(`[AdminNotify] Twilio fail ${res.status}: ${txt.slice(0, 200)}`);
-                return false;
-            }
-            return true;
-        }
-        catch (e) {
-            this.log.error(`[AdminNotify] SMS network fail: ${e?.message}`);
-            return false;
-        }
+        const r = await this.twilio.sendSms(to, message);
+        return r.ok;
     }
     esc(s) {
         return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -138,5 +116,6 @@ let AdminNotifyService = class AdminNotifyService {
 exports.AdminNotifyService = AdminNotifyService;
 exports.AdminNotifyService = AdminNotifyService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        twilio_service_1.TwilioService])
 ], AdminNotifyService);
