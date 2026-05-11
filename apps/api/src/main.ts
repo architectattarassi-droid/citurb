@@ -25,7 +25,7 @@ async function bootstrap() {
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Firm-Slug', 'X-Requested-With'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Firm-Slug', 'X-Requested-With', 'X-Device-FP'],
   });
 
   // GlobalExceptionFilter is now registered via APP_FILTER token in KernelModule
