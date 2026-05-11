@@ -342,12 +342,14 @@ let AdminAuthService = class AdminAuthService {
   </div>
 </body></html>`;
         const text = `CITURBAREA Admin — Code de connexion : ${code}\n\nValable 5 minutes. À ne partager avec personne.\n\nSi tu n'es pas à l'origine de cette connexion, change ton mot de passe.`;
+        // ADMIN_EMAIL_FROM / RESEND_FROM / SMTP_FROM doivent être au format "email@example.com" OU "Name <email@example.com>"
+        // (pas de wrapping additionnel ici)
         const r = await this.email.send({
             to,
             subject,
             html,
             text,
-            from: process.env.ADMIN_EMAIL_FROM || `CITURBAREA Admin <${process.env.RESEND_FROM || process.env.SMTP_FROM || "onboarding@resend.dev"}>`,
+            from: process.env.ADMIN_EMAIL_FROM || process.env.RESEND_FROM || process.env.SMTP_FROM || "CITURBAREA Admin <onboarding@resend.dev>",
         });
         if (r.ok) {
             this.log.log(`[ADMIN OTP EMAIL] envoyé à ${to} via ${r.provider}`);
