@@ -347,26 +347,28 @@ let AdminAuthService = class AdminAuthService {
             this.log.warn(`[ADMIN OTP EMAIL] SMTP non configuré — code ${code} pour ${to} (mode dev, ne pas utiliser en prod)`);
             return;
         }
+        const port = Number(process.env.SMTP_PORT) || 587;
+        const secure = String(process.env.SMTP_SECURE || "").toLowerCase() === "true" || port === 465;
         try {
             const transporter = nodemailer.createTransport({
-                host, port: Number(process.env.SMTP_PORT) || 587, secure: false,
+                host,
+                port,
+                secure, // true pour 465 (SSL direct), false pour 587 (STARTTLS)
                 auth: { user, pass },
+                connectionTimeout: 10000,
+                socketTimeout: 15000,
             });
             await transporter.sendMail({
                 from: `"CITURBAREA Admin" <${user}>`, to, subject, html,
             });
+            this.log.log(`[ADMIN OTP EMAIL] envoyé à ${to} via ${host}:${port} (secure=${secure})`);
         }
         catch (e) {
-            this.log.error(`[ADMIN OTP EMAIL] fail to=${to}: ${e?.message}`);
+            this.log.error(`[ADMIN OTP EMAIL] fail to=${to} via ${host}:${port}: ${e?.message}`);
         }
     }
-    async sendSmsOtp(toE164, code) {
-        const result = await this.twilio.sendSms(toE164, `CITURBAREA Admin: ${code}. Valable 5min. Ne partage jamais ce code.`);
-        if (!result.ok) {
-            // Mode dev : le code est déjà loggé par TwilioService.sendSms
-            this.log.warn(`[ADMIN OTP SMS] code ${code} pour ${toE164} (Twilio non configuré, mode dev)`);
-        }
-    }
+    // Note : sendSmsOtp() supprimé — on utilise désormais twilio.sendVerification()
+    // directement dans verifyEmailOtp() pour passer par Twilio Verify (anti-fraude built-in).
     // ── Génération JWT final (appelé après WebAuthn OK) ────────────
     async finalizeSession(sessionId) {
         const session = await this.prisma.adminSession.findUniqueOrThrow({
