@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ADMIN_THEME, ensureAdminFonts } from "./AdminTheme";
-import { adminAuthApi, getAdminJwt } from "./adminApi";
+import { adminAuthApi, getAdminJwt, setAdminJwt } from "./adminApi";
 import { startRegistration } from "@simplewebauthn/browser";
 
 export default function AdminRegisterPasskeyPage() {
@@ -17,10 +17,28 @@ export default function AdminRegisterPasskeyPage() {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [sessionExpired, setSessionExpired] = useState(false);
 
+  // Valide le JWT au mount via /admin/auth/me
   useEffect(() => {
-    if (!getAdminJwt()) navigate("/admin/login", { replace: true });
+    if (!getAdminJwt()) {
+      navigate("/admin/login", { replace: true });
+      return;
+    }
+    adminAuthApi.me()
+      .then(() => { /* JWT valide */ })
+      .catch(() => {
+        setAdminJwt(null);
+        setSessionExpired(true);
+        setErr("Ta session admin a expiré ou n'est plus valide. Reconnecte-toi pour enregistrer ton passkey.");
+      });
   }, [navigate]);
+
+  const restartLogin = () => {
+    setAdminJwt(null);
+    try { sessionStorage.clear(); } catch {}
+    navigate("/admin/login", { replace: true });
+  };
 
   const register = async (deviceType: "Windows Hello / Touch ID" | "YubiKey (clé physique)") => {
     setErr(null); setSuccess(null); setBusy(true);
@@ -57,7 +75,19 @@ export default function AdminRegisterPasskeyPage() {
           </p>
         </div>
 
-        {err && <div style={S.err}>⚠ {err}</div>}
+        {err && (
+          <div style={S.err}>
+            ⚠ {err}
+            {sessionExpired && (
+              <button onClick={restartLogin} style={{
+                marginLeft: 12, padding: "6px 14px", background: ADMIN_THEME.danger, color: "white",
+                border: 0, borderRadius: 4, fontSize: 12, fontWeight: 600, cursor: "pointer",
+              }}>
+                Se reconnecter
+              </button>
+            )}
+          </div>
+        )}
         {success && <div style={S.ok}>{success}</div>}
 
         <div style={S.cardGrid}>

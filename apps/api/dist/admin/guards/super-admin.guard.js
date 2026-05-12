@@ -80,9 +80,13 @@ let SuperAdminGuard = class SuperAdminGuard {
         if (session.adminUser.lockedUntil && session.adminUser.lockedUntil.getTime() > Date.now()) {
             throw new common_1.ForbiddenException("Compte admin verrouillé temporairement");
         }
-        // Device fingerprint check — si le client envoie un fingerprint différent, on révoque
+        // Device fingerprint check — si le client envoie un fingerprint différent, on révoque.
+        // EXCEPTION : pour les endpoints WebAuthn register (premier login sans passkey),
+        // on tolère le mismatch (le user a peut-être ouvert nouvelle fenêtre) — juste warn.
         const clientFp = (0, device_fingerprint_1.extractClientFingerprint)(req);
-        if (session.deviceFingerprint && clientFp !== session.deviceFingerprint) {
+        const path = String(req.path || req.url || "");
+        const isRegisterFlow = path.includes("/admin/auth/webauthn/register");
+        if (session.deviceFingerprint && clientFp !== session.deviceFingerprint && !isRegisterFlow) {
             await this.prisma.adminSession.update({
                 where: { id: session.id },
                 data: { revokedAt: new Date(), revokedReason: "FINGERPRINT_MISMATCH" },
