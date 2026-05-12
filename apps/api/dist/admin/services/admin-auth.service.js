@@ -224,12 +224,36 @@ let AdminAuthService = class AdminAuthService {
         const credCount = await this.prisma.webAuthnCredential.count({
             where: { adminUserId: session.adminUserId, revokedAt: null },
         });
+        // Premier login (aucun passkey) → finalize la session avec 3 facteurs
+        // ET force l'enregistrement d'un passkey immédiatement après.
+        if (credCount === 0) {
+            // Marque la session comme "webauthn skipped" (compté comme passé pour
+            // pouvoir finalize) — le client doit obligatoirement enregistrer un passkey
+            // sinon les prochains logins exigeront 4 facteurs (et échoueront).
+            await this.prisma.adminSession.update({
+                where: { id: session.id },
+                data: { step: "WEBAUTHN_OK", webauthnOkAt: new Date() },
+            });
+            const final = await this.finalizeSession(session.id);
+            await this.audit.record({
+                adminUserId: session.adminUserId,
+                action: "ADMIN_LOGIN_FIRSTTIME_NO_PASSKEY",
+                category: "AUTH",
+                severity: "WARN",
+                payload: { reason: "auto_promote_3factors", sessionId: session.id },
+                sessionId: session.id,
+            });
+            return {
+                step: "FULLY_AUTH",
+                nextStep: "REGISTER_PASSKEY_NOW",
+                message: "Connexion validée à 3 facteurs. Enregistre un passkey MAINTENANT pour sécuriser ton compte.",
+                ...final,
+            };
+        }
         return {
             step: "SMS_OTP_OK",
-            nextStep: credCount > 0 ? "WEBAUTHN" : "WEBAUTHN_REGISTER",
-            message: credCount > 0
-                ? "Validation par empreinte / clé requise"
-                : "Aucun passkey enregistré — enregistre Windows Hello ou YubiKey maintenant",
+            nextStep: "WEBAUTHN",
+            message: "Validation par empreinte / clé requise",
         };
     }
     // ── Étape 4 : WebAuthn — délégué à AdminWebAuthnService ────────

@@ -66,10 +66,18 @@ export default function AdminLoginPage() {
     try {
       const r = await adminAuthApi.verifySmsOtp(smsOtp);
       setInfo(r.data.message);
-      if (r.data.nextStep === "WEBAUTHN") {
+      const data = r.data as any;
+      if (data.nextStep === "REGISTER_PASSKEY_NOW") {
+        // Premier login : pas encore de passkey. On stocke le JWT
+        // et on redirige vers /admin/security/webauthn pour enregistrer.
+        if (data.access_token) setAdminJwt(data.access_token);
+        setSessionToken(null);
+        setStep("done");
+        setTimeout(() => navigate("/admin/security/webauthn"), 400);
+      } else if (data.nextStep === "WEBAUTHN") {
         setStep("webauthn");
       } else {
-        setErr("Aucun passkey enregistré sur ce compte. Contacte le SUPER_ADMIN.");
+        setErr("Étape suivante inconnue : " + data.nextStep);
       }
     } catch (e: any) {
       setErr(e?.message || "Erreur");
