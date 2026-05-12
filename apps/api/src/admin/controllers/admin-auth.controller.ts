@@ -61,14 +61,18 @@ export class AdminAuthController {
     return { ok: true, data: await this.auth.verifySmsOtp(this.sessionToken(req), body.code, this.ctx(req)) };
   }
 
+  private clientOrigin(req: any): string | undefined {
+    return req?.headers?.origin || req?.headers?.referer || undefined;
+  }
+
   @Post("webauthn/auth-begin")
   async webauthnBegin(@Req() req: any) {
-    return { ok: true, data: await this.webauthn.beginAuthenticate(this.sessionToken(req)) };
+    return { ok: true, data: await this.webauthn.beginAuthenticate(this.sessionToken(req), this.clientOrigin(req)) };
   }
 
   @Post("webauthn/auth-finish")
   async webauthnFinish(@Req() req: any, @Body() body: any) {
-    return { ok: true, data: await this.webauthn.finishAuthenticate(this.sessionToken(req), body) };
+    return { ok: true, data: await this.webauthn.finishAuthenticate(this.sessionToken(req), body, this.clientOrigin(req)) };
   }
 
   // ── Enregistrement WebAuthn (admin déjà FULLY_AUTH) ──
@@ -76,13 +80,13 @@ export class AdminAuthController {
   @Post("webauthn/register-begin")
   @UseGuards(SuperAdminGuard)
   async registerBegin(@Req() req: any, @Body() body: { deviceType?: string }) {
-    return { ok: true, data: await this.webauthn.beginRegister(req.admin.id, body.deviceType || "Authenticator") };
+    return { ok: true, data: await this.webauthn.beginRegister(req.admin.id, body.deviceType || "Authenticator", this.clientOrigin(req)) };
   }
 
   @Post("webauthn/register-finish")
   @UseGuards(SuperAdminGuard)
   async registerFinish(@Req() req: any, @Body() body: any) {
-    return { ok: true, data: await this.webauthn.finishRegister(req.admin.id, body, body.deviceType) };
+    return { ok: true, data: await this.webauthn.finishRegister(req.admin.id, body, body.deviceType, this.clientOrigin(req)) };
   }
 
   // ── /me + logout ──

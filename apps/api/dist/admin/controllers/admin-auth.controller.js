@@ -65,18 +65,21 @@ let AdminAuthController = class AdminAuthController {
     async verifySms(req, body) {
         return { ok: true, data: await this.auth.verifySmsOtp(this.sessionToken(req), body.code, this.ctx(req)) };
     }
+    clientOrigin(req) {
+        return req?.headers?.origin || req?.headers?.referer || undefined;
+    }
     async webauthnBegin(req) {
-        return { ok: true, data: await this.webauthn.beginAuthenticate(this.sessionToken(req)) };
+        return { ok: true, data: await this.webauthn.beginAuthenticate(this.sessionToken(req), this.clientOrigin(req)) };
     }
     async webauthnFinish(req, body) {
-        return { ok: true, data: await this.webauthn.finishAuthenticate(this.sessionToken(req), body) };
+        return { ok: true, data: await this.webauthn.finishAuthenticate(this.sessionToken(req), body, this.clientOrigin(req)) };
     }
     // ── Enregistrement WebAuthn (admin déjà FULLY_AUTH) ──
     async registerBegin(req, body) {
-        return { ok: true, data: await this.webauthn.beginRegister(req.admin.id, body.deviceType || "Authenticator") };
+        return { ok: true, data: await this.webauthn.beginRegister(req.admin.id, body.deviceType || "Authenticator", this.clientOrigin(req)) };
     }
     async registerFinish(req, body) {
-        return { ok: true, data: await this.webauthn.finishRegister(req.admin.id, body, body.deviceType) };
+        return { ok: true, data: await this.webauthn.finishRegister(req.admin.id, body, body.deviceType, this.clientOrigin(req)) };
     }
     // ── /me + logout ──
     async me(req) {

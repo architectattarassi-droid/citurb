@@ -27,14 +27,26 @@ const server_1 = require("@simplewebauthn/server");
  * Les challenges sont stockés brièvement dans AdminSession (champ ad-hoc) pour
  * ne pas créer de table éphémère supplémentaire.
  */
-function rpId() {
-    return process.env.ADMIN_WEBAUTHN_RP_ID || "admin.citurbarea.com";
-}
 function rpName() {
     return "CITURBAREA Admin";
 }
-function origin() {
-    return process.env.ADMIN_WEBAUTHN_ORIGIN || "https://admin.citurbarea.com";
+/**
+ * Extrait rpId + origin depuis l'Origin du navigateur (passé par le controller).
+ * Fallback : ADMIN_WEBAUTHN_ORIGIN env, sinon admin.citurbarea.com.
+ *
+ * WebAuthn impose que rpId soit un suffixe direct du hostname courant
+ * (ex: page sur foo.bar.com → rpId peut être "foo.bar.com" ou "bar.com").
+ * On utilise le hostname complet pour maximum compat.
+ */
+function resolveRp(clientOrigin) {
+    const raw = clientOrigin || process.env.ADMIN_WEBAUTHN_ORIGIN || "https://admin.citurbarea.com";
+    try {
+        const u = new URL(raw);
+        return { rpId: u.hostname, origin: `${u.protocol}//${u.host}` };
+    }
+    catch {
+        return { rpId: "admin.citurbarea.com", origin: "https://admin.citurbarea.com" };
+    }
 }
 let AdminWebAuthnService = class AdminWebAuthnService {
     prisma;
@@ -48,15 +60,16 @@ let AdminWebAuthnService = class AdminWebAuthnService {
         this.notify = notify;
     }
     // ── REGISTRATION : Génère les options pour navigator.credentials.create() ──
-    async beginRegister(adminUserId, deviceType) {
+    async beginRegister(adminUserId, deviceType, clientOrigin) {
         const admin = await this.prisma.adminUser.findUniqueOrThrow({ where: { id: adminUserId } });
         const existing = await this.prisma.webAuthnCredential.findMany({
             where: { adminUserId, revokedAt: null },
             select: { credentialId: true, transports: true },
         });
+        const { rpId } = resolveRp(clientOrigin);
         const options = await (0, server_1.generateRegistrationOptions)({
             rpName: rpName(),
-            rpID: rpId(),
+            rpID: rpId,
             userID: Buffer.from(admin.id),
             userName: admin.email,
             userDisplayName: admin.displayName,
@@ -70,23 +83,25 @@ let AdminWebAuthnService = class AdminWebAuthnService {
                 userVerification: "preferred",
             },
         });
-        // Persist challenge dans AdminUser.passwordHash ? Non — utilisons un champ
-        // dédié dans la session courante. Pour simplifier, on stocke dans Prisma
-        // via AdminAlert (categ=WEBAUTHN_CHALLENGE) avec ack=false expirant 5min.
-        // Méthode plus propre : table dédiée. Ici via payload Alert.
+        // Stocke le challenge + rpId/origin utilisés (pour validation à finishRegister)
         await this.prisma.adminAlert.create({
             data: {
                 adminUserId,
                 severity: "INFO",
                 category: "WEBAUTHN_CHALLENGE_REGISTER",
                 title: "WebAuthn challenge registration",
-                message: JSON.stringify({ challenge: options.challenge, deviceType, expiresAt: Date.now() + 5 * 60_000 }),
+                message: JSON.stringify({
+                    challenge: options.challenge,
+                    deviceType,
+                    rpId,
+                    clientOrigin: clientOrigin || null,
+                    expiresAt: Date.now() + 5 * 60_000,
+                }),
             },
         });
         return options;
     }
-    async finishRegister(adminUserId, body, deviceType) {
-        // Récupère le challenge le plus récent (non acknowledged)
+    async finishRegister(adminUserId, body, deviceType, clientOrigin) {
         const challengeRow = await this.prisma.adminAlert.findFirst({
             where: { adminUserId, category: "WEBAUTHN_CHALLENGE_REGISTER", acknowledgedAt: null },
             orderBy: { createdAt: "desc" },
@@ -103,13 +118,17 @@ let AdminWebAuthnService = class AdminWebAuthnService {
         if (challengeData.expiresAt < Date.now()) {
             throw new common_1.BadRequestException("Challenge expiré");
         }
+        // On utilise le rpId/origin du challenge (cohérent avec beginRegister)
+        const resolved = resolveRp(challengeData.clientOrigin || clientOrigin);
+        const rpId = challengeData.rpId || resolved.rpId;
+        const origin = resolved.origin;
         let verification;
         try {
             verification = await (0, server_1.verifyRegistrationResponse)({
                 response: body,
                 expectedChallenge: challengeData.challenge,
-                expectedOrigin: origin(),
-                expectedRPID: rpId(),
+                expectedOrigin: origin,
+                expectedRPID: rpId,
                 requireUserVerification: false,
             });
         }
@@ -158,7 +177,7 @@ let AdminWebAuthnService = class AdminWebAuthnService {
         return { id: saved.id, deviceType: saved.deviceType, addedAt: saved.addedAt };
     }
     // ── AUTHENTICATION : Étape 4 du login multi-étape ──
-    async beginAuthenticate(sessionToken) {
+    async beginAuthenticate(sessionToken, clientOrigin) {
         const session = await this.prisma.adminSession.findUnique({ where: { sessionToken } });
         if (!session)
             throw new common_1.NotFoundException("Session introuvable");
@@ -170,8 +189,9 @@ let AdminWebAuthnService = class AdminWebAuthnService {
         });
         if (creds.length === 0)
             throw new common_1.BadRequestException("Aucun passkey enregistré");
+        const { rpId } = resolveRp(clientOrigin);
         const options = await (0, server_1.generateAuthenticationOptions)({
-            rpID: rpId(),
+            rpID: rpId,
             allowCredentials: creds.map((c) => ({
                 id: c.credentialId,
                 transports: c.transports,
@@ -184,12 +204,18 @@ let AdminWebAuthnService = class AdminWebAuthnService {
                 severity: "INFO",
                 category: "WEBAUTHN_CHALLENGE_AUTH",
                 title: "WebAuthn challenge auth",
-                message: JSON.stringify({ challenge: options.challenge, sessionId: session.id, expiresAt: Date.now() + 5 * 60_000 }),
+                message: JSON.stringify({
+                    challenge: options.challenge,
+                    sessionId: session.id,
+                    rpId,
+                    clientOrigin: clientOrigin || null,
+                    expiresAt: Date.now() + 5 * 60_000,
+                }),
             },
         });
         return options;
     }
-    async finishAuthenticate(sessionToken, body) {
+    async finishAuthenticate(sessionToken, body, clientOrigin) {
         const session = await this.prisma.adminSession.findUnique({ where: { sessionToken } });
         if (!session)
             throw new common_1.NotFoundException("Session introuvable");
@@ -217,13 +243,16 @@ let AdminWebAuthnService = class AdminWebAuthnService {
         });
         if (!cred)
             throw new common_1.BadRequestException("Credential inconnu");
+        const resolved = resolveRp(challengeData.clientOrigin || clientOrigin);
+        const rpId = challengeData.rpId || resolved.rpId;
+        const origin = resolved.origin;
         let verification;
         try {
             verification = await (0, server_1.verifyAuthenticationResponse)({
                 response: body,
                 expectedChallenge: challengeData.challenge,
-                expectedOrigin: origin(),
-                expectedRPID: rpId(),
+                expectedOrigin: origin,
+                expectedRPID: rpId,
                 credential: {
                     id: cred.credentialId,
                     publicKey: Buffer.from(cred.publicKey, "base64"),
