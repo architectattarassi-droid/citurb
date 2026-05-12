@@ -13,15 +13,16 @@ exports.AdminNotifyService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../tomes/tome-at/kernel/prisma/prisma.service");
 const twilio_service_1 = require("../../modules/twilio/twilio.service");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const nodemailer = require("nodemailer");
+const email_service_1 = require("../../modules/email/email.service");
 let AdminNotifyService = class AdminNotifyService {
     prisma;
     twilio;
+    email;
     log = new common_1.Logger("AdminNotifyService");
-    constructor(prisma, twilio) {
+    constructor(prisma, twilio, email) {
         this.prisma = prisma;
         this.twilio = twilio;
+        this.email = email;
     }
     async alert(input) {
         const channelEmail = !!input.emailTo;
@@ -59,11 +60,8 @@ let AdminNotifyService = class AdminNotifyService {
     }
     // ── Email via SMTP ──────────────────────────────────────────────
     async sendEmail(to, title, message, severity) {
-        const host = process.env.SMTP_HOST;
-        const user = process.env.SMTP_USER;
-        const pass = process.env.SMTP_PASS;
-        if (!host || !user || !pass) {
-            this.log.warn(`[AdminNotify] SMTP non configuré — alerte email à ${to} non envoyée`);
+        if (!this.email.isConfigured()) {
+            this.log.warn(`[AdminNotify] Aucun provider email configuré — alerte à ${to} non envoyée`);
             return false;
         }
         const sevColor = severity === "CRITICAL" ? "#94292B" : severity === "WARN" ? "#B8633F" : "#3D5A80";
@@ -85,19 +83,17 @@ let AdminNotifyService = class AdminNotifyService {
   </div>
 </body></html>`;
         try {
-            const transporter = nodemailer.createTransport({
-                host,
-                port: Number(process.env.SMTP_PORT) || 587,
-                secure: false,
-                auth: { user, pass },
-            });
-            await transporter.sendMail({
-                from: `"CITURBAREA Admin" <${user}>`,
+            const r = await this.email.send({
                 to,
                 subject: `[${severity}] ${title}`,
                 html,
+                text: `${title}\n\n${message}\n\nSi tu n'es pas à l'origine de cette action, change ton mot de passe sur admin.citurbarea.com.`,
+                from: process.env.ADMIN_EMAIL_FROM || process.env.RESEND_FROM || "CITURBAREA Admin <onboarding@resend.dev>",
             });
-            return true;
+            if (r.ok)
+                return true;
+            this.log.error(`[AdminNotify] Email send fail: ${r.error}`);
+            return false;
         }
         catch (e) {
             this.log.error(`[AdminNotify] SMTP fail to=${to}: ${e?.message}`);
@@ -117,5 +113,6 @@ exports.AdminNotifyService = AdminNotifyService;
 exports.AdminNotifyService = AdminNotifyService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
-        twilio_service_1.TwilioService])
+        twilio_service_1.TwilioService,
+        email_service_1.EmailService])
 ], AdminNotifyService);

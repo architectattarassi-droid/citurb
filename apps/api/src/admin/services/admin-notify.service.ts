@@ -1,8 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { PrismaService } from "../../tomes/tome-at/kernel/prisma/prisma.service";
 import { TwilioService } from "../../modules/twilio/twilio.service";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const nodemailer = require("nodemailer");
+import { EmailService } from "../../modules/email/email.service";
 
 /**
  * AdminNotifyService — Sprint H couche 9 (alertes temps réel).
@@ -36,6 +35,7 @@ export class AdminNotifyService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly twilio: TwilioService,
+    private readonly email: EmailService,
   ) {}
 
   async alert(input: AlertInput) {
@@ -79,11 +79,8 @@ export class AdminNotifyService {
   // ── Email via SMTP ──────────────────────────────────────────────
 
   private async sendEmail(to: string, title: string, message: string, severity: string): Promise<boolean> {
-    const host = process.env.SMTP_HOST;
-    const user = process.env.SMTP_USER;
-    const pass = process.env.SMTP_PASS;
-    if (!host || !user || !pass) {
-      this.log.warn(`[AdminNotify] SMTP non configuré — alerte email à ${to} non envoyée`);
+    if (!this.email.isConfigured()) {
+      this.log.warn(`[AdminNotify] Aucun provider email configuré — alerte à ${to} non envoyée`);
       return false;
     }
 
@@ -107,19 +104,16 @@ export class AdminNotifyService {
 </body></html>`;
 
     try {
-      const transporter = nodemailer.createTransport({
-        host,
-        port: Number(process.env.SMTP_PORT) || 587,
-        secure: false,
-        auth: { user, pass },
-      });
-      await transporter.sendMail({
-        from: `"CITURBAREA Admin" <${user}>`,
+      const r = await this.email.send({
         to,
         subject: `[${severity}] ${title}`,
         html,
+        text: `${title}\n\n${message}\n\nSi tu n'es pas à l'origine de cette action, change ton mot de passe sur admin.citurbarea.com.`,
+        from: process.env.ADMIN_EMAIL_FROM || process.env.RESEND_FROM || "CITURBAREA Admin <onboarding@resend.dev>",
       });
-      return true;
+      if (r.ok) return true;
+      this.log.error(`[AdminNotify] Email send fail: ${r.error}`);
+      return false;
     } catch (e: any) {
       this.log.error(`[AdminNotify] SMTP fail to=${to}: ${e?.message}`);
       return false;
