@@ -11,7 +11,7 @@ export default function Login() {
   const { loginWithPassword } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const redirect = searchParams.get("redirect") || searchParams.get("next") || "/p1/packs";
+  const redirectFromQuery = searchParams.get("redirect") || searchParams.get("next");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +20,28 @@ export default function Login() {
 
     try {
       await loginWithPassword(email, password);
-      navigate(redirect);
+      // Si redirect explicite dans l'URL → on respecte. Sinon, on regarde si
+      // l'user a un ProProfile (architecte/pro BTP) → redirige /cercles, sinon
+      // /p1/packs (client lambda flow dossier).
+      if (redirectFromQuery) {
+        navigate(redirectFromQuery);
+        return;
+      }
+      try {
+        const apiBase = (import.meta as any).env?.VITE_API_URL || "http://localhost:4000";
+        const tok = localStorage.getItem("citurbarea.token") || "";
+        const r = await fetch(`${apiBase}/api/cercles/me/profile`, {
+          headers: { Authorization: `Bearer ${tok}` },
+        });
+        if (r.ok) {
+          const j = await r.json();
+          if (j?.data) {
+            navigate("/cercles");
+            return;
+          }
+        }
+      } catch { /* fallthrough */ }
+      navigate("/p1/packs");
     } catch (err: any) {
       setError(err.message);
     } finally {
