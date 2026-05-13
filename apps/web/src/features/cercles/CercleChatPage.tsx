@@ -19,6 +19,11 @@ import React, {
   useState,
 } from "react";
 import { useParams, Link } from "react-router-dom";
+import MediaEmbed, { extractUrls, isEmbeddable } from "./MediaEmbed";
+
+function extractEmbeddableUrls(text: string): string[] {
+  return extractUrls(text).filter(isEmbeddable);
+}
 import CerclesShell from "./CerclesShell";
 import { CC_THEME } from "./theme";
 import {
@@ -590,10 +595,16 @@ function MessageBubble({
       onMouseLeave={() => { setShowActions(false); setShowReactions(false); }}
     >
       {!isMine && (
-        <div style={S.avatar}>{author.slice(0, 1).toUpperCase()}</div>
+        <Link to={`/cercles/profile/${msg.author?.id || msg.authorId}`} style={{ ...S.avatar, textDecoration: "none", cursor: "pointer" }} title={`Voir le profil de ${author}`}>
+          {author.slice(0, 1).toUpperCase()}
+        </Link>
       )}
       <div style={{ display: "flex", flexDirection: "column", maxWidth: "min(560px, 70%)" }}>
-        {!isMine && <div style={S.bubbleAuthor}>{author}</div>}
+        {!isMine && (
+          <Link to={`/cercles/profile/${msg.author?.id || msg.authorId}`} style={{ ...S.bubbleAuthor, textDecoration: "none", cursor: "pointer", color: CC_THEME.or }}>
+            {author}
+          </Link>
+        )}
 
         {msg.replyTo && !msg.replyTo.deletedAt && (
           <div style={{ ...S.replyQuote, ...(isMine ? { marginLeft: "auto" } : {}) }}>
@@ -620,7 +631,14 @@ function MessageBubble({
                   ))}
                 </div>
               )}
-              {msg.body && <div style={S.bubbleBody}>{linkify(msg.body)}</div>}
+              {msg.body && (
+                <>
+                  <div style={S.bubbleBody}>{linkify(msg.body)}</div>
+                  {extractEmbeddableUrls(msg.body).map((u, i) => (
+                    <MediaEmbed key={i} url={u} maxWidth={420} />
+                  ))}
+                </>
+              )}
               <div style={{ ...S.bubbleMeta, color: isMine ? "rgba(255,255,255,0.65)" : CC_THEME.inkMuted }}>
                 {new Date(msg.createdAt).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
                 {msg.editedAt && <span style={{ marginLeft: 6, fontStyle: "italic" }}>· modifié</span>}

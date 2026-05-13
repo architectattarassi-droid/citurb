@@ -243,8 +243,32 @@ export const cerclesApi = {
     ),
   postDetail: (cercleId: string, postId: string) =>
     apiFetch<{ ok: boolean; data: CerclePost }>(`/api/cercles/${cercleId}/posts/${postId}`),
-  createPost: (cercleId: string, body: { title?: string; body: string }) =>
+  createPost: (cercleId: string, body: {
+    title?: string;
+    body: string;
+    attachments?: Array<{ fileKey: string; filename: string; mimeType: string; sizeBytes: number }>;
+  }) =>
     apiFetch<{ ok: boolean; data: CerclePost }>(`/api/cercles/${cercleId}/posts`, { method: "POST", body }),
+
+  uploadPostMedia: (cercleId: string, files: File[]): Promise<Array<{ fileKey: string; filename: string; mimeType: string; sizeBytes: number; url: string }>> => {
+    return new Promise((resolve, reject) => {
+      const fd = new FormData();
+      for (const f of files) fd.append("files", f);
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", `${apiBase()}/api/cercles/${cercleId}/posts/upload`);
+      const tok = getToken();
+      if (tok) xhr.setRequestHeader("Authorization", `Bearer ${tok}`);
+      xhr.onload = () => {
+        try {
+          const j = JSON.parse(xhr.responseText);
+          if (xhr.status >= 200 && xhr.status < 300 && j.ok) resolve(j.data);
+          else reject(new Error(j?.message || `Upload échoué (${xhr.status})`));
+        } catch { reject(new Error("Réponse upload invalide")); }
+      };
+      xhr.onerror = () => reject(new Error("Erreur réseau upload"));
+      xhr.send(fd);
+    });
+  },
   reply: (cercleId: string, postId: string, body: string) =>
     apiFetch<{ ok: boolean; data: CerclePost }>(`/api/cercles/${cercleId}/posts/${postId}/replies`, { method: "POST", body: { body } }),
   upvote: (cercleId: string, postId: string) =>

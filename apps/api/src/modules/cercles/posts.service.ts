@@ -23,17 +23,31 @@ export class PostsService {
       .replace(/on\w+="[^"]*"/gi, "");
   }
 
-  async createRoot(cercleId: string, authorId: string, input: { title?: string; body: string }) {
-    if (!input.body?.trim()) throw new BadRequestException("Body vide");
+  async createRoot(cercleId: string, authorId: string, input: {
+    title?: string;
+    body: string;
+    attachments?: Array<{ fileKey: string; filename: string; mimeType: string; sizeBytes: number }>;
+  }) {
+    if (!input.body?.trim() && (!input.attachments || input.attachments.length === 0)) {
+      throw new BadRequestException("Post vide (texte ou pièce jointe requis)");
+    }
     await this.cercles.assertMember(cercleId, authorId);
     return this.prisma.cerclePost.create({
       data: {
         cercleId,
         authorId,
         title: input.title?.trim() || null,
-        body: this.sanitize(input.body.trim()),
+        body: this.sanitize((input.body || "").trim()),
+        attachments: input.attachments && input.attachments.length > 0
+          ? { create: input.attachments.map(a => ({
+              fileKey: a.fileKey, filename: a.filename, mimeType: a.mimeType, sizeBytes: a.sizeBytes,
+            })) }
+          : undefined,
       },
-      include: { author: { select: { id: true, email: true, username: true } } },
+      include: {
+        author: { select: { id: true, email: true, username: true } },
+        attachments: true,
+      },
     });
   }
 

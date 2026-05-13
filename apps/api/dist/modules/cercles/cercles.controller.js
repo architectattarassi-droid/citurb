@@ -14,6 +14,16 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CerclesController = void 0;
 const common_1 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { diskStorage: _ds } = require("multer");
+const path_1 = require("path");
+const fs_1 = require("fs");
+const _POST_UPLOAD_DIR = (0, path_1.join)(process.env.UPLOADS_DIR || (0, path_1.join)(process.cwd(), "uploads"), "cercles-posts");
+try {
+    (0, fs_1.mkdirSync)(_POST_UPLOAD_DIR, { recursive: true });
+}
+catch { }
 const tome_at_1 = require("../../tomes/tome-at");
 const jwt_auth_guard_1 = require("../../tomes/tome-5/auth/jwt-auth.guard");
 const cercles_service_1 = require("./cercles.service");
@@ -168,6 +178,21 @@ let CerclesController = class CerclesController {
     }
     async createPost(req, cercleId, body) {
         return { ok: true, data: await this.posts.createRoot(cercleId, this.uid(req), body) };
+    }
+    async uploadPostMedia(req, cercleId, files) {
+        if (!files || files.length === 0)
+            throw new common_1.BadRequestException("Aucun fichier");
+        const allowed = /^(image|video|audio)\//;
+        const out = files.map((f) => {
+            if (!allowed.test(f.mimetype))
+                throw new common_1.BadRequestException(`Type ${f.mimetype} non autorisé`);
+            const fileKey = `cercles-posts/${cercleId}/${f.filename}`;
+            return {
+                fileKey, filename: f.originalname, mimeType: f.mimetype, sizeBytes: f.size,
+                url: `/uploads/${fileKey}`,
+            };
+        });
+        return { ok: true, data: out };
     }
     async reply(req, postId, body) {
         return { ok: true, data: await this.posts.reply(postId, this.uid(req), body.body) };
@@ -469,6 +494,33 @@ __decorate([
     __metadata("design:paramtypes", [Object, String, Object]),
     __metadata("design:returntype", Promise)
 ], CerclesController.prototype, "createPost", null);
+__decorate([
+    (0, common_1.Post)(":cercleId/posts/upload"),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)("files", 6, {
+        storage: _ds({
+            destination: (req, _file, cb) => {
+                const cId = req.params?.cercleId;
+                const dir = (0, path_1.join)(_POST_UPLOAD_DIR, cId || "_misc");
+                try {
+                    (0, fs_1.mkdirSync)(dir, { recursive: true });
+                }
+                catch { }
+                cb(null, dir);
+            },
+            filename: (_req, file, cb) => {
+                const safe = file.originalname.replace(/[^a-zA-Z0-9._-]+/g, "_").slice(0, 80);
+                cb(null, `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}-${safe}`);
+            },
+        }),
+        limits: { fileSize: 100 * 1024 * 1024 }, // 100 MB pour vidéos
+    })),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)("cercleId")),
+    __param(2, (0, common_1.UploadedFiles)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, Array]),
+    __metadata("design:returntype", Promise)
+], CerclesController.prototype, "uploadPostMedia", null);
 __decorate([
     (0, common_1.Post)(":cercleId/posts/:postId/replies"),
     __param(0, (0, common_1.Req)()),

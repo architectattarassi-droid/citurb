@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import CerclesShell from "./CerclesShell";
 import { CC_THEME } from "./theme";
 import { cerclesApi, invitationsApi, CercleDetail, CerclePost, LiveRoom, InviteResultItem } from "./api";
+import MediaEmbed, { extractUrls, isEmbeddable } from "./MediaEmbed";
 
 type Tab = "discussions" | "rooms" | "members";
 
@@ -16,6 +17,8 @@ export default function CercleDetailPage() {
   const [composing, setComposing] = useState(false);
   const [composeBody, setComposeBody] = useState("");
   const [composeTitle, setComposeTitle] = useState("");
+  const [composeFiles, setComposeFiles] = useState<File[]>([]);
+  const [composeUploadPct, setComposeUploadPct] = useState<number | null>(null);
   const [posting, setPosting] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -39,12 +42,28 @@ export default function CercleDetailPage() {
   useEffect(() => { loadAll(); }, [loadAll]);
 
   const submitPost = async () => {
-    if (!cercle || !composeBody.trim()) return;
+    if (!cercle) return;
+    if (!composeBody.trim() && composeFiles.length === 0) {
+      alert("Ajoute du texte ou une pièce jointe."); return;
+    }
     setPosting(true);
     try {
-      await cerclesApi.createPost(cercle.id, { title: composeTitle.trim() || undefined, body: composeBody });
+      let attachments: any[] = [];
+      if (composeFiles.length > 0) {
+        setComposeUploadPct(0);
+        const up = await cerclesApi.uploadPostMedia(cercle.id, composeFiles);
+        attachments = up.map(u => ({ fileKey: u.fileKey, filename: u.filename, mimeType: u.mimeType, sizeBytes: u.sizeBytes }));
+        setComposeUploadPct(100);
+      }
+      await cerclesApi.createPost(cercle.id, {
+        title: composeTitle.trim() || undefined,
+        body: composeBody,
+        attachments: attachments.length > 0 ? attachments : undefined,
+      });
       setComposeBody("");
       setComposeTitle("");
+      setComposeFiles([]);
+      setComposeUploadPct(null);
       setComposing(false);
       await loadAll();
     } catch (e: any) {
@@ -139,16 +158,45 @@ export default function CercleDetailPage() {
                     />
                     <textarea
                       style={S.composerBody}
-                      placeholder="Partagez avec le cercle… (markdown supporté)"
+                      placeholder="Partage avec le cercle… Tu peux coller des liens YouTube / Facebook (s'afficheront en vidéo) ou attacher des photos/vidéos."
                       value={composeBody}
                       onChange={e => setComposeBody(e.target.value)}
                       rows={5}
                     />
-                    <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
-                      <button onClick={() => { setComposing(false); setComposeBody(""); setComposeTitle(""); }} style={S.btnGhost}>Annuler</button>
-                      <button onClick={submitPost} disabled={posting || !composeBody.trim()} style={S.btnPrimary}>
-                        {posting ? "Publication…" : "Publier"}
-                      </button>
+                    {composeFiles.length > 0 && (
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 10, padding: 10, background: CC_THEME.bgSoft, borderRadius: 6 }}>
+                        {composeFiles.map((f, i) => {
+                          const isImg = f.type.startsWith("image/");
+                          const isVid = f.type.startsWith("video/");
+                          return (
+                            <div key={i} style={{ position: "relative", display: "flex", alignItems: "center", gap: 6, background: CC_THEME.bgRaised, padding: "6px 10px", borderRadius: 4, border: `1px solid ${CC_THEME.border}` }}>
+                              {isImg ? <img src={URL.createObjectURL(f)} alt="" style={{ width: 40, height: 40, objectFit: "cover", borderRadius: 3 }} /> :
+                               isVid ? <span style={{ fontSize: 22 }}>🎬</span> : <span style={{ fontSize: 18 }}>📎</span>}
+                              <div style={{ fontSize: 11, maxWidth: 120, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{f.name}</div>
+                              <button onClick={() => setComposeFiles(composeFiles.filter((_, idx) => idx !== i))} style={{ background: CC_THEME.danger, color: "white", border: 0, borderRadius: "50%", width: 18, height: 18, fontSize: 11, cursor: "pointer", padding: 0, lineHeight: 1 }}>×</button>
+                            </div>
+                          );
+                        })}
+                        {composeUploadPct !== null && (
+                          <div style={{ width: "100%", height: 3, background: CC_THEME.bgSoft, borderRadius: 2 }}>
+                            <div style={{ width: `${composeUploadPct}%`, height: "100%", background: CC_THEME.or }} />
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 10, marginTop: 12, alignItems: "center" }}>
+                      <label style={{ cursor: "pointer", padding: "8px 14px", background: CC_THEME.bgSoft, borderRadius: 4, fontSize: 12, color: CC_THEME.inkMid, border: `1px solid ${CC_THEME.border}` }}>
+                        📎 Joindre photo/vidéo
+                        <input type="file" multiple accept="image/*,video/*,audio/*" onChange={(e) => {
+                          if (e.target.files) setComposeFiles([...composeFiles, ...Array.from(e.target.files)].slice(0, 6));
+                        }} style={{ display: "none" }} />
+                      </label>
+                      <div style={{ display: "flex", gap: 10 }}>
+                        <button onClick={() => { setComposing(false); setComposeBody(""); setComposeTitle(""); setComposeFiles([]); }} style={S.btnGhost}>Annuler</button>
+                        <button onClick={submitPost} disabled={posting || (!composeBody.trim() && composeFiles.length === 0)} style={S.btnPrimary}>
+                          {posting ? (composeUploadPct !== null && composeUploadPct < 100 ? `Upload ${composeUploadPct}%` : "Publication…") : "Publier"}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -234,9 +282,13 @@ function PostCard({ post, cercleSlug, cercleName, onUpvote, onOpen }: { post: Ce
   return (
     <article style={S.postCard}>
       <div style={S.postHead}>
-        <div style={S.postAvatar}>{(post.author.username || post.author.email || "?").slice(0, 1).toUpperCase()}</div>
+        <Link to={`/cercles/profile/${post.author.id || post.authorId}`} style={{ ...S.postAvatar, textDecoration: "none", cursor: "pointer" }} title={`Voir le profil de ${post.author.username || post.author.email}`}>
+          {(post.author.username || post.author.email || "?").slice(0, 1).toUpperCase()}
+        </Link>
         <div>
-          <div style={S.postAuthor}>{post.author.username || post.author.email}</div>
+          <Link to={`/cercles/profile/${post.author.id || post.authorId}`} style={{ ...S.postAuthor, textDecoration: "none", cursor: "pointer" }}>
+            {post.author.username || post.author.email}
+          </Link>
           <div style={S.postDate}>{new Date(post.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</div>
         </div>
         {post.isPinned && <span style={S.pinBadge}>📌 Épinglé</span>}
@@ -244,6 +296,22 @@ function PostCard({ post, cercleSlug, cercleName, onUpvote, onOpen }: { post: Ce
       </div>
       {post.title && <h3 style={S.postTitle} onClick={onOpen}>{post.title}</h3>}
       <div style={S.postBody}>{truncate(post.body, 320)}</div>
+      {extractUrls(post.body).filter(isEmbeddable).slice(0, 2).map((u, i) => (
+        <MediaEmbed key={i} url={u} maxWidth={500} />
+      ))}
+      {post.attachments && post.attachments.length > 0 && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 10 }}>
+          {post.attachments.slice(0, 6).map((a) => {
+            const isImg = /^image\//.test(a.mimeType);
+            const isVid = /^video\//.test(a.mimeType);
+            const apiUrl = (import.meta as any).env?.VITE_API_URL || "http://localhost:4000";
+            const url = `${apiUrl}/uploads/${a.fileKey}`;
+            if (isImg) return <a key={a.id} href={url} target="_blank" rel="noreferrer"><img src={url} alt={a.filename} style={{ maxWidth: 200, maxHeight: 140, objectFit: "cover", borderRadius: 6, border: `1px solid ${CC_THEME.border}` }} /></a>;
+            if (isVid) return <video key={a.id} src={url} controls style={{ maxWidth: 320, borderRadius: 6, background: "#000" }} />;
+            return <a key={a.id} href={url} target="_blank" rel="noreferrer" style={{ fontSize: 12, padding: "8px 14px", background: CC_THEME.bgSoft, borderRadius: 4, color: CC_THEME.inkMid, textDecoration: "none" }}>📎 {a.filename} ({Math.round(a.sizeBytes/1024)} Ko)</a>;
+          })}
+        </div>
+      )}
       <div style={S.postFooter}>
         <button onClick={onUpvote} style={S.action}>👍 {post.upvotes}</button>
         <button onClick={onOpen}   style={S.action}>💬 {post.replyCount}</button>
@@ -443,13 +511,13 @@ function MembersTab({ cercleId, isMod }: { cercleId: string; isMod: boolean }) {
       )}
 
       {members.map((m, i) => (
-        <div key={m.id || i} style={S.memberRow}>
+        <Link key={m.id || i} to={`/cercles/profile/${m.user.id || m.userId}`} style={{ ...S.memberRow, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
           <div style={S.postAvatar}>{(m.user.username || m.user.email).slice(0, 1).toUpperCase()}</div>
           <div style={{ flex: 1 }}>
             <div style={S.postAuthor}>{m.user.username || m.user.email}</div>
-            <div style={S.roomMeta}>{m.role} · membre depuis {new Date(m.joinedAt).toLocaleDateString("fr-FR")}</div>
+            <div style={S.roomMeta}>{m.role} · membre depuis {new Date(m.joinedAt).toLocaleDateString("fr-FR")} · <span style={{ color: CC_THEME.or }}>→ voir profil</span></div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

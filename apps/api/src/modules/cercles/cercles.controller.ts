@@ -1,4 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, UseInterceptors, UploadedFiles, BadRequestException } from "@nestjs/common";
+import { FilesInterceptor } from "@nestjs/platform-express";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { diskStorage: _ds } = require("multer");
+import { join as _joinPath } from "path";
+import { mkdirSync as _mk } from "fs";
+const _POST_UPLOAD_DIR = _joinPath(process.env.UPLOADS_DIR || _joinPath(process.cwd(), "uploads"), "cercles-posts");
+try { _mk(_POST_UPLOAD_DIR, { recursive: true }); } catch {}
 import { Tome } from "../../tomes/tome-at";
 import { JwtAuthGuard } from "../../tomes/tome-5/auth/jwt-auth.guard";
 import { CerclesService, CreateCercleInput, UpdateCercleInput } from "./cercles.service";
@@ -218,8 +225,44 @@ export class CerclesController {
   }
 
   @Post(":cercleId/posts")
-  async createPost(@Req() req: any, @Param("cercleId") cercleId: string, @Body() body: { title?: string; body: string }) {
+  async createPost(@Req() req: any, @Param("cercleId") cercleId: string, @Body() body: {
+    title?: string;
+    body: string;
+    attachments?: Array<{ fileKey: string; filename: string; mimeType: string; sizeBytes: number }>;
+  }) {
     return { ok: true, data: await this.posts.createRoot(cercleId, this.uid(req), body) };
+  }
+
+  @Post(":cercleId/posts/upload")
+  @UseInterceptors(
+    FilesInterceptor("files", 6, {
+      storage: _ds({
+        destination: (req: any, _file: any, cb: any) => {
+          const cId = req.params?.cercleId;
+          const dir = _joinPath(_POST_UPLOAD_DIR, cId || "_misc");
+          try { _mk(dir, { recursive: true }); } catch {}
+          cb(null, dir);
+        },
+        filename: (_req: any, file: any, cb: any) => {
+          const safe = file.originalname.replace(/[^a-zA-Z0-9._-]+/g, "_").slice(0, 80);
+          cb(null, `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}-${safe}`);
+        },
+      }),
+      limits: { fileSize: 100 * 1024 * 1024 }, // 100 MB pour vidéos
+    }),
+  )
+  async uploadPostMedia(@Req() req: any, @Param("cercleId") cercleId: string, @UploadedFiles() files: Array<any>) {
+    if (!files || files.length === 0) throw new BadRequestException("Aucun fichier");
+    const allowed = /^(image|video|audio)\//;
+    const out = files.map((f) => {
+      if (!allowed.test(f.mimetype)) throw new BadRequestException(`Type ${f.mimetype} non autorisé`);
+      const fileKey = `cercles-posts/${cercleId}/${f.filename}`;
+      return {
+        fileKey, filename: f.originalname, mimeType: f.mimetype, sizeBytes: f.size,
+        url: `/uploads/${fileKey}`,
+      };
+    });
+    return { ok: true, data: out };
   }
 
   @Post(":cercleId/posts/:postId/replies")
