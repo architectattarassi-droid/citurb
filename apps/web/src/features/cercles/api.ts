@@ -30,6 +30,9 @@ export type CercleListItem = {
 
 export type CercleDetail = CercleListItem & {
   owner: { id: string; email: string; username: string | null };
+  membershipFlow?: "SIMPLE" | "ASSOCIATION";
+  cotisationAnnuelleMad?: number | null;
+  cardNumberPrefix?: string | null;
 };
 
 export type CerclePost = {
@@ -427,6 +430,89 @@ export const messagesApi = {
     const tok = getToken() || "";
     return `${apiBase()}/api/cercles/${cercleId}/messages/stream?access_token=${encodeURIComponent(tok)}`;
   },
+};
+
+// ── Associations API (Sprint I) ──
+
+export type FormFieldDef = {
+  name: string;
+  label: string;
+  type: "text" | "email" | "tel" | "number" | "date" | "select" | "textarea" | "checkbox" | "file";
+  required?: boolean;
+  options?: string[];
+  placeholder?: string;
+  helpText?: string;
+};
+
+export type CercleFormSchema = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+  membershipFlow: "SIMPLE" | "ASSOCIATION";
+  formSchema: FormFieldDef[] | null;
+  eligibilityCriteria: Record<string, unknown> | null;
+  cotisationAnnuelleMad: number | null;
+  cardNumberPrefix: string | null;
+};
+
+export type AssociationMemberType = "ASPIRANT" | "ETUDIANT" | "JEUNE_DIPLOME" | "ACTIF" | "HONORAIRE" | "RETRAITE";
+export type AssociationApplicationStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
+
+export type AssociationApplication = {
+  id: string;
+  cercleId: string;
+  userId: string;
+  status: AssociationApplicationStatus;
+  formData: Record<string, unknown>;
+  memberType: AssociationMemberType | null;
+  submittedAt: string;
+  reviewedAt: string | null;
+  reviewedBy: string | null;
+  reviewNote: string | null;
+  rejectionReason: string | null;
+  cercle?: { id: string; slug: string; name: string; cardNumberPrefix: string | null };
+  user?: { id: string; email: string; username: string | null; proProfile?: { displayName: string; metier: string; villePrincipale: string | null } };
+};
+
+export const associationsApi = {
+  formSchema: (slug: string) =>
+    apiFetch<{ ok: boolean; data: CercleFormSchema }>(`/api/cercles/${encodeURIComponent(slug)}/form-schema`),
+
+  apply: (cercleId: string, formData: Record<string, unknown>, memberType?: string) =>
+    apiFetch<{ ok: boolean; data: { application: AssociationApplication; membership: any } }>(
+      `/api/cercles/${cercleId}/apply`,
+      { method: "POST", body: { formData, memberType } },
+    ),
+
+  myApplication: (cercleId: string) =>
+    apiFetch<{ ok: boolean; data: AssociationApplication | null }>(`/api/cercles/${cercleId}/my-application`),
+
+  detail: (appId: string) =>
+    apiFetch<{ ok: boolean; data: AssociationApplication }>(`/api/cercles/applications/${appId}`),
+
+  listApplications: (cercleId: string, status?: string) =>
+    apiFetch<{ ok: boolean; data: AssociationApplication[] }>(
+      `/api/cercles/${cercleId}/applications${status ? "?status=" + status : ""}`,
+    ),
+
+  approve: (appId: string, opts?: { memberType?: string; reviewNote?: string }) =>
+    apiFetch<{ ok: boolean; data: any }>(
+      `/api/cercles/applications/${appId}/approve`,
+      { method: "POST", body: opts || {} },
+    ),
+
+  reject: (appId: string, reason: string) =>
+    apiFetch<{ ok: boolean; data: any }>(
+      `/api/cercles/applications/${appId}/reject`,
+      { method: "POST", body: { reason } },
+    ),
+
+  markPaid: (cercleId: string, userId: string, expireAt: string) =>
+    apiFetch<{ ok: boolean; data: any }>(
+      `/api/cercles/${cercleId}/cotisation/${userId}/mark-paid`,
+      { method: "POST", body: { expireAt } },
+    ),
 };
 
 // ── Invitations API (Sprint F2) ──

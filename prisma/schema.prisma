@@ -47,6 +47,7 @@ model User {
   // Cercles professionnels (réseau pro CITURBAREA)
   cerclesOwned        Cercle[]            @relation("CercleOwner")
   cercleMemberships   CercleMembership[]  @relation("CercleMemberships")
+  cercleApplications  AssociationMembershipApplication[] @relation("UserApplications")
   cercleModerations   CercleModerator[]   @relation("CercleModerators")
   cerclePosts         CerclePost[]        @relation("CerclePostAuthor")
   cercleMessages      CercleMessage[]     @relation("CercleMessageAuthor")
@@ -1073,9 +1074,41 @@ enum CercleRole {
 enum MembershipStatus {
   PENDING_REQUEST
   PENDING_INVITE
+  PENDING_APPLICATION   // dossier d'adhésion à valider (associations)
   ACTIVE
   BANNED
   LEFT
+}
+
+// Type de flow d'adhésion d'un Cercle
+enum MembershipFlow {
+  SIMPLE       // rejoindre direct ou demande simple (Cercles thématiques)
+  ASSOCIATION  // dossier d'adhésion + validation modo (SNASP, ANJAUM, ordres pro)
+}
+
+// Type de membre dans une association (cas Cercle ASSOCIATION uniquement)
+enum AssociationMemberType {
+  ASPIRANT      // candidature en cours
+  ETUDIANT      // étudiant école d'archi/urba
+  JEUNE_DIPLOME // diplômé récent (< 5 ans)
+  ACTIF         // membre titulaire à jour
+  HONORAIRE     // membre honoraire
+  RETRAITE      // membre retraité
+}
+
+// Statut cotisation annuelle
+enum CotisationStatus {
+  NON_REQUISE   // cercle sans cotisation
+  EN_ATTENTE    // membre validé mais cotisation pas reçue
+  A_JOUR        // cotisation payée et valide
+  EXPIRE        // période cotisation expirée
+}
+
+enum AssociationApplicationStatus {
+  PENDING       // soumise, en attente d'examen
+  APPROVED      // validée par modo
+  REJECTED      // refusée par modo (avec raison)
+  CANCELLED     // annulée par le candidat
 }
 
 enum RoomStatus {
@@ -1116,6 +1149,18 @@ model Cercle {
   region String? // une des 12 régions marocaines (nullable = national)
   themes String[] // tags ["BIM", "VRD lotissements", ...]
 
+  // Flow d'adhésion : SIMPLE (rejoindre direct) ou ASSOCIATION (dossier + validation)
+  membershipFlow       MembershipFlow @default(SIMPLE)
+  // Schéma JSON des champs requis dans le formulaire d'adhésion (ASSOCIATION only)
+  // Format: [{ name, label, type, required, options?, validation? }]
+  formSchema           Json?
+  // Critères d'éligibilité (display info, pas validation auto): age max, école requise, etc.
+  eligibilityCriteria  Json?
+  // Cotisation annuelle en MAD (null = pas de cotisation)
+  cotisationAnnuelleMad Int?
+  // Préfixe pour numéro de carte (ex: "ANJAUM-2026" → ANJAUM-2026-0042)
+  cardNumberPrefix     String?
+
   ownerId String
   owner   User   @relation("CercleOwner", fields: [ownerId], references: [id])
 
@@ -1123,12 +1168,13 @@ model Cercle {
   firmId String?
   firm   Firm?   @relation("CercleFirm", fields: [firmId], references: [id])
 
-  moderators  CercleModerator[]
-  members     CercleMembership[]
-  posts       CerclePost[]
-  messages    CercleMessage[]
-  rooms       LiveRoom[]
-  invitations CercleInvitation[]
+  moderators   CercleModerator[]
+  members      CercleMembership[]
+  posts        CerclePost[]
+  messages     CercleMessage[]
+  rooms        LiveRoom[]
+  invitations  CercleInvitation[]
+  applications AssociationMembershipApplication[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -1149,8 +1195,45 @@ model CercleMembership {
   joinedAt DateTime         @default(now())
   leftAt   DateTime?
 
+  // Champs spécifiques aux Cercles ASSOCIATION (SNASP, ANJAUM, ordres pro)
+  memberType        AssociationMemberType?
+  cotisationStatus  CotisationStatus       @default(NON_REQUISE)
+  cotisationExpireAt DateTime?
+  cardNumber        String?                @unique // ex: ANJAUM-2026-0042
+  applicationId     String?                @unique // référence à l'application validée
+  application       AssociationMembershipApplication? @relation(fields: [applicationId], references: [id])
+
   @@unique([cercleId, userId])
   @@index([userId])
+  @@index([cotisationStatus, cotisationExpireAt])
+}
+
+// Dossier d'adhésion à une association professionnelle (SNASP, ANJAUM, etc.)
+model AssociationMembershipApplication {
+  id          String                       @id @default(cuid())
+  cercleId    String
+  cercle      Cercle                       @relation(fields: [cercleId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User                         @relation("UserApplications", fields: [userId], references: [id])
+
+  status      AssociationApplicationStatus @default(PENDING)
+  // Données du formulaire (correspond au formSchema du Cercle)
+  formData    Json
+  // Type de membre souhaité (étudiant, jeune diplômé, actif)
+  memberType  AssociationMemberType?
+
+  submittedAt   DateTime  @default(now())
+  reviewedAt    DateTime?
+  reviewedBy    String?   // userId du modo qui a validé/rejeté
+  reviewNote    String?   @db.Text
+  rejectionReason String? @db.Text
+
+  // Membership lié (créé à l'approbation)
+  membership  CercleMembership?
+
+  @@index([cercleId, status])
+  @@index([userId])
+  @@index([status, submittedAt])
 }
 
 model CercleModerator {

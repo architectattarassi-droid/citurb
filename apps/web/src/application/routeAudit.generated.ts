@@ -539,7 +539,7 @@ export const ROUTE_USAGES = [
   {
     "route": "/admin/login",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 79
+    "line": 81
   },
   {
     "route": "/login",
@@ -563,23 +563,43 @@ export const ROUTE_USAGES = [
   },
   {
     "route": "/cercles/",
+    "file": "src/features/cercles/AssociationApplyPage.tsx",
+    "line": 136
+  },
+  {
+    "route": "/cercles/",
     "file": "src/features/cercles/CercleDetailPage.tsx",
     "line": 93
   },
   {
     "route": "/cercles/",
     "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 148
+    "line": 98
   },
   {
     "route": "/cercles/",
     "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 321
+    "line": 104
   },
   {
     "route": "/cercles/",
     "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 322
+    "line": 112
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 164
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 337
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 338
   },
   {
     "route": "/cercles/nouveau",
@@ -732,19 +752,29 @@ export const ROUTE_USAGES = [
     "line": 36
   },
   {
+    "route": "/admin/security/webauthn",
+    "file": "src/features/admin/AdminLoginPage.tsx",
+    "line": 76
+  },
+  {
     "route": "/admin/dashboard",
     "file": "src/features/admin/AdminLoginPage.tsx",
-    "line": 88
+    "line": 96
   },
   {
     "route": "/admin/dashboard",
     "file": "src/features/admin/AdminRegisterPasskeyPage.tsx",
-    "line": 42
+    "line": 60
   },
   {
     "route": "/admin/login",
     "file": "src/features/admin/AdminRegisterPasskeyPage.tsx",
-    "line": 22
+    "line": 25
+  },
+  {
+    "route": "/admin/login",
+    "file": "src/features/admin/AdminRegisterPasskeyPage.tsx",
+    "line": 40
   },
   {
     "route": "/cc/login",
@@ -926,7 +956,7 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/admin/login",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 79
+    "line": 81
   },
   {
     "route": "/cercles/me/profile",
@@ -940,23 +970,43 @@ export const UNKNOWN_ROUTE_USAGES = [
   },
   {
     "route": "/cercles/",
+    "file": "src/features/cercles/AssociationApplyPage.tsx",
+    "line": 136
+  },
+  {
+    "route": "/cercles/",
     "file": "src/features/cercles/CercleDetailPage.tsx",
     "line": 93
   },
   {
     "route": "/cercles/",
     "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 148
+    "line": 98
   },
   {
     "route": "/cercles/",
     "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 321
+    "line": 104
   },
   {
     "route": "/cercles/",
     "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 322
+    "line": 112
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 164
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 337
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 338
   },
   {
     "route": "/cercles/nouveau",
@@ -1104,19 +1154,29 @@ export const UNKNOWN_ROUTE_USAGES = [
     "line": 36
   },
   {
+    "route": "/admin/security/webauthn",
+    "file": "src/features/admin/AdminLoginPage.tsx",
+    "line": 76
+  },
+  {
     "route": "/admin/dashboard",
     "file": "src/features/admin/AdminLoginPage.tsx",
-    "line": 88
+    "line": 96
   },
   {
     "route": "/admin/dashboard",
     "file": "src/features/admin/AdminRegisterPasskeyPage.tsx",
-    "line": 42
+    "line": 60
   },
   {
     "route": "/admin/login",
     "file": "src/features/admin/AdminRegisterPasskeyPage.tsx",
-    "line": 22
+    "line": 25
+  },
+  {
+    "route": "/admin/login",
+    "file": "src/features/admin/AdminRegisterPasskeyPage.tsx",
+    "line": 40
   },
   {
     "route": "/cc/login",

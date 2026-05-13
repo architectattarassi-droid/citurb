@@ -15,9 +15,11 @@ import { MessagesService } from "./messages.service";
 import { MessagesStreamService } from "./messages-stream.service";
 import { JaasService } from "./jaas.service";
 import { CercleInvitationsService } from "./cercle-invitations.service";
+import { AssociationsService } from "./associations.service";
 import { CerclesController } from "./cercles.controller";
 import { MessagesController } from "./messages.controller";
 import { CercleInvitationsController } from "./cercle-invitations.controller";
+import { AssociationsController } from "./associations.controller";
 
 @Module({
   imports: [
@@ -28,7 +30,7 @@ import { CercleInvitationsController } from "./cercle-invitations.controller";
       signOptions: { expiresIn: "7d" },
     }),
   ],
-  controllers: [CerclesController, MessagesController, CercleInvitationsController],
+  controllers: [CerclesController, MessagesController, CercleInvitationsController, AssociationsController],
   providers: [
     CerclesService,
     MembershipsService,
@@ -43,6 +45,7 @@ import { CercleInvitationsController } from "./cercle-invitations.controller";
     MessagesStreamService,
     JaasService,
     CercleInvitationsService,
+    AssociationsService,
   ],
   exports: [
     CerclesService,

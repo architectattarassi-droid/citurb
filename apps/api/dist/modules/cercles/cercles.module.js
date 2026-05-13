@@ -24,9 +24,11 @@ const messages_service_1 = require("./messages.service");
 const messages_stream_service_1 = require("./messages-stream.service");
 const jaas_service_1 = require("./jaas.service");
 const cercle_invitations_service_1 = require("./cercle-invitations.service");
+const associations_service_1 = require("./associations.service");
 const cercles_controller_1 = require("./cercles.controller");
 const messages_controller_1 = require("./messages.controller");
 const cercle_invitations_controller_1 = require("./cercle-invitations.controller");
+const associations_controller_1 = require("./associations.controller");
 let CerclesModule = class CerclesModule {
 };
 exports.CerclesModule = CerclesModule;
@@ -40,7 +42,7 @@ exports.CerclesModule = CerclesModule = __decorate([
                 signOptions: { expiresIn: "7d" },
             }),
         ],
-        controllers: [cercles_controller_1.CerclesController, messages_controller_1.MessagesController, cercle_invitations_controller_1.CercleInvitationsController],
+        controllers: [cercles_controller_1.CerclesController, messages_controller_1.MessagesController, cercle_invitations_controller_1.CercleInvitationsController, associations_controller_1.AssociationsController],
         providers: [
             cercles_service_1.CerclesService,
             memberships_service_1.MembershipsService,
@@ -55,6 +57,7 @@ exports.CerclesModule = CerclesModule = __decorate([
             messages_stream_service_1.MessagesStreamService,
             jaas_service_1.JaasService,
             cercle_invitations_service_1.CercleInvitationsService,
+            associations_service_1.AssociationsService,
         ],
         exports: [
             cercles_service_1.CerclesService,

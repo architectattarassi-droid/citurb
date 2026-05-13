@@ -94,8 +94,24 @@ export default function CercleDetailPage() {
                   💬 Chat en direct
                 </button>
               )}
-              {(!cercle.members || cercle.members.length === 0 || cercle.members[0]?.status !== "ACTIVE") && (
-                <button onClick={join} style={S.joinBtn}>Rejoindre</button>
+              {(cercle.members?.[0]?.role === "OWNER" || cercle.members?.[0]?.role === "MODERATOR") && cercle.membershipFlow === "ASSOCIATION" && (
+                <button onClick={() => navigate(`/cercles/${slug}/applications`)} style={S.chatBtn}>
+                  📋 Gérer adhésions
+                </button>
+              )}
+              {(!cercle.members || cercle.members.length === 0 || (cercle.members[0]?.status !== "ACTIVE" && cercle.members[0]?.status !== "PENDING_APPLICATION")) && (
+                cercle.membershipFlow === "ASSOCIATION" ? (
+                  <button onClick={() => navigate(`/cercles/${slug}/rejoindre`)} style={S.joinBtn}>
+                    📋 Adhérer
+                  </button>
+                ) : (
+                  <button onClick={join} style={S.joinBtn}>Rejoindre</button>
+                )
+              )}
+              {cercle.members?.[0]?.status === "PENDING_APPLICATION" && (
+                <button onClick={() => navigate(`/cercles/${slug}/rejoindre`)} style={{ ...S.joinBtn, background: CC_THEME.info }}>
+                  ⏳ Voir ma demande
+                </button>
               )}
             </div>
           </header>

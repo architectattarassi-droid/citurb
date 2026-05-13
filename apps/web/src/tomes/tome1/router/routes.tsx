@@ -40,6 +40,8 @@ import ProfilePage      from "../../../features/cercles/ProfilePage";
 import CercleChatPage   from "../../../features/cercles/CercleChatPage";
 import InscriptionPage  from "../../../features/cercles/InscriptionPage";
 import EditProfilePage  from "../../../features/cercles/EditProfilePage";
+import AssociationApplyPage  from "../../../features/cercles/AssociationApplyPage";
+import AssociationManagePage from "../../../features/cercles/AssociationManagePage";
 
 // Admin Vault (Sprint H — app admin ultra-sécurisée)
 import AdminLoginPage           from "../../../features/admin/AdminLoginPage";
@@ -91,6 +93,8 @@ export const router = createBrowserRouter([
   { path: '/cercles/nouveau',                      element: <NewCerclePage /> },
   { path: '/cercles/:slug',                        element: <CercleDetailPage /> },
   { path: '/cercles/:slug/chat',                   element: <CercleChatPage /> },
+  { path: '/cercles/:slug/rejoindre',              element: <AssociationApplyPage /> },
+  { path: '/cercles/:slug/applications',           element: <AssociationManagePage /> },
   { path: '/cercles/:slug/posts/:postId',          element: <PostDetailPage /> },
   { path: '/cercles/:slug/rooms/:roomSlug/live',   element: <LiveRoomPage /> },
   { path: '/cercles/:slug/rooms/:roomSlug',        element: <LiveRoomPage /> },
