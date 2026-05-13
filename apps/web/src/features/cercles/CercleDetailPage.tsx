@@ -75,8 +75,25 @@ export default function CercleDetailPage() {
 
   const upvote = async (postId: string) => {
     if (!cercle) return;
-    await cerclesApi.upvote(cercle.id, postId);
-    await loadAll();
+    // Optimistic update : flip liked + ajuste upvotes immédiatement
+    setPosts(prev => prev.map(p => p.id === postId ? {
+      ...p,
+      liked: !p.liked,
+      upvotes: p.liked ? Math.max(0, p.upvotes - 1) : p.upvotes + 1,
+    } : p));
+    try {
+      const r = await cerclesApi.upvote(cercle.id, postId);
+      // Re-sync avec valeur réelle serveur
+      setPosts(prev => prev.map(p => p.id === postId ? {
+        ...p, liked: r.data.liked, upvotes: r.data.upvotes,
+      } : p));
+    } catch (e: any) {
+      // Rollback si erreur
+      setPosts(prev => prev.map(p => p.id === postId ? {
+        ...p, liked: !p.liked, upvotes: p.liked ? p.upvotes + 1 : Math.max(0, p.upvotes - 1),
+      } : p));
+      alert("Erreur like : " + (e?.message || ""));
+    }
   };
 
   const join = async () => {
@@ -313,12 +330,27 @@ function PostCard({ post, cercleSlug, cercleName, onUpvote, onOpen }: { post: Ce
         </div>
       )}
       <div style={S.postFooter}>
-        <button onClick={onUpvote} style={S.action}>👍 {post.upvotes}</button>
-        <button onClick={onOpen}   style={S.action}>💬 {post.replyCount}</button>
-        <button onClick={sharePost} style={S.action} title="Partager le lien du post">
+        <button
+          onClick={onUpvote}
+          style={{
+            ...S.action,
+            background: post.liked ? CC_THEME.or : "transparent",
+            color: post.liked ? "white" : CC_THEME.inkMid,
+            fontWeight: post.liked ? 700 : 500,
+            border: post.liked ? `1px solid ${CC_THEME.or}` : `1px solid transparent`,
+            transition: "all 0.15s",
+          }}
+          title={post.liked ? "Tu as aimé — clique pour retirer" : "Aimer ce post"}
+        >
+          {post.liked ? "👍" : "🤍"} {post.upvotes} {post.liked ? "Tu aimes" : "J'aime"}
+        </button>
+        <button onClick={onOpen} style={S.action} title="Voir les commentaires">
+          💬 {post.replyCount} Commenter
+        </button>
+        <button onClick={sharePost} style={{ ...S.action, background: shareToast ? CC_THEME.successBg : "transparent", color: shareToast ? CC_THEME.success : CC_THEME.inkMid, fontWeight: shareToast ? 700 : 500 }} title="Partager le lien du post (photos/vidéos incluses)">
           🔗 {shareToast ? "Lien copié ✓" : "Partager"}
         </button>
-        <button onClick={onOpen}   style={{ ...S.action, marginLeft: "auto", color: CC_THEME.or }}>Lire la suite →</button>
+        <button onClick={onOpen} style={{ ...S.action, marginLeft: "auto", color: CC_THEME.or, fontWeight: 600 }}>Lire la suite →</button>
       </div>
     </article>
   );
@@ -573,7 +605,7 @@ const S: Record<string, React.CSSProperties> = {
   postTitle: { margin: "4px 0 8px", fontFamily: CC_THEME.fontDisplay, fontSize: 17, color: CC_THEME.navy, fontWeight: 600, cursor: "pointer" },
   postBody: { fontSize: 13.5, color: CC_THEME.ink, lineHeight: 1.6, whiteSpace: "pre-wrap" },
   postFooter: { display: "flex", gap: 12, alignItems: "center", marginTop: 14, paddingTop: 12, borderTop: `1px solid ${CC_THEME.borderSoft}` },
-  action: { background: "transparent", border: 0, color: CC_THEME.inkMid, fontSize: 12, cursor: "pointer", fontFamily: "inherit" },
+  action: { background: "transparent", border: 0, color: CC_THEME.inkMid, fontSize: 12.5, cursor: "pointer", fontFamily: "inherit", padding: "8px 14px", borderRadius: 18, display: "inline-flex", alignItems: "center", gap: 4, fontWeight: 500 },
 
   roomCard: { background: CC_THEME.bgRaised, border: `1px solid ${CC_THEME.border}`, borderRadius: 10, padding: 18, marginBottom: 12, boxShadow: CC_THEME.shadowSoft },
   roomHead: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 },

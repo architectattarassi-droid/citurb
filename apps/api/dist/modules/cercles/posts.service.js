@@ -93,12 +93,18 @@ let PostsService = class PostsService {
                 include: {
                     author: { select: { id: true, email: true, username: true } },
                     attachments: true,
+                    upvotedBy: { where: { userId: viewerId }, select: { id: true } },
                     _count: { select: { replies: true } },
                 },
             }),
             this.prisma.cerclePost.count({ where }),
         ]);
-        return { data, meta: { page, pageSize, total } };
+        // Dérive liked flag pour chaque post
+        const enriched = data.map((p) => ({
+            ...p,
+            liked: (p.upvotedBy?.length || 0) > 0,
+        }));
+        return { data: enriched, meta: { page, pageSize, total } };
     }
     async detail(postId, viewerId) {
         const post = await this.prisma.cerclePost.findUnique({
@@ -154,20 +160,38 @@ let PostsService = class PostsService {
         return this.prisma.cerclePost.update({ where: { id: postId }, data: { deletedAt: new Date() } });
     }
     /**
-     * Upvote idempotent par user. On stocke un compteur dénormalisé (upvotes)
-     * sur le post + un audit-trail simple en JSON pour l'instant.
-     * v2 : table CerclePostUpvote dédiée.
+     * Upvote toggle. Si l'user a déjà liké → unlike (suppression + decrement).
+     * Sinon → like (création + increment). Counter dénormalisé sur le post,
+     * et tracking par user via PostUpvote.
      */
     async upvote(postId, userId) {
         const post = await this.prisma.cerclePost.findUniqueOrThrow({ where: { id: postId } });
         if (post.deletedAt)
             throw new common_1.BadRequestException("Post supprimé");
         await this.cercles.assertMember(post.cercleId, userId);
-        return this.prisma.cerclePost.update({
-            where: { id: postId },
-            data: { upvotes: { increment: 1 } },
-            select: { id: true, upvotes: true },
+        const existing = await this.prisma.postUpvote.findUnique({
+            where: { postId_userId: { postId, userId } },
         });
+        if (existing) {
+            const [, updated] = await this.prisma.$transaction([
+                this.prisma.postUpvote.delete({ where: { id: existing.id } }),
+                this.prisma.cerclePost.update({
+                    where: { id: postId },
+                    data: { upvotes: { decrement: 1 } },
+                    select: { id: true, upvotes: true },
+                }),
+            ]);
+            return { liked: false, id: updated.id, upvotes: Math.max(0, updated.upvotes) };
+        }
+        const [, updated] = await this.prisma.$transaction([
+            this.prisma.postUpvote.create({ data: { postId, userId } }),
+            this.prisma.cerclePost.update({
+                where: { id: postId },
+                data: { upvotes: { increment: 1 } },
+                select: { id: true, upvotes: true },
+            }),
+        ]);
+        return { liked: true, id: updated.id, upvotes: updated.upvotes };
     }
     async pin(postId, userId, pinned = true) {
         const post = await this.prisma.cerclePost.findUniqueOrThrow({ where: { id: postId } });

@@ -50,6 +50,7 @@ model User {
   cercleApplications  AssociationMembershipApplication[] @relation("UserApplications")
   cercleModerations   CercleModerator[]   @relation("CercleModerators")
   cerclePosts         CerclePost[]        @relation("CerclePostAuthor")
+  postUpvotes         PostUpvote[]        @relation("UserPostUpvotes")
   cercleMessages      CercleMessage[]     @relation("CercleMessageAuthor")
   messageReactions    MessageReaction[]   @relation("MessageReactionUser")
   messageReads        MessageRead[]       @relation("MessageReadUser")
@@ -1258,6 +1259,7 @@ model CerclePost {
   body  String  @db.Text // markdown autorisé, sanitizé serveur
 
   attachments PostAttachment[]
+  upvotedBy   PostUpvote[]
 
   parentId String?
   parent   CerclePost?  @relation("Replies", fields: [parentId], references: [id])
@@ -1286,6 +1288,20 @@ model PostAttachment {
   mimeType  String
   sizeBytes Int
   createdAt DateTime   @default(now())
+}
+
+// Like d'un post (tracking par user pour permettre toggle + éviter double-like)
+model PostUpvote {
+  id        String     @id @default(cuid())
+  postId    String
+  post      CerclePost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User       @relation("UserPostUpvotes", fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime   @default(now())
+
+  @@unique([postId, userId])
+  @@index([userId])
+  @@index([postId])
 }
 
 model LiveRoom {

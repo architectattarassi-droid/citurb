@@ -44,6 +44,7 @@ export type CerclePost = {
   body: string;
   parentId: string | null;
   upvotes: number;
+  liked?: boolean; // si user courant a liké ce post
   replyCount: number;
   isPinned: boolean;
   isResolved: boolean;
@@ -272,7 +273,10 @@ export const cerclesApi = {
   reply: (cercleId: string, postId: string, body: string) =>
     apiFetch<{ ok: boolean; data: CerclePost }>(`/api/cercles/${cercleId}/posts/${postId}/replies`, { method: "POST", body: { body } }),
   upvote: (cercleId: string, postId: string) =>
-    apiFetch(`/api/cercles/${cercleId}/posts/${postId}/upvote`, { method: "POST", body: {} }),
+    apiFetch<{ ok: boolean; data: { liked: boolean; id: string; upvotes: number } }>(
+      `/api/cercles/${cercleId}/posts/${postId}/upvote`,
+      { method: "POST", body: {} },
+    ),
   pin: (cercleId: string, postId: string, pinned: boolean) =>
     apiFetch(`/api/cercles/${cercleId}/posts/${postId}/pin`, { method: "POST", body: { pinned } }),
 
