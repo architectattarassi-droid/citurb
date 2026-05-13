@@ -13,8 +13,7 @@ exports.CercleInvitationsService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../tomes/tome-at/kernel/prisma/prisma.service");
 const cercles_service_1 = require("./cercles.service");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const nodemailer = require("nodemailer");
+const email_service_1 = require("../email/email.service");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const bcrypt = require("bcryptjs");
 const crypto_1 = require("crypto");
@@ -34,10 +33,12 @@ const TOKEN_BYTES = 24;
 let CercleInvitationsService = class CercleInvitationsService {
     prisma;
     cercles;
+    email;
     log = new common_1.Logger("CercleInvitationsService");
-    constructor(prisma, cercles) {
+    constructor(prisma, cercles, email) {
         this.prisma = prisma;
         this.cercles = cercles;
+        this.email = email;
     }
     // ── Invite ─────────────────────────────────────────────────────
     async inviteByEmail(cercleId, fromUserId, emails, message) {
@@ -219,8 +220,8 @@ let CercleInvitationsService = class CercleInvitationsService {
         return process.env.PUBLIC_WEB_URL?.replace(/\/$/, "") || "http://localhost:5173";
     }
     async sendInviteEmail(opts) {
-        if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-            this.log.warn(`[Invitations] SMTP non configuré — lien renvoyé au front pour ${opts.to}`);
+        if (!this.email.isConfigured()) {
+            this.log.warn(`[Invitations] Aucun provider email — lien renvoyé au front pour ${opts.to}`);
             return false;
         }
         const subject = `${opts.inviterName} vous invite à rejoindre ${opts.cercleName} sur CITURBAREA Cercles`;
@@ -247,26 +248,19 @@ let CercleInvitationsService = class CercleInvitationsService {
     <p style="font-size: 11px; color: #8B91A1; text-align: center; margin-top: 16px;">Si vous n'attendiez pas cette invitation, vous pouvez l'ignorer.</p>
   </div>
 </body></html>`;
-        try {
-            const transporter = nodemailer.createTransport({
-                host: process.env.SMTP_HOST,
-                port: Number(process.env.SMTP_PORT) || 587,
-                secure: false,
-                auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-            });
-            await transporter.sendMail({
-                from: `"CITURBAREA Cercles" <${process.env.SMTP_USER}>`,
-                to: opts.to,
-                subject,
-                html,
-            });
-            this.log.log(`[Invitations] Email envoyé à ${opts.to}`);
+        const r = await this.email.send({
+            to: opts.to,
+            subject,
+            html,
+            text: `${opts.inviterName} t'invite à rejoindre ${opts.cercleName} sur CITURBAREA Cercles.\n\nLien d'inscription : ${opts.link}\n\nLe lien expire dans 7 jours.`,
+            from: process.env.RESEND_FROM || `CITURBAREA Cercles <onboarding@resend.dev>`,
+        });
+        if (r.ok) {
+            this.log.log(`[Invitations] Email envoyé à ${opts.to} via ${r.provider}`);
             return true;
         }
-        catch (e) {
-            this.log.error(`[Invitations] Échec envoi à ${opts.to}: ${e?.message}`);
-            return false;
-        }
+        this.log.error(`[Invitations] Échec envoi à ${opts.to}: ${r.error}`);
+        return false;
     }
     esc(s) {
         return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -276,5 +270,6 @@ exports.CercleInvitationsService = CercleInvitationsService;
 exports.CercleInvitationsService = CercleInvitationsService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
-        cercles_service_1.CerclesService])
+        cercles_service_1.CerclesService,
+        email_service_1.EmailService])
 ], CercleInvitationsService);

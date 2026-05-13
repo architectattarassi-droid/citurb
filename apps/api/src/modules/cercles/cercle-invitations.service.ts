@@ -1,8 +1,7 @@
 import { Injectable, BadRequestException, NotFoundException, ForbiddenException, Logger } from "@nestjs/common";
 import { PrismaService } from "../../tomes/tome-at/kernel/prisma/prisma.service";
 import { CerclesService } from "./cercles.service";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const nodemailer = require("nodemailer");
+import { EmailService } from "../email/email.service";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const bcrypt = require("bcryptjs");
 import { randomBytes } from "crypto";
@@ -35,6 +34,7 @@ export class CercleInvitationsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly cercles: CerclesService,
+    private readonly email: EmailService,
   ) {}
 
   // ── Invite ─────────────────────────────────────────────────────
@@ -252,8 +252,8 @@ export class CercleInvitationsService {
     message: string;
     link: string;
   }): Promise<boolean> {
-    if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      this.log.warn(`[Invitations] SMTP non configuré — lien renvoyé au front pour ${opts.to}`);
+    if (!this.email.isConfigured()) {
+      this.log.warn(`[Invitations] Aucun provider email — lien renvoyé au front pour ${opts.to}`);
       return false;
     }
     const subject = `${opts.inviterName} vous invite à rejoindre ${opts.cercleName} sur CITURBAREA Cercles`;
@@ -281,25 +281,19 @@ export class CercleInvitationsService {
   </div>
 </body></html>`;
 
-    try {
-      const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT) || 587,
-        secure: false,
-        auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-      });
-      await transporter.sendMail({
-        from: `"CITURBAREA Cercles" <${process.env.SMTP_USER}>`,
-        to: opts.to,
-        subject,
-        html,
-      });
-      this.log.log(`[Invitations] Email envoyé à ${opts.to}`);
+    const r = await this.email.send({
+      to: opts.to,
+      subject,
+      html,
+      text: `${opts.inviterName} t'invite à rejoindre ${opts.cercleName} sur CITURBAREA Cercles.\n\nLien d'inscription : ${opts.link}\n\nLe lien expire dans 7 jours.`,
+      from: process.env.RESEND_FROM || `CITURBAREA Cercles <onboarding@resend.dev>`,
+    });
+    if (r.ok) {
+      this.log.log(`[Invitations] Email envoyé à ${opts.to} via ${r.provider}`);
       return true;
-    } catch (e: any) {
-      this.log.error(`[Invitations] Échec envoi à ${opts.to}: ${e?.message}`);
-      return false;
     }
+    this.log.error(`[Invitations] Échec envoi à ${opts.to}: ${r.error}`);
+    return false;
   }
 
   private esc(s: string): string {
