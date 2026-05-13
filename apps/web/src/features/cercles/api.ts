@@ -538,9 +538,45 @@ export const invitationsApi = {
     title?: string;
     villePrincipale?: string;
     phonePublic?: string;
+    cabinetName?: string;
+    cabinetStatus?: string;
+    cnoaNumero?: string;
+    yearsExperience?: number;
+    ecole?: string;
+    anneeDiplome?: number;
+    diplome?: string;
+    specialites?: string[];
+    regions?: string[];
+    langues?: string[];
+    websiteUrl?: string;
+    linkedinUrl?: string;
+    emailPublic?: string;
+    bio?: string;
   }) =>
     apiFetch<{ ok: boolean; data: { userId: string; cercleSlug: string; email: string; access_token: string } }>(
       `/api/cercles/invitations/signup`,
       { method: "POST", body: input },
     ),
+
+  uploadAvatar: (file: File): Promise<{ avatarUrl: string }> => {
+    return new Promise((resolve, reject) => {
+      const fd = new FormData();
+      fd.append("file", file);
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", `${apiBase()}/api/cercles/me/profile/avatar`);
+      const tok = getToken();
+      if (tok) xhr.setRequestHeader("Authorization", `Bearer ${tok}`);
+      xhr.onload = () => {
+        try {
+          const j = JSON.parse(xhr.responseText);
+          if (xhr.status >= 200 && xhr.status < 300 && j.ok) resolve(j.data);
+          else reject(new Error(j?.message || `Upload échoué (${xhr.status})`));
+        } catch (err) {
+          reject(new Error("Réponse upload invalide"));
+        }
+      };
+      xhr.onerror = () => reject(new Error("Erreur réseau upload"));
+      xhr.send(fd);
+    });
+  },
 };

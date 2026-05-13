@@ -24,6 +24,15 @@ import {
   UserPost, UserCercleMembership, UserRoom,
   FormationEntry, ExperiencePhare,
 } from "./api";
+import { apiBase } from "../../tomes/tome4/apiClient";
+
+/** Préfixe avatarUrl si c'est un chemin relatif /uploads/ → URL absolue API */
+function resolveAvatarUrl(url?: string | null): string | undefined {
+  if (!url) return undefined;
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:")) return url;
+  if (url.startsWith("/uploads/")) return `${apiBase()}${url}`;
+  return url;
+}
 
 const METIER_LABELS: Record<string, string> = {
   ARCHITECTE: "Architecte", BET_STRUCTURE: "BET Structure", BET_FLUIDES: "BET Fluides", BET_VRD: "BET VRD",
@@ -143,7 +152,7 @@ export default function ProfilePage() {
           <div style={{
             ...S.avatar,
             background: profile.isVerified ? CC_THEME.successBg : CC_THEME.orSoft,
-            backgroundImage: profile.avatarUrl ? `url(${profile.avatarUrl})` : undefined,
+            backgroundImage: profile.avatarUrl ? `url(${resolveAvatarUrl(profile.avatarUrl)})` : undefined,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}>

@@ -14,10 +14,24 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CercleInvitationsController = void 0;
 const common_1 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { diskStorage } = require("multer");
+const path_1 = require("path");
+const fs_1 = require("fs");
 const tome_at_1 = require("../../tomes/tome-at");
 const jwt_auth_guard_1 = require("../../tomes/tome-5/auth/jwt-auth.guard");
 const cercle_invitations_service_1 = require("./cercle-invitations.service");
 const jwt_1 = require("@nestjs/jwt");
+const prisma_service_1 = require("../../tomes/tome-at/kernel/prisma/prisma.service");
+const UPLOAD_BASE = process.env.UPLOADS_DIR || (0, path_1.join)(process.cwd(), "uploads");
+const AVATAR_DIR = (0, path_1.join)(UPLOAD_BASE, "avatars");
+try {
+    (0, fs_1.mkdirSync)(AVATAR_DIR, { recursive: true });
+}
+catch { }
+const AVATAR_MAX_BYTES = 5 * 1024 * 1024; // 5 MB
+const AVATAR_MIMES = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
 /**
  * CercleInvitationsController — Sprint F2
  *
@@ -30,9 +44,11 @@ const jwt_1 = require("@nestjs/jwt");
 let CercleInvitationsController = class CercleInvitationsController {
     invitations;
     jwt;
-    constructor(invitations, jwt) {
+    prisma;
+    constructor(invitations, jwt, prisma) {
         this.invitations = invitations;
         this.jwt = jwt;
+        this.prisma = prisma;
     }
     uid(req) {
         return req?.user?.userId || req?.user?.sub;
@@ -72,6 +88,28 @@ let CercleInvitationsController = class CercleInvitationsController {
         });
         return { ok: true, data: { ...result, access_token } };
     }
+    // ── Upload avatar de profil (auth, après signup) ───────────────
+    async uploadAvatar(req, file) {
+        if (!file)
+            throw new common_1.BadRequestException("Aucun fichier");
+        if (!AVATAR_MIMES.has(file.mimetype)) {
+            throw new common_1.BadRequestException(`Type ${file.mimetype} non autorisé. JPG/PNG/WebP/GIF uniquement.`);
+        }
+        const userId = req.user.userId || req.user.sub;
+        const relative = `avatars/${userId}/${file.filename}`;
+        const avatarUrl = `/uploads/${relative}`;
+        await this.prisma.proProfile.upsert({
+            where: { userId },
+            update: { avatarUrl },
+            create: {
+                userId,
+                avatarUrl,
+                displayName: req.user.email || "Membre",
+                metier: "ARCHITECTE",
+            },
+        });
+        return { ok: true, data: { avatarUrl, fileKey: relative, sizeBytes: file.size } };
+    }
 };
 exports.CercleInvitationsController = CercleInvitationsController;
 __decorate([
@@ -107,9 +145,37 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], CercleInvitationsController.prototype, "signup", null);
+__decorate([
+    (0, common_1.Post)("me/profile/avatar"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)("file", {
+        storage: diskStorage({
+            destination: (req, _file, cb) => {
+                const userId = req?.user?.userId || req?.user?.sub || "unknown";
+                const dir = (0, path_1.join)(AVATAR_DIR, userId);
+                try {
+                    (0, fs_1.mkdirSync)(dir, { recursive: true });
+                }
+                catch { }
+                cb(null, dir);
+            },
+            filename: (_req, file, cb) => {
+                const ext = (file.originalname.match(/\.(jpg|jpeg|png|webp|gif)$/i) || [".jpg"])[0];
+                cb(null, `avatar-${Date.now()}${ext}`);
+            },
+        }),
+        limits: { fileSize: AVATAR_MAX_BYTES },
+    })),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.UploadedFile)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], CercleInvitationsController.prototype, "uploadAvatar", null);
 exports.CercleInvitationsController = CercleInvitationsController = __decorate([
     (0, tome_at_1.Tome)("tome8"),
     (0, common_1.Controller)("api/cercles"),
     __metadata("design:paramtypes", [cercle_invitations_service_1.CercleInvitationsService,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        prisma_service_1.PrismaService])
 ], CercleInvitationsController);

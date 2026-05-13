@@ -151,6 +151,25 @@ export class CercleInvitationsService {
       title?: string;
       villePrincipale?: string;
       phonePublic?: string;
+      // Champs enrichis Sprint K
+      cabinetName?: string;
+      cabinetStatus?: string; // INDEPENDANT_PHYSIQUE | LIBERAL | ASSOCIE | SALARIE_CABINET | SALARIE_ENTREPRISE | FONCTIONNAIRE | ENSEIGNANT | ETUDIANT | RETRAITE | HONORAIRE
+      cnoaNumero?: string;
+      yearsExperience?: number;
+      // Formation
+      ecole?: string;
+      anneeDiplome?: number;
+      diplome?: string;
+      // Spécialités + régions
+      specialites?: string[];
+      regions?: string[];
+      langues?: string[];
+      // Réseaux
+      websiteUrl?: string;
+      linkedinUrl?: string;
+      emailPublic?: string;
+      // Bio
+      bio?: string;
     },
   ): Promise<{ userId: string; cercleSlug: string; email: string }> {
     if (!input.password || input.password.length < 8) {
@@ -183,23 +202,40 @@ export class CercleInvitationsService {
       });
     }
 
-    // ProProfile (créé/mis à jour)
+    // Construit le ProProfile complet avec tous les champs enrichis
+    const formations = (input.ecole && input.anneeDiplome) ? [{
+      ecole: input.ecole,
+      diplome: input.diplome || "Diplôme d'État d'Architecte",
+      annee: input.anneeDiplome,
+    }] : [];
+
+    const profileData = {
+      displayName: input.displayName.trim(),
+      title: input.title ?? null,
+      bio: input.bio ?? null,
+      metier: (input.metier as any) || "ARCHITECTE",
+      cabinetName: input.cabinetName ?? null,
+      cabinetStatus: input.cabinetStatus ?? null,
+      cnoaNumero: input.cnoaNumero ?? null,
+      yearsExperience: input.yearsExperience ?? null,
+      formations: formations.length > 0 ? formations as any : null,
+      villePrincipale: input.villePrincipale ?? null,
+      phonePublic: input.phonePublic ?? null,
+      emailPublic: input.emailPublic ?? user.email,
+      regions: input.regions ?? [],
+      specialites: input.specialites ?? [],
+      langues: input.langues ?? ["FR", "AR"],
+      agrements: input.cnoaNumero ? [input.cnoaNumero] : [],
+      websiteUrl: input.websiteUrl ?? null,
+      linkedinUrl: input.linkedinUrl ?? null,
+      isVerified: false,
+    };
+
     const profileExists = await this.prisma.proProfile.findUnique({ where: { userId: user.id } });
     if (!profileExists) {
-      await this.prisma.proProfile.create({
-        data: {
-          userId: user.id,
-          displayName: input.displayName.trim(),
-          title: input.title ?? null,
-          metier: (input.metier as any) || "ARCHITECTE",
-          villePrincipale: input.villePrincipale ?? null,
-          phonePublic: input.phonePublic ?? null,
-          regions: [],
-          specialites: [],
-          agrements: [],
-          isVerified: false,
-        },
-      });
+      await this.prisma.proProfile.create({ data: { userId: user.id, ...profileData } });
+    } else {
+      await this.prisma.proProfile.update({ where: { userId: user.id }, data: profileData });
     }
 
     // Membership ACTIVE
