@@ -25,27 +25,28 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { id: "dashboard",   label: "Tableau de bord", path: "/cc/dashboard",   mark: "I"   },
       { id: "leads",       label: "Leads",           path: "/cc/leads",       mark: "II"  },
-      { id: "validations", label: "Validations",     path: "/cc/validations", mark: "III" },
+      { id: "inscrits",    label: "Inscrits Cercles",path: "/cc/inscrits",    mark: "III" },
+      { id: "validations", label: "Validations",     path: "/cc/validations", mark: "IV"  },
     ],
   },
   {
     id: "production",
     title: "Production",
     items: [
-      { id: "dossiers", label: "Dossiers",  path: "/cc/dossiers", mark: "IV" },
-      { id: "projects", label: "Projets",   path: "/cc/projects", mark: "V"  },
-      { id: "archive",  label: "Archive",   path: "/cc/archive",  mark: "VI" },
+      { id: "dossiers", label: "Dossiers",  path: "/cc/dossiers", mark: "V"  },
+      { id: "projects", label: "Projets",   path: "/cc/projects", mark: "VI" },
+      { id: "archive",  label: "Archive",   path: "/cc/archive",  mark: "VII"},
     ],
   },
   {
     id: "rayonnement",
     title: "Rayonnement",
     items: [
-      { id: "media",       label: "Médias",                 path: "/cc/media",       mark: "VII"  },
-      { id: "territorial", label: "Intelligence territoire", path: "/cc/territorial", mark: "VIII" },
-      { id: "business",    label: "Business",                path: "/cc/business",    mark: "IX"   },
-      { id: "firms",       label: "Cabinets",                path: "/cc/firms",       mark: "X"    },
-      { id: "live",        label: "Live",                    path: "/cc/live",        mark: "XI"   },
+      { id: "media",       label: "Médias",                 path: "/cc/media",       mark: "VIII" },
+      { id: "territorial", label: "Intelligence territoire", path: "/cc/territorial", mark: "IX"   },
+      { id: "business",    label: "Business",                path: "/cc/business",    mark: "X"    },
+      { id: "firms",       label: "Cabinets",                path: "/cc/firms",       mark: "XI"   },
+      { id: "live",        label: "Live",                    path: "/cc/live",        mark: "XII"  },
     ],
   },
 ];

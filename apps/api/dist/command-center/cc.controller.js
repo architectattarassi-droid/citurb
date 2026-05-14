@@ -81,6 +81,65 @@ let CCController = class CCController {
         });
         return { ok: true, leadQualif: updated.payload?.leadQualif };
     }
+    // ── Inscrits Cercles (tous les users avec ProProfile) ──────────
+    async inscrits() {
+        const profiles = await this.prisma.proProfile.findMany({
+            orderBy: { createdAt: "desc" },
+            take: 500,
+            select: {
+                id: true,
+                userId: true,
+                displayName: true,
+                title: true,
+                bio: true,
+                avatarUrl: true,
+                metier: true,
+                cabinetName: true,
+                cabinetStatus: true,
+                cnoaNumero: true,
+                yearsExperience: true,
+                villePrincipale: true,
+                regions: true,
+                specialites: true,
+                langues: true,
+                websiteUrl: true,
+                linkedinUrl: true,
+                phonePublic: true,
+                emailPublic: true,
+                isVerified: true,
+                verifiedAt: true,
+                createdAt: true,
+                updatedAt: true,
+                user: {
+                    select: {
+                        email: true, username: true, phone: true, isActive: true,
+                        role: true, plan: true, emailVerifiedAt: true, createdAt: true,
+                    },
+                },
+            },
+        });
+        return { ok: true, data: profiles };
+    }
+    async verifyInscrit(userId, body, req) {
+        const updated = await this.prisma.proProfile.update({
+            where: { userId },
+            data: {
+                isVerified: body.isVerified,
+                verifiedAt: body.isVerified ? new Date() : null,
+                verifierNote: body.note || null,
+            },
+            select: { id: true, isVerified: true, verifiedAt: true },
+        });
+        return { ok: true, data: updated };
+    }
+    async deactivateInscrit(userId, body) {
+        const updated = await this.prisma.user.update({
+            where: { id: userId },
+            data: { isActive: body.isActive },
+            select: { id: true, isActive: true },
+        });
+        return { ok: true, data: updated };
+    }
     async createLead(body, req) {
         // Admin manual lead creation. Creates a Dossier in name of admin (or specified owner).
         const ownerId = body.ownerId || req.user?.userId;
@@ -137,6 +196,35 @@ __decorate([
     __metadata("design:paramtypes", [String, Object, Object]),
     __metadata("design:returntype", Promise)
 ], CCController.prototype, "updateLead", null);
+__decorate([
+    (0, common_1.Get)("inscrits"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)("ADMIN", "OWNER", "OPS"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], CCController.prototype, "inscrits", null);
+__decorate([
+    (0, common_1.Patch)("inscrits/:userId/verify"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)("ADMIN", "OWNER"),
+    __param(0, (0, common_1.Param)("userId")),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", Promise)
+], CCController.prototype, "verifyInscrit", null);
+__decorate([
+    (0, common_1.Patch)("inscrits/:userId/deactivate"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)("ADMIN", "OWNER"),
+    __param(0, (0, common_1.Param)("userId")),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], CCController.prototype, "deactivateInscrit", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)("ADMIN", "OWNER", "OPS"),

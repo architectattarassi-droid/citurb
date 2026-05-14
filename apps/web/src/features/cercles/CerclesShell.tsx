@@ -78,12 +78,15 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
           <input style={S.search} placeholder="Rechercher un cercle…" />
         </div>
 
-        <div style={{ display: "flex", gap: 8, padding: "0 18px 14px" }}>
-          <button onClick={() => navigate("/cercles/nouveau")} style={{ ...S.newBtn, margin: 0, flex: 1 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8, padding: "0 18px 14px" }}>
+          <button onClick={() => navigate("/cercles/nouveau")} style={{ ...S.newBtn, margin: 0 }}>
             + Nouveau cercle
           </button>
-          <button onClick={logout} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.inkMid, padding: "9px 12px", borderRadius: 6, fontSize: 11, cursor: "pointer", fontFamily: "inherit" }} title="Se déconnecter">
-            ⎋
+          <button onClick={() => navigate("/cercles/annuaire")} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.navy, padding: "9px 12px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontFamily: "inherit", fontWeight: 500 }}>
+            📇 Annuaire pro
+          </button>
+          <button onClick={logout} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.danger, padding: "9px 12px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontFamily: "inherit", fontWeight: 500, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }} title="Se déconnecter">
+            <span>⎋</span> Se déconnecter
           </button>
         </div>
 

@@ -88,6 +88,85 @@ export class CCController {
     return { ok: true, leadQualif: (updated.payload as any)?.leadQualif };
   }
 
+  // ── Inscrits Cercles (tous les users avec ProProfile) ──────────
+
+  @Get("inscrits")
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles("ADMIN", "OWNER", "OPS")
+  async inscrits() {
+    const profiles = await this.prisma.proProfile.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 500,
+      select: {
+        id: true,
+        userId: true,
+        displayName: true,
+        title: true,
+        bio: true,
+        avatarUrl: true,
+        metier: true,
+        cabinetName: true,
+        cabinetStatus: true,
+        cnoaNumero: true,
+        yearsExperience: true,
+        villePrincipale: true,
+        regions: true,
+        specialites: true,
+        langues: true,
+        websiteUrl: true,
+        linkedinUrl: true,
+        phonePublic: true,
+        emailPublic: true,
+        isVerified: true,
+        verifiedAt: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          select: {
+            email: true, username: true, phone: true, isActive: true,
+            role: true, plan: true, emailVerifiedAt: true, createdAt: true,
+          },
+        },
+      },
+    });
+    return { ok: true, data: profiles };
+  }
+
+  @Patch("inscrits/:userId/verify")
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles("ADMIN", "OWNER")
+  async verifyInscrit(
+    @Param("userId") userId: string,
+    @Body() body: { isVerified: boolean; note?: string },
+    @Req() req: any,
+  ) {
+    const updated = await this.prisma.proProfile.update({
+      where: { userId },
+      data: {
+        isVerified: body.isVerified,
+        verifiedAt: body.isVerified ? new Date() : null,
+        verifierNote: body.note || null,
+      },
+      select: { id: true, isVerified: true, verifiedAt: true },
+    });
+    return { ok: true, data: updated };
+  }
+
+  @Patch("inscrits/:userId/deactivate")
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles("ADMIN", "OWNER")
+  async deactivateInscrit(
+    @Param("userId") userId: string,
+    @Body() body: { isActive: boolean },
+  ) {
+    const updated = await this.prisma.user.update({
+      where: { id: userId },
+      data: { isActive: body.isActive },
+      select: { id: true, isActive: true },
+    });
+    return { ok: true, data: updated };
+  }
+
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles("ADMIN", "OWNER", "OPS")
   @Post("leads")
