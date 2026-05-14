@@ -8,7 +8,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { CC_THEME, ensureFonts } from "./theme";
-import { cerclesApi, CercleListItem } from "./api";
+import { cerclesApi, CercleListItem, ProProfile } from "./api";
+import { apiBase } from "../../tomes/tome4/apiClient";
+
+function resolveAvatarUrl(url?: string | null): string | undefined {
+  if (!url) return undefined;
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:")) return url;
+  if (url.startsWith("/uploads/")) return `${apiBase()}${url}`;
+  return url;
+}
 
 export default function CerclesShell({ children }: { children: React.ReactNode }) {
   useEffect(() => { ensureFonts(); }, []);
@@ -17,6 +25,7 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
   const [cercles, setCercles] = useState<CercleListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
+  const [myProfile, setMyProfile] = useState<ProProfile | null>(null);
 
   const reload = () => {
     setLoading(true);
@@ -27,6 +36,14 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
   };
 
   useEffect(() => { reload(); }, []);
+  useEffect(() => {
+    cerclesApi.myProfile().then(r => setMyProfile(r.data)).catch(() => {});
+  }, []);
+
+  const logout = () => {
+    try { localStorage.removeItem("citurbarea.token"); } catch {}
+    navigate("/login", { replace: true });
+  };
 
   return (
     <div style={S.root}>
@@ -39,13 +56,36 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
           </div>
         </div>
 
+        {/* Mon profil */}
+        {myProfile && (
+          <Link to={`/cercles/profile/${myProfile.userId}`} style={S.myProfileBox}>
+            <div style={{
+              ...S.myAvatar,
+              backgroundImage: myProfile.avatarUrl ? `url(${resolveAvatarUrl(myProfile.avatarUrl)})` : undefined,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}>
+              {!myProfile.avatarUrl && (myProfile.displayName || "?").slice(0, 1).toUpperCase()}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={S.myName}>{myProfile.displayName}</div>
+              <div style={S.myMeta}>{myProfile.title || "Voir mon profil →"}</div>
+            </div>
+          </Link>
+        )}
+
         <div style={S.searchBar}>
           <input style={S.search} placeholder="Rechercher un cercle…" />
         </div>
 
-        <button onClick={() => navigate("/cercles/nouveau")} style={S.newBtn}>
-          + Nouveau cercle
-        </button>
+        <div style={{ display: "flex", gap: 8, padding: "0 18px 14px" }}>
+          <button onClick={() => navigate("/cercles/nouveau")} style={{ ...S.newBtn, margin: 0, flex: 1 }}>
+            + Nouveau cercle
+          </button>
+          <button onClick={logout} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.inkMid, padding: "9px 12px", borderRadius: 6, fontSize: 11, cursor: "pointer", fontFamily: "inherit" }} title="Se déconnecter">
+            ⎋
+          </button>
+        </div>
 
         <div style={S.list}>
           {loading && <div style={S.empty}>Chargement…</div>}
@@ -116,6 +156,11 @@ const S: Record<string, React.CSSProperties> = {
   cercleName: { fontSize: 13.5, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" },
   cercleMeta: { fontSize: 11, color: CC_THEME.inkMuted, marginTop: 2 },
   visBadge: { fontSize: 12 },
+
+  myProfileBox: { display: "flex", alignItems: "center", gap: 12, padding: "14px 18px", margin: "0 0 6px", textDecoration: "none", color: CC_THEME.ink, borderBottom: `1px solid ${CC_THEME.border}`, background: CC_THEME.bgSoft, cursor: "pointer", transition: `background 0.15s ${CC_THEME.ease}` },
+  myAvatar: { width: 42, height: 42, borderRadius: "50%", background: CC_THEME.orSoft, color: CC_THEME.bgDeep, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: CC_THEME.fontDisplay, fontSize: 18, fontWeight: 700, flexShrink: 0, border: `2px solid ${CC_THEME.or}` },
+  myName: { fontSize: 13.5, fontWeight: 600, color: CC_THEME.navy, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" },
+  myMeta: { fontSize: 11, color: CC_THEME.or, marginTop: 2, fontWeight: 500, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" },
 
   main: { flex: 1, overflowY: "auto", background: CC_THEME.bg },
 };

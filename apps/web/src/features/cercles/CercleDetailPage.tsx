@@ -153,9 +153,9 @@ export default function CercleDetailPage() {
           </header>
 
           <nav style={S.tabs}>
-            <TabBtn active={tab === "discussions"} onClick={() => setTab("discussions")}>Discussions</TabBtn>
-            <TabBtn active={tab === "rooms"}       onClick={() => setTab("rooms")}>Salles vidéo</TabBtn>
-            <TabBtn active={tab === "members"}     onClick={() => setTab("members")}>Membres</TabBtn>
+            <TabBtn active={tab === "discussions"} onClick={() => setTab("discussions")}>💬 Discussions ({cercle._count?.posts ?? 0})</TabBtn>
+            <TabBtn active={tab === "rooms"}       onClick={() => setTab("rooms")}>🎥 Salles vidéo ({cercle._count?.rooms ?? 0})</TabBtn>
+            <TabBtn active={tab === "members"}     onClick={() => setTab("members")}>👥 Membres ({cercle._count?.members ?? 0})</TabBtn>
           </nav>
 
           <div style={S.body}>
@@ -489,6 +489,14 @@ function MembersTab({ cercleId, isMod }: { cercleId: string; isMod: boolean }) {
 
   return (
     <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 0 14px", borderBottom: `1px solid ${CC_THEME.borderSoft}`, marginBottom: 14 }}>
+        <div style={{ fontFamily: CC_THEME.fontDisplay, fontSize: 17, color: CC_THEME.navy, fontWeight: 600 }}>
+          👥 {members.length} membre{members.length > 1 ? "s" : ""} dans ce cercle
+        </div>
+        <div style={{ fontSize: 12, color: CC_THEME.inkMid, fontStyle: "italic" }}>
+          Clique sur un membre pour voir son profil complet
+        </div>
+      </div>
       {isMod && !showInvite && (
         <button onClick={() => setShowInvite(true)} style={S.openComposeBtn}>
           ✉ Inviter par email
@@ -615,5 +623,5 @@ const S: Record<string, React.CSSProperties> = {
 
   emptyBox: { padding: 36, textAlign: "center", background: CC_THEME.bgRaised, border: `1px solid ${CC_THEME.border}`, borderRadius: 10 },
 
-  memberRow: { display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", background: CC_THEME.bgRaised, border: `1px solid ${CC_THEME.border}`, borderRadius: 6, marginBottom: 6 },
+  memberRow: { display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", background: CC_THEME.bgRaised, border: `1px solid ${CC_THEME.border}`, borderRadius: 6, marginBottom: 8, transition: `all 0.15s ${CC_THEME.ease}` },
 };
