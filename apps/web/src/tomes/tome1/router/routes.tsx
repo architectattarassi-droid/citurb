@@ -42,6 +42,7 @@ import InscriptionPage  from "../../../features/cercles/InscriptionPage";
 import EditProfilePage  from "../../../features/cercles/EditProfilePage";
 import AssociationApplyPage  from "../../../features/cercles/AssociationApplyPage";
 import AssociationManagePage from "../../../features/cercles/AssociationManagePage";
+import CerclesLanding       from "../../../features/cercles/CerclesLanding";
 
 // Admin Vault (Sprint H — app admin ultra-sécurisée)
 import AdminLoginPage           from "../../../features/admin/AdminLoginPage";
@@ -65,6 +66,10 @@ const LandingRoute = () => {
   const auth = useAuth();
   // Invariant: landing générale reste atteignable même connecté.
   if (auth.loading) return <div style={{ padding: 24 }}>Chargement…</div>;
+  // Sous-domaine cercles.citurbarea.com → landing dédiée Cercles
+  if (typeof window !== "undefined" && window.location.hostname === "cercles.citurbarea.com") {
+    return <CerclesLanding />;
+  }
   return <LandingPage />;
 };
 
