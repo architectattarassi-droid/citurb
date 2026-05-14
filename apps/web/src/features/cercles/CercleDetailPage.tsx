@@ -550,15 +550,39 @@ function MembersTab({ cercleId, isMod }: { cercleId: string; isMod: boolean }) {
         </div>
       )}
 
-      {members.map((m, i) => (
-        <Link key={m.id || i} to={`/cercles/profile/${m.user.id || m.userId}`} style={{ ...S.memberRow, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
-          <div style={S.postAvatar}>{(m.user.username || m.user.email).slice(0, 1).toUpperCase()}</div>
-          <div style={{ flex: 1 }}>
-            <div style={S.postAuthor}>{m.user.username || m.user.email}</div>
-            <div style={S.roomMeta}>{m.role} · membre depuis {new Date(m.joinedAt).toLocaleDateString("fr-FR")} · <span style={{ color: CC_THEME.or }}>→ voir profil</span></div>
-          </div>
-        </Link>
-      ))}
+      {members.map((m, i) => {
+        const pp = m.user?.proProfile;
+        const displayName = pp?.displayName || m.user?.username || m.user?.email || "Membre";
+        const apiUrl = (import.meta as any).env?.VITE_API_URL || "http://localhost:4000";
+        const avatarUrl = pp?.avatarUrl
+          ? (pp.avatarUrl.startsWith("http") ? pp.avatarUrl : `${apiUrl}${pp.avatarUrl}`)
+          : null;
+        return (
+          <Link key={m.id || i} to={`/cercles/profile/${m.user.id || m.userId}`} style={{ ...S.memberRow, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+            <div style={{
+              ...S.postAvatar,
+              backgroundImage: avatarUrl ? `url(${avatarUrl})` : undefined,
+              backgroundSize: "cover", backgroundPosition: "center",
+            }}>
+              {!avatarUrl && displayName.slice(0, 1).toUpperCase()}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ ...S.postAuthor, display: "flex", alignItems: "center", gap: 8 }}>
+                {displayName}
+                {m.role === "OWNER" && <span style={{ fontSize: 10, color: CC_THEME.or, background: CC_THEME.orSoft, padding: "1px 6px", borderRadius: 8, fontWeight: 600, letterSpacing: "0.04em" }}>OWNER</span>}
+                {m.role === "MODERATOR" && <span style={{ fontSize: 10, color: CC_THEME.info, background: CC_THEME.infoBg, padding: "1px 6px", borderRadius: 8, fontWeight: 600 }}>MODO</span>}
+              </div>
+              {pp?.title && <div style={{ fontSize: 12, color: CC_THEME.inkMid, fontStyle: "italic", marginTop: 2 }}>{pp.title}</div>}
+              <div style={S.roomMeta}>
+                {pp?.metier && <span style={{ color: CC_THEME.or, fontWeight: 500 }}>{pp.metier}</span>}
+                {pp?.villePrincipale && <> · 📍 {pp.villePrincipale}</>}
+                {" · "}membre depuis {new Date(m.joinedAt).toLocaleDateString("fr-FR")}
+              </div>
+            </div>
+            <span style={{ color: CC_THEME.or, fontSize: 18 }}>→</span>
+          </Link>
+        );
+      })}
     </div>
   );
 }

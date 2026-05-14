@@ -76,11 +76,26 @@ let MembershipsService = class MembershipsService {
         });
     }
     async listMembers(cercleId, viewerId) {
-        await this.cercles.assertMember(cercleId, viewerId);
+        // Cercles PUBLIC + MEMBERS_ONLY : tous les users connectés peuvent voir la liste
+        // Cercles PRIVATE : seulement les membres ACTIVE peuvent voir
+        const cercle = await this.prisma.cercle.findUniqueOrThrow({
+            where: { id: cercleId },
+            select: { visibility: true },
+        });
+        if (cercle.visibility === "PRIVATE") {
+            await this.cercles.assertMember(cercleId, viewerId);
+        }
         return this.prisma.cercleMembership.findMany({
             where: { cercleId, status: "ACTIVE" },
             orderBy: [{ role: "asc" }, { joinedAt: "asc" }],
-            include: { user: { select: { id: true, email: true, username: true } } },
+            include: {
+                user: {
+                    select: {
+                        id: true, email: true, username: true,
+                        proProfile: { select: { displayName: true, title: true, avatarUrl: true, metier: true, villePrincipale: true } },
+                    },
+                },
+            },
         });
     }
     async promote(cercleId, ownerId, userId) {
