@@ -62,14 +62,18 @@ import AdminRegisterPasskeyPage from "../../../features/admin/AdminRegisterPassk
  * Everything else: redirect internal to canon (no orphan, no unknown).
  */
 
+const HOST_CERCLES = "cercles.citurbarea.com";
+const HOST_ADMIN   = "admin.citurbarea.com";
+
+const currentHost = (): string =>
+  (typeof window !== "undefined" ? window.location.hostname : "");
+
 const LandingRoute = () => {
   const auth = useAuth();
-  // Invariant: landing générale reste atteignable même connecté.
   if (auth.loading) return <div style={{ padding: 24 }}>Chargement…</div>;
-  // Sous-domaine cercles.citurbarea.com → landing dédiée Cercles
-  if (typeof window !== "undefined" && window.location.hostname === "cercles.citurbarea.com") {
-    return <CerclesLanding />;
-  }
+  const h = currentHost();
+  if (h === HOST_CERCLES) return <CerclesLanding />;
+  if (h === HOST_ADMIN)   return <Navigate to="/admin/login" replace />;
   return <LandingPage />;
 };
 
@@ -77,21 +81,22 @@ const Redirect = ({ to }: { to: string }) => <Navigate to={to} replace />;
 
 /**
  * CerclesHostBlock — bloque l'accès à certaines routes depuis cercles.citurbarea.com.
- *
  * Le sous-domaine cercles.citurbarea.com est le portail public des pros BTP.
- * Le backoffice (/cc/*) et le vault admin (/admin/*) doivent rester invisibles
- * depuis ce sous-domaine. Si un attaquant connaît l'URL et la tape, il est
- * silencieusement redirigé vers la landing Cercles (302).
- *
- * Le backoffice reste accessible normalement depuis :
- *  - citurb-web-production.up.railway.app (URL Railway par défaut)
- *  - admin.citurbarea.com (à venir si configuré)
- *  - localhost (dev)
+ * Le backoffice (/cc/*) et le vault admin (/admin/*) doivent rester invisibles depuis ce sous-domaine.
  */
 const CerclesHostBlock = ({ children }: { children: React.ReactNode }) => {
-  if (typeof window !== "undefined" && window.location.hostname === "cercles.citurbarea.com") {
-    return <Navigate to="/" replace />;
-  }
+  if (currentHost() === HOST_CERCLES) return <Navigate to="/" replace />;
+  return <>{children}</>;
+};
+
+/**
+ * AdminHostBlock — bloque l'accès aux routes publiques depuis admin.citurbarea.com.
+ * Le sous-domaine admin.citurbarea.com est strictement réservé au backoffice et au
+ * vault admin. Toute tentative d'accès à une route publique (/inscription, /cercles,
+ * /p1..p6, etc.) est redirigée vers /admin/login.
+ */
+const AdminHostBlock = ({ children }: { children: React.ReactNode }) => {
+  if (currentHost() === HOST_ADMIN) return <Navigate to="/admin/login" replace />;
   return <>{children}</>;
 };
 
@@ -109,48 +114,50 @@ export const router = createBrowserRouter([
   { path: '/admin/security/webauthn',          element: <CerclesHostBlock><AdminRegisterPasskeyPage /></CerclesHostBlock> },
 
   // Cercles — réseau pro BTP marocain (auth requis côté API JWT)
-  { path: '/inscription',                          element: <InscriptionPage /> },
-  { path: '/cercles',                              element: <FeedHomePage /> },
-  { path: '/cercles/bienvenue',                    element: <CerclesHomePage /> },
-  { path: '/cercles/annuaire',                     element: <AnnuairePage /> },
-  { path: '/cercles/me/edit',                      element: <EditProfilePage /> },
-  { path: '/cercles/profile/:userIdOrId',          element: <ProfilePage /> },
-  { path: '/cercles/nouveau',                      element: <NewCerclePage /> },
-  { path: '/cercles/:slug',                        element: <CercleDetailPage /> },
-  { path: '/cercles/:slug/chat',                   element: <CercleChatPage /> },
-  { path: '/cercles/:slug/rejoindre',              element: <AssociationApplyPage /> },
-  { path: '/cercles/:slug/applications',           element: <AssociationManagePage /> },
-  { path: '/cercles/:slug/posts/:postId',          element: <PostDetailPage /> },
-  { path: '/cercles/:slug/rooms/:roomSlug/live',   element: <LiveRoomPage /> },
-  { path: '/cercles/:slug/rooms/:roomSlug',        element: <LiveRoomPage /> },
+  // Toutes ces routes sont bloquées sur admin.citurbarea.com (redirect vers /admin/login)
+  { path: '/inscription',                          element: <AdminHostBlock><InscriptionPage /></AdminHostBlock> },
+  { path: '/cercles',                              element: <AdminHostBlock><FeedHomePage /></AdminHostBlock> },
+  { path: '/cercles/bienvenue',                    element: <AdminHostBlock><CerclesHomePage /></AdminHostBlock> },
+  { path: '/cercles/annuaire',                     element: <AdminHostBlock><AnnuairePage /></AdminHostBlock> },
+  { path: '/cercles/me/edit',                      element: <AdminHostBlock><EditProfilePage /></AdminHostBlock> },
+  { path: '/cercles/profile/:userIdOrId',          element: <AdminHostBlock><ProfilePage /></AdminHostBlock> },
+  { path: '/cercles/nouveau',                      element: <AdminHostBlock><NewCerclePage /></AdminHostBlock> },
+  { path: '/cercles/:slug',                        element: <AdminHostBlock><CercleDetailPage /></AdminHostBlock> },
+  { path: '/cercles/:slug/chat',                   element: <AdminHostBlock><CercleChatPage /></AdminHostBlock> },
+  { path: '/cercles/:slug/rejoindre',              element: <AdminHostBlock><AssociationApplyPage /></AdminHostBlock> },
+  { path: '/cercles/:slug/applications',           element: <AdminHostBlock><AssociationManagePage /></AdminHostBlock> },
+  { path: '/cercles/:slug/posts/:postId',          element: <AdminHostBlock><PostDetailPage /></AdminHostBlock> },
+  { path: '/cercles/:slug/rooms/:roomSlug/live',   element: <AdminHostBlock><LiveRoomPage /></AdminHostBlock> },
+  { path: '/cercles/:slug/rooms/:roomSlug',        element: <AdminHostBlock><LiveRoomPage /></AdminHostBlock> },
 
   // Public routes
   {
     element: <PublicLayout />,
     children: [
-      // Canon
+      // Canon — login reste accessible partout (admin login passe par /admin/login)
       { path: CANON.LOGIN, element: <Login /> },
       { path: "/verify-phone", element: <VerifyPhone /> },
-      { path: CANON.P1, element: <P1Home /> },
-      { path: CANON.P1_PACKS, element: <P1Packs /> },
-      { path: CANON.P1_DOSSIER, element: <P1Dossier /> },
-      { path: '/p1/dossier/phases', element: <P1ClientPhases /> },
-      { path: '/portal', element: <P1MyDossiers /> },
-      { path: '/mon-espace', element: <P1MyDossiers /> },
-      { path: '/p2', element: <P2Home /> },
-      { path: '/p2/form', element: <P2Home /> },
-      { path: '/p2/result', element: <P2Home /> },
-      { path: '/p3', element: <P3Home /> },
-      { path: '/p4', element: <P4Home /> },
-      { path: '/p5', element: <P5Home /> },
-      { path: '/p6', element: <P6Home /> },
-      { path: '/p6/dashboard', element: <P6Dashboard /> },
-      { path: '/payment/start', element: <PaymentStartPage /> },
-      { path: '/docs', element: <DocsPage /> },
-      { path: '/payment/success', element: <PaymentSuccessPage /> },
-      { path: '/payment/cancel', element: <PaymentCancelPage /> },
+      // Portails publics P1-P6 → bloqués sur admin.citurbarea.com
+      { path: CANON.P1, element: <AdminHostBlock><P1Home /></AdminHostBlock> },
+      { path: CANON.P1_PACKS, element: <AdminHostBlock><P1Packs /></AdminHostBlock> },
+      { path: CANON.P1_DOSSIER, element: <AdminHostBlock><P1Dossier /></AdminHostBlock> },
+      { path: '/p1/dossier/phases', element: <AdminHostBlock><P1ClientPhases /></AdminHostBlock> },
+      { path: '/portal', element: <AdminHostBlock><P1MyDossiers /></AdminHostBlock> },
+      { path: '/mon-espace', element: <AdminHostBlock><P1MyDossiers /></AdminHostBlock> },
+      { path: '/p2', element: <AdminHostBlock><P2Home /></AdminHostBlock> },
+      { path: '/p2/form', element: <AdminHostBlock><P2Home /></AdminHostBlock> },
+      { path: '/p2/result', element: <AdminHostBlock><P2Home /></AdminHostBlock> },
+      { path: '/p3', element: <AdminHostBlock><P3Home /></AdminHostBlock> },
+      { path: '/p4', element: <AdminHostBlock><P4Home /></AdminHostBlock> },
+      { path: '/p5', element: <AdminHostBlock><P5Home /></AdminHostBlock> },
+      { path: '/p6', element: <AdminHostBlock><P6Home /></AdminHostBlock> },
+      { path: '/p6/dashboard', element: <AdminHostBlock><P6Dashboard /></AdminHostBlock> },
+      { path: '/payment/start', element: <AdminHostBlock><PaymentStartPage /></AdminHostBlock> },
+      { path: '/docs', element: <AdminHostBlock><DocsPage /></AdminHostBlock> },
+      { path: '/payment/success', element: <AdminHostBlock><PaymentSuccessPage /></AdminHostBlock> },
+      { path: '/payment/cancel', element: <AdminHostBlock><PaymentCancelPage /></AdminHostBlock> },
       { path: CANON.DEV_ROUTES, element: <DevRoutesPage /> },
-      { path: '/simulateur', element: <SimulatorPage /> },
+      { path: '/simulateur', element: <AdminHostBlock><SimulatorPage /></AdminHostBlock> },
 
       // Redirect aliases (legacy)
       ...REDIRECTS.map(r => ({
