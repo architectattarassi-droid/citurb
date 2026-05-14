@@ -75,18 +75,38 @@ const LandingRoute = () => {
 
 const Redirect = ({ to }: { to: string }) => <Navigate to={to} replace />;
 
+/**
+ * CerclesHostBlock — bloque l'accès à certaines routes depuis cercles.citurbarea.com.
+ *
+ * Le sous-domaine cercles.citurbarea.com est le portail public des pros BTP.
+ * Le backoffice (/cc/*) et le vault admin (/admin/*) doivent rester invisibles
+ * depuis ce sous-domaine. Si un attaquant connaît l'URL et la tape, il est
+ * silencieusement redirigé vers la landing Cercles (302).
+ *
+ * Le backoffice reste accessible normalement depuis :
+ *  - citurb-web-production.up.railway.app (URL Railway par défaut)
+ *  - admin.citurbarea.com (à venir si configuré)
+ *  - localhost (dev)
+ */
+const CerclesHostBlock = ({ children }: { children: React.ReactNode }) => {
+  if (typeof window !== "undefined" && window.location.hostname === "cercles.citurbarea.com") {
+    return <Navigate to="/" replace />;
+  }
+  return <>{children}</>;
+};
+
 export const router = createBrowserRouter([
   // Landing publique
   { path: CANON.HOME, element: <LandingRoute /> },
 
-  // Command Center interne
-  { path: '/cc/*', element: <CommandCenterApp /> },
+  // Command Center interne — bloqué sur cercles.citurbarea.com
+  { path: '/cc/*', element: <CerclesHostBlock><CommandCenterApp /></CerclesHostBlock> },
 
-  // Admin Vault (Sprint H — app admin ultra-sécurisée)
-  { path: '/admin',                            element: <Navigate to="/admin/login" replace /> },
-  { path: '/admin/login',                      element: <AdminLoginPage /> },
-  { path: '/admin/dashboard',                  element: <AdminDashboard /> },
-  { path: '/admin/security/webauthn',          element: <AdminRegisterPasskeyPage /> },
+  // Admin Vault (Sprint H — app admin ultra-sécurisée) — bloqué sur cercles.citurbarea.com
+  { path: '/admin',                            element: <CerclesHostBlock><Navigate to="/admin/login" replace /></CerclesHostBlock> },
+  { path: '/admin/login',                      element: <CerclesHostBlock><AdminLoginPage /></CerclesHostBlock> },
+  { path: '/admin/dashboard',                  element: <CerclesHostBlock><AdminDashboard /></CerclesHostBlock> },
+  { path: '/admin/security/webauthn',          element: <CerclesHostBlock><AdminRegisterPasskeyPage /></CerclesHostBlock> },
 
   // Cercles — réseau pro BTP marocain (auth requis côté API JWT)
   { path: '/inscription',                          element: <InscriptionPage /> },
