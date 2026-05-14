@@ -76,6 +76,56 @@ export class CercleInvitationsController {
     }
   }
 
+  // ── Inscription OUVERTE (sans invitation, depuis la landing) ───
+
+  @Post("public/signup")
+  async publicSignup(
+    @Body() body: {
+      email: string;
+      password: string;
+      displayName: string;
+      metier?: string;
+      title?: string;
+      civilite?: string;
+      prenom?: string;
+      nom?: string;
+      phonePrivate?: string;
+      phonePublic?: string;
+      cabinetName?: string;
+      cabinetStatus?: string;
+      cabinetIce?: string;
+      cabinetRc?: string;
+      cabinetAdresse?: string;
+      cnoaNumero?: string;
+      yearsExperience?: number;
+      ecole?: string;
+      anneeDiplome?: number;
+      diplome?: string;
+      villePrincipale?: string;
+      specialites?: string[];
+      regions?: string[];
+      langues?: string[];
+      websiteUrl?: string;
+      linkedinUrl?: string;
+      emailPublic?: string;
+      bio?: string;
+      adhesionSouhaitee?: string;
+      sourceConnaissance?: string;
+      newsletterOptIn?: boolean;
+      acceptCgu?: boolean;
+      cercleSlug?: string;
+    },
+  ) {
+    const result = await this.invitations.publicSignup(body);
+    const access_token = this.jwt.sign({
+      sub: result.userId,
+      userId: result.userId,
+      email: result.email,
+      role: "CLIENT",
+    });
+    return { ok: true, data: { ...result, access_token } };
+  }
+
   // ── Inscription via invitation (public) ───────────────────────
 
   @Post("invitations/signup")

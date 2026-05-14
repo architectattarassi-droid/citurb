@@ -76,6 +76,17 @@ let CercleInvitationsController = class CercleInvitationsController {
             return { ok: false, error: e?.message || "Invitation invalide" };
         }
     }
+    // ── Inscription OUVERTE (sans invitation, depuis la landing) ───
+    async publicSignup(body) {
+        const result = await this.invitations.publicSignup(body);
+        const access_token = this.jwt.sign({
+            sub: result.userId,
+            userId: result.userId,
+            email: result.email,
+            role: "CLIENT",
+        });
+        return { ok: true, data: { ...result, access_token } };
+    }
     // ── Inscription via invitation (public) ───────────────────────
     async signup(body) {
         const result = await this.invitations.signupViaInvite(body.token, body);
@@ -138,6 +149,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], CercleInvitationsController.prototype, "lookup", null);
+__decorate([
+    (0, common_1.Post)("public/signup"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CercleInvitationsController.prototype, "publicSignup", null);
 __decorate([
     (0, common_1.Post)("invitations/signup"),
     __param(0, (0, common_1.Body)()),

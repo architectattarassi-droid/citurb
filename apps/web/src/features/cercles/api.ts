@@ -558,6 +558,46 @@ export const invitationsApi = {
   lookup: (token: string) =>
     apiFetch<{ ok: boolean; data: InvitePreview; error?: string }>(`/api/cercles/invitations/lookup?token=${encodeURIComponent(token)}`),
 
+  publicSignup: (input: {
+    email: string;
+    password: string;
+    displayName: string;
+    metier?: string;
+    title?: string;
+    civilite?: string;
+    prenom?: string;
+    nom?: string;
+    phonePrivate?: string;
+    phonePublic?: string;
+    cabinetName?: string;
+    cabinetStatus?: string;
+    cabinetIce?: string;
+    cabinetRc?: string;
+    cabinetAdresse?: string;
+    cnoaNumero?: string;
+    yearsExperience?: number;
+    ecole?: string;
+    anneeDiplome?: number;
+    diplome?: string;
+    villePrincipale?: string;
+    specialites?: string[];
+    regions?: string[];
+    langues?: string[];
+    websiteUrl?: string;
+    linkedinUrl?: string;
+    emailPublic?: string;
+    bio?: string;
+    adhesionSouhaitee?: string;
+    sourceConnaissance?: string;
+    newsletterOptIn?: boolean;
+    acceptCgu?: boolean;
+    cercleSlug?: string;
+  }) =>
+    apiFetch<{ ok: boolean; data: { userId: string; email: string; cercleSlug?: string; access_token: string } }>(
+      `/api/cercles/public/signup`,
+      { method: "POST", body: input },
+    ),
+
   signup: (input: {
     token: string;
     password: string;

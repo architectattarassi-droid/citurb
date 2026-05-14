@@ -134,6 +134,109 @@ let CercleInvitationsService = class CercleInvitationsService {
             invitedBy: inv.invitedBy,
         };
     }
+    // ── Signup ouvert (sans invitation, depuis la landing publique) ─
+    async publicSignup(input) {
+        if (!input.email || !input.email.includes("@"))
+            throw new common_1.BadRequestException("Email invalide");
+        if (!input.password || input.password.length < 8)
+            throw new common_1.BadRequestException("Mot de passe ≥ 8 caractères requis");
+        if (!input.displayName?.trim())
+            throw new common_1.BadRequestException("Nom complet requis");
+        if (input.acceptCgu === false)
+            throw new common_1.BadRequestException("Acceptation des CGU requise");
+        const email = input.email.trim().toLowerCase();
+        const existing = await this.prisma.user.findUnique({ where: { email } });
+        if (existing)
+            throw new common_1.BadRequestException("Un compte existe déjà avec cet email — connectez-vous à la place.");
+        const passwordHash = await bcrypt.hash(input.password, 10);
+        const user = await this.prisma.user.create({
+            data: {
+                email,
+                username: input.displayName.trim().toLowerCase().replace(/[^a-z0-9]+/g, "_").slice(0, 24),
+                passwordHash,
+                role: "CLIENT",
+                plan: "PRO",
+                isActive: true,
+                emailVerifiedAt: new Date(),
+                phone: input.phonePrivate?.trim() || null,
+            },
+        });
+        const formations = (input.ecole && input.anneeDiplome) ? [{
+                ecole: input.ecole,
+                diplome: input.diplome || "Diplôme",
+                annee: input.anneeDiplome,
+            }] : [];
+        // Stocke les champs étendus (civilité, ICE/RC, adresse, etc.) dans bio enrichie
+        // ou via title quand pas de colonne dédiée
+        const constructedTitle = input.title
+            || (input.cabinetStatus ? this.titleFromStatus(input.cabinetStatus) : null);
+        const extendedBio = [
+            input.bio?.trim(),
+            input.civilite || input.prenom || input.nom
+                ? `Identité : ${[input.civilite, input.prenom, input.nom].filter(Boolean).join(" ")}`
+                : null,
+            input.cabinetIce ? `ICE : ${input.cabinetIce}` : null,
+            input.cabinetRc ? `RC : ${input.cabinetRc}` : null,
+            input.cabinetAdresse ? `Adresse : ${input.cabinetAdresse}` : null,
+            input.adhesionSouhaitee && input.adhesionSouhaitee !== "AUCUNE"
+                ? `Adhésion souhaitée : ${input.adhesionSouhaitee}`
+                : null,
+            input.sourceConnaissance ? `Source : ${input.sourceConnaissance}` : null,
+        ].filter(Boolean).join("\n\n");
+        await this.prisma.proProfile.create({
+            data: {
+                userId: user.id,
+                displayName: input.displayName.trim(),
+                title: constructedTitle,
+                bio: extendedBio || null,
+                metier: input.metier || "ARCHITECTE",
+                cabinetName: input.cabinetName ?? null,
+                cabinetStatus: input.cabinetStatus ?? null,
+                cnoaNumero: input.cnoaNumero ?? null,
+                yearsExperience: input.yearsExperience ?? null,
+                formations: formations.length > 0 ? formations : null,
+                villePrincipale: input.villePrincipale ?? null,
+                phonePublic: input.phonePublic ?? null,
+                emailPublic: input.emailPublic ?? user.email,
+                regions: input.regions ?? [],
+                specialites: input.specialites ?? [],
+                langues: input.langues ?? ["FR", "AR"],
+                agrements: input.cnoaNumero ? [input.cnoaNumero] : [],
+                websiteUrl: input.websiteUrl ?? null,
+                linkedinUrl: input.linkedinUrl ?? null,
+                isVerified: false,
+            },
+        });
+        let joinedSlug;
+        if (input.cercleSlug) {
+            const cer = await this.prisma.cercle.findUnique({ where: { slug: input.cercleSlug } });
+            if (cer && cer.visibility !== "PRIVATE") {
+                const status = cer.visibility === "PUBLIC" ? "ACTIVE" : "PENDING_REQUEST";
+                await this.prisma.cercleMembership.upsert({
+                    where: { cercleId_userId: { cercleId: cer.id, userId: user.id } },
+                    update: { status, role: "MEMBER" },
+                    create: { cercleId: cer.id, userId: user.id, status, role: "MEMBER" },
+                });
+                joinedSlug = cer.slug;
+            }
+        }
+        return { userId: user.id, email: user.email, cercleSlug: joinedSlug };
+    }
+    titleFromStatus(s) {
+        const map = {
+            INDEPENDANT_PHYSIQUE: "Indépendant — personne physique",
+            LIBERAL: "Libéral",
+            ASSOCIE: "Associé d'un cabinet",
+            SALARIE_CABINET: "Salarié d'un cabinet",
+            SALARIE_ENTREPRISE: "Salarié d'une entreprise",
+            FONCTIONNAIRE: "Fonctionnaire",
+            ENSEIGNANT: "Enseignant en architecture",
+            ETUDIANT: "Étudiant",
+            RETRAITE: "Retraité",
+            HONORAIRE: "Membre honoraire",
+        };
+        return map[s] || s;
+    }
     // ── Signup via invitation ──────────────────────────────────────
     async signupViaInvite(token, input) {
         if (!input.password || input.password.length < 8) {
