@@ -6,6 +6,7 @@ import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
 import { JwtStrategy } from "./jwt.strategy";
 import { OtpService } from "../../../modules/otp/otp.service";
+import { PasswordResetService } from "./password-reset.service";
 import { OwnerNotifyModule } from "../../../modules/owner-notify/owner-notify.module";
 
 /**
@@ -24,7 +25,7 @@ import { OwnerNotifyModule } from "../../../modules/owner-notify/owner-notify.mo
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, OtpService],
+  providers: [AuthService, JwtStrategy, OtpService, PasswordResetService],
   exports: [AuthService],
 })
 export class Tome5AuthModule {}

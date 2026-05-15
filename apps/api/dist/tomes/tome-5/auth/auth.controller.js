@@ -15,13 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
+const password_reset_service_1 = require("./password-reset.service");
 const jwt_auth_guard_1 = require("./jwt-auth.guard");
 const tome_at_1 = require("../../tome-at");
 const tome_decorators_1 = require("../../tome-at/kernel/tome.decorators");
 let AuthController = class AuthController {
     auth;
-    constructor(auth) {
+    passwordReset;
+    constructor(auth, passwordReset) {
         this.auth = auth;
+        this.passwordReset = passwordReset;
     }
     async login(body) {
         return this.auth.login(body.email, body.password);
@@ -88,6 +91,19 @@ let AuthController = class AuthController {
     async register(body) {
         return this.auth.register(body.email, body.password, body.username);
     }
+    /**
+     * Mot de passe oublié — étape 1 : envoi du code par email + SMS.
+     * Anti-énumération : réponse identique que l'email existe ou non.
+     */
+    async requestPasswordReset(body) {
+        return this.passwordReset.request(body?.email);
+    }
+    /**
+     * Mot de passe oublié — étape 2 : vérification du code + nouveau mot de passe.
+     */
+    async confirmPasswordReset(body) {
+        return this.passwordReset.confirm(body?.email, body?.code, body?.newPassword);
+    }
     async sendOtp(req, body) {
         await this.auth.sendPhoneOtp(req.user.userId, body.phone);
         return { ok: true, message: 'Code envoyé' };
@@ -137,6 +153,22 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "register", null);
 __decorate([
+    (0, common_1.Post)('password-reset/request'),
+    (0, tome_decorators_1.Rule)('T5-AUTH-PWRESET-REQUEST'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "requestPasswordReset", null);
+__decorate([
+    (0, common_1.Post)('password-reset/confirm'),
+    (0, tome_decorators_1.Rule)('T5-AUTH-PWRESET-CONFIRM'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "confirmPasswordReset", null);
+__decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)('send-otp'),
     __param(0, (0, common_1.Req)()),
@@ -157,5 +189,6 @@ __decorate([
 exports.AuthController = AuthController = __decorate([
     (0, tome_at_1.Tome)('tome5'),
     (0, common_1.Controller)("auth"),
-    __metadata("design:paramtypes", [auth_service_1.AuthService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
+        password_reset_service_1.PasswordResetService])
 ], AuthController);

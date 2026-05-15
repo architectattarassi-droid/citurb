@@ -180,13 +180,19 @@ export default function Login() {
           </button>
         </form>
 
+        <div style={{ marginTop: "18px", textAlign: "center" }}>
+          <Link to="/mot-de-passe-oublie" style={{ color: "rgba(11,27,58,0.68)", fontSize: "14px", textDecoration: "none" }}>
+            Mot de passe oublié ?
+          </Link>
+        </div>
+
         <div style={{
-          marginTop: "24px",
+          marginTop: "14px",
           textAlign: "center",
           fontSize: "14px",
           color: "rgba(11,27,58,0.68)",
         }}>
-          Nouveau ici ? <Link to="/auth/signup" style={{ color: "#C9A227", fontWeight: 600, textDecoration: "none" }}>Créer un compte</Link>
+          Nouveau ici ? <Link to="/inscription" style={{ color: "#C9A227", fontWeight: 600, textDecoration: "none" }}>Créer un compte</Link>
         </div>
 
         {import.meta.env.VITE_SHOW_DEV_CREDENTIALS === 'true' && (

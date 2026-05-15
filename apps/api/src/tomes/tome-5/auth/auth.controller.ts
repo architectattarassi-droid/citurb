@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
+import { PasswordResetService } from "./password-reset.service";
 import { JwtAuthGuard } from "./jwt-auth.guard";
 import { Tome } from '../../tome-at';
 import { Rule } from "../../tome-at/kernel/tome.decorators";
@@ -16,7 +17,10 @@ import { Rule } from "../../tome-at/kernel/tome.decorators";
 @Tome('tome5')
 @Controller("auth")
 export class AuthController {
-  constructor(private readonly auth: AuthService) {}
+  constructor(
+    private readonly auth: AuthService,
+    private readonly passwordReset: PasswordResetService,
+  ) {}
 
   @Post("login")
   @Rule('T5-AUTH-LOGIN')
@@ -106,6 +110,25 @@ export class AuthController {
   @Post('register')
   async register(@Body() body: { email: string; password: string; username?: string }) {
     return this.auth.register(body.email, body.password, body.username);
+  }
+
+  /**
+   * Mot de passe oublié — étape 1 : envoi du code par email + SMS.
+   * Anti-énumération : réponse identique que l'email existe ou non.
+   */
+  @Post('password-reset/request')
+  @Rule('T5-AUTH-PWRESET-REQUEST')
+  async requestPasswordReset(@Body() body: { email: string }) {
+    return this.passwordReset.request(body?.email);
+  }
+
+  /**
+   * Mot de passe oublié — étape 2 : vérification du code + nouveau mot de passe.
+   */
+  @Post('password-reset/confirm')
+  @Rule('T5-AUTH-PWRESET-CONFIRM')
+  async confirmPasswordReset(@Body() body: { email: string; code: string; newPassword: string }) {
+    return this.passwordReset.confirm(body?.email, body?.code, body?.newPassword);
   }
 
   @UseGuards(JwtAuthGuard)
