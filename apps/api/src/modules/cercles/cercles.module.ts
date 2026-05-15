@@ -20,6 +20,9 @@ import { CerclesController } from "./cercles.controller";
 import { MessagesController } from "./messages.controller";
 import { CercleInvitationsController } from "./cercle-invitations.controller";
 import { AssociationsController } from "./associations.controller";
+import { DirectMessagesService } from "./direct-messages.service";
+import { DirectMessagesStreamService } from "./direct-messages-stream.service";
+import { DirectMessagesController } from "./direct-messages.controller";
 
 @Module({
   imports: [
@@ -30,7 +33,7 @@ import { AssociationsController } from "./associations.controller";
       signOptions: { expiresIn: "7d" },
     }),
   ],
-  controllers: [CerclesController, MessagesController, CercleInvitationsController, AssociationsController],
+  controllers: [CerclesController, MessagesController, CercleInvitationsController, AssociationsController, DirectMessagesController],
   providers: [
     CerclesService,
     MembershipsService,
@@ -46,6 +49,8 @@ import { AssociationsController } from "./associations.controller";
     JaasService,
     CercleInvitationsService,
     AssociationsService,
+    DirectMessagesService,
+    DirectMessagesStreamService,
   ],
   exports: [
     CerclesService,
@@ -55,6 +60,7 @@ import { AssociationsController } from "./associations.controller";
     AnnuaireService,
     FeedService,
     MessagesService,
+    DirectMessagesService,
   ],
 })
 export class CerclesModule {}

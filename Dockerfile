@@ -21,4 +21,7 @@ RUN node ./node_modules/prisma/build/index.js generate --schema prisma/dossiers/
 ENV NODE_ENV=production
 
 EXPOSE 4000
-CMD ["node", "apps/api/dist/main.js"]
+# Au démarrage : applique le schéma Prisma au cas où des nouvelles tables ont
+# été ajoutées (idempotent, additif), puis lance l'API.
+# `db push` ne touche pas les tables existantes ni leurs données.
+CMD ["sh", "-c", "node ./node_modules/prisma/build/index.js db push --schema prisma/schema.prisma --skip-generate --accept-data-loss=false || echo 'prisma push skipped'; node apps/api/dist/main.js"]

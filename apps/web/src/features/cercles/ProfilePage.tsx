@@ -184,9 +184,14 @@ export default function ProfilePage() {
                 <button onClick={() => { setShowInvite(true); if (myCercles[0]) setInviteCercleId(myCercles[0].id); }} style={S.btnGhostAction}>✉ Inviter</button>
               </>
             ) : (
-              <button onClick={sendConnect} disabled={connecting} style={S.btnConnect}>
-                {connecting ? "Envoi…" : "+ Se connecter"}
-              </button>
+              <>
+                <button onClick={() => navigate(`/cercles/messages/new/${profile.userId}`)} style={S.btnConnect}>
+                  💬 Message
+                </button>
+                <button onClick={sendConnect} disabled={connecting} style={S.btnGhostAction}>
+                  {connecting ? "Envoi…" : "+ Se connecter"}
+                </button>
+              </>
             )}
           </div>
         </div>

@@ -64,6 +64,10 @@ model User {
   connectionsTo       Connection[]        @relation("ConnectionTo")
   notifications       Notification[]      @relation("UserNotifications")
 
+  // Messagerie directe 1-to-1 (Sprint L)
+  dmThreadParticipations DirectThreadParticipant[] @relation("DTParticipantUser")
+  dmMessagesSent         DirectMessage[]           @relation("DMSender")
+
   @@index([role])
 }
 
@@ -1455,6 +1459,58 @@ model MessageRead {
 
   @@unique([messageId, userId])
   @@index([userId])
+}
+
+// ==============================
+// MESSAGERIE DIRECTE — Sprint L
+// 1-to-1 DMs entre pros (style LinkedIn/Messenger)
+// ==============================
+
+model DirectThread {
+  id               String   @id @default(cuid())
+  // sha256 trié des userIds pour déduplication (2 users → 1 seul thread possible)
+  participantsHash String   @unique
+  createdAt        DateTime @default(now())
+  lastMessageAt    DateTime @default(now())
+  lastMessageBody  String?  @db.Text
+
+  participants DirectThreadParticipant[]
+  messages     DirectMessage[]
+
+  @@index([lastMessageAt])
+}
+
+model DirectThreadParticipant {
+  threadId    String
+  thread      DirectThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User         @relation("DTParticipantUser", fields: [userId], references: [id], onDelete: Cascade)
+  joinedAt    DateTime     @default(now())
+  leftAt      DateTime?
+  unreadCount Int          @default(0)
+  lastReadAt  DateTime?
+  mutedUntil  DateTime?
+  pinned      Boolean      @default(false)
+
+  @@id([threadId, userId])
+  @@index([userId])
+}
+
+model DirectMessage {
+  id        String   @id @default(cuid())
+  threadId  String
+  thread    DirectThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  senderId  String
+  sender    User     @relation("DMSender", fields: [senderId], references: [id])
+  body      String   @db.Text
+  // Attachements simples (urls images/videos uploadées via /uploads ou liens YouTube)
+  attachments Json?  // [{ type: 'image'|'video'|'file'|'embed', url, filename?, mime?, size? }]
+  createdAt DateTime @default(now())
+  editedAt  DateTime?
+  deletedAt DateTime?
+
+  @@index([threadId, createdAt])
+  @@index([senderId])
 }
 
 // ==============================

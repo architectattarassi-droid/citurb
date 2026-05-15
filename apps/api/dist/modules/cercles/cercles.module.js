@@ -29,6 +29,9 @@ const cercles_controller_1 = require("./cercles.controller");
 const messages_controller_1 = require("./messages.controller");
 const cercle_invitations_controller_1 = require("./cercle-invitations.controller");
 const associations_controller_1 = require("./associations.controller");
+const direct_messages_service_1 = require("./direct-messages.service");
+const direct_messages_stream_service_1 = require("./direct-messages-stream.service");
+const direct_messages_controller_1 = require("./direct-messages.controller");
 let CerclesModule = class CerclesModule {
 };
 exports.CerclesModule = CerclesModule;
@@ -42,7 +45,7 @@ exports.CerclesModule = CerclesModule = __decorate([
                 signOptions: { expiresIn: "7d" },
             }),
         ],
-        controllers: [cercles_controller_1.CerclesController, messages_controller_1.MessagesController, cercle_invitations_controller_1.CercleInvitationsController, associations_controller_1.AssociationsController],
+        controllers: [cercles_controller_1.CerclesController, messages_controller_1.MessagesController, cercle_invitations_controller_1.CercleInvitationsController, associations_controller_1.AssociationsController, direct_messages_controller_1.DirectMessagesController],
         providers: [
             cercles_service_1.CerclesService,
             memberships_service_1.MembershipsService,
@@ -58,6 +61,8 @@ exports.CerclesModule = CerclesModule = __decorate([
             jaas_service_1.JaasService,
             cercle_invitations_service_1.CercleInvitationsService,
             associations_service_1.AssociationsService,
+            direct_messages_service_1.DirectMessagesService,
+            direct_messages_stream_service_1.DirectMessagesStreamService,
         ],
         exports: [
             cercles_service_1.CerclesService,
@@ -67,6 +72,7 @@ exports.CerclesModule = CerclesModule = __decorate([
             annuaire_service_1.AnnuaireService,
             feed_service_1.FeedService,
             messages_service_1.MessagesService,
+            direct_messages_service_1.DirectMessagesService,
         ],
     })
 ], CerclesModule);

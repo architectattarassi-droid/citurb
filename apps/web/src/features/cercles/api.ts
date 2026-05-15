@@ -648,3 +648,89 @@ export const invitationsApi = {
     });
   },
 };
+
+// ── Messagerie directe 1-to-1 (Sprint L) ──────────────────────────
+
+export type DMThreadListItem = {
+  threadId: string;
+  unreadCount: number;
+  lastReadAt: string | null;
+  mutedUntil: string | null;
+  pinned: boolean;
+  lastMessageAt: string;
+  lastMessageBody: string | null;
+  peer: {
+    userId: string;
+    email: string;
+    username: string | null;
+    displayName: string;
+    title: string | null;
+    avatarUrl: string | null;
+    metier: string | null;
+    villePrincipale: string | null;
+  } | null;
+};
+
+export type DMMessage = {
+  id: string;
+  threadId: string;
+  senderId: string;
+  body: string;
+  attachments: any | null;
+  createdAt: string;
+  editedAt: string | null;
+  deletedAt: string | null;
+  sender: {
+    id: string;
+    email: string;
+    username: string | null;
+    proProfile: { displayName: string; avatarUrl: string | null } | null;
+  };
+};
+
+export const dmApi = {
+  listThreads: () =>
+    apiFetch<{ ok: boolean; data: DMThreadListItem[] }>(`/api/dm/threads`),
+
+  createThread: (peerUserId: string, firstMessage?: string) =>
+    apiFetch<{ ok: boolean; data: { threadId: string } }>(`/api/dm/threads`, {
+      method: "POST",
+      body: { peerUserId, firstMessage },
+    }),
+
+  listMessages: (threadId: string, opts: { before?: string; take?: number } = {}) => {
+    const q = new URLSearchParams();
+    if (opts.before) q.set("before", opts.before);
+    if (opts.take) q.set("take", String(opts.take));
+    const qs = q.toString() ? `?${q.toString()}` : "";
+    return apiFetch<{ ok: boolean; data: DMMessage[] }>(`/api/dm/threads/${threadId}/messages${qs}`);
+  },
+
+  sendMessage: (threadId: string, body: string, attachments?: any) =>
+    apiFetch<{ ok: boolean; data: DMMessage }>(`/api/dm/threads/${threadId}/messages`, {
+      method: "POST",
+      body: { body, attachments },
+    }),
+
+  markRead: (threadId: string) =>
+    apiFetch<{ ok: boolean }>(`/api/dm/threads/${threadId}/read`, { method: "POST" }),
+
+  pinToggle: (threadId: string) =>
+    apiFetch<{ ok: boolean; data: { pinned: boolean } }>(`/api/dm/threads/${threadId}/pin`, { method: "POST" }),
+
+  leaveThread: (threadId: string) =>
+    apiFetch<{ ok: boolean }>(`/api/dm/threads/${threadId}`, { method: "DELETE" }),
+
+  deleteMessage: (threadId: string, messageId: string) =>
+    apiFetch<{ ok: boolean }>(`/api/dm/threads/${threadId}/messages/${messageId}`, { method: "DELETE" }),
+
+  unreadCount: () =>
+    apiFetch<{ ok: boolean; data: { count: number } }>(`/api/dm/unread`),
+
+  /** SSE temps réel — retourne un EventSource (caller doit close()). */
+  events: (): EventSource => {
+    const tok = getToken();
+    const url = `${apiBase()}/api/dm/events${tok ? `?access_token=${encodeURIComponent(tok)}` : ""}`;
+    return new EventSource(url, { withCredentials: false } as any);
+  },
+};

@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { CC_THEME, ensureFonts } from "./theme";
-import { cerclesApi, CercleListItem, ProProfile } from "./api";
+import { cerclesApi, CercleListItem, ProProfile, dmApi } from "./api";
 import { apiBase } from "../../tomes/tome4/apiClient";
 
 function resolveAvatarUrl(url?: string | null): string | undefined {
@@ -38,6 +38,15 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
   useEffect(() => { reload(); }, []);
   useEffect(() => {
     cerclesApi.myProfile().then(r => setMyProfile(r.data)).catch(() => {});
+  }, []);
+
+  // Badge unread DM (refresh toutes les 30s)
+  const [dmUnread, setDmUnread] = useState(0);
+  useEffect(() => {
+    const fetchUnread = () => dmApi.unreadCount().then(r => setDmUnread(r.data.count || 0)).catch(() => {});
+    fetchUnread();
+    const id = setInterval(fetchUnread, 30000);
+    return () => clearInterval(id);
   }, []);
 
   const logout = () => {
@@ -81,6 +90,14 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
         <div style={{ display: "flex", flexDirection: "column", gap: 8, padding: "0 18px 14px" }}>
           <button onClick={() => navigate("/cercles/nouveau")} style={{ ...S.newBtn, margin: 0 }}>
             + Nouveau cercle
+          </button>
+          <button onClick={() => navigate("/cercles/messages")} style={{ position: "relative", background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.navy, padding: "9px 12px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontFamily: "inherit", fontWeight: 500 }}>
+            💬 Messages
+            {dmUnread > 0 && (
+              <span style={{ position: "absolute", top: -5, right: -5, background: CC_THEME.or, color: CC_THEME.bgDeep, fontSize: 10, fontWeight: 700, minWidth: 18, height: 18, padding: "0 5px", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {dmUnread > 99 ? "99+" : dmUnread}
+              </span>
+            )}
           </button>
           <button onClick={() => navigate("/cercles/annuaire")} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.navy, padding: "9px 12px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontFamily: "inherit", fontWeight: 500 }}>
             📇 Annuaire pro

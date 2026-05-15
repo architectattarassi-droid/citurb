@@ -43,6 +43,7 @@ import EditProfilePage  from "../../../features/cercles/EditProfilePage";
 import AssociationApplyPage  from "../../../features/cercles/AssociationApplyPage";
 import AssociationManagePage from "../../../features/cercles/AssociationManagePage";
 import CerclesLanding       from "../../../features/cercles/CerclesLanding";
+import DirectMessagesPage   from "../../../features/cercles/DirectMessagesPage";
 
 // Admin Vault (Sprint H — app admin ultra-sécurisée)
 import AdminLoginPage           from "../../../features/admin/AdminLoginPage";
@@ -121,6 +122,9 @@ export const router = createBrowserRouter([
   { path: '/cercles/annuaire',                     element: <AdminHostBlock><AnnuairePage /></AdminHostBlock> },
   { path: '/cercles/me/edit',                      element: <AdminHostBlock><EditProfilePage /></AdminHostBlock> },
   { path: '/cercles/profile/:userIdOrId',          element: <AdminHostBlock><ProfilePage /></AdminHostBlock> },
+  { path: '/cercles/messages',                     element: <AdminHostBlock><DirectMessagesPage /></AdminHostBlock> },
+  { path: '/cercles/messages/new/:peerId',         element: <AdminHostBlock><DirectMessagesPage /></AdminHostBlock> },
+  { path: '/cercles/messages/:threadId',           element: <AdminHostBlock><DirectMessagesPage /></AdminHostBlock> },
   { path: '/cercles/nouveau',                      element: <AdminHostBlock><NewCerclePage /></AdminHostBlock> },
   { path: '/cercles/:slug',                        element: <AdminHostBlock><CercleDetailPage /></AdminHostBlock> },
   { path: '/cercles/:slug/chat',                   element: <AdminHostBlock><CercleChatPage /></AdminHostBlock> },
