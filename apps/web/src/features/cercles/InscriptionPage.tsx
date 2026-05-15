@@ -598,7 +598,8 @@ function Field({ label, children, flex }: { label: string; children: React.React
 }
 
 const S: Record<string, React.CSSProperties> = {
-  root: { minHeight: "100vh", background: CC_THEME.bg, fontFamily: CC_THEME.fontBody, color: CC_THEME.ink, padding: "32px 16px" },
+  // zoom 1.3 = +30% taille (accessibilité lecture) ; minHeight compensée
+  root: { minHeight: "calc(100vh / 1.3)", zoom: 1.3, background: CC_THEME.bg, fontFamily: CC_THEME.fontBody, color: CC_THEME.ink, padding: "32px 16px" },
   card: { maxWidth: 700, margin: "0 auto", background: CC_THEME.bgRaised, borderRadius: 8, overflow: "hidden", boxShadow: CC_THEME.shadowRaise },
   header: { padding: "28px 32px 22px", borderBottom: `1px solid ${CC_THEME.border}`, background: CC_THEME.bgDeep, color: CC_THEME.bgSoft },
   eyebrow: { fontSize: 11, letterSpacing: "0.20em", color: CC_THEME.or, fontWeight: 600 },

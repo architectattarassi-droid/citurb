@@ -153,7 +153,8 @@ function visColor(v: string): string {
 }
 
 const S: Record<string, React.CSSProperties> = {
-  root: { display: "flex", height: "100vh", overflow: "hidden", background: CC_THEME.bg, fontFamily: CC_THEME.fontBody, color: CC_THEME.ink },
+  // zoom 1.3 = +30% taille (accessibilité lecture) ; height compensée pour rester = 100vh visuel
+  root: { display: "flex", height: "calc(100vh / 1.3)", zoom: 1.3, overflow: "hidden", background: CC_THEME.bg, fontFamily: CC_THEME.fontBody, color: CC_THEME.ink },
 
   sidebar: { width: 320, flexShrink: 0, background: CC_THEME.bgRaised, borderRight: `1px solid ${CC_THEME.border}`, display: "flex", flexDirection: "column", overflow: "hidden" },
   brand: { display: "flex", alignItems: "center", gap: 14, padding: "20px 22px", borderBottom: `1px solid ${CC_THEME.border}` },

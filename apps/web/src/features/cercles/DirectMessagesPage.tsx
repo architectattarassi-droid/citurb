@@ -344,7 +344,8 @@ export default function DirectMessagesPage() {
 }
 
 const S: Record<string, React.CSSProperties> = {
-  root: { display: "flex", height: "100vh", background: CC_THEME.bg, fontFamily: CC_THEME.fontBody, color: CC_THEME.ink, overflow: "hidden" },
+  // zoom 1.3 = +30% taille (accessibilité lecture) ; height compensée pour rester = 100vh visuel
+  root: { display: "flex", height: "calc(100vh / 1.3)", zoom: 1.3, background: CC_THEME.bg, fontFamily: CC_THEME.fontBody, color: CC_THEME.ink, overflow: "hidden" },
 
   // Sidebar threads
   sidebar: { width: 340, flexShrink: 0, background: CC_THEME.bgRaised, borderRight: `1px solid ${CC_THEME.border}`, display: "flex", flexDirection: "column", overflow: "hidden" },

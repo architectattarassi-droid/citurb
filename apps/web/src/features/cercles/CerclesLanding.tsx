@@ -221,7 +221,8 @@ function HowCard({ n, title, body }: { n: string; title: string; body: string })
 }
 
 const S: Record<string, React.CSSProperties> = {
-  root: { background: CC_THEME.bg, color: CC_THEME.ink, fontFamily: CC_THEME.fontBody, minHeight: "100vh" },
+  // zoom 1.3 = +30% taille (accessibilité lecture) ; minHeight compensée
+  root: { background: CC_THEME.bg, color: CC_THEME.ink, fontFamily: CC_THEME.fontBody, minHeight: "calc(100vh / 1.3)", zoom: 1.3 },
 
   header: { borderBottom: `1px solid ${CC_THEME.border}`, background: CC_THEME.bgRaised, position: "sticky", top: 0, zIndex: 10 },
   headerInner: { maxWidth: 1180, margin: "0 auto", padding: "16px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 },
