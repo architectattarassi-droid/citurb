@@ -24,6 +24,12 @@ function parseYouTubeId(url: string): string | null {
   // youtube.com/embed/<id>
   const emb = url.match(/youtube\.com\/embed\/([A-Za-z0-9_-]{6,15})/);
   if (emb) return emb[1];
+  // youtube.com/live/<id>  — diffusions live + leurs replays
+  const live = url.match(/youtube\.com\/live\/([A-Za-z0-9_-]{6,15})/);
+  if (live) return live[1];
+  // youtube.com/v/<id>
+  const v = url.match(/youtube\.com\/v\/([A-Za-z0-9_-]{6,15})/);
+  if (v) return v[1];
   return null;
 }
 
