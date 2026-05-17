@@ -13,6 +13,7 @@ import { useNavigate, Link } from "react-router-dom";
 import CerclesShell from "./CerclesShell";
 import { CC_THEME } from "./theme";
 import { cerclesApi, FeedResponse, ProProfile, CercleListItem } from "./api";
+import MediaEmbed, { extractUrls, isEmbeddable } from "./MediaEmbed";
 
 const METIER_LABELS: Record<string, string> = {
   ARCHITECTE: "Architecte", BET_STRUCTURE: "BET Structure", BET_FLUIDES: "BET Fluides", BET_VRD: "BET VRD",
@@ -151,6 +152,10 @@ function FeedPostCard({ post, onUpvote, onOpen }: { post: any; onUpvote: () => v
       </header>
       {post.title && <h3 style={S.postTitle} onClick={onOpen}>{post.title}</h3>}
       <div style={S.postBody}>{truncate(post.body, 280)}</div>
+      {/* Médias embarqués : YouTube/Facebook/Instagram/Vimeo/image/vidéo détectés dans le corps */}
+      {extractUrls(post.body || "").filter(isEmbeddable).slice(0, 2).map((u, i) => (
+        <MediaEmbed key={i} url={u} maxWidth={520} />
+      ))}
       <footer style={S.postFooter}>
         <button onClick={onUpvote} style={S.action}>👍 {post.upvotes}</button>
         <button onClick={onOpen}  style={S.action}>💬 {post._count?.replies ?? 0}</button>
