@@ -14,6 +14,7 @@ import CerclesShell from "./CerclesShell";
 import { CC_THEME } from "./theme";
 import { cerclesApi, FeedResponse, ProProfile, CercleListItem } from "./api";
 import MediaEmbed, { extractUrls, isEmbeddable } from "./MediaEmbed";
+import InlineComments from "./InlineComments";
 
 const METIER_LABELS: Record<string, string> = {
   ARCHITECTE: "Architecte", BET_STRUCTURE: "BET Structure", BET_FLUIDES: "BET Fluides", BET_VRD: "BET VRD",
@@ -129,6 +130,8 @@ function FeedPostCard({ post, onUpvote, onOpen }: { post: any; onUpvote: () => v
   const proProfile = author?.proProfile;
   const displayName = proProfile?.displayName || author?.username || author?.email || "Membre";
   const avatar = (displayName).slice(0, 1).toUpperCase();
+  const [showComments, setShowComments] = React.useState(false);
+  const [commentCount, setCommentCount] = React.useState<number>(post._count?.replies ?? post.replyCount ?? 0);
   return (
     <article style={S.postCard}>
       <header style={S.postHead}>
@@ -158,9 +161,21 @@ function FeedPostCard({ post, onUpvote, onOpen }: { post: any; onUpvote: () => v
       ))}
       <footer style={S.postFooter}>
         <button onClick={onUpvote} style={S.action}>👍 {post.upvotes}</button>
-        <button onClick={onOpen}  style={S.action}>💬 {post._count?.replies ?? 0}</button>
-        <button onClick={onOpen}  style={{ ...S.action, marginLeft: "auto", color: CC_THEME.or }}>Lire la suite →</button>
+        <button
+          onClick={() => setShowComments(v => !v)}
+          style={{ ...S.action, ...(showComments ? { color: CC_THEME.or, fontWeight: 600 } : {}) }}
+        >
+          💬 {commentCount} {showComments ? "▲" : "▼"}
+        </button>
+        <button onClick={onOpen}  style={{ ...S.action, marginLeft: "auto", color: CC_THEME.or }}>Voir le post →</button>
       </footer>
+      {showComments && (
+        <InlineComments
+          cercleId={post.cercleId}
+          postId={post.id}
+          onCountChange={setCommentCount}
+        />
+      )}
     </article>
   );
 }

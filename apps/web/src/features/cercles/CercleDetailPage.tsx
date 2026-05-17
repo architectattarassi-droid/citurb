@@ -4,6 +4,7 @@ import CerclesShell from "./CerclesShell";
 import { CC_THEME } from "./theme";
 import { cerclesApi, invitationsApi, CercleDetail, CerclePost, LiveRoom, InviteResultItem } from "./api";
 import MediaEmbed, { extractUrls, isEmbeddable } from "./MediaEmbed";
+import InlineComments from "./InlineComments";
 
 type Tab = "discussions" | "rooms" | "members";
 
@@ -277,6 +278,8 @@ function TabBtn({ active, onClick, children }: { active: boolean; onClick: () =>
 
 function PostCard({ post, cercleSlug, cercleName, onUpvote, onOpen }: { post: CerclePost; cercleSlug: string; cercleName: string; onUpvote: () => void; onOpen: () => void }) {
   const [shareToast, setShareToast] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+  const [commentCount, setCommentCount] = useState<number>(post.replyCount ?? 0);
   const sharePost = async () => {
     const url = `${window.location.origin}/cercles/${cercleSlug}/posts/${post.id}`;
     const title = post.title || `Post de ${post.author.username || post.author.email}`;
@@ -344,14 +347,25 @@ function PostCard({ post, cercleSlug, cercleName, onUpvote, onOpen }: { post: Ce
         >
           {post.liked ? "👍" : "🤍"} {post.upvotes} {post.liked ? "Tu aimes" : "J'aime"}
         </button>
-        <button onClick={onOpen} style={S.action} title="Voir les commentaires">
-          💬 {post.replyCount} Commenter
+        <button
+          onClick={() => setShowComments(v => !v)}
+          style={{ ...S.action, color: showComments ? CC_THEME.or : CC_THEME.inkMid, fontWeight: showComments ? 700 : 500 }}
+          title="Commenter sans quitter la page"
+        >
+          💬 {commentCount} Commenter {showComments ? "▲" : "▼"}
         </button>
         <button onClick={sharePost} style={{ ...S.action, background: shareToast ? CC_THEME.successBg : "transparent", color: shareToast ? CC_THEME.success : CC_THEME.inkMid, fontWeight: shareToast ? 700 : 500 }} title="Partager le lien du post (photos/vidéos incluses)">
           🔗 {shareToast ? "Lien copié ✓" : "Partager"}
         </button>
-        <button onClick={onOpen} style={{ ...S.action, marginLeft: "auto", color: CC_THEME.or, fontWeight: 600 }}>Lire la suite →</button>
+        <button onClick={onOpen} style={{ ...S.action, marginLeft: "auto", color: CC_THEME.or, fontWeight: 600 }}>Voir le post →</button>
       </div>
+      {showComments && (
+        <InlineComments
+          cercleId={post.cercleId}
+          postId={post.id}
+          onCountChange={setCommentCount}
+        />
+      )}
     </article>
   );
 }
