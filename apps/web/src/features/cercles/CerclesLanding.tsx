@@ -15,6 +15,8 @@ import { CC_THEME, ensureFonts } from "./theme";
 
 export default function CerclesLanding() {
   useEffect(() => { ensureFonts(); }, []);
+  // Détecte si l'utilisateur est déjà connecté (token présent) → CTAs adaptés
+  const isLoggedIn = typeof window !== "undefined" && !!localStorage.getItem("citurbarea.token");
 
   return (
     <div style={S.root}>
@@ -28,8 +30,14 @@ export default function CerclesLanding() {
             </div>
           </div>
           <nav style={S.nav}>
-            <Link to="/login" style={S.navLink}>Se connecter</Link>
-            <Link to="/inscription" style={S.navCta}>Créer un compte</Link>
+            {isLoggedIn ? (
+              <Link to="/cercles" style={S.navCta}>Mon fil d'actualité →</Link>
+            ) : (
+              <>
+                <Link to="/login" style={S.navLink}>Se connecter</Link>
+                <Link to="/inscription" style={S.navCta}>Créer un compte</Link>
+              </>
+            )}
           </nav>
         </div>
       </header>
@@ -47,8 +55,14 @@ export default function CerclesLanding() {
             des réseaux grand public.
           </p>
           <div style={S.heroCtas}>
-            <Link to="/inscription" style={S.btnPrimary}>Demander à rejoindre</Link>
-            <Link to="/login" style={S.btnGhost}>Se connecter</Link>
+            {isLoggedIn ? (
+              <Link to="/cercles" style={S.btnPrimary}>Accéder à mon fil d'actualité →</Link>
+            ) : (
+              <>
+                <Link to="/inscription" style={S.btnPrimary}>Demander à rejoindre</Link>
+                <Link to="/login" style={S.btnGhost}>Se connecter</Link>
+              </>
+            )}
           </div>
           <div style={S.heroNote}>
             Accès réservé aux professionnels qualifiés · Validation manuelle par l'équipe CITURBAREA
@@ -178,10 +192,16 @@ export default function CerclesLanding() {
             chaque inscription pour garantir la qualité des cercles.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <Link to="/inscription" style={S.btnPrimary}>Créer mon compte pro</Link>
-            <Link to="/login" style={{ ...S.btnGhost, borderColor: "rgba(250,247,242,0.3)", color: CC_THEME.inkOnDark }}>
-              J'ai déjà un compte
-            </Link>
+            {isLoggedIn ? (
+              <Link to="/cercles" style={S.btnPrimary}>Accéder à mon fil d'actualité →</Link>
+            ) : (
+              <>
+                <Link to="/inscription" style={S.btnPrimary}>Créer mon compte pro</Link>
+                <Link to="/login" style={{ ...S.btnGhost, borderColor: "rgba(250,247,242,0.3)", color: CC_THEME.inkOnDark }}>
+                  J'ai déjà un compte
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </section>

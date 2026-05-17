@@ -57,13 +57,13 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
   return (
     <div style={S.root}>
       <aside style={S.sidebar}>
-        <div style={S.brand}>
+        <Link to="/" style={{ ...S.brand, textDecoration: "none", color: "inherit", cursor: "pointer" }} title="Accueil — landing CITURBAREA Cercles">
           <div style={S.brandSeal}>C</div>
           <div>
             <div style={S.brandName}>CERCLES</div>
             <div style={S.brandSub}>Les pros se parlent ici</div>
           </div>
-        </div>
+        </Link>
 
         {/* Mon profil */}
         {myProfile && (
