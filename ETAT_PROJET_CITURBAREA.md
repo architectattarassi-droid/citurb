@@ -95,10 +95,24 @@ Cercle de démo : `/cercles/demo-reunion-mai-2026` (PUBLIC, 5 membres, 4 posts)
       `CIT-FRN-NNNNN`, référence offre = combo. Script : assign via DB.
     - Identité fournisseur masquée tant que `ProProfile.supplierContractSignedAt` null
     - Fournisseur gère ses offres : `/cercles/mes-offres`
-  - **Passe contenu À FAIRE** (nouveau message, contexte frais) : étendre le
-    référentiel à ~400 matériaux · ajuster prix marbre/import · images
-    représentatives par famille (~50). Seed : `apps/api/scripts/seed-referentiel.ts`.
-    Après expansion, ré-attribuer les codes (séquence CIT-XX-NNN par corps de métier).
+  - Photos : ✅ vraies photos Pixabay par famille (téléchargées + hébergées).
+    Écran admin `/cercles/marketplace/photos` : remplacer / re-piocher par famille.
+  - **EXPANSION MATÉRIAUTHÈQUE À FAIRE** (nouveau message, contexte frais — OBLIGATOIRE,
+    une réécriture de seed de cette taille ne doit PAS être coupée à mi-chemin) :
+    - Objectif : référentiel le plus complet possible (~600-900 types de matériaux ;
+      « 2000 » = padding, viser la qualité : tous les matériaux réels d'une droguerie/
+      fournisseur BTP marocain, couvrant les 12 corps de métier en profondeur)
+    - Méthode : seed `apps/api/scripts/seed-referentiel.ts` — utiliser une approche
+      GÉNÉRATIVE (matériaux de base × variantes : diamètres, dimensions, finitions)
+      pour atteindre le volume sans saisie manuelle de chaque ligne
+    - Prix : fourchettes marché Maroc 2026 (sources : francobat.ma, lechantier.ma,
+      tachrone.ma, archiplan.ma). Ajuster marbre/import vers le haut (marbre local
+      350-800, import Carrare 800-2500 DH/m²).
+    - Après expansion : ré-attribuer les codes CIT-XX-NNN (script per corps de métier,
+      tri famille+nom), puis relancer `/api/marketplace/admin/populate-photos` pour
+      les nouvelles familles.
+    - Schéma stable : `MarketProduct` (citCode, corpsMetier, famille, name, slug,
+      unit, description, indicativePriceMin/Max, photo, active).
   - Phase 2 — Panier · Phase 3 — Commande+statuts · Phase 4 — Paiement
     (online / dépôt chèque / Cash Plus / Wafa Cash) — à venir
 - **Killswitch** (Sprint K) — bloqué sur réception de 3 YubiKeys (à commander)
