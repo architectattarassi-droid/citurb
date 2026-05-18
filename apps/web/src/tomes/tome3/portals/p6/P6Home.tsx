@@ -259,6 +259,36 @@ export default function P6Home() {
           ))}
           {types.length === 0 && <div style={{ color: "#6b7280" }}>Chargement…</div>}
         </div>
+
+        {/* Accès au réseau professionnel CITURBAREA Cercles */}
+        <a
+          href="https://cercles.citurbarea.com"
+          target="_blank"
+          rel="noreferrer"
+          style={{
+            display: "block", maxWidth: 760, margin: "8px auto 40px", padding: "20px 24px",
+            background: "linear-gradient(135deg,#0F2A4A,#1A3A5C)", borderRadius: 14,
+            textDecoration: "none", color: "#FAF7F2", textAlign: "center",
+            border: "1px solid rgba(176,141,87,0.35)",
+          }}
+        >
+          <div style={{ fontSize: 11, letterSpacing: "0.18em", color: "#B08D57", fontWeight: 700 }}>
+            RÉSEAU PROFESSIONNEL & MARKETPLACE BTP
+          </div>
+          <div style={{ fontSize: 19, fontWeight: 700, margin: "8px 0 4px" }}>
+            CITURBAREA Cercles — l'espace des pros du BTP
+          </div>
+          <div style={{ fontSize: 13, color: "#D4CFC2", lineHeight: 1.5 }}>
+            Cercles métiers, messagerie, annuaire pro, visios et la marketplace
+            de matériaux. Réservé aux professionnels et entreprises. →
+          </div>
+          <div style={{
+            display: "inline-block", marginTop: 14, padding: "10px 22px",
+            background: "#B08D57", color: "#0F2A4A", borderRadius: 7, fontWeight: 700, fontSize: 13.5,
+          }}>
+            Accéder à cercles.citurbarea.com
+          </div>
+        </a>
       </div>
     );
   }
