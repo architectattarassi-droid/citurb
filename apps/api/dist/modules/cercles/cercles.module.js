@@ -32,6 +32,7 @@ const associations_controller_1 = require("./associations.controller");
 const direct_messages_service_1 = require("./direct-messages.service");
 const direct_messages_stream_service_1 = require("./direct-messages-stream.service");
 const direct_messages_controller_1 = require("./direct-messages.controller");
+const general_feed_controller_1 = require("./general-feed.controller");
 let CerclesModule = class CerclesModule {
 };
 exports.CerclesModule = CerclesModule;
@@ -45,7 +46,7 @@ exports.CerclesModule = CerclesModule = __decorate([
                 signOptions: { expiresIn: "7d" },
             }),
         ],
-        controllers: [cercles_controller_1.CerclesController, messages_controller_1.MessagesController, cercle_invitations_controller_1.CercleInvitationsController, associations_controller_1.AssociationsController, direct_messages_controller_1.DirectMessagesController],
+        controllers: [cercles_controller_1.CerclesController, messages_controller_1.MessagesController, cercle_invitations_controller_1.CercleInvitationsController, associations_controller_1.AssociationsController, direct_messages_controller_1.DirectMessagesController, general_feed_controller_1.GeneralFeedController],
         providers: [
             cercles_service_1.CerclesService,
             memberships_service_1.MembershipsService,

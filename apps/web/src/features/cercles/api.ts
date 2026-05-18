@@ -280,6 +280,28 @@ export const cerclesApi = {
   pin: (cercleId: string, postId: string, pinned: boolean) =>
     apiFetch(`/api/cercles/${cercleId}/posts/${postId}/pin`, { method: "POST", body: { pinned } }),
 
+  // ── Fil GÉNÉRAL (posts publics, cercleId null) — Sprint M ──
+  generalFeed: (page = 1) =>
+    apiFetch<{ ok: boolean; data: CerclePost[]; meta: { page: number; pageSize: number; total: number } }>(
+      `/api/feed?page=${page}`,
+    ),
+  createGeneralPost: (body: { title?: string; body: string; attachments?: any[] }) =>
+    apiFetch<{ ok: boolean; data: CerclePost }>(`/api/feed/posts`, { method: "POST", body }),
+  generalPostDetail: (postId: string) =>
+    apiFetch<{ ok: boolean; data: CerclePost }>(`/api/feed/posts/${postId}`),
+  generalUpvote: (postId: string) =>
+    apiFetch<{ ok: boolean; data: { liked: boolean; id: string; upvotes: number } }>(
+      `/api/feed/posts/${postId}/upvote`, { method: "POST", body: {} },
+    ),
+  generalReply: (postId: string, body: string) =>
+    apiFetch<{ ok: boolean; data: CerclePost }>(`/api/feed/posts/${postId}/replies`, { method: "POST", body: { body } }),
+  publicFeed: (page = 1) =>
+    apiFetch<{ ok: boolean; data: CerclePost[]; meta: { page: number; pageSize: number; total: number } }>(
+      `/api/feed/public?page=${page}`,
+    ),
+  publicPost: (postId: string) =>
+    apiFetch<{ ok: boolean; data: CerclePost }>(`/api/feed/public/${postId}`),
+
   // Rooms
   listRooms: (cercleId: string) =>
     apiFetch<{ ok: boolean; data: LiveRoom[] }>(`/api/cercles/${cercleId}/rooms`),

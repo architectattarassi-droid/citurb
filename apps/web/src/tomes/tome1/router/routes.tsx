@@ -44,6 +44,7 @@ import EditProfilePage  from "../../../features/cercles/EditProfilePage";
 import AssociationApplyPage  from "../../../features/cercles/AssociationApplyPage";
 import AssociationManagePage from "../../../features/cercles/AssociationManagePage";
 import CerclesLanding       from "../../../features/cercles/CerclesLanding";
+import PublicPostPage       from "../../../features/cercles/PublicPostPage";
 import DirectMessagesPage   from "../../../features/cercles/DirectMessagesPage";
 
 // Admin Vault (Sprint H — app admin ultra-sécurisée)
@@ -118,6 +119,7 @@ export const router = createBrowserRouter([
   // Cercles — réseau pro BTP marocain (auth requis côté API JWT)
   // Toutes ces routes sont bloquées sur admin.citurbarea.com (redirect vers /admin/login)
   { path: '/inscription',                          element: <AdminHostBlock><InscriptionPage /></AdminHostBlock> },
+  { path: '/post/:id',                             element: <PublicPostPage /> },
   { path: '/cercles',                              element: <AdminHostBlock><FeedHomePage /></AdminHostBlock> },
   { path: '/cercles/bienvenue',                    element: <AdminHostBlock><CerclesHomePage /></AdminHostBlock> },
   { path: '/cercles/annuaire',                     element: <AdminHostBlock><AnnuairePage /></AdminHostBlock> },

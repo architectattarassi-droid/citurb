@@ -1253,11 +1253,13 @@ model CercleModerator {
 }
 
 model CerclePost {
-  id       String @id @default(cuid())
-  cercleId String
-  cercle   Cercle @relation(fields: [cercleId], references: [id], onDelete: Cascade)
+  id       String  @id @default(cuid())
+  // cercleId NULL = post général (fil public, visible/partageable par tous, indexable SEO).
+  // cercleId défini = post de cercle (visible uniquement par les pros connectés / membres).
+  cercleId String?
+  cercle   Cercle? @relation(fields: [cercleId], references: [id], onDelete: Cascade)
   authorId String
-  author   User   @relation("CerclePostAuthor", fields: [authorId], references: [id])
+  author   User    @relation("CerclePostAuthor", fields: [authorId], references: [id])
 
   title String?
   body  String  @db.Text // markdown autorisé, sanitizé serveur

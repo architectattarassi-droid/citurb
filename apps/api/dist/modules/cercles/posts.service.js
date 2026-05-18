@@ -37,7 +37,9 @@ let PostsService = class PostsService {
         if (!input.body?.trim() && (!input.attachments || input.attachments.length === 0)) {
             throw new common_1.BadRequestException("Post vide (texte ou pièce jointe requis)");
         }
-        await this.cercles.assertMember(cercleId, authorId);
+        // cercleId null = post général (fil public) : aucun check membership, tout pro connecté peut poster
+        if (cercleId)
+            await this.cercles.assertMember(cercleId, authorId);
         return this.prisma.cerclePost.create({
             data: {
                 cercleId,
@@ -65,7 +67,8 @@ let PostsService = class PostsService {
         });
         if (parent.deletedAt)
             throw new common_1.BadRequestException("Post supprimé");
-        await this.cercles.assertMember(parent.cercleId, authorId);
+        if (parent.cercleId)
+            await this.cercles.assertMember(parent.cercleId, authorId);
         const reply = await this.prisma.cerclePost.create({
             data: {
                 cercleId: parent.cercleId,
@@ -130,7 +133,8 @@ let PostsService = class PostsService {
         });
         if (!post || post.deletedAt)
             throw new common_1.NotFoundException("Post introuvable");
-        await this.cercles.assertMember(post.cercleId, viewerId);
+        if (post.cercleId)
+            await this.cercles.assertMember(post.cercleId, viewerId);
         return post;
     }
     async edit(postId, userId, input) {
@@ -138,7 +142,7 @@ let PostsService = class PostsService {
         if (post.deletedAt)
             throw new common_1.BadRequestException("Post supprimé");
         const isAuthor = post.authorId === userId;
-        const isMod = await this.cercles.isModerator(post.cercleId, userId);
+        const isMod = post.cercleId ? await this.cercles.isModerator(post.cercleId, userId) : false;
         if (!isAuthor && !isMod)
             throw new common_1.ForbiddenException("Auteur ou modérateur requis");
         const data = {};
@@ -154,7 +158,7 @@ let PostsService = class PostsService {
     async softDelete(postId, userId) {
         const post = await this.prisma.cerclePost.findUniqueOrThrow({ where: { id: postId } });
         const isAuthor = post.authorId === userId;
-        const isMod = await this.cercles.isModerator(post.cercleId, userId);
+        const isMod = post.cercleId ? await this.cercles.isModerator(post.cercleId, userId) : false;
         if (!isAuthor && !isMod)
             throw new common_1.ForbiddenException("Auteur ou modérateur requis");
         return this.prisma.cerclePost.update({ where: { id: postId }, data: { deletedAt: new Date() } });
@@ -168,7 +172,8 @@ let PostsService = class PostsService {
         const post = await this.prisma.cerclePost.findUniqueOrThrow({ where: { id: postId } });
         if (post.deletedAt)
             throw new common_1.BadRequestException("Post supprimé");
-        await this.cercles.assertMember(post.cercleId, userId);
+        if (post.cercleId)
+            await this.cercles.assertMember(post.cercleId, userId);
         const existing = await this.prisma.postUpvote.findUnique({
             where: { postId_userId: { postId, userId } },
         });
@@ -195,16 +200,91 @@ let PostsService = class PostsService {
     }
     async pin(postId, userId, pinned = true) {
         const post = await this.prisma.cerclePost.findUniqueOrThrow({ where: { id: postId } });
+        if (!post.cercleId)
+            throw new common_1.ForbiddenException("Épinglage réservé aux posts de cercle");
         await this.cercles.assertModerator(post.cercleId, userId);
         return this.prisma.cerclePost.update({ where: { id: postId }, data: { isPinned: pinned } });
     }
     async resolve(postId, userId, resolved = true) {
         const post = await this.prisma.cerclePost.findUniqueOrThrow({ where: { id: postId } });
         const isAuthor = post.authorId === userId;
-        const isMod = await this.cercles.isModerator(post.cercleId, userId);
+        const isMod = post.cercleId ? await this.cercles.isModerator(post.cercleId, userId) : false;
         if (!isAuthor && !isMod)
             throw new common_1.ForbiddenException("Auteur ou modérateur requis");
         return this.prisma.cerclePost.update({ where: { id: postId }, data: { isResolved: resolved } });
+    }
+    // ── Fil GÉNÉRAL (posts publics, cercleId NULL) ─────────────────
+    authorSelect = {
+        select: {
+            id: true, email: true, username: true,
+            proProfile: { select: { displayName: true, avatarUrl: true, metier: true, isVerified: true } },
+        },
+    };
+    /** Fil général pour un utilisateur connecté (avec flag `liked`). */
+    async generalFeed(viewerId, opts = {}) {
+        const page = Math.max(1, opts.page ?? 1);
+        const pageSize = Math.min(50, Math.max(1, opts.pageSize ?? 20));
+        const where = { cercleId: null, parentId: null, deletedAt: null };
+        const [data, total] = await Promise.all([
+            this.prisma.cerclePost.findMany({
+                where,
+                orderBy: [{ isPinned: "desc" }, { createdAt: "desc" }],
+                skip: (page - 1) * pageSize,
+                take: pageSize,
+                include: {
+                    author: this.authorSelect,
+                    attachments: true,
+                    upvotedBy: { where: { userId: viewerId }, select: { id: true } },
+                    _count: { select: { replies: true } },
+                },
+            }),
+            this.prisma.cerclePost.count({ where }),
+        ]);
+        return {
+            data: data.map((p) => ({ ...p, liked: (p.upvotedBy?.length || 0) > 0 })),
+            meta: { page, pageSize, total },
+        };
+    }
+    /** Fil général PUBLIC (sans authentification — pour le SEO / partage). */
+    async publicFeed(opts = {}) {
+        const page = Math.max(1, opts.page ?? 1);
+        const pageSize = Math.min(50, Math.max(1, opts.pageSize ?? 20));
+        const where = { cercleId: null, parentId: null, deletedAt: null };
+        const [data, total] = await Promise.all([
+            this.prisma.cerclePost.findMany({
+                where,
+                orderBy: [{ isPinned: "desc" }, { createdAt: "desc" }],
+                skip: (page - 1) * pageSize,
+                take: pageSize,
+                include: {
+                    author: this.authorSelect,
+                    attachments: true,
+                    _count: { select: { replies: true } },
+                },
+            }),
+            this.prisma.cerclePost.count({ where }),
+        ]);
+        return { data, meta: { page, pageSize, total } };
+    }
+    /** Détail PUBLIC d'un post général (sans auth). Refuse les posts de cercle. */
+    async publicDetail(postId) {
+        const post = await this.prisma.cerclePost.findUnique({
+            where: { id: postId },
+            include: {
+                author: this.authorSelect,
+                attachments: true,
+                replies: {
+                    where: { deletedAt: null },
+                    orderBy: { createdAt: "asc" },
+                    include: { author: this.authorSelect, attachments: true },
+                },
+            },
+        });
+        if (!post || post.deletedAt)
+            throw new common_1.NotFoundException("Post introuvable");
+        if (post.cercleId)
+            throw new common_1.ForbiddenException("Ce post appartient à un cercle privé — connexion requise");
+        return post;
     }
 };
 exports.PostsService = PostsService;

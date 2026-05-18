@@ -13,7 +13,8 @@ import { CC_THEME } from "./theme";
 import { cerclesApi, CerclePost } from "./api";
 
 type Props = {
-  cercleId: string;
+  // cercleId null/"" = post général (fil public) → endpoints /api/feed
+  cercleId: string | null;
   postId: string;
   onCountChange?: (n: number) => void;
 };
@@ -28,7 +29,9 @@ export default function InlineComments({ cercleId, postId, onCountChange }: Prop
   const load = async () => {
     setLoading(true);
     try {
-      const r = await cerclesApi.postDetail(cercleId, postId);
+      const r = cercleId
+        ? await cerclesApi.postDetail(cercleId, postId)
+        : await cerclesApi.generalPostDetail(postId);
       const list = r.data.replies || [];
       setReplies(list);
       onCountChange?.(list.length);
@@ -48,7 +51,8 @@ export default function InlineComments({ cercleId, postId, onCountChange }: Prop
     setSending(true);
     setErr(null);
     try {
-      await cerclesApi.reply(cercleId, postId, body);
+      if (cercleId) await cerclesApi.reply(cercleId, postId, body);
+      else await cerclesApi.generalReply(postId, body);
       setText("");
       await load();
     } catch (e: any) {

@@ -26,17 +26,51 @@ const METIER_LABELS: Record<string, string> = {
 export default function FeedHomePage() {
   const navigate = useNavigate();
   const [feed, setFeed] = useState<FeedResponse | null>(null);
+  const [generalPosts, setGeneralPosts] = useState<any[]>([]);
   const [discovery, setDiscovery] = useState<CercleListItem[]>([]);
   const [suggestions, setSuggestions] = useState<ProProfile[]>([]);
   const [err, setErr] = useState<string | null>(null);
+  const [composerTitle, setComposerTitle] = useState("");
+  const [composerBody, setComposerBody] = useState("");
+  const [posting, setPosting] = useState(false);
+
+  const loadGeneral = () =>
+    cerclesApi.generalFeed().then(r => setGeneralPosts(r.data)).catch(() => setGeneralPosts([]));
 
   useEffect(() => {
     Promise.all([
       cerclesApi.feed().then(r => setFeed(r.data)).catch(() => setFeed({ posts: [], liveRooms: [], myCercleIds: [] })),
+      loadGeneral(),
       cerclesApi.discovery().then(r => setDiscovery(r.data)).catch(() => setDiscovery([])),
       cerclesApi.annuaireSuggestions().then(r => setSuggestions(r.data)).catch(() => setSuggestions([])),
     ]).catch(e => setErr(e?.message || "Erreur"));
   }, []);
+
+  const submitGeneralPost = async () => {
+    if (!composerBody.trim() || posting) return;
+    setPosting(true);
+    setErr(null);
+    try {
+      await cerclesApi.createGeneralPost({ title: composerTitle.trim() || undefined, body: composerBody.trim() });
+      setComposerTitle("");
+      setComposerBody("");
+      await loadGeneral();
+    } catch (e: any) {
+      setErr(e?.message || "Échec de la publication");
+    } finally {
+      setPosting(false);
+    }
+  };
+
+  // Fil = posts généraux (🌐 public) + posts de mes cercles (🔒), triés récents d'abord
+  const mergedPosts = React.useMemo(() => {
+    const gen = generalPosts.map(p => ({ ...p, _general: true }));
+    const cer = (feed?.posts || []).map(p => ({ ...p, _general: false }));
+    return [...gen, ...cer].sort((a, b) => {
+      if (!!a.isPinned !== !!b.isPinned) return a.isPinned ? -1 : 1;
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+  }, [generalPosts, feed]);
 
   return (
     <CerclesShell>
@@ -62,23 +96,50 @@ export default function FeedHomePage() {
             </section>
           )}
 
-          {feed && feed.posts.length === 0 && (
+          {/* Composer — publie un post GÉNÉRAL (public, visible/partageable par tous) */}
+          <div style={S.composer}>
+            <input
+              value={composerTitle}
+              onChange={e => setComposerTitle(e.target.value)}
+              placeholder="Titre (optionnel)"
+              style={S.composerTitle}
+            />
+            <textarea
+              value={composerBody}
+              onChange={e => setComposerBody(e.target.value)}
+              placeholder="Partage une actualité avec toute la communauté BTP… (lien YouTube / image / vidéo détecté automatiquement)"
+              style={S.composerBody}
+            />
+            <div style={S.composerFoot}>
+              <span style={S.composerHint}>🌐 Post public — visible et partageable par tous</span>
+              <button
+                onClick={submitGeneralPost}
+                disabled={posting || !composerBody.trim()}
+                style={{ ...S.composerBtn, opacity: posting || !composerBody.trim() ? 0.5 : 1 }}
+              >
+                {posting ? "Publication…" : "Publier"}
+              </button>
+            </div>
+          </div>
+
+          {mergedPosts.length === 0 && (
             <div style={S.emptyHero}>
               <h2 style={S.emptyTitle}>Pas encore de fil</h2>
               <p style={S.emptyBody}>
-                Rejoins un cercle pour voir l'activité ici. Tu peux explorer
-                l'<Link to="/cercles/annuaire" style={{ color: CC_THEME.or, fontWeight: 600 }}>annuaire pro</Link>{" "}
-                ou découvrir les cercles publics ci-contre.
+                Publie le premier post public ci-dessus, ou rejoins un cercle.
+                Explore l'<Link to="/cercles/annuaire" style={{ color: CC_THEME.or, fontWeight: 600 }}>annuaire pro</Link>.
               </p>
             </div>
           )}
 
-          {feed && feed.posts.map(p => (
+          {mergedPosts.map(p => (
             <FeedPostCard key={p.id} post={p} onUpvote={async () => {
-              await cerclesApi.upvote(p.cercleId, p.id);
-              const r = await cerclesApi.feed();
-              setFeed(r.data);
-            }} onOpen={() => navigate(`/cercles/${(p as any).cercle.slug}/posts/${p.id}`)} />
+              if (p._general) { await cerclesApi.generalUpvote(p.id); await loadGeneral(); }
+              else { await cerclesApi.upvote(p.cercleId, p.id); const r = await cerclesApi.feed(); setFeed(r.data); }
+            }} onOpen={() => {
+              if (p._general) navigate(`/post/${p.id}`);
+              else navigate(`/cercles/${p.cercle.slug}/posts/${p.id}`);
+            }} />
           ))}
         </main>
 
@@ -145,9 +206,13 @@ function FeedPostCard({ post, onUpvote, onOpen }: { post: any; onUpvote: () => v
             {proProfile?.metier && <span style={S.metierTag}>{METIER_LABELS[proProfile.metier] || proProfile.metier}</span>}
           </div>
           <div style={S.postSub}>
-            <Link to={`/cercles/${post.cercle.slug}`} style={{ color: CC_THEME.or, textDecoration: "none", fontWeight: 500 }}>
-              {post.cercle.name}
-            </Link>
+            {post.cercle ? (
+              <Link to={`/cercles/${post.cercle.slug}`} style={{ color: CC_THEME.warn, textDecoration: "none", fontWeight: 600 }}>
+                🔒 {post.cercle.name}
+              </Link>
+            ) : (
+              <span style={{ color: CC_THEME.success, fontWeight: 600 }}>🌐 Public</span>
+            )}
             <span> · {new Date(post.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}</span>
             {post.isPinned && <span style={S.pin}>📌</span>}
           </div>
@@ -193,6 +258,13 @@ const S: Record<string, React.CSSProperties> = {
   eyebrow: { fontSize: 10.5, color: CC_THEME.or, letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 600 },
   title: { margin: "6px 0 4px", fontFamily: CC_THEME.fontDisplay, fontSize: 28, fontWeight: 600, color: CC_THEME.navy, letterSpacing: "-0.01em" },
   lead: { color: CC_THEME.inkMid, fontSize: 13.5, fontStyle: "italic" },
+
+  composer: { background: CC_THEME.bgRaised, border: `1px solid ${CC_THEME.border}`, borderRadius: 10, padding: 16, marginBottom: 18, boxShadow: CC_THEME.shadowSoft },
+  composerTitle: { width: "100%", padding: "8px 11px", border: `1px solid ${CC_THEME.border}`, borderRadius: 6, fontSize: 14, fontFamily: "inherit", outline: "none", background: CC_THEME.bg, boxSizing: "border-box" as const, marginBottom: 8 },
+  composerBody: { width: "100%", padding: "9px 11px", border: `1px solid ${CC_THEME.border}`, borderRadius: 6, fontSize: 13.5, fontFamily: "inherit", outline: "none", background: CC_THEME.bg, boxSizing: "border-box" as const, minHeight: 70, resize: "vertical" as const },
+  composerFoot: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: 8, flexWrap: "wrap" as const },
+  composerHint: { fontSize: 11.5, color: CC_THEME.success, fontWeight: 500 },
+  composerBtn: { background: CC_THEME.navy, color: CC_THEME.bg, border: 0, padding: "9px 20px", borderRadius: 6, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.03em" },
 
   liveBar: { display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", background: CC_THEME.dangerBg, border: `1px solid ${CC_THEME.danger}40`, borderRadius: 10, marginBottom: 18, flexWrap: "wrap" as const },
   liveDot: { width: 10, height: 10, borderRadius: "50%", background: CC_THEME.danger, animation: "pulse 1.5s infinite" },
