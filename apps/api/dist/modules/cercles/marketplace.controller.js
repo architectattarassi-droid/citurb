@@ -82,6 +82,10 @@ let MarketplaceController = class MarketplaceController {
     async removeOffer(req, id) {
         return { ok: true, data: await this.market.removeOffer(id, this.uid(req)) };
     }
+    // Attribution des vraies photos via Pixabay (admin, one-shot, idempotent)
+    async populatePhotos(body) {
+        return this.market.populateReferentielPhotos(body?.pixabayKey);
+    }
     // Upload photos générique (offres marketplace, portfolio pro…)
     async uploadPhotos(req, files) {
         if (!files || files.length === 0)
@@ -171,6 +175,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], MarketplaceController.prototype, "removeOffer", null);
+__decorate([
+    (0, common_1.Post)("admin/populate-photos"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MarketplaceController.prototype, "populatePhotos", null);
 __decorate([
     (0, common_1.Post)("photos"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),

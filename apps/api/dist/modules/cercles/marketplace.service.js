@@ -12,6 +12,54 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MarketplaceService = exports.CORPS_METIER = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../tomes/tome-at/kernel/prisma/prisma.service");
+const path_1 = require("path");
+const fs_1 = require("fs");
+/** Mots-clés Pixabay par famille de matériaux (pour photos réelles). */
+const FAMILLE_KEYWORDS = {
+    "Liants": "cement bag construction",
+    "Granulats": "gravel sand pile",
+    "Béton & mortier": "concrete mortar",
+    "Maçonnerie": "concrete blocks bricks",
+    "Aciers": "steel rebar reinforcement",
+    "Coffrage": "plywood formwork",
+    "Tubes & raccords": "pvc pipes plumbing",
+    "Robinetterie": "faucet tap chrome",
+    "Sanitaire": "bathroom sink toilet",
+    "Évacuation": "drain pipe",
+    "Câbles": "electric cable wire",
+    "Appareillage": "electric socket switch",
+    "Protection": "circuit breaker electrical",
+    "Tableaux & gaines": "electrical panel box",
+    "Éclairage": "led light fixture",
+    "Membranes": "roof waterproofing membrane",
+    "Primaires & enduits": "construction coating bucket",
+    "Thermique": "thermal insulation",
+    "Acoustique": "acoustic insulation panel",
+    "Aluminium": "aluminium window frame",
+    "Bois": "wooden door",
+    "PVC": "pvc window",
+    "Carrelage": "ceramic floor tiles",
+    "Parquet": "wood flooring parquet",
+    "Sols souples": "vinyl flooring",
+    "Accessoires de pose": "tile adhesive trowel",
+    "Marbre": "marble slab",
+    "Granit": "granite stone slab",
+    "Pierre": "natural stone wall",
+    "Plans & escaliers": "marble countertop",
+    "Peintures": "paint bucket can",
+    "Enduits & sous-couches": "wall plaster",
+    "Outillage peinture": "paint roller brush",
+    "Eau chaude sanitaire": "water heater boiler",
+    "Climatisation": "air conditioner",
+    "Chauffage": "radiator heating",
+    "Pavés & bordures": "paving stones",
+    "Assainissement": "sewer concrete pipe",
+    "Clôture & extérieur": "wire mesh fence",
+    "Visserie & fixation": "screws bolts hardware",
+    "Serrurerie": "door lock metal",
+    "Outillage": "construction hand tools",
+    "Accessoires": "construction material supplies",
+};
 /**
  * MarketplaceService — Marketplace BTP (modèle référentiel + offres).
  *
@@ -40,8 +88,81 @@ const CORPS_CODES = exports.CORPS_METIER.map(c => c.code);
 const UNITS = ["M3", "M2", "ML", "T", "KG", "SAC", "UNITE", "PALETTE", "ROULEAU", "BARRE"];
 let MarketplaceService = class MarketplaceService {
     prisma;
+    log = new common_1.Logger("MarketplaceService");
     constructor(prisma) {
         this.prisma = prisma;
+    }
+    /**
+     * Attribue de vraies photos aux produits du référentiel via l'API Pixabay.
+     * Une photo par famille (téléchargée et hébergée sur notre volume — Pixabay
+     * interdit le hotlink permanent). Idempotent : ne retraite pas les produits
+     * ayant déjà une photo /uploads/.
+     */
+    async populateReferentielPhotos(pixabayKey) {
+        if (!pixabayKey)
+            throw new common_1.BadRequestException("Clé Pixabay requise");
+        const base = process.env.UPLOADS_DIR || (0, path_1.join)(process.cwd(), "uploads");
+        const dir = (0, path_1.join)(base, "marketplace", "familles");
+        try {
+            (0, fs_1.mkdirSync)(dir, { recursive: true });
+        }
+        catch { }
+        // Familles dont les produits n'ont pas encore de photo hébergée
+        const rows = await this.prisma.marketProduct.groupBy({
+            by: ["corpsMetier", "famille"],
+            where: { active: true },
+        });
+        const result = [];
+        for (const r of rows) {
+            const slug = `${r.corpsMetier}-${r.famille}`.toLowerCase()
+                .normalize("NFD").replace(/[̀-ͯ]/g, "")
+                .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+            const already = await this.prisma.marketProduct.count({
+                where: { corpsMetier: r.corpsMetier, famille: r.famille, photo: { startsWith: "/uploads/" } },
+            });
+            const totalFam = await this.prisma.marketProduct.count({
+                where: { corpsMetier: r.corpsMetier, famille: r.famille },
+            });
+            if (already >= totalFam) {
+                result.push({ famille: r.famille, status: "déjà fait", products: totalFam });
+                continue;
+            }
+            const keyword = FAMILLE_KEYWORDS[r.famille] || "construction material";
+            try {
+                const apiUrl = `https://pixabay.com/api/?key=${pixabayKey}&q=${encodeURIComponent(keyword)}` +
+                    `&image_type=photo&safesearch=true&per_page=3&orientation=horizontal`;
+                const res = await fetch(apiUrl);
+                if (!res.ok) {
+                    result.push({ famille: r.famille, status: `Pixabay ${res.status}`, products: 0 });
+                    continue;
+                }
+                const json = await res.json();
+                const hit = json?.hits?.[0];
+                if (!hit?.webformatURL) {
+                    result.push({ famille: r.famille, status: "aucune image", products: 0 });
+                    continue;
+                }
+                // Télécharge l'image immédiatement (URL Pixabay éphémère) et l'héberge
+                const imgRes = await fetch(hit.webformatURL);
+                if (!imgRes.ok) {
+                    result.push({ famille: r.famille, status: "téléchargement échoué", products: 0 });
+                    continue;
+                }
+                const buf = Buffer.from(await imgRes.arrayBuffer());
+                (0, fs_1.writeFileSync)((0, path_1.join)(dir, `${slug}.jpg`), buf);
+                const photoPath = `/uploads/marketplace/familles/${slug}.jpg`;
+                const upd = await this.prisma.marketProduct.updateMany({
+                    where: { corpsMetier: r.corpsMetier, famille: r.famille },
+                    data: { photo: photoPath },
+                });
+                result.push({ famille: r.famille, status: "✓ photo réelle", products: upd.count });
+                this.log.log(`[marketplace] photo "${r.famille}" → ${upd.count} produits`);
+            }
+            catch (e) {
+                result.push({ famille: r.famille, status: `erreur: ${e?.message || e}`, products: 0 });
+            }
+        }
+        return { ok: true, familles: result, done: result.filter(x => x.status.startsWith("✓")).length };
     }
     static CORPS_METIER = exports.CORPS_METIER;
     static UNITS = UNITS;

@@ -97,6 +97,13 @@ export class MarketplaceController {
     return { ok: true, data: await this.market.removeOffer(id, this.uid(req)) };
   }
 
+  // Attribution des vraies photos via Pixabay (admin, one-shot, idempotent)
+  @Post("admin/populate-photos")
+  @UseGuards(JwtAuthGuard)
+  async populatePhotos(@Body() body: { pixabayKey: string }) {
+    return this.market.populateReferentielPhotos(body?.pixabayKey);
+  }
+
   // Upload photos générique (offres marketplace, portfolio pro…)
   @Post("photos")
   @UseGuards(JwtAuthGuard)
