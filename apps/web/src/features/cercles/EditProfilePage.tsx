@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CerclesShell from "./CerclesShell";
 import { CC_THEME, ensureFonts } from "./theme";
-import { cerclesApi, ProMetier, ProClasseBTP, FormationEntry, ExperiencePhare } from "./api";
+import { cerclesApi, marketplaceApi, resolveUploadUrl, ProMetier, ProClasseBTP, FormationEntry, ExperiencePhare } from "./api";
 
 const METIERS: { value: ProMetier; label: string }[] = [
   { value: "ARCHITECTE", label: "Architecte" },
@@ -330,8 +330,11 @@ export default function EditProfilePage() {
                   <Field label="Rôle / Mission">
                     <input style={S.input} value={p.role || ""} onChange={(e) => updateProjet(projets, setProjets, i, "role", e.target.value)} placeholder="Architecte mandataire + suivi chantier" />
                   </Field>
-                  <Field label="URLs images (séparées par virgule)">
-                    <input style={S.input} value={(p.imageUrls || []).join(", ")} onChange={(e) => updateProjet(projets, setProjets, i, "imageUrls", e.target.value.split(",").map(s => s.trim()).filter(Boolean))} placeholder="https://…/img1.jpg, https://…/img2.jpg" />
+                  <Field label="Photos du projet">
+                    <ProjectPhotos
+                      urls={p.imageUrls || []}
+                      onChange={(urls) => updateProjet(projets, setProjets, i, "imageUrls", urls)}
+                    />
                   </Field>
                 </Row>
                 <button onClick={() => setProjets(projets.filter((_, idx) => idx !== i))} style={S.btnRemove}>Retirer ce projet</button>
@@ -468,6 +471,48 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 function Row({ children }: { children: React.ReactNode }) {
   return <div style={{ display: "flex", gap: 12, alignItems: "flex-end" }}>{children}</div>;
+}
+
+/** Upload + miniatures pour les photos d'un projet phare du portfolio. */
+function ProjectPhotos({ urls, onChange }: { urls: string[]; onChange: (u: string[]) => void }) {
+  const [uploading, setUploading] = useState(false);
+  const onFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+    setUploading(true);
+    try {
+      const up = await marketplaceApi.uploadPhotos(files);
+      onChange([...urls, ...up.map(u => u.url)]);
+    } catch (ex: any) {
+      alert(ex?.message || "Échec de l'upload");
+    } finally {
+      setUploading(false);
+    }
+  };
+  return (
+    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+      {urls.map((u, i) => (
+        <div key={i} style={{
+          width: 84, height: 84, borderRadius: 6, position: "relative",
+          backgroundImage: `url(${resolveUploadUrl(u)})`, backgroundSize: "cover", backgroundPosition: "center",
+          border: `1px solid ${CC_THEME.border}`,
+        }}>
+          <button type="button" onClick={() => onChange(urls.filter((_, j) => j !== i))} style={{
+            position: "absolute", top: 3, right: 3, width: 18, height: 18, borderRadius: "50%",
+            border: 0, background: "rgba(148,41,43,0.9)", color: "#fff", fontSize: 10, cursor: "pointer", lineHeight: 1,
+          }}>✕</button>
+        </div>
+      ))}
+      <label style={{
+        width: 84, height: 84, borderRadius: 6, border: `2px dashed ${CC_THEME.border}`,
+        background: CC_THEME.bgSoft, display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: 11, color: CC_THEME.inkMid, cursor: "pointer", fontWeight: 500, textAlign: "center",
+      }}>
+        {uploading ? "…" : "+ Photo"}
+        <input type="file" accept="image/*" multiple onChange={onFiles} style={{ display: "none" }} />
+      </label>
+    </div>
+  );
 }
 
 const S: Record<string, React.CSSProperties> = {
