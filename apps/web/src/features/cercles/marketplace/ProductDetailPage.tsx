@@ -8,7 +8,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import CerclesShell from "../CerclesShell";
 import { CC_THEME } from "../theme";
 import { marketplaceApi, MarketProduct, resolveUploadUrl } from "../api";
-import { CORPS_LABELS, UNIT_LABELS, priceRange } from "./ProductCard";
+import { CORPS_LABELS, CORPS_ICONS, UNIT_LABELS, priceRange } from "./ProductCard";
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -37,7 +37,7 @@ export default function ProductDetailPage() {
 
         <div style={S.top}>
           <div style={{ ...S.photo, backgroundImage: photo ? `url(${photo})` : undefined }}>
-            {!photo && <span style={{ fontSize: 60, opacity: 0.3 }}>📦</span>}
+            {!photo && <span style={{ fontSize: 72, opacity: 0.4 }}>{CORPS_ICONS[product.corpsMetier] || "📦"}</span>}
           </div>
           <div>
             <span style={S.corpsBadge}>{CORPS_LABELS[product.corpsMetier] || product.corpsMetier} · {product.famille}</span>

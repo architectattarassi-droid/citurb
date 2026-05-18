@@ -356,12 +356,13 @@ async function main() {
         const description = `${name}. Famille « ${famille} » — ${LABELS[corps]}. ` +
           `Matériau de construction standard. Fourchette de prix indicative marché Maroc ; ` +
           `le prix réel dépend du fournisseur et de la quantité.`;
-        const photo = `https://picsum.photos/seed/ref-${slug}/640/440`;
+        // photo : null par défaut — placeholder visuel par corps de métier côté front.
+        // Les vraies photos viennent des fournisseurs (offres) ou d'une passe de curation.
 
         await prisma.marketProduct.upsert({
           where: { slug },
-          update: { corpsMetier: corps, famille, name, description, unit, indicativePriceMin: lo, indicativePriceMax: hi, photo, active: true },
-          create: { slug, corpsMetier: corps, famille, name, description, unit, indicativePriceMin: lo, indicativePriceMax: hi, photo, active: true },
+          update: { corpsMetier: corps, famille, name, description, unit, indicativePriceMin: lo, indicativePriceMax: hi, active: true },
+          create: { slug, corpsMetier: corps, famille, name, description, unit, indicativePriceMin: lo, indicativePriceMax: hi, photo: null, active: true },
         });
         count++; corpsCount++;
       }

@@ -13,6 +13,12 @@ export const CORPS_LABELS: Record<string, string> = {
   CHAUFFAGE_CLIM: "Chauffage & climatisation", VRD: "VRD & extérieurs", QUINCAILLERIE: "Quincaillerie & outillage",
 };
 
+export const CORPS_ICONS: Record<string, string> = {
+  GROS_OEUVRE: "🧱", PLOMBERIE: "🚿", ELECTRICITE: "⚡", ETANCHEITE: "💧", ISOLATION: "🧊",
+  MENUISERIE: "🚪", REVETEMENT: "🔲", MARBRERIE: "🪨", PEINTURE: "🎨", CHAUFFAGE_CLIM: "🌡️",
+  VRD: "🛣️", QUINCAILLERIE: "🔩",
+};
+
 export const UNIT_LABELS: Record<string, string> = {
   M3: "m³", M2: "m²", ML: "ml", T: "tonne", KG: "kg", SAC: "sac",
   UNITE: "unité", PALETTE: "palette", ROULEAU: "rouleau", BARRE: "barre",
@@ -33,7 +39,7 @@ export default function ProductCard({ product }: { product: MarketProduct }) {
   return (
     <Link to={`/cercles/marketplace/produit/${product.id}`} style={S.card}>
       <div style={{ ...S.photo, backgroundImage: photo ? `url(${photo})` : undefined }}>
-        {!photo && <span style={S.ph}>📦</span>}
+        {!photo && <span style={S.ph}>{CORPS_ICONS[product.corpsMetier] || "📦"}</span>}
         <span style={S.fam}>{product.famille}</span>
       </div>
       <div style={S.body}>
