@@ -379,6 +379,35 @@ export class MarketplaceService {
     return { ok: true, deleted: offerId };
   }
 
+  /** Liste des familles avec leur photo actuelle (écran admin photos). */
+  async adminFamilles() {
+    const rows = await this.prisma.marketProduct.groupBy({
+      by: ["corpsMetier", "famille"],
+      where: { active: true },
+      _count: { _all: true },
+    });
+    const out: { corpsMetier: string; famille: string; photo: string | null; productCount: number }[] = [];
+    for (const r of rows) {
+      const sample = await this.prisma.marketProduct.findFirst({
+        where: { corpsMetier: r.corpsMetier, famille: r.famille },
+        select: { photo: true },
+      });
+      out.push({ corpsMetier: r.corpsMetier, famille: r.famille, photo: sample?.photo || null, productCount: r._count._all });
+    }
+    return out.sort((a, b) => a.corpsMetier.localeCompare(b.corpsMetier) || a.famille.localeCompare(b.famille));
+  }
+
+  /** Applique une photo à tous les produits d'une famille (écran admin photos). */
+  async setFamillePhoto(corpsMetier: string, famille: string, photoUrl: string) {
+    if (!corpsMetier || !famille) throw new BadRequestException("Famille requise");
+    if (!photoUrl || !photoUrl.trim()) throw new BadRequestException("URL de photo requise");
+    const r = await this.prisma.marketProduct.updateMany({
+      where: { corpsMetier, famille },
+      data: { photo: photoUrl.trim() },
+    });
+    return { ok: true, updated: r.count };
+  }
+
   /** Recherche dans le référentiel pour aider le fournisseur à choisir un produit. */
   async searchReferentiel(q: string) {
     const term = (q || "").trim();

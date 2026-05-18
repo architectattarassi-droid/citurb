@@ -852,6 +852,22 @@ export const marketplaceApi = {
   removeOffer: (id: string) =>
     apiFetch<{ ok: boolean }>(`/api/marketplace/offers/${id}`, { method: "DELETE" }),
 
+  // ── Admin photos référentiel ──
+  adminFamilles: () =>
+    apiFetch<{ ok: boolean; data: Array<{ corpsMetier: string; famille: string; photo: string | null; productCount: number }> }>(
+      `/api/marketplace/admin/familles`,
+    ),
+
+  setFamillePhoto: (corpsMetier: string, famille: string, photoUrl: string) =>
+    apiFetch<{ ok: boolean; updated: number }>(`/api/marketplace/admin/famille-photo`, {
+      method: "POST", body: { corpsMetier, famille, photoUrl },
+    }),
+
+  rerollFamillePhoto: (famille: string) =>
+    apiFetch<{ ok: boolean; familles: any[] }>(`/api/marketplace/admin/populate-photos`, {
+      method: "POST", body: { force: true, familles: [famille] },
+    }),
+
   uploadPhotos: (files: File[]): Promise<Array<{ url: string; filename: string; sizeBytes: number }>> => {
     return new Promise((resolve, reject) => {
       const fd = new FormData();

@@ -53,7 +53,10 @@ export default function MarketplacePage() {
             <h1 style={S.title}>Marketplace BTP Maroc</h1>
             <p style={S.lead}>{total} matériaux référencés — du gros œuvre aux finitions, organisés par corps de métier.</p>
           </div>
-          <Link to="/cercles/mes-offres" style={S.myBtn}>🏪 Mes offres fournisseur</Link>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <Link to="/cercles/marketplace/photos" style={S.photoBtn}>🖼 Gérer les photos</Link>
+            <Link to="/cercles/mes-offres" style={S.myBtn}>🏪 Mes offres fournisseur</Link>
+          </div>
         </header>
 
         <div style={S.searchBar}>
@@ -123,6 +126,7 @@ const S: Record<string, React.CSSProperties> = {
   title: { margin: "6px 0 4px", fontFamily: CC_THEME.fontDisplay, fontSize: 30, fontWeight: 600, color: CC_THEME.navy },
   lead: { color: CC_THEME.inkMid, fontSize: 13.5, fontStyle: "italic", maxWidth: 560 },
   myBtn: { background: CC_THEME.navy, color: CC_THEME.bg, padding: "10px 16px", borderRadius: 6, textDecoration: "none", fontSize: 13, fontWeight: 600, whiteSpace: "nowrap" },
+  photoBtn: { background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.navy, padding: "10px 14px", borderRadius: 6, textDecoration: "none", fontSize: 13, fontWeight: 600, whiteSpace: "nowrap" },
 
   searchBar: { display: "flex", gap: 10, marginBottom: 18 },
   search: { flex: 1, padding: "11px 14px", border: `1px solid ${CC_THEME.border}`, borderRadius: 6, fontSize: 13.5, fontFamily: "inherit", outline: "none", background: CC_THEME.bgRaised },

@@ -48,6 +48,7 @@ import PublicPostPage       from "../../../features/cercles/PublicPostPage";
 import MarketplacePage        from "../../../features/cercles/marketplace/MarketplacePage";
 import ProductDetailPage      from "../../../features/cercles/marketplace/ProductDetailPage";
 import MyOffersPage           from "../../../features/cercles/marketplace/MyOffersPage";
+import MarketplacePhotosPage  from "../../../features/cercles/marketplace/MarketplacePhotosPage";
 import DirectMessagesPage   from "../../../features/cercles/DirectMessagesPage";
 
 // Admin Vault (Sprint H — app admin ultra-sécurisée)
@@ -135,6 +136,7 @@ export const router = createBrowserRouter([
   { path: '/cercles/marketplace',                  element: <AdminHostBlock><MarketplacePage /></AdminHostBlock> },
   { path: '/cercles/marketplace/produit/:id',      element: <AdminHostBlock><ProductDetailPage /></AdminHostBlock> },
   { path: '/cercles/mes-offres',                   element: <AdminHostBlock><MyOffersPage /></AdminHostBlock> },
+  { path: '/cercles/marketplace/photos',           element: <AdminHostBlock><MarketplacePhotosPage /></AdminHostBlock> },
   { path: '/cercles/:slug',                        element: <AdminHostBlock><CercleDetailPage /></AdminHostBlock> },
   { path: '/cercles/:slug/chat',                   element: <AdminHostBlock><CercleChatPage /></AdminHostBlock> },
   { path: '/cercles/:slug/rejoindre',              element: <AdminHostBlock><AssociationApplyPage /></AdminHostBlock> },

@@ -100,8 +100,21 @@ export class MarketplaceController {
   // Attribution des vraies photos via Pixabay (admin, one-shot, idempotent)
   @Post("admin/populate-photos")
   @UseGuards(JwtAuthGuard)
-  async populatePhotos(@Body() body: { pixabayKey: string; force?: boolean; familles?: string[] }) {
-    return this.market.populateReferentielPhotos(body?.pixabayKey, { force: body?.force, familles: body?.familles });
+  async populatePhotos(@Body() body: { pixabayKey?: string; force?: boolean; familles?: string[] }) {
+    const key = body?.pixabayKey || process.env.PIXABAY_KEY || "55917807-c7aecf704e7ec32d0e89d2c1e";
+    return this.market.populateReferentielPhotos(key, { force: body?.force, familles: body?.familles });
+  }
+
+  @Get("admin/familles")
+  @UseGuards(JwtAuthGuard)
+  async adminFamilles() {
+    return { ok: true, data: await this.market.adminFamilles() };
+  }
+
+  @Post("admin/famille-photo")
+  @UseGuards(JwtAuthGuard)
+  async setFamillePhoto(@Body() body: { corpsMetier: string; famille: string; photoUrl: string }) {
+    return this.market.setFamillePhoto(body?.corpsMetier, body?.famille, body?.photoUrl);
   }
 
   // Upload photos générique (offres marketplace, portfolio pro…)

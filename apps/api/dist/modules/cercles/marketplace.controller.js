@@ -84,7 +84,14 @@ let MarketplaceController = class MarketplaceController {
     }
     // Attribution des vraies photos via Pixabay (admin, one-shot, idempotent)
     async populatePhotos(body) {
-        return this.market.populateReferentielPhotos(body?.pixabayKey, { force: body?.force, familles: body?.familles });
+        const key = body?.pixabayKey || process.env.PIXABAY_KEY || "55917807-c7aecf704e7ec32d0e89d2c1e";
+        return this.market.populateReferentielPhotos(key, { force: body?.force, familles: body?.familles });
+    }
+    async adminFamilles() {
+        return { ok: true, data: await this.market.adminFamilles() };
+    }
+    async setFamillePhoto(body) {
+        return this.market.setFamillePhoto(body?.corpsMetier, body?.famille, body?.photoUrl);
     }
     // Upload photos générique (offres marketplace, portfolio pro…)
     async uploadPhotos(req, files) {
@@ -183,6 +190,21 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], MarketplaceController.prototype, "populatePhotos", null);
+__decorate([
+    (0, common_1.Get)("admin/familles"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], MarketplaceController.prototype, "adminFamilles", null);
+__decorate([
+    (0, common_1.Post)("admin/famille-photo"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MarketplaceController.prototype, "setFamillePhoto", null);
 __decorate([
     (0, common_1.Post)("photos"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
