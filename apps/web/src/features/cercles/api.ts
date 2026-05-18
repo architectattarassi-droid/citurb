@@ -757,31 +757,46 @@ export const dmApi = {
   },
 };
 
-// ── Marketplace BTP — vitrine fournisseur (Sprint M+) ──
+// ── Marketplace BTP — référentiel + offres fournisseur (Sprint M+) ──
 
-export type SupplierProduct = {
+export type MarketProduct = {
   id: string;
-  supplierId: string;
-  supplier?: {
-    id: string;
-    username: string | null;
-    email?: string | null;
-    proProfile?: {
-      displayName?: string; avatarUrl?: string; coverUrl?: string; metier?: string;
-      cabinetName?: string; villePrincipale?: string; bio?: string; isVerified?: boolean;
-      phonePublic?: string; emailPublic?: string; websiteUrl?: string;
-    } | null;
-  };
+  corpsMetier: string;
+  famille: string;
   name: string;
-  category: string;
-  reference: string | null;
+  slug: string;
   description: string | null;
-  photos: string[];
-  priceDH: number | null;
   unit: string;
+  photo: string | null;
+  indicativePriceMin: number | null;
+  indicativePriceMax: number | null;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+  _count?: { offers: number };
+  offers?: MarketOffer[];
+};
+
+export type MarketOffer = {
+  id: string;
+  priceDH: number;
   quantityAvailable: number | null;
   minOrder: number | null;
-  showroomAddress: string | null;
+  showroomCity: string | null;
+  deliveryZones: string[];
+  deliveryDelayHours: number | null;
+  deliveryCostDH: number | null;
+  deliveryIncluded: boolean;
+  contracted: boolean;
+  supplier: { id: string | null; displayName: string; villePrincipale: string | null; isVerified: boolean };
+};
+
+export type MyOffer = {
+  id: string;
+  marketProductId: string;
+  priceDH: number;
+  quantityAvailable: number | null;
+  minOrder: number | null;
   showroomCity: string | null;
   deliveryZones: string[];
   deliveryDelayHours: number | null;
@@ -789,50 +804,55 @@ export type SupplierProduct = {
   deliveryIncluded: boolean;
   active: boolean;
   createdAt: string;
-  updatedAt: string;
+  marketProduct?: { id: string; name: string; corpsMetier: string; famille: string; unit: string; photo: string | null };
 };
+
+export type CorpsMetierNode = { code: string; label: string; count: number; familles: { famille: string; count: number }[] };
 
 export const marketplaceApi = {
   meta: () =>
-    apiFetch<{ ok: boolean; data: { categories: string[]; units: string[] } }>(`/api/marketplace/meta`),
+    apiFetch<{ ok: boolean; data: { corpsMetier: { code: string; label: string }[]; units: string[] } }>(`/api/marketplace/meta`),
 
-  browse: (params: { q?: string; category?: string; region?: string; page?: number } = {}) => {
+  taxonomy: () =>
+    apiFetch<{ ok: boolean; data: { total: number; corpsMetier: CorpsMetierNode[] } }>(`/api/marketplace/taxonomy`),
+
+  browse: (params: { corpsMetier?: string; famille?: string; q?: string; page?: number } = {}) => {
     const qs = new URLSearchParams();
+    if (params.corpsMetier) qs.set("corpsMetier", params.corpsMetier);
+    if (params.famille) qs.set("famille", params.famille);
     if (params.q) qs.set("q", params.q);
-    if (params.category) qs.set("category", params.category);
-    if (params.region) qs.set("region", params.region);
     if (params.page) qs.set("page", String(params.page));
-    return apiFetch<{ ok: boolean; data: SupplierProduct[]; meta: { page: number; pageSize: number; total: number } }>(
+    return apiFetch<{ ok: boolean; data: MarketProduct[]; meta: { page: number; pageSize: number; total: number } }>(
       `/api/marketplace/products${qs.toString() ? `?${qs}` : ""}`,
     );
   },
 
   product: (id: string) =>
-    apiFetch<{ ok: boolean; data: SupplierProduct }>(`/api/marketplace/products/${id}`),
+    apiFetch<{ ok: boolean; data: MarketProduct }>(`/api/marketplace/products/${id}`),
 
-  storefront: (supplierId: string) =>
-    apiFetch<{ ok: boolean; data: { supplier: any; products: SupplierProduct[] } }>(
-      `/api/marketplace/storefront/${supplierId}`,
+  searchReferentiel: (q: string) =>
+    apiFetch<{ ok: boolean; data: Array<{ id: string; name: string; corpsMetier: string; famille: string; unit: string }> }>(
+      `/api/marketplace/referentiel/search?q=${encodeURIComponent(q)}`,
     ),
 
-  myProducts: () =>
-    apiFetch<{ ok: boolean; data: SupplierProduct[] }>(`/api/marketplace/my-products`),
+  myOffers: () =>
+    apiFetch<{ ok: boolean; data: MyOffer[] }>(`/api/marketplace/my-offers`),
 
-  create: (body: Partial<SupplierProduct>) =>
-    apiFetch<{ ok: boolean; data: SupplierProduct }>(`/api/marketplace/products`, { method: "POST", body }),
+  createOffer: (body: Partial<MyOffer> & { marketProductId: string }) =>
+    apiFetch<{ ok: boolean; data: MyOffer }>(`/api/marketplace/offers`, { method: "POST", body }),
 
-  update: (id: string, body: Partial<SupplierProduct>) =>
-    apiFetch<{ ok: boolean; data: SupplierProduct }>(`/api/marketplace/products/${id}`, { method: "PATCH", body }),
+  updateOffer: (id: string, body: Partial<MyOffer>) =>
+    apiFetch<{ ok: boolean; data: MyOffer }>(`/api/marketplace/offers/${id}`, { method: "PATCH", body }),
 
-  remove: (id: string) =>
-    apiFetch<{ ok: boolean }>(`/api/marketplace/products/${id}`, { method: "DELETE" }),
+  removeOffer: (id: string) =>
+    apiFetch<{ ok: boolean }>(`/api/marketplace/offers/${id}`, { method: "DELETE" }),
 
   uploadPhotos: (files: File[]): Promise<Array<{ url: string; filename: string; sizeBytes: number }>> => {
     return new Promise((resolve, reject) => {
       const fd = new FormData();
       for (const f of files) fd.append("files", f);
       const xhr = new XMLHttpRequest();
-      xhr.open("POST", `${apiBase()}/api/marketplace/products/photos`);
+      xhr.open("POST", `${apiBase()}/api/marketplace/photos`);
       const tok = getToken();
       if (tok) xhr.setRequestHeader("Authorization", `Bearer ${tok}`);
       xhr.onload = () => {

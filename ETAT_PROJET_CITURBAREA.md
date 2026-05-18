@@ -87,11 +87,11 @@ Cercle de démo : `/cercles/demo-reunion-mai-2026` (PUBLIC, 5 membres, 4 posts)
 - **Séparation feed général / posts de cercle** — ✅ FAIT (Sprint M, 2026-05-18) :
   - Posts généraux (`cercleId` null) : fil public, page `/post/:id` sans login, SEO
   - Posts de cercle : réservés aux pros connectés / membres
-- **Marketplace BTP** (épic en cours — décidé 2026-05-18 : e-commerce complet, panier+commande) :
-  - Phase 1 — Catalogue & portfolio : modèle `SupplierProduct`, CRUD vitrine fournisseur,
-    storefront public, recherche marketplace, upload photos portfolio
-  - Phase 2 — Panier · Phase 3 — Commande+statuts · Phase 4 — Paiement+litiges
-  - Chaque phase déployée et testable indépendamment
+- **Marketplace BTP** (épic — e-commerce complet, panier+commande) :
+  - Phase 1 — Catalogue & portfolio : ✅ FAIT (2026-05-18) — modèle `SupplierProduct`,
+    CRUD vitrine `/cercles/ma-vitrine`, marketplace `/cercles/marketplace`, storefront
+    `/cercles/storefront/:id`, fiche produit, upload photos portfolio
+  - Phase 2 — Panier · Phase 3 — Commande+statuts · Phase 4 — Paiement+litiges (à venir)
 - **Killswitch** (Sprint K) — bloqué sur réception de 3 YubiKeys (à commander)
 - **admin.citurbarea.com** — bloqué sur upgrade Railway Hobby (limite custom domain)
 - **P1–P6** — en pause

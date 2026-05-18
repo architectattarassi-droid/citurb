@@ -24,7 +24,7 @@ import { DirectMessagesService } from "./direct-messages.service";
 import { DirectMessagesStreamService } from "./direct-messages-stream.service";
 import { DirectMessagesController } from "./direct-messages.controller";
 import { GeneralFeedController } from "./general-feed.controller";
-import { SupplierProductsService } from "./supplier-products.service";
+import { MarketplaceService } from "./marketplace.service";
 import { MarketplaceController } from "./marketplace.controller";
 
 @Module({
@@ -54,7 +54,7 @@ import { MarketplaceController } from "./marketplace.controller";
     AssociationsService,
     DirectMessagesService,
     DirectMessagesStreamService,
-    SupplierProductsService,
+    MarketplaceService,
   ],
   exports: [
     CerclesService,

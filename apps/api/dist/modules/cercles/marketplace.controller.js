@@ -21,73 +21,80 @@ const path_1 = require("path");
 const fs_1 = require("fs");
 const tome_at_1 = require("../../tomes/tome-at");
 const jwt_auth_guard_1 = require("../../tomes/tome-5/auth/jwt-auth.guard");
-const supplier_products_service_1 = require("./supplier-products.service");
+const marketplace_service_1 = require("./marketplace.service");
 const UPLOAD_BASE = process.env.UPLOADS_DIR || (0, path_1.join)(process.cwd(), "uploads");
-const PRODUCT_DIR = (0, path_1.join)(UPLOAD_BASE, "supplier-products");
+const MKT_PHOTO_DIR = (0, path_1.join)(UPLOAD_BASE, "marketplace");
 try {
-    (0, fs_1.mkdirSync)(PRODUCT_DIR, { recursive: true });
+    (0, fs_1.mkdirSync)(MKT_PHOTO_DIR, { recursive: true });
 }
 catch { }
-const PHOTO_MAX_BYTES = 8 * 1024 * 1024; // 8 MB / photo
 const PHOTO_MIMES = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
 /**
- * MarketplaceController — Marketplace BTP Phase 1.
+ * MarketplaceController — Marketplace BTP (référentiel + offres).
  *
- *  - GET  /api/marketplace/meta                       (public)  catégories + unités
- *  - GET  /api/marketplace/products                   (public)  recherche transversale
- *  - GET  /api/marketplace/products/:id               (public)  détail produit
- *  - GET  /api/marketplace/storefront/:supplierId     (public)  vitrine d'un fournisseur
- *  - GET  /api/marketplace/my-products                (auth)    mes produits (fournisseur)
- *  - POST /api/marketplace/products                   (auth)    créer un produit
- *  - PATCH  /api/marketplace/products/:id             (auth)    modifier
- *  - DELETE /api/marketplace/products/:id             (auth)    supprimer
- *  - POST /api/marketplace/products/photos            (auth)    upload photos produit
+ *  Public :
+ *   - GET /api/marketplace/meta                    corps de métier + unités
+ *   - GET /api/marketplace/taxonomy                arbo corps de métier → familles
+ *   - GET /api/marketplace/products                browse référentiel (filtres)
+ *   - GET /api/marketplace/products/:id            fiche produit + offres
+ *
+ *  Fournisseur connecté :
+ *   - GET    /api/marketplace/referentiel/search   chercher un produit du référentiel
+ *   - GET    /api/marketplace/my-offers            mes offres
+ *   - POST   /api/marketplace/offers               créer une offre
+ *   - PATCH  /api/marketplace/offers/:id           modifier
+ *   - DELETE /api/marketplace/offers/:id           supprimer
  */
 let MarketplaceController = class MarketplaceController {
-    products;
-    constructor(products) {
-        this.products = products;
+    market;
+    constructor(market) {
+        this.market = market;
     }
     uid(req) {
         return req?.user?.userId || req?.user?.sub;
     }
     // ── Public ─────────────────────────────────────────────────────
     meta() {
-        return { ok: true, data: { categories: supplier_products_service_1.SupplierProductsService.CATEGORIES, units: supplier_products_service_1.SupplierProductsService.UNITS } };
+        return { ok: true, data: { corpsMetier: marketplace_service_1.MarketplaceService.CORPS_METIER, units: marketplace_service_1.MarketplaceService.UNITS } };
     }
-    async browse(q, category, region, page) {
-        return { ok: true, ...(await this.products.browse({ q, category, region, page: page ? Number(page) : 1 })) };
+    async taxonomy() {
+        return { ok: true, data: await this.market.taxonomy() };
     }
-    async detail(id) {
-        return { ok: true, data: await this.products.detail(id) };
+    async browse(corpsMetier, famille, q, page) {
+        return { ok: true, ...(await this.market.browse({ corpsMetier, famille, q, page: page ? Number(page) : 1 })) };
     }
-    async storefront(supplierId) {
-        return { ok: true, data: await this.products.storefront(supplierId) };
+    async productDetail(id) {
+        return { ok: true, data: await this.market.productDetail(id) };
     }
     // ── Fournisseur connecté ───────────────────────────────────────
-    async myProducts(req) {
-        return { ok: true, data: await this.products.myProducts(this.uid(req)) };
+    async searchReferentiel(q) {
+        return { ok: true, data: await this.market.searchReferentiel(q || "") };
     }
-    async create(req, body) {
-        return { ok: true, data: await this.products.create(this.uid(req), body) };
+    async myOffers(req) {
+        return { ok: true, data: await this.market.myOffers(this.uid(req)) };
     }
-    async update(req, id, body) {
-        return { ok: true, data: await this.products.update(id, this.uid(req), body) };
+    async createOffer(req, body) {
+        return { ok: true, data: await this.market.createOffer(this.uid(req), body) };
     }
-    async remove(req, id) {
-        return { ok: true, data: await this.products.remove(id, this.uid(req)) };
+    async updateOffer(req, id, body) {
+        return { ok: true, data: await this.market.updateOffer(id, this.uid(req), body) };
     }
+    async removeOffer(req, id) {
+        return { ok: true, data: await this.market.removeOffer(id, this.uid(req)) };
+    }
+    // Upload photos générique (offres marketplace, portfolio pro…)
     async uploadPhotos(req, files) {
         if (!files || files.length === 0)
             throw new common_1.BadRequestException("Aucun fichier");
-        const userId = this.uid(req);
-        const out = files.map((f) => {
-            if (!PHOTO_MIMES.has(f.mimetype)) {
-                throw new common_1.BadRequestException(`Type ${f.mimetype} non autorisé (JPG/PNG/WebP/GIF)`);
-            }
-            return { url: `/uploads/supplier-products/${userId}/${f.filename}`, filename: f.originalname, sizeBytes: f.size };
-        });
-        return { ok: true, data: out };
+        const userId = req?.user?.userId || req?.user?.sub;
+        return {
+            ok: true,
+            data: files.map((f) => {
+                if (!PHOTO_MIMES.has(f.mimetype))
+                    throw new common_1.BadRequestException(`Type ${f.mimetype} non autorisé`);
+                return { url: `/uploads/marketplace/${userId}/${f.filename}`, filename: f.originalname, sizeBytes: f.size };
+            }),
+        };
     }
 };
 exports.MarketplaceController = MarketplaceController;
@@ -98,10 +105,16 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], MarketplaceController.prototype, "meta", null);
 __decorate([
+    (0, common_1.Get)("taxonomy"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], MarketplaceController.prototype, "taxonomy", null);
+__decorate([
     (0, common_1.Get)("products"),
-    __param(0, (0, common_1.Query)("q")),
-    __param(1, (0, common_1.Query)("category")),
-    __param(2, (0, common_1.Query)("region")),
+    __param(0, (0, common_1.Query)("corpsMetier")),
+    __param(1, (0, common_1.Query)("famille")),
+    __param(2, (0, common_1.Query)("q")),
     __param(3, (0, common_1.Query)("page")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String, String]),
@@ -113,33 +126,34 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], MarketplaceController.prototype, "detail", null);
+], MarketplaceController.prototype, "productDetail", null);
 __decorate([
-    (0, common_1.Get)("storefront/:supplierId"),
-    __param(0, (0, common_1.Param)("supplierId")),
+    (0, common_1.Get)("referentiel/search"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Query)("q")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], MarketplaceController.prototype, "storefront", null);
+], MarketplaceController.prototype, "searchReferentiel", null);
 __decorate([
-    (0, common_1.Get)("my-products"),
+    (0, common_1.Get)("my-offers"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], MarketplaceController.prototype, "myProducts", null);
+], MarketplaceController.prototype, "myOffers", null);
 __decorate([
-    (0, common_1.Post)("products"),
+    (0, common_1.Post)("offers"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
-], MarketplaceController.prototype, "create", null);
+], MarketplaceController.prototype, "createOffer", null);
 __decorate([
-    (0, common_1.Patch)("products/:id"),
+    (0, common_1.Patch)("offers/:id"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
@@ -147,24 +161,24 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String, Object]),
     __metadata("design:returntype", Promise)
-], MarketplaceController.prototype, "update", null);
+], MarketplaceController.prototype, "updateOffer", null);
 __decorate([
-    (0, common_1.Delete)("products/:id"),
+    (0, common_1.Delete)("offers/:id"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
-], MarketplaceController.prototype, "remove", null);
+], MarketplaceController.prototype, "removeOffer", null);
 __decorate([
-    (0, common_1.Post)("products/photos"),
+    (0, common_1.Post)("photos"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)("files", 12, {
         storage: diskStorage({
             destination: (req, _file, cb) => {
                 const userId = req?.user?.userId || req?.user?.sub || "unknown";
-                const dir = (0, path_1.join)(PRODUCT_DIR, userId);
+                const dir = (0, path_1.join)(MKT_PHOTO_DIR, userId);
                 try {
                     (0, fs_1.mkdirSync)(dir, { recursive: true });
                 }
@@ -173,10 +187,10 @@ __decorate([
             },
             filename: (_req, file, cb) => {
                 const ext = (file.originalname.match(/\.(jpg|jpeg|png|webp|gif)$/i) || [".jpg"])[0];
-                cb(null, `prod-${Date.now()}-${Math.round(Math.random() * 1e6)}${ext}`);
+                cb(null, `mkt-${Date.now()}-${Math.round(Math.random() * 1e6)}${ext}`);
             },
         }),
-        limits: { fileSize: PHOTO_MAX_BYTES },
+        limits: { fileSize: 8 * 1024 * 1024 },
     })),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.UploadedFiles)()),
@@ -187,5 +201,5 @@ __decorate([
 exports.MarketplaceController = MarketplaceController = __decorate([
     (0, tome_at_1.Tome)("tome8"),
     (0, common_1.Controller)("api/marketplace"),
-    __metadata("design:paramtypes", [supplier_products_service_1.SupplierProductsService])
+    __metadata("design:paramtypes", [marketplace_service_1.MarketplaceService])
 ], MarketplaceController);

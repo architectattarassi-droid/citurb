@@ -68,8 +68,8 @@ model User {
   dmThreadParticipations DirectThreadParticipant[] @relation("DTParticipantUser")
   dmMessagesSent         DirectMessage[]           @relation("DMSender")
 
-  // Marketplace BTP (Sprint M+) — vitrine fournisseur
-  supplierProducts       SupplierProduct[]         @relation("SupplierProducts")
+  // Marketplace BTP (Sprint M+) — offres fournisseur sur le référentiel
+  supplierOffers         SupplierOffer[]           @relation("SupplierOffers")
 
   @@index([role])
 }
@@ -1519,45 +1519,60 @@ model DirectMessage {
 }
 
 // ==============================
-// MARKETPLACE BTP — Sprint M+
-// Vitrine fournisseur : produits matériaux/équipements
+// MARKETPLACE BTP — Sprint M+ (modèle référentiel + offres)
+// MarketProduct = catalogue maître des matériaux (pré-chargé,
+// organisé par corps de métier). SupplierOffer = offre d'un
+// fournisseur sur un produit du référentiel (prix, stock, livraison).
 // ==============================
 
-model SupplierProduct {
-  id         String @id @default(cuid())
-  supplierId String
-  supplier   User   @relation("SupplierProducts", fields: [supplierId], references: [id], onDelete: Cascade)
-
-  // Identité produit
+model MarketProduct {
+  id          String  @id @default(cuid())
+  corpsMetier String  // GROS_OEUVRE, PLOMBERIE, ELECTRICITE, ETANCHEITE…
+  famille     String  // "Liants", "Granulats", "Aciers"…
   name        String
-  category    String  // 16 catégories BTP (CIMENT_BETON, ACIER, BOIS, ETANCHEITE…)
-  reference   String? // référence / code produit du fournisseur
+  slug        String  @unique
   description String? @db.Text
-  photos      String[] // URLs d'images uploadées (uploads/supplier-products/<userId>/…)
+  unit        String  @default("UNITE") // M3 M2 ML T KG SAC UNITE PALETTE
+  photo       String? // image de référence
 
-  // Prix & stock
-  priceDH           Float?  // prix unitaire en dirhams
-  unit              String  @default("UNITE") // M3 M2 ML T KG SAC UNITE PALETTE
-  quantityAvailable Int?    // stock disponible
-  minOrder          Int?    // quantité minimum de commande
+  // Fourchette de prix indicative (affichée même sans offre)
+  indicativePriceMin Float?
+  indicativePriceMax Float?
 
-  // Showroom physique
-  showroomAddress String?
-  showroomCity    String?
-
-  // Livraison
-  deliveryZones      String[] // régions du Maroc livrées
-  deliveryDelayHours Int?     // délai de livraison estimé
-  deliveryCostDH     Float?   // coût de livraison
-  deliveryIncluded   Boolean  @default(false) // livraison incluse dans le prix
-
-  active    Boolean  @default(true) // produit visible dans la vitrine
+  active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([supplierId])
-  @@index([category])
+  offers SupplierOffer[]
+
+  @@index([corpsMetier])
+  @@index([famille])
   @@index([active])
+}
+
+model SupplierOffer {
+  id              String        @id @default(cuid())
+  marketProductId String
+  marketProduct   MarketProduct @relation(fields: [marketProductId], references: [id], onDelete: Cascade)
+  supplierId      String
+  supplier        User          @relation("SupplierOffers", fields: [supplierId], references: [id], onDelete: Cascade)
+
+  priceDH           Float
+  quantityAvailable Int?
+  minOrder          Int?
+  showroomCity      String?
+  deliveryZones      String[]
+  deliveryDelayHours Int?
+  deliveryCostDH     Float?
+  deliveryIncluded   Boolean @default(false)
+
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([marketProductId, supplierId])
+  @@index([marketProductId])
+  @@index([supplierId])
 }
 
 // ==============================
@@ -1648,6 +1663,10 @@ model ProProfile {
   isVerified   Boolean @default(false) // badge bleu
   verifiedAt   DateTime?
   verifierNote String?
+
+  // Marketplace : contrat fournisseur signé avec CITURBAREA.
+  // Tant que null → identité du fournisseur masquée sur la marketplace.
+  supplierContractSignedAt DateTime?
 
   // Stats dérivées (optionnel — peut rester null et calculé à la volée)
   projectsCount    Int @default(0)
