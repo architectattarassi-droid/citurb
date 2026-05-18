@@ -68,6 +68,9 @@ model User {
   dmThreadParticipations DirectThreadParticipant[] @relation("DTParticipantUser")
   dmMessagesSent         DirectMessage[]           @relation("DMSender")
 
+  // Marketplace BTP (Sprint M+) — vitrine fournisseur
+  supplierProducts       SupplierProduct[]         @relation("SupplierProducts")
+
   @@index([role])
 }
 
@@ -1513,6 +1516,48 @@ model DirectMessage {
 
   @@index([threadId, createdAt])
   @@index([senderId])
+}
+
+// ==============================
+// MARKETPLACE BTP — Sprint M+
+// Vitrine fournisseur : produits matériaux/équipements
+// ==============================
+
+model SupplierProduct {
+  id         String @id @default(cuid())
+  supplierId String
+  supplier   User   @relation("SupplierProducts", fields: [supplierId], references: [id], onDelete: Cascade)
+
+  // Identité produit
+  name        String
+  category    String  // 16 catégories BTP (CIMENT_BETON, ACIER, BOIS, ETANCHEITE…)
+  reference   String? // référence / code produit du fournisseur
+  description String? @db.Text
+  photos      String[] // URLs d'images uploadées (uploads/supplier-products/<userId>/…)
+
+  // Prix & stock
+  priceDH           Float?  // prix unitaire en dirhams
+  unit              String  @default("UNITE") // M3 M2 ML T KG SAC UNITE PALETTE
+  quantityAvailable Int?    // stock disponible
+  minOrder          Int?    // quantité minimum de commande
+
+  // Showroom physique
+  showroomAddress String?
+  showroomCity    String?
+
+  // Livraison
+  deliveryZones      String[] // régions du Maroc livrées
+  deliveryDelayHours Int?     // délai de livraison estimé
+  deliveryCostDH     Float?   // coût de livraison
+  deliveryIncluded   Boolean  @default(false) // livraison incluse dans le prix
+
+  active    Boolean  @default(true) // produit visible dans la vitrine
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([supplierId])
+  @@index([category])
+  @@index([active])
 }
 
 // ==============================

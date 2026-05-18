@@ -102,6 +102,9 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
           <button onClick={() => navigate("/cercles/annuaire")} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.navy, padding: "9px 12px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontFamily: "inherit", fontWeight: 500 }}>
             📇 Annuaire pro
           </button>
+          <button onClick={() => navigate("/cercles/marketplace")} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.navy, padding: "9px 12px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontFamily: "inherit", fontWeight: 500 }}>
+            🛒 Marketplace BTP
+          </button>
           <button onClick={logout} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.danger, padding: "9px 12px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontFamily: "inherit", fontWeight: 500, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }} title="Se déconnecter">
             <span>⎋</span> Se déconnecter
           </button>

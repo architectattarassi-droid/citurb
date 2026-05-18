@@ -45,6 +45,10 @@ import AssociationApplyPage  from "../../../features/cercles/AssociationApplyPag
 import AssociationManagePage from "../../../features/cercles/AssociationManagePage";
 import CerclesLanding       from "../../../features/cercles/CerclesLanding";
 import PublicPostPage       from "../../../features/cercles/PublicPostPage";
+import MarketplacePage        from "../../../features/cercles/marketplace/MarketplacePage";
+import ProductDetailPage      from "../../../features/cercles/marketplace/ProductDetailPage";
+import MyStorefrontPage       from "../../../features/cercles/marketplace/MyStorefrontPage";
+import SupplierStorefrontPage from "../../../features/cercles/marketplace/SupplierStorefrontPage";
 import DirectMessagesPage   from "../../../features/cercles/DirectMessagesPage";
 
 // Admin Vault (Sprint H — app admin ultra-sécurisée)
@@ -129,6 +133,10 @@ export const router = createBrowserRouter([
   { path: '/cercles/messages/new/:peerId',         element: <AdminHostBlock><DirectMessagesPage /></AdminHostBlock> },
   { path: '/cercles/messages/:threadId',           element: <AdminHostBlock><DirectMessagesPage /></AdminHostBlock> },
   { path: '/cercles/nouveau',                      element: <AdminHostBlock><NewCerclePage /></AdminHostBlock> },
+  { path: '/cercles/marketplace',                  element: <AdminHostBlock><MarketplacePage /></AdminHostBlock> },
+  { path: '/cercles/marketplace/produit/:id',      element: <AdminHostBlock><ProductDetailPage /></AdminHostBlock> },
+  { path: '/cercles/ma-vitrine',                   element: <AdminHostBlock><MyStorefrontPage /></AdminHostBlock> },
+  { path: '/cercles/storefront/:supplierId',       element: <AdminHostBlock><SupplierStorefrontPage /></AdminHostBlock> },
   { path: '/cercles/:slug',                        element: <AdminHostBlock><CercleDetailPage /></AdminHostBlock> },
   { path: '/cercles/:slug/chat',                   element: <AdminHostBlock><CercleChatPage /></AdminHostBlock> },
   { path: '/cercles/:slug/rejoindre',              element: <AdminHostBlock><AssociationApplyPage /></AdminHostBlock> },

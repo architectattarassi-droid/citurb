@@ -756,3 +756,102 @@ export const dmApi = {
     return new EventSource(url, { withCredentials: false } as any);
   },
 };
+
+// ── Marketplace BTP — vitrine fournisseur (Sprint M+) ──
+
+export type SupplierProduct = {
+  id: string;
+  supplierId: string;
+  supplier?: {
+    id: string;
+    username: string | null;
+    email?: string | null;
+    proProfile?: {
+      displayName?: string; avatarUrl?: string; coverUrl?: string; metier?: string;
+      cabinetName?: string; villePrincipale?: string; bio?: string; isVerified?: boolean;
+      phonePublic?: string; emailPublic?: string; websiteUrl?: string;
+    } | null;
+  };
+  name: string;
+  category: string;
+  reference: string | null;
+  description: string | null;
+  photos: string[];
+  priceDH: number | null;
+  unit: string;
+  quantityAvailable: number | null;
+  minOrder: number | null;
+  showroomAddress: string | null;
+  showroomCity: string | null;
+  deliveryZones: string[];
+  deliveryDelayHours: number | null;
+  deliveryCostDH: number | null;
+  deliveryIncluded: boolean;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export const marketplaceApi = {
+  meta: () =>
+    apiFetch<{ ok: boolean; data: { categories: string[]; units: string[] } }>(`/api/marketplace/meta`),
+
+  browse: (params: { q?: string; category?: string; region?: string; page?: number } = {}) => {
+    const qs = new URLSearchParams();
+    if (params.q) qs.set("q", params.q);
+    if (params.category) qs.set("category", params.category);
+    if (params.region) qs.set("region", params.region);
+    if (params.page) qs.set("page", String(params.page));
+    return apiFetch<{ ok: boolean; data: SupplierProduct[]; meta: { page: number; pageSize: number; total: number } }>(
+      `/api/marketplace/products${qs.toString() ? `?${qs}` : ""}`,
+    );
+  },
+
+  product: (id: string) =>
+    apiFetch<{ ok: boolean; data: SupplierProduct }>(`/api/marketplace/products/${id}`),
+
+  storefront: (supplierId: string) =>
+    apiFetch<{ ok: boolean; data: { supplier: any; products: SupplierProduct[] } }>(
+      `/api/marketplace/storefront/${supplierId}`,
+    ),
+
+  myProducts: () =>
+    apiFetch<{ ok: boolean; data: SupplierProduct[] }>(`/api/marketplace/my-products`),
+
+  create: (body: Partial<SupplierProduct>) =>
+    apiFetch<{ ok: boolean; data: SupplierProduct }>(`/api/marketplace/products`, { method: "POST", body }),
+
+  update: (id: string, body: Partial<SupplierProduct>) =>
+    apiFetch<{ ok: boolean; data: SupplierProduct }>(`/api/marketplace/products/${id}`, { method: "PATCH", body }),
+
+  remove: (id: string) =>
+    apiFetch<{ ok: boolean }>(`/api/marketplace/products/${id}`, { method: "DELETE" }),
+
+  uploadPhotos: (files: File[]): Promise<Array<{ url: string; filename: string; sizeBytes: number }>> => {
+    return new Promise((resolve, reject) => {
+      const fd = new FormData();
+      for (const f of files) fd.append("files", f);
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", `${apiBase()}/api/marketplace/products/photos`);
+      const tok = getToken();
+      if (tok) xhr.setRequestHeader("Authorization", `Bearer ${tok}`);
+      xhr.onload = () => {
+        try {
+          const j = JSON.parse(xhr.responseText);
+          if (xhr.status >= 200 && xhr.status < 300 && j.ok) resolve(j.data);
+          else reject(new Error(j?.message || `Upload échoué (${xhr.status})`));
+        } catch { reject(new Error("Réponse upload invalide")); }
+      };
+      xhr.onerror = () => reject(new Error("Erreur réseau upload"));
+      xhr.send(fd);
+    });
+  },
+};
+
+/** Préfixe une URL d'upload relative (/uploads/...) avec l'origine API. */
+export function resolveUploadUrl(url?: string | null): string | undefined {
+  if (!url) return undefined;
+  if (/^(https?:|data:)/.test(url)) return url;
+  if (url.startsWith("/uploads/")) return `${apiBase()}${url}`;
+  return url;
+}

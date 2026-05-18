@@ -24,6 +24,8 @@ import { DirectMessagesService } from "./direct-messages.service";
 import { DirectMessagesStreamService } from "./direct-messages-stream.service";
 import { DirectMessagesController } from "./direct-messages.controller";
 import { GeneralFeedController } from "./general-feed.controller";
+import { SupplierProductsService } from "./supplier-products.service";
+import { MarketplaceController } from "./marketplace.controller";
 
 @Module({
   imports: [
@@ -34,7 +36,7 @@ import { GeneralFeedController } from "./general-feed.controller";
       signOptions: { expiresIn: "7d" },
     }),
   ],
-  controllers: [CerclesController, MessagesController, CercleInvitationsController, AssociationsController, DirectMessagesController, GeneralFeedController],
+  controllers: [CerclesController, MessagesController, CercleInvitationsController, AssociationsController, DirectMessagesController, GeneralFeedController, MarketplaceController],
   providers: [
     CerclesService,
     MembershipsService,
@@ -52,6 +54,7 @@ import { GeneralFeedController } from "./general-feed.controller";
     AssociationsService,
     DirectMessagesService,
     DirectMessagesStreamService,
+    SupplierProductsService,
   ],
   exports: [
     CerclesService,
