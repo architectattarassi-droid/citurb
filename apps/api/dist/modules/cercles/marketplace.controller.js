@@ -84,7 +84,7 @@ let MarketplaceController = class MarketplaceController {
     }
     // Attribution des vraies photos via Pixabay (admin, one-shot, idempotent)
     async populatePhotos(body) {
-        return this.market.populateReferentielPhotos(body?.pixabayKey);
+        return this.market.populateReferentielPhotos(body?.pixabayKey, { force: body?.force, familles: body?.familles });
     }
     // Upload photos générique (offres marketplace, portfolio pro…)
     async uploadPhotos(req, files) {

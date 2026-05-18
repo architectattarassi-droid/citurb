@@ -100,8 +100,8 @@ export class MarketplaceController {
   // Attribution des vraies photos via Pixabay (admin, one-shot, idempotent)
   @Post("admin/populate-photos")
   @UseGuards(JwtAuthGuard)
-  async populatePhotos(@Body() body: { pixabayKey: string }) {
-    return this.market.populateReferentielPhotos(body?.pixabayKey);
+  async populatePhotos(@Body() body: { pixabayKey: string; force?: boolean; familles?: string[] }) {
+    return this.market.populateReferentielPhotos(body?.pixabayKey, { force: body?.force, familles: body?.familles });
   }
 
   // Upload photos générique (offres marketplace, portfolio pro…)

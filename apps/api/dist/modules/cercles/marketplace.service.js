@@ -39,8 +39,8 @@ const FAMILLE_KEYWORDS = {
     "Bois": "wooden door",
     "PVC": "pvc window",
     "Carrelage": "ceramic floor tiles",
-    "Parquet": "wood flooring parquet",
-    "Sols souples": "vinyl flooring",
+    "Parquet": "wood floor parquet",
+    "Sols souples": "carpet floor texture",
     "Accessoires de pose": "tile adhesive trowel",
     "Marbre": "marble slab",
     "Granit": "granite stone slab",
@@ -98,7 +98,7 @@ let MarketplaceService = class MarketplaceService {
      * interdit le hotlink permanent). Idempotent : ne retraite pas les produits
      * ayant déjà une photo /uploads/.
      */
-    async populateReferentielPhotos(pixabayKey) {
+    async populateReferentielPhotos(pixabayKey, opts = {}) {
         if (!pixabayKey)
             throw new common_1.BadRequestException("Clé Pixabay requise");
         const base = process.env.UPLOADS_DIR || (0, path_1.join)(process.cwd(), "uploads");
@@ -107,13 +107,18 @@ let MarketplaceService = class MarketplaceService {
             (0, fs_1.mkdirSync)(dir, { recursive: true });
         }
         catch { }
-        // Familles dont les produits n'ont pas encore de photo hébergée
+        // Familles à traiter (optionnellement filtrées)
         const rows = await this.prisma.marketProduct.groupBy({
             by: ["corpsMetier", "famille"],
             where: { active: true },
         });
+        const filter = opts.familles && opts.familles.length > 0
+            ? new Set(opts.familles.map(f => f.toLowerCase().trim()))
+            : null;
         const result = [];
         for (const r of rows) {
+            if (filter && !filter.has(r.famille.toLowerCase().trim()))
+                continue;
             const slug = `${r.corpsMetier}-${r.famille}`.toLowerCase()
                 .normalize("NFD").replace(/[̀-ͯ]/g, "")
                 .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
@@ -123,7 +128,7 @@ let MarketplaceService = class MarketplaceService {
             const totalFam = await this.prisma.marketProduct.count({
                 where: { corpsMetier: r.corpsMetier, famille: r.famille },
             });
-            if (already >= totalFam) {
+            if (!opts.force && already >= totalFam) {
                 result.push({ famille: r.famille, status: "déjà fait", products: totalFam });
                 continue;
             }

@@ -28,8 +28,8 @@ const FAMILLE_KEYWORDS: Record<string, string> = {
   "Bois": "wooden door",
   "PVC": "pvc window",
   "Carrelage": "ceramic floor tiles",
-  "Parquet": "wood flooring parquet",
-  "Sols souples": "vinyl flooring",
+  "Parquet": "wood floor parquet",
+  "Sols souples": "carpet floor texture",
   "Accessoires de pose": "tile adhesive trowel",
   "Marbre": "marble slab",
   "Granit": "granite stone slab",
@@ -102,20 +102,24 @@ export class MarketplaceService {
    * interdit le hotlink permanent). Idempotent : ne retraite pas les produits
    * ayant déjà une photo /uploads/.
    */
-  async populateReferentielPhotos(pixabayKey: string) {
+  async populateReferentielPhotos(pixabayKey: string, opts: { force?: boolean; familles?: string[] } = {}) {
     if (!pixabayKey) throw new BadRequestException("Clé Pixabay requise");
     const base = process.env.UPLOADS_DIR || join(process.cwd(), "uploads");
     const dir = join(base, "marketplace", "familles");
     try { mkdirSync(dir, { recursive: true }); } catch {}
 
-    // Familles dont les produits n'ont pas encore de photo hébergée
+    // Familles à traiter (optionnellement filtrées)
     const rows = await this.prisma.marketProduct.groupBy({
       by: ["corpsMetier", "famille"],
       where: { active: true },
     });
+    const filter = opts.familles && opts.familles.length > 0
+      ? new Set(opts.familles.map(f => f.toLowerCase().trim()))
+      : null;
 
     const result: { famille: string; status: string; products: number }[] = [];
     for (const r of rows) {
+      if (filter && !filter.has(r.famille.toLowerCase().trim())) continue;
       const slug = `${r.corpsMetier}-${r.famille}`.toLowerCase()
         .normalize("NFD").replace(/[̀-ͯ]/g, "")
         .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
@@ -125,7 +129,7 @@ export class MarketplaceService {
       const totalFam = await this.prisma.marketProduct.count({
         where: { corpsMetier: r.corpsMetier, famille: r.famille },
       });
-      if (already >= totalFam) { result.push({ famille: r.famille, status: "déjà fait", products: totalFam }); continue; }
+      if (!opts.force && already >= totalFam) { result.push({ famille: r.famille, status: "déjà fait", products: totalFam }); continue; }
 
       const keyword = FAMILLE_KEYWORDS[r.famille] || "construction material";
       try {
