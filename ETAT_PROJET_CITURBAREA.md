@@ -88,10 +88,19 @@ Cercle de démo : `/cercles/demo-reunion-mai-2026` (PUBLIC, 5 membres, 4 posts)
   - Posts généraux (`cercleId` null) : fil public, page `/post/:id` sans login, SEO
   - Posts de cercle : réservés aux pros connectés / membres
 - **Marketplace BTP** (épic — e-commerce complet, panier+commande) :
-  - Phase 1 — Catalogue & portfolio : ✅ FAIT (2026-05-18) — modèle `SupplierProduct`,
-    CRUD vitrine `/cercles/ma-vitrine`, marketplace `/cercles/marketplace`, storefront
-    `/cercles/storefront/:id`, fiche produit, upload photos portfolio
-  - Phase 2 — Panier · Phase 3 — Commande+statuts · Phase 4 — Paiement+litiges (à venir)
+  - Phase 1 — Catalogue : ✅ refondu en modèle RÉFÉRENTIEL (2026-05-18) :
+    - `MarketProduct` = catalogue maître ; `SupplierOffer` = offre fournisseur
+    - 197 matériaux, 12 corps de métier (`/cercles/marketplace`)
+    - Codes CITURBAREA : matériau `CIT-XX-NNN` (XX=corps métier), fournisseur
+      `CIT-FRN-NNNNN`, référence offre = combo. Script : assign via DB.
+    - Identité fournisseur masquée tant que `ProProfile.supplierContractSignedAt` null
+    - Fournisseur gère ses offres : `/cercles/mes-offres`
+  - **Passe contenu À FAIRE** (nouveau message, contexte frais) : étendre le
+    référentiel à ~400 matériaux · ajuster prix marbre/import · images
+    représentatives par famille (~50). Seed : `apps/api/scripts/seed-referentiel.ts`.
+    Après expansion, ré-attribuer les codes (séquence CIT-XX-NNN par corps de métier).
+  - Phase 2 — Panier · Phase 3 — Commande+statuts · Phase 4 — Paiement
+    (online / dépôt chèque / Cash Plus / Wafa Cash) — à venir
 - **Killswitch** (Sprint K) — bloqué sur réception de 3 YubiKeys (à commander)
 - **admin.citurbarea.com** — bloqué sur upgrade Railway Hobby (limite custom domain)
 - **P1–P6** — en pause
