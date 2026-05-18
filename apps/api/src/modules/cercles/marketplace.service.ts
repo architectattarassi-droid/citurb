@@ -115,7 +115,7 @@ export class MarketplaceService {
                 proProfile: {
                   select: {
                     displayName: true, avatarUrl: true, villePrincipale: true,
-                    isVerified: true, supplierContractSignedAt: true,
+                    isVerified: true, supplierContractSignedAt: true, supplierCitCode: true,
                   },
                 },
               },
@@ -125,12 +125,40 @@ export class MarketplaceService {
       },
     });
     if (!product) throw new NotFoundException("Produit introuvable");
-    return { ...product, offers: product.offers.map(o => this.maskOffer(o)) };
+    return { ...product, offers: product.offers.map(o => this.maskOffer(o, product.citCode)) };
+  }
+
+  /** Génère / récupère le code fournisseur CITURBAREA (CIT-FRN-00001). */
+  private async ensureSupplierCode(supplierId: string): Promise<string> {
+    const profile = await this.prisma.proProfile.findUnique({
+      where: { userId: supplierId },
+      select: { supplierCitCode: true },
+    });
+    if (profile?.supplierCitCode) return profile.supplierCitCode;
+
+    const last = await this.prisma.proProfile.findFirst({
+      where: { supplierCitCode: { not: null } },
+      orderBy: { supplierCitCode: "desc" },
+      select: { supplierCitCode: true },
+    });
+    let next = 1;
+    if (last?.supplierCitCode) {
+      const m = last.supplierCitCode.match(/(\d+)$/);
+      if (m) next = parseInt(m[1], 10) + 1;
+    }
+    const code = `CIT-FRN-${String(next).padStart(5, "0")}`;
+    await this.prisma.proProfile.upsert({
+      where: { userId: supplierId },
+      update: { supplierCitCode: code },
+      create: { userId: supplierId, supplierCitCode: code, displayName: "Fournisseur", metier: "FOURNISSEUR_MATERIAUX" as any },
+    });
+    return code;
   }
 
   /** Masque l'identité du fournisseur tant que son contrat n'est pas signé. */
-  private maskOffer(offer: any) {
+  private maskOffer(offer: any, materialCitCode?: string | null) {
     const contracted = !!offer.supplier?.proProfile?.supplierContractSignedAt;
+    const supplierCitCode = offer.supplier?.proProfile?.supplierCitCode || null;
     return {
       id: offer.id,
       priceDH: offer.priceDH,
@@ -142,6 +170,9 @@ export class MarketplaceService {
       deliveryCostDH: offer.deliveryCostDH,
       deliveryIncluded: offer.deliveryIncluded,
       contracted,
+      // Référence de l'offre = combo code matériau · code fournisseur (anonyme)
+      supplierCitCode,
+      offerRef: materialCitCode && supplierCitCode ? `${materialCitCode} · ${supplierCitCode}` : null,
       supplier: contracted
         ? {
             id: offer.supplier.id,
@@ -179,11 +210,26 @@ export class MarketplaceService {
   }
 
   async myOffers(supplierId: string) {
-    return this.prisma.supplierOffer.findMany({
-      where: { supplierId },
-      orderBy: { createdAt: "desc" },
-      include: { marketProduct: { select: { id: true, name: true, corpsMetier: true, famille: true, unit: true, photo: true } } },
-    });
+    const [offers, profile] = await Promise.all([
+      this.prisma.supplierOffer.findMany({
+        where: { supplierId },
+        orderBy: { createdAt: "desc" },
+        include: {
+          marketProduct: {
+            select: { id: true, citCode: true, name: true, corpsMetier: true, famille: true, unit: true, photo: true },
+          },
+        },
+      }),
+      this.prisma.proProfile.findUnique({
+        where: { userId: supplierId },
+        select: { supplierCitCode: true, supplierContractSignedAt: true },
+      }),
+    ]);
+    return {
+      supplierCitCode: profile?.supplierCitCode || null,
+      contracted: !!profile?.supplierContractSignedAt,
+      offers,
+    };
   }
 
   async createOffer(supplierId: string, input: OfferInput) {
@@ -194,6 +240,8 @@ export class MarketplaceService {
       where: { marketProductId_supplierId: { marketProductId: input.marketProductId, supplierId } },
     });
     if (existing) throw new BadRequestException("Vous avez déjà une offre sur ce produit — modifiez-la");
+    // Attribue le code fournisseur CITURBAREA dès la 1re offre
+    await this.ensureSupplierCode(supplierId);
     const data = this.normalizeOffer(input, true);
     return this.prisma.supplierOffer.create({
       data: { supplierId, marketProductId: input.marketProductId, ...data },

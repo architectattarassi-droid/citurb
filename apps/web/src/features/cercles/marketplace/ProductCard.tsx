@@ -37,6 +37,7 @@ export default function ProductCard({ product }: { product: MarketProduct }) {
         <span style={S.fam}>{product.famille}</span>
       </div>
       <div style={S.body}>
+        {product.citCode && <div style={S.code}>{product.citCode}</div>}
         <div style={S.name}>{product.name}</div>
         <div style={S.price}>{priceRange(product)}</div>
         <div style={S.offers}>
@@ -55,6 +56,7 @@ const S: Record<string, React.CSSProperties> = {
   ph: { fontSize: 40, opacity: 0.4 },
   fam: { position: "absolute", top: 8, left: 8, background: "rgba(15,42,74,0.85)", color: CC_THEME.bg, fontSize: 10, fontWeight: 600, padding: "3px 8px", borderRadius: 4 },
   body: { padding: "11px 13px", display: "flex", flexDirection: "column", gap: 4 },
+  code: { fontSize: 10, fontWeight: 600, color: CC_THEME.or, fontFamily: CC_THEME.fontMono, letterSpacing: "0.04em" },
   name: { fontSize: 13.5, fontWeight: 600, color: CC_THEME.navy, lineHeight: 1.3 },
   price: { fontSize: 13.5, fontWeight: 700, color: CC_THEME.or },
   offers: { fontSize: 11, marginTop: 2 },

@@ -41,6 +41,7 @@ export default function ProductDetailPage() {
           </div>
           <div>
             <span style={S.corpsBadge}>{CORPS_LABELS[product.corpsMetier] || product.corpsMetier} · {product.famille}</span>
+            {product.citCode && <div style={S.citCode}>Code CITURBAREA : <strong>{product.citCode}</strong></div>}
             <h1 style={S.name}>{product.name}</h1>
             <div style={S.indicative}>
               <span style={S.indLabel}>Prix indicatif marché</span>
@@ -88,6 +89,7 @@ export default function ProductDetailPage() {
                 {o.deliveryZones?.length > 0 && <span>🚚 {o.deliveryZones.length} région(s)</span>}
                 {o.deliveryIncluded && <span style={{ color: CC_THEME.success }}>Livraison incluse</span>}
               </div>
+              {o.offerRef && <div style={S.offerRef}>Réf. offre : {o.offerRef}</div>}
               <div style={S.offerActions}>
                 {o.contracted && o.supplier.id ? (
                   <button onClick={() => navigate(`/cercles/messages/new/${o.supplier.id}`)} style={S.contactBtn}>
@@ -117,6 +119,7 @@ const S: Record<string, React.CSSProperties> = {
   top: { display: "grid", gridTemplateColumns: "340px 1fr", gap: 26, alignItems: "start", marginBottom: 24 },
   photo: { width: "100%", height: 280, background: CC_THEME.bgSoft, backgroundSize: "cover", backgroundPosition: "center", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", border: `1px solid ${CC_THEME.border}` },
   corpsBadge: { display: "inline-block", background: CC_THEME.bgDeep, color: CC_THEME.bg, fontSize: 10.5, fontWeight: 600, padding: "4px 10px", borderRadius: 4 },
+  citCode: { fontSize: 12, color: CC_THEME.inkMid, marginTop: 8, fontFamily: CC_THEME.fontMono },
   name: { fontFamily: CC_THEME.fontDisplay, fontSize: 26, fontWeight: 600, color: CC_THEME.navy, margin: "10px 0 12px", lineHeight: 1.2 },
   indicative: { display: "flex", flexDirection: "column", gap: 2, background: CC_THEME.bgSoft, borderRadius: 8, padding: "10px 14px", marginBottom: 12 },
   indLabel: { fontSize: 10.5, color: CC_THEME.inkMuted, letterSpacing: "0.06em", textTransform: "uppercase" as const },
@@ -139,6 +142,7 @@ const S: Record<string, React.CSSProperties> = {
   offerCity: { color: CC_THEME.inkMuted },
   maskedNote: { color: CC_THEME.inkMuted, fontStyle: "italic" },
   offerSpecs: { display: "flex", gap: 14, fontSize: 11.5, color: CC_THEME.inkMid, marginTop: 6, flexWrap: "wrap" },
+  offerRef: { fontSize: 10.5, color: CC_THEME.inkMuted, fontFamily: CC_THEME.fontMono, marginTop: 5 },
   offerActions: { marginTop: 10 },
   contactBtn: { background: CC_THEME.navy, color: CC_THEME.bg, border: 0, padding: "9px 16px", borderRadius: 6, fontSize: 12.5, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" },
   contactNote: { fontSize: 11.5, color: CC_THEME.inkMuted, fontStyle: "italic" },

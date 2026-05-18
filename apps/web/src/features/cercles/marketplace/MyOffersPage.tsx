@@ -20,6 +20,7 @@ type RefHit = { id: string; name: string; corpsMetier: string; famille: string; 
 
 export default function MyOffersPage() {
   const [offers, setOffers] = useState<MyOffer[]>([]);
+  const [supplierCitCode, setSupplierCitCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<MyOffer | null>(null);
   const [creating, setCreating] = useState(false);
@@ -28,7 +29,7 @@ export default function MyOffersPage() {
   const load = () => {
     setLoading(true);
     marketplaceApi.myOffers()
-      .then(r => setOffers(r.data))
+      .then(r => { setOffers(r.data.offers); setSupplierCitCode(r.data.supplierCitCode); })
       .catch((e: any) => setErr(e?.message || "Erreur"))
       .finally(() => setLoading(false));
   };
@@ -67,9 +68,17 @@ export default function MyOffersPage() {
           <button onClick={() => setCreating(true)} style={S.addBtn}>+ Ajouter une offre</button>
         </header>
 
+        {supplierCitCode && (
+          <div style={S.codeBox}>
+            <span style={S.codeLabel}>Votre code fournisseur CITURBAREA</span>
+            <span style={S.codeValue}>{supplierCitCode}</span>
+          </div>
+        )}
+
         <div style={S.contractNote}>
           🔒 Tant que votre contrat fournisseur CITURBAREA n'est pas signé, votre identité reste masquée
-          (« Fournisseur partenaire ») sur les fiches produit. Vos offres sont visibles, le contact passe par la marketplace.
+          (« Fournisseur partenaire ») sur les fiches produit. Vos offres et votre code restent visibles ;
+          le contact passe par la marketplace.
         </div>
 
         {err && <div style={S.err}>{err}</div>}
@@ -93,10 +102,14 @@ export default function MyOffersPage() {
                     {!o.active && <span style={S.inactive}>masquée</span>}
                   </div>
                   <div style={S.rowMeta}>
+                    {o.marketProduct?.citCode && <span style={S.rowCode}>{o.marketProduct.citCode}</span>}
                     {o.marketProduct && (CORPS_LABELS[o.marketProduct.corpsMetier] || o.marketProduct.corpsMetier)}
                     {" · "}{o.priceDH.toLocaleString("fr-MA")} DH / {UNIT_LABELS[o.marketProduct?.unit || "UNITE"] || o.marketProduct?.unit}
                     {o.quantityAvailable != null && ` · stock ${o.quantityAvailable}`}
                   </div>
+                  {o.marketProduct?.citCode && supplierCitCode && (
+                    <div style={S.comboRef}>Réf. offre : {o.marketProduct.citCode} · {supplierCitCode}</div>
+                  )}
                 </div>
                 <button onClick={() => setEditing(o)} style={S.editBtn}>Modifier</button>
                 <button onClick={() => remove(o.id)} style={S.delBtn}>Supprimer</button>
@@ -261,6 +274,11 @@ const S: Record<string, React.CSSProperties> = {
   lead: { color: CC_THEME.inkMid, fontSize: 13.5, fontStyle: "italic" },
   addBtn: { background: CC_THEME.or, color: CC_THEME.bgDeep, border: 0, padding: "11px 20px", borderRadius: 6, fontSize: 13.5, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", whiteSpace: "nowrap" },
   contractNote: { background: CC_THEME.bgSoft, border: `1px solid ${CC_THEME.border}`, borderLeft: `4px solid ${CC_THEME.or}`, borderRadius: 8, padding: "12px 16px", fontSize: 12.5, color: CC_THEME.inkMid, lineHeight: 1.55, marginBottom: 18 },
+  codeBox: { display: "flex", alignItems: "center", gap: 12, background: CC_THEME.bgDeep, borderRadius: 8, padding: "12px 18px", marginBottom: 12 },
+  codeLabel: { fontSize: 11, color: CC_THEME.orSoft, letterSpacing: "0.08em", textTransform: "uppercase" as const },
+  codeValue: { fontSize: 18, fontWeight: 700, color: CC_THEME.or, fontFamily: CC_THEME.fontMono, letterSpacing: "0.05em" },
+  rowCode: { display: "inline-block", background: CC_THEME.bgSoft, color: CC_THEME.navy, fontFamily: CC_THEME.fontMono, fontSize: 10.5, fontWeight: 600, padding: "1px 6px", borderRadius: 3, marginRight: 6 },
+  comboRef: { fontSize: 10.5, color: CC_THEME.inkMuted, fontFamily: CC_THEME.fontMono, marginTop: 3 },
 
   err: { background: CC_THEME.dangerBg, color: CC_THEME.danger, padding: "10px 14px", borderRadius: 6, fontSize: 13, marginBottom: 14 },
   muted: { color: CC_THEME.inkMuted, fontStyle: "italic", padding: 30 },

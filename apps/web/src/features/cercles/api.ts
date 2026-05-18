@@ -761,6 +761,7 @@ export const dmApi = {
 
 export type MarketProduct = {
   id: string;
+  citCode: string | null;
   corpsMetier: string;
   famille: string;
   name: string;
@@ -788,6 +789,8 @@ export type MarketOffer = {
   deliveryCostDH: number | null;
   deliveryIncluded: boolean;
   contracted: boolean;
+  supplierCitCode: string | null;
+  offerRef: string | null; // combo "CIT-GO-001 · CIT-FRN-00012"
   supplier: { id: string | null; displayName: string; villePrincipale: string | null; isVerified: boolean };
 };
 
@@ -804,7 +807,7 @@ export type MyOffer = {
   deliveryIncluded: boolean;
   active: boolean;
   createdAt: string;
-  marketProduct?: { id: string; name: string; corpsMetier: string; famille: string; unit: string; photo: string | null };
+  marketProduct?: { id: string; citCode: string | null; name: string; corpsMetier: string; famille: string; unit: string; photo: string | null };
 };
 
 export type CorpsMetierNode = { code: string; label: string; count: number; familles: { famille: string; count: number }[] };
@@ -836,7 +839,9 @@ export const marketplaceApi = {
     ),
 
   myOffers: () =>
-    apiFetch<{ ok: boolean; data: MyOffer[] }>(`/api/marketplace/my-offers`),
+    apiFetch<{ ok: boolean; data: { supplierCitCode: string | null; contracted: boolean; offers: MyOffer[] } }>(
+      `/api/marketplace/my-offers`,
+    ),
 
   createOffer: (body: Partial<MyOffer> & { marketProductId: string }) =>
     apiFetch<{ ok: boolean; data: MyOffer }>(`/api/marketplace/offers`, { method: "POST", body }),

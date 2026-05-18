@@ -1527,6 +1527,7 @@ model DirectMessage {
 
 model MarketProduct {
   id          String  @id @default(cuid())
+  citCode     String? @unique // code CITURBAREA matériau : CIT-GO-001, CIT-PL-012…
   corpsMetier String  // GROS_OEUVRE, PLOMBERIE, ELECTRICITE, ETANCHEITE…
   famille     String  // "Liants", "Granulats", "Aciers"…
   name        String
@@ -1667,6 +1668,8 @@ model ProProfile {
   // Marketplace : contrat fournisseur signé avec CITURBAREA.
   // Tant que null → identité du fournisseur masquée sur la marketplace.
   supplierContractSignedAt DateTime?
+  // Code CITURBAREA fournisseur : CIT-FRN-00001 (attribué à la 1re offre).
+  supplierCitCode          String?   @unique
 
   // Stats dérivées (optionnel — peut rester null et calculé à la volée)
   projectsCount    Int @default(0)
