@@ -203,7 +203,7 @@ export class AuthService {
     });
   }
 
-  async register(email: string, password: string, username?: string): Promise<{ access_token: string; user: any }> {
+  async register(email: string, password: string, username?: string, phone?: string): Promise<{ access_token: string; user: any }> {
     const existing = await this.prisma.user.findUnique({ where: { email } });
     if (existing) {
       throw new DomainError('Email déjà utilisé', 409, {
@@ -219,6 +219,7 @@ export class AuthService {
         email,
         passwordHash,
         username: username || null,
+        phone: phone || null,
         role: 'CLIENT',
         plan: 'PRO',
         isActive: true,

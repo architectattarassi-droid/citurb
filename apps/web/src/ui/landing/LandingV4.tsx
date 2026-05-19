@@ -749,7 +749,7 @@ const PRE_HTML = `
 
         <!-- AUTH BUTTONS -->
         <a class="btn-login" href="/login">Se connecter</a>
-        <a class="btn-signup" href="/login?signup=1">Créer un compte</a>
+        <a class="btn-signup" href="/creer-compte">Créer un compte</a>
       </div>
     </div>
   </div>

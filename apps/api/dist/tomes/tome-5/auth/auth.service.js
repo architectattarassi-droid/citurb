@@ -203,7 +203,7 @@ let AuthService = AuthService_1 = class AuthService {
             data: { phoneVerifiedAt: new Date() },
         });
     }
-    async register(email, password, username) {
+    async register(email, password, username, phone) {
         const existing = await this.prisma.user.findUnique({ where: { email } });
         if (existing) {
             throw new domain_error_1.DomainError('Email déjà utilisé', 409, {
@@ -219,6 +219,7 @@ let AuthService = AuthService_1 = class AuthService {
                 email,
                 passwordHash,
                 username: username || null,
+                phone: phone || null,
                 role: 'CLIENT',
                 plan: 'PRO',
                 isActive: true,

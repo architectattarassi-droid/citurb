@@ -89,7 +89,7 @@ let AuthController = class AuthController {
         return { ok: true, ownerEmail, devPassword: ownerPassword };
     }
     async register(body) {
-        return this.auth.register(body.email, body.password, body.username);
+        return this.auth.register(body.email, body.password, body.username, body.phone);
     }
     /**
      * Mot de passe oublié — étape 1 : envoi du code par email + SMS.

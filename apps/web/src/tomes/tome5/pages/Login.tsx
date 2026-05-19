@@ -192,7 +192,7 @@ export default function Login() {
           fontSize: "14px",
           color: "rgba(11,27,58,0.68)",
         }}>
-          Nouveau ici ? <Link to="/inscription" style={{ color: "#C9A227", fontWeight: 600, textDecoration: "none" }}>Créer un compte</Link>
+          Nouveau ici ? <Link to={redirectFromQuery ? `/creer-compte?redirect=${encodeURIComponent(redirectFromQuery)}` : "/creer-compte"} style={{ color: "#C9A227", fontWeight: 600, textDecoration: "none" }}>Créer un compte</Link>
         </div>
 
         {import.meta.env.VITE_SHOW_DEV_CREDENTIALS === 'true' && (

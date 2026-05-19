@@ -108,8 +108,8 @@ export class AuthController {
   }
 
   @Post('register')
-  async register(@Body() body: { email: string; password: string; username?: string }) {
-    return this.auth.register(body.email, body.password, body.username);
+  async register(@Body() body: { email: string; password: string; username?: string; phone?: string }) {
+    return this.auth.register(body.email, body.password, body.username, body.phone);
   }
 
   /**

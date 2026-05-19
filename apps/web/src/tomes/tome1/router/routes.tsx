@@ -18,6 +18,8 @@ import DocsPage from "../../../ui/docs/DocsPage";
 import Login from "../../tome5/pages/Login";
 import VerifyPhone from "../../tome5/pages/VerifyPhone";
 import ForgotPassword from "../../tome5/pages/ForgotPassword";
+import AccountTypeChooser from "../../tome5/pages/AccountTypeChooser";
+import ClientSignup from "../../tome5/pages/ClientSignup";
 
 import LandingPage from "../../../ui/landing/LandingPage";
 import { useAuth } from "../../tome5/AuthProvider";
@@ -137,6 +139,8 @@ export const router = createBrowserRouter([
   // Cercles — réseau pro BTP marocain (auth requis côté API JWT)
   // Toutes ces routes sont bloquées sur admin.citurbarea.com (redirect vers /admin/login)
   { path: '/inscription',                          element: <AdminHostBlock><InscriptionPage /></AdminHostBlock> },
+  { path: '/creer-compte',                          element: <AdminHostBlock><AccountTypeChooser /></AdminHostBlock> },
+  { path: '/creer-compte/client',                   element: <AdminHostBlock><ClientSignup /></AdminHostBlock> },
   { path: '/post/:id',                             element: <PublicPostPage /> },
   { path: '/cercles',                              element: <AdminHostBlock><CerclesHome /></AdminHostBlock> },
   { path: '/cercles/bienvenue',                    element: <AdminHostBlock><CerclesHomePage /></AdminHostBlock> },
