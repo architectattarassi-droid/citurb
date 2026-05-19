@@ -10,6 +10,7 @@ import {
 } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { PasswordResetService } from "./password-reset.service";
+import { SignupVerificationService } from "./signup-verification.service";
 import { JwtAuthGuard } from "./jwt-auth.guard";
 import { Tome } from '../../tome-at';
 import { Rule } from "../../tome-at/kernel/tome.decorators";
@@ -20,6 +21,7 @@ export class AuthController {
   constructor(
     private readonly auth: AuthService,
     private readonly passwordReset: PasswordResetService,
+    private readonly signupVerification: SignupVerificationService,
   ) {}
 
   @Post("login")
@@ -109,6 +111,25 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() body: { email: string; password: string; username?: string; phone?: string }) {
+    return this.auth.register(body.email, body.password, body.username, body.phone);
+  }
+
+  /**
+   * Inscription client — étape 1 : envoie un code par email ET un code par SMS.
+   */
+  @Post('client-signup/request')
+  async clientSignupRequest(@Body() body: { email: string; phone: string }) {
+    return this.signupVerification.request(body.email, body.phone);
+  }
+
+  /**
+   * Inscription client — étape 2 : vérifie les deux codes puis crée le compte CLIENT.
+   */
+  @Post('client-signup/confirm')
+  async clientSignupConfirm(
+    @Body() body: { email: string; phone: string; password: string; username?: string; emailCode: string; phoneCode: string },
+  ) {
+    await this.signupVerification.confirm(body.email, body.emailCode, body.phoneCode);
     return this.auth.register(body.email, body.password, body.username, body.phone);
   }
 

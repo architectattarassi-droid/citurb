@@ -16,6 +16,7 @@ const auth_controller_1 = require("./auth.controller");
 const jwt_strategy_1 = require("./jwt.strategy");
 const otp_service_1 = require("../../../modules/otp/otp.service");
 const password_reset_service_1 = require("./password-reset.service");
+const signup_verification_service_1 = require("./signup-verification.service");
 const owner_notify_module_1 = require("../../../modules/owner-notify/owner-notify.module");
 /**
  * TOME 5 — Auth/RBAC
@@ -37,7 +38,7 @@ exports.Tome5AuthModule = Tome5AuthModule = __decorate([
             }),
         ],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy, otp_service_1.OtpService, password_reset_service_1.PasswordResetService],
+        providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy, otp_service_1.OtpService, password_reset_service_1.PasswordResetService, signup_verification_service_1.SignupVerificationService],
         exports: [auth_service_1.AuthService],
     })
 ], Tome5AuthModule);
