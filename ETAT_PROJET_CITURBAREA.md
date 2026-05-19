@@ -129,6 +129,14 @@ Cercle de démo : `/cercles/demo-reunion-mai-2026` (PUBLIC, 5 membres, 4 posts)
 - **Porte P6 → Cercles** — ✅ FAIT (2026-05-19, commit `dffe77d`) : bannière d'accès
   à `cercles.citurbarea.com` dans l'écran « type » de la 6ème porte.
 - **admin.citurbarea.com** — bloqué sur upgrade Railway Hobby (limite custom domain)
+- **Inscription Pro / Client séparée** :
+  - Phase 1 ✅ FAIT (2026-05-19) : `/creer-compte` = page de choix de profil
+    (Professionnel BTP → `/inscription` Cercles ; Particulier → `/creer-compte/client`).
+    `/creer-compte/client` = inscription dédiée particulier (prénom, nom, email,
+    téléphone, mot de passe) → compte CLIENT. Branchée depuis la landing
+    (« Créer un compte ») et le login. `/auth/register` stocke le téléphone.
+  - Phase 2 À FAIRE : refonte structurelle des Portes 2 & 3 au modèle de la
+    Porte 1 (qualification → packs/devis), avec branchement sur `/creer-compte/client`.
 - **P1–P6** — en pause
 
 ---
