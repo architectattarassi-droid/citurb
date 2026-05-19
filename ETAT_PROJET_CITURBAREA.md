@@ -55,7 +55,7 @@ Légende : 🟢 vérifié OK · 🟡 déployé mais non vérifié · 🔴 cassé
 | Élément | Détail |
 |---------|--------|
 | API | Railway service `citurb` — `citurb-production.up.railway.app` |
-| Web | Railway service `citurb-web` — `citurb-web-production.up.railway.app` + `cercles.citurbarea.com` |
+| Web | Railway service `citurb-web` — domaine public `citurbarea.com` ; `www` + `cercles.citurbarea.com` redirigent dessus ; URL interne `citurb-web-production.up.railway.app` (backoffice) |
 | DB | PostgreSQL Railway — public via `roundhouse.proxy.rlwy.net:31019` |
 | Email | Resend (HTTP API) |
 | SMS / OTP | Twilio Verify |
@@ -116,16 +116,16 @@ Cercle de démo : `/cercles/demo-reunion-mai-2026` (PUBLIC, 5 membres, 4 posts)
   - Phase 2 — Panier · Phase 3 — Commande+statuts · Phase 4 — Paiement
     (online / dépôt chèque / Cash Plus / Wafa Cash) — à venir
 - **Killswitch** (Sprint K) — bloqué sur réception de 3 YubiKeys (à commander)
-- **Domaine principal `citurbarea.com`** — 🟡 EN COURS (2026-05-19) : échange des
-  domaines, gratuit (pas d'upgrade Railway). Cible :
-  - `citurbarea.com` devient le domaine custom Railway → sert l'app directement →
-    landing générale à `/`
-  - `cercles.citurbarea.com` redirige (Page Rule) → `citurbarea.com/cercles`
-  - `www.citurbarea.com` redirige → `citurbarea.com`
-  - Code FAIT : route `/cercles` = `CerclesHome` (landing publique si déconnecté,
-    fil si connecté) ; `/cc/*` et `/admin/*` bloqués sur tous les hôtes publics
-    (`PublicHostBlock`) — backoffice accessible via URL Railway uniquement.
-  - Reste : échange domaine côté Railway + DNS/Page Rules côté Cloudflare.
+- **Domaine principal `citurbarea.com`** — ✅ FAIT (2026-05-19, vérifié) : échange des
+  domaines, gratuit (pas d'upgrade Railway).
+  - `citurbarea.com` = domaine custom Railway (`9esjllrj.up.railway.app`, DNS only) →
+    sert l'app directement → landing générale à `/`
+  - `cercles.citurbarea.com` → Page Rule 301 → `citurbarea.com/cercles`
+  - `www.citurbarea.com` → Page Rule 301 → `citurbarea.com`
+  - Route `/cercles` = `CerclesHome` : landing publique Cercles si déconnecté,
+    fil d'actualité si connecté.
+  - `/cc/*` et `/admin/*` bloqués sur tous les hôtes publics (`PublicHostBlock`) —
+    backoffice accessible uniquement via `citurb-web-production.up.railway.app`.
 - **Porte P6 → Cercles** — ✅ FAIT (2026-05-19, commit `dffe77d`) : bannière d'accès
   à `cercles.citurbarea.com` dans l'écran « type » de la 6ème porte.
 - **admin.citurbarea.com** — bloqué sur upgrade Railway Hobby (limite custom domain)
