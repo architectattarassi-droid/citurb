@@ -14,7 +14,8 @@ async function bootstrap() {
     const reflector = app.get(core_1.Reflector);
     app.enableCors({
         origin: [
-            /^https:\/\/.*\.citurbarea\.com$/,
+            // domaine racine citurbarea.com ET tous ses sous-domaines (cercles, www, admin…)
+            /^https:\/\/(.+\.)?citurbarea\.com$/,
             /^https:\/\/.*\.up\.railway\.app$/,
             'http://localhost:5173',
             'http://localhost:4000',
