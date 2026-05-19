@@ -84,15 +84,30 @@ const LandingRoute = () => {
   return <LandingPage />;
 };
 
+/**
+ * CerclesHome — route /cercles, point d'entrée du réseau pro Cercles.
+ * Visiteur non connecté → landing publique (CerclesLanding).
+ * Pro connecté → fil d'actualité (FeedHomePage).
+ * Depuis la fusion des domaines, cercles.citurbarea.com redirige vers /cercles :
+ * cette route doit donc présenter la landing aux visiteurs (logique LinkedIn).
+ */
+const CerclesHome = () => {
+  const isLoggedIn = typeof window !== "undefined" && !!localStorage.getItem("citurbarea.token");
+  return isLoggedIn ? <FeedHomePage /> : <CerclesLanding />;
+};
+
 const Redirect = ({ to }: { to: string }) => <Navigate to={to} replace />;
 
 /**
- * CerclesHostBlock — bloque l'accès à certaines routes depuis cercles.citurbarea.com.
- * Le sous-domaine cercles.citurbarea.com est le portail public des pros BTP.
- * Le backoffice (/cc/*) et le vault admin (/admin/*) doivent rester invisibles depuis ce sous-domaine.
+ * Hôtes publics : citurbarea.com, www.citurbarea.com et cercles.citurbarea.com.
+ * PublicHostBlock bloque l'accès au backoffice (/cc/*) et au vault admin (/admin/*)
+ * depuis ces hôtes publics — ces espaces restent accessibles via l'URL Railway interne.
  */
-const CerclesHostBlock = ({ children }: { children: React.ReactNode }) => {
-  if (currentHost() === HOST_CERCLES) return <Navigate to="/" replace />;
+const PUBLIC_HOSTS = ["citurbarea.com", "www.citurbarea.com", HOST_CERCLES];
+const isPublicHost = (): boolean => PUBLIC_HOSTS.includes(currentHost());
+
+const PublicHostBlock = ({ children }: { children: React.ReactNode }) => {
+  if (isPublicHost()) return <Navigate to="/" replace />;
   return <>{children}</>;
 };
 
@@ -111,20 +126,20 @@ export const router = createBrowserRouter([
   // Landing publique
   { path: CANON.HOME, element: <LandingRoute /> },
 
-  // Command Center interne — bloqué sur cercles.citurbarea.com
-  { path: '/cc/*', element: <CerclesHostBlock><CommandCenterApp /></CerclesHostBlock> },
+  // Command Center interne — bloqué sur les hôtes publics (accès via URL Railway)
+  { path: '/cc/*', element: <PublicHostBlock><CommandCenterApp /></PublicHostBlock> },
 
-  // Admin Vault (Sprint H — app admin ultra-sécurisée) — bloqué sur cercles.citurbarea.com
-  { path: '/admin',                            element: <CerclesHostBlock><Navigate to="/admin/login" replace /></CerclesHostBlock> },
-  { path: '/admin/login',                      element: <CerclesHostBlock><AdminLoginPage /></CerclesHostBlock> },
-  { path: '/admin/dashboard',                  element: <CerclesHostBlock><AdminDashboard /></CerclesHostBlock> },
-  { path: '/admin/security/webauthn',          element: <CerclesHostBlock><AdminRegisterPasskeyPage /></CerclesHostBlock> },
+  // Admin Vault (Sprint H — app admin ultra-sécurisée) — bloqué sur les hôtes publics
+  { path: '/admin',                            element: <PublicHostBlock><Navigate to="/admin/login" replace /></PublicHostBlock> },
+  { path: '/admin/login',                      element: <PublicHostBlock><AdminLoginPage /></PublicHostBlock> },
+  { path: '/admin/dashboard',                  element: <PublicHostBlock><AdminDashboard /></PublicHostBlock> },
+  { path: '/admin/security/webauthn',          element: <PublicHostBlock><AdminRegisterPasskeyPage /></PublicHostBlock> },
 
   // Cercles — réseau pro BTP marocain (auth requis côté API JWT)
   // Toutes ces routes sont bloquées sur admin.citurbarea.com (redirect vers /admin/login)
   { path: '/inscription',                          element: <AdminHostBlock><InscriptionPage /></AdminHostBlock> },
   { path: '/post/:id',                             element: <PublicPostPage /> },
-  { path: '/cercles',                              element: <AdminHostBlock><FeedHomePage /></AdminHostBlock> },
+  { path: '/cercles',                              element: <AdminHostBlock><CerclesHome /></AdminHostBlock> },
   { path: '/cercles/bienvenue',                    element: <AdminHostBlock><CerclesHomePage /></AdminHostBlock> },
   { path: '/cercles/annuaire',                     element: <AdminHostBlock><AnnuairePage /></AdminHostBlock> },
   { path: '/cercles/me/edit',                      element: <AdminHostBlock><EditProfilePage /></AdminHostBlock> },
