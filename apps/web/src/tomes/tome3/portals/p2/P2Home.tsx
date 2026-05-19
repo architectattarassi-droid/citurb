@@ -22,12 +22,62 @@ import { getStoredLang } from "../../../../i18n/i18n";
 type P2Section = "IMM" | "GR" | "LOT" | "EPIG" | "AMG";
 type FollowMode = "ON_SITE" | "PHOTOS";
 
-const SECTIONS: { id: P2Section; label: string; icon: string; desc: string }[] = [
-  { id: "IMM", label: "Immeuble", icon: "🏢", desc: "Construction neuve d'un immeuble (R+2 et plus, collectif ou bureaux)." },
-  { id: "GR", label: "Groupement résidentiel", icon: "🏘️", desc: "Plusieurs immeubles sur un même projet (résidence, complexe)." },
-  { id: "LOT", label: "Lotissement / morcellement", icon: "🗺️", desc: "Aménagement foncier — découpage de terrains (loi 25-90)." },
-  { id: "EPIG", label: "Équipement privé", icon: "🏛️", desc: "Hôtel, clinique, école, mosquée, hangar, usine — intérêt général." },
-  { id: "AMG", label: "Aménagement", icon: "🏪", desc: "Transformation d'un local existant (commerce, agence, show-room…)." },
+const SECTIONS: { id: P2Section; label: string; title: string; sub: string; bullets: string[]; micro: string }[] = [
+  {
+    id: "IMM", label: "Immeuble",
+    title: "Immeuble — Construction neuve",
+    sub: "Immeuble collectif ou de bureaux, R+2 et plus.",
+    bullets: [
+      "Constructibilité : gabarit, hauteur, COS — optimisation du foncier.",
+      "Conception : logements, circulations, RDC commercial, parkings.",
+      "Honoraires au barème officiel CNOA 2021 selon le coût de construction.",
+    ],
+    micro: "Tarification transparente, phases A / B / C détaillées.",
+  },
+  {
+    id: "GR", label: "Groupement résidentiel",
+    title: "Groupement résidentiel — Plusieurs immeubles",
+    sub: "Résidence ou complexe : plusieurs bâtiments sur un même projet.",
+    bullets: [
+      "Plan masse : implantation, voiries, espaces communs, VRD.",
+      "Cohérence architecturale sur l'ensemble des bâtiments.",
+      "Devis par bâtiment × nombre — barème CNOA 2021.",
+    ],
+    micro: "Pensé pour les promoteurs et les opérations groupées.",
+  },
+  {
+    id: "LOT", label: "Lotissement / morcellement",
+    title: "Lotissement / morcellement — Foncier",
+    sub: "Découpage et viabilisation de terrains (loi 25-90).",
+    bullets: [
+      "Plan de lotissement : îlots, voirie, réseaux, espaces verts.",
+      "Conformité réglementaire et passage en commission.",
+      "Devis personnalisé selon la surface du terrain.",
+    ],
+    micro: "Grille tarifaire dédiée — devis sous 24h.",
+  },
+  {
+    id: "EPIG", label: "Équipement privé",
+    title: "Équipement privé — Intérêt général",
+    sub: "Hôtel, clinique, école, mosquée, hangar, usine.",
+    bullets: [
+      "Programme fonctionnel adapté à l'usage de l'équipement.",
+      "Normes spécifiques : sécurité, accessibilité, ERP.",
+      "Honoraires au barème CNOA 2021 selon la catégorie.",
+    ],
+    micro: "Projets à fort enjeu réglementaire et technique.",
+  },
+  {
+    id: "AMG", label: "Aménagement",
+    title: "Aménagement — Transformation d'un local",
+    sub: "Commerce, agence, show-room — local existant.",
+    bullets: [
+      "Réagencement intérieur et mise en valeur de l'espace.",
+      "Mise aux normes et conformité du local existant.",
+      "Devis au barème CNOA selon la surface aménagée.",
+    ],
+    micro: "Transformer proprement un local existant.",
+  },
 ];
 
 type Category = { code: string; label: string; costPerM2: number; photoOptionAvailable: boolean; notes?: string };
@@ -119,6 +169,10 @@ const P1_CSS = `
 .p2page .price-card.disabled { opacity:.5; cursor:not-allowed; }
 .p2page .price-card.disabled:hover { transform:none; box-shadow:0 18px 55px rgba(11,27,58,0.12); border-color:rgba(201,162,39,0.35); }
 .p2page .lux-title { font-weight:700; font-size:19px; color:#0B1B3A; line-height:1.25; }
+.p2page .card-sub { margin-top:6px; font-size:13px; color:rgba(11,27,58,0.68); line-height:1.55; }
+.p2page .card-bullets-premium { margin:14px 0 0; padding-left:18px; font-size:13px; line-height:1.5; color:rgba(11,27,58,0.80); }
+.p2page .card-bullets-premium li { margin:7px 0; }
+.p2page .card-micro { margin-top:12px; font-size:12px; }
 
 .p2page .btn {
   display:inline-flex; align-items:center; justify-content:center; gap:10px;
@@ -389,10 +443,13 @@ export default function P2Home() {
             <div className="grid-3">
               {SECTIONS.map(s => (
                 <div key={s.id} className="price-card" onClick={() => goToCategory(s.id)}>
-                  <div style={{ fontSize: 32, marginBottom: 12 }}>{s.icon}</div>
-                  <div className="lux-title">{s.label}</div>
-                  <div className="muted" style={{ fontSize: 13.5, lineHeight: 1.6, marginTop: 8, flex: 1 }}>{s.desc}</div>
-                  <div className="btn btn-dark" style={{ width: "100%", marginTop: 18 }}>Choisir →</div>
+                  <div className="lux-title">{s.title}</div>
+                  <div className="card-sub">{s.sub}</div>
+                  <ul className="card-bullets-premium">
+                    {s.bullets.map((b, i) => <li key={i}>{b}</li>)}
+                  </ul>
+                  <div className="muted card-micro">{s.micro}</div>
+                  <div className="btn btn-dark" style={{ width: "100%", marginTop: 18 }}>Sélectionner →</div>
                 </div>
               ))}
             </div>
@@ -414,9 +471,12 @@ export default function P2Home() {
             {categories.map(c => (
               <div key={c.code} className="price-card" onClick={() => goToMeasures(c.code)}>
                 <div className="lux-title">{c.label}</div>
-                <div style={{ display: "flex", alignItems: "baseline", gap: 6, margin: "14px 0 4px" }}>
-                  <span style={{ fontSize: 30, fontWeight: 900, color: "#0B1B3A" }}>{fmtMAD(c.costPerM2)}</span>
-                  <span className="muted" style={{ fontWeight: 800, fontSize: 13 }}>/ m²</span>
+                <div style={{ margin: "14px 0 4px" }}>
+                  <div className="muted" style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>À partir de</div>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 3 }}>
+                    <span style={{ fontSize: 28, fontWeight: 900, color: "#0B1B3A" }}>{fmtMAD(c.costPerM2)}</span>
+                    <span className="muted" style={{ fontWeight: 800, fontSize: 13 }}>/ m²</span>
+                  </div>
                 </div>
                 <div style={{ flex: 1 }}>
                   {c.notes && <div className="muted" style={{ fontSize: 12.5, marginTop: 8 }}>⚠ {c.notes}</div>}
@@ -544,7 +604,10 @@ export default function P2Home() {
                 <div className="muted" style={{ fontSize: 13.5, marginTop: 4 }}>{quote.meta.categoryLabel || "Tarification spécifique"}</div>
               </div>
               <div style={{ background: "rgba(201,162,39,0.10)", border: "1px solid rgba(201,162,39,0.32)", borderRadius: 14, padding: "14px 20px", textAlign: "right" }}>
-                <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 32, fontWeight: 800, color: "#0B1B3A", lineHeight: 1 }}>
+                {quote.honoraires.totalTTC != null && (
+                  <div className="muted" style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>À partir de</div>
+                )}
+                <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 32, fontWeight: 800, color: "#0B1B3A", lineHeight: 1, marginTop: 3 }}>
                   {quote.honoraires.totalTTC != null ? fmtMAD(quote.honoraires.totalTTC) : "À devis"}
                 </div>
                 <div className="muted" style={{ fontSize: 11.5, marginTop: 5 }}>TTC · honoraires architecte</div>
