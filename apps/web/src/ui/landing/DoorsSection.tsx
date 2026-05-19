@@ -57,7 +57,10 @@ export function DoorsSection() {
             if(bar) bar.style.transform="scaleX(0)";
           }}
           onClick={() => {
-            if (d.live) {
+            if (d.id === "p6") {
+              // Porte 6 = réseau pro CITURBAREA Cercles (prestataires, fournisseurs, marketplace)
+              navigate("/cercles");
+            } else if (d.live) {
               // navigation SPA (évite reload + comportement inattendu)
               navigate(`/${d.id}`);
             } else {
