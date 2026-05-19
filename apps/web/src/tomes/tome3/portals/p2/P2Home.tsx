@@ -237,7 +237,7 @@ const HERO_POINTS = [
   { t: "Contrat unifié", d: "Contrat type CNOA + visa CROA en ligne." },
 ];
 
-export default function P2Home() {
+function P2HomeInner() {
   const [screen, setScreen] = useState<"flow" | "success">("flow");
   const [phase, setPhase] = useState<Phase>("section");
   const [busy, setBusy] = useState(false);
@@ -771,5 +771,39 @@ export default function P2Home() {
         </section>
       )}
     </div>
+  );
+}
+
+/**
+ * Garde-fou : si le rendu de P2 plante, on affiche l'erreur exacte
+ * à l'écran (message + pile) au lieu d'une page blanche.
+ */
+class P2ErrorBoundary extends React.Component<{ children: React.ReactNode }, { err: Error | null }> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { err: null };
+  }
+  static getDerivedStateFromError(err: Error) {
+    return { err };
+  }
+  render() {
+    if (this.state.err) {
+      return (
+        <div style={{ maxWidth: 900, margin: "48px auto", padding: "24px 28px", fontFamily: "ui-monospace, Menlo, Consolas, monospace", fontSize: 13, lineHeight: 1.6, color: "#b91c1c", background: "#fff", border: "1px solid rgba(220,38,38,0.3)", borderRadius: 12, whiteSpace: "pre-wrap" }}>
+          <strong style={{ fontSize: 15 }}>Porte 2 — erreur de rendu</strong>
+          {"\n\n"}{this.state.err.message}
+          {"\n\n"}{this.state.err.stack}
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+export default function P2Home() {
+  return (
+    <P2ErrorBoundary>
+      <P2HomeInner />
+    </P2ErrorBoundary>
   );
 }
