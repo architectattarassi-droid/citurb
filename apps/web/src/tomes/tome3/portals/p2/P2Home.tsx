@@ -5,8 +5,11 @@ import { getStoredLang } from "../../../../i18n/i18n";
 /**
  * P2Home — Porte 2 · Promotion immobilière & équipement privé
  *
- * Refonte au modèle de qualification + à l'habillage de la Porte 1
- * (thème clair navy/or, typographie Playfair, cartes de sélection).
+ * Refondu sur le modèle de qualification ET les dimensions exactes de la
+ * Porte 1 : page pleine largeur, conteneur 1200px, sections 92px, hero 56px,
+ * et les classes CSS réelles de P1 (.hero / .section / .container-max /
+ * .section-title / .price-card / .form-grid / .field / .control / .btn …).
+ *
  * La logique métier P2 est INCHANGÉE :
  *   1. Section (IMM / GR / LOT / EPIG / AMG)
  *   2. Catégorie (GET /p2/categories?section=)
@@ -61,106 +64,123 @@ const fmtMAD = (n: number | null | undefined) => {
   return new Intl.NumberFormat("fr-MA", { maximumFractionDigits: 0 }).format(n) + " DH";
 };
 
-// ── Design tokens — alignés sur la Porte 1 ────────────────────────────────
-const NAVY = "#0B1B3A";
-const GOLD = "#C9A227";
-const GOLD_GRAD = "linear-gradient(135deg,#C9A227,#E6C75B)";
-const LINE = "rgba(201,162,39,0.28)";
-const INK_MUTED = "rgba(11,27,58,0.60)";
-const INK_SOFT = "rgba(11,27,58,0.80)";
-const SERIF = '"Playfair Display", Georgia, serif';
-const PAGE_BG =
-  "radial-gradient(1200px 520px at 18% 8%, rgba(201,162,39,0.10), transparent 60%), radial-gradient(900px 420px at 82% 30%, rgba(232,216,166,0.12), transparent 60%), linear-gradient(180deg, rgba(255,255,255,0.92), rgba(246,248,255,0.96))";
+/* ── CSS de la Porte 1, repris à l'identique et scopé sous .p2page ──────── */
+const P1_CSS = `
+.p2page, .p2page *, .p2page *::before, .p2page *::after { box-sizing:border-box; }
+.p2page { font-family:Inter, system-ui, -apple-system, "Segoe UI", sans-serif; color:#0B1B3A; }
+.p2page h1,.p2page h2,.p2page .lux-title { font-family:"Playfair Display", Georgia, serif; }
 
-const CSS = `
-.p2x, .p2x * { box-sizing: border-box; }
-.p2x .p2card { transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease; }
-.p2x .p2card:hover { transform: translateY(-3px); box-shadow: 0 22px 60px rgba(11,27,58,0.16); border-color: rgba(201,162,39,0.65); }
-.p2x input:focus, .p2x textarea:focus { border-color: ${GOLD}; box-shadow: 0 0 0 4px rgba(201,162,39,0.16); }
-.p2x .p2btn { transition: filter .15s ease, transform .1s ease; }
-.p2x .p2btn:hover { filter: brightness(1.04); }
-.p2x .p2btn:active { transform: translateY(1px); }
+.p2page .container-max { max-width:1200px; margin:0 auto; padding:0 20px; }
+.p2page .section { padding:92px 0; }
+@media(max-width:768px){ .p2page .section { padding:64px 0; } }
+
+.p2page .hero {
+  background:
+    radial-gradient(1200px 520px at 18% 8%, rgba(201,162,39,0.10), transparent 60%),
+    radial-gradient(900px 420px at 82% 30%, rgba(232,216,166,0.10), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.90), rgba(255,255,255,0.72));
+  border-bottom:1px solid rgba(201,162,39,0.35);
+}
+.p2page .hero h1 { font-size:56px; line-height:1.08; letter-spacing:-0.8px; margin:0 0 16px; color:#0B1B3A; }
+@media(max-width:768px){ .p2page .hero h1 { font-size:36px; } }
+
+.p2page .kicker {
+  display:inline-flex; gap:10px; align-items:center; flex-wrap:wrap;
+  padding:10px 14px; border-radius:999px;
+  background:rgba(255,255,255,0.86); border:1px solid rgba(201,162,39,0.22);
+  color:rgba(11,27,58,0.86); font-size:13px; font-weight:700;
+  box-shadow:0 10px 30px rgba(11,27,58,0.08); margin-bottom:22px;
+}
+.p2page .section-title { font-size:40px; letter-spacing:-0.4px; line-height:1.15; margin:0 0 14px; color:#0B1B3A; }
+@media(max-width:768px){ .p2page .section-title { font-size:28px; } }
+.p2page .sub { max-width:760px; font-size:16px; color:rgba(11,18,32,0.72); line-height:1.7; }
+.p2page .muted { color:rgba(11,27,58,0.74); }
+
+.p2page .gold-divider { height:1px; background:linear-gradient(90deg, transparent, rgba(201,162,39,0.55), transparent); }
+
+.p2page .grid-3 { display:grid; gap:24px; grid-template-columns:repeat(3,minmax(0,1fr)); }
+.p2page .grid-2 { display:grid; gap:20px; grid-template-columns:repeat(2,minmax(0,1fr)); }
+@media(max-width:900px){ .p2page .grid-3,.p2page .grid-2 { grid-template-columns:1fr; } }
+
+.p2page .lux-card {
+  background:rgba(255,255,255,0.90); border:1px solid rgba(201,162,39,0.35);
+  border-radius:16px; padding:28px; box-shadow:0 18px 55px rgba(11,27,58,0.12);
+}
+.p2page .price-card {
+  border-radius:18px; padding:26px; background:rgba(255,255,255,0.88);
+  border:1px solid rgba(201,162,39,0.35); box-shadow:0 18px 55px rgba(11,27,58,0.12);
+  display:flex; flex-direction:column; transition:all .25s ease; cursor:pointer;
+}
+.p2page .price-card:hover { transform:translateY(-3px); border-color:rgba(201,162,39,0.55); box-shadow:0 26px 80px rgba(11,27,58,0.16); }
+.p2page .price-card.sel {
+  border:2px solid #C9A227;
+  background:linear-gradient(135deg, rgba(201,162,39,0.14), rgba(232,216,166,0.14));
+}
+.p2page .price-card.disabled { opacity:.5; cursor:not-allowed; }
+.p2page .price-card.disabled:hover { transform:none; box-shadow:0 18px 55px rgba(11,27,58,0.12); border-color:rgba(201,162,39,0.35); }
+.p2page .lux-title { font-weight:700; font-size:19px; color:#0B1B3A; line-height:1.25; }
+
+.p2page .btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  padding:14px 24px; border-radius:12px; font-size:14px; font-weight:700;
+  border:1px solid transparent; cursor:pointer; transition:all .2s ease;
+  font-family:inherit; text-decoration:none;
+}
+.p2page .btn-gold {
+  background:linear-gradient(135deg, #C9A227, #E6C75B); color:#1a1406;
+  border-color:rgba(201,162,39,0.55); box-shadow:0 18px 34px rgba(201,162,39,0.25);
+}
+.p2page .btn-gold:hover { filter:brightness(1.03); transform:translateY(-1px); }
+.p2page .btn-dark { background:#0B1B3A; color:#fff; border-color:rgba(11,27,58,0.35); }
+.p2page .btn-dark:hover { filter:brightness(1.08); }
+
+.p2page .form-grid { display:grid; gap:14px; grid-template-columns:repeat(3,minmax(0,1fr)); }
+@media(max-width:1100px){ .p2page .form-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media(max-width:760px){ .p2page .form-grid { grid-template-columns:1fr; } }
+.p2page .field { display:flex; flex-direction:column; gap:6px; }
+.p2page .label { font-size:12px; font-weight:900; letter-spacing:.10em; text-transform:uppercase; color:rgba(11,27,58,0.80); }
+.p2page .control {
+  width:100%; border:1px solid rgba(201,162,39,0.35); background:rgba(255,255,255,0.85);
+  border-radius:14px; padding:12px 13px; font-size:14px; color:#0B1B3A; outline:none; font-family:inherit;
+}
+.p2page .control:focus { box-shadow:0 0 0 4px rgba(201,162,39,0.18); border-color:rgba(201,162,39,0.65); }
+
+.p2page .pill {
+  display:inline-flex; align-items:center; gap:10px; padding:8px 14px; border-radius:999px;
+  border:1px solid rgba(201,162,39,0.35); background:rgba(255,255,255,0.72);
+  font-size:12px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+  color:rgba(11,27,58,0.78);
+}
+.p2page .req { color:rgba(201,162,39,0.95); font-weight:900; }
+.p2page .mini-note {
+  border:1px solid rgba(201,162,39,0.35); background:rgba(255,255,255,0.78);
+  border-radius:16px; padding:14px 16px; color:rgba(11,18,32,0.80);
+  font-size:13px; line-height:1.6; box-shadow:0 12px 40px rgba(11,27,58,0.06);
+}
+.p2page .blk-title { font-size:12px; font-weight:900; letter-spacing:.12em; text-transform:uppercase; color:rgba(201,162,39,0.95); margin:26px 0 12px; }
+.p2page .p2back {
+  background:none; border:none; padding:0; cursor:pointer; font-family:inherit;
+  color:rgba(11,27,58,0.62); font-size:13px; font-weight:600; margin-bottom:18px;
+}
+.p2page .p2back:hover { color:#0B1B3A; }
+.p2page .err {
+  color:#b91c1c; font-size:13px; background:rgba(220,38,38,0.07);
+  border:1px solid rgba(220,38,38,0.22); padding:11px 14px; border-radius:12px; margin-bottom:16px;
+}
+.p2page .qrow { display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid rgba(11,27,58,0.08); font-size:14px; }
+.p2page .qrow .k { color:rgba(11,27,58,0.66); }
+.p2page .qrow .v { color:#0B1B3A; font-weight:800; white-space:nowrap; }
 `;
 
-const S: Record<string, React.CSSProperties> = {
-  root: { minHeight: "100vh", background: PAGE_BG, color: NAVY, fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', sans-serif", padding: "0 0 70px" },
-  hero: { textAlign: "center", padding: "64px 24px 36px", maxWidth: 760, margin: "0 auto" },
-  kicker: {
-    display: "inline-flex", alignItems: "center", gap: 8, padding: "7px 15px", borderRadius: 999,
-    background: "rgba(201,162,39,0.13)", border: `1px solid rgba(201,162,39,0.40)`,
-    color: "#7a6010", fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 18,
-  },
-  heroTitle: { fontFamily: SERIF, fontSize: 42, fontWeight: 700, color: NAVY, margin: "0 0 12px", lineHeight: 1.12 },
-  heroSub: { fontSize: 15.5, color: INK_MUTED, lineHeight: 1.6, maxWidth: 560, margin: "0 auto" },
+const PAGE_BG =
+  "radial-gradient(1200px 520px at 18% 8%, rgba(201,162,39,0.10), transparent 60%)," +
+  "radial-gradient(900px 420px at 82% 30%, rgba(232,216,166,0.10), transparent 60%)," +
+  "linear-gradient(180deg, rgba(255,255,255,0.92), rgba(246,248,255,0.96))";
 
-  grid: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(264px,1fr))", gap: 18, maxWidth: 980, margin: "0 auto", padding: "8px 24px" },
-  sectionCard: {
-    background: "rgba(255,255,255,0.96)", border: `1px solid ${LINE}`, borderRadius: 16,
-    padding: "26px 22px", cursor: "pointer", textAlign: "left",
-    boxShadow: "0 14px 40px rgba(11,27,58,0.07)",
-  },
-  cardIcon: { fontSize: 30, marginBottom: 12 },
-  cardTitle: { fontFamily: SERIF, fontWeight: 700, fontSize: 18, color: NAVY, marginBottom: 6 },
-  cardDesc: { color: INK_MUTED, fontSize: 13, lineHeight: 1.55 },
-
-  panelWrap: { maxWidth: 720, margin: "0 auto", padding: "36px 24px 0" },
-  panel: {
-    background: "rgba(255,255,255,0.96)", border: `1px solid ${LINE}`, borderRadius: 20,
-    padding: "30px 30px 34px", boxShadow: "0 18px 55px rgba(11,27,58,0.10)",
-  },
-  back: { background: "none", border: "none", padding: 0, cursor: "pointer", color: INK_MUTED, fontSize: 13, fontFamily: "inherit", marginBottom: 18 },
-  stepper: { display: "flex", gap: 6, marginBottom: 22 },
-  formTitle: { fontFamily: SERIF, fontSize: 26, fontWeight: 700, color: NAVY, margin: "0 0 8px" },
-  formSub: { color: INK_MUTED, fontSize: 13.5, lineHeight: 1.6, marginBottom: 22 },
-
-  catRow: {
-    display: "flex", justifyContent: "space-between", alignItems: "center", gap: 14,
-    padding: "16px 18px", background: "#fff", border: `1px solid ${LINE}`, borderRadius: 12,
-    cursor: "pointer", marginBottom: 10,
-  },
-  catLabel: { fontSize: 14.5, fontWeight: 600, color: NAVY },
-  catCost: { color: "#7a6010", fontWeight: 800, fontSize: 14, whiteSpace: "nowrap" },
-  catNote: { color: INK_MUTED, fontSize: 11.5, marginTop: 4 },
-
-  label: { display: "block", fontSize: 11.5, color: INK_SOFT, fontWeight: 700, marginBottom: 7, textTransform: "uppercase", letterSpacing: "0.05em" },
-  input: {
-    width: "100%", background: "#fff", border: `1px solid ${LINE}`, borderRadius: 12,
-    color: NAVY, padding: "12px 14px", fontSize: 14.5, fontFamily: "inherit", outline: "none", marginBottom: 16,
-  },
-  row2: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 },
-  hint: { color: INK_MUTED, fontSize: 12, lineHeight: 1.55, marginTop: -8, marginBottom: 16 },
-  blockTitle: { fontSize: 11, color: GOLD, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", margin: "10px 0 14px" },
-
-  btn: {
-    width: "100%", background: GOLD_GRAD, color: "#3a2c00", border: "none", borderRadius: 12,
-    padding: "15px 28px", fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", marginTop: 10,
-  },
-  err: { color: "#b91c1c", fontSize: 13, marginBottom: 14, background: "rgba(220,38,38,0.07)", border: "1px solid rgba(220,38,38,0.22)", padding: "11px 14px", borderRadius: 10 },
-  loader: { minHeight: "70vh", display: "flex", alignItems: "center", justifyContent: "center", color: "#7a6010", fontSize: 17, fontWeight: 600 },
-
-  followGrid: { display: "flex", gap: 14, flexWrap: "wrap" },
-  followCard: {
-    flex: 1, minWidth: 220, background: "#fff", border: `1px solid ${LINE}`, borderRadius: 14, padding: "20px 18px",
-  },
-
-  quoteCard: { background: "#fff", border: `1px solid ${LINE}`, borderRadius: 16, padding: 24, marginBottom: 22 },
-  quoteHead: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, flexWrap: "wrap" },
-  quoteAmountBox: { background: "rgba(201,162,39,0.10)", border: `1px solid rgba(201,162,39,0.32)`, borderRadius: 12, padding: "14px 18px", textAlign: "right" },
-  quoteAmount: { fontFamily: SERIF, fontSize: 32, fontWeight: 800, color: NAVY, lineHeight: 1 },
-  quoteAmountSub: { color: INK_MUTED, fontSize: 11.5, marginTop: 4 },
-  quoteRow: { display: "flex", justifyContent: "space-between", padding: "11px 0", borderBottom: "1px solid rgba(11,27,58,0.08)", fontSize: 13.5 },
-  quoteKey: { color: INK_MUTED },
-  quoteVal: { color: NAVY, fontWeight: 700 },
-  note: { background: "rgba(201,162,39,0.09)", border: `1px solid rgba(201,162,39,0.28)`, borderRadius: 10, padding: "12px 14px", marginTop: 12, fontSize: 12.5, lineHeight: 1.6, color: "#6b5410" },
-
-  successWrap: { maxWidth: 540, margin: "70px auto 0", padding: "40px 34px", background: "rgba(255,255,255,0.96)", border: `1px solid ${LINE}`, borderRadius: 20, textAlign: "center", boxShadow: "0 18px 55px rgba(11,27,58,0.10)" },
+const fullBleed: React.CSSProperties = {
+  width: "100vw", position: "relative", left: "50%", right: "50%",
+  marginLeft: "-50vw", marginRight: "-50vw", minHeight: "100vh", background: PAGE_BG,
 };
-
-const stepBar = (active: boolean, done: boolean): React.CSSProperties => ({
-  height: 5, flex: 1, borderRadius: 3,
-  background: done || active ? GOLD_GRAD : "rgba(11,27,58,0.10)",
-  opacity: done ? 1 : active ? 1 : 0.55,
-});
 
 export default function P2Home() {
   const [step, setStep] = useState<Step>("section");
@@ -181,7 +201,7 @@ export default function P2Home() {
   const [dossierId, setDossierId] = useState<string | null>(null);
 
   const selectedCategory = categories.find(c => c.code === categoryCode);
-  const stepIndex = ["section", "category", "measures", "follow", "quote", "identity"].indexOf(step);
+  const stepNum = ["section", "category", "measures", "follow", "quote", "identity"].indexOf(step) + 1;
 
   // Charge les catégories quand la section est choisie (sauf LOT)
   useEffect(() => {
@@ -298,378 +318,352 @@ export default function P2Home() {
     }
   };
 
-  // ── Rendu ────────────────────────────────────────────────────────────
-  const Stepper = () => (
-    <div style={S.stepper}>
-      {[0, 1, 2, 3, 4, 5].map(i => (
-        <div key={i} style={stepBar(i === stepIndex, i < stepIndex)} />
-      ))}
-    </div>
+  // ── En-tête d'étape (pastille + retour + titre + sous-titre) ──────────
+  const StepHead = (props: { onBack: () => void; backLabel: string; title: string; sub: string }) => (
+    <>
+      <button className="p2back" onClick={props.onBack}>← {props.backLabel}</button>
+      <div className="pill" style={{ marginBottom: 16 }}>Étape {stepNum} sur 6</div>
+      <h2 className="section-title">{props.title}</h2>
+      <p className="sub" style={{ marginBottom: 36 }}>{props.sub}</p>
+    </>
   );
 
+  // ── Contenu selon l'étape ────────────────────────────────────────────
+  let body: React.ReactNode;
+
   if (step === "submitting") {
-    return (
-      <div className="p2x" style={S.root}>
-        <style>{CSS}</style>
-        <div style={S.loader}>⏳ Traitement en cours…</div>
-      </div>
-    );
-  }
-
-  if (step === "success") {
-    return (
-      <div className="p2x" style={S.root}>
-        <style>{CSS}</style>
-        <div style={S.successWrap}>
-          <div style={{ fontSize: 52, marginBottom: 14 }}>✅</div>
-          <div style={{ fontFamily: SERIF, fontSize: 24, fontWeight: 700, color: NAVY, marginBottom: 10 }}>
-            Demande enregistrée
-          </div>
-          <div style={{ color: INK_MUTED, fontSize: 14, lineHeight: 1.7, marginBottom: 24 }}>
-            Votre projet <strong style={{ color: NAVY }}>{SECTIONS.find(s => s.id === section)?.label}</strong> a été transmis
-            à l'équipe CITURBAREA. Vous recevez sous 24h un contrat type unifié à signer + le visa CROA à régler en ligne.
-            <br /><br />
-            <span style={{ fontSize: 12, color: INK_MUTED }}>Réf. dossier : {dossierId?.slice(0, 12)}…</span>
-          </div>
-          <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href={`/payment/start?dossier=${dossierId}`} className="p2btn"
-              style={{ background: GOLD_GRAD, color: "#3a2c00", padding: "12px 22px", borderRadius: 10, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>
-              💳 Payer maintenant
-            </a>
-            <a href="/portal" className="p2btn"
-              style={{ background: NAVY, color: "#fff", padding: "12px 22px", borderRadius: 10, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>
-              📁 Mes dossiers
-            </a>
-            <a href="/" style={{ color: INK_MUTED, textDecoration: "none", fontSize: 13, fontWeight: 600, padding: "12px 14px" }}>← Accueil</a>
-          </div>
+    body = (
+      <section className="section">
+        <div className="container-max" style={{ textAlign: "center", color: "rgba(11,27,58,0.7)", fontSize: 18, fontWeight: 600 }}>
+          ⏳ Traitement en cours…
         </div>
-      </div>
+      </section>
     );
-  }
-
-  // ── Étape 1 — Section ──
-  if (step === "section") {
-    return (
-      <div className="p2x" style={S.root}>
-        <style>{CSS}</style>
-        <div style={S.hero}>
-          <div style={S.kicker}>Porte 2 · Promotion immobilière & équipement</div>
-          <h1 style={S.heroTitle}>Quel est votre projet ?</h1>
-          <p style={S.heroSub}>
-            Sélectionnez la nature de votre projet — tarification transparente selon le barème officiel CNOA 2021.
-          </p>
-        </div>
-        <div style={S.grid}>
-          {SECTIONS.map(s => (
-            <div key={s.id} className="p2card" style={S.sectionCard} onClick={() => goToCategory(s.id)}>
-              <div style={S.cardIcon}>{s.icon}</div>
-              <div style={S.cardTitle}>{s.label}</div>
-              <div style={S.cardDesc}>{s.desc}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // ── Étape 2 — Catégorie ──
-  if (step === "category") {
-    return (
-      <div className="p2x" style={S.root}>
-        <style>{CSS}</style>
-        <div style={S.panelWrap}>
-          <div style={S.panel}>
-            <button style={S.back} onClick={() => setStep("section")}>← Changer de section</button>
-            <Stepper />
-            <h2 style={S.formTitle}>Catégorie de projet</h2>
-            <p style={S.formSub}>
-              Section : <strong style={{ color: NAVY }}>{SECTIONS.find(s => s.id === section)?.label}</strong> — sélectionnez la
-              catégorie qui correspond le mieux à votre projet. Le coût de construction au m² est issu du barème officiel
-              CNOA 2021. Les honoraires sont révisés en cas de constatation d'un standing supérieur.
+  } else if (step === "success") {
+    body = (
+      <section className="section">
+        <div className="container-max" style={{ maxWidth: 620 }}>
+          <div className="lux-card" style={{ textAlign: "center" }}>
+            <div style={{ fontSize: 52, marginBottom: 14 }}>✅</div>
+            <h2 style={{ fontSize: 26, margin: "0 0 12px" }}>Demande enregistrée</h2>
+            <p className="muted" style={{ fontSize: 14.5, lineHeight: 1.7, margin: "0 0 26px" }}>
+              Votre projet <strong style={{ color: "#0B1B3A" }}>{SECTIONS.find(s => s.id === section)?.label}</strong> a été transmis
+              à l'équipe CITURBAREA. Vous recevez sous 24h un contrat type unifié à signer + le visa CROA à régler en ligne.
+              <br /><br />
+              <span style={{ fontSize: 12 }}>Réf. dossier : {dossierId?.slice(0, 12)}…</span>
             </p>
-            {categories.map(c => (
-              <div key={c.code} className="p2card" style={S.catRow} onClick={() => goToMeasures(c.code)}>
-                <div style={{ flex: 1 }}>
-                  <div style={S.catLabel}>{c.label}</div>
-                  {c.notes && <div style={S.catNote}>⚠ {c.notes}</div>}
-                  {!c.photoOptionAvailable && <div style={S.catNote}>📍 Suivi physique obligatoire</div>}
+            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+              <a className="btn btn-gold" href={`/payment/start?dossier=${dossierId}`}>💳 Payer maintenant</a>
+              <a className="btn btn-dark" href="/portal">📁 Mes dossiers</a>
+              <a className="btn btn-ghost" href="/" style={{ background: "transparent", borderColor: "rgba(11,27,58,0.18)" }}>← Accueil</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  } else if (step === "section") {
+    body = (
+      <>
+        <header className="hero">
+          <div className="container-max" style={{ paddingTop: 72, paddingBottom: 60 }}>
+            <div className="kicker">
+              <span>Promotion immobilière</span><span style={{ opacity: 0.5 }}>•</span>
+              <span>Barème CNOA 2021</span><span style={{ opacity: 0.5 }}>•</span>
+              <span>Devis transparent</span>
+            </div>
+            <h1>Votre projet de promotion, chiffré au barème officiel.</h1>
+            <p className="sub" style={{ fontSize: 18 }}>
+              Immeuble, groupement résidentiel, lotissement, équipement privé ou aménagement —
+              qualifiez votre projet et obtenez un devis d'honoraires d'architecte transparent,
+              issu du barème officiel CNOA 2021.
+            </p>
+          </div>
+        </header>
+        <section className="section">
+          <div className="container-max">
+            <h2 className="section-title">Quel type de projet ?</h2>
+            <p className="sub" style={{ marginBottom: 36 }}>
+              Sélectionnez la nature de votre projet. Le périmètre choisi détermine les catégories
+              et le mode de tarification appliqués.
+            </p>
+            <div className="grid-3">
+              {SECTIONS.map(s => (
+                <div key={s.id} className="price-card" onClick={() => goToCategory(s.id)}>
+                  <div style={{ fontSize: 32, marginBottom: 12 }}>{s.icon}</div>
+                  <div className="lux-title">{s.label}</div>
+                  <div className="muted" style={{ fontSize: 13.5, lineHeight: 1.6, marginTop: 8, flex: 1 }}>{s.desc}</div>
+                  <div className="btn btn-dark" style={{ width: "100%", marginTop: 18 }}>Choisir →</div>
                 </div>
-                <div style={S.catCost}>{fmtMAD(c.costPerM2)}/m²</div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </>
+    );
+  } else if (step === "category") {
+    body = (
+      <section className="section">
+        <div className="container-max">
+          <StepHead
+            onBack={() => setStep("section")}
+            backLabel="Changer de section"
+            title="Catégorie de projet"
+            sub={`Section : ${SECTIONS.find(s => s.id === section)?.label}. Le coût de construction au m² est issu du barème officiel CNOA 2021 ; les honoraires sont révisés en cas de constatation d'un standing supérieur.`}
+          />
+          <div className="grid-3">
+            {categories.map(c => (
+              <div key={c.code} className="price-card" onClick={() => goToMeasures(c.code)}>
+                <div className="lux-title">{c.label}</div>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 6, margin: "14px 0 4px" }}>
+                  <span style={{ fontSize: 30, fontWeight: 900, color: "#0B1B3A" }}>{fmtMAD(c.costPerM2)}</span>
+                  <span className="muted" style={{ fontWeight: 800, fontSize: 13 }}>/ m²</span>
+                </div>
+                <div style={{ flex: 1 }}>
+                  {c.notes && <div className="muted" style={{ fontSize: 12.5, marginTop: 8 }}>⚠ {c.notes}</div>}
+                  {!c.photoOptionAvailable && <div className="muted" style={{ fontSize: 12.5, marginTop: 6 }}>📍 Suivi physique obligatoire</div>}
+                </div>
+                <div className="btn btn-dark" style={{ width: "100%", marginTop: 18 }}>Sélectionner →</div>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
     );
-  }
-
-  // ── Étape 3 — Mesures ──
-  if (step === "measures") {
-    return (
-      <div className="p2x" style={S.root}>
-        <style>{CSS}</style>
-        <div style={S.panelWrap}>
-          <div style={S.panel}>
-            <button style={S.back} onClick={() => setStep(section === "LOT" ? "section" : "category")}>← Retour</button>
-            <Stepper />
-            <h2 style={S.formTitle}>Dimensions du projet</h2>
-            <p style={S.formSub}>
-              {section === "LOT"
-                ? "Surface du terrain à lotir / morceler en hectares (1 ha = 10 000 m²)."
-                : selectedCategory?.label}
-            </p>
-            {error && <div style={S.err}>⚠ {error}</div>}
-
+  } else if (step === "measures") {
+    body = (
+      <section className="section">
+        <div className="container-max">
+          <StepHead
+            onBack={() => setStep(section === "LOT" ? "section" : "category")}
+            backLabel="Retour"
+            title="Dimensions du projet"
+            sub={section === "LOT"
+              ? "Surface du terrain à lotir / morceler, en hectares (1 ha = 10 000 m²)."
+              : (selectedCategory?.label || "Renseignez les dimensions de votre projet.")}
+          />
+          {error && <div className="err">⚠ {error}</div>}
+          <div style={{ maxWidth: 760 }}>
             {section === "LOT" ? (
               <>
-                <label style={S.label}>Surface terrain (hectares)</label>
-                <input type="number" step="0.1" style={S.input} value={surfaceTerrainHa}
-                  onChange={e => setSurfaceTerrainHa(e.target.value)} placeholder="2.5" />
-                <div style={S.note}>
+                <div className="field" style={{ marginBottom: 16 }}>
+                  <label className="label">Surface terrain (hectares)</label>
+                  <input className="control" type="number" step="0.1" value={surfaceTerrainHa}
+                    onChange={e => setSurfaceTerrainHa(e.target.value)} placeholder="2.5" />
+                </div>
+                <div className="mini-note">
                   ℹ La grille tarifaire des honoraires de lotissement est en cours de finalisation par CITURBAREA.
                   Vous recevrez sous 24h un devis personnalisé après soumission de votre demande.
                 </div>
               </>
             ) : section === "GR" ? (
-              <div style={S.row2}>
-                <div>
-                  <label style={S.label}>Surface plancher / bâtiment (m²)</label>
-                  <input type="number" style={S.input} value={surfacePlancher}
+              <div className="form-grid">
+                <div className="field">
+                  <label className="label">Surface plancher / bâtiment (m²)</label>
+                  <input className="control" type="number" value={surfacePlancher}
                     onChange={e => setSurfacePlancher(e.target.value)} placeholder="800" />
                 </div>
-                <div>
-                  <label style={S.label}>Nombre de bâtiments</label>
-                  <input type="number" min={1} style={S.input} value={nbBatiments}
+                <div className="field">
+                  <label className="label">Nombre de bâtiments</label>
+                  <input className="control" type="number" min={1} value={nbBatiments}
                     onChange={e => setNbBatiments(e.target.value)} placeholder="3" />
                 </div>
               </div>
             ) : (
               <>
-                <label style={S.label}>Surface plancher totale (m²)</label>
-                <input type="number" style={S.input} value={surfacePlancher}
-                  onChange={e => setSurfacePlancher(e.target.value)} placeholder="350" />
-                <div style={S.hint}>
+                <div className="field" style={{ marginBottom: 10 }}>
+                  <label className="label">Surface plancher totale (m²)</label>
+                  <input className="control" type="number" value={surfacePlancher}
+                    onChange={e => setSurfacePlancher(e.target.value)} placeholder="350" />
+                </div>
+                <div className="muted" style={{ fontSize: 12.5, lineHeight: 1.55, marginBottom: 4 }}>
                   Surface totale de tous les niveaux (y compris sous-sol) — voir art. 4 du contrat type Construction.
                 </div>
               </>
             )}
-
-            <button className="p2btn" style={S.btn} onClick={goToFollow}>
+          </div>
+          <div style={{ marginTop: 28 }}>
+            <button className="btn btn-gold" onClick={goToFollow}>
               {section === "LOT" ? "Continuer →" : "Suivant : mode de suivi →"}
             </button>
           </div>
         </div>
-      </div>
+      </section>
     );
-  }
-
-  // ── Étape 4 — Mode de suivi ──
-  if (step === "follow") {
+  } else if (step === "follow") {
     const photoAvail = selectedCategory?.photoOptionAvailable !== false;
-    const followCard = (active: boolean, disabled: boolean): React.CSSProperties => ({
-      ...S.followCard,
-      borderColor: active ? GOLD : LINE,
-      background: active ? "rgba(201,162,39,0.08)" : "#fff",
-      cursor: disabled ? "not-allowed" : "pointer",
-      opacity: disabled ? 0.5 : 1,
-    });
-    return (
-      <div className="p2x" style={S.root}>
-        <style>{CSS}</style>
-        <div style={S.panelWrap}>
-          <div style={S.panel}>
-            <button style={S.back} onClick={() => setStep("measures")}>← Retour</button>
-            <Stepper />
-            <h2 style={S.formTitle}>Mode de suivi du chantier</h2>
-            <p style={S.formSub}>
-              Phase C des honoraires (suivi des travaux). Source : contrat type unifié Construction CNOA, article 7.
-            </p>
-            {error && <div style={S.err}>⚠ {error}</div>}
-
-            <div style={S.followGrid}>
-              <div style={followCard(followMode === "ON_SITE", false)} onClick={() => setFollowMode("ON_SITE")}>
-                <div style={{ fontSize: 28, marginBottom: 8 }}>📍</div>
-                <div style={{ fontWeight: 700, fontSize: 15, color: NAVY, marginBottom: 5 }}>Suivi physique</div>
-                <div style={{ color: INK_MUTED, fontSize: 12.5, marginBottom: 10, lineHeight: 1.5 }}>
-                  Visites sur site, PV in situ, attestations de conformité.
-                </div>
-                <div style={{ color: "#7a6010", fontWeight: 800, fontSize: 13.5 }}>30 % des honoraires</div>
+    body = (
+      <section className="section">
+        <div className="container-max">
+          <StepHead
+            onBack={() => setStep("measures")}
+            backLabel="Retour"
+            title="Mode de suivi du chantier"
+            sub="Phase C des honoraires (suivi des travaux). Source : contrat type unifié Construction CNOA, article 7."
+          />
+          {error && <div className="err">⚠ {error}</div>}
+          <div className="grid-2" style={{ maxWidth: 820 }}>
+            <div className={"price-card" + (followMode === "ON_SITE" ? " sel" : "")} onClick={() => setFollowMode("ON_SITE")}>
+              <div style={{ fontSize: 30, marginBottom: 10 }}>📍</div>
+              <div className="lux-title" style={{ fontSize: 17 }}>Suivi physique</div>
+              <div className="muted" style={{ fontSize: 13, lineHeight: 1.6, margin: "8px 0 12px", flex: 1 }}>
+                Visites sur site, PV in situ, attestations de conformité.
               </div>
-              <div style={followCard(followMode === "PHOTOS", !photoAvail)}
-                onClick={() => photoAvail && setFollowMode("PHOTOS")}>
-                <div style={{ fontSize: 28, marginBottom: 8 }}>📷</div>
-                <div style={{ fontWeight: 700, fontSize: 15, color: NAVY, marginBottom: 5 }}>Suivi par photos</div>
-                <div style={{ color: INK_MUTED, fontSize: 12.5, marginBottom: 10, lineHeight: 1.5 }}>
-                  1 photo par réception (gros œuvre par élément de structure + second œuvre par étage).
+              <div style={{ fontWeight: 900, color: "#0B1B3A" }}>30 % des honoraires</div>
+            </div>
+            <div className={"price-card" + (followMode === "PHOTOS" ? " sel" : "") + (photoAvail ? "" : " disabled")}
+              onClick={() => photoAvail && setFollowMode("PHOTOS")}>
+              <div style={{ fontSize: 30, marginBottom: 10 }}>📷</div>
+              <div className="lux-title" style={{ fontSize: 17 }}>Suivi par photos</div>
+              <div className="muted" style={{ fontSize: 13, lineHeight: 1.6, margin: "8px 0 12px", flex: 1 }}>
+                1 photo par réception (gros œuvre par élément de structure + second œuvre par étage).
+              </div>
+              <div style={{ fontWeight: 900, color: photoAvail ? "#0B1B3A" : "rgba(11,27,58,0.5)" }}>10 % des honoraires</div>
+              {!photoAvail && <div style={{ color: "#b91c1c", fontSize: 11.5, marginTop: 8 }}>Non disponible pour cette catégorie</div>}
+            </div>
+          </div>
+          <div style={{ marginTop: 28 }}>
+            <button className="btn btn-gold" onClick={computeQuote}>Calculer le devis →</button>
+          </div>
+        </div>
+      </section>
+    );
+  } else if (step === "quote" && quote) {
+    body = (
+      <section className="section">
+        <div className="container-max">
+          <StepHead
+            onBack={() => setStep(section === "LOT" ? "measures" : "follow")}
+            backLabel="Modifier"
+            title="Votre devis d'honoraires"
+            sub="Estimation provisoire selon barème CNOA 2021. Le montant sera révisé sur le coût réel des travaux après adjudication (art. 5 du contrat type)."
+          />
+          <div className="lux-card" style={{ maxWidth: 780 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 18, flexWrap: "wrap" }}>
+              <div>
+                <div style={{ color: "rgba(201,162,39,0.95)", fontSize: 13, fontWeight: 800 }}>{quote.meta.sectionLabel}</div>
+                <div className="muted" style={{ fontSize: 13.5, marginTop: 4 }}>{quote.meta.categoryLabel || "Tarification spécifique"}</div>
+              </div>
+              <div style={{ background: "rgba(201,162,39,0.10)", border: "1px solid rgba(201,162,39,0.32)", borderRadius: 14, padding: "14px 20px", textAlign: "right" }}>
+                <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 32, fontWeight: 800, color: "#0B1B3A", lineHeight: 1 }}>
+                  {quote.honoraires.totalTTC != null ? fmtMAD(quote.honoraires.totalTTC) : "À devis"}
                 </div>
-                <div style={{ color: photoAvail ? "#7a6010" : INK_MUTED, fontWeight: 800, fontSize: 13.5 }}>
-                  10 % des honoraires
-                </div>
-                {!photoAvail && <div style={{ color: "#b91c1c", fontSize: 11, marginTop: 8 }}>Non disponible pour cette catégorie</div>}
+                <div className="muted" style={{ fontSize: 11.5, marginTop: 5 }}>TTC · honoraires architecte</div>
               </div>
             </div>
 
-            <button className="p2btn" style={S.btn} onClick={computeQuote}>Calculer le devis →</button>
+            <div className="gold-divider" style={{ margin: "18px 0 6px" }} />
+
+            {quote.base.coutTravauxEstime != null && (
+              <div className="qrow"><span className="k">Coût travaux estimé</span><span className="v">{fmtMAD(quote.base.coutTravauxEstime)}</span></div>
+            )}
+            {quote.honoraires.totalHT != null && (
+              <>
+                <div className="qrow"><span className="k">Honoraires HT (5 %)</span><span className="v">{fmtMAD(quote.honoraires.totalHT)}</span></div>
+                <div className="qrow"><span className="k">TVA 20 %</span><span className="v">{fmtMAD(quote.honoraires.tva)}</span></div>
+              </>
+            )}
+            {quote.honoraires.breakdown.phaseA_esquisseAutorisation != null && (
+              <>
+                <div className="qrow" style={{ marginTop: 8 }}><span className="k">Phase A — Esquisse + Autorisation (40 %)</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseA_esquisseAutorisation)}</span></div>
+                <div className="qrow"><span className="k">Phase B — DCE + CPS (30 %)</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseB_dceCps)}</span></div>
+                <div className="qrow"><span className="k">Phase C — Suivi ({quote.meta.followMode === "PHOTOS" ? "10 % photos" : "30 % physique"})</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseC_suivi)}</span></div>
+              </>
+            )}
+
+            <div className="mini-note" style={{ marginTop: 16 }}><strong>Visa CROA :</strong> {quote.visaCroa.note}</div>
+            <div className="mini-note" style={{ marginTop: 10 }}><strong>Décennale :</strong> {quote.decennale.note}</div>
+            {quote.notes.length > 0 && (
+              <div className="muted" style={{ marginTop: 14, fontSize: 12, lineHeight: 1.65 }}>
+                {quote.notes.map((n, i) => <div key={i}>• {n}</div>)}
+              </div>
+            )}
+          </div>
+          <div style={{ marginTop: 28 }}>
+            <button className="btn btn-gold" onClick={() => setStep("identity")}>Continuer : identité du maître d'ouvrage →</button>
           </div>
         </div>
-      </div>
+      </section>
     );
-  }
-
-  // ── Étape 5 — Devis ──
-  if (step === "quote" && quote) {
-    return (
-      <div className="p2x" style={S.root}>
-        <style>{CSS}</style>
-        <div style={S.panelWrap}>
-          <div style={S.panel}>
-            <button style={S.back} onClick={() => setStep(section === "LOT" ? "measures" : "follow")}>← Modifier</button>
-            <Stepper />
-            <h2 style={S.formTitle}>Votre devis d'honoraires</h2>
-            <p style={S.formSub}>
-              Estimation provisoire selon barème CNOA 2021. Le montant sera révisé sur le coût réel des travaux après
-              adjudication (art. 5 du contrat type).
-            </p>
-
-            <div style={S.quoteCard}>
-              <div style={S.quoteHead}>
-                <div>
-                  <div style={{ color: "#7a6010", fontSize: 13, fontWeight: 700 }}>{quote.meta.sectionLabel}</div>
-                  <div style={{ color: INK_MUTED, fontSize: 13, marginTop: 4 }}>
-                    {quote.meta.categoryLabel || "Tarification spécifique"}
-                  </div>
-                </div>
-                <div style={S.quoteAmountBox}>
-                  <div style={S.quoteAmount}>
-                    {quote.honoraires.totalTTC != null ? fmtMAD(quote.honoraires.totalTTC) : "À devis"}
-                  </div>
-                  <div style={S.quoteAmountSub}>TTC · honoraires architecte</div>
-                </div>
-              </div>
-
-              <div style={{ marginTop: 16 }}>
-                {quote.base.coutTravauxEstime != null && (
-                  <div style={S.quoteRow}>
-                    <span style={S.quoteKey}>Coût travaux estimé</span>
-                    <span style={S.quoteVal}>{fmtMAD(quote.base.coutTravauxEstime)}</span>
-                  </div>
-                )}
-                {quote.honoraires.totalHT != null && (
-                  <>
-                    <div style={S.quoteRow}>
-                      <span style={S.quoteKey}>Honoraires HT (5 %)</span>
-                      <span style={S.quoteVal}>{fmtMAD(quote.honoraires.totalHT)}</span>
-                    </div>
-                    <div style={S.quoteRow}>
-                      <span style={S.quoteKey}>TVA 20 %</span>
-                      <span style={S.quoteVal}>{fmtMAD(quote.honoraires.tva)}</span>
-                    </div>
-                  </>
-                )}
-                {quote.honoraires.breakdown.phaseA_esquisseAutorisation != null && (
-                  <>
-                    <div style={{ ...S.quoteRow, marginTop: 8 }}>
-                      <span style={S.quoteKey}>Phase A — Esquisse + Autorisation (40 %)</span>
-                      <span style={S.quoteVal}>{fmtMAD(quote.honoraires.breakdown.phaseA_esquisseAutorisation)}</span>
-                    </div>
-                    <div style={S.quoteRow}>
-                      <span style={S.quoteKey}>Phase B — DCE + CPS (30 %)</span>
-                      <span style={S.quoteVal}>{fmtMAD(quote.honoraires.breakdown.phaseB_dceCps)}</span>
-                    </div>
-                    <div style={S.quoteRow}>
-                      <span style={S.quoteKey}>
-                        Phase C — Suivi ({quote.meta.followMode === "PHOTOS" ? "10 % photos" : "30 % physique"})
-                      </span>
-                      <span style={S.quoteVal}>{fmtMAD(quote.honoraires.breakdown.phaseC_suivi)}</span>
-                    </div>
-                  </>
-                )}
-              </div>
-
-              <div style={S.note}><strong>Visa CROA :</strong> {quote.visaCroa.note}</div>
-              <div style={{ ...S.note, background: "rgba(28,72,255,0.06)", borderColor: "rgba(28,72,255,0.22)", color: "#1e3a8a" }}>
-                <strong>Décennale :</strong> {quote.decennale.note}
-              </div>
-              {quote.notes.length > 0 && (
-                <div style={{ marginTop: 14, color: INK_MUTED, fontSize: 11.5, lineHeight: 1.65 }}>
-                  {quote.notes.map((n, i) => <div key={i}>• {n}</div>)}
-                </div>
-              )}
-            </div>
-
-            <button className="p2btn" style={S.btn} onClick={() => setStep("identity")}>
-              Continuer : identité du maître d'ouvrage →
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // ── Étape 6 — Identité ──
-  if (step === "identity") {
+  } else if (step === "identity") {
     const f = (k: keyof typeof identity) => (e: React.ChangeEvent<HTMLInputElement>) =>
       setIdentity(prev => ({ ...prev, [k]: e.target.value }));
-    return (
-      <div className="p2x" style={S.root}>
-        <style>{CSS}</style>
-        <div style={S.panelWrap}>
-          <div style={S.panel}>
-            <button style={S.back} onClick={() => setStep("quote")}>← Retour au devis</button>
-            <Stepper />
-            <h2 style={S.formTitle}>Identité du maître d'ouvrage</h2>
-            <p style={S.formSub}>Conformément à l'article 2 du contrat type unifié Construction CNOA.</p>
+    body = (
+      <section className="section">
+        <div className="container-max">
+          <StepHead
+            onBack={() => setStep("quote")}
+            backLabel="Retour au devis"
+            title="Identité du maître d'ouvrage"
+            sub="Conformément à l'article 2 du contrat type unifié Construction CNOA."
+          />
+          {error && <div className="err">⚠ {error}</div>}
 
-            {error && <div style={S.err}>⚠ {error}</div>}
-
-            <div style={S.row2}>
-              <div>
-                <label style={S.label}>Nom complet *</label>
-                <input style={S.input} value={identity.clientNom} onChange={f("clientNom")} placeholder="Prénom Nom" />
-              </div>
-              <div>
-                <label style={S.label}>Téléphone *</label>
-                <input style={S.input} value={identity.clientTel} onChange={f("clientTel")} placeholder="+212 6XX XXX XXX" />
-              </div>
+          <div className="pill" style={{ marginBottom: 14 }}>1) Contact <span className="req">*</span></div>
+          <div className="form-grid">
+            <div className="field">
+              <label className="label">Nom complet <span className="req">*</span></label>
+              <input className="control" value={identity.clientNom} onChange={f("clientNom")} placeholder="Prénom Nom" />
             </div>
-            <label style={S.label}>Email</label>
-            <input style={S.input} value={identity.clientEmail} onChange={f("clientEmail")} placeholder="contact@exemple.ma" />
-
-            <div style={S.blockTitle}>Société (si personne morale)</div>
-            <div style={S.row2}>
-              <div>
-                <label style={S.label}>Raison sociale</label>
-                <input style={S.input} value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder="SARL / SA / SNC…" />
-              </div>
-              <div>
-                <label style={S.label}>Représentant légal</label>
-                <input style={S.input} value={identity.representant} onChange={f("representant")} placeholder="Gérant / DG" />
-              </div>
+            <div className="field">
+              <label className="label">Téléphone <span className="req">*</span></label>
+              <input className="control" value={identity.clientTel} onChange={f("clientTel")} placeholder="+212 6XX XXX XXX" />
             </div>
-            <div style={S.row2}>
-              <div>
-                <label style={S.label}>RC</label>
-                <input style={S.input} value={identity.rc} onChange={f("rc")} placeholder="12345" />
-              </div>
-              <div>
-                <label style={S.label}>ICE</label>
-                <input style={S.input} value={identity.ice} onChange={f("ice")} placeholder="000000000000000" />
-              </div>
+            <div className="field">
+              <label className="label">Email</label>
+              <input className="control" value={identity.clientEmail} onChange={f("clientEmail")} placeholder="contact@exemple.ma" />
             </div>
+          </div>
 
-            <div style={S.blockTitle}>Localisation du projet</div>
-            <label style={S.label}>Commune *</label>
-            <input style={S.input} value={identity.commune} onChange={f("commune")} placeholder="Kénitra, Rabat, Salé…" />
-            <label style={S.label}>Nature du projet (optionnel)</label>
-            <input style={S.input} value={identity.natureProjet} onChange={f("natureProjet")}
-              placeholder="Construction neuve / extension / réhabilitation…" />
+          <div className="blk-title">2) Société (si personne morale)</div>
+          <div className="form-grid">
+            <div className="field">
+              <label className="label">Raison sociale</label>
+              <input className="control" value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder="SARL / SA / SNC…" />
+            </div>
+            <div className="field">
+              <label className="label">Représentant légal</label>
+              <input className="control" value={identity.representant} onChange={f("representant")} placeholder="Gérant / DG" />
+            </div>
+            <div className="field">
+              <label className="label">RC</label>
+              <input className="control" value={identity.rc} onChange={f("rc")} placeholder="12345" />
+            </div>
+            <div className="field">
+              <label className="label">ICE</label>
+              <input className="control" value={identity.ice} onChange={f("ice")} placeholder="000000000000000" />
+            </div>
+          </div>
 
-            <button className="p2btn" style={S.btn} onClick={submitIntake}>Soumettre la demande →</button>
+          <div className="blk-title">3) Localisation du projet</div>
+          <div className="form-grid">
+            <div className="field">
+              <label className="label">Commune <span className="req">*</span></label>
+              <input className="control" value={identity.commune} onChange={f("commune")} placeholder="Kénitra, Rabat, Salé…" />
+            </div>
+            <div className="field">
+              <label className="label">Nature du projet (optionnel)</label>
+              <input className="control" value={identity.natureProjet} onChange={f("natureProjet")} placeholder="Construction neuve / extension…" />
+            </div>
+          </div>
+
+          <div style={{ marginTop: 30 }}>
+            <button className="btn btn-gold" onClick={submitIntake}>Soumettre la demande →</button>
           </div>
         </div>
-      </div>
+      </section>
+    );
+  } else {
+    body = (
+      <section className="section">
+        <div className="container-max" style={{ textAlign: "center", color: "rgba(11,27,58,0.6)" }}>—</div>
+      </section>
     );
   }
 
-  return <div className="p2x" style={S.root}><style>{CSS}</style><div style={S.loader}>—</div></div>;
+  return (
+    <div className="p2page" style={fullBleed}>
+      <style>{P1_CSS}</style>
+      {body}
+    </div>
+  );
 }
