@@ -182,7 +182,8 @@ let CerclesController = class CerclesController {
     async uploadPostMedia(req, cercleId, files) {
         if (!files || files.length === 0)
             throw new common_1.BadRequestException("Aucun fichier");
-        const allowed = /^(image|video|audio)\//;
+        // Autorise image / vidéo / audio + PDF (documents partagés sur le fil).
+        const allowed = /^(image|video|audio)\/|^application\/pdf$/;
         const out = files.map((f) => {
             if (!allowed.test(f.mimetype))
                 throw new common_1.BadRequestException(`Type ${f.mimetype} non autorisé`);

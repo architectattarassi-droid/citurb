@@ -253,7 +253,8 @@ export class CerclesController {
   )
   async uploadPostMedia(@Req() req: any, @Param("cercleId") cercleId: string, @UploadedFiles() files: Array<any>) {
     if (!files || files.length === 0) throw new BadRequestException("Aucun fichier");
-    const allowed = /^(image|video|audio)\//;
+    // Autorise image / vidéo / audio + PDF (documents partagés sur le fil).
+    const allowed = /^(image|video|audio)\/|^application\/pdf$/;
     const out = files.map((f) => {
       if (!allowed.test(f.mimetype)) throw new BadRequestException(`Type ${f.mimetype} non autorisé`);
       const fileKey = `cercles-posts/${cercleId}/${f.filename}`;
