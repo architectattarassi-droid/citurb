@@ -16,6 +16,7 @@ import { cerclesApi, CerclePost } from "./api";
 import { apiBase } from "../../tomes/tome4/apiClient";
 import MediaEmbed, { extractUrls, isEmbeddable } from "./MediaEmbed";
 import { SharePost } from "./SharePost";
+import { PostAttachments } from "./PostAttachments";
 
 const METIER_LABELS: Record<string, string> = {
   ARCHITECTE: "Architecte", BET_STRUCTURE: "BET Structure", BET_FLUIDES: "BET Fluides", BET_VRD: "BET VRD",
@@ -98,20 +99,7 @@ export default function PublicPostPage() {
                 <MediaEmbed key={i} url={u} maxWidth={620} />
               ))}
 
-              {post.attachments && post.attachments.length > 0 && (
-                <div style={S.attachments}>
-                  {post.attachments.map((a) => {
-                    const url = `${apiBase()}/uploads/${a.fileKey}`;
-                    if (/^image\//.test(a.mimeType)) {
-                      return <a key={a.id} href={url} target="_blank" rel="noreferrer"><img src={url} alt={a.filename} style={S.attachImg} /></a>;
-                    }
-                    if (/^video\//.test(a.mimeType)) {
-                      return <video key={a.id} src={url} controls style={S.attachVid} />;
-                    }
-                    return <a key={a.id} href={url} target="_blank" rel="noreferrer" style={S.attachFile}>📎 {a.filename}</a>;
-                  })}
-                </div>
-              )}
+              <PostAttachments attachments={post.attachments || []} />
 
               <div style={S.postStats}>
                 👍 {post.upvotes} · 💬 {(post as any)._count?.replies ?? post.replyCount ?? 0} commentaire(s)

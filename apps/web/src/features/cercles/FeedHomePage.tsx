@@ -16,6 +16,7 @@ import { cerclesApi, FeedResponse, ProProfile, CercleListItem } from "./api";
 import MediaEmbed, { extractUrls, isEmbeddable } from "./MediaEmbed";
 import InlineComments from "./InlineComments";
 import { SharePost } from "./SharePost";
+import { PostAttachments } from "./PostAttachments";
 
 const METIER_LABELS: Record<string, string> = {
   ARCHITECTE: "Architecte", BET_STRUCTURE: "BET Structure", BET_FLUIDES: "BET Fluides", BET_VRD: "BET VRD",
@@ -297,6 +298,9 @@ function FeedPostCard({ post, onUpvote, onOpen }: { post: any; onUpvote: () => v
       {extractUrls(post.body || "").filter(isEmbeddable).slice(0, 2).map((u, i) => (
         <MediaEmbed key={i} url={u} maxWidth={520} />
       ))}
+      {/* Pièces jointes téléversées : photos / vidéos / PDF / audio */}
+      <PostAttachments attachments={post.attachments || []} compact />
+
       <footer style={S.postFooter}>
         <button onClick={onUpvote} style={S.action}>👍 {post.upvotes}</button>
         <button
