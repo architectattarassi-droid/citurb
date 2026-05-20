@@ -245,9 +245,15 @@ function P2HomeInner() {
   const [section, setSection] = useState<P2Section | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [categoryCode, setCategoryCode] = useState<string>("");
-  const [surfacePlancher, setSurfacePlancher] = useState<string>("");
+  const [surfacePlancher, setSurfacePlancher] = useState<string>("");          // AMG : plancher direct
   const [nbBatiments, setNbBatiments] = useState<string>("1");
-  const [surfaceTerrainHa, setSurfaceTerrainHa] = useState<string>("");
+  const [surfaceTerrainHa, setSurfaceTerrainHa] = useState<string>("");        // LOT : hectares
+  // IMM / GR / EPIG — caractéristiques du projet → plancher CALCULÉ (logique P1)
+  const [terrainM2, setTerrainM2] = useState<string>("");
+  const [rLevel, setRLevel] = useState<string>("R2");
+  const [facades, setFacades] = useState<string>("3");
+  const [basement, setBasement] = useState<boolean>(false);
+  const [immVariant, setImmVariant] = useState<string>("standard");
   const [followMode, setFollowMode] = useState<FollowMode>("ON_SITE");
   const [quote, setQuote] = useState<Quote | null>(null);
   const [identity, setIdentity] = useState({
@@ -259,7 +265,39 @@ function P2HomeInner() {
   const [dossierId, setDossierId] = useState<string | null>(null);
 
   const isLOT = section === "LOT";
+  const isAMG = section === "AMG";
+  const useRichMeasures = section === "IMM" || section === "GR" || section === "EPIG";
   const selectedCategory = categories.find(c => c.code === categoryCode);
+
+  // ── Calcul du plancher estimé (logique P1) ─────────────────────────
+  // SP = terrain × baseCoef × (1 + sous-sol + (étages × multiplier))
+  //   multiplier = 1.0 si 1 façade (mitoyenne), 1.1 si ≥ 2 façades
+  //   baseCoef = 0.7 pour Maison de ville / RDC commercial, sinon 1.0
+  const parseR = (r: string): number => { const m = r.match(/R(\d+)/i); return m ? parseInt(m[1], 10) : NaN; };
+  const computedSPPerBuilding: number | null = (() => {
+    if (!useRichMeasures) return null;
+    const st = Number(terrainM2);
+    if (!Number.isFinite(st) || st <= 0) return null;
+    const e = parseR(rLevel);
+    if (!Number.isFinite(e)) return null;
+    const fac = parseInt(facades, 10);
+    if (!Number.isFinite(fac) || fac <= 0) return null;
+    const hasBasement = basement ? 1 : 0;
+    const baseCoef = (section === "IMM" && (immVariant === "maison_ville" || immVariant === "rdc_commercial")) ? 0.7 : 1.0;
+    const raw = fac === 1
+      ? st * baseCoef * (1 + hasBasement + e)
+      : st * baseCoef * (1 + hasBasement + 1.1 * e);
+    return Math.round(raw);
+  })();
+  const computedSPTotal: number | null = (() => {
+    if (computedSPPerBuilding == null) return null;
+    if (section === "GR") {
+      const n = parseInt(nbBatiments, 10);
+      return Number.isFinite(n) && n > 0 ? computedSPPerBuilding * n : computedSPPerBuilding;
+    }
+    return computedSPPerBuilding;
+  })();
+  const fmtInt = (n: number) => new Intl.NumberFormat("fr-FR").format(n);
   const PHASES: Phase[] = ["section", "category", "measures", "follow", "quote", "identity"];
   const phaseIdx = PHASES.indexOf(phase);
   const reached = (p: Phase) => phaseIdx >= PHASES.indexOf(p);
@@ -310,7 +348,14 @@ function P2HomeInner() {
       computeQuote();
       return;
     }
-    if (!surfacePlancher || +surfacePlancher <= 0) { setError("Surface plancher requise."); return; }
+    if (isAMG) {
+      if (!surfacePlancher || +surfacePlancher <= 0) { setError("Surface du local à aménager requise."); return; }
+      setPhase("follow");
+      return;
+    }
+    // IMM / GR / EPIG — plancher calculé à partir des caractéristiques
+    if (!terrainM2 || +terrainM2 <= 0) { setError("Surface du terrain requise."); return; }
+    if (computedSPPerBuilding == null) { setError("Renseignez le niveau (R+), la configuration des façades et le sous-sol."); return; }
     if (section === "GR" && (!nbBatiments || +nbBatiments < 1)) { setError("Nombre de bâtiments requis."); return; }
     setPhase("follow");
   };
@@ -320,12 +365,13 @@ function P2HomeInner() {
     setBusy(true);
     try {
       const body: any = { section, followMode };
-      if (section !== "LOT") {
-        body.categoryCode = categoryCode;
-        body.surfacePlancherM2 = +surfacePlancher;
-        body.nbBatiments = section === "GR" ? +nbBatiments : 1;
-      } else {
+      if (section === "LOT") {
         body.surfaceTerrainHa = +surfaceTerrainHa;
+      } else {
+        body.categoryCode = categoryCode;
+        // AMG : plancher saisi directement. IMM/GR/EPIG : plancher calculé depuis le terrain et la typologie.
+        body.surfacePlancherM2 = isAMG ? +surfacePlancher : (computedSPPerBuilding ?? 0);
+        body.nbBatiments = section === "GR" ? +nbBatiments : 1;
       }
       const res = await fetch(`${apiBase()}/p2/quote`, {
         method: "POST",
@@ -375,7 +421,13 @@ function P2HomeInner() {
             sectionP2: section,
             categoryCode: categoryCode || undefined,
             categoryLabel: selectedCategory?.label,
-            surfacePlancherM2: section !== "LOT" ? +surfacePlancher : undefined,
+            surfacePlancherM2: section === "LOT" ? undefined : (isAMG ? +surfacePlancher : (computedSPPerBuilding ?? undefined)),
+            surfacePlancherTotalEstime: !isLOT && computedSPTotal != null ? computedSPTotal : undefined,
+            terrainM2: useRichMeasures && terrainM2 ? +terrainM2 : undefined,
+            rLevel: useRichMeasures ? rLevel : undefined,
+            facades: useRichMeasures ? +facades : undefined,
+            basement: useRichMeasures ? basement : undefined,
+            immVariant: section === "IMM" ? immVariant : undefined,
             nbBatiments: section === "GR" ? +nbBatiments : 1,
             surfaceTerrainHa: section === "LOT" ? +surfaceTerrainHa : undefined,
             followMode,
@@ -549,47 +601,108 @@ function P2HomeInner() {
             <p className="sub" style={{ marginBottom: 30 }}>
               {isLOT
                 ? "Surface du terrain à lotir / morceler, en hectares (1 ha = 10 000 m²)."
-                : (selectedCategory?.label || "Renseignez les dimensions de votre projet.")}
+                : isAMG
+                ? "Surface utile du local existant à transformer."
+                : "Caractéristiques du projet — le plancher est estimé automatiquement à partir du terrain, du niveau (R+) et de la configuration des façades. Vous n'avez pas à le deviner."}
             </p>
-            <div style={{ maxWidth: 760 }}>
-              {isLOT ? (
-                <>
-                  <div className="field" style={{ marginBottom: 16 }}>
-                    <label className="label">Surface terrain (hectares)</label>
-                    <input className="control" type="number" step="0.1" value={surfaceTerrainHa}
-                      onChange={e => setSurfaceTerrainHa(e.target.value)} placeholder="2.5" />
-                  </div>
-                  <div className="mini-note">
-                    ℹ La grille tarifaire des honoraires de lotissement est en cours de finalisation par CITURBAREA.
-                    Vous recevrez sous 24h un devis personnalisé après soumission de votre demande.
-                  </div>
-                </>
-              ) : section === "GR" ? (
+            {isLOT ? (
+              <div style={{ maxWidth: 760 }}>
+                <div className="field" style={{ marginBottom: 16 }}>
+                  <label className="label">Surface terrain (hectares)</label>
+                  <input className="control" type="number" step="0.1" value={surfaceTerrainHa}
+                    onChange={e => setSurfaceTerrainHa(e.target.value)} placeholder="2.5" />
+                </div>
+                <div className="mini-note">
+                  ℹ La grille tarifaire des honoraires de lotissement est en cours de finalisation par CITURBAREA.
+                  Vous recevrez sous 24h un devis personnalisé après soumission de votre demande.
+                </div>
+              </div>
+            ) : isAMG ? (
+              <div style={{ maxWidth: 760 }}>
+                <div className="field" style={{ marginBottom: 10 }}>
+                  <label className="label">Surface du local à aménager (m²)</label>
+                  <input className="control" type="number" value={surfacePlancher}
+                    onChange={e => setSurfacePlancher(e.target.value)} placeholder="120" />
+                </div>
+                <div className="muted" style={{ fontSize: 12.5, lineHeight: 1.55 }}>
+                  Surface utile du local existant à transformer.
+                </div>
+              </div>
+            ) : (
+              <>
                 <div className="form-grid">
                   <div className="field">
-                    <label className="label">Surface plancher / bâtiment (m²)</label>
-                    <input className="control" type="number" value={surfacePlancher}
-                      onChange={e => setSurfacePlancher(e.target.value)} placeholder="800" />
+                    <label className="label">Surface du terrain (m²)</label>
+                    <input className="control" type="number" value={terrainM2}
+                      onChange={e => setTerrainM2(e.target.value)} placeholder="800" />
                   </div>
                   <div className="field">
-                    <label className="label">Nombre de bâtiments</label>
-                    <input className="control" type="number" min={1} value={nbBatiments}
-                      onChange={e => setNbBatiments(e.target.value)} placeholder="3" />
+                    <label className="label">Niveau (R+)</label>
+                    <select className="control" value={rLevel} onChange={e => setRLevel(e.target.value)}>
+                      <option value="R0">R+0 (RDC seul)</option>
+                      <option value="R1">R+1</option>
+                      <option value="R2">R+2</option>
+                      <option value="R3">R+3</option>
+                      <option value="R4">R+4</option>
+                      <option value="R5">R+5</option>
+                      <option value="R6">R+6</option>
+                      <option value="R7">R+7</option>
+                      <option value="R8">R+8</option>
+                    </select>
                   </div>
+                  <div className="field">
+                    <label className="label">Configuration façades</label>
+                    <select className="control" value={facades} onChange={e => setFacades(e.target.value)}>
+                      <option value="1">1 façade (mitoyenne)</option>
+                      <option value="2">Lot d'angle (2 façades)</option>
+                      <option value="3">3 façades</option>
+                      <option value="4">4 façades (isolé)</option>
+                    </select>
+                  </div>
+                  <div className="field">
+                    <label className="label">Sous-sol</label>
+                    <select className="control" value={basement ? "yes" : "no"}
+                      onChange={e => setBasement(e.target.value === "yes")}>
+                      <option value="no">Sans sous-sol</option>
+                      <option value="yes">Avec sous-sol (parking / cave)</option>
+                    </select>
+                  </div>
+                  {section === "IMM" && (
+                    <div className="field">
+                      <label className="label">Variante</label>
+                      <select className="control" value={immVariant} onChange={e => setImmVariant(e.target.value)}>
+                        <option value="standard">Immeuble standard (collectif / bureaux)</option>
+                        <option value="maison_ville">Maison de ville</option>
+                        <option value="rdc_commercial">RDC commercial dominant</option>
+                      </select>
+                    </div>
+                  )}
+                  {section === "GR" && (
+                    <div className="field">
+                      <label className="label">Nombre de bâtiments</label>
+                      <input className="control" type="number" min={1} value={nbBatiments}
+                        onChange={e => setNbBatiments(e.target.value)} placeholder="3" />
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <>
-                  <div className="field" style={{ marginBottom: 10 }}>
-                    <label className="label">Surface plancher totale (m²)</label>
-                    <input className="control" type="number" value={surfacePlancher}
-                      onChange={e => setSurfacePlancher(e.target.value)} placeholder="350" />
+                {computedSPPerBuilding != null && (
+                  <div className="mini-note" style={{ marginTop: 22, background: "rgba(201,162,39,0.10)", borderColor: "rgba(201,162,39,0.40)" }}>
+                    <div>
+                      <strong style={{ color: "#0B1B3A" }}>Plancher estimé :</strong>{" "}
+                      <span style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 22, fontWeight: 800, color: "#0B1B3A" }}>
+                        {fmtInt(computedSPPerBuilding)} m²
+                      </span>
+                      {section === "GR" && computedSPTotal != null && computedSPTotal !== computedSPPerBuilding && (
+                        <> par bâtiment · <strong>Total :</strong> {fmtInt(computedSPTotal)} m²</>
+                      )}
+                    </div>
+                    <div style={{ marginTop: 6, fontSize: 12, color: "rgba(11,27,58,0.65)", fontStyle: "italic" }}>
+                      Estimation indicative sous réserve de l'étude d'esquisse du projet. Le devis sera révisé sur le coût réel des travaux après adjudication.
+                    </div>
                   </div>
-                  <div className="muted" style={{ fontSize: 12.5, lineHeight: 1.55 }}>
-                    Surface totale de tous les niveaux (y compris sous-sol) — voir art. 4 du contrat type Construction.
-                  </div>
-                </>
-              )}
-            </div>
+                )}
+              </>
+            )}
             {error && phase === "measures" && <div className="err">⚠ {error}</div>}
             <div style={{ marginTop: 26 }}>
               <button className="btn btn-gold" disabled={busy} onClick={measuresContinue}>
