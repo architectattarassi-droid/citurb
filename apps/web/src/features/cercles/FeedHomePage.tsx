@@ -8,7 +8,7 @@
  * - Sidebar droite : suggestions de cercles à découvrir + suggestions pros
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import CerclesShell from "./CerclesShell";
 import { CC_THEME } from "./theme";
@@ -32,7 +32,10 @@ export default function FeedHomePage() {
   const [err, setErr] = useState<string | null>(null);
   const [composerTitle, setComposerTitle] = useState("");
   const [composerBody, setComposerBody] = useState("");
+  const [composerAttachments, setComposerAttachments] = useState<Array<{ fileKey: string; filename: string; mimeType: string; sizeBytes: number; url: string }>>([]);
   const [posting, setPosting] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const loadGeneral = () =>
     cerclesApi.generalFeed().then(r => setGeneralPosts(r.data)).catch(() => setGeneralPosts([]));
@@ -46,14 +49,42 @@ export default function FeedHomePage() {
     ]).catch(e => setErr(e?.message || "Erreur"));
   }, []);
 
+  const onPickFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+    setUploading(true);
+    setErr(null);
+    try {
+      // Le dossier d'upload est calé sur le « cercleId » de l'URL ; pour le fil
+      // général, on utilise "_misc" — le backend l'accepte sans validation.
+      const uploaded = await cerclesApi.uploadPostMedia("_misc", files);
+      setComposerAttachments(prev => [...prev, ...uploaded]);
+    } catch (err: any) {
+      setErr(err?.message || "Échec du téléversement");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
+  };
+
+  const removeAttachment = (fileKey: string) =>
+    setComposerAttachments(prev => prev.filter(a => a.fileKey !== fileKey));
+
   const submitGeneralPost = async () => {
     if (!composerBody.trim() || posting) return;
     setPosting(true);
     setErr(null);
     try {
-      await cerclesApi.createGeneralPost({ title: composerTitle.trim() || undefined, body: composerBody.trim() });
+      await cerclesApi.createGeneralPost({
+        title: composerTitle.trim() || undefined,
+        body: composerBody.trim(),
+        attachments: composerAttachments.length > 0
+          ? composerAttachments.map(a => ({ fileKey: a.fileKey, filename: a.filename, mimeType: a.mimeType, sizeBytes: a.sizeBytes }))
+          : undefined,
+      });
       setComposerTitle("");
       setComposerBody("");
+      setComposerAttachments([]);
       await loadGeneral();
     } catch (e: any) {
       setErr(e?.message || "Échec de la publication");
@@ -112,14 +143,49 @@ export default function FeedHomePage() {
             />
             <div style={S.composerFoot}>
               <span style={S.composerHint}>🌐 Post public — visible et partageable par tous</span>
-              <button
-                onClick={submitGeneralPost}
-                disabled={posting || !composerBody.trim()}
-                style={{ ...S.composerBtn, opacity: posting || !composerBody.trim() ? 0.5 : 1 }}
-              >
-                {posting ? "Publication…" : "Publier"}
-              </button>
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  multiple
+                  accept="application/pdf,image/*,video/*,audio/*"
+                  onChange={onPickFiles}
+                  style={{ display: "none" }}
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading || posting}
+                  style={S.composerAttachBtn}
+                  title="Joindre un PDF, une image, une vidéo ou un audio"
+                >
+                  {uploading ? "Envoi…" : "📎 Joindre"}
+                </button>
+                <button
+                  onClick={submitGeneralPost}
+                  disabled={posting || !composerBody.trim()}
+                  style={{ ...S.composerBtn, opacity: posting || !composerBody.trim() ? 0.5 : 1 }}
+                >
+                  {posting ? "Publication…" : "Publier"}
+                </button>
+              </div>
             </div>
+            {composerAttachments.length > 0 && (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 10 }}>
+                {composerAttachments.map(a => (
+                  <span key={a.fileKey} style={S.composerAttachChip}>
+                    {a.mimeType === "application/pdf" ? "📄" : a.mimeType.startsWith("image/") ? "🖼️" : a.mimeType.startsWith("video/") ? "🎬" : "🎵"}{" "}
+                    {a.filename}
+                    <button
+                      type="button"
+                      onClick={() => removeAttachment(a.fileKey)}
+                      style={S.composerAttachRm}
+                      title="Retirer"
+                    >×</button>
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           {mergedPosts.length === 0 && (
@@ -265,6 +331,9 @@ const S: Record<string, React.CSSProperties> = {
   composerFoot: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginTop: 8, flexWrap: "wrap" as const },
   composerHint: { fontSize: 11.5, color: CC_THEME.success, fontWeight: 500 },
   composerBtn: { background: CC_THEME.navy, color: CC_THEME.bg, border: 0, padding: "9px 20px", borderRadius: 6, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.03em" },
+  composerAttachBtn: { background: "transparent", color: CC_THEME.inkMid, border: `1px solid ${CC_THEME.border}`, padding: "8px 14px", borderRadius: 6, fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" },
+  composerAttachChip: { display: "inline-flex", alignItems: "center", gap: 6, background: CC_THEME.bg, border: `1px solid ${CC_THEME.border}`, borderRadius: 14, padding: "5px 10px", fontSize: 12, color: CC_THEME.inkMid },
+  composerAttachRm: { background: "none", border: 0, color: CC_THEME.inkMuted, cursor: "pointer", fontSize: 15, padding: "0 0 0 6px", fontFamily: "inherit", lineHeight: 1 },
 
   liveBar: { display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", background: CC_THEME.dangerBg, border: `1px solid ${CC_THEME.danger}40`, borderRadius: 10, marginBottom: 18, flexWrap: "wrap" as const },
   liveDot: { width: 10, height: 10, borderRadius: "50%", background: CC_THEME.danger, animation: "pulse 1.5s infinite" },
