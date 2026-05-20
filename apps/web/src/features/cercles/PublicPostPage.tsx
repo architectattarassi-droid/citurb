@@ -15,6 +15,7 @@ import { CC_THEME, ensureFonts } from "./theme";
 import { cerclesApi, CerclePost } from "./api";
 import { apiBase } from "../../tomes/tome4/apiClient";
 import MediaEmbed, { extractUrls, isEmbeddable } from "./MediaEmbed";
+import { SharePost } from "./SharePost";
 
 const METIER_LABELS: Record<string, string> = {
   ARCHITECTE: "Architecte", BET_STRUCTURE: "BET Structure", BET_FLUIDES: "BET Fluides", BET_VRD: "BET VRD",
@@ -115,6 +116,14 @@ export default function PublicPostPage() {
               <div style={S.postStats}>
                 👍 {post.upvotes} · 💬 {(post as any)._count?.replies ?? post.replyCount ?? 0} commentaire(s)
               </div>
+
+              <div style={S.shareBlock}>
+                <div style={S.shareLabel}>Partager ce post</div>
+                <SharePost
+                  url={typeof window !== "undefined" ? `${window.location.origin}/post/${post.id}` : ""}
+                  title={post.title || "Post CITURBAREA Cercles"}
+                />
+              </div>
             </article>
 
             {/* Commentaires (lecture seule pour les visiteurs non connectés) */}
@@ -191,6 +200,8 @@ const S: Record<string, React.CSSProperties> = {
   attachVid: { maxWidth: 400, borderRadius: 8, background: "#000" },
   attachFile: { fontSize: 12.5, padding: "9px 14px", background: CC_THEME.bgSoft, borderRadius: 6, color: CC_THEME.inkMid, textDecoration: "none" },
   postStats: { marginTop: 18, paddingTop: 14, borderTop: `1px solid ${CC_THEME.borderSoft}`, fontSize: 13, color: CC_THEME.inkMid },
+  shareBlock: { marginTop: 18, paddingTop: 16, borderTop: `1px solid ${CC_THEME.borderSoft}` },
+  shareLabel: { fontSize: 11, color: CC_THEME.or, letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 },
 
   commentsSection: { background: CC_THEME.bgRaised, border: `1px solid ${CC_THEME.border}`, borderRadius: 12, padding: 22, marginTop: 16 },
   commentsTitle: { fontSize: 11, color: CC_THEME.or, letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 600, marginBottom: 14 },

@@ -15,6 +15,7 @@ import { CC_THEME } from "./theme";
 import { cerclesApi, FeedResponse, ProProfile, CercleListItem } from "./api";
 import MediaEmbed, { extractUrls, isEmbeddable } from "./MediaEmbed";
 import InlineComments from "./InlineComments";
+import { SharePost } from "./SharePost";
 
 const METIER_LABELS: Record<string, string> = {
   ARCHITECTE: "Architecte", BET_STRUCTURE: "BET Structure", BET_FLUIDES: "BET Fluides", BET_VRD: "BET VRD",
@@ -258,7 +259,13 @@ function FeedPostCard({ post, onUpvote, onOpen }: { post: any; onUpvote: () => v
   const displayName = proProfile?.displayName || author?.username || author?.email || "Membre";
   const avatar = (displayName).slice(0, 1).toUpperCase();
   const [showComments, setShowComments] = React.useState(false);
+  const [showShare, setShowShare] = React.useState(false);
   const [commentCount, setCommentCount] = React.useState<number>(post._count?.replies ?? post.replyCount ?? 0);
+  // Post public (général) → l'URL est partageable hors plateforme.
+  const isPublic = !post.cercleId;
+  const publicUrl = isPublic && typeof window !== "undefined"
+    ? `${window.location.origin}/post/${post.id}`
+    : "";
   return (
     <article style={S.postCard}>
       <header style={S.postHead}>
@@ -298,8 +305,22 @@ function FeedPostCard({ post, onUpvote, onOpen }: { post: any; onUpvote: () => v
         >
           💬 {commentCount} {showComments ? "▲" : "▼"}
         </button>
+        {isPublic && (
+          <button
+            onClick={() => setShowShare(v => !v)}
+            style={{ ...S.action, ...(showShare ? { color: CC_THEME.or, fontWeight: 600 } : {}) }}
+            title="Partager hors plateforme (WhatsApp, Facebook…)"
+          >
+            🔗 Partager {showShare ? "▲" : "▼"}
+          </button>
+        )}
         <button onClick={onOpen}  style={{ ...S.action, marginLeft: "auto", color: CC_THEME.or }}>Voir le post →</button>
       </footer>
+      {showShare && isPublic && publicUrl && (
+        <div style={{ marginTop: 10, padding: 12, background: CC_THEME.bgSoft, borderRadius: 8 }}>
+          <SharePost url={publicUrl} title={post.title} compact />
+        </div>
+      )}
       {showComments && (
         <InlineComments
           cercleId={post.cercleId}
