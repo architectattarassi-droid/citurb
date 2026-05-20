@@ -165,10 +165,11 @@ export default function FeedHomePage() {
                 </button>
                 <button
                   onClick={submitGeneralPost}
-                  disabled={posting || !composerBody.trim()}
-                  style={{ ...S.composerBtn, opacity: posting || !composerBody.trim() ? 0.5 : 1 }}
+                  disabled={posting || uploading || !composerBody.trim()}
+                  style={{ ...S.composerBtn, opacity: posting || uploading || !composerBody.trim() ? 0.5 : 1 }}
+                  title={uploading ? "Patientez — pièce jointe en cours d'envoi" : ""}
                 >
-                  {posting ? "Publication…" : "Publier"}
+                  {posting ? "Publication…" : uploading ? "Envoi du fichier…" : "Publier"}
                 </button>
               </div>
             </div>
