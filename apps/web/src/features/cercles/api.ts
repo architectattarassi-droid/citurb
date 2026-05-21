@@ -287,6 +287,10 @@ export const cerclesApi = {
     ),
   createGeneralPost: (body: { title?: string; body: string; attachments?: any[] }) =>
     apiFetch<{ ok: boolean; data: CerclePost }>(`/api/feed/posts`, { method: "POST", body }),
+  deleteGeneralPost: (postId: string) =>
+    apiFetch<{ ok: boolean }>(`/api/feed/posts/${postId}`, { method: "DELETE" }),
+  deletePost: (cercleId: string, postId: string) =>
+    apiFetch<{ ok: boolean }>(`/api/cercles/${cercleId}/posts/${postId}`, { method: "DELETE" }),
   generalPostDetail: (postId: string) =>
     apiFetch<{ ok: boolean; data: CerclePost }>(`/api/feed/posts/${postId}`),
   generalUpvote: (postId: string) =>

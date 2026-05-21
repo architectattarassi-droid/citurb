@@ -13,6 +13,7 @@ import { useNavigate, Link } from "react-router-dom";
 import CerclesShell from "./CerclesShell";
 import { CC_THEME } from "./theme";
 import { cerclesApi, FeedResponse, ProProfile, CercleListItem } from "./api";
+import { useAuth } from "../../tomes/tome5/AuthProvider";
 import MediaEmbed, { extractUrls, isEmbeddable } from "./MediaEmbed";
 import InlineComments from "./InlineComments";
 import { SharePost } from "./SharePost";
@@ -27,6 +28,7 @@ const METIER_LABELS: Record<string, string> = {
 
 export default function FeedHomePage() {
   const navigate = useNavigate();
+  const auth = useAuth();
   const [feed, setFeed] = useState<FeedResponse | null>(null);
   const [generalPosts, setGeneralPosts] = useState<any[]>([]);
   const [discovery, setDiscovery] = useState<CercleListItem[]>([]);
@@ -53,16 +55,21 @@ export default function FeedHomePage() {
 
   const onPickFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
+    console.log("[cercles] onPickFiles — fichiers sélectionnés :", files.map(f => ({ name: f.name, size: f.size, type: f.type })));
     if (files.length === 0) return;
     setUploading(true);
     setErr(null);
     try {
-      // Le dossier d'upload est calé sur le « cercleId » de l'URL ; pour le fil
-      // général, on utilise "_misc" — le backend l'accepte sans validation.
       const uploaded = await cerclesApi.uploadPostMedia("_misc", files);
-      setComposerAttachments(prev => [...prev, ...uploaded]);
+      console.log("[cercles] upload OK — pièces jointes reçues :", uploaded);
+      setComposerAttachments(prev => {
+        const next = [...prev, ...uploaded];
+        console.log("[cercles] composerAttachments après upload :", next);
+        return next;
+      });
     } catch (err: any) {
-      setErr(err?.message || "Échec du téléversement");
+      console.error("[cercles] upload ÉCHEC :", err);
+      setErr(err?.message || "Échec du téléversement (voir console)");
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -76,13 +83,15 @@ export default function FeedHomePage() {
     if (!composerBody.trim() || posting) return;
     setPosting(true);
     setErr(null);
+    const attachmentsPayload = composerAttachments.length > 0
+      ? composerAttachments.map(a => ({ fileKey: a.fileKey, filename: a.filename, mimeType: a.mimeType, sizeBytes: a.sizeBytes }))
+      : undefined;
+    console.log("[cercles] submitGeneralPost — attachments envoyées à l'API :", attachmentsPayload);
     try {
       await cerclesApi.createGeneralPost({
         title: composerTitle.trim() || undefined,
         body: composerBody.trim(),
-        attachments: composerAttachments.length > 0
-          ? composerAttachments.map(a => ({ fileKey: a.fileKey, filename: a.filename, mimeType: a.mimeType, sizeBytes: a.sizeBytes }))
-          : undefined,
+        attachments: attachmentsPayload,
       });
       setComposerTitle("");
       setComposerBody("");
@@ -143,8 +152,19 @@ export default function FeedHomePage() {
               placeholder="Partage une actualité avec toute la communauté BTP… (lien YouTube / image / vidéo détecté automatiquement)"
               style={S.composerBody}
             />
+            {err && (
+              <div style={{ background: "rgba(220,38,38,0.08)", border: "1px solid rgba(220,38,38,0.3)", color: "#b91c1c", padding: "10px 14px", borderRadius: 8, fontSize: 13, marginTop: 8, marginBottom: 4 }}>
+                ⚠ {err}
+              </div>
+            )}
             <div style={S.composerFoot}>
-              <span style={S.composerHint}>🌐 Post public — visible et partageable par tous</span>
+              <span style={S.composerHint}>
+                🌐 Post public — visible et partageable par tous
+                {uploading && <> · <span style={{ color: CC_THEME.or, fontWeight: 600 }}>⏳ Téléversement en cours…</span></>}
+                {!uploading && composerAttachments.length > 0 && (
+                  <> · <span style={{ color: CC_THEME.success, fontWeight: 600 }}>📎 {composerAttachments.length} pièce(s) jointe(s)</span></>
+                )}
+              </span>
               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                 <input
                   ref={fileInputRef}
@@ -202,13 +222,29 @@ export default function FeedHomePage() {
           )}
 
           {mergedPosts.map(p => (
-            <FeedPostCard key={p.id} post={p} onUpvote={async () => {
-              if (p._general) { await cerclesApi.generalUpvote(p.id); await loadGeneral(); }
-              else { await cerclesApi.upvote(p.cercleId, p.id); const r = await cerclesApi.feed(); setFeed(r.data); }
-            }} onOpen={() => {
-              if (p._general) navigate(`/post/${p.id}`);
-              else navigate(`/cercles/${p.cercle.slug}/posts/${p.id}`);
-            }} />
+            <FeedPostCard key={p.id} post={p}
+              viewerId={auth.userId}
+              viewerRole={auth.role}
+              onUpvote={async () => {
+                if (p._general) { await cerclesApi.generalUpvote(p.id); await loadGeneral(); }
+                else { await cerclesApi.upvote(p.cercleId, p.id); const r = await cerclesApi.feed(); setFeed(r.data); }
+              }}
+              onOpen={() => {
+                if (p._general) navigate(`/post/${p.id}`);
+                else navigate(`/cercles/${p.cercle.slug}/posts/${p.id}`);
+              }}
+              onDelete={async () => {
+                if (!confirm("Supprimer ce post ? Cette action est irréversible.")) return;
+                try {
+                  if (p._general) await cerclesApi.deleteGeneralPost(p.id);
+                  else await cerclesApi.deletePost(p.cercleId, p.id);
+                  if (p._general) { await loadGeneral(); }
+                  else { const r = await cerclesApi.feed(); setFeed(r.data); }
+                } catch (e: any) {
+                  setErr(e?.message || "Échec de la suppression");
+                }
+              }}
+            />
           ))}
         </main>
 
@@ -255,7 +291,14 @@ export default function FeedHomePage() {
   );
 }
 
-function FeedPostCard({ post, onUpvote, onOpen }: { post: any; onUpvote: () => void; onOpen: () => void }) {
+function FeedPostCard({ post, onUpvote, onOpen, onDelete, viewerId, viewerRole }: {
+  post: any;
+  onUpvote: () => void;
+  onOpen: () => void;
+  onDelete?: () => void;
+  viewerId?: string;
+  viewerRole?: string;
+}) {
   const author = post.author;
   const proProfile = author?.proProfile;
   const displayName = proProfile?.displayName || author?.username || author?.email || "Membre";
@@ -268,6 +311,11 @@ function FeedPostCard({ post, onUpvote, onOpen }: { post: any; onUpvote: () => v
   const publicUrl = isPublic && typeof window !== "undefined"
     ? `${window.location.origin}/post/${post.id}`
     : "";
+  // Bouton « Supprimer » visible pour l'auteur OU pour un administrateur.
+  const canDelete = !!onDelete && (
+    (viewerId && viewerId === post.authorId) ||
+    viewerRole === "OWNER" || viewerRole === "ADMIN" || viewerRole === "OPS"
+  );
   return (
     <article style={S.postCard}>
       <header style={S.postHead}>
@@ -317,6 +365,15 @@ function FeedPostCard({ post, onUpvote, onOpen }: { post: any; onUpvote: () => v
             title="Partager hors plateforme (WhatsApp, Facebook…)"
           >
             🔗 Partager {showShare ? "▲" : "▼"}
+          </button>
+        )}
+        {canDelete && (
+          <button
+            onClick={() => onDelete?.()}
+            style={{ ...S.action, color: CC_THEME.danger }}
+            title="Supprimer ce post"
+          >
+            🗑 Supprimer
           </button>
         )}
         <button onClick={onOpen}  style={{ ...S.action, marginLeft: "auto", color: CC_THEME.or }}>Voir le post →</button>

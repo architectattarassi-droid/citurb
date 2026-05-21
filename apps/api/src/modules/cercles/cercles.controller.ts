@@ -278,7 +278,7 @@ export class CerclesController {
 
   @Delete(":cercleId/posts/:postId")
   async deletePost(@Req() req: any, @Param("postId") postId: string) {
-    return { ok: true, data: await this.posts.softDelete(postId, this.uid(req)) };
+    return { ok: true, data: await this.posts.softDelete(postId, this.uid(req), req?.user?.role) };
   }
 
   @Post(":cercleId/posts/:postId/upvote")

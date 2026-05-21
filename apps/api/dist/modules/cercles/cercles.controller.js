@@ -202,7 +202,7 @@ let CerclesController = class CerclesController {
         return { ok: true, data: await this.posts.edit(postId, this.uid(req), body) };
     }
     async deletePost(req, postId) {
-        return { ok: true, data: await this.posts.softDelete(postId, this.uid(req)) };
+        return { ok: true, data: await this.posts.softDelete(postId, this.uid(req), req?.user?.role) };
     }
     async upvote(req, postId) {
         return { ok: true, data: await this.posts.upvote(postId, this.uid(req)) };

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from "@nestjs/common";
 import { Tome } from "../../tomes/tome-at";
 import { JwtAuthGuard } from "../../tomes/tome-5/auth/jwt-auth.guard";
 import { PostsService } from "./posts.service";
@@ -59,6 +59,13 @@ export class GeneralFeedController {
   @UseGuards(JwtAuthGuard)
   async reply(@Req() req: any, @Param("id") id: string, @Body() body: { body: string }) {
     return { ok: true, data: await this.posts.reply(id, this.uid(req), body?.body) };
+  }
+
+  /** Suppression d'un post / commentaire (auteur OU admin/owner). */
+  @Delete("posts/:id")
+  @UseGuards(JwtAuthGuard)
+  async delete(@Req() req: any, @Param("id") id: string) {
+    return this.posts.softDelete(id, this.uid(req), req?.user?.role);
   }
 
   // ── Public (sans authentification) ─────────────────────────────

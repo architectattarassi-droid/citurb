@@ -144,12 +144,24 @@ export class PostsService {
     return this.prisma.cerclePost.update({ where: { id: postId }, data });
   }
 
-  async softDelete(postId: string, userId: string) {
+  async softDelete(postId: string, userId: string, viewerRole?: string) {
     const post = await this.prisma.cerclePost.findUniqueOrThrow({ where: { id: postId } });
     const isAuthor = post.authorId === userId;
     const isMod = post.cercleId ? await this.cercles.isModerator(post.cercleId, userId) : false;
-    if (!isAuthor && !isMod) throw new ForbiddenException("Auteur ou modérateur requis");
-    return this.prisma.cerclePost.update({ where: { id: postId }, data: { deletedAt: new Date() } });
+    const isAdmin = viewerRole === "ADMIN" || viewerRole === "OWNER" || viewerRole === "OPS";
+    if (!isAuthor && !isMod && !isAdmin) {
+      throw new ForbiddenException("Suppression réservée à l'auteur, à un modérateur ou à un administrateur");
+    }
+    await this.prisma.cerclePost.update({ where: { id: postId }, data: { deletedAt: new Date() } });
+    if (post.parentId) {
+      try {
+        await this.prisma.cerclePost.update({
+          where: { id: post.parentId },
+          data: { replyCount: { decrement: 1 } },
+        });
+      } catch { /* best effort */ }
+    }
+    return { ok: true };
   }
 
   /**

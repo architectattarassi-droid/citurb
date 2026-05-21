@@ -58,6 +58,10 @@ let GeneralFeedController = class GeneralFeedController {
     async reply(req, id, body) {
         return { ok: true, data: await this.posts.reply(id, this.uid(req), body?.body) };
     }
+    /** Suppression d'un post / commentaire (auteur OU admin/owner). */
+    async delete(req, id) {
+        return this.posts.softDelete(id, this.uid(req), req?.user?.role);
+    }
     // ── Public (sans authentification) ─────────────────────────────
     async publicFeed(page) {
         return { ok: true, ...(await this.posts.publicFeed({ page: page ? Number(page) : 1 })) };
@@ -113,6 +117,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, String, Object]),
     __metadata("design:returntype", Promise)
 ], GeneralFeedController.prototype, "reply", null);
+__decorate([
+    (0, common_1.Delete)("posts/:id"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)("id")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], GeneralFeedController.prototype, "delete", null);
 __decorate([
     (0, common_1.Get)("public"),
     __param(0, (0, common_1.Query)("page")),
