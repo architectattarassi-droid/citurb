@@ -561,6 +561,31 @@ function P2HomeInner() {
     };
   };
 
+  // Famille déduite du code nature pour afficher les sous-champs adéquats.
+  const natureFamily: "habitat" | "immeuble" | "villa" | "gr" | "lot" | "epig" | "amg" | "autre" | "" = (() => {
+    if (!natureCode) return "";
+    if (natureCode === "autre") return "autre";
+    if (natureCode.startsWith("habitat_") || natureCode === "bureaux_r4plus") return "habitat";
+    if (natureCode.startsWith("immeuble_")) return "immeuble";
+    if (natureCode.startsWith("villa_")) return "villa";
+    if (natureCode.startsWith("gr_")) return "gr";
+    if (natureCode.startsWith("lot_")) return "lot";
+    if (natureCode.startsWith("epig_")) return "epig";
+    if (natureCode.startsWith("amg_")) return "amg";
+    return "";
+  })();
+
+  // Le niveau R+ est-il déjà inscrit dans le label de la nature ?
+  // (ex. "Maison R+2", "Immeuble R+5"). Dans ce cas on ne le redemande pas.
+  const rLevelImpliedByNature = /(_r\d|_rdc)/.test(natureCode);
+
+  // Quels sous-champs faut-il afficher en étape 1 ?
+  const askRLevel       = natureFamily === "villa" || natureFamily === "gr" || (natureFamily === "habitat" && !rLevelImpliedByNature) || (natureFamily === "immeuble" && !rLevelImpliedByNature);
+  const askNbBatiments  = natureFamily === "gr";
+  const askTerrainM2    = ["habitat", "immeuble", "villa", "gr", "epig"].includes(natureFamily);
+  const askTerrainHa    = natureFamily === "lot";
+  const askPlancher     = natureFamily === "amg" || natureFamily === "epig";
+
   // Validation de la phase identité (étape 1 — qui êtes-vous).
   const validateIdentity = (): string | null => {
     if (!identity.clientNom || !identity.clientTel) return "Nom et téléphone obligatoires.";
@@ -572,6 +597,11 @@ function P2HomeInner() {
     if (natureCode === "autre" && !natureAutre.trim()) {
       return "Précisez votre type de projet (champ « Autre »).";
     }
+    // Sous-champs contextuels (n'apparaissent que pour certaines familles).
+    if (askRLevel && !rLevel) return "Indiquez le niveau d'étages (R, R+1, …).";
+    if (askNbBatiments && (!nbBatiments || +nbBatiments < 1)) return "Indiquez le nombre de bâtiments.";
+    if (askTerrainHa && (!surfaceTerrainHa || +surfaceTerrainHa <= 0)) return "Surface du terrain (hectares) obligatoire.";
+    if (askPlancher && (!surfacePlancher || +surfacePlancher <= 0)) return "Surface plancher / du local obligatoire.";
     if (!ownerStatus) return "Indiquez le statut du terrain.";
     if (!timeline) return "Indiquez le délai souhaité.";
     return null;
@@ -1133,6 +1163,62 @@ function P2HomeInner() {
                     }}
                     placeholder="Décrivez précisément la nature de votre projet…"
                   />
+                </div>
+              )}
+
+              {/* Sous-champs contextuels — apparaissent selon le type de projet choisi */}
+              {askRLevel && (
+                <div className="field">
+                  <label className="label">Niveau d'étages <span className="req">*</span></label>
+                  <select className="control" value={rLevel} onChange={(e) => setRLevel(e.target.value)}>
+                    <option value="">— Sélectionner —</option>
+                    <option value="R0">RDC (de plain-pied)</option>
+                    <option value="R1">R+1</option>
+                    <option value="R2">R+2</option>
+                    <option value="R3">R+3</option>
+                    <option value="R4">R+4</option>
+                    <option value="R5">R+5</option>
+                    <option value="R6">R+6</option>
+                    <option value="R7">R+7</option>
+                    <option value="R8">R+8 et plus</option>
+                  </select>
+                </div>
+              )}
+              {askNbBatiments && (
+                <div className="field">
+                  <label className="label">Nombre de bâtiments <span className="req">*</span></label>
+                  <input className="control" type="number" min={1} step={1}
+                    value={nbBatiments} onChange={(e) => setNbBatiments(e.target.value)}
+                    placeholder="ex. 4" />
+                </div>
+              )}
+              {askTerrainM2 && (
+                <div className="field">
+                  <label className="label">Surface du terrain (m²)</label>
+                  <input className="control" type="number" min={0} step={1}
+                    value={terrainM2} onChange={(e) => setTerrainM2(e.target.value)}
+                    placeholder="ex. 1500" />
+                </div>
+              )}
+              {askTerrainHa && (
+                <div className="field">
+                  <label className="label">Surface du terrain (hectares) <span className="req">*</span></label>
+                  <input className="control" type="number" min={0} step="0.01"
+                    value={surfaceTerrainHa} onChange={(e) => setSurfaceTerrainHa(e.target.value)}
+                    placeholder="ex. 3.5" />
+                </div>
+              )}
+              {askPlancher && (
+                <div className="field">
+                  <label className="label">Surface plancher / du local (m²) <span className="req">*</span></label>
+                  <input className="control" type="number" min={0} step={1}
+                    value={surfacePlancher} onChange={(e) => setSurfacePlancher(e.target.value)}
+                    placeholder="ex. 240" />
+                </div>
+              )}
+              {natureCode && natureCode !== "autre" && (askRLevel || askNbBatiments || askTerrainM2 || askTerrainHa || askPlancher) && (
+                <div className="muted" style={{ gridColumn: "1 / -1", fontSize: 11.5, fontStyle: "italic", marginTop: 6 }}>
+                  Ces caractéristiques alimentent automatiquement le calcul du devis (vous pourrez les ajuster aux étapes suivantes).
                 </div>
               )}
             </div>
