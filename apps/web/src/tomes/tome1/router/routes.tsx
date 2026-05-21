@@ -12,6 +12,7 @@ import P2Finalize from "../../tome3/portals/p2/P2Finalize";
 import P3Home from "../../tome3/portals/p3/P3Home";
 import P4Home from "../../tome3/portals/p4/P4Home";
 import P5Home from "../../tome3/portals/p5/P5Home";
+import P5Finalize from "../../tome3/portals/p5/P5Finalize";
 import P6Dashboard from "../../tome3/portals/p6/P6Dashboard";
 import { PaymentSuccessPage, PaymentCancelPage, PaymentStartPage } from "../../tome3/portals/payment/PaymentPages";
 import DocsPage from "../../../ui/docs/DocsPage";
@@ -189,6 +190,7 @@ export const router = createBrowserRouter([
       { path: '/p3', element: <AdminHostBlock><P3Home /></AdminHostBlock> },
       { path: '/p4', element: <AdminHostBlock><P4Home /></AdminHostBlock> },
       { path: '/p5', element: <AdminHostBlock><P5Home /></AdminHostBlock> },
+      { path: '/p5/finalize', element: <AdminHostBlock><P5Finalize /></AdminHostBlock> },
       // Porte 6 = réseau pro Cercles : /p6 redirige vers l'espace Cercles
       { path: '/p6', element: <Redirect to="/cercles" /> },
       { path: '/p6/dashboard', element: <AdminHostBlock><P6Dashboard /></AdminHostBlock> },
