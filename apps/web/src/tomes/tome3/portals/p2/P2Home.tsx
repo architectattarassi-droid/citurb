@@ -367,7 +367,9 @@ function P2HomeInner() {
     setError("");
     if (isLOT) {
       if (!surfaceTerrainHa || +surfaceTerrainHa <= 0) { setError("Surface terrain en hectares requise."); return; }
-      computeQuote();
+      // LOT n'a pas de phase « mode de suivi » → on enchaîne directement
+      // sur la création de compte + dossier ; le devis est livré ensuite.
+      submitIntake();
       return;
     }
     if (isAMG) {
@@ -830,7 +832,11 @@ function P2HomeInner() {
             {error && phase === "measures" && <div className="err">⚠ {error}</div>}
             <div style={{ marginTop: 26 }}>
               <button className="btn btn-gold" disabled={busy} onClick={measuresContinue}>
-                {busy ? "Calcul…" : isLOT ? "Calculer le devis →" : "Continuer →"}
+                {busy
+                  ? "Envoi…"
+                  : isLOT
+                    ? (auth.isAuthed ? "Créer mon dossier et obtenir le devis →" : "Créer mon compte + dossier → recevoir le devis")
+                    : "Continuer →"}
               </button>
             </div>
           </div>
