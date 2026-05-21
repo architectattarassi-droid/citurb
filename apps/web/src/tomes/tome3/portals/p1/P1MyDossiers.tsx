@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../tome5/AuthProvider";
 import { apiFetch } from "../../../tome4/apiClient";
 import { useT } from "../../../../i18n/i18n";
+import ClientProfileBanner from "../../../tome5/components/ClientProfileBanner";
 
 /**
  * P1MyDossiers — "Mon Espace" client
@@ -70,6 +71,7 @@ export default function P1MyDossiers() {
 
   return (
     <div style={{ padding: "24px 28px", maxWidth: 1200, margin: "0 auto" }}>
+      <ClientProfileBanner />
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
         <div>
           <h1 style={{ margin: 0, fontSize: 24, color: "#0f172a" }}>📁 {t("nav.my_space")}</h1>
