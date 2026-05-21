@@ -23,7 +23,10 @@ const P2_PENDING_KEY = "citurbarea:p2:pending_intake:v1";
 
 type P2Section = "IMM" | "GR" | "LOT" | "EPIG" | "AMG";
 type FollowMode = "ON_SITE" | "PHOTOS";
-type Phase = "section" | "category" | "measures" | "follow" | "quote" | "identity";
+// Séquence stricte (alignée P1) : on identifie d'abord le client,
+// puis son projet, puis on crée le compte → le devis n'est livré
+// qu'avec un vrai dossier identifié.
+type Phase = "identity" | "section" | "category" | "measures" | "follow";
 
 const SECTIONS: { id: P2Section; label: string; title: string; sub: string; bullets: string[]; micro: string }[] = [
   {
@@ -232,6 +235,9 @@ const PAGE_BG =
 const fullBleed: React.CSSProperties = {
   width: "100vw", position: "relative", left: "50%", right: "50%",
   marginLeft: "-50vw", marginRight: "-50vw", minHeight: "100vh", background: PAGE_BG,
+  // Flex column → on peut forcer le bloc « identité » à venir juste après
+  // le header sans déplacer 150 lignes de JSX.
+  display: "flex", flexDirection: "column",
 };
 
 const HERO_POINTS = [
@@ -245,7 +251,7 @@ function P2HomeInner() {
   const auth = useAuth();
   const navigate = useNavigate();
   const [screen, setScreen] = useState<"flow" | "success">("flow");
-  const [phase, setPhase] = useState<Phase>("section");
+  const [phase, setPhase] = useState<Phase>("identity");
   const [busy, setBusy] = useState(false);
 
   const [section, setSection] = useState<P2Section | null>(null);
@@ -314,7 +320,7 @@ function P2HomeInner() {
     return computedSPPerBuilding;
   })();
   const fmtInt = (n: number) => new Intl.NumberFormat("fr-FR").format(n);
-  const PHASES: Phase[] = ["section", "category", "measures", "follow", "quote", "identity"];
+  const PHASES: Phase[] = ["identity", "section", "category", "measures", "follow"];
   const phaseIdx = PHASES.indexOf(phase);
   const reached = (p: Phase) => phaseIdx >= PHASES.indexOf(p);
 
@@ -453,19 +459,31 @@ function P2HomeInner() {
     };
   };
 
+  // Validation de la phase identité (étape 1 — qui êtes-vous).
+  const validateIdentity = (): string | null => {
+    if (!identity.clientNom || !identity.clientTel) return "Nom et téléphone obligatoires.";
+    if (!identity.region || !identity.province || !identity.commune) return "Région, province et commune obligatoires.";
+    if (moaType === "morale" && (!identity.raisonSociale || !identity.representant)) {
+      return "Raison sociale et représentant légal obligatoires pour une personne morale.";
+    }
+    if (!ownerStatus) return "Indiquez le statut du terrain.";
+    if (!timeline) return "Indiquez le délai souhaité.";
+    return null;
+  };
+
+  // Étape 1 → 2 : on a identifié le client, on passe au projet.
+  const identityContinue = () => {
+    setError("");
+    const err = validateIdentity();
+    if (err) { setError(err); return; }
+    setPhase("section");
+  };
+
   const submitIntake = async () => {
     setError("");
-    if (!identity.clientNom || !identity.clientTel) { setError("Nom et téléphone obligatoires."); return; }
-    if (!identity.region || !identity.province || !identity.commune) {
-      setError("Région, province et commune obligatoires.");
-      return;
-    }
-    if (moaType === "morale" && (!identity.raisonSociale || !identity.representant)) {
-      setError("Raison sociale et représentant légal obligatoires pour une personne morale.");
-      return;
-    }
-    if (!ownerStatus) { setError("Indiquez le statut du terrain."); return; }
-    if (!timeline) { setError("Indiquez le délai souhaité."); return; }
+    // Filet de sécurité : si on arrive ici via un raccourci, on re-vérifie l'identité.
+    const idErr = validateIdentity();
+    if (idErr) { setError(idErr); setPhase("identity"); return; }
 
     // Continuité « comme P1 » : si pas connecté, on passe par le signup client
     // (mot de passe + double validation email/SMS), puis on rejoue l'intake.
@@ -485,6 +503,12 @@ function P2HomeInner() {
 
     setBusy(true);
     try {
+      // Devis calculé en silence juste avant la création du dossier — il
+      // accompagnera la confirmation. Comme prévu : le devis n'est livré
+      // qu'avec un dossier identifié.
+      if (!quote) {
+        try { await computeQuote(); } catch { /* devis livré plus tard */ }
+      }
       const payload = buildIntakePayload(auth.email);
       const res = await fetch(`${apiBase()}/p2/intake`, {
         method: "POST",
@@ -507,27 +531,69 @@ function P2HomeInner() {
   const f = (k: keyof typeof identity) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setIdentity(prev => ({ ...prev, [k]: e.target.value }));
 
-  // ── Écran de succès ──────────────────────────────────────────────────
+  // ── Écran de succès : compte créé + dossier identifié + devis livré ──
   if (screen === "success") {
     return (
       <div className="p2page" style={fullBleed}>
         <style>{P1_CSS}</style>
         <section className="section">
-          <div className="container-max" style={{ maxWidth: 620 }}>
-            <div className="lux-card" style={{ textAlign: "center" }}>
+          <div className="container-max" style={{ maxWidth: 820 }}>
+            <div className="lux-card" style={{ textAlign: "center", marginBottom: 18 }}>
               <div style={{ fontSize: 52, marginBottom: 14 }}>✅</div>
-              <h2 style={{ fontSize: 26, margin: "0 0 12px" }}>Demande enregistrée</h2>
-              <p className="muted" style={{ fontSize: 14.5, lineHeight: 1.7, margin: "0 0 26px" }}>
-                Votre projet <strong style={{ color: "#0B1B3A" }}>{SECTIONS.find(s => s.id === section)?.label}</strong> a été
-                transmis à l'équipe CITURBAREA. Vous recevez sous 24h un contrat type unifié à signer + le visa CROA à régler en ligne.
-                <br /><br />
+              <h2 style={{ fontSize: 26, margin: "0 0 12px" }}>Dossier créé · devis livré</h2>
+              <p className="muted" style={{ fontSize: 14.5, lineHeight: 1.7, margin: "0 0 18px" }}>
+                Votre projet <strong style={{ color: "#0B1B3A" }}>{SECTIONS.find(s => s.id === section)?.label}</strong> est
+                désormais rattaché à votre compte et à un dossier identifié dans votre espace
+                CITURBAREA. L'équipe vous recontacte sous 24h avec le contrat type unifié et le visa CROA.
+                <br />
                 <span style={{ fontSize: 12 }}>Réf. dossier : {dossierId?.slice(0, 12)}…</span>
               </p>
-              <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-                <a className="btn btn-gold" href={`/payment/start?dossier=${dossierId}`}>💳 Payer maintenant</a>
-                <a className="btn btn-dark" href="/portal">📁 Mes dossiers</a>
-                <a className="btn" href="/" style={{ background: "transparent", border: "1px solid rgba(11,27,58,0.18)", color: "#0B1B3A" }}>← Accueil</a>
+            </div>
+
+            {/* Devis officiel — livré uniquement avec un dossier identifié */}
+            {quote && (
+              <div className="lux-card" style={{ marginBottom: 18 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 18, flexWrap: "wrap" }}>
+                  <div>
+                    <div style={{ color: "rgba(201,162,39,0.95)", fontSize: 13, fontWeight: 800 }}>{quote.meta.sectionLabel}</div>
+                    <div className="muted" style={{ fontSize: 13.5, marginTop: 4 }}>{quote.meta.categoryLabel || "Tarification spécifique"}</div>
+                  </div>
+                  <div style={{ background: "rgba(201,162,39,0.10)", border: "1px solid rgba(201,162,39,0.32)", borderRadius: 14, padding: "14px 20px", textAlign: "right" }}>
+                    {quote.honoraires.totalTTC != null && (
+                      <div className="muted" style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>Devis dossier</div>
+                    )}
+                    <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 32, fontWeight: 800, color: "#0B1B3A", lineHeight: 1, marginTop: 3 }}>
+                      {quote.honoraires.totalTTC != null ? fmtMAD(quote.honoraires.totalTTC) : "À devis"}
+                    </div>
+                    <div className="muted" style={{ fontSize: 11.5, marginTop: 5 }}>TTC · honoraires architecte</div>
+                  </div>
+                </div>
+                <div className="gold-divider" style={{ margin: "18px 0 6px" }} />
+                {quote.base.coutTravauxEstime != null && (
+                  <div className="qrow"><span className="k">Coût travaux estimé</span><span className="v">{fmtMAD(quote.base.coutTravauxEstime)}</span></div>
+                )}
+                {quote.honoraires.totalHT != null && (
+                  <>
+                    <div className="qrow"><span className="k">Honoraires HT (5 %)</span><span className="v">{fmtMAD(quote.honoraires.totalHT)}</span></div>
+                    <div className="qrow"><span className="k">TVA 20 %</span><span className="v">{fmtMAD(quote.honoraires.tva)}</span></div>
+                  </>
+                )}
+                {quote.honoraires.breakdown.phaseA_esquisseAutorisation != null && (
+                  <>
+                    <div className="qrow" style={{ marginTop: 8 }}><span className="k">Phase A — Esquisse + Autorisation (40 %)</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseA_esquisseAutorisation)}</span></div>
+                    <div className="qrow"><span className="k">Phase B — DCE + CPS (30 %)</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseB_dceCps)}</span></div>
+                    <div className="qrow"><span className="k">Phase C — Suivi ({quote.meta.followMode === "PHOTOS" ? "10 % photos" : "30 % physique"})</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseC_suivi)}</span></div>
+                  </>
+                )}
+                <div className="mini-note" style={{ marginTop: 16 }}><strong>Visa CROA :</strong> {quote.visaCroa.note}</div>
+                <div className="mini-note" style={{ marginTop: 10 }}><strong>Décennale :</strong> {quote.decennale.note}</div>
               </div>
+            )}
+
+            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+              <a className="btn btn-gold" href={`/payment/start?dossier=${dossierId}`}>💳 Payer maintenant</a>
+              <a className="btn btn-dark" href="/portal">📁 Mes dossiers</a>
+              <a className="btn" href="/" style={{ background: "transparent", border: "1px solid rgba(11,27,58,0.18)", color: "#0B1B3A" }}>← Accueil</a>
             </div>
           </div>
         </section>
@@ -540,8 +606,8 @@ function P2HomeInner() {
     <div className="p2page" style={fullBleed}>
       <style>{P1_CSS}</style>
 
-      {/* HERO */}
-      <header className="hero">
+      {/* HERO — forcé en première position par order=-2 (avant tout autre flex item) */}
+      <header className="hero" style={{ order: -2 }}>
         <div className="container-max" style={{ paddingTop: 72, paddingBottom: 60 }}>
           <div className="kicker">
             <span>Promotion immobilière</span><span style={{ opacity: 0.5 }}>•</span>
@@ -557,7 +623,7 @@ function P2HomeInner() {
                 issu du barème officiel CNOA 2021.
               </p>
               <button className="btn btn-gold" onClick={() => {
-                const el = document.getElementById("p2-section");
+                const el = document.getElementById("p2-identity");
                 if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
               }}>
                 Démarrer ma qualification →
@@ -584,10 +650,11 @@ function P2HomeInner() {
         </div>
       </header>
 
-      {/* BLOC 1 — SECTION */}
-      <section className="section" id="p2-section">
+      {/* BLOC 2 — SECTION (apparaît après l'identification du client) */}
+      {reached("section") && (
+      <section className="section" id="p2-section" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
         <div className="container-max">
-          <div className="eyebrow">Étape 1</div>
+          <div className="eyebrow">Étape 2</div>
           <h2 className="section-title">Quel type de projet ?</h2>
           <p className="sub" style={{ marginBottom: 34 }}>
             Sélectionnez la nature de votre projet. Le périmètre choisi détermine les catégories
@@ -610,8 +677,9 @@ function P2HomeInner() {
           </div>
         </div>
       </section>
+      )}
 
-      {/* BLOC 2 — CATÉGORIE */}
+      {/* BLOC 3 — CATÉGORIE */}
       {reached("category") && !isLOT && (
         <section className="section" id="p2-category" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
           <div className="container-max">
@@ -769,11 +837,11 @@ function P2HomeInner() {
         </section>
       )}
 
-      {/* BLOC 4 — MODE DE SUIVI */}
+      {/* BLOC 5 — MODE DE SUIVI (dernière étape avant création de compte + dossier) */}
       {reached("follow") && !isLOT && (
         <section className="section" id="p2-follow" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
           <div className="container-max">
-            <div className="eyebrow">Étape 4</div>
+            <div className="eyebrow">Étape 5</div>
             <h2 className="section-title">Mode de suivi du chantier</h2>
             <p className="sub" style={{ marginBottom: 30 }}>
               Phase C des honoraires (suivi des travaux). Source : contrat type unifié Construction CNOA, article 7.
@@ -805,82 +873,29 @@ function P2HomeInner() {
             </div>
             {error && phase === "follow" && <div className="err">⚠ {error}</div>}
             <div style={{ marginTop: 26 }}>
-              <button className="btn btn-gold" disabled={busy} onClick={computeQuote}>
-                {busy ? "Calcul…" : "Calculer le devis →"}
+              <button className="btn btn-gold" disabled={busy} onClick={submitIntake}>
+                {busy ? "Envoi…" : (auth.isAuthed ? "Créer mon dossier et obtenir le devis →" : "Créer mon compte + dossier → recevoir le devis")}
               </button>
             </div>
-          </div>
-        </section>
-      )}
-
-      {/* BLOC 5 — DEVIS */}
-      {reached("quote") && quote && (
-        <section className="section" id="p2-quote" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
-          <div className="container-max">
-            <div className="eyebrow">Étape {isLOT ? 3 : 5}</div>
-            <h2 className="section-title">Votre devis d'honoraires</h2>
-            <p className="sub" style={{ marginBottom: 30 }}>
-              Estimation provisoire selon barème CNOA 2021. Le montant sera révisé sur le coût réel des travaux
-              après adjudication (art. 5 du contrat type).
-            </p>
-            <div className="lux-card" style={{ maxWidth: 780 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 18, flexWrap: "wrap" }}>
-                <div>
-                  <div style={{ color: "rgba(201,162,39,0.95)", fontSize: 13, fontWeight: 800 }}>{quote.meta.sectionLabel}</div>
-                  <div className="muted" style={{ fontSize: 13.5, marginTop: 4 }}>{quote.meta.categoryLabel || "Tarification spécifique"}</div>
-                </div>
-                <div style={{ background: "rgba(201,162,39,0.10)", border: "1px solid rgba(201,162,39,0.32)", borderRadius: 14, padding: "14px 20px", textAlign: "right" }}>
-                  {quote.honoraires.totalTTC != null && (
-                    <div className="muted" style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>À partir de</div>
-                  )}
-                  <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 32, fontWeight: 800, color: "#0B1B3A", lineHeight: 1, marginTop: 3 }}>
-                    {quote.honoraires.totalTTC != null ? fmtMAD(quote.honoraires.totalTTC) : "À devis"}
-                  </div>
-                  <div className="muted" style={{ fontSize: 11.5, marginTop: 5 }}>TTC · honoraires architecte</div>
-                </div>
-              </div>
-
-              <div className="gold-divider" style={{ margin: "18px 0 6px" }} />
-
-              {quote.base.coutTravauxEstime != null && (
-                <div className="qrow"><span className="k">Coût travaux estimé</span><span className="v">{fmtMAD(quote.base.coutTravauxEstime)}</span></div>
-              )}
-              {quote.honoraires.totalHT != null && (
-                <>
-                  <div className="qrow"><span className="k">Honoraires HT (5 %)</span><span className="v">{fmtMAD(quote.honoraires.totalHT)}</span></div>
-                  <div className="qrow"><span className="k">TVA 20 %</span><span className="v">{fmtMAD(quote.honoraires.tva)}</span></div>
-                </>
-              )}
-              {quote.honoraires.breakdown.phaseA_esquisseAutorisation != null && (
-                <>
-                  <div className="qrow" style={{ marginTop: 8 }}><span className="k">Phase A — Esquisse + Autorisation (40 %)</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseA_esquisseAutorisation)}</span></div>
-                  <div className="qrow"><span className="k">Phase B — DCE + CPS (30 %)</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseB_dceCps)}</span></div>
-                  <div className="qrow"><span className="k">Phase C — Suivi ({quote.meta.followMode === "PHOTOS" ? "10 % photos" : "30 % physique"})</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseC_suivi)}</span></div>
-                </>
-              )}
-
-              <div className="mini-note" style={{ marginTop: 16 }}><strong>Visa CROA :</strong> {quote.visaCroa.note}</div>
-              <div className="mini-note" style={{ marginTop: 10 }}><strong>Décennale :</strong> {quote.decennale.note}</div>
-              {quote.notes.length > 0 && (
-                <div className="muted" style={{ marginTop: 14, fontSize: 12, lineHeight: 1.65 }}>
-                  {quote.notes.map((n, i) => <div key={i}>• {n}</div>)}
-                </div>
-              )}
-            </div>
-            <div style={{ marginTop: 26 }}>
-              <button className="btn btn-gold" onClick={() => setPhase("identity")}>Continuer : identité du maître d'ouvrage →</button>
+            <div className="muted" style={{ marginTop: 14, fontSize: 12.5, maxWidth: 720, lineHeight: 1.6 }}>
+              Votre devis personnalisé (barème CNOA 2021) est calculé après la création
+              du dossier — un dossier identifié, rattaché à votre compte client.
             </div>
           </div>
         </section>
       )}
 
-      {/* BLOC 6 — IDENTITÉ */}
+      {/* BLOC 1 IDENTITÉ — première étape (« qui êtes-vous »), avant le projet */}
       {reached("identity") && (
-        <section className="section" id="p2-identity" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
+        <section className="section" id="p2-identity" style={{ order: -1 }}>
           <div className="container-max">
-            <div className="eyebrow">Étape {isLOT ? 4 : 6}</div>
-            <h2 className="section-title">Identité du maître d'ouvrage</h2>
-            <p className="sub" style={{ marginBottom: 24 }}>Conformément à l'article 2 du contrat type unifié Construction CNOA.</p>
+            <div className="eyebrow">Étape 1</div>
+            <h2 className="section-title">Qui êtes-vous ?</h2>
+            <p className="sub" style={{ marginBottom: 24 }}>
+              On commence par vous identifier : statut, contact, localisation et caractéristiques
+              du projet — ces données alimentent votre dossier et conditionnent le calcul du devis
+              (article 2 du contrat type unifié Construction CNOA).
+            </p>
 
             {/* 1) Type de maître d'ouvrage — comme P1 */}
             <div className="pill" style={{ marginBottom: 14 }}>1) Type de maître d'ouvrage <span className="req">*</span></div>
@@ -1006,8 +1021,8 @@ function P2HomeInner() {
 
             {error && phase === "identity" && <div className="err">⚠ {error}</div>}
             <div style={{ marginTop: 28 }}>
-              <button className="btn btn-gold" disabled={busy} onClick={submitIntake}>
-                {busy ? "Envoi…" : "Soumettre la demande →"}
+              <button className="btn btn-gold" onClick={identityContinue}>
+                Continuer : décrire mon projet →
               </button>
             </div>
           </div>
