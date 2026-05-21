@@ -81,7 +81,8 @@ const LandingRoute = () => {
   if (auth.loading) return <div style={{ padding: 24 }}>Chargement…</div>;
   const h = currentHost();
   if (h === HOST_CERCLES) return <CerclesLanding />;
-  if (h === HOST_ADMIN)   return <Navigate to="/admin/login" replace />;
+  // admin.citurbarea.com → backoffice CITURBAREA Command Center (leads Cercles + leads des portes).
+  if (h === HOST_ADMIN)   return <Navigate to="/cc/dashboard" replace />;
   return <LandingPage />;
 };
 
@@ -119,7 +120,9 @@ const PublicHostBlock = ({ children }: { children: React.ReactNode }) => {
  * /p1..p6, etc.) est redirigée vers /admin/login.
  */
 const AdminHostBlock = ({ children }: { children: React.ReactNode }) => {
-  if (currentHost() === HOST_ADMIN) return <Navigate to="/admin/login" replace />;
+  // Sur admin.citurbarea.com, on bloque les routes publiques (portes P1..P6, Cercles…)
+  // et on renvoie vers le backoffice CC (les routes /cc/* et /admin/* restent accessibles).
+  if (currentHost() === HOST_ADMIN) return <Navigate to="/cc/dashboard" replace />;
   return <>{children}</>;
 };
 
