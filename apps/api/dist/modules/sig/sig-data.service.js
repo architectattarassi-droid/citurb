@@ -62,7 +62,14 @@ let SigDataService = SigDataService_1 = class SigDataService {
             `&resultRecordCount=${this.MAX_FEATURES}&returnGeometry=true`;
         try {
             const res = await fetch(url, {
-                headers: { "User-Agent": "CITURBAREA-SIG-Proxy/1.0", "Accept": "application/json" },
+                headers: {
+                    // IIS/ASP.NET filtre certains User-Agent non-navigateur en retournant
+                    // Content-Length:0. On passe un User-Agent Mozilla réaliste pour
+                    // garantir une réponse complète.
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+                    "Accept": "application/json, application/geo+json, */*",
+                    "Accept-Language": "fr-FR,fr;q=0.9,en;q=0.8",
+                },
                 // 30 s — les services ArcGIS peuvent être lents sur les gros polygones
                 signal: AbortSignal.timeout(30_000),
             });
