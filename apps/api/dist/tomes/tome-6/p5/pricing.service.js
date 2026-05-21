@@ -9,18 +9,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.P5PricingService = void 0;
 const common_1 = require("@nestjs/common");
 const ZONE_PRICE_MID = {
-    RURAL: 1000,
-    STANDARD: 2750,
-    URBAIN: 6000,
-    PREMIUM: 11500,
-    ULTRA: 20000,
+    RURAL: 600,
+    VILLE_MOYENNE: 1400,
+    URBAIN: 4000,
+    BON_QUARTIER: 9000,
+    PREMIUM: 18500,
+    ULTRA: 38000,
 };
 const STANDING_COST_M2 = {
-    economique: 2000,
-    moyen: 3500,
-    haut: 5000,
-    luxe: 7500,
+    economique: 3250,
+    moyen: 4500,
+    haut: 7500,
+    luxe: 13000,
 };
+/** Frais annexes appliqués à (foncier + construction) pour le calcul d'investissement total.
+ *  Inclut : honoraires notaire, conservation foncière, taxes d'enregistrement, frais financiers
+ *  initiaux. Calibré marché Maroc — 12 % est un médian conservateur (réalité 10-15 % selon ville). */
+const FRAIS_ANNEXES_RATIO = 0.12;
 const REPORT_DEFINITIONS = {
     EXPERTISE_PRIX: {
         code: "EXPERTISE_PRIX",
@@ -28,7 +33,9 @@ const REPORT_DEFINITIONS = {
         shortDesc: "Valeur vénale fondée + étude comparée de marché",
         longDesc: "Avis de valeur opposable, fondé sur une visite terrain, des comparables ventes récents et une méthodologie documentée.",
         rate: 0.01,
-        minHT: 5000,
+        // Marché Maroc 2025 : cabinets pratiquent 4 000 - 10 000 DH HT (médiane 6 500-8 000).
+        // On cale le plancher à 6 000 pour rester dans la médiane basse, compétitif.
+        minHT: 6000,
         deliveryDays: 10,
         chapters: [
             "Synthèse exécutive — valeur retenue et fourchette",
@@ -47,7 +54,9 @@ const REPORT_DEFINITIONS = {
         shortDesc: "Note RU + COS/CES/gabarit + scénarios de constructibilité",
         longDesc: "Analyse réglementaire complète : note RU, vérification COS/CES, hauteur, recul, façades, scénarios de constructibilité optimisée.",
         rate: 0.005,
-        minHT: 6000,
+        // Marché Maroc 2025 : 5 000 - 12 000 DH HT (inféré, données limitées publiquement).
+        // Plancher 7 500 pour intégrer la complexité réglementaire marocaine.
+        minHT: 7500,
         deliveryDays: 12,
         chapters: [
             "Synthèse exécutive — verdict de constructibilité",
@@ -68,7 +77,10 @@ const REPORT_DEFINITIONS = {
         shortDesc: "Business Plan bankable complet (BP + ROI + sensibilité)",
         longDesc: "Rapport premium destiné aux banques, fonds et family offices. Intègre expertise prix + urba + programme + coûts + prix vente + ROI/TRI/VAN + sensibilité.",
         rate: 0.01,
-        minHT: 18000,
+        // Marché Maroc 2025 : pas de benchmark public fiable pour ce type de rapport.
+        // Estimations cabinets de prestige (JLL, CBRE, Agenz, Cushman) : 15 000-30 000+ DH HT.
+        // Plancher 20 000 pour s'aligner sur les cabinets institutionnels, qualité bankable.
+        minHT: 20000,
         deliveryDays: 21,
         chapters: [
             "Synthèse exécutive — recommandation investissement",
@@ -143,7 +155,7 @@ function estimateInternal(input) {
     const terrain = Number(input.surfaceTerrainM2 || 0);
     const family = input.bienFamily || "AUTRE";
     const standing = input.standing || "moyen";
-    const zone = input.zoneTier || "STANDARD";
+    const zone = input.zoneTier || "URBAIN";
     // Plancher : utilise la valeur fournie ou la dérive du terrain
     let plancher = Number(input.surfacePlancherM2 || 0);
     if (plancher <= 0 && terrain > 0 && family !== "TERRAIN_NU") {
@@ -166,13 +178,15 @@ function estimateInternal(input) {
         coutConstruction = Math.round(plancher * cM2);
         hypotheses.push(`Coût construction estimé : ${plancher.toLocaleString("fr-FR")} m² × ${cM2.toLocaleString("fr-FR")} DH/m² (standing ${standing}) = ${coutConstruction.toLocaleString("fr-FR")} DH.`);
     }
-    // Montant total investissement = explicite OU foncier + construction + frais (10% : notaire, conservation, frais financiers de démarrage)
+    // Montant total investissement = explicite OU foncier + construction + frais annexes (12 %)
+    // Inclut : honoraires notaire, conservation foncière, taxes d'enregistrement, frais financiers
+    // initiaux. 12 % est un médian marché Maroc (réalité 10-15 % selon ville et complexité).
     let montantTotal = Number(input.montantInvestissementMAD || 0);
     if (montantTotal <= 0) {
-        const fraisAnnexes = Math.round((prixFoncier + coutConstruction) * 0.10);
+        const fraisAnnexes = Math.round((prixFoncier + coutConstruction) * FRAIS_ANNEXES_RATIO);
         montantTotal = prixFoncier + coutConstruction + fraisAnnexes;
         if (fraisAnnexes > 0) {
-            hypotheses.push(`Frais annexes estimés (notaire, conservation foncière, frais financiers) : +10 % sur foncier + construction = ${fraisAnnexes.toLocaleString("fr-FR")} DH.`);
+            hypotheses.push(`Frais annexes estimés (notaire, conservation foncière, taxes, frais financiers) : +${Math.round(FRAIS_ANNEXES_RATIO * 100)} % sur foncier + construction = ${fraisAnnexes.toLocaleString("fr-FR")} DH.`);
         }
     }
     return {

@@ -54,7 +54,7 @@ const REPORT_CARDS: { code: ReportType; category: string; title: string; sub: st
     category: "EXPERTISE PRIX",
     title: "Rapport Expertise Prix",
     sub: "Valeur vénale fondée + étude comparée de marché.",
-    tagline: "1 % du prix foncier · min 5 000 DH HT",
+    tagline: "1 % du prix foncier · min 6 000 DH HT",
     bullets: [
       "Visite terrain + relevé du bien",
       "Étude comparée ≥ 3 références ventes",
@@ -69,7 +69,7 @@ const REPORT_CARDS: { code: ReportType; category: string; title: string; sub: st
     category: "EXPERTISE URBANISTIQUE",
     title: "Rapport Expertise Urbanistique",
     sub: "Note RU + COS/CES/gabarit + scénarios de constructibilité.",
-    tagline: "0,5 % du coût de construction · min 6 000 DH HT",
+    tagline: "0,5 % du coût de construction · min 7 500 DH HT",
     bullets: [
       "Note de renseignement urbanistique actualisée",
       "Analyse PA / PADD / SDAU",
@@ -84,7 +84,7 @@ const REPORT_CARDS: { code: ReportType; category: string; title: string; sub: st
     category: "READY-TO-INVEST · BP BANKABLE",
     title: "Rapport Complet Premium",
     sub: "Business Plan complet pour banques, fonds et family offices.",
-    tagline: "1 % du montant d'investissement · min 18 000 DH HT",
+    tagline: "1 % du montant d'investissement · min 20 000 DH HT",
     bullets: [
       "Synthèse exécutive — recommandation investissement",
       "Foncier · Urba · Programme architectural",
@@ -157,7 +157,8 @@ function P5HomeInner() {
   // ── Inputs DESCRIPTIFS — c'est ce que le client SAIT (terrain, type, R+, standing, zone)
   // Le backend en déduit prix foncier, coût construction et montant invest pour l'assiette.
   type BienFamily = "TERRAIN_NU" | "VILLA" | "PETIT_COLLECTIF" | "GRAND_COLLECTIF" | "EQUIPEMENT" | "AMENAGEMENT" | "AUTRE";
-  type ZoneTier = "RURAL" | "STANDARD" | "URBAIN" | "PREMIUM" | "ULTRA";
+  // 6 tranches calibrées marché Maroc 2025-2026
+  type ZoneTier = "RURAL" | "VILLE_MOYENNE" | "URBAIN" | "BON_QUARTIER" | "PREMIUM" | "ULTRA";
   type StandingTier = "economique" | "moyen" | "haut" | "luxe";
 
   const [bienFamily, setBienFamily] = useState<BienFamily>("VILLA");
@@ -166,7 +167,7 @@ function P5HomeInner() {
   const [rLevel, setRLevel] = useState<string>("R0");
   const [nbBatiments, setNbBatiments] = useState<string>("1");
   const [standing, setStanding] = useState<StandingTier>("moyen");
-  const [zoneTier, setZoneTier] = useState<ZoneTier>("STANDARD");
+  const [zoneTier, setZoneTier] = useState<ZoneTier>("URBAIN");
 
   // Champs financiers OPTIONNELS — le client expert peut les renseigner pour affiner.
   const [knowsValues, setKnowsValues] = useState<boolean>(false);
@@ -728,21 +729,22 @@ function P5HomeInner() {
                 <div className="field">
                   <label className="label">Standing visé (coût construction au m²)</label>
                   <select className="control" value={standing} onChange={(e) => setStanding(e.target.value as StandingTier)}>
-                    <option value="economique">Économique — env. 2 000 DH/m²</option>
-                    <option value="moyen">Moyen standing — env. 3 500 DH/m²</option>
-                    <option value="haut">Haut standing — env. 5 000 DH/m²</option>
-                    <option value="luxe">Luxe — env. 7 500 DH/m² et plus</option>
+                    <option value="economique">Économique — env. 3 250 DH/m² (logement social conventionné)</option>
+                    <option value="moyen">Moyen standing — env. 4 500 DH/m² (carrelage, PVC, peinture standard)</option>
+                    <option value="haut">Haut standing — env. 7 500 DH/m² (marbre, alu, domotique basique)</option>
+                    <option value="luxe">Luxe — env. 13 000 DH/m² (sur mesure, bois noble, domotique intégrale)</option>
                   </select>
                 </div>
               )}
               <div className="field">
                 <label className="label">Tranche de prix de la zone (foncier)</label>
                 <select className="control" value={zoneTier} onChange={(e) => setZoneTier(e.target.value as ZoneTier)}>
-                  <option value="RURAL">Rural / périurbain — ≤ 1 500 DH/m²</option>
-                  <option value="STANDARD">Ville moyenne / périphérie — 1 500 à 4 000 DH/m²</option>
-                  <option value="URBAIN">Centre urbain / grande ville — 4 000 à 8 000 DH/m²</option>
-                  <option value="PREMIUM">Quartier premium (Casa, Rabat) — 8 000 à 15 000 DH/m²</option>
-                  <option value="ULTRA">Hyper-centre prestige / front de mer — ≥ 15 000 DH/m²</option>
+                  <option value="RURAL">Rural / périurbain agricole — 300 à 900 DH/m²</option>
+                  <option value="VILLE_MOYENNE">Ville moyenne — 1 000 à 1 800 DH/m² (Kénitra, El Jadida, Mohammedia, Settat)</option>
+                  <option value="URBAIN">Centre urbain / grande ville — 2 500 à 5 500 DH/m² (Tanger, Agadir, Fès, Marrakech périph.)</option>
+                  <option value="BON_QUARTIER">Bon quartier — 6 000 à 12 000 DH/m² (Casa Maarif, Rabat Agdal, Marrakech Guéliz)</option>
+                  <option value="PREMIUM">Quartier premium — 15 000 à 22 000 DH/m² (Casa Anfa/CIL, Rabat Hassan, Marrakech Hivernage)</option>
+                  <option value="ULTRA">Hyper-centre prestige / front de mer — 27 000 à 50 000 DH/m² (Casa Corniche, Rabat Souissi haut, Tanger Marina)</option>
                 </select>
               </div>
             </div>
@@ -818,9 +820,9 @@ function P5HomeInner() {
 
             <div className="mini-note" style={{ marginTop: 18 }}>
               <strong>Comment est calculé votre devis ?</strong>{" "}
-              {reportType === "EXPERTISE_PRIX" && "1 % du prix foncier (estimé d'après votre terrain × prix de zone), plancher 5 000 DH HT."}
-              {reportType === "EXPERTISE_URBA" && "0,5 % du coût de construction (estimé d'après surface plancher × standing), plancher 6 000 DH HT."}
-              {reportType === "READY_TO_INVEST" && "1 % du montant total d'investissement (estimé d'après foncier + construction + frais), plancher 18 000 DH HT."}
+              {reportType === "EXPERTISE_PRIX" && "1 % du prix foncier (estimé d'après votre terrain × prix de zone), plancher 6 000 DH HT."}
+              {reportType === "EXPERTISE_URBA" && "0,5 % du coût de construction (estimé d'après surface plancher × standing), plancher 7 500 DH HT."}
+              {reportType === "READY_TO_INVEST" && "1 % du montant total d'investissement (estimé d'après foncier + construction + 12 % frais annexes), plancher 20 000 DH HT."}
               {" "}Modulable par le délai souhaité à l'étape suivante.
             </div>
 

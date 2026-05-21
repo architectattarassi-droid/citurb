@@ -1404,10 +1404,10 @@ function P2HomeInner() {
               <div className="field">
                 <label className="label">Niveau de standing <span className="req">*</span></label>
                 <select className="control" value={standing} onChange={(e) => setStanding(e.target.value as any)}>
-                  <option value="economique">Économique — env. 2 000 DH/m²</option>
-                  <option value="moyen">Moyen standing — env. 3 500 DH/m²</option>
-                  <option value="haut">Haut standing — env. 5 000 DH/m²</option>
-                  <option value="luxe">Luxe — env. 7 500 DH/m² et plus</option>
+                  <option value="economique">Économique — env. 3 250 DH/m² (logement social conventionné)</option>
+                  <option value="moyen">Moyen standing — env. 4 500 DH/m² (carrelage, PVC, peinture standard)</option>
+                  <option value="haut">Haut standing — env. 7 500 DH/m² (marbre, alu, domotique basique)</option>
+                  <option value="luxe">Luxe — env. 13 000 DH/m² (sur mesure, bois noble, domotique intégrale)</option>
                 </select>
               </div>
               <div className="field">
