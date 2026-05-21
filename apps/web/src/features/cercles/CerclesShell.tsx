@@ -10,6 +10,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { CC_THEME, ensureFonts } from "./theme";
 import { cerclesApi, CercleListItem, ProProfile, dmApi } from "./api";
 import { apiBase } from "../../tomes/tome4/apiClient";
+import { useAuth } from "../../tomes/tome5/AuthProvider";
 
 function resolveAvatarUrl(url?: string | null): string | undefined {
   if (!url) return undefined;
@@ -21,11 +22,18 @@ function resolveAvatarUrl(url?: string | null): string | undefined {
 export default function CerclesShell({ children }: { children: React.ReactNode }) {
   useEffect(() => { ensureFonts(); }, []);
   const navigate = useNavigate();
+  const auth = useAuth();
   const { slug: activeSlug } = useParams<{ slug?: string }>();
   const [cercles, setCercles] = useState<CercleListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
   const [myProfile, setMyProfile] = useState<ProProfile | null>(null);
+  // GATE — bloque l'accès aux particuliers (sans ProProfile et non-admin)
+  const [accessReady, setAccessReady] = useState(false);
+
+  // Rôles admin exemptés (ils accèdent à Cercles pour modération sans ProProfile)
+  const isAdminRole =
+    auth.role === "OWNER" || auth.role === "ADMIN" || (auth.role as string) === "OPS";
 
   const reload = () => {
     setLoading(true);
@@ -35,10 +43,36 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
       .finally(() => setLoading(false));
   };
 
-  useEffect(() => { reload(); }, []);
+  // Garde d'accès : non connecté → /login ; pas de ProProfile et non-admin → /p1
   useEffect(() => {
-    cerclesApi.myProfile().then(r => setMyProfile(r.data)).catch(() => {});
-  }, []);
+    if (!auth.isAuthed) {
+      navigate("/login?next=/cercles", { replace: true });
+      return;
+    }
+    if (isAdminRole) {
+      setAccessReady(true);
+      return;
+    }
+    cerclesApi.myProfile()
+      .then(r => {
+        if (!r.data) {
+          // Particulier sans profil pro — pas d'accès Cercles
+          navigate("/p1", { replace: true });
+          return;
+        }
+        setMyProfile(r.data);
+        setAccessReady(true);
+      })
+      .catch(() => {
+        // Erreur réseau ou 401 : on renvoie côté login
+        navigate("/login?next=/cercles", { replace: true });
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.isAuthed, isAdminRole]);
+
+  useEffect(() => {
+    if (accessReady) reload();
+  }, [accessReady]);
 
   // Badge unread DM (refresh toutes les 30s)
   const [dmUnread, setDmUnread] = useState(0);
@@ -53,6 +87,15 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
     try { localStorage.removeItem("citurbarea.token"); } catch {}
     navigate("/login", { replace: true });
   };
+
+  // Tant que la garde n'a pas statué, on évite le flash de contenu réservé.
+  if (!accessReady) {
+    return (
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: CC_THEME.bg, fontFamily: CC_THEME.fontBody, color: CC_THEME.inkMuted, fontSize: 14 }}>
+        Vérification de l'accès Cercles…
+      </div>
+    );
+  }
 
   return (
     <div style={S.root}>

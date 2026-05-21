@@ -4,6 +4,7 @@ import {
 import type { Request, Response } from "express";
 import { Tome } from "../../tomes/tome-at";
 import { JwtAuthGuard } from "../../tomes/tome-5/auth/jwt-auth.guard";
+import { ProAccessGuard } from "./pro-access.guard";
 import { JwtService } from "@nestjs/jwt";
 import { DirectMessagesService } from "./direct-messages.service";
 import { DirectMessagesStreamService } from "./direct-messages-stream.service";
@@ -40,13 +41,13 @@ export class DirectMessagesController {
   }
 
   @Get("threads")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async listThreads(@Req() req: any) {
     return { ok: true, data: await this.dm.listThreads(this.uid(req)) };
   }
 
   @Post("threads")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async createThread(@Req() req: any, @Body() body: { peerUserId: string; firstMessage?: string }) {
     const thread = await this.dm.getOrCreateThread(this.uid(req), body.peerUserId);
     if (body.firstMessage?.trim()) {
@@ -61,7 +62,7 @@ export class DirectMessagesController {
   }
 
   @Get("threads/:id/messages")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async messages(@Req() req: any, @Param("id") threadId: string, @Query("before") before?: string, @Query("take") take?: string) {
     const msgs = await this.dm.listMessages(threadId, this.uid(req), {
       before,
@@ -71,7 +72,7 @@ export class DirectMessagesController {
   }
 
   @Post("threads/:id/messages")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async send(@Req() req: any, @Param("id") threadId: string, @Body() body: { body: string; attachments?: any }) {
     const senderId = this.uid(req);
     const msg = await this.dm.sendMessage(threadId, senderId, body.body, body.attachments);
@@ -88,7 +89,7 @@ export class DirectMessagesController {
   }
 
   @Post("threads/:id/read")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async read(@Req() req: any, @Param("id") threadId: string) {
     const result = await this.dm.markRead(threadId, this.uid(req));
     // Notif au peer qu'on a lu
@@ -104,20 +105,20 @@ export class DirectMessagesController {
   }
 
   @Post("threads/:id/pin")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async pin(@Req() req: any, @Param("id") threadId: string) {
     const updated = await this.dm.pinToggle(threadId, this.uid(req));
     return { ok: true, data: { pinned: updated.pinned } };
   }
 
   @Delete("threads/:id")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async leave(@Req() req: any, @Param("id") threadId: string) {
     return { ok: true, data: await this.dm.leaveThread(threadId, this.uid(req)) };
   }
 
   @Delete("threads/:id/messages/:msgId")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async deleteMsg(@Req() req: any, @Param("id") threadId: string, @Param("msgId") msgId: string) {
     const deleted = await this.dm.deleteMessage(threadId, msgId, this.uid(req));
     const participants = await this.prisma.directThreadParticipant.findMany({
@@ -132,7 +133,7 @@ export class DirectMessagesController {
   }
 
   @Get("unread")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async unread(@Req() req: any) {
     return { ok: true, data: { count: await this.dm.totalUnread(this.uid(req)) } };
   }

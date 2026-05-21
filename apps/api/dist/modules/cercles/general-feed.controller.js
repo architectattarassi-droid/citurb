@@ -16,6 +16,7 @@ exports.GeneralFeedController = void 0;
 const common_1 = require("@nestjs/common");
 const tome_at_1 = require("../../tomes/tome-at");
 const jwt_auth_guard_1 = require("../../tomes/tome-5/auth/jwt-auth.guard");
+const pro_access_guard_1 = require("./pro-access.guard");
 const posts_service_1 = require("./posts.service");
 /**
  * GeneralFeedController — Sprint M : séparation feed général / posts de cercle.
@@ -73,7 +74,7 @@ let GeneralFeedController = class GeneralFeedController {
 exports.GeneralFeedController = GeneralFeedController;
 __decorate([
     (0, common_1.Get)(),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)("page")),
     __metadata("design:type", Function),
@@ -82,7 +83,7 @@ __decorate([
 ], GeneralFeedController.prototype, "generalFeed", null);
 __decorate([
     (0, common_1.Post)("posts"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -91,7 +92,7 @@ __decorate([
 ], GeneralFeedController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)("posts/:id"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -100,7 +101,7 @@ __decorate([
 ], GeneralFeedController.prototype, "detail", null);
 __decorate([
     (0, common_1.Post)("posts/:id/upvote"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -109,7 +110,7 @@ __decorate([
 ], GeneralFeedController.prototype, "upvote", null);
 __decorate([
     (0, common_1.Post)("posts/:id/replies"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __param(2, (0, common_1.Body)()),
@@ -119,7 +120,7 @@ __decorate([
 ], GeneralFeedController.prototype, "reply", null);
 __decorate([
     (0, common_1.Delete)("posts/:id"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __metadata("design:type", Function),

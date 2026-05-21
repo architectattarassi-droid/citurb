@@ -35,6 +35,7 @@ const direct_messages_controller_1 = require("./direct-messages.controller");
 const general_feed_controller_1 = require("./general-feed.controller");
 const marketplace_service_1 = require("./marketplace.service");
 const marketplace_controller_1 = require("./marketplace.controller");
+const pro_access_guard_1 = require("./pro-access.guard");
 let CerclesModule = class CerclesModule {
 };
 exports.CerclesModule = CerclesModule;
@@ -67,6 +68,7 @@ exports.CerclesModule = CerclesModule = __decorate([
             direct_messages_service_1.DirectMessagesService,
             direct_messages_stream_service_1.DirectMessagesStreamService,
             marketplace_service_1.MarketplaceService,
+            pro_access_guard_1.ProAccessGuard,
         ],
         exports: [
             cercles_service_1.CerclesService,

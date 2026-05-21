@@ -26,6 +26,7 @@ try {
 catch { }
 const tome_at_1 = require("../../tomes/tome-at");
 const jwt_auth_guard_1 = require("../../tomes/tome-5/auth/jwt-auth.guard");
+const pro_access_guard_1 = require("./pro-access.guard");
 const cercles_service_1 = require("./cercles.service");
 const memberships_service_1 = require("./memberships.service");
 const posts_service_1 = require("./posts.service");
@@ -668,7 +669,7 @@ __decorate([
 exports.CerclesController = CerclesController = __decorate([
     (0, tome_at_1.Tome)("tome8"),
     (0, common_1.Controller)("api/cercles"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __metadata("design:paramtypes", [cercles_service_1.CerclesService,
         memberships_service_1.MembershipsService,
         posts_service_1.PostsService,

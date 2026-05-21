@@ -16,6 +16,7 @@ exports.DirectMessagesController = void 0;
 const common_1 = require("@nestjs/common");
 const tome_at_1 = require("../../tomes/tome-at");
 const jwt_auth_guard_1 = require("../../tomes/tome-5/auth/jwt-auth.guard");
+const pro_access_guard_1 = require("./pro-access.guard");
 const jwt_1 = require("@nestjs/jwt");
 const direct_messages_service_1 = require("./direct-messages.service");
 const direct_messages_stream_service_1 = require("./direct-messages-stream.service");
@@ -154,7 +155,7 @@ let DirectMessagesController = class DirectMessagesController {
 exports.DirectMessagesController = DirectMessagesController;
 __decorate([
     (0, common_1.Get)("threads"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -162,7 +163,7 @@ __decorate([
 ], DirectMessagesController.prototype, "listThreads", null);
 __decorate([
     (0, common_1.Post)("threads"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -171,7 +172,7 @@ __decorate([
 ], DirectMessagesController.prototype, "createThread", null);
 __decorate([
     (0, common_1.Get)("threads/:id/messages"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __param(2, (0, common_1.Query)("before")),
@@ -182,7 +183,7 @@ __decorate([
 ], DirectMessagesController.prototype, "messages", null);
 __decorate([
     (0, common_1.Post)("threads/:id/messages"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __param(2, (0, common_1.Body)()),
@@ -192,7 +193,7 @@ __decorate([
 ], DirectMessagesController.prototype, "send", null);
 __decorate([
     (0, common_1.Post)("threads/:id/read"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -201,7 +202,7 @@ __decorate([
 ], DirectMessagesController.prototype, "read", null);
 __decorate([
     (0, common_1.Post)("threads/:id/pin"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -210,7 +211,7 @@ __decorate([
 ], DirectMessagesController.prototype, "pin", null);
 __decorate([
     (0, common_1.Delete)("threads/:id"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -219,7 +220,7 @@ __decorate([
 ], DirectMessagesController.prototype, "leave", null);
 __decorate([
     (0, common_1.Delete)("threads/:id/messages/:msgId"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __param(2, (0, common_1.Param)("msgId")),
@@ -229,7 +230,7 @@ __decorate([
 ], DirectMessagesController.prototype, "deleteMsg", null);
 __decorate([
     (0, common_1.Get)("unread"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

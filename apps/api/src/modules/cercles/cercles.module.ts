@@ -26,6 +26,7 @@ import { DirectMessagesController } from "./direct-messages.controller";
 import { GeneralFeedController } from "./general-feed.controller";
 import { MarketplaceService } from "./marketplace.service";
 import { MarketplaceController } from "./marketplace.controller";
+import { ProAccessGuard } from "./pro-access.guard";
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { MarketplaceController } from "./marketplace.controller";
     DirectMessagesService,
     DirectMessagesStreamService,
     MarketplaceService,
+    ProAccessGuard,
   ],
   exports: [
     CerclesService,

@@ -21,6 +21,7 @@ const path_1 = require("path");
 const fs_1 = require("fs");
 const tome_at_1 = require("../../tomes/tome-at");
 const jwt_auth_guard_1 = require("../../tomes/tome-5/auth/jwt-auth.guard");
+const pro_access_guard_1 = require("./pro-access.guard");
 const marketplace_service_1 = require("./marketplace.service");
 const UPLOAD_BASE = process.env.UPLOADS_DIR || (0, path_1.join)(process.cwd(), "uploads");
 const MKT_PHOTO_DIR = (0, path_1.join)(UPLOAD_BASE, "marketplace");
@@ -140,7 +141,7 @@ __decorate([
 ], MarketplaceController.prototype, "productDetail", null);
 __decorate([
     (0, common_1.Get)("referentiel/search"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Query)("q")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -148,7 +149,7 @@ __decorate([
 ], MarketplaceController.prototype, "searchReferentiel", null);
 __decorate([
     (0, common_1.Get)("my-offers"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -156,7 +157,7 @@ __decorate([
 ], MarketplaceController.prototype, "myOffers", null);
 __decorate([
     (0, common_1.Post)("offers"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -165,7 +166,7 @@ __decorate([
 ], MarketplaceController.prototype, "createOffer", null);
 __decorate([
     (0, common_1.Patch)("offers/:id"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __param(2, (0, common_1.Body)()),
@@ -175,7 +176,7 @@ __decorate([
 ], MarketplaceController.prototype, "updateOffer", null);
 __decorate([
     (0, common_1.Delete)("offers/:id"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
@@ -184,7 +185,7 @@ __decorate([
 ], MarketplaceController.prototype, "removeOffer", null);
 __decorate([
     (0, common_1.Post)("admin/populate-photos"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -192,14 +193,14 @@ __decorate([
 ], MarketplaceController.prototype, "populatePhotos", null);
 __decorate([
     (0, common_1.Get)("admin/familles"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], MarketplaceController.prototype, "adminFamilles", null);
 __decorate([
     (0, common_1.Post)("admin/famille-photo"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -207,7 +208,7 @@ __decorate([
 ], MarketplaceController.prototype, "setFamillePhoto", null);
 __decorate([
     (0, common_1.Post)("photos"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
     (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)("files", 12, {
         storage: diskStorage({
             destination: (req, _file, cb) => {

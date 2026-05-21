@@ -8,6 +8,7 @@ const _POST_UPLOAD_DIR = _joinPath(process.env.UPLOADS_DIR || _joinPath(process.
 try { _mk(_POST_UPLOAD_DIR, { recursive: true }); } catch {}
 import { Tome } from "../../tomes/tome-at";
 import { JwtAuthGuard } from "../../tomes/tome-5/auth/jwt-auth.guard";
+import { ProAccessGuard } from "./pro-access.guard";
 import { CerclesService, CreateCercleInput, UpdateCercleInput } from "./cercles.service";
 import { MembershipsService } from "./memberships.service";
 import { PostsService } from "./posts.service";
@@ -25,7 +26,7 @@ import { FeedService } from "./feed.service";
  */
 @Tome("tome8")
 @Controller("api/cercles")
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, ProAccessGuard)
 export class CerclesController {
   constructor(
     private readonly cercles: CerclesService,

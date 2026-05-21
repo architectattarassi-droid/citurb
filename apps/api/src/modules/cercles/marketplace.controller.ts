@@ -6,6 +6,7 @@ import { join } from "path";
 import { mkdirSync } from "fs";
 import { Tome } from "../../tomes/tome-at";
 import { JwtAuthGuard } from "../../tomes/tome-5/auth/jwt-auth.guard";
+import { ProAccessGuard } from "./pro-access.guard";
 import { MarketplaceService, OfferInput } from "./marketplace.service";
 
 const UPLOAD_BASE = process.env.UPLOADS_DIR || join(process.cwd(), "uploads");
@@ -68,58 +69,58 @@ export class MarketplaceController {
   // ── Fournisseur connecté ───────────────────────────────────────
 
   @Get("referentiel/search")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async searchReferentiel(@Query("q") q: string) {
     return { ok: true, data: await this.market.searchReferentiel(q || "") };
   }
 
   @Get("my-offers")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async myOffers(@Req() req: any) {
     return { ok: true, data: await this.market.myOffers(this.uid(req)) };
   }
 
   @Post("offers")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async createOffer(@Req() req: any, @Body() body: OfferInput) {
     return { ok: true, data: await this.market.createOffer(this.uid(req), body) };
   }
 
   @Patch("offers/:id")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async updateOffer(@Req() req: any, @Param("id") id: string, @Body() body: OfferInput) {
     return { ok: true, data: await this.market.updateOffer(id, this.uid(req), body) };
   }
 
   @Delete("offers/:id")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async removeOffer(@Req() req: any, @Param("id") id: string) {
     return { ok: true, data: await this.market.removeOffer(id, this.uid(req)) };
   }
 
   // Attribution des vraies photos via Pixabay (admin, one-shot, idempotent)
   @Post("admin/populate-photos")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async populatePhotos(@Body() body: { pixabayKey?: string; force?: boolean; familles?: string[] }) {
     const key = body?.pixabayKey || process.env.PIXABAY_KEY || "55917807-c7aecf704e7ec32d0e89d2c1e";
     return this.market.populateReferentielPhotos(key, { force: body?.force, familles: body?.familles });
   }
 
   @Get("admin/familles")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async adminFamilles() {
     return { ok: true, data: await this.market.adminFamilles() };
   }
 
   @Post("admin/famille-photo")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   async setFamillePhoto(@Body() body: { corpsMetier: string; famille: string; photoUrl: string }) {
     return this.market.setFamillePhoto(body?.corpsMetier, body?.famille, body?.photoUrl);
   }
 
   // Upload photos générique (offres marketplace, portfolio pro…)
   @Post("photos")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
   @UseInterceptors(
     FilesInterceptor("files", 12, {
       storage: diskStorage({
