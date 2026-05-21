@@ -8,6 +8,7 @@ import P1Dossier from "../../tome3/portals/p1/P1Dossier";
 import P1ClientPhases from "../../tome3/portals/p1/P1ClientPhases";
 import P1MyDossiers from "../../tome3/portals/p1/P1MyDossiers";
 import P2Home from "../../tome3/portals/p2/P2Home";
+import P2Finalize from "../../tome3/portals/p2/P2Finalize";
 import P3Home from "../../tome3/portals/p3/P3Home";
 import P4Home from "../../tome3/portals/p4/P4Home";
 import P5Home from "../../tome3/portals/p5/P5Home";
@@ -184,6 +185,7 @@ export const router = createBrowserRouter([
       { path: '/p2', element: <AdminHostBlock><P2Home /></AdminHostBlock> },
       { path: '/p2/form', element: <AdminHostBlock><P2Home /></AdminHostBlock> },
       { path: '/p2/result', element: <AdminHostBlock><P2Home /></AdminHostBlock> },
+      { path: '/p2/finalize', element: <AdminHostBlock><P2Finalize /></AdminHostBlock> },
       { path: '/p3', element: <AdminHostBlock><P3Home /></AdminHostBlock> },
       { path: '/p4', element: <AdminHostBlock><P4Home /></AdminHostBlock> },
       { path: '/p5', element: <AdminHostBlock><P5Home /></AdminHostBlock> },

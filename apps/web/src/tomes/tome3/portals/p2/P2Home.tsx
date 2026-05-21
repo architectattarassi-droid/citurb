@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { apiBase } from "../../../tome4/apiClient";
+import { useAuth } from "../../../tome5/AuthProvider";
 import { getStoredLang } from "../../../../i18n/i18n";
+
+const P2_PENDING_KEY = "citurbarea:p2:pending_intake:v1";
 
 /**
  * P2Home — Porte 2 · Promotion immobilière & équipement privé
@@ -238,6 +242,8 @@ const HERO_POINTS = [
 ];
 
 function P2HomeInner() {
+  const auth = useAuth();
+  const navigate = useNavigate();
   const [screen, setScreen] = useState<"flow" | "success">("flow");
   const [phase, setPhase] = useState<Phase>("section");
   const [busy, setBusy] = useState(false);
@@ -389,51 +395,75 @@ function P2HomeInner() {
     }
   };
 
+  // Construit le payload /p2/intake à partir de l'état actuel.
+  // Réutilisé par le submit direct ET par la branche signup (stockée puis rejouée).
+  const buildIntakePayload = (clientEmailOverride?: string) => {
+    const sectionLabel = SECTIONS.find(s => s.id === section)?.label;
+    const title = `${sectionLabel} — ${selectedCategory?.label || ""} — ${identity.commune}`.replace(/—\s+—/g, "—").trim();
+    return {
+      porteType: "P2" as const,
+      gestionMode: "AUTONOME",
+      sousTypeP2: section,
+      commune: identity.commune,
+      surfacePlancher: section !== "LOT" ? +surfacePlancher : undefined,
+      natureProjet: identity.natureProjet || undefined,
+      raisonSociale: identity.raisonSociale || undefined,
+      rc: identity.rc || undefined,
+      ice: identity.ice || undefined,
+      representant: identity.representant || undefined,
+      clientNom: identity.clientNom,
+      clientTel: identity.clientTel,
+      clientEmail: clientEmailOverride || identity.clientEmail || undefined,
+      title,
+      lang: getStoredLang(),
+      source: "P2_WIZARD",
+      brief: {
+        sectionP2: section,
+        categoryCode: categoryCode || undefined,
+        categoryLabel: selectedCategory?.label,
+        surfacePlancherM2: section === "LOT" ? undefined : (isAMG ? +surfacePlancher : (computedSPPerBuilding ?? undefined)),
+        surfacePlancherTotalEstime: !isLOT && computedSPTotal != null ? computedSPTotal : undefined,
+        terrainM2: useRichMeasures && terrainM2 ? +terrainM2 : undefined,
+        rLevel: useRichMeasures ? rLevel : undefined,
+        facades: useRichMeasures ? +facades : undefined,
+        basement: useRichMeasures ? basement : undefined,
+        immVariant: section === "IMM" ? immVariant : undefined,
+        nbBatiments: section === "GR" ? +nbBatiments : 1,
+        surfaceTerrainHa: section === "LOT" ? +surfaceTerrainHa : undefined,
+        followMode,
+        quoteSnapshot: quote,
+      },
+    };
+  };
+
   const submitIntake = async () => {
     setError("");
     if (!identity.clientNom || !identity.clientTel) { setError("Nom et téléphone obligatoires."); return; }
     if (!identity.commune) { setError("Commune obligatoire."); return; }
+
+    // Continuité « comme P1 » : si pas connecté, on passe par le signup client
+    // (mot de passe + double validation email/SMS), puis on rejoue l'intake.
+    if (!auth.isAuthed) {
+      try {
+        localStorage.setItem(P2_PENDING_KEY, JSON.stringify(buildIntakePayload()));
+      } catch {}
+      // Préremplit l'inscription avec le téléphone/email/nom déjà saisis (via query).
+      const params = new URLSearchParams();
+      if (identity.clientEmail) params.set("email", identity.clientEmail);
+      if (identity.clientTel) params.set("phone", identity.clientTel);
+      if (identity.clientNom) params.set("name", identity.clientNom);
+      params.set("next", "/p2/finalize");
+      navigate(`/creer-compte/client?${params.toString()}`);
+      return;
+    }
+
     setBusy(true);
     try {
-      const sectionLabel = SECTIONS.find(s => s.id === section)?.label;
-      const title = `${sectionLabel} — ${selectedCategory?.label || ""} — ${identity.commune}`.replace(/—\s+—/g, "—").trim();
+      const payload = buildIntakePayload(auth.email);
       const res = await fetch(`${apiBase()}/p2/intake`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          porteType: "P2",
-          gestionMode: "AUTONOME",
-          sousTypeP2: section,
-          commune: identity.commune,
-          surfacePlancher: section !== "LOT" ? +surfacePlancher : undefined,
-          natureProjet: identity.natureProjet || undefined,
-          raisonSociale: identity.raisonSociale || undefined,
-          rc: identity.rc || undefined,
-          ice: identity.ice || undefined,
-          representant: identity.representant || undefined,
-          clientNom: identity.clientNom,
-          clientTel: identity.clientTel,
-          clientEmail: identity.clientEmail || undefined,
-          title,
-          lang: getStoredLang(),
-          source: "P2_WIZARD",
-          brief: {
-            sectionP2: section,
-            categoryCode: categoryCode || undefined,
-            categoryLabel: selectedCategory?.label,
-            surfacePlancherM2: section === "LOT" ? undefined : (isAMG ? +surfacePlancher : (computedSPPerBuilding ?? undefined)),
-            surfacePlancherTotalEstime: !isLOT && computedSPTotal != null ? computedSPTotal : undefined,
-            terrainM2: useRichMeasures && terrainM2 ? +terrainM2 : undefined,
-            rLevel: useRichMeasures ? rLevel : undefined,
-            facades: useRichMeasures ? +facades : undefined,
-            basement: useRichMeasures ? basement : undefined,
-            immVariant: section === "IMM" ? immVariant : undefined,
-            nbBatiments: section === "GR" ? +nbBatiments : 1,
-            surfaceTerrainHa: section === "LOT" ? +surfaceTerrainHa : undefined,
-            followMode,
-            quoteSnapshot: quote,
-          },
-        }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!data.ok) throw new Error(data.message || "Erreur soumission");

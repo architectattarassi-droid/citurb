@@ -22,10 +22,15 @@ export default function ClientSignup() {
 
   const [step, setStep] = useState<"form" | "verify">("form");
 
-  const [prenom, setPrenom] = useState("");
-  const [nom, setNom] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  // Préremplissage depuis les query params (ex. arrivée depuis la qualification P2)
+  const initialName = (params.get("name") || "").trim();
+  const initialPrenom = initialName.split(/\s+/)[0] || "";
+  const initialNom = initialName.split(/\s+/).slice(1).join(" ") || "";
+
+  const [prenom, setPrenom] = useState(initialPrenom);
+  const [nom, setNom] = useState(initialNom);
+  const [email, setEmail] = useState((params.get("email") || "").trim());
+  const [phone, setPhone] = useState((params.get("phone") || "").trim());
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
 
