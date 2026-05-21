@@ -2,6 +2,29 @@ import React, { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import proj4 from "proj4";
+import { apiBase } from "../../tomes/tome4/apiClient";
+
+/**
+ * Couches SIG disponibles via notre proxy /api/sig/... — proviennent des
+ * portails institutionnels (ArcGIS AURS pour le PA Rabat-Salé v1).
+ * Toujours servies depuis NOTRE origine (aucune redirection).
+ */
+type SigLayerDef = {
+  source: string; layer: string;
+  label: string; geomType: "polygon" | "line" | "point";
+  color: string; description?: string;
+};
+const SIG_LAYERS: SigLayerDef[] = [
+  { source: "aurs", layer: "10", label: "Limite du PA (Rabat-Salé)",   geomType: "polygon", color: "#0B1B3A", description: "Périmètre du Plan d'Aménagement" },
+  { source: "aurs", layer: "28", label: "Lotissements (Rabat-Salé)",   geomType: "polygon", color: "#f59e0b", description: "Lotissements existants et projetés" },
+  { source: "aurs", layer: "32", label: "Zonage réglementaire (Rabat-Salé)", geomType: "polygon", color: "#3b82f6", description: "Urbain, industriel, équipements…" },
+  { source: "aurs", layer: "31", label: "Secteurs urbains (Rabat-Salé)", geomType: "polygon", color: "#8b5cf6" },
+  { source: "aurs", layer: "1",  label: "Zones non aedificandi (Rabat-Salé)", geomType: "polygon", color: "#ef4444", description: "Zones non constructibles" },
+  { source: "aurs", layer: "25", label: "Espaces verts (Rabat-Salé)",  geomType: "polygon", color: "#22c55e" },
+  { source: "aurs", layer: "23", label: "Équipements publics (Rabat-Salé)", geomType: "polygon", color: "#a855f7" },
+  { source: "aurs", layer: "27", label: "Voiries projetées (Rabat-Salé)", geomType: "line",    color: "#dc2626" },
+];
+const layerKey = (l: SigLayerDef) => `${l.source}-${l.layer}`;
 
 /**
  * MapPicker — SIG intégré (100 % chez nous, aucune redirection externe).
@@ -73,6 +96,11 @@ export default function MapPicker({
   const [lambertX, setLambertX] = useState<string>("");
   const [lambertY, setLambertY] = useState<string>("");
 
+  // Couches SIG actives (proxy /api/sig/...) — chargées à la demande
+  const [activeSigLayers, setActiveSigLayers] = useState<Record<string, boolean>>({});
+  const [sigBusy, setSigBusy] = useState<Record<string, boolean>>({});
+  const [sigError, setSigError] = useState<Record<string, string>>({});
+
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
     const map = new maplibregl.Map({
@@ -93,6 +121,83 @@ export default function MapPicker({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // ── Toggle couche SIG (PA Rabat-Salé etc.) — charge en lazy ────────
+  const toggleSigLayer = async (def: SigLayerDef) => {
+    const key = layerKey(def);
+    const map = mapRef.current;
+    if (!map) return;
+    const isActive = !!activeSigLayers[key];
+    const sourceId = `sig-${key}`;
+    const layerId = `sig-${key}-fill`;
+    const strokeId = `sig-${key}-stroke`;
+
+    if (isActive) {
+      // Retire
+      try { if (map.getLayer(layerId)) map.removeLayer(layerId); } catch {}
+      try { if (map.getLayer(strokeId)) map.removeLayer(strokeId); } catch {}
+      try { if (map.getSource(sourceId)) map.removeSource(sourceId); } catch {}
+      setActiveSigLayers(s => ({ ...s, [key]: false }));
+      return;
+    }
+
+    // Active : fetch via notre proxy puis addSource + addLayer
+    setSigBusy(b => ({ ...b, [key]: true }));
+    setSigError(e => ({ ...e, [key]: "" }));
+    try {
+      const url = `${apiBase()}/api/sig/${def.source}/${def.layer}.geojson`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const geojson = await res.json();
+      if (!map.getSource(sourceId)) {
+        map.addSource(sourceId, { type: "geojson", data: geojson });
+      }
+      if (def.geomType === "polygon") {
+        map.addLayer({
+          id: layerId, source: sourceId, type: "fill",
+          paint: { "fill-color": def.color, "fill-opacity": 0.25, "fill-outline-color": def.color },
+        });
+        map.addLayer({
+          id: strokeId, source: sourceId, type: "line",
+          paint: { "line-color": def.color, "line-width": 1.5, "line-opacity": 0.85 },
+        });
+      } else if (def.geomType === "line") {
+        map.addLayer({
+          id: layerId, source: sourceId, type: "line",
+          paint: { "line-color": def.color, "line-width": 2.5, "line-opacity": 0.85 },
+        });
+      } else {
+        map.addLayer({
+          id: layerId, source: sourceId, type: "circle",
+          paint: { "circle-color": def.color, "circle-radius": 5, "circle-opacity": 0.85, "circle-stroke-color": "#fff", "circle-stroke-width": 1.5 },
+        });
+      }
+      // Zoom sur la bbox de la couche (si extent dispo dans _meta) — sinon laisse la vue actuelle
+      const feats = geojson?.features || [];
+      if (feats.length > 0 && !coords) {
+        try {
+          let xmin = 180, ymin = 90, xmax = -180, ymax = -90;
+          const visit = (c: any): void => {
+            if (typeof c[0] === "number" && typeof c[1] === "number") {
+              if (c[0] < xmin) xmin = c[0]; if (c[0] > xmax) xmax = c[0];
+              if (c[1] < ymin) ymin = c[1]; if (c[1] > ymax) ymax = c[1];
+            } else if (Array.isArray(c)) {
+              c.forEach(visit);
+            }
+          };
+          feats.slice(0, 200).forEach((f: any) => f.geometry?.coordinates && visit(f.geometry.coordinates));
+          if (xmin < xmax && ymin < ymax) {
+            map.fitBounds([[xmin, ymin], [xmax, ymax]], { padding: 60, maxZoom: 14, duration: 800 });
+          }
+        } catch {}
+      }
+      setActiveSigLayers(s => ({ ...s, [key]: true }));
+    } catch (e: any) {
+      setSigError(er => ({ ...er, [key]: e?.message || "Erreur de chargement" }));
+    } finally {
+      setSigBusy(b => ({ ...b, [key]: false }));
+    }
+  };
 
   const placeMarker = (lat: number, lng: number) => {
     const map = mapRef.current;
@@ -294,6 +399,53 @@ export default function MapPicker({
 
       {error && <div style={S.errBox}>⚠ {error}</div>}
 
+      {/* Toggle couches SIG officielles (PA, lotissements, zonages…) */}
+      <div style={S.sigPanel}>
+        <div style={S.sigPanelHeader}>
+          <div>
+            <div style={S.sigPanelEyebrow}>🗺️ Données officielles · Plans d'Aménagement</div>
+            <div style={S.sigPanelTitle}>Couches SIG intégrées (proxy CITURBAREA)</div>
+            <div style={S.sigPanelSub}>
+              Cliquez sur une couche pour la superposer sur la carte. Données issues des
+              géoportails publics marocains (PA homologués, loi 12-90), mises en cache 24 h
+              sur nos serveurs — vous ne sortez jamais de citurbarea.com.
+            </div>
+          </div>
+        </div>
+        <div style={S.sigLayerGrid}>
+          {SIG_LAYERS.map(def => {
+            const key = layerKey(def);
+            const active = !!activeSigLayers[key];
+            const busy = !!sigBusy[key];
+            const err = sigError[key];
+            return (
+              <button
+                key={key} type="button"
+                onClick={() => toggleSigLayer(def)}
+                disabled={busy}
+                title={def.description || def.label}
+                style={{
+                  ...S.sigLayerBtn,
+                  ...(active ? S.sigLayerBtnActive : {}),
+                  borderLeft: `4px solid ${def.color}`,
+                  cursor: busy ? "wait" : "pointer",
+                  opacity: busy ? 0.6 : 1,
+                }}
+              >
+                <span style={{ width: 12, height: 12, borderRadius: 3, background: def.color, flexShrink: 0 }} />
+                <span style={{ flex: 1, textAlign: "left" }}>
+                  {def.label}
+                  {err && <span style={{ color: "#b91c1c", display: "block", fontSize: 10.5 }}>{err}</span>}
+                </span>
+                <span style={{ fontSize: 11, opacity: 0.7 }}>
+                  {busy ? "…" : active ? "✓" : "+"}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Carte (toujours visible) */}
       <div
         ref={containerRef}
@@ -350,5 +502,26 @@ const S: Record<string, React.CSSProperties> = {
   errBox: {
     background: "rgba(220,38,38,0.07)", border: "1px solid rgba(220,38,38,0.22)",
     color: "#b91c1c", padding: "9px 12px", borderRadius: 10, fontSize: 12.5, marginBottom: 10,
+  },
+  sigPanel: {
+    background: "linear-gradient(135deg, rgba(11,27,58,0.04), rgba(201,162,39,0.06))",
+    border: "1px solid rgba(11,27,58,0.18)", borderLeft: "4px solid #0B1B3A",
+    borderRadius: 12, padding: 14, marginBottom: 12,
+  },
+  sigPanelHeader: { marginBottom: 12 },
+  sigPanelEyebrow: { fontSize: 10.5, fontWeight: 800, letterSpacing: "0.10em", color: "rgba(11,27,58,0.65)", textTransform: "uppercase", marginBottom: 4 },
+  sigPanelTitle: { fontFamily: '"Playfair Display", Georgia, serif', fontSize: 16, fontWeight: 700, color: "#0B1B3A", marginBottom: 4 },
+  sigPanelSub: { fontSize: 12, color: "rgba(11,27,58,0.7)", lineHeight: 1.55 },
+  sigLayerGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 8 },
+  sigLayerBtn: {
+    display: "flex", alignItems: "center", gap: 8,
+    padding: "8px 12px", borderRadius: 8,
+    background: "rgba(255,255,255,0.85)", border: "1px solid rgba(11,27,58,0.15)",
+    fontSize: 12, fontWeight: 600, color: "rgba(11,27,58,0.85)",
+    fontFamily: "inherit",
+  },
+  sigLayerBtnActive: {
+    background: "linear-gradient(135deg, rgba(201,162,39,0.18), rgba(232,216,166,0.18))",
+    border: "2px solid #C9A227", color: "#0B1B3A",
   },
 };

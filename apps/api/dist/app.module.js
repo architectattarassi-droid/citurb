@@ -41,6 +41,7 @@ const orchestrator_module_1 = require("./orchestrator/orchestrator.module");
 const firm_module_1 = require("./modules/firm/firm.module");
 const storage_module_1 = require("./modules/storage/storage.module");
 const geo_module_1 = require("./modules/geo/geo.module");
+const sig_module_1 = require("./modules/sig/sig.module");
 const phase_engine_module_1 = require("./modules/phase-engine/phase-engine.module");
 const messagerie_module_1 = require("./modules/messagerie/messagerie.module");
 const sous_phase_module_1 = require("./modules/sous-phase/sous-phase.module");
@@ -80,6 +81,7 @@ exports.AppModule = AppModule = __decorate([
             firm_module_1.FirmModule,
             storage_module_1.StorageModule,
             geo_module_1.GeoModule,
+            sig_module_1.SigModule,
             phase_engine_module_1.PhaseEngineModule,
             messagerie_module_1.MessagerieModule,
             sous_phase_module_1.SousPhaseModule,

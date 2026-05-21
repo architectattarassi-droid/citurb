@@ -37,6 +37,7 @@ import { OrchestratorModule } from "./orchestrator/orchestrator.module";
 import { FirmModule } from "./modules/firm/firm.module";
 import { StorageModule } from "./modules/storage/storage.module";
 import { GeoModule } from "./modules/geo/geo.module";
+import { SigModule } from "./modules/sig/sig.module";
 import { PhaseEngineModule } from "./modules/phase-engine/phase-engine.module";
 import { MessagerieModule } from "./modules/messagerie/messagerie.module";
 import { SousPhaseModule } from "./modules/sous-phase/sous-phase.module";
@@ -75,6 +76,7 @@ import { SousPhaseModule } from "./modules/sous-phase/sous-phase.module";
     FirmModule,
     StorageModule,
     GeoModule,
+    SigModule,
     PhaseEngineModule,
     MessagerieModule,
     SousPhaseModule,
