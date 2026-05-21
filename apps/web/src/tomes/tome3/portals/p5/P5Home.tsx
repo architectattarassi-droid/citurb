@@ -4,7 +4,6 @@ import { apiBase } from "../../../tome4/apiClient";
 import { useAuth } from "../../../tome5/AuthProvider";
 import { getStoredLang } from "../../../../i18n/i18n";
 import MapPicker from "../../../../features/geo/MapPicker";
-import TaamirEmbed from "../../../../features/geo/TaamirEmbed";
 import MohafadatiUpload, { UploadedDoc } from "../../../../features/geo/MohafadatiUpload";
 
 /**
@@ -185,7 +184,7 @@ function P5HomeInner() {
   const [previewBusy, setPreviewBusy] = useState(false);
 
   // Sprint 1 SIG — géoréférencement + document foncier
-  const [geoCoords, setGeoCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [geoCoords, setGeoCoords] = useState<{ lat: number; lng: number; source?: string } | null>(null);
   const [mohafadatiDoc, setMohafadatiDoc] = useState<UploadedDoc | null>(null);
 
   const [quote, setQuote] = useState<Quote | null>(null);
@@ -348,6 +347,7 @@ function P5HomeInner() {
         // Sprint 1 SIG — géoréférencement et document foncier
         geoLat: geoCoords?.lat,
         geoLng: geoCoords?.lng,
+        geoSource: geoCoords?.source,
         mohafadatiDocument: mohafadatiDoc || undefined,
         fromP2Dossier: fromP2 || undefined,
         quoteSnapshot: quote,
@@ -595,14 +595,7 @@ function P5HomeInner() {
               commune={identity.commune}
               adresse={identity.adresseBien}
               onChange={(c) => setGeoCoords(c)}
-              height={340}
-            />
-
-            {/* Sprint 1 — accès TAAMIR (documents d'urbanisme officiels) */}
-            <TaamirEmbed
-              commune={identity.commune}
-              province={identity.province}
-              region={identity.region}
+              height={360}
             />
 
             {/* Sprint 1 — upload extrait Mohafadati (workaround ANCFCC) */}
