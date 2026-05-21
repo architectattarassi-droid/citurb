@@ -188,8 +188,15 @@ let CerclesController = class CerclesController {
             if (!allowed.test(f.mimetype))
                 throw new common_1.BadRequestException(`Type ${f.mimetype} non autorisé`);
             const fileKey = `cercles-posts/${cercleId}/${f.filename}`;
+            // Multer décode `originalname` en latin1 par défaut ; on le ré-encode en UTF-8
+            // pour préserver les accents (à, é, ç…) dans le nom du fichier affiché.
+            let originalName = f.originalname;
+            try {
+                originalName = Buffer.from(f.originalname, "latin1").toString("utf8");
+            }
+            catch { /* fallback brut */ }
             return {
-                fileKey, filename: f.originalname, mimeType: f.mimetype, sizeBytes: f.size,
+                fileKey, filename: originalName, mimeType: f.mimetype, sizeBytes: f.size,
                 url: `/uploads/${fileKey}`,
             };
         });

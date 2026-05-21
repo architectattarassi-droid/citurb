@@ -234,13 +234,18 @@ export default function FeedHomePage() {
                 else navigate(`/cercles/${p.cercle.slug}/posts/${p.id}`);
               }}
               onDelete={async () => {
+                console.log("[cercles] delete: clic — post", p.id, "general=", p._general);
                 if (!confirm("Supprimer ce post ? Cette action est irréversible.")) return;
+                console.log("[cercles] delete: confirmé, appel API…");
                 try {
                   if (p._general) await cerclesApi.deleteGeneralPost(p.id);
                   else await cerclesApi.deletePost(p.cercleId, p.id);
+                  console.log("[cercles] delete: OK côté API, rafraîchissement du fil");
                   if (p._general) { await loadGeneral(); }
                   else { const r = await cerclesApi.feed(); setFeed(r.data); }
+                  console.log("[cercles] delete: fil rafraîchi");
                 } catch (e: any) {
+                  console.error("[cercles] delete: ÉCHEC API", e);
                   setErr(e?.message || "Échec de la suppression");
                 }
               }}

@@ -86,62 +86,53 @@ export function PostAttachments({ attachments, compact }: { attachments: Attachm
 
         if (a.mimeType === "application/pdf") {
           return (
-            <a
-              key={key}
-              href={url}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                padding: compact ? "10px 14px" : "14px 18px",
-                background: "#fff",
-                border: `1px solid ${CC_THEME.border}`,
-                borderRadius: 10,
-                textDecoration: "none",
-                color: CC_THEME.ink,
-                boxShadow: CC_THEME.shadowSoft,
-                minWidth: compact ? 220 : 280,
-                maxWidth: "100%",
-              }}
-            >
-              <div
+            <div key={key} style={{ width: "100%", maxWidth: compact ? 560 : 720 }}>
+              {/* Aperçu PDF intégré (rendu natif du navigateur) */}
+              <iframe
+                src={`${url}#view=FitH`}
+                title={a.filename}
                 style={{
-                  width: compact ? 38 : 48,
-                  height: compact ? 46 : 58,
-                  borderRadius: 5,
-                  background: "#dc2626",
-                  color: "#fff",
+                  width: "100%",
+                  height: compact ? 460 : 620,
+                  border: `1px solid ${CC_THEME.border}`,
+                  borderRadius: 8,
+                  background: "#fff",
+                  display: "block",
+                }}
+              />
+              {/* Lien de téléchargement / ouverture en grand sous l'aperçu */}
+              <a
+                href={url}
+                target="_blank"
+                rel="noreferrer"
+                download={a.filename}
+                style={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
-                  fontWeight: 800,
-                  fontSize: compact ? 11 : 13,
-                  letterSpacing: ".05em",
-                  flexShrink: 0,
+                  gap: 10,
+                  marginTop: 6,
+                  padding: "8px 12px",
+                  background: "#fff",
+                  border: `1px solid ${CC_THEME.border}`,
+                  borderRadius: 8,
+                  textDecoration: "none",
+                  color: CC_THEME.ink,
+                  fontSize: 13,
                 }}
               >
-                PDF
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div
+                <span
                   style={{
-                    fontSize: compact ? 13 : 14,
-                    fontWeight: 600,
-                    color: CC_THEME.navy,
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
+                    background: "#dc2626", color: "#fff", padding: "3px 7px",
+                    borderRadius: 4, fontSize: 10, fontWeight: 800, letterSpacing: ".05em",
                   }}
-                >
+                >PDF</span>
+                <span style={{ flex: 1, fontWeight: 600, color: CC_THEME.navy, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {a.filename}
-                </div>
-                <div style={{ fontSize: 11.5, color: CC_THEME.inkMuted, marginTop: 3 }}>
-                  PDF{a.sizeBytes ? ` · ${fmtSize(a.sizeBytes)}` : ""} · cliquer pour ouvrir
-                </div>
-              </div>
-            </a>
+                </span>
+                {a.sizeBytes ? <span style={{ color: CC_THEME.inkMuted, fontSize: 12 }}>{fmtSize(a.sizeBytes)}</span> : null}
+                <span style={{ color: CC_THEME.or, fontWeight: 600 }}>↓ Télécharger</span>
+              </a>
+            </div>
           );
         }
 
