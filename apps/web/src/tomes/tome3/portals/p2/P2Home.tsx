@@ -240,45 +240,50 @@ const PAGE_BG =
  * débloque un champ libre pour saisir un type non listé.
  */
 /**
- * Familles de projet — grandes cartes premium « type P1 » (bandeau catégorie,
- * titre, description, ✓ sélectionné, bordure dorée). Cliquer sur une famille
- * filtre la dropdown des sous-types.
+ * Familles de projet — grandes cartes premium « type P1 ».
+ *
+ * Doctrine P2 : promotion immobilière à partir de 2 logements (bi-familial+).
+ * L'habitat individuel mono-logement relève de la Porte 1 et n'est PAS proposé ici.
+ * Les immeubles sont scindés en deux familles distinctes selon la doctrine :
+ *   - Petit collectif jusqu'à R+4 (bi-familial et plus, max R+4)
+ *   - Collectif R+5 et plus
  */
-const NATURE_FAMILIES: { code: "habitat" | "immeuble" | "villa" | "gr" | "lot" | "epig" | "amg" | "autre"; category: string; title: string; sub: string }[] = [
-  { code: "habitat",  category: "RÉSIDENTIEL INDIVIDUEL", title: "Habitat individuel",  sub: "Maison RDC à R+3 (incl. habitat social conventionné Etat)." },
-  { code: "immeuble", category: "COLLECTIF",              title: "Immeuble collectif",  sub: "R+4 et plus, collectif / moyen / haut standing, bureaux." },
-  { code: "villa",    category: "RÉSIDENTIEL",            title: "Villas",              sub: "En bande, jumelée ou isolée — version standard ou de standing." },
-  { code: "gr",       category: "OPÉRATION GROUPÉE",      title: "Groupement résidentiel", sub: "Plusieurs bâtiments sur un même projet (résidence, complexe)." },
-  { code: "lot",      category: "FONCIER",                title: "Lotissement",         sub: "Découpage / morcellement / viabilisation (loi 25-90)." },
-  { code: "epig",     category: "ÉQUIPEMENT",             title: "Équipement privé",    sub: "Hôtel, école, mosquée, clinique, hangar, usine, etc." },
-  { code: "amg",      category: "TRANSFORMATION",         title: "Aménagement",         sub: "Réagencement d'un local existant / changement d'affectation." },
-  { code: "autre",    category: "AUTRE",                  title: "Autre — à préciser",  sub: "Votre projet ne correspond à aucune des familles ci-dessus." },
+const NATURE_FAMILIES: { code: "immeuble_petit" | "immeuble_grand" | "villa" | "gr" | "lot" | "epig" | "amg" | "autre"; category: string; title: string; sub: string }[] = [
+  { code: "immeuble_petit", category: "PETIT COLLECTIF (≤ R+4)", title: "Immeuble jusqu'à R+4", sub: "Bi-familial et plus, max R+4 — au moins 2 logements." },
+  { code: "immeuble_grand", category: "COLLECTIF R+5 ET PLUS",   title: "Immeuble R+5 et plus", sub: "Collectif à partir de R+5, moyen / haut standing, bureaux." },
+  { code: "villa",          category: "RÉSIDENTIEL",             title: "Villas",                sub: "En bande, jumelée ou isolée — version standard ou de standing." },
+  { code: "gr",             category: "OPÉRATION GROUPÉE",       title: "Groupement résidentiel", sub: "Plusieurs bâtiments sur un même projet (résidence, complexe)." },
+  { code: "lot",            category: "FONCIER",                 title: "Lotissement",           sub: "Découpage / morcellement / viabilisation (loi 25-90)." },
+  { code: "epig",           category: "ÉQUIPEMENT",              title: "Équipement privé",      sub: "Hôtel, école, mosquée, clinique, hangar, usine, etc." },
+  { code: "amg",            category: "TRANSFORMATION",          title: "Aménagement",           sub: "Réagencement d'un local existant / changement d'affectation." },
+  { code: "autre",          category: "AUTRE",                   title: "Autre — à préciser",    sub: "Votre projet ne correspond à aucune des familles ci-dessus." },
 ];
+
 
 const NATURE_PROJET_OPTIONS: { family: string; group: string; options: { value: string; label: string }[] }[] = [
   {
-    family: "habitat",
-    group: "Habitat individuel (≤ R+3)",
+    family: "immeuble_petit",
+    group: "Petit immeuble collectif (≤ R+4, ≥ 2 logements)",
     options: [
-      { value: "habitat_rdc",        label: "Maison RDC (de plain-pied)" },
-      { value: "habitat_r1",         label: "Maison R+1" },
-      { value: "habitat_r2",         label: "Maison R+2" },
-      { value: "habitat_r3",         label: "Maison R+3" },
-      { value: "habitat_social",     label: "Habitat social (conventionné Etat — 140 000 / 250 000 DH)" },
+      { value: "immeuble_rdc_bifam",  label: "Immeuble RDC bi-familial (2 logements de plain-pied)" },
+      { value: "immeuble_r1",         label: "Immeuble R+1 (2 à 4 logements)" },
+      { value: "immeuble_r2",         label: "Immeuble R+2 (3 à 6 logements)" },
+      { value: "immeuble_r3",         label: "Immeuble R+3 (4 à 8 logements)" },
+      { value: "immeuble_r4",         label: "Immeuble R+4 (5 à 10 logements)" },
+      { value: "immeuble_social_r4",  label: "Habitat social conventionné — petit collectif (≤ R+4)" },
     ],
   },
   {
-    family: "immeuble",
-    group: "Immeuble collectif / bureaux (R+4 et plus)",
+    family: "immeuble_grand",
+    group: "Immeuble collectif / bureaux R+5 et plus",
     options: [
-      { value: "immeuble_r4",        label: "Immeuble R+4" },
       { value: "immeuble_r5",        label: "Immeuble R+5" },
       { value: "immeuble_r6",        label: "Immeuble R+6" },
       { value: "immeuble_r7",        label: "Immeuble R+7" },
       { value: "immeuble_r8plus",    label: "Immeuble R+8 et plus" },
-      { value: "immeuble_moyen",     label: "Immeuble collectif moyen standing R+4+" },
-      { value: "immeuble_haut",      label: "Immeuble collectif haut standing R+4+" },
-      { value: "bureaux_r4plus",     label: "Immeuble de bureaux R+4+" },
+      { value: "immeuble_moyen",     label: "Immeuble collectif moyen standing (R+5+)" },
+      { value: "immeuble_haut",      label: "Immeuble collectif haut standing (R+5+)" },
+      { value: "bureaux_r5plus",     label: "Immeuble de bureaux R+5+" },
     ],
   },
   {
@@ -586,11 +591,21 @@ function P2HomeInner() {
   };
 
   // Famille déduite du code nature pour afficher les sous-champs adéquats.
-  const natureFamily: "habitat" | "immeuble" | "villa" | "gr" | "lot" | "epig" | "amg" | "autre" | "" = (() => {
+  // (Habitat individuel est volontairement exclu — il relève de la Porte 1.)
+  const natureFamily: "immeuble_petit" | "immeuble_grand" | "villa" | "gr" | "lot" | "epig" | "amg" | "autre" | "" = (() => {
     if (!natureCode) return "";
     if (natureCode === "autre") return "autre";
-    if (natureCode.startsWith("habitat_") || natureCode === "bureaux_r4plus") return "habitat";
-    if (natureCode.startsWith("immeuble_")) return "immeuble";
+    // Petits immeubles ≤ R+4 (et habitat social petit collectif)
+    if (
+      natureCode === "immeuble_rdc_bifam" ||
+      natureCode === "immeuble_r1" ||
+      natureCode === "immeuble_r2" ||
+      natureCode === "immeuble_r3" ||
+      natureCode === "immeuble_r4" ||
+      natureCode === "immeuble_social_r4"
+    ) return "immeuble_petit";
+    // Grands immeubles R+5 et plus
+    if (natureCode.startsWith("immeuble_") || natureCode === "bureaux_r5plus") return "immeuble_grand";
     if (natureCode.startsWith("villa_")) return "villa";
     if (natureCode.startsWith("gr_")) return "gr";
     if (natureCode.startsWith("lot_")) return "lot";
@@ -600,13 +615,15 @@ function P2HomeInner() {
   })();
 
   // Le niveau R+ est-il déjà inscrit dans le label de la nature ?
-  // (ex. "Maison R+2", "Immeuble R+5"). Dans ce cas on ne le redemande pas.
+  // (ex. "Immeuble R+2", "Immeuble R+5"). Dans ce cas on ne le redemande pas.
   const rLevelImpliedByNature = /(_r\d|_rdc)/.test(natureCode);
 
   // Quels sous-champs faut-il afficher en étape 1 ?
-  const askRLevel       = natureFamily === "villa" || natureFamily === "gr" || (natureFamily === "habitat" && !rLevelImpliedByNature) || (natureFamily === "immeuble" && !rLevelImpliedByNature);
+  const askRLevel       = natureFamily === "villa" || natureFamily === "gr"
+                        || (natureFamily === "immeuble_petit" && !rLevelImpliedByNature)
+                        || (natureFamily === "immeuble_grand" && !rLevelImpliedByNature);
   const askNbBatiments  = natureFamily === "gr";
-  const askTerrainM2    = ["habitat", "immeuble", "villa", "gr", "epig"].includes(natureFamily);
+  const askTerrainM2    = ["immeuble_petit", "immeuble_grand", "villa", "gr", "epig"].includes(natureFamily);
   const askTerrainHa    = natureFamily === "lot";
   const askPlancher     = natureFamily === "amg" || natureFamily === "epig";
 
@@ -1144,7 +1161,17 @@ function P2HomeInner() {
               </div>
               {/* Nature du projet — cartes premium par famille (style P1) */}
               <div className="field" style={{ gridColumn: "1 / -1" }}>
-                <label className="label" style={{ marginBottom: 12 }}>Nature du projet <span className="req">*</span></label>
+                <label className="label" style={{ marginBottom: 8 }}>Nature du projet <span className="req">*</span></label>
+                <div style={{
+                  background: "rgba(201,162,39,0.07)",
+                  border: "1px solid rgba(201,162,39,0.22)",
+                  borderRadius: 10, padding: "10px 14px",
+                  fontSize: 12.5, color: "rgba(11,27,58,0.8)",
+                  lineHeight: 1.6, marginBottom: 14,
+                }}>
+                  <strong>Promotion immobilière (Porte 2) :</strong> à partir de 2 logements (bi-familial et plus).
+                  {" "}Une seule maison individuelle ? <a href="/p1" style={{ color: "#C9A227", fontWeight: 600, textDecoration: "underline" }}>Passez par la Porte 1 →</a>
+                </div>
                 <div style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
