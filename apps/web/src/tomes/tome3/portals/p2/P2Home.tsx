@@ -232,6 +232,99 @@ const PAGE_BG =
   "radial-gradient(900px 420px at 82% 30%, rgba(232,216,166,0.10), transparent 60%)," +
   "linear-gradient(180deg, rgba(255,255,255,0.92), rgba(246,248,255,0.96))";
 
+/**
+ * Liste des natures de projet, dérivée des catégories du barème CNOA 2021
+ * (cf. apps/api/src/tomes/tome-2/p2/pricing.service.ts BAREME_CNOA_2021).
+ *
+ * Regroupée par famille pour un <select> à <optgroup>. L'option « autre »
+ * débloque un champ libre pour saisir un type non listé.
+ */
+const NATURE_PROJET_OPTIONS: { group: string; options: { value: string; label: string }[] }[] = [
+  {
+    group: "Habitat individuel (≤ R+3)",
+    options: [
+      { value: "habitat_rdc",        label: "Maison RDC (de plain-pied)" },
+      { value: "habitat_r1",         label: "Maison R+1" },
+      { value: "habitat_r2",         label: "Maison R+2" },
+      { value: "habitat_r3",         label: "Maison R+3" },
+      { value: "habitat_social",     label: "Habitat social (conventionné Etat — 140 000 / 250 000 DH)" },
+    ],
+  },
+  {
+    group: "Immeuble collectif / bureaux (R+4 et plus)",
+    options: [
+      { value: "immeuble_r4",        label: "Immeuble R+4" },
+      { value: "immeuble_r5",        label: "Immeuble R+5" },
+      { value: "immeuble_r6",        label: "Immeuble R+6" },
+      { value: "immeuble_r7",        label: "Immeuble R+7" },
+      { value: "immeuble_r8plus",    label: "Immeuble R+8 et plus" },
+      { value: "immeuble_moyen",     label: "Immeuble collectif moyen standing R+4+" },
+      { value: "immeuble_haut",      label: "Immeuble collectif haut standing R+4+" },
+      { value: "bureaux_r4plus",     label: "Immeuble de bureaux R+4+" },
+    ],
+  },
+  {
+    group: "Villas",
+    options: [
+      { value: "villa_bande",        label: "Villa en bande" },
+      { value: "villa_bande_st",     label: "Villa en bande de standing" },
+      { value: "villa_jumelee",      label: "Villa jumelée" },
+      { value: "villa_jumelee_st",   label: "Villa jumelée de standing" },
+      { value: "villa_isolee",       label: "Villa isolée" },
+      { value: "villa_isolee_st",    label: "Villa isolée de standing" },
+    ],
+  },
+  {
+    group: "Groupement résidentiel",
+    options: [
+      { value: "gr_residence",       label: "Résidence (plusieurs immeubles)" },
+      { value: "gr_complexe",        label: "Complexe résidentiel mixte" },
+      { value: "gr_villas",          label: "Lotissement de villas" },
+    ],
+  },
+  {
+    group: "Lotissement / morcellement",
+    options: [
+      { value: "lot_residentiel",    label: "Lotissement résidentiel" },
+      { value: "lot_industriel",     label: "Lotissement industriel" },
+      { value: "lot_morcellement",   label: "Morcellement (loi 25-90)" },
+    ],
+  },
+  {
+    group: "Équipement privé d'intérêt général (EPIG)",
+    options: [
+      { value: "epig_hangar_agri",   label: "Hangar agricole" },
+      { value: "epig_hangar_indus",  label: "Hangar / dépôt industriel" },
+      { value: "epig_usine",         label: "Usine" },
+      { value: "epig_ecole",         label: "École / collège / lycée" },
+      { value: "epig_mosquee",       label: "Mosquée" },
+      { value: "epig_maison_hote",   label: "Maison d'hôte" },
+      { value: "epig_hotel2",        label: "Hôtel 2★ / résidence touristique" },
+      { value: "epig_hotel3",        label: "Hôtel 3★" },
+      { value: "epig_hotel4",        label: "Hôtel 4★" },
+      { value: "epig_hotel5",        label: "Hôtel 5★ / équipement haut standing" },
+      { value: "epig_clinique",      label: "Clinique / hospitalier" },
+      { value: "epig_labo",          label: "Laboratoire / hémodialyse" },
+    ],
+  },
+  {
+    group: "Aménagement / transformation",
+    options: [
+      { value: "amg_petit",          label: "Petit aménagement intérieur (≤ 50 m²)" },
+      { value: "amg_agence",         label: "Agence bancaire / télécom" },
+      { value: "amg_showroom",       label: "Show-room / commerce" },
+      { value: "amg_restaurant",     label: "Restaurant / café" },
+      { value: "amg_changement_aff", label: "Changement d'affectation (villa → équipement)" },
+    ],
+  },
+  {
+    group: "Autre",
+    options: [
+      { value: "autre",              label: "Autre — à préciser" },
+    ],
+  },
+];
+
 const fullBleed: React.CSSProperties = {
   width: "100vw", position: "relative", left: "50%", right: "50%",
   marginLeft: "-50vw", marginRight: "-50vw", minHeight: "100vh", background: PAGE_BG,
@@ -283,6 +376,11 @@ function P2HomeInner() {
     raisonSociale: "", representant: "", rc: "", ice: "",
     region: "", province: "", commune: "", natureProjet: "",
   });
+  // Si l'utilisateur choisit « autre » dans la liste, on stocke la
+  // valeur libre dans un état dédié et on l'écrit dans natureProjet
+  // lors du submit (format : « Autre : <texte libre> »).
+  const [natureCode, setNatureCode] = useState<string>("");
+  const [natureAutre, setNatureAutre] = useState<string>("");
   const [error, setError] = useState("");
   const [dossierId, setDossierId] = useState<string | null>(null);
 
@@ -456,6 +554,8 @@ function P2HomeInner() {
         standing,
         ownerStatus,
         timeline,
+        natureProjetCode: natureCode,
+        natureProjetAutre: natureCode === "autre" ? natureAutre : undefined,
         quoteSnapshot: quote,
       },
     };
@@ -467,6 +567,10 @@ function P2HomeInner() {
     if (!identity.region || !identity.province || !identity.commune) return "Région, province et commune obligatoires.";
     if (moaType === "morale" && (!identity.raisonSociale || !identity.representant)) {
       return "Raison sociale et représentant légal obligatoires pour une personne morale.";
+    }
+    if (!natureCode) return "Choisissez la nature du projet dans la liste.";
+    if (natureCode === "autre" && !natureAutre.trim()) {
+      return "Précisez votre type de projet (champ « Autre »).";
     }
     if (!ownerStatus) return "Indiquez le statut du terrain.";
     if (!timeline) return "Indiquez le délai souhaité.";
@@ -985,9 +1089,52 @@ function P2HomeInner() {
                 <input className="control" value={identity.commune} onChange={f("commune")} placeholder="Mehdia, Témara, Bouznika…" />
               </div>
               <div className="field">
-                <label className="label">Nature du projet</label>
-                <input className="control" value={identity.natureProjet} onChange={f("natureProjet")} placeholder="Construction neuve / extension…" />
+                <label className="label">Nature du projet <span className="req">*</span></label>
+                <select
+                  className="control"
+                  value={natureCode}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    setNatureCode(v);
+                    if (v !== "autre") {
+                      // Renseigne natureProjet avec le label lisible.
+                      let label = "";
+                      for (const g of NATURE_PROJET_OPTIONS) {
+                        const o = g.options.find(x => x.value === v);
+                        if (o) { label = o.label; break; }
+                      }
+                      setIdentity(prev => ({ ...prev, natureProjet: label }));
+                      setNatureAutre("");
+                    } else {
+                      setIdentity(prev => ({ ...prev, natureProjet: "" }));
+                    }
+                  }}
+                >
+                  <option value="">— Sélectionner —</option>
+                  {NATURE_PROJET_OPTIONS.map(g => (
+                    <optgroup key={g.group} label={g.group}>
+                      {g.options.map(o => (
+                        <option key={o.value} value={o.value}>{o.label}</option>
+                      ))}
+                    </optgroup>
+                  ))}
+                </select>
               </div>
+              {natureCode === "autre" && (
+                <div className="field" style={{ gridColumn: "1 / -1" }}>
+                  <label className="label">Précisez votre type de projet <span className="req">*</span></label>
+                  <input
+                    className="control"
+                    value={natureAutre}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      setNatureAutre(v);
+                      setIdentity(prev => ({ ...prev, natureProjet: v ? `Autre : ${v}` : "" }));
+                    }}
+                    placeholder="Décrivez précisément la nature de votre projet…"
+                  />
+                </div>
+              )}
             </div>
 
             {/* 5) Caractéristiques projet — standing, propriétaire, délai (cf. P1) */}
