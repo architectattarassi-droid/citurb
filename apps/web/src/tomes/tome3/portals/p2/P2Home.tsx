@@ -248,7 +248,7 @@ const PAGE_BG =
  *   - Petit collectif jusqu'à R+4 (bi-familial et plus, max R+4)
  *   - Collectif R+5 et plus
  */
-const NATURE_FAMILIES: { code: "immeuble_petit" | "immeuble_grand" | "villa" | "gr" | "lot" | "epig" | "amg" | "autre"; category: string; title: string; sub: string }[] = [
+const NATURE_FAMILIES: { code: "immeuble_petit" | "immeuble_grand" | "villa" | "gr" | "lot" | "epig" | "amg" | "expertise" | "autre"; category: string; title: string; sub: string }[] = [
   { code: "immeuble_petit", category: "PETIT COLLECTIF (≤ R+4)", title: "Immeuble jusqu'à R+4", sub: "Bi-familial et plus, max R+4 — au moins 2 logements." },
   { code: "immeuble_grand", category: "COLLECTIF R+5 ET PLUS",   title: "Immeuble R+5 et plus", sub: "Collectif à partir de R+5, moyen / haut standing, bureaux." },
   { code: "villa",          category: "RÉSIDENTIEL",             title: "Villas",                sub: "En bande, jumelée ou isolée — version standard ou de standing." },
@@ -256,6 +256,7 @@ const NATURE_FAMILIES: { code: "immeuble_petit" | "immeuble_grand" | "villa" | "
   { code: "lot",            category: "FONCIER",                 title: "Lotissement",           sub: "Découpage / morcellement / viabilisation (loi 25-90)." },
   { code: "epig",           category: "ÉQUIPEMENT",              title: "Équipement privé",      sub: "Hôtel, école, mosquée, clinique, hangar, usine, etc." },
   { code: "amg",            category: "TRANSFORMATION",          title: "Aménagement",           sub: "Réagencement d'un local existant / changement d'affectation." },
+  { code: "expertise",      category: "EXPERTISE & QUALIFICATION", title: "Je ne sais pas — Expertise", sub: "Vous hésitez sur la typologie ? Une mission d'expertise CITURBAREA qualifie votre projet (programme, gabarit, faisabilité). Mission facturable, livrable = rapport." },
   { code: "autre",          category: "AUTRE",                   title: "Autre — à préciser",    sub: "Votre projet ne correspond à aucune des familles ci-dessus." },
 ];
 
@@ -585,6 +586,9 @@ function P2HomeInner() {
         timeline,
         natureProjetCode: natureCode,
         natureProjetAutre: natureCode === "autre" ? natureAutre : undefined,
+        // Mission d'expertise & qualification (rapport facturable) — pas de devis
+        // CNOA classique, la facturation suit le barème expertise CITURBAREA.
+        expertiseRequested: natureCode === "expertise_qualif" ? true : undefined,
         quoteSnapshot: quote,
       },
     };
@@ -592,9 +596,10 @@ function P2HomeInner() {
 
   // Famille déduite du code nature pour afficher les sous-champs adéquats.
   // (Habitat individuel est volontairement exclu — il relève de la Porte 1.)
-  const natureFamily: "immeuble_petit" | "immeuble_grand" | "villa" | "gr" | "lot" | "epig" | "amg" | "autre" | "" = (() => {
+  const natureFamily: "immeuble_petit" | "immeuble_grand" | "villa" | "gr" | "lot" | "epig" | "amg" | "expertise" | "autre" | "" = (() => {
     if (!natureCode) return "";
     if (natureCode === "autre") return "autre";
+    if (natureCode === "expertise_qualif") return "expertise";
     // Petits immeubles ≤ R+4 (et habitat social petit collectif)
     if (
       natureCode === "immeuble_rdc_bifam" ||
@@ -619,13 +624,16 @@ function P2HomeInner() {
   const rLevelImpliedByNature = /(_r\d|_rdc)/.test(natureCode);
 
   // Quels sous-champs faut-il afficher en étape 1 ?
-  const askRLevel       = natureFamily === "villa" || natureFamily === "gr"
-                        || (natureFamily === "immeuble_petit" && !rLevelImpliedByNature)
-                        || (natureFamily === "immeuble_grand" && !rLevelImpliedByNature);
-  const askNbBatiments  = natureFamily === "gr";
-  const askTerrainM2    = ["immeuble_petit", "immeuble_grand", "villa", "gr", "epig"].includes(natureFamily);
-  const askTerrainHa    = natureFamily === "lot";
-  const askPlancher     = natureFamily === "amg" || natureFamily === "epig";
+  // (Expertise & qualification : aucun champ technique — c'est nous qui qualifions.)
+  const isExpertise = natureFamily === "expertise";
+  const askRLevel       = !isExpertise && (
+                          natureFamily === "villa" || natureFamily === "gr"
+                          || (natureFamily === "immeuble_petit" && !rLevelImpliedByNature)
+                          || (natureFamily === "immeuble_grand" && !rLevelImpliedByNature));
+  const askNbBatiments  = !isExpertise && natureFamily === "gr";
+  const askTerrainM2    = !isExpertise && ["immeuble_petit", "immeuble_grand", "villa", "gr", "epig"].includes(natureFamily);
+  const askTerrainHa    = !isExpertise && natureFamily === "lot";
+  const askPlancher     = !isExpertise && (natureFamily === "amg" || natureFamily === "epig");
 
   // Validation de la phase identité (étape 1 — qui êtes-vous).
   const validateIdentity = (): string | null => {
@@ -653,6 +661,12 @@ function P2HomeInner() {
     setError("");
     const err = validateIdentity();
     if (err) { setError(err); return; }
+    // Mission d'expertise : pas d'étapes projet (section/catégorie/mesures) —
+    // le rapport facturable est créé directement à partir de l'identité.
+    if (isExpertise) {
+      submitIntake();
+      return;
+    }
     setPhase("section");
   };
 
@@ -716,19 +730,34 @@ function P2HomeInner() {
         <section className="section">
           <div className="container-max" style={{ maxWidth: 820 }}>
             <div className="lux-card" style={{ textAlign: "center", marginBottom: 18 }}>
-              <div style={{ fontSize: 52, marginBottom: 14 }}>✅</div>
-              <h2 style={{ fontSize: 26, margin: "0 0 12px" }}>Dossier créé · devis livré</h2>
+              <div style={{ fontSize: 52, marginBottom: 14 }}>{isExpertise ? "📋" : "✅"}</div>
+              <h2 style={{ fontSize: 26, margin: "0 0 12px" }}>
+                {isExpertise ? "Dossier d'expertise créé" : "Dossier créé · devis livré"}
+              </h2>
               <p className="muted" style={{ fontSize: 14.5, lineHeight: 1.7, margin: "0 0 18px" }}>
-                Votre projet <strong style={{ color: "#0B1B3A" }}>{SECTIONS.find(s => s.id === section)?.label}</strong> est
-                désormais rattaché à votre compte et à un dossier identifié dans votre espace
-                CITURBAREA. L'équipe vous recontacte sous 24h avec le contrat type unifié et le visa CROA.
+                {isExpertise ? (
+                  <>
+                    Votre <strong style={{ color: "#0B1B3A" }}>mission d'expertise &amp; qualification</strong> est
+                    enregistrée. L'équipe vous contacte sous 24h pour la facturation du rapport
+                    (forfait expertise selon la complexité du projet) puis lance la qualification :
+                    programme, gabarit, faisabilité réglementaire. Le rapport livré, vous pourrez
+                    enchaîner directement sur une mission d'architecture standard si vous le souhaitez.
+                  </>
+                ) : (
+                  <>
+                    Votre projet <strong style={{ color: "#0B1B3A" }}>{SECTIONS.find(s => s.id === section)?.label}</strong> est
+                    désormais rattaché à votre compte et à un dossier identifié dans votre espace
+                    CITURBAREA. L'équipe vous recontacte sous 24h avec le contrat type unifié et le visa CROA.
+                  </>
+                )}
                 <br />
                 <span style={{ fontSize: 12 }}>Réf. dossier : {dossierId?.slice(0, 12)}…</span>
               </p>
             </div>
 
-            {/* Devis officiel — livré uniquement avec un dossier identifié */}
-            {quote && (
+            {/* Devis officiel — livré uniquement avec un dossier identifié.
+                Masqué pour les missions d'expertise (forfait notifié séparément). */}
+            {!isExpertise && quote && (
               <div className="lux-card" style={{ marginBottom: 18 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 18, flexWrap: "wrap" }}>
                   <div>
@@ -1184,10 +1213,15 @@ function P2HomeInner() {
                         key={fam.code}
                         type="button"
                         onClick={() => {
-                          // Reset si on change de famille — sauf "autre" qui n'a pas de sous-options.
                           if (fam.code === "autre") {
                             setNatureCode("autre");
                             setIdentity(prev => ({ ...prev, natureProjet: "" }));
+                          } else if (fam.code === "expertise") {
+                            // Mission d'expertise & qualification — pas de sous-type technique :
+                            // un dossier est créé, l'équipe qualifie ensuite le projet (rapport facturable).
+                            setNatureCode("expertise_qualif");
+                            setIdentity(prev => ({ ...prev, natureProjet: "Mission d'expertise & qualification (rapport)" }));
+                            setNatureAutre("");
                           } else {
                             // Pré-sélectionne la première option de la famille pour aider le visiteur.
                             const grp = NATURE_PROJET_OPTIONS.find(g => g.family === fam.code);
@@ -1236,7 +1270,28 @@ function P2HomeInner() {
                 </div>
 
                 {/* Sous-dropdown filtrée par famille — apparaît dès qu'une carte est sélectionnée */}
-                {natureFamily && natureFamily !== "autre" && (() => {
+                {natureFamily === "expertise" && (
+                  <div style={{
+                    marginTop: 4,
+                    background: "linear-gradient(135deg, rgba(11,27,58,0.06), rgba(201,162,39,0.10))",
+                    border: "1px solid rgba(201,162,39,0.35)",
+                    borderLeft: "4px solid #C9A227",
+                    borderRadius: 12, padding: "16px 20px",
+                  }}>
+                    <div style={{ fontWeight: 700, color: "#0B1B3A", fontSize: 14.5, marginBottom: 6 }}>
+                      Mission d'expertise &amp; qualification — facturable
+                    </div>
+                    <div style={{ fontSize: 13, color: "rgba(11,27,58,0.78)", lineHeight: 1.6 }}>
+                      Pas besoin de connaître la typologie exacte : nos architectes qualifient votre
+                      projet (programme, gabarit, faisabilité réglementaire, opportunités de
+                      constructibilité) et vous remettent un <strong>rapport d'expertise</strong>.
+                      Un dossier est créé à votre nom et la mission est facturée séparément avant
+                      remise du rapport — vous gardez la main pour enchaîner ensuite sur une mission
+                      d'architecture standard si vous le souhaitez.
+                    </div>
+                  </div>
+                )}
+                {natureFamily && natureFamily !== "autre" && natureFamily !== "expertise" && (() => {
                   const grp = NATURE_PROJET_OPTIONS.find(g => g.family === natureFamily);
                   if (!grp) return null;
                   return (
@@ -1370,8 +1425,12 @@ function P2HomeInner() {
 
             {error && phase === "identity" && <div className="err">⚠ {error}</div>}
             <div style={{ marginTop: 28 }}>
-              <button className="btn btn-gold" onClick={identityContinue}>
-                Continuer : décrire mon projet →
+              <button className="btn btn-gold" disabled={busy} onClick={identityContinue}>
+                {busy
+                  ? "Envoi…"
+                  : isExpertise
+                    ? (auth.isAuthed ? "Créer mon dossier d'expertise →" : "Créer mon compte + dossier d'expertise →")
+                    : "Continuer : décrire mon projet →"}
               </button>
             </div>
           </div>
