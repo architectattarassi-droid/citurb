@@ -1,19 +1,26 @@
 import { Injectable } from "@nestjs/common";
 
 /**
- * P5 Pricing Service — Rapports d'expertise (refonte v2)
+ * P5 Pricing Service — Rapports d'expertise (refonte v3)
  *
- * Doctrine v2 — 3 rapports premium au pourcentage :
+ * Doctrine v3 — 3 rapports premium au pourcentage :
  *
  *   EXPERTISE_PRIX     = 1.0 % du prix foncier
  *   EXPERTISE_URBA     = 0.5 % du coût de construction
  *   READY_TO_INVEST    = 1.0 % du montant total d'investissement (BP bankable)
  *
- * Modulateurs :
- *   - Délai (Express +40 %, Standard, Économique -10 %)
- *   - Bundle multi-rapports (-10 % pour Prix+Urba, -15 % pour les trois)
+ * **UX CRITIQUE** : le client vient justement pour OBTENIR l'estimation. On ne
+ * peut pas lui demander de connaître son prix foncier ou son coût de construction
+ * (sinon il n'a pas besoin du rapport). Le client renseigne donc des données
+ * DESCRIPTIVES (terrain m², type de projet, R+, standing, tranche de zone) et
+ * c'est nous qui calculons en interne une estimation sommaire qui sert d'assiette
+ * au devis du rapport.
  *
- * Tarifs planchers (anti-dumping pour petits projets) :
+ * Le rapport final affinera/validera cette estimation : c'est précisément ce que
+ * le client paie. Le devis lui-même est calculé à partir de notre estimation
+ * pour rester proportionné à l'enjeu du projet.
+ *
+ * Planchers tarifaires (anti-dumping) :
  *   - EXPERTISE_PRIX : min 5 000 DH HT
  *   - EXPERTISE_URBA : min 6 000 DH HT
  *   - READY_TO_INVEST : min 18 000 DH HT
@@ -23,8 +30,7 @@ export type P5ReportType =
   | "EXPERTISE_PRIX"
   | "EXPERTISE_URBA"
   | "READY_TO_INVEST"
-  // Anciens codes — conservés pour ne pas casser les dossiers existants.
-  // Internement remappés vers les nouveaux pour le pricing.
+  // Anciens codes (compat) — remappés vers les nouveaux pour le pricing.
   | "ESTIMATION_VENALE"
   | "CONFORMITE_URBANISTIQUE"
   | "RISQUE_TECHNIQUE"
@@ -32,18 +38,60 @@ export type P5ReportType =
 
 export type P5DelayMode = "EXPRESS" | "STANDARD" | "ECONOMIQUE";
 
+/** Tranche de prix au m² du foncier dans la zone du bien — calibré marché marocain. */
+export type P5ZoneTier =
+  | "RURAL"        //  ≤ 1 500 DH/m² (terrains en zones rurales / périurbaines)
+  | "STANDARD"     // 1 500 - 4 000 DH/m² (villes moyennes, périphéries)
+  | "URBAIN"       // 4 000 - 8 000 DH/m² (centres urbains, grandes villes)
+  | "PREMIUM"      // 8 000 - 15 000 DH/m² (quartiers premium Casablanca, Rabat)
+  | "ULTRA";       // ≥ 15 000 DH/m² (hyper-centres prestige, front de mer prime)
+
+const ZONE_PRICE_MID: Record<P5ZoneTier, number> = {
+  RURAL: 1000,
+  STANDARD: 2750,
+  URBAIN: 6000,
+  PREMIUM: 11500,
+  ULTRA: 20000,
+};
+
+/** Coût de construction au m² selon standing (aligné doctrine P1/P2). */
+export type P5StandingTier = "economique" | "moyen" | "haut" | "luxe";
+const STANDING_COST_M2: Record<P5StandingTier, number> = {
+  economique: 2000,
+  moyen: 3500,
+  haut: 5000,
+  luxe: 7500,
+};
+
+/** Famille de bien — pilote le calcul du plancher estimé à partir du terrain. */
+export type P5BienFamily =
+  | "TERRAIN_NU"        // pas de construction prévue
+  | "VILLA"             // R / R+1 / R+2 — emprise ~40-60% du terrain
+  | "PETIT_COLLECTIF"   // R+1 à R+4 — emprise + niveaux
+  | "GRAND_COLLECTIF"   // R+5+ — emprise + niveaux
+  | "EQUIPEMENT"        // EPIG (hôtel, école, hangar…) — plancher saisi
+  | "AMENAGEMENT"       // local existant — surface saisie
+  | "AUTRE";
+
 export type P5QuoteInput = {
   reportType: P5ReportType;
   delayMode?: P5DelayMode;
-  /** Prix d'acquisition du foncier (MAD). Requis pour EXPERTISE_PRIX et READY_TO_INVEST. */
+
+  // ── Inputs descriptifs (le client donne ce qu'il sait, on estime le reste) ──
+  bienFamily?: P5BienFamily;
+  surfaceTerrainM2?: number;       // terrain (m²)
+  surfacePlancherM2?: number;      // plancher si déjà connu (sinon estimé)
+  rLevel?: string;                 // "R0" | "R1" | ... | "R8" (info)
+  standing?: P5StandingTier;       // pour coût construction
+  zoneTier?: P5ZoneTier;           // pour prix foncier au m²
+  nbBatiments?: number;            // si groupement
+
+  // ── Inputs financiers (optionnels — si le client les connaît, on les utilise) ──
   prixFoncierMAD?: number;
-  /** Coût de construction estimé (MAD). Requis pour EXPERTISE_URBA et READY_TO_INVEST. */
   coutConstructionMAD?: number;
-  /** Montant total d'investissement (MAD). Si fourni pour READY_TO_INVEST, prime sur la somme prix+coût. */
   montantInvestissementMAD?: number;
-  /** Surface plancher / parcelle (m²) — info indicative. */
-  surfaceM2?: number;
-  /** Bundle : autres rapports demandés en même temps pour appliquer la remise. */
+
+  // Bundle multi-rapports
   bundleWith?: P5ReportType[];
 };
 
@@ -52,17 +100,11 @@ type ReportDef = {
   label: string;
   shortDesc: string;
   longDesc: string;
-  /** Taux % du paramètre d'assiette */
   rate: number;
-  /** Plancher tarifaire (HT, MAD) */
   minHT: number;
-  /** Délai standard en jours ouvrables */
   deliveryDays: number;
-  /** Chapitres / livrables du rapport (ordre = sommaire du PDF) */
   chapters: string[];
-  /** Cible business du rapport */
   audience: string[];
-  /** Mention bankable / signature */
   signature: string;
 };
 
@@ -71,10 +113,8 @@ const REPORT_DEFINITIONS: Record<"EXPERTISE_PRIX" | "EXPERTISE_URBA" | "READY_TO
     code: "EXPERTISE_PRIX",
     label: "Rapport Expertise Prix",
     shortDesc: "Valeur vénale fondée + étude comparée de marché",
-    longDesc:
-      "Avis de valeur opposable et justifié, fondé sur une visite terrain, des comparables ventes récents " +
-      "et une méthodologie documentée. Livrable PDF signé numériquement par l'expert CITURBAREA.",
-    rate: 0.01,        // 1.0 % du prix foncier
+    longDesc: "Avis de valeur opposable, fondé sur une visite terrain, des comparables ventes récents et une méthodologie documentée.",
+    rate: 0.01,
     minHT: 5000,
     deliveryDays: 10,
     chapters: [
@@ -92,11 +132,8 @@ const REPORT_DEFINITIONS: Record<"EXPERTISE_PRIX" | "EXPERTISE_URBA" | "READY_TO
     code: "EXPERTISE_URBA",
     label: "Rapport Expertise Urbanistique",
     shortDesc: "Note RU + COS/CES/gabarit + scénarios de constructibilité",
-    longDesc:
-      "Analyse réglementaire complète : note de renseignement urbanistique, vérification COS/CES, " +
-      "hauteur, recul, façades, et scénarios de constructibilité optimisée. " +
-      "Outil de due-diligence pour acquéreurs et investisseurs.",
-    rate: 0.005,       // 0.5 % du coût de construction
+    longDesc: "Analyse réglementaire complète : note RU, vérification COS/CES, hauteur, recul, façades, scénarios de constructibilité optimisée.",
+    rate: 0.005,
     minHT: 6000,
     deliveryDays: 12,
     chapters: [
@@ -116,12 +153,8 @@ const REPORT_DEFINITIONS: Record<"EXPERTISE_PRIX" | "EXPERTISE_URBA" | "READY_TO
     code: "READY_TO_INVEST",
     label: "Rapport Complet Premium — Ready-to-Invest",
     shortDesc: "Business Plan bankable complet (BP + ROI + sensibilité)",
-    longDesc:
-      "Rapport premium destiné aux banques, fonds d'investissement et family offices. Intègre l'expertise " +
-      "prix, l'expertise urbanistique, le programme architectural, la chaîne de coûts complète (acquisition " +
-      "+ études + travaux + frais financiers), le prix de vente projeté, le budget total, le ROI / TRI / VAN " +
-      "et une analyse de sensibilité. Livrable PDF premium 40-60 pages signé.",
-    rate: 0.01,        // 1.0 % du montant total d'investissement
+    longDesc: "Rapport premium destiné aux banques, fonds et family offices. Intègre expertise prix + urba + programme + coûts + prix vente + ROI/TRI/VAN + sensibilité.",
+    rate: 0.01,
     minHT: 18000,
     deliveryDays: 21,
     chapters: [
@@ -143,7 +176,6 @@ const REPORT_DEFINITIONS: Record<"EXPERTISE_PRIX" | "EXPERTISE_URBA" | "READY_TO
   },
 };
 
-// Migration douce : les anciens codes redirigent vers les 3 nouveaux pour le pricing.
 const LEGACY_REMAP: Record<P5ReportType, "EXPERTISE_PRIX" | "EXPERTISE_URBA" | "READY_TO_INVEST"> = {
   EXPERTISE_PRIX: "EXPERTISE_PRIX",
   EXPERTISE_URBA: "EXPERTISE_URBA",
@@ -155,26 +187,15 @@ const LEGACY_REMAP: Record<P5ReportType, "EXPERTISE_PRIX" | "EXPERTISE_URBA" | "
 };
 
 const DELAY_COEFFICIENT: Record<P5DelayMode, number> = {
-  EXPRESS: 1.4,    // +40 %
-  STANDARD: 1.0,
-  ECONOMIQUE: 0.9, // -10 %
+  EXPRESS: 1.4, STANDARD: 1.0, ECONOMIQUE: 0.9,
 };
 const DELAY_LABEL: Record<P5DelayMode, string> = {
-  EXPRESS: "Express",
-  STANDARD: "Standard",
-  ECONOMIQUE: "Économique",
+  EXPRESS: "Express", STANDARD: "Standard", ECONOMIQUE: "Économique",
 };
 const DELAY_DAYS_DELTA: Record<P5DelayMode, number | null> = {
-  EXPRESS: 5,        // 5 j fixes
-  STANDARD: null,    // utilise le délai standard du rapport
-  ECONOMIQUE: 30,    // 30 j fixes
+  EXPRESS: 5, STANDARD: null, ECONOMIQUE: 30,
 };
 
-/**
- * Bundle discount : si l'utilisateur demande plusieurs rapports en une fois.
- *  - 2 rapports parmi PRIX/URBA → -10 %
- *  - 3 rapports (PRIX + URBA + RTI) → -15 % (RTI inclut déjà PRIX + URBA, donc bundle peu utilisé)
- */
 function bundleDiscount(types: ("EXPERTISE_PRIX" | "EXPERTISE_URBA" | "READY_TO_INVEST")[]): number {
   const set = new Set(types);
   if (set.size >= 3) return 0.15;
@@ -182,10 +203,109 @@ function bundleDiscount(types: ("EXPERTISE_PRIX" | "EXPERTISE_URBA" | "READY_TO_
   return 0;
 }
 
+/**
+ * Estimation sommaire — calcule prix foncier, coût construction et montant
+ * d'investissement à partir des données descriptives du client.
+ *
+ * C'est volontairement une fourchette large (±20%) pour couvrir la diversité
+ * des situations. Le rapport final affinera ces chiffres.
+ */
+export type P5InternalEstimation = {
+  prixFoncierMAD: number;
+  coutConstructionMAD: number;
+  montantInvestissementMAD: number;
+  surfacePlancherEstimee: number;
+  hypotheses: string[];
+};
+
+function estimatePlancher(
+  family: P5BienFamily,
+  surfaceTerrain: number,
+  rLevel?: string,
+  nbBatiments?: number,
+): number {
+  if (family === "TERRAIN_NU") return 0;
+  if (family === "AMENAGEMENT") return surfaceTerrain; // surface du local
+
+  const lvl = rLevel ? Number(String(rLevel).replace(/[^0-9]/g, "")) : 0;
+  const niveaux = Number.isFinite(lvl) ? Math.max(0, lvl) : 0;
+  // Emprise au sol selon la famille (% du terrain)
+  const empriseRatio = family === "VILLA" ? 0.50
+                     : family === "PETIT_COLLECTIF" ? 0.60
+                     : family === "GRAND_COLLECTIF" ? 0.65
+                     : family === "EQUIPEMENT" ? 0.55
+                     : 0.50;
+  const empriseSol = surfaceTerrain * empriseRatio;
+  // RDC + niveaux supérieurs (coefficient 1.1 sur étages courants pour balcons/communs)
+  let plancher = empriseSol * (1 + 1.1 * niveaux);
+  // Groupement : on multiplie par nombre de bâtiments si fourni
+  if (family === "PETIT_COLLECTIF" || family === "GRAND_COLLECTIF") {
+    const n = Number(nbBatiments || 1);
+    if (Number.isFinite(n) && n > 1) plancher = plancher * n;
+  }
+  return Math.round(plancher);
+}
+
+function estimateInternal(input: P5QuoteInput): P5InternalEstimation {
+  const hypotheses: string[] = [];
+  const terrain = Number(input.surfaceTerrainM2 || 0);
+  const family = input.bienFamily || "AUTRE";
+  const standing = input.standing || "moyen";
+  const zone = input.zoneTier || "STANDARD";
+
+  // Plancher : utilise la valeur fournie ou la dérive du terrain
+  let plancher = Number(input.surfacePlancherM2 || 0);
+  if (plancher <= 0 && terrain > 0 && family !== "TERRAIN_NU") {
+    plancher = estimatePlancher(family, terrain, input.rLevel, input.nbBatiments);
+    if (plancher > 0) {
+      hypotheses.push(`Surface plancher estimée à ${plancher.toLocaleString("fr-FR")} m² (emprise × niveaux × bâtiments).`);
+    }
+  }
+
+  // Prix foncier : utilise valeur fournie ou estime via terrain × prix moyen zone
+  let prixFoncier = Number(input.prixFoncierMAD || 0);
+  if (prixFoncier <= 0 && terrain > 0) {
+    const pxM2 = ZONE_PRICE_MID[zone];
+    prixFoncier = Math.round(terrain * pxM2);
+    hypotheses.push(`Prix foncier estimé : ${terrain.toLocaleString("fr-FR")} m² × ${pxM2.toLocaleString("fr-FR")} DH/m² (zone ${zone}) = ${prixFoncier.toLocaleString("fr-FR")} DH.`);
+  }
+
+  // Coût construction : utilise valeur fournie ou estime via plancher × coût standing
+  let coutConstruction = Number(input.coutConstructionMAD || 0);
+  if (coutConstruction <= 0 && plancher > 0) {
+    const cM2 = STANDING_COST_M2[standing];
+    coutConstruction = Math.round(plancher * cM2);
+    hypotheses.push(`Coût construction estimé : ${plancher.toLocaleString("fr-FR")} m² × ${cM2.toLocaleString("fr-FR")} DH/m² (standing ${standing}) = ${coutConstruction.toLocaleString("fr-FR")} DH.`);
+  }
+
+  // Montant total investissement = explicite OU foncier + construction + frais (10% : notaire, conservation, frais financiers de démarrage)
+  let montantTotal = Number(input.montantInvestissementMAD || 0);
+  if (montantTotal <= 0) {
+    const fraisAnnexes = Math.round((prixFoncier + coutConstruction) * 0.10);
+    montantTotal = prixFoncier + coutConstruction + fraisAnnexes;
+    if (fraisAnnexes > 0) {
+      hypotheses.push(`Frais annexes estimés (notaire, conservation foncière, frais financiers) : +10 % sur foncier + construction = ${fraisAnnexes.toLocaleString("fr-FR")} DH.`);
+    }
+  }
+
+  return {
+    prixFoncierMAD: prixFoncier,
+    coutConstructionMAD: coutConstruction,
+    montantInvestissementMAD: montantTotal,
+    surfacePlancherEstimee: plancher,
+    hypotheses,
+  };
+}
+
 @Injectable()
 export class P5PricingService {
   listReports() {
     return Object.values(REPORT_DEFINITIONS);
+  }
+
+  /** Expose l'estimation sommaire (pour debug ou aperçu en transparence côté front). */
+  estimate(input: P5QuoteInput): P5InternalEstimation {
+    return estimateInternal(input);
   }
 
   computeQuote(input: P5QuoteInput) {
@@ -196,34 +316,40 @@ export class P5PricingService {
     const delayMode: P5DelayMode = input.delayMode ?? "STANDARD";
     const delayCoef = DELAY_COEFFICIENT[delayMode];
 
-    // Détermine l'assiette selon le rapport
+    // Estimation sommaire en interne : on calcule prix foncier, coût construction
+    // et montant total à partir des données descriptives — le client n'a pas à les fournir.
+    const estim = estimateInternal(input);
+
     let assiette = 0;
     let assietteLabel = "";
     let assietteMissing: string | null = null;
+    let assietteSource: "client" | "estimation_interne" = "estimation_interne";
 
     if (normalizedCode === "EXPERTISE_PRIX") {
-      assiette = Number(input.prixFoncierMAD || 0);
+      // Si le client a fourni un prix foncier explicite, on l'utilise. Sinon estimation.
+      assiette = input.prixFoncierMAD && input.prixFoncierMAD > 0 ? input.prixFoncierMAD : estim.prixFoncierMAD;
+      assietteSource = input.prixFoncierMAD && input.prixFoncierMAD > 0 ? "client" : "estimation_interne";
       assietteLabel = "Prix du foncier";
-      if (assiette <= 0) assietteMissing = "Indiquez le prix d'acquisition du foncier (MAD).";
+      if (assiette <= 0) assietteMissing = "Renseignez au moins la surface du terrain et la tranche de prix de la zone.";
     } else if (normalizedCode === "EXPERTISE_URBA") {
-      assiette = Number(input.coutConstructionMAD || 0);
+      assiette = input.coutConstructionMAD && input.coutConstructionMAD > 0 ? input.coutConstructionMAD : estim.coutConstructionMAD;
+      assietteSource = input.coutConstructionMAD && input.coutConstructionMAD > 0 ? "client" : "estimation_interne";
       assietteLabel = "Coût de construction estimé";
-      if (assiette <= 0) assietteMissing = "Indiquez le coût de construction estimé (MAD).";
+      if (assiette <= 0) assietteMissing = "Renseignez le terrain et le standing pour estimer le coût de construction.";
     } else {
-      // READY_TO_INVEST — si montant fourni on l'utilise, sinon on additionne foncier + construction.
-      const explicit = Number(input.montantInvestissementMAD || 0);
-      const sum = Number(input.prixFoncierMAD || 0) + Number(input.coutConstructionMAD || 0);
-      assiette = explicit > 0 ? explicit : sum;
+      // READY_TO_INVEST — priorité au montant explicite, sinon notre estimation.
+      assiette = input.montantInvestissementMAD && input.montantInvestissementMAD > 0
+        ? input.montantInvestissementMAD
+        : estim.montantInvestissementMAD;
+      assietteSource = input.montantInvestissementMAD && input.montantInvestissementMAD > 0 ? "client" : "estimation_interne";
       assietteLabel = "Montant total d'investissement";
-      if (assiette <= 0) assietteMissing = "Indiquez le montant total d'investissement (ou prix foncier + coût construction).";
+      if (assiette <= 0) assietteMissing = "Renseignez terrain + standing + zone — nous calculons l'enveloppe d'investissement.";
     }
 
-    // Calcul brut au pourcentage, plafonné au minimum tarifaire
     const baseRaw = Math.round(assiette * def.rate);
     const baseAfterMin = Math.max(baseRaw, def.minHT);
     const minApplied = baseAfterMin > baseRaw;
 
-    // Bundle
     const bundleCodes = (input.bundleWith || []).map(c => LEGACY_REMAP[c]).filter(Boolean) as ("EXPERTISE_PRIX" | "EXPERTISE_URBA" | "READY_TO_INVEST")[];
     const allBundle = [normalizedCode, ...bundleCodes];
     const discount = bundleDiscount(allBundle);
@@ -246,6 +372,7 @@ export class P5PricingService {
         rate: def.rate,
         assietteLabel,
         assietteMAD: assiette,
+        assietteSource,
       },
       base: {
         ratePercent: def.rate * 100,
@@ -255,6 +382,8 @@ export class P5PricingService {
         delayCoefficient: delayCoef,
         bundleDiscount: discount,
       },
+      // Estimation sommaire interne — pour transparence côté client
+      estimation: estim,
       deliverables: def.chapters,
       audience: def.audience,
       signature: def.signature,
@@ -271,11 +400,13 @@ export class P5PricingService {
       },
       notes: [
         `Taux applicable : ${(def.rate * 100).toFixed(2)} % de « ${assietteLabel} ».`,
+        assietteSource === "estimation_interne"
+          ? "Assiette calculée par notre estimation sommaire à partir des caractéristiques du bien — le rapport l'affinera précisément."
+          : "Assiette renseignée par le client.",
         minApplied ? `Plancher tarifaire de ${def.minHT.toLocaleString("fr-FR")} DH HT appliqué.` : null,
         discount > 0 ? `Remise bundle multi-rapports appliquée : -${Math.round(discount * 100)} %.` : null,
         "Tarifs hors déplacements exceptionnels (>50 km du cabinet, facturés en sus).",
         "Délais en jours ouvrables, à compter de la réception du paiement et des documents demandés.",
-        "Aucune mission de suivi inclus — pour un accompagnement projet voir P1/P2/P3.",
         assietteMissing,
       ].filter((x): x is string => !!x),
     };

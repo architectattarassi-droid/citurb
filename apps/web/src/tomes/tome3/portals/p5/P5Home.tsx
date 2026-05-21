@@ -33,8 +33,13 @@ type Quote = {
     reportType: ReportType; reportLabel: string;
     delayMode: DelayMode; delayLabel: string; deliveryDays: number;
     rate: number; assietteLabel: string; assietteMAD: number;
+    assietteSource?: "client" | "estimation_interne";
   };
   base: { ratePercent: number; baseRawHT: number; minHT: number; minApplied: boolean; delayCoefficient: number; bundleDiscount: number };
+  estimation?: {
+    prixFoncierMAD: number; coutConstructionMAD: number; montantInvestissementMAD: number;
+    surfacePlancherEstimee: number; hypotheses: string[];
+  };
   deliverables: string[];
   audience: string[];
   signature: string;
@@ -148,11 +153,32 @@ function P5HomeInner() {
   });
 
   const [reportType, setReportType] = useState<ReportType | null>(expertiseHint ? "READY_TO_INVEST" : null);
+
+  // ── Inputs DESCRIPTIFS — c'est ce que le client SAIT (terrain, type, R+, standing, zone)
+  // Le backend en déduit prix foncier, coût construction et montant invest pour l'assiette.
+  type BienFamily = "TERRAIN_NU" | "VILLA" | "PETIT_COLLECTIF" | "GRAND_COLLECTIF" | "EQUIPEMENT" | "AMENAGEMENT" | "AUTRE";
+  type ZoneTier = "RURAL" | "STANDARD" | "URBAIN" | "PREMIUM" | "ULTRA";
+  type StandingTier = "economique" | "moyen" | "haut" | "luxe";
+
+  const [bienFamily, setBienFamily] = useState<BienFamily>("VILLA");
+  const [surfaceTerrainM2, setSurfaceTerrainM2] = useState<string>("");
+  const [surfacePlancherM2, setSurfacePlancherM2] = useState<string>("");
+  const [rLevel, setRLevel] = useState<string>("R0");
+  const [nbBatiments, setNbBatiments] = useState<string>("1");
+  const [standing, setStanding] = useState<StandingTier>("moyen");
+  const [zoneTier, setZoneTier] = useState<ZoneTier>("STANDARD");
+
+  // Champs financiers OPTIONNELS — le client expert peut les renseigner pour affiner.
+  const [knowsValues, setKnowsValues] = useState<boolean>(false);
   const [prixFoncier, setPrixFoncier] = useState<string>("");
   const [coutConstruction, setCoutConstruction] = useState<string>("");
   const [montantInvest, setMontantInvest] = useState<string>("");
-  const [surfaceM2, setSurfaceM2] = useState<string>("");
+
   const [delayMode, setDelayMode] = useState<DelayMode>("STANDARD");
+
+  // Aperçu en transparence de l'estimation sommaire calculée par notre backend
+  const [preview, setPreview] = useState<any | null>(null);
+  const [previewBusy, setPreviewBusy] = useState(false);
 
   const [quote, setQuote] = useState<Quote | null>(null);
   const [dossierId, setDossierId] = useState<string | null>(null);
@@ -184,11 +210,18 @@ function P5HomeInner() {
   };
   const validateDetails = (): string | null => {
     if (!reportType) return "Choisissez un type de rapport.";
-    if (reportType === "EXPERTISE_PRIX" && +prixFoncier <= 0) return "Indiquez le prix d'acquisition du foncier (MAD).";
-    if (reportType === "EXPERTISE_URBA" && +coutConstruction <= 0) return "Indiquez le coût de construction estimé (MAD).";
-    if (reportType === "READY_TO_INVEST") {
-      const total = +montantInvest > 0 ? +montantInvest : (+prixFoncier + +coutConstruction);
-      if (total <= 0) return "Indiquez au moins le prix foncier + coût de construction (ou le montant total d'investissement).";
+    // Toujours requis : description du bien
+    if (!bienFamily) return "Indiquez le type de bien.";
+    if (bienFamily !== "AMENAGEMENT" && bienFamily !== "AUTRE") {
+      if (+surfaceTerrainM2 <= 0) return "Indiquez la surface du terrain (m²).";
+    }
+    if (bienFamily === "AMENAGEMENT" && +surfacePlancherM2 <= 0) {
+      return "Indiquez la surface du local à aménager (m²).";
+    }
+    // Si le client a coché « je connais les valeurs », au moins une doit être saisie
+    if (knowsValues) {
+      const hasAny = +prixFoncier > 0 || +coutConstruction > 0 || +montantInvest > 0;
+      if (!hasAny) return "Renseignez au moins une valeur financière (ou décochez « je connais »).";
     }
     return null;
   };
@@ -213,23 +246,58 @@ function P5HomeInner() {
   };
 
   // ── Calcul du devis ────────────────────────────────────────────────
+  const buildQuoteBody = () => {
+    const body: any = { reportType, delayMode };
+    if (bienFamily) body.bienFamily = bienFamily;
+    if (surfaceTerrainM2) body.surfaceTerrainM2 = +surfaceTerrainM2;
+    if (surfacePlancherM2) body.surfacePlancherM2 = +surfacePlancherM2;
+    if (rLevel) body.rLevel = rLevel;
+    if (nbBatiments) body.nbBatiments = +nbBatiments;
+    if (standing) body.standing = standing;
+    if (zoneTier) body.zoneTier = zoneTier;
+    if (knowsValues) {
+      if (prixFoncier) body.prixFoncierMAD = +prixFoncier;
+      if (coutConstruction) body.coutConstructionMAD = +coutConstruction;
+      if (montantInvest) body.montantInvestissementMAD = +montantInvest;
+    }
+    return body;
+  };
+
   const computeQuote = async (): Promise<Quote | null> => {
     if (!reportType) return null;
-    const body: any = { reportType, delayMode };
-    if (prixFoncier) body.prixFoncierMAD = +prixFoncier;
-    if (coutConstruction) body.coutConstructionMAD = +coutConstruction;
-    if (montantInvest) body.montantInvestissementMAD = +montantInvest;
-    if (surfaceM2) body.surfaceM2 = +surfaceM2;
     const res = await fetch(`${apiBase()}/p5/quote`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify(buildQuoteBody()),
     });
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || "Erreur de calcul du devis");
     setQuote(data);
     return data;
   };
+
+  // Aperçu d'estimation sommaire en temps réel (transparence côté client).
+  useEffect(() => {
+    if (phase !== "details" || !reportType) { setPreview(null); return; }
+    const t = setTimeout(async () => {
+      const hasInputs = +surfaceTerrainM2 > 0 || +surfacePlancherM2 > 0
+                      || +prixFoncier > 0 || +coutConstruction > 0 || +montantInvest > 0;
+      if (!hasInputs) { setPreview(null); return; }
+      setPreviewBusy(true);
+      try {
+        const res = await fetch(`${apiBase()}/p5/quote`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(buildQuoteBody()),
+        });
+        const data = await res.json();
+        if (data.ok) setPreview(data);
+      } catch { /* silent */ }
+      finally { setPreviewBusy(false); }
+    }, 400);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, reportType, bienFamily, surfaceTerrainM2, surfacePlancherM2, rLevel, nbBatiments, standing, zoneTier, delayMode, knowsValues, prixFoncier, coutConstruction, montantInvest]);
 
   // ── Construction du payload intake ─────────────────────────────────
   const buildIntakePayload = (clientEmailOverride?: string) => {
@@ -253,10 +321,18 @@ function P5HomeInner() {
         reportType,
         reportLabel: selectedReport?.label,
         delayMode,
-        prixFoncierMAD: prixFoncier ? +prixFoncier : undefined,
-        coutConstructionMAD: coutConstruction ? +coutConstruction : undefined,
-        montantInvestissementMAD: montantInvest ? +montantInvest : undefined,
-        surfaceM2: surfaceM2 ? +surfaceM2 : undefined,
+        // Inputs descriptifs (toujours envoyés)
+        bienFamily,
+        surfaceTerrainM2: surfaceTerrainM2 ? +surfaceTerrainM2 : undefined,
+        surfacePlancherM2: surfacePlancherM2 ? +surfacePlancherM2 : undefined,
+        rLevel,
+        nbBatiments: nbBatiments ? +nbBatiments : 1,
+        standing,
+        zoneTier,
+        // Inputs financiers OPTIONNELS (uniquement si le client a coché « je connais »)
+        prixFoncierMAD: knowsValues && prixFoncier ? +prixFoncier : undefined,
+        coutConstructionMAD: knowsValues && coutConstruction ? +coutConstruction : undefined,
+        montantInvestissementMAD: knowsValues && montantInvest ? +montantInvest : undefined,
         adresseBien: identity.adresseBien || undefined,
         region: identity.region,
         province: identity.province,
@@ -565,51 +641,186 @@ function P5HomeInner() {
         </section>
       )}
 
-      {/* BLOC 3 — DÉTAILS FINANCIERS (champs contextuels selon rapport) */}
+      {/* BLOC 3 — DÉTAILS DESCRIPTIFS (le client décrit son bien, nous calculons les valeurs) */}
       {reached("details") && reportType && (
         <section className="section" id="p5-details" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
           <div className="container-max">
             <div className="eyebrow">Étape 3</div>
-            <h2 className="section-title">Caractéristiques financières du bien</h2>
-            <p className="sub" style={{ marginBottom: 30 }}>
-              Ces montants servent uniquement de base au calcul de votre devis (taux %). Ils
-              restent confidentiels et ne sont pas publiés. Indiquez votre meilleure estimation.
+            <h2 className="section-title">Décrivez votre bien — nous calculons l'estimation</h2>
+            <p className="sub" style={{ marginBottom: 24 }}>
+              Vous venez justement pour obtenir une expertise — nous ne vous demandons pas
+              de connaître les chiffres financiers. Donnez-nous quelques caractéristiques
+              du bien, et nous calculons en interne une estimation sommaire qui servira de
+              base au devis du rapport (le rapport l'affinera ensuite précisément).
             </p>
 
+            {/* Type de bien — pictos clairs */}
+            <div className="blk-title">Type de bien</div>
+            <div className="grid-3" style={{ marginBottom: 20 }}>
+              {[
+                { id: "TERRAIN_NU",      label: "Terrain nu",          sub: "Foncier sans construction" },
+                { id: "VILLA",           label: "Villa",               sub: "RDC à R+2 — 1 logement" },
+                { id: "PETIT_COLLECTIF", label: "Petit collectif",     sub: "Immeuble ≤ R+4, ≥ 2 logements" },
+                { id: "GRAND_COLLECTIF", label: "Grand collectif",     sub: "Immeuble R+5 et plus" },
+                { id: "EQUIPEMENT",      label: "Équipement (EPIG)",   sub: "Hôtel, école, hangar, clinique…" },
+                { id: "AMENAGEMENT",     label: "Aménagement",         sub: "Local existant à transformer" },
+              ].map(o => {
+                const sel = bienFamily === o.id;
+                return (
+                  <button
+                    key={o.id} type="button"
+                    onClick={() => setBienFamily(o.id as BienFamily)}
+                    style={{
+                      textAlign: "left", padding: 14, borderRadius: 12, cursor: "pointer",
+                      background: sel ? "linear-gradient(135deg, rgba(201,162,39,0.14), rgba(232,216,166,0.14))" : "rgba(255,255,255,0.88)",
+                      border: sel ? "2px solid #C9A227" : "1px solid rgba(201,162,39,0.30)",
+                      fontFamily: "inherit", boxShadow: sel ? "0 14px 38px rgba(11,27,58,0.12)" : "none",
+                    }}
+                  >
+                    <div style={{ fontWeight: 700, color: "#0B1B3A", fontSize: 14.5 }}>{o.label}</div>
+                    <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>{o.sub}</div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Caractéristiques mesurables */}
+            <div className="blk-title">Caractéristiques du bien</div>
             <div className="form-grid">
-              {(reportType === "EXPERTISE_PRIX" || reportType === "READY_TO_INVEST") && (
+              {bienFamily !== "AMENAGEMENT" && (
                 <div className="field">
-                  <label className="label">Prix d'acquisition du foncier (MAD) {reportType === "EXPERTISE_PRIX" && <span className="req">*</span>}</label>
-                  <input className="control" type="number" min={0} value={prixFoncier}
-                    onChange={(e) => setPrixFoncier(e.target.value)} placeholder="ex. 2 500 000" />
+                  <label className="label">Surface du terrain (m²) <span className="req">*</span></label>
+                  <input className="control" type="number" min={0} value={surfaceTerrainM2}
+                    onChange={(e) => setSurfaceTerrainM2(e.target.value)} placeholder="ex. 800" />
                 </div>
               )}
-              {(reportType === "EXPERTISE_URBA" || reportType === "READY_TO_INVEST") && (
+              {(bienFamily === "AMENAGEMENT" || bienFamily === "EQUIPEMENT") && (
                 <div className="field">
-                  <label className="label">Coût de construction estimé (MAD) {reportType === "EXPERTISE_URBA" && <span className="req">*</span>}</label>
-                  <input className="control" type="number" min={0} value={coutConstruction}
-                    onChange={(e) => setCoutConstruction(e.target.value)} placeholder="ex. 8 000 000" />
+                  <label className="label">Surface plancher / du local (m²){bienFamily === "AMENAGEMENT" && <> <span className="req">*</span></>}</label>
+                  <input className="control" type="number" min={0} value={surfacePlancherM2}
+                    onChange={(e) => setSurfacePlancherM2(e.target.value)} placeholder="ex. 240" />
                 </div>
               )}
-              {reportType === "READY_TO_INVEST" && (
+              {(bienFamily === "VILLA" || bienFamily === "PETIT_COLLECTIF" || bienFamily === "GRAND_COLLECTIF" || bienFamily === "EQUIPEMENT") && (
                 <div className="field">
-                  <label className="label">Montant total d'investissement (MAD)</label>
-                  <input className="control" type="number" min={0} value={montantInvest}
-                    onChange={(e) => setMontantInvest(e.target.value)} placeholder="ex. 11 500 000 (auto = foncier + construction)" />
+                  <label className="label">Niveau d'étages</label>
+                  <select className="control" value={rLevel} onChange={(e) => setRLevel(e.target.value)}>
+                    <option value="R0">RDC seul</option>
+                    <option value="R1">R+1</option>
+                    <option value="R2">R+2</option>
+                    <option value="R3">R+3</option>
+                    <option value="R4">R+4</option>
+                    <option value="R5">R+5</option>
+                    <option value="R6">R+6</option>
+                    <option value="R7">R+7</option>
+                    <option value="R8">R+8 et plus</option>
+                  </select>
+                </div>
+              )}
+              {(bienFamily === "PETIT_COLLECTIF" || bienFamily === "GRAND_COLLECTIF") && (
+                <div className="field">
+                  <label className="label">Nombre de bâtiments</label>
+                  <input className="control" type="number" min={1} step={1}
+                    value={nbBatiments} onChange={(e) => setNbBatiments(e.target.value)} placeholder="1" />
+                </div>
+              )}
+              {bienFamily !== "TERRAIN_NU" && (
+                <div className="field">
+                  <label className="label">Standing visé (coût construction au m²)</label>
+                  <select className="control" value={standing} onChange={(e) => setStanding(e.target.value as StandingTier)}>
+                    <option value="economique">Économique — env. 2 000 DH/m²</option>
+                    <option value="moyen">Moyen standing — env. 3 500 DH/m²</option>
+                    <option value="haut">Haut standing — env. 5 000 DH/m²</option>
+                    <option value="luxe">Luxe — env. 7 500 DH/m² et plus</option>
+                  </select>
                 </div>
               )}
               <div className="field">
-                <label className="label">Surface du bien (m²) — indicative</label>
-                <input className="control" type="number" min={0} value={surfaceM2}
-                  onChange={(e) => setSurfaceM2(e.target.value)} placeholder="ex. 800" />
+                <label className="label">Tranche de prix de la zone (foncier)</label>
+                <select className="control" value={zoneTier} onChange={(e) => setZoneTier(e.target.value as ZoneTier)}>
+                  <option value="RURAL">Rural / périurbain — ≤ 1 500 DH/m²</option>
+                  <option value="STANDARD">Ville moyenne / périphérie — 1 500 à 4 000 DH/m²</option>
+                  <option value="URBAIN">Centre urbain / grande ville — 4 000 à 8 000 DH/m²</option>
+                  <option value="PREMIUM">Quartier premium (Casa, Rabat) — 8 000 à 15 000 DH/m²</option>
+                  <option value="ULTRA">Hyper-centre prestige / front de mer — ≥ 15 000 DH/m²</option>
+                </select>
               </div>
             </div>
 
+            {/* Option expert : « je connais déjà les valeurs » */}
+            <div style={{ marginTop: 22, padding: "14px 18px", background: "rgba(11,27,58,0.04)", border: "1px solid rgba(11,27,58,0.10)", borderRadius: 12 }}>
+              <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer", fontSize: 13.5, color: "#0B1B3A", fontWeight: 600 }}>
+                <input type="checkbox" checked={knowsValues} onChange={(e) => setKnowsValues(e.target.checked)} style={{ width: 16, height: 16, accentColor: "#C9A227" }} />
+                Je connais déjà les valeurs financières — les renseigner manuellement (optionnel)
+              </label>
+              {knowsValues && (
+                <div className="form-grid" style={{ marginTop: 14 }}>
+                  <div className="field">
+                    <label className="label">Prix foncier (MAD)</label>
+                    <input className="control" type="number" min={0} value={prixFoncier}
+                      onChange={(e) => setPrixFoncier(e.target.value)} placeholder="ex. 2 500 000" />
+                  </div>
+                  <div className="field">
+                    <label className="label">Coût construction (MAD)</label>
+                    <input className="control" type="number" min={0} value={coutConstruction}
+                      onChange={(e) => setCoutConstruction(e.target.value)} placeholder="ex. 8 000 000" />
+                  </div>
+                  <div className="field">
+                    <label className="label">Investissement total (MAD)</label>
+                    <input className="control" type="number" min={0} value={montantInvest}
+                      onChange={(e) => setMontantInvest(e.target.value)} placeholder="auto = foncier + construction + 10 %" />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Aperçu en transparence — estimation sommaire interne + devis pré-calculé */}
+            {preview && preview.estimation && (
+              <div className="lux-card" style={{ marginTop: 24 }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 14, marginBottom: 14 }}>
+                  <div>
+                    <div className="eyebrow" style={{ marginBottom: 4 }}>Estimation sommaire interne · transparence</div>
+                    <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 20, fontWeight: 700, color: "#0B1B3A" }}>
+                      Aperçu — pas encore le rapport final
+                    </div>
+                  </div>
+                  <div style={{ background: "rgba(201,162,39,0.10)", border: "1px solid rgba(201,162,39,0.32)", borderRadius: 12, padding: "10px 16px", textAlign: "right" }}>
+                    <div className="muted" style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>Devis rapport</div>
+                    <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 26, fontWeight: 800, color: "#0B1B3A", lineHeight: 1 }}>
+                      {fmtMAD(preview.amounts?.totalTTC)}
+                    </div>
+                    <div className="muted" style={{ fontSize: 11, marginTop: 3 }}>TTC · livré sous {preview.meta?.deliveryDays} j</div>
+                  </div>
+                </div>
+                <div className="qrow"><span className="k">Prix foncier estimé</span><span className="v">{fmtMAD(preview.estimation.prixFoncierMAD)}</span></div>
+                <div className="qrow"><span className="k">Coût de construction estimé</span><span className="v">{fmtMAD(preview.estimation.coutConstructionMAD)}</span></div>
+                <div className="qrow"><span className="k">Surface plancher estimée</span><span className="v">{preview.estimation.surfacePlancherEstimee?.toLocaleString("fr-FR") || "—"} m²</span></div>
+                <div className="qrow"><span className="k">Montant total d'investissement</span><span className="v">{fmtMAD(preview.estimation.montantInvestissementMAD)}</span></div>
+                {preview.estimation.hypotheses?.length > 0 && (
+                  <details style={{ marginTop: 12 }}>
+                    <summary style={{ cursor: "pointer", fontSize: 12, fontWeight: 700, color: "rgba(11,27,58,0.7)" }}>
+                      Voir les hypothèses du calcul ({preview.estimation.hypotheses.length})
+                    </summary>
+                    <div className="muted" style={{ fontSize: 12, lineHeight: 1.65, marginTop: 8 }}>
+                      {preview.estimation.hypotheses.map((h: string, i: number) => <div key={i}>• {h}</div>)}
+                    </div>
+                  </details>
+                )}
+                <div className="muted" style={{ fontSize: 11.5, fontStyle: "italic", marginTop: 12, paddingTop: 10, borderTop: "1px dashed rgba(11,27,58,0.15)" }}>
+                  Ces chiffres sont une estimation indicative — le rapport final les affinera
+                  précisément après visite terrain et étude marché localisée.
+                </div>
+              </div>
+            )}
+            {previewBusy && (
+              <div className="muted" style={{ fontSize: 12, marginTop: 12, fontStyle: "italic" }}>Calcul de l'estimation…</div>
+            )}
+
             <div className="mini-note" style={{ marginTop: 18 }}>
               <strong>Comment est calculé votre devis ?</strong>{" "}
-              {reportType === "EXPERTISE_PRIX" && "1 % du prix foncier, plancher 5 000 DH HT."}
-              {reportType === "EXPERTISE_URBA" && "0,5 % du coût de construction, plancher 6 000 DH HT."}
-              {reportType === "READY_TO_INVEST" && "1 % du montant total d'investissement, plancher 18 000 DH HT."}
+              {reportType === "EXPERTISE_PRIX" && "1 % du prix foncier (estimé d'après votre terrain × prix de zone), plancher 5 000 DH HT."}
+              {reportType === "EXPERTISE_URBA" && "0,5 % du coût de construction (estimé d'après surface plancher × standing), plancher 6 000 DH HT."}
+              {reportType === "READY_TO_INVEST" && "1 % du montant total d'investissement (estimé d'après foncier + construction + frais), plancher 18 000 DH HT."}
               {" "}Modulable par le délai souhaité à l'étape suivante.
             </div>
 
