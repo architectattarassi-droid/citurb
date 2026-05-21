@@ -697,7 +697,9 @@ function P2HomeInner() {
       // Devis calculé en silence juste avant la création du dossier — il
       // accompagnera la confirmation. Comme prévu : le devis n'est livré
       // qu'avec un dossier identifié.
-      if (!quote) {
+      // (Pas de devis CNOA pour une mission d'expertise — la facturation se
+      // fait au forfait expertise dans la Porte 5.)
+      if (!quote && !isExpertise) {
         try { await computeQuote(); } catch { /* devis livré plus tard */ }
       }
       const payload = buildIntakePayload(auth.email);
@@ -712,6 +714,14 @@ function P2HomeInner() {
         try { localStorage.setItem("citurbarea.token", data.access_token); } catch {}
       }
       setDossierId(data.dossierId);
+      // Mission d'expertise : on quitte la P2 et on bascule sur la Porte 5
+      // (rapports & expertises) avec le dossier en référence, pour scoper le
+      // rapport et déclencher le devis du forfait expertise.
+      if (isExpertise) {
+        const ref = data.dossierId ? `?fromP2=${encodeURIComponent(data.dossierId)}&expertise=1` : "?expertise=1";
+        navigate(`/p5${ref}`, { replace: true });
+        return;
+      }
       setScreen("success");
     } catch (e: any) {
       setError(e.message);

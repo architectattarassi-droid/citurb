@@ -46,6 +46,10 @@ export default function P2Finalize() {
     payload.clientEmail = auth.email || payload.clientEmail;
     setPhase("submitting");
 
+    // Mission d'expertise : on bascule vers la Porte 5 dès qu'on a l'ID du dossier.
+    const isExpertise = payload?.brief?.expertiseRequested === true
+                      || payload?.brief?.natureProjetCode === "expertise_qualif";
+
     (async () => {
       try {
         const token = getToken();
@@ -61,6 +65,11 @@ export default function P2Finalize() {
         if (!data?.ok) throw new Error(data?.message || "Erreur lors de la création du dossier");
         try { localStorage.removeItem(P2_PENDING_KEY); } catch {}
         setDossierId(data.dossierId || null);
+        if (isExpertise) {
+          const ref = data.dossierId ? `?fromP2=${encodeURIComponent(data.dossierId)}&expertise=1` : "?expertise=1";
+          navigate(`/p5${ref}`, { replace: true });
+          return;
+        }
         setPhase("done");
       } catch (e: any) {
         setError(e?.message || "Erreur inattendue");
