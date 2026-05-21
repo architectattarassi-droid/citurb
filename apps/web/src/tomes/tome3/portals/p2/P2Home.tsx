@@ -239,8 +239,25 @@ const PAGE_BG =
  * Regroupée par famille pour un <select> à <optgroup>. L'option « autre »
  * débloque un champ libre pour saisir un type non listé.
  */
-const NATURE_PROJET_OPTIONS: { group: string; options: { value: string; label: string }[] }[] = [
+/**
+ * Familles de projet — grandes cartes premium « type P1 » (bandeau catégorie,
+ * titre, description, ✓ sélectionné, bordure dorée). Cliquer sur une famille
+ * filtre la dropdown des sous-types.
+ */
+const NATURE_FAMILIES: { code: "habitat" | "immeuble" | "villa" | "gr" | "lot" | "epig" | "amg" | "autre"; category: string; title: string; sub: string }[] = [
+  { code: "habitat",  category: "RÉSIDENTIEL INDIVIDUEL", title: "Habitat individuel",  sub: "Maison RDC à R+3 (incl. habitat social conventionné Etat)." },
+  { code: "immeuble", category: "COLLECTIF",              title: "Immeuble collectif",  sub: "R+4 et plus, collectif / moyen / haut standing, bureaux." },
+  { code: "villa",    category: "RÉSIDENTIEL",            title: "Villas",              sub: "En bande, jumelée ou isolée — version standard ou de standing." },
+  { code: "gr",       category: "OPÉRATION GROUPÉE",      title: "Groupement résidentiel", sub: "Plusieurs bâtiments sur un même projet (résidence, complexe)." },
+  { code: "lot",      category: "FONCIER",                title: "Lotissement",         sub: "Découpage / morcellement / viabilisation (loi 25-90)." },
+  { code: "epig",     category: "ÉQUIPEMENT",             title: "Équipement privé",    sub: "Hôtel, école, mosquée, clinique, hangar, usine, etc." },
+  { code: "amg",      category: "TRANSFORMATION",         title: "Aménagement",         sub: "Réagencement d'un local existant / changement d'affectation." },
+  { code: "autre",    category: "AUTRE",                  title: "Autre — à préciser",  sub: "Votre projet ne correspond à aucune des familles ci-dessus." },
+];
+
+const NATURE_PROJET_OPTIONS: { family: string; group: string; options: { value: string; label: string }[] }[] = [
   {
+    family: "habitat",
     group: "Habitat individuel (≤ R+3)",
     options: [
       { value: "habitat_rdc",        label: "Maison RDC (de plain-pied)" },
@@ -251,6 +268,7 @@ const NATURE_PROJET_OPTIONS: { group: string; options: { value: string; label: s
     ],
   },
   {
+    family: "immeuble",
     group: "Immeuble collectif / bureaux (R+4 et plus)",
     options: [
       { value: "immeuble_r4",        label: "Immeuble R+4" },
@@ -264,6 +282,7 @@ const NATURE_PROJET_OPTIONS: { group: string; options: { value: string; label: s
     ],
   },
   {
+    family: "villa",
     group: "Villas",
     options: [
       { value: "villa_bande",        label: "Villa en bande" },
@@ -275,6 +294,7 @@ const NATURE_PROJET_OPTIONS: { group: string; options: { value: string; label: s
     ],
   },
   {
+    family: "gr",
     group: "Groupement résidentiel",
     options: [
       { value: "gr_residence",       label: "Résidence (plusieurs immeubles)" },
@@ -283,6 +303,7 @@ const NATURE_PROJET_OPTIONS: { group: string; options: { value: string; label: s
     ],
   },
   {
+    family: "lot",
     group: "Lotissement / morcellement",
     options: [
       { value: "lot_residentiel",    label: "Lotissement résidentiel" },
@@ -291,6 +312,7 @@ const NATURE_PROJET_OPTIONS: { group: string; options: { value: string; label: s
     ],
   },
   {
+    family: "epig",
     group: "Équipement privé d'intérêt général (EPIG)",
     options: [
       { value: "epig_hangar_agri",   label: "Hangar agricole" },
@@ -308,6 +330,7 @@ const NATURE_PROJET_OPTIONS: { group: string; options: { value: string; label: s
     ],
   },
   {
+    family: "amg",
     group: "Aménagement / transformation",
     options: [
       { value: "amg_petit",          label: "Petit aménagement intérieur (≤ 50 m²)" },
@@ -318,6 +341,7 @@ const NATURE_PROJET_OPTIONS: { group: string; options: { value: string; label: s
     ],
   },
   {
+    family: "autre",
     group: "Autre",
     options: [
       { value: "autre",              label: "Autre — à préciser" },
@@ -1118,37 +1142,96 @@ function P2HomeInner() {
                 <label className="label">Commune <span className="req">*</span></label>
                 <input className="control" value={identity.commune} onChange={f("commune")} placeholder="Mehdia, Témara, Bouznika…" />
               </div>
-              <div className="field">
-                <label className="label">Nature du projet <span className="req">*</span></label>
-                <select
-                  className="control"
-                  value={natureCode}
-                  onChange={(e) => {
-                    const v = e.target.value;
-                    setNatureCode(v);
-                    if (v !== "autre") {
-                      // Renseigne natureProjet avec le label lisible.
-                      let label = "";
-                      for (const g of NATURE_PROJET_OPTIONS) {
-                        const o = g.options.find(x => x.value === v);
-                        if (o) { label = o.label; break; }
-                      }
-                      setIdentity(prev => ({ ...prev, natureProjet: label }));
-                      setNatureAutre("");
-                    } else {
-                      setIdentity(prev => ({ ...prev, natureProjet: "" }));
-                    }
-                  }}
-                >
-                  <option value="">— Sélectionner —</option>
-                  {NATURE_PROJET_OPTIONS.map(g => (
-                    <optgroup key={g.group} label={g.group}>
-                      {g.options.map(o => (
-                        <option key={o.value} value={o.value}>{o.label}</option>
-                      ))}
-                    </optgroup>
-                  ))}
-                </select>
+              {/* Nature du projet — cartes premium par famille (style P1) */}
+              <div className="field" style={{ gridColumn: "1 / -1" }}>
+                <label className="label" style={{ marginBottom: 12 }}>Nature du projet <span className="req">*</span></label>
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+                  gap: 16, marginBottom: 14,
+                }}>
+                  {NATURE_FAMILIES.map(fam => {
+                    const sel = natureFamily === fam.code;
+                    return (
+                      <button
+                        key={fam.code}
+                        type="button"
+                        onClick={() => {
+                          // Reset si on change de famille — sauf "autre" qui n'a pas de sous-options.
+                          if (fam.code === "autre") {
+                            setNatureCode("autre");
+                            setIdentity(prev => ({ ...prev, natureProjet: "" }));
+                          } else {
+                            // Pré-sélectionne la première option de la famille pour aider le visiteur.
+                            const grp = NATURE_PROJET_OPTIONS.find(g => g.family === fam.code);
+                            const first = grp?.options[0];
+                            if (first) {
+                              setNatureCode(first.value);
+                              setIdentity(prev => ({ ...prev, natureProjet: first.label }));
+                            }
+                            setNatureAutre("");
+                          }
+                        }}
+                        style={{
+                          position: "relative", textAlign: "left", cursor: "pointer",
+                          padding: 22, borderRadius: 16,
+                          background: sel
+                            ? "linear-gradient(135deg, rgba(201,162,39,0.15), rgba(232,216,166,0.15))"
+                            : "rgba(255,255,255,0.95)",
+                          border: sel ? "2px solid #C9A227" : "1px solid rgba(201,162,39,0.25)",
+                          transition: "all 0.25s",
+                          transform: sel ? "translateY(-3px)" : "none",
+                          boxShadow: sel ? "0 8px 22px rgba(201,162,39,0.25)" : "0 3px 10px rgba(11,27,58,0.06)",
+                          fontFamily: "inherit",
+                        }}
+                      >
+                        {sel && (
+                          <div style={{
+                            position: "absolute", top: 12, right: 12,
+                            width: 28, height: 28, borderRadius: "50%",
+                            background: "linear-gradient(135deg, #C9A227, #E6C75B)",
+                            color: "#fff", display: "flex", alignItems: "center", justifyContent: "center",
+                            fontWeight: 700, fontSize: 16, boxShadow: "0 2px 6px rgba(0,0,0,0.18)",
+                          }}>✓</div>
+                        )}
+                        <div style={{ fontSize: 11.5, fontWeight: 800, color: "#C9A227", letterSpacing: "0.06em", marginBottom: 8 }}>
+                          {fam.category}
+                        </div>
+                        <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 19, fontWeight: 700, color: "#0B1B3A", margin: "0 0 8px" }}>
+                          {fam.title}
+                        </div>
+                        <div style={{ fontSize: 12.5, color: "rgba(11,27,58,0.72)", lineHeight: 1.55 }}>
+                          {fam.sub}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Sous-dropdown filtrée par famille — apparaît dès qu'une carte est sélectionnée */}
+                {natureFamily && natureFamily !== "autre" && (() => {
+                  const grp = NATURE_PROJET_OPTIONS.find(g => g.family === natureFamily);
+                  if (!grp) return null;
+                  return (
+                    <div style={{ marginTop: 4 }}>
+                      <label className="label" style={{ marginBottom: 8 }}>Précisez le sous-type <span className="req">*</span></label>
+                      <select
+                        className="control"
+                        value={natureCode}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          setNatureCode(v);
+                          const o = grp.options.find(x => x.value === v);
+                          if (o) setIdentity(prev => ({ ...prev, natureProjet: o.label }));
+                        }}
+                      >
+                        {grp.options.map(o => (
+                          <option key={o.value} value={o.value}>{o.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  );
+                })()}
               </div>
               {natureCode === "autre" && (
                 <div className="field" style={{ gridColumn: "1 / -1" }}>
