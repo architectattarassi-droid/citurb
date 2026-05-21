@@ -10,13 +10,14 @@ exports.P5Module = void 0;
 const common_1 = require("@nestjs/common");
 const p5_controller_1 = require("./p5.controller");
 const quote_controller_1 = require("./quote.controller");
+const documents_controller_1 = require("./documents.controller");
 const pricing_service_1 = require("./pricing.service");
 let P5Module = class P5Module {
 };
 exports.P5Module = P5Module;
 exports.P5Module = P5Module = __decorate([
     (0, common_1.Module)({
-        controllers: [p5_controller_1.P5Controller, quote_controller_1.P5QuoteController],
+        controllers: [p5_controller_1.P5Controller, quote_controller_1.P5QuoteController, documents_controller_1.P5DocumentsController],
         providers: [pricing_service_1.P5PricingService],
     })
 ], P5Module);

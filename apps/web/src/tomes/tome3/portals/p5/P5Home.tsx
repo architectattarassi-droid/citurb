@@ -3,6 +3,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { apiBase } from "../../../tome4/apiClient";
 import { useAuth } from "../../../tome5/AuthProvider";
 import { getStoredLang } from "../../../../i18n/i18n";
+import MapPicker from "../../../../features/geo/MapPicker";
+import TaamirEmbed from "../../../../features/geo/TaamirEmbed";
+import MohafadatiUpload, { UploadedDoc } from "../../../../features/geo/MohafadatiUpload";
 
 /**
  * P5Home — Rapports & Expertises (refonte v2 — UI premium niveau P2)
@@ -181,6 +184,10 @@ function P5HomeInner() {
   const [preview, setPreview] = useState<any | null>(null);
   const [previewBusy, setPreviewBusy] = useState(false);
 
+  // Sprint 1 SIG — géoréférencement + document foncier
+  const [geoCoords, setGeoCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const [mohafadatiDoc, setMohafadatiDoc] = useState<UploadedDoc | null>(null);
+
   const [quote, setQuote] = useState<Quote | null>(null);
   const [dossierId, setDossierId] = useState<string | null>(null);
 
@@ -338,6 +345,10 @@ function P5HomeInner() {
         region: identity.region,
         province: identity.province,
         moaType,
+        // Sprint 1 SIG — géoréférencement et document foncier
+        geoLat: geoCoords?.lat,
+        geoLng: geoCoords?.lng,
+        mohafadatiDocument: mohafadatiDoc || undefined,
         fromP2Dossier: fromP2 || undefined,
         quoteSnapshot: quote,
       },
@@ -570,6 +581,32 @@ function P5HomeInner() {
               <div className="field"><label className="label">Commune <span className="req">*</span></label><input className="control" value={identity.commune} onChange={f("commune")} placeholder="Mehdia, Témara…" /></div>
               <div className="field" style={{ gridColumn: "1 / -1" }}><label className="label">Adresse précise du bien (optionnel)</label><input className="control" value={identity.adresseBien} onChange={f("adresseBien")} placeholder="N° rue, quartier, lot, étage…" /></div>
             </div>
+
+            {/* Sprint 1 SIG — géoréférencement du bien sur carte */}
+            <div className="blk-title" style={{ marginTop: 28 }}>{moaType === "morale" ? "5" : "4"}) Géoréférencement (recommandé)</div>
+            <div className="muted" style={{ fontSize: 12.5, marginBottom: 12, maxWidth: 720 }}>
+              Localisez précisément votre bien sur la carte — cela permet à l'expert de croiser
+              automatiquement les références cadastrales, les comparables ventes et les zonages
+              urbanistiques (Plans d'Aménagement TAAMIR).
+            </div>
+            <MapPicker
+              region={identity.region}
+              province={identity.province}
+              commune={identity.commune}
+              adresse={identity.adresseBien}
+              onChange={(c) => setGeoCoords(c)}
+              height={340}
+            />
+
+            {/* Sprint 1 — accès TAAMIR (documents d'urbanisme officiels) */}
+            <TaamirEmbed
+              commune={identity.commune}
+              province={identity.province}
+              region={identity.region}
+            />
+
+            {/* Sprint 1 — upload extrait Mohafadati (workaround ANCFCC) */}
+            <MohafadatiUpload onChange={(d) => setMohafadatiDoc(d)} />
 
             {error && phase === "identity" && <div className="err">⚠ {error}</div>}
             <div style={{ marginTop: 28 }}>
