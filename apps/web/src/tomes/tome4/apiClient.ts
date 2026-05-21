@@ -43,8 +43,15 @@ export function setToken(token: string | null) {
 }
 
 export function apiBase(): string {
-  // default aligns with apps/api (PORT=4000)
-  return (import.meta as any).env?.VITE_API_URL || "http://localhost:4000";
+  const envUrl = (import.meta as any).env?.VITE_API_URL;
+  if (envUrl) return envUrl;
+  // En production l'API et la SPA sont servies par le même origin (Railway).
+  // Utilise un chemin relatif pour éviter le « Failed to fetch » dû à
+  // localhost:4000 figé dans le bundle au build.
+  if (typeof window !== "undefined" && window.location && window.location.hostname !== "localhost") {
+    return window.location.origin;
+  }
+  return "http://localhost:4000";
 }
 
 export function getCurrentFirmSlug(): string | null {

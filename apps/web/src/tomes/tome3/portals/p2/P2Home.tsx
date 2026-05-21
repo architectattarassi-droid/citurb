@@ -262,10 +262,20 @@ function P2HomeInner() {
   const [immVariant, setImmVariant] = useState<string>("standard");
   const [followMode, setFollowMode] = useState<FollowMode>("ON_SITE");
   const [quote, setQuote] = useState<Quote | null>(null);
+  // Niveau de standing — pilote le coût construction (en complément de la
+  // catégorie de barème). Aligné sur la doctrine P1 (économique / moyen /
+  // haut / luxe → 2000 / 3500 / 5000 / 7500 MAD par m²).
+  const [standing, setStanding] = useState<"economique" | "moyen" | "haut" | "luxe">("moyen");
+  // Maître d'ouvrage : personne physique ou morale (cf. P1)
+  const [moaType, setMoaType] = useState<"physique" | "morale">("physique");
+  // Statut du propriétaire du terrain (cf. P1 ownerStatus)
+  const [ownerStatus, setOwnerStatus] = useState<string>("");
+  // Délai souhaité (cf. P1 timeline)
+  const [timeline, setTimeline] = useState<string>("");
   const [identity, setIdentity] = useState({
     clientNom: "", clientTel: "", clientEmail: "",
     raisonSociale: "", representant: "", rc: "", ice: "",
-    commune: "", natureProjet: "",
+    region: "", province: "", commune: "", natureProjet: "",
   });
   const [error, setError] = useState("");
   const [dossierId, setDossierId] = useState<string | null>(null);
@@ -431,6 +441,13 @@ function P2HomeInner() {
         nbBatiments: section === "GR" ? +nbBatiments : 1,
         surfaceTerrainHa: section === "LOT" ? +surfaceTerrainHa : undefined,
         followMode,
+        // Champs P1 répliqués (qualification complète)
+        region: identity.region,
+        province: identity.province,
+        moaType,
+        standing,
+        ownerStatus,
+        timeline,
         quoteSnapshot: quote,
       },
     };
@@ -439,7 +456,16 @@ function P2HomeInner() {
   const submitIntake = async () => {
     setError("");
     if (!identity.clientNom || !identity.clientTel) { setError("Nom et téléphone obligatoires."); return; }
-    if (!identity.commune) { setError("Commune obligatoire."); return; }
+    if (!identity.region || !identity.province || !identity.commune) {
+      setError("Région, province et commune obligatoires.");
+      return;
+    }
+    if (moaType === "morale" && (!identity.raisonSociale || !identity.representant)) {
+      setError("Raison sociale et représentant légal obligatoires pour une personne morale.");
+      return;
+    }
+    if (!ownerStatus) { setError("Indiquez le statut du terrain."); return; }
+    if (!timeline) { setError("Indiquez le délai souhaité."); return; }
 
     // Continuité « comme P1 » : si pas connecté, on passe par le signup client
     // (mot de passe + double validation email/SMS), puis on rejoue l'intake.
@@ -856,7 +882,32 @@ function P2HomeInner() {
             <h2 className="section-title">Identité du maître d'ouvrage</h2>
             <p className="sub" style={{ marginBottom: 24 }}>Conformément à l'article 2 du contrat type unifié Construction CNOA.</p>
 
-            <div className="pill" style={{ marginBottom: 14 }}>1) Contact <span className="req">*</span></div>
+            {/* 1) Type de maître d'ouvrage — comme P1 */}
+            <div className="pill" style={{ marginBottom: 14 }}>1) Type de maître d'ouvrage <span className="req">*</span></div>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 22 }}>
+              {[
+                { id: "physique", label: "Personne physique", sub: "Particulier — Nom + CIN" },
+                { id: "morale",   label: "Personne morale",   sub: "Société — Raison sociale + RC/ICE" },
+              ].map(o => (
+                <button
+                  key={o.id}
+                  type="button"
+                  onClick={() => setMoaType(o.id as any)}
+                  className={moaType === o.id ? "lux-card lux-card-active" : "lux-card"}
+                  style={{
+                    flex: "1 1 240px", textAlign: "left", cursor: "pointer", padding: 14,
+                    border: moaType === o.id ? "2px solid #C9A227" : "1px solid rgba(11,27,58,0.18)",
+                    background: moaType === o.id ? "#fff8e1" : "#fff",
+                  }}
+                >
+                  <div style={{ fontWeight: 700, color: "#0B1B3A", fontSize: 14.5 }}>{o.label}</div>
+                  <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>{o.sub}</div>
+                </button>
+              ))}
+            </div>
+
+            {/* 2) Contact (toujours) */}
+            <div className="pill" style={{ marginBottom: 14 }}>2) Contact <span className="req">*</span></div>
             <div className="form-grid">
               <div className="field">
                 <label className="label">Nom complet <span className="req">*</span></label>
@@ -872,35 +923,84 @@ function P2HomeInner() {
               </div>
             </div>
 
-            <div className="blk-title">2) Société (si personne morale)</div>
+            {/* 3) Société — visible UNIQUEMENT si personne morale */}
+            {moaType === "morale" && (
+              <>
+                <div className="blk-title">3) Société</div>
+                <div className="form-grid">
+                  <div className="field">
+                    <label className="label">Raison sociale <span className="req">*</span></label>
+                    <input className="control" value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder="SARL / SA / SNC…" />
+                  </div>
+                  <div className="field">
+                    <label className="label">Représentant légal <span className="req">*</span></label>
+                    <input className="control" value={identity.representant} onChange={f("representant")} placeholder="Gérant / DG" />
+                  </div>
+                  <div className="field">
+                    <label className="label">RC</label>
+                    <input className="control" value={identity.rc} onChange={f("rc")} placeholder="12345" />
+                  </div>
+                  <div className="field">
+                    <label className="label">ICE</label>
+                    <input className="control" value={identity.ice} onChange={f("ice")} placeholder="000000000000000" />
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* 4) Localisation — région / province / commune (cf. P1) */}
+            <div className="blk-title">{moaType === "morale" ? "4" : "3"}) Localisation du projet</div>
             <div className="form-grid">
               <div className="field">
-                <label className="label">Raison sociale</label>
-                <input className="control" value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder="SARL / SA / SNC…" />
+                <label className="label">Région <span className="req">*</span></label>
+                <input className="control" value={identity.region} onChange={f("region")} placeholder="Rabat-Salé-Kénitra, Casablanca-Settat…" />
               </div>
               <div className="field">
-                <label className="label">Représentant légal</label>
-                <input className="control" value={identity.representant} onChange={f("representant")} placeholder="Gérant / DG" />
+                <label className="label">Province / Préfecture <span className="req">*</span></label>
+                <input className="control" value={identity.province} onChange={f("province")} placeholder="Kénitra, Salé, Rabat…" />
               </div>
               <div className="field">
-                <label className="label">RC</label>
-                <input className="control" value={identity.rc} onChange={f("rc")} placeholder="12345" />
+                <label className="label">Commune <span className="req">*</span></label>
+                <input className="control" value={identity.commune} onChange={f("commune")} placeholder="Mehdia, Témara, Bouznika…" />
               </div>
               <div className="field">
-                <label className="label">ICE</label>
-                <input className="control" value={identity.ice} onChange={f("ice")} placeholder="000000000000000" />
+                <label className="label">Nature du projet</label>
+                <input className="control" value={identity.natureProjet} onChange={f("natureProjet")} placeholder="Construction neuve / extension…" />
               </div>
             </div>
 
-            <div className="blk-title">3) Localisation du projet</div>
+            {/* 5) Caractéristiques projet — standing, propriétaire, délai (cf. P1) */}
+            <div className="blk-title">{moaType === "morale" ? "5" : "4"}) Caractéristiques du projet</div>
             <div className="form-grid">
               <div className="field">
-                <label className="label">Commune <span className="req">*</span></label>
-                <input className="control" value={identity.commune} onChange={f("commune")} placeholder="Kénitra, Rabat, Salé…" />
+                <label className="label">Niveau de standing <span className="req">*</span></label>
+                <select className="control" value={standing} onChange={(e) => setStanding(e.target.value as any)}>
+                  <option value="economique">Économique — env. 2 000 DH/m²</option>
+                  <option value="moyen">Moyen standing — env. 3 500 DH/m²</option>
+                  <option value="haut">Haut standing — env. 5 000 DH/m²</option>
+                  <option value="luxe">Luxe — env. 7 500 DH/m² et plus</option>
+                </select>
               </div>
               <div className="field">
-                <label className="label">Nature du projet (optionnel)</label>
-                <input className="control" value={identity.natureProjet} onChange={f("natureProjet")} placeholder="Construction neuve / extension…" />
+                <label className="label">Statut du terrain <span className="req">*</span></label>
+                <select className="control" value={ownerStatus} onChange={(e) => setOwnerStatus(e.target.value)}>
+                  <option value="">— Sélectionner —</option>
+                  <option value="proprietaire">Propriétaire (titre foncier au nom du MOA)</option>
+                  <option value="indivision">En indivision</option>
+                  <option value="promesse">Promesse / compromis de vente</option>
+                  <option value="leasing">Leasing / location longue durée</option>
+                  <option value="autre">Autre / à préciser</option>
+                </select>
+              </div>
+              <div className="field">
+                <label className="label">Délai souhaité <span className="req">*</span></label>
+                <select className="control" value={timeline} onChange={(e) => setTimeline(e.target.value)}>
+                  <option value="">— Sélectionner —</option>
+                  <option value="0-6m">Démarrage sous 6 mois</option>
+                  <option value="6-12m">6 à 12 mois</option>
+                  <option value="12-24m">12 à 24 mois</option>
+                  <option value="24m+">Plus de 24 mois / à étudier</option>
+                </select>
               </div>
             </div>
 
