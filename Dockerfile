@@ -11,6 +11,7 @@ COPY package*.json ./
 COPY packages/ ./packages/
 COPY apps/api/package.json ./apps/api/package.json
 COPY apps/api/dist/ ./apps/api/dist/
+COPY apps/api/data/ ./apps/api/data/
 COPY prisma/ ./prisma/
 
 RUN npm install --legacy-peer-deps

@@ -9,6 +9,8 @@ var SigDataService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SigDataService = void 0;
 const common_1 = require("@nestjs/common");
+const fs_1 = require("fs");
+const path_1 = require("path");
 /** Couches utiles du PA AURS Rabat-Salé (sélection — on en exposera plus si besoin). */
 const SOURCES = {
     aurs: {
@@ -43,8 +45,15 @@ let SigDataService = SigDataService_1 = class SigDataService {
         }));
     }
     /**
-     * Récupère une couche en GeoJSON, en cache 24 h.
-     * Si la source distante est down, on sert le cache stale s'il existe.
+     * Récupère une couche en GeoJSON. Stratégie :
+     *   1. Cache RAM (24 h)
+     *   2. Tentative fetch live vers la source (PA homologué fraîcheur ↑)
+     *   3. Fallback fichier statique committé dans le repo
+     *      (apps/api/data/sig-static/<source>/<layer>.geojson)
+     *
+     * Les fichiers statiques sont pré-fetchés depuis une machine en zone
+     * autorisée (Maroc), car certains services IIS bloquent les IP étrangères
+     * (cas observé pour geoportail.aurs.org.ma depuis Railway US-West).
      */
     async getLayerGeoJson(sourceId, layerId) {
         const src = SOURCES[sourceId];
@@ -60,6 +69,8 @@ let SigDataService = SigDataService_1 = class SigDataService {
         const url = `${src.baseUrl}/${layerId}/query` +
             `?where=1%3D1&outFields=*&f=geojson&outSR=4326` +
             `&resultRecordCount=${this.MAX_FEATURES}&returnGeometry=true`;
+        // Fallback statique (priorité 3) — chargé une fois et mis en cache RAM
+        const staticData = this.tryLoadStatic(sourceId, layerId);
         try {
             const res = await fetch(url, {
                 headers: {
@@ -93,11 +104,47 @@ let SigDataService = SigDataService_1 = class SigDataService {
         }
         catch (e) {
             this.logger.warn(`SIG fetch failed [${cacheKey}]: ${e?.message || e}`);
-            // Fallback : si on a un cache stale, on le sert avec une note
+            // Fallback 1 : cache stale
             if (cached)
                 return { ...cached.data, _meta: { ...cached.data._meta, stale: true, error: e?.message } };
+            // Fallback 2 : fichier statique committé dans le repo
+            if (staticData) {
+                const enriched = {
+                    ...staticData,
+                    _meta: {
+                        source: sourceId, layer: layerId,
+                        label: src.layers[layerId].label, region: src.region,
+                        fromStatic: true,
+                        error: e?.message,
+                        featureCount: Array.isArray(staticData?.features) ? staticData.features.length : 0,
+                    },
+                };
+                this.cache.set(cacheKey, { data: enriched, expires: now + this.TTL_MS });
+                return enriched;
+            }
             throw new common_1.BadRequestException(`Source distante indisponible : ${e?.message || "inconnu"}`);
         }
+    }
+    /** Charge le GeoJSON statique committé dans le repo (fallback geo-block). */
+    tryLoadStatic(sourceId, layerId) {
+        try {
+            // Cherche dans plusieurs racines possibles (dev vs Docker prod)
+            const candidates = [
+                (0, path_1.join)(process.cwd(), "data", "sig-static", sourceId, `${layerId}.geojson`),
+                (0, path_1.join)(process.cwd(), "apps", "api", "data", "sig-static", sourceId, `${layerId}.geojson`),
+                (0, path_1.join)(__dirname, "..", "..", "..", "data", "sig-static", sourceId, `${layerId}.geojson`),
+            ];
+            for (const p of candidates) {
+                if ((0, fs_1.existsSync)(p)) {
+                    const raw = (0, fs_1.readFileSync)(p, "utf8");
+                    return JSON.parse(raw);
+                }
+            }
+        }
+        catch (e) {
+            this.logger.warn(`Static SIG load failed [${sourceId}:${layerId}]: ${e?.message}`);
+        }
+        return null;
     }
 };
 exports.SigDataService = SigDataService;

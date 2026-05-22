@@ -1,4 +1,6 @@
 import { Injectable, BadRequestException, Logger } from "@nestjs/common";
+import { readFileSync, existsSync } from "fs";
+import { join as joinPath } from "path";
 
 /**
  * SigDataService — proxy + cache des couches SIG provenant de portails
@@ -79,8 +81,15 @@ export class SigDataService {
   }
 
   /**
-   * Récupère une couche en GeoJSON, en cache 24 h.
-   * Si la source distante est down, on sert le cache stale s'il existe.
+   * Récupère une couche en GeoJSON. Stratégie :
+   *   1. Cache RAM (24 h)
+   *   2. Tentative fetch live vers la source (PA homologué fraîcheur ↑)
+   *   3. Fallback fichier statique committé dans le repo
+   *      (apps/api/data/sig-static/<source>/<layer>.geojson)
+   *
+   * Les fichiers statiques sont pré-fetchés depuis une machine en zone
+   * autorisée (Maroc), car certains services IIS bloquent les IP étrangères
+   * (cas observé pour geoportail.aurs.org.ma depuis Railway US-West).
    */
   async getLayerGeoJson(sourceId: string, layerId: string): Promise<any> {
     const src = SOURCES[sourceId];
@@ -96,6 +105,9 @@ export class SigDataService {
       `${src.baseUrl}/${layerId}/query` +
       `?where=1%3D1&outFields=*&f=geojson&outSR=4326` +
       `&resultRecordCount=${this.MAX_FEATURES}&returnGeometry=true`;
+
+    // Fallback statique (priorité 3) — chargé une fois et mis en cache RAM
+    const staticData = this.tryLoadStatic(sourceId, layerId);
 
     try {
       const res = await fetch(url, {
@@ -128,9 +140,45 @@ export class SigDataService {
       return enriched;
     } catch (e: any) {
       this.logger.warn(`SIG fetch failed [${cacheKey}]: ${e?.message || e}`);
-      // Fallback : si on a un cache stale, on le sert avec une note
+      // Fallback 1 : cache stale
       if (cached) return { ...cached.data, _meta: { ...cached.data._meta, stale: true, error: e?.message } };
+      // Fallback 2 : fichier statique committé dans le repo
+      if (staticData) {
+        const enriched = {
+          ...staticData,
+          _meta: {
+            source: sourceId, layer: layerId,
+            label: src.layers[layerId].label, region: src.region,
+            fromStatic: true,
+            error: e?.message,
+            featureCount: Array.isArray(staticData?.features) ? staticData.features.length : 0,
+          },
+        };
+        this.cache.set(cacheKey, { data: enriched, expires: now + this.TTL_MS });
+        return enriched;
+      }
       throw new BadRequestException(`Source distante indisponible : ${e?.message || "inconnu"}`);
     }
+  }
+
+  /** Charge le GeoJSON statique committé dans le repo (fallback geo-block). */
+  private tryLoadStatic(sourceId: string, layerId: string): any | null {
+    try {
+      // Cherche dans plusieurs racines possibles (dev vs Docker prod)
+      const candidates = [
+        joinPath(process.cwd(), "data", "sig-static", sourceId, `${layerId}.geojson`),
+        joinPath(process.cwd(), "apps", "api", "data", "sig-static", sourceId, `${layerId}.geojson`),
+        joinPath(__dirname, "..", "..", "..", "data", "sig-static", sourceId, `${layerId}.geojson`),
+      ];
+      for (const p of candidates) {
+        if (existsSync(p)) {
+          const raw = readFileSync(p, "utf8");
+          return JSON.parse(raw);
+        }
+      }
+    } catch (e: any) {
+      this.logger.warn(`Static SIG load failed [${sourceId}:${layerId}]: ${e?.message}`);
+    }
+    return null;
   }
 }
