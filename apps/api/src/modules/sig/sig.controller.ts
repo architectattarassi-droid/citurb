@@ -45,7 +45,9 @@ export class SigController {
     }
     const parent = level === "provinces" ? region : level === "communes" ? province : undefined;
     const items = await this.sig.listAdmin(level, parent);
-    res?.setHeader("Cache-Control", "public, max-age=86400, stale-while-revalidate=604800");
+    // Court — les artéfacts peuvent être ajustés en cours d'exploitation,
+    // on ne veut pas qu'un cache CDN serve la liste pendant 24 h.
+    res?.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=600");
     res?.json({ ok: true, level, count: items.length, items });
   }
 

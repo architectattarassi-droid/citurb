@@ -55,10 +55,15 @@ export default function AdminLocationSelect({ value, onChange, required, disable
   const [provinceCode, setProvinceCode] = useState<string>("");
   const [communeCode, setCommuneCode] = useState<string>("");
 
+  // Cache-buster pour contourner les caches CDN agressifs.
+  // Régénéré à chaque mount du composant → garantit une liste fraîche après
+  // un déploiement backend qui a filtré/corrigé les artéfacts.
+  const cacheBust = React.useMemo(() => Date.now().toString(36), []);
+
   // Charge les régions au montage
   useEffect(() => {
     setBusyR(true);
-    fetch(`${apiBase()}/api/sig/admin/regions`)
+    fetch(`${apiBase()}/api/sig/admin/regions?_v=${cacheBust}`, { cache: "no-store" })
       .then(r => r.json())
       .then(d => {
         if (!d?.ok) throw new Error(d?.error || "Erreur");
@@ -66,29 +71,29 @@ export default function AdminLocationSelect({ value, onChange, required, disable
       })
       .catch(e => setError(e?.message || "Erreur de chargement des régions"))
       .finally(() => setBusyR(false));
-  }, []);
+  }, [cacheBust]);
 
   // Quand région change → charge provinces
   useEffect(() => {
     if (!regionCode) { setProvinces([]); return; }
     setBusyP(true);
-    fetch(`${apiBase()}/api/sig/admin/provinces?region=${encodeURIComponent(regionCode)}`)
+    fetch(`${apiBase()}/api/sig/admin/provinces?region=${encodeURIComponent(regionCode)}&_v=${cacheBust}`, { cache: "no-store" })
       .then(r => r.json())
       .then(d => setProvinces(d?.items || []))
       .catch(() => setProvinces([]))
       .finally(() => setBusyP(false));
-  }, [regionCode]);
+  }, [regionCode, cacheBust]);
 
   // Quand province change → charge communes
   useEffect(() => {
     if (!provinceCode) { setCommunes([]); return; }
     setBusyC(true);
-    fetch(`${apiBase()}/api/sig/admin/communes?province=${encodeURIComponent(provinceCode)}`)
+    fetch(`${apiBase()}/api/sig/admin/communes?province=${encodeURIComponent(provinceCode)}&_v=${cacheBust}`, { cache: "no-store" })
       .then(r => r.json())
       .then(d => setCommunes(d?.items || []))
       .catch(() => setCommunes([]))
       .finally(() => setBusyC(false));
-  }, [provinceCode]);
+  }, [provinceCode, cacheBust]);
 
   const emit = (rc: string, pc: string, cc: string) => {
     const r = regions.find(x => x.code === rc);

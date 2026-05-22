@@ -6,6 +6,16 @@ import { getStoredLang } from "../../../../i18n/i18n";
 import MapPicker from "../../../../features/geo/MapPicker";
 import MohafadatiUpload, { UploadedDoc } from "../../../../features/geo/MohafadatiUpload";
 import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
+import proj4 from "proj4";
+
+// Définitions Lambert Maroc — déjà enregistrées dans MapPicker, on duplique
+// ici pour pouvoir convertir indépendamment.
+if (!proj4.defs("EPSG:26191")) {
+  proj4.defs("EPSG:26191", "+proj=lcc +lat_1=33.3 +lat_0=33.3 +lon_0=-5.4 +k_0=0.999625769 +x_0=500000 +y_0=300000 +a=6378249.2 +b=6356515 +towgs84=31,146,47,0,0,0,0 +units=m +no_defs +type=crs");
+  proj4.defs("EPSG:26192", "+proj=lcc +lat_1=29.7 +lat_0=29.7 +lon_0=-5.4 +k_0=0.999615596 +x_0=500000 +y_0=300000 +a=6378249.2 +b=6356515 +towgs84=31,146,47,0,0,0,0 +units=m +no_defs +type=crs");
+  proj4.defs("EPSG:26194", "+proj=lcc +lat_1=26.1 +lat_0=26.1 +lon_0=-5.4 +k_0=0.999616304 +x_0=1200000 +y_0=400000 +a=6378249.2 +b=6356515 +towgs84=31,146,47,0,0,0,0 +units=m +no_defs +type=crs");
+  proj4.defs("EPSG:26195", "+proj=lcc +lat_1=22.5 +lat_0=22.5 +lon_0=-5.4 +k_0=0.999616437 +x_0=1500000 +y_0=400000 +a=6378249.2 +b=6356515 +towgs84=31,146,47,0,0,0,0 +units=m +no_defs +type=crs");
+}
 
 /**
  * P5Home — Rapports & Expertises (refonte v2 — UI premium niveau P2)
@@ -189,6 +199,11 @@ function P5HomeInner() {
   const [mohafadatiDoc, setMohafadatiDoc] = useState<UploadedDoc | null>(null);
   // Codes administratifs (HCP) issus des dropdowns — utilisés pour highlight commune sur la carte
   const [adminCodes, setAdminCodes] = useState<{ regionCode?: string; provinceCode?: string; communeCode?: string }>({});
+
+  // Coordonnées Lambert Maroc — saisie directe optionnelle (override du géocodage adresse)
+  const [lambertZone, setLambertZone] = useState<"EPSG:26191" | "EPSG:26192" | "EPSG:26194" | "EPSG:26195">("EPSG:26191");
+  const [lambertX, setLambertX] = useState<string>("");
+  const [lambertY, setLambertY] = useState<string>("");
 
   const [quote, setQuote] = useState<Quote | null>(null);
   const [dossierId, setDossierId] = useState<string | null>(null);
@@ -592,9 +607,58 @@ function P5HomeInner() {
             <div className="form-grid" style={{ marginTop: 14 }}>
               <div className="field" style={{ gridColumn: "1 / -1" }}>
                 <label className="label">Adresse précise du bien (optionnel)</label>
-                <input className="control" value={identity.adresseBien} onChange={f("adresseBien")} placeholder="N° rue, quartier, lot, étage…" />
+                <input className="control" value={identity.adresseBien} onChange={f("adresseBien")} placeholder="ex. Avenue Mohammed VI, secteur 4" />
+                <div className="muted" style={{ fontSize: 11.5, marginTop: 4, fontStyle: "italic" }}>
+                  Le repère se pose automatiquement sur la carte 600 ms après votre dernière frappe.
+                </div>
               </div>
             </div>
+
+            {/* Coordonnées Lambert Maroc — saisie directe optionnelle (jamais obligatoire) */}
+            <details style={{ marginTop: 18, padding: "12px 16px", background: "rgba(11,27,58,0.04)", border: "1px solid rgba(11,27,58,0.10)", borderRadius: 10 }}>
+              <summary style={{ cursor: "pointer", fontSize: 13, fontWeight: 700, color: "#0B1B3A" }}>
+                📐 Vous avez des coordonnées Lambert Maroc ? <span style={{ fontWeight: 500, color: "rgba(11,27,58,0.55)" }}>(option, pas obligatoire)</span>
+              </summary>
+              <div className="muted" style={{ fontSize: 12, lineHeight: 1.55, margin: "10px 0 12px" }}>
+                Saisie en système géodésique officiel ANCFCC. Si vous avez le PV de bornage ou
+                le titre foncier avec coordonnées Lambert, cela permet une localisation millimétrique.
+                Sinon, ignorez ce bloc — l'adresse ci-dessus suffit.
+              </div>
+              <div className="form-grid">
+                <div className="field">
+                  <label className="label">Zone Lambert</label>
+                  <select className="control" value={lambertZone} onChange={(e) => setLambertZone(e.target.value as any)}>
+                    <option value="EPSG:26191">Nord Maroc — Tanger / Rabat / Casa / Fès</option>
+                    <option value="EPSG:26192">Sud Maroc — Marrakech / Agadir / Béni Mellal</option>
+                    <option value="EPSG:26194">Sahara Nord — Tan-Tan / Laâyoune nord</option>
+                    <option value="EPSG:26195">Sahara Sud — Dakhla / Aousserd</option>
+                  </select>
+                </div>
+                <div className="field">
+                  <label className="label">X (mètres)</label>
+                  <input className="control" type="number" value={lambertX}
+                    onChange={(e) => setLambertX(e.target.value)} placeholder="ex. 350000" />
+                </div>
+                <div className="field">
+                  <label className="label">Y (mètres)</label>
+                  <input className="control" type="number" value={lambertY}
+                    onChange={(e) => setLambertY(e.target.value)} placeholder="ex. 380000" />
+                </div>
+              </div>
+              {lambertX && lambertY && (() => {
+                try {
+                  const [lng, lat] = proj4(lambertZone, "EPSG:4326", [+lambertX, +lambertY]);
+                  if (Number.isFinite(lat) && Number.isFinite(lng) && lat > 20 && lat < 36 && lng > -18 && lng < -1) {
+                    return (
+                      <div style={{ marginTop: 10, fontSize: 12, color: "rgba(11,27,58,0.85)", fontFamily: "ui-monospace, Menlo, Consolas, monospace", background: "rgba(201,162,39,0.08)", padding: "8px 12px", borderRadius: 8 }}>
+                        ↪ converti en WGS84 : <strong>{lat.toFixed(5)}, {lng.toFixed(5)}</strong> — le repère se pose sur la carte ci-dessous.
+                      </div>
+                    );
+                  }
+                  return <div style={{ marginTop: 10, fontSize: 12, color: "#b91c1c" }}>⚠ Coordonnées hors Maroc — vérifiez la zone.</div>;
+                } catch { return null; }
+              })()}
+            </details>
 
             {/* Sprint 1 SIG — géoréférencement du bien sur carte */}
             <div className="blk-title" style={{ marginTop: 28 }}>{moaType === "morale" ? "5" : "4"}) Géoréférencement (recommandé)</div>
@@ -614,6 +678,7 @@ function P5HomeInner() {
               highlightProvinceCode={adminCodes.provinceCode}
               highlightCommuneCode={adminCodes.communeCode}
               autoGeocodeAddress
+              externalLambert={lambertX && lambertY ? { zone: lambertZone, x: +lambertX, y: +lambertY } : undefined}
             />
 
             {/* Sprint 1 — upload extrait Mohafadati (workaround ANCFCC) */}
@@ -795,6 +860,22 @@ function P5HomeInner() {
                   <option value="ULTRA">Hyper-centre prestige / front de mer — 27 000 à 50 000 DH/m² (Casa Corniche, Rabat Souissi haut, Tanger Marina)</option>
                 </select>
               </div>
+            </div>
+
+            {/* Bandeau explicite sur la source des fourchettes de prix */}
+            <div style={{
+              marginTop: 16, padding: "12px 16px",
+              background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.30)",
+              borderLeft: "4px solid #f59e0b", borderRadius: 10,
+              fontSize: 12.5, color: "rgba(11,27,58,0.85)", lineHeight: 1.6,
+            }}>
+              <strong>Fourchettes indicatives — sources marché (non DGI/ANCFCC).</strong>
+              {" "}Ces tranches sont une estimation prudente issue des plateformes immobilières
+              publiques marocaines (Agenz, Yakeey, Mubawab, KNA Agence — 2025-2026). Elles ne
+              remplacent <em>pas</em> le référentiel officiel DGI (utilisé pour les droits
+              d'enregistrement) ni le barème ANCFCC. L'intégration directe du <strong>référentiel
+              DGI par commune</strong> est en cours — votre rapport d'expertise finalisera la
+              valeur de référence officielle après croisement avec ces sources.
             </div>
 
             {/* Option expert : « je connais déjà les valeurs » */}

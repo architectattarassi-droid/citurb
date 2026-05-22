@@ -74,6 +74,12 @@ type Props = {
   highlightCommuneCode?: string;
   /** Active le géocodage automatique de l'adresse (debounce 600 ms). */
   autoGeocodeAddress?: boolean;
+  /**
+   * Coordonnées Lambert Maroc fournies de l'EXTÉRIEUR (par ex. saisies dans un
+   * formulaire parent). Si renseignées, le marqueur se pose automatiquement
+   * — priorité sur le géocodage adresse.
+   */
+  externalLambert?: { zone: "EPSG:26191" | "EPSG:26192" | "EPSG:26194" | "EPSG:26195"; x: number; y: number };
 };
 
 type Mode = "adresse" | "lambert" | "carte";
@@ -103,6 +109,7 @@ export default function MapPicker({
   showSigLayers = false,
   highlightRegionCode, highlightProvinceCode, highlightCommuneCode,
   autoGeocodeAddress = true,
+  externalLambert,
 }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -247,26 +254,56 @@ export default function MapPicker({
     map.flyTo({ center: [lng, lat], zoom: 16, speed: 1.4 });
   };
 
-  // ── Mode 1 : ADRESSE → Nominatim ──────────────────────────────────
+  // ── Mode 1 : ADRESSE → Nominatim (robuste, plusieurs variantes) ───────
+  // Normalise "Mohammed 6"→"Mohammed VI", "Hassan 2"→"Hassan II" (cas fréquent au Maroc)
+  const normalizeAddress = (s: string): string => {
+    if (!s) return s;
+    return s
+      .replace(/\b(Mohammed|Mohamed|Med)\s*6\b/gi, "Mohammed VI")
+      .replace(/\b(Mohammed|Mohamed|Med)\s*5\b/gi, "Mohammed V")
+      .replace(/\b(Hassan)\s*2\b/gi, "Hassan II")
+      .replace(/\b(Hassan)\s*1\b/gi, "Hassan I");
+  };
+
   const locateFromAddress = async () => {
     setError(null);
-    const parts = [adresse, commune, province, region, "Maroc"].filter(Boolean).join(", ");
-    if (!parts || !commune) {
+    if (!commune) {
       setError("Renseignez au moins la commune pour localiser le bien.");
       return;
     }
     setBusy(true);
     try {
-      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(parts)}&format=json&limit=1&countrycodes=ma`;
-      const res = await fetch(url, { headers: { "Accept": "application/json" } });
-      const data = await res.json();
-      if (!Array.isArray(data) || data.length === 0) {
+      const adrNorm = normalizeAddress((adresse || "").trim());
+      // Variantes tentées dans l'ordre (du plus précis au plus large)
+      const variants = [
+        adrNorm && [adrNorm, commune, province, "Morocco"].filter(Boolean).join(", "),
+        adrNorm && [adrNorm, commune, "Morocco"].filter(Boolean).join(", "),
+        adrNorm && [adrNorm, commune, "Maroc"].filter(Boolean).join(", "),
+        [commune, province, "Morocco"].filter(Boolean).join(", "),
+        [commune, "Morocco"].filter(Boolean).join(", "),
+      ].filter(Boolean) as string[];
+
+      let found: any = null;
+      for (const q of variants) {
+        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&countrycodes=ma&addressdetails=0`;
+        try {
+          const res = await fetch(url, { headers: { "Accept": "application/json" } });
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            found = data[0];
+            break;
+          }
+        } catch { /* try next variant */ }
+        // Petit délai pour respecter la fair-use Nominatim (1 req/sec)
+        await new Promise(r => setTimeout(r, 250));
+      }
+
+      if (!found) {
         setError("Aucun résultat — passez en mode Carte ou Lambert pour pointer le bien manuellement.");
         return;
       }
-      const r = data[0];
-      const lat = parseFloat(r.lat);
-      const lng = parseFloat(r.lon);
+      const lat = parseFloat(found.lat);
+      const lng = parseFloat(found.lon);
       const c = { lat, lng };
       setCoords(c);
       placeMarker(lat, lng);
@@ -430,6 +467,22 @@ export default function MapPicker({
     })();
     return () => { cancelled = true; };
   }, [highlightRegionCode, highlightProvinceCode, highlightCommuneCode]);
+
+  // Lambert externe (saisi en P5 identity) — placement immédiat du marqueur
+  useEffect(() => {
+    if (!externalLambert) return;
+    const { zone, x, y } = externalLambert;
+    if (!Number.isFinite(x) || !Number.isFinite(y) || x === 0 || y === 0) return;
+    try {
+      const [lng, lat] = proj4(zone, "EPSG:4326", [x, y]);
+      if (!Number.isFinite(lat) || !Number.isFinite(lng) || lat < 20 || lat > 36 || lng < -18 || lng > -1) return;
+      const c = { lat, lng };
+      setCoords(c);
+      placeMarker(lat, lng);
+      onChange?.({ ...c, source: "lambert" });
+    } catch { /* ignore */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [externalLambert?.x, externalLambert?.y, externalLambert?.zone]);
 
   // Auto-géocode adresse — déclenche locateFromAddress après debounce 600 ms
   // dès que l'adresse contient assez de contexte (commune renseignée).
