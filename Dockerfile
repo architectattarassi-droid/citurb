@@ -1,7 +1,7 @@
 FROM node:20-alpine AS runner
 WORKDIR /app
 
-ARG CACHE_BUST=20260430c
+ARG CACHE_BUST=20260522-sig-1505communes
 
 RUN apk add --no-cache openssl
 
