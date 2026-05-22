@@ -16,9 +16,9 @@ type SigLayerDef = {
 };
 const SIG_LAYERS: SigLayerDef[] = [
   // Découpage administratif national
-  { source: "maroc-admin", layer: "0", label: "Régions Maroc (12)",   geomType: "polygon", color: "#0B1B3A", description: "Découpage régional national (HCP)" },
-  { source: "maroc-admin", layer: "1", label: "Provinces Maroc (77)", geomType: "polygon", color: "#C9A227", description: "Provinces et préfectures" },
-  { source: "maroc-admin", layer: "2", label: "Communes Maroc",       geomType: "polygon", color: "#16a34a", description: "Limites communales (HCP / Esri Africa)" },
+  { source: "maroc-admin", layer: "0", label: "Régions Maroc (14)",        geomType: "polygon", color: "#0B1B3A", description: "12 régions + 2 régions du Sahara (HCP, réforme 2015)" },
+  { source: "maroc-admin", layer: "1", label: "Provinces Maroc (77)",      geomType: "polygon", color: "#C9A227", description: "Provinces et préfectures avec population" },
+  { source: "maroc-admin", layer: "2", label: "Communes Maroc (1 505)",    geomType: "polygon", color: "#16a34a", description: "Toutes les communes du Royaume" },
   // PA Rabat-Salé (AURS)
   { source: "aurs", layer: "10", label: "Limite du PA (Rabat-Salé)",   geomType: "polygon", color: "#0B1B3A", description: "Périmètre du Plan d'Aménagement" },
   { source: "aurs", layer: "28", label: "Lotissements (Rabat-Salé)",   geomType: "polygon", color: "#f59e0b", description: "Lotissements existants et projetés" },

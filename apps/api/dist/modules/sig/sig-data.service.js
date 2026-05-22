@@ -38,16 +38,16 @@ const SOURCES = {
     },
     "maroc-admin": {
         id: "maroc-admin",
-        label: "Découpage administratif du Maroc — 12 Régions / 77 Provinces / Communes",
+        label: "Découpage administratif du Maroc — 14 Régions / 77 Provinces / 1 505 Communes",
         region: "Royaume du Maroc",
         authority: "HCP (Haut Commissariat au Plan) — diffusé via Esri Africa Geoportal",
         baseUrl: "https://services3.arcgis.com/hjUMsSJ87zgoicvl/arcgis/rest/services/DA_Maroc/FeatureServer",
         publishedAt: "2018-05-31", // item ArcGIS Online modifié le 2018-05-31
         staticSnapshotAt: "2026-05-22",
         layers: {
-            "0": { label: "Régions (12)", geomType: "polygon", color: "#0B1B3A", description: "Découpage régional Maroc (réforme 2015)" },
-            "1": { label: "Provinces (77)", geomType: "polygon", color: "#C9A227", description: "Provinces et préfectures" },
-            "2": { label: "Communes", geomType: "polygon", color: "#16a34a", description: "Communes (1505 — échantillon top 1000 dans le snapshot statique)" },
+            "0": { label: "Régions (14)", geomType: "polygon", color: "#0B1B3A", description: "12 régions du Maroc + 2 régions du Sahara (réforme 2015)" },
+            "1": { label: "Provinces (77)", geomType: "polygon", color: "#C9A227", description: "Provinces et préfectures avec population, ménages, marocains/étrangers" },
+            "2": { label: "Communes (1 505)", geomType: "polygon", color: "#16a34a", description: "Toutes les communes du Royaume avec noms FR/AR, population, code province/région" },
         },
     },
 };
