@@ -148,10 +148,37 @@ export default function SigExplorer({ mode = "client" }: { mode?: Mode }) {
         ))}
 
         <div style={S.footnote}>
-          📝 Module en construction — nous intégrons en continu les PA des 29 agences
-          urbaines du Royaume. Roadmap : AUDRSO (Drâa-Souss), CSRNO (Casablanca-Settat),
-          VSH, AUH Hoceima, AUM Marrakech, AUT Tanger… Pour signaler une source
-          institutionnelle non encore intégrée, contactez l'équipe SIG CITURBAREA.
+          <div style={{ fontWeight: 700, color: "#0B1B3A", marginBottom: 8 }}>
+            📝 Roadmap du module SIG — transparence sur ce qui est faisable
+          </div>
+          <div style={{ marginBottom: 10 }}>
+            <strong>✅ Intégré et stable</strong> : découpage administratif national HCP
+            (14 régions / 77 provinces / 1 505 communes), Plan d'Aménagement Rabat-Salé (AURS, 36 couches),
+            imagerie satellite ESRI mondiale, fond OSM, géocodage Nominatim, projections Lambert Maroc.
+          </div>
+          <div style={{ marginBottom: 10 }}>
+            <strong>🚧 En cours d'intégration</strong> : PA des autres agences urbaines
+            (AUC Casablanca, AUM Marrakech, AUT Tanger, AUF Fès…) — sondage des géoportails
+            Karaz/Ribatis en cours. Référentiel prix DGI par commune (parsing PDFs officiels).
+          </div>
+          <div style={{ marginBottom: 10 }}>
+            <strong>⚠ Limites institutionnelles ANCFCC</strong> :
+            <ul style={{ marginTop: 6, paddingLeft: 22, lineHeight: 1.6 }}>
+              <li><strong>Cadastre parcellaire vectoriel</strong> : ANCFCC ne publie pas de WMS public — la
+                base ne peut être obtenue qu'avec une convention B2B formelle (procédure 6-18 mois).</li>
+              <li><strong>Plans cadastraux unitaires</strong> : 100 MAD par plan via le « Plan Cadastral en
+                Ligne » ANCFCC, PDF watermarqué, livré par SMS sous 1 semaine. Non exploitable en masse.</li>
+              <li><strong>Titres fonciers nominatifs</strong> : ouverts uniquement aux notaires certifiés
+                depuis 01/2024 (10 DH/acte). Plateforme blockchain unifiée annoncée fin 2025-2026,
+                exclusivement notaires + banques.</li>
+            </ul>
+          </div>
+          <div>
+            <strong>💡 Workaround actuel</strong> : utilisez l'imagerie satellite (bouton 🛰️ sur la carte)
+            pour visualiser le parcellaire réel à défaut de WMS cadastre, puis demandez à votre client
+            d'uploader son plan ANCFCC PDF (bloc « Extrait Mohafadati ») — l'expert le superposera
+            manuellement lors du rapport.
+          </div>
         </div>
       </div>
     </div>

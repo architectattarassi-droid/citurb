@@ -106,6 +106,29 @@ const OSM_STYLE: any = {
   layers: [{ id: "osm-tiles", type: "raster", source: "osm" }],
 };
 
+/** Imagerie satellite ESRI World Imagery — gratuit pour usage modéré (≤ 2k req/jour).
+ *  Indispensable pour voir le parcellaire réel à défaut d'avoir un WMS cadastre public. */
+const SATELLITE_STYLE: any = {
+  version: 8,
+  sources: {
+    "esri-imagery": {
+      type: "raster",
+      tiles: ["https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
+      tileSize: 256,
+      attribution: "Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+    },
+    "esri-labels": {
+      type: "raster",
+      tiles: ["https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"],
+      tileSize: 256,
+    },
+  },
+  layers: [
+    { id: "imagery-base", type: "raster", source: "esri-imagery" },
+    { id: "imagery-labels", type: "raster", source: "esri-labels" },
+  ],
+};
+
 export default function MapPicker({
   region, province, commune, adresse,
   initialLat, initialLng, onChange, height = 360,
@@ -134,6 +157,9 @@ export default function MapPicker({
   const [activeSigLayers, setActiveSigLayers] = useState<Record<string, boolean>>({});
   const [sigBusy, setSigBusy] = useState<Record<string, boolean>>({});
   const [sigError, setSigError] = useState<Record<string, string>>({});
+
+  // Fond de carte : OSM standard ou imagerie satellite ESRI (pour voir le parcellaire)
+  const [basemap, setBasemap] = useState<"osm" | "satellite">("osm");
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -341,6 +367,14 @@ export default function MapPicker({
       setError("Erreur de conversion Lambert → WGS84 : " + (e?.message || "inconnue"));
     }
   };
+
+  // Switch fond carte (OSM ↔ Satellite ESRI) — applique le nouveau style à la map.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const newStyle = basemap === "satellite" ? SATELLITE_STYLE : OSM_STYLE;
+    try { map.setStyle(newStyle as any); } catch {}
+  }, [basemap]);
 
   // ── Mode 3 : CARTE → click sur la carte (toujours actif) ─────────
   useEffect(() => {
@@ -713,18 +747,48 @@ export default function MapPicker({
       </div>
       )}
 
+      {/* Toggle fond cartographique — OSM vs Satellite ESRI */}
+      <div style={{ display: "flex", gap: 6, marginTop: 12, marginBottom: 0, justifyContent: "flex-end" }}>
+        <button
+          type="button" onClick={() => setBasemap("osm")}
+          style={{
+            padding: "6px 12px", fontSize: 11.5, fontWeight: 700,
+            borderRadius: 6, cursor: "pointer", fontFamily: "inherit",
+            background: basemap === "osm" ? "#0B1B3A" : "rgba(255,255,255,0.7)",
+            color: basemap === "osm" ? "#fff" : "rgba(11,27,58,0.7)",
+            border: basemap === "osm" ? "1px solid #0B1B3A" : "1px solid rgba(11,27,58,0.18)",
+          }}
+        >
+          🗺️ Plan (OSM)
+        </button>
+        <button
+          type="button" onClick={() => setBasemap("satellite")}
+          style={{
+            padding: "6px 12px", fontSize: 11.5, fontWeight: 700,
+            borderRadius: 6, cursor: "pointer", fontFamily: "inherit",
+            background: basemap === "satellite" ? "#0B1B3A" : "rgba(255,255,255,0.7)",
+            color: basemap === "satellite" ? "#fff" : "rgba(11,27,58,0.7)",
+            border: basemap === "satellite" ? "1px solid #0B1B3A" : "1px solid rgba(11,27,58,0.18)",
+          }}
+        >
+          🛰️ Satellite (ESRI)
+        </button>
+      </div>
+
       {/* Carte (toujours visible) */}
       <div
         ref={containerRef}
         style={{
-          width: "100%", height, marginTop: 12,
+          width: "100%", height, marginTop: 6,
           borderRadius: 14, overflow: "hidden",
           border: "1px solid rgba(201,162,39,0.35)",
           boxShadow: "0 12px 36px rgba(11,27,58,0.10)",
         }}
       />
       <div style={{ fontSize: 11, color: "rgba(11,27,58,0.5)", marginTop: 6, fontStyle: "italic", textAlign: "right" }}>
-        Fond cartographique : OpenStreetMap · Géocodage : Nominatim · Lambert : proj4 (EPSG:26191/2/4/5)
+        {basemap === "satellite"
+          ? "Imagerie : Esri World Imagery (Maxar, Earthstar) · Lambert : proj4"
+          : "Fond cartographique : OpenStreetMap · Géocodage : Nominatim · Lambert : proj4"}
       </div>
     </div>
   );
