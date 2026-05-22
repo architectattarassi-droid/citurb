@@ -65,11 +65,15 @@ type Props = {
    */
   showSigLayers?: boolean;
   /**
-   * Code de commune (Code_Commune HCP) à mettre en surbrillance sur la carte.
-   * Quand fourni, MapPicker charge le GeoJSON des communes Maroc et affiche
-   * seulement la commune correspondante en surbrillance dorée. Auto-fitBounds.
+   * Code HCP de la région / province / commune à mettre en surbrillance.
+   * La couche la PLUS spécifique disponible est utilisée (commune > province > région).
+   * Chaque sélection auto-fitBounds sur l'entité.
    */
+  highlightRegionCode?: string;
+  highlightProvinceCode?: string;
   highlightCommuneCode?: string;
+  /** Active le géocodage automatique de l'adresse (debounce 600 ms). */
+  autoGeocodeAddress?: boolean;
 };
 
 type Mode = "adresse" | "lambert" | "carte";
@@ -97,7 +101,8 @@ export default function MapPicker({
   region, province, commune, adresse,
   initialLat, initialLng, onChange, height = 360,
   showSigLayers = false,
-  highlightCommuneCode,
+  highlightRegionCode, highlightProvinceCode, highlightCommuneCode,
+  autoGeocodeAddress = true,
 }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -313,71 +318,129 @@ export default function MapPicker({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onChange]);
 
-  // ── Highlight commune sélectionnée (via AdminLocationSelect dropdowns) ────
-  // Charge le GeoJSON des communes une seule fois (mis en cache mémoire),
-  // filtre par Code_Commune et affiche la commune en surbrillance dorée.
-  const allCommunesRef = useRef<any | null>(null);
+  // Helper : ajuste la vue de la carte sur la bbox d'une feature GeoJSON
+  const fitToFeature = (map: maplibregl.Map, feature: any) => {
+    try {
+      let xmin = 180, ymin = 90, xmax = -180, ymax = -90;
+      const visit = (c: any): void => {
+        if (typeof c[0] === "number" && typeof c[1] === "number") {
+          if (c[0] < xmin) xmin = c[0]; if (c[0] > xmax) xmax = c[0];
+          if (c[1] < ymin) ymin = c[1]; if (c[1] > ymax) ymax = c[1];
+        } else if (Array.isArray(c)) c.forEach(visit);
+      };
+      visit(feature?.geometry?.coordinates || []);
+      if (xmin < xmax && ymin < ymax) {
+        map.fitBounds([[xmin, ymin], [xmax, ymax]], { padding: 60, maxZoom: 14, duration: 800 });
+      }
+    } catch {}
+  };
+
+  // ── Highlight Région / Province / Commune (cascade hiérarchique) ─────────
+  // Charge en lazy les GeoJSON HCP correspondants et superpose 3 couches :
+  // commune (or, opacity 0.22) > province (navy, opacity 0.10) > région (violet, opacity 0.07).
+  // Chaque sélection auto-fitBounds sur l'entité la plus spécifique disponible.
+  const layerCacheRef = useRef<Record<string, any>>({});
+  const loadLayer = async (layerId: "0" | "1" | "2"): Promise<any[]> => {
+    if (layerCacheRef.current[layerId]) return layerCacheRef.current[layerId].features || [];
+    try {
+      const res = await fetch(`${apiBase()}/api/sig/maroc-admin/${layerId}.geojson`);
+      const data = await res.json();
+      layerCacheRef.current[layerId] = data;
+      return data.features || [];
+    } catch { return []; }
+  };
+
+  // Effet 1 : highlight COMMUNE (or vif — niveau le plus fin)
   useEffect(() => {
-    const map = mapRef.current;
-    if (!map) return;
-    const HL_SRC = "highlight-commune-src";
-    const HL_FILL = "highlight-commune-fill";
-    const HL_STROKE = "highlight-commune-stroke";
-
-    if (!highlightCommuneCode) {
-      try { if (map.getLayer(HL_FILL)) map.removeLayer(HL_FILL); } catch {}
-      try { if (map.getLayer(HL_STROKE)) map.removeLayer(HL_STROKE); } catch {}
-      try { if (map.getSource(HL_SRC)) map.removeSource(HL_SRC); } catch {}
-      return;
-    }
-
+    const map = mapRef.current; if (!map) return;
+    const ID_F = "hl-commune-fill", ID_S = "hl-commune-stroke", ID_SRC = "hl-commune-src";
+    const cleanup = () => {
+      try { if (map.getLayer(ID_F)) map.removeLayer(ID_F); } catch {}
+      try { if (map.getLayer(ID_S)) map.removeLayer(ID_S); } catch {}
+      try { if (map.getSource(ID_SRC)) map.removeSource(ID_SRC); } catch {}
+    };
+    cleanup();
+    if (!highlightCommuneCode) return;
     let cancelled = false;
     (async () => {
-      if (!allCommunesRef.current) {
-        try {
-          const res = await fetch(`${apiBase()}/api/sig/maroc-admin/2.geojson`);
-          allCommunesRef.current = await res.json();
-        } catch { return; }
-      }
+      const feats = await loadLayer("2");
       if (cancelled) return;
-      const features: any[] = allCommunesRef.current?.features || [];
-      const match = features.find(f =>
-        String(f?.properties?.Code_Commune || "").trim() === String(highlightCommuneCode).trim()
-      );
+      const match = feats.find((f: any) => String(f?.properties?.Code_Commune || "").trim() === String(highlightCommuneCode).trim());
       if (!match) return;
-      const fc = { type: "FeatureCollection", features: [match] };
-
-      try { if (map.getLayer(HL_FILL)) map.removeLayer(HL_FILL); } catch {}
-      try { if (map.getLayer(HL_STROKE)) map.removeLayer(HL_STROKE); } catch {}
-      try { if (map.getSource(HL_SRC)) map.removeSource(HL_SRC); } catch {}
-
-      map.addSource(HL_SRC, { type: "geojson", data: fc as any });
-      map.addLayer({
-        id: HL_FILL, source: HL_SRC, type: "fill",
-        paint: { "fill-color": "#C9A227", "fill-opacity": 0.18 },
-      });
-      map.addLayer({
-        id: HL_STROKE, source: HL_SRC, type: "line",
-        paint: { "line-color": "#C9A227", "line-width": 3, "line-opacity": 0.95 },
-      });
-
-      try {
-        let xmin = 180, ymin = 90, xmax = -180, ymax = -90;
-        const visit = (c: any): void => {
-          if (typeof c[0] === "number" && typeof c[1] === "number") {
-            if (c[0] < xmin) xmin = c[0]; if (c[0] > xmax) xmax = c[0];
-            if (c[1] < ymin) ymin = c[1]; if (c[1] > ymax) ymax = c[1];
-          } else if (Array.isArray(c)) c.forEach(visit);
-        };
-        visit(match.geometry?.coordinates || []);
-        if (xmin < xmax && ymin < ymax) {
-          map.fitBounds([[xmin, ymin], [xmax, ymax]], { padding: 60, maxZoom: 14, duration: 800 });
-        }
-      } catch {}
+      map.addSource(ID_SRC, { type: "geojson", data: { type: "FeatureCollection", features: [match] } as any });
+      map.addLayer({ id: ID_F, source: ID_SRC, type: "fill", paint: { "fill-color": "#C9A227", "fill-opacity": 0.22 } });
+      map.addLayer({ id: ID_S, source: ID_SRC, type: "line", paint: { "line-color": "#C9A227", "line-width": 3, "line-opacity": 0.95 } });
+      fitToFeature(map, match);
     })();
-
     return () => { cancelled = true; };
   }, [highlightCommuneCode]);
+
+  // Effet 2 : highlight PROVINCE (navy — niveau intermédiaire)
+  useEffect(() => {
+    const map = mapRef.current; if (!map) return;
+    const ID_F = "hl-province-fill", ID_S = "hl-province-stroke", ID_SRC = "hl-province-src";
+    const cleanup = () => {
+      try { if (map.getLayer(ID_F)) map.removeLayer(ID_F); } catch {}
+      try { if (map.getLayer(ID_S)) map.removeLayer(ID_S); } catch {}
+      try { if (map.getSource(ID_SRC)) map.removeSource(ID_SRC); } catch {}
+    };
+    cleanup();
+    if (!highlightProvinceCode) return;
+    let cancelled = false;
+    (async () => {
+      const feats = await loadLayer("1");
+      if (cancelled) return;
+      const match = feats.find((f: any) => String(f?.properties?.Code_Province || "").trim() === String(highlightProvinceCode).trim());
+      if (!match) return;
+      map.addSource(ID_SRC, { type: "geojson", data: { type: "FeatureCollection", features: [match] } as any });
+      // Ajoute en-dessous de la commune (si présente)
+      const beforeId = map.getLayer("hl-commune-fill") ? "hl-commune-fill" : undefined;
+      map.addLayer({ id: ID_F, source: ID_SRC, type: "fill", paint: { "fill-color": "#0B1B3A", "fill-opacity": 0.10 } }, beforeId);
+      map.addLayer({ id: ID_S, source: ID_SRC, type: "line", paint: { "line-color": "#0B1B3A", "line-width": 2, "line-opacity": 0.75, "line-dasharray": [4, 2] } }, beforeId);
+      // Si pas de commune sélectionnée, on cadre sur la province
+      if (!highlightCommuneCode) fitToFeature(map, match);
+    })();
+    return () => { cancelled = true; };
+  }, [highlightProvinceCode, highlightCommuneCode]);
+
+  // Effet 3 : highlight RÉGION (violet — niveau le plus large)
+  useEffect(() => {
+    const map = mapRef.current; if (!map) return;
+    const ID_F = "hl-region-fill", ID_S = "hl-region-stroke", ID_SRC = "hl-region-src";
+    const cleanup = () => {
+      try { if (map.getLayer(ID_F)) map.removeLayer(ID_F); } catch {}
+      try { if (map.getLayer(ID_S)) map.removeLayer(ID_S); } catch {}
+      try { if (map.getSource(ID_SRC)) map.removeSource(ID_SRC); } catch {}
+    };
+    cleanup();
+    if (!highlightRegionCode) return;
+    let cancelled = false;
+    (async () => {
+      const feats = await loadLayer("0");
+      if (cancelled) return;
+      const match = feats.find((f: any) => String(f?.properties?.Code_Region || "").trim() === String(highlightRegionCode).trim());
+      if (!match) return;
+      map.addSource(ID_SRC, { type: "geojson", data: { type: "FeatureCollection", features: [match] } as any });
+      const beforeId = map.getLayer("hl-province-fill") ? "hl-province-fill"
+                    : map.getLayer("hl-commune-fill") ? "hl-commune-fill" : undefined;
+      map.addLayer({ id: ID_F, source: ID_SRC, type: "fill", paint: { "fill-color": "#8b5cf6", "fill-opacity": 0.07 } }, beforeId);
+      map.addLayer({ id: ID_S, source: ID_SRC, type: "line", paint: { "line-color": "#8b5cf6", "line-width": 2, "line-opacity": 0.6 } }, beforeId);
+      // Si pas de province/commune sélectionnée, on cadre sur la région
+      if (!highlightProvinceCode && !highlightCommuneCode) fitToFeature(map, match);
+    })();
+    return () => { cancelled = true; };
+  }, [highlightRegionCode, highlightProvinceCode, highlightCommuneCode]);
+
+  // Auto-géocode adresse — déclenche locateFromAddress après debounce 600 ms
+  // dès que l'adresse contient assez de contexte (commune renseignée).
+  useEffect(() => {
+    if (!autoGeocodeAddress) return;
+    if (!commune) return;
+    if (!adresse || adresse.trim().length < 3) return;
+    const t = setTimeout(() => { locateFromAddress(); }, 600);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [adresse, commune, province, region, autoGeocodeAddress]);
 
   // Affichage des coords inverses (WGS84 → Lambert) pour info quand le marker bouge
   const reverseLambert = (() => {

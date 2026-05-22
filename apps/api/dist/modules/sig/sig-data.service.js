@@ -104,33 +104,52 @@ let SigDataService = SigDataService_1 = class SigDataService {
         const items = feats.map(f => {
             const p = f.properties || {};
             if (level === "regions") {
+                const code = String(p.Code_Region || p.CODE_REGION || "").trim();
+                const name = p.Nom_Region || p.NOM_REGION || "";
+                // Exclut les features artéfacts (OBJECTID 12/13 sans code ni nom propres
+                // dans le découpage Esri Africa). 12 régions officielles HCP + ces 2
+                // duplicats du Sahara/Aousserd → on garde uniquement celles ayant un
+                // Code_Region ET un Nom_Region valides.
+                if (!code || !name)
+                    return null;
                 return {
-                    code: String(p.Code_Region || p.CODE_REGION || p.OBJECTID).trim(),
-                    name: p.Nom_Region || p.NOM_REGION || `Région ${p.OBJECTID}`,
+                    code,
+                    name,
+                    objectId: p.OBJECTID,
                     population: p.Population,
                     superficie: p.Superficie_Ha,
                 };
             }
             if (level === "provinces") {
+                const code = String(p.Code_Province || p.CODE_PROVINCE || "").trim();
+                const name = p.Nom_Provinces || p.Nom_Province || p.NOM_PROVINCE || "";
+                if (!code || !name)
+                    return null;
                 return {
-                    code: String(p.Code_Province || p.CODE_PROVINCE || p.OBJECTID).trim(),
-                    name: p.Nom_Provinces || p.Nom_Province || p.NOM_PROVINCE || `Province ${p.OBJECTID}`,
+                    code,
+                    name,
+                    objectId: p.OBJECTID,
                     parentCode: String(p.Code_Region || p.CODE_REGION || "").trim(),
                     population: p.Population,
                     marocains: p.Marocains,
                 };
             }
             // communes
+            const code = String(p.Code_Commune || p.CODE_COMMUNE || "").trim();
+            const name = p.Nom_Commune || p.NOM_COMMUNE || "";
+            if (!code || !name)
+                return null;
             return {
-                code: String(p.Code_Commune || p.CODE_COMMUNE || p.OBJECTID).trim(),
-                name: p.Nom_Commune || p.NOM_COMMUNE || `Commune ${p.OBJECTID}`,
+                code,
+                name,
+                objectId: p.OBJECTID,
                 nameAr: p.Nom_Commune_Arabe || undefined,
                 parentCode: String(p.Code_Province || p.CODE_PROVINCE || "").trim(),
                 regionCode: String(p.CODE_REGION || p.Code_Region || "").trim(),
                 population: p.Population,
                 type: p.Type_Commune,
             };
-        });
+        }).filter((x) => x !== null);
         // Filtre par parent si demandé
         const filtered = parentCode
             ? items.filter(it => (it.parentCode || "").startsWith(parentCode.trim()))

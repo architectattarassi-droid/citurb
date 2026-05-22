@@ -610,7 +610,10 @@ function P5HomeInner() {
               adresse={identity.adresseBien}
               onChange={(c) => setGeoCoords(c)}
               height={360}
+              highlightRegionCode={adminCodes.regionCode}
+              highlightProvinceCode={adminCodes.provinceCode}
               highlightCommuneCode={adminCodes.communeCode}
+              autoGeocodeAddress
             />
 
             {/* Sprint 1 — upload extrait Mohafadati (workaround ANCFCC) */}
