@@ -107,8 +107,11 @@ let SigDataService = SigDataService_1 = class SigDataService {
         const cacheKey = `${sourceId}:${layerId}`;
         const now = Date.now();
         const cached = this.cache.get(cacheKey);
-        if (cached && cached.expires > now)
+        if (cached && cached.expires > now) {
+            const fc = cached.data?.features?.length ?? -1;
+            this.logger.log(`[SIG cache HIT] ${cacheKey} → ${fc} features`);
             return cached.data;
+        }
         const url = `${src.baseUrl}/${layerId}/query` +
             `?where=1%3D1&outFields=*&f=geojson&outSR=4326` +
             `&resultRecordCount=${this.MAX_FEATURES}&returnGeometry=true`;
@@ -152,6 +155,8 @@ let SigDataService = SigDataService_1 = class SigDataService {
                 return { ...cached.data, _meta: { ...cached.data._meta, stale: true, error: e?.message } };
             // Fallback 2 : fichier statique committé dans le repo
             if (staticData) {
+                const fc = Array.isArray(staticData?.features) ? staticData.features.length : 0;
+                this.logger.log(`[SIG static FALLBACK] ${cacheKey} → ${fc} features`);
                 const enriched = {
                     ...staticData,
                     _meta: {
@@ -159,7 +164,7 @@ let SigDataService = SigDataService_1 = class SigDataService {
                         label: src.layers[layerId].label, region: src.region,
                         fromStatic: true,
                         error: e?.message,
-                        featureCount: Array.isArray(staticData?.features) ? staticData.features.length : 0,
+                        featureCount: fc,
                     },
                 };
                 this.cache.set(cacheKey, { data: enriched, expires: now + this.TTL_MS });

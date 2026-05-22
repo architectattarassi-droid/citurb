@@ -152,7 +152,11 @@ export class SigDataService implements OnModuleInit {
     const cacheKey = `${sourceId}:${layerId}`;
     const now = Date.now();
     const cached = this.cache.get(cacheKey);
-    if (cached && cached.expires > now) return cached.data;
+    if (cached && cached.expires > now) {
+      const fc = cached.data?.features?.length ?? -1;
+      this.logger.log(`[SIG cache HIT] ${cacheKey} → ${fc} features`);
+      return cached.data;
+    }
 
     const url =
       `${src.baseUrl}/${layerId}/query` +
@@ -197,6 +201,8 @@ export class SigDataService implements OnModuleInit {
       if (cached) return { ...cached.data, _meta: { ...cached.data._meta, stale: true, error: e?.message } };
       // Fallback 2 : fichier statique committé dans le repo
       if (staticData) {
+        const fc = Array.isArray(staticData?.features) ? staticData.features.length : 0;
+        this.logger.log(`[SIG static FALLBACK] ${cacheKey} → ${fc} features`);
         const enriched = {
           ...staticData,
           _meta: {
@@ -204,7 +210,7 @@ export class SigDataService implements OnModuleInit {
             label: src.layers[layerId].label, region: src.region,
             fromStatic: true,
             error: e?.message,
-            featureCount: Array.isArray(staticData?.features) ? staticData.features.length : 0,
+            featureCount: fc,
           },
         };
         this.cache.set(cacheKey, { data: enriched, expires: now + this.TTL_MS });
