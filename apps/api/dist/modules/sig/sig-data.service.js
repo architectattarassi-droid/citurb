@@ -42,6 +42,9 @@ const SOURCES = {
         region: "Royaume du Maroc",
         authority: "HCP (Haut Commissariat au Plan) — diffusé via Esri Africa Geoportal",
         baseUrl: "https://services3.arcgis.com/hjUMsSJ87zgoicvl/arcgis/rest/services/DA_Maroc/FeatureServer",
+        // Le service distant a maxRecordCount=1000 → impossible d'avoir les 1505 communes
+        // en une requête. On a paginé manuellement à la racine et on sert le snapshot statique.
+        preferStatic: true,
         publishedAt: "2018-05-31", // item ArcGIS Online modifié le 2018-05-31
         staticSnapshotAt: "2026-05-22",
         layers: {
@@ -115,8 +118,26 @@ let SigDataService = SigDataService_1 = class SigDataService {
         const url = `${src.baseUrl}/${layerId}/query` +
             `?where=1%3D1&outFields=*&f=geojson&outSR=4326` +
             `&resultRecordCount=${this.MAX_FEATURES}&returnGeometry=true`;
-        // Fallback statique (priorité 3) — chargé une fois et mis en cache RAM
+        // Fallback statique — chargé une fois
         const staticData = this.tryLoadStatic(sourceId, layerId);
+        // Si la source préfère explicitement le statique (cas maroc-admin paginé) : on sert le
+        // snapshot local et on saute le fetch live (qui retournerait des données incomplètes).
+        if (src.preferStatic && staticData) {
+            const fc = Array.isArray(staticData?.features) ? staticData.features.length : 0;
+            this.logger.log(`[SIG preferStatic] ${cacheKey} → ${fc} features (fetch live skipped)`);
+            const enriched = {
+                ...staticData,
+                _meta: {
+                    source: sourceId, layer: layerId,
+                    label: src.layers[layerId].label, region: src.region,
+                    fromStatic: true,
+                    preferStatic: true,
+                    featureCount: fc,
+                },
+            };
+            this.cache.set(cacheKey, { data: enriched, expires: now + this.TTL_MS });
+            return enriched;
+        }
         try {
             const res = await fetch(url, {
                 headers: {
