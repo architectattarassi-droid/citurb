@@ -1,5 +1,5 @@
-import { Injectable, BadRequestException, Logger } from "@nestjs/common";
-import { readFileSync, existsSync } from "fs";
+import { Injectable, BadRequestException, Logger, OnModuleInit } from "@nestjs/common";
+import { readFileSync, existsSync, statSync } from "fs";
 import { join as joinPath } from "path";
 
 /**
@@ -94,11 +94,32 @@ const SOURCES: Record<string, SourceCfg> = {
 type CacheEntry = { data: any; expires: number };
 
 @Injectable()
-export class SigDataService {
+export class SigDataService implements OnModuleInit {
   private readonly logger = new Logger(SigDataService.name);
   private readonly cache = new Map<string, CacheEntry>();
   private readonly TTL_MS = 24 * 60 * 60 * 1000; // 24 h
   private readonly MAX_FEATURES = 4000;
+
+  onModuleInit() {
+    // Diagnostic démarrage : log la taille des fichiers statiques embarqués
+    // (pour détecter les soucis de cache Docker / build Railway).
+    for (const [sid, src] of Object.entries(SOURCES)) {
+      for (const [lid, _l] of Object.entries(src.layers)) {
+        const candidates = [
+          joinPath(process.cwd(), "data", "sig-static", sid, `${lid}.geojson`),
+          joinPath(process.cwd(), "apps", "api", "data", "sig-static", sid, `${lid}.geojson`),
+          joinPath(__dirname, "..", "..", "..", "data", "sig-static", sid, `${lid}.geojson`),
+        ];
+        for (const p of candidates) {
+          if (existsSync(p)) {
+            const sz = statSync(p).size;
+            this.logger.log(`[SIG static] ${sid}/${lid} → ${p} (${(sz/1024/1024).toFixed(2)} MB)`);
+            break;
+          }
+        }
+      }
+    }
+  }
 
   listSources() {
     return Object.values(SOURCES).map(s => ({

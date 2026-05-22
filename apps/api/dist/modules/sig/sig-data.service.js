@@ -56,6 +56,26 @@ let SigDataService = SigDataService_1 = class SigDataService {
     cache = new Map();
     TTL_MS = 24 * 60 * 60 * 1000; // 24 h
     MAX_FEATURES = 4000;
+    onModuleInit() {
+        // Diagnostic démarrage : log la taille des fichiers statiques embarqués
+        // (pour détecter les soucis de cache Docker / build Railway).
+        for (const [sid, src] of Object.entries(SOURCES)) {
+            for (const [lid, _l] of Object.entries(src.layers)) {
+                const candidates = [
+                    (0, path_1.join)(process.cwd(), "data", "sig-static", sid, `${lid}.geojson`),
+                    (0, path_1.join)(process.cwd(), "apps", "api", "data", "sig-static", sid, `${lid}.geojson`),
+                    (0, path_1.join)(__dirname, "..", "..", "..", "data", "sig-static", sid, `${lid}.geojson`),
+                ];
+                for (const p of candidates) {
+                    if ((0, fs_1.existsSync)(p)) {
+                        const sz = (0, fs_1.statSync)(p).size;
+                        this.logger.log(`[SIG static] ${sid}/${lid} → ${p} (${(sz / 1024 / 1024).toFixed(2)} MB)`);
+                        break;
+                    }
+                }
+            }
+        }
+    }
     listSources() {
         return Object.values(SOURCES).map(s => ({
             id: s.id,
