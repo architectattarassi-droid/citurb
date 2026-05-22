@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import proj4 from "proj4";
+import exifr from "exifr";
 import { apiBase } from "../../tomes/tome4/apiClient";
 
 /**
@@ -86,6 +87,8 @@ type Props = {
 };
 
 type Mode = "adresse" | "lambert" | "carte";
+// État interne du mode "Carte" — choix entre clic libre / GPS / photo / dessin polygone
+type CarteAction = "click" | "drawing";
 type LambertZone = "EPSG:26191" | "EPSG:26192" | "EPSG:26194" | "EPSG:26195";
 
 const LAMBERT_ZONES: { code: LambertZone; label: string; example: string }[] = [
@@ -160,6 +163,23 @@ export default function MapPicker({
 
   // Fond de carte : OSM standard ou imagerie satellite ESRI (pour voir le parcellaire)
   const [basemap, setBasemap] = useState<"osm" | "satellite">("osm");
+
+  // Mode Carte : sous-action (click libre vs dessin polygone du terrain)
+  const [carteAction, setCarteAction] = useState<CarteAction>("click");
+  const drawPointsRef = useRef<{ lng: number; lat: number }[]>([]);
+  const [drawingCount, setDrawingCount] = useState(0); // force re-render quand on ajoute des points
+
+  // Reverse geocoding — adresse détectée à partir du repère placé
+  const [reverseAddr, setReverseAddr] = useState<string | null>(null);
+
+  // Géolocalisation GPS du navigateur
+  const [gpsBusy, setGpsBusy] = useState(false);
+  const [gpsError, setGpsError] = useState<string | null>(null);
+
+  // Photo EXIF
+  const photoInputRef = useRef<HTMLInputElement | null>(null);
+  const [photoBusy, setPhotoBusy] = useState(false);
+  const [photoError, setPhotoError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -278,6 +298,7 @@ export default function MapPicker({
       const c = { lat: ll.lat, lng: ll.lng };
       setCoords(c);
       onChange?.({ ...c, source: "carte" });
+      reverseGeocode(ll.lat, ll.lng);
     });
     markerRef.current = marker;
     map.flyTo({ center: [lng, lat], zoom: 16, speed: 1.4 });
@@ -285,6 +306,159 @@ export default function MapPicker({
 
   // ── Mode 1 : ADRESSE → Nominatim (robuste, plusieurs variantes) ───────
   // Normalise "Mohammed 6"→"Mohammed VI", "Hassan 2"→"Hassan II" (cas fréquent au Maroc)
+  // ── Reverse geocoding — Nominatim retour vers adresse à partir du repère ──
+  // Appelé automatiquement après chaque pose de marker pour validation visuelle.
+  const reverseGeocode = async (lat: number, lng: number): Promise<void> => {
+    try {
+      const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=18&addressdetails=1&accept-language=fr`;
+      const res = await fetch(url, { headers: { Accept: "application/json" } });
+      const data = await res.json();
+      const display: string = data?.display_name || "";
+      setReverseAddr(display ? display.split(",").slice(0, 3).join(", ") : null);
+    } catch { setReverseAddr(null); }
+  };
+
+  // ── GPS navigateur — méthode la plus fiable pour localiser sans erreur ──
+  // Utilise navigator.geolocation : ~5-10 m de précision en zone urbaine.
+  // Idéal quand le client est SUR PLACE sur son terrain.
+  const locateFromGPS = () => {
+    setGpsError(null);
+    if (!navigator.geolocation) {
+      setGpsError("Géolocalisation non supportée par votre navigateur.");
+      return;
+    }
+    setGpsBusy(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude: lat, longitude: lng, accuracy } = pos.coords;
+        const c = { lat, lng };
+        setCoords(c);
+        placeMarker(lat, lng);
+        onChange?.({ ...c, source: "carte" });
+        reverseGeocode(lat, lng);
+        setGpsBusy(false);
+        if (accuracy > 50) {
+          setGpsError(`Position GPS imprécise (~${Math.round(accuracy)} m) — déplacez le repère manuellement pour affiner.`);
+        }
+      },
+      (err) => {
+        setGpsBusy(false);
+        const msg = err.code === err.PERMISSION_DENIED
+          ? "Permission refusée. Activez la localisation dans votre navigateur."
+          : err.code === err.POSITION_UNAVAILABLE
+          ? "Position GPS indisponible (pas de signal)."
+          : err.code === err.TIMEOUT
+          ? "Délai dépassé — réessayez."
+          : err.message;
+        setGpsError(msg);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+    );
+  };
+
+  // ── Photo géolocalisée — extrait les coords EXIF GPS d'une image ──
+  // Le smartphone enregistre automatiquement lat/lng dans le fichier photo.
+  // Le client uploade la photo prise sur le terrain → on extrait les coords.
+  const locateFromPhoto = async (file: File) => {
+    setPhotoError(null);
+    setPhotoBusy(true);
+    try {
+      const gps: any = await exifr.gps(file);
+      if (!gps || typeof gps.latitude !== "number" || typeof gps.longitude !== "number") {
+        setPhotoError("Cette photo ne contient pas de coordonnées GPS. Activez la géolocalisation dans l'appareil photo de votre smartphone et reprenez la photo sur place.");
+        return;
+      }
+      const lat = gps.latitude;
+      const lng = gps.longitude;
+      // Validation bbox Maroc (anti-photo prise ailleurs)
+      if (lat < 20 || lat > 36 || lng < -18 || lng > -1) {
+        setPhotoError(`Photo localisée hors Maroc (${lat.toFixed(4)}, ${lng.toFixed(4)}). Vérifiez qu'il s'agit de la bonne image.`);
+        return;
+      }
+      setCoords({ lat, lng });
+      placeMarker(lat, lng);
+      onChange?.({ lat, lng, source: "carte" });
+      reverseGeocode(lat, lng);
+    } catch (e: any) {
+      setPhotoError(e?.message || "Impossible de lire la photo (format non supporté).");
+    } finally {
+      setPhotoBusy(false);
+    }
+  };
+
+  // ── Dessin polygone — clic-pour-tracer les sommets du terrain ────────────
+  // Mode actif : chaque click ajoute un sommet. Bouton « Terminer » ferme le polygone.
+  // Permet au client de tracer son terrain directement sur l'imagerie satellite,
+  // sans avoir besoin de coordonnées Lambert précises.
+  const DRAW_SRC = "draw-polygon-src";
+  const DRAW_FILL = "draw-polygon-fill";
+  const DRAW_STROKE = "draw-polygon-stroke";
+  const DRAW_VERTEX = "draw-polygon-vertex";
+
+  const refreshDrawLayer = () => {
+    const map = mapRef.current; if (!map) return;
+    const pts = drawPointsRef.current;
+    const cleanup = () => {
+      try { if (map.getLayer(DRAW_VERTEX)) map.removeLayer(DRAW_VERTEX); } catch {}
+      try { if (map.getLayer(DRAW_FILL)) map.removeLayer(DRAW_FILL); } catch {}
+      try { if (map.getLayer(DRAW_STROKE)) map.removeLayer(DRAW_STROKE); } catch {}
+      try { if (map.getSource(DRAW_SRC)) map.removeSource(DRAW_SRC); } catch {}
+    };
+    cleanup();
+    if (pts.length === 0) return;
+    const features: any[] = pts.map((p) => ({
+      type: "Feature", properties: {}, geometry: { type: "Point", coordinates: [p.lng, p.lat] },
+    }));
+    if (pts.length >= 2) {
+      const lineCoords = pts.map((p) => [p.lng, p.lat]);
+      features.push({ type: "Feature", properties: { _kind: "line" }, geometry: { type: "LineString", coordinates: lineCoords } });
+    }
+    if (pts.length >= 3) {
+      const polyCoords = [...pts.map((p) => [p.lng, p.lat]), [pts[0].lng, pts[0].lat]];
+      features.push({ type: "Feature", properties: { _kind: "poly" }, geometry: { type: "Polygon", coordinates: [polyCoords] } });
+    }
+    map.addSource(DRAW_SRC, { type: "geojson", data: { type: "FeatureCollection", features } as any });
+    if (pts.length >= 3) {
+      map.addLayer({ id: DRAW_FILL, source: DRAW_SRC, type: "fill", filter: ["==", ["get", "_kind"], "poly"], paint: { "fill-color": "#C9A227", "fill-opacity": 0.20 } });
+    }
+    map.addLayer({ id: DRAW_STROKE, source: DRAW_SRC, type: "line", filter: ["any", ["==", ["get", "_kind"], "poly"], ["==", ["get", "_kind"], "line"]], paint: { "line-color": "#C9A227", "line-width": 2.5, "line-opacity": 0.95 } });
+    map.addLayer({ id: DRAW_VERTEX, source: DRAW_SRC, type: "circle", filter: ["==", ["geometry-type"], "Point"], paint: { "circle-color": "#fff", "circle-radius": 6, "circle-stroke-color": "#C9A227", "circle-stroke-width": 3 } });
+  };
+
+  const startDrawing = () => {
+    drawPointsRef.current = [];
+    setDrawingCount(0);
+    refreshDrawLayer();
+    setCarteAction("drawing");
+  };
+  const undoLastVertex = () => {
+    drawPointsRef.current = drawPointsRef.current.slice(0, -1);
+    setDrawingCount(drawPointsRef.current.length);
+    refreshDrawLayer();
+  };
+  const finishDrawing = () => {
+    const pts = drawPointsRef.current;
+    if (pts.length < 3) {
+      setError("Tracez au moins 3 sommets pour fermer le polygone.");
+      return;
+    }
+    // Centroïde = moyenne arithmétique des sommets → marker positionné dessus
+    const cx = pts.reduce((s, p) => s + p.lng, 0) / pts.length;
+    const cy = pts.reduce((s, p) => s + p.lat, 0) / pts.length;
+    const c = { lat: cy, lng: cx };
+    setCoords(c);
+    placeMarker(cy, cx);
+    onChange?.({ ...c, source: "carte" });
+    reverseGeocode(cy, cx);
+    setCarteAction("click");
+  };
+  const cancelDrawing = () => {
+    drawPointsRef.current = [];
+    setDrawingCount(0);
+    refreshDrawLayer();
+    setCarteAction("click");
+  };
+
   const normalizeAddress = (s: string): string => {
     if (!s) return s;
     return s
@@ -337,6 +511,7 @@ export default function MapPicker({
       setCoords(c);
       placeMarker(lat, lng);
       onChange?.({ ...c, source: "adresse" });
+      reverseGeocode(lat, lng);
     } catch (e: any) {
       setError(e?.message || "Erreur de géocodage");
     } finally {
@@ -363,6 +538,7 @@ export default function MapPicker({
       setCoords(c);
       placeMarker(lat, lng);
       onChange?.({ ...c, source: "lambert" });
+      reverseGeocode(lat, lng);
     } catch (e: any) {
       setError("Erreur de conversion Lambert → WGS84 : " + (e?.message || "inconnue"));
     }
@@ -376,21 +552,30 @@ export default function MapPicker({
     try { map.setStyle(newStyle as any); } catch {}
   }, [basemap]);
 
-  // ── Mode 3 : CARTE → click sur la carte (toujours actif) ─────────
+  // ── Mode 3 : CARTE → click sur la carte ──────────────────────────
+  // Si carteAction = "drawing", chaque click ajoute un sommet au polygone.
+  // Sinon, le click pose / déplace le marker unique.
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
     const handler = (e: maplibregl.MapMouseEvent) => {
       const { lat, lng } = e.lngLat;
+      if (carteAction === "drawing") {
+        drawPointsRef.current = [...drawPointsRef.current, { lng, lat }];
+        setDrawingCount(drawPointsRef.current.length);
+        refreshDrawLayer();
+        return;
+      }
       const c = { lat, lng };
       setCoords(c);
       placeMarker(lat, lng);
       onChange?.({ ...c, source: "carte" });
+      reverseGeocode(lat, lng);
     };
     map.on("click", handler);
     return () => { try { map.off("click", handler); } catch {} };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onChange]);
+  }, [onChange, carteAction]);
 
   // Helper : ajuste la vue de la carte sur la bbox d'une feature GeoJSON
   const fitToFeature = (map: maplibregl.Map, feature: any) => {
@@ -674,10 +859,66 @@ export default function MapPicker({
       {mode === "carte" && (
         <div style={S.modeBox}>
           <div style={S.modeHint}>
-            <strong>Cliquez directement sur la carte ci-dessous</strong> pour poser le marqueur,
-            puis faites-le glisser pour ajuster. Idéal si vous n'avez ni adresse précise
-            ni coordonnées Lambert.
+            <strong>Cliquez directement sur la carte</strong> pour poser le marqueur, puis
+            faites-le glisser pour ajuster. Ou utilisez l'une des 3 méthodes ci-dessous —
+            elles fonctionnent mieux quand on n'a pas le titre foncier.
           </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10 }}>
+            {/* 1. GPS navigateur */}
+            <button
+              type="button" onClick={locateFromGPS} disabled={gpsBusy || carteAction === "drawing"}
+              style={{ ...S.actionBtn, opacity: gpsBusy ? 0.6 : 1 }}
+              title="Utilise le GPS de votre appareil (précision 5-10 m). Idéal sur place."
+            >
+              📍 {gpsBusy ? "Localisation GPS…" : "Je suis sur le terrain (GPS)"}
+            </button>
+            {/* 2. Photo EXIF */}
+            <button
+              type="button" onClick={() => photoInputRef.current?.click()} disabled={photoBusy || carteAction === "drawing"}
+              style={{ ...S.actionBtn, opacity: photoBusy ? 0.6 : 1 }}
+              title="Uploadez une photo prise sur le terrain — les coordonnées GPS sont extraites automatiquement."
+            >
+              📸 {photoBusy ? "Lecture EXIF…" : "Photo géolocalisée"}
+            </button>
+            <input
+              ref={photoInputRef} type="file" accept="image/*" style={{ display: "none" }}
+              onChange={(e) => { const f = e.target.files?.[0]; if (f) locateFromPhoto(f); e.target.value = ""; }}
+            />
+            {/* 3. Dessin polygone */}
+            {carteAction !== "drawing" ? (
+              <button
+                type="button" onClick={startDrawing}
+                style={S.actionBtn}
+                title="Tracez le contour de votre terrain sur l'imagerie satellite."
+              >
+                ✏️ Dessiner mon terrain
+              </button>
+            ) : (
+              <div style={{ display: "flex", gap: 6 }}>
+                <button type="button" onClick={undoLastVertex} disabled={drawingCount === 0}
+                  style={{ ...S.actionBtn, flex: 1, opacity: drawingCount === 0 ? 0.5 : 1 }}>↶ Annuler</button>
+                <button type="button" onClick={finishDrawing} disabled={drawingCount < 3}
+                  style={{ ...S.actionBtnGold, flex: 1, opacity: drawingCount < 3 ? 0.5 : 1 }}>✓ Terminer ({drawingCount})</button>
+                <button type="button" onClick={cancelDrawing}
+                  style={{ ...S.actionBtn, flex: 0, padding: "10px 14px", color: "#b91c1c" }}>✕</button>
+              </div>
+            )}
+          </div>
+
+          {carteAction === "drawing" && (
+            <div style={{ marginTop: 10, fontSize: 12, color: "#0B1B3A", background: "rgba(201,162,39,0.10)", border: "1px solid rgba(201,162,39,0.30)", padding: "8px 12px", borderRadius: 8 }}>
+              <strong>Mode dessin actif.</strong> Cliquez successivement sur chaque coin de votre terrain
+              (bornes visibles à l'œil sur la photo satellite). Minimum 3 sommets pour fermer le polygone.
+              Conseil : passez en mode 🛰️ Satellite (ci-dessous) pour mieux voir les bornes.
+            </div>
+          )}
+
+          {gpsError && (
+            <div style={{ ...S.errBox, marginTop: 10 }}>⚠ {gpsError}</div>
+          )}
+          {photoError && (
+            <div style={{ ...S.errBox, marginTop: 10 }}>⚠ {photoError}</div>
+          )}
         </div>
       )}
 
@@ -693,6 +934,16 @@ export default function MapPicker({
               X = {reverseLambert.x.toLocaleString("fr-FR")} · Y = {reverseLambert.y.toLocaleString("fr-FR")}
             </div>
           )}
+        </div>
+      )}
+
+      {/* Adresse détectée par reverse geocoding — validation visuelle de la position */}
+      {coords && reverseAddr && (
+        <div style={S.reverseAddrBox}>
+          ✓ <strong>Position détectée :</strong> {reverseAddr}
+          <span style={{ display: "block", fontSize: 11, color: "rgba(11,27,58,0.6)", marginTop: 3, fontStyle: "italic" }}>
+            Si cette adresse ne correspond pas à votre terrain, ajustez le repère manuellement.
+          </span>
         </div>
       )}
 
@@ -833,6 +1084,23 @@ const S: Record<string, React.CSSProperties> = {
   errBox: {
     background: "rgba(220,38,38,0.07)", border: "1px solid rgba(220,38,38,0.22)",
     color: "#b91c1c", padding: "9px 12px", borderRadius: 10, fontSize: 12.5, marginBottom: 10,
+  },
+  actionBtn: {
+    padding: "10px 14px", borderRadius: 10, border: "1px solid rgba(11,27,58,0.18)",
+    background: "rgba(255,255,255,0.85)", color: "#0B1B3A",
+    fontWeight: 700, fontSize: 12.5, cursor: "pointer", fontFamily: "inherit",
+    textAlign: "center",
+  },
+  actionBtnGold: {
+    padding: "10px 14px", borderRadius: 10, border: "1px solid rgba(201,162,39,0.55)",
+    background: "linear-gradient(135deg, #C9A227, #E6C75B)", color: "#1a1406",
+    fontWeight: 800, fontSize: 12.5, cursor: "pointer", fontFamily: "inherit",
+    textAlign: "center",
+  },
+  reverseAddrBox: {
+    background: "rgba(34,197,94,0.08)", border: "1px solid rgba(34,197,94,0.28)",
+    color: "rgba(11,27,58,0.85)", padding: "9px 12px", borderRadius: 10,
+    fontSize: 12.5, marginBottom: 10, lineHeight: 1.5,
   },
   sigPanel: {
     background: "linear-gradient(135deg, rgba(11,27,58,0.04), rgba(201,162,39,0.06))",
