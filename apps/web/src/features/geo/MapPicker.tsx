@@ -76,10 +76,13 @@ type Props = {
   autoGeocodeAddress?: boolean;
   /**
    * Coordonnées Lambert Maroc fournies de l'EXTÉRIEUR (par ex. saisies dans un
-   * formulaire parent). Si renseignées, le marqueur se pose automatiquement
-   * — priorité sur le géocodage adresse.
+   * formulaire parent). Plusieurs points = polygone (bornage de parcelle).
+   * Un seul point = repère unique. Priorité sur le géocodage adresse.
    */
-  externalLambert?: { zone: "EPSG:26191" | "EPSG:26192" | "EPSG:26194" | "EPSG:26195"; x: number; y: number };
+  externalLambert?: {
+    zone: "EPSG:26191" | "EPSG:26192" | "EPSG:26194" | "EPSG:26195";
+    points: { x: number; y: number }[];
+  };
 };
 
 type Mode = "adresse" | "lambert" | "carte";
@@ -468,21 +471,82 @@ export default function MapPicker({
     return () => { cancelled = true; };
   }, [highlightRegionCode, highlightProvinceCode, highlightCommuneCode]);
 
-  // Lambert externe (saisi en P5 identity) — placement immédiat du marqueur
+  // Lambert externe (saisi en P5 identity) — 1 point = marqueur, 3+ = polygone parcelle
   useEffect(() => {
-    if (!externalLambert) return;
-    const { zone, x, y } = externalLambert;
-    if (!Number.isFinite(x) || !Number.isFinite(y) || x === 0 || y === 0) return;
-    try {
-      const [lng, lat] = proj4(zone, "EPSG:4326", [x, y]);
-      if (!Number.isFinite(lat) || !Number.isFinite(lng) || lat < 20 || lat > 36 || lng < -18 || lng > -1) return;
-      const c = { lat, lng };
-      setCoords(c);
+    const map = mapRef.current; if (!map) return;
+    const POLY_SRC = "ext-lambert-src", POLY_FILL = "ext-lambert-fill", POLY_STROKE = "ext-lambert-stroke";
+    const cleanup = () => {
+      try { if (map.getLayer(POLY_FILL)) map.removeLayer(POLY_FILL); } catch {}
+      try { if (map.getLayer(POLY_STROKE)) map.removeLayer(POLY_STROKE); } catch {}
+      try { if (map.getSource(POLY_SRC)) map.removeSource(POLY_SRC); } catch {}
+    };
+    if (!externalLambert || !externalLambert.points?.length) { cleanup(); return; }
+
+    const { zone, points } = externalLambert;
+    // Convertit chaque point Lambert → WGS84
+    const wgs: Array<{ lat: number; lng: number }> = [];
+    for (const pt of points) {
+      if (!Number.isFinite(pt.x) || !Number.isFinite(pt.y)) continue;
+      try {
+        const [lng, lat] = proj4(zone, "EPSG:4326", [pt.x, pt.y]);
+        if (Number.isFinite(lat) && Number.isFinite(lng) && lat > 20 && lat < 36 && lng > -18 && lng < -1) {
+          wgs.push({ lat, lng });
+        }
+      } catch {}
+    }
+    if (wgs.length === 0) { cleanup(); return; }
+
+    // 1 point : pose un marqueur unique (comme avant)
+    if (wgs.length === 1) {
+      cleanup();
+      const { lat, lng } = wgs[0];
+      setCoords({ lat, lng });
       placeMarker(lat, lng);
-      onChange?.({ ...c, source: "lambert" });
-    } catch { /* ignore */ }
+      onChange?.({ lat, lng, source: "lambert" });
+      return;
+    }
+
+    // 2+ points : dessine une ligne (2) ou un polygone (3+) sur la carte
+    cleanup();
+    const coordsArray = wgs.map(p => [p.lng, p.lat]);
+    // Ferme le polygone (premier point = dernier) si ≥ 3 sommets
+    if (wgs.length >= 3) {
+      coordsArray.push(coordsArray[0]);
+    }
+    const isPolygon = wgs.length >= 3;
+    const geojson: any = {
+      type: "Feature",
+      properties: {},
+      geometry: isPolygon
+        ? { type: "Polygon", coordinates: [coordsArray] }
+        : { type: "LineString", coordinates: coordsArray },
+    };
+    map.addSource(POLY_SRC, { type: "geojson", data: geojson });
+    if (isPolygon) {
+      map.addLayer({ id: POLY_FILL, source: POLY_SRC, type: "fill", paint: { "fill-color": "#C9A227", "fill-opacity": 0.28 } });
+    }
+    map.addLayer({ id: POLY_STROKE, source: POLY_SRC, type: "line", paint: { "line-color": "#C9A227", "line-width": 3, "line-opacity": 1 } });
+
+    // Pose un marqueur sur le centroïde (moyenne arithmétique des sommets)
+    const cx = wgs.reduce((s, p) => s + p.lng, 0) / wgs.length;
+    const cy = wgs.reduce((s, p) => s + p.lat, 0) / wgs.length;
+    setCoords({ lat: cy, lng: cx });
+    placeMarker(cy, cx);
+    onChange?.({ lat: cy, lng: cx, source: "lambert" });
+
+    // Auto-fitBounds sur tous les sommets
+    try {
+      let xmin = 180, ymin = 90, xmax = -180, ymax = -90;
+      wgs.forEach(p => {
+        if (p.lng < xmin) xmin = p.lng; if (p.lng > xmax) xmax = p.lng;
+        if (p.lat < ymin) ymin = p.lat; if (p.lat > ymax) ymax = p.lat;
+      });
+      if (xmin < xmax && ymin < ymax) {
+        map.fitBounds([[xmin, ymin], [xmax, ymax]], { padding: 80, maxZoom: 17, duration: 800 });
+      }
+    } catch {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [externalLambert?.x, externalLambert?.y, externalLambert?.zone]);
+  }, [externalLambert?.zone, JSON.stringify(externalLambert?.points || [])]);
 
   // Auto-géocode adresse — déclenche locateFromAddress après debounce 600 ms
   // dès que l'adresse contient assez de contexte (commune renseignée).

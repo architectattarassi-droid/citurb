@@ -6,6 +6,7 @@ import { getStoredLang } from "../../../../i18n/i18n";
 import MapPicker from "../../../../features/geo/MapPicker";
 import MohafadatiUpload, { UploadedDoc } from "../../../../features/geo/MohafadatiUpload";
 import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
+import TitleFoncierInput from "../../../../features/geo/TitleFoncierInput";
 import proj4 from "proj4";
 
 // Définitions Lambert Maroc — déjà enregistrées dans MapPicker, on duplique
@@ -200,10 +201,24 @@ function P5HomeInner() {
   // Codes administratifs (HCP) issus des dropdowns — utilisés pour highlight commune sur la carte
   const [adminCodes, setAdminCodes] = useState<{ regionCode?: string; provinceCode?: string; communeCode?: string }>({});
 
+  // Numéro de titre foncier (validation format + référentiel conservation)
+  const [titleFoncier, setTitleFoncier] = useState<{ raw: string; numero?: string; conservationCode?: string; conservation?: any; valid: boolean } | null>(null);
+
   // Coordonnées Lambert Maroc — saisie directe optionnelle (override du géocodage adresse)
-  const [lambertZone, setLambertZone] = useState<"EPSG:26191" | "EPSG:26192" | "EPSG:26194" | "EPSG:26195">("EPSG:26191");
-  const [lambertX, setLambertX] = useState<string>("");
-  const [lambertY, setLambertY] = useState<string>("");
+  // Plusieurs points = polygone (bornage d'une parcelle, sommets PV ANCFCC).
+  // Un seul point = repère unique.
+  type LambertZone = "EPSG:26191" | "EPSG:26192" | "EPSG:26194" | "EPSG:26195";
+  type LambertPoint = { id: string; x: string; y: string };
+  const [lambertZone, setLambertZone] = useState<LambertZone>("EPSG:26191");
+  const [lambertPoints, setLambertPoints] = useState<LambertPoint[]>([{ id: "1", x: "", y: "" }]);
+  const addLambertPoint = () => setLambertPoints(pts => [...pts, { id: String(Date.now()), x: "", y: "" }]);
+  const removeLambertPoint = (id: string) => setLambertPoints(pts => pts.length <= 1 ? pts : pts.filter(p => p.id !== id));
+  const updateLambertPoint = (id: string, field: "x" | "y", value: string) =>
+    setLambertPoints(pts => pts.map(p => p.id === id ? { ...p, [field]: value } : p));
+  // Liste des points valides (numérique non vide)
+  const validLambertPoints = lambertPoints
+    .filter(p => p.x.trim() !== "" && p.y.trim() !== "" && Number.isFinite(+p.x) && Number.isFinite(+p.y))
+    .map(p => ({ x: +p.x, y: +p.y }));
 
   const [quote, setQuote] = useState<Quote | null>(null);
   const [dossierId, setDossierId] = useState<string | null>(null);
@@ -367,6 +382,20 @@ function P5HomeInner() {
         geoLng: geoCoords?.lng,
         geoSource: geoCoords?.source,
         mohafadatiDocument: mohafadatiDoc || undefined,
+        // Numéro TF si fourni par le client (sera traité par l'expert lors du rapport)
+        titleFoncier: titleFoncier?.valid ? {
+          numero: titleFoncier.numero,
+          conservationCode: titleFoncier.conservationCode,
+          conservationName: titleFoncier.conservation?.name,
+          city: titleFoncier.conservation?.city,
+          region: titleFoncier.conservation?.region,
+          raw: titleFoncier.raw,
+        } : undefined,
+        // Sommets Lambert (PV de bornage) pour traçabilité dossier
+        lambertSommets: validLambertPoints.length > 0 ? {
+          zone: lambertZone,
+          points: validLambertPoints,
+        } : undefined,
         fromP2Dossier: fromP2 || undefined,
         quoteSnapshot: quote,
       },
@@ -614,49 +643,98 @@ function P5HomeInner() {
               </div>
             </div>
 
-            {/* Coordonnées Lambert Maroc — saisie directe optionnelle (jamais obligatoire) */}
-            <details style={{ marginTop: 18, padding: "12px 16px", background: "rgba(11,27,58,0.04)", border: "1px solid rgba(11,27,58,0.10)", borderRadius: 10 }}>
+            {/* Coordonnées Lambert Maroc — multi-points (PV de bornage / sommets de parcelle) */}
+            <details style={{ marginTop: 18, padding: "14px 18px", background: "rgba(11,27,58,0.04)", border: "1px solid rgba(11,27,58,0.10)", borderRadius: 10 }}>
               <summary style={{ cursor: "pointer", fontSize: 13, fontWeight: 700, color: "#0B1B3A" }}>
                 📐 Vous avez des coordonnées Lambert Maroc ? <span style={{ fontWeight: 500, color: "rgba(11,27,58,0.55)" }}>(option, pas obligatoire)</span>
               </summary>
               <div className="muted" style={{ fontSize: 12, lineHeight: 1.55, margin: "10px 0 12px" }}>
                 Saisie en système géodésique officiel ANCFCC. Si vous avez le PV de bornage ou
                 le titre foncier avec coordonnées Lambert, cela permet une localisation millimétrique.
-                Sinon, ignorez ce bloc — l'adresse ci-dessus suffit.
+                <strong> Ajoutez autant de sommets que nécessaire</strong> — 1 point pose un repère,
+                3 sommets et plus dessinent le polygone exact de la parcelle sur la carte.
               </div>
-              <div className="form-grid">
-                <div className="field">
-                  <label className="label">Zone Lambert</label>
-                  <select className="control" value={lambertZone} onChange={(e) => setLambertZone(e.target.value as any)}>
-                    <option value="EPSG:26191">Nord Maroc — Tanger / Rabat / Casa / Fès</option>
-                    <option value="EPSG:26192">Sud Maroc — Marrakech / Agadir / Béni Mellal</option>
-                    <option value="EPSG:26194">Sahara Nord — Tan-Tan / Laâyoune nord</option>
-                    <option value="EPSG:26195">Sahara Sud — Dakhla / Aousserd</option>
-                  </select>
-                </div>
-                <div className="field">
-                  <label className="label">X (mètres)</label>
-                  <input className="control" type="number" value={lambertX}
-                    onChange={(e) => setLambertX(e.target.value)} placeholder="ex. 350000" />
-                </div>
-                <div className="field">
-                  <label className="label">Y (mètres)</label>
-                  <input className="control" type="number" value={lambertY}
-                    onChange={(e) => setLambertY(e.target.value)} placeholder="ex. 380000" />
-                </div>
+              <div className="field" style={{ marginBottom: 14 }}>
+                <label className="label">Zone Lambert (commune à tous les sommets)</label>
+                <select className="control" value={lambertZone} onChange={(e) => setLambertZone(e.target.value as LambertZone)}>
+                  <option value="EPSG:26191">Nord Maroc — Tanger / Rabat / Casa / Fès</option>
+                  <option value="EPSG:26192">Sud Maroc — Marrakech / Agadir / Béni Mellal</option>
+                  <option value="EPSG:26194">Sahara Nord — Tan-Tan / Laâyoune nord</option>
+                  <option value="EPSG:26195">Sahara Sud — Dakhla / Aousserd</option>
+                </select>
               </div>
-              {lambertX && lambertY && (() => {
-                try {
-                  const [lng, lat] = proj4(lambertZone, "EPSG:4326", [+lambertX, +lambertY]);
-                  if (Number.isFinite(lat) && Number.isFinite(lng) && lat > 20 && lat < 36 && lng > -18 && lng < -1) {
-                    return (
-                      <div style={{ marginTop: 10, fontSize: 12, color: "rgba(11,27,58,0.85)", fontFamily: "ui-monospace, Menlo, Consolas, monospace", background: "rgba(201,162,39,0.08)", padding: "8px 12px", borderRadius: 8 }}>
-                        ↪ converti en WGS84 : <strong>{lat.toFixed(5)}, {lng.toFixed(5)}</strong> — le repère se pose sur la carte ci-dessous.
-                      </div>
-                    );
-                  }
-                  return <div style={{ marginTop: 10, fontSize: 12, color: "#b91c1c" }}>⚠ Coordonnées hors Maroc — vérifiez la zone.</div>;
-                } catch { return null; }
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {lambertPoints.map((p, idx) => (
+                  <div key={p.id} style={{ display: "grid", gridTemplateColumns: "48px 1fr 1fr 80px", gap: 10, alignItems: "center" }}>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: "rgba(11,27,58,0.65)", textAlign: "center", background: "rgba(201,162,39,0.10)", padding: "8px 0", borderRadius: 8 }}>
+                      #{idx + 1}
+                    </div>
+                    <input
+                      className="control" type="number" placeholder="X (m) ex. 350 000"
+                      value={p.x} onChange={(e) => updateLambertPoint(p.id, "x", e.target.value)}
+                    />
+                    <input
+                      className="control" type="number" placeholder="Y (m) ex. 380 000"
+                      value={p.y} onChange={(e) => updateLambertPoint(p.id, "y", e.target.value)}
+                    />
+                    <button
+                      type="button" onClick={() => removeLambertPoint(p.id)}
+                      disabled={lambertPoints.length <= 1}
+                      style={{
+                        padding: "9px 0", borderRadius: 8,
+                        background: lambertPoints.length <= 1 ? "rgba(11,27,58,0.06)" : "rgba(220,38,38,0.08)",
+                        border: lambertPoints.length <= 1 ? "1px solid rgba(11,27,58,0.10)" : "1px solid rgba(220,38,38,0.30)",
+                        color: lambertPoints.length <= 1 ? "rgba(11,27,58,0.35)" : "#b91c1c",
+                        fontSize: 12, fontWeight: 700,
+                        cursor: lambertPoints.length <= 1 ? "not-allowed" : "pointer",
+                        fontFamily: "inherit",
+                      }}
+                    >
+                      ✕ Retirer
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button" onClick={addLambertPoint}
+                style={{
+                  marginTop: 12, padding: "9px 16px", borderRadius: 8,
+                  background: "rgba(201,162,39,0.12)", border: "1px solid rgba(201,162,39,0.45)",
+                  color: "#0B1B3A", fontSize: 12.5, fontWeight: 700,
+                  cursor: "pointer", fontFamily: "inherit",
+                }}
+              >
+                + Ajouter un sommet
+              </button>
+              {validLambertPoints.length > 0 && (() => {
+                const converted = validLambertPoints.map(pt => {
+                  try {
+                    const [lng, lat] = proj4(lambertZone, "EPSG:4326", [pt.x, pt.y]);
+                    const inMA = Number.isFinite(lat) && Number.isFinite(lng) && lat > 20 && lat < 36 && lng > -18 && lng < -1;
+                    return { lat, lng, inMA };
+                  } catch { return null; }
+                }).filter((v): v is { lat: number; lng: number; inMA: boolean } => v !== null);
+                const allInMA = converted.length > 0 && converted.every(c => c.inMA);
+                return (
+                  <div style={{
+                    marginTop: 12, fontSize: 12, fontFamily: "ui-monospace, Menlo, Consolas, monospace",
+                    background: allInMA ? "rgba(201,162,39,0.08)" : "rgba(220,38,38,0.07)",
+                    border: `1px solid ${allInMA ? "rgba(201,162,39,0.30)" : "rgba(220,38,38,0.22)"}`,
+                    color: allInMA ? "rgba(11,27,58,0.85)" : "#b91c1c",
+                    padding: "8px 12px", borderRadius: 8, lineHeight: 1.6,
+                  }}>
+                    {allInMA ? (
+                      <>
+                        ↪ <strong>{converted.length} sommet{converted.length > 1 ? "s" : ""} converti{converted.length > 1 ? "s" : ""} en WGS84</strong>
+                        {converted.length === 1 && <> : {converted[0].lat.toFixed(5)}, {converted[0].lng.toFixed(5)}</>}
+                        {converted.length >= 3 && <> → polygone dessiné sur la carte.</>}
+                        {converted.length === 2 && <> → ligne dessinée sur la carte.</>}
+                      </>
+                    ) : (
+                      <>⚠ Coordonnées hors Maroc — vérifiez la zone Lambert sélectionnée.</>
+                    )}
+                  </div>
+                );
               })()}
             </details>
 
@@ -678,11 +756,14 @@ function P5HomeInner() {
               highlightProvinceCode={adminCodes.provinceCode}
               highlightCommuneCode={adminCodes.communeCode}
               autoGeocodeAddress
-              externalLambert={lambertX && lambertY ? { zone: lambertZone, x: +lambertX, y: +lambertY } : undefined}
+              externalLambert={validLambertPoints.length > 0 ? { zone: lambertZone, points: validLambertPoints } : undefined}
             />
 
             {/* Sprint 1 — upload extrait Mohafadati (workaround ANCFCC) */}
             <MohafadatiUpload onChange={(d) => setMohafadatiDoc(d)} />
+
+            {/* Sprint 1 — N° de titre foncier (validation format + conservation) */}
+            <TitleFoncierInput onChange={(d) => setTitleFoncier(d)} />
 
             {error && phase === "identity" && <div className="err">⚠ {error}</div>}
             <div style={{ marginTop: 28 }}>
