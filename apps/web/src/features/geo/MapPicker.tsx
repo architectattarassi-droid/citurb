@@ -64,6 +64,12 @@ type Props = {
    * création de compte sur les wizards P1/P2/P5.
    */
   showSigLayers?: boolean;
+  /**
+   * Code de commune (Code_Commune HCP) à mettre en surbrillance sur la carte.
+   * Quand fourni, MapPicker charge le GeoJSON des communes Maroc et affiche
+   * seulement la commune correspondante en surbrillance dorée. Auto-fitBounds.
+   */
+  highlightCommuneCode?: string;
 };
 
 type Mode = "adresse" | "lambert" | "carte";
@@ -91,6 +97,7 @@ export default function MapPicker({
   region, province, commune, adresse,
   initialLat, initialLng, onChange, height = 360,
   showSigLayers = false,
+  highlightCommuneCode,
 }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -305,6 +312,72 @@ export default function MapPicker({
     return () => { try { map.off("click", handler); } catch {} };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onChange]);
+
+  // ── Highlight commune sélectionnée (via AdminLocationSelect dropdowns) ────
+  // Charge le GeoJSON des communes une seule fois (mis en cache mémoire),
+  // filtre par Code_Commune et affiche la commune en surbrillance dorée.
+  const allCommunesRef = useRef<any | null>(null);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const HL_SRC = "highlight-commune-src";
+    const HL_FILL = "highlight-commune-fill";
+    const HL_STROKE = "highlight-commune-stroke";
+
+    if (!highlightCommuneCode) {
+      try { if (map.getLayer(HL_FILL)) map.removeLayer(HL_FILL); } catch {}
+      try { if (map.getLayer(HL_STROKE)) map.removeLayer(HL_STROKE); } catch {}
+      try { if (map.getSource(HL_SRC)) map.removeSource(HL_SRC); } catch {}
+      return;
+    }
+
+    let cancelled = false;
+    (async () => {
+      if (!allCommunesRef.current) {
+        try {
+          const res = await fetch(`${apiBase()}/api/sig/maroc-admin/2.geojson`);
+          allCommunesRef.current = await res.json();
+        } catch { return; }
+      }
+      if (cancelled) return;
+      const features: any[] = allCommunesRef.current?.features || [];
+      const match = features.find(f =>
+        String(f?.properties?.Code_Commune || "").trim() === String(highlightCommuneCode).trim()
+      );
+      if (!match) return;
+      const fc = { type: "FeatureCollection", features: [match] };
+
+      try { if (map.getLayer(HL_FILL)) map.removeLayer(HL_FILL); } catch {}
+      try { if (map.getLayer(HL_STROKE)) map.removeLayer(HL_STROKE); } catch {}
+      try { if (map.getSource(HL_SRC)) map.removeSource(HL_SRC); } catch {}
+
+      map.addSource(HL_SRC, { type: "geojson", data: fc as any });
+      map.addLayer({
+        id: HL_FILL, source: HL_SRC, type: "fill",
+        paint: { "fill-color": "#C9A227", "fill-opacity": 0.18 },
+      });
+      map.addLayer({
+        id: HL_STROKE, source: HL_SRC, type: "line",
+        paint: { "line-color": "#C9A227", "line-width": 3, "line-opacity": 0.95 },
+      });
+
+      try {
+        let xmin = 180, ymin = 90, xmax = -180, ymax = -90;
+        const visit = (c: any): void => {
+          if (typeof c[0] === "number" && typeof c[1] === "number") {
+            if (c[0] < xmin) xmin = c[0]; if (c[0] > xmax) xmax = c[0];
+            if (c[1] < ymin) ymin = c[1]; if (c[1] > ymax) ymax = c[1];
+          } else if (Array.isArray(c)) c.forEach(visit);
+        };
+        visit(match.geometry?.coordinates || []);
+        if (xmin < xmax && ymin < ymax) {
+          map.fitBounds([[xmin, ymin], [xmax, ymax]], { padding: 60, maxZoom: 14, duration: 800 });
+        }
+      } catch {}
+    })();
+
+    return () => { cancelled = true; };
+  }, [highlightCommuneCode]);
 
   // Affichage des coords inverses (WGS84 → Lambert) pour info quand le marker bouge
   const reverseLambert = (() => {

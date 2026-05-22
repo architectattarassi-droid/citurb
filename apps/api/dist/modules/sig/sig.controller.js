@@ -35,6 +35,24 @@ let SigController = class SigController {
     listSources() {
         return { ok: true, sources: this.sig.listSources() };
     }
+    /**
+     * Liste plate (sans geometry) des régions / provinces / communes.
+     * Utilisée par les wizards P1/P2/P5 pour les dropdowns en cascade.
+     *
+     *   GET /api/sig/admin/regions
+     *   GET /api/sig/admin/provinces?region=01
+     *   GET /api/sig/admin/communes?province=01.001
+     */
+    async listAdmin(level, region, province, res) {
+        if (!["regions", "provinces", "communes"].includes(level)) {
+            res?.status(400).json({ ok: false, error: "level must be regions|provinces|communes" });
+            return;
+        }
+        const parent = level === "provinces" ? region : level === "communes" ? province : undefined;
+        const items = await this.sig.listAdmin(level, parent);
+        res?.setHeader("Cache-Control", "public, max-age=86400, stale-while-revalidate=604800");
+        res?.json({ ok: true, level, count: items.length, items });
+    }
     async getLayer(source, layerWithExt, res) {
         // layerWithExt = "28.geojson" — on retire le suffixe
         const layer = layerWithExt.replace(/\.geojson$/i, "");
@@ -52,6 +70,16 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], SigController.prototype, "listSources", null);
+__decorate([
+    (0, common_1.Get)("admin/:level"),
+    __param(0, (0, common_1.Param)("level")),
+    __param(1, (0, common_1.Query)("region")),
+    __param(2, (0, common_1.Query)("province")),
+    __param(3, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String, Object]),
+    __metadata("design:returntype", Promise)
+], SigController.prototype, "listAdmin", null);
 __decorate([
     (0, common_1.Get)(":source/:layerWithExt"),
     __param(0, (0, common_1.Param)("source")),

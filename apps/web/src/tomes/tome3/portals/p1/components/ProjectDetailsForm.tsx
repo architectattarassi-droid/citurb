@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import type { ProjectType } from "../../../../../domain/p1/types";
+import AdminLocationSelect from "../../../../../features/geo/AdminLocationSelect";
 
 interface Props {
   projectType: ProjectType;
@@ -109,66 +110,23 @@ export default function ProjectDetailsForm({ projectType, onSubmit, initialData 
           Localisation
         </h3>
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '32px' }}>
-          <div>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, marginBottom: '8px' }}>
-              RÉGION <span style={{ color: '#C9A227' }}>*</span>
-            </label>
-            <select
-              value={formData.region}
-              onChange={(e) => handleChange('region', e.target.value)}
-              style={{
-                width: '100%',
-                padding: '12px',
-                border: errors.region ? '2px solid #dc2626' : '1px solid rgba(201,162,39,0.25)',
-                borderRadius: '8px',
-                fontSize: '14px',
-              }}
-            >
-              <option value="">Choisir</option>
-              <option value="Tanger-Tétouan-Al Hoceima">Tanger-Tétouan-Al Hoceima</option>
-              <option value="Casablanca-Settat">Casablanca-Settat</option>
-              <option value="Rabat-Salé-Kénitra">Rabat-Salé-Kénitra</option>
-            </select>
+        <div style={{ marginBottom: '32px' }}>
+          <div style={{ fontSize: '12px', color: 'rgba(11,27,58,0.6)', fontStyle: 'italic', marginBottom: '10px' }}>
+            Sélection officielle issue du découpage HCP — 14 régions / 77 provinces / 1 505 communes.
           </div>
-
-          <div>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, marginBottom: '8px' }}>
-              PROVINCE <span style={{ color: '#C9A227' }}>*</span>
-            </label>
-            <input
-              type="text"
-              value={formData.province}
-              onChange={(e) => handleChange('province', e.target.value)}
-              placeholder="Ex: Tanger-Assilah"
-              style={{
-                width: '100%',
-                padding: '12px',
-                border: errors.province ? '2px solid #dc2626' : '1px solid rgba(201,162,39,0.25)',
-                borderRadius: '8px',
-                fontSize: '14px',
-              }}
-            />
-          </div>
-
-          <div>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: 700, marginBottom: '8px' }}>
-              COMMUNE <span style={{ color: '#C9A227' }}>*</span>
-            </label>
-            <input
-              type="text"
-              value={formData.commune}
-              onChange={(e) => handleChange('commune', e.target.value)}
-              placeholder="Ex: Tanger"
-              style={{
-                width: '100%',
-                padding: '12px',
-                border: errors.commune ? '2px solid #dc2626' : '1px solid rgba(201,162,39,0.25)',
-                borderRadius: '8px',
-                fontSize: '14px',
-              }}
-            />
-          </div>
+          <AdminLocationSelect
+            required
+            value={{ region: formData.region, province: formData.province, commune: formData.commune }}
+            onChange={({ region, province, commune }) => {
+              setFormData(prev => ({ ...prev, region, province, commune }));
+              // Efface les erreurs des 3 champs
+              setErrors(prev => {
+                const e = { ...prev };
+                delete e.region; delete e.province; delete e.commune;
+                return e;
+              });
+            }}
+          />
         </div>
 
         {/* Détails selon type */}

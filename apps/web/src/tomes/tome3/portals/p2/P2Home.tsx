@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { apiBase } from "../../../tome4/apiClient";
 import { useAuth } from "../../../tome5/AuthProvider";
 import { getStoredLang } from "../../../../i18n/i18n";
+import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
 
 const P2_PENDING_KEY = "citurbarea:p2:pending_intake:v1";
 
@@ -1183,21 +1184,19 @@ function P2HomeInner() {
               </>
             )}
 
-            {/* 4) Localisation — région / province / commune (cf. P1) */}
+            {/* 4) Localisation — sélection officielle HCP (14 régions / 77 prov / 1505 communes) */}
             <div className="blk-title">{moaType === "morale" ? "4" : "3"}) Localisation du projet</div>
-            <div className="form-grid">
-              <div className="field">
-                <label className="label">Région <span className="req">*</span></label>
-                <input className="control" value={identity.region} onChange={f("region")} placeholder="Rabat-Salé-Kénitra, Casablanca-Settat…" />
-              </div>
-              <div className="field">
-                <label className="label">Province / Préfecture <span className="req">*</span></label>
-                <input className="control" value={identity.province} onChange={f("province")} placeholder="Kénitra, Salé, Rabat…" />
-              </div>
-              <div className="field">
-                <label className="label">Commune <span className="req">*</span></label>
-                <input className="control" value={identity.commune} onChange={f("commune")} placeholder="Mehdia, Témara, Bouznika…" />
-              </div>
+            <div className="muted" style={{ fontSize: 12.5, marginBottom: 10, maxWidth: 720 }}>
+              Sélection officielle issue du découpage HCP — 14 régions / 77 provinces / 1 505 communes.
+            </div>
+            <AdminLocationSelect
+              required
+              value={{ region: identity.region, province: identity.province, commune: identity.commune }}
+              onChange={({ region, province, commune }) => {
+                setIdentity(prev => ({ ...prev, region, province, commune }));
+              }}
+            />
+            <div className="form-grid" style={{ marginTop: 14 }}>
               {/* Nature du projet — cartes premium par famille (style P1) */}
               <div className="field" style={{ gridColumn: "1 / -1" }}>
                 <label className="label" style={{ marginBottom: 8 }}>Nature du projet <span className="req">*</span></label>

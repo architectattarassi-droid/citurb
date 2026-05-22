@@ -91,6 +91,54 @@ let SigDataService = SigDataService_1 = class SigDataService {
         }));
     }
     /**
+     * Liste plate (sans geometry) des entités administratives du Maroc.
+     * Utilisé par les wizards P1/P2/P5 pour les dropdowns en cascade
+     * Région → Province → Commune (alimentés depuis le découpage HCP).
+     *
+     * Retourne {id, code, name, nameAr?, parentCode?, population?, type?}.
+     */
+    async listAdmin(level, parentCode) {
+        const layerId = level === "regions" ? "0" : level === "provinces" ? "1" : "2";
+        const data = await this.getLayerGeoJson("maroc-admin", layerId);
+        const feats = data?.features || [];
+        const items = feats.map(f => {
+            const p = f.properties || {};
+            if (level === "regions") {
+                return {
+                    code: String(p.Code_Region || p.CODE_REGION || p.OBJECTID).trim(),
+                    name: p.Nom_Region || p.NOM_REGION || `Région ${p.OBJECTID}`,
+                    population: p.Population,
+                    superficie: p.Superficie_Ha,
+                };
+            }
+            if (level === "provinces") {
+                return {
+                    code: String(p.Code_Province || p.CODE_PROVINCE || p.OBJECTID).trim(),
+                    name: p.Nom_Provinces || p.Nom_Province || p.NOM_PROVINCE || `Province ${p.OBJECTID}`,
+                    parentCode: String(p.Code_Region || p.CODE_REGION || "").trim(),
+                    population: p.Population,
+                    marocains: p.Marocains,
+                };
+            }
+            // communes
+            return {
+                code: String(p.Code_Commune || p.CODE_COMMUNE || p.OBJECTID).trim(),
+                name: p.Nom_Commune || p.NOM_COMMUNE || `Commune ${p.OBJECTID}`,
+                nameAr: p.Nom_Commune_Arabe || undefined,
+                parentCode: String(p.Code_Province || p.CODE_PROVINCE || "").trim(),
+                regionCode: String(p.CODE_REGION || p.Code_Region || "").trim(),
+                population: p.Population,
+                type: p.Type_Commune,
+            };
+        });
+        // Filtre par parent si demandé
+        const filtered = parentCode
+            ? items.filter(it => (it.parentCode || "").startsWith(parentCode.trim()))
+            : items;
+        // Tri alphabétique pour les dropdowns
+        return filtered.sort((a, b) => (a.name || "").localeCompare(b.name || "", "fr"));
+    }
+    /**
      * Récupère une couche en GeoJSON. Stratégie :
      *   1. Cache RAM (24 h)
      *   2. Tentative fetch live vers la source (PA homologué fraîcheur ↑)

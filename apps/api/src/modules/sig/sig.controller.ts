@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Res } from "@nestjs/common";
+import { Controller, Get, Param, Query, Res } from "@nestjs/common";
 import type { Response } from "express";
 import { Tome } from "../../tomes/tome-at";
 import { SigDataService } from "./sig-data.service";
@@ -22,6 +22,31 @@ export class SigController {
   @Get("sources")
   listSources() {
     return { ok: true, sources: this.sig.listSources() };
+  }
+
+  /**
+   * Liste plate (sans geometry) des régions / provinces / communes.
+   * Utilisée par les wizards P1/P2/P5 pour les dropdowns en cascade.
+   *
+   *   GET /api/sig/admin/regions
+   *   GET /api/sig/admin/provinces?region=01
+   *   GET /api/sig/admin/communes?province=01.001
+   */
+  @Get("admin/:level")
+  async listAdmin(
+    @Param("level") level: "regions" | "provinces" | "communes",
+    @Query("region") region?: string,
+    @Query("province") province?: string,
+    @Res() res?: Response,
+  ) {
+    if (!["regions", "provinces", "communes"].includes(level)) {
+      res?.status(400).json({ ok: false, error: "level must be regions|provinces|communes" });
+      return;
+    }
+    const parent = level === "provinces" ? region : level === "communes" ? province : undefined;
+    const items = await this.sig.listAdmin(level, parent);
+    res?.setHeader("Cache-Control", "public, max-age=86400, stale-while-revalidate=604800");
+    res?.json({ ok: true, level, count: items.length, items });
   }
 
   @Get(":source/:layerWithExt")

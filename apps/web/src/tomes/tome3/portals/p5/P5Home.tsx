@@ -5,6 +5,7 @@ import { useAuth } from "../../../tome5/AuthProvider";
 import { getStoredLang } from "../../../../i18n/i18n";
 import MapPicker from "../../../../features/geo/MapPicker";
 import MohafadatiUpload, { UploadedDoc } from "../../../../features/geo/MohafadatiUpload";
+import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
 
 /**
  * P5Home — Rapports & Expertises (refonte v2 — UI premium niveau P2)
@@ -186,6 +187,8 @@ function P5HomeInner() {
   // Sprint 1 SIG — géoréférencement + document foncier
   const [geoCoords, setGeoCoords] = useState<{ lat: number; lng: number; source?: string } | null>(null);
   const [mohafadatiDoc, setMohafadatiDoc] = useState<UploadedDoc | null>(null);
+  // Codes administratifs (HCP) issus des dropdowns — utilisés pour highlight commune sur la carte
+  const [adminCodes, setAdminCodes] = useState<{ regionCode?: string; provinceCode?: string; communeCode?: string }>({});
 
   const [quote, setQuote] = useState<Quote | null>(null);
   const [dossierId, setDossierId] = useState<string | null>(null);
@@ -575,11 +578,22 @@ function P5HomeInner() {
             )}
 
             <div className="blk-title">{moaType === "morale" ? "4" : "3"}) Localisation du bien</div>
-            <div className="form-grid">
-              <div className="field"><label className="label">Région <span className="req">*</span></label><input className="control" value={identity.region} onChange={f("region")} placeholder="Rabat-Salé-Kénitra…" /></div>
-              <div className="field"><label className="label">Province / Préfecture <span className="req">*</span></label><input className="control" value={identity.province} onChange={f("province")} placeholder="Kénitra, Salé, Rabat…" /></div>
-              <div className="field"><label className="label">Commune <span className="req">*</span></label><input className="control" value={identity.commune} onChange={f("commune")} placeholder="Mehdia, Témara…" /></div>
-              <div className="field" style={{ gridColumn: "1 / -1" }}><label className="label">Adresse précise du bien (optionnel)</label><input className="control" value={identity.adresseBien} onChange={f("adresseBien")} placeholder="N° rue, quartier, lot, étage…" /></div>
+            <div className="muted" style={{ fontSize: 12.5, marginBottom: 10, maxWidth: 720 }}>
+              Sélection officielle issue du découpage HCP — 14 régions / 77 provinces / 1 505 communes.
+            </div>
+            <AdminLocationSelect
+              required
+              value={{ region: identity.region, province: identity.province, commune: identity.commune }}
+              onChange={({ region, province, commune, codes }) => {
+                setIdentity(prev => ({ ...prev, region, province, commune }));
+                setAdminCodes(codes);
+              }}
+            />
+            <div className="form-grid" style={{ marginTop: 14 }}>
+              <div className="field" style={{ gridColumn: "1 / -1" }}>
+                <label className="label">Adresse précise du bien (optionnel)</label>
+                <input className="control" value={identity.adresseBien} onChange={f("adresseBien")} placeholder="N° rue, quartier, lot, étage…" />
+              </div>
             </div>
 
             {/* Sprint 1 SIG — géoréférencement du bien sur carte */}
@@ -596,6 +610,7 @@ function P5HomeInner() {
               adresse={identity.adresseBien}
               onChange={(c) => setGeoCoords(c)}
               height={360}
+              highlightCommuneCode={adminCodes.communeCode}
             />
 
             {/* Sprint 1 — upload extrait Mohafadati (workaround ANCFCC) */}
