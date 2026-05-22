@@ -15,6 +15,11 @@ type SigLayerDef = {
   color: string; description?: string;
 };
 const SIG_LAYERS: SigLayerDef[] = [
+  // Découpage administratif national
+  { source: "maroc-admin", layer: "0", label: "Régions Maroc (12)",   geomType: "polygon", color: "#0B1B3A", description: "Découpage régional national (HCP)" },
+  { source: "maroc-admin", layer: "1", label: "Provinces Maroc (77)", geomType: "polygon", color: "#C9A227", description: "Provinces et préfectures" },
+  { source: "maroc-admin", layer: "2", label: "Communes Maroc",       geomType: "polygon", color: "#16a34a", description: "Limites communales (HCP / Esri Africa)" },
+  // PA Rabat-Salé (AURS)
   { source: "aurs", layer: "10", label: "Limite du PA (Rabat-Salé)",   geomType: "polygon", color: "#0B1B3A", description: "Périmètre du Plan d'Aménagement" },
   { source: "aurs", layer: "28", label: "Lotissements (Rabat-Salé)",   geomType: "polygon", color: "#f59e0b", description: "Lotissements existants et projetés" },
   { source: "aurs", layer: "32", label: "Zonage réglementaire (Rabat-Salé)", geomType: "polygon", color: "#3b82f6", description: "Urbain, industriel, équipements…" },
@@ -53,6 +58,12 @@ type Props = {
   initialLat?: number; initialLng?: number;
   onChange?: (coords: { lat: number; lng: number; source: "adresse" | "lambert" | "carte" } | null) => void;
   height?: number;
+  /**
+   * Affiche ou non le panneau « Couches SIG » (PA, lotissements, zonage…).
+   * Réservé au post-login (espace client + backoffice) — pas accessible avant
+   * création de compte sur les wizards P1/P2/P5.
+   */
+  showSigLayers?: boolean;
 };
 
 type Mode = "adresse" | "lambert" | "carte";
@@ -79,6 +90,7 @@ const OSM_STYLE: any = {
 export default function MapPicker({
   region, province, commune, adresse,
   initialLat, initialLng, onChange, height = 360,
+  showSigLayers = false,
 }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -399,7 +411,8 @@ export default function MapPicker({
 
       {error && <div style={S.errBox}>⚠ {error}</div>}
 
-      {/* Toggle couches SIG officielles (PA, lotissements, zonages…) */}
+      {/* Toggle couches SIG officielles (PA, lotissements, zonages…) — réservé post-login */}
+      {showSigLayers && (
       <div style={S.sigPanel}>
         <div style={S.sigPanelHeader}>
           <div>
@@ -445,6 +458,7 @@ export default function MapPicker({
           })}
         </div>
       </div>
+      )}
 
       {/* Carte (toujours visible) */}
       <div

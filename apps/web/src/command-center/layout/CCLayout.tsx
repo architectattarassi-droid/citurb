@@ -36,6 +36,7 @@ const NAV_GROUPS: NavGroup[] = [
       { id: "dossiers", label: "Dossiers",  path: "/cc/dossiers", mark: "V"  },
       { id: "projects", label: "Projets",   path: "/cc/projects", mark: "VI" },
       { id: "archive",  label: "Archive",   path: "/cc/archive",  mark: "VII"},
+      { id: "sig",      label: "SIG · PA",  path: "/cc/sig",      mark: "VIIb"},
     ],
   },
   {

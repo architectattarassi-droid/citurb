@@ -28,6 +28,7 @@ import ArchiveDossierView from './modules/archive/ArchiveDossierView';
 import OwnerLive from './pages/OwnerLive';
 import FirmsModule from './modules/firms/FirmsModule';
 import CCLogin from './pages/CCLogin';
+import SigExplorer from '../features/geo/SigExplorer';
 import { getToken } from '../tomes/tome4/apiClient';
 
 export type CCModule =
@@ -68,6 +69,7 @@ export default function CommandCenterApp() {
               <Route path="archive/:id" element={<ArchiveDossierView />} />
               <Route path="live" element={<OwnerLive />} />
               <Route path="firms/*" element={<FirmsModule />} />
+              <Route path="sig" element={<SigExplorer mode="admin" />} />
               <Route path="*" element={<Navigate to="dashboard" replace />} />
             </Routes>
           </CCLayout>

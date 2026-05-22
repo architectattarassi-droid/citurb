@@ -17,7 +17,13 @@ const SOURCES = {
         id: "aurs",
         label: "Plan d'Aménagement — Agence Urbaine Rabat-Salé",
         region: "Rabat-Salé-Kénitra",
+        authority: "AURS (Agence Urbaine de Rabat-Salé)",
         baseUrl: "https://geoportail.aurs.org.ma/server/rest/services/PA_AURS/PROD_PA_AURS/MapServer",
+        // Service ArcGIS publié le 2022-01-06, dernière modification connue 2024-01-02
+        // (timestamps du item ArcGIS Online : created=1641479490104 / modified=1704192066654)
+        publishedAt: "2024-01-02",
+        // Snapshot statique pré-fetché depuis cette machine (zone Maroc)
+        staticSnapshotAt: "2026-05-22",
         layers: {
             "28": { label: "Lotissements", geomType: "polygon", color: "#f59e0b", description: "Lotissements existants et projetés (PA Rabat-Salé)" },
             "32": { label: "Zonage réglementaire", geomType: "polygon", color: "#3b82f6", description: "Zonage du PA (urbain, industriel, équipements, etc.)" },
@@ -28,6 +34,20 @@ const SOURCES = {
             "25": { label: "Espaces verts", geomType: "polygon", color: "#22c55e", description: "Espaces verts publics" },
             "23": { label: "Équipements publics", geomType: "polygon", color: "#a855f7", description: "Équipements publics planifiés" },
             "27": { label: "Voiries", geomType: "line", color: "#dc2626", description: "Voiries projetées et existantes" },
+        },
+    },
+    "maroc-admin": {
+        id: "maroc-admin",
+        label: "Découpage administratif du Maroc — 12 Régions / 77 Provinces / Communes",
+        region: "Royaume du Maroc",
+        authority: "HCP (Haut Commissariat au Plan) — diffusé via Esri Africa Geoportal",
+        baseUrl: "https://services3.arcgis.com/hjUMsSJ87zgoicvl/arcgis/rest/services/DA_Maroc/FeatureServer",
+        publishedAt: "2018-05-31", // item ArcGIS Online modifié le 2018-05-31
+        staticSnapshotAt: "2026-05-22",
+        layers: {
+            "0": { label: "Régions (12)", geomType: "polygon", color: "#0B1B3A", description: "Découpage régional Maroc (réforme 2015)" },
+            "1": { label: "Provinces (77)", geomType: "polygon", color: "#C9A227", description: "Provinces et préfectures" },
+            "2": { label: "Communes", geomType: "polygon", color: "#16a34a", description: "Communes (1505 — échantillon top 1000 dans le snapshot statique)" },
         },
     },
 };
@@ -41,7 +61,10 @@ let SigDataService = SigDataService_1 = class SigDataService {
             id: s.id,
             label: s.label,
             region: s.region,
-            layers: Object.entries(s.layers).map(([id, l]) => ({ id, ...l })),
+            authority: s.authority,
+            publishedAt: s.publishedAt,
+            staticSnapshotAt: s.staticSnapshotAt,
+            layers: Object.entries(s.layers).map(([id, l]) => ({ id, ...l, publishedAt: l.publishedAt || s.publishedAt })),
         }));
     }
     /**
