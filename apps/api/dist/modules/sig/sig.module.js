@@ -10,13 +10,14 @@ exports.SigModule = void 0;
 const common_1 = require("@nestjs/common");
 const sig_controller_1 = require("./sig.controller");
 const sig_data_service_1 = require("./sig-data.service");
+const zone_detector_service_1 = require("./zone-detector.service");
 let SigModule = class SigModule {
 };
 exports.SigModule = SigModule;
 exports.SigModule = SigModule = __decorate([
     (0, common_1.Module)({
         controllers: [sig_controller_1.SigController],
-        providers: [sig_data_service_1.SigDataService],
-        exports: [sig_data_service_1.SigDataService],
+        providers: [sig_data_service_1.SigDataService, zone_detector_service_1.ZoneDetectorService],
+        exports: [sig_data_service_1.SigDataService, zone_detector_service_1.ZoneDetectorService],
     })
 ], SigModule);

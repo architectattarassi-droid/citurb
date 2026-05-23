@@ -414,22 +414,22 @@ export const ROUTE_USAGES = [
   {
     "route": "/creer-compte/client",
     "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 446
+    "line": 505
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 561
+    "line": 620
   },
   {
     "route": "/",
     "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 562
+    "line": 621
   },
   {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 560
+    "line": 619
   },
   {
     "route": "/portal",
@@ -1321,17 +1321,17 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/creer-compte/client",
     "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 446
+    "line": 505
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 561
+    "line": 620
   },
   {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 560
+    "line": 619
   },
   {
     "route": "/portal",

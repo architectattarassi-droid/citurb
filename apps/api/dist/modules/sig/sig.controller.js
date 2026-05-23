@@ -16,6 +16,7 @@ exports.SigController = void 0;
 const common_1 = require("@nestjs/common");
 const tome_at_1 = require("../../tomes/tome-at");
 const sig_data_service_1 = require("./sig-data.service");
+const zone_detector_service_1 = require("./zone-detector.service");
 /**
  * SigController — expose les couches SIG publiques institutionnelles
  * marocaines via notre propre origine (doctrine : aucune redirection externe).
@@ -29,8 +30,33 @@ const sig_data_service_1 = require("./sig-data.service");
  */
 let SigController = class SigController {
     sig;
-    constructor(sig) {
+    detector;
+    constructor(sig, detector) {
         this.sig = sig;
+        this.detector = detector;
+    }
+    /**
+     * Auto-détection du zoning + fourchette de prix pour un terrain donné.
+     *
+     *   GET /api/sig/auto-detect-zone?lat=&lng=&commune=&region=&bienFamily=
+     *
+     * Renvoie le zoning officiel détecté (PA AURS si dans la zone couverte),
+     * le tier de prix suggéré + fourchette DH/m² (avec multiplicateur destination),
+     * la chaîne de raisonnement et les sources officielles (PA + DGI + AU).
+     *
+     * Endpoint public (utilisé dans les wizards P1/P2/P5 dès qu'on a une géoloc).
+     * GET car c'est une lecture pure (pas une mutation) — évite la MutationGate.
+     */
+    async autoDetectZone(lat, lng, commune, region, bienFamily, res) {
+        const result = await this.detector.detect({
+            lat: lat != null ? +lat : undefined,
+            lng: lng != null ? +lng : undefined,
+            commune,
+            region,
+            bienFamily: bienFamily,
+        });
+        res?.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=600");
+        res?.json(result);
     }
     listSources() {
         return { ok: true, sources: this.sig.listSources() };
@@ -85,6 +111,18 @@ let SigController = class SigController {
 };
 exports.SigController = SigController;
 __decorate([
+    (0, common_1.Get)("auto-detect-zone"),
+    __param(0, (0, common_1.Query)("lat")),
+    __param(1, (0, common_1.Query)("lng")),
+    __param(2, (0, common_1.Query)("commune")),
+    __param(3, (0, common_1.Query)("region")),
+    __param(4, (0, common_1.Query)("bienFamily")),
+    __param(5, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String, String, String, Object]),
+    __metadata("design:returntype", Promise)
+], SigController.prototype, "autoDetectZone", null);
+__decorate([
     (0, common_1.Get)("sources"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -123,5 +161,6 @@ __decorate([
 exports.SigController = SigController = __decorate([
     (0, tome_at_1.Tome)("tome0"),
     (0, common_1.Controller)("api/sig"),
-    __metadata("design:paramtypes", [sig_data_service_1.SigDataService])
+    __metadata("design:paramtypes", [sig_data_service_1.SigDataService,
+        zone_detector_service_1.ZoneDetectorService])
 ], SigController);

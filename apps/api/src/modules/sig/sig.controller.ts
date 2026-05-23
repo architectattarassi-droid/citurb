@@ -2,6 +2,7 @@ import { Controller, Get, Param, Query, Res } from "@nestjs/common";
 import type { Response } from "express";
 import { Tome } from "../../tomes/tome-at";
 import { SigDataService } from "./sig-data.service";
+import { ZoneDetectorService } from "./zone-detector.service";
 
 /**
  * SigController — expose les couches SIG publiques institutionnelles
@@ -17,7 +18,42 @@ import { SigDataService } from "./sig-data.service";
 @Tome("tome0")
 @Controller("api/sig")
 export class SigController {
-  constructor(private readonly sig: SigDataService) {}
+  constructor(
+    private readonly sig: SigDataService,
+    private readonly detector: ZoneDetectorService,
+  ) {}
+
+  /**
+   * Auto-détection du zoning + fourchette de prix pour un terrain donné.
+   *
+   *   GET /api/sig/auto-detect-zone?lat=&lng=&commune=&region=&bienFamily=
+   *
+   * Renvoie le zoning officiel détecté (PA AURS si dans la zone couverte),
+   * le tier de prix suggéré + fourchette DH/m² (avec multiplicateur destination),
+   * la chaîne de raisonnement et les sources officielles (PA + DGI + AU).
+   *
+   * Endpoint public (utilisé dans les wizards P1/P2/P5 dès qu'on a une géoloc).
+   * GET car c'est une lecture pure (pas une mutation) — évite la MutationGate.
+   */
+  @Get("auto-detect-zone")
+  async autoDetectZone(
+    @Query("lat") lat?: string,
+    @Query("lng") lng?: string,
+    @Query("commune") commune?: string,
+    @Query("region") region?: string,
+    @Query("bienFamily") bienFamily?: string,
+    @Res() res?: Response,
+  ) {
+    const result = await this.detector.detect({
+      lat: lat != null ? +lat : undefined,
+      lng: lng != null ? +lng : undefined,
+      commune,
+      region,
+      bienFamily: bienFamily as any,
+    });
+    res?.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=600");
+    res?.json(result);
+  }
 
   @Get("sources")
   listSources() {

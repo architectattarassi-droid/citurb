@@ -224,6 +224,31 @@ function P5HomeInner() {
 
   // Sprint 1 SIG — géoréférencement + document foncier
   const [geoCoords, setGeoCoords] = useState<{ lat: number; lng: number; source?: string } | null>(null);
+
+  // Auto-détection zoning + fourchette prix (depuis PA AURS + référentiel DGI)
+  type AutoDetection = {
+    detected: {
+      source: string;
+      arrondissement?: string;
+      prefecture?: string;
+      pa?: string;
+      layerLabel?: string;
+      zoning?: {
+        zone?: string; secteur?: string; definition?: string;
+        cos?: number; hauteurMax?: number; empriseMax?: number;
+      };
+    };
+    suggested: {
+      zoneTier: ZoneTier;
+      priceRangeMinMAD: number; priceRangeMaxMAD: number; priceMidMAD: number;
+      bienFamily: string; familyMultiplier: number;
+      reasoning: string[];
+    };
+    sources?: { pa?: any; dgi?: any; agences?: any[] };
+  };
+  const [autoDetection, setAutoDetection] = useState<AutoDetection | null>(null);
+  const [autoDetectBusy, setAutoDetectBusy] = useState(false);
+  const [zoneTierManuallySet, setZoneTierManuallySet] = useState(false);
   const [mohafadatiDoc, setMohafadatiDoc] = useState<UploadedDoc | null>(null);
   // Codes administratifs (HCP) issus des dropdowns — utilisés pour highlight commune sur la carte
   const [adminCodes, setAdminCodes] = useState<{ regionCode?: string; provinceCode?: string; communeCode?: string }>({});
@@ -342,6 +367,40 @@ function P5HomeInner() {
     setQuote(data);
     return data;
   };
+
+  // Auto-détection zoning depuis PA AURS + signature prix par arrondissement.
+  // Déclenchée dès qu'on a au moins une commune OU des coordonnées GPS, avec
+  // un debounce 600 ms pour ne pas spammer l'API à chaque frappe.
+  useEffect(() => {
+    const hasInput = (identity.commune && identity.commune.length > 1) ||
+                     (geoCoords && Number.isFinite(geoCoords.lat) && Number.isFinite(geoCoords.lng));
+    if (!hasInput) { setAutoDetection(null); return; }
+
+    const t = setTimeout(async () => {
+      setAutoDetectBusy(true);
+      try {
+        const params = new URLSearchParams();
+        if (geoCoords?.lat) params.set("lat", String(geoCoords.lat));
+        if (geoCoords?.lng) params.set("lng", String(geoCoords.lng));
+        if (identity.commune) params.set("commune", identity.commune);
+        if (identity.region) params.set("region", identity.region);
+        if (bienFamily) params.set("bienFamily", bienFamily);
+        const res = await fetch(`${apiBase()}/api/sig/auto-detect-zone?${params.toString()}`);
+        const data = await res.json();
+        if (data?.ok) {
+          setAutoDetection(data);
+          // Pré-sélection automatique du zoneTier suggéré SAUF si l'utilisateur
+          // l'a déjà ajusté manuellement (on respecte son override).
+          if (!zoneTierManuallySet && data.suggested?.zoneTier) {
+            setZoneTier(data.suggested.zoneTier);
+          }
+        }
+      } catch { /* silent — l'utilisateur peut toujours choisir manuellement */ }
+      finally { setAutoDetectBusy(false); }
+    }, 600);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [identity.commune, identity.region, geoCoords?.lat, geoCoords?.lng, bienFamily]);
 
   // Aperçu d'estimation sommaire en temps réel (transparence côté client).
   useEffect(() => {
@@ -982,9 +1041,128 @@ function P5HomeInner() {
                   </select>
                 </div>
               )}
-              <div className="field">
+              <div className="field" style={{ gridColumn: "1 / -1" }}>
                 <label className="label">Tranche de prix de la zone (foncier — base villa)</label>
-                <select className="control" value={zoneTier} onChange={(e) => setZoneTier(e.target.value as ZoneTier)}>
+
+                {/* Bandeau auto-détection — affiché dès qu'une commune ou des GPS sont dispo */}
+                {(autoDetection || autoDetectBusy) && (
+                  <div style={{
+                    marginBottom: 10, padding: "12px 14px",
+                    background: autoDetection ? "rgba(34,197,94,0.06)" : "rgba(11,27,58,0.04)",
+                    border: autoDetection ? "1px solid rgba(34,197,94,0.30)" : "1px solid rgba(11,27,58,0.10)",
+                    borderLeft: `4px solid ${autoDetection ? "#22c55e" : "#94a3b8"}`,
+                    borderRadius: 10, fontSize: 12.5, color: "rgba(11,27,58,0.85)", lineHeight: 1.6,
+                  }}>
+                    {autoDetectBusy && !autoDetection && (
+                      <span style={{ fontStyle: "italic" }}>🛰 Détection automatique du zoning et de la fourchette prix…</span>
+                    )}
+                    {autoDetection && (
+                      <div>
+                        <div style={{ fontWeight: 800, color: "#166534", marginBottom: 6, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                          <span>📍 Zone détectée automatiquement</span>
+                          {autoDetection.detected?.source === "aurs_point_in_polygon" && (
+                            <span style={{ fontSize: 10.5, fontWeight: 700, padding: "2px 7px", borderRadius: 4, background: "rgba(34,197,94,0.15)", color: "#166534" }}>
+                              PA AURS
+                            </span>
+                          )}
+                          {autoDetection.detected?.source === "commune_mapping" && (
+                            <span style={{ fontSize: 10.5, fontWeight: 700, padding: "2px 7px", borderRadius: 4, background: "rgba(245,158,11,0.15)", color: "#92400e" }}>
+                              Mapping commune
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Identification — PA + arrondissement + zone réglementaire */}
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10, marginBottom: 10 }}>
+                          {autoDetection.detected?.arrondissement && (
+                            <div><strong>Arrondissement :</strong> {autoDetection.detected.arrondissement}</div>
+                          )}
+                          {autoDetection.detected?.prefecture && (
+                            <div><strong>Préfecture :</strong> {autoDetection.detected.prefecture}</div>
+                          )}
+                          {autoDetection.detected?.pa && (
+                            <div><strong>PA :</strong> {autoDetection.detected.pa}</div>
+                          )}
+                          {autoDetection.detected?.zoning?.zone && (
+                            <div><strong>Zone réglem. :</strong> <code>{autoDetection.detected.zoning.zone}</code>{autoDetection.detected.zoning.secteur ? ` / ${autoDetection.detected.zoning.secteur}` : ""}</div>
+                          )}
+                          {autoDetection.detected?.zoning?.cos != null && (
+                            <div><strong>COS :</strong> {autoDetection.detected.zoning.cos}</div>
+                          )}
+                          {autoDetection.detected?.zoning?.hauteurMax != null && (
+                            <div><strong>Hauteur max :</strong> {autoDetection.detected.zoning.hauteurMax} m</div>
+                          )}
+                        </div>
+
+                        {/* Définition complète si disponible */}
+                        {autoDetection.detected?.zoning?.definition && (
+                          <details style={{ marginBottom: 10 }}>
+                            <summary style={{ cursor: "pointer", fontSize: 11.5, fontWeight: 700, color: "rgba(11,27,58,0.70)" }}>
+                              Voir la définition réglementaire de la zone {autoDetection.detected.zoning.zone}
+                            </summary>
+                            <div style={{ marginTop: 6, fontSize: 11.5, color: "rgba(11,27,58,0.75)", lineHeight: 1.55, padding: "6px 10px", background: "rgba(255,255,255,0.5)", borderRadius: 6 }}>
+                              {autoDetection.detected.zoning.definition}
+                            </div>
+                          </details>
+                        )}
+
+                        {/* La fourchette — gros chiffre lisible */}
+                        <div style={{
+                          background: "linear-gradient(135deg, rgba(201,162,39,0.10), rgba(232,216,166,0.10))",
+                          border: "1px solid rgba(201,162,39,0.30)", borderRadius: 10,
+                          padding: "10px 14px", marginBottom: 10,
+                        }}>
+                          <div style={{ fontSize: 11, fontWeight: 800, color: "#C9A227", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 4 }}>
+                            Fourchette estimée pour {bienFamily.toLowerCase().replace("_", " ")}
+                          </div>
+                          <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 22, fontWeight: 800, color: "#0B1B3A" }}>
+                            {fmtMAD(autoDetection.suggested.priceRangeMinMAD).replace(" DH", "")} – {fmtMAD(autoDetection.suggested.priceRangeMaxMAD)}/m²
+                          </div>
+                          <div style={{ fontSize: 11.5, color: "rgba(11,27,58,0.65)", marginTop: 3 }}>
+                            Tier sélectionné : <strong>{autoDetection.suggested.zoneTier}</strong>
+                            {autoDetection.suggested.familyMultiplier !== 1.0 && (
+                              <span> · multiplicateur destination ×{autoDetection.suggested.familyMultiplier}</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Raisonnement transparent */}
+                        <details>
+                          <summary style={{ cursor: "pointer", fontSize: 11.5, fontWeight: 700, color: "rgba(11,27,58,0.70)" }}>
+                            Voir le raisonnement de la détection ({autoDetection.suggested.reasoning.length} étapes)
+                          </summary>
+                          <ol style={{ marginTop: 6, paddingLeft: 22, fontSize: 11.5, color: "rgba(11,27,58,0.75)", lineHeight: 1.65 }}>
+                            {autoDetection.suggested.reasoning.map((r, i) => <li key={i}>{r}</li>)}
+                          </ol>
+                        </details>
+
+                        {/* Sources officielles citées */}
+                        {(autoDetection.sources?.pa || autoDetection.sources?.dgi || (autoDetection.sources?.agences && autoDetection.sources.agences.length > 0)) && (
+                          <div style={{ marginTop: 10, paddingTop: 8, borderTop: "1px dashed rgba(11,27,58,0.15)", fontSize: 11.5, color: "rgba(11,27,58,0.70)" }}>
+                            <strong>Sources officielles :</strong>{" "}
+                            {autoDetection.sources?.pa && <span>{autoDetection.sources.pa.name} · </span>}
+                            {autoDetection.sources?.dgi?.fiches?.[0] && (
+                              <a href={autoDetection.sources.dgi.fiches[0].url} target="_blank" rel="noopener noreferrer" style={{ color: "#0B1B3A", fontWeight: 700, textDecoration: "underline" }}>
+                                Référentiel DGI {autoDetection.sources.dgi.name}
+                              </a>
+                            )}
+                            {autoDetection.sources?.agences && autoDetection.sources.agences[0] && (
+                              <> · <a href={autoDetection.sources.agences[0].geoportail} target="_blank" rel="noopener noreferrer" style={{ color: "#0B1B3A", fontWeight: 700, textDecoration: "underline" }}>{autoDetection.sources.agences[0].code} géoportail</a></>
+                            )}
+                          </div>
+                        )}
+
+                        {zoneTierManuallySet && (
+                          <div style={{ marginTop: 8, fontSize: 11.5, fontStyle: "italic", color: "#92400e" }}>
+                            ⚠ Vous avez ajusté manuellement le tier — la fourchette détectée n'est plus appliquée. <button type="button" onClick={() => { setZoneTierManuallySet(false); if (autoDetection.suggested?.zoneTier) setZoneTier(autoDetection.suggested.zoneTier); }} style={{ background: "none", border: 0, color: "#0B1B3A", fontWeight: 700, textDecoration: "underline", cursor: "pointer", padding: 0, fontSize: 11.5 }}>Rétablir la détection auto</button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <select className="control" value={zoneTier} onChange={(e) => { setZoneTier(e.target.value as ZoneTier); setZoneTierManuallySet(true); }}>
                   <option value="RURAL">Rural / agricole / industriel — 500 à 2 500 DH/m² (douars, communes rurales, zones d'activité)</option>
                   <option value="PERIPHERIE">Périphérie économique — 1 500 à 4 000 DH/m² (Akkari, Hay Hassani, Branes Tanger, Sidi Bernoussi, périph. Fès/Meknès)</option>
                   <option value="VILLE_MOYENNE">Résidentiel standard — 3 000 à 7 000 DH/m² (Témara, Bouskoura, Aviation Rabat, Targa Marrakech, Dar Bouazza, Kénitra centre)</option>
