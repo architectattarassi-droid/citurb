@@ -1,17 +1,25 @@
 {
   "_meta": {
-    "version": "v1",
+    "version": "v2",
     "compiledAt": "2026-05-23",
-    "doctrine": "Registre des fiches officielles DGI / ANCFCC / Taamir / agences urbaines par ville. Tous les liens pointent vers des sources publiques (loi 12-90 + portails institutionnels). Aucune donnée n'est hébergée par CITURBAREA — uniquement les URLs canoniques. Voir niveau 2 (parsing PDF → couche SIG propriétaire) en cours de développement.",
+    "doctrine": "Inventaire exhaustif des référentiels DGI publiés (PDF) — 30 villes / 38 PDFs distincts. Les 26 provinces sans PDF DGI propre sont couvertes soit par contiguïté dans un PDF régional (ex. Sefrou/Taza/Taounate dans referentiel-de-fes, Tiznit/Tata dans referentiel-dagadir), soit non encore publiées par la DGI. Pour ces dernières, le module retourne une fiche placeholder + la fiche de l'Agence Urbaine compétente (voir agences-urbaines.json).",
     "sources": {
       "dgiPortal": "https://portail.tax.gov.ma/wps/portal/DGI/Referentiels-des-prix-de-l_immobilier/",
       "dgiAppMobile": "https://www.finances.gov.ma/fr/Pages/detail-actualite.aspx?fiche=2454",
       "fiscamarocIndex": "https://www.fiscamaroc.com/referentiel-prix-transaction-immobiliere-fiscalite-marocaine.htm",
       "ancfccValeursVenales": "https://www.ancfcc.gov.ma/valeursvenales",
       "ancfccCartographieThematique": "https://www.ancfcc.gov.ma/cartographieThematique/",
-      "taamirGeoportail": "https://www.taamir.gov.ma/karazal/",
-      "geoportailMaroc": "https://geoportail.gov.ma/"
-    }
+      "taamirGeoportail": "https://www.taamir.gov.ma/karazal/"
+    },
+    "totalCities": 30,
+    "totalFiches": 38,
+    "notPublishedYet": [
+      "Larache", "Chefchaouen", "Ouezzane", "Al Hoceïma", "Sefrou", "Taza", "Taounate", "Boulemane", "Moulay Yacoub",
+      "Sidi Kacem", "Sidi Bennour", "Tiznit", "Tata", "Chtouka-Aït Baha", "Guelmim", "Tan-Tan", "Sidi Ifni", "Assa-Zag",
+      "Laâyoune", "Boujdour", "Tarfaya", "Es-Smara", "Oued Ed-Dahab", "Aousserd", "Ouarzazate", "Zagora", "Tinghir",
+      "Khénifra", "Azilal", "Chichaoua", "Youssoufia", "Rehamna", "Médiouna", "Nouaceur", "Jerada", "Figuig", "Guercif",
+      "Fahs-Anjra", "M'diq-Fnideq (préfecture entière)", "Al Haouz"
+    ]
   },
   "global": [
     {
@@ -20,7 +28,7 @@
       "url": "https://portail.tax.gov.ma/wps/portal/DGI/Referentiels-des-prix-de-l_immobilier/",
       "publishedAt": "2025-01-01",
       "format": "Web carto + PDFs",
-      "description": "Portail officiel publié par la Direction Générale des Impôts (Ministère de l'Économie et des Finances). Recense 56 référentiels par ville, mis à jour 2017→2024. Une carte interactive est disponible sur le portail (frontend uniquement, pas d'export SIG)."
+      "description": "Portail officiel DGI (Ministère de l'Économie et des Finances). Recense 17 villes navigables + 38 PDFs distincts (versions actualisées comptent séparément). Carte interactive web mais pas d'export SIG."
     },
     {
       "kind": "ancfcc_referential",
@@ -36,288 +44,136 @@
       "url": "https://www.taamir.gov.ma/karazal/",
       "publishedAt": "2025-01-01",
       "format": "Carto web",
-      "description": "Géoportail du Ministère de l'Habitat. Expose les Plans d'Aménagement homologués des 29 agences urbaines. Contient le zonage urbanistique (PA, SDAU) mais pas les prix DGI."
+      "description": "Géoportail du Ministère de l'Habitat. Expose les Plans d'Aménagement homologués des 29 agences urbaines."
+    },
+    {
+      "kind": "dgi_app_mobile",
+      "label": "DGI — Application mobile Référentiel des Prix",
+      "url": "https://www.finances.gov.ma/fr/Pages/detail-actualite.aspx?fiche=2454",
+      "publishedAt": "2025-01-01",
+      "format": "Android + iOS",
+      "description": "Application mobile DGI lancée en 2025, recherche par adresse / coordonnées."
     }
   ],
   "cities": [
-    {
-      "id": "casablanca",
-      "name": "Casablanca",
-      "region": "Casablanca-Settat",
-      "provinceCodes": ["08.001"],
-      "communeCodes": [],
-      "fiches": [
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI Casablanca",
-          "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-casablanca-2017.pdf",
-          "publishedAt": "2017-12-29",
-          "authority": "DGI",
-          "description": "Référentiel officiel des prix immobiliers Casablanca, par arrondissement / voie / destination. Source DGI miroitée par Fiscamaroc."
-        },
-        {
-          "kind": "ancfcc_referential",
-          "label": "ANCFCC — Référentiel Commun Casa (349 zones)",
-          "url": "https://www.ancfcc.gov.ma/valeursvenales",
-          "publishedAt": "2019-07-01",
-          "authority": "ANCFCC + DGI",
-          "description": "Référentiel co-géré ANCFCC-DGI couvrant 349 zones Casa + Médiouna + Nouaceur."
-        },
-        {
-          "kind": "agence_urbaine",
-          "label": "Agence Urbaine de Casablanca (AUC)",
-          "url": "https://auc.karaz.org/",
-          "publishedAt": "2024-01-01",
-          "authority": "AUC",
-          "description": "Géoportail AUC — consultation zonage urbain (PA, SDAU) Casa, Mohammedia, Médiouna, Nouaceur."
-        }
-      ]
-    },
-    {
-      "id": "rabat",
-      "name": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "provinceCodes": ["07.001"],
-      "communeCodes": [],
-      "fiches": [
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI Rabat",
-          "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-rabat-2017.pdf",
-          "publishedAt": "2017-12-29",
-          "authority": "DGI",
-          "description": "Référentiel officiel des prix immobiliers Rabat par voie / quartier / destination."
-        },
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI Skhirat-Témara",
-          "url": "https://www.tax.gov.ma/wps/wcm/connect/f09cf404-498b-4907-98e4-8742237aa7e8/Skhirat_T%C3%A9mara_29-12-2017.pdf",
-          "publishedAt": "2017-12-29",
-          "authority": "DGI",
-          "description": "Référentiel DGI Skhirat-Témara (lien direct portail tax.gov.ma)."
-        },
-        {
-          "kind": "agence_urbaine",
-          "label": "AURS — Géoportail Rabat-Salé",
-          "url": "https://geoportail.aurs.org.ma/",
-          "publishedAt": "2023-08-29",
-          "authority": "AURS",
-          "description": "Plans d'Aménagement homologués Rabat-Salé : Agdal, Hassan, Yaacoub El Mansour, Youssoufia, Akrach, Médina, Shoul, Sidi Abi Al Kanadil."
-        }
-      ]
-    },
-    {
-      "id": "marrakech",
-      "name": "Marrakech",
-      "region": "Marrakech-Safi",
-      "provinceCodes": ["12.001"],
-      "communeCodes": [],
-      "fiches": [
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI Marrakech",
-          "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-marrakechde06072015df13032017.pdf",
-          "publishedAt": "2017-03-13",
-          "authority": "DGI",
-          "description": "Référentiel officiel DGI Marrakech (versions 06/07/2015 et 13/03/2017)."
-        }
-      ]
-    },
-    {
-      "id": "tanger",
-      "name": "Tanger",
-      "region": "Tanger-Tétouan-Al Hoceïma",
-      "provinceCodes": ["01.001"],
-      "communeCodes": [],
-      "fiches": [
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI Tanger",
-          "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-tanger-2017.pdf",
-          "publishedAt": "2017-12-29",
-          "authority": "DGI",
-          "description": "Référentiel officiel des prix immobiliers Tanger."
-        }
-      ]
-    },
-    {
-      "id": "fes",
-      "name": "Fès",
-      "region": "Fès-Meknès",
-      "provinceCodes": ["04.001"],
-      "communeCodes": [],
-      "fiches": [
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI Fès",
-          "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-fes-2017.pdf",
-          "publishedAt": "2017-12-29",
-          "authority": "DGI",
-          "description": "Référentiel officiel des prix immobiliers Fès."
-        }
-      ]
-    },
-    {
-      "id": "agadir",
-      "name": "Agadir",
-      "region": "Souss-Massa",
-      "provinceCodes": ["09.001"],
-      "communeCodes": [],
-      "fiches": [
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI Agadir",
-          "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-agadir-2017.pdf",
-          "publishedAt": "2017-12-29",
-          "authority": "DGI",
-          "description": "Référentiel officiel des prix immobiliers Agadir."
-        }
-      ]
-    },
-    {
-      "id": "meknes",
-      "name": "Meknès",
-      "region": "Fès-Meknès",
-      "provinceCodes": ["04.002"],
-      "communeCodes": [],
-      "fiches": [
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI Meknès",
-          "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-meknes-2017.pdf",
-          "publishedAt": "2017-12-29",
-          "authority": "DGI",
-          "description": "Référentiel officiel des prix immobiliers Meknès."
-        }
-      ]
-    },
-    {
-      "id": "oujda",
-      "name": "Oujda",
-      "region": "Oriental",
-      "provinceCodes": ["03.001"],
-      "communeCodes": [],
-      "fiches": [
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI Oujda",
-          "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-oujda-2017.pdf",
-          "publishedAt": "2017-12-29",
-          "authority": "DGI",
-          "description": "Référentiel officiel des prix immobiliers Oujda."
-        }
-      ]
-    },
-    {
-      "id": "tetouan",
-      "name": "Tétouan",
-      "region": "Tanger-Tétouan-Al Hoceïma",
-      "provinceCodes": ["01.002"],
-      "communeCodes": [],
-      "fiches": [
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI Tétouan",
-          "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-tetouan-2017.pdf",
-          "publishedAt": "2017-12-29",
-          "authority": "DGI",
-          "description": "Référentiel officiel des prix immobiliers Tétouan."
-        }
-      ]
-    },
-    {
-      "id": "el-jadida",
-      "name": "El Jadida",
-      "region": "Casablanca-Settat",
-      "provinceCodes": ["08.005"],
-      "communeCodes": [],
-      "fiches": [
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI El Jadida",
-          "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-el-jadida-2017.pdf",
-          "publishedAt": "2017-12-29",
-          "authority": "DGI",
-          "description": "Référentiel officiel des prix immobiliers El Jadida."
-        }
-      ]
-    },
-    {
-      "id": "settat",
-      "name": "Settat",
-      "region": "Casablanca-Settat",
-      "provinceCodes": ["08.004"],
-      "communeCodes": [],
-      "fiches": [
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI Settat",
-          "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-settat-2017.pdf",
-          "publishedAt": "2017-12-29",
-          "authority": "DGI",
-          "description": "Référentiel officiel des prix immobiliers Settat."
-        },
-        {
-          "kind": "agence_urbaine",
-          "label": "Agence Urbaine Settat — Géoportail",
-          "url": "https://ausettat.karaz.org/karazal/index.jsp",
-          "publishedAt": "2024-01-01",
-          "authority": "AU Settat",
-          "description": "Géoportail AU Settat — Plans d'Aménagement, SDAU."
-        }
-      ]
-    },
-    {
-      "id": "khemisset",
-      "name": "Khémisset",
-      "region": "Rabat-Salé-Kénitra",
-      "provinceCodes": ["07.003"],
-      "communeCodes": [],
-      "fiches": [
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI Khémisset",
-          "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-khemisset-2017.pdf",
-          "publishedAt": "2017-12-29",
-          "authority": "DGI",
-          "description": "Référentiel officiel des prix immobiliers Khémisset."
-        }
-      ]
-    },
-    {
-      "id": "essaouira",
-      "name": "Essaouira",
-      "region": "Marrakech-Safi",
-      "provinceCodes": ["12.005"],
-      "communeCodes": [],
-      "fiches": [
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI Essaouira",
-          "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-essaouira-2017.pdf",
-          "publishedAt": "2017-12-29",
-          "authority": "DGI",
-          "description": "Référentiel officiel des prix immobiliers Essaouira."
-        }
-      ]
-    },
-    {
-      "id": "safi",
-      "name": "Safi",
-      "region": "Marrakech-Safi",
-      "provinceCodes": ["12.002"],
-      "communeCodes": [],
-      "fiches": [
-        {
-          "kind": "dgi_pdf",
-          "label": "Référentiel DGI Safi",
-          "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-safi-2017.pdf",
-          "publishedAt": "2017-12-29",
-          "authority": "DGI",
-          "description": "Référentiel officiel des prix immobiliers Safi."
-        }
-      ]
-    }
+    { "id": "casablanca", "name": "Casablanca", "region": "Casablanca-Settat", "provinceCodes": ["08.001"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Casablanca", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-casablanca.pdf", "publishedAt": "2017-12-29", "authority": "DGI", "description": "Référentiel officiel des prix immobiliers Casablanca, par arrondissement / voie / destination." },
+      { "kind": "ancfcc_referential", "label": "ANCFCC — Référentiel Commun Casa (349 zones)", "url": "https://www.ancfcc.gov.ma/valeursvenales", "publishedAt": "2019-07-01", "authority": "ANCFCC + DGI", "description": "Référentiel co-géré ANCFCC-DGI, 349 zones Casa + Médiouna + Nouaceur." }
+    ]},
+    { "id": "mohammedia", "name": "Mohammedia", "region": "Casablanca-Settat", "provinceCodes": ["08.002"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Mohammedia", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-mohammedia.pdf", "publishedAt": "2015-10-01", "authority": "DGI", "description": "Couvre aussi Nouaceur + Médiouna par contiguïté." }
+    ]},
+    { "id": "ain-harrouda", "name": "Aïn Harrouda", "region": "Casablanca-Settat", "provinceCodes": ["08.002"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Aïn Harrouda", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-ain-harrouda.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "berrechid", "name": "Berrechid", "region": "Casablanca-Settat", "provinceCodes": ["08.006"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Berrechid", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-berrechid.pdf", "publishedAt": "2017-01-01", "authority": "DGI" },
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Berrechid (portail tax.gov.ma)", "url": "https://portail.tax.gov.ma/wps/wcm/connect/22ef8a50-ccce-4587-b4f1-96c1e84a5f0e/R%C3%A9f%C3%A9rentiel+des+Prix+des+Transactions+Immobili%C3%A8res+de+la+ville+de+Berrechid.pdf?MOD=AJPERES&CACHEID=22ef8a50-ccce-4587-b4f1-96c1e84a5f0e", "publishedAt": "2017-01-01", "authority": "DGI", "description": "Source officielle directe tax.gov.ma." }
+    ]},
+    { "id": "benslimane", "name": "Benslimane", "region": "Casablanca-Settat", "provinceCodes": ["08.007"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Benslimane", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-ben-slimane.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "settat", "name": "Settat", "region": "Casablanca-Settat", "provinceCodes": ["08.004"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Settat", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-settat.pdf", "publishedAt": "2017-12-29", "authority": "DGI" },
+      { "kind": "agence_urbaine", "label": "Agence Urbaine Settat — Géoportail", "url": "https://ausettat.karaz.org/karazal/index.jsp", "publishedAt": "2024-01-01", "authority": "AU Settat", "description": "Géoportail karaz.org — Plans d'Aménagement, SDAU." }
+    ]},
+    { "id": "el-jadida", "name": "El Jadida", "region": "Casablanca-Settat", "provinceCodes": ["08.005"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI El Jadida (actualisé 29-12-2017)", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-del-jadida-version-actualisee-de29-12-2017.pdf", "publishedAt": "2017-12-29", "authority": "DGI" }
+    ]},
+    { "id": "rabat", "name": "Rabat", "region": "Rabat-Salé-Kénitra", "provinceCodes": ["07.001"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Rabat (actualisé 29-12-2017)", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-rabat-version-actualisee-de29-12-2017.pdf", "publishedAt": "2017-12-29", "authority": "DGI" },
+      { "kind": "agence_urbaine", "label": "AURS — Géoportail Rabat-Salé", "url": "https://geoportail.aurs.org.ma/", "publishedAt": "2023-08-29", "authority": "AURS", "description": "PA homologués Rabat-Salé : Agdal, Hassan, Yaacoub El Mansour, Youssoufia, Akrach, Médina, Shoul, Sidi Abi Al Kanadil." }
+    ]},
+    { "id": "sale", "name": "Salé", "region": "Rabat-Salé-Kénitra", "provinceCodes": ["07.002"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Salé (actualisé 29-12-2017)", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-sale-version-actualisee-de29-12-2017.pdf", "publishedAt": "2017-12-29", "authority": "DGI" }
+    ]},
+    { "id": "skhirat-temara", "name": "Skhirat-Témara", "region": "Rabat-Salé-Kénitra", "provinceCodes": ["07.004"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Skhirat-Témara (tax.gov.ma direct)", "url": "https://www.tax.gov.ma/wps/wcm/connect/f09cf404-498b-4907-98e4-8742237aa7e8/Skhirat_T%C3%A9mara_29-12-2017.pdf?MOD=AJPERES&CACHEID=ROOTWORKSPACE-f09cf404-498b-4907-98e4-8742237aa7e8-mxRSfhM", "publishedAt": "2017-12-29", "authority": "DGI" },
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Témara-Harhoura (actualisé)", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-temara-harhoura-version-actualisee-de29-12-2017.pdf", "publishedAt": "2017-12-29", "authority": "DGI", "description": "Version Témara-Harhoura uniquement." }
+    ]},
+    { "id": "kenitra", "name": "Kénitra", "region": "Rabat-Salé-Kénitra", "provinceCodes": ["07.005"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Kénitra", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-kenitra.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "sidi-slimane", "name": "Sidi Slimane", "region": "Rabat-Salé-Kénitra", "provinceCodes": ["07.007"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Sidi Slimane", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-sidi-slimane.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "khemisset", "name": "Khémisset", "region": "Rabat-Salé-Kénitra", "provinceCodes": ["07.003"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Khémisset", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-khemisset.pdf", "publishedAt": "2017-01-01", "authority": "DGI" },
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Khémisset (portail tax.gov.ma)", "url": "https://portail.tax.gov.ma/wps/wcm/connect/ef9640be-b76c-4f00-9ea7-28338314b15c/R%C3%A9f%C3%A9rentiel+de+Kh%C3%A9misset.pdf?MOD=AJPERES&CACHEID=ef9640be-b76c-4f00-9ea7-28338314b15c", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "tanger", "name": "Tanger", "region": "Tanger-Tétouan-Al Hoceïma", "provinceCodes": ["01.001"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Tanger", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-tanger.pdf", "publishedAt": "2015-10-01", "authority": "DGI" }
+    ]},
+    { "id": "tetouan", "name": "Tétouan", "region": "Tanger-Tétouan-Al Hoceïma", "provinceCodes": ["01.002"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Tétouan", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-tetouan.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "mdiq", "name": "M'diq", "region": "Tanger-Tétouan-Al Hoceïma", "provinceCodes": ["01.003"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI M'diq", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-mdiq.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "fnideq", "name": "Fnideq", "region": "Tanger-Tétouan-Al Hoceïma", "provinceCodes": ["01.003"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Fnideq", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-fnideq.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "fes", "name": "Fès", "region": "Fès-Meknès", "provinceCodes": ["04.001"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Fès (actualisé 29-05-2017)", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-fes-version-actualisee-de29052017.pdf", "publishedAt": "2017-05-29", "authority": "DGI", "description": "Couvre aussi provinces Sefrou, Boulemane, Taounate, Taza (contiguïté)." }
+    ]},
+    { "id": "meknes", "name": "Meknès", "region": "Fès-Meknès", "provinceCodes": ["04.002"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Meknès (actualisé 29-12-2017)", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-meknes-version-actualisee-de29-12-2017.pdf", "publishedAt": "2017-12-29", "authority": "DGI" }
+    ]},
+    { "id": "ouislane", "name": "Ouislane", "region": "Fès-Meknès", "provinceCodes": ["04.002"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Ouislane (tax.gov.ma direct)", "url": "https://www.tax.gov.ma/wps/wcm/connect/d34f4279-1bbb-4bdb-b632-cc49ccf81513/R%C3%A9f%C3%A9rentiel+d'Ouislane.pdf?MOD=AJPERES&CACHEID=ROOTWORKSPACE-d34f4279-1bbb-4bdb-b632-cc49ccf81513-mxRTQ2T", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "azrou", "name": "Azrou", "region": "Fès-Meknès", "provinceCodes": ["04.005"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Azrou", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-dazrou.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "ifrane", "name": "Ifrane", "region": "Fès-Meknès", "provinceCodes": ["04.004"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Ifrane (tax.gov.ma direct)", "url": "https://www.tax.gov.ma/wps/wcm/connect/081f7025-c10f-477c-803d-e046079bb509/R%C3%A9f%C3%A9rentiel+Ifrane.pdf?MOD=AJPERES", "publishedAt": "2017-01-01", "authority": "DGI", "description": "Couvre aussi El Hajeb, Midelt, Errachidia, Taza, Sefrou, Taounate, Boulemane, Moulay Yacoub." }
+    ]},
+    { "id": "marrakech", "name": "Marrakech", "region": "Marrakech-Safi", "provinceCodes": ["12.001"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Marrakech (actualisé 14-03-2017)", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-marrakech-version-actualisee-de14032017.pdf", "publishedAt": "2017-03-14", "authority": "DGI", "description": "Couvre aussi Chichaoua, Al Haouz, El Kelâa des Sraghna, Essaouira, Rehamna, Safi, Youssoufia (contiguïté)." }
+    ]},
+    { "id": "safi", "name": "Safi", "region": "Marrakech-Safi", "provinceCodes": ["12.002"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Safi", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-safi.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "essaouira", "name": "Essaouira", "region": "Marrakech-Safi", "provinceCodes": ["12.005"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Essaouira", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-dessaouira.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "agadir", "name": "Agadir", "region": "Souss-Massa", "provinceCodes": ["09.001"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Agadir (actualisé 31-01-2017)", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-dagadir-version-actualisee-de31012017.pdf", "publishedAt": "2017-01-31", "authority": "DGI", "description": "Couvre aussi Chtouka-Aït Baha, Inezgane-Aït Melloul, Taroudant, Tata, Tiznit (contiguïté)." }
+    ]},
+    { "id": "inezgane-ait-melloul", "name": "Inezgane-Aït Melloul (Dcheira)", "region": "Souss-Massa", "provinceCodes": ["09.002"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Dcheira / Inezgane-Aït Melloul", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-dchiera-inezgane-ait-melloul.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "taroudant", "name": "Taroudant", "region": "Souss-Massa", "provinceCodes": ["09.003"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Taroudant", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-taroudant.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "oujda", "name": "Oujda-Angad", "region": "Oriental", "provinceCodes": ["03.001"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Oujda", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-drsquooujda.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "nador", "name": "Nador", "region": "Oriental", "provinceCodes": ["03.002"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Nador (actualisé 14-03-2017)", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-nador-version-actualisee-de14032017.pdf", "publishedAt": "2017-03-14", "authority": "DGI" }
+    ]},
+    { "id": "berkane", "name": "Berkane", "region": "Oriental", "provinceCodes": ["03.003"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Berkane", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/publication-du-referentiel-des-prix-des-transactions-immobilieres-de-berkane.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "driouch", "name": "Driouch", "region": "Oriental", "provinceCodes": ["03.005"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Driouch", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-driouch.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "beni-mellal", "name": "Béni Mellal", "region": "Béni Mellal-Khénifra", "provinceCodes": ["05.001"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Béni Mellal", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-beni-mellal.pdf", "publishedAt": "2017-01-01", "authority": "DGI", "description": "Couvre aussi province Khénifra (contiguïté)." }
+    ]},
+    { "id": "khouribga", "name": "Khouribga", "region": "Béni Mellal-Khénifra", "provinceCodes": ["05.002"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Khouribga", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-khouribgua.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "fquih-ben-salah", "name": "Fquih Ben Salah", "region": "Béni Mellal-Khénifra", "provinceCodes": ["05.005"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Fquih Ben Salah", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-fquih-ben-saleh.pdf", "publishedAt": "2017-01-01", "authority": "DGI" },
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Fquih Ben Salah (tax.gov.ma direct)", "url": "https://portail.tax.gov.ma/wps/wcm/connect/516816d8-7a7b-45dc-a2a7-f93afa56cd8b/R%C3%A9f%C3%A9rentiel+des+Prix+ville+de+FKIH+BEN+SALAH+Edition+D%C3%A9cembre.pdf?MOD=AJPERES&CACHEID=516816d8-7a7b-45dc-a2a7-f93afa56cd8b", "publishedAt": "2017-12-01", "authority": "DGI" }
+    ]},
+    { "id": "errachidia", "name": "Errachidia", "region": "Drâa-Tafilalet", "provinceCodes": ["11.001"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Errachidia", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-derrachidia.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]},
+    { "id": "midelt-errich", "name": "Midelt / Er-Rich", "region": "Drâa-Tafilalet", "provinceCodes": ["11.005"], "communeCodes": [], "fiches": [
+      { "kind": "dgi_pdf", "label": "Référentiel DGI Midelt / Er-Rich", "url": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-midelt-er-rich.pdf", "publishedAt": "2017-01-01", "authority": "DGI" }
+    ]}
   ],
   "roadmap": {
     "phase2": {

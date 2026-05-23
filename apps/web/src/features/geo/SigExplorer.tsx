@@ -55,12 +55,36 @@ type CityReference = {
   communeCodes?: string[];
   fiches: Fiche[];
 };
+type AgenceUrbaine = {
+  id: string;
+  name: string;
+  code: string;
+  region: string;
+  prefecturesCouvertes?: string[];
+  provincesCouvertes?: string[];
+  siteOfficiel?: string;
+  geoportail?: string;
+  geoportailStatus?: string;
+  format?: string;
+  anneeCreation?: number;
+};
+type Placeholder = {
+  id: string;
+  name: string;
+  region: string;
+  isPlaceholder: true;
+  message: string;
+  fiches: Fiche[];
+};
 type ReferencesResponse = {
   ok: true;
-  _meta?: { version?: string; compiledAt?: string; doctrine?: string };
+  _meta?: { version?: string; compiledAt?: string; doctrine?: string; totalCities?: number; totalFiches?: number; notPublishedYet?: string[] };
   global: Fiche[];
   cities?: CityReference[];
   matched?: CityReference[];
+  agences?: AgenceUrbaine[];
+  matchedAgences?: AgenceUrbaine[];
+  placeholder?: Placeholder | null;
   roadmap?: {
     phase2?: { title: string; status: string; description: string; estimatedDeliveryDays?: number };
     phase3?: { title: string; status: string; description: string };
@@ -191,7 +215,21 @@ export default function SigExplorer({ mode = "client" }: { mode?: Mode }) {
               </div>
             )}
 
+            {/* Bandeau couverture nationale */}
+            {references._meta && (
+              <div style={S.coverageBanner}>
+                <strong>📊 Couverture nationale</strong> ·
+                {" "}{references._meta.totalCities || (references.cities?.length || 0)} villes DGI publiées ·
+                {" "}{references.agences?.length || 0} Agences Urbaines (loi 12-90, 100 % du territoire) ·
+                {" "}{references._meta.notPublishedYet?.length || 0} provinces sans PDF DGI propre — couvertes par contiguïté ou par leur AU compétente.
+              </div>
+            )}
+
             {/* Fiches par ville */}
+            <div style={S.subTitleBlock}>
+              <span style={S.subTitle}>🏙 Villes avec référentiel DGI publié</span>
+              <span style={S.subTitleCount}>{filteredCities.length} / {references.cities?.length || 0}</span>
+            </div>
             <div style={S.citiesGrid}>
               {filteredCities.map(city => (
                 <div key={city.id} style={S.cityCard}>
@@ -233,6 +271,99 @@ export default function SigExplorer({ mode = "client" }: { mode?: Mode }) {
                 <div style={S.muted}>Aucune ville ne correspond à « {referencesFilter} ».</div>
               )}
             </div>
+
+            {/* Agences Urbaines (couverture nationale exhaustive) */}
+            {references.agences && references.agences.length > 0 && (() => {
+              const needle = referencesFilter.trim().toLowerCase();
+              const filteredAU = !needle
+                ? references.agences
+                : references.agences.filter(au =>
+                    au.name.toLowerCase().includes(needle) ||
+                    au.region.toLowerCase().includes(needle) ||
+                    au.code.toLowerCase().includes(needle) ||
+                    [...(au.prefecturesCouvertes || []), ...(au.provincesCouvertes || [])]
+                      .some(p => p.toLowerCase().includes(needle))
+                  );
+              return (
+                <>
+                  <div style={{ ...S.subTitleBlock, marginTop: 28 }}>
+                    <span style={S.subTitle}>🏛 Agences Urbaines (PA, SDAU, zonage urbanistique)</span>
+                    <span style={S.subTitleCount}>{filteredAU.length} / {references.agences.length}</span>
+                  </div>
+                  <div style={S.citiesGrid}>
+                    {filteredAU.map(au => (
+                      <div key={au.id} style={S.cityCard}>
+                        <div style={S.cityHead}>
+                          <div>
+                            <div style={S.cityName}>{au.name}</div>
+                            <div style={S.cityRegion}>
+                              {au.code} · {au.region}
+                              {au.anneeCreation ? ` · créée ${au.anneeCreation}` : ""}
+                            </div>
+                          </div>
+                          <div style={{ ...S.cityBadge, background: "rgba(34,197,94,0.10)", borderColor: "rgba(34,197,94,0.30)", color: "#166534" }}>
+                            AU
+                          </div>
+                        </div>
+                        {((au.prefecturesCouvertes && au.prefecturesCouvertes.length > 0) ||
+                          (au.provincesCouvertes && au.provincesCouvertes.length > 0)) && (
+                          <div style={{ marginTop: 8, fontSize: 11.5, color: "rgba(11,27,58,0.65)", lineHeight: 1.5 }}>
+                            <strong>Couvre :</strong>{" "}
+                            {[...(au.prefecturesCouvertes || []), ...(au.provincesCouvertes || [])].join(", ")}
+                          </div>
+                        )}
+                        <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 10 }}>
+                          {au.geoportail && (
+                            <a href={au.geoportail} target="_blank" rel="noopener noreferrer" style={S.ficheLink}>
+                              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                <span style={{ ...S.ficheKindBadge, background: "rgba(34,197,94,0.10)", color: "#166534" }}>GÉOPORTAIL</span>
+                                <span style={{ flex: 1, fontWeight: 600, fontSize: 13, color: "#0B1B3A" }}>Carte interactive PA / SDAU</span>
+                                <span style={{ color: "#C9A227", fontWeight: 700, fontSize: 12 }}>↗</span>
+                              </div>
+                              {au.format && <div style={S.ficheDesc}>{au.format}</div>}
+                            </a>
+                          )}
+                          {au.siteOfficiel && (
+                            <a href={au.siteOfficiel} target="_blank" rel="noopener noreferrer" style={S.ficheLink}>
+                              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                <span style={{ ...S.ficheKindBadge, background: "rgba(11,27,58,0.06)", color: "rgba(11,27,58,0.7)" }}>SITE OFF.</span>
+                                <span style={{ flex: 1, fontWeight: 600, fontSize: 13, color: "#0B1B3A" }}>Site institutionnel</span>
+                                <span style={{ color: "#C9A227", fontWeight: 700, fontSize: 12 }}>↗</span>
+                              </div>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              );
+            })()}
+
+            {/* Liste des provinces sans PDF DGI (transparence) */}
+            {references._meta?.notPublishedYet && references._meta.notPublishedYet.length > 0 && (
+              <details style={S.notPublishedBlock}>
+                <summary style={S.notPublishedSummary}>
+                  ⚠ {references._meta.notPublishedYet.length} provinces sans référentiel DGI propre publié
+                </summary>
+                <div style={{ marginTop: 10, fontSize: 12, color: "rgba(11,27,58,0.7)", lineHeight: 1.6 }}>
+                  Ces provinces ne disposent pas (encore) d'un PDF DGI distinct. Pour chacune,
+                  consulter la fiche de l'Agence Urbaine compétente ci-dessus + le portail DGI national
+                  (qui couvre ces zones par contiguïté dans le PDF de la grande ville voisine).
+                  <div style={{ marginTop: 8, display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    {references._meta.notPublishedYet.map((p, i) => (
+                      <span key={i} style={{
+                        fontSize: 11.5, padding: "3px 8px", borderRadius: 4,
+                        background: "rgba(245,158,11,0.10)", color: "#92400e",
+                        border: "1px solid rgba(245,158,11,0.30)",
+                      }}>
+                        {p}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </details>
+            )}
 
             {/* Roadmap visible — transparence sur Niveau 2 et Niveau 3 */}
             {references.roadmap && (
@@ -435,6 +566,22 @@ const S: Record<string, React.CSSProperties> = {
   ficheDate: { fontSize: 10.5, color: "rgba(11,27,58,0.55)", fontFamily: "ui-monospace, Menlo, Consolas, monospace" },
   ficheDesc: { fontSize: 11, color: "rgba(11,27,58,0.62)", lineHeight: 1.45, paddingLeft: 2 },
 
+  coverageBanner: {
+    padding: "10px 14px", background: "rgba(34,197,94,0.06)",
+    border: "1px solid rgba(34,197,94,0.25)", borderLeft: "4px solid #22c55e",
+    borderRadius: 10, fontSize: 12.5, color: "rgba(11,27,58,0.85)", lineHeight: 1.6, marginBottom: 16,
+  },
+  subTitleBlock: { display: "flex", alignItems: "center", justifyContent: "space-between", margin: "10px 0 10px" },
+  subTitle: { fontSize: 13, fontWeight: 800, color: "rgba(11,27,58,0.85)", letterSpacing: "0.02em" },
+  subTitleCount: { fontSize: 11, fontWeight: 700, color: "#C9A227", background: "rgba(201,162,39,0.10)", padding: "3px 10px", borderRadius: 999, border: "1px solid rgba(201,162,39,0.30)" },
+  notPublishedBlock: {
+    marginTop: 22, padding: "10px 14px",
+    background: "rgba(245,158,11,0.05)", border: "1px solid rgba(245,158,11,0.22)",
+    borderRadius: 10,
+  },
+  notPublishedSummary: {
+    cursor: "pointer", fontSize: 12.5, fontWeight: 700, color: "#92400e",
+  },
   roadmapBlock: { marginTop: 22, padding: 14, background: "rgba(11,27,58,0.04)", border: "1px dashed rgba(11,27,58,0.18)", borderRadius: 10 },
   roadmapTitle: { fontSize: 12.5, fontWeight: 800, color: "rgba(11,27,58,0.85)", marginBottom: 10 },
   roadmapItem: { padding: "8px 0", borderTop: "1px dashed rgba(11,27,58,0.10)" },

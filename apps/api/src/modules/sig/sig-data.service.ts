@@ -142,37 +142,57 @@ export class SigDataService implements OnModuleInit {
     }));
   }
 
+  private _registryCache: any | null = null;
+  private _agencesCache: any | null = null;
+
+  private loadJsonStatic(filename: string): any | null {
+    const candidates = [
+      joinPath(process.cwd(), "data", "sig-static", filename),
+      joinPath(process.cwd(), "apps", "api", "data", "sig-static", filename),
+      joinPath(__dirname, "..", "..", "..", "data", "sig-static", filename),
+    ];
+    for (const p of candidates) {
+      if (existsSync(p)) {
+        try { return JSON.parse(readFileSync(p, "utf-8")); }
+        catch (e) { this.logger.warn(`[SIG] parse failed at ${p}: ${(e as Error).message}`); }
+      }
+    }
+    return null;
+  }
+
   /**
    * Registre des fiches officielles DGI / ANCFCC / Taamir / agences urbaines.
    *
-   * Niveau 1 du module SIG-référentiels — liens directs vers les sources
-   * publiques (loi 12-90 + portails institutionnels). Aucune donnée n'est
-   * hébergée par CITURBAREA, on expose juste les URLs canoniques par ville.
+   * Niveau 1 du module SIG-référentiels avec couverture territoriale exhaustive :
+   *   - 30 villes DGI (URLs PDF vérifiées 2026-05)
+   *   - 29 Agences Urbaines (couverture 100 % du territoire — loi 12-90)
+   *   - Auto-mapping commune → province → AU compétente
+   *   - Fallback "fiche en cours" pour les 26 provinces sans PDF DGI publié
+   *     (avec lien vers la fiche AU + ANCFCC + portail DGI national)
    *
-   * @param query.region — filtre par nom/identifiant région HCP
-   * @param query.province — filtre par nom/code province HCP
-   * @param query.commune — filtre par nom commune HCP (recherche fuzzy)
+   * @param query.region — filtre par nom région HCP (fuzzy)
+   * @param query.province — filtre par code/nom province HCP
+   * @param query.commune — filtre par nom commune HCP (fuzzy)
    * @param query.cityId — sélectionne explicitement une ville (casablanca|rabat|…)
    */
   listReferences(query?: { region?: string; province?: string; commune?: string; cityId?: string }) {
-    const candidates = [
-      joinPath(process.cwd(), "data", "sig-static", "dgi-references.json"),
-      joinPath(process.cwd(), "apps", "api", "data", "sig-static", "dgi-references.json"),
-      joinPath(__dirname, "..", "..", "..", "data", "sig-static", "dgi-references.json"),
-    ];
-    let registry: any = null;
-    for (const p of candidates) {
-      if (existsSync(p)) {
-        try { registry = JSON.parse(readFileSync(p, "utf-8")); break; }
-        catch (e) { this.logger.warn(`[SIG references] parse failed at ${p}: ${(e as Error).message}`); }
-      }
-    }
+    if (!this._registryCache) this._registryCache = this.loadJsonStatic("dgi-references.json");
+    if (!this._agencesCache) this._agencesCache = this.loadJsonStatic("agences-urbaines.json");
+
+    const registry = this._registryCache;
+    const agencesReg = this._agencesCache;
     if (!registry) {
-      return { ok: true, global: [], cities: [], matched: [], roadmap: null, _meta: { warning: "registry not found" } };
+      return { ok: true, global: [], cities: [], matched: [], agences: [], roadmap: null, _meta: { warning: "registry not found" } };
     }
 
     const cities: any[] = Array.isArray(registry.cities) ? registry.cities : [];
+    const agences: any[] = Array.isArray(agencesReg?.agences) ? agencesReg.agences : [];
+
     let matched = cities;
+    let matchedAgences = agences;
+    let placeholder: any = null;
+
+    const hasFilter = !!(query && (query.region || query.province || query.commune || query.cityId));
 
     if (query?.cityId) {
       const id = query.cityId.toLowerCase().trim();
@@ -180,7 +200,6 @@ export class SigDataService implements OnModuleInit {
     }
     if (query?.commune) {
       const needle = query.commune.toLowerCase().trim();
-      // Match fuzzy : ville.name OU communeCodes inclut le code OU nom contient le terme
       matched = matched.filter(c =>
         c.name?.toLowerCase().includes(needle) ||
         (c.communeCodes || []).some((cc: string) => cc.toLowerCase() === needle),
@@ -198,13 +217,70 @@ export class SigDataService implements OnModuleInit {
       matched = matched.filter(c => c.region?.toLowerCase().includes(needle));
     }
 
+    // Auto-mapping vers les agences urbaines : on garde celles qui couvrent
+    // au moins une préfecture/province mentionnée dans le filtre.
+    if (hasFilter && agences.length > 0) {
+      const provNeedle = (query?.province || query?.commune || "").toLowerCase().trim();
+      const regNeedle = (query?.region || "").toLowerCase().trim();
+
+      matchedAgences = agences.filter(au => {
+        if (regNeedle && au.region?.toLowerCase().includes(regNeedle)) return true;
+        const covered = [...(au.prefecturesCouvertes || []), ...(au.provincesCouvertes || [])]
+          .map((s: string) => s.toLowerCase());
+        if (provNeedle && covered.some(c => c.includes(provNeedle) || provNeedle.includes(c))) return true;
+        return false;
+      });
+    }
+
+    // Fallback "fiche en cours" : si aucune ville DGI n'a matché mais qu'on a un
+    // filtre, on génère une entrée placeholder avec lien vers la fiche AU + portail
+    // DGI national. Ainsi l'utilisateur n'a JAMAIS un écran vide — il sait toujours
+    // où aller chercher l'info officielle.
+    if (hasFilter && matched.length === 0) {
+      const targetName = query?.commune || query?.province || query?.region || "votre zone";
+      placeholder = {
+        id: "placeholder",
+        name: targetName,
+        region: query?.region || "",
+        provinceCodes: [],
+        communeCodes: [],
+        isPlaceholder: true,
+        message: "Aucun référentiel DGI propre publié pour cette commune. Utilisez les ressources officielles ci-dessous + la fiche de l'Agence Urbaine compétente.",
+        fiches: [
+          {
+            kind: "dgi_portal",
+            label: "DGI — Portail national (rechercher cette commune)",
+            url: "https://portail.tax.gov.ma/wps/portal/DGI/Referentiels-des-prix-de-l_immobilier/",
+            authority: "DGI",
+            description: "Portail officiel — recherche interactive sur la carte ou par ville.",
+          },
+          {
+            kind: "ancfcc_referential",
+            label: "ANCFCC — Valeurs vénales (consultation)",
+            url: "https://www.ancfcc.gov.ma/valeursvenales",
+            authority: "ANCFCC",
+            description: "Référentiel commun ANCFCC-DGI (extension nationale progressive).",
+          },
+          ...matchedAgences.slice(0, 3).map((au: any) => ({
+            kind: "agence_urbaine",
+            label: `${au.name} — Géoportail urbanisme`,
+            url: au.geoportail || au.siteOfficiel,
+            authority: au.code,
+            description: `Plans d'Aménagement et zonage urbanistique (${au.format || "carto web"}).`,
+          })),
+        ],
+      };
+    }
+
     return {
       ok: true,
       _meta: registry._meta,
       global: registry.global || [],
       matched,
-      // Si aucun filtre, on renvoie aussi la liste complète pour l'affichage catalog
-      cities: query && (query.region || query.province || query.commune || query.cityId) ? undefined : cities,
+      matchedAgences,
+      placeholder,
+      cities: hasFilter ? undefined : cities,
+      agences: hasFilter ? undefined : agences,
       roadmap: registry.roadmap || null,
     };
   }
