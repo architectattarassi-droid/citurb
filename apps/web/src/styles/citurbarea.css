@@ -99,3 +99,70 @@ button { font-family: var(--font-body); cursor: pointer; }
   font-size: 14px;
   line-height: 1.7;
 }
+
+/* ── MOBILE GLOBAL RESPONSIVE ──
+   Filets de sécurité globaux : si une page utilise des styles inline absolus
+   (gridTemplateColumns="1fr 1fr", maxWidth: 760, padding fixe), ces règles
+   forcent un empilement vertical et un padding réduit sous 768 px. Sans ça,
+   beaucoup de wizards et tableaux backoffice débordent horizontalement sur
+   mobile car les styles inline gagnent contre les media queries CSS dans la
+   plupart des composants — on les bat ici avec [style*=…] + !important. */
+@media (max-width: 768px) {
+  /* Empiler les grilles à 2 colonnes "1fr 1fr" sur mobile */
+  div[style*="grid-template-columns: 1fr 1fr"],
+  div[style*="gridTemplateColumns:'1fr 1fr'"],
+  div[style*='gridTemplateColumns:"1fr 1fr"'] {
+    grid-template-columns: 1fr !important;
+  }
+  /* Réduire les padding internes 32+ → 14 sur conteneurs principaux */
+  div[style*="padding: 32px"],
+  div[style*="padding:32px"] {
+    padding: 16px !important;
+  }
+  /* Forcer le wrap des barres outils en flex row */
+  div[style*="display: flex"][style*="justifyContent: space-between"] {
+    flex-wrap: wrap !important;
+  }
+  /* Largeur 100 % pour les inputs en pleine ligne */
+  input[type="text"][style*="width: 260"],
+  input[type="text"][style*="width:260"],
+  input[type="search"][style*="width: 260"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  /* Header CITURBAREA — réduire la hauteur et le gap */
+  header[style*="position: sticky"] > div {
+    padding: 0 12px !important;
+    gap: 6px !important;
+  }
+  /* Titres Playfair surdimensionnés */
+  h1[style*="font-size: 56"], h1[style*="fontSize: 56"], h1[style*="fontSize:56"] {
+    font-size: 32px !important;
+    line-height: 1.15 !important;
+  }
+  h2[style*="font-size: 40"], h2[style*="fontSize: 40"], h2[style*="fontSize:40"] {
+    font-size: 24px !important;
+  }
+  /* maxWidth fixe < 900 → autoriser le débordement à la largeur écran */
+  main[style*="max-width: 1200"], main[style*="maxWidth: 1200"],
+  main[style*="max-width: 1240"], main[style*="maxWidth: 1240"] {
+    padding: 0 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Sur très petits écrans, réduire encore les paddings */
+  div[style*="padding: 20"], div[style*="padding:20"] {
+    padding: 12px !important;
+  }
+  /* Sticky bars : taille de police plus serrée */
+  header[style*="position: sticky"] {
+    font-size: 12px !important;
+  }
+}
+
+/* ── Anti-overflow horizontal global ── */
+html, body, #root {
+  max-width: 100vw;
+  overflow-x: hidden;
+}

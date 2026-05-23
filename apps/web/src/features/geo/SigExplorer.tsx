@@ -122,7 +122,8 @@ export default function SigExplorer({ mode = "client" }: { mode?: Mode }) {
   if (!auth.isAuthed) return null;
 
   return (
-    <div style={S.page}>
+    <div className="sig-explorer-page" style={S.page}>
+      <style>{SIG_RESPONSIVE_CSS}</style>
       <div style={S.container}>
         <div style={S.header}>
           <div>
@@ -441,3 +442,14 @@ const S: Record<string, React.CSSProperties> = {
   roadmapBadge: { fontSize: 10, fontWeight: 800, padding: "2px 7px", borderRadius: 4, letterSpacing: "0.04em" },
   roadmapDesc: { fontSize: 11.5, color: "rgba(11,27,58,0.68)", lineHeight: 1.55, paddingLeft: 4 },
 };
+
+const SIG_RESPONSIVE_CSS = `
+@media (max-width: 768px) {
+  .sig-explorer-page { padding: 16px 12px !important; }
+  .sig-explorer-page h1 { font-size: 24px !important; line-height: 1.2 !important; }
+  .sig-explorer-page input[type="text"] { width: 100% !important; }
+}
+@media (max-width: 480px) {
+  .sig-explorer-page h1 { font-size: 20px !important; }
+}
+`;

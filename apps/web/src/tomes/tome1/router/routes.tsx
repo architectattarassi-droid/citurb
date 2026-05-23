@@ -133,8 +133,11 @@ export const router = createBrowserRouter([
   // Landing publique
   { path: CANON.HOME, element: <LandingRoute /> },
 
-  // Command Center interne — bloqué sur les hôtes publics (accès via URL Railway)
-  { path: '/cc/*', element: <PublicHostBlock><CommandCenterApp /></PublicHostBlock> },
+  // Command Center interne — accessible depuis tous les hôtes (CCGuard fait l'auth
+  // JWT en interne). On a levé le PublicHostBlock car admin.citurbarea.com n'est
+  // pas configuré en DNS (Cloudflare) ; le backoffice serait sinon inaccessible.
+  // La défense en profondeur reste assurée par CCGuard + RolesGuard côté API.
+  { path: '/cc/*', element: <CommandCenterApp /> },
 
   // Admin Vault (Sprint H — app admin ultra-sécurisée) — bloqué sur les hôtes publics
   { path: '/admin',                            element: <PublicHostBlock><Navigate to="/admin/login" replace /></PublicHostBlock> },

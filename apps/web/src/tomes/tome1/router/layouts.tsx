@@ -10,34 +10,50 @@ export function PublicLayout() {
   const loc = useLocation();
   const auth = useAuth();
   const t = useT();
-  // /p1 is a landing + pricing/qualification flow: it needs wide layout.
-  const isP1 = loc.pathname.startsWith("/p1");
+  const path = loc.pathname;
   // La home `/` utilise LandingV4 qui a son propre header complet.
-  // → on cache notre header sur `/` pour éviter doublon.
-  const isHome = loc.pathname === "/";
+  const isHome = path === "/";
+  // Pages "full-width" : tous les wizards et explorateurs métiers ont besoin
+  // de la largeur écran (carte SIG + formulaires multi-colonnes). Le layout
+  // 560 px d'origine était fait pour les formulaires simples type Login,
+  // pas pour les pages P1-P6 ni l'explorateur SIG (qui se retrouvaient
+  // visuellement compressés en colonne mobile sur desktop).
+  const FULL_WIDTH_PREFIXES = [
+    "/p1", "/p2", "/p3", "/p4", "/p5", "/p6",
+    "/sig", "/portal", "/mon-espace", "/docs", "/simulateur",
+    "/payment", "/fr/porte-", "/en/door-", "/ar/bab-", "/architecte-",
+  ];
+  const isFullWidth = FULL_WIDTH_PREFIXES.some(p => path.startsWith(p));
+  // Pages "narrow" résiduelles : login, signup, OTP, mot-de-passe-oublié.
+  // Tout ce qui n'est ni home ni full-width tombe en narrow par défaut.
+
+  const mainStyle: React.CSSProperties = isHome
+    ? { maxWidth: "none", margin: 0, padding: 0 }
+    : isFullWidth
+      ? { maxWidth: "none", margin: 0, padding: 0, width: "100%" }
+      : { maxWidth: 560, margin: "80px auto", padding: "0 24px" };
+
   return (
     <div style={{ minHeight: "100vh", fontFamily: "var(--font-body)", background: "var(--c-bg)" }}>
       {!isHome && (
         <header style={{ background: "var(--c-card)", borderBottom: "1px solid var(--c-line)", position: "sticky", top: 0, zIndex: 100 }}>
-          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60, gap: 12, flexWrap: "wrap" }}>
-            <Link to="/" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18, color: "var(--c-blue)", whiteSpace: "nowrap" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60, gap: 8, flexWrap: "wrap" }}>
+            <Link to="/" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 17, color: "var(--c-blue)", whiteSpace: "nowrap" }}>
               CITU<span style={{ color: "var(--c-gold)" }}>RBAREA</span>
             </Link>
-            <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-              {/* Order explicite pour éviter overlap si flex-wrap.
-                  LangSwitcher TOUJOURS avant les boutons auth. */}
+            <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
               <LangSwitcher variant="default" style={{ order: 1 }} />
-              <Link to="/" style={{ order: 2, fontSize: 13, color: "var(--c-muted)", padding: "7px 14px", borderRadius: 8, border: "1px solid var(--c-line)", whiteSpace: "nowrap" }}>{t("nav.home")}</Link>
+              <Link to="/" style={{ order: 2, fontSize: 12.5, color: "var(--c-muted)", padding: "6px 12px", borderRadius: 8, border: "1px solid var(--c-line)", whiteSpace: "nowrap" }}>{t("nav.home")}</Link>
               {auth.isAuthed ? (
-                <Link to="/portal" style={{ order: 3, fontSize: 13, fontWeight: 600, color: "#fff", padding: "7px 16px", borderRadius: 8, background: "var(--c-blue)", whiteSpace: "nowrap" }}>{t("nav.my_space")}</Link>
+                <Link to="/portal" style={{ order: 3, fontSize: 12.5, fontWeight: 600, color: "#fff", padding: "6px 14px", borderRadius: 8, background: "var(--c-blue)", whiteSpace: "nowrap" }}>{t("nav.my_space")}</Link>
               ) : (
-                <Link to="/login" style={{ order: 3, fontSize: 13, fontWeight: 600, color: "#fff", padding: "7px 16px", borderRadius: 8, background: "var(--c-blue)", whiteSpace: "nowrap" }}>{t("nav.login")}</Link>
+                <Link to="/login" style={{ order: 3, fontSize: 12.5, fontWeight: 600, color: "#fff", padding: "6px 14px", borderRadius: 8, background: "var(--c-blue)", whiteSpace: "nowrap" }}>{t("nav.login")}</Link>
               )}
             </div>
           </div>
         </header>
       )}
-      <main style={{ maxWidth: isHome ? "none" : (isP1 ? 1240 : 560), margin: isHome ? "0" : (isP1 ? "34px auto" : "80px auto"), padding: isHome ? 0 : "0 24px" }}>
+      <main style={mainStyle}>
         <Outlet />
       </main>
     </div>

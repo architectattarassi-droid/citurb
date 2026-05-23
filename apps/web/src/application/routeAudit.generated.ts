@@ -659,32 +659,32 @@ export const ROUTE_USAGES = [
   {
     "route": "/",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 23
+    "line": 41
   },
   {
     "route": "/",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 30
+    "line": 46
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 32
+    "line": 48
   },
   {
     "route": "/login",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 34
+    "line": 50
   },
   {
     "route": "/",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 81
+    "line": 97
   },
   {
     "route": "/",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 154
+    "line": 170
   },
   {
     "route": "/cc/dashboard",
@@ -704,12 +704,12 @@ export const ROUTE_USAGES = [
   {
     "route": "/admin/login",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 140
+    "line": 143
   },
   {
     "route": "/cercles",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 199
+    "line": 202
   },
   {
     "route": "/login",
@@ -1416,7 +1416,7 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/portal",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 32
+    "line": 48
   },
   {
     "route": "/cc/dashboard",
@@ -1431,12 +1431,12 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/admin/login",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 140
+    "line": 143
   },
   {
     "route": "/cercles",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 199
+    "line": 202
   },
   {
     "route": "/cercles/me/profile",
