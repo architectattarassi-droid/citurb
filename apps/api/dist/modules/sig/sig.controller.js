@@ -47,13 +47,14 @@ let SigController = class SigController {
      * Endpoint public (utilisé dans les wizards P1/P2/P5 dès qu'on a une géoloc).
      * GET car c'est une lecture pure (pas une mutation) — évite la MutationGate.
      */
-    async autoDetectZone(lat, lng, commune, region, bienFamily, res) {
+    async autoDetectZone(lat, lng, commune, region, bienFamily, address, res) {
         const result = await this.detector.detect({
             lat: lat != null ? +lat : undefined,
             lng: lng != null ? +lng : undefined,
             commune,
             region,
             bienFamily: bienFamily,
+            address,
         });
         res?.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=600");
         res?.json(result);
@@ -117,9 +118,10 @@ __decorate([
     __param(2, (0, common_1.Query)("commune")),
     __param(3, (0, common_1.Query)("region")),
     __param(4, (0, common_1.Query)("bienFamily")),
-    __param(5, (0, common_1.Res)()),
+    __param(5, (0, common_1.Query)("address")),
+    __param(6, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String, String, String, Object]),
+    __metadata("design:paramtypes", [String, String, String, String, String, String, Object]),
     __metadata("design:returntype", Promise)
 ], SigController.prototype, "autoDetectZone", null);
 __decorate([

@@ -242,6 +242,8 @@ function P5HomeInner() {
       zoneTier: ZoneTier;
       priceRangeMinMAD: number; priceRangeMaxMAD: number; priceMidMAD: number;
       bienFamily: string; familyMultiplier: number;
+      suggestedBienFamily?: BienFamily;
+      suggestedBienFamilyReason?: string;
       reasoning: string[];
     };
     sources?: { pa?: any; dgi?: any; agences?: any[] };
@@ -368,9 +370,9 @@ function P5HomeInner() {
     return data;
   };
 
-  // Auto-détection zoning depuis PA AURS + signature prix par arrondissement.
-  // Déclenchée dès qu'on a au moins une commune OU des coordonnées GPS, avec
-  // un debounce 600 ms pour ne pas spammer l'API à chaque frappe.
+  // Auto-détection zoning depuis PA AURS + axes routiers reconnus + signature
+  // prix par arrondissement. Déclenchée dès qu'on a au moins une commune OU
+  // des coordonnées GPS, avec un debounce 600 ms.
   useEffect(() => {
     const hasInput = (identity.commune && identity.commune.length > 1) ||
                      (geoCoords && Number.isFinite(geoCoords.lat) && Number.isFinite(geoCoords.lng));
@@ -385,12 +387,14 @@ function P5HomeInner() {
         if (identity.commune) params.set("commune", identity.commune);
         if (identity.region) params.set("region", identity.region);
         if (bienFamily) params.set("bienFamily", bienFamily);
+        // L'adresse texte est CRUCIALE — c'est elle qui permet de matcher des
+        // axes routiers haute valeur (Mohammed VI, Abtal, Bd d'Anfa, etc.)
+        // plus précis que l'arrondissement seul.
+        if (identity.adresseBien) params.set("address", identity.adresseBien);
         const res = await fetch(`${apiBase()}/api/sig/auto-detect-zone?${params.toString()}`);
         const data = await res.json();
         if (data?.ok) {
           setAutoDetection(data);
-          // Pré-sélection automatique du zoneTier suggéré SAUF si l'utilisateur
-          // l'a déjà ajusté manuellement (on respecte son override).
           if (!zoneTierManuallySet && data.suggested?.zoneTier) {
             setZoneTier(data.suggested.zoneTier);
           }
@@ -400,7 +404,7 @@ function P5HomeInner() {
     }, 600);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [identity.commune, identity.region, geoCoords?.lat, geoCoords?.lng, bienFamily]);
+  }, [identity.commune, identity.region, identity.adresseBien, geoCoords?.lat, geoCoords?.lng, bienFamily]);
 
   // Aperçu d'estimation sommaire en temps réel (transparence côté client).
   useEffect(() => {
@@ -1104,6 +1108,44 @@ function P5HomeInner() {
                               {autoDetection.detected.zoning.definition}
                             </div>
                           </details>
+                        )}
+
+                        {/* Vocation urbanistique détectée — suggestion bienFamily */}
+                        {autoDetection.suggested.suggestedBienFamily &&
+                         autoDetection.suggested.suggestedBienFamily !== bienFamily && (
+                          <div style={{
+                            background: "rgba(59,130,246,0.06)",
+                            border: "1px solid rgba(59,130,246,0.30)",
+                            borderLeft: "4px solid #3b82f6",
+                            borderRadius: 10, padding: "10px 14px", marginBottom: 10,
+                            display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap",
+                          }}>
+                            <div style={{ flex: 1, minWidth: 200 }}>
+                              <div style={{ fontSize: 11.5, fontWeight: 800, color: "#1e40af", marginBottom: 3 }}>
+                                🏗 Vocation urbanistique détectée
+                              </div>
+                              <div style={{ fontSize: 12.5, color: "rgba(11,27,58,0.85)", lineHeight: 1.5 }}>
+                                Selon le zoning officiel, le terrain est destiné à : <strong>{autoDetection.suggested.suggestedBienFamily.replace("_", " ").toLowerCase()}</strong>.
+                                {autoDetection.suggested.suggestedBienFamilyReason && (
+                                  <span style={{ display: "block", fontSize: 11.5, color: "rgba(11,27,58,0.65)", fontStyle: "italic", marginTop: 3 }}>
+                                    {autoDetection.suggested.suggestedBienFamilyReason}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => setBienFamily(autoDetection.suggested.suggestedBienFamily as BienFamily)}
+                              style={{
+                                padding: "8px 14px", borderRadius: 8,
+                                background: "#1e40af", color: "#fff", border: 0,
+                                fontSize: 12, fontWeight: 700, cursor: "pointer",
+                                fontFamily: "inherit", whiteSpace: "nowrap",
+                              }}
+                            >
+                              ✓ Appliquer
+                            </button>
+                          </div>
                         )}
 
                         {/* La fourchette — gros chiffre lisible */}

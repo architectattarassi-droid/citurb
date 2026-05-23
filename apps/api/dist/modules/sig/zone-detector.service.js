@@ -115,10 +115,123 @@ const ARRONDISSEMENT_TIER = {
     "branes": "PERIPHERIE",
     "tanger ville": "BON_QUARTIER",
 };
+const HIGH_VALUE_AXES = [
+    // RABAT — Agdal axes immeubles R+5+
+    { pattern: /\bavenue\s+abtal|\bav\.?\s+abtal|\babtal\b/i, arrondMatch: ["agdal", "agdal-ryad"],
+        tier: "PREMIUM", suggestedFamily: "GRAND_COLLECTIF",
+        reasoning: "Avenue Abtal (Agdal) — axe R+5+ immeubles denses, signature marché 20-30 000 DH/m² pour terrain immeuble." },
+    { pattern: /\bavenue\s+(?:de\s+)?fal\s*ould?\s*oumeir/i, arrondMatch: ["agdal", "agdal-ryad"],
+        tier: "PREMIUM", suggestedFamily: "GRAND_COLLECTIF",
+        reasoning: "Avenue Fal Ould Oumeir (Agdal) — axe principal immeubles haut Agdal." },
+    { pattern: /\b(?:av\.?|avenue|bd|boulevard)\s+(?:de\s+)?france\b/i, arrondMatch: ["agdal", "agdal-ryad", "hassan"],
+        tier: "PREMIUM", suggestedFamily: "GRAND_COLLECTIF",
+        reasoning: "Avenue de France (Agdal/Hassan) — axe FAR immeubles premium, jusqu'à 30 000 DH/m²." },
+    { pattern: /\b(?:av\.?|avenue|bd|boulevard)\s+(?:des\s+)?f\.?a\.?r\.?\b|\bforces\s+arm/i, arrondMatch: ["agdal", "hassan"],
+        tier: "PREMIUM", suggestedFamily: "GRAND_COLLECTIF",
+        reasoning: "Avenue des FAR (Agdal/Hassan) — axe immeubles premium." },
+    { pattern: /\bavenue\s+(?:al\s*)?(?:médi?n[ea]|medina)\b/i, arrondMatch: ["agdal", "agdal-ryad"],
+        tier: "BON_QUARTIER", suggestedFamily: "PETIT_COLLECTIF",
+        reasoning: "Avenue Médina (Agdal) — axe immeubles intermédiaires." },
+    // RABAT — Mohammed VI (selon le tronçon : varie énormément)
+    { pattern: /\b(?:av\.?|avenue|bd|boulevard)\s+mohamm?ed\s*(?:vi|6)\b/i, arrondMatch: ["agdal", "agdal-ryad", "hay riad", "ryad"],
+        tier: "PREMIUM", suggestedFamily: "GRAND_COLLECTIF",
+        reasoning: "Avenue Mohammed VI tronçon Agdal/Hay Riad — axe prestige immeubles + commerces, 20-35 000 DH/m²." },
+    { pattern: /\b(?:av\.?|avenue|bd|boulevard)\s+mohamm?ed\s*(?:vi|6)\b/i, arrondMatch: ["souissi"],
+        tier: "PRESTIGE", suggestedFamily: "GRAND_COLLECTIF",
+        reasoning: "Avenue Mohammed VI tronçon Souissi — proche palais et ambassades, foncier exceptionnel." },
+    { pattern: /\b(?:av\.?|avenue|bd|boulevard)\s+mohamm?ed\s*(?:vi|6)\b/i, arrondMatch: ["hassan"],
+        tier: "PREMIUM", suggestedFamily: "GRAND_COLLECTIF",
+        reasoning: "Avenue Mohammed VI tronçon Hassan — axe central R+8+ immeubles premium." },
+    // RABAT — Souissi axes villa
+    { pattern: /\bavenue\s+imam\s+malik|\bambassade|\borangerai?e/i, arrondMatch: ["souissi"],
+        tier: "PREMIUM", suggestedFamily: "VILLA",
+        reasoning: "Souissi — quartier ambassades / Orangerie, villas grand standing 15-25 000 DH/m²." },
+    // CASA — Bd d'Anfa et Anfa Supérieur
+    { pattern: /\b(?:bd|boulevard|av\.?|avenue)\s+(?:d')?anfa\b/i, arrondMatch: ["anfa"],
+        tier: "ULTRA", suggestedFamily: "GRAND_COLLECTIF",
+        reasoning: "Boulevard d'Anfa (Casablanca) — artère prestige absolue, foncier immeuble 35-60 000 DH/m²." },
+    { pattern: /\banfa\s+sup(?:e|é)rieur/i, arrondMatch: ["anfa"],
+        tier: "ULTRA", suggestedFamily: "VILLA",
+        reasoning: "Anfa Supérieur — villas premium et ultra-prime Casablanca." },
+    { pattern: /\b(?:cfc|casa\s*finance\s*city)\b/i,
+        tier: "ULTRA", suggestedFamily: "GRAND_COLLECTIF",
+        reasoning: "Casa Finance City — zone IFC, foncier business tower exceptionnel." },
+    { pattern: /\b(?:ain\s+diab|ain-diab)\b/i, arrondMatch: ["anfa", "ain diab", "ain chock"],
+        tier: "PRESTIGE", suggestedFamily: "VILLA",
+        reasoning: "Aïn Diab front de mer — villa premium et immeubles vue océan." },
+    // MARRAKECH
+    { pattern: /\bhivernage\b/i, arrondMatch: ["marrakech", "hivernage"],
+        tier: "PREMIUM", suggestedFamily: "GRAND_COLLECTIF",
+        reasoning: "Hivernage Marrakech — quartier hôtelier et résidentiel premium." },
+    { pattern: /\bpalmer?aie\b/i, arrondMatch: ["marrakech", "palmeraie"],
+        tier: "PREMIUM", suggestedFamily: "VILLA",
+        reasoning: "Palmeraie Marrakech — lots villa grand standing." },
+    // TANGER
+    { pattern: /\bmarina\b/i, arrondMatch: ["tanger"],
+        tier: "PREMIUM", suggestedFamily: "GRAND_COLLECTIF",
+        reasoning: "Marina Tanger — front portuaire haut standing." },
+];
+function detectAxisOverride(address, arrondissement) {
+    if (!address)
+        return null;
+    const addrLower = address.toLowerCase();
+    const arrondLower = (arrondissement || "").toLowerCase();
+    for (const axis of HIGH_VALUE_AXES) {
+        if (!axis.pattern.test(addrLower))
+            continue;
+        if (axis.arrondMatch && axis.arrondMatch.length > 0) {
+            const matches = axis.arrondMatch.some(a => arrondLower.includes(a));
+            if (!matches)
+                continue;
+        }
+        return axis;
+    }
+    return null;
+}
+/**
+ * Suggestion automatique du bienFamily depuis le zoning AURS détecté.
+ * Logique : on lit le code zone + COS + hauteur_max pour déduire la vocation
+ * dominante (villa R+2 max vs immeuble R+5+ vs équipement).
+ */
+function suggestFamilyFromZoning(zoning) {
+    if (!zoning)
+        return null;
+    const code = (zoning.zone || "").trim().toUpperCase();
+    const def = (zoning.definition || "").toLowerCase();
+    const cos = typeof zoning.cos === "number" ? zoning.cos : null;
+    const hMax = typeof zoning.hauteurMax === "number" ? zoning.hauteurMax : null;
+    // Hauteur ou COS très élevés → immeuble en hauteur certain
+    if ((hMax != null && hMax >= 20) || (cos != null && cos >= 2.5)) {
+        return { family: "GRAND_COLLECTIF", reasoning: `Zoning ${code || ""} avec ${hMax ? `hauteur max ${hMax}m` : `COS ${cos}`} → grand collectif R+5+ certain.` };
+    }
+    // Hauteur intermédiaire → petit collectif
+    if ((hMax != null && hMax >= 12 && hMax < 20) || (cos != null && cos >= 1.5 && cos < 2.5)) {
+        return { family: "PETIT_COLLECTIF", reasoning: `Zoning ${code || ""} avec ${hMax ? `hauteur ${hMax}m` : `COS ${cos}`} → petit collectif R+1 à R+4.` };
+    }
+    // Codes villa R1/R2/V
+    if (/^(R1|R2|V|VL|RH|RM)/.test(code) || def.includes("villa") || def.includes("habitations néo-traditionnelles")) {
+        return { family: "VILLA", reasoning: `Zoning ${code} (zone villa / habitations) → terrain destiné villa R+2 max.` };
+    }
+    // Codes immeubles R3+
+    if (/^R[3-9]/.test(code) || def.includes("immeuble")) {
+        return { family: "GRAND_COLLECTIF", reasoning: `Zoning ${code} → terrain destiné immeuble en hauteur.` };
+    }
+    // Zones d'équipement
+    if (/^E\d?$/.test(code) || /^UGE/.test(code) || def.includes("équipement") || def.includes("equipement")) {
+        return { family: "EQUIPEMENT", reasoning: `Zoning ${code} → terrain destiné équipement public (école, hôtel, hangar…).` };
+    }
+    // Zones naturelles/agricoles → terrain nu sans construction
+    if (/^(RB|A|NA|ZA)/.test(code) || def.includes("naturelle") || def.includes("protection") || def.includes("agricole")) {
+        return { family: "TERRAIN_NU", reasoning: `Zoning ${code} (zone naturelle / agricole / protégée) → terrain non constructible.` };
+    }
+    return null;
+}
 /**
  * Mapping zone réglementaire AURS (code `zone` ou mots-clés `definition`)
  * → ajustement du tier de base. Peut faire MONTER (centre urbain dense) ou
  * BAISSER (zone naturelle/agricole/industrielle) le tier dérivé du quartier.
+ *
+ * v2 — boost basé sur COS et hauteur_max quand disponibles.
  */
 function adjustTierByZoning(baseTier, zoning) {
     const tierOrder = ["RURAL", "PERIPHERIE", "VILLE_MOYENNE", "URBAIN", "BON_QUARTIER", "PREMIUM", "PRESTIGE", "ULTRA"];
@@ -129,6 +242,8 @@ function adjustTierByZoning(baseTier, zoning) {
     };
     const code = (zoning.zone || "").trim().toUpperCase();
     const def = (zoning.definition || "").toLowerCase();
+    const cos = typeof zoning.cos === "number" ? zoning.cos : null;
+    const hMax = typeof zoning.hauteurMax === "number" ? zoning.hauteurMax : null;
     // Zones naturelles / protégées / agricoles → baisse à RURAL
     if (def.includes("naturelle") || def.includes("protection") || def.includes("non aedificandi") ||
         def.includes("agricole") || def.includes("forêt") || def.includes("foret") || code === "RB") {
@@ -140,14 +255,22 @@ function adjustTierByZoning(baseTier, zoning) {
         return { tier: "PERIPHERIE", reasoning: `Zone industrielle / activités économiques (${code || "code N/A"}) — fourchette ramenée à PERIPHERIE (foncier d'activité).` };
     }
     // Zones d'équipement → BON_QUARTIER (souvent en centre)
-    if (def.includes("équipement") || def.includes("equipement") || /^E\d?$/.test(code)) {
+    if (def.includes("équipement") || def.includes("equipement") || /^E\d?$/.test(code) || /^UGE/.test(code)) {
         return { tier: "BON_QUARTIER", reasoning: `Zone d'équipement (${code || "code N/A"}) — alignée sur le tier BON_QUARTIER.` };
     }
-    // Zones villas (R1, V) → +1 tier vs base (villa dans bon quartier = premium)
-    if (/^(R1|V|VL)/.test(code) || def.includes("villa")) {
+    // COS / hauteur élevés : la rente du foncier monte avec le COS (immeuble R+5+)
+    // Boost progressif : COS 2-3 → +1, COS 3+ ou hauteur >25m → +2
+    if ((cos != null && cos >= 3.0) || (hMax != null && hMax >= 25)) {
+        return adjust(2, `Zone à très haute densité (${cos ? `COS ${cos}` : `hauteur ${hMax}m`}) → tier rehaussé de 2 crans (rente foncière maximale).`);
+    }
+    if ((cos != null && cos >= 2.0) || (hMax != null && hMax >= 20)) {
+        return adjust(1, `Zone à haute densité (${cos ? `COS ${cos}` : `hauteur ${hMax}m`}) → tier rehaussé d'un cran (rente immeuble R+5+).`);
+    }
+    // Zones villas (R1, R2, V, RH = résidence habitations) → +1 tier
+    if (/^(R[12]|V|VL|RH)/.test(code) || def.includes("villa") || def.includes("habitations néo-traditionnelles")) {
         return adjust(1, `Zone réglementaire villa (${code || "définition contient « villa »"}) — tier rehaussé d'un cran.`);
     }
-    // Zones immeubles denses (R4+, COS élevé) → +1 tier (rente du COS)
+    // Zones immeubles denses (R4+) → +1 tier (rente du COS implicite)
     if (/^R[4-9]/.test(code) || def.includes("immeuble")) {
         return adjust(1, `Zone d'immeubles en hauteur (${code}) — COS élevé, tier rehaussé d'un cran.`);
     }
@@ -222,8 +345,8 @@ let ZoneDetectorService = ZoneDetectorService_1 = class ZoneDetectorService {
      *  - Si rien (pas de GPS ni commune) → tier par défaut URBAIN + warning
      */
     async detect(input) {
-        const family = input.bienFamily || "VILLA";
-        const familyMult = FONCIER_MULTIPLIER_BY_FAMILY[family] ?? 1.0;
+        let chosenFamily = input.bienFamily || "VILLA";
+        let suggestedFamily = null;
         let detected = { source: "default" };
         let baseTier = "URBAIN";
         let reasoning = [];
@@ -242,6 +365,11 @@ let ZoneDetectorService = ZoneDetectorService_1 = class ZoneDetectorService {
                     const adj = adjustTierByZoning(baseTier, aursMatch.zoning);
                     baseTier = adj.tier;
                     reasoning.push(adj.reasoning);
+                    // Auto-suggestion bien family depuis le zoning officiel
+                    suggestedFamily = suggestFamilyFromZoning(aursMatch.zoning);
+                    if (suggestedFamily) {
+                        reasoning.push(`Vocation urbanistique détectée : ${suggestedFamily.family} — ${suggestedFamily.reasoning}`);
+                    }
                 }
             }
             else {
@@ -265,15 +393,36 @@ let ZoneDetectorService = ZoneDetectorService_1 = class ZoneDetectorService {
         if (detected.source === "default") {
             reasoning.push("Aucune géolocalisation ni commune exploitable — tier URBAIN par défaut.");
         }
-        // 3) Calcul de la fourchette finale (× multiplicateur destination)
+        // 2.5) Override par AXE ROUTIER (priorité haute : Abtal, Mohammed VI, Anfa)
+        //      On regarde l'adresse texte fournie + l'arrondissement détecté pour
+        //      matcher un axe à haute valeur (granularité plus fine que l'arrondissement).
+        if (input.address) {
+            const arrondForAxis = detected.arrondissement || input.commune;
+            const axisOverride = detectAxisOverride(input.address, arrondForAxis);
+            if (axisOverride) {
+                baseTier = axisOverride.tier;
+                reasoning.push(`🛣 Axe routier reconnu : « ${input.address} » → ${axisOverride.reasoning}`);
+                if (axisOverride.suggestedFamily && !suggestedFamily) {
+                    suggestedFamily = { family: axisOverride.suggestedFamily, reasoning: `Vocation typique de l'axe « ${input.address} ».` };
+                }
+            }
+        }
+        // 3) Décision finale sur le bienFamily à appliquer pour le calcul prix :
+        //    - Si l'utilisateur a explicitement passé un bienFamily → on respecte
+        //    - Sinon, on utilise la suggestion auto (si disponible)
+        //    - Sinon, VILLA par défaut
+        const familyForPricing = input.bienFamily || suggestedFamily?.family || "VILLA";
+        chosenFamily = familyForPricing;
+        const familyMult = FONCIER_MULTIPLIER_BY_FAMILY[familyForPricing] ?? 1.0;
+        // 4) Calcul de la fourchette finale (× multiplicateur destination)
         const range = ZONE_PRICE_RANGE[baseTier];
         const finalMin = Math.round(range.min * familyMult);
         const finalMax = Math.round(range.max * familyMult);
         const finalMid = Math.round(((range.min + range.max) / 2) * familyMult);
         if (familyMult !== 1.0) {
-            reasoning.push(`Multiplicateur destination ${family} ×${familyMult} appliqué (rente COS pour immeubles vs villa).`);
+            reasoning.push(`Multiplicateur destination ${familyForPricing} ×${familyMult} appliqué (rente COS pour immeubles vs villa).`);
         }
-        // 4) Détermine la fiche DGI/AU pertinente
+        // 5) Détermine la fiche DGI/AU pertinente
         const refs = this.sig.listReferences({
             region: input.region,
             commune: input.commune,
@@ -286,7 +435,9 @@ let ZoneDetectorService = ZoneDetectorService_1 = class ZoneDetectorService {
                 priceRangeMinMAD: finalMin,
                 priceRangeMaxMAD: finalMax,
                 priceMidMAD: finalMid,
-                bienFamily: family,
+                bienFamily: chosenFamily,
+                suggestedBienFamily: suggestedFamily?.family, // ce que le zoning suggère
+                suggestedBienFamilyReason: suggestedFamily?.reasoning,
                 familyMultiplier: familyMult,
                 reasoning,
             },

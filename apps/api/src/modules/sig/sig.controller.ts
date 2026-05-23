@@ -42,6 +42,7 @@ export class SigController {
     @Query("commune") commune?: string,
     @Query("region") region?: string,
     @Query("bienFamily") bienFamily?: string,
+    @Query("address") address?: string,
     @Res() res?: Response,
   ) {
     const result = await this.detector.detect({
@@ -50,6 +51,7 @@ export class SigController {
       commune,
       region,
       bienFamily: bienFamily as any,
+      address,
     });
     res?.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=600");
     res?.json(result);
