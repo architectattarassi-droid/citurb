@@ -144,6 +144,44 @@ export class SigDataService implements OnModuleInit {
 
   private _registryCache: any | null = null;
   private _agencesCache: any | null = null;
+  private _dgiZonesCache: Map<string, any> = new Map();
+
+  /**
+   * Catalogue DGI par ville — extrait par parsing PDF (Niveau 2 du module SIG).
+   * Pour chaque ville couverte, retourne les zones avec leurs prix de référence
+   * officiels, leurs délimitations géographiques et la liste des avenues.
+   *
+   * Villes disponibles aujourd'hui :
+   *   - rabat (49 zones) — extrait DGI 2017 actualisé 29-12-2017
+   *
+   * À venir (parsing pipeline) : casablanca, marrakech, tanger, fes, agadir,
+   * meknes, tetouan, kenitra, el-jadida, oujda, beni-mellal.
+   */
+  getDgiZones(cityId: string): any | null {
+    const id = cityId.toLowerCase().trim();
+    if (this._dgiZonesCache.has(id)) return this._dgiZonesCache.get(id);
+    const data = this.loadJsonStatic(`dgi-zones/${id}.json`);
+    if (data) this._dgiZonesCache.set(id, data);
+    return data;
+  }
+
+  /** Liste les villes qui ont une extraction DGI disponible. */
+  listDgiZoneCities(): { id: string; name: string; totalZones: number; extractedAt: string }[] {
+    const result: { id: string; name: string; totalZones: number; extractedAt: string }[] = [];
+    const tried = ["rabat", "casablanca", "marrakech", "tanger", "fes", "agadir", "meknes", "tetouan", "el-jadida", "oujda", "beni-mellal"];
+    for (const id of tried) {
+      const d = this.getDgiZones(id);
+      if (d?._meta) {
+        result.push({
+          id,
+          name: d._meta.ville,
+          totalZones: d._meta.totalZones,
+          extractedAt: d._meta.extractedAt,
+        });
+      }
+    }
+    return result;
+  }
 
   private loadJsonStatic(filename: string): any | null {
     const candidates = [

@@ -251,6 +251,29 @@ function P5HomeInner() {
   const [autoDetection, setAutoDetection] = useState<AutoDetection | null>(null);
   const [autoDetectBusy, setAutoDetectBusy] = useState(false);
   const [zoneTierManuallySet, setZoneTierManuallySet] = useState(false);
+
+  // Catalogue DGI réel par ville (extrait du PDF officiel DGI) — Niveau 2 du module SIG.
+  // Quand la commune sélectionnée a une extraction DGI dispo (Rabat aujourd'hui),
+  // on remplace le dropdown abstrait par les VRAIES zones DGI nommées avec leurs
+  // prix officiels (références droits d'enregistrement, sous-estiment le marché).
+  type DgiPriceLine = { type: string; etat?: string; superficie?: string; pt?: number; pc?: number; prixUnique?: number };
+  type DgiZone = {
+    code: string;             // "RA-SW4"
+    arrondissement: string;   // "Souissi"
+    ville: string;
+    region: string;
+    delimitations?: string;   // "Av. Doustour - Av. Mohamed VI..."
+    nomCommun?: string;       // "Cité Militaire", "Agdal 1"
+    avenues?: string[];
+    prix: DgiPriceLine[];
+  };
+  type DgiCityData = {
+    _meta: { ville: string; source: string; sourceUrl: string; totalZones: number; doctrine: string };
+    arrondissements: { code: string; nom: string }[];
+    zones: DgiZone[];
+  };
+  const [dgiCity, setDgiCity] = useState<DgiCityData | null>(null);
+  const [selectedDgiZoneCode, setSelectedDgiZoneCode] = useState<string>("");
   const [mohafadatiDoc, setMohafadatiDoc] = useState<UploadedDoc | null>(null);
   // Codes administratifs (HCP) issus des dropdowns — utilisés pour highlight commune sur la carte
   const [adminCodes, setAdminCodes] = useState<{ regionCode?: string; provinceCode?: string; communeCode?: string }>({});
@@ -369,6 +392,31 @@ function P5HomeInner() {
     setQuote(data);
     return data;
   };
+
+  // Charge le catalogue DGI de la ville quand la commune sélectionnée est supportée.
+  // Aujourd'hui : Rabat (49 zones extraites du PDF DGI 2017). Casa/Marrakech/Tanger à venir.
+  useEffect(() => {
+    const communeLower = (identity.commune || "").toLowerCase().trim();
+    if (!communeLower) { setDgiCity(null); setSelectedDgiZoneCode(""); return; }
+
+    // Mapping commune → city id du catalogue DGI
+    const CITY_MAP: Record<string, string> = {
+      "rabat": "rabat",
+      // À ajouter quand les parsers Casa/Marrakech/Tanger seront livrés :
+      // "casablanca": "casablanca", "marrakech": "marrakech", "tanger": "tanger"
+    };
+    // Match fuzzy : commence par le nom de ville
+    let cityId: string | null = null;
+    for (const [k, v] of Object.entries(CITY_MAP)) {
+      if (communeLower.includes(k)) { cityId = v; break; }
+    }
+    if (!cityId) { setDgiCity(null); setSelectedDgiZoneCode(""); return; }
+
+    fetch(`${apiBase()}/api/sig/dgi-zones/${cityId}`)
+      .then(r => r.json())
+      .then(d => { if (d?.ok) setDgiCity(d as DgiCityData); })
+      .catch(() => { /* silent — on garde le dropdown abstrait */ });
+  }, [identity.commune]);
 
   // Auto-détection zoning depuis PA AURS + axes routiers reconnus + signature
   // prix par arrondissement. Déclenchée dès qu'on a au moins une commune OU
@@ -1045,6 +1093,108 @@ function P5HomeInner() {
                   </select>
                 </div>
               )}
+              {/* NIVEAU 2 — Zones DGI réelles (extraites du PDF officiel) — affiché
+                  quand la commune a un catalogue DGI disponible (Rabat aujourd'hui) */}
+              {dgiCity && (
+                <div className="field" style={{ gridColumn: "1 / -1" }}>
+                  <label className="label">📜 Zone DGI officielle — {dgiCity._meta.ville} ({dgiCity.zones.length} zones extraites du PDF DGI)</label>
+                  <select className="control" value={selectedDgiZoneCode}
+                    onChange={(e) => setSelectedDgiZoneCode(e.target.value)}>
+                    <option value="">— Sélectionnez une zone DGI précise —</option>
+                    {dgiCity.arrondissements.map(arr => {
+                      const arrZones = dgiCity.zones.filter(z => z.arrondissement === arr.nom);
+                      if (arrZones.length === 0) return null;
+                      return (
+                        <optgroup key={arr.code} label={`Arrondissement ${arr.nom}`}>
+                          {arrZones.map(z => (
+                            <option key={z.code} value={z.code}>
+                              {z.code} — {z.nomCommun || (z.avenues && z.avenues[0]) || z.arrondissement}
+                              {z.prix[0]?.pt ? ` · terrain ${z.prix[0].pt.toLocaleString("fr-FR")} DH/m²` : ""}
+                            </option>
+                          ))}
+                        </optgroup>
+                      );
+                    })}
+                  </select>
+                  {selectedDgiZoneCode && (() => {
+                    const z = dgiCity.zones.find(x => x.code === selectedDgiZoneCode);
+                    if (!z) return null;
+                    const ptValues = z.prix.filter(p => p.pt).map(p => p.pt as number);
+                    const pcValues = z.prix.filter(p => p.pc).map(p => p.pc as number);
+                    const ptMin = ptValues.length ? Math.min(...ptValues) : null;
+                    const ptMax = ptValues.length ? Math.max(...ptValues) : null;
+                    const pcMin = pcValues.length ? Math.min(...pcValues) : null;
+                    const pcMax = pcValues.length ? Math.max(...pcValues) : null;
+                    return (
+                      <div style={{
+                        marginTop: 10, padding: "12px 14px",
+                        background: "rgba(59,130,246,0.05)", border: "1px solid rgba(59,130,246,0.25)",
+                        borderLeft: "4px solid #3b82f6", borderRadius: 10, fontSize: 12.5, lineHeight: 1.6,
+                      }}>
+                        <div style={{ fontWeight: 800, color: "#1e40af", marginBottom: 6 }}>
+                          📜 Zone {z.code} — {z.nomCommun || z.arrondissement}
+                        </div>
+                        {z.delimitations && (
+                          <div style={{ fontSize: 11.5, color: "rgba(11,27,58,0.75)", marginBottom: 8, fontStyle: "italic" }}>
+                            <strong>Délimitations :</strong> {z.delimitations}
+                          </div>
+                        )}
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10, marginBottom: 8 }}>
+                          {ptMin != null && (
+                            <div style={{ background: "#fff", padding: "8px 10px", borderRadius: 6, border: "1px solid rgba(11,27,58,0.10)" }}>
+                              <div style={{ fontSize: 10.5, fontWeight: 800, color: "#1e40af", textTransform: "uppercase", letterSpacing: "0.05em" }}>Prix Terrain DGI</div>
+                              <div style={{ fontSize: 16, fontWeight: 800, color: "#0B1B3A", marginTop: 3 }}>
+                                {ptMin === ptMax ? `${ptMin.toLocaleString("fr-FR")}` : `${ptMin.toLocaleString("fr-FR")} – ${ptMax!.toLocaleString("fr-FR")}`} DH/m²
+                              </div>
+                            </div>
+                          )}
+                          {pcMin != null && (
+                            <div style={{ background: "#fff", padding: "8px 10px", borderRadius: 6, border: "1px solid rgba(11,27,58,0.10)" }}>
+                              <div style={{ fontSize: 10.5, fontWeight: 800, color: "#1e40af", textTransform: "uppercase", letterSpacing: "0.05em" }}>Prix Construction DGI</div>
+                              <div style={{ fontSize: 16, fontWeight: 800, color: "#0B1B3A", marginTop: 3 }}>
+                                {pcMin === pcMax ? `${pcMin.toLocaleString("fr-FR")}` : `${pcMin.toLocaleString("fr-FR")} – ${pcMax!.toLocaleString("fr-FR")}`} DH/m²
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        <details>
+                          <summary style={{ cursor: "pointer", fontSize: 11.5, fontWeight: 700, color: "rgba(11,27,58,0.70)" }}>
+                            Voir le détail ({z.prix.length} lignes de prix DGI)
+                          </summary>
+                          <table style={{ width: "100%", marginTop: 8, fontSize: 11.5, borderCollapse: "collapse" }}>
+                            <thead>
+                              <tr style={{ background: "rgba(11,27,58,0.05)" }}>
+                                <th style={{ padding: "4px 8px", textAlign: "left", borderBottom: "1px solid rgba(11,27,58,0.10)" }}>Type</th>
+                                <th style={{ padding: "4px 8px", textAlign: "left", borderBottom: "1px solid rgba(11,27,58,0.10)" }}>État</th>
+                                <th style={{ padding: "4px 8px", textAlign: "left", borderBottom: "1px solid rgba(11,27,58,0.10)" }}>Superficie</th>
+                                <th style={{ padding: "4px 8px", textAlign: "right", borderBottom: "1px solid rgba(11,27,58,0.10)" }}>PT DH/m²</th>
+                                <th style={{ padding: "4px 8px", textAlign: "right", borderBottom: "1px solid rgba(11,27,58,0.10)" }}>PC DH/m²</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {z.prix.map((p, i) => (
+                                <tr key={i}>
+                                  <td style={{ padding: "3px 8px", borderBottom: "1px dashed rgba(11,27,58,0.08)" }}>{p.type}</td>
+                                  <td style={{ padding: "3px 8px", borderBottom: "1px dashed rgba(11,27,58,0.08)" }}>{p.etat || "—"}</td>
+                                  <td style={{ padding: "3px 8px", borderBottom: "1px dashed rgba(11,27,58,0.08)", fontSize: 10.5 }}>{p.superficie || "—"}</td>
+                                  <td style={{ padding: "3px 8px", borderBottom: "1px dashed rgba(11,27,58,0.08)", textAlign: "right", fontFamily: "ui-monospace, monospace" }}>{p.pt ? p.pt.toLocaleString("fr-FR") : p.prixUnique ? p.prixUnique.toLocaleString("fr-FR") : "—"}</td>
+                                  <td style={{ padding: "3px 8px", borderBottom: "1px dashed rgba(11,27,58,0.08)", textAlign: "right", fontFamily: "ui-monospace, monospace" }}>{p.pc ? p.pc.toLocaleString("fr-FR") : "—"}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </details>
+                        <div style={{ marginTop: 10, paddingTop: 8, borderTop: "1px dashed rgba(11,27,58,0.15)", fontSize: 11, color: "rgba(11,27,58,0.65)", lineHeight: 1.5 }}>
+                          ⚠ <strong>Prix DGI = référence administrative</strong> (calcul droits d'enregistrement). Sous-estime le marché réel de 30 à 70 %.
+                          Source : <a href={dgiCity._meta.sourceUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#0B1B3A", fontWeight: 700, textDecoration: "underline" }}>{dgiCity._meta.source}</a>.
+                          Le rapport d'expertise CITURBAREA donne la valeur marché réelle après croisement (DGI + ANCFCC + comparables transactions + visite terrain).
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
+
               <div className="field" style={{ gridColumn: "1 / -1" }}>
                 <label className="label">Tranche de prix de la zone (foncier — base villa)</label>
 

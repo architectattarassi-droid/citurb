@@ -35,6 +35,36 @@ export class SigController {
    * Endpoint public (utilisé dans les wizards P1/P2/P5 dès qu'on a une géoloc).
    * GET car c'est une lecture pure (pas une mutation) — évite la MutationGate.
    */
+  /**
+   * Catalogue des villes ayant un référentiel DGI extrait (parsing PDF).
+   *
+   *   GET /api/sig/dgi-cities
+   */
+  @Get("dgi-cities")
+  listDgiCities() {
+    return { ok: true, cities: this.sig.listDgiZoneCities() };
+  }
+
+  /**
+   * Détail des zones DGI d'une ville (parsing PDF Niveau 2).
+   *
+   *   GET /api/sig/dgi-zones/rabat
+   *
+   * Retourne : _meta (source PDF + dates), arrondissements, zones[] avec
+   * code, délimitations textuelles, avenues extraites, prix DGI complets
+   * (terrain/villa/appartement × ancien/récent/neuf × superficie).
+   */
+  @Get("dgi-zones/:cityId")
+  getDgiZones(@Param("cityId") cityId: string, @Res() res: Response) {
+    const data = this.sig.getDgiZones(cityId);
+    if (!data) {
+      res.status(404).json({ ok: false, error: `Aucune extraction DGI disponible pour « ${cityId} ». Voir /api/sig/dgi-cities pour la liste.` });
+      return;
+    }
+    res.setHeader("Cache-Control", "public, max-age=3600, stale-while-revalidate=86400");
+    res.json({ ok: true, ...data });
+  }
+
   @Get("auto-detect-zone")
   async autoDetectZone(
     @Query("lat") lat?: string,
