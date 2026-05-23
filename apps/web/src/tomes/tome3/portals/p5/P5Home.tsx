@@ -1084,391 +1084,48 @@ function P5HomeInner() {
               )}
               {bienFamily !== "TERRAIN_NU" && (
                 <div className="field">
-                  <label className="label">Standing visé (coût construction au m²)</label>
+                  <label className="label">Standing visé</label>
                   <select className="control" value={standing} onChange={(e) => setStanding(e.target.value as StandingTier)}>
-                    <option value="economique">Économique — env. 3 250 DH/m² (logement social conventionné)</option>
-                    <option value="moyen">Moyen standing — env. 4 500 DH/m² (carrelage, PVC, peinture standard)</option>
-                    <option value="haut">Haut standing — env. 7 500 DH/m² (marbre, alu, domotique basique)</option>
-                    <option value="luxe">Luxe — env. 13 000 DH/m² (sur mesure, bois noble, domotique intégrale)</option>
+                    <option value="economique">Économique (logement social conventionné)</option>
+                    <option value="moyen">Moyen standing (carrelage, PVC, peinture standard)</option>
+                    <option value="haut">Haut standing (marbre, alu, domotique basique)</option>
+                    <option value="luxe">Luxe (sur mesure, bois noble, domotique intégrale)</option>
                   </select>
                 </div>
               )}
-              {/* NIVEAU 2 — Zones DGI réelles (extraites du PDF officiel) — affiché
-                  quand la commune a un catalogue DGI disponible (Rabat aujourd'hui) */}
-              {dgiCity && (
-                <div className="field" style={{ gridColumn: "1 / -1" }}>
-                  <label className="label">📜 Zone DGI officielle — {dgiCity._meta.ville} ({dgiCity.zones.length} zones extraites du PDF DGI)</label>
-                  <select className="control" value={selectedDgiZoneCode}
-                    onChange={(e) => setSelectedDgiZoneCode(e.target.value)}>
-                    <option value="">— Sélectionnez une zone DGI précise —</option>
-                    {dgiCity.arrondissements.map(arr => {
-                      const arrZones = dgiCity.zones.filter(z => z.arrondissement === arr.nom);
-                      if (arrZones.length === 0) return null;
-                      return (
-                        <optgroup key={arr.code} label={`Arrondissement ${arr.nom}`}>
-                          {arrZones.map(z => (
-                            <option key={z.code} value={z.code}>
-                              {z.code} — {z.nomCommun || (z.avenues && z.avenues[0]) || z.arrondissement}
-                              {z.prix[0]?.pt ? ` · terrain ${z.prix[0].pt.toLocaleString("fr-FR")} DH/m²` : ""}
-                            </option>
-                          ))}
-                        </optgroup>
-                      );
-                    })}
-                  </select>
-                  {selectedDgiZoneCode && (() => {
-                    const z = dgiCity.zones.find(x => x.code === selectedDgiZoneCode);
-                    if (!z) return null;
-                    const ptValues = z.prix.filter(p => p.pt).map(p => p.pt as number);
-                    const pcValues = z.prix.filter(p => p.pc).map(p => p.pc as number);
-                    const ptMin = ptValues.length ? Math.min(...ptValues) : null;
-                    const ptMax = ptValues.length ? Math.max(...ptValues) : null;
-                    const pcMin = pcValues.length ? Math.min(...pcValues) : null;
-                    const pcMax = pcValues.length ? Math.max(...pcValues) : null;
-                    return (
-                      <div style={{
-                        marginTop: 10, padding: "12px 14px",
-                        background: "rgba(59,130,246,0.05)", border: "1px solid rgba(59,130,246,0.25)",
-                        borderLeft: "4px solid #3b82f6", borderRadius: 10, fontSize: 12.5, lineHeight: 1.6,
-                      }}>
-                        <div style={{ fontWeight: 800, color: "#1e40af", marginBottom: 6 }}>
-                          📜 Zone {z.code} — {z.nomCommun || z.arrondissement}
-                        </div>
-                        {z.delimitations && (
-                          <div style={{ fontSize: 11.5, color: "rgba(11,27,58,0.75)", marginBottom: 8, fontStyle: "italic" }}>
-                            <strong>Délimitations :</strong> {z.delimitations}
-                          </div>
-                        )}
-                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10, marginBottom: 8 }}>
-                          {ptMin != null && (
-                            <div style={{ background: "#fff", padding: "8px 10px", borderRadius: 6, border: "1px solid rgba(11,27,58,0.10)" }}>
-                              <div style={{ fontSize: 10.5, fontWeight: 800, color: "#1e40af", textTransform: "uppercase", letterSpacing: "0.05em" }}>Prix Terrain DGI</div>
-                              <div style={{ fontSize: 16, fontWeight: 800, color: "#0B1B3A", marginTop: 3 }}>
-                                {ptMin === ptMax ? `${ptMin.toLocaleString("fr-FR")}` : `${ptMin.toLocaleString("fr-FR")} – ${ptMax!.toLocaleString("fr-FR")}`} DH/m²
-                              </div>
-                            </div>
-                          )}
-                          {pcMin != null && (
-                            <div style={{ background: "#fff", padding: "8px 10px", borderRadius: 6, border: "1px solid rgba(11,27,58,0.10)" }}>
-                              <div style={{ fontSize: 10.5, fontWeight: 800, color: "#1e40af", textTransform: "uppercase", letterSpacing: "0.05em" }}>Prix Construction DGI</div>
-                              <div style={{ fontSize: 16, fontWeight: 800, color: "#0B1B3A", marginTop: 3 }}>
-                                {pcMin === pcMax ? `${pcMin.toLocaleString("fr-FR")}` : `${pcMin.toLocaleString("fr-FR")} – ${pcMax!.toLocaleString("fr-FR")}`} DH/m²
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                        <details>
-                          <summary style={{ cursor: "pointer", fontSize: 11.5, fontWeight: 700, color: "rgba(11,27,58,0.70)" }}>
-                            Voir le détail ({z.prix.length} lignes de prix DGI)
-                          </summary>
-                          <table style={{ width: "100%", marginTop: 8, fontSize: 11.5, borderCollapse: "collapse" }}>
-                            <thead>
-                              <tr style={{ background: "rgba(11,27,58,0.05)" }}>
-                                <th style={{ padding: "4px 8px", textAlign: "left", borderBottom: "1px solid rgba(11,27,58,0.10)" }}>Type</th>
-                                <th style={{ padding: "4px 8px", textAlign: "left", borderBottom: "1px solid rgba(11,27,58,0.10)" }}>État</th>
-                                <th style={{ padding: "4px 8px", textAlign: "left", borderBottom: "1px solid rgba(11,27,58,0.10)" }}>Superficie</th>
-                                <th style={{ padding: "4px 8px", textAlign: "right", borderBottom: "1px solid rgba(11,27,58,0.10)" }}>PT DH/m²</th>
-                                <th style={{ padding: "4px 8px", textAlign: "right", borderBottom: "1px solid rgba(11,27,58,0.10)" }}>PC DH/m²</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {z.prix.map((p, i) => (
-                                <tr key={i}>
-                                  <td style={{ padding: "3px 8px", borderBottom: "1px dashed rgba(11,27,58,0.08)" }}>{p.type}</td>
-                                  <td style={{ padding: "3px 8px", borderBottom: "1px dashed rgba(11,27,58,0.08)" }}>{p.etat || "—"}</td>
-                                  <td style={{ padding: "3px 8px", borderBottom: "1px dashed rgba(11,27,58,0.08)", fontSize: 10.5 }}>{p.superficie || "—"}</td>
-                                  <td style={{ padding: "3px 8px", borderBottom: "1px dashed rgba(11,27,58,0.08)", textAlign: "right", fontFamily: "ui-monospace, monospace" }}>{p.pt ? p.pt.toLocaleString("fr-FR") : p.prixUnique ? p.prixUnique.toLocaleString("fr-FR") : "—"}</td>
-                                  <td style={{ padding: "3px 8px", borderBottom: "1px dashed rgba(11,27,58,0.08)", textAlign: "right", fontFamily: "ui-monospace, monospace" }}>{p.pc ? p.pc.toLocaleString("fr-FR") : "—"}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </details>
-                        <div style={{ marginTop: 10, paddingTop: 8, borderTop: "1px dashed rgba(11,27,58,0.15)", fontSize: 11, color: "rgba(11,27,58,0.65)", lineHeight: 1.5 }}>
-                          ⚠ <strong>Prix DGI = référence administrative</strong> (calcul droits d'enregistrement). Sous-estime le marché réel de 30 à 70 %.
-                          Source : <a href={dgiCity._meta.sourceUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#0B1B3A", fontWeight: 700, textDecoration: "underline" }}>{dgiCity._meta.source}</a>.
-                          Le rapport d'expertise CITURBAREA donne la valeur marché réelle après croisement (DGI + ANCFCC + comparables transactions + visite terrain).
-                        </div>
-                      </div>
-                    );
-                  })()}
-                </div>
-              )}
-
+              {/* DOCTRINE : aucune donnée urbanisme / fourchette de prix / référentiel
+                  DGI/ANCFCC affichée AVANT création de compte + validation email + OTP SMS.
+                  Le panneau complet (zone DGI réelle, fourchette, auto-détection PA, devis
+                  détaillé) s'affiche dans P5Finalize après identification complète. */}
               <div className="field" style={{ gridColumn: "1 / -1" }}>
-                <label className="label">Tranche de prix de la zone (foncier — base villa)</label>
-
-                {/* Bandeau auto-détection — affiché dès qu'une commune ou des GPS sont dispo */}
-                {(autoDetection || autoDetectBusy) && (
-                  <div style={{
-                    marginBottom: 10, padding: "12px 14px",
-                    background: autoDetection ? "rgba(34,197,94,0.06)" : "rgba(11,27,58,0.04)",
-                    border: autoDetection ? "1px solid rgba(34,197,94,0.30)" : "1px solid rgba(11,27,58,0.10)",
-                    borderLeft: `4px solid ${autoDetection ? "#22c55e" : "#94a3b8"}`,
-                    borderRadius: 10, fontSize: 12.5, color: "rgba(11,27,58,0.85)", lineHeight: 1.6,
-                  }}>
-                    {autoDetectBusy && !autoDetection && (
-                      <span style={{ fontStyle: "italic" }}>🛰 Détection automatique du zoning et de la fourchette prix…</span>
-                    )}
-                    {autoDetection && (
-                      <div>
-                        <div style={{ fontWeight: 800, color: "#166534", marginBottom: 6, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                          <span>📍 Zone détectée automatiquement</span>
-                          {autoDetection.detected?.source === "aurs_point_in_polygon" && (
-                            <span style={{ fontSize: 10.5, fontWeight: 700, padding: "2px 7px", borderRadius: 4, background: "rgba(34,197,94,0.15)", color: "#166534" }}>
-                              PA AURS
-                            </span>
-                          )}
-                          {autoDetection.detected?.source === "commune_mapping" && (
-                            <span style={{ fontSize: 10.5, fontWeight: 700, padding: "2px 7px", borderRadius: 4, background: "rgba(245,158,11,0.15)", color: "#92400e" }}>
-                              Mapping commune
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Identification — PA + arrondissement + zone réglementaire */}
-                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10, marginBottom: 10 }}>
-                          {autoDetection.detected?.arrondissement && (
-                            <div><strong>Arrondissement :</strong> {autoDetection.detected.arrondissement}</div>
-                          )}
-                          {autoDetection.detected?.prefecture && (
-                            <div><strong>Préfecture :</strong> {autoDetection.detected.prefecture}</div>
-                          )}
-                          {autoDetection.detected?.pa && (
-                            <div><strong>PA :</strong> {autoDetection.detected.pa}</div>
-                          )}
-                          {autoDetection.detected?.zoning?.zone && (
-                            <div><strong>Zone réglem. :</strong> <code>{autoDetection.detected.zoning.zone}</code>{autoDetection.detected.zoning.secteur ? ` / ${autoDetection.detected.zoning.secteur}` : ""}</div>
-                          )}
-                          {autoDetection.detected?.zoning?.cos != null && (
-                            <div><strong>COS :</strong> {autoDetection.detected.zoning.cos}</div>
-                          )}
-                          {autoDetection.detected?.zoning?.hauteurMax != null && (
-                            <div><strong>Hauteur max :</strong> {autoDetection.detected.zoning.hauteurMax} m</div>
-                          )}
-                        </div>
-
-                        {/* Définition complète si disponible */}
-                        {autoDetection.detected?.zoning?.definition && (
-                          <details style={{ marginBottom: 10 }}>
-                            <summary style={{ cursor: "pointer", fontSize: 11.5, fontWeight: 700, color: "rgba(11,27,58,0.70)" }}>
-                              Voir la définition réglementaire de la zone {autoDetection.detected.zoning.zone}
-                            </summary>
-                            <div style={{ marginTop: 6, fontSize: 11.5, color: "rgba(11,27,58,0.75)", lineHeight: 1.55, padding: "6px 10px", background: "rgba(255,255,255,0.5)", borderRadius: 6 }}>
-                              {autoDetection.detected.zoning.definition}
-                            </div>
-                          </details>
-                        )}
-
-                        {/* Vocation urbanistique détectée — suggestion bienFamily */}
-                        {autoDetection.suggested.suggestedBienFamily &&
-                         autoDetection.suggested.suggestedBienFamily !== bienFamily && (
-                          <div style={{
-                            background: "rgba(59,130,246,0.06)",
-                            border: "1px solid rgba(59,130,246,0.30)",
-                            borderLeft: "4px solid #3b82f6",
-                            borderRadius: 10, padding: "10px 14px", marginBottom: 10,
-                            display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap",
-                          }}>
-                            <div style={{ flex: 1, minWidth: 200 }}>
-                              <div style={{ fontSize: 11.5, fontWeight: 800, color: "#1e40af", marginBottom: 3 }}>
-                                🏗 Vocation urbanistique détectée
-                              </div>
-                              <div style={{ fontSize: 12.5, color: "rgba(11,27,58,0.85)", lineHeight: 1.5 }}>
-                                Selon le zoning officiel, le terrain est destiné à : <strong>{autoDetection.suggested.suggestedBienFamily.replace("_", " ").toLowerCase()}</strong>.
-                                {autoDetection.suggested.suggestedBienFamilyReason && (
-                                  <span style={{ display: "block", fontSize: 11.5, color: "rgba(11,27,58,0.65)", fontStyle: "italic", marginTop: 3 }}>
-                                    {autoDetection.suggested.suggestedBienFamilyReason}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                            <button
-                              type="button"
-                              onClick={() => setBienFamily(autoDetection.suggested.suggestedBienFamily as BienFamily)}
-                              style={{
-                                padding: "8px 14px", borderRadius: 8,
-                                background: "#1e40af", color: "#fff", border: 0,
-                                fontSize: 12, fontWeight: 700, cursor: "pointer",
-                                fontFamily: "inherit", whiteSpace: "nowrap",
-                              }}
-                            >
-                              ✓ Appliquer
-                            </button>
-                          </div>
-                        )}
-
-                        {/* La fourchette — gros chiffre lisible */}
-                        <div style={{
-                          background: "linear-gradient(135deg, rgba(201,162,39,0.10), rgba(232,216,166,0.10))",
-                          border: "1px solid rgba(201,162,39,0.30)", borderRadius: 10,
-                          padding: "10px 14px", marginBottom: 10,
-                        }}>
-                          <div style={{ fontSize: 11, fontWeight: 800, color: "#C9A227", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 4 }}>
-                            Fourchette estimée pour {bienFamily.toLowerCase().replace("_", " ")}
-                          </div>
-                          <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 22, fontWeight: 800, color: "#0B1B3A" }}>
-                            {fmtMAD(autoDetection.suggested.priceRangeMinMAD).replace(" DH", "")} – {fmtMAD(autoDetection.suggested.priceRangeMaxMAD)}/m²
-                          </div>
-                          <div style={{ fontSize: 11.5, color: "rgba(11,27,58,0.65)", marginTop: 3 }}>
-                            Tier sélectionné : <strong>{autoDetection.suggested.zoneTier}</strong>
-                            {autoDetection.suggested.familyMultiplier !== 1.0 && (
-                              <span> · multiplicateur destination ×{autoDetection.suggested.familyMultiplier}</span>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Raisonnement transparent */}
-                        <details>
-                          <summary style={{ cursor: "pointer", fontSize: 11.5, fontWeight: 700, color: "rgba(11,27,58,0.70)" }}>
-                            Voir le raisonnement de la détection ({autoDetection.suggested.reasoning.length} étapes)
-                          </summary>
-                          <ol style={{ marginTop: 6, paddingLeft: 22, fontSize: 11.5, color: "rgba(11,27,58,0.75)", lineHeight: 1.65 }}>
-                            {autoDetection.suggested.reasoning.map((r, i) => <li key={i}>{r}</li>)}
-                          </ol>
-                        </details>
-
-                        {/* Sources officielles citées */}
-                        {(autoDetection.sources?.pa || autoDetection.sources?.dgi || (autoDetection.sources?.agences && autoDetection.sources.agences.length > 0)) && (
-                          <div style={{ marginTop: 10, paddingTop: 8, borderTop: "1px dashed rgba(11,27,58,0.15)", fontSize: 11.5, color: "rgba(11,27,58,0.70)" }}>
-                            <strong>Sources officielles :</strong>{" "}
-                            {autoDetection.sources?.pa && <span>{autoDetection.sources.pa.name} · </span>}
-                            {autoDetection.sources?.dgi?.fiches?.[0] && (
-                              <a href={autoDetection.sources.dgi.fiches[0].url} target="_blank" rel="noopener noreferrer" style={{ color: "#0B1B3A", fontWeight: 700, textDecoration: "underline" }}>
-                                Référentiel DGI {autoDetection.sources.dgi.name}
-                              </a>
-                            )}
-                            {autoDetection.sources?.agences && autoDetection.sources.agences[0] && (
-                              <> · <a href={autoDetection.sources.agences[0].geoportail} target="_blank" rel="noopener noreferrer" style={{ color: "#0B1B3A", fontWeight: 700, textDecoration: "underline" }}>{autoDetection.sources.agences[0].code} géoportail</a></>
-                            )}
-                          </div>
-                        )}
-
-                        {zoneTierManuallySet && (
-                          <div style={{ marginTop: 8, fontSize: 11.5, fontStyle: "italic", color: "#92400e" }}>
-                            ⚠ Vous avez ajusté manuellement le tier — la fourchette détectée n'est plus appliquée. <button type="button" onClick={() => { setZoneTierManuallySet(false); if (autoDetection.suggested?.zoneTier) setZoneTier(autoDetection.suggested.zoneTier); }} style={{ background: "none", border: 0, color: "#0B1B3A", fontWeight: 700, textDecoration: "underline", cursor: "pointer", padding: 0, fontSize: 11.5 }}>Rétablir la détection auto</button>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                <div style={{
+                  padding: "16px 18px",
+                  background: "linear-gradient(135deg, rgba(11,27,58,0.04), rgba(201,162,39,0.06))",
+                  border: "1px solid rgba(201,162,39,0.30)",
+                  borderLeft: "4px solid #C9A227",
+                  borderRadius: 12,
+                  fontSize: 13, color: "rgba(11,27,58,0.85)", lineHeight: 1.65,
+                }}>
+                  <div style={{ fontWeight: 800, color: "#0B1B3A", marginBottom: 6, display: "flex", alignItems: "center", gap: 8 }}>
+                    🔒 Estimation urbanistique + fourchette DGI/ANCFCC réservées
                   </div>
-                )}
-
-                <select className="control" value={zoneTier} onChange={(e) => { setZoneTier(e.target.value as ZoneTier); setZoneTierManuallySet(true); }}>
-                  <option value="RURAL">Rural / agricole / industriel — 500 à 2 500 DH/m² (douars, communes rurales, zones d'activité)</option>
-                  <option value="PERIPHERIE">Périphérie économique — 1 500 à 4 000 DH/m² (Akkari, Hay Hassani, Branes Tanger, Sidi Bernoussi, périph. Fès/Meknès)</option>
-                  <option value="VILLE_MOYENNE">Résidentiel standard — 3 000 à 7 000 DH/m² (Témara, Bouskoura, Aviation Rabat, Targa Marrakech, Dar Bouazza, Kénitra centre)</option>
-                  <option value="URBAIN">Résidentiel intermédiaire — 5 000 à 10 000 DH/m² (Souissi standard, OLM, Sidi Maarouf, Hivernage entrée, Malabata, Founty)</option>
-                  <option value="BON_QUARTIER">Résidentiel confort — 8 000 à 14 000 DH/m² (Hay Riad, Agdal résidentiel villa, Maarif/CIL, Gueliz, Mdiq, Tétouan centre)</option>
-                  <option value="PREMIUM">Premium villa — 12 000 à 22 000 DH/m² (Souissi haut/Ambassadeurs, Anfa résidentiel villa, Gauthier, Marina Tanger, Cabo Negro)</option>
-                  <option value="PRESTIGE">Prestige — 20 000 à 35 000 DH/m² (Haut Agdal immeuble, Ain Diab villa, Racine immeuble Casa, Hassan immeuble premium)</option>
-                  <option value="ULTRA">Ultra-prime — 30 000 à 50 000 DH/m² (Anfa Supérieur immeuble, Bd d'Anfa, CFC, Ain Diab front mer immeuble)</option>
-                </select>
-                <div className="muted" style={{ fontSize: 11.5, marginTop: 6, fontStyle: "italic", lineHeight: 1.55 }}>
-                  Les fourchettes affichées sont calibrées sur le <strong>terrain villa</strong>.
-                  Si vous avez sélectionné un <strong>petit collectif</strong> (×1,4) ou un
-                  <strong> grand collectif R+5 et plus</strong> (×1,6), un multiplicateur destination
-                  s'applique automatiquement — un terrain pour immeuble en hauteur capte la rente
-                  du COS et se vend plus cher au m² (ex. Agdal villa ~14k vs Agdal immeuble ~25k).
-                </div>
-              </div>
-            </div>
-
-            {/* Bandeau explicite sur la source des fourchettes de prix */}
-            <div style={{
-              marginTop: 16, padding: "12px 16px",
-              background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.30)",
-              borderLeft: "4px solid #f59e0b", borderRadius: 10,
-              fontSize: 12.5, color: "rgba(11,27,58,0.85)", lineHeight: 1.6,
-            }}>
-              <strong>Fourchettes recalibrées 2025-2026 — sources croisées :</strong>
-              {" "}
-              <a href="https://portail.tax.gov.ma/wps/portal/DGI/Referentiels-des-prix-de-l_immobilier/" target="_blank" rel="noopener noreferrer" style={{ color: "#0B1B3A", fontWeight: 700, textDecoration: "underline" }}>Référentiel DGI</a> (officiel droits d'enregistrement),{" "}
-              <a href="https://www.ancfcc.gov.ma/valeursvenales" target="_blank" rel="noopener noreferrer" style={{ color: "#0B1B3A", fontWeight: 700, textDecoration: "underline" }}>ANCFCC Valeurs Vénales</a>,{" "}
-              <a href="https://www.bkam.ma/fr/content/download/834997/9078446/IPAI%20T3-2025.pdf" target="_blank" rel="noopener noreferrer" style={{ color: "#0B1B3A", fontWeight: 700, textDecoration: "underline" }}>IPAI BAM T3-2025</a>,
-              {" "}plateformes marché (Yakeey, Agenz, Mubawab, Avito), analyses 2025 (Aykana Souissi, Sefiani Agdal, KNA Marrakech).
-              {" "}<strong>Les valeurs sont alignées sur le terrain villa</strong> — un multiplicateur destination
-              automatique (×1,4 à ×1,8) s'applique pour les terrains à immeuble en hauteur, conformément à la
-              rente du COS observée par l'ANCFCC. Le rapport final croise ces sources avec le référentiel DGI
-              de la commune concernée.
-            </div>
-
-            {/* Option expert : « je connais déjà les valeurs » */}
-            <div style={{ marginTop: 22, padding: "14px 18px", background: "rgba(11,27,58,0.04)", border: "1px solid rgba(11,27,58,0.10)", borderRadius: 12 }}>
-              <label style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer", fontSize: 13.5, color: "#0B1B3A", fontWeight: 600 }}>
-                <input type="checkbox" checked={knowsValues} onChange={(e) => setKnowsValues(e.target.checked)} style={{ width: 16, height: 16, accentColor: "#C9A227" }} />
-                Je connais déjà les valeurs financières — les renseigner manuellement (optionnel)
-              </label>
-              {knowsValues && (
-                <div className="form-grid" style={{ marginTop: 14 }}>
-                  <div className="field">
-                    <label className="label">Prix foncier (MAD)</label>
-                    <input className="control" type="number" min={0} value={prixFoncier}
-                      onChange={(e) => setPrixFoncier(e.target.value)} placeholder="ex. 2 500 000" />
-                  </div>
-                  <div className="field">
-                    <label className="label">Coût construction (MAD)</label>
-                    <input className="control" type="number" min={0} value={coutConstruction}
-                      onChange={(e) => setCoutConstruction(e.target.value)} placeholder="ex. 8 000 000" />
-                  </div>
-                  <div className="field">
-                    <label className="label">Investissement total (MAD)</label>
-                    <input className="control" type="number" min={0} value={montantInvest}
-                      onChange={(e) => setMontantInvest(e.target.value)} placeholder="auto = foncier + construction + 10 %" />
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Aperçu en transparence — estimation sommaire interne + devis pré-calculé */}
-            {preview && preview.estimation && (
-              <div className="lux-card" style={{ marginTop: 24 }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 14, marginBottom: 14 }}>
                   <div>
-                    <div className="eyebrow" style={{ marginBottom: 4 }}>Estimation sommaire interne · transparence</div>
-                    <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 20, fontWeight: 700, color: "#0B1B3A" }}>
-                      Aperçu — pas encore le rapport final
+                    Pour des raisons de protection des données et de qualité d'expertise, les
+                    informations suivantes ne s'affichent qu'<strong>après création de votre compte</strong>
+                    {" "}(validation email + SMS) :
+                    <ul style={{ margin: "6px 0 0 22px", padding: 0, lineHeight: 1.8 }}>
+                      <li>Détection automatique du zonage urbanistique depuis le Plan d'Aménagement</li>
+                      <li>Référentiel DGI officiel par voie et destination (terrain, villa, immeuble)</li>
+                      <li>Référentiel ANCFCC valeurs vénales par zone</li>
+                      <li>Fourchette de prix marché ajustée à votre projet</li>
+                      <li>Devis personnalisé du rapport d'expertise</li>
+                    </ul>
+                    <div style={{ marginTop: 8, fontSize: 11.5, color: "rgba(11,27,58,0.65)", fontStyle: "italic" }}>
+                      Création gratuite — vos données projet restent confidentielles, conformes à la loi 09-08.
                     </div>
                   </div>
-                  <div style={{ background: "rgba(201,162,39,0.10)", border: "1px solid rgba(201,162,39,0.32)", borderRadius: 12, padding: "10px 16px", textAlign: "right" }}>
-                    <div className="muted" style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>Devis rapport</div>
-                    <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 26, fontWeight: 800, color: "#0B1B3A", lineHeight: 1 }}>
-                      {fmtMAD(preview.amounts?.totalTTC)}
-                    </div>
-                    <div className="muted" style={{ fontSize: 11, marginTop: 3 }}>TTC · livré sous {preview.meta?.deliveryDays} j</div>
-                  </div>
-                </div>
-                <div className="qrow"><span className="k">Prix foncier estimé</span><span className="v">{fmtMAD(preview.estimation.prixFoncierMAD)}</span></div>
-                <div className="qrow"><span className="k">Coût de construction estimé</span><span className="v">{fmtMAD(preview.estimation.coutConstructionMAD)}</span></div>
-                <div className="qrow"><span className="k">Surface plancher estimée</span><span className="v">{preview.estimation.surfacePlancherEstimee?.toLocaleString("fr-FR") || "—"} m²</span></div>
-                <div className="qrow"><span className="k">Montant total d'investissement</span><span className="v">{fmtMAD(preview.estimation.montantInvestissementMAD)}</span></div>
-                {preview.estimation.hypotheses?.length > 0 && (
-                  <details style={{ marginTop: 12 }}>
-                    <summary style={{ cursor: "pointer", fontSize: 12, fontWeight: 700, color: "rgba(11,27,58,0.7)" }}>
-                      Voir les hypothèses du calcul ({preview.estimation.hypotheses.length})
-                    </summary>
-                    <div className="muted" style={{ fontSize: 12, lineHeight: 1.65, marginTop: 8 }}>
-                      {preview.estimation.hypotheses.map((h: string, i: number) => <div key={i}>• {h}</div>)}
-                    </div>
-                  </details>
-                )}
-                <div className="muted" style={{ fontSize: 11.5, fontStyle: "italic", marginTop: 12, paddingTop: 10, borderTop: "1px dashed rgba(11,27,58,0.15)" }}>
-                  Ces chiffres sont une estimation indicative — le rapport final les affinera
-                  précisément après visite terrain et étude marché localisée.
                 </div>
               </div>
-            )}
-            {previewBusy && (
-              <div className="muted" style={{ fontSize: 12, marginTop: 12, fontStyle: "italic" }}>Calcul de l'estimation…</div>
-            )}
-
-            <div className="mini-note" style={{ marginTop: 18 }}>
-              <strong>Comment est calculé votre devis ?</strong>{" "}
-              {reportType === "ESTIMATION_EXPRESS" && "Forfait fixe 990 DH HT — pas de visite, livré sous 48h. Accessible à tous (succession, partage, négociation, simple curiosité)."}
-              {reportType === "EXPERTISE_PRIX" && "Tranches dégressives sur le prix foncier : 0,5 % jusqu'à 500 000 DH, puis 0,4 % jusqu'à 2 M DH, 0,3 % jusqu'à 10 M DH, 0,2 % au-delà. Plancher 1 500 DH HT — opposable bancairement."}
-              {reportType === "EXPERTISE_URBA" && "Tranches dégressives sur le coût de construction : 0,5 % jusqu'à 500 000 DH, puis 0,4 % jusqu'à 5 M DH, 0,3 % jusqu'à 50 M DH, 0,2 % au-delà. Plancher 2 500 DH HT."}
-              {reportType === "READY_TO_INVEST" && "Tranches dégressives sur l'investissement total : 0,5 % jusqu'à 5 M DH, puis 0,3 % jusqu'à 50 M DH, 0,2 % jusqu'à 200 M DH, 0,15 % au-delà. Plancher 15 000 DH HT — co-signé architecte + expert."}
-              {" "}Modulable par le délai souhaité à l'étape suivante.
             </div>
 
             {error && phase === "details" && <div className="err">⚠ {error}</div>}
@@ -1478,6 +1135,7 @@ function P5HomeInner() {
           </div>
         </section>
       )}
+
 
       {/* BLOC 4 — DÉLAI */}
       {reached("delay") && (
