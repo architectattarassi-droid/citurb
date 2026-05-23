@@ -9,14 +9,29 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.P5PricingService = void 0;
 const common_1 = require("@nestjs/common");
 const ZONE_PRICE_MID = {
-    RURAL: 600,
-    PERIPHERIE: 1700,
-    VILLE_MOYENNE: 4000,
-    URBAIN: 7700,
-    BON_QUARTIER: 14000,
-    PREMIUM: 24000,
-    PRESTIGE: 40000,
-    ULTRA: 65000,
+    RURAL: 1200,
+    PERIPHERIE: 2800,
+    VILLE_MOYENNE: 5000,
+    URBAIN: 7500,
+    BON_QUARTIER: 11000,
+    PREMIUM: 17000,
+    PRESTIGE: 27500,
+    ULTRA: 40000,
+};
+/**
+ * Multiplicateur destination foncier — un terrain pour immeuble en hauteur capte
+ * la rente du COS, donc se vend plus cher au m² qu'un terrain villa dans le même
+ * quartier. Calibré sur les écarts observés Rabat Agdal villa 14k vs imm. 25k
+ * et Casa Anfa villa 25k vs imm. 40k.
+ */
+const FONCIER_MULTIPLIER_BY_FAMILY = {
+    TERRAIN_NU: 1.0, // hypothèse villa par défaut
+    VILLA: 1.0, // R / R+1 / R+2 — COS ≤ 0,6
+    PETIT_COLLECTIF: 1.4, // R+1 à R+4 — COS 1-2
+    GRAND_COLLECTIF: 1.6, // R+5 et plus — COS 2-4
+    EQUIPEMENT: 1.2, // hôtel / école / clinique — souvent terrain commercial
+    AMENAGEMENT: 1.0, // rénovation — pas pertinent (pas d'achat foncier)
+    AUTRE: 1.0,
 };
 const STANDING_COST_M2 = {
     economique: 3250,
@@ -217,12 +232,18 @@ function estimateInternal(input) {
             hypotheses.push(`Surface plancher estimée à ${plancher.toLocaleString("fr-FR")} m² (emprise × niveaux × bâtiments).`);
         }
     }
-    // Prix foncier : utilise valeur fournie ou estime via terrain × prix moyen zone
+    // Prix foncier : utilise valeur fournie ou estime via terrain × prix zone × multiplicateur destination
+    // (un terrain pour immeuble R+5 capte la rente du COS → ~1,6x le prix villa du même quartier)
     let prixFoncier = Number(input.prixFoncierMAD || 0);
     if (prixFoncier <= 0 && terrain > 0) {
-        const pxM2 = ZONE_PRICE_MID[zone];
+        const pxM2Base = ZONE_PRICE_MID[zone];
+        const mult = FONCIER_MULTIPLIER_BY_FAMILY[family] ?? 1.0;
+        const pxM2 = Math.round(pxM2Base * mult);
         prixFoncier = Math.round(terrain * pxM2);
-        hypotheses.push(`Prix foncier estimé : ${terrain.toLocaleString("fr-FR")} m² × ${pxM2.toLocaleString("fr-FR")} DH/m² (zone ${zone}) = ${prixFoncier.toLocaleString("fr-FR")} DH.`);
+        const multLabel = mult === 1.0
+            ? ""
+            : ` × ${mult} (destination ${family.toLowerCase().replace("_", " ")})`;
+        hypotheses.push(`Prix foncier estimé : ${terrain.toLocaleString("fr-FR")} m² × ${pxM2Base.toLocaleString("fr-FR")} DH/m² (zone ${zone})${multLabel} = ${prixFoncier.toLocaleString("fr-FR")} DH.`);
     }
     // Coût construction : utilise valeur fournie ou estime via plancher × coût standing
     let coutConstruction = Number(input.coutConstructionMAD || 0);

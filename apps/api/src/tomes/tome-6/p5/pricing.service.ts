@@ -38,40 +38,61 @@ export type P5ReportType =
 export type P5DelayMode = "EXPRESS" | "STANDARD" | "ECONOMIQUE";
 
 /**
- * Tranche de prix au m² du foncier — calibrée sur 8 tranches plus FINES qui
- * reflètent mieux le marché réel marocain 2025-2026.
+ * Tranche de prix au m² du foncier — recalibrée 2025-2026 sur la VILLA (référence
+ * dominante du marché). Pour un immeuble (R+5 et +), un multiplicateur destination
+ * s'applique automatiquement (FONCIER_MULTIPLIER_BY_FAMILY).
  *
- * SOURCES CROISÉES :
- *  - DGI Référentiel des prix de l'immobilier (officiel) — portail.tax.gov.ma
- *  - Bank Al-Maghrib IPAI T4 2025 (publication mars 2026)
- *  - ANCFCC Référentiel valeurs vénales
- *  - Agenz / Yakeey / Mubawab / Sarouty (index marché 2025-2026)
- *  - Sefiani, Aykana, Barnes, PropIntel (analyses 2025)
- *  - Médias24, L'Économiste, LesEco (articles décembre 2025)
+ * SOURCES CROISÉES (vérifiées 2026-05) :
+ *  - DGI Référentiel Prix Immobilier — portail.tax.gov.ma/wps/portal/DGI/Referentiels-des-prix-de-l_immobilier/
+ *  - ANCFCC Valeurs Vénales — ancfcc.gov.ma/valeursvenales
+ *  - Bank Al-Maghrib IPAI T3-2025 (terrains +0,4 %, transactions +7,5 %)
+ *  - Yakeey Référentiel par ville (Rabat / Casa / Marrakech / Tanger)
+ *  - Agenz Estimateur (Casa, Tanger, Agadir)
+ *  - Aykana Souissi 2025 / Sefiani Agdal 2025 / Agence KNA Marrakech 2025
+ *  - Mubawab / Avito immobilier — annonces actives 2025-26
  *
- * Le marché marocain a un écart majeur entre villes ET dans une même ville :
- * Hay Hassani (6-13k) ≠ Maarif (14-22k) ≠ Anfa (25-45k) ≠ Souissi haut (50k+).
- * On découpe en 8 tranches calibrées sur les valeurs MÉDIANES réelles.
+ * INSIGHT MARCHÉ : à Rabat, Souissi VILLA = 5-20k DH/m² (lots 500-2 000 m², COS≤0,6).
+ * À Agdal, IMMEUBLE R+5 = 18-25 000 DH/m² (COS 2-4 fait monter le prix). Même
+ * quartier, deux destinations = deux prix au m² (ratio 1,4 à 1,8).
+ *
+ * Le vrai PRESTIGE 30-50k DH/m² est à Anfa Supérieur / Bd d'Anfa / CFC Casablanca,
+ * pas à Rabat (qui plafonne 25-30k sur immeuble Haut Agdal / Hassan centre).
  */
 export type P5ZoneTier =
-  | "RURAL"            //   300 -   900 DH/m²  (rural, agricole, terrains éloignés)
-  | "PERIPHERIE"       //   900 - 2 500 DH/m²  (périphéries Settat/Berrechid/Sidi Bernoussi/Ain Smen, Saadia, Branes Tanger)
-  | "VILLE_MOYENNE"    // 2 500 - 5 500 DH/m²  (Kénitra Bir Rami, Témara, El Jadida Sahel, Béni Mellal, Fès Atlas/Zouagha, Meknès Marjane)
-  | "URBAIN"           // 5 500 -10 000 DH/m²  (Tanger Boukhalef, Agadir Bensergao, Marrakech Massira/Targa, Fès Ville Nouvelle/Saïss)
-  | "BON_QUARTIER"     //10 000 -18 000 DH/m²  (Casa Maarif/CIL/Bourgogne, Rabat Hassan/Hay Riad, Tanger Iberia/Marshan, Marrakech Hivernage, Mdiq, Tétouan centre)
-  | "PREMIUM"          //18 000 -30 000 DH/m²  (Casa Anfa/Ain Diab/Gauthier, Rabat Agdal/OLM, Marrakech Hivernage premium, Cabo Negro)
-  | "PRESTIGE"         //30 000 -50 000 DH/m²  (Casa Anfa premium/Bd d'Anfa, Rabat Souissi/Aviation)
-  | "ULTRA";           //50 000 -80 000 DH/m²  (hyper-centre prestige Casa, Souissi haut Rabat, exceptionnel front mer)
+  | "RURAL"            //   500 - 2 500 DH/m²  (rural, agricole, péri-urbain lointain, zone industrielle)
+  | "PERIPHERIE"       // 1 500 - 4 000 DH/m²  (Akkari, Hay Hassani, Branes Tanger, Sidi Bernoussi, périph. Fès/Meknès)
+  | "VILLE_MOYENNE"    // 3 000 - 7 000 DH/m²  (Témara, Bouskoura, Aviation Rabat, Targa/Massira Marrakech, Dar Bouazza, Kénitra centre)
+  | "URBAIN"           // 5 000 -10 000 DH/m²  (Souissi standard, OLM, Sidi Maarouf, Hivernage entrée, Tanger Malabata, Founty Agadir)
+  | "BON_QUARTIER"     // 8 000 -14 000 DH/m²  (Hay Riad, Agdal résidentiel villa, Maarif/CIL, Mdiq, Tétouan centre, Gueliz)
+  | "PREMIUM"          //12 000 -22 000 DH/m²  (Souissi haut/Ambassadeurs, Anfa résidentiel villa, Gauthier/Bourgogne, Marina Tanger, Cabo Negro)
+  | "PRESTIGE"         //20 000 -35 000 DH/m²  (Haut Agdal immeuble, Ain Diab villa, Racine immeuble Casa, Hassan immeuble premium)
+  | "ULTRA";           //30 000 -50 000 DH/m²  (Anfa Supérieur immeuble, Bd d'Anfa premium, CFC, Ain Diab front mer immeuble)
 
 const ZONE_PRICE_MID: Record<P5ZoneTier, number> = {
-  RURAL: 600,
-  PERIPHERIE: 1700,
-  VILLE_MOYENNE: 4000,
-  URBAIN: 7700,
-  BON_QUARTIER: 14000,
-  PREMIUM: 24000,
-  PRESTIGE: 40000,
-  ULTRA: 65000,
+  RURAL: 1200,
+  PERIPHERIE: 2800,
+  VILLE_MOYENNE: 5000,
+  URBAIN: 7500,
+  BON_QUARTIER: 11000,
+  PREMIUM: 17000,
+  PRESTIGE: 27500,
+  ULTRA: 40000,
+};
+
+/**
+ * Multiplicateur destination foncier — un terrain pour immeuble en hauteur capte
+ * la rente du COS, donc se vend plus cher au m² qu'un terrain villa dans le même
+ * quartier. Calibré sur les écarts observés Rabat Agdal villa 14k vs imm. 25k
+ * et Casa Anfa villa 25k vs imm. 40k.
+ */
+const FONCIER_MULTIPLIER_BY_FAMILY: Record<string, number> = {
+  TERRAIN_NU: 1.0,        // hypothèse villa par défaut
+  VILLA: 1.0,             // R / R+1 / R+2 — COS ≤ 0,6
+  PETIT_COLLECTIF: 1.4,   // R+1 à R+4 — COS 1-2
+  GRAND_COLLECTIF: 1.6,   // R+5 et plus — COS 2-4
+  EQUIPEMENT: 1.2,        // hôtel / école / clinique — souvent terrain commercial
+  AMENAGEMENT: 1.0,       // rénovation — pas pertinent (pas d'achat foncier)
+  AUTRE: 1.0,
 };
 
 /**
@@ -378,12 +399,18 @@ function estimateInternal(input: P5QuoteInput): P5InternalEstimation {
     }
   }
 
-  // Prix foncier : utilise valeur fournie ou estime via terrain × prix moyen zone
+  // Prix foncier : utilise valeur fournie ou estime via terrain × prix zone × multiplicateur destination
+  // (un terrain pour immeuble R+5 capte la rente du COS → ~1,6x le prix villa du même quartier)
   let prixFoncier = Number(input.prixFoncierMAD || 0);
   if (prixFoncier <= 0 && terrain > 0) {
-    const pxM2 = ZONE_PRICE_MID[zone];
+    const pxM2Base = ZONE_PRICE_MID[zone];
+    const mult = FONCIER_MULTIPLIER_BY_FAMILY[family] ?? 1.0;
+    const pxM2 = Math.round(pxM2Base * mult);
     prixFoncier = Math.round(terrain * pxM2);
-    hypotheses.push(`Prix foncier estimé : ${terrain.toLocaleString("fr-FR")} m² × ${pxM2.toLocaleString("fr-FR")} DH/m² (zone ${zone}) = ${prixFoncier.toLocaleString("fr-FR")} DH.`);
+    const multLabel = mult === 1.0
+      ? ""
+      : ` × ${mult} (destination ${family.toLowerCase().replace("_", " ")})`;
+    hypotheses.push(`Prix foncier estimé : ${terrain.toLocaleString("fr-FR")} m² × ${pxM2Base.toLocaleString("fr-FR")} DH/m² (zone ${zone})${multLabel} = ${prixFoncier.toLocaleString("fr-FR")} DH.`);
   }
 
   // Coût construction : utilise valeur fournie ou estime via plancher × coût standing

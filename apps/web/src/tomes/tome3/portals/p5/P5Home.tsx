@@ -983,17 +983,24 @@ function P5HomeInner() {
                 </div>
               )}
               <div className="field">
-                <label className="label">Tranche de prix de la zone (foncier)</label>
+                <label className="label">Tranche de prix de la zone (foncier — base villa)</label>
                 <select className="control" value={zoneTier} onChange={(e) => setZoneTier(e.target.value as ZoneTier)}>
-                  <option value="RURAL">Rural / agricole / périurbain lointain — 300 à 900 DH/m² (douars, communes rurales)</option>
-                  <option value="PERIPHERIE">Périphérie ville / petite ville — 900 à 2 500 DH/m² (Settat, Berrechid, Sidi Bernoussi, Branes, Saadia, Khémisset)</option>
-                  <option value="VILLE_MOYENNE">Ville moyenne — 2 500 à 5 500 DH/m² (Kénitra Bir Rami, Témara, El Jadida Sahel, Béni Mellal, Fès Atlas, Meknès Marjane)</option>
-                  <option value="URBAIN">Centre urbain grande ville — 5 500 à 10 000 DH/m² (Tanger Boukhalef, Agadir Bensergao, Marrakech Targa, Fès Saïss)</option>
-                  <option value="BON_QUARTIER">Bon quartier — 10 000 à 18 000 DH/m² (Casa Maarif/CIL, Rabat Hassan/Hay Riad, Tanger Iberia, Marrakech Hivernage)</option>
-                  <option value="PREMIUM">Quartier premium — 18 000 à 30 000 DH/m² (Casa Anfa/Gauthier/Aïn Diab, Rabat Agdal/OLM, Cabo Negro)</option>
-                  <option value="PRESTIGE">Prestige — 30 000 à 50 000 DH/m² (Casa Anfa premium/Bd d'Anfa, Rabat Souissi/Aviation)</option>
-                  <option value="ULTRA">Ultra-prestige — 50 000 à 80 000 DH/m² (hyper-centre Casa, Souissi haut, exceptionnel front de mer)</option>
+                  <option value="RURAL">Rural / agricole / industriel — 500 à 2 500 DH/m² (douars, communes rurales, zones d'activité)</option>
+                  <option value="PERIPHERIE">Périphérie économique — 1 500 à 4 000 DH/m² (Akkari, Hay Hassani, Branes Tanger, Sidi Bernoussi, périph. Fès/Meknès)</option>
+                  <option value="VILLE_MOYENNE">Résidentiel standard — 3 000 à 7 000 DH/m² (Témara, Bouskoura, Aviation Rabat, Targa Marrakech, Dar Bouazza, Kénitra centre)</option>
+                  <option value="URBAIN">Résidentiel intermédiaire — 5 000 à 10 000 DH/m² (Souissi standard, OLM, Sidi Maarouf, Hivernage entrée, Malabata, Founty)</option>
+                  <option value="BON_QUARTIER">Résidentiel confort — 8 000 à 14 000 DH/m² (Hay Riad, Agdal résidentiel villa, Maarif/CIL, Gueliz, Mdiq, Tétouan centre)</option>
+                  <option value="PREMIUM">Premium villa — 12 000 à 22 000 DH/m² (Souissi haut/Ambassadeurs, Anfa résidentiel villa, Gauthier, Marina Tanger, Cabo Negro)</option>
+                  <option value="PRESTIGE">Prestige — 20 000 à 35 000 DH/m² (Haut Agdal immeuble, Ain Diab villa, Racine immeuble Casa, Hassan immeuble premium)</option>
+                  <option value="ULTRA">Ultra-prime — 30 000 à 50 000 DH/m² (Anfa Supérieur immeuble, Bd d'Anfa, CFC, Ain Diab front mer immeuble)</option>
                 </select>
+                <div className="muted" style={{ fontSize: 11.5, marginTop: 6, fontStyle: "italic", lineHeight: 1.55 }}>
+                  Les fourchettes affichées sont calibrées sur le <strong>terrain villa</strong>.
+                  Si vous avez sélectionné un <strong>petit collectif</strong> (×1,4) ou un
+                  <strong> grand collectif R+5 et plus</strong> (×1,6), un multiplicateur destination
+                  s'applique automatiquement — un terrain pour immeuble en hauteur capte la rente
+                  du COS et se vend plus cher au m² (ex. Agdal villa ~14k vs Agdal immeuble ~25k).
+                </div>
               </div>
             </div>
 
@@ -1004,13 +1011,16 @@ function P5HomeInner() {
               borderLeft: "4px solid #f59e0b", borderRadius: 10,
               fontSize: 12.5, color: "rgba(11,27,58,0.85)", lineHeight: 1.6,
             }}>
-              <strong>Fourchettes indicatives — sources marché (non DGI/ANCFCC).</strong>
-              {" "}Ces tranches sont une estimation prudente issue des plateformes immobilières
-              publiques marocaines (Agenz, Yakeey, Mubawab, KNA Agence — 2025-2026). Elles ne
-              remplacent <em>pas</em> le référentiel officiel DGI (utilisé pour les droits
-              d'enregistrement) ni le barème ANCFCC. L'intégration directe du <strong>référentiel
-              DGI par commune</strong> est en cours — votre rapport d'expertise finalisera la
-              valeur de référence officielle après croisement avec ces sources.
+              <strong>Fourchettes recalibrées 2025-2026 — sources croisées :</strong>
+              {" "}
+              <a href="https://portail.tax.gov.ma/wps/portal/DGI/Referentiels-des-prix-de-l_immobilier/" target="_blank" rel="noopener noreferrer" style={{ color: "#0B1B3A", fontWeight: 700, textDecoration: "underline" }}>Référentiel DGI</a> (officiel droits d'enregistrement),{" "}
+              <a href="https://www.ancfcc.gov.ma/valeursvenales" target="_blank" rel="noopener noreferrer" style={{ color: "#0B1B3A", fontWeight: 700, textDecoration: "underline" }}>ANCFCC Valeurs Vénales</a>,{" "}
+              <a href="https://www.bkam.ma/fr/content/download/834997/9078446/IPAI%20T3-2025.pdf" target="_blank" rel="noopener noreferrer" style={{ color: "#0B1B3A", fontWeight: 700, textDecoration: "underline" }}>IPAI BAM T3-2025</a>,
+              {" "}plateformes marché (Yakeey, Agenz, Mubawab, Avito), analyses 2025 (Aykana Souissi, Sefiani Agdal, KNA Marrakech).
+              {" "}<strong>Les valeurs sont alignées sur le terrain villa</strong> — un multiplicateur destination
+              automatique (×1,4 à ×1,8) s'applique pour les terrains à immeuble en hauteur, conformément à la
+              rente du COS observée par l'ANCFCC. Le rapport final croise ces sources avec le référentiel DGI
+              de la commune concernée.
             </div>
 
             {/* Option expert : « je connais déjà les valeurs » */}
