@@ -42,9 +42,14 @@ export const ROUTE_USAGES = [
     "line": 26
   },
   {
-    "route": "/",
+    "route": "/cercles",
     "file": "src/ui/landing/DoorsSection.tsx",
     "line": 62
+  },
+  {
+    "route": "/",
+    "file": "src/ui/landing/DoorsSection.tsx",
+    "line": 65
   },
   {
     "route": "/login",
@@ -112,7 +117,7 @@ export const ROUTE_USAGES = [
     "line": 751
   },
   {
-    "route": "/login",
+    "route": "/creer-compte",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 752
   },
@@ -227,6 +232,31 @@ export const ROUTE_USAGES = [
     "line": 27
   },
   {
+    "route": "/",
+    "file": "src/tomes/tome5/pages/AccountTypeChooser.tsx",
+    "line": 25
+  },
+  {
+    "route": "/inscription",
+    "file": "src/tomes/tome5/pages/AccountTypeChooser.tsx",
+    "line": 31
+  },
+  {
+    "route": "/login",
+    "file": "src/tomes/tome5/pages/AccountTypeChooser.tsx",
+    "line": 55
+  },
+  {
+    "route": "/creer-compte",
+    "file": "src/tomes/tome5/pages/ClientSignup.tsx",
+    "line": 114
+  },
+  {
+    "route": "/login",
+    "file": "src/tomes/tome5/pages/ClientSignup.tsx",
+    "line": 212
+  },
+  {
     "route": "/login",
     "file": "src/tomes/tome5/pages/Forbidden.tsx",
     "line": 15
@@ -237,14 +267,34 @@ export const ROUTE_USAGES = [
     "line": 16
   },
   {
-    "route": "/",
-    "file": "src/tomes/tome5/pages/Login.tsx",
-    "line": 50
+    "route": "/login",
+    "file": "src/tomes/tome5/pages/ForgotPassword.tsx",
+    "line": 87
   },
   {
-    "route": "/auth/signup",
+    "route": "/login",
+    "file": "src/tomes/tome5/pages/ForgotPassword.tsx",
+    "line": 146
+  },
+  {
+    "route": "/",
     "file": "src/tomes/tome5/pages/Login.tsx",
-    "line": 168
+    "line": 71
+  },
+  {
+    "route": "/mot-de-passe-oublie",
+    "file": "src/tomes/tome5/pages/Login.tsx",
+    "line": 184
+  },
+  {
+    "route": "/cercles",
+    "file": "src/tomes/tome5/pages/Login.tsx",
+    "line": 39
+  },
+  {
+    "route": "/p1/packs",
+    "file": "src/tomes/tome5/pages/Login.tsx",
+    "line": 44
   },
   {
     "route": "/",
@@ -282,9 +332,14 @@ export const ROUTE_USAGES = [
     "line": 16
   },
   {
+    "route": "/p1",
+    "file": "src/tomes/tome5/components/ClientProfileBanner.tsx",
+    "line": 62
+  },
+  {
     "route": "/cc/login",
     "file": "src/tomes/tome4/apiClient.ts",
-    "line": 89
+    "line": 96
   },
   {
     "route": "/portal",
@@ -322,19 +377,59 @@ export const ROUTE_USAGES = [
     "line": 233
   },
   {
+    "route": "/creer-compte/client",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 27
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 33
+  },
+  {
+    "route": "/p5",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 40
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 96
+  },
+  {
+    "route": "/p5",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 106
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 107
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 94
+  },
+  {
+    "route": "/creer-compte/client",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 446
+  },
+  {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 220
+    "line": 561
   },
   {
     "route": "/",
     "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 221
+    "line": 562
   },
   {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 219
+    "line": 560
   },
   {
     "route": "/portal",
@@ -367,19 +462,74 @@ export const ROUTE_USAGES = [
     "line": 215
   },
   {
+    "route": "/creer-compte/client",
+    "file": "src/tomes/tome3/portals/p2/P2Finalize.tsx",
+    "line": 27
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p2/P2Finalize.tsx",
+    "line": 34
+  },
+  {
+    "route": "/p2",
+    "file": "src/tomes/tome3/portals/p2/P2Finalize.tsx",
+    "line": 41
+  },
+  {
+    "route": "/p5",
+    "file": "src/tomes/tome3/portals/p2/P2Finalize.tsx",
+    "line": 70
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p2/P2Finalize.tsx",
+    "line": 110
+  },
+  {
+    "route": "/p2",
+    "file": "src/tomes/tome3/portals/p2/P2Finalize.tsx",
+    "line": 120
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p2/P2Finalize.tsx",
+    "line": 121
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p2/P2Finalize.tsx",
+    "line": 106
+  },
+  {
+    "route": "/creer-compte/client",
+    "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
+    "line": 692
+  },
+  {
+    "route": "/p5",
+    "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
+    "line": 723
+  },
+  {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
-    "line": 293
+    "line": 812
   },
   {
     "route": "/",
     "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
-    "line": 294
+    "line": 813
+  },
+  {
+    "route": "/p1",
+    "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
+    "line": 1211
   },
   {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
-    "line": 292
+    "line": 811
   },
   {
     "route": "/p1",
@@ -414,32 +564,32 @@ export const ROUTE_USAGES = [
   {
     "route": "/login",
     "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
-    "line": 66
+    "line": 67
   },
   {
     "route": "/p1",
     "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
-    "line": 82
+    "line": 84
   },
   {
     "route": "/p1",
     "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
-    "line": 99
+    "line": 101
   },
   {
     "route": "/p1/dossier",
     "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
-    "line": 135
+    "line": 137
   },
   {
     "route": "/p1/dossier/phases",
     "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
-    "line": 138
+    "line": 140
   },
   {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
-    "line": 141
+    "line": 143
   },
   {
     "route": "/p1",
@@ -537,9 +687,29 @@ export const ROUTE_USAGES = [
     "line": 154
   },
   {
+    "route": "/cc/dashboard",
+    "file": "src/tomes/tome1/router/routes.tsx",
+    "line": 88
+  },
+  {
+    "route": "/",
+    "file": "src/tomes/tome1/router/routes.tsx",
+    "line": 115
+  },
+  {
+    "route": "/cc/dashboard",
+    "file": "src/tomes/tome1/router/routes.tsx",
+    "line": 128
+  },
+  {
     "route": "/admin/login",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 81
+    "line": 140
+  },
+  {
+    "route": "/cercles",
+    "file": "src/tomes/tome1/router/routes.tsx",
+    "line": 199
   },
   {
     "route": "/login",
@@ -569,42 +739,167 @@ export const ROUTE_USAGES = [
   {
     "route": "/cercles/",
     "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 130
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 135
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 141
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 149
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 230
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 451
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 452
+  },
+  {
+    "route": "/cercles",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 34
+  },
+  {
+    "route": "/login",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 37
+  },
+  {
+    "route": "/inscription",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 38
+  },
+  {
+    "route": "/cercles",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 59
+  },
+  {
+    "route": "/inscription",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 62
+  },
+  {
+    "route": "/login",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 63
+  },
+  {
+    "route": "/cercles/snasp-architectes-prive/rejoindre",
+    "file": "src/features/cercles/CerclesLanding.tsx",
     "line": 93
   },
   {
-    "route": "/cercles/",
-    "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 98
-  },
-  {
-    "route": "/cercles/",
-    "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 104
-  },
-  {
-    "route": "/cercles/",
-    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "route": "/cercles/anjaum-jeunes-architectes/rejoindre",
+    "file": "src/features/cercles/CerclesLanding.tsx",
     "line": 112
   },
   {
-    "route": "/cercles/",
-    "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 164
+    "route": "/cercles",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 196
   },
   {
-    "route": "/cercles/",
-    "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 337
+    "route": "/inscription",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 199
   },
   {
-    "route": "/cercles/",
-    "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 338
+    "route": "/login",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 200
+  },
+  {
+    "route": "/login",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 214
+  },
+  {
+    "route": "/inscription",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 215
+  },
+  {
+    "route": "/",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 103
+  },
+  {
+    "route": "/login",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 49
+  },
+  {
+    "route": "/p1",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 60
+  },
+  {
+    "route": "/login",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 68
+  },
+  {
+    "route": "/login",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 88
   },
   {
     "route": "/cercles/nouveau",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 46
+    "line": 134
+  },
+  {
+    "route": "/cercles/messages",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 137
+  },
+  {
+    "route": "/cercles/annuaire",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 145
+  },
+  {
+    "route": "/cercles/marketplace",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 148
+  },
+  {
+    "route": "/cercles",
+    "file": "src/features/cercles/DirectMessagesPage.tsx",
+    "line": 183
+  },
+  {
+    "route": "/cercles/annuaire",
+    "file": "src/features/cercles/DirectMessagesPage.tsx",
+    "line": 199
+  },
+  {
+    "route": "/cercles/messages",
+    "file": "src/features/cercles/DirectMessagesPage.tsx",
+    "line": 93
+  },
+  {
+    "route": "/cercles/messages/",
+    "file": "src/features/cercles/DirectMessagesPage.tsx",
+    "line": 89
   },
   {
     "route": "/cercles/profile/",
@@ -614,32 +909,37 @@ export const ROUTE_USAGES = [
   {
     "route": "/cercles/annuaire",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 68
+    "line": 219
   },
   {
     "route": "/cercles/annuaire",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 118
+    "line": 291
   },
   {
     "route": "/cercles/",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 56
+    "line": 134
+  },
+  {
+    "route": "/post/",
+    "file": "src/features/cercles/FeedHomePage.tsx",
+    "line": 233
   },
   {
     "route": "/cercles/",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 79
+    "line": 234
   },
   {
     "route": "/",
     "file": "src/features/cercles/InscriptionPage.tsx",
-    "line": 104
+    "line": 316
   },
   {
-    "route": "/cercles/",
+    "route": "/",
     "file": "src/features/cercles/InscriptionPage.tsx",
-    "line": 90
+    "line": 567
   },
   {
     "route": "/cercles/",
@@ -679,7 +979,77 @@ export const ROUTE_USAGES = [
   {
     "route": "/cercles/me/edit",
     "file": "src/features/cercles/ProfilePage.tsx",
-    "line": 174
+    "line": 183
+  },
+  {
+    "route": "/cercles/messages/new/",
+    "file": "src/features/cercles/ProfilePage.tsx",
+    "line": 188
+  },
+  {
+    "route": "/",
+    "file": "src/features/cercles/PublicPostPage.tsx",
+    "line": 50
+  },
+  {
+    "route": "/login",
+    "file": "src/features/cercles/PublicPostPage.tsx",
+    "line": 58
+  },
+  {
+    "route": "/inscription",
+    "file": "src/features/cercles/PublicPostPage.tsx",
+    "line": 59
+  },
+  {
+    "route": "/inscription",
+    "file": "src/features/cercles/PublicPostPage.tsx",
+    "line": 72
+  },
+  {
+    "route": "/inscription",
+    "file": "src/features/cercles/PublicPostPage.tsx",
+    "line": 145
+  },
+  {
+    "route": "/login",
+    "file": "src/features/cercles/PublicPostPage.tsx",
+    "line": 146
+  },
+  {
+    "route": "/cercles/marketplace/photos",
+    "file": "src/features/cercles/marketplace/MarketplacePage.tsx",
+    "line": 57
+  },
+  {
+    "route": "/cercles/mes-offres",
+    "file": "src/features/cercles/marketplace/MarketplacePage.tsx",
+    "line": 58
+  },
+  {
+    "route": "/cercles/marketplace",
+    "file": "src/features/cercles/marketplace/MarketplacePhotosPage.tsx",
+    "line": 69
+  },
+  {
+    "route": "/cercles/marketplace",
+    "file": "src/features/cercles/marketplace/MyOffersPage.tsx",
+    "line": 65
+  },
+  {
+    "route": "/cercles/marketplace",
+    "file": "src/features/cercles/marketplace/ProductDetailPage.tsx",
+    "line": 36
+  },
+  {
+    "route": "/cercles/mes-offres",
+    "file": "src/features/cercles/marketplace/ProductDetailPage.tsx",
+    "line": 69
+  },
+  {
+    "route": "/cercles/messages/new/",
+    "file": "src/features/cercles/marketplace/ProductDetailPage.tsx",
+    "line": 95
   },
   {
     "route": "/admin/users",
@@ -779,7 +1149,7 @@ export const ROUTE_USAGES = [
   {
     "route": "/cc/login",
     "file": "src/command-center/CommandCenterApp.tsx",
-    "line": 42
+    "line": 44
   },
   {
     "route": "/cc/dossiers",
@@ -805,6 +1175,11 @@ export const ROUTE_USAGES = [
     "route": "/cc/dossiers/",
     "file": "src/command-center/modules/leads/LeadsModule.tsx",
     "line": 212
+  },
+  {
+    "route": "/cercles/profile/",
+    "file": "src/command-center/modules/inscrits/InscritsModule.tsx",
+    "line": 328
   },
   {
     "route": "/cc/dossiers",
@@ -859,6 +1234,16 @@ export const UNKNOWN_ROUTE_USAGES = [
     "line": 44
   },
   {
+    "route": "/cercles",
+    "file": "src/ui/landing/DoorsSection.tsx",
+    "line": 62
+  },
+  {
+    "route": "/creer-compte",
+    "file": "src/ui/landing/LandingV4.tsx",
+    "line": 752
+  },
+  {
     "route": "/cc",
     "file": "src/ui/docs/DocsPage.tsx",
     "line": 221
@@ -874,9 +1259,29 @@ export const UNKNOWN_ROUTE_USAGES = [
     "line": 252
   },
   {
+    "route": "/inscription",
+    "file": "src/tomes/tome5/pages/AccountTypeChooser.tsx",
+    "line": 31
+  },
+  {
+    "route": "/creer-compte",
+    "file": "src/tomes/tome5/pages/ClientSignup.tsx",
+    "line": 114
+  },
+  {
+    "route": "/mot-de-passe-oublie",
+    "file": "src/tomes/tome5/pages/Login.tsx",
+    "line": 184
+  },
+  {
+    "route": "/cercles",
+    "file": "src/tomes/tome5/pages/Login.tsx",
+    "line": 39
+  },
+  {
     "route": "/cc/login",
     "file": "src/tomes/tome4/apiClient.ts",
-    "line": 89
+    "line": 96
   },
   {
     "route": "/portal",
@@ -889,14 +1294,44 @@ export const UNKNOWN_ROUTE_USAGES = [
     "line": 136
   },
   {
+    "route": "/creer-compte/client",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 27
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 33
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 96
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 107
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 94
+  },
+  {
+    "route": "/creer-compte/client",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 446
+  },
+  {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 220
+    "line": 561
   },
   {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 219
+    "line": 560
   },
   {
     "route": "/portal",
@@ -919,14 +1354,44 @@ export const UNKNOWN_ROUTE_USAGES = [
     "line": 215
   },
   {
+    "route": "/creer-compte/client",
+    "file": "src/tomes/tome3/portals/p2/P2Finalize.tsx",
+    "line": 27
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p2/P2Finalize.tsx",
+    "line": 34
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p2/P2Finalize.tsx",
+    "line": 110
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p2/P2Finalize.tsx",
+    "line": 121
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p2/P2Finalize.tsx",
+    "line": 106
+  },
+  {
+    "route": "/creer-compte/client",
+    "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
+    "line": 692
+  },
+  {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
-    "line": 293
+    "line": 812
   },
   {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
-    "line": 292
+    "line": 811
   },
   {
     "route": "/p1/dossier/phases",
@@ -936,12 +1401,12 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/p1/dossier/phases",
     "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
-    "line": 138
+    "line": 140
   },
   {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p1/P1MyDossiers.tsx",
-    "line": 141
+    "line": 143
   },
   {
     "route": "/verify-phone",
@@ -954,9 +1419,24 @@ export const UNKNOWN_ROUTE_USAGES = [
     "line": 32
   },
   {
+    "route": "/cc/dashboard",
+    "file": "src/tomes/tome1/router/routes.tsx",
+    "line": 88
+  },
+  {
+    "route": "/cc/dashboard",
+    "file": "src/tomes/tome1/router/routes.tsx",
+    "line": 128
+  },
+  {
     "route": "/admin/login",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 81
+    "line": 140
+  },
+  {
+    "route": "/cercles",
+    "file": "src/tomes/tome1/router/routes.tsx",
+    "line": 199
   },
   {
     "route": "/cercles/me/profile",
@@ -976,42 +1456,122 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/cercles/",
     "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 130
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 135
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 141
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 149
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 230
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 451
+  },
+  {
+    "route": "/cercles/",
+    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "line": 452
+  },
+  {
+    "route": "/cercles",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 34
+  },
+  {
+    "route": "/inscription",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 38
+  },
+  {
+    "route": "/cercles",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 59
+  },
+  {
+    "route": "/inscription",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 62
+  },
+  {
+    "route": "/cercles/snasp-architectes-prive/rejoindre",
+    "file": "src/features/cercles/CerclesLanding.tsx",
     "line": 93
   },
   {
-    "route": "/cercles/",
-    "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 98
-  },
-  {
-    "route": "/cercles/",
-    "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 104
-  },
-  {
-    "route": "/cercles/",
-    "file": "src/features/cercles/CercleDetailPage.tsx",
+    "route": "/cercles/anjaum-jeunes-architectes/rejoindre",
+    "file": "src/features/cercles/CerclesLanding.tsx",
     "line": 112
   },
   {
-    "route": "/cercles/",
-    "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 164
+    "route": "/cercles",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 196
   },
   {
-    "route": "/cercles/",
-    "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 337
+    "route": "/inscription",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 199
   },
   {
-    "route": "/cercles/",
-    "file": "src/features/cercles/CercleDetailPage.tsx",
-    "line": 338
+    "route": "/inscription",
+    "file": "src/features/cercles/CerclesLanding.tsx",
+    "line": 215
   },
   {
     "route": "/cercles/nouveau",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 46
+    "line": 134
+  },
+  {
+    "route": "/cercles/messages",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 137
+  },
+  {
+    "route": "/cercles/annuaire",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 145
+  },
+  {
+    "route": "/cercles/marketplace",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 148
+  },
+  {
+    "route": "/cercles",
+    "file": "src/features/cercles/DirectMessagesPage.tsx",
+    "line": 183
+  },
+  {
+    "route": "/cercles/annuaire",
+    "file": "src/features/cercles/DirectMessagesPage.tsx",
+    "line": 199
+  },
+  {
+    "route": "/cercles/messages",
+    "file": "src/features/cercles/DirectMessagesPage.tsx",
+    "line": 93
+  },
+  {
+    "route": "/cercles/messages/",
+    "file": "src/features/cercles/DirectMessagesPage.tsx",
+    "line": 89
   },
   {
     "route": "/cercles/profile/",
@@ -1021,27 +1581,27 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/cercles/annuaire",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 68
+    "line": 219
   },
   {
     "route": "/cercles/annuaire",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 118
+    "line": 291
   },
   {
     "route": "/cercles/",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 56
+    "line": 134
+  },
+  {
+    "route": "/post/",
+    "file": "src/features/cercles/FeedHomePage.tsx",
+    "line": 233
   },
   {
     "route": "/cercles/",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 79
-  },
-  {
-    "route": "/cercles/",
-    "file": "src/features/cercles/InscriptionPage.tsx",
-    "line": 90
+    "line": 234
   },
   {
     "route": "/cercles/",
@@ -1081,7 +1641,62 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/cercles/me/edit",
     "file": "src/features/cercles/ProfilePage.tsx",
-    "line": 174
+    "line": 183
+  },
+  {
+    "route": "/cercles/messages/new/",
+    "file": "src/features/cercles/ProfilePage.tsx",
+    "line": 188
+  },
+  {
+    "route": "/inscription",
+    "file": "src/features/cercles/PublicPostPage.tsx",
+    "line": 59
+  },
+  {
+    "route": "/inscription",
+    "file": "src/features/cercles/PublicPostPage.tsx",
+    "line": 72
+  },
+  {
+    "route": "/inscription",
+    "file": "src/features/cercles/PublicPostPage.tsx",
+    "line": 145
+  },
+  {
+    "route": "/cercles/marketplace/photos",
+    "file": "src/features/cercles/marketplace/MarketplacePage.tsx",
+    "line": 57
+  },
+  {
+    "route": "/cercles/mes-offres",
+    "file": "src/features/cercles/marketplace/MarketplacePage.tsx",
+    "line": 58
+  },
+  {
+    "route": "/cercles/marketplace",
+    "file": "src/features/cercles/marketplace/MarketplacePhotosPage.tsx",
+    "line": 69
+  },
+  {
+    "route": "/cercles/marketplace",
+    "file": "src/features/cercles/marketplace/MyOffersPage.tsx",
+    "line": 65
+  },
+  {
+    "route": "/cercles/marketplace",
+    "file": "src/features/cercles/marketplace/ProductDetailPage.tsx",
+    "line": 36
+  },
+  {
+    "route": "/cercles/mes-offres",
+    "file": "src/features/cercles/marketplace/ProductDetailPage.tsx",
+    "line": 69
+  },
+  {
+    "route": "/cercles/messages/new/",
+    "file": "src/features/cercles/marketplace/ProductDetailPage.tsx",
+    "line": 95
   },
   {
     "route": "/admin/users",
@@ -1181,7 +1796,7 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/cc/login",
     "file": "src/command-center/CommandCenterApp.tsx",
-    "line": 42
+    "line": 44
   },
   {
     "route": "/cc/dossiers",
@@ -1207,6 +1822,11 @@ export const UNKNOWN_ROUTE_USAGES = [
     "route": "/cc/dossiers/",
     "file": "src/command-center/modules/leads/LeadsModule.tsx",
     "line": 212
+  },
+  {
+    "route": "/cercles/profile/",
+    "file": "src/command-center/modules/inscrits/InscritsModule.tsx",
+    "line": 328
   },
   {
     "route": "/cc/dossiers",
@@ -1255,6 +1875,7 @@ export const UNKNOWN_ROUTE_USAGES = [
   }
 ] as const;
 export const UNUSED_DECLARED_ROUTES = [
+  "/auth/signup",
   "/p1/confirmation",
   "/p1/qualification",
   "/p1/offres",

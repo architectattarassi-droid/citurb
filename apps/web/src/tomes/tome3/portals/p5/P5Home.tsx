@@ -37,19 +37,29 @@ if (!proj4.defs("EPSG:26191")) {
 
 const P5_PENDING_KEY = "citurbarea:p5:pending_intake:v1";
 
-type ReportType = "EXPERTISE_PRIX" | "EXPERTISE_URBA" | "READY_TO_INVEST";
+type ReportType = "ESTIMATION_EXPRESS" | "EXPERTISE_PRIX" | "EXPERTISE_URBA" | "READY_TO_INVEST";
 type DelayMode = "EXPRESS" | "STANDARD" | "ECONOMIQUE";
 type Phase = "identity" | "report" | "details" | "delay";
 
+type PricingTier = { upTo: number | null; rate: number };
+type BreakdownItem = { from: number; to: number; rate: number; amount: number };
 type Quote = {
   ok: true;
   meta: {
     reportType: ReportType; reportLabel: string;
+    bankable?: boolean;
     delayMode: DelayMode; delayLabel: string; deliveryDays: number;
-    rate: number; assietteLabel: string; assietteMAD: number;
+    pricingModel?: "flat" | "tiers";
+    flatHT?: number | null;
+    tiers?: PricingTier[];
+    assietteLabel: string; assietteMAD: number;
     assietteSource?: "client" | "estimation_interne";
   };
-  base: { ratePercent: number; baseRawHT: number; minHT: number; minApplied: boolean; delayCoefficient: number; bundleDiscount: number };
+  base: {
+    baseRawHT: number; minHT: number; minApplied: boolean;
+    delayCoefficient: number; bundleDiscount: number;
+    breakdown?: BreakdownItem[];
+  };
   estimation?: {
     prixFoncierMAD: number; coutConstructionMAD: number; montantInvestissementMAD: number;
     surfacePlancherEstimee: number; hypotheses: string[];
@@ -62,19 +72,36 @@ type Quote = {
   notes: string[];
 };
 
-const REPORT_CARDS: { code: ReportType; category: string; title: string; sub: string; tagline: string; bullets: string[]; targets: string }[] = [
+const REPORT_CARDS: { code: ReportType; category: string; title: string; sub: string; tagline: string; bullets: string[]; targets: string; accessible?: boolean }[] = [
+  {
+    code: "ESTIMATION_EXPRESS",
+    category: "ESTIMATION EXPRESS",
+    title: "Estimation Express",
+    sub: "Avis de valeur rapide, sans visite, livré sous 48h.",
+    tagline: "Forfait fixe 990 DH HT · accessible à tous",
+    bullets: [
+      "Valeur estimée + fourchette ±10 %",
+      "3 à 5 comparables ventes récentes du quartier",
+      "Méthodologie comparables (sans déplacement)",
+      "PDF synthétique 4-6 pages",
+      "Idéal succession / partage / négociation",
+    ],
+    targets: "Particuliers · Successions · Décisions personnelles · Premier prix",
+    accessible: true,
+  },
   {
     code: "EXPERTISE_PRIX",
     category: "EXPERTISE PRIX",
     title: "Rapport Expertise Prix",
-    sub: "Valeur vénale fondée + étude comparée de marché.",
-    tagline: "1 % du prix foncier · min 6 000 DH HT",
+    sub: "Valeur vénale fondée + visite terrain + comparables.",
+    tagline: "Tranches dégressives 0,5 → 0,2 % · min 1 500 DH HT",
     bullets: [
       "Visite terrain + relevé du bien",
       "Étude comparée ≥ 3 références ventes",
       "Méthodologie documentée et opposable",
       "Fourchette + valeur centrale",
       "PDF signé numériquement (12-20 p)",
+      "✓ Opposable bancairement",
     ],
     targets: "Vendeurs / acquéreurs · Banques (garantie hypothécaire) · Successions",
   },
@@ -83,7 +110,7 @@ const REPORT_CARDS: { code: ReportType; category: string; title: string; sub: st
     category: "EXPERTISE URBANISTIQUE",
     title: "Rapport Expertise Urbanistique",
     sub: "Note RU + COS/CES/gabarit + scénarios de constructibilité.",
-    tagline: "0,5 % du coût de construction · min 7 500 DH HT",
+    tagline: "Tranches dégressives 0,5 → 0,2 % · min 2 500 DH HT",
     bullets: [
       "Note de renseignement urbanistique actualisée",
       "Analyse PA / PADD / SDAU",
@@ -98,7 +125,7 @@ const REPORT_CARDS: { code: ReportType; category: string; title: string; sub: st
     category: "READY-TO-INVEST · BP BANKABLE",
     title: "Rapport Complet Premium",
     sub: "Business Plan complet pour banques, fonds et family offices.",
-    tagline: "1 % du montant d'investissement · min 20 000 DH HT",
+    tagline: "Tranches dégressives 0,5 → 0,15 % · min 15 000 DH HT",
     bullets: [
       "Synthèse exécutive — recommandation investissement",
       "Foncier · Urba · Programme architectural",
@@ -172,7 +199,7 @@ function P5HomeInner() {
   // Le backend en déduit prix foncier, coût construction et montant invest pour l'assiette.
   type BienFamily = "TERRAIN_NU" | "VILLA" | "PETIT_COLLECTIF" | "GRAND_COLLECTIF" | "EQUIPEMENT" | "AMENAGEMENT" | "AUTRE";
   // 6 tranches calibrées marché Maroc 2025-2026
-  type ZoneTier = "RURAL" | "VILLE_MOYENNE" | "URBAIN" | "BON_QUARTIER" | "PREMIUM" | "ULTRA";
+  type ZoneTier = "RURAL" | "PERIPHERIE" | "VILLE_MOYENNE" | "URBAIN" | "BON_QUARTIER" | "PREMIUM" | "PRESTIGE" | "ULTRA";
   type StandingTier = "economique" | "moyen" | "haut" | "luxe";
 
   const [bienFamily, setBienFamily] = useState<BienFamily>("VILLA");
@@ -473,7 +500,9 @@ function P5HomeInner() {
                   <div>
                     <div style={{ color: "rgba(201,162,39,0.95)", fontSize: 13, fontWeight: 800 }}>{quote.meta.reportLabel}</div>
                     <div className="muted" style={{ fontSize: 13.5, marginTop: 4 }}>
-                      Taux {(quote.meta.rate * 100).toFixed(2)} % de {quote.meta.assietteLabel.toLowerCase()} · {quote.meta.delayLabel}
+                      {quote.meta.pricingModel === "flat"
+                        ? <>Forfait fixe {fmtMAD(quote.meta.flatHT || 0)} HT · {quote.meta.delayLabel}</>
+                        : <>Tarif dégressif par tranches sur {quote.meta.assietteLabel.toLowerCase()} · {quote.meta.delayLabel}</>}
                     </div>
                   </div>
                   <div style={{ background: "rgba(201,162,39,0.10)", border: "1px solid rgba(201,162,39,0.32)", borderRadius: 14, padding: "14px 20px", textAlign: "right" }}>
@@ -485,10 +514,33 @@ function P5HomeInner() {
                   </div>
                 </div>
                 <div className="gold-divider" style={{ margin: "18px 0 6px" }} />
-                <div className="qrow"><span className="k">{quote.meta.assietteLabel}</span><span className="v">{fmtMAD(quote.meta.assietteMAD)}</span></div>
+                {quote.meta.pricingModel !== "flat" && (
+                  <div className="qrow"><span className="k">{quote.meta.assietteLabel}</span><span className="v">{fmtMAD(quote.meta.assietteMAD)}</span></div>
+                )}
                 <div className="qrow"><span className="k">Honoraires HT</span><span className="v">{fmtMAD(quote.amounts.totalHT)}</span></div>
                 <div className="qrow"><span className="k">TVA 20 %</span><span className="v">{fmtMAD(quote.amounts.tva)}</span></div>
                 <div className="qrow"><span className="k">Délai de livraison</span><span className="v">{quote.meta.deliveryDays} j ouvrables</span></div>
+
+                {quote.base.breakdown && quote.base.breakdown.length > 0 && (
+                  <details style={{ marginTop: 14 }}>
+                    <summary style={{ cursor: "pointer", fontSize: 12.5, fontWeight: 700, color: "rgba(11,27,58,0.75)" }}>
+                      Voir le détail du calcul par tranche ({quote.base.breakdown.length})
+                    </summary>
+                    <div style={{ marginTop: 10, fontSize: 12, color: "rgba(11,27,58,0.78)", fontFamily: "ui-monospace, Menlo, Consolas, monospace", lineHeight: 1.7 }}>
+                      {quote.base.breakdown.map((b, i) => (
+                        <div key={i} style={{ display: "flex", justifyContent: "space-between", gap: 12, padding: "3px 0" }}>
+                          <span>De {fmtMAD(b.from)} à {fmtMAD(b.to)} · {(b.rate * 100).toFixed(2)} %</span>
+                          <strong>{fmtMAD(b.amount)}</strong>
+                        </div>
+                      ))}
+                      {quote.base.minApplied && (
+                        <div style={{ marginTop: 6, fontStyle: "italic", color: "rgba(11,27,58,0.65)" }}>
+                          Plancher tarifaire de {fmtMAD(quote.base.minHT)} HT appliqué.
+                        </div>
+                      )}
+                    </div>
+                  </details>
+                )}
 
                 <div className="blk-title" style={{ marginTop: 16 }}>Livrables inclus</div>
                 <div style={{ fontSize: 13, color: "rgba(11,27,58,0.78)", lineHeight: 1.7 }}>
@@ -531,8 +583,8 @@ function P5HomeInner() {
             <div>
               <h1>Le rapport qui sécurise votre décision d'investissement.</h1>
               <p className="sub" style={{ fontSize: 18, marginBottom: 26 }}>
-                Trois rapports premium au juste prix — expertise prix, expertise urbanistique
-                ou business plan complet ready-to-invest pour banques et fonds.
+                Quatre rapports calibrés à votre besoin — de l'estimation express forfaitaire
+                à 990 DH au business plan complet ready-to-invest pour banques et fonds.
               </p>
               <button className="btn btn-gold" onClick={() => {
                 const el = document.getElementById("p5-identity");
@@ -552,8 +604,8 @@ function P5HomeInner() {
                 <div className="gold-divider" style={{ marginBottom: 18 }} />
                 <div className="grid-2">
                   <div>
-                    <div style={{ fontWeight: 900, color: "rgba(11,27,58,0.92)", marginBottom: 6 }}>Tarif au pourcentage</div>
-                    <div style={{ color: "rgba(11,18,32,0.72)", fontSize: 13, lineHeight: 1.6 }}>1 % du foncier · 0,5 % du coût construction · 1 % de l'investissement.</div>
+                    <div style={{ fontWeight: 900, color: "rgba(11,27,58,0.92)", marginBottom: 6 }}>À partir de 990 DH HT</div>
+                    <div style={{ color: "rgba(11,18,32,0.72)", fontSize: 13, lineHeight: 1.6 }}>Estimation Express forfaitaire · expertises fondées au tarif dégressif (0,5 → 0,15 %).</div>
                   </div>
                   <div>
                     <div style={{ fontWeight: 900, color: "rgba(11,27,58,0.92)", marginBottom: 6 }}>Livrable bankable</div>
@@ -933,12 +985,14 @@ function P5HomeInner() {
               <div className="field">
                 <label className="label">Tranche de prix de la zone (foncier)</label>
                 <select className="control" value={zoneTier} onChange={(e) => setZoneTier(e.target.value as ZoneTier)}>
-                  <option value="RURAL">Rural / périurbain agricole — 300 à 900 DH/m²</option>
-                  <option value="VILLE_MOYENNE">Ville moyenne — 1 000 à 1 800 DH/m² (Kénitra, El Jadida, Mohammedia, Settat)</option>
-                  <option value="URBAIN">Centre urbain / grande ville — 2 500 à 5 500 DH/m² (Tanger, Agadir, Fès, Marrakech périph.)</option>
-                  <option value="BON_QUARTIER">Bon quartier — 6 000 à 12 000 DH/m² (Casa Maarif, Rabat Agdal, Marrakech Guéliz)</option>
-                  <option value="PREMIUM">Quartier premium — 15 000 à 22 000 DH/m² (Casa Anfa/CIL, Rabat Hassan, Marrakech Hivernage)</option>
-                  <option value="ULTRA">Hyper-centre prestige / front de mer — 27 000 à 50 000 DH/m² (Casa Corniche, Rabat Souissi haut, Tanger Marina)</option>
+                  <option value="RURAL">Rural / agricole / périurbain lointain — 300 à 900 DH/m² (douars, communes rurales)</option>
+                  <option value="PERIPHERIE">Périphérie ville / petite ville — 900 à 2 500 DH/m² (Settat, Berrechid, Sidi Bernoussi, Branes, Saadia, Khémisset)</option>
+                  <option value="VILLE_MOYENNE">Ville moyenne — 2 500 à 5 500 DH/m² (Kénitra Bir Rami, Témara, El Jadida Sahel, Béni Mellal, Fès Atlas, Meknès Marjane)</option>
+                  <option value="URBAIN">Centre urbain grande ville — 5 500 à 10 000 DH/m² (Tanger Boukhalef, Agadir Bensergao, Marrakech Targa, Fès Saïss)</option>
+                  <option value="BON_QUARTIER">Bon quartier — 10 000 à 18 000 DH/m² (Casa Maarif/CIL, Rabat Hassan/Hay Riad, Tanger Iberia, Marrakech Hivernage)</option>
+                  <option value="PREMIUM">Quartier premium — 18 000 à 30 000 DH/m² (Casa Anfa/Gauthier/Aïn Diab, Rabat Agdal/OLM, Cabo Negro)</option>
+                  <option value="PRESTIGE">Prestige — 30 000 à 50 000 DH/m² (Casa Anfa premium/Bd d'Anfa, Rabat Souissi/Aviation)</option>
+                  <option value="ULTRA">Ultra-prestige — 50 000 à 80 000 DH/m² (hyper-centre Casa, Souissi haut, exceptionnel front de mer)</option>
                 </select>
               </div>
             </div>
@@ -1030,9 +1084,10 @@ function P5HomeInner() {
 
             <div className="mini-note" style={{ marginTop: 18 }}>
               <strong>Comment est calculé votre devis ?</strong>{" "}
-              {reportType === "EXPERTISE_PRIX" && "1 % du prix foncier (estimé d'après votre terrain × prix de zone), plancher 6 000 DH HT."}
-              {reportType === "EXPERTISE_URBA" && "0,5 % du coût de construction (estimé d'après surface plancher × standing), plancher 7 500 DH HT."}
-              {reportType === "READY_TO_INVEST" && "1 % du montant total d'investissement (estimé d'après foncier + construction + 12 % frais annexes), plancher 20 000 DH HT."}
+              {reportType === "ESTIMATION_EXPRESS" && "Forfait fixe 990 DH HT — pas de visite, livré sous 48h. Accessible à tous (succession, partage, négociation, simple curiosité)."}
+              {reportType === "EXPERTISE_PRIX" && "Tranches dégressives sur le prix foncier : 0,5 % jusqu'à 500 000 DH, puis 0,4 % jusqu'à 2 M DH, 0,3 % jusqu'à 10 M DH, 0,2 % au-delà. Plancher 1 500 DH HT — opposable bancairement."}
+              {reportType === "EXPERTISE_URBA" && "Tranches dégressives sur le coût de construction : 0,5 % jusqu'à 500 000 DH, puis 0,4 % jusqu'à 5 M DH, 0,3 % jusqu'à 50 M DH, 0,2 % au-delà. Plancher 2 500 DH HT."}
+              {reportType === "READY_TO_INVEST" && "Tranches dégressives sur l'investissement total : 0,5 % jusqu'à 5 M DH, puis 0,3 % jusqu'à 50 M DH, 0,2 % jusqu'à 200 M DH, 0,15 % au-delà. Plancher 15 000 DH HT — co-signé architecte + expert."}
               {" "}Modulable par le délai souhaité à l'étape suivante.
             </div>
 

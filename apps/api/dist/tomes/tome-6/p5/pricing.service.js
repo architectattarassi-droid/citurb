@@ -10,11 +10,13 @@ exports.P5PricingService = void 0;
 const common_1 = require("@nestjs/common");
 const ZONE_PRICE_MID = {
     RURAL: 600,
-    VILLE_MOYENNE: 1400,
-    URBAIN: 4000,
-    BON_QUARTIER: 9000,
-    PREMIUM: 18500,
-    ULTRA: 38000,
+    PERIPHERIE: 1700,
+    VILLE_MOYENNE: 4000,
+    URBAIN: 7700,
+    BON_QUARTIER: 14000,
+    PREMIUM: 24000,
+    PRESTIGE: 40000,
+    ULTRA: 65000,
 };
 const STANDING_COST_M2 = {
     economique: 3250,
@@ -26,16 +28,56 @@ const STANDING_COST_M2 = {
  *  Inclut : honoraires notaire, conservation foncière, taxes d'enregistrement, frais financiers
  *  initiaux. Calibré marché Maroc — 12 % est un médian conservateur (réalité 10-15 % selon ville). */
 const FRAIS_ANNEXES_RATIO = 0.12;
+/** Applique des tranches progressives dégressives sur une assiette. */
+function applyProgressiveTiers(assiette, tiers) {
+    let total = 0;
+    let remaining = assiette;
+    let lastCap = 0;
+    for (const tier of tiers) {
+        const cap = tier.upTo ?? Infinity;
+        const tranchSize = Math.max(0, Math.min(cap, assiette) - lastCap);
+        if (tranchSize <= 0)
+            break;
+        total += tranchSize * tier.rate;
+        lastCap = cap;
+        remaining -= tranchSize;
+        if (remaining <= 0)
+            break;
+    }
+    return Math.round(total);
+}
 const REPORT_DEFINITIONS = {
+    ESTIMATION_EXPRESS: {
+        code: "ESTIMATION_EXPRESS",
+        label: "Estimation Express",
+        shortDesc: "Avis de valeur rapide, livré sous 48h",
+        longDesc: "Estimation rapide de la valeur de votre bien sans visite, basée sur la méthode des comparables ventes récentes dans votre quartier. Idéal pour une décision personnelle (succession, partage, négociation, premier prix). Non opposable bancairement.",
+        flatHT: 990, // FORFAIT FIXE — accessible à tous
+        minHT: 990,
+        deliveryDays: 2,
+        chapters: [
+            "Synthèse — valeur estimée et fourchette ±10 %",
+            "3-5 comparables ventes récentes (mêmes quartier, type, surface)",
+            "Méthodologie comparables (sans visite)",
+            "Note de fiabilité (limites de l'estimation rapide)",
+        ],
+        audience: ["Particuliers en réflexion d'achat / vente", "Successions / partages familiaux", "Première estimation rapide"],
+        signature: "Estimation signée par CITURBAREA — usage informatif (non opposable bancairement).",
+        bankable: false,
+    },
     EXPERTISE_PRIX: {
         code: "EXPERTISE_PRIX",
         label: "Rapport Expertise Prix",
-        shortDesc: "Valeur vénale fondée + étude comparée de marché",
-        longDesc: "Avis de valeur opposable, fondé sur une visite terrain, des comparables ventes récents et une méthodologie documentée.",
-        rate: 0.01,
-        // Marché Maroc 2025 : cabinets pratiquent 4 000 - 10 000 DH HT (médiane 6 500-8 000).
-        // On cale le plancher à 6 000 pour rester dans la médiane basse, compétitif.
-        minHT: 6000,
+        shortDesc: "Valeur vénale fondée + visite terrain + comparables",
+        longDesc: "Avis de valeur opposable, fondé sur une visite terrain, des comparables ventes récents et une méthodologie documentée. Utilisable banque / succession / vente.",
+        // Tranches dégressives — un appart à 800k DH paiera ~3 700 DH HT, pas 8 000.
+        tiers: [
+            { upTo: 500_000, rate: 0.005 }, // 0 - 500k : 0,5 %  →  max 2 500
+            { upTo: 2_000_000, rate: 0.004 }, // 500k - 2M : 0,4 %
+            { upTo: 10_000_000, rate: 0.003 }, // 2M - 10M : 0,3 %
+            { upTo: null, rate: 0.002 }, // > 10M : 0,2 %
+        ],
+        minHT: 1500, // plancher accessible — petit appart < 300k peut commander un vrai rapport
         deliveryDays: 10,
         chapters: [
             "Synthèse exécutive — valeur retenue et fourchette",
@@ -47,16 +89,21 @@ const REPORT_DEFINITIONS = {
         ],
         audience: ["Vendeurs / acquéreurs", "Banques (garantie hypothécaire)", "Successions / partages"],
         signature: "Rapport signé numériquement par l'expert immobilier CITURBAREA.",
+        bankable: true,
     },
     EXPERTISE_URBA: {
         code: "EXPERTISE_URBA",
         label: "Rapport Expertise Urbanistique",
         shortDesc: "Note RU + COS/CES/gabarit + scénarios de constructibilité",
         longDesc: "Analyse réglementaire complète : note RU, vérification COS/CES, hauteur, recul, façades, scénarios de constructibilité optimisée.",
-        rate: 0.005,
-        // Marché Maroc 2025 : 5 000 - 12 000 DH HT (inféré, données limitées publiquement).
-        // Plancher 7 500 pour intégrer la complexité réglementaire marocaine.
-        minHT: 7500,
+        // Tranches dégressives sur le coût de construction estimé
+        tiers: [
+            { upTo: 500_000, rate: 0.005 }, // 0 - 500k : 0,5 %
+            { upTo: 5_000_000, rate: 0.004 }, // 500k - 5M : 0,4 %
+            { upTo: 50_000_000, rate: 0.003 }, // 5M - 50M : 0,3 %
+            { upTo: null, rate: 0.002 }, // > 50M : 0,2 %
+        ],
+        minHT: 2500, // accessible à un petit projet
         deliveryDays: 12,
         chapters: [
             "Synthèse exécutive — verdict de constructibilité",
@@ -70,17 +117,21 @@ const REPORT_DEFINITIONS = {
         ],
         audience: ["Promoteurs en phase due-diligence", "Acquéreurs fonciers", "Architectes pour scoping projet"],
         signature: "Rapport signé conjointement par l'urbaniste et l'architecte CITURBAREA.",
+        bankable: true,
     },
     READY_TO_INVEST: {
         code: "READY_TO_INVEST",
         label: "Rapport Complet Premium — Ready-to-Invest",
         shortDesc: "Business Plan bankable complet (BP + ROI + sensibilité)",
         longDesc: "Rapport premium destiné aux banques, fonds et family offices. Intègre expertise prix + urba + programme + coûts + prix vente + ROI/TRI/VAN + sensibilité.",
-        rate: 0.01,
-        // Marché Maroc 2025 : pas de benchmark public fiable pour ce type de rapport.
-        // Estimations cabinets de prestige (JLL, CBRE, Agenz, Cushman) : 15 000-30 000+ DH HT.
-        // Plancher 20 000 pour s'aligner sur les cabinets institutionnels, qualité bankable.
-        minHT: 20000,
+        // Tranches dégressives sur le montant total d'investissement
+        tiers: [
+            { upTo: 5_000_000, rate: 0.005 }, // 0 - 5M : 0,5 %
+            { upTo: 50_000_000, rate: 0.003 }, // 5M - 50M : 0,3 %
+            { upTo: 200_000_000, rate: 0.002 }, // 50M - 200M : 0,2 %
+            { upTo: null, rate: 0.0015 }, // > 200M : 0,15 %
+        ],
+        minHT: 15000, // plus accessible qu'avant (était 20 000)
         deliveryDays: 21,
         chapters: [
             "Synthèse exécutive — recommandation investissement",
@@ -98,9 +149,11 @@ const REPORT_DEFINITIONS = {
         ],
         audience: ["Banques de financement", "Fonds d'investissement immobiliers", "Family offices / HNWI", "Business angels"],
         signature: "Rapport co-signé par architecte CNOA + expert immobilier + analyste financier CITURBAREA.",
+        bankable: true,
     },
 };
 const LEGACY_REMAP = {
+    ESTIMATION_EXPRESS: "ESTIMATION_EXPRESS",
     EXPERTISE_PRIX: "EXPERTISE_PRIX",
     EXPERTISE_URBA: "EXPERTISE_URBA",
     READY_TO_INVEST: "READY_TO_INVEST",
@@ -219,11 +272,17 @@ let P5PricingService = class P5PricingService {
         let assietteLabel = "";
         let assietteMissing = null;
         let assietteSource = "estimation_interne";
-        if (normalizedCode === "EXPERTISE_PRIX") {
+        if (normalizedCode === "ESTIMATION_EXPRESS") {
+            // Forfait fixe — pas d'assiette nécessaire
+            assiette = estim.prixFoncierMAD || estim.montantInvestissementMAD || 0;
+            assietteSource = "estimation_interne";
+            assietteLabel = "Valeur estimée du bien";
+        }
+        else if (normalizedCode === "EXPERTISE_PRIX") {
             // Si le client a fourni un prix foncier explicite, on l'utilise. Sinon estimation.
             assiette = input.prixFoncierMAD && input.prixFoncierMAD > 0 ? input.prixFoncierMAD : estim.prixFoncierMAD;
             assietteSource = input.prixFoncierMAD && input.prixFoncierMAD > 0 ? "client" : "estimation_interne";
-            assietteLabel = "Prix du foncier";
+            assietteLabel = "Prix du foncier / valeur du bien";
             if (assiette <= 0)
                 assietteMissing = "Renseignez au moins la surface du terrain et la tranche de prix de la zone.";
         }
@@ -244,7 +303,29 @@ let P5PricingService = class P5PricingService {
             if (assiette <= 0)
                 assietteMissing = "Renseignez terrain + standing + zone — nous calculons l'enveloppe d'investissement.";
         }
-        const baseRaw = Math.round(assiette * def.rate);
+        // CALCUL TARIF — forfait fixe OU tranches progressives dégressives
+        let baseRaw;
+        let breakdown;
+        if (def.flatHT != null) {
+            baseRaw = def.flatHT;
+        }
+        else if (def.tiers && def.tiers.length > 0) {
+            baseRaw = applyProgressiveTiers(assiette, def.tiers);
+            // Détail de calcul par tranche (pour transparence client)
+            breakdown = [];
+            let lastCap = 0;
+            for (const t of def.tiers) {
+                const cap = t.upTo ?? Infinity;
+                const tranchSize = Math.max(0, Math.min(cap, assiette) - lastCap);
+                if (tranchSize <= 0)
+                    break;
+                breakdown.push({ from: lastCap, to: Math.min(cap, assiette), rate: t.rate, amount: Math.round(tranchSize * t.rate) });
+                lastCap = cap;
+            }
+        }
+        else {
+            baseRaw = def.minHT;
+        }
         const baseAfterMin = Math.max(baseRaw, def.minHT);
         const minApplied = baseAfterMin > baseRaw;
         const bundleCodes = (input.bundleWith || []).map(c => LEGACY_REMAP[c]).filter(Boolean);
@@ -260,21 +341,26 @@ let P5PricingService = class P5PricingService {
             meta: {
                 reportType: normalizedCode,
                 reportLabel: def.label,
+                bankable: def.bankable,
                 delayMode,
                 delayLabel: `${DELAY_LABEL[delayMode]} — ${deliveryDays} jours ouvrables`,
                 deliveryDays,
-                rate: def.rate,
+                // pricingModel : 'flat' (forfait) ou 'tiers' (tranches progressives)
+                pricingModel: def.flatHT != null ? "flat" : "tiers",
+                flatHT: def.flatHT,
+                tiers: def.tiers,
                 assietteLabel,
                 assietteMAD: assiette,
                 assietteSource,
             },
             base: {
-                ratePercent: def.rate * 100,
                 baseRawHT: baseRaw,
                 minHT: def.minHT,
                 minApplied,
                 delayCoefficient: delayCoef,
                 bundleDiscount: discount,
+                // Détail des montants par tranche (transparence client)
+                breakdown,
             },
             // Estimation sommaire interne — pour transparence côté client
             estimation: estim,
@@ -292,12 +378,16 @@ let P5PricingService = class P5PricingService {
                     "Le rapport est livré à réception du paiement et des documents requis.",
             },
             notes: [
-                `Taux applicable : ${(def.rate * 100).toFixed(2)} % de « ${assietteLabel} ».`,
-                assietteSource === "estimation_interne"
+                def.flatHT != null
+                    ? `Forfait fixe : ${def.flatHT.toLocaleString("fr-FR")} DH HT — sans calcul progressif.`
+                    : `Tarification dégressive par tranches sur « ${assietteLabel} » (modèle cabinets d'expertise immobilière marocains).`,
+                assietteSource === "estimation_interne" && def.flatHT == null
                     ? "Assiette calculée par notre estimation sommaire à partir des caractéristiques du bien — le rapport l'affinera précisément."
-                    : "Assiette renseignée par le client.",
+                    : null,
+                assietteSource === "client" && def.flatHT == null ? "Assiette renseignée par le client." : null,
                 minApplied ? `Plancher tarifaire de ${def.minHT.toLocaleString("fr-FR")} DH HT appliqué.` : null,
                 discount > 0 ? `Remise bundle multi-rapports appliquée : -${Math.round(discount * 100)} %.` : null,
+                !def.bankable ? "⚠ Rapport NON opposable bancairement — usage informatif uniquement." : null,
                 "Tarifs hors déplacements exceptionnels (>50 km du cabinet, facturés en sus).",
                 "Délais en jours ouvrables, à compter de la réception du paiement et des documents demandés.",
                 assietteMissing,
