@@ -38,6 +38,35 @@ type SigSource = {
 
 type Mode = "client" | "admin";
 
+type Fiche = {
+  kind: string;
+  label: string;
+  url: string;
+  publishedAt?: string;
+  authority?: string;
+  format?: string;
+  description?: string;
+};
+type CityReference = {
+  id: string;
+  name: string;
+  region: string;
+  provinceCodes?: string[];
+  communeCodes?: string[];
+  fiches: Fiche[];
+};
+type ReferencesResponse = {
+  ok: true;
+  _meta?: { version?: string; compiledAt?: string; doctrine?: string };
+  global: Fiche[];
+  cities?: CityReference[];
+  matched?: CityReference[];
+  roadmap?: {
+    phase2?: { title: string; status: string; description: string; estimatedDeliveryDays?: number };
+    phase3?: { title: string; status: string; description: string };
+  };
+};
+
 const fmtDate = (iso?: string): string => {
   if (!iso) return "—";
   try {
@@ -50,6 +79,8 @@ export default function SigExplorer({ mode = "client" }: { mode?: Mode }) {
   const navigate = useNavigate();
   const [sources, setSources] = useState<SigSource[] | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [references, setReferences] = useState<ReferencesResponse | null>(null);
+  const [referencesFilter, setReferencesFilter] = useState<string>("");
 
   // Garde-fou : on protège l'accès si pas connecté (selon le mode)
   useEffect(() => {
@@ -68,6 +99,25 @@ export default function SigExplorer({ mode = "client" }: { mode?: Mode }) {
       })
       .catch(e => setError(e?.message || "Erreur de chargement"));
   }, []);
+
+  // Charge le registre des fiches DGI / ANCFCC / Taamir
+  useEffect(() => {
+    fetch(`${apiBase()}/api/sig/references`)
+      .then(r => r.json())
+      .then(d => { if (d?.ok) setReferences(d); })
+      .catch(() => { /* silencieux — le panneau ne s'affiche juste pas */ });
+  }, []);
+
+  const filteredCities: CityReference[] = (() => {
+    if (!references?.cities) return [];
+    const needle = referencesFilter.trim().toLowerCase();
+    if (!needle) return references.cities;
+    return references.cities.filter(c =>
+      c.name.toLowerCase().includes(needle) ||
+      c.region.toLowerCase().includes(needle) ||
+      c.id.toLowerCase().includes(needle)
+    );
+  })();
 
   if (!auth.isAuthed) return null;
 
@@ -97,6 +147,127 @@ export default function SigExplorer({ mode = "client" }: { mode?: Mode }) {
             showSigLayers={true}
           />
         </div>
+
+        {/* Référentiels officiels DGI / ANCFCC / Taamir / Agences urbaines */}
+        {references && (
+          <div style={S.refsBlock}>
+            <div style={S.refsHeader}>
+              <div>
+                <div style={S.refsEyebrow}>Niveau 1 · Module SIG-Référentiels</div>
+                <div style={S.refsTitle}>📜 Fiches officielles DGI, ANCFCC & agences urbaines</div>
+                <div style={S.refsSub}>
+                  Aucune couche SIG publique n'existe pour la grille tarifaire DGI/ANCFCC.
+                  Nous exposons ici les fiches officielles (PDFs DGI miroirés depuis le portail
+                  tax.gov.ma, ANCFCC Valeurs Vénales, Taamir et géoportails des agences urbaines)
+                  filtrables par ville. La couche SIG propriétaire <code>dgi_zones_v1</code>
+                  (parsing PDF + géocodage) est en cours de développement.
+                </div>
+              </div>
+              <input
+                type="text" placeholder="🔎 Filtrer par ville ou région…"
+                value={referencesFilter} onChange={(e) => setReferencesFilter(e.target.value)}
+                style={S.refsFilter}
+              />
+            </div>
+
+            {/* Fiches globales (DGI portail, ANCFCC valeurs vénales, Taamir) */}
+            {references.global && references.global.length > 0 && (
+              <div style={S.globalBlock}>
+                <div style={S.globalTitle}>🇲🇦 Niveau national</div>
+                <div style={S.globalGrid}>
+                  {references.global.map((f, i) => (
+                    <a key={i} href={f.url} target="_blank" rel="noopener noreferrer" style={S.globalCard}>
+                      <div style={S.globalCardLabel}>{f.label}</div>
+                      {f.description && <div style={S.globalCardDesc}>{f.description}</div>}
+                      <div style={S.globalCardMeta}>
+                        {f.format && <span>{f.format}</span>}
+                        {f.publishedAt && <span>· {fmtDate(f.publishedAt)}</span>}
+                        <span style={{ marginLeft: "auto", color: "#C9A227", fontWeight: 700 }}>↗ Ouvrir</span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Fiches par ville */}
+            <div style={S.citiesGrid}>
+              {filteredCities.map(city => (
+                <div key={city.id} style={S.cityCard}>
+                  <div style={S.cityHead}>
+                    <div>
+                      <div style={S.cityName}>{city.name}</div>
+                      <div style={S.cityRegion}>{city.region}</div>
+                    </div>
+                    <div style={S.cityBadge}>{city.fiches.length} fiche{city.fiches.length > 1 ? "s" : ""}</div>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6, marginTop: 10 }}>
+                    {city.fiches.map((f, i) => (
+                      <a key={i} href={f.url} target="_blank" rel="noopener noreferrer" style={S.ficheLink}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                          <span style={{
+                            ...S.ficheKindBadge,
+                            background: f.kind === "dgi_pdf" ? "rgba(220,38,38,0.10)" :
+                                        f.kind === "ancfcc_referential" ? "rgba(59,130,246,0.10)" :
+                                        f.kind === "agence_urbaine" ? "rgba(34,197,94,0.10)" :
+                                        "rgba(11,27,58,0.08)",
+                            color: f.kind === "dgi_pdf" ? "#b91c1c" :
+                                   f.kind === "ancfcc_referential" ? "#1e40af" :
+                                   f.kind === "agence_urbaine" ? "#166534" :
+                                   "rgba(11,27,58,0.7)",
+                          }}>
+                            {f.kind === "dgi_pdf" ? "DGI" : f.kind === "ancfcc_referential" ? "ANCFCC" : f.kind === "agence_urbaine" ? "Agence Urb." : f.authority || f.kind}
+                          </span>
+                          <span style={{ flex: 1, fontWeight: 600, fontSize: 13, color: "#0B1B3A" }}>{f.label}</span>
+                          {f.publishedAt && <span style={S.ficheDate}>{fmtDate(f.publishedAt)}</span>}
+                          <span style={{ color: "#C9A227", fontWeight: 700, fontSize: 12 }}>↗</span>
+                        </div>
+                        {f.description && <div style={S.ficheDesc}>{f.description}</div>}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              {filteredCities.length === 0 && (
+                <div style={S.muted}>Aucune ville ne correspond à « {referencesFilter} ».</div>
+              )}
+            </div>
+
+            {/* Roadmap visible — transparence sur Niveau 2 et Niveau 3 */}
+            {references.roadmap && (
+              <div style={S.roadmapBlock}>
+                <div style={S.roadmapTitle}>🛣 Roadmap — production de la couche SIG propriétaire</div>
+                {references.roadmap.phase2 && (
+                  <div style={S.roadmapItem}>
+                    <div style={S.roadmapItemHead}>
+                      <span style={{ ...S.roadmapBadge, background: "rgba(245,158,11,0.15)", color: "#92400e" }}>
+                        🚧 {references.roadmap.phase2.status === "in_progress" ? "EN COURS" : references.roadmap.phase2.status.toUpperCase()}
+                      </span>
+                      <strong>{references.roadmap.phase2.title}</strong>
+                      {references.roadmap.phase2.estimatedDeliveryDays && (
+                        <span style={{ marginLeft: "auto", fontSize: 11, color: "rgba(11,27,58,0.55)" }}>
+                          ≈ {references.roadmap.phase2.estimatedDeliveryDays} j-dev
+                        </span>
+                      )}
+                    </div>
+                    <div style={S.roadmapDesc}>{references.roadmap.phase2.description}</div>
+                  </div>
+                )}
+                {references.roadmap.phase3 && (
+                  <div style={S.roadmapItem}>
+                    <div style={S.roadmapItemHead}>
+                      <span style={{ ...S.roadmapBadge, background: "rgba(11,27,58,0.08)", color: "rgba(11,27,58,0.7)" }}>
+                        ⏳ {references.roadmap.phase3.status.toUpperCase()}
+                      </span>
+                      <strong>{references.roadmap.phase3.title}</strong>
+                    </div>
+                    <div style={S.roadmapDesc}>{references.roadmap.phase3.description}</div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Catalogue détaillé des sources et couches avec dates */}
         <div style={S.catalogTitle}>📚 Catalogue des sources intégrées</div>
@@ -215,4 +386,58 @@ const S: Record<string, React.CSSProperties> = {
   footnote: { marginTop: 22, padding: 16, background: "rgba(201,162,39,0.06)", border: "1px solid rgba(201,162,39,0.25)", borderRadius: 10, fontSize: 13, color: "rgba(11,27,58,0.75)", lineHeight: 1.6 },
   errBox: { background: "rgba(220,38,38,0.07)", border: "1px solid rgba(220,38,38,0.22)", color: "#b91c1c", padding: "10px 14px", borderRadius: 10, fontSize: 13 },
   muted: { color: "rgba(11,27,58,0.55)", fontStyle: "italic", fontSize: 13.5 },
+
+  refsBlock: {
+    background: "linear-gradient(180deg, rgba(255,255,255,0.95), rgba(248,244,234,0.6))",
+    border: "1px solid rgba(201,162,39,0.30)",
+    borderRadius: 14, padding: 22, marginBottom: 32,
+    boxShadow: "0 14px 42px rgba(11,27,58,0.08)",
+  },
+  refsHeader: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 18, flexWrap: "wrap", marginBottom: 18 },
+  refsEyebrow: { fontSize: 11, fontWeight: 800, letterSpacing: "0.10em", color: "#C9A227", textTransform: "uppercase", marginBottom: 6 },
+  refsTitle: { fontFamily: '"Playfair Display", Georgia, serif', fontSize: 22, color: "#0B1B3A", marginBottom: 6 },
+  refsSub: { fontSize: 12.5, color: "rgba(11,27,58,0.72)", lineHeight: 1.6, maxWidth: 720 },
+  refsFilter: {
+    width: 260, padding: "9px 12px",
+    border: "1px solid rgba(11,27,58,0.18)", borderRadius: 8,
+    fontSize: 13, fontFamily: "inherit", outline: "none",
+    background: "rgba(255,255,255,0.92)", color: "#0B1B3A",
+  },
+
+  globalBlock: { marginBottom: 18, padding: "12px 14px", background: "rgba(11,27,58,0.03)", border: "1px solid rgba(11,27,58,0.08)", borderRadius: 10 },
+  globalTitle: { fontSize: 12.5, fontWeight: 800, color: "rgba(11,27,58,0.85)", marginBottom: 10 },
+  globalGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 10 },
+  globalCard: {
+    display: "flex", flexDirection: "column", gap: 4,
+    padding: "10px 12px", background: "#fff",
+    border: "1px solid rgba(11,27,58,0.10)", borderRadius: 8,
+    textDecoration: "none", color: "#0B1B3A",
+    transition: "all 0.15s ease",
+  },
+  globalCardLabel: { fontSize: 13, fontWeight: 700 },
+  globalCardDesc: { fontSize: 11.5, color: "rgba(11,27,58,0.65)", lineHeight: 1.45 },
+  globalCardMeta: { display: "flex", gap: 6, fontSize: 11, color: "rgba(11,27,58,0.55)", marginTop: 4 },
+
+  citiesGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))", gap: 12 },
+  cityCard: { background: "#fff", border: "1px solid rgba(11,27,58,0.10)", borderRadius: 10, padding: 14 },
+  cityHead: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10, paddingBottom: 8, borderBottom: "1px solid rgba(11,27,58,0.06)" },
+  cityName: { fontFamily: '"Playfair Display", Georgia, serif', fontSize: 17, color: "#0B1B3A", fontWeight: 700 },
+  cityRegion: { fontSize: 11.5, color: "rgba(11,27,58,0.55)", fontStyle: "italic", marginTop: 2 },
+  cityBadge: { fontSize: 11, fontWeight: 700, color: "#C9A227", background: "rgba(201,162,39,0.10)", border: "1px solid rgba(201,162,39,0.30)", padding: "3px 8px", borderRadius: 999, whiteSpace: "nowrap" },
+  ficheLink: {
+    display: "flex", flexDirection: "column", gap: 4,
+    padding: "8px 10px", background: "rgba(11,27,58,0.025)",
+    border: "1px solid rgba(11,27,58,0.06)", borderRadius: 6,
+    textDecoration: "none", color: "#0B1B3A",
+  },
+  ficheKindBadge: { fontSize: 10, fontWeight: 800, padding: "2px 6px", borderRadius: 4, letterSpacing: "0.04em" },
+  ficheDate: { fontSize: 10.5, color: "rgba(11,27,58,0.55)", fontFamily: "ui-monospace, Menlo, Consolas, monospace" },
+  ficheDesc: { fontSize: 11, color: "rgba(11,27,58,0.62)", lineHeight: 1.45, paddingLeft: 2 },
+
+  roadmapBlock: { marginTop: 22, padding: 14, background: "rgba(11,27,58,0.04)", border: "1px dashed rgba(11,27,58,0.18)", borderRadius: 10 },
+  roadmapTitle: { fontSize: 12.5, fontWeight: 800, color: "rgba(11,27,58,0.85)", marginBottom: 10 },
+  roadmapItem: { padding: "8px 0", borderTop: "1px dashed rgba(11,27,58,0.10)" },
+  roadmapItemHead: { display: "flex", alignItems: "center", gap: 8, marginBottom: 4, fontSize: 13 },
+  roadmapBadge: { fontSize: 10, fontWeight: 800, padding: "2px 7px", borderRadius: 4, letterSpacing: "0.04em" },
+  roadmapDesc: { fontSize: 11.5, color: "rgba(11,27,58,0.68)", lineHeight: 1.55, paddingLeft: 4 },
 };

@@ -36,6 +36,24 @@ let SigController = class SigController {
         return { ok: true, sources: this.sig.listSources() };
     }
     /**
+     * Référentiels officiels DGI / ANCFCC / Taamir / agences urbaines par ville.
+     *
+     *   GET /api/sig/references                            — registre complet
+     *   GET /api/sig/references?cityId=casablanca          — filtrage par ville
+     *   GET /api/sig/references?region=Casablanca-Settat   — filtrage par région
+     *   GET /api/sig/references?commune=Rabat              — filtrage fuzzy commune
+     *
+     * Niveau 1 du module SIG-référentiels : aucun fichier hébergé, uniquement
+     * les URLs canoniques (DGI portail.tax.gov.ma, ANCFCC, Fiscamaroc miroir,
+     * Taamir, AURS/AUC). Niveau 2 (parsing PDFs → polygones zones tarifaires)
+     * et Niveau 3 (convention B2B ANCFCC) sont dans le champ roadmap retourné.
+     */
+    listReferences(region, province, commune, cityId, res) {
+        const result = this.sig.listReferences({ region, province, commune, cityId });
+        res?.setHeader("Cache-Control", "public, max-age=300, stale-while-revalidate=3600");
+        res?.json(result);
+    }
+    /**
      * Liste plate (sans geometry) des régions / provinces / communes.
      * Utilisée par les wizards P1/P2/P5 pour les dropdowns en cascade.
      *
@@ -72,6 +90,17 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], SigController.prototype, "listSources", null);
+__decorate([
+    (0, common_1.Get)("references"),
+    __param(0, (0, common_1.Query)("region")),
+    __param(1, (0, common_1.Query)("province")),
+    __param(2, (0, common_1.Query)("commune")),
+    __param(3, (0, common_1.Query)("cityId")),
+    __param(4, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String, String, Object]),
+    __metadata("design:returntype", void 0)
+], SigController.prototype, "listReferences", null);
 __decorate([
     (0, common_1.Get)("admin/:level"),
     __param(0, (0, common_1.Param)("level")),

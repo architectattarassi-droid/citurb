@@ -25,6 +25,32 @@ export class SigController {
   }
 
   /**
+   * Référentiels officiels DGI / ANCFCC / Taamir / agences urbaines par ville.
+   *
+   *   GET /api/sig/references                            — registre complet
+   *   GET /api/sig/references?cityId=casablanca          — filtrage par ville
+   *   GET /api/sig/references?region=Casablanca-Settat   — filtrage par région
+   *   GET /api/sig/references?commune=Rabat              — filtrage fuzzy commune
+   *
+   * Niveau 1 du module SIG-référentiels : aucun fichier hébergé, uniquement
+   * les URLs canoniques (DGI portail.tax.gov.ma, ANCFCC, Fiscamaroc miroir,
+   * Taamir, AURS/AUC). Niveau 2 (parsing PDFs → polygones zones tarifaires)
+   * et Niveau 3 (convention B2B ANCFCC) sont dans le champ roadmap retourné.
+   */
+  @Get("references")
+  listReferences(
+    @Query("region") region?: string,
+    @Query("province") province?: string,
+    @Query("commune") commune?: string,
+    @Query("cityId") cityId?: string,
+    @Res() res?: Response,
+  ) {
+    const result = this.sig.listReferences({ region, province, commune, cityId });
+    res?.setHeader("Cache-Control", "public, max-age=300, stale-while-revalidate=3600");
+    res?.json(result);
+  }
+
+  /**
    * Liste plate (sans geometry) des régions / provinces / communes.
    * Utilisée par les wizards P1/P2/P5 pour les dropdowns en cascade.
    *

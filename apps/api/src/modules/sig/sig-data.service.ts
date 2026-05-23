@@ -143,6 +143,73 @@ export class SigDataService implements OnModuleInit {
   }
 
   /**
+   * Registre des fiches officielles DGI / ANCFCC / Taamir / agences urbaines.
+   *
+   * Niveau 1 du module SIG-référentiels — liens directs vers les sources
+   * publiques (loi 12-90 + portails institutionnels). Aucune donnée n'est
+   * hébergée par CITURBAREA, on expose juste les URLs canoniques par ville.
+   *
+   * @param query.region — filtre par nom/identifiant région HCP
+   * @param query.province — filtre par nom/code province HCP
+   * @param query.commune — filtre par nom commune HCP (recherche fuzzy)
+   * @param query.cityId — sélectionne explicitement une ville (casablanca|rabat|…)
+   */
+  listReferences(query?: { region?: string; province?: string; commune?: string; cityId?: string }) {
+    const candidates = [
+      joinPath(process.cwd(), "data", "sig-static", "dgi-references.json"),
+      joinPath(process.cwd(), "apps", "api", "data", "sig-static", "dgi-references.json"),
+      joinPath(__dirname, "..", "..", "..", "data", "sig-static", "dgi-references.json"),
+    ];
+    let registry: any = null;
+    for (const p of candidates) {
+      if (existsSync(p)) {
+        try { registry = JSON.parse(readFileSync(p, "utf-8")); break; }
+        catch (e) { this.logger.warn(`[SIG references] parse failed at ${p}: ${(e as Error).message}`); }
+      }
+    }
+    if (!registry) {
+      return { ok: true, global: [], cities: [], matched: [], roadmap: null, _meta: { warning: "registry not found" } };
+    }
+
+    const cities: any[] = Array.isArray(registry.cities) ? registry.cities : [];
+    let matched = cities;
+
+    if (query?.cityId) {
+      const id = query.cityId.toLowerCase().trim();
+      matched = matched.filter(c => c.id === id);
+    }
+    if (query?.commune) {
+      const needle = query.commune.toLowerCase().trim();
+      // Match fuzzy : ville.name OU communeCodes inclut le code OU nom contient le terme
+      matched = matched.filter(c =>
+        c.name?.toLowerCase().includes(needle) ||
+        (c.communeCodes || []).some((cc: string) => cc.toLowerCase() === needle),
+      );
+    }
+    if (query?.province) {
+      const needle = query.province.toLowerCase().trim();
+      matched = matched.filter(c =>
+        (c.provinceCodes || []).some((pc: string) => pc.toLowerCase() === needle) ||
+        c.name?.toLowerCase().includes(needle),
+      );
+    }
+    if (query?.region) {
+      const needle = query.region.toLowerCase().trim();
+      matched = matched.filter(c => c.region?.toLowerCase().includes(needle));
+    }
+
+    return {
+      ok: true,
+      _meta: registry._meta,
+      global: registry.global || [],
+      matched,
+      // Si aucun filtre, on renvoie aussi la liste complète pour l'affichage catalog
+      cities: query && (query.region || query.province || query.commune || query.cityId) ? undefined : cities,
+      roadmap: registry.roadmap || null,
+    };
+  }
+
+  /**
    * Liste plate (sans geometry) des entités administratives du Maroc.
    * Utilisé par les wizards P1/P2/P5 pour les dropdowns en cascade
    * Région → Province → Commune (alimentés depuis le découpage HCP).
