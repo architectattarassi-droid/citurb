@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiBase, getToken } from "../../../tome4/apiClient";
 import { useAuth } from "../../../tome5/AuthProvider";
+import MapPicker from "../../../../features/geo/MapPicker";
 
 const P5_PENDING_KEY = "citurbarea:p5:pending_intake:v1";
 
@@ -33,6 +34,12 @@ export default function P5Finalize() {
   const [autoDetect, setAutoDetect] = useState<any>(null);
   const [dgiCity, setDgiCity] = useState<any>(null);
   const [selectedDgiZone, setSelectedDgiZone] = useState<string>("");
+
+  // Position GPS courante — initialisée depuis le brief, peut être ajustée
+  // visuellement par l'utilisateur sur la carte. Chaque modification re-déclenche
+  // l'auto-détection zoning + fourchette de prix.
+  const [currentCoords, setCurrentCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const detectAbortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     if (auth.loading) return;
@@ -80,21 +87,14 @@ export default function P5Finalize() {
     })();
   }, [auth.loading, auth.isAuthed, auth.email, navigate]);
 
-  // Une fois le dossier créé, on déclenche l'auto-détection zoning + le
-  // chargement du catalogue DGI de la commune (Rabat aujourd'hui).
+  // Une fois le dossier créé, on initialise les coords courantes depuis le
+  // brief stocké et on charge le catalogue DGI de la ville.
   useEffect(() => {
     if (phase !== "done" || error || !payloadState) return;
     const b = payloadState.brief || {};
-    const params = new URLSearchParams();
-    if (b.geoLat != null) params.set("lat", String(b.geoLat));
-    if (b.geoLng != null) params.set("lng", String(b.geoLng));
-    if (b.region) params.set("region", b.region);
-    if (payloadState.commune) params.set("commune", payloadState.commune);
-    if (b.adresseBien) params.set("address", b.adresseBien);
-    if (b.bienFamily) params.set("bienFamily", b.bienFamily);
-    fetch(`${apiBase()}/api/sig/auto-detect-zone?${params.toString()}`)
-      .then(r => r.json()).then(d => { if (d?.ok) setAutoDetect(d); }).catch(() => {});
-
+    if (b.geoLat != null && b.geoLng != null && Number.isFinite(+b.geoLat) && Number.isFinite(+b.geoLng)) {
+      setCurrentCoords({ lat: +b.geoLat, lng: +b.geoLng });
+    }
     // Catalogue DGI par ville (Rabat aujourd'hui ; Casa/Marrakech/Tanger à venir)
     const c = (payloadState.commune || "").toLowerCase();
     let cityId: string | null = null;
@@ -104,6 +104,30 @@ export default function P5Finalize() {
         .then(r => r.json()).then(d => { if (d?.ok) setDgiCity(d); }).catch(() => {});
     }
   }, [phase, error, payloadState]);
+
+  // Auto-détection zoning — déclenchée quand les coords ou le brief changent.
+  // Si l'utilisateur repositionne le marker sur la carte, on relance la
+  // détection immédiatement (avec abort de la requête précédente).
+  useEffect(() => {
+    if (phase !== "done" || error || !payloadState) return;
+    const b = payloadState.brief || {};
+    const lat = currentCoords?.lat ?? b.geoLat;
+    const lng = currentCoords?.lng ?? b.geoLng;
+
+    const params = new URLSearchParams();
+    if (lat != null) params.set("lat", String(lat));
+    if (lng != null) params.set("lng", String(lng));
+    if (b.region) params.set("region", b.region);
+    if (payloadState.commune) params.set("commune", payloadState.commune);
+    if (b.adresseBien) params.set("address", b.adresseBien);
+    if (b.bienFamily) params.set("bienFamily", b.bienFamily);
+
+    detectAbortRef.current?.abort();
+    const ac = new AbortController();
+    detectAbortRef.current = ac;
+    fetch(`${apiBase()}/api/sig/auto-detect-zone?${params.toString()}`, { signal: ac.signal })
+      .then(r => r.json()).then(d => { if (d?.ok) setAutoDetect(d); }).catch(() => {});
+  }, [phase, error, payloadState, currentCoords?.lat, currentCoords?.lng]);
 
   const fmtMAD = (n: number | null | undefined) => {
     if (n == null || !Number.isFinite(Number(n))) return "—";
@@ -163,6 +187,40 @@ export default function P5Finalize() {
             <a href="/portal" style={S.btnDark}>📁 Mes dossiers</a>
             <a href="/sig" style={{ ...S.btnDark, background: "transparent", border: "1px solid rgba(11,27,58,0.18)", color: "#0B1B3A" }}>🗺 Explorer carte SIG</a>
           </div>
+        </div>
+
+        {/* PANNEAU CARTE — validation visuelle de l'emplacement du bien
+            Le client peut zoomer/repositionner le marker sur OSM ou imagerie
+            satellite ESRI, avec les couches PA AURS (urbanisme) en overlay.
+            Chaque repositionnement re-déclenche l'auto-détection zoning + prix. */}
+        <div style={S.panel}>
+          <div style={S.panelHeader}>
+            <div style={S.eyebrow}>Module Localisation · validation visuelle</div>
+            <h2 style={S.h2}>🗺 Vérifiez l'emplacement de votre bien sur la carte</h2>
+          </div>
+          <div style={{ fontSize: 13, color: "rgba(11,27,58,0.72)", lineHeight: 1.6, marginBottom: 14 }}>
+            Repositionnez le marker si nécessaire pour valider visuellement la zone d'urbanisme
+            et la fourchette de prix. Basemap au choix (OSM / satellite ESRI) et couches
+            <strong> PA AURS </strong>(Plan d'Aménagement) en overlay. Chaque déplacement
+            recalcule automatiquement le zoning et la fourchette ci-dessous.
+          </div>
+          <MapPicker
+            region={payloadState?.brief?.region || ""}
+            province=""
+            commune={payloadState?.commune || ""}
+            adresse={payloadState?.brief?.adresseBien || ""}
+            initialLat={currentCoords?.lat ?? payloadState?.brief?.geoLat}
+            initialLng={currentCoords?.lng ?? payloadState?.brief?.geoLng}
+            onChange={(c) => { if (c) setCurrentCoords({ lat: c.lat, lng: c.lng }); }}
+            height={520}
+            showSigLayers={true}
+            autoGeocodeAddress
+          />
+          {currentCoords && (
+            <div style={{ marginTop: 10, fontSize: 12, color: "rgba(11,27,58,0.65)", fontFamily: "ui-monospace, monospace" }}>
+              📍 Position courante : <strong>{currentCoords.lat.toFixed(5)}, {currentCoords.lng.toFixed(5)}</strong>
+            </div>
+          )}
         </div>
 
         {/* PANNEAU URBANISME — auto-détection zoning depuis PA AURS */}
