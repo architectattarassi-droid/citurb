@@ -541,14 +541,23 @@ function P5HomeInner() {
   };
 
   // ── Submit final ──────────────────────────────────────────────────
+  //
+  // DOCTRINE : qu'on soit déjà connecté ou non, on passe TOUS par /p5/finalize.
+  // - Pas connecté → /creer-compte/client?next=/p5/finalize (signup + OTP)
+  // - Déjà connecté → /p5/finalize directement (skip signup)
+  //
+  // /p5/finalize fait l'intake authentifié + affiche carte interactive + auto-
+  // détection urbanisme + référentiel DGI + fourchette de prix. Avant, les users
+  // déjà connectés voyaient l'écran succès minimal de P5Home (sans aucune des
+  // données post-auth) — bug corrigé en redirigeant tout le monde vers Finalize.
   const submitIntake = async () => {
     setError("");
     const idErr = validateIdentity();   if (idErr)   { setError(idErr);   setPhase("identity"); return; }
     const detErr = validateDetails();   if (detErr)  { setError(detErr);  setPhase("details");  return; }
 
-    // Comme P1/P2 : pas connecté → on passe par le signup avec mot de passe + double OTP.
+    try { localStorage.setItem(P5_PENDING_KEY, JSON.stringify(buildIntakePayload(auth.email))); } catch {}
+
     if (!auth.isAuthed) {
-      try { localStorage.setItem(P5_PENDING_KEY, JSON.stringify(buildIntakePayload())); } catch {}
       const params = new URLSearchParams();
       if (identity.clientEmail) params.set("email", identity.clientEmail);
       if (identity.clientTel) params.set("phone", identity.clientTel);
@@ -558,29 +567,9 @@ function P5HomeInner() {
       return;
     }
 
-    setBusy(true);
-    try {
-      // Devis calculé en silence — livré uniquement avec un dossier identifié
-      if (!quote) {
-        try { await computeQuote(); } catch { /* devis livré ensuite */ }
-      }
-      const payload = buildIntakePayload(auth.email);
-      const res = await fetch(`${apiBase()}/p2/intake`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.message || "Erreur soumission");
-      if (data.access_token) {
-        try { localStorage.setItem("citurbarea.token", data.access_token); } catch {}
-      }
-      setDossierId(data.dossierId);
-      setScreen("success");
-    } catch (e: any) {
-      setError(e.message);
-      setBusy(false);
-    }
+    // Déjà connecté → /p5/finalize lit le payload localStorage, fait l'intake
+    // authentifié et affiche carte + urbanisme + DGI + fourchette
+    navigate("/p5/finalize");
   };
 
   const f = (k: keyof typeof identity) => (e: React.ChangeEvent<HTMLInputElement>) =>
