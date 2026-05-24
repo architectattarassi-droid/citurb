@@ -1,0 +1,1184 @@
+{
+  "_meta": {
+    "ville": "Béni Mellal",
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T21:51:34.481Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 17,
+    "zonesWithPrices": 13,
+    "zonesWithDelimitations": 6
+  },
+  "arrondissements": [
+    {
+      "code": "BM",
+      "nom": "Béni Mellal Centre"
+    }
+  ],
+  "zones": [
+    {
+      "code": "BM-BM1",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "BM-BM11",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "prix": [
+        {
+          "type": "Villa",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 2500,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 300 m²",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "superficie": "ST >= 300 m²",
+          "pt": 2500,
+          "pc": 1800
+        },
+        {
+          "type": "Terrain ZI",
+          "superficie": "ST < 300 m²",
+          "pt": 3000400050006000,
+          "pc": 2400
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 5000,
+          "pc": 30005000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 5000,
+          "pc": 1200200015
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 2000
+        }
+      ]
+    },
+    {
+      "code": "BM-BM14",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        }
+      ]
+    },
+    {
+      "code": "BM-BM15",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "prix": [
+        {
+          "type": "Maison",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 1300
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 1800
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 2300
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "pt": 2300,
+          "pc": 1300
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 2300,
+          "pc": 1800
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 2300,
+          "pc": 2300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 2300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 1800
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 2200
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 2800
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 8000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "BM-BM19",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 1500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 1800
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 2400
+        },
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 2500,
+          "pc": 1300
+        },
+        {
+          "type": "Maison",
+          "pt": 2500,
+          "pc": 1800
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 2500,
+          "pc": 2300
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        }
+      ]
+    },
+    {
+      "code": "BM-BM23",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "prix": [
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 8000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "pt": 7500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 7500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 7500,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 1800
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 2200
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 2800
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 1800
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2400
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 5000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "BM-BM25",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 1800
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 2200
+        },
+        {
+          "type": "Villa",
+          "pt": 4500,
+          "pc": 2800
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST >= 300 m²",
+          "pt": 2000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 2500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST >= 300 m²",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST >= 300 m²",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST >= 300 m²",
+          "pt": 5000,
+          "pc": 1800
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 5000,
+          "pc": 2400
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "BM-BM28",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "delimitations": "Lot Haj Khalifa, Lot Raha2, Lot Radouane, Naima , Lotf, Babay",
+      "avenues": [
+        "Lot Haj Khalifa",
+        "Lot Radouane"
+      ],
+      "prix": []
+    },
+    {
+      "code": "BM-BM3",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "prix": [
+        {
+          "type": "Villa",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 2400,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST >= 300 m²",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 2400,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST >= 300 m²",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 300 m²",
+          "pt": 2400,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST >= 300 m²",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 300 m²",
+          "pt": 2400,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST >= 300 m²",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 300 m²",
+          "pt": 4500,
+          "pc": 30004500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST >= 300 m²",
+          "pt": 2000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 300 m²",
+          "pt": 2400,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST >= 300 m²",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 300 m²",
+          "pt": 2400,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST >= 300 m²",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 300 m²",
+          "pt": 2400,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "BM-BM30",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 2000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "pt": 2500,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2400
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "superficie": "ST >= 300 m²",
+          "pt": 4500,
+          "pc": 30004500500040004000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "superficie": "ST < 300 m²",
+          "pt": 2000,
+          "pc": 1300
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "pt": 2000,
+          "pc": 1800
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "pt": 2000,
+          "pc": 2300200020
+        }
+      ]
+    },
+    {
+      "code": "BM-BM32",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "delimitations": "Hay Charaf, Lot Houria, Josephine, Waha2 Lot Ryad, Chems, Sakina",
+      "avenues": [
+        "Lot Houria",
+        "Lot Ryad"
+      ],
+      "prix": []
+    },
+    {
+      "code": "BM-BM33",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "prix": [
+        {
+          "type": "Villa",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 2000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 2400,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 2400,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 4500,
+          "pc": 1800
+        },
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 2200
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST >= 300 m²",
+          "pt": 4500,
+          "pc": 28004500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 3000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 25003000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 3500,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 3500,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 3500,
+          "pc": 2500350021
+        }
+      ]
+    },
+    {
+      "code": "BM-BM34",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 1800
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 2200
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 28004000227
+        }
+      ]
+    },
+    {
+      "code": "BM-BM5",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "delimitations": "Lot EL Waha, El Kheir 1 et 2, Touta 1 et 2, Lot El Fajr, Al Ikhlas, Essalam, Lekbir 1 et 2, Narjis, El Balssam, Ain El Ati, Day Karma Jnan Tahar, Lot Tamagnount, Khaoula, Chorouk, Nassim, Hassania (sant�), Saad, Nazha, Yasmine, Ghizlane, Jnane Ourbii, Ait Tislit, Jamila, Ourbii, Inara Hay Zitoune, Zitouna, Hay Soumia, Hay Limoune, Darkoum, Lot Oukacha, Lot Mehdi, Nizar, Amal (Atfaoui), Mounjid, Lot 18 Novembre, Lot Touta, Lot Hay Hassani, Fouzia, Fadl, Amal7, Quartier Administratif",
+      "avenues": [
+        "Lot EL Waha",
+        "Lot El Fajr",
+        "Lot Tamagnount",
+        "Lot Oukacha",
+        "Lot Mehdi",
+        "Lot Touta",
+        "Lot Hay Hassani"
+      ],
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 1800,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 1800,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 2200,
+          "pc": 1500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 2200,
+          "pc": 1800
+        },
+        {
+          "type": "Maison",
+          "pt": 2200,
+          "pc": 2200
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 2200
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST >= 300 m²",
+          "pt": 2000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 2500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST >= 300 m²",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST >= 300 m²",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST >= 300 m²",
+          "pt": 5500,
+          "pc": 1800
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 5500,
+          "pc": 2400
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST >= 300 m²",
+          "pt": 5500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "BM-BM7",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "delimitations": "Bd Hassan II (de Ecole Belle Vue � Bd Med V)",
+      "avenues": [
+        "Bd Hassan II",
+        "Bd Med V"
+      ],
+      "prix": []
+    },
+    {
+      "code": "BM-BM8",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "delimitations": "Bd Hassan II (de Bd Med V � Bd 20 Ao�t), Bd Ibn Khaldoun",
+      "avenues": [
+        "Bd Hassan II",
+        "Bd Ibn Khaldoun"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 10000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 10000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 10000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 35008000
+        }
+      ]
+    },
+    {
+      "code": "BM-BM9",
+      "arrondissement": "Béni Mellal Centre",
+      "ville": "Béni Mellal",
+      "region": "Béni Mellal-Khénifra",
+      "delimitations": "Quartier Administratif Avenue Taif, Quartier Belle Vue",
+      "avenues": [
+        "Avenue Taif"
+      ],
+      "prix": []
+    }
+  ]
+}

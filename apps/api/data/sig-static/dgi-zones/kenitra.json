@@ -1,0 +1,3175 @@
+{
+  "_meta": {
+    "ville": "Kénitra",
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T21:51:34.457Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 67,
+    "zonesWithPrices": 57,
+    "zonesWithDelimitations": 19
+  },
+  "arrondissements": [
+    {
+      "code": "AS",
+      "nom": "Saknia"
+    },
+    {
+      "code": "MA",
+      "nom": "MA"
+    },
+    {
+      "code": "MH",
+      "nom": "MH"
+    },
+    {
+      "code": "OJ",
+      "nom": "OJ"
+    },
+    {
+      "code": "SK",
+      "nom": "SK"
+    }
+  ],
+  "zones": [
+    {
+      "code": "KE-AS3",
+      "arrondissement": "Saknia",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 2000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 3500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 2000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 3500
+        }
+      ]
+    },
+    {
+      "code": "KE-AS6",
+      "arrondissement": "Saknia",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-AS7",
+      "arrondissement": "Saknia",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4600
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 30004500
+        },
+        {
+          "type": "Appartement",
+          "pt": 7500,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 7500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 7500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7500
+        }
+      ]
+    },
+    {
+      "code": "KE-MA11",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Zone Bd. Tarik Ibn Ziad allant de Rue Idriss al Akbar (Sud) jusqu'� Av. Mohamed V",
+      "avenues": [
+        "Zone Bd. Tarik Ibn Ziad allant de Rue Idriss al Akbar",
+        "Av. Mohamed V"
+      ],
+      "prix": []
+    },
+    {
+      "code": "KE-MA13",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Zone d�limit�e par Av. Mohamed V (Nord), Rue Mohamed Ali Aqlaa (Ouest), Rue Idriss",
+      "avenues": [
+        "Av. Mohamed V",
+        "Rue Mohamed Ali Aqlaa",
+        "Rue Idriss"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5800
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5400
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8500
+        }
+      ]
+    },
+    {
+      "code": "KE-MA15",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Av. Imam Ali (Sud), Rue Saad Zaghloul (Ouest), March� central (Est), Av. Mohamed Diouri (Nord). Av. Imam Ali (Sud), Av. Sa�d Daoudi (Ouest), Rue Saad Zaghloul (Est), Av. Hommane Fetouaki et Rue Antara (Nord). Zone situ�e entre Av. Hommane Fetouaki (Sud), Rue Ahmed Chaouki (Est), Rue Antara (Nord), Lot le Vallon (Ouest). Quartier Ancienne Medina",
+      "nomCommun": "Angle Rue 13 et 14.",
+      "avenues": [
+        "Av. Imam Ali",
+        "Rue Saad Zaghloul",
+        "Av. Mohamed Diouri",
+        "Av. Hommane Fetouaki et Rue Antara",
+        "Av. Hommane Fetouaki",
+        "Rue Ahmed Chaouki",
+        "Rue Antara"
+      ],
+      "prix": []
+    },
+    {
+      "code": "KE-MA16",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "KE-MA17",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Loti 4500 Appartement R�cent 4700 Appartement 5500 Neuf PT : 14000 / PC : 2000 Maison Ancien PT : 14000 / PC : 2500 Maison R�cent PT : 14000 / PC : 3000 Maison Neuf 14000 14000 TZI Loti 4000 TZM Loti 4500 Appartement Ancien 5000 Appartement R�cent PT : 5000 / PC : 2000 Appartement Neuf PT : 5000 / PC : 2500 Maison Ancien PT : 5000 / PC",
+      "nomCommun": "3000 Maison R�cent 5000 Maison Neuf 5000 TZI Loti TZM Loti - 15 -",
+      "avenues": [],
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 4700
+        },
+        {
+          "type": "Appartement",
+          "pt": 14000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 14000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 14000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "KE-MA2",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Zone d�limit�e par Rue Ibn Al Banna (Ouest), Rue Idriss Al Akbar (Sud), Rue",
+      "avenues": [
+        "Rue Ibn Al Banna",
+        "Rue Idriss Al Akbar"
+      ],
+      "prix": []
+    },
+    {
+      "code": "KE-MA20",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5600
+        }
+      ]
+    },
+    {
+      "code": "KE-MA21",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 11500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 11500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 11500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 7000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-MA22",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Quartier Bab F�s",
+      "nomCommun": "Av. Moulay Youssef (Ouest), Av. Mohamed V (Sud), Voie ferr�e",
+      "avenues": [],
+      "prix": []
+    },
+    {
+      "code": "KE-MA24",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Quartier Ancienne M�dina d�limit� par Av. Mohamed V (Nord), Av. Moulay Youssef",
+      "avenues": [
+        "Av. Mohamed V",
+        "Av. Moulay Youssef"
+      ],
+      "prix": []
+    },
+    {
+      "code": "KE-MA26",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Quartier Khabbazat d�limit� par Av. Mohamed V (Nord), Rue John Kennedy (Sud), Rue",
+      "avenues": [
+        "Av. Mohamed V",
+        "Rue John Kennedy"
+      ],
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-MA27",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "KE-MA28",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Quartier Khabbazat d�limit� par Rue 36 (Ouest), 30 (Est) et Av. Palestine (Sud).",
+      "avenues": [
+        "Av. Palestine"
+      ],
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-MA30",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Quartier Khabbazat d�limit� par Rue John Kennedy (Nord), Av. Palestine (Est), Rue 9",
+      "avenues": [
+        "Rue John Kennedy",
+        "Av. Palestine"
+      ],
+      "prix": []
+    },
+    {
+      "code": "KE-MA31",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 17000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 12000
+        }
+      ]
+    },
+    {
+      "code": "KE-MA4",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Av. Youssef Ibn Tachafine (Sud), Av. des FAR (c�t� gare ONCF), Rue Ibn Al Banna",
+      "avenues": [
+        "Av. Youssef Ibn Tachafine",
+        "Rue Ibn Al Banna"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 5900
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6800
+        }
+      ]
+    },
+    {
+      "code": "KE-MA5",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 7500
+        }
+      ]
+    },
+    {
+      "code": "KE-MA6",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6200
+        }
+      ]
+    },
+    {
+      "code": "KE-MA7",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 17000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5600
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 14500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 20000
+        }
+      ]
+    },
+    {
+      "code": "KE-MA8",
+      "arrondissement": "MA",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5800
+        }
+      ]
+    },
+    {
+      "code": "KE-MH2",
+      "arrondissement": "MH",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        }
+      ]
+    },
+    {
+      "code": "KE-MH3",
+      "arrondissement": "MH",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Zone Bd. Lot. Al Kasbah de Mehdia (rue 30 et 45 m de largeur)",
+      "avenues": [
+        "Zone Bd. Lot. Al Kasbah de Mehdia"
+      ],
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-MH7",
+      "arrondissement": "MH",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 3500
+        }
+      ]
+    },
+    {
+      "code": "KE-MH8",
+      "arrondissement": "MH",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Zone Bd. Lot. Al Amria Mehdia plage corniche Lot. Alliances Mehdia - 64 -",
+      "avenues": [
+        "Zone Bd. Lot. Al Amria Mehdia plage corniche Lot. Alliances Mehdia"
+      ],
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 2500,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ1",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 6000,
+          "pc": 3500
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ12",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4300,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ13",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6800
+        },
+        {
+          "type": "Appartement",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 4500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 5000
+        },
+        {
+          "type": "Villa",
+          "pt": 4500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 4500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6700
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5600
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ16",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ17",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 6800
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 5000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 5800
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ18",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ2",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 8000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ20",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Zone D�limit�e par Rue Lamhanned Kacem (Nord), Av. Mohamed V (Ouest), Av. Sa�d Daoudi (Est) et Rue Rachidi Alaoui (Sud), Lot. Bir Rami Est et Lot. Al Qods Zone Bd. Rachidi Alaoui Lot. EL Menzeh, Lot. El Wahda Bir Rami, Lot. Jawhara Lot. Ouled Oujih Bloc C, D et F D�limit� par Rue Antara, Lot. Le Valon au sud, Lot. Al Qods Lot. Bir Rami Ouest Zone Bd. zone d'activit� Lot Haouzia Zone Bd. Rue Colonel Allam Zone Bd. carrefour Lot. El Haouzia Lot. Ouled Oujih Bloc B - 56 -",
+      "avenues": [
+        "Rue Lamhanned Kacem",
+        "Av. Mohamed V",
+        "Rue Rachidi Alaoui",
+        "Zone Bd. Rachidi Alaoui Lot. EL Menzeh",
+        "Rue Antara",
+        "Lot Haouzia Zone Bd. Rue Colonel Allam Zone Bd. carrefour Lot. El Haouzia Lot. Ouled Oujih Bloc B"
+      ],
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 6500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 6500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4200
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4800
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5800
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 3500,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ21",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ23",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 7000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6300
+        },
+        {
+          "type": "Maison",
+          "pt": 11000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 11000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 11000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 6500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 6500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ26",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 7000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4800
+        },
+        {
+          "type": "Maison",
+          "pt": 5800,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5800,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 5800,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4200
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4700
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5700
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 5500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ3",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Lot. Ismailia",
+      "nomCommun": "Route Antara",
+      "avenues": [],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5200
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ30",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 7000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 7000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5200
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6200
+        },
+        {
+          "type": "Maison",
+          "pt": 7500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 7500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 7500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ31",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ32",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Zone Bd. Place des Palmiers.",
+      "avenues": [
+        "Zone Bd. Place des Palmiers."
+      ],
+      "prix": []
+    },
+    {
+      "code": "KE-OJ33",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 6500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 6500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5200
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 5500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ36",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5200
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 5800,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "pt": 5800,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "pt": 5800,
+          "pc": 30005800
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5800
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ39",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5900
+        },
+        {
+          "type": "Maison",
+          "pt": 5800,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5800,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5800,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 5500,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ4",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5700
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 5000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5200
+        },
+        {
+          "type": "Appartement",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 6000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ41",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Zone Bd. s�parant Lot. Taibiya et Quartier la Cit� Lot. Haddada Route de Mehdia (Lots villa et lots R+4) Lot. Haddada Route Mehdia (Bd. de 45m de largeur) - 57 -",
+      "avenues": [
+        "Route Mehdia"
+      ],
+      "prix": []
+    },
+    {
+      "code": "KE-OJ42",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 5800
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ43",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ46",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4400
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 2800,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 2800,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ47",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4300
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ48",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5300
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 4200,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4200,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4200,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4200
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ5",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Zone Bd. D�limit�e par Lot. Ismailia",
+      "nomCommun": "Route secondaire Mehdia et Rue Colonel Allam",
+      "avenues": [],
+      "prix": []
+    },
+    {
+      "code": "KE-OJ51",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 3500,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5800
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 6000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ52",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ53",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ56",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5200
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5200
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ58",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "KE-OJ9",
+      "arrondissement": "OJ",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4800
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 6000
+        }
+      ]
+    },
+    {
+      "code": "KE-SK1",
+      "arrondissement": "SK",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "KE-SK10",
+      "arrondissement": "SK",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 7500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 7500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 7500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-SK11",
+      "arrondissement": "SK",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4200
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "pt": 4800,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4800,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 4800,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-SK2",
+      "arrondissement": "SK",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "KE-SK3",
+      "arrondissement": "SK",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-SK6",
+      "arrondissement": "SK",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5200
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4800
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 7000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 7000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "KE-SK7",
+      "arrondissement": "SK",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        }
+      ]
+    },
+    {
+      "code": "KE-SK9",
+      "arrondissement": "SK",
+      "ville": "Kénitra",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Zone Bd. Al Massira",
+      "avenues": [
+        "Zone Bd. Al Massira"
+      ],
+      "prix": []
+    }
+  ]
+}

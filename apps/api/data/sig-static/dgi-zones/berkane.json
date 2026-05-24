@@ -1,0 +1,358 @@
+{
+  "_meta": {
+    "ville": "Berkane",
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T21:51:34.498Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 6,
+    "zonesWithPrices": 6,
+    "zonesWithDelimitations": 0
+  },
+  "arrondissements": [
+    {
+      "code": "BD",
+      "nom": "Berkane Centre"
+    },
+    {
+      "code": "SS",
+      "nom": "SSC"
+    }
+  ],
+  "zones": [
+    {
+      "code": "BK-BD2",
+      "arrondissement": "Berkane Centre",
+      "ville": "Berkane",
+      "region": "Oriental",
+      "prix": [
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "prixUnique": 6500
+        }
+      ]
+    },
+    {
+      "code": "BK-BD3",
+      "arrondissement": "Berkane Centre",
+      "ville": "Berkane",
+      "region": "Oriental",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 2700
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 2700
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 2700
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 2700
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 4000
+        }
+      ]
+    },
+    {
+      "code": "BK-BD5",
+      "arrondissement": "Berkane Centre",
+      "ville": "Berkane",
+      "region": "Oriental",
+      "prix": [
+        {
+          "type": "Maison",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        }
+      ]
+    },
+    {
+      "code": "BK-BD6",
+      "arrondissement": "Berkane Centre",
+      "ville": "Berkane",
+      "region": "Oriental",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3700
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 537
+        },
+        {
+          "type": "Immeuble",
+          "prixUnique": 536
+        }
+      ]
+    },
+    {
+      "code": "BK-SSC1",
+      "arrondissement": "SSC",
+      "ville": "Berkane",
+      "region": "Oriental",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2000
+        }
+      ]
+    },
+    {
+      "code": "BK-SSC3",
+      "arrondissement": "SSC",
+      "ville": "Berkane",
+      "region": "Oriental",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 1700
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 1700
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 1700
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Neuf",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 1600
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 1400
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        }
+      ]
+    }
+  ]
+}

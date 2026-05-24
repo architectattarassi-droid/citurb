@@ -1,0 +1,1541 @@
+{
+  "_meta": {
+    "ville": "Meknès",
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T21:51:34.464Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 31,
+    "zonesWithPrices": 23,
+    "zonesWithDelimitations": 8
+  },
+  "arrondissements": [
+    {
+      "code": "AC",
+      "nom": "Al Mechouar Stinia"
+    },
+    {
+      "code": "AG",
+      "nom": "AG"
+    },
+    {
+      "code": "AM",
+      "nom": "AM"
+    },
+    {
+      "code": "BA",
+      "nom": "BA"
+    },
+    {
+      "code": "BD",
+      "nom": "BD"
+    },
+    {
+      "code": "BO",
+      "nom": "BO"
+    },
+    {
+      "code": "BZ",
+      "nom": "BZ"
+    },
+    {
+      "code": "HC",
+      "nom": "HC"
+    },
+    {
+      "code": "MJ",
+      "nom": "MJ"
+    },
+    {
+      "code": "MM",
+      "nom": "MM"
+    },
+    {
+      "code": "MS",
+      "nom": "MS"
+    },
+    {
+      "code": "PL",
+      "nom": "PL"
+    },
+    {
+      "code": "RY",
+      "nom": "RY"
+    },
+    {
+      "code": "SA",
+      "nom": "SA"
+    },
+    {
+      "code": "SB",
+      "nom": "SB"
+    },
+    {
+      "code": "SZ",
+      "nom": "SZ"
+    },
+    {
+      "code": "TL",
+      "nom": "TL"
+    },
+    {
+      "code": "ZT",
+      "nom": "ZT"
+    }
+  ],
+  "zones": [
+    {
+      "code": "ME-AC1",
+      "arrondissement": "Al Mechouar Stinia",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4200
+        }
+      ]
+    },
+    {
+      "code": "ME-AC2",
+      "arrondissement": "Al Mechouar Stinia",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "delimitations": "Lot El Youmne - Sophal",
+      "avenues": [
+        "Lot El Youmne"
+      ],
+      "prix": []
+    },
+    {
+      "code": "ME-AC3",
+      "arrondissement": "Al Mechouar Stinia",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 5800
+        }
+      ]
+    },
+    {
+      "code": "ME-AC4",
+      "arrondissement": "Al Mechouar Stinia",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 2000
+        }
+      ]
+    },
+    {
+      "code": "ME-AG1",
+      "arrondissement": "AG",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2800
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2800
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 2800
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 3000
+        }
+      ]
+    },
+    {
+      "code": "ME-AM1",
+      "arrondissement": "AM",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 1800
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        }
+      ]
+    },
+    {
+      "code": "ME-BA1",
+      "arrondissement": "BA",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4100
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4600
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5200
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 3000
+        }
+      ]
+    },
+    {
+      "code": "ME-BD2",
+      "arrondissement": "BD",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 2900
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3700
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5200
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4300
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4300
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4300
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 4300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6400
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        }
+      ]
+    },
+    {
+      "code": "ME-BO1",
+      "arrondissement": "BO",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5300
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 6600
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "ME-BZ1",
+      "arrondissement": "BZ",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4600
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 3300
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2800
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 2800
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4700
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5700
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 2000
+        }
+      ]
+    },
+    {
+      "code": "ME-BZ2",
+      "arrondissement": "BZ",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "delimitations": "Rue Chouaib Doukali � Rue Rizki � Rue Fakih El Qari � Rue Razi - 72 -",
+      "avenues": [
+        "Rue Razi"
+      ],
+      "prix": []
+    },
+    {
+      "code": "ME-HC2",
+      "arrondissement": "HC",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "delimitations": "Rue Kifa � Rue Ouahda Ifriquia � Av Hassa II � Rue Abou Hassan El",
+      "avenues": [
+        "Rue Abou Hassan El"
+      ],
+      "prix": []
+    },
+    {
+      "code": "ME-HC3",
+      "arrondissement": "HC",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 8200
+        }
+      ]
+    },
+    {
+      "code": "ME-HC4",
+      "arrondissement": "HC",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 12500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 12500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5200
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 6300
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        }
+      ]
+    },
+    {
+      "code": "ME-HC6",
+      "arrondissement": "HC",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Villa",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8500
+        }
+      ]
+    },
+    {
+      "code": "ME-MJ3",
+      "arrondissement": "MJ",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 5300
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 5600
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        }
+      ]
+    },
+    {
+      "code": "ME-MJ4",
+      "arrondissement": "MJ",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "ME-MJ5",
+      "arrondissement": "MJ",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4300
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4300
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4800
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5200
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 4300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5100
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3600
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4700
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 13500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6500
+        }
+      ]
+    },
+    {
+      "code": "ME-MM1",
+      "arrondissement": "MM",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "delimitations": "Lot Mimosa � Lot Zahra- Manar � Bnou Rochd � Errayhane � - 76 -",
+      "avenues": [
+        "Lot Zahra"
+      ],
+      "prix": []
+    },
+    {
+      "code": "ME-MS1",
+      "arrondissement": "MS",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2800
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3200
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4200
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 2300
+        }
+      ]
+    },
+    {
+      "code": "ME-PL1",
+      "arrondissement": "PL",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Villa",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 12500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 8500
+        }
+      ]
+    },
+    {
+      "code": "ME-RY1",
+      "arrondissement": "RY",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "delimitations": "Rue Dispensaire-Rue Palestine-Rue Saladine Al ayoubi-Rue Ibn",
+      "avenues": [
+        "Rue Dispensaire",
+        "Rue Palestine",
+        "Rue Saladine Al ayoubi",
+        "Rue Ibn"
+      ],
+      "prix": []
+    },
+    {
+      "code": "ME-RY2",
+      "arrondissement": "RY",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3100
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4600
+        }
+      ]
+    },
+    {
+      "code": "ME-RY6",
+      "arrondissement": "RY",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Maison",
+          "prixUnique": 3300
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3300
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 3300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 2700
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2300
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5600
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        }
+      ]
+    },
+    {
+      "code": "ME-RY7",
+      "arrondissement": "RY",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 4000
+        }
+      ]
+    },
+    {
+      "code": "ME-SA1",
+      "arrondissement": "SA",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 2900
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2200
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2600
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        }
+      ]
+    },
+    {
+      "code": "ME-SB1",
+      "arrondissement": "SB",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 2900
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3400
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 1800
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 2600
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 2600
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2600
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2600
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 1800
+        }
+      ]
+    },
+    {
+      "code": "ME-SZ3",
+      "arrondissement": "SZ",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3100
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3300
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "ME-TL2",
+      "arrondissement": "TL",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "delimitations": "Lot El Fath 1 et 2, Quartie Administratif � Lot Travaux Publiques",
+      "avenues": [
+        "Lot Travaux Publiques"
+      ],
+      "prix": []
+    },
+    {
+      "code": "ME-ZT1",
+      "arrondissement": "ZT",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "delimitations": "Lot Tazi-Jamaa Roua-Zitoune Centre-Lot Rizki-Diour Tazi",
+      "avenues": [
+        "Lot Tazi",
+        "Lot Rizki"
+      ],
+      "prix": []
+    },
+    {
+      "code": "ME-ZT2",
+      "arrondissement": "ZT",
+      "ville": "Meknès",
+      "region": "Fès-Meknès",
+      "delimitations": "Lot Zin El Abdine- Lot Saliha-Lot Maslouhia, Bd Dighoussi - 46 -",
+      "avenues": [
+        "Lot Zin El Abdine",
+        "Lot Saliha",
+        "Lot Maslouhia",
+        "Bd Dighoussi"
+      ],
+      "prix": []
+    }
+  ]
+}

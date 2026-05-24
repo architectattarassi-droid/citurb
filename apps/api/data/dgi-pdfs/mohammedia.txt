@@ -1,0 +1,1090 @@
+      Référentiel des Prix des Transactions Immobilières
+                             de Mohammedia
+
+       Les données de ce référentiel sont opposables uniquement
+                      à la Direction Générale des Impôts
+
+Site Internet : www.tax.gov.ma ­ Email : referentiel@tax.gov.ma
+                                                                        Edition Juillet 2015
+            Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+                                    Sommaire
+
+1. Préambule                                                                  03
+
+2. Liste des abréviations                                                     04
+
+3. Lexique                                                                    05
+
+4. Territoire, biens concernés et plan d'ensemble de Mohammedia               07
+
+4.1. Territoire et biens concernés                                            07
+
+4.2. Plan d'ensemble de Mohammedia                                            08
+
+5. Mode de recherche                                                          10
+
+6. Référentiel des prix des transactions immobilières de la prefecture de     12
+
+    Mohammedia
+
+6.1. 1ère Annexe Administrative                                               13
+
+6.2. 2 ème Annexe Administrative                                              15
+
+6.3. 3 ème Annexe Administrative                                              19
+
+6.4. 4 ème Annexe Administrative                                              21
+
+6.5. 5 ème Annexe Administrative                                              24
+
+6.6. 6 ème Annexe Administrative                                              28
+
+6.7. 7 ème Annexe Administrative                                              31
+
+7. Cartographie et tableaux des délimitations des Zones                       34
+
+8. Contacts utiles                                                            49
+
+                                    -2-
+               Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+                               1. Préambule
+
+Dans une démarche de transparence de l'action de l'Administration et de rationalisation de son
+pouvoir d'appréciation, le présent manuel assure la publication des prix de référence retenus par
+l'Administration pour les besoins de calcul des droits et taxes.
+
+Il s'applique à l'ensemble des cessions de biens immobiliers à usage d'habitation.
+
+Il permet aux citoyens, dans un souci d'amélioration du climat de confiance, de disposer du
+même niveau d'information que l'Administration.
+
+Pour se rapprocher le plus de la réalité du marché, les données de ce référentiel sont le résultat
+d'un travail de consultation et de concertation entre la Direction Générale des Impôts, l'Agence
+Nationale de la Conservation Foncière du Cadastre et de la Cartographie, la Fédération Nationale
+des Promoteurs Immobiliers, la Banque Centrale du Maroc (Bank Al Maghrib), l'Agence Urbaine
+de Casablanca, le Ministère de l'Urbanisme et de l'Aménagement du Territoire et l'Ordre des
+Notaires.
+
+Il s'agit de prix moyens retenus pour le calcul des droits et taxes et ne constituent en aucun cas
+une évaluation directe d'un bien immobilier donné.
+
+Il constitue à cet effet une étape importante dans le processus de renforcement des garanties
+accordées aux citoyens.
+
+Les données de ce référentiel feront l'objet d'une actualisation périodique en fonction de
+l'évolution du marché de l'immobilier.
+
+                                                         -3-
+               Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+                        2. Liste des abréviations
+
+ANCFCC : Agence Nationale de la Conservation Foncière, du Cadastre et de la Cartographie
+DGI : Direction Générale des Impôts
+FNPI : Fédération Nationale des Promoteurs Immobiliers
+m2 : Mètre Carré
+MO : Mohammedia
+MO-A1 : Mohammedia ­ 1 ère Annexe Administrative.
+MO-A2 : Mohammedia ­ 2 ème Annexe Administrative.
+MO-A3 : Mohammedia ­ 3 ème Annexe Administrative.
+MO-A4 : Mohammedia ­ 4 ème Annexe Administrative.
+MO-A5 : Mohammedia ­ 5 ème Annexe Administrative.
+MO-A6 : Mohammedia ­ 6 ème Annexe Administrative.
+PC : Prix de la Construction
+PCF : Prix de la Construction Finie
+PCSF : Prix de la Conctruction Semi Finie
+PT : Prix du Terrain
+R+(i) : Rez-de-chaussée + (i) : Nombre d'étages
+ST : Superficie du Terrain
+T : Terrain
+TSGolf : Terrain Sur Golf
+ZI : Zone Immeuble
+ZM : Zone Maison
+Zone Rue/Av./Bd : Rue, Avenue et Boulevard ayant le statut d'une Zone
+ZV : Zone Villa
+< à R+(i) : Zonage inférieur à R+(i)
+<= à R+(i) : Zonage inférieur ou égale à R+(i)
+> à R+(i) : Zonage supérieur à R+(i)
+>= à R+(i) : Zonage supérieur ou égale à R+(i)
+
+                                                         -4-
+               Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+                                 3. Lexique
+
+Ancien (logement) : logement ayant été achevé depuis plus de quinze ans (> à 15 ans).
+Appartement sécurisé : appartement situé dans un projet immobilier fermé et sécurisé.
+Appartement : un appartement est une unité d'habitation, comportant un certain nombre de
+pièces et située dans un immeuble collectif généralement dans une ville.
+Immeuble : dans le langage courant, le mot "immeuble" désigne un bâtiment urbain de plusieurs
+étages, à usage d'habitation ou professionnel, en copropriété.
+Logement social : par cette formule, on désigne un appartement dont la superficie couverte est
+comprise entre 50 et 80 m2 et le prix de vente n'excède pas 250.000 dirhams, hors taxe sur la
+valeur ajoutée.
+Loti (terrain) : un terrain loti signifie un terrain situé dans un lotissement (voir lotissement).
+Lotissement : un lotissement est constitué par un ensemble de lots provenant de la division d'un
+terrain en vue d'y recevoir des constructions qui sont vendues généralement séparément après
+que le lotisseur ait réalisés des voies d'accès, des espaces collectifs et des travaux de viabilité et
+les raccordements aux réseaux de fourniture en eau, en électricité, aux réseaux d'égouts et aux
+réseaux de télécommunication.
+Maison : une maison est un bâtiment destiné à être la demeure d'une famille, voire de plusieurs,
+et qui n'est pas un immeuble en copropriété.
+Neuf (logement) : logement achevé depuis six ans au plus (<= à 6 ans).
+Prix Appartement = Prix au m2 Appartement x (Superficie Appartement + Superficie Parking/3 +
+Superficie Terrasse/2).
+Prix de la Construction (PC) : par prix de la construction, on entend le prix du mètre carré
+couvert.
+Prix du Terrain (PT) : par prix du terrain, on entend le prix du terrain au mètre carré.
+Prix Maison = Prix au m2 T x Superficie Terrain Maison + Prix au m2 C x Superficie Couverte.
+Prix Terrain = Prix au m2 Terrain x Superficie Terrain.
+Prix Villa = Prix au m2 T x Superficie Terrain Villa + Prix au m2 C x Superficie Couverte.
+
+                                                         -5-
+               Référentiel des Prix des Transactions Immobilières de Mohammedia
+Récent (logement) : logement achevé depuis plus de six ans au moins et quinze ans au plus (> à
+6 ans et <= à 15 ans) + logement ancien achevé suite à rénovation depuis six ans au plus (<= à 6
+ans).
+Terrain ZI : est considéré comme terrain zone immeuble tout terrain destiné à la construction
+d'un immeuble collectif : terrain nu, terrain construit de bâtiments destinés à être démolis (cas
+de zone villa convertie en zone immeuble par exemple).
+Terrain ZM : est considéré comme terrain zone maison tout terrain destiné à la construction
+d'une maison : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de maison
+vétuste par exemple).
+Terrain ZV : est considéré comme terrain zone villa tout terrain destiné à la construction d'une
+villa : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de villa vétuste par
+exemple).
+Villa sécurisée : villa située dans un domaine résidentiel fermé et sécurisé.
+Villa : une villa est une maison avec jardin.
+Zone : une zone est un groupe d'adresses où les prix sont relativement homogènes.
+
+                                                         -6-
+               Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+   4. Territoire, biens concernés et plan d'ensemble de la Région de
+                                          Casablanca
+
+    4.1. Territoire concerné :
+La région du grand Casablanca est l'une des douze régions du Maroc instituées en 2015.
+Elle se compose d'une Préfecture et sept Provinces :
+
+     Préfecture de Casablanca ;
+     Préfecture de Mohammedia;
+     Province de Nouaceur;
+     Province de Mediouna;
+
+La Commune Urbaine de Mohammedia englobe sept Annexes Administratives :
+    1ère Annexe Administrative
+    2 ème Annexe Administrative
+    3 ème Annexe Administrative
+    4 ème Annexe Administrative
+    5 ème Annexe Administrative
+
+    6 ème Annexe Administrative
+    7 ème Annexe Administrative
+
+Le territoire géographique et les biens concernés par le présent Référentiel se présentent
+comme suit :
+
+     Territoire concerné : Préfecture de Mohammedia (exception fait des communes rurales
+         et de la commune urbaine de Ain Harrouda;)
+
+     Types de biens immobiliers concernés :
+             o Appartement, Maison, Villa ;
+             o Terrain construit de bâtiments destinés à être démolis : ZV, ZI ou ZM ;
+             o Terrain Loti : ZV, ZI ou ZM.
+                                                         -7-
+               Référentiel des Prix des Transactions Immobilières de Mohammedia
+     Types de biens immobiliers exclus :
+
+             o Appartement à usage professionnel ;
+             o Villa et Maison à vocation professionnelle ou commerciale ;
+             o Logement social ;
+             o Logement destiné au recasement des bidonvilles ;
+             o Terrain urbain non Loti ;
+             o Terrain à usage industriel ;
+             o Terrain à usage agricole.
+    4.2. Plan d'ensemble de Mohammedia:
+Voir page suivante.
+
+                                                         -8-
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+                                         -9-
+             Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+                           5. Modes de recherche
+
+Actuellement, la recherche s'effectue:
+
+· A travers la cosnsultation sur une carte numérisée mise à la disposition du public au
+
+      niveau du portail de la DGI, le système situe le bien sur la carte et affiche
+
+      automatiquement son prix de référence ;
+
+· A partir de la délimitation des zones ;
+
+· En consultant le bureau d'accueil de la Direction Régionale des Impôts de Mohammedia
+
+      et/ou le Centre d'Information Téléphonique au numéro : 05.37.27.37.27.
+
+Précision :
+
+Lorsque un bien chevauche sur plusieurs zones, le prix à prendre en considération est celui de la
+
+zone la plus côté.
+
+Exemple 1 :
+
+Soit         un     appartement            X       se  trouvant               à  Dar
+
+Saada. Situer zone sur la carte et afficher le prix des appartements dans cette zone en cli
+
+quant dessus
+
+                                           - 10 -
+               Référentiel des Prix des Transactions Immobilières de Mohammedia
+Exemple 2 : Soit X un Appartement Neuf relevant de la 1 ère Annexe Administrative.
+Consulter la liste des points de repères de l'Annexe Administrative pour déterminer la zone :
+
+
+Connaissant la zone, on détermine le prix du bien concerné au niveau de la grille de prix
+
+        correspondante :
+
+                                                        - 11 -
+              Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+6. Référentiel des prix des transactions immobilières de Mohammedia
+
+La Préfecture de Mohammedia est découpée en 75 Zones dont la ventilation est comme suit :
+
+     Arrondissement/Pachalick  Nombre de Zones  Nombre de Zones  Nombre total des
+                                         6         Rue/Av./Bd           Zones
+ 1 ère Annexe                            5
+Administrative                          11                2                8
+2 ème Annexe Administrative              9                4                9
+                                         9
+3 ème Annexe Administrative             10                1               12
+4 ème Annexe Administrative              7                3               12
+5 ème Annexe Administrative                               3               12
+6 ème Annexe Administrative           57                  2               12
+7 ème Annexe Administrative                               3               10
+
+                Totaux :                               18               75
+
+                               - 12 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+         6.1. Référentiel des prix des transactions immobilières
+                        de la 1 ère Annexe Administrative
+
+Zone     Type de bien          Etat                               Prix au m2
+
+MO-A1.1  Appartement           Récent             8 500
+MO-A1.2  Appartement           Ancien             7 000
+         Appartement           Récent             7 500
+MO-A1.3  Appartement            Neuf              8 000
+MO-A1.4                        Ancien  PT : 7 500 / PC : 2 000
+MO-A1.5     Maison             Récent  PT : 7 500 / PC : 2 500
+            Maison              Neuf   PT : 7 500 / PC : 3 000
+            Maison                                7 500
+           Terrain ZI            Loti             6 500
+         Appartement           Récent             7 000
+         Appartement                   PT : 8 000 / PC : 2 500
+            Maison              Neuf   PT : 8 000 / PC : 3 000
+            Maison             Récent             8 000
+           Terrain ZI                             6 500
+         Appartement            Neuf             11 500
+           Terrain ZI            Loti             7 000
+         Appartement           Récent             7 500
+         Appartement             Loti             8 000
+         Appartement           Ancien  PT : 7 500 / PC : 2 000
+            Maison             Récent  PT : 7 500 / PC : 2 500
+            Maison              Neuf   PT : 7 500 / PC : 3 000
+            Maison             Ancien             7 500
+           Terrain ZI          Récent
+                                Neuf
+                                 Loti
+
+                       - 13 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+  Zone   Type de bien           Etat           Prix au m2
+MO-A1.6  Appartement           Ancien              6 000
+MO-A1.7  Appartement           Récent              6 500
+                               Ancien
+MO-A1.8      Maison            Récent  PT : 7 000 / PC : 2 000
+             Maison            Ancien  PT : 7 000 / PC : 2 500
+         Appartement           Récent
+         Appartement            Neuf               7 000
+         Appartement           Ancien              7 500
+             Maison            Récent              8 000
+             Maison             Neuf   PT : 12 500 / PC : 2 000
+             Maison                    PT : 12 500 / PC : 3 000
+           Terrain ZI            Loti  PT : 12 500 / PC : 3 500
+         Appartement           Ancien             12 500
+         Appartement           Récent              7 000
+             Maison            Ancien              7 500
+             Maison            Récent  PT : 8 000 / PC : 2 000
+           Terrain ZI                  PT : 8 000 / PC : 2 500
+                                 Loti              8 000
+
+                       - 14 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+         6.2. Référentiel des prix des transactions immobilières
+                        de la 2 ème Annexe Administative
+
+  Zone   Type de bien           Etat                        2
+MO-A2.1  Appartement            Neuf          Prix au m
+MO-A2.2  Appartement           Récent
+         Appartement            Neuf             12 000
+MO-A2.3                        Récent              8 500
+             Maison             Neuf               9 000
+             Maison              Loti  PT : 11 500/PC : 2 500
+           Terrain ZI          Ancien  PT : 11 500/PC : 3 000
+         Appartement           Récent            11 500
+         Appartement            Neuf              7 000
+         Appartement           Ancien             7 500
+             Maison            Récent             8 000
+             Maison             Neuf   PT : 9 500 / PC : 2 000
+             Maison              Loti  PT : 9 500 / PC : 2 500
+           Terrain ZI                  PT : 9 500 / PC : 3 000
+                                                  9 500
+
+                       - 15 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+  Zone   Type de bien           Etat                         2
+MO-A2.4  Appartement           Ancien          Prix au m
+MO-A2.5  Appartement           Récent
+         Appartement            Neuf               8 000
+
+             Maison            Ancien              9 000
+
+             Maison            Récent            10 000
+                                                 SI R+2 :
+             Maison             Neuf   PT : 10 000 / PC : 2 000
+                                                 SI R+3 :
+               Villa           Ancien  PT : 12 000 / PC : 2 000
+               Villa           Récent            SI R+2 :
+               Villa                   PT : 10 000 / PC : 2 500
+           Terrain ZI           Neuf             SI R+3 :
+           Terrain ZV            Loti  PT : 12 000 / PC : 2 500
+         Appartement             Loti            SI R+2 :
+         Appartement           Ancien  PT : 10 000 / PC : 3 000
+             Maison            Récent            SI R+3 :
+             Maison            Ancien  PT : 12 000 / PC : 3 000
+           Terrain ZI          Récent
+                                 Loti  PT : 8 500 / PC : 2 500
+
+                                       PT : 8 500 / PC : 3 000
+
+                                       PT : 8 500 / PC : 3 500
+                                              R+2 : 10 000
+                                              R+3 : 12 000
+                                                   8 500
+
+                                                    9 000
+
+                                                  10 000
+
+                                       PT : 12 000/PC : 2 000
+
+                                       PT : 12 000/PC : 2 500
+
+                                                  12 000
+
+                       - 16 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+  Zone   Type de bien           Etat           Prix au m2
+MO-A2.6  Appartement           Ancien              8 000
+MO-A2.7  Appartement           Récent              8 500
+MO-A2.8  Appartement            Neuf               9 000
+                               Ancien
+             Maison            Récent  PT : 12 000 / PC : 2 000
+             Maison             Neuf   PT : 12 000 / PC : 2 500
+             Maison                    PT : 12 000 / PC : 3 000
+           Terrain ZI            Loti
+         Appartement           Ancien             12 000
+         Appartement           Récent              7 000
+         Appartement            Neuf               7 500
+             Maison            Ancien              8 000
+             Maison            Récent  PT : 8 000 / PC : 2 000
+             Maison             Neuf   PT : 8 000 / PC : 2 500
+           Terrain ZI                  PT : 8 000 / PC : 3 000
+         Appartement             Loti              8 000
+         Appartement           Ancien              7 000
+         Appartement           Récent              7 500
+             Maison             Neuf               8 000
+             Maison            Ancien  PT : 12 000 / PC : 2 000
+             Maison            Récent  PT : 12 000 / PC : 2 500
+           Terrain ZI           Neuf   PT : 12 000 / PC : 3 000
+                                                  12 000
+                                 Loti
+
+                       - 17 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+  Zone   Type de bien           Etat          Prix au m2
+MO-A2.9  Appartement           Ancien             6 000
+         Appartement           Récent             7 000
+         Appartement            Neuf              7 500
+                               Ancien
+             Maison            Récent  PT : 7 000 / PC : 2 000
+             Maison             Neuf   PT : 7 000 / PC : 2 500
+             Maison                    PT : 7 000 / PC : 3 000
+           Terrain ZI            Loti
+                                                  7 000
+
+                       - 18 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+         6.3. Référentiel des prix des transactions immobilières
+                        de la 3 ème Annexe Administative
+
+  Zone   Type de bien           Etat                                                  2
+         Appartement           Ancien                                    Prix au m
+MO.A3.1  Appartement           Récent
+         Appartement            Neuf                                        11 500
+MO-A3.2                        Ancien                                       12 000
+MO-A3.3        Villa           Récent                                       12 500
+MO-A3.4        Villa            Neuf                              PT : 9 000/PC : 2 500
+MO-A3.5        Villa                                              PT : 9 000/PC : 3 000
+           Terrain ZI            Loti                             PT : 9 000/PC : 3 500
+           Terrain ZV            Loti                                  R+3 : 13 000
+         Appartement           Ancien                                  R+4 : 15 000
+         Appartement           Récent                                  R+5 : 17 000
+         Appartement            Neuf                                        9 000
+               Villa           Ancien                                       11 500
+               Villa           Récent                                       12 000
+               Villa            Neuf                                        12 500
+           Terrain ZV            Loti                             PT : 9 000/PC : 2 500
+         Appartement           Récent                             PT : 9 000/PC : 3 000
+         Appartement           Ancien                             PT : 9 000/PC : 3 500
+         Appartement           Ancien                                       9 000
+         Appartement           Récent                                       10 000
+                                                                            11 000
+                                                                            11 000
+                                                                            13 000
+
+                       - 19 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+   Zone   Type de bien            Etat                        2
+          Appartement            Ancien         Prix au m
+MO-A3.6   Appartement            Récent
+          Appartement             Neuf             10 000
+MO-A3.7                          Ancien            11 000
+MO-A3.8         Villa            Récent            12 000
+MO-A3.9         Villa             Neuf   PT : 8 000/PC : 2 500
+MO-A3.10        Villa                    PT : 8 000/PC : 3 000
+MO-A3.11    Terrain ZV             Loti  PT : 8 000/PC : 3 500
+MO-A3.12    Terrain ZI             Loti             8 000
+          Appartement            Récent        R+4 : 15 000
+          Appartement            Ancien            11 000
+          Appartement            Ancien             8 500
+          Appartement            Récent             7 500
+          Appartement             Neuf              8 000
+              Maison             Ancien             8 500
+              Maison             Récent  PT : 9 000 / PC : 2 000
+              Maison              Neuf   PT : 9 000 / PC : 2 500
+            Terrain ZI             Loti  PT : 9 000 / PC : 3 000
+          Appartement            Récent             9 000
+          Appartement            Ancien            10 000
+          Appartement            Ancien             9 000
+          Appartement            Récent             6 500
+          Appartement             Neuf              7 000
+              Maison             Ancien             7 500
+              Maison             Récent  PT : 7 000 / PC : 2 000
+              Maison              Neuf   PT : 7 000 / PC : 2 500
+            Terrain ZI             Loti  PT : 7 000 / PC : 3 000
+                                                    7 000
+                         - 20 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+         6.4. Référentiel des prix des transactions immobilières
+                        de la 4 ème Annexe Administative
+
+  Zone   Type de bien            Etat          Prix au m2
+MO-A4.1  Appartement             Neuf              9 000
+MO-A4.2  Appartement            Ancien              7 000
+         Appartement            Récent             7 500
+MO-A4.3  Appartement             Neuf              8 000
+MO-A4.4                         Ancien
+MO-A4.5      Maison             Récent  PT : 8 000/PC : 2 000
+MO-A4.6      Maison              Neuf   PT : 8 000/PC : 2 500
+             Maison               Loti  PT : 8 000/PC : 3 000
+           Terrain ZI           Ancien
+         Appartement            Récent             8 000
+         Appartement             Neuf              7 000
+         Appartement            Ancien             7 500
+             Maison             Récent             8 000
+             Maison              Neuf   PT : 8 000 / PC : 2 000
+             Maison               Loti  PT : 8 000 / PC : 2 500
+           Terrain ZI           Récent  PT : 8 000 / PC : 3 000
+         Appartement            Ancien             8 000
+         Appartement            Ancien             9 000
+         Appartement            Récent             6 500
+         Appartement             Neuf              6 500
+         Appartement            Ancien             7 000
+             Maison             Récent             7 500
+             Maison              Neuf   PT : 7 500 / PC : 2 000
+             Maison               Loti  PT : 7 500 / PC : 2 500
+           Terrain ZI                   PT : 7 500 / PC : 3 000
+                                                   7 500
+                        - 21 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+   Zone   Type de bien            Etat           Prix au m2
+MO-A4.7   Appartement            Récent              8 000
+MO-A4.8   Appartement                                8 500
+MO-A4.9                           Neuf
+              Maison             Récent  PT : 8 500 / PC : 2 500
+MO-A4.10      Maison                     PT : 8 500 / PC : 3 000
+            Terrain ZI            Neuf
+          Appartement              Loti              8 500
+          Appartement            Ancien              7 000
+              Maison             Récent              7 500
+              Maison             Ancien  PT : 7 500 / PC : 2 000
+            Terrain ZI           Récent  PT : 7 500 / PC : 2 500
+          Appartement              Loti              7 500
+          Appartement            Ancien              7 000
+          Appartement            Récent              7 500
+              Maison              Neuf               8 000
+              Maison             Ancien  PT : 12 500 / PC : 2 000
+              Maison             Récent  PT : 12 500 / PC : 3 000
+            Terrain ZI            Neuf   PT : 12 500 / PC : 4 000
+          Appartement              Loti             12 500
+          Appartement            Ancien              7 000
+          Appartement            Récent              7 500
+              Maison              Neuf               8 000
+              Maison             Ancien  PT : 12 500 / PC : 2 000
+              Maison             Récent  PT : 12 500 / PC : 3 000
+            Terrain ZI            Neuf   PT : 12 500 / PC : 4 000
+                                   Loti             12 500
+                         - 22 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+   Zone   Type de bien           Etat   Prix au m2
+MO-A4.11  Appartement           Récent     8 500
+MO-A4.12                                  12 500
+            Terrain ZI            Loti     8 000
+          Appartement           Récent    12 500
+
+            Terrain ZI            Loti
+
+                        - 23 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+         6.5. Référentiel des prix des transactions immobilières
+                        de la 5 ème Annexe Administative
+
+  Zone   Type de bien           Etat          Prix au m2
+MO-A5.1  Appartement           Ancien              7 000
+MO-A5.2  Appartement           Récent             7 500
+MO-A5.3  Appartement            Neuf              8 000
+                               Ancien
+             Maison            Récent  PT : 8 500/PC : 2 000
+             Maison             Neuf   PT : 8 500/PC : 2 500
+             Maison            Ancien  PT : 8 500/PC : 3 000
+                               Récent  PT : 8 000/PC : 2 500
+               Villa            Neuf   PT : 8 000/PC : 3 000
+               Villa                   PT : 8 000/PC : 3 500
+               Villa             Loti
+           Terrain ZI            Loti             8 500
+           Terrain ZV           Neuf              8 000
+         Appartement           Ancien            12 500
+         Appartement           Récent             7 000
+         Appartement            Neuf              7 500
+         Appartement           Ancien             8 000
+             Maison            Récent  PT : 8 500 / PC : 2 000
+             Maison             Neuf   PT : 8 500 / PC : 2 500
+             Maison            Ancien  PT : 8 500 / PC : 3 000
+               Villa           Récent  PT : 7 500 / PC : 2 500
+               Villa            Neuf   PT : 7 500 / PC : 3 000
+               Villa             Loti  PT : 7 500 / PC : 3 500
+           Terrain ZI            Loti             8 500
+           Terrain ZV                             7 500
+
+                       - 24 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+  Zone   Type de bien           Etat           Prix au m2
+MO-A5.4  Appartement           Ancien              7 000
+MO-A5.5  Appartement           Récent              7 500
+MO-A5.6  Appartement            Neuf               8 000
+                               Ancien
+             Maison            Récent  PT : 7 500 / PC : 2 000
+             Maison             Neuf   PT : 7 500 / PC : 2 500
+             Maison                    PT : 7 500 / PC : 3 000
+           Terrain ZI            Loti
+         Appartement           Ancien              7 500
+         Appartement           Récent              7 000
+         Appartement            Neuf               7 500
+             Maison            Ancien              8 500
+             Maison            Récent  PT : 12 500 / PC : 2 000
+             Maison             Neuf   PT : 12 500 / PC : 3 000
+           Terrain ZI                  PT : 12 500 / PC : 4 000
+         Appartement             Loti             12 500
+         Appartement           Ancien              7 000
+         Appartement           Récent              7 500
+             Maison             Neuf               8 500
+             Maison            Ancien  PT : 12 000 / PC : 2 000
+             Maison            Récent  PT : 12 000 / PC : 3 000
+           Terrain ZI           Neuf   PT : 12 000 / PC : 4 000
+                                                  12 000
+                                 Loti
+
+                       - 25 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+   Zone   Type de bien           Etat                         2
+MO-A5.7   Appartement           Ancien          Prix au m
+          Appartement           Récent
+MO-A5.8   Appartement            Neuf               7 000
+MO-A5.9                         Ancien              7 500
+MO-A5.10      Maison            Récent              8 500
+              Maison             Neuf   PT : 12 000 / PC : 2 000
+              Maison                    PT : 12 000 / PC : 3 000
+            Terrain ZI            Loti  PT : 12 000 / PC : 4 000
+          Appartement            Neuf              12 000
+            Terrain ZI            Loti              9 000
+          Appartement           Récent              8 500
+          Appartement           Ancien              8 000
+          Appartement           Récent              7 500
+          Appartement            Neuf               8 000
+              Maison            Ancien              8 500
+              Maison            Récent  PT : 8 500 / PC : 2 000
+              Maison             Neuf   PT : 8 500 / PC : 2 500
+            Terrain ZI            Loti  PT : 8 500 / PC : 3 000
+                                                    8 500
+
+                        - 26 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+   Zone   Type de bien           Etat                        2
+MO-A5.11  Appartement           Récent         Prix au m
+          Appartement
+MO-A5.12                         Neuf              8 000
+              Maison            Ancien             8 500
+              Maison            Récent  PT : 7 500 / PC : 2 000
+              Maison             Neuf   PT : 7 500 / PC : 2 500
+            Terrain ZI                  PT : 7 500 / PC : 3 000
+          Appartement             Loti             7 500
+          Appartement           Ancien             6 500
+          Appartement           Récent             7 000
+              Maison             Neuf              7 500
+              Maison            Ancien  PT : 7 000 / PC : 2 000
+              Maison            Récent  PT : 7 000 / PC : 2 500
+            Terrain ZI           Neuf   PT : 7 000 / PC : 3 000
+                                                   7 000
+                                  Loti
+
+                        - 27 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+         6.6. Référentiel des prix des transactions immobilières
+                         de la 6 ème Annexe Administative
+
+  Zone   Type de bien           Etat          Prix au m2
+MO-A6.1
+MO-A6.2  Appartement           Récent            7 000
+         Appartement            Neuf             7 500
+MO-A6.3  Appartement                             8 000
+         Appartement           Récent             9 000
+MO-A6.4  Appartement           Ancien            11 000
+MO-A6.5  Appartement           Récent            13 000
+MO-A6.6                         Neuf   PT : 9 000/PC : 2 500
+               Villa           Ancien  PT : 9 000/PC : 3 000
+               Villa           Récent  PT : 9 000/PC : 3 500
+               Villa            Neuf         R+4 : 19 000
+           Terrain ZI                            9 000
+           Terrain ZV            Loti            9 000
+         Appartement             Loti            10 000
+         Appartement           Ancien            10 000
+         Appartement           Récent            12 000
+         Appartement           Ancien            12 500
+         Appartement           Récent       R+4 : 20 000
+           Terrain ZI           Neuf        R+6 : 26 000
+         Appartement             Loti            10 000
+                                Neuf
+
+                       - 28 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+   Zone   Type de bien           Etat                         2
+MO-A6.7   Appartement           Ancien          Prix au m
+MO-A6.8   Appartement           Récent
+MO-A6.9   Appartement            Neuf               6 500
+                                Ancien
+MO-A6.10      Maison            Récent              7 000
+              Maison             Neuf
+              Maison                                7 500
+            Terrain ZI            Loti
+          Appartement            Neuf   PT : 7 500 / PC : 2 000
+          Appartement            Neuf
+                                        PT : 7 500 / PC : 2 500
+                Villa           Ancien
+                                        PT : 7 500 / PC : 3 000
+                Villa           Récent
+                                                    7 500
+                Villa            Neuf
+                                                    8 000
+            Terrain ZV            Loti
+                                                   12 000
+
+                                              SI ST > 400 m²
+                                        PT : 9 000 / PC : 2 500
+
+                                              SI ST < 400 m²
+                                        PT : 10 000 / PC : 2 500
+
+                                              SI ST > 400 m²
+                                        PT : 9 000 / PC : 3 000
+
+                                              SI ST < 400 m²
+                                        PT : 10 000 / PC : 3 000
+
+                                              SI ST > 400 m²
+                                        PT : 9 000 / PC : 3 500
+
+                                              SI ST < 400 m²
+                                        PT : 10 000 / PC : 3 500
+                                        SI ST > 400 m² : 9 000
+                                        SI ST < 400 m² : 10 000
+
+                        - 29 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+   Zone   Type de bien           Etat                       2
+MO-A6.11  Appartement           Ancien         Prix au m
+          Appartement           Récent
+MO-A6.12  Appartement            Neuf             8 000
+                                                  8 500
+            Terrain ZI            Loti            9 000
+                Villa           Ancien       R+3 : 15 000
+                Villa           Récent  PT : 3 000/PC : 1 500
+                Villa            Neuf   PT : 3 000/PC : 2 000
+                                        PT : 3 000/PC : 2 500
+            Terrain ZV            Loti            3 000
+
+                        - 30 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+         6.7. Référentiel des prix des transactions immobilières
+                        de la 7 ème Annexe Administative
+
+Zone     Type de bien           Etat                              Prix au m2
+         Appartement           Récent                               10 500
+
+         Appartement           Neuf                               11 000
+
+MO-A7.1  Villa                 Récent  PT : 8 000/PC : 3 000
+
+         Villa                 Neuf    PT : 8 000/PC : 3 500
+
+         Terrain ZV                                               8 000
+
+         Villa                 Ancien  PT : 8 000/PC : 2 500
+
+         Villa                 Récent  PT : 8 000/PC : 3 000
+
+MO-A7.2
+
+         Villa                 Neuf    PT : 8 000/PC : 3 500
+
+         Terrain ZV            Loti                               8 000
+
+         Appartement           Ancien                             7 000
+
+         Appartement           Récent                             8 000
+
+         Appartement           Neuf                               9 000
+
+MO-A7.3  Maison                Ancien  PT : 9 000/PC : 2 000
+
+         Maison                Récent  PT : 9 000/PC : 2 500
+
+         Maison                Neuf    PT : 9 000/PC : 3 000
+
+         Terrain ZI            Loti                               9 000
+
+MO-A7.4  Appartement           Neuf                               9 000
+
+                       - 31 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+  Zone   Type de bien           Etat          Prix au m2
+         Appartement           Ancien             6 500
+MO-A7.5  Appartement           Récent
+         Appartement            Neuf              7 000
+MO-A7.6
+MO-A7.7      Maison            Ancien             7 500
+MO-A7.8                                          SI R+2
+             Maison            Récent  PT : 7 500 / PC : 2 000
+                                                 SI R+3
+             Maison             Neuf   PT : 9 000 / PC : 2 000
+                                                 SI R+2
+               Villa           Ancien  PT : 7 500 / PC : 3 000
+               Villa           Récent            SI R+3
+               Villa                   PT : 9 000 / PC : 3 000
+           Terrain ZI           Neuf             SI R+2
+           Terrain ZV            Loti  PT : 7 500 / PC : 3 500
+         Appartement             Loti            SI R+3
+         Appartement           Récent  PT : 9 000 / PC : 3 500
+         Appartement            Neuf
+         Appartement            Neuf   PT : 5 000/PC : 2 500
+                                Neuf
+                                       PT : 5 000/PC : 3 000
+
+                                       PT : 5 000/PC : 3 500
+                                              R+2 : 7 500
+                                              R+3 : 9 000
+                                                  7 500
+
+                                                  8 000
+
+                                                  8 500
+
+                                                 12 500
+
+                                                 12 500
+
+                       - 32 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+   Zone   Type de bien           Etat                        2
+MO-A7.9   Appartement           Ancien         Prix au m
+          Appartement           Récent
+MO-A7.10  Appartement            Neuf              7 000
+                                Ancien             8 000
+              Maison            Récent             9 000
+              Maison             Neuf   PT : 12 500/PC : 2 000
+              Maison                    PT : 12 500/PC : 3 000
+            Terrain ZI            Loti  PT : 12 500/PC : 4 000
+          Appartement           Ancien            12 500
+          Appartement           Récent             6 500
+          Appartement            Neuf              7 500
+              Maison            Ancien             8 500
+              Maison            Récent  PT : 12 500/PC : 2 000
+              Maison             Neuf   PT : 12 500/PC : 3 000
+            Terrain ZI                  PT : 12 500/PC : 4 000
+                                  Loti            12 500
+
+                        - 33 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+                     7. Annexes
+
+                                         - 34 -
+          Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+7.1. Cartographie des Zones relevant de la 1 ère Annexe Administrative :
+
+                                                    - 35 -
+         Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+7.1. Tableau des délimitations des Zones : La 1 ère Annexe Administrative :
+
+Code Zone  Points de Repère
+
+MO-A1.1    Résidence les Jardins des Fleures (Bd Riad)
+MO-A1.2    Dar Saada, Kinani, Hassania 1, Hassania 2 Bloc « A » et Bloc « B ».
+MO-A1.3    El wahda du n°1 au n°196
+MO-A1.4    Nasr Front Bati
+MO-A1.5    Saada, Hassania 1 (Zone delimitée par Bd Moukhtar Soussi / Bd la Résistance / Bd Cadi Tazi )
+
+MO-A1.6    Ecran Samir Hassania 2
+
+MO-A1.7    Bd la résistance (De Bd Cadi Tazi à Bd Moukhtar Soussi)
+MO-A1.8    Bd Oued El Makhazine (De Cadi Tazi à Bd Moukhtar Soussi)
+
+                                   - 36 -
+          Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+7.2. Cartographie des Zones relevant de la 2ème Annexe Administrative :
+
+                                                    - 37 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+7.2. Tableau des délimitations des Zones : La 2 ème Annexe Administrative.
+
+Code Zone  Points de Repère
+ MO-A2.1   Eden Park
+ MO-A2.2   Mesk Elail, Lot Redouane
+ MO-A2.3   Chabab, Riad1, Riad2
+ MO-A2.4   Lot la Gare, Immeuble Kassou, La Belle Vue
+ MO-A2.5   Bd Palestine (Mesk Elail, Lot Redouane)
+ MO-A2.6   Bd Abdelkrim El Khattabi (De Bd Palestine à Bd Mounastir)
+ MO-A2.7   Bd la Résistance (De Bd Palestine à Bd Tadla)
+ MO-A2.8   Bd Palestine (De Bd Abdelkrim El Khattabi à Bd la Résistance)
+ MO-A2.9   Derb Duchemin,Hay Castor,Derb Rbat,Derb Meknes
+
+           - 38 -
+          Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+7.3. Cartographie des Zones relevant de la 3 ème Annexe Administrative :
+
+                                                    - 39 -
+          Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+7.3. Tableau des délimitations des Zones : La 3 ème Annexe Administrative.
+
+Code Zone  Points de Repère
+ MO-A3.1   Zone délimitée par Oued Nfifikh / L'Ocean Alantique / Bd Hassan II / Résidence Ibn Khaldoun
+ MO-A3.2   Résidence Panorama / Florianes / Littoral / Rivage
+ MO-A3.3   Résidence 9 Juillet
+ MO-A3.4   Résidence Beau Rivage,Résidence la Corniche ( En face Sphinx )
+ MO-A3.5   La Corniche, Beach Palace 1 et 2
+ MO-A3.6   Zone délimitée par Bd Mohamed V /Rue Ibn Tachfine / Bd Mly Ismail / Bd Hassan II
+ MO-A3.7   Résidence California (Bd Hassan II)
+ MO-A3.8   Residence 3 Mars, Résidence Ibn Khaldoun
+ MO-A3.9   Rue de Souss
+MO-A3.10   Résidence El Baraka,Résidence Anouar
+MO-A3.11   Residence Salama
+MO-A3.12   Kasbah
+
+           - 40 -
+          Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+7.4. Cartographie des Zones relevant de la 4 ème Annexe Administrative :
+
+                                                    - 41 -
+          Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+7.4. Tableau des délimitations des Zones : La 4 ème Annexe Administrative.
+
+Code Zone  Points de Repère
+ MO-A4.1   Résidence les Jardins des Fleures 1, Residence Rif, Résidence Rokia II (Bd Palestine : De Bd Riad à
+ MO-A4.2   L'Autoroute)
+ MO-A4.3   Lotissement El Falah, Lotissement Erreda
+ MO-A4.4   El Wahda (Zone délimitée par Bd Riad / Bd Tadla / Bd Palestine / Bd la Résistance)
+ MO-A4.5   Immeuble Ait Manna (Bd la Résistance)
+ MO-A4.6   Ecran Samir Rachidia (Angle Bd Palesine et Bd de la Résistance)
+ MO-A4.7   Lotissement Hassania Extension,Hay El Fath,Derb Jamila,L'Habitat
+ MO-A4.8   Lotissement El Manar ,Résidence Amal Zouhour
+ MO-A4.9   Saada ( Rue 1 de n°61 à 94),Derb Marrakech
+MO-A4.10   Bd Riad (El Falah,El Wahda)
+MO-A4.11   Bd de la Résistance (El Wahda : de Bd Tadla à Bd Moukhtar Soussi)
+MO-A4.12   Bd Riad (Lotissement El Manar ,Résidence Amal Zouhour )
+           Immeuble Lahlou (Bd la Résistance)
+
+           - 42 -
+          Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+7.5. Cartographie des Zones relevant de la 5 ème Annexe Administrative :
+
+                                                    - 43 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+7.5. Tableau des délimitations des Zones : La 5 ème Annexe Administrative.
+
+Code Zone  Points de Repère
+ MO-A5.1   La Colline,Anfa,Residence Salima,Résidence El fajr,Résidence Erraihane,Résidence Mimosa
+ MO-A5.2   Résidence Green Park
+ MO-A5.3   Lotissement El Amal,Cité El Houria,Cité Laayoune,Cité Lagrini,Cité Dakhla,Immeuble Ahrabare,Hay Meriem
+ MO-A5.4   Lotissement Ard Sghir
+ MO-A5.5   Bd Riad ( El Fajr : de Bd Hassan 1 à Bd Sebta )
+ MO-A5.6   Bd Palestine ( Cité El Houria ,Cité Grini,Cité Laayoune)
+ MO-A5.7   Bd Palestine (Lotissement Ard Sghir, Lotissement Abdelmoumen)
+ MO-A5.8   Lotissement Fadlellah, Lotissement Al Qoumama
+ MO-A5.9   Résidence Riad E l Houda
+MO-A5.10   Lotissement Abdelmoumen et Lotissement Dahbi
+MO-A5.11   Résidence Tahra, Lotissement Safy, Résidence Mahalak, Résidence El alia
+MO-A5.12   Quartier Chhaouta
+
+           - 44 -
+          Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+7.6. Cartographie des Zones relevant de la 6 ème Annexe Administrative :
+
+                                                    - 45 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+7.6. Tableau des délimitations des Zones : La 6 ème Annexe Administrative.
+
+Code Zone  Points de Repère
+ MO-A6.1
+ MO-A6.2   Résidence Nassim
+ MO-A6.3
+ MO-A6.4   Résidence Salam
+ MO-A6.5   Zone délimitée par Bd Zenata /Rue Youssef Ibn Tachafine / Bd Hassan II /Bd Mohamed V (Non compris Lotissement
+ MO-A6.6   Wafa)
+ MO-A6.7   Résidence El Hamd ,Résidence Demanat
+ MO-A6.8   Zone délimitée par Bd Zenata/Bd Youssef Ibn Tachafine/Rue Melilia/Rue Tripoli/Avenue du Parc /Rue de Fes/Bd
+ MO-A6.9   Farhat Hachad
+MO-A6.10   Résidence Galia, Résidence Yasmine (Zone délimitée par Bd Hassan II/ Bd Sebta/Bd Cadi Tazi/Bd Abdellah Ibn
+MO-A6.11   Yassine
+MO-A6.12   Les crêtes (Zone délimitée par Bd Abdellah Ibn Yassine/Rue de Tunis/Bd Hassan II/Bd Fatima Zahra)
+
+           Résidence de la Forêt
+
+           Bd Hassan II (Résidence Galia)
+
+           Bd Mohamed V (de la place Mohammed V à Bd Hassan II)
+
+           Lotissement El Wafa
+
+           Quartier Strafor
+
+           - 46 -
+          Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+7.7. Cartographie des Zones relevant de la 7 ème Annexe Administrative :
+
+                                                    - 47 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+7.7. Tableau des délimitations des Zones : La 7 ème Annexe Administrative.
+
+Code Zone  Points de Repère
+ MO-A7.1   Résidence l'Hermitage, Résidence Sun Palace
+ MO-A7.2   La Colline (Bd de la Résistance / Bd Hassan II/Bd Narjane/Bd Mohamed VI)
+ MO-A7.3   Massira,Lot Jnane,Lot Oued El Makhazine,Residence E ssalam,Résidence Anoual,Lot Amal Bradaa,Riad Essalam
+ MO-A7.4   Bloc "D"
+ MO-A7.5   Résidence Riad Fedala
+ MO-A7.6   Lot Riad Essalam,Lot Essidiq,Lot Essalam,Lot El Amane.
+ MO-A7.7   Residence Ibn Rochd ,Résidence Nafiss, Résidence Nbil, Résidence Riad El Kawtar,Résidence Zineb
+ MO-A7.8   Résidence Les Orchidées
+ MO-A7.9   Bd Hassan II (du café Ö Blanc au Rond Point Bradaa)
+MO-A7.10   Bd Riad (Riad Essalam)
+           Bd Riad (Lot Massira)
+
+           - 48 -
+Référentiel des Prix des Transactions Immobilières de Mohammedia
+
+                     1. Contacts utiles
+
+Désignation                          Adresse                                       Tél/Email
+                                                                                0537-27-37-27
+    Centre d'Information DGI         Haj Ahmed Cherkaoui Agdal Rabat      referentiel@tax.gov.ma
+Bureau d'Accueil de la Direction
+                                           Angle Rue Melilia et Bd    05-23-32-21-99/05-23-32-25-73
+    Régionale des Impôts de            Abdelmoumen Mohammedia                   05-22-22-39-20
+           Mohammedia                                                           05-22-22-41-83
+                                                                                05-23-31-15-70
+   Agence Urbaine de Casablanca         18 BD RACHIDI
+                                     PLACE MOHAMED V                            05-23-28-14-19
+ Wilaya de la Région de Casablanca                                              05-23-31-38-17
+Agence Nationale de la Conservation  PLACE MOHAMED V                            05-23-32-43-83
+                                                                                05-23-28-10-94
+    Foncière, du Cadastre et de la                                              05-23-32-42-39
+   Cartographie de Mohammedia                                                   05-23-32-03-10
+                                                                                05-23-32-60-50
+     1 ère Annexe Administrative
+     2 ème Annexe Administrative
+
+     3 ème Annexe Administrative
+     4 ème Annexe Administrative
+
+     5 ème Annexe Administrative
+
+     6 ème Annexe Administrative
+     7 ème Annexe Administrative
+
+                                     - 49 -
+

@@ -116,7 +116,11 @@ let SigDataService = SigDataService_1 = class SigDataService {
     /** Liste les villes qui ont une extraction DGI disponible. */
     listDgiZoneCities() {
         const result = [];
-        const tried = ["rabat", "casablanca", "marrakech", "tanger", "fes", "agadir", "meknes", "tetouan", "el-jadida", "oujda", "beni-mellal"];
+        const tried = [
+            "rabat", "casablanca", "marrakech", "tanger", "fes", "agadir",
+            "kenitra", "sale", "meknes", "oujda", "settat", "beni-mellal",
+            "safi", "tetouan", "midelt", "nador", "berkane",
+        ];
         for (const id of tried) {
             const d = this.getDgiZones(id);
             if (d?._meta) {

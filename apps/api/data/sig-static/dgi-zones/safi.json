@@ -1,0 +1,1182 @@
+{
+  "_meta": {
+    "ville": "Safi",
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T21:51:34.486Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 13,
+    "zonesWithPrices": 13,
+    "zonesWithDelimitations": 0
+  },
+  "arrondissements": [
+    {
+      "code": "BD",
+      "nom": "Boudheb"
+    },
+    {
+      "code": "ZW",
+      "nom": "ZW"
+    }
+  ],
+  "zones": [
+    {
+      "code": "SF-BD12",
+      "arrondissement": "Boudheb",
+      "ville": "Safi",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 1800
+        },
+        {
+          "type": "Villa",
+          "pt": 1800
+        },
+        {
+          "type": "Villa",
+          "pt": 1800
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 1800
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 2200,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 2200,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 2200,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2200
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Maison",
+          "pt": 9000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 9000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 9000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 9000
+        }
+      ]
+    },
+    {
+      "code": "SF-BD2",
+      "arrondissement": "Boudheb",
+      "ville": "Safi",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 1000
+        }
+      ]
+    },
+    {
+      "code": "SF-BD3",
+      "arrondissement": "Boudheb",
+      "ville": "Safi",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 3500,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST <= 500 m²",
+          "pt": 3500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST <= 1000 m²",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 1500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 1000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "superficie": "ST <= 1000 m²",
+          "pt": 2500,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "pt": 1500,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "superficie": "ST <= 500 m²",
+          "pt": 1000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 1500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST <= 500 m²",
+          "pt": 1000,
+          "pc": 40003500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST <= 1000 m²",
+          "pt": 2500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST > 1000 m²",
+          "pt": 1500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 1000300035004000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 3500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 3500,
+          "pc": 40003500250028
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 2500
+        }
+      ]
+    },
+    {
+      "code": "SF-BD5",
+      "arrondissement": "Boudheb",
+      "ville": "Safi",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3500
+        }
+      ]
+    },
+    {
+      "code": "SF-BD6",
+      "arrondissement": "Boudheb",
+      "ville": "Safi",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 5500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 40003000250029
+        }
+      ]
+    },
+    {
+      "code": "SF-BD8",
+      "arrondissement": "Boudheb",
+      "ville": "Safi",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        }
+      ]
+    },
+    {
+      "code": "SF-BD9",
+      "arrondissement": "Boudheb",
+      "ville": "Safi",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 2800,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 2800,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 2800,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST > 200 m²",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST <= 200 m²",
+          "pt": 3500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST > 200 m²",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST <= 200 m²",
+          "pt": 2300
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST > 200 m²",
+          "pt": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST <= 200 m²",
+          "pt": 2300
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST > 200 m²",
+          "pt": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST <= 200 m²",
+          "pt": 2300
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 2300
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 250030
+        }
+      ]
+    },
+    {
+      "code": "SF-ZW11",
+      "arrondissement": "ZW",
+      "ville": "Safi",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 1500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 2500,
+          "pc": 1000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 2500,
+          "pc": 1200
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 2500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 2500,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 2500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 2500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 5500,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5500
+        }
+      ]
+    },
+    {
+      "code": "SF-ZW15",
+      "arrondissement": "ZW",
+      "ville": "Safi",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 5500,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Neuf",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "SF-ZW16",
+      "arrondissement": "ZW",
+      "ville": "Safi",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 5500
+        }
+      ]
+    },
+    {
+      "code": "SF-ZW3",
+      "arrondissement": "ZW",
+      "ville": "Safi",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        }
+      ]
+    },
+    {
+      "code": "SF-ZW4",
+      "arrondissement": "ZW",
+      "ville": "Safi",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 3500400023
+        }
+      ]
+    },
+    {
+      "code": "SF-ZW7",
+      "arrondissement": "ZW",
+      "ville": "Safi",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Maison",
+          "superficie": "ST > 120 m²",
+          "pt": 3500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "superficie": "ST <= 120 m²",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST > 120 m²",
+          "pt": 4500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 3500,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 4500,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 3500
+        },
+        {
+          "type": "Maison",
+          "pt": 4500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 1000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 35002500250030002000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 3500300024
+        }
+      ]
+    }
+  ]
+}

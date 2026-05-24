@@ -1,0 +1,398 @@
+   Référentiel des Prix des Transactions Immobilières
+                          De Taroudannt
+
+       Les données de ce référentiel sont opposables uniquement
+                      à la Direction Générale des Impôts
+
+Site Internet : www.tax.gov.ma ­ Email : referentiel@tax.gov.ma
+                                    Sommaire             Edition décembre 2017
+
+1. Préambule                                                                 03
+
+2. Liste des abréviations                                                    04
+
+3. Lexique                                                                   05
+
+4. Territoire, biens concernés et plan d'ensemble de commune urbaine de      07
+
+Taroudannt
+
+4.1. Territoire et biens concernés                                           07
+
+4.2. Plan d'ensemble de commune Urbaine de Taroudannt                        08
+
+5. Mode de recherche                                                         10
+
+6. Référentiel des prix des transactions immobilières de commune urbaine de  11
+    Taroudannt
+
+6.1. 1er Arrondissement                                                      12
+
+6.2. 2éme Arrondissement                                                     13
+
+6.3. 3éme Arrondissement                                                     14
+
+6.4. 4éme Arrondissement                                                     15
+
+7. Cartographie et tableaux des délimitations des Zones                      17
+
+8. Contacts utiles                                                           25
+
+                                    2
+                                      Préambule
+
+Dans une démarche de transparence de l'action de l'Administration et de rationalisation de son pouvoir
+d'appréciation, le présent manuel assure la publication des prix de référence retenus par
+l'Administration pour les besoins de calcul des droits et taxes.
+Il s'applique à l'ensemble des cessions de biens immobiliers à usage d'habitation.
+Il permet aux citoyens, dans un souci d'amélioration du climat de confiance, de disposer du même
+niveau d'information que l'Administration.
+Pour se rapprocher le plus de la réalité du marché, les données de ce référentiel sont le résultat d'un
+travail de consultation et de concertation entre la Direction Générale des Impôts, l'Agence Nationale de
+la Conservation Foncière du Cadastre et de la Cartographie, la Fédération Nationale des Promoteurs
+Immobiliers, l'Agence Urbaine de Taroudannt, le Ministère de l'Urbanisme et de l'Aménagement du
+Territoire et l'Ordre des Notaires.
+Il s'agit de prix moyens retenus pour le calcul des droits et taxes et ne constituent en aucun cas une
+évaluation directe d'un bien immobilier donné.
+Il constitue à cet effet une étape importante dans le processus de renforcement des garanties accordées
+aux citoyens.
+Les données de ce référentiel feront l'objet d'une actualisation périodique en fonction de l'évolution du
+marché de l'immobilier.
+
+                                                                            3
+                               Liste des abréviations
+
+ANCFCC : Agence Nationale de la Conservation Foncière, du Cadastre et de la Cartographie
+DGI : Direction Générale des Impôts
+FNPI : Fédération Nationale des Promoteurs Immobiliers
+m2 : Mètre Carré
+TR : Taroudannt
+TR1 : Taroudannt-1er Arrondissement
+TR2 : Taroudannt-2em Arrondissement
+TR3 : Taroudannt-3em Arrondissement
+TR4 : Taroudannt-4em Arrondissement
+PC : Prix de la Construction
+PCF : Prix de la Construction Finie
+PCSF : Prix de la Construction Semi Finie
+PT : Prix du Terrain
+R+(i) : Rez-de-chaussée + (i) : Nombre d'étages
+ST : Superficie du Terrain
+T : Terrain
+TSGolf : Terrain Sur Golf
+ZI : Zone Immeuble
+ZM : Zone Maison
+Zone Rue/Av./Bd : Rue, Avenue et Boulevard ayant le statut d'une Zone
+ZV : Zone Villa
+< à R+(i) : Zonage inférieur à R+(i)
+<= à R+(i) : Zonage inférieur ou égale à R+(i)
+> à R+(i) : Zonage supérieur à R+(i)
+>= à R+(i) : Zonage supérieur ou égale à R+(i)
+
+                                                                            4
+                                        Lexique
+
+Ancien (logement) : logement ayant été achevé depuis plus de quinze ans (> à 15 ans).
+Appartement sécurisé : appartement situé dans un projet immobilier fermé et sécurisé.
+Appartement : un appartement est une unité d'habitation, comportant un certain nombre de pièces et
+située dans un immeuble collectif généralement dans une ville.
+Immeuble : dans le langage courant, le mot "immeuble" désigne un bâtiment urbain de plusieurs
+étages, à usage d'habitation ou professionnel, en copropriété.
+Logement social : par cette formule, on désigne un appartement dont la superficie couverte est
+comprise entre 50 et 80 m2 et le prix de vente n'excède pas 250.000 dirhams, hors taxe sur la valeur
+ajoutée.
+Loti (terrain) : un terrain loti signifie un terrain situé dans un lotissement (voir lotissement).
+Lotissement : un lotissement est constitué par un ensemble de lots provenant de la division d'un terrain
+en vue d'y recevoir des constructions qui sont vendues généralement séparément après que le lotisseur
+ait réalisés des voies d'accès, des espaces collectifs et des travaux de viabilité et les raccordements aux
+réseaux de fourniture en eau, en électricité, aux réseaux d'égouts et aux réseaux de télécommunication.
+Maison : une maison est un bâtiment destiné à être la demeure d'une famille, voire de plusieurs, et qui
+n'est pas un immeuble en copropriété.
+Neuf (logement) : logement achevé depuis six ans au plus (<= à 6 ans).
+Prix Appartement = Prix au m2 Appartement x (Superficie Appartement + Superficie Parking/3 +
+Superficie Terrasse/2).
+Prix de la Construction (PC) : par prix de la construction, on entend le prix du mètre carré couvert.
+Prix du Terrain (PT) : par prix du terrain, on entend le prix du terrain au mètre carré.
+Prix Maison = Prix au m2 T x Superficie Terrain Maison + Prix au m2 C x Superficie Couverte.
+Prix Terrain = Prix au m2 Terrain x Superficie Terrain.
+Prix Villa = Prix au m2 T x Superficie Terrain Villa + Prix au m2 C x Superficie Couverte.
+Récent (logement) : logement achevé depuis plus de six ans au moins et quinze ans au plus (> à 6 ans
+et <= à 15 ans) + logement ancien achevé suite à rénovation depuis six ans au plus (<= à 6 ans).
+
+                                                                            5
+Riad : maison entièrement fermée sur l'extérieur, qui s'organise autour d'un patio central souvent
+arboré et doté d'une fontaine.
+Terrain ZI : est considéré comme terrain zone immeuble tout terrain destiné à la construction d'un
+immeuble collectif : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de zone villa
+convertie en zone immeuble par exemple).
+Terrain ZM : est considéré comme terrain zone maison tout terrain destiné à la construction d'une
+maison : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de maison vétuste par
+exemple).
+Terrain ZV : est considéré comme terrain zone villa tout terrain destiné à la construction d'une villa :
+terrain nu, terrain construit de bâtiments destinés à être démolis (cas de villa vétuste par exemple).
+Villa sécurisée : villa située dans un domaine résidentiel fermé et sécurisé.
+Villa : une villa est une maison avec jardin.
+Zone : une zone est un groupe d'adresses où les prix sont relativement homogènes.
+
+                                                                            6
+   Territoire, biens concernés et plan d'ensemble de la Région de Souss-Massa
+
+Territoire concerné :
+La Région de Souss-Massa est l'une des douze régions du Maroc instituées en 2015.
+Elle se compose d'une Préfecture et sept Provinces :
+
+     Préfecture de d'Agadir ida-outanane ;
+     Province de Chtouka-Ait Baha ;
+     Province d'Inzegane ­Ait Melloul ;
+     Province de Taroudannt ;
+     Province de Tata ;
+     Province de Tiznite
+La Province de Taroudannt englobe (8) Communes Urbaines, (81) communes Rurales :
+     Commune urbaine : Taroudannt
+     Commune urbaine : Oulad Teima
+     Commune urbaine : Oulad Berhil
+     Commune urbaine : Aoulouz
+     Commune urbaine : Taliouine
+     Commune urbaine : Ighrem
+     Commune urbaine : El guerdane
+     Commune urbaine : Ait Iaaza
+La commune urbaine de Taroudannt compte quatre (4) arrondissements urbains :
+     1er arrondissement
+     2em arrondissement
+     3em arrondissement
+     4em arrondissement
+Le territoire géographique et les biens concernés par le présent Référentiel se présentent comme suit :
+     Territoire concerné : Commune urbaine de Taroudannt;
+     Types de biens immobiliers concernés :
+
+           o Appartement, Maison, Villa et Riad à usage d'habitation ;
+
+                                                                            7
+           o Terrain construit de bâtiments destinés à être démolis : ZV, ZI ou ZM ;
+           o Terrain Loti : ZV, ZI ou ZM.
+
+     Types de biens immobiliers exclus :
+
+           o Appartement à usage professionnel ;
+           o Villa et Maison à vocation professionnelle ou commerciale ;
+           o Logement social ;
+           o Logement destiné au recasement des bidonvilles ;
+           o Terrain urbain non Loti ;
+           o Terrain à usage industriel ;
+           o Terrain à usage agricole.
+
+Plan d'ensemble de commune Urbaine de Taroudannt :
+Voir page suivante.
+
+                                                                            8
+9
+                                Modes de recherche
+
+Actuellement, la recherche s'effectue:
+
+   · A travers la consultation sur une carte numérisée mise à la disposition du public au niveau du
+
+         portail de la DGI, le système situe le bien sur la carte et affiche automatiquement son prix de
+         référence ;
+
+   · A partir de la délimitation des zones ;
+   · En consultant le bureau d'accueil de la Direction Régionale des Impôts d' Agadir et/ou le Centre
+
+         d'Information Téléphonique au numéro : 05.37.27.37.27.
+Précision :
+Lorsque un bien chevauche sur plusieurs zones, le prix à prendre en considération est celui de la zone la
+plus côté.
+
+                                                                           10
+Référentiel des prix des transactions immobilières de la Commune Urbaine de
+                                           Taroudannt
+
+La Commune Urbaine de Taroudannt est découpée en 18 Zones dont la ventilation est comme suit :
+
+       Arrondissement  Nombre de Zones      Nombre de Zones  Nombre total des Zones
+                                 5             Rue/Av./Bd                  7
+  1er Arrondissement             3                    2                    3
+2éme Arrondissement              2                    -                    2
+3éme Arrondissement              5                                         6
+4éme Arrondissement             15                    -                   18
+
+            Totaux :                                  1
+                                                      3
+
+                                        11
+6.1. Référentiel des prix des transactions immobilières du 1er Arrondissement
+
+Code Zone  Type de bien       État                Prix au m²
+    TR1                      ANCIEN
+    TR2       MAISON         RECENT  PT : 3500,00DH + PC : 1000,00DH
+    TR3          TNB          NEUF   PT : 3500,00DH + PC : 2000,00DH
+    TR4                              PT : 3500,00DH + PC : 2500,00DH
+    TR5       MAISON         ANCIEN
+    TR6          TNB         RECENT             PT : 3500,00DH
+    TR7                       NEUF   PT : 3100,00DH + PC : 1000,00DH
+              MAISON                 PT : 3100,00DH + PC : 2000,00DH
+                 TNB         ANCIEN  PT : 3100,00DH + PC : 2500,00DH
+                             RECENT
+              MAISON          NEUF              PT : 3100,00DH
+                 TNB                 PT : 3500,00DH + PC : 1000,00DH
+                             ANCIEN  PT : 3500,00DH + PC : 2000,00DH
+              MAISON         RECENT  PT : 3500,00DH + PC : 2500,00DH
+                 TNB          NEUF
+                                                PT : 3500,00DH
+              MAISON         ANCIEN  PT : 2900,00DH + PC : 1000,00DH
+                 TNB         RECENT  PT : 2900,00DH + PC : 2500,00DH
+                                     PT : 2900,00DH + PC : 3000,00 DH
+              MAISON         ANCIEN
+                 TNB         RECENT             PT : 2900,00DH
+                                     PT : 1500,00DH + PC : 1000,00 DH
+                             ANCIEN  PT : 1500,00DH + PC : 1500,00DH
+                             RECENT
+                              NEUF              PT : 1500,00 DH
+                                     PT : 1500,00DH + PC : 1000,00DH
+                                     PT : 1500,00DH + PC : 1500,00DH
+
+                                                PT : 1500,00DH
+                                     PT : 1500,00DH + PC : 1000,00DH
+                                     PT : 1500,00DH + PC : 1500,00DH
+                                     PT : 1500,00DH + PC : 2000,00DH
+
+                                                PT : 1500,00DH
+
+                         12
+6.2. Référentiel des prix des transactions immobilières du 2éme Arrondissement
+
+Code Zone  Type de bien       État               Prix au m²
+    TR8       MAISON         ANCIEN  PT : 3000,00DH + PC : 1000,00DH
+    TR9          TNB         RECENT  PT : 3000,00DH + PC : 2000,00DH
+   TR10       MAISON          NEUF   PT : 3000,00DH + PC : 3000,00DH
+                 TNB
+              MAISON         ANCIEN             PT : 3000,00DH
+                 TNB         RECENT  PT : 2000,00DH + PC : 1000,00DH
+                              NEUF   PT : 2000,00DH + PC : 1500,00DH
+                                     PT : 2000,00DH + PC : 2000,00DH
+                             ANCIEN
+                             RECENT             PT : 2000,00DH
+                              NEUF   PT : 2000,00DH + PC : 1500,00DH
+                                     PT : 2000,00DH + PC : 2000,00DH
+                                     PT : 2000,00DH + PC : 2500,00DH
+
+                                               PT : 2000,00DH
+
+                         13
+6.3. Référentiel des prix des transactions immobilières du 3éme Arrondissement
+
+Code Zone  Type de bien       État               Prix au m²
+   TR11       MAISON         ANCIEN  PT : 2500,00DH + PC : 1500,00DH
+                 TNB         RECENT  PT : 2500,00DH + PC : 2000,00DH
+   TR12       MAISON          NEUF   PT : 2500,00DH + PC : 2500,00DH
+                 TNB
+                             ANCIEN             PT : 2500,00DH
+                             RECENT  PT : 2500,00DH + PC : 2000,00DH
+                              NEUF   PT : 2500,00DH + PC : 2500,00DH
+                                     PT : 2500,00DH + PC : 3000,00DH
+
+                                                PT : 2500,00DH
+
+                         14
+6.4. Référentiel des prix des transactions immobilières du 4éme Arrondissement
+
+Code Zone  Type de bien       État               Prix au m²
+   TR13       MAISON         RECENT  PT : 4500,00DH + PC : 3000,00DH
+   TR14          TNB          NEUF   PT : 4500,00DH + PC : 3500,00DH
+   TR15       MAISON
+   TR16          TNB         ANCIEN             PT : 4500,00DH
+   TR17       MAISON         RECENT  PT : 2500,00DH + PC : 2000,00DH
+   TR18          TNB          NEUF   PT : 2500,00DH + PC : 2500,00DH
+              MAISON                 PT : 2500,00DH + PC : 3000,00DH
+                 TNB         ANCIEN
+              MAISON         RECENT             PT : 2500,00DH
+                 TNB          NEUF   PT : 5000,00DH + PC : 2500,00DH
+              MAISON                 PT : 5000,00DH + PC : 3000,00DH
+                 TNB         RECENT  PT : 5000,00DH + PC : 3500,00DH
+                              NEUF
+                                                PT : 5000,00DH
+                             ANCIEN  PT : 4500,00DH + PC : 3500,00DH
+                             RECENT  PT : 4500,00DH + PC : 4500,00DH
+                              NEUF
+                                                PT : 4500,00DH
+                             ANCIEN  PT : 3000,00DH + PC : 3000,00DH
+                             RECENT  PT : 3000,00DH + PC : 3500,00DH
+                              NEUF   PT : 3000,00DH + PC : 4000,00DH
+
+                                                PT : 3000,00DH
+                                     PT : 2200,00DH + PC : 1000,00DH
+                                     PT : 2200,00DH + PC : 2000,00DH
+                                     PT : 2200,00DH + PC : 2500,00DH
+
+                                                PT : 2200,00DH
+
+                         15
+Annexes
+
+       16
+7.1 Cartographie des Zones relevant du 1er Arrondissement :
+
+                                 17
+           7.1 Tableau des délimitations des Zones du 1er Arrondissement
+
+Code Zone  Points de Repère
+
+    TR1    AV Mokhtar soussi - Av Prince héritier
+    TR2
+    TR3    Blaliaa - Bab zorgane - BENYARA - BD Al mostakbal
+    TR4    BD Mohamed V - BD Al Qods - BD Bir Anzaran - BD Al Mansour Dahbi - Sidi Hssayne - Talmaklat -
+    TR5    Derb hchich
+    TR6    BD 20 Aout - Jnan Benkirane - Agafay - Aqnis - Loitissement Chad Belwahed -Al Bssatine
+    TR7    Derb yahya Outaleb - Derb jdid - Elmellah - Ahfir - Av Les ALMoravides - Derb Aqqa - Av Brahim
+           Roudani
+           Derb gssima - Borj oumenssour - Toudjent - Derb indlass - Derb El Guezzara - Rahba laQdima
+           Derb Zemmala - Derb Chrif - Old Bounouna - Hay Hassany
+
+           18
+7.2 Cartographie des Zones relevant du 2eme Arrondissement :
+
+                                          19
+           7.2 Tableau des délimitations des Zones 2émé Arrondissement
+
+Code Zone  Points de Repère
+    TR8    Tafellagt - Bab El khmiss - Av Bab Lakhmiss
+    TR9    Derb Laafou - Sidi Laarabi - La Kasbah
+    TR10   Bab Tarhgount - Hors Bab Targhount - Regue Achbar - Dar Mbarek Oussalem - Jnan Lemra
+
+           20
+7.3 Cartographie des Zones relevant du 3éme Arrondissement :
+
+                                   21
+           7.3 Tableau des délimitations des Zones 3émé Arrondissement
+
+Code Zone  Points de Repère
+    TR11   Derb chef Aziz - Sidi Belkass - Boulevard Sidi Belkas vers El Hosen - Zraib Old Bounouna
+    TR12   Lotissement Bendaadaa ( Old Bounouna )
+
+           22
+7.4 Cartographie des Zones relevant du 4éme Arrondissement :
+
+                                   23
+           7.4 Tableau des délimitations des Zones 4émé Arrondissement
+
+Code Zone  Points de Repère
+
+    TR13   BD Al Atlas Al Kabir (Lastah)
+    TR14
+    TR15   Hay Mohammady - Lotissement Najah - lotissement attadamoun
+    TR16   Lot Bouhdoud ( jnan tesrif ) - lot Al Jaouhari - lot ait azizou - BD Hassan 2 - Lot Essaada - lot Roudana -
+    TR17   lot soussia - Lot oubou 1 - Lot oubou2
+    TR18   lot bouykidou - lot bouyferna - lot bouthanout - el marjan 1 - lot anassi - lot kaoukab - lot oisis
+           lot al amal - lot al aman - lot al mansour dahbi - lot afnan - lot tamzdawt - lot al qods
+           Maadiat - Belakchach
+
+           24
+                                  Contacts utiles
+
+            Désignation                           Adresse                      Tél/Email
+                                  Haj Ahmed Cherkaoui Agdal Rabat           0537-27-37-27
+   Centre d'Information DGI       Avenue Hassan I Cité Dakhla Agadir  referentiel@tax.gov.ma
+Bureau d'acceuil de la Direction
+Régionale des Impots d'Agadir                                               0528-23-30-50
+
+                                  25
+

@@ -1,0 +1,591 @@
+ Référentiel des Prix des Transactions Immobilières
+                      de Midelt et d' Er-Rich
+
+       Les données de ce référentiel sont opposables uniquement
+                      à la Direction Générale des Impôts
+
+Site Internet : www.tax.gov.ma ­ Email : referentiel@tax.gov.ma
+                                                                  Edition Décembre 2017
+
+                                                 -2-
+                                    Sommaire
+
+1. Préambule                                                                      3
+
+2. Liste des abréviations                                                         4
+
+3. Lexique                                                                        5
+
+4. Territoire, biens concernés et plan d'ensemble de la Province de Midelt        7
+
+4.1. Territoire et biens concernés                                                7
+
+4.2. Plan d'ensemble de la Province de Midelt                                     8
+
+                                                                                                               10
+5. Mode de recherche
+
+6. Référentiel des prix des transactions immobilières des Pachaliks de Midelt et
+
+d'Er-rich                                                                         13
+
+6.1. Pachalik de Midelt                                                           14
+
+              6.1.1. Annexe Administrative 1
+
+              6.1.2. Annexe Administrative 2
+
+6.2. Pachalik d'Er-rich                                                           22
+
+7. Cartographie et tableaux des délimitations des Zones                           25
+
+8. Contacts utiles                                                                28
+
+                                    -3-
+                               1.Préambule
+
+Dans une démarche de transparence de l'action de l'Administration et de rationalisation de son
+pouvoir d'appréciation, le présent manuel assure la publication des prix de référence retenus par
+l'Administration pour les besoins de calcul des droits et taxes.
+Il s'applique à l'ensemble des cessions de biens immobiliers à usage d'habitation.
+Il permet aux citoyens, dans un souci d'amélioration du climat de confiance, de disposer du même
+niveau d'information que l'Administration.
+Pour se rapprocher le plus de la réalité du marché, les données de ce référentiel sont le résultat d'un travail
+de consultation et de concertation entre la Direction Générale des Impôts, l'Agence Nationale de la
+Conservation Foncière du Cadastre et de la Cartographie, la Fédération Nationale des Promoteurs
+Immobiliers, la Banque Centrale du Maroc (Bank Al Maghrib), l'Agence Urbaine de Khénifra (Annexe de
+Midelt), le Ministère de l'Urbanisme et de l'Aménagement du Territoire et l'Ordre des Notaires.
+Il s'agit de prix moyens retenus pour le calcul des droits et taxes et ne constituent en aucun cas une
+évaluation directe d'un bien immobilier donné.
+Il constitue à cet effet une étape importante dans le processus de renforcement des garanties accordées
+aux citoyens.
+Les données de ce r éférentiel feront l'objet d'une actualisation périodique en fonction de
+l'évolution du marché de l'immobilier.
+
+                                                                -4-
+                       2. Liste des abréviations
+
+ANCFCC : Agence Nationale de la Conservation Foncière, du Cadastre et de la Cartographie
+Bd : boulevard
+DGI : Direction Générale des Impôts
+FNPI : Fédération Nationaledes PromoteursImmobiliers
+m2 : Mètre Carré
+MI: Midelt
+MI-AA1: Midelt - Annexe Administrative 1
+MI-AA2: Midelt - Annexe Administrative 2
+ER: Er-rich
+MI-ER: Midelt - Pachalik Er-rich
+PC : Prix de la Construction
+PT : Prix du Terrain
+R+(i) : Rez-de-chaussée + (i) : Nombre d'étages
+ST : Superficie du Terrain
+T : Terrain
+ZI : Zone Immeuble
+ZV : Zone Villa
+
+                                                                -5-
+                                      3. Lexique
+
+Ancien (logement) : logement ayant été achevé depuis plus de quinze ans (> à 15 ans).
+Appartement : un appartement est une unité d'habitation, comportant un certain nombre
+de pièces et située dans un immeuble collectif généralement dans une ville.
+Immeuble : dans le langage courant, le mot "immeuble" désigne un bâtiment urbain de
+plusieurs étages, à usage d'habitation ou professionnel, en co-propriété.
+Logement social : par cette formule, on désigne un appartement dont la superficie couverte
+est comprise entre 50 et 80 m2 et le prix de vente n'excède pas 250.000 dirhams, hors taxe
+sur la valeur ajoutée.
+Loti (terrain) : un terrain loti signifie un terrain situé dans un lotissement (voir lotissement).
+Lotissement : un lotissement est constitué par un ensemble de lots provenant de la division
+d'un terrain en vue d'y recevoir des constructions qui sont vendues généralement
+séparément après que le lotisseur ait réalisés des voies d'accès, des espaces collectifs et des
+travaux de viabilité et les raccordements aux réseaux de fourniture en eau, en électricité,
+aux réseaux d'égouts et aux réseaux de télécommunication.
+Maison : u n e maison est un bâtiment destiné à être la demeure d'une famille, voire de
+plusieurs, et qui n'est pas un immeuble en copropriété.
+Neuf (logement) : logement achevé depuis six ans au plus (<= à 6 ans).
+Prix Appartement = Prix au m2 Appartement x (Superficie Appartement + Superficie
+Parking/3 + Superficie Terrasse/2).
+Prix de la Construction (PC) : par prix de la construction, on entend le prix du mètre carré
+couvert.
+Prix du Terrain (PT) : par prix du terrain, on entend le prix du terrain au mètre carré.
+Prix Maison = Prix au m2 T x Superficie Terrain Maison + Prix au m2 C x Superficie Couverte
+Prix Terrain = Prix au m2 Terrain x Superficie Terrain.
+Prix Villa = Prix au m2 T x Superficie Terrain Villa + Prix au m2 C x Superficie Couverte.
+Récent (logement) : logement achevé depuis plus de six ans au moins et quinze ans au plus
+(> à 6 ans et <= à 15 ans) + logement ancien achevé suite à rénovation depuis six ans au plus
+(<= à 6 ans).
+
+                                                                -6-
+Terrain ZI : est considéré comme terrain zone immeuble tout terrain destiné à la
+construction d'un immeuble collectif : terrain nu, terrain construit de bâtiments destinés à
+être démolis (cas de zone villa convertie en zone immeuble par exemple).
+Terrain ZM : est considéré comme terrain zone maison tout terrain destiné à la construction
+d'une maison : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de
+maison vétuste par exemple).
+Terrain ZV : est considéré comme terrain zone villa tout terrain destiné à la construction
+d'une villa : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de villa
+vétuste par exemple).
+Villa : une villa est une maison avec jardin.
+Zone : une zone est un groupe d'adresses où les prix sont relativement homogènes.
+
+                                                                -7-
+ 4. Territoire, biens concernés et plan d'ensemble de la
+         Province de Midelt
+
+     4.1. Territoire concerné
+
+Le périmètre de l'intervention de la Direction Régionale des Impôts de Fès couvre les Préfectures et les
+Provinces suivantes :
+
+      · Préfecture de Fès
+      · Préfecture de Meknès
+     · Province d' El Hajeb ;
+     · Province d' Ifrane
+     · Province de Midelt ;
+     · Province d'Errachidia
+      · Province de Taza
+      · Province de Sefrou
+      · Province de Taounate
+      · Province de Boulmane
+      · Province de Zouagha Moulay Yacoub
+La Province de Midelt englobe (2) Communes Urbaines/ Pachaliks et vingt sept (27) Communes
+Rurales:
+     · Communes Urbaines/Pachaliks: Midelt et Er-rich.
+     · Communes Rurales: non concernées par le présent référentiel.
+
+                                                                  -8-
+Le territoire géographique et les biens concernés par le présent Référentiel se présentent
+comme suit :
+
+    · Territoire concerné: Province de Midelt (Exception faite des centres de Zaida, Boumia,
+Itzer, Tounfite, Gourrama, Imilchil et des communes Rurales).
+
+    · Types de biens immobiliers concernés :
+             o Appartement, Maison, Villa à usage d'habitation ;.
+             o Terrain construit de bâtiments destinés à être démolis : ZV, ZI ou ZM.
+             o Terrain Loti : ZV et ZI
+
+    · Types de biens immobiliers exclus :
+             o Appartement à usage professionnel ;
+             o Villa et Maison à vocation professionnelle ou commerciale ;
+             o Logement social ;
+             o Logement destiné au recasement des bidonvilles ;
+             o Terrain urbain non Loti ;
+             o Terrain à usage industriel ;
+             o Terrain à usage agricole
+
+   4.2. Plan d'ensemble de la Province de Midelt:
+
+       Voir les images suivantes :
+           ¾ PACHALIK DE MIDELT
+
+                                                                -9-
+¾ Pachalik D'ER-RICH :
+
+                                                  - 10 -
+                       5. Modes de recherche
+
+Actuellement, la recherche s'effectue:
+    · A travers la consultation sur une carte numérisée mise à la disposition du public au
+         niveau du portail de la DGI, le système situe le bien sur la carte et affiche
+         Automatiquement son prix de référence ;
+    · A partir de la délimitation des zones ;
+    · En consultant le bureau d'accueil de la Direction Provinciale des Impôts de Meknès
+         et/ou le Centre d'Information Téléphonique au numéro : 05.37.27.37.27.
+
+Précision :
+Lorsque un bien chevauche sur plusieurs zones, le prix à prendre en considération est celui de la zone
+la plus côté.
+Exemples : voir pages suivantes
+
+Exemple 1 :
+Soit un appartement x se trouvant sur RUE ZAHRA AIT RBAA MIDELT
+
+                                                                - 11 -
+Situer la rue sur la carte et afficher les prix des appartements de cette zone en cliquant dessus.
+
+    Exemple 2 :
+Soit X Appartement Récent relevant de la zone PACHLAK D'ER-RICH
+
+    x Consulterlalistedespointsderepèresdelazonepour déterminer lecodezone;
+    x Connaissantle code zone, ondéterminele prixdubien concernéauniveau de lagrilledeprix correspondante;
+
+                                                                - 12 -
+ Zone   Type de bien            Etat            Prix au m²
+MI-ER1  Appartement            Ancien
+        Appartement            Récent                2 000,00
+MI-ER2  Appartement             Neuf                 2 700,00
+                              Ancienne               3 000,00
+            Maison            Récente    PT : 2 000,00 PC : 800,00
+            Maison             Neuve    PT : 2 000,00 PC : 1 000,00
+            Maison                      PT : 2 000,00 PC : 1 800,00
+                                 Loti                2 000,00
+              TZI              Ancien                1 500,00
+         Appartement           Récent                1 800,00
+        Appartement             Neuf                 2 100,00
+        Appartement           Ancienne   PT : 1 600,00 PC : 600,00
+                              Récente    PT : 1 600,00 PC : 700,00
+            Maison             Neuve    PT : 1 600,00 PC : 1 100,00
+            Maison                                   1 600,00
+            Maison               Loti
+
+              TZI
+
+                      - 13 -
+6. Référentiel des prix des transactions immobilières des Pachaliks de
+Midelt et d'Er-rich
+
+Les Pachaliks de Midelt et d'Er-rich sont découpés en 26 Zones dont la ventilation est comme suit:
+
+Annexe Administrative/Pachalik Nombre de zone  Nombre de Zones  Nombre total des
+                                                  Rue/Av./Bd           Zones
+Annexe Administrative 1  11                             00               11
+                                                        00               10
+Annexe Administrative 2  10                             00               05
+
+Er-rich                  05                             00               26
+
+Totaux                   26
+
+                             - 14 -
+6.1. Référentiel des prix des transactions immobilières du Pachalik de Midelt
+
+6.1.1. Référentiel des prix des transactions immobilières de l'Annexe Administrative 1
+
+  Zone    Type de bien            Etat            Prix au m²
+MI-AA1.1  Appartement            Ancien
+MI-AA1.2   Appartement           Récent                4 000,00
+           Appartement            Neuf                 4 600,00
+                                Ancienne               5 000,00
+              Maison            Récente   PT : 3 000,00 PC : 1 000,00
+              Maison             Neuve    PT : 3 000,00 PC : 1 500,00
+              Maison                      PT : 3 000,00 PC : 1 800,00
+                TZI                Loti                3 000,00
+          Appartement
+          Appartement            Ancien                2 000,00
+          Appartement            Récent                2 500,00
+                                  Neuf                 3 000,00
+              Maison            Ancienne  PT : 2 500,00 PC : 8 00,00
+              Maison            Récente     PT : 2 500 PC : 1 000,00
+              Maison             Neuve    PT : 2 500,00 PC : 1 800,00
+                                                       2 500,00
+                TZI                Loti
+
+                        - 15 -
+MI-AA1.3  Appartement           Ancien                1 000,00
+MI-AA1.4  Appartement           Récent                1 500,00
+MI-AA1.5  Appartement            Neuf                 1 700,00
+                               Ancienne   PT : 1 000,00 PC : 800,00
+             Maison            Récente    PT : 1 000,00 PC : 900,00
+             Maison             Neuve    PT : 1 000,00 PC : 1 100,00
+             Maison                                   1 000,00
+                                  Loti
+               TZI              Ancien                1 700,00
+          Appartement           Récent                2 000,00
+          Appartement            Neuf                 2 500,00
+          Appartement          Ancienne   PT : 1 100,00 PC : 800,00
+                               Récente    PT : 1 100,00 PC : 900,00
+             Maison             Neuve    PT : 1 100,00 PC : 1 200,00
+             Maison                                   1 100,00
+             Maison               Loti
+                                                      2 500,00
+               TZI              Ancien                2 700,00
+          Appartement           Récent                3 000,00
+          Appartement            Neuf     PT : 2 500,00 PC : 800,00
+          Appartement          Ancienne  PT : 2 500,00 PC : 1 000,00
+                               Récente   PT : 2 500,00 PC : 1 300,00
+             Maison             Neuve                 2 500,00
+             Maison
+             Maison               Loti
+
+               TZI
+
+                       - 16 -
+MI-AA1.6  Appartement           Ancien                2 500,00
+MI-AA1.7  Appartement           Récent                3 000,00
+MI-AA1.8  Appartement            Neuf                 4 000,00
+                               Ancienne   PT : 2 000,00 PC : 700,00
+             Maison            Récente   PT : 2 000,00 PC : 1 000,00
+             Maison             Neuve    PT : 2 000,00 PC : 1 500,00
+             Maison                                   2 000,00
+                                  Loti                3 500,00
+               TZI                Loti
+              TZV               Ancien                1 000,00
+          Appartement           Récent                1 500,00
+          Appartement            Neuf                 2 000,00
+          Appartement          Ancienne   PT : 750,00 PC : 1 000,00
+             Maison            Récente    PT : 750,00 PC : 1 400,00
+             Maison             Neuve     PT : 750,00 PC : 1 600,00
+             Maison               Loti                 750,00
+               TZI              Ancien
+          Appartement           Récent                1 500,00
+          Appartement            Neuf                 2 000,00
+          Appartement          Ancienne               2 800,00
+             Maison            Récente     PT : 900,00 PC : 800,00
+             Maison             Neuve     PT : 900,00 PC : 1 700,00
+             Maison               Loti    PT : 900,00 PC : 2 300,00
+               TZI                                     900,00
+
+                       - 17 -
+MI-AA1.9   Appartement           Ancien                 400.00
+MI-AA1.10  Appartement           Récent                 700.00
+MI-AA1.11  Appartement            Neuf                  800.00
+                                Ancienne    PT : 500,00 PC : 150,00
+              Maison            Récente     PT : 500,00 PC : 300,00
+              Maison             Neuve      PT : 500,00 PC : 400,00
+              Maison
+                                   Loti                 500,00
+                TZI              Ancien                2 000,00
+                                 Récent                2 500,00
+           Appartement            Neuf                 3 000,00
+           Appartement          Ancienne   PT : 1 000,00 PC : 800,00
+           Appartement          Récente   PT : 1 000,00 PC : 1 500,00
+                                 Neuve    PT : 1 000,00 PC : 1 700,00
+              Maison
+              Maison               Loti                1 000,00
+              Maison             Ancien                2 500,00
+                                 Récent                2 800,00
+                TZI               Neuf                 3 200,00
+                                Ancienne   PT : 2 000,00 PC : 800,00
+           Appartement          Récente   PT : 2 000,00 PC : 1 000,00
+           Appartement           Neuve    PT : 2 000,00 PC : 1 400,00
+           Appartement                                 2 000,00
+                                   Loti                2 500,00
+              Maison               Loti
+              Maison
+              Maison
+
+                TZI
+               TZV
+
+                        - 18 -
+6.1.2. Référentiel des prix des transactions immobilières de l'Annexe Administrative 2
+          (Pachalik Midelt)
+
+  Zone    Type de bien            Etat            Prix au m²
+MI-AA2.1
+MI-AA2.2  Appartement            Ancien                1 000,00
+          Appartement            Récent                1 700,00
+          Appartement             Neuf                 2 000,00
+                                Ancienne   PT : 1 300,00 PC : 400,00
+              Maison            Récente    PT : 1 300,00 PC : 700,00
+              Maison             Neuve    PT : 1 300,00 PC : 1 100,00
+              Maison                                   1 300,00
+                                   Loti
+                TZI              Ancien                1 200,00
+          Appartement            Récent                1 400,00
+          Appartement             Neuf                 1 600,00
+          Appartement           Ancienne    PT : 600,00 PC : 400,00
+                                Récente     PT : 600,00 PC : 800,00
+              Maison             Neuve    PT : 600,00 PC : 1 000,00
+              Maison                                    600,00
+              Maison               Loti
+
+                TZI
+
+                        - 19 -
+MI-AA2.3  Appartement           Ancien                1 800,00
+MI-AA2.4  Appartement           Récent                2 300,00
+MI-AA2.5  Appartement            Neuf                 2 800,00
+                               Ancienne   PT : 1 800,00 PC : 800,00
+             Maison            Récente   PT : 1 800,00 PC : 1 000,00
+             Maison             Neuve    PT : 1 800,00 PC : 1 200,00
+             Maison                                   1 800,00
+                                  Loti
+               TZI              Ancien                2 000,00
+          Appartement           Récent                2 500,00
+          Appartement            Neuf                 3 000,00
+          Appartement          Ancienne  PT : 1 500,00 PC : 1 000,00
+                               Récente   PT : 1 500,00 PC : 1 300,00
+             Maison             Neuve    PT : 1 500,00 PC : 1 600,00
+             Maison                                   1 500,00
+             Maison               Loti
+                                                      2 000,00
+               TZI              Ancien                2 200,00
+          Appartement           Récent                2 500,00
+          Appartement            Neuf      PT : 800,00 PC : 900,00
+          Appartement          Ancienne   PT : 800,00 PC : 1 200,00
+                               Récente    PT : 800,00 PC : 1 500,00
+             Maison             Neuve                  800,00
+             Maison
+             Maison               Loti
+
+               TZI
+
+                       - 20 -
+MI-AA2.6  Appartement           Ancien                 700,00
+MI-AA2.7  Appartement           Récent                1 000,00
+MI-AA2.8  Appartement            Neuf                 1 200,00
+                               Ancienne    PT : 500,00 PC : 300,00
+             Maison            Récente     PT : 500,00 PC : 500,00
+             Maison             Neuve      PT : 500,00 PC : 700,00
+             Maison                                    500,00
+                                  Loti
+               TZI                                    2 000,00
+                                Ancien                2 500,00
+          Appartement           Récent                3 000,00
+          Appartement            Neuf     PT : 2 000,00 PC : 700,00
+          Appartement          Ancienne   PT : 2 000,00 PC : 800,00
+                               Récente   PT : 2 000,00 PC : 1 000,00
+             Maison             Neuve                 2 000,00
+             Maison
+             Maison               Loti                2 700,00
+                                                      3 000,00
+               TZI              Ancien                3 500,00
+                                Récent   PT : 2 200,00 PC : 1 000,00
+          Appartement            Neuf    PT : 2 200,00 PC : 1 100,00
+          Appartement          Ancienne  PT : 2 200,00 PC : 1 300,00
+          Appartement          Récente                2 200,00
+                                Neuve
+             Maison
+             Maison               Loti
+             Maison
+
+               TZI
+
+                       - 21 -
+MI-AA2.9   Appartement           Ancien                2 000,00
+MI-AA2.10  Appartement           Récent                2 200,00
+           Appartement            Neuf                 2 400,00
+                                Ancienne  PT : 1 300,00 PC : 1 000,00
+              Maison            Récente   PT : 1 300,00 PC : 1 200,00
+              Maison             Neuve    PT : 1 300,00 PC : 1 700,00
+              Maison                                   1 300,00
+                                   Loti
+                TZI              Ancien                2 100,00
+                                 Récent                2 300,00
+           Appartement            Neuf                 2 500,00
+           Appartement          Ancienne  PT : 1 400,00 PC : 1 000,00
+           Appartement          Récente   PT : 1 400,00 PC : 1 500,00
+                                 Neuve    PT : 1 400,00 PC : 1 800,00
+              Maison                                   1 400,00
+              Maison               Loti
+              Maison
+
+                TZI
+
+                        - 22 -
+6.2. Référentiel des prix des transactions immobilières du Pachalik d'Er-rich
+
+ Zone   Type de bien            Etat            Prix au m²
+MI-ER1  Appartement            Ancien
+MI-ER2  Appartement            Récent                2 000,00
+        Appartement             Neuf                 2 700,00
+                              Ancienne               3 000,00
+            Maison            Récente    PT : 2 000,00 PC : 800,00
+            Maison             Neuve    PT : 2 000,00 PC : 1 000,00
+            Maison                      PT : 2 000,00 PC : 1 800,00
+                                 Loti                2 000,00
+              TZI              Ancien                1 500,00
+         Appartement           Récent                1 800,00
+        Appartement             Neuf                 2 100,00
+        Appartement           Ancienne   PT : 1 600,00 PC : 600,00
+                              Récente    PT : 1 600,00 PC : 700,00
+            Maison             Neuve    PT : 1 600,00 PC : 1 100,00
+            Maison                                   1 600,00
+            Maison               Loti
+
+              TZI
+
+                      - 23 -
+MI-ER3  Appartement           Ancien                1 800,00
+MI-ER4  Appartement           Récent                2 000,00
+MI-ER5  Appartement            Neuf                 2 300,00
+                             Ancienne   PT : 1 200,00 PC : 800,00
+           Maison            Récente    PT : 1 200,00 PC : 900,00
+           Maison             Neuve    PT : 1 200,00 PC : 1 300,00
+           Maison                                   1 200,00
+                                Loti                 800,00
+             TZI              Ancien                1 000,00
+        Appartement           Récent                1 200,00
+        Appartement            Neuf      PT : 350,00 PC : 450,00
+        Appartement          Ancienne    PT : 350,00 PC : 600,00
+                             Récente     PT : 350,00 PC : 650,00
+           Maison             Neuve                  350,00
+           Maison                                    800,00
+           Maison               Loti                 900,00
+                              Ancien                1 100,00
+             TZI              Récent     PT : 600,00 PC : 500,00
+        Appartement            Neuf      PT : 600,00 PC : 600,00
+        Appartement          Ancienne    PT : 600,00 PC : 700,00
+        Appartement          Récente                 600,00
+                              Neuve
+           Maison
+           Maison               Loti
+           Maison
+
+             TZI
+
+                     - 24 -
+7. Annexes
+
+          - 25 -
+7.1 Cartographie des Zones relevant de l'Annexe Administrative 01 (Pachalik de Midelt).
+
+7.1 Tableau des délimitations des Zones : Annexe Administrative 01 (Pachalik de Midelt).
+
+Code Zone  Points de repère
+
+MI-AA1.1   Quartier administratif, Place Al Ittihad, BD Mohamed V
+
+MI-AA1.2   Rue place verte (R. droite), Quartier militaire
+
+MI-AA1.3   Al Madrassa Hassania, Gsirte Ait Hammou, Sécreta
+
+MI-AA1.4   BD Bir anzarane, Souk Larbaa
+
+MI-AA1.5   Place souk jmaa, AV my smail
+MI-AA1.6
+           Ikhramjioune, les anciens combattants, Almou I, rue Hammane el fatouaki (R. gauche),
+MI-AA1.7   rue collège Al Ayachi (R.gauche), Lotissement Bijou (ZV)
+
+           Ait Bertat, Izougaghène
+
+MI-AA1.8   Diour Jdad, Atmane Oumoussa, Agounoune, Ait Ghiate, Mimlal
+MI-AA1.9   Taakite, Bouzmella, Lkwite, Ait ouaffella
+
+MI-AA1.10  Tachawite
+MI-AA1.11  Lotissement Al Omrane, Lot. Safaa, Lot. Tawenza, Route de Meknes
+
+                                         - 26 -
+7.2 Cartographie des Zones relevant de l'Annexe Administrative 02 (Pachalik de Midelt)
+
+7.2 Tableau des délimitations des Zones : Annexe Administrative 02 (Pachalik de Midelt)
+
+Code Zone  Points de repère
+MI-AA2.1   Rue place verte (R. gauche), Lastras, Place verte, tachiwine, Lot. Safari Atlas
+MI-AA2.2   Irroumlil, Idemrane, Laghchawa, Khenis
+MI-AA2.3   Almou II, Ait Mansour, Souk el Had
+MI-AA2.4   Ait Rbaa, Tamda N'zerri, Lot. Moukawama
+MI-AA2.5   Tadaoute, Almou Anamas, Almou Antarfou,Lot. Outat
+MI-AA2.6   Chaaba
+MI-AA2.7   BD Tarik, rue Al Haddada
+MI-AA2.8   Route d'Errachidia, Lot. Tilili, Lot. Riad, Lot. Aymane, Lot. Bouziane
+MI-AA2.9   Lot. Karam, Lot. Jamila, Lot. Toufaha
+MI-AA2.10  Lot. Al Amal, Lot. Tacharouk
+
+                                                - 27 -
+           7.3 Cartographie des Zones relevant du Pachalik Er-rich.
+
+Code Zone            7.3 Tableau des délimitations des Zones : Pachalik Er-rich
+ MI-ER1    Points de repère
+ MI-ER2    Place Mohamed V, Bd Mohamed V, 20 Aout, Bd Al Masjid, Er-rich Akdim
+ MI-ER3    Tahmidante, Amazir,Tifrouine, Tafraoute, Lot. Massira, Imy N'tizi
+ MI-ER4    Lot. Ziz, Lot. Rafahiya, le village pilote, Bd Imam Malek
+ MI-ER5    Boulili, Koudia Lbida, Jbel Lharte, Ifry N'emdiazen, Aada
+           Ilighen, Tayara, Boutazghi, Imizar, Iguelmamen, Tahinouste
+
+           - 28 -
+                                            8. Contacts utiles
+
+         Désignation                                           Adresse                    Tél/Email
+Centre d'Information DGI                    Bd Haj Ahmed Cherkaoui Agdal Rabat       05-37-27-37-27
+                                                                                referentiel@tax.gov.ma
+Direction régionale de Fès                  Rue Mohamed El Kaghat FES                05-35-93-20-40
+
+Direction provinciale de Meknès             Bd Idriss II Meknès                      05-35-52-37-40
+
+Recette de l'Administration Fiscale Midelt  B.P 46 Midelt                            05-35-58-20-82
+
+                                            - 29 -
+

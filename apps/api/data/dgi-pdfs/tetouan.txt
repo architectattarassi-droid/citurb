@@ -1,0 +1,1499 @@
+Référentiel des Prix des Transactions Immobilières
+                        de Tétouan
+
+    Les données de ce référentiel sont opposables uniquement
+                   à la Direction Générale des Impôts
+
+  Site Internet : www.tax.gov.ma ­ Email : referentiel@tax.gov.ma
+                                                             Edition Octobre 2015
+
+                                                0
+                           Sommaire
+
+1. Préambule                                                                  03
+
+2. Liste des abréviations                                                     04
+
+3. Lexique                                                                    06
+
+4. Territoire, biens concernés et plan d'ensemble de la Ville de Tétouan      08
+
+4.1. Territoire et biens concernés                                            08
+
+4.2. Plan d'ensemble de la ville de Tétouan                                   10
+
+5. Mode de recherche                                                          12
+
+6. Référentiel des prix des transactions immobilières de la ville de Tétouan  15
+
+6.1. Annexe Administrative Al Matar                                           16
+
+6.2. Annexe Administrative Ancienne Medina                                    23
+
+6.3. Annexe Administrative Boussafou                                          24
+
+6.4. Annexe Administrative Dersa                                              30
+
+6.5. Annexe Administrative El Hay El Madrassi                                 31
+
+6.6. Annexe Administrative M'salla                                            34
+
+6.7. Annexe Administrative Moulay El Mehdi                                    37
+
+6.8. Annexe Administrative Samsa                                              38
+
+6.9. Annexe Administrative Sidi Talha                                         39
+
+6.10. Annexe Administrative Taboula                                           41
+
+6.11. Annexe Administrative Touabel                                           43
+
+                                               1
+7. Annexes : Cartographie et tableaux des délimitations des Zones  48
+
+8. Contacts utiles                                                 65
+
+                    2
+                         1. Préambule
+
+        Dans une démarche de transparence de l'action de l'Administration et de rationalisation de
+son pouvoir d'appréciation, le présent manuel assure la publication des prix de référence retenus
+par l'Administration pour les besoins de calcul des droits et taxes.
+
+        Il s'applique à l'ensemble des cessions de biens immobiliers à usage d'habitation.
+
+        Il permet aux citoyens, dans un souci d'amélioration du climat de confiance, de disposer du
+même niveau d'information que l'Administration.
+
+        Pour se rapprocher le plus de la réalité du marché, les données de ce référentiel sont le
+résultat d'un travail de consultation et de concertation entre la Direction Générale des Impôts,
+l'Agence Nationale de la Conservation Foncière du Cadastre et de la Cartographie, la Fédération
+Nationale des Promoteurs Immobiliers représentée par APIT de Tétouan, l'Agence Urbaine de
+Tétouan, le Ministère de l'Urbanisme et de l'Aménagement du Territoire, la Chambre de Commerce
+d'industrie et de services de la Wilaya de Tétouan, l'Ordre des Notaires de Tétouan, le conseil
+Régional des Adouls de Tétouan.
+
+        Il s'agit de prix moyens retenus pour le calcul des droits et taxes et ne constituent en aucun
+cas une évaluation directe d'un bien immobilier donné.
+
+        Il constitue à cet effet une étape importante dans le processus de renforcement des
+garanties accordées aux citoyens.
+
+        Les données de ce référentiel feront l'objet d'une actualisation périodique en fonction de
+l'évolution du marché de l'immobilier.
+
+                                                            3
+                  2. Liste des abréviations
+
+ANCFCC : Agence Nationale de la conservation foncière, du Cadastre et de la Cartographie
+APIT : Association des promoteurs immobiliers de la Wilaya de Tétouan
+AUT : Agence Urbaine de Tétouan
+Av. : Avenue
+Bd : Boulevard
+DGI : Direction Générale des Impôts
+DRI : Direction Régionale des Impôts
+EP : Equipements Publics
+FNPI : Fédération Nationale des Promoteurs Immobiliers
+FRPI : Fédération Régionale des Promoteurs Immobiliers
+GH : Groupe d'Habitations
+Ha : Hectares
+Hab. : Habitants
+HCP : Haut Commissariat au Plan
+Lot : Lotissement
+m² : Mètre Carré
+PC : Prix de la Construction
+PT : Prix du Terrain
+QI : Quartier Industriel
+Rce : Résidence
+Rd-Point : Rond Point
+Rte : Route
+TE : Tétouan
+TE-MT : Tétouan - Annexe administrative Al Matar
+TE-AM : Tétouan - Annexe administrative Ancienne Médina
+TE-BS : Tétouan - Annexe administrative Boussafou
+TE-DE : Tétouan - Annexe administrative Dersa
+TE-HM : Tétouan - Annexe administrative Hay Al Madrassi
+TE-MS : Tétouan - Annexe administrative M'salla
+TE-MM : Tétouan - Annexe administrative Moulay El Mehdi
+TE-SM : Tétouan - Annexe administrative Samsa
+TE-ST : Tétouan - Annexe administrative Sidi Talha
+TE-TA : Tétouan - Annexe administrative Taboula
+
+                                                            4
+TE-TO : Tétouan - Annexe administrative Touabel
+ST : Superficie du Terrain
+T : Terrain
+TTC : Toutes Taxes Comprises
+ZI : Zone Immeuble
+Zone Rue/Av./Bd : Rue, Avenue et Boulevard ayant le statut d'une Zone
+ZV : Zone Villa
+R+(i) : Rez­de ­Chaussée +(i) : Nombre d'étages.
+< à R+(i) : Zonage inférieur à R+(i)
+<= à R+(i) : Zonage inférieur ou égale à R+(i)
+> à R+(i) : Zonage supérieur à R+(i)
+>= à R+(i) : Zonage supérieur ou égale à R+(i)
+
+                                                            5
+                             3. Lexique
+
+Ancien (logement) : logement ayant été achevé depuis plus de quinze ans (> à 15 ans).
+Appartement sécurisé : appartement situé dans un projet immobilier fermé et sécurisé.
+Appartement : un appartement est une unité d'habitation, comportant un certain nombre de
+pièces et située dans un immeuble collectif généralement dans une ville.
+Immeuble : dans le langage courant, le mot "immeuble" désigne un bâtiment urbain de plusieurs
+étages, à usage d'habitation ou professionnel, en copropriété.
+Logement social : par cette formule, on désigne un appartement dont la superficie couverte est
+comprise entre 50 et 80 m² et le prix de vente n'excède pas 250.000 dirhams, hors taxe sur la
+valeur ajoutée.
+Loti (terrain) : un terrain loti signifie un terrain situé dans un lotissement (voir lotissement).
+Lotissement : un lotissement est constitué par un ensemble de lots provenant de la division d'un
+terrain en vue d'y recevoir des constructions qui sont vendues généralement séparément après
+que le lotisseur ait réalisés des voies d'accès, des espaces collectifs et des travaux de viabilité et les
+raccordements aux réseaux de fourniture en eau, en électricité, aux réseaux d'égouts et aux
+réseaux de télécommunication.
+Maison : une maison est un bâtiment destiné à être la demeure d'une famille, voire de plusieurs,
+et qui n'est pas un immeuble en copropriété.
+Neuf (logement) : logement achevé depuis six ans au plus (<= à 6 ans).
+Prix Appartement = Prix au m² Appartement x (Superficie Appartement + Superficie Parking/ 3 +
+Superficie Terrasse/ 2).
+Prix de la Construction (PC) : par prix de la construction, on entend le prix du mètre carré couvert.
+Prix du Terrain (PT) : par prix du terrain, on entend le prix du terrain au mètre carré.
+Prix Maison = Prix au m² T x Superficie Terrain Maison + Prix au m² C x Superficie Couverte.
+Prix Minima : le prix minima d'un type de bien est le prix moyen de ce type de bien observé au
+niveau d'une Zone donnée.
+Prix Terrain = Prix au m² Terrain x Superficie Terrain.
+Prix Villa = Prix au m² T x Superficie Terrain Villa + Prix au m² C x Superficie Couverte.
+Récent (logement) : logement achevé depuis plus de six ans au moins et quinze ans au plus (> à 6
+ans et <= à 15 ans) + logement ancien achevé suite à rénovation depuis six ans au plus (<= à 6
+ans).
+
+                                                            6
+Terrain ZI : est considéré comme terrain zone immeuble tout terrain destiné à la construction d'un
+immeuble collectif ou d'une maison : terrain nu, terrain construit de bâtiments destinés à être
+démolis (cas de zone villa convertie en zone immeuble par exemple).
+Terrain ZV : est considéré comme terrain zone villa tout terrain destiné à la construction d'une villa
+: terrain nu, terrain construit de bâtiments destinés à être démolis (cas de villa vétuste par
+exemple).
+Villa sécurisée : villa située dans un domaine résidentiel fermé et sécurisé.
+Villa : une villa est une maison avec jardin.
+Zone : une zone est un groupe d'adresses où les prix sont relativement homogènes.
+
+                                                            7
+4. Territoire, biens concernés et plan d'ensemble de la Ville de Tétouan
+
+4 - 1. Territoire concerné :
+
+La ville de Tétouan fait partie de la région de Tanger ­Tétouan­ AL Hoceima cette région est l'une
+
+des douze régions du Maroc instituées en 2015.
+
+La Direction Régionale des impôts de Tétouan couvre deux provinces et une préfecture selon le
+
+tableau ci-dessous :
+
+Province /Préfecture          Municipalités        Communes Rurales
+
+Province de Tétouan                             2    20
+
+Province de Chefchaouen                         1    27
+
+Préfecture de M'diq-Fnideq                      3    2
+
+Totaux :                                        6    49
+
+La province de Tétouan se compose de deux Municipalités (Municipalité de Tétouan et
+Municipalité de Oued Laou) et vingt Communes Rurales.
+La commune urbaine de Tétouan compte onze annexes administratives :
+
+             Annexes Administratives :de la Commune
+                          Urbaine de Tétouan
+
+          Al Matar
+          Ancienne Médina
+          Boussafou
+          Derssa
+          El Hay Al Madrassi
+          M'salla
+          Moulay El Mehdi
+          Samsa
+          Sidi Talha
+          Taboula
+          Touabel
+
+Le territoire géographique et les biens concernés par le présent Référentiel se présentent comme
+suit:
+ Territoire concerné : Commune urbaine de Tétouan.
+
+                                                8
+ Types de biens immobiliers concernés :
+o Appartement, Maison et Villa à usage d'habitation.
+o Terrain construit de bâtiments destinés à être démolis : ZI ou ZV.
+o Terrain Loti : ZI ou ZV.
+
+  Types de biens immobiliers exclus :
+o Appartement à usage professionnel.
+o Villa et Maison à vocation professionnelle ou commerciale.
+o Logement social.
+o Logement destiné au recasement des bidonvilles.
+o Terrain urbain non Loti.
+o Terrain à usage industriel.
+o Terrain à usage agricole.
+
+                                                            9
+4.2. Plan d'ensemble de la Province de Tétouan:
+
+   Source : AUT.
+
+                                                                           Source : HCP et Wilaya de Tétouan
+                                                            10
+11
+                                 5. Mode de recherche
+
+Actuellement, la recherche s'effectue:
+     A partir d'une adresse;
+     A partir de la délimitation des zones;
+     Recherche effectuée à partir de la consultation sur une carte numérisée mise à la disposition du
+         public au niveau du portail de la DGI, le système situe le bien sur la carte et affiche
+         automatiquement son prix de référence.
+     En consultant le bureau d'accueil et de coordination de la DRI de Tétouan et/ou le centre
+         d'information téléphonique de la DGI au numéro: 05.37.27.37.27.
+
+Précision :
+Lorsqu'un bien chevauche sur plusieurs zones, le prix à prendre en considération est celui de la zone la
+plus cotée.
+
+                                                            12
+Exemple 1 : (Recherche sur une carte numérisée) :
+Soit un Appartement X se trouvant sur Av Mohamed El Yazadi.
+Situer l'avenue sur la carte et afficher les prix des Appartements de cette Zone en cliquant dessus.
+
+                                                            13
+Exemple 2 : (à partir de la délimitation des zones) :
+Soit Y une Maison relevant de l'annexe administrative Al Matar :
+
+     Consulter la liste des points de repères de l'annexe en question pour déterminer le code
+         Zone ;
+
+     Connaissant le code Zone, on détermine le prix du bien concerné au niveau de la grille de
+         prix correspondante.
+
+                                                            14
+6. Référentiel des prix des transactions immobilières de la ville de
+                                     Tétouan
+
+La commune urbaine de Tétouan est découpée en 70 zones dont la ventilation est
+comme suit :
+
+        Annexes     Nombre de  Nombre de Zones  Nombre Total des
+   Administratives     Zones      Rue/Av./Bd.          Zones
+
+Al Matar                 10              5               15
+Ancienne Médina           1              0                1
+Boussafou                 8              4               12
+Derssa                    2              0                2
+El Hay Al Madrassi        5              4                9
+M'salla                   5              2                7
+Moulay El Mehdi           2              0                2
+Samsa                     3              0                3
+Sidi Talha                3              2                5
+Taboula                   3              1                4
+Touabel                   7              3               10
+                         49             21               70
+         Totaux
+
+       Les référentiels des prix relatifs aux différentes annexes administratives sont
+comme suit :
+
+                               15
+6-1- Référentiel des prix des transactions immobilières de l'annexe administrative Al Matar :
+
+ Zone    Type de bien       Etat         Prix au m²
+TE-MT 1  Appartement       Ancien            3 000
+TE-MT 2  Appartement       Récent            4 500
+         Appartement        Neuf             5 000
+                           Ancien
+            Maison         Récent  PT : 5 000/ PC : 1 500
+            Maison          Neuf   PT : 5 000 / PC : 2 500
+            Maison         Ancien  PT : 5 000 / PC : 3 000
+                           Récent  PT : 4 000 / PC : 1 500
+              Villa         Neuf   PT : 4 000/ PC : 2 500
+              Villa                PT : 4 000 / PC : 3 000
+              Villa         Loti
+           Terrain ZI       Loti             5 000
+           Terrain ZV      Ancien            4 000
+         Appartement       Récent            6 000
+         Appartement        Neuf             7 500
+         Appartement       Ancien            8 000
+              Villa        Récent  PT : 7 000/ PC : 2 000
+              Villa         Neuf   PT : 7 000/ PC : 2 700
+              Villa         Loti   PT : 7 000/ PC : 3 200
+           Terrain ZI       Loti            11 000
+           Terrain ZV                        7 000
+
+                       16
+ Zone    Type de bien          Etat         Prix au m²
+TE-MT 3  Appartement          Ancien           2 500
+         Appartement          Récent           3 500
+TE-MT 4  Appartement           Neuf            4 500
+                              Ancien
+             Maison           Récent  PT : 2 000/ PC : 1 500
+             Maison            Neuf   PT : 2 000 / PC : 2 000
+             Maison                   PT : 2 000/ PC : 2 500
+            Terrain ZI         Loti
+             Maison           Ancien           2 000
+             Maison           Récent  PT : 5 000/ PC : 1 500
+             Maison            Neuf   PT : 5 000/ PC : 2 500
+                              Ancien  PT : 5 000/ PC : 3 000
+               Villa          Récent  PT : 4 500/ PC : 1 500
+               Villa           Neuf   PT : 4 500/ PC : 2 500
+               Villa          Ancien  PT : 4 500/ PC : 3 000
+         Villa sécurisée      Récent  PT : 4 500/ PC : 2 000
+         Villa sécurisée       Neuf   PT : 4 500/ PC : 3 000
+         Villa sécurisée              PT : 4 500/ PC : 3 500
+            Terrain ZI         Loti
+           Terrain ZV          Loti            5 000
+                                               4 500
+
+                          17
+ Zone    Type de bien       Etat         Prix au m²
+TE-MT 5  Appartement       Ancien            4 000
+         Appartement       Récent            5 000
+TE-MT 6  Appartement        Neuf             6 000
+                           Ancien
+            Maison         Récent  PT : 5 000/ PC : 1 500
+            Maison          Neuf   PT : 5 000 /PC : 2 500
+            Maison         Ancien  PT : 5 000/ PC : 3 000
+                           Récent  PT : 4 500/ PC : 1 500
+              Villa         Neuf   PT : 4 500/ PC : 2 500
+              Villa                PT : 4 500/ PC : 3 000
+              Villa         Loti
+                                      >= à R+4 : 6 000
+           Terrain ZI       Loti       < à R+4 : 5 000
+                           Ancien
+           Terrain ZV      Récent            4 500
+         Appartement        Neuf             4 500
+         Appartement       Ancien            5 000
+         Appartement       Récent            6 000
+                            Neuf   PT : 7 000 / PC : 1 500
+            Maison         Ancien  PT : 7 000 / PC : 2 500
+            Maison         Récent  PT : 7 000 / PC : 3 000
+            Maison          Neuf   PT : 5 000 /PC : 1 500
+                                   PT : 5 000 / PC : 2 500
+              Villa         Loti   PT : 5 000 / PC : 3 000
+              Villa                   >= à R+4 : 9 500
+              Villa         Loti       < à R+4 : 7 000
+                                             5 000
+           Terrain ZI
+
+           Terrain ZV
+
+                       18
+ Zone         Type de bien          Etat         Prix au m²
+TE-MT 7       Appartement          Ancien            3 000
+              Appartement          Récent            4 000
+TE-MT 8       Appartement           Neuf             5 000
+                                   Ancien
+                  Maison           Récent  PT : 2 500 / PC : 1 500
+                  Maison            Neuf   PT : 2 500 / PC : 2 000
+                  Maison           Ancien  PT : 2 500 / PC : 2 500
+                                   Récent  PT : 2 000 / PC : 1 500
+                   Villa            Neuf   PT : 2 000 / PC : 2 000
+                   Villa                   PT : 2 000 / PC : 2 500
+                   Villa            Loti
+                Terrain ZI          Loti             2 500
+                Terrain ZV         Ancien            2 000
+              Appartement          Récent            3 000
+              Appartement           Neuf             4 000
+              Appartement           Neuf             5 000
+         Appartement Sécurisé      Ancien            8 000
+                  Maison           Récent  PT : 5 000 /PC : 1 500
+                  Maison            Neuf   PT : 5 000 /PC : 2 500
+                  Maison           Ancien  PT : 5 000/ PC : 3 000
+                   Villa           Récent  PT : 4 000/ PC : 2 000
+                   Villa            Neuf   PT : 4 000/ PC : 2 500
+                   Villa            Loti   PT : 4 000/ PC : 3 000
+                Terrain ZI          Loti             5 000
+                Terrain ZV                           4 000
+
+                               19
+  Zone    Type de bien       Etat         Prix au m²
+TE-MT 9   Appartement       Ancien            3 000
+          Appartement       Récent            4 000
+TE-MT 10  Appartement        Neuf             5 000
+                            Ancien
+             Maison         Récent  PT : 4 500/ PC : 1 500
+             Maison          Neuf   PT : 4 500/ PC : 2 000
+             Maison         Ancien  PT : 4 500 /PC : 2 500
+                            Récent  PT : 4 000/ PC : 1 500
+               Villa         Neuf   PT : 4 000 /PC : 2 000
+               Villa                PT : 4 000/ PC : 2 500
+               Villa         Loti
+            Terrain ZI       Loti             4 500
+            Terrain ZV      Ancien            4 000
+          Appartement       Récent            6 500
+          Appartement        Neuf             7 500
+          Appartement       Ancien            8 500
+             Maison         Récent  PT : 13 000 /PC : 1 500
+             Maison          Neuf   PT : 13 000/ PC : 3 000
+             Maison         Ancien  PT : 13 000/ PC : 4 000
+               Villa        Récent  PT : 9 000 /PC : 1 500
+               Villa         Neuf   PT : 9 000/ PC : 3 000
+               Villa         Loti   PT : 9 000/ PC : 4 000
+                                       >= à R+4 : 20 000
+            Terrain ZI       Loti       < à R+4 : 13 000
+                                              9 000
+            Terrain ZV
+
+                        20
+  Zone    Type de bien       Etat         Prix au m²
+TE-MT 11  Appartement       Ancien           3 000
+TE-MT 12  Appartement       Récent           3 500
+TE-MT 13  Appartement        Neuf            4 000
+                            Ancien
+             Maison         Récent  PT : 3 000/ PC : 1 000
+             Maison          Neuf   PT : 3 000 /PC : 1 500
+             Maison         Ancien  PT : 3 000/ PC : 2 000
+                            Récent  PT : 2 500/ PC : 1 500
+               Villa         Neuf   PT : 2 500/ PC : 2 000
+               Villa                PT : 2 500 /PC : 2 500
+               Villa         Loti
+            Terrain ZI       Loti            3 000
+            Terrain ZV      Ancien           2 500
+          Appartement       Récent           3 000
+          Appartement        Neuf            4 000
+          Appartement       Ancien           5 000
+             Maison         Récent  PT : 5 000/ PC : 1 500
+             Maison          Neuf   PT : 5 000/ PC : 2 000
+             Maison          Loti   PT : 5 000/ PC : 2 500
+            Terrain ZI      Ancien           5 000
+          Appartement       Récent           2 500
+          Appartement        Neuf            3 000
+          Appartement       Ancien           3 500
+             Maison         Récent  PT : 3 500 / PC : 1 500
+             Maison          Neuf   PT : 3 500/ PC : 2 000
+             Maison          Loti   PT : 3 500/ PC : 2 500
+            Terrain ZI                       3 500
+
+                        21
+  Zone    Type de bien       Etat         Prix au m²
+TE-MT 14  Appartement       Récent           5 000
+          Appartement        Neuf            6 000
+TE-MT 15                    Récent
+             Maison          Neuf   PT : 7 000/ PC : 2 500
+             Maison                 PT : 7 000/ PC : 3 000
+            Terrain ZI       Loti
+          Appartement       Ancien           7 000
+          Appartement       Récent           4 000
+          Appartement        Neuf            5 500
+             Maison         Ancien           6 500
+             Maison         Récent  PT : 5 000 / PC : 1 500
+             Maison          Neuf   PT : 5 000 / PC : 2 500
+                                    PT : 5 000 / PC : 3 000
+            Terrain ZI       Loti      >= à R+4 : 8 000
+                                       < à R+4 : 5 000
+
+                        22
+6-2- Référentiel des prix des transactions immobilières de l'annexe administrative Ancienne
+Médina :
+
+Zone   Type de bien       Etat         Prix au m²
+TE-AM  Appartement       Ancien           1 000
+       Appartement       Récent           2 000
+       Appartement        Neuf            2 500
+                         Ancien
+          Maison         Récent   PT : 2 500 / PC : 500
+          Maison          Neuf   PT : 2 500 / PC : 1 000
+          Maison                 PT : 2 500 / PC : 1 500
+         Terrain ZI       Loti
+                                          2 500
+
+                     23
+6-3- Référentiel des prix des transactions immobilières de l'annexe administrative Boussafou :
+
+ Zone    Type de bien       Etat         Prix au m²
+TE-BS 1  Appartement       Ancien            3 000
+         Appartement       Récent            4 000
+TE-BS 2  Appartement        Neuf             5 000
+                           Ancien
+            Maison         Récent  PT : 5 000 / PC : 1 500
+            Maison          Neuf   PT : 5 000 / PC : 2 400
+            Maison                 PT : 5 000 / PC : 2 900
+           Terrain ZI       Loti
+         Appartement       Ancien            5 000
+         Appartement       Récent            4 000
+         Appartement        Neuf             5 000
+            Maison         Ancien            6 000
+            Maison         Récent  PT : 6 000/ PC : 1 500
+            Maison          Neuf   PT : 6 000 / PC : 2 000
+                           Ancien  PT : 6 000/ PC : 3 000
+              Villa        Récent  PT : 5 000/ PC : 2 000
+              Villa         Neuf   PT : 5 000 / PC : 2 500
+              Villa                PT : 5 000/ PC : 3 000
+                            Loti      >= à R+4 : 7 500
+           Terrain ZI                  < à R+4 : 6 000
+                            Loti             5 000
+           Terrain ZV
+
+                       24
+ Zone    Type de bien       Etat          Prix au m²
+TE-BS 3  Appartement       Ancien            3 000
+         Appartement       Récent            4 000
+TE-BS 4  Appartement        Neuf             5 000
+                           Ancien
+            Maison         Récent  PT : 5 000 / PC : 1 500
+            Maison          Neuf   PT : 5 000/ PC : 2 000
+            Maison         Ancien  PT : 5 000 / PC : 2 500
+                           Récent  PT : 4 000 / PC : 2 000
+              Villa         Neuf   PT : 4 000 / PC : 2 500
+              Villa                PT : 4 000 / PC : 3 000
+              Villa         Loti
+           Terrain ZI       Loti             5 000
+           Terrain ZV      Ancien            4 000
+         Appartement       Récent            4 000
+         Appartement        Neuf             6 000
+         Appartement       Ancien            7 000
+            Maison         Récent  PT : 6 000/ PC : 2 000
+            Maison          Neuf   PT : 6 000 / PC : 2 500
+            Maison         Ancien  PT : 6 000 / PC : 3 000
+              Villa        Récent  PT : 5 000/ PC : 2 000
+              Villa         Neuf   PT : 5 000 / PC : 2 500
+              Villa         Loti   PT : 5 000/ PC : 3 000
+                                       >= à R+4 : 7 500
+           Terrain ZI       Loti        < à R+4 : 6 000
+                                             5 000
+           Terrain ZV
+
+                       25
+ Zone    Type de bien       Etat          Prix au m²
+TE-BS 5  Appartement       Ancien            3 500
+         Appartement       Récent            5 000
+TE-BS6   Appartement        Neuf             6 000
+                           Ancien
+            Maison         Récent  PT : 5 500/ PC : 1 500
+            Maison          Neuf   PT : 5 500 / PC : 2 500
+            Maison         Ancien  PT : 5 500 / PC : 3 000
+                           Récent  PT : 5 000 / PC : 2 000
+              Villa         Neuf   PT : 5 000 / PC : 2 500
+              Villa                PT : 5 000 / PC : 3 000
+              Villa         Loti
+                                       >= à R+4 : 7 000
+           Terrain ZI       Loti        < à R+4 : 5 500
+                           Ancien
+           Terrain ZV      Récent            5 000
+         Appartement        Neuf             2 500
+         Appartement       Ancien            3 500
+         Appartement       Récent            4 000
+                            Neuf   PT : 3 000 / PC : 1 500
+            Maison         Ancien  PT : 3 000 / PC : 2 000
+            Maison         Récent  PT : 3 000 / PC : 2 500
+            Maison          Neuf   PT : 2 500/ PC : 1 500
+                                   PT : 2 500 / PC : 2 000
+              Villa         Loti   PT : 2 500 / PC : 2 500
+              Villa         Loti             3 000
+              Villa                          2 500
+           Terrain ZI
+           Terrain ZV
+
+                       26
+ Zone    Type de bien       Etat          Prix au m²
+TE-BS 7  Appartement       Ancien            2 500
+         Appartement       Récent            3 500
+TE-BS 8  Appartement        Neuf             4 000
+                           Ancien
+            Maison         Récent  PT : 3 500/ PC : 1 500
+            Maison          Neuf   PT : 3 500/ PC : 2 000
+            Maison                 PT : 3 500/ PC : 2 500
+           Terrain ZI       Loti
+         Appartement       Ancien            3 500
+         Appartement       Récent            4 000
+         Appartement        Neuf             6 000
+            Maison         Ancien            7 000
+            Maison         Récent  PT : 7 000 / PC : 2 000
+            Maison          Neuf   PT : 7 000 / PC : 2 500
+                           Ancien  PT : 7 000 / PC : 3 000
+              Villa        Récent  PT : 6 000 / PC : 2 000
+              Villa         Neuf   PT : 6 000 / PC : 2 500
+              Villa                PT : 6 000 / PC : 3 000
+                            Loti      >= à R+4 : 10 000
+           Terrain ZI                   < à R+4 : 7 000
+                            Loti             6 000
+           Terrain ZV
+
+                       27
+  Zone    Type de bien       Etat          Prix au m²
+TE-BS 9   Appartement       Ancien            3 000
+          Appartement       Récent            5 500
+TE-BS 10  Appartement        Neuf             6 500
+                            Ancien
+             Maison         Récent  PT : 6 500 / PC : 1 500
+             Maison          Neuf   PT : 6 500 / PC : 2 000
+             Maison         Ancien  PT : 6 500/ PC : 2 500
+                            Récent  PT : 5 000 / PC : 2 000
+               Villa         Neuf   PT : 5 000 / PC : 2 500
+               Villa                PT : 5 000 / PC : 3 000
+               Villa         Loti
+                                        >= à R+4 : 9 000
+            Terrain ZI       Loti        < à R+4 : 6 500
+                            Ancien
+            Terrain ZV      Récent            5 000
+          Appartement        Neuf             1 500
+          Appartement       Ancien            2 500
+          Appartement       Récent            3 000
+                             Neuf   PT : 1 500 / PC : 1 000
+             Maison         Ancien  PT : 1 500 / PC : 1 250
+             Maison         Récent  PT : 1 500 / PC : 1 500
+             Maison          Neuf   PT : 1 400 / PC : 1 000
+                                    PT : 1 400 / PC : 1 500
+               Villa         Loti   PT : 1 400 / PC : 2 000
+               Villa         Loti             1 500
+               Villa                          1 400
+            Terrain ZI
+            Terrain ZV
+
+                        28
+  Zone    Type de bien       Etat          Prix au m²
+TE-BS 11  Appartement       Ancien            4 000
+          Appartement       Récent            6 000
+TE-BS 12  Appartement        Neuf             7 000
+                            Ancien
+             Maison         Récent  PT : 7 000 / PC : 2 500
+             Maison          Neuf   PT : 7 000 / PC : 3 000
+             Maison                 PT : 7 000 / PC : 3 500
+                             Loti
+            Terrain ZI                  >= à R+4 : 9 000
+                            Ancien       < à R+4 : 7 000
+          Appartement       Récent
+          Appartement        Neuf             3 000
+          Appartement       Ancien            4 000
+                            Récent            4 500
+             Maison          Neuf   PT : 4 500 / PC : 1 500
+             Maison                 PT : 4 500 / PC : 2 000
+             Maison          Loti   PT : 4 500 / PC : 2 500
+            Terrain ZI                        4 500
+
+                        29
+6-4- Référentiel des prix des transactions immobilières de l'annexe administrative DERSA :
+
+ Zone    Type de bien       Etat          Prix au m²
+TE-DE 1  Appartement       Ancien            1 500
+         Appartement       Récent            2 500
+TE-DE 2  Appartement        Neuf             3 000
+                           Ancien
+            Maison         Récent   PT : 1 500 / PC : 500
+            Maison          Neuf   PT : 1 500 / PC : 1 000
+            Maison                 PT : 1 500 / PC : 1 500
+           Terrain ZI       Loti
+         Appartement       Ancien            1 500
+         Appartement       Récent            2 000
+         Appartement        Neuf             3 000
+            Maison         Ancien            3 500
+            Maison         Récent  PT : 2 500 / PC : 1 000
+            Maison          Neuf   PT : 2 500 / PC : 1 500
+           Terrain ZI              PT : 2 500 / PC : 2 000
+                            Loti             2 500
+
+                       30
+6-5- Référentiel des prix des transactions immobilières de l'annexe administrative El Hay Al
+Madrassi :
+
+ Zone    Type de bien       Etat          Prix au m²
+TE-HM 1  Appartement       Ancien            3 000
+TE-HM 2  Appartement       Récent            4 000
+TE-HM 3  Appartement        Neuf             5 000
+                           Ancien
+            Maison         Récent  PT : 3 000 / PC : 1 500
+            Maison          Neuf   PT : 3 000 / PC : 2 000
+            Maison                 PT : 3 000 / PC : 2 500
+           Terrain ZI       Loti
+         Appartement       Ancien            3 000
+         Appartement       Récent            3 500
+         Appartement        Neuf             5 000
+            Maison         Ancien            6 000
+            Maison         Récent  PT : 6 000 / PC : 1 500
+            Maison          Neuf   PT : 6 000 / PC : 2 000
+                                   PT : 6 000 / PC : 2 500
+           Terrain ZI       Loti        >= R+4 : 7 500
+                                         < R+4 :6 000
+         Appartement       Ancien            3 500
+         Appartement       Récent            5 000
+         Appartement        Neuf             6 000
+                           Ancien  PT : 6 000 / PC : 1 500
+            Maison         Récent  PT : 6 000 / PC : 2 000
+            Maison          Neuf   PT : 6 000 / PC : 2 500
+            Maison                      >= R+4 : 7 500
+                            Loti        < R+4 : 6 000
+           Terrain ZI
+
+                       31
+ Zone    Type de bien       Etat         Prix au m²
+TE-HM 4  Appartement       Ancien            5 000
+         Appartement       Récent            7 000
+TE-HM 5  Appartement        Neuf             8 000
+TE-HM 6                    Ancien
+            Maison         Récent  PT : 8 000 / PC : 1 500
+            Maison          Neuf   PT : 8 000 / PC : 2 500
+            Maison         Ancien  PT : 8 000 / PC : 3 000
+                                   PT : 7 000 / PC : 1 500
+              Villa         Loti
+                                       >= R+4 : 10 000
+           Terrain ZI       Loti        < R+4 :8 000
+                           Ancien            7 000
+           Terrain ZV      Récent            1 500
+         Appartement        Neuf             2 500
+         Appartement       Ancien            3 500
+         Appartement       Récent
+                            Neuf   PT : 2 000 / PC : 1 000
+            Maison         Ancien  PT : 2 000 / PC : 1 250
+            Maison         Récent  PT : 2 000 / PC : 1 500
+            Maison          Neuf   PT : 1 500 / PC : 1 500
+                                   PT : 1 500 / PC : 2 000
+              Villa         Loti   PT : 1 500 / PC : 2 500
+              Villa         Loti
+              Villa        Ancien            2 000
+           Terrain ZI      Récent            1 500
+           Terrain ZV       Neuf             4 000
+         Appartement        Loti             5 000
+         Appartement                         6 000
+         Appartement                    >= R+4 : 8 000
+                                        < R+4 :5 000
+           Terrain ZI
+
+                       32
+ Zone    Type de bien             Etat         Prix au m²
+TE-HM 7  Appartement             Ancien            2 000
+         Appartement             Récent            3 000
+TE-HM 8  Appartement              Neuf             4 000
+TE-HM 9                          Ancien
+            Maison               Récent  PT : 2 500 / PC : 1 000
+            Maison                Neuf   PT : 2 500 / PC : 1 300
+            Maison               Ancien  PT : 2 500 / PC : 1 700
+                                 Récent  PT : 2 000 / PC : 1 500
+              Villa               Neuf   PT : 2 000 / PC : 2 000
+              Villa                      PT : 2 000 / PC : 2 500
+              Villa                Loti
+           Terrain ZI              Loti            2 500
+           Terrain ZV            Ancien            2 000
+         Appartement             Récent            4 000
+         Appartement              Neuf             5 000
+         Appartement             Ancien            6 000
+            Maison               Récent  PT : 5 500 / PC : 2 000
+            Maison                Neuf   PT : 5 500 / PC : 2 500
+            Maison                 Loti  PT : 5 500 / PC : 3 000
+                                              >= R+4 : 8 000
+           Terrain ZI            Ancien       < R+4 :5 500
+                                 Récent            4 000
+         Appartement              Neuf             5 000
+         Appartement             Ancien            7 000
+         Appartement             Récent  PT : 6 000 / PC : 1 500
+                                  Neuf   PT : 6 000 / PC : 2 000
+            Maison                       PT : 6 000 / PC : 2 500
+            Maison                 Loti            6 000
+            Maison
+           Terrain ZI  33
+6-6- Référentiel des prix des transactions immobilières de l'annexe administrative M'salla :
+
+ Zone    Type de bien       Etat         Prix au m²
+TE-MS 1  Appartement       Ancien            3 500
+TE-MS 2  Appartement       Récent            5 000
+TE-MS 3  Appartement        Neuf             6 000
+                           Ancien
+            Maison         Récent  PT : 6 000 / PC : 1 500
+            Maison          Neuf   PT : 6 000 / PC : 2 000
+            Maison                 PT : 6 000 / PC : 2 500
+           Terrain ZI       Loti
+         Appartement       Ancien            6 000
+         Appartement       Récent            4 000
+         Appartement        Neuf             5 500
+            Maison         Ancien            6 000
+            Maison         Récent  PT : 6 000 / PC : 1 500
+            Maison          Neuf   PT : 6 000 / PC : 2 000
+           Terrain ZI              PT : 6 000 / PC : 2 500
+         Appartement        Loti             6 000
+         Appartement       Ancien            3 500
+         Appartement       Récent            5 000
+            Maison          Neuf             6 000
+            Maison         Ancien  PT : 7 000 / PC : 1 500
+            Maison         Récent  PT : 7 000 / PC : 2 000
+           Terrain ZI       Neuf   PT : 7 000 / PC : 2 500
+                                             7 000
+                            Loti
+
+                       34
+ Zone    Type de bien       Etat         Prix au m²
+TE-MS 4  Appartement       Ancien            3 500
+TE-MS 5  Appartement       Récent            5 500
+TE-MS 6  Appartement        Neuf             6 500
+                           Ancien
+            Maison         Récent  PT : 6 000 /PC : 1 500
+            Maison          Neuf   PT : 6 000 /PC : 2 000
+            Maison                 PT : 6 000 /PC : 2 500
+                            Loti
+           Terrain ZI                   >= R+4 : 9 000
+                           Ancien       < R+4 : 6 000
+         Appartement       Récent
+         Appartement        Neuf             3 000
+         Appartement       Ancien            4 000
+                           Récent            4 500
+            Maison          Neuf   PT : 3 000 / PC : 1 300
+            Maison                 PT : 3 000 / PC : 1 800
+            Maison          Loti   PT : 3 000 / PC : 2 300
+           Terrain ZI      Ancien            3 000
+         Appartement       Récent            4 000
+         Appartement        Neuf             5 500
+         Appartement       Ancien            7 000
+            Maison         Récent  PT : 7 000 / PC : 1 500
+            Maison          Neuf   PT : 7 000 / PC : 2 000
+            Maison                 PT : 7 000 / PC : 3 000
+                            Loti      >= à R+4 : 10 000
+           Terrain ZI                  < à R+4 : 7 000
+
+                       35
+ Zone    Type de bien       Etat         Prix au m²
+TE-MS 7  Appartement       Ancien           4 000
+         Appartement       Récent           5 000
+         Appartement        Neuf            7 000
+                           Ancien
+            Maison         Récent  PT : 7 000 / PC : 1 500
+            Maison          Neuf   PT : 7 000 / PC : 2 000
+            Maison                 PT : 7 000 / PC : 3 000
+                            Loti
+           Terrain ZI                >= à R+4 : 12 000
+                                       < à R+4 : 7 000
+
+                       36
+6-7- Référentiel des prix des transactions immobilières de l'annexe administrative Moulay El
+Mehdi :
+
+  Zone   Type de bien       Etat         Prix au m²
+TE-MM 1  Appartement       Ancien           2 500
+         Appartement       Récent           3 500
+TE-MM 2  Appartement        Neuf            5 000
+                           Ancien
+            Maison         Récent  PT : 5 000 / PC : 1 500
+            Maison          Neuf   PT : 5 000 / PC : 2 000
+            Maison                 PT : 5 000 / PC : 2 500
+           Terrain ZI       Loti
+         Appartement       Ancien           5 000
+         Appartement       Récent           5 000
+         Appartement        Neuf            6 500
+                           Ancien           8 000
+              Villa        Récent  PT : 7 000 / PC : 1 500
+              Villa         Neuf   PT : 7 000 / PC : 2 000
+              Villa                PT : 7 000 / PC : 2 500
+           Terrain ZI       Loti            14 000
+           Terrain ZV       Loti            7 000
+
+                       37
+6-8- Référentiel des prix des transactions immobilières de l'annexe administrative SAMSA :
+
+ Zone    Type de bien       Etat         Prix au m²
+TE-SM 1  Appartement       Ancien           1 500
+TE-SM 2  Appartement       Récent           2 000
+         Appartement        Neuf            2 500
+TE-SM3                     Ancien
+            Maison         Récent   PT : 1 000 / PC : 500
+            Maison          Neuf   PT : 1 000 / PC : 1 000
+            Maison                 PT : 1 000 / PC : 1 500
+           Terrain ZI       Loti
+         Appartement       Ancien           1 000
+         Appartement       Récent           2 000
+         Appartement        Neuf            2 500
+            Maison         Ancien           3 000
+            Maison         Récent  PT : 1 800 / PC : 1 000
+            Maison          Neuf   PT : 1 800 / PC : 1 500
+           Terrain ZI              PT : 1 800 / PC : 2 000
+         Appartement        Loti            1 800
+         Appartement       Ancien           2 000
+         Appartement       Récent           2 500
+            Maison          Neuf            3 000
+            Maison         Ancien  PT : 2 500 / PC : 1 500
+            Maison         Récent  PT : 2 500 / PC : 2 000
+                            Neuf   PT : 2 500 / PC : 2 500
+              Villa        Ancien  PT : 2 000 / PC : 1 500
+              Villa        Récent  PT : 2 000 / PC : 2 000
+              Villa         Neuf   PT : 2 000 / PC : 2 500
+           Terrain ZI                       2 500
+           Terrain ZV       Loti            2 000
+                            Loti
+
+                       38
+6-9- Référentiel des prix des transactions immobilières de l'annexe administrative SIDI TALHA :
+
+ Zone    Type de bien       Etat         Prix au m²
+TE-ST 1  Appartement       Ancien           3 000
+TE-ST 2  Appartement       Récent           4 000
+TE-ST 3  Appartement        Neuf            5 000
+                           Ancien
+            Maison         Récent  PT : 4 500 / PC : 1 500
+            Maison          Neuf   PT : 4 500 / PC : 2 000
+            Maison                 PT : 4 500 / PC : 2 500
+           Terrain ZI       Loti
+         Appartement       Ancien           4 500
+         Appartement       Récent           3 000
+         Appartement        Neuf            4 000
+            Maison         Ancien           5 000
+            Maison         Récent  PT : 5 000 / PC : 1 000
+            Maison          Neuf   PT : 5 000 / PC : 2 000
+                                   PT : 5 000 / PC : 2 500
+           Terrain ZI       Loti      >= à R+4 : 7 000
+                                       < à R+4 : 5 000
+         Appartement       Ancien           2 500
+         Appartement       Récent           4 000
+         Appartement        Neuf            4 500
+                           Ancien  PT : 4 000 / PC : 1 000
+            Maison         Récent  PT : 4 000 / PC : 2 000
+            Maison          Neuf   PT : 4 000 / PC : 2 500
+            Maison                          4 000
+           Terrain ZI       Loti
+
+                       39
+ Zone    Type de bien       Etat         Prix au m²
+TE-ST 4  Appartement       Ancien           4 000
+TE-ST 5  Appartement       Récent           5 000
+         Appartement        Neuf            6 000
+                           Ancien
+            Maison         Récent  PT : 7 000 / PC : 1 500
+            Maison          Neuf   PT : 7 000 / PC : 2 000
+            Maison                 PT : 7 000 / PC : 3 000
+           Terrain ZI       Loti
+         Appartement       Ancien           7 000
+         Appartement       Récent           4 500
+         Appartement        Neuf            6 000
+           Terrain ZI                       7 000
+                            Loti            10 000
+
+                       40
+6-10- Référentiel des prix des transactions immobilières de l'annexe administrative TABOULA :
+
+ Zone    Type de bien       Etat         Prix au m²
+TE-TA 1  Appartement       Ancien           2 700
+         Appartement       Récent           3 500
+TE-TA 2  Appartement        Neuf            4 500
+                           Ancien
+            Maison         Récent  PT : 3 500 / PC : 1 000
+            Maison          Neuf   PT : 3 500 / PC : 1 500
+            Maison                 PT : 3 500 / PC : 2 000
+           Terrain ZI       Loti
+         Appartement       Ancien           3 500
+         Appartement       Récent           1 500
+         Appartement        Neuf            2 500
+            Maison         Ancien           3 000
+            Maison         Récent  PT : 2 000 / PC : 1 000
+            Maison          Neuf   PT : 2 000 / PC : 1 500
+           Terrain ZI              PT : 2 000 / PC : 2 000
+                            Loti            2 000
+
+                       41
+ Zone    Type de bien       Etat          Prix au m²
+TE-TA 3  Appartement       Ancien            2 500
+TE-TA 4  Appartement       Récent            3 500
+         Appartement        Neuf             4 500
+                           Ancien
+            Maison                 <= R+1 PT: 3 000/PC:1 000
+                           Récent
+            Maison                 R+2 PT : 4 000/ PC : 1 000
+                            Neuf   >= à R+3 PT:5 500/PC:1000
+            Maison
+                           Ancien  <= R+1 PT:3 000 /PC:1 500
+              Villa        Récent
+              Villa         Neuf   R+2 PT : 4 000 / PC : 1 500
+              Villa                >= à R+3 PT:5 500/PC:1500
+                            Loti
+           Terrain ZI              <= R+1 PT:3 000 /PC:2 000
+                            Loti
+           Terrain ZV      Ancien  R+2 PT : 4 000 / PC : 2 000
+         Appartement       Récent  >= à R+3 PT:5 500/PC:2000
+         Appartement        Neuf
+         Appartement       Ancien  PT : 3 000 / PC : 1 000
+                           Récent  PT : 3 000 / PC : 1 500
+            Maison          Neuf   PT : 3 000 / PC : 2 000
+            Maison
+            Maison          Loti         <= R+1 : 3 000
+           Terrain ZI
+                                            R+2 : 4 000
+                                          >= à R+3 :5 500
+
+                                             3 000
+                                             4 000
+                                             5 000
+                                             6 000
+                                   PT : 6 000 / PC : 1 500
+                                   PT : 6 000 / PC : 2 000
+                                   PT : 6 000 / PC : 2 500
+                                      >= à R+4 : 10 000
+                                        < à R+4 : 6 000
+
+                       42
+6-11- Référentiel des prix des transactions immobilières de l'annexe administrative Touabel :
+
+ Zone    Type de bien       Etat         Prix au m²
+TE-TO 1  Appartement       Ancien            5 500
+         Appartement       Récent            7 000
+TE-TO 2  Appartement        Neuf             8 000
+                           Ancien
+            Maison         Récent  PT : 8 000 / PC : 1 500
+            Maison          Neuf   PT : 8 000 / PC : 2 000
+            Maison         Ancien  PT : 8 000 / PC : 2 500
+                           Récent  PT : 6 000 / PC : 2 000
+              Villa         Neuf   PT : 6 000 / PC : 2 500
+              Villa                PT : 6 000 / PC : 3 000
+              Villa         Loti
+           Terrain ZI       Loti             8 000
+           Terrain ZV      Ancien            6 000
+         Appartement       Récent            4 000
+         Appartement        Neuf             5 000
+         Appartement       Ancien            6 000
+            Maison         Récent  PT : 5 000 / PC : 2 000
+            Maison          Neuf   PT : 5 000 / PC : 2 500
+            Maison         Ancien  PT : 5 000 / PC : 3 000
+              Villa        Récent  PT : 4 000 / PC : 2 000
+              Villa         Neuf   PT : 4 000 / PC : 2 500
+              Villa         Loti   PT : 4 000 / PC : 3 000
+           Terrain ZI       Loti             5 000
+           Terrain ZV                        4 000
+
+                       43
+ Zone    Type de bien       Etat         Prix au m²
+TE-TO 3  Appartement       Ancien            5 000
+         Appartement       Récent            6 000
+TE-TO 4  Appartement        Neuf             7 000
+                           Ancien
+            Maison         Récent  PT : 6 000 / PC : 2 000
+            Maison          Neuf   PT : 6 000 / PC : 2 500
+            Maison         Ancien  PT : 6 000 / PC : 3 000
+                           Récent  PT : 5 000 / PC : 2 500
+              Villa         Neuf   PT : 5 000 / PC : 3 000
+              Villa                PT : 5 000 / PC : 3 500
+              Villa         Loti
+           Terrain ZI       Loti             6 000
+           Terrain ZV      Ancien            5 000
+         Appartement       Récent            4 000
+         Appartement        Neuf             5 500
+         Appartement       Ancien            6 000
+            Maison         Récent  PT : 7 000 / PC : 2 000
+            Maison          Neuf   PT : 7 000 / PC : 2 500
+            Maison         Ancien  PT : 7 000 / PC : 3 000
+              Villa        Récent  PT : 6 000 /PC : 2 500
+              Villa         Neuf   PT : 6 000 /PC : 3 000
+              Villa         Loti   PT : 6 000 /PC : 3 500
+           Terrain ZI       Loti             7 000
+           Terrain ZV                        6 000
+
+                       44
+ Zone    Type de bien       Etat         Prix au m²
+TE-TO 5  Appartement       Ancien           5 000
+         Appartement       Récent           6 000
+TE-TO 6  Appartement        Neuf            7 000
+                           Ancien
+            Maison         Récent  PT : 8 000 / PC : 1 500
+            Maison          Neuf   PT : 8 000 / PC : 2 500
+            Maison         Ancien  PT : 8 000 / PC : 3 000
+                           Récent  PT : 6 000 /PC : 1 500
+              Villa         Neuf   PT : 6 000 /PC : 3 000
+              Villa                PT : 6 000 /PC : 3 500
+              Villa         Loti
+           Terrain ZI       Loti            8 000
+           Terrain ZV      Ancien           6 000
+         Appartement       Récent           4 500
+         Appartement        Neuf            6 000
+         Appartement       Ancien           7 000
+            Maison         Récent  PT : 9 000 / PC : 2 000
+            Maison          Neuf   PT : 9 000 / PC : 2 500
+            Maison         Ancien  PT : 9 000 / PC : 3 000
+              Villa        Récent  PT : 7 000 / PC : 2 500
+              Villa         Neuf   PT : 7 000 / PC : 3 000
+              Villa         Loti   PT : 7 000 / PC : 3 500
+           Terrain ZI       Loti            9 000
+           Terrain ZV                       7 000
+
+                       45
+ Zone    Type de bien       Etat         Prix au m²
+TE-TO 7  Appartement       Ancien           4 000
+TE-TO 8  Appartement       Récent           5 500
+         Appartement        Neuf            6 500
+                           Ancien
+            Maison         Récent  PT : 7 500 / PC : 2 000
+            Maison          Neuf   PT : 7 500 / PC : 2 500
+            Maison         Ancien  PT : 7 500 / PC : 3 000
+                           Récent  PT : 6 000 / PC : 2 000
+              Villa         Neuf   PT : 6 000 / PC : 2 500
+              Villa                PT : 6 000 / PC : 3 000
+              Villa         Loti
+           Terrain ZI       Loti            7 500
+           Terrain ZV      Ancien           6 000
+         Appartement       Récent           3 000
+         Appartement        Neuf            5 000
+         Appartement       Ancien           6 000
+            Maison         Récent  PT : 5 000 / PC : 1 500
+            Maison          Neuf   PT : 5 000 / PC : 2 000
+            Maison          Loti   PT : 5 000 / PC : 2 500
+           Terrain ZI                       5 000
+
+                       46
+  Zone    Type de bien       Etat         Prix au m²
+TE-TO 9   Appartement       Ancien            4 000
+TE-TO 10  Appartement       Récent            5 000
+          Appartement        Neuf             6 000
+                            Ancien
+             Maison         Récent  PT : 7 000 / PC : 1 500
+             Maison          Neuf   PT : 7 000 / PC : 2 000
+             Maison         Ancien  PT : 7 000 / PC : 2 500
+                            Récent  PT : 5 500 / PC : 2 000
+               Villa         Neuf   PT : 5 500 / PC : 2 500
+               Villa                PT : 5 500 / PC : 3 000
+               Villa         Loti
+            Terrain ZI       Loti             7 000
+            Terrain ZV      Ancien            5 500
+          Appartement       Récent            4 000
+          Appartement        Neuf             5 000
+          Appartement       Ancien            6 000
+             Maison         Récent  PT : 7 500 / PC : 1 500
+             Maison          Neuf   PT : 7 500 / PC : 2 000
+             Maison          Loti   PT : 7 500 / PC : 2 500
+            Terrain ZI                        7 500
+
+                        47
+7. Annexes
+
+                   48
+7­1-1 Cartographie des Zones relevant de l'Annexe administrative AL MATAR
+                            Plan d'ensemble du Zoning : Annexe Administrative AL MATAR
+
+7-1-2 Tableau des délimitations des Zones : Annexe Administrative AL MATAR
+
+Code Zones                                    Points de Repère
+  TE-MT 1
+  TE-MT 2   Quartier Souani : Zone délimitée par Av 9 avril, Entrée Autoroute A6, Mur de
+  TE-MT 3   l'aéroport, Route nationale Tétouan-M'diq, limite avec commune urbaine de
+            Martil.
+
+            Lot Aviation siège de la Wilaya de Tétouan : Zone délimitée par Av des FAR, Av
+            Allal El Fassi, Av Ali Yaata, Av El Joulan, Av 9 Avril ,Mur de l'Aéroport, Zone Bir
+            Achaach-Quartie Esseka.
+
+            Quartier Coelma : Zone délimitée par Pont Mhanneche, Route de Torreta Limite
+            avec Commune Rurale Zaitoune jusqu'à l'entrée route des poids lourd (Usine de
+            Coelma).
+
+            49
+TE-MT 4   Hay Chabrit, Rte de Martil : Zone délimitée par Av 9 Avril (Rd Point station Al
+          Matar), Route de Tétouan- Martil le long du Mur de l'Aéroport, limite avec
+TE-MT 5   commune urbaine de Martil, Oued Mhanneche.
+TE-MT 6
+TE-MT 7   Quartier Mhanneche II Tranche I et II : Zone délimitée par Av Meknes, Av 9 Avril,
+          Av Casablanca, Av Ksar Lkebir, Av Massira Al Khadrae.
+TE-MT 8
+          Av Casablanca, Av Ksar Lkebir.
+TE-MT 9
+TE-MT 10  Torreta, Bouanane : Zone délimitée par Route de Torreta, Limite avec commune
+TE-MT 11  rurale Zaitoune, Oued Mhanneche.
+TE-MT 12
+TE-MT 13  Hay Hjar Laaroussa Zone délimitée par Rd Point hôtel Yacouta, Autoroute A6,
+TE-MT 14  limite avec commune rurale Malalienne, Route Nationale de Tétouan vers
+TE-MT 15  M'diq, Lot Riad Salam.
+
+          Quartier Bir Achaache, Quartie Essaka Zone délimitée par Av des FAR, limite
+          avec zone lot Aviation (Wilaya), Autoroute vers M'diq, Rd Point hôtel Yacouta.
+
+          Av des F.A.R
+
+          Quartier Mjaz Lahjar-Mrina Zone délimitée par Av 9 Avril, Route de Torreta
+          (Pont Torreta), Oued Mhanneche, Lot « Ben Aziz Av 9 Avril » derrière station
+          Afriquia.
+
+          Av Abdellah El Fakhar : de Av 9 Avril jusqu'au l'entrée route des poids lourd.
+
+          Zone délimitée par pont poids lourd, Av Sidi Abdellah Al Fakhar, derrière usine
+          Coelma, limite avec commune rurale de Azla (Bni Maaden).
+
+          Av Egypte, Place Palestine (Quartier Souani)
+
+          Av Mhanad El Ouariaghli
+
+          50
+7­2-1 Cartographie des Zones relevant de l'Annexe administrative ANCIENNE MEDINA
+       Plan d'ensemble du Zoning : Annexe Administrative ANCIENNE MEDINA
+
+7-2-2 Tableau des délimitations des Zones : Annexe Administrative ANCIENNE MEDINA
+
+   Code Zones                                    Points de Repère
+TE-AM          à l'intérieur des murs de l'ancienne Médina.
+
+               51
+7­3-1 Cartographie des Zones relevant de l'Annexe administrative BOUSSAFOU
+               Plan d'ensemble du Zoning : Annexe Administrative BOUSSAFOU
+
+7-3-2 Tableau des délimitations des Zones : Annexe Administrative BOUSSAFOU
+
+   Code Zones                                    Points de Repère
+TE-BS 1
+               Quartier Touilaa : Zone délimitée par Av Mohamed El Kharraze,
+TE-BS 2        prolongement Av Chorafa (Zkt Nagham), Av Haj Mohammed Benouna,
+TE-BS 3        Place 14 Août, Av Cheikh Belarbi Alaoui.
+TE-BS 4
+               Quartier Touabel AL Olya : Zone délimitée par Av Mohamed El Kharraz,
+TE-BS 5        Av Mohamed Hjaj, Av des FAR.
+
+               Quartie Boujarah : Zone délimitée par Av Mohammed El Kharraze, Av Jbel
+               Ghorghize, Av Haj Mohammed Benouna, prolongement Av Chorafae.
+
+               Quartier Haoumat Tanjaoua : Zone délimitée par Av des FAR, Av
+               Mohammed El Kharraz , Av Jbel Ghorghize, Av Haj Mohammed
+               Benouna ,collège Allal Ben Abdellah.
+
+               Lot Rabie, lot Salama Zone délimitée : par Av des FAR, Av Haj
+               Mohammed Benouna,Av Hassan Chacour Lotissement Chaccour, Route
+               de Kallaline, Rd Point hôtel Yacouta,Quartier Aqbat Rahal.
+
+               52
+TE-BS 6   Quartier Kallaline.
+TE-BS 7   Boujarah El Olya.
+TE-BS 8   Av Mohammed El Kharraz.
+TE-BS 9   Av Haj Mohammed Benouna.
+TE-BS 10  Gharabou.
+TE-BS 11  Av Chorafae.
+TE-BS 12  Av Mokhtar Soussi.
+
+                                    53
+7­4-1 Cartographie des Zones relevant de l'annexe administrative DERSA
+                     Plan d'ensemble du Zoning : Annexe Administrative DERSA
+
+7-4-2 Tableau des délimitations des Zones : Annexe Administrative DERSA
+
+   Code Zones                                    Points de Repère
+TE-DE 1
+TE-DE 2        Barbourine, Dar Murcia, Hawmet Al Ghars, Réservoir Darsa El Olya.
+
+               Quartier Dersa, Akbat Ach-Chata, Lichara, Jnane Al Qayed, Hawmate
+               Safsafa, Quartier Mly Abdellah, Howmet Issawa.
+
+               54
+7­5-1 Cartographie des Zones relevant de l'annexe administrative EL HAY AL MADRASSI
+ Plan d'ensemble du Zoning : Annexe Administrative EL HAY AL MADRASSI
+
+7-5-2 Tableau des délimitations des Zones : Annexe Administrative EL HAY AL MADRASSI
+
+Code Zones                                    Points de Repère
+  TE-HM 1
+  TE-HM 2   Quartier Touibla : Zone délimitée par Route de Torreta, Oued Mhanneche, Av 9
+  TE-HM 3   Avril, Route Nationale de Chefchaouen.
+  TE-HM 4
+            Quartier AL Hamama, Quartier Scolaire : Zone délimitée par Av Oud Sebou, Av
+            Mauritania, Av Khalid Bnou Oualid, Av Hassan Ben EL Mehdi, Av 9 Avril.
+
+            Quartiers Ain Khabaz, Harat Slaoui, Sidi Driss, Engenioures, Zone délimitée par
+            Av Oud Sebou, Av Hassan II, Av Mekki Naceri, Av Meknès, Av 9 Avril.
+
+            Av Hassan II, Av Mekki Naceri.
+
+TE-HM 5     Zone délimitée par Route de Tanger, limite avec commune rurale Sehtryines,
+            Terrain Solalienne de Tamezekt, limite avec commune rurale Benkariche, Route
+            de Bouanane, Oued Mhanneche.( les quartiers :Lawha, Khrirou, Tamuda, Dar
+            Zkiek, Kourat Sbaa).
+
+            55
+TE-HM 6  Av 9 Avril du Rd-Point Romana au Rd-Point Station Al Matar.
+
+TE-HM 7  Quartier Saff Lahmam, Association Hanane, Complexe Ben Azouz
+TE-HM 8  Av Meknès.
+TE-HM 9  Av Oued Sebou.
+
+         56
+7­6 -1 Cartographie des Zones relevant de l'annexe administrative M'SALLA
+      Plan d'ensemble du Zoning : Annexe Administrative M'SALLA
+
+7-6-2 Tableau des délimitations des Zones : Annexe Administrative M'SALLA
+
+Code Zones  Points de Repère
+
+TE-MS 1     Quartier Mly El Hassan : Zone délimitée par Av Abdelkhalek Torres, Av
+TE-MS 2     Mohammed Lmorir, Entrée Souk Saniat Rmel, Av Thami Ouazani, Rd Point Place
+TE-MS 3     Andalous, Av des FAR (Station Esso).
+
+            Quartier Mhannaeche I, Touta, M'sala : Zone délimitée par Av Al Massira Al
+            Khadrae, Av Abdelkhalek Torres, Av Oujda, Av Mohammadia, Av Berkan, Av
+            Casablanca, Av Ksar Kebir.
+
+            Quartier Atlas, Mrina, Khandeq Zian : Zone délimitée par Av Oujda, Av 9 Avril,
+            Av casablanca, Av Berkan, Av Mohammadia.
+
+            57
+TE-MS 4  Quartier Ziana, Riyad : Zone délimitée par Av Mly El Hassan I, Av Mohamed
+TE-MS 5  Ameziane , Av Mohammed El Kharaz, Av Mohammed Hajjaj, Av des FAR Av Al
+TE-MS 6  Masira Al Khadrae.
+TE-MS 7
+         Quartier Karyan, Taffaline, Achat Al Arabe : Zone délimitée par Av Mohammed
+         Ameziane, Av Hommane El Fatouaki, Av Cheikh Bel Arbi Alaoui, Av Mokhtar
+         Soussi, Cimetière, limite avec commune rurale Malalienne.
+
+         Avenue Mohammadia.
+
+         Avenue Al Massira Al Khadrae.
+
+         58
+7­7-1 Cartographie des Zones relevant de l'annexe administrative MOULAY EL MEHDI
+         Plan d'ensemble du Zoning : Annexe Administrative MOULAY EL MEHDI
+
+7-7-2 Tableau des délimitations des Zones : Annexe Administrative MOULAY EL MEHDI
+
+Code Zones  Points de Repère
+
+TE-MM 1     Zone délimitée par Av Alger, Av ligue Arabe, Av Abou Bakr Seddik, Mur de
+TE-MM 2     l'ancienne Médina, Dyour Lahjar.
+
+            Zone délimitée par Av Hassan II, Av El Hassan I, Av Majlise Baladi, Av
+            Oued El Makhazen , Place Ibn Khaldoune, Av Sidi Talha, Av Med Lakhtib,
+            Place Ljalae , Av Ben Hssain, Av Alger, Av ligue Arabe, Av Mouritania.
+
+            59
+7­8-1 Cartographie des Zones relevant de l'annexe administrative SAMSA
+              Plan d'ensemble du Zoning : Annexe Administrative SAMSA
+
+7-8-2 Tableau des délimitations des Zones : Annexe Administrative SAMSA
+
+   Code Zones                                    Points de Repère
+TE-SM 1        Quartier El Borj zone délimitée par commune rurale Seddina
+TE-SM 2        Quartier Jamaa Mezouak, Sidi El Bahrouri
+TE-SM 3        Lotissement El Hamd
+
+               60
+7­9-1 Cartographie des Zones relevant de l'annexe administrative SIDI TALHA
+                      Plan d'ensemble du Zoning : Annexe Administrative SIDI TALHA
+
+7-9-2 Tableau des délimitations des Zones : Annexe Administrative SIDI TALHA
+
+   Code Zones                                    Points de Repère
+TE-ST 1
+TE-ST 2        Quartier Khandeq Zerbouh Zone délimitée par Av Rif (Hijra), Av Harroun
+               Rachid, Av Moussa Ibnou Noussair, Av Mly El Hassan Ben Mehdi.
+TE-ST 3        Quartier Louada Zone délimitée par Av Khalid Bnou Oualid, Av ligue
+TE-ST 4        Arabe, Av Abdelkrim El Khattabi, Av Mohamed Cheikh, Av Harroun
+TE-ST 5        Rachid, Av Moussa Ibnou Noussair.
+               Quartier Bario Sidi Talha Zone délimitée par Av Abdelkrim El Khatabi, AV
+               Otman Bnou Affane, Av Bilal Bnou Rabah, Av Jamiaa Arabia
+               Av Khalid Bnou Oualid
+
+               Av Mly El Hassan Ben Mehdi du Rd-Point Al Hamam au Rd-Point Romana.
+
+               61
+7­10-1 Cartographie des Zones relevant de l'annexe administrative TABOULA
+                     Plan d'ensemble du Zoning : Annexe Administrative TABOULA
+
+7-10-2 Tableau des délimitations des Zones : Annexe Administrative TABOULA
+
+Code Zones  Points de Repère
+
+TE-TA 1     Quartier Taboula , Dyour Chohadae : Zone délimitée par Av Rif, Av Mly Hassan
+TE-TA 2     Ben El Mehdi, Lot prévention.
+            Quartier Naqqata, quartiere laouziyine,
+
+TE-TA 3     Lotissement prévention, lotissement Tamuda, Quartier Boujela, Smihiyenne :
+TE-TA 4     Zone délimitée par Route de tanger, lotissement prévention, prison civil de
+            Tétouan.
+            Av Mly El Hassan Ben El Mehdi du Rd Point Romana au Rd Point Hôtel Paloma,
+            Av Rif jusqu'au Av Mohammed Chefchaouni.
+
+            62
+7­11-1 Cartographie des Zones relevant de l'annexe administrative TOUABEL
+                         Plan d'ensemble du Zoning : Annexe Administrative TOUABEL
+
+7-11-2 Tableau des délimitations des Zones : Annexe Administrative TOUABEL
+
+Code Zones                      Points de Repère
+
+TE-TO 1     Quartier Ain Melloul : Zone délimitée par Av Abdelkhalek Torres, Av 9 Avril, Av
+            El Joulane, Av Ali Yaeta, Av Caire, Av El Jazira lkhadrae, Av Koweit, Av Djibouti,
+            Av Asouane, unité mobile des forces auxiliares, Lot Ain Melloul, Lot Salam, Lot
+            Californiates,Lot Fenenbar, Lot House Maintenance, Lot Ben Aboud, faculté
+            Osoule Eddine.
+
+TE-TO 2     Quartier Rmimnat, Al Inara , Lot El Alouiy, Lot Paloma Blanca : Zone délimitée
+            par Av Abdelkhalek Torres, Ecole Baraim Errazi, Av 9 Avril (Station Al Matar).
+
+TE-TO 3     Quartier Kna Lahmam , Lot EL fassi, Lot Ben Ajiba, Lot An-Nahda Zone délimitée
+            par Av des FAR, Av Mohamed Daoued, Av El Joulane, Av Saida, Av El Jazira El
+            Khadrae, Av Caire, Av Ali Yaata, Av Allal El Fassi, Fourier, Pépinière.
+
+TE-TO 4     Soukna Wataamir ,Lot ERAC, Lot Zaid : Zone délimitée par Av des FAR, Av
+            Nouakchout, Av Damas, Av Baghdad, Av Abdelkhalek Torres, Av Asouane, Av
+            Djibouti, Av Koweit, Av El Joulane, Av Mohamed Daoued, Ecole d'archetecture.
+
+TE-TO 5     Av Mohamed Daoued.
+
+                                63
+TE-TO 6   Av Abdelkhalek Torres.
+
+TE-TO 7   Lot Militaires (O.L.M) Zone délimitée par Av Oujda, Av 9 Avril, Ecole Baraim
+TE-TO 8   Errazi, Av Abdelkhalek Torres, Stade Saniat Rmel.
+TE-TO 9
+TE-TO 10  Quartier Saniat Rmel : Zone délimitée par Av Mohamed El Mourir, Av
+          Abdelkhalek Torres, Av Thami Ouazzani, Entree Souk Saniat R'mel
+          (Av Manfalouti).
+
+          Quartier Touabel Soufla, Tekniya : Zone délimitée par Av Abdelkhalek Torres, Av
+          Baghdad, Av Damas, Av des FAR, Av Thami Ouazzani.
+
+          Av Kaboul.
+
+                                  64
+                            9. Contacts Utiles
+
+      Désignation           Adresse                        Tél/Fax/Email
+
+Bureau d'Accueil de la DRI   Av Hassan II BP 68 - 69       0 5 39 90 60 70 / 0 5 39 96 31 35 /
+           Tétouan                                                     05 39 96 20 36
+                            Av Haj Ahmed Cherkaoui                     05 37 27 37 27
+Centre d'information DGI           Agdal Rabat
+                                                                 Referentiel@tax.gov.ma
+     Pachalik Tétouan
+                            Av 10 Mai Ancienne Province    0 5 39 70 15 43
+Annexe Administrative Al                                   0 5 39 97 17 62
+            Matar                Av Meknès Quartier
+                                       Mhannech
+  Annexe Administrative
+     Ancienne Medina        Jamaa Kasba Hay El Balad       0 5 39 96 23 97
+
+  Annexe Administrative     Av Mohamed Bennouna            0 5 39 71 59 10
+         Boussafou                  Boussafou
+
+  Annexe Administrative     Derssa                         0 5 39 70 45 48
+            Derssa
+                            Av Massira Khadrae prés de     0 5 39 70 02 37
+  Annexe Administrative           Musé de Tétouan
+    El Hay Al Madrassi
+                            Av Chorafae                    0 5 39 97 43 57
+  Annexe Administrative
+           M'salla          Av Mohamed Ben Hssain          0 5 39 96 23 80
+                                  ex .Bachaouiya
+  Annexe Administrative
+     Moulay El Mehdi        Av Rif Samsa                   0 5 39 71 94 76
+
+  Annexe Administrative     Av Abdelkrim El Khattabi Sidi  0 5 39 70 26 45
+            Samsa                         Talha
+
+  Annexe Administrative     Quartier Chohadae Taboula      0 5 39 96 10 74
+          Sidi Talha
+                            Av Mohamed Daoud               0 5 39 71 51 86
+  Annexe Administrative
+           Taboula          Av Mehdi Ben Barka             0 5 39 99 87 78
+
+  Annexe Administrative     Av Al Massira Al Khadrae       05 39 97 28 80 / 05 39 99 15 20
+           Touabel
+                            Angle Av Med V et Av           05 39 97 06 98 / 05 39 94 03 64
+    Wilaya de Tétouan              Mouritania              05 39 99 21 68 / 05 39 99 21 76
+
+ l'Agence Nationale de la   Av Des F.A.R Résidence
+Conservation Foncière du            Florence
+
+     Cadastre et de la
+ Cartographie de Tétouan
+
+      Délégation Haut
+ commissariat au plan de
+
+           Tétouan
+
+Agence Urbain de Tétouan
+
+                            65
+

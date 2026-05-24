@@ -95,16 +95,31 @@ export default function P5Finalize() {
     if (b.geoLat != null && b.geoLng != null && Number.isFinite(+b.geoLat) && Number.isFinite(+b.geoLng)) {
       setCurrentCoords({ lat: +b.geoLat, lng: +b.geoLng });
     }
-    // Catalogue DGI par ville — 6 villes extraites du PDF officiel DGI 2017
-    // (294 zones au total : Casa 73, Marrakech 62, Tanger 61, Agadir 45, Rabat 40, Fès 13).
+    // Catalogue DGI par ville — 17 villes extraites du PDF officiel DGI 2017
+    // (512 zones au total). Pipeline parsing parse-dgi-generic.cjs étendu à
+    // toute ville DGI avec convention de codes <PREFIX>-<ARROND>-<N>.
     const c = (payloadState.commune || "").toLowerCase();
     let cityId: string | null = null;
-    if (c.includes("rabat")) cityId = "rabat";
-    else if (c.includes("casa")) cityId = "casablanca";
-    else if (c.includes("marrakech") || c.includes("marrakesh")) cityId = "marrakech";
-    else if (c.includes("tanger") || c.includes("tangier")) cityId = "tanger";
-    else if (c.includes("fes") || c.includes("fès")) cityId = "fes";
-    else if (c.includes("agadir")) cityId = "agadir";
+    const cityMatchers: Array<[RegExp, string]> = [
+      [/\brabat\b/, "rabat"],
+      [/\bcasa(blanca)?\b/, "casablanca"],
+      [/\bmarrak[eè]ch\b|\bmarrakesh\b/, "marrakech"],
+      [/\btang[ei]r\b/, "tanger"],
+      [/\bf[èe]s\b|\bfez\b/, "fes"],
+      [/\bagadir\b/, "agadir"],
+      [/\bk[eé]nitra\b/, "kenitra"],
+      [/\bsal[eé]\b/, "sale"],
+      [/\bmekn[eè]s\b/, "meknes"],
+      [/\boujda\b/, "oujda"],
+      [/\bsettat\b/, "settat"],
+      [/\bb[eé]ni\s*mellal\b/, "beni-mellal"],
+      [/\bsafi\b/, "safi"],
+      [/\bt[eé]touan\b/, "tetouan"],
+      [/\bmidelt\b|\ber[\s-]?rich\b/, "midelt"],
+      [/\bnador\b/, "nador"],
+      [/\bberkane\b/, "berkane"],
+    ];
+    for (const [re, id] of cityMatchers) { if (re.test(c)) { cityId = id; break; } }
     if (cityId) {
       fetch(`${apiBase()}/api/sig/dgi-zones/${cityId}`)
         .then(r => r.json()).then(d => { if (d?.ok) setDgiCity(d); }).catch(() => {});

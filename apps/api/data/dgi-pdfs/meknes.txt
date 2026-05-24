@@ -1,0 +1,1318 @@
+         Référentiel des Prix des Transactions Immobilières
+                                   de MEKNES
+
+       Les données de ce référentiel sont opposables uniquement
+                      à la Direction Générale des Impôts
+
+Site Internet : www.tax.gov.ma ­ Email : referentiel@tax.gov.ma
+                                                                 Edition Decembre 2017
+                                    Sommaire
+
+1. Préambule                                                               03
+
+2. Liste des abréviations                                                  04
+
+3. Lexique                                                                 05
+
+4. Territoire, biens concernés et plan d'ensemble de la Préfecture         07
+
+de
+
+4.1. Territoire et biens concernés                                         07
+
+4.2. Plan d'ensemble de la Préfecture de MEKNES                            08
+
+5. Mode de recherche                                                       10
+
+6. Référentiel des prix des transactions immobilières de la Préfecture de
+
+    MEKNES
+    12
+
+6.1. l'Annexe Administrative Ancienne Medina                        15
+
+6.2. l'Annexe Administrative Ryad                                   15
+
+6.3. l'Annexe Administrative Zitoune                                17
+
+6.4. l'Annexe Administrative Sidi Baba                              18
+
+6.5. l'Annexe Administrative Agdal                                  18
+
+6.6. l'Annexe Administrative Sidi Amer                              19
+
+6.7. l'Annexe Administrative Beni M hamed                           19
+
+6.8. l'Annexe Administrative Marjane                                20
+
+6.9. l'Annexe Administrative Hamria- Place des armes                21
+
+6.10. l'Annexe Administrative Hamria Centre                         22
+
+6.11. l'Annexe Administrative Bassatine- Ain Slougui                23
+
+6.12. l'Annexe Administrative Borj My Omar                          24
+
+                                        -2-
+6.13. l'Annexe Administrative Aciens Combattants          25
+
+6.14. l'Annexe Administrative Plaisance- Hacienda         26
+
+6.15. l'Annexe Administrative Sidi said ­Zerhounia-Oujeh
+
+Arousse                                                   27
+
+6.16. l'Annexe Administrative Sidi Bouzkri- La Touraine   28
+
+6.17. l'Annexe Administrative Kortoba-Hay Al Wahda        29
+
+6.18. l'Annexe Administrative Mimosa- Manar               29
+
+6.19. Pachalick El Mechouar Stinia                        30
+
+6.20. Pachalick Toulal                                    30
+
+7. Cartographie et tableaux des délimitations des Zones       32
+
+8. Contacts utiles                                            73
+
+                                    -3-
+                             1. Préambule
+
+Dans une démarche de transparence de l'action de l'Administration et de rationalisation de
+son pouvoir d'appréciation, le présent manuel assure la publication des prix de référence
+retenus par l'Administration pour les besoins de calcul des droits et taxes.
+
+Il s'applique à l'ensemble des cessions de biens immobiliers à usage d'habitation.
+
+Il permet aux citoyens, dans un souci d'amélioration du climat de confiance, de disposer du
+même niveau d'information que l'Administration.
+
+Pour se rapprocher le plus de la réalité du marché, les données de ce référentiel sont le
+résultat d'un travail de consultation et de concertation entre la Direction Générale des
+Impôts, l'Agence Nationale de la Conservation Foncière du Cadastre et de la Cartographie, la
+Fédération Nationale des Promoteurs Immobiliers, la Banque Centrale du Maroc (Bank Al
+Maghrib), l'Agence Urbaine de MEKNES, le Ministère de l'Urbanisme et de l'Aménagement
+du Territoire et l'Ordre des Notaires.
+
+Il s'agit de prix moyens retenus pour le calcul des droits et taxes et ne constituent en aucun
+cas une évaluation directe d'un bien immobilier donné.
+
+Il constitue à cet effet une étape importante dans le processus de renforcement des
+garanties accordées aux citoyens.
+
+Les données de ce référentiel feront l'objet d'une actualisation périodique en fonction de
+l'évolution du marché de l'immobilier
+
+                                                                 -4-
+                      2. Liste des abréviations
+
+ANCFCC : Agence Nationale de la Conservation Foncière, du Cadastre et de la Cartographie
+DGI : Direction Générale des Impôts
+FNPI : Fédération Nationale des Promoteurs Immobiliers
+m2 : Mètre Carré
+ME : Meknes
+ME-AM: Meknes- Annexe Administrative Ancienne Medina
+ME-RY : Meknes- Annexe Administrative Ryad
+ME-ZT: Meknes- Annexe Administrative Zitoune
+ME-SB: Meknes ­ Annexe Administrative Sidi baba
+ME-AG:Meknes- Annexe Administrative Agdal
+ME-SA: Meknes- Annexe Administrative Sidi Amer
+ME-BM: Meknes- Annexe Administrative Beni M'hamed
+ME-MJ: Meknes- Annexe Administrative Marjane
+ME-HP:Meknes- Annexe Administrative Hamria- Place d' armes
+ME-HC:Meknes- Annexe Administrative Hamria Centre
+ME-BA:Meknes- Annexe Administrative Bassatine- Ain Slougui
+ME-BO:Meknes- Annexe Administrative Borj My Omar
+ME-AC: Meknes- Annexe Administrative Aciens Combattants
+ME-PL:Meknes- Annexe Administrative Plaisance
+ME-SZ: Meknes- Annexe Administrative Sidi said -Zerhounia
+ME-BZ: Meknes- Annexe Administrative Sidi Bouzkri
+ME-KW: Annexe Administrative Kortoba-Hay Wahda
+ME-MM: Meknes- Annexe Administrative Mimosa- Manar
+ME-MS : Meknes-Pachalick Machouar Stinia
+ME-TL: Meknes-Pachalick Toulal
+
+PC : Prix de la Construction
+PCF : Prix de la Construction Finie
+PCSF : Prix de la Conctruction Semi Finie
+PT : Prix du Terrain
+
+                                                                 -5-
+R+(i) : Rez-de-chaussée + (i) : Nombre d'étages
+ST : Superficie du Terrain
+T : Terrain
+TSGolf : Terrain Sur Golf
+ZI : Zone Immeuble
+ZM : Zone Maison
+Zone Rue/Av./Bd : Rue, Avenue et Boulevard ayant le statut d'une Zone
+ZV : Zone Villa
+< à R+(i) : Zonage inférieur à R+(i)
+<= à R+(i) : Zonage inférieur ou égale à R+(i)
+> à R+(i) : Zonage supérieur à R+(i)
+>= à R+(i) : Zonage supérieur ou égale à R+(
+
+                                                                 -6-
+                               3. Lexique
+
+Ancien (logement) : logement ayant été achevé depuis plus de quinze ans (> à 15 ans).
+Appartement sécurisé : appartement situé dans un projet immobilier fermé et sécurisé.
+Appartement : un appartement est une unité d'habitation, comportant un certain nombre
+de pièces et située dans un immeuble collectif généralement dans une ville.
+Immeuble : dans le langage courant, le mot "immeuble" désigne un bâtiment urbain de
+plusieurs étages, à usage d'habitation ou professionnel, en copropriété.
+Logement social : par cette formule, on désigne un appartement dont la superficie couverte
+est comprise entre 50 et 80 m2 et le prix de vente n'excède pas 250.000 dirhams, hors taxe
+sur la valeur ajoutée.
+Loti (terrain) : un terrain loti signifie un terrain situé dans un lotissement (voir lotissement).
+Lotissement : un lotissement est constitué par un ensemble de lots provenant de la division
+d'un terrain en vue d'y recevoir des constructions qui sont vendues généralement
+séparément après que le lotisseur ait réalisés des voies d'accès, des espaces collectifs et des
+travaux de viabilité et les raccordements aux réseaux de fourniture en eau, en électricité,
+aux réseaux d'égouts et aux réseaux de télécommunication.
+Maison : une maison est un bâtiment destiné à être la demeure d'une famille, voire de
+plusieurs, et qui n'est pas un immeuble en copropriété.
+Neuf (logement) : logement achevé depuis six ans au plus (<= à 6 ans).
+Prix Appartement = Prix au m2 Appartement x (Superficie Appartement + Superficie
+Parking/3 + Superficie Terrasse/2).
+Prix de la Construction (PC) : par prix de la construction, on entend le prix du mètre carré
+couvert.
+Prix du Terrain (PT) : par prix du terrain, on entend le prix du terrain au mètre carré.
+Prix Maison = Prix au m2 T x Superficie Terrain Maison + Prix au m2 C x Superficie Couverte.
+Prix Terrain = Prix au m2 Terrain x Superficie Terrain.
+Prix Villa = Prix au m2 T x Superficie Terrain Villa + Prix au m2 C x Superficie Couverte.
+
+                                                                 -7-
+Récent (logement) : logement achevé depuis plus de six ans au moins et quinze ans au plus
+(> à 6 ans et <= à 15 ans) + logement ancien achevé suite à rénovation depuis six ans au plus
+(<= à 6 ans).
+Riad : maison entièrement fermée sur l'extérieur, qui s'organise autour d'un patio central
+souvent arboré et doté d'une fontaine.
+Terrain ZI : est considéré comme terrain zone immeuble tout terrain destiné à la
+construction d'un immeuble collectif : terrain nu, terrain construit de bâtiments destinés à
+être démolis (cas de zone villa convertie en zone immeuble par exemple).
+Terrain ZM : est considéré comme terrain zone maison tout terrain destiné à la construction
+d'une maison : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de
+maison vétuste par exemple).
+Terrain ZV : est considéré comme terrain zone villa tout terrain destiné à la construction
+d'une villa : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de villa
+vétuste par exemple).
+Villa sécurisée : villa située dans un domaine résidentiel fermé et sécurisé.
+Villa : une villa est une maison avec jardin.
+Zone : une zone est un groupe d'adresses où les prix sont relativement homogènes.
+
+                                                                 -8-
+4. Territoire, biens concernés et plan d'ensemble de la Région de la
+                                     ville de Meknes
+
+   4.1. Territoire concerné :
+
+Territoire concerné :
+
+La Région de Fes Meknes est l'une des douze régions du Maroc instituées en 2015.
+Elle se compose de deux Préfecture et sept Provinces :
+ Préfecture de Fes
+ Préfecture de Meknes
+ Province d' El hajeb ;
+ Province d' Ifrane
+ Province Taza
+ Province Sefrou
+ Province Taounate
+ Province de Boulmane
+ Province de Zouagha Moulay Yacoub
+
+La Préfecture de Meknes englobe qatre communes urbaines, dix huit Annexe
+Administrative,deux Pachalick et seize Communes Rurales :
+
+    x CU de Meknes
+    x CU de Ouislane
+    x CU de My Idriss
+    x CU de Boufekrane
+    x Pachalick EL Mechouar S'tinia
+    x Pachalick Toulal
+
+Le territoire géographique et les biens concernés par le présent Référentiel se présentent
+comme suit :
+
+    x Territoire concerné : Préfecture de Mekemes (Exception faite de la CU My Idriss, CU
+         Ouislane, CU Boufekrane et les Communes Rurales).
+
+    x Types de biens immobiliers concernés :
+             o Appartement, Maison, Villa et Riad à usage d'habitation ;
+             o Terrain construit de bâtiments destinés à être démolis : ZV, ZI ou ZM ;
+
+                                                                 -9-
+         o Terrain Loti : ZV, ZI ou ZM.
+x Types de biens immobiliers exclus :
+
+         o Appartement à usage professionnel ;
+         o Villa et Maison à vocation professionnelle ou commerciale ;
+         o Logement social ;
+         o Logement destiné au recasement des bidonvilles ;
+         o Terrain urbain non Loti ;
+         o Terrain à usage industriel ;
+         o Terrain à usage agricole.
+
+                                                           - 10 -
+   4.2. Plan d'ensemble de la Préfecture de Meknes :
+
+Voir page suivante.
+
+                                                                - 11 -
+                       5. Modes de recherche
+
+Actuellement, la recherche s'effectue:
+    · A travers la cosnultation sur une carte numérisée mise à la disposition du public au
+         niveau du portail de la DGI, le système situe le bien sur la carte et affiche
+         automatiquement son prix de référence ;
+    · A partir de la délimitation des zones ;
+    · En consultant le bureau d'accueil de la Direction Provinciale des Impôts de Meknes
+         et/ou le Centre d'Information Téléphonique au numéro : 05.37.27.37.27.
+
+Précision :
+Lorsque un bien chevauche sur plusieurs zones, le prix à prendre en considération est celui
+de la zone la plus côté.
+Exemples : voir pages suivantes.
+
+                                                                - 12 -
+Exemple 1 :
+
+Soit un Appartement X se trouvant sur Rue Abdelmoumen El Mouahad.
+Situer la Rue sur la carte et afficher les prix des Appartements de cette Zone en cliquant
+dessus.
+
+                                                                - 13 -
+   Exemple 2 :
+
+        Soit Z un Terrain relevant de l'Annexe Administrative Hamria-Centre :
+Consulter la liste des points de repères de l'arrondissement pour déterminer la zone :
+Connaissant la zone, on détermine le prix du bien concerné au niveau de la grille de prix
+correspondante :
+
+                                                                - 14 -
+6. Référentiel des prix des transactions immobilières de La CU de
+     Meknès, des Pachaliks , de Macouhar-Stinia et de Toulal
+
+La CU de Meknès et les Pachaliks de Machouar-Stinia et de Toulal sont
+
+découpés en 54 Zones dont la ventilation est comme suit :
+
+Annexe                 Nombre de Nombre de Nombre
+
+Administrative/Pachalik Zones          Zones               total des
+
+                                       Rue/Av./Bd Zones
+
+Ancienne Medina        1                      0            1
+
+        Ryad           6                      1            7
+
+        Zitoune        2                      0            2
+
+Sidi Baba              1                      0            1
+
+        Agdal          1                      0            1
+
+Sidi Amer              1                      0            1
+
+Beni M'Hamed           3                      1            4
+
+        Marjane        4                      1            5
+
+Hamria-Place d'Armes   3                      1            4
+
+Hamria-Centre          5                      1            6
+
+Bassatine-Ain Slougui  2                      0            2
+
+Borj Mly Omar          1                      0            1
+
+Anciens Combatants     3                      1            4
+
+Plaisance              3                      1            4
+
+Sidi Said Zerhounia    3                      0            3
+
+Sidi Bouzekri          1                      0            1
+
+Kortoba-Al Wahda       2                      0            2
+
+Mimosa-Manar           1                      0            1
+
+Machouar Stinia        1                      0            1
+
+        Toulal         3                      0            3
+
+        Totaux         47                     7            54
+
+                               - 15 -
+6.1. Référentiel des prix des transactions immobilières
+      de l'Annexe Administrative Aciennne Medina
+
+   Zone  Type de bien     Etat   Prix au m2
+ME-AM1   Appartement    Ancien       1800
+         Appartement    Récent       2000
+         Appartement     Neuf        2500
+                       Ancienne      2000
+             Maison    Récente       2000
+             Maison     Neuve        2500
+             Maison
+
+         - 16 -
+6.2. Référentiel des prix des transactions immobilières
+               de l'Annexe Administrative Ryad
+
+    Zone   Type de bien             Etat            Prix au m2
+  ME-RY1
+  ME-RY2   Appartement            Ancien                3100
+           Appartement            Récent                3800
+  ME-RY 4  Appartement                                  4600
+ME-RY5 BD                           Neuf      PT=3300 PC=1500
+               Maison            Ancienne
+  ME-RY6       Maison            Récente      PT=3300 PC=2000
+
+               Maison              Neuve      PT=3300 PC=2500
+             Terrain ZI            ********         R+2=3300
+           Appartement            Ancien                2700
+           Appartement            Récent                3000
+           Appartement              Neuf                3800
+                                 Ancienne
+               Maison            Récente      PT=2300 PC=1500
+            Maison                 Neuve      PT=2300 PC=1900
+                                  Ancien      PT=2300 PC=2300
+               Maison             Récent
+           Appartement              Neuf                4000
+           Appartement             Neuve                4500
+           Appartement                                  5000
+                                 Récente
+                 Villa                         PT=2000 PC=3000
+                                 Récente
+                 Villa                         PT=2000 PC=2500
+                                   Neuve
+               Maison              ********    PT=3500 PC=2500
+                                  *********
+               Maison             Ancien       PT=3500 PC=3000
+             Terrain ZI           Récent     R+2=3500 R+4=4500
+            Terrain ZV              Neuf
+           Appartement             ********             2000
+           Appartement            Ancien                5000
+           Appartement            Récent                5600
+             Terrain ZI             Neuf                6000
+           Appartement           Récente            R+6=11500
+           Appartement                                  3500
+           Appartement           Récente                4000
+                                                        4500
+               Maison              Neuve
+                                   ********    PT=4000 PC=2500
+               Maison
+                                               PT=4000 PC=2500
+               Maison
+             Terrain ZI                        PT=4000 PC=3000
+                                                    R+2=4000
+
+                         - 17 -
+  Zone  Type de bien             Etat            Prix au m2
+        Appartement            Ancien                 4000
+ME-RY7  Appartement            Récent                 4500
+        Appartement                                   5000
+                                 Neuf
+            Maison             Récente      PT=4000 PC=2500
+
+            Maison             Récente      PT=4000 PC=2500
+
+            Maison              Neuve       PT=4000 PC=3000
+           Terrain ZI           ********  R+2=4000 R+4 = 6000
+
+                       - 18 -
+6.4. Référentiel des prix des transactions immobilières
+                        de l'Annexe Administrative Sidi Baba
+
+  Zone  Type de bien     Etat                                       Prix au m2
+ME-SB1
+        Appartement    Ancien                                           2900
+        Appartement    Récent                                           3400
+        Appartement                                                     4000
+                         Neuf                                 PT= 1800 PC= 2500
+              Villa   Recente                                 PT= 1800 PC= 3000
+              Villa     Neuve                                 PT= 2600 PC= 1500
+            Maison    Ancienne                                PT= 2600 PC= 2000
+            Maison    Récente                                 PT= 2600 PC= 2800
+            Maison      Neuve                                       R+2= 2600
+          Terrain ZI                                                    1800
+         Terrain ZV     *******
+                        ********
+
+        - 19 -
+6.5. Référentiel des prix des transactions immobilières
+               de l'Annexe Administrative Agdal
+
+  Zone  Type de bien     Etat          Prix au m2
+ME-AG1  Appartement    Ancien              3000
+        Appartement    Récent              3500
+        Appartement                        4000
+                         Neuf
+            Maison    Récente     PT=2800 PC=1500
+                                  PT=2800 PC=2000
+            Maison    Récente     PT=2800 PC=2500
+                                 PT= 3000 PC= 2500
+            Maison      Neuve    PT= 3000 PC= 3000
+              Villa   Ancienne   PT= 3000 PC= 3500
+              Villa   Récente
+              Villa                        2800
+                        Neuve
+          Terrain ZI     ******            3000
+          Terrain ZV    *******
+
+        - 20 -
+6.6. Référentiel des prix des transactions immobilières
+            de l'Annexe Administrative Sidi Amer
+
+  Zone  Type de bien     Etat   Prix au m2
+ME-SA1                             2400
+        Appartement    Ancien      2900
+        Appartement    Récent      2200
+                      Ancienne
+            Maison    Récente      2600
+            Maison
+
+        - 21 -
+         6.7. Référentiel des prix des transactions immobilières
+                  de l'Annexe Administrative Beni Mhamed
+
+  Zone   Type de bien     Etat          Prix au m2
+ME-BM 1
+ME-BM 2  Appartement    Ancien                 .
+         Appartement    Récent              3000
+ME-BM 3                Ancienne             3500
+ME-BD2       Maison    Récente
+             Maison     Ancien              2900
+                        Récent              3500
+         Appartement                        3700
+         Appartement      Neuf              4000
+         Appartement   Ancienne             5200
+                       Récente    PT= 3800 PC= 2000
+             Maison
+             Maison      Neuve    PT= 3800 PC= 2500
+             Maison      *******  PT= 3800 PC= 3000
+           Terrain ZI   Ancien
+                        Récent          R+2= 3800
+         Appartement      Neuf              4000
+         Appartement   Ancienne             4500
+         Appartement   Récente              5000
+                         Neuve
+             Maison               PT= 4300 PC= 1500
+             Maison      *******  PT= 4300 PC= 2000
+             Maison               PT= 4300 PC= 2500
+                        Ancien
+           Terrain ZI   Récent          R+2= 4300
+                                        =R+3+5000
+         Appartement      Neuf         <=R+4=6400
+         Appartement   Ancienne
+         Appartement                        5000
+                                            5600
+           Terrain ZI                       6000
+                                       R+6= 11500
+
+                       - 22 -
+6.8. Référentiel des prix des transactions immobilières
+             de l'Annexe Administrative Marjane
+
+     Zone   Type de bien             Etat              Prix au m2
+  ME-MJ 1   Appartement            Ancien                  4000
+ME-MJ2 -BD  Appartement            Récent                  4700
+   ME-MJ3   Appartement                                    5300
+                                     Neuf
+                  Villa           Ancienne      PT= 3000 PC= 2500
+                                  Récente
+                  Villa                         PT= 3000 PC= 3000
+                  Villa             Neuve       PT= 3000 PC= 3500
+                Maison            Ancienne      PT= 5500 PC= 2500
+                                  Récente       PT= 5500 PC= 3000
+                Maison                          PT= 5500 PC= 3500
+                Maison              Neuve
+              Terrain ZI            *******            R+2= 5500
+             Terrain ZV             ********           R+4= 8000
+            Appartement            Ancien
+            Appartement            Récent                  3000
+            Appartement              Neuf                  5000
+              Terrain ZI             ******                5600
+            Appartement            Ancien                  6000
+            Appartement            Récent             R+6= 11500
+            Appartement              Neuf                  4000
+                Maison            Ancienne                 4500
+                                  Récente                  5000
+                Maison              Neuve
+                Maison               ******     PT= 4000 PC= 2000
+              Terrain ZI                        PT= 4000 PC= 2500
+                                                PT= 4000 PC= 3000
+                                              R+2= 4000 >R+4= 7000
+
+                          - 23 -
+  Zone  Type de bien             Etat             Prix au m2
+        Appartement            Ancien                 4000
+ME-MJ4  Appartement            Récent                 4500
+        Appartement                                   5000
+ME-MJ5                           Neuf
+            Maison            Ancienne     PT= 4300 PC= 2000
+                              Récente      PT= 4300 PC= 2500
+            Maison                         PT= 4300 PC= 3000
+            Maison              Neuve    R+2= 4300 >R+4= 6000
+          Terrain ZI             ******
+        Appartement            Ancien                 4500
+        Appartement            Récent                 4800
+        Appartement              Neuf                 5200
+            Maison            Ancienne
+                              Récente      PT= 5000 PC= 2000
+            Maison              Neuve      PT= 5000 PC= 2500
+            Maison               ******    PT= 5000 PC= 3000
+          Terrain ZI                     R+2= 4300 >R+4= 6000
+
+                      - 24 -
+6.9. Référentiel des prix des transactions immobilières
+   de l'Annexe Administrative Hamria Place d'armes
+
+  Zone   Type de bien             Etat           Prix au m2
+ME-HP 1  Appartement            Ancien               5100
+ME-HP 2  Appartement            Récent               6000
+         Appartement                                 7000
+ME-HP 3                           Neuf
+               Villa           Ancienne    PT= 4000 PC= 2000
+                               Récente
+               Villa                       PT= 4000 PC= 2500
+           Terrain ZI            ********            12000
+                               Ancienne
+               Villa           Récente     PT= 3500 PC= 2000
+               Villa                       PT= 3500 PC= 2500
+               Villa             Neuve     PT= 3500 PC= 3000
+             Maison            Ancienne    PT= 4000 PC= 1500
+             Maison            Récente     PT= 4000 PC= 2000
+             Maison                        PT= 4000 PC= 3000
+          Terrain Z.I            Neuve
+          Terrain Z.V            ********        R+2= 4000
+                                 ********            3500
+         Appartement            Ancien               3600
+         Appartement            Récent               4000
+         Appartement              Neuf               4700
+                               Ancienne
+             Maison            Récente     PT= 3500 PC= 2000
+             Maison              Neuve     PT= 3500 PC= 2500
+             Maison            Ancienne    PT= 3500 PC= 3000
+                               Récente     PT= 3000 PC= 2000
+               Villa             Neuve     PT= 3000 PC= 2500
+               Villa             ********  PT= 3000 PC= 3000
+                                 ********
+               Villa                                 3500
+          Terrain Z.I                                3000
+          Terrain ZV
+
+                       - 25 -
+     Zone    Type de bien           Etat     Prix au m2
+ME ­HP4 -BD  Appartement           Ancien        5500
+             Appartement           Récent        6500
+             Appartement            Neuf         8500
+             Appartement            ******
+                                            R+10= 13500
+
+                           - 26 -
+6.10. Référentiel des prix des transactions immobilières
+         de l'Annexe Administrative Hamria Centre
+
+   Zone   Type de bien              Etat             Prix au m2
+ME-HC 1  Appartement             Ancien                 5000
+ME-HC 2  Appartement             Récent                 6500
+ME-HC3   Appartement                                    8200
+                                   Neuf
+ME-HC4         Villa            Ancienne    PT= 10000 PC= 3000
+             Maison             Ancienne
+                                             PT= 6000 PC= 1500
+           Terrain ZI             ********
+                                                   R+5= 12500
+               Villa            Récente         R+6= 12500
+               Villa              Neuve      PT= 6000 PC= 3000
+          Terrain Z.V                        PT= 6000 PC= 3000
+         Appartement               *****
+         Appartement              Ancien                6000
+         Appartement              Récent                5200
+               Villa               Neuf                 6300
+                                Ancienne                8000
+           Terrain Z.I                       PT= 8600 PC=3000
+         Appartement              ********        =R+4+10000
+         Appartement                              =R+5= 11000
+         Appartement             Ancien          =R+6= 12000
+                                 Récent                 3500
+             Maison                                     7500
+               Villa               Neuf                 8000
+                                Ancienne     PT= 5000 PC= 1500
+               Villa            Ancienne    PT= 4500 PC = 3000
+               Villa            Récente     PT= 4500 PC = 3500
+          Terrain ZV
+         Appartement              Neuve     PT = 4500 PC = 4000
+         Appartement              ********
+                                 Récent                 4500
+           Terrain Z.I             Neuf                 6500
+                                  ********              8500
+                                                  R+10= 13500
+
+                        - 27 -
+    Zone   Type de bien              Etat           Prix au m2
+  ME-HC5         Villa            Ancienne    PT= 4000 PC = 4000
+ME-HC6-BD                         Récente     PT= 4000 PC = 4500
+                 Villa
+                 Villa              Neuve     PT= 4000 PC = 5000
+                                                  <=400M²=4600
+             Terrain ZV             ********       >400m²=4000
+           Appartement             Ancien                5500
+           Appartement             Récent                6500
+           Appartement                                   8500
+                                     Neuf          R+10= 13500
+             Terrain Z.I            ********
+
+                          - 28 -
+6.11. Référentiel des prix des transactions immobilières
+      de l'Annexe Administrative Bssatine Aislougui
+
+  Zone   Type de bien              Etat               Prix au m2
+ME-BA1
+         Appartement             Ancien                    4100
+ME-BA 2  Appartement             Récent                    4600
+         Appartement                                       5200
+                                   Neuf         PT= 4500 PC= 1500
+             Maison             Ancienne
+             Maison             Récente         PT= 4500 PC= 2000
+             Maison
+            Terrain ZI            Neuve         PT= 4500 PC= 2500
+         Appartement              *******   R+2/3= 4500 >=R+4= 6500
+         Appartement             Ancien
+         Appartement             Récent                    2500
+             Maison                Neuf                    3000
+                                Ancienne                   3500
+             Maison
+             Maison             Recente         PT= 3000 PC= 1500
+            Terrain ZI            Neuve
+                                **********      PT= 3000 PC= 1800
+                                                PT= 3000 PC= 2200
+
+                                                           3000
+
+                        - 29 -
+6.12. Référentiel des prix des transactions immobilières
+         de l'Annexe Administrative Borj Mly Omar
+
+  Zone  Type de bien      Etat          Prix au m2
+ME-BO1  Appartement     Ancien
+        Appartement     Récent               4500
+        Appartement       Neuf
+                       Ancienne              5300
+              Villa    Récente
+              Villa    Ancienne              6600
+            Maison
+                        *********  PT= 5000 PC= 3000
+           Terrain ZI
+                                   PT= 5000 PC= 3500
+
+                                    PT= 4000 PC= 2800
+                                      <= R+3 = 4 000
+
+                                   R+4 et R+5 = 9 000
+                                   R+6 et R+7 = 10 000
+
+                                     >= R+8 = 11 500
+
+        - 30 -
+6.13. Référentiel des prix des transactions immobilières
+     de l'Annexe Administrative Aciens Combattants
+
+  Zone  Type de bien              Etat              Prix au m2
+ME-AC1  Appartement             Ancien                    3800
+        Appartement             Récent                    4200
+ME-AC2  Appartement               Neuf                    4700
+ME-AC3                         Ancienne
+              Villa            Ancienne        PT= 5000 PC=3500
+            Maison             Récente
+            Maison               Neuve        PT= 3500 PC=2000
+            Maison               ********     PT= 3500 PC=2500
+           Terrain ZI            *******       PT= 3500 PC=3000
+          Terrain Z.V           Ancien
+        Appartement             Récent     R+2= 3500 R+5/6= 11000
+        Appartement            Ancienne                   5000
+            Maison             Récente                    4000
+            Maison             Ancienne                   4500
+                               Récente
+              Villa             Récent         PT= 3500 PC= 2000
+              Villa             Ancien
+          Terrain Z.V           Récent         PT= 3500 PC= 2500
+        Appartement               Neuf         PT= 3500 PC= 2500
+        Appartement            Ancienne        PT= 3500 PC= 3500
+        Appartement            Récente
+              Villa            **********                 3500
+              Villa                                       5800
+          Terrain Z.I                                     6800
+                                                          7600
+
+                                               PT= 5000 PC= 3000
+                                               PT= 5000 PC= 3500
+                                            R+5= 11500 R+6= 12500
+
+                       - 31 -
+    Zone   Type de bien    Etat      Prix au m2
+ME-AC4 BD  Appartement    Ancien         5500
+           Appartement    Récent         6500
+           Appartement                   8500
+                           Neuf
+             Terrain Z.I  ********  R+10= 13500
+
+           - 32 -
+6.14. Référentiel des prix des transactions immobilières
+     de l'Annexe Administrative Plaisance/ Hacienda
+
+   Zone  Type de bien              Etat          Prix au m2
+               Villa            Ancienne    PT= 2000 PC= 2500
+ME-PL1         Villa            Récente     PT= 2000 PC= 3000
+ME-PL 2                          *********
+           Terrain ZV                                 2000
+ME-PL 3  Appartement             Ancien               4500
+ME-BD 7  Appartement             Récent               5500
+         Appartement                                  6500
+                                   Neuf     PT= 4000 PC= 2500
+               Villa            Ancienne    PT= 4000 PC= 3000
+               Villa            Récente     PT= 4000 PC= 3500
+               Villa                        PT= 4000 PC= 1500
+             Maison               Neuve
+             Maison             Ancienne    PT= 4000 PC= 2000
+           Terrain ZV           Récente               4000
+         Appartement             *********            4500
+         Appartement                                  5500
+         Appartement             Ancien               7500
+                                 Récent
+               Villa                        PT= 5000 PC= 3000
+            Terrain ZI             Neuf
+         Appartement            Ancienne        R+5/6= 12500
+         Appartement             *********            5500
+         Appartement                                  6500
+            Terrain ZI           Ancien               8500
+                                 Récent
+                                                 R+10= 13500
+                                   Neuf
+                                 *********
+
+                        - 33 -
+    6.15. Référentiel des prix des transactions immobilières
+de l'Annexe Administrative Sidi Said-Zerhounia-Oujeh Arouss
+
+ Zone   Type de bien      Etat           Prix au m2
+ME-SZ1  Appartement     Ancien                4500
+ME-SZ2  Appartement     Récent                5000
+ME-SZ3  Appartement       Neuf                5500
+                       Ancienne
+            Maison     Récente      PT=5000 PC= 1500
+            Maison       Neuve
+            Maison       *******      PT=5000 PC= 2300
+           Terrain ZI   Ancien       PT=5000 PC= 3000
+        Appartement     Récent    R+2= 5000 R+4= 7000
+        Appartement       Neuf
+        Appartement    Ancienne               3100
+            Maison     Récente                3300
+            Maison       Neuve                4000
+            Maison       *******    PT=3500 PC= 1500
+           Terrain ZI   Ancien      PT=3500 PC= 2000
+        Appartement     Récent
+        Appartement       Neuf      PT=3500 PC= 2500
+        Appartement    Ancienne   R+2= 3500 R+3= 4000
+            Maison     Récente
+            Maison       Neuve                4000
+            Maison       *******              4500
+           Terrain ZI                         5000
+                                    PT= 4000 PC= 1500
+
+                                     PT= 4000 PC= 2300
+                                     PT= 4000 PC= 3000
+                                  R+2= 4000 R+4= 5500
+
+        - 34 -
+6.16. Référentiel des prix des transactions immobilières
+    de l'Annexe Administrative Sidi Bouzekri/Essaada
+
+  Zone  Type de bien      Etat                  Prix au m2
+        Appartement     Ancien
+ME-BZ1  Appartement     Récent                       3500
+        Appartement
+                          Neuf                       4000
+            Maison     Ancienne
+            Maison     Récente                       4500
+            Maison
+                         Neuve             PT=3000 PC= 2000
+              Villa    Ancienne
+              Villa    Récente             PT=3000 PC= 2500
+          Terrain Z.I
+                         ********          PT=3000 PC= 3000
+                                   < à 500 m² PT= 3000 PC= 2000
+                                   >à 500 m² PT= 2500 PC= 2000
+                                   < à 500 m² PT= 3000 PC= 2500
+                                   >à 500 m² PT= 2500 PC= 2500
+
+                                       R+2= 3000 R+4/5= 8000
+
+        Terrain Z.V    **********  < à 500 m = 3000
+                                   >à 500 m² = 2500
+
+                       - 35 -
+6.17. Référentiel des prix des transactions immobilières
+      de l'Annexe Administrative kortoba-Hay Wahda
+
+    Zone  Type de bien              Etat           Prix au m2
+          Appartement             Ancien                4600
+ME-KW 1   Appartement             Récent                5000
+          Appartement                                   5500
+ME-KW 2                             Neuf
+              Maison             Ancienne     PT= 6000 PC=2000
+              Maison             Récente
+              Maison                          PT= 6000 PC=2500
+             Terrain ZI            Neuve      PT= 6000 PC=3000
+          Appartement              *******  R+2= 6000 R+4= 8000
+          Appartement             Ancien
+          Appartement             Récent           R+6= 11500
+              Maison                Neuf                3000
+              Maison             Ancienne               3300
+                                 Récente                3800
+              Maison
+                                   Neuve      PT= 2800 PC=1500
+             Terrain ZI
+                                   *******    PT= 2800 PC=2000
+                                              PT= 2800 PC=2500
+
+                                                    R+2= 2800
+
+                         - 36 -
+6.18. Référentiel des prix des transactions immobilières
+         de l'Annexe Administrative Mimosa-Manar
+
+    Zone  Type de bien            Etat          Prix au m2
+          Appartement           Ancien               4700
+ME-MM 1   Appartement           Récent               5700
+          Appartement                                6000
+                                  Neuf
+                Villa           Acienne    PT= 3000 PC= 3000
+                Villa           Recente
+                Villa            Neuve     PT= 3000 PC= 3500
+            Terrain ZV          *********  PT= 3000 PC= 4000
+
+                                                     3000
+
+                        - 37 -
+6.19. Référentiel des prix des transactions immobilières
+               de Pachalick EL Mechouar S'tinia
+
+   Zone  Type de bien     Etat   Prix au m2
+         Appartement    Ancien       2000
+ME-MS1   Appartement    Récent       2500
+                       Ancienne      2000
+             Maison    Récente
+             Maison                  2300
+
+         - 38 -
+6.20. Référentiel des prix des transactions immobilières
+                         de Pachalick Toulal
+
+   Zone  Type de bien              Etat            Prix au m2
+         Appartement             Ancien                 2500
+ME-TL 1  Appartement             Récent                 2800
+ME-TL 2                         Ancienne
+             Maison             Récente      PT= 2000 PC= 1500
+ME-TL 3      Maison              *********
+            Terrain ZI           Ancien      PT= 2000 PC= 2000
+         Appartement             Récent             R+2= 2000
+         Appartement                                    3200
+         Appartement               Neuf                 3800
+             Maison             Ancienne                4200
+             Maison             Récente
+             Maison                          PT= 2500 PC= 1800
+            Terrain ZI            Neuve
+         Appartement              *******    PT= 2500 PC= 2300
+         Appartement             Ancien      PT= 2500 PC= 2800
+         Appartement             Récent
+                                   Neuf                 2500
+               Villa            Ancienne                3500
+               Villa            Récente                 4000
+               Villa              Neuve                 4500
+
+           Terrain ZV             *******     PT= 2300 PC= 1500
+                                              PT= 2300 PC= 2000
+                                              PT=2300 PC= 2500
+
+                                                 <=200m² =2300
+                                            >200m² <=400m²=2000
+
+                                                  >400m²=1300
+
+                        - 39 -
+6. Annexes
+
+            - 40 -
+  7.1 Cartographie des Zones relevant de l'Annexe Administrative
+l Ancienne Medina
+
+                                                                - 41 -
+7.1. Tableau des délimitations des Zones : l'Annexe Administrative
+                                    Acienne Medina
+
+Code Zone Points de Repère
+
+ME-AM1  Rouamzine-Dar Smen-Tizimi-Jamaa Zitouna-Mellah Lakdim-Touta-
+        Hmmam Jdid-Dhar Sjen-Al Anouar-Sidi Amer Bouaouada-Derb El
+        Kannout-Bab Berrima Al anouar , Kaa Ouarda
+
+                            - 42 -
+7.2 Cartographie des Zones relevant de l'Annexe Administrative
+Ryad
+
+                                                                - 43 -
+7.2. Tableau des délimitations des Zones : l'Annexe Administrative
+Ryad
+
+   Code Zone Points de Repère
+
+ME-RY1   Rue Dispensaire-Rue Palestine-Rue Saladine Al ayoubi-Rue Ibn
+ME-RY2   Zaydoune-MLy Meliyana-BD Quds , 6 Novembre, Hassan El Ansari
+ME-RY3
+ME-RY4   Kassbat Sidi Said- -El Borj El MAchkouk-Hay Attakaddoum Douar
+         Jbala
+
+         Diour Essalam-Lot Fatiha-Lot Ennacer 1 et 2 -Lot Sahara I-Lot Charaf
+         ­Al attaouiya-Lot Al fadilia-Lot Kamilia/Salma-Al inbiat I et II ­Al
+         Manssour ­Al Ahmadia III ­Lot Hafida- -Marjane Ext-Jnane Zitoune ­
+         Lot Belair
+
+         Lot Chahdia-Lot Jnane Meknes
+
+ME-RY5 BD Bd Mohammed VI Coté Droit
+
+ME-RY6   TILILA TADAMOUNE 2 JNANE ZITOUNE 1 ET 2
+
+ME- RY7  Ennaser 3 ­ Ennaim 2 ­ Mabrouka
+
+         - 44 -
+7.3 Cartographie des Zones relevant de l'Annexe Administrative
+                                         Zitoune
+
+                                                             - 45 -
+7.3. Tableau des délimitations des Zones : l'Annexe Administrative
+Zitoune
+
+Code Zone Points de Repère
+
+ME-ZT1  Lot Tazi-Jamaa Roua-Zitoune Centre-Lot Rizki-Diour Tazi
+
+ME-ZT2  Lot Zin El Abdine- Lot Saliha-Lot Maslouhia, Bd Dighoussi
+
+                            - 46 -
+7.4. Cartographie des Zones relevant de l'Annexe Administrative
+Sidi Baba
+
+                                                                - 47 -
+7.4. Tableau des délimitations des Zones : l'Annexe Administrative
+Sidi Baba
+
+Code Zone Points de Repère
+
+ME-SB1  Sidi Baba ­Blad Lakhmiss- Douar Lakdim- A.Combattants-Lot walili -
+        Rdaya
+
+                            - 48 -
+7.5. Cartographie des Zones relevant de l'Annexe Administrative
+Agdal
+
+                                                                - 49 -
+7.5. Tableau des délimitations des Zones : l'Annexe Administrative
+Agdal
+
+Code Zone Points de Repère
+
+ME-AG1  Agdal-Kassbat Hadrach-BD lalla Khadra-Bab nouara-Bd
+        Abdrrahmane ben Zidane-Jnane Ben Hlima
+
+                            - 50 -
+7.6. Cartographie des Zones relevant de l'Annexe Administrative
+Sidi Amer
+
+                                                                - 51 -
+7.6. Tableau des délimitations des Zones : l'Annexe Administrative
+Sidi Amer
+
+Code Zone Points de Repère
+
+ME-SA1  Sidi Amer-bab Abou El Amayer-Qr Berrada-El Mers
+
+                            - 52 -
+7.7. Cartographie des Zones relevant de l'Annexe Administrative
+Beni M'hamed
+
+                                                                - 53 -
+7.7. Tableau des délimitations des Zones : l'Annexe Administrative Bni
+Mhamed
+
+Code Zone Points de Repère
+
+ME-BM1   Bni M'hamed centre-Diour jdad Bni Mhamed
+
+ME-BM2   Sbata- Saramito-Touargua-Dr Jaafar Al iraki
+
+ME-BM3   Sahara II- Lot les cerdres- Lot Al othmania-Lot Al Ahmadia I et II-Lot
+ME-BD 2  yassine I et II
+
+         Bd Mohammed VI Coté Droit
+
+                            - 54 -
+7.8. Cartographie des Zones relevant de l'Annexe Administrative
+Marjane
+
+                                                                - 55 -
+7.8. Tableau des délimitations des Zones : l'Annexe Administrative
+Marjane
+
+Code Zone Points de Repère
+
+ME-MJ 1  Marjane 2,3 ­ Marjane Amicale ­ Lot Al Atlas ­ Lot Saliha ­ Laaouija (Bab
+         bettioui) ­ Jnane Meknes 1,2 ­ Lot Sounboula
+
+ME-MJ2 BD Bd Mohammed VI Coté Gauche
+
+ME-MJ3   Ennaim 3 4 5 6 et 7 Sounboula ­ Mrajane 1 ­Douar taba ­Borj ada
+
+ME- MJ4  Laaouija ­ Bab Bettioui - Lamssalah
+
+ME-MJ5   Jnane meknes 1 et 2- Ouafae 1 et 2 ­ Loubaba 1 et 2
+
+                            - 56 -
+7.9. Cartographie des Zones relevant de l'Annexe Administrative
+Hamria-Place d'armes
+
+                                                                - 57 -
+7.9. Tableau des délimitations des Zones : l'Annexe Administrative
+Hamria ­ Place des Armes
+
+Code Zone  Points de Repère
+  ME-HP1
+           Av Mly Youssef - Av Nehrou - Rue Mlilia - Rue Doukala ­ Rue Abou
+           Ali Ben Rahal - Rue Bondong - Rue Gascone - Rue Ben Khaldoun -
+           Rue Al Farabi - BD Essaadiyine - Rue Haroun Rachid ­ Rue Ibn
+           Toufail ­ Rue Chefchaouen ­ La Patrouilleuse
+
+ME-HP2     Cité Des Watres ­ Av Bir Anzarane ­ Av Abbas Al Msaadi
+
+ME-HP3     Lot Al Mountazah ­ Lot Zahwa ­ Lot Al Andalouss ­ Lot Attanmia ­
+ME-BD 4    Lot Soraya ­ Lot Al Amine ­ Lot Zitouna ­ Lot Loubaba 2
+
+           Av Des FAR Coté Droit
+
+           - 58 -
+7.10. Cartographie des Zones relevant de l'Annexe Administrative
+Hamria Centre
+
+                                                                - 59 -
+7.10. Tableau des délimitations des Zones : l'Annexe Administrative
+Hamria Centre
+
+Code Zone Points de Repère
+
+ME-HC1   Rue Amir Abdelkader ­ Rue El Houssine Ben Ali ­ Av Mohammed V ­
+         Av Allal Ben Abdellah ­ Rue Alexandria ­ Rue Benzert ­ Av Idriss II ­
+ME-HC2   Rue Kifa ­ Rue Ouahda Ifriquia ­ Av Hassa II ­ Rue Abou Hassan El
+ME-HC3   Marini ­ Rue Sebou ­ Rue Badr El Kobra ­ Rue Tadla ­ Av El
+         Moukaouama ­ Rue Terfaya ­ Rue Pasteur ­ Av El Amir Mly Abdellah-
+         Av Al Mourabitine
+         Rue Oukaat Zellaka ­ Rue Idriss II ­ Rue Alger ­ Rue Abdelmoumen
+         El Mouahidi ­ Rue Oujda ­ Av Yacoub El mansour - Rue Nador ­ Rue
+         Taza ­ Rue Fes ­ Rue Tunis ­ Rue Geneve ­ Rue Alla El Fassi ­ Av
+         Hassan 1 ­ Av Zerktouni
+
+         Rue Omar El Farouki ­ Rue Moussa Bnou Noussair ­ Rue Ismailia 8
+
+ME-HC4   Av El Omam El Motahida ­ Rue Ferhat Hechad ­ Rue Youghoslavia ­
+ME-BD 5  Rue Dubreuil ­ Rue Okba Bnou Nafie ­ Rue Agadir ­ Rue Abdella
+         Bnou Zoubair ­ Rue 11 Janvier ­ El baladia
+
+         Av Des FAR Coté Gauche
+
+ME-HC5   Ras Aghil ­ Belle Vue
+
+                                - 60 -
+7.11. Cartographie des Zones relevant de l'Annexe Administrative
+Bassatine Ain Slougui
+
+                                                                - 61 -
+7.11. Tableau des délimitations des Zones : l'Annexe Administrative
+Bassatine ­ Ain Slougui
+
+Code Zone  Points de Repère
+  ME-BA1
+           OLM EXT Sud ­ SECT A,B,C,D,E ­ Saadat Laayoune ­ Res Yasmina I
+           et II ­ Lot El Bassatine ­ Lot Mssili ­ Lot Kbibech ­ Lot zehoua ­ Lot
+           Houda ­ Lot Afifa ­ Lot Firdaouss ­ Lot Alia I et II ­ Lot Youssoufia ­
+           Lot Al Amouria ­ Lot Lotfi ­ Lot Assaka Al Anik - Lot Waha Et Figigia
+           ­ Lot Laraichi 1,2,3,4 et 5 ­ Lot Abdelouahab El Araichi - OLM EXT 3
+           ­ ALEM 4,5 et 6
+
+ME-BA2     OLM EXT 7
+
+                      - 62 -
+7.12. Cartographie des Zones relevant de l'Annexe Administrative
+Borj My Omar
+
+                                                                - 63 -
+7.12. Tableau des délimitations des Zones : l'Annexe Administrative
+Borj Mly Omar
+
+Code Zone Points de Repère
+
+ME-BO1  Belair - Lot Oum Rabie
+
+                            - 64 -
+7.13. Cartographie des Zones relevant de l'Annexe Administrative
+Aciens combattants
+
+                                                                - 65 -
+7.13. Tableau des délimitations des Zones : l'Annexe Administrative
+Anciens Combattants
+
+Code Zone  Points de Repère
+  ME-AC1
+           Anciens Combattants ­ Ibn Sina ­ SECT 8,9 et 11 - Av Khalid Bnou
+           Oualid
+
+ME-AC2     Lot El Youmne - Sophal
+
+ME-AC4     Av De La Gare ­ Rue Oued Zem ­ Victor Hugo ­ Jebran Khalil Jebran
+ME-BD6     ­ Ibn Zaidoun ­ Rue El Ghazali - Ismailia 2 ­ Hay Ennasser
+
+           Av Des FAR Coté Gauche et Droit
+
+           - 66 -
+7.14. Cartographie des Zones relevant de l'Annexe Administrative
+Plaisance ­ Hacienda
+
+                                                                - 67 -
+7.14. Tableau des délimitations des Zones : l'Annexe Administrative
+Plaisance - Hacienda
+
+Code Zone Points de Repère
+
+ME-PL1  Plaisance ­ Joie de vivre
+
+ME-PL2  Hacienda ­ Hay Mly Ismail ­ Al Massira
+
+ME-PL3  Hacienda 2 Coté Droit
+ME-BD7  Av Des FAR
+
+                               - 68 -
+7.15. Cartographie des Zones relevant de l'Annexe Administrative
+Sidi Said ­ Zerhounia-Oujeh Arousse
+
+                                                                - 69 -
+7.15. Tableau des délimitations des Zones : l'Annexe Administrative
+Sidi Said ­ Zerhounia ­ Oujeh Arousse
+
+Code Zone Points de Repère
+
+ME-SZ1  Zerhounia ­ Lot Ngassa ­ Lot EL Wifaq ­ Lot Dakhla ­ Lot Mly
+        Messaoud Sidi Said ­ Lot Sfia ­ Hay Salam 1,2,3,4 et ext ­ Lot Tafoukt
+
+ME-SZ2  Ouhaj Arousse- Lot Zahra
+
+ME-SZ3  Hay Essalam 4 5 et 7 ­ Abdallaouia 1 et 2 - Lahloua
+
+                            - 70 -
+7.16. Cartographie des Zones relevant de l'Annexe Administrative
+Sidi Bouzekri ­ La Touraine (Saada )
+
+                                                                - 71 -
+7.16. Tableau des délimitations des Zones : l'Annexe Administrative
+Sidi Bouzekri ­ La touraine
+
+   Code Zone Points de Repère
+
+ME-BZ1  Sidi Bouzekri ­ Belle Vue 3
+
+ME-BZ2  Rue Chouaib Doukali ­ Rue Rizki ­ Rue Fakih El Qari ­ Rue Razi
+
+        - 72 -
+7.17. Cartographie des Zones relevant de l'Annexe Administrative
+Kortoba-Hay Wahda
+
+                                                                - 73 -
+7.17. Tableau des délimitations des Zones : l'Annexe Administrative
+Kortoba ­ Hay Wahda
+
+   Code Zone Points de Repère
+
+ME-KW1  Kortoba
+
+ME-KW2  Hay Al Wahda
+
+                      - 74 -
+7.18. Cartographie des Zones relevant de l'Annexe Administrative
+Mimosa-Manara
+
+                                                                - 75 -
+7.18. Tableau des délimitations des Zones : l'Annexe Administrative
+                                     Mimosa - Manar
+
+   Code Zone Points de Repère
+     ME-MM1 Lot Mimosa ­ Lot Zahra- Manar ­ Bnou Rochd ­ Errayhane ­
+
+                                                               - 76 -
+7.19. Cartographie des Zones relevant de Pachalick El Mechouar
+Stinia
+
+                                                                - 77 -
+7.19. Tableau des délimitations des Zones : Pachalik El Mechouar
+                                           Stinia
+
+ Code Zone Points de Repère
+
+ME-MS1  Dar Lekbira ­ Lalla Ouda ­ Driba- Derb El Anboub
+
+        - 78 -
+7.20. Cartographie des Zones relevant de Pachalick Toulal
+
+                                                                - 79 -
+7.20. Tableau des délimitations des Zones : Pachalik Toulal
+
+Code Zone  Points de Repère
+  ME-TL1   Kasbat Toula ­ Boujdi ­ Tankibt ­ Lahrouche ­ Douar Bennaceur
+
+ME-TL2     Lot El Fath 1 et 2, Quartie Administratif ­ Lot Travaux Publiques
+
+ME-TL3     Riad Toulal 1 et 2 ­ El Mountazah ­ Lot el Firdaouss ­ Lot El Hadika-
+           Doha
+
+           - 80 -
+                                  7. Contacts utiles
+
+          Désignation                       Adresse                 Tél/Email
+                                  Haj Ahmed Cherkaoui Agdal       0537-27-37-27
+    Centre d'Information DGI                                 referentiel@tax.gov.ma
+Bureau d'Accueil de la Direction               Rabat
+                                                                    0535523740
+    Régionale des Impôts de                  Bd Idris II            0535510310
+               Meknes                                               0535404107
+                                                                    0535521063
+  Agence Urbaine de Meknes         Rue Pasteur
+Wilaya de la Région de Meknes     Place la Wilaya                   0535523437
+                                                                    0535535055
+               tafilalt              Bd Idris II                    0535503264
+     Agence Nationale de la                                         0535511969
+   Conservation Foncière, du
+Cadastre et de la Cartographie
+
+              Meknes
+
+Municipalité de Meknes            Place Al wahda al ifriqia
+
+Arrondissement Rouamzine          Bab Bouamayer
+
+Arrondissement El Bassatine       Lot Laraichi
+
+Arrondissement 13                 AV Khalid bnou al oualid
+
+                                  - 81 -
+

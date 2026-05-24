@@ -78,6 +78,96 @@ const CITY_CONFIG = {
       AG: "Agadir Ida-Outanane", BS: "Bensergao", FO: "Founty", HM: "Hay Mohammadi",
     },
   },
+  kenitra: {
+    name: "Kénitra",
+    region: "Rabat-Salé-Kénitra",
+    codePrefix: "KE",
+    arrondissements: {
+      AS: "Saknia", BR: "Bir Rami", MM: "Maamoura", MD: "Mehdia", KC: "Centre Kénitra",
+    },
+  },
+  sale: {
+    name: "Salé",
+    region: "Rabat-Salé-Kénitra",
+    codePrefix: "SA",
+    arrondissements: {
+      BE: "Bettana", HS: "Hssaine", TB: "Tabriquet", LM: "Bab Lamrissa",
+      LY: "Laayayda", SH: "Shoul", SB: "Sidi Bouknadel",
+    },
+  },
+  meknes: {
+    name: "Meknès",
+    region: "Fès-Meknès",
+    codePrefix: "ME",
+    arrondissements: {
+      AC: "Al Mechouar Stinia", IS: "Ismailia", HE: "Hamria",
+      OU: "Ouislane", MR: "Marjane", BS: "Belair Sahrij",
+    },
+  },
+  oujda: {
+    name: "Oujda",
+    region: "Oriental",
+    codePrefix: "OUJ",
+    arrondissements: {
+      BD: "Boudir", BO: "Boudour", AN: "Angad", BL: "Bni Iznassen", SI: "Sidi Yahya",
+    },
+  },
+  settat: {
+    name: "Settat",
+    region: "Casablanca-Settat",
+    codePrefix: "SE",
+    arrondissements: {
+      SE: "Settat Centre", BR: "Berrechid Annexe",
+    },
+  },
+  "beni-mellal": {
+    name: "Béni Mellal",
+    region: "Béni Mellal-Khénifra",
+    codePrefix: "BM",
+    arrondissements: {
+      BM: "Béni Mellal Centre", AZ: "Azilal", FB: "Fquih Ben Salah",
+    },
+  },
+  safi: {
+    name: "Safi",
+    region: "Marrakech-Safi",
+    codePrefix: "SF",
+    arrondissements: {
+      BD: "Boudheb", JE: "Jrifate", SC: "Safi Centre", YO: "Youssoufia annexe",
+    },
+  },
+  tetouan: {
+    name: "Tétouan",
+    region: "Tanger-Tétouan-Al Hoceïma",
+    codePrefix: "TE",
+    arrondissements: {
+      BS: "Boussafou", SM: "Sania", CT: "Tétouan Centre",
+    },
+  },
+  midelt: {
+    name: "Midelt",
+    region: "Drâa-Tafilalet",
+    codePrefix: "MI",
+    arrondissements: {
+      AA: "Aït Ayach", ER: "Er-Rich", MD: "Midelt Centre",
+    },
+  },
+  nador: {
+    name: "Nador",
+    region: "Oriental",
+    codePrefix: "NA",
+    arrondissements: {
+      AA: "Nador Atalayoun", BO: "Beni Oukil", CN: "Nador Centre",
+    },
+  },
+  berkane: {
+    name: "Berkane",
+    region: "Oriental",
+    codePrefix: "BK",
+    arrondissements: {
+      BD: "Berkane Centre", AB: "Aklim",
+    },
+  },
 };
 
 function parseAmount(s) {

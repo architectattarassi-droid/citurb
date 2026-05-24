@@ -1,0 +1,1202 @@
+{
+  "_meta": {
+    "ville": "Settat",
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T21:51:34.478Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 19,
+    "zonesWithPrices": 19,
+    "zonesWithDelimitations": 0
+  },
+  "arrondissements": [
+    {
+      "code": "SE",
+      "nom": "Settat Centre"
+    }
+  ],
+  "zones": [
+    {
+      "code": "SE-SE12",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Villa",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 6000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "pt": 3500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 3500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "SE-SE13",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2000
+        }
+      ]
+    },
+    {
+      "code": "SE-SE14",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "SE-SE15",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3700,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 4200,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 3700,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 4200,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 3700,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "pt": 4200,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 2000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 3000,
+          "pc": 35003000
+        }
+      ]
+    },
+    {
+      "code": "SE-SE18",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 2000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 2000,
+          "pc": 3500
+        }
+      ]
+    },
+    {
+      "code": "SE-SE21",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 6500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 4500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "pt": 6500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 4000,
+          "pc": 30004000450050003000
+        }
+      ]
+    },
+    {
+      "code": "SE-SE24",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6500
+        }
+      ]
+    },
+    {
+      "code": "SE-SE25",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "SE-SE26",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 2500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 2500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 2500
+        }
+      ]
+    },
+    {
+      "code": "SE-SE28",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "SE-SE29",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "SE-SE3",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 4500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 8000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8000
+        }
+      ]
+    },
+    {
+      "code": "SE-SE30",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 3500,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "SE-SE32",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "pt": 3500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 3500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 2500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 2500
+        }
+      ]
+    },
+    {
+      "code": "SE-SE33",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 3500
+        }
+      ]
+    },
+    {
+      "code": "SE-SE34",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        }
+      ]
+    },
+    {
+      "code": "SE-SE6",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "pt": 2000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "pt": 2000,
+          "pc": 2300
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 2000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4500
+        }
+      ]
+    },
+    {
+      "code": "SE-SE7",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "SE-SE9",
+      "arrondissement": "Settat Centre",
+      "ville": "Settat",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 2500,
+          "pc": 3500
+        }
+      ]
+    }
+  ]
+}

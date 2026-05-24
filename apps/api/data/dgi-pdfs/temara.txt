@@ -1,0 +1,1241 @@
+    Référentiel des Prix des Transactions Immobilières
+            de la préfecture de Skhirat - Temara
+
+       Les données de ce référentiel sont opposables uniquement
+                      à la Direction Générale des Impôts
+
+Site Internet : www.tax.gov.ma ­ Email : referentiel@tax.gov.ma
+                                                                       Edition Décembre 2017
+                                         Sommaire
+
+1. Préambule                                                                   03
+
+2. Liste des abréviations                                                      04
+
+3. Lexique                                                                     05
+
+4. Territoire, biens concernés et plan d'ensemble de Skhirat - Témara          07
+
+4.1. Territoire et biens concernés                                             07
+
+4.2. Plan d'ensemble de Skhirat -Témara                                        09
+
+5. Mode de recherche                                                           10
+
+6. Référentiel des prix des transactions immobilières de Skhirat -Temara
+
+6.A. Actualisation du référentiel des prix des transactions immobilières de
+
+Temara - Harhoura                                                              13
+
+6.A.1 Commune de Temara
+
+6.A.2 Commune de Harhoura
+
+6.B Référentiel des prix des transactions immobilières de Skhirat - Ain Attig
+
+Mers El Kheir-Tamesna-Sidi Yahya Zaers- Ain Aouda et El Menzeh                 22
+
+.6. B .1 Commune de Skhirat
+  .6. B .1.1 Skhirat-Plage
+   6. B .1.2 Skhirat-Centre
+
+6. B .2 Commune de Ain Attig
+6. B .3 Commune de Mers El Kheir
+6. B .4 Commune de Tamesna-Sidi Yahya Zaers
+
+   6. B .4.1 Ville de Tamesna
+   6. B .4.2 Sidi Yahya Zaers-Centre
+6. B .5 Commune de Ain Aouda
+6. B.6 Commune El Menzeh
+
+7 Cartographie et tableaux des délimitations des Zones                         31
+
+8 Contacts utiles                                                              52
+
+                                         -2-
+                                     1. Préambule
+
+Dans une démarche de transparence de l'action de l'Administration et de rationalisation de son pouvoir
+d'appréciation, le présent manuel assure la publication des prix de référence retenus par
+l'Administration pour les besoins de calcul des droits et taxes.
+Il s'applique à l'ensemble des cessions de biens immobiliers à usage d'habitation.
+Il permet aux citoyens, dans un souci d'amélioration du climat de confiance, de disposer du même
+niveau d'information que l'Administration.
+Pour se rapprocher le plus de la réalité du marché, les données de ce référentiel sont le résultat d'un
+travail de consultation et de concertation entre la Direction Générale des Impôts, l'Agence Nationale de
+la Conservation Foncière du Cadastre et de la Cartographie, la Fédération Nationale des Promoteurs
+Immobiliers, la Banque Centrale du Maroc (Bank Al Maghreb), l'Agence Urbaine de Skhirat -Témara, le
+Ministère de l'Urbanisme et de l'Aménagement du Territoire et l'Ordre des Notaires.
+Il s'agit de prix moyens retenus pour le calcul des droits et taxes et ne constituent en aucun cas une
+évaluation directe d'un bien immobilier donné.
+Il constitue à cet effet une étape importante dans le processus de renforcement des garanties accordées
+aux citoyens.
+Les données de ce référentiel feront l'objet d'une actualisation périodique en fonction de l'évolution du
+marché de l'immobilier.
+
+                                                                          -3-
+                              2. Liste des abréviations
+
+ANCFCC : Agence Nationale de la Conservation Foncière, du Cadastre et de la Cartographie
+DGI : Direction Générale des Impôts
+FNPI : Fédération Nationale des Promoteurs Immobiliers
+m2 : Mètre Carré
+SKHT : Skhirat ­Témara
+SKHT - TEM : Skhirat ­Témara Commune de Témara
+SKHT - H : Skhirat ­Témara Commune de Harhoura
+SKHT - SKH : Skhirat ­Témara Commune de Skhirat
+SKHT - SKH P : Skhirat ­Témara Commune de Skhirat Skhirat ­Plage
+SKHT - SKH C : Skhirat ­Témara Commune de Skhirat Skhirat ­Centre
+SKHT - A-ATG : Skhirat ­Témara Commune Ain Attig
+SKHT - SYZ : Skhirat -Témara Commune Sidi Yahya Zaers
+SKHT - Tamesna : Skhirat -Témara ville de Tamesna
+SKHT - Ain Aouda : Skhirat ­Témara Commune Ain Aouda
+SKHT - BSM: Skhirat ­Témara Commune El Menzeh - BASSATINE EL MENZEH-
+SKHT - MKH : Skhirat ­Témara Commune Mers El Kheir
+
+PC : Prix de la Construction
+PCF : Prix de la Construction Finie
+PCSF : Prix de la Construction Semi Finie
+PT : Prix du Terrain
+R+(i) : Rez-de-chaussée + (i) : Nombre d'étages
+SI ST : Superficie du Terrain
+S : Superficie
+T : Terrain
+ZI : Zone Immeuble
+ZM : Zone Maison
+ZV : Zone Villa
+< à R+(i) : Zonage <inférieure à R+(i)
+<= à R+(i) : Zonage <=inférieure ou égale =R+(i)
+> à R+(i) : Zonage> supérieure à R+(i)
+>= à R+ (i): Zonage > supérieure ou égale =R+(i)
+
+                                                                          -4-
+                                       3. Lexique
+
+Ancien (logement) : logement ayant été achevé depuis plus de quinze ans (> à 15 ans).
+Appartement sécurisé : Appartement situé dans un projet immobilier fermé et sécurisé.
+Appartement : un Appartement est une unité d'habitation, comportant un certain nombre de pièces et
+située dans un immeuble collectif généralement dans une ville.
+Immeuble : dans le langage courant, le mot "immeuble" désigne un bâtiment urbain de plusieurs
+étages, à usage d'habitation ou professionnel, en copropriété.
+Logement social : par cette formule, on désigne un Appartement dont la superficie couverte est >ou =
+50 et 80 m2 et le prix de vente n'excède pas 250.000 dirhams, hors taxe sur la valeur ajoutée.
+Loti (Terrain) : un Terrain Loti signifie un Terrain situé dans un Lotissement (voir Lotissement).
+Lotissement : un Lotissement est constitué par un ensemble de lots provenant de la division d'un
+Terrain en vue d'y recevoir des constructions qui sont vendues généralement séparément après que le
+Lotisseur ait réalisés des voies d'accès, des espaces collectifs et des travaux de viabilité et les
+raccordements aux réseaux de fourniture en eau, en électricité, aux réseaux d'égouts et aux réseaux de
+télécommunication.
+Maison : une Maison est un bâtiment destiné à être la demeure d'une famille, voire de plusieurs, et qui
+n'est pas un immeuble en copropriété.
+Neuf (logement) : logement achevé depuis six ans au plus (<= à 6 ans).
+Prix Appartement = Prix au m2 Appartement x (Superficie Appartement +superficie Parking/3
++superficie Terrasse/2).
+Prix de la Construction (PC) : par prix de la construction, on entend le prix du mètre carré couvert.
+Prix du Terrain (PT) : par prix du Terrain, on entend le prix du Terrain au mètre carré.
+Prix Maison = Prix au m2 T x>superficie Terrain Maison + Prix au m2 C x superficie Couverte.
+Prix Terrain = Prix au m2 Terrain x superficie Terrain.
+Prix Villa = Prix au m2T x superficie Terrain Villa + Prix au m2C x superficie Couverte.
+Terrain ZM : est considéré comme terrain zone maison tout terrain destiné à la construction d'une
+maison : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de maison vétuste par
+exemple).
+Terrain ZV : est considéré comme terrain zone villa tout terrain destiné à la construction d'une villa :
+terrain nu, terrain construit de bâtiments destinés à être démolis (cas de villa vétuste par exemple).
+Villa sécurisée : villa située dans un domaine résidentiel fermé et sécurisé.
+
+                                                                          -5-
+Villa : une villa est une maison avec jardin.
+Zone : une zone est un groupe d'adresses où les prix sont relativement homogènes.
+Récent (logement) : logement achevé depuis plus de six ans au moins et quinze ans au plus (> à 6 ans
+et <= à 15 ans) + logement Ancien achevé suite à rénovation depuis six ans au plus (<= à 6 ans).
+Terrain ZI : est considéré comme Terrain zone immeuble tout Terrain destiné à la construction d'un
+immeuble collectif : Terrain nu, Terrain construit de bâtiments destinés à être démolis (cas de zone Villa
+convertie en zone immeuble par exemple).
+Terrain ZM : est considéré comme Terrain zone Maison tout Terrain destiné à la construction d'une
+Maison : Terrain nu, Terrain construit de bâtiments destinés à être démolis (cas de Maison vétuste par
+exemple).
+Terrain ZV : est considéré comme Terrain zone Villa tout Terrain destiné à la construction d'une villa,
+Terrain nu, Terrain construit de bâtiments destinés à être démolis (cas de Villa vétuste par exemple).
+Villa sécurisée : Villa située dans un domaine résidentiel fermé et sécurisé.
+Villa : une Villa est une Maison avec jardin.
+Zone : une zone est un groupe d'adresses où les prix sont relativement homogènes.
+
+                                                                          -6-
+    4. Territoire, biens concernés et plan d'ensemble de la Région RABAT SALE
+                                             KENITRA
+
+Territoire concerné :
+La Région de Rabat est l'une des douze régions du Maroc instituées en 2015.
+Elle se compose de trois préfectures et quatre Provinces :
+
+    x Préfecture de RABAT ;
+    x Préfecture de SALE
+    x Préfecture de SKHIRAT- TÉMARA ;
+    x Province de KENITRA ;
+    x Province de KHEMISSAT ;
+    x Province de SIDI KACEM
+    x Province de SIDI SLIMANE
+
+La Préfecture de Skhirat -Témara englobe deux Arrondissements, 5 Communes urbaines et 5
+Communes rurales
+
+    x Arrondissement Témara
+    x Arrondissement Ain Aouda
+    x Commune urbaine de Témara
+    x Commune urbaine de Harhoura
+    x Commune urbaine d'Ain Attig
+    x Commune urbaine de Skhirat
+    x Commune urbaine Ain Aouda
+    x Commune rurale de sidi Yahya Zaers
+    x Commune rurale d'Oum Azza
+    x Commune rurale d'El Menzeh
+    x Commune rurale de Sebbah
+    x Commune rurale de Mers El Kheir
+
+                                                                          -7-
+Le territoire géographique et les biens concernés par l'actualisation et la couverture du présent
+Référentiel se présentent comme suit :
+
+    x Territoire concerné : Préfecture de Skhirat -Témara ;
+         1. Commune urbaine de Témara
+         2. Commune urbaine de Harhoura
+         3. Commune de Skhirat
+         4. Commune d'Ain Attig
+         5. Commune de Sidi Yahya Zaers
+         6. Ville de Tamesna
+         7. Commune de Ain Aouda
+         8. Commune d'El Menzeh
+         9. Commune de Mers El Kheir
+
+    x Types de biens immobiliers concernés :
+                      o Appartement, Duplex, Maison, Villa, Chalet, Cabanon et Bungalow à usage
+                           d'habitation ;
+                      o Appartement, Duplex, Maison, Villa, Chalet, Cabanon et Bungalow à usage
+                           d'habitation (Sans Titre);
+                      o Terrain construit de bâtiments destinés à être démolis : ZV ;
+                      o Terrain Loti : ZV, ZI ou ZM.
+                      o Logement social
+
+             x Types de biens immobiliers exclus :
+                      o Appartement à usage professionnel ;
+                      o Villa et Maison à vocation professionnelle ou commerciale ;
+                      o Logement destiné au recasement des bidonvilles ;
+                      o Terrain urbain non Loti ;
+                      o Terrain à usage industriel ;
+                      o Terrain à usage agricole.
+
+                                                                          -8-
+Plan d'ensemble de la Préfecture de Skhirat -Témara :
+Voir page suivante.
+
+                                                                          -9-
+                                     5. Mode de recherche
+
+Actuellement, la recherche s'effectue:
+
+   · A travers la consultation sur une carte numérisée mise à la disposition du public au niveau du
+
+         portail de la DGI, le système situe le bien sur la carte et affiche automatiquement son prix de
+         référence ;
+
+   · A partir de la délimitation des zones ;
+   · En consultant le bureau d'accueil de la Direction Régionale des Impôts de RABAT et/ou le Centre
+
+         d'information Téléphonique au numéro : 05.37.27.37.27.
+Précision :
+Lorsque un bien chevauche sur plusieurs zones, le prix à prendre en considération est celui de la zone la
+plus côté.
+Exemple 1 :
+Soit un Appartement X se trouvant sur l'avenue Moulay Idriss
+Situer l'avenue sur la carte et afficher le prix des Appartements dans cette zone
+
+                                                                         - 10 -
+Exemple 2 :
+Soit X un Appartement Récent relevant de la commune de Témara.
+
+         x Consulter la liste des points de repères de l'arrondissement pour déterminer la zone :
+
+     x Connaissant la zone, on détermine le prix du bien concerné au niveau de la grille de prix
+                                                      correspondante
+
+                                                                         - 11 -
+6. Référentiel des prix des transactions immobilières de la préfecture de
+                                  Skhirat - Témara
+
+La Préfecture de Skhirat - Témara est découpée en huit communes et ville de Tamesna dont la
+ventilation est comme suit :
+
+Arrondissements /Commune  Nombre de Zones  Nombre de Zones  Nombre total des
+           TÉMARA                 26          Rue/Av./Bd           Zones
+
+                                                    0            26
+
+HARHOURA                  15               0                15
+
+AIN ATTIG                 7                0                7
+
+MERS EL KHEIR             4                0                4
+
+SKHIRAT                   17               0                17
+
+AIN AOUDA                 8                0                8
+
+EL MENZEH                 4                0                4
+
+Ville de TAMESNA          10               0                10
+
+SIDI YAHYA ZAERS          1                0                1
+
+TOTAUX                    92               0                92
+
+                              - 12 -
+6. A. 1 Référentiel des prix des transactions Immobilières de la commune TÉMARA
+
+Code Zone     Type de bien        Nature           Prix
+
+SKHT - TEM 1         Villa         Ancien   PT: 2 500/ PC:1 700
+                     Villa        Récent
+                     Villa          Neuf    PT: 2 500/ PC:3 000
+                 Terrain ZV
+                     Villa          Loti    PT: 2 500/ PC:4 000
+                                   Ancien
+                     Villa                          2 500
+                                  Récent
+SKHT - TEM 2           Villa                PT:6 000/PC:2 500
+                                    Neuf
+                 Appartement       Ancien     SI ST<ou=300m²
+                 Appartement      Récent   PT: 10 000/PC: 4 000
+                 Appartement        Neuf
+              Appartement Social  Récent       SI ST>à 300m²
+                                   Ancien  PT: 7 500 /PC : 4 000
+                     Maison       Récent
+                     Maison         Neuf      SI ST<ou=300m²
+                     Maison        Ancien  PT: 10 000/PC: 5 000
+                     Maison
+                    Sans titre      Loti       SI ST>à 300m²
+                                           PT: 7 500 /PC : 5 000
+                   Terrain ZM       Loti
+                                                    7 000
+                   Terrain ZM       Loti
+                    Sans titre                      10 000
+
+                   Terrain ZV                       11 500
+                                                    6 500
+
+                                           PT : 10 000 /PC:2500
+
+                                           PT : 10 000 /PC:4500
+
+                                           PT : 10 000 /PC:6 000
+
+                                           PT : 6 000 /PC:2 500
+                                             SI ST < ou = 90m²
+                                                    10 000
+                                                SI ST > 90m²
+                                                   12 000
+
+                                                    6 000
+
+                                             SI ST< ou =300m²
+                                                  PT: 8 000
+
+                                               SI ST>à 300m²
+                                                  PT: 7 500
+
+              Terrain ZI          Loti     Si une façade : 13 500
+                                           Si deux façades : 15 000
+
+                                                Si plus : 17 000
+
+                                  - 13 -
+Code Zone     Type de bien  Nature          Prix
+
+SKHT - TEM 3         Villa   Ancien   PT:8 000/PC:3 000
+SKHT - TEM 4         Villa  Récent   PT:8 000/PC : 4 000
+SKHT - TEM 5   Appartement  Récent
+               Appartement                    9 000
+               Appartement   Ancien
+                                             9 500
+SKHT - TEM 6  Appartement   Récent
+SKHT - TEM 7                                  8 500
+              Appartement   Récent
+SKHT - TEM 8  Appartement            Si SA< ou =à 90 m²
+              Appartement    Ancien          11 000
+                            Récent
+                 Maison       Neuf      Si SA >à 90 m²
+                 Maison      Ancien           9 500
+                 Maison     Récent
+                 Terrain      Neuf            7 000
+                 Terrain                      8 500
+                               ZM             9 500
+                   Villa        ZI   PT: 9 000 /PC: 1 500
+                   Villa     Ancien  PT: 9 000 /PC: 3 000
+              Appartement   Récent   PT: 9 000 /PC: 4 000
+                             Ancien          10 000
+              Appartement   Récent           15 000
+                              Neuf   PT: 7 000/PC: 3 000
+              Appartement    Ancien   PT: 7 000/PC: 4 500
+                 Maison     Récent            7 000
+                              Neuf
+                 Maison       Loti            9 000
+
+                 Maison       Loti           10 000
+               Terrain ZM            PT: 9 000/PC: 2 000
+                                     PT: 9 000/PC: 4 000
+              Terrain ZI
+                                     PT: 9 000/PC: 5 000
+                                             11 500
+
+                                             13 000
+
+                            - 14 -
+Code Zone       Type de bien      Nature             Prix
+
+SKHT - TEM 9           Villa       Ancien     PT: 7 000/PC: 3 000
+                       Villa      Récent      PT: 7 000/PC: 4 500
+SKHT - TEM 10    Appartement      Récent
+SKHT - TEM 11  (Logement Social)   Ancien             6 000
+SKHT - TEM 12    Appartement      Récent              7 000
+                 Appartement        Neuf              7 500
+                 Appartement       Ancien             8 500
+                     Maison       Récent      PT: 8 500/PC: 2 000
+                     Maison         Neuf      PT: 8 500/PC: 3 000
+                     Maison                   PT: 8 500/PC: 4 000
+                  Terrain ZM        Loti              9 500
+                   Terrain ZI       Loti              11 000
+                   Terrain ZV       Loti              7 000
+                 Appartement      Récent
+               (Logement Social)    Neuf              6 000
+                 Appartement       Ancien             6 500
+               (Logement Social)  Récent              7 000
+                 Appartement        Neuf              8 000
+                 Appartement      Récent              9 000
+                 Appartement        Neuf      PT: 8 500/PC: 3 500
+                     Maison         Loti      PT: 8 500/PC: 4 500
+                     Maison         Loti              9 000
+                   Terrain ZM       Loti              5 500
+                   Terrain ZV
+                                    Neuf              11 000
+                    Terrain ZI                Si SA < ou = 100 m²
+                                  Ancien
+                 Appartement                          13 800
+                                  Récent        Si SA > à 100 m²
+                       Villa
+                                    Neuf             17 000
+                       Villa      Ancien      PT: 8 000/PC: 2 000
+                                  Récent
+                       Villa        Neuf      PT: 8 000/PC: 4 500
+
+                 Appartement        Loti      PT: 8 000/PC : 5 000
+
+                 Appartement        Loti              8 000
+
+                 Appartement       - 15 -             9 000
+
+                   Terrain ZV                        11 000
+
+                   Terrain ZI                         8 000
+                                            Si une façade : 12 500
+                                           Si deux façades : 16 000
+
+                                                Si plus : 20 000
+Code Zone      Type de bien   Nature          Prix
+
+SKHT - TEM 13   Appartement     Neuf          12 000
+SKHT ­ TEM 14   Appartement    Récent         10 000
+SKHT - TEM15    Appartement    Ancien          7 000
+                               Récent
+SKHT -TEM 16        Maison      Neuf   PT: 12 000/PC: 4 000
+SKHT - TEM 17       Maison             PT: 12 000/PC: 5 000
+SKHT - TEM 18                    Loti  SI ST < ou = 100m²
+                 Terrain ZM
+                                 Loti         12 000
+                  Terrain ZI   Ancien      SI ST> 100m²
+                Appartement    Récent
+                Appartement    Ancien         15 000.
+                               Récent
+                    Maison     Ancien         18 000
+                    Maison     Récent          7 000
+                Appartement     Neuf           8 000
+                Appartement    Ancien  PT: 7 000/PC: 2 000
+                Appartement    Récent  PT: 7 000/PC: 3 000
+                    Maison                     7 000
+                    Maison       Loti          8 500
+                 Terrain ZM      Loti         10 000
+                  Terrain ZI   Ancien  PT: 9 000/PC: 2 000
+                                       PT: 9 000/PC: 4 000
+                Appartement    Récent         12 000
+                                Neuf          15 000
+                Appartement    Ancien
+                Appartement    Récent          6 500
+                                Neuf
+                    Maison       Loti          7 000
+                    Maison       Loti
+                    Maison                     8 000
+                  Terrain ZM   - 16 -  PT: 8 000/PC: 3 000
+                                       PT: 8 000/PC: 4 000
+                  Terrain ZI           PT: 8 000/PC: 5 000
+
+                                              10 000
+
+                                              12 000
+
+                                       Equipement public
+
+                                        Zone Industrielle
+Code Zone      Type de bien   Nature          Prix
+
+SKHT - TEM 19   Appartement    Ancien          6 000
+SKHT - TEM 20   Appartement    Récent          7 500
+SKHT - TEM 21                  Ancien  PT: 8 000/PC: 3 000
+                    Maison     Récent  PT: 8 000/PC: 4 000
+SKHT - TEM 22       Maison                     8 000
+                 Terrain ZM      Loti          9 000
+SKHT - TEM 23     Terrain ZI     Loti       Zone verte
+SKHT ­ TEM 24
+SKHT ­ TEM 25   Appartement    Ancien  Domaine militaire
+SKHT ­ TEM 26   Appartement    Récent
+                               Ancien          6 000
+                    Maison     Récent
+                    Maison      Neuf           7 500
+                    Maison
+                 Terrain ZM      Loti  PT: 7 500/PC: 2 000
+                  Terrain ZI     Loti  PT: 7 500/PC: 3 000
+                 Terrain ZM      Loti  PT: 7 500/PC: 4 000
+                  Terrain ZV     Loti
+                                               8 000
+                      Villa    Récent         12 000
+                      Villa     Neuf           8 000
+                  Terrain ZV     Loti          5 000
+                Appartement    Récent  Equipement public
+                Appartement     Neuf   PT: 5 000/PC: 4 000
+                                       PT: 5 000/PC: 6 000
+                                               5 000
+
+                                              12 000
+
+                                              14 500
+
+                              - 17 -
+6.A.2 Référentiel des prix des transactions Immobilières de la commune HARHOURA
+
+Code Zone    Type de bien   Nature           Prix
+
+ SKHT - H 1         Villa    Ancien  PT: 8 000/PC: 3 500
+ SKHT - H 2         Villa    Récent   PT: 8 000/PC: 4500
+ SKHT - H 3         Villa     Neuf   PT: 8 000/PC: 5 500
+ SKHT - H 4
+                Terrain ZV     Loti           8 000
+ SKHT - H 5         Villa    Ancien  PT: 6 000/PC: 3 000
+                             Ancien  PT: 10 000/PC: 3 000
+                Sans titre   Récent  PT: 10 000/PC: 4 000
+                    Villa     Neuf   PT: 10 000/PC: 5 000
+                    Villa    Ancien  PT: 6 000/PC: 3 000
+                    Villa    Ancien  PT: 8 000/PC: 3 000
+                    Villa    Récent   PT: 8 000/PC: 4000
+                              Neuf    PT: 8 000/PC: 5000
+                Sans titre   Ancien   PT:6 000/PC: 3 000
+                    Villa    Ancien  PT: 8 500/PC: 3 000
+                    Villa    Récent  PT: 8 500/PC: 4 500
+                    Villa     Neuf   PT: 8 500/PC: 5 500
+                    Villa
+                               Loti           8 500
+                Sans titre   Ancien   PT:6 000/PC: 2 000
+                    Villa
+                    Villa    Ancien  PT: 9 000/PC: 3 000
+                    Villa    Récent  PT: 9 000/PC: 4 500
+                              Neuf   PT: 9 000 /PC: 5 500
+               Terrain ZV
+                    Villa      Loti           9 000
+
+                Sans titre
+
+                    Villa
+
+                    Villa
+
+                    Villa
+
+               Terrain ZV
+
+                            - 18 -
+  Zone      Type de bien   Nature             Prix
+
+SKHT - H 6         Villa    Ancien     PT: 6 000/PC: 3 000
+SKHT - H 7     Sans titre   Ancien
+SKHT - H 8                  Récent     PT:10 000/PC: 3 000
+SKHT - H 9         Villa     Neuf
+                                       PT:11 000/PC:4 000
+                   Villa      Loti
+                            Ancien     PT:11 000/PC:5500
+                   Villa    Ancien
+              Terrain ZV    Récent             11 000
+
+                   Villa     Neuf      PT: 6 000/PC: 3 000
+               Sans titre     Loti
+                                       PT: 8 500/PC: 3 000
+                   Villa    Récent
+                            Récent     PT: 8 500/PC: 4 000
+                   Villa     Neuf
+                            Ancien     PT: 8 500/PC: 5 000
+                   Villa    Récent
+                             Neuf               8 500
+              Terrain ZV    Ancien     SI SA < ou =100m²
+                            Récent
+             Appartement     Neuf              18 500
+                sécurisé                 SI SA > à 100m²
+                              Loti
+             Appartement                       15 000
+                               - 19 -          14 000
+             Appartement               SI SA < ou =100m²
+                                               18 000
+             Appartement                 SI SA > à 100m²
+             Appartement                       16 500
+             Appartement                       11 000
+                                               13 500
+                   Villa                       14 500
+                   Villa               PT: 8 500/PC: 3 000
+                   Villa               PT: 8 500/PC: 4 000
+              Terrain ZV               PT: 8 500/PC: 5 000
+
+                                                8 500
+Code Zone    Type de bien         Nature          Prix
+
+SKHT - H 10      Appartement        Neuf           21 000
+SKHT - H 11         sécurisé        Neuf           16 500
+SKHT - H 12                        Récent          15 000
+SKHT - H 13      Appartement       Récent          13 000
+                    sécurisé       Récent  PT: 8 000/PC: 4 000
+SKHT - H 14                         Neuf   PT: 8 000/PC: 5 000
+                 Appartement         Loti           8 000
+                    sécurisé       Récent          15 000
+                                   Récent          13 500
+                 Appartement        Neuf           15 000
+                       Villa       Récent  PT: 8 000/PC: 4 000
+                       Villa        Neuf   PT: 8 000/PC: 5 000
+                                     Loti           8 000
+                   Terrain ZV      Ancien          11 000
+             Appartement Triplex   Récent          12 000
+                                    Neuf           13 000
+                    sécurisé       Récent  PT: 7 000/PC: 4 000
+                 Appartement        Neuf   PT: 7 000/PC: 5 000
+                 Appartement         Loti           7 500
+                                   Ancien          14 000
+                       Villa
+                       Villa       Récent          16 000
+                   Terrain ZV
+                 Appartement        Neuf           18 000
+
+                 Appartement       Ancien  PT: 6 500/PC: 2 000
+
+                 Appartement       Récent  PT: 6 500/PC: 4 000
+
+                       Villa        Neuf   PT: 6 500/PC: 5 500
+
+                       Villa         Loti           7 000
+
+                   Terrain ZV
+
+                 Appartement
+                    sécurisé
+
+                 Appartement
+                    sécurisé
+
+                 Appartement
+                    sécurisé
+
+                       Villa
+
+                       Villa
+
+                Villa
+             Terrain ZV
+
+                                  - 20 -
+Code Zone    Type de bien  Nature          Prix
+
+             Appartement   Ancien          11 000
+                                           13 000
+             Appartement   Récent          15 000
+                                   PT: 7 000/PC: 4 000
+SKHT - H 15  Appartement    Neuf   PT: 11 000/PC: 5 000
+                  Villa    Récent          11 000
+
+             Villa         Neuf
+
+             Terrain ZV    Loti
+
+                           - 21 -
+6.B.1.1 Référentiel des prix des transactions Immobilières de la Commune de SKHIRAT
+                                             Skhirat - Plage
+
+Code Zone      Type de bien     Nature          Prix
+
+SKHT - SKH P1         Villa      Ancien  PT: 4 000/PC: 3 000
+
+SKHT - SKH P2         Villa     Récent   PT: 4 000/PC: 4 000
+SKHT - SKH P3                     Loti           4 000
+SKHT - SKH P4      Terrain ZV
+SKHT - SKH P5                    Ancien       Amphitrite
+                      Villa      Ancien  PT: 4 000/PC: 3 500
+SKHT - SKH P6  Cabanon/chalet   Récent
+SKHT - SKH P7  Cabanon/ chalet  Récent          15 000
+SKHT - SKH P8                    Ancien         19 000
+                      Villa     Récent   PT: 6 000/PC: 5 000
+                   Bungalow      Ancien  PT: 6 000/PC: 4 000
+                 Appartement      Neuf          12 500
+                 Appartement    Récent          11 000
+                 Appartement    Récent          15 000
+               Bungalow duplex    Neuf          12 000
+                 Appartement     Ancien
+                    sécurisé    Récent          14 000
+                 Appartement      Neuf          15 000
+                    sécurisé                    12 000
+                 Appartement                    14 000
+                 Appartement             PT: 5 000/PC: 7 000
+
+                      Villa
+
+                                - 22 -
+6.B.1.2 Référentiel des prix des transactions Immobilières de la commune de Skhirat
+                                         Skhirat - Centre
+
+ Code Zone      Type de bien   Nature          Prix
+
+SKHT - SKH C1    Appartement   Récent          11 000
+SKHT ­ SKH C2    Appartement     Neuf          12 000
+                                 Loti           6 500
+SKHT ­ SKH C3     Terrain ZM     Loti           7 500
+                   Terrain ZI  Récent           5 000
+SKHT ­ SKH C4    Appartement     Neuf           6 000
+                 Appartement    Ancien  PT: 6 000/PC: 2 000
+SKHT ­ SKH C5        Maison
+SKHT ­ SKH C6                  Récent   PT: 6 000/PC: 3 000
+SKHT ­ SKH C7        Maison
+SKHT ­ SKH C 8                   Neuf   PT: 6 000/PC: 4 000
+                     Maison
+                               Récent   PT: 3 000/PC: 3 500
+                       Villa
+                                Ancien  PT: 4 500/PC: 1 000
+                     Maison
+                               Récent   PT: 4 500/PC: 2 500
+                     Maison
+                                 Neuf   PT: 4 500/PC: 3 500
+                     Maison      Loti           4 500
+                  Terrain ZM     Loti           3 000
+                  Terrain ZV   Récent           6 000
+                 Appartement     Neuf           7 000
+                 Appartement   Récent
+                                        PT: 6 000/PC: 2 500
+                     Maison      Neuf
+                                 Loti   PT: 6 000/PC: 3 500
+                     Maison      Loti           6 000
+                  Terrain ZM     Neuf           7 000
+                   Terrain ZI    Neuf           7 500
+                 Appartement     Loti
+                                Ancien  PT: 7 000/PC: 4 000
+                     Maison    Récent           7 000
+                  Terrain ZM     Loti
+                                        PT: 4 000/PC: 1 500
+                     Maison             PT: 4 000/PC: 2 500
+                     Maison
+                  Terrain ZM                    4 000
+                                                 Erac
+                                         Zone industrielle
+
+                               - 23 -
+6.B.2 Référentiel des prix des transactions Immobilières de la Commune de Ain Attig
+
+ Code Zone      Type de bien   Nature                   Prix
+
+SKHT - A-ATG 1   Appartement   Récent                      6 500
+                      Social    Ancien                     6 000
+SKHT - A-ATG 2                 Récent                      6 500
+                 Appartement     Neuf                      7 500
+SKHT - A-ATG 3   Appartement    Ancien             PT: 7 000/PC: 2 000
+SKHT - A-ATG 4   Appartement   Récent              PT: 7 000/PC: 3 000
+SKHT - A-ATG 5                   Neuf              PT: 7 000/PC: 4 000
+SKHT - A-ATG 6       Maison    Récent              PT: 3 000/PC: 4 500
+SKHT - A-ATG 7       Maison      Neuf              PT: 3 000/PC: 5 500
+                     Maison                                7 500
+                                 Loti                      3 500
+                       Villa     Loti                      10 000
+                       Villa     Loti                      5 500
+                  Terrain ZM    Ancien                     6 000
+                  Terrain ZV   Récent                      7 500
+                   Terrain ZI    Neuf              PT: 6 500/PC: 2 000
+                 Appartement    Ancien
+                 Appartement   Récent              PT: 6 500/PC: 3 000
+                 Appartement
+                     Maison      Neuf              PT: 6 500/PC: 4 000
+                     Maison
+                                 Neuf              PT: 4 000/PC: 5 000
+                     Maison
+                                 Loti                      6 500
+                       Villa     Loti                      4 000
+                                 Loti                      8 000
+                  Terrain ZM
+                  Terrain ZV   Récent                      6 000
+                   Terrain ZI
+                                 Neuf                      7 500
+                 Appartement
+                               Récent              PT: 7 000/PC: 4 000
+                 Appartement
+                     Maison      Neuf              PT: 7 000/PC: 5 000
+                                 Loti
+                     Maison      Loti                      8 000
+                                                           10 000
+                  Terrain ZM                        Zone Industrielle
+                   Terrain ZI                      Equipement public
+                                        Unité Industrielle (ASMENT TEMARA)
+                                              Terrain à vocation agricole
+
+                               - 24 -
+              6.B.3 Référentiel des prix des transactions Immobilières de la Commune de Mers El Kheir
+
+Code Zone     Type de bien   Nature                 Prix
+
+SKHT - MKH 1   Appartement   Récent                   4 000
+               Appartement     Neuf                   5 000
+SKHT - MKH 2                   Loti                   4 000
+SKHT - MKH 3    Terrain ZM     Loti                   8 000
+SKHT - MKH 4     Terrain ZI    Neuf                   6 500
+               Appartement           Recasement et équipement public
+                                         Terrain à vocation agricole
+
+                             - 25 -
+6.B.4.1 Référentiel des prix des transactions Immobilières de la commune de SIDI YAHYA ZAERS
+                                     Ville de Tamesna
+
+Code Zone         Type de bien  Nature              Prix
+
+SKHT- TAMESNA 1        Villa    Semi finie  PT: 4 000/PCSF: 2 000
+SKHT- TAMESNA 2        Villa     Récent      PT: 4 000/PC: 4 000
+                       Villa       Neuf      PT: 4 000/PC: 5 000
+SKHT- TAMESNA 3   Appartement    Récent
+                  Appartement      Neuf               6 500
+SKHT- TAMESNA 4        Villa                          7 000
+                                Semi finie  PT: 4 000/PCSF: 2 000
+SKHT- TAMESNA 5        Villa
+SKHT- TAMESNA 6                  Récent      PT: 4 000/PC: 4 500
+SKHT- TAMESNA 7        Villa
+SKHT- TAMESNA 8                    Neuf      PT: 4 000/PC: 5 500
+SKHT- TAMESNA 9    Terrain ZV
+SKHT- TAMESNA 10       Villa       Loti               4 000
+                       Villa    Semi finie  PT: 4 000/PCSF: 2 000
+                       Villa                 PT: 4 000/PC: 5 000
+                                 Récent      PT: 4 000/PC: 6 000
+                   Terrain ZV      Neuf
+                  Appartement                         4 000
+                  Appartement      Loti               7 000
+                  Appartement    Récent               8 500
+                  Appartement      Neuf               6 500
+                  Appartement    Récent               7 000
+                   Terrain ZV      Neuf               5 500
+                  Appartement    Récent               3 000
+
+                      Social       Loti               5 500
+
+                                 Récent       Zone Industrielle
+                                              Foret de Tamesna
+
+                                - 26 -
+6.B.4.2.Référentiel des prix des transactions Immobilières de la Commune de Sidi Yahia Zaers
+                                      Sidi Yahia Zaers-Centre
+
+Code Zone     Type de bien  Nature  Prix
+
+SKHT - SYZ 1   Appartement  Récent          3 000
+SKHT - SYZ 2
+                   Maison   Ancien  PT: 3 000/PC: 1 500
+                   Maison   Récent  PT: 3 000/PC: 2 000
+                   Maison    Neuf   PT: 3 000/PC: 2 500
+                Terrain ZM
+                Terrain ZV    Loti          3 500
+                              Loti          3 000
+                                      Jardins d'Yquem
+
+                            - 27 -
+           6.B.5 Référentiel des prix des transactions Immobilières de la Commune de Ain Aouda
+
+Code Zone         Type de bien  Nature              Prix
+
+SKHT ­ A.AOUDA 1  Appartement    Ancien               3 500
+                  Appartement   Récent                4 500
+SKHT ­ A.AOUDA 2  Appartement     Neuf                6 000
+                                 Ancien      PT: 5 000/PC: 2 000
+SKHT - A.AOUDA 3     Maison     Récent       PT: 5 000/PC: 2 500
+SKHT - A.AOUDA 4     Maison       Neuf       PT: 5 000/PC: 3 000
+SKHT - A.AOUDA 5     Maison                           5 000
+                                  Loti
+                   Terrain ZM                         6 000
+                                  Loti
+                   Terrain ZI                         5 000
+                                Récent
+                  Appartement                         5 500
+                                  Neuf       PT: 4 500/PC: 2 500
+                  Appartement   Récent       PT: 4 500/PC: 3 000
+                     Maison       Neuf
+                     Maison                           4 500
+                                  Loti                6 000
+                   Terrain ZM     Loti       PT: 3 000/PC: 2 000
+                   Terrain ZI    Ancien
+                                             PT: 3 000/PC: 3 000
+                       Villa    Récent       PT: 3 000/PC: 4 000
+                                  Neuf
+                       Villa      Loti                3 000
+                       Villa             Terrain à vocation agricole
+                   Terrain ZV
+                                                Alliance Darna
+SKHT - A.AOUDA 6
+                                           Madinat Al Firdaousse
+
+                                - 28 -
+              6.B.6 Référentiel des prix des transactions Immobilières de la Commune El Menzeh
+                                              Bassatine El Menzeh
+
+Code Zone     Type de bien                Nature              Prix
+
+SKHT - BSM 1  Appartement                  Récent              11 500
+              Appartement                    Neuf              12 500
+                                           Récent              10 000
+SKHT - BSM 2  Appartement                    Neuf              11 000
+              Appartement                 Semi finie  PT: 5 500/PCSF: 3 000
+                                           Récent      PT: 5 500/PC: 5 000
+                                   Villa
+SKHT - BSM 3
+
+                                   Villa
+
+SKHT - BSM 4  Villa                       Récent      PT: 8 000/PC: 8 000
+
+                                          - 29 -
+Annexes
+
+     - 30 -
+7.1 Cartographie des Zones relevant de l'Arrondissement TÉMARA
+
+                                              - 31 -
+7.2 Tableau des délimitations des zones relevant de l'Arrondissement TÉMARA
+
+Code Zone      Délimitations/Points de repère
+
+SKHT - TEM 1   AV ALLAL IBN ABDELLAH (NORD), AV MOHAMED VI (SUD), AV. HASSAN II (EST), ET ROCADE (OUEST ) : HAY
+                                                            ANDALOUS (VIEUX MAROCAINS)
+
+SKHT - TEM 2   VOIE FERREE (EST), AV MOHAMEDVI (NORD), AUTOROUTE (OUEST) ET DOUAR OULAD BOUCHIHA (SUD) : HAY IBN
+                                                         ROCHED, HAY SIDI AMGHAR, HAY EL WIFAQ
+
+SKHT - TEM 3   AV MOULAY RACHID(NORD), USINE (SUD), VOIE VERREE (EST ), IMMEUBLE TÉMARA ­ CENTRE (OUEST ).HAY IBN
+                                                                                SINA
+
+SKHT - TEM 4   AV MOULAY RACHID, ECOLE ROYALE DE CAVALERIE(NORD), USINE (SUD), AV HASSAN II (EST), HAY IBN SINA
+                                                                           (OUEST)
+
+SKHT - TEM 5   STATION IFRIQUIA(NORD), BOULVARD GHAZA (SUD), (EST), VOIE FERREE (OUEST) ATTAWHID
+
+SKHT - TEM 6   ACIMA(NORD), BOULVARD GHAZA (SUD), RESIDENCE AV HASSAN 1(EST), RESIDENCE SALAHEDDINE (OUEST)
+
+SKHT - TEM 7   AV MOULAY RACHID (NORD), AV HASSAN I (SUD), AV MOHAMED 5(EST ), AV HASSAN 2(OUEST)
+
+SKHT - TEM 8   ALLAL BEN ABDELLAH (NORD), AV HASSAN I (SUD), AV TARIK IBN ZYAD (EST), AV MOHAMED 5(OUEST)
+
+SKHT - TEM 9   AV HASSAN I (NORD), AVENUE ALI IBN ABI TALIB (SUD), AV TARIK IBN ZYAD (EST), AV HASSAAN II (OUEST)
+
+SKHT - TEM 10  AV LALLA MERYEM (NORD), AV HASSAN I(SUD), AV TARIK IBN ZYAD (EST), TERRAIN AGRICOLE (OUEST)
+
+SKHT­ TEM 11   AV. MLY IDRISS (NORD), AV MLY ISMIL (SUD), RUE. ARFOUD (EST), ET MLY IDRISS (OUEST) : ( CGI)
+
+SKHT - TEM 12 AV. MLY IDRISS (NORD), RUE ALI ZIATE(SUD), AV.TARIK IBN ZIAD. (EST), ET MLY IDRISS (OUEST) : (GUICH LOUDAYAS)
+
+SKHT - TEM 13  LA RESIDENCE LES CHENES (NORD), HAY AL ATLAS(SUD), RUE SAID AQUEL. (EST ), ET MLY IDRISS (OUEST) : (HAY
+                                                                         OULED MTAA)
+
+SKHT - TEM 14  QUARTIER INDUSTRIEL DE TÉMARA-ATTASNIA- (NORD), AV; MLY ALI CHERIF(SUD), AV. HASSAN II(EST), ET HAY AL
+                                                            MASSIRA I (OUEST) : (HAY AL ATLASS)
+
+SKHT - TEM 15  RUE ALI ZIAT (NORD), AV; MLY ALI CHERIF (SUD), AV. TARIK IBN ZYAD (EST), ET HAY AL ATLASS(OUEST) : (HAY AL
+                                                                            MASSIRA)
+
+SKHT - TEM 16  FORET DE TÉMARA (NORD), AV; ALLAL IBN ABDELLAH (SUD), FORET DE TÉMARA (EST), ET AV. TARIK IBN ZIAD
+SKHT - TEM 17                                                (OUEST) : (HMA ET MAAMOURA)
+SKHT - TEM 18                                               PREFECTURE DE SKHIRAT TÉMARA
+
+                                                                    ZONE INDUSTRIELLE
+
+               - 32 -
+Code Zone      Délimitations/Points de repère
+
+SKHT - TEM 19 AVENUE ALI IBN ABI TALIB (NORD), TERRAIN AGRICOLE SUD), AV TARIK IBN ZYAD(EST), AV HASSAN II (OUEST)
+
+SKHT - TEM 20                                                            ZONE VERTE
+SKHT - TEM 21
+SKHT - TEM 22                                                         DOMAINE MILITAIRE
+SKHT - TEM 23  FORET DE TEMARA (NORD), AV; ALLAL IBN ABDELLAH (SUD), FORET DE TEMARA (EST), ET AV. TARIK IBN ZIAD
+
+                                                                  (OUEST) : (HAY NAHDA)
+
+                  AV MLY EL HASSAN I (NORD), TERRAIN AGRICOLE SUD), AV HASSAN II(EST), AV TARIK IBN ZYAD (OUEST)
+
+SKHT - TEM 24  EQUIPEMENT PUBLIC
+
+SKHT - TEM 25  OULED ALIANE (NORD), TERRAIN AGRICOLE (SUD), TERRAIN AGRICOLE (EST), RESIDENCE ASSOCIATION AL JOUD
+                                                              D'HABITATION ET SNRT (OUEST)
+
+SKHT - TEM 26  CAFE LE BEAU COIN (NORD), TERRAIN AGRICOLE ( SUD), AV AMINA BINT OUAHBI (EST), RESIDENCES TAMGA ­
+                                                      TOUBKAL -SAWSSANE (OUEST) MACHALLAH
+
+               - 33 -
+7.3 Cartographie des Zones relevant de l'Arrondissement HARHOURA
+
+                                                - 34 -
+            7.4. Tableau des délimitations des Zones : Arrondissement HARHOURA
+
+Code Zone   Délimitations/Points de repère
+
+SKHT - H1   RABAT OCEAN (NORD), LA PLAGE (OUEST) ET AVENUE PRINCE MLY ABDELLAH (EST) HAY MIRAMARE (SUD)
+SKHT - H2
+SKHT - H3   BD PRINCE MLY ABDELLAH (EST) PLAGE HARHOURA (OUEST) HAY MIRAMARE (NORD) ET AVENUE HOCEIMA
+SKHT - H4                                                                (SUD)
+SKHT - H5
+SKHT - H6    PLAGE HARHOURA (OUEST), BD PRINCE MLY ABDELLAH (EST), CLUB YASMINE (SUD) ET HOTEL MIRAMAR
+SKHT - H7                                                               (NORD)
+SKHT - H8
+             CLUB YASMINE (NORD), AVENUE PRINCE MOULAY ABDELLAH (EST), GENDARMERIE ROYALE (SUD) ET LA
+SKHT - H9                                                   PLAGE HARHOURA (OUEST)
+
+SKHT - H10    BD PRINCE MY ABDELLAH (EST), CORNICHE (OUEST), HOTEL SAINT GERMAIN ET GENDARMERIE ROYALE
+                                                     (NORD) ET HAY CONTRE BANDIER (SUD)
+SKHT - H11
+               HAY CONTRE BANDIER (NORD), HAY SIDI ABED (SUD), SABLE D'OR ET PLAGE SIDI ABED (OUEST) ET LA
+                                                                ROUTE COTIERE (EST)
+
+               LA PLAGE VAL D'OR (OUEST), ROUTE COTIERE (EST), PLAGE VAL D'OR (SUD) ET HAY SIDI ABED (NORD)
+
+             FORET HARHOURA (SUD), AVENUE PRINCE MLY ABDELLAH (OUEST, BD ALLAL BEN ABDELLAH (NORD) LA
+                                                           ROCADE RABAT- CASA (EST)
+
+                 (NORD) BD ALLAL BEN ABDELLAH (OUEST), BD PRINCE MOULAY ABDELLAH (SUD) RESIDENCE DES
+                                                 MEDECINS ETLA ROCADE RABAT- CASA (EST)
+
+                RESIDENCE DES MEDECINS (OUEST), RESIDENCE ADARISSA (EST), RESIDENCE BELLE VUE (NORD) ET
+                                               RESIDENCE MECHELIFIN (SUD) (RESIDENCE ALLAL)
+
+            BD PRINCE MY ABDELLAH (OUEST), RESIDENCE EL HANA (NORD), RESIDENCE SETTAT (SUD) ET LA ROCADE
+                                                                 RABAT- CASA (EST)
+
+SKHT - H12  BD PRINCE MY ABDELLAH (OUEST), RESIDENCE CHEMS (NORD), LOTI IBN KHALDOUN (SUD) ET LA ROCADE
+                                                                RABAT- CASA (EST)
+
+SKHT - H13  DOUAR BOUCHIHA (SUD), RTE FELLAH (EST), BD MY ABDELLAH (OUEST) ET DOUAR MNASRA (NORD)
+
+SKHT - H14  Complexe CHAABI (SUD), DOUAR MNASRA (EST), BD MY ABDELLAH (OUEST) ET IBN KHALDOUN (NORD)
+
+SKHT - H15  DOUAR BOUCHIHA (SUD), RTE FELLAH (EST), BD MY ABDELLAH (OUEST) ET BEETHOVEN ET DOUAR MNASRA
+                                                                         (NORD )
+
+            - 35 -
+7.5 Cartographie des Zones relevant de la Commune de Skhirat
+                               Skhirat -Plage
+
+                                            - 36 -
+               7.6. Tableau des délimitations des Zones : Commune SKHIRAT
+                                             Skhirat -Plage
+
+Code Zone      Délimitations/Points de repère
+
+SKHT - SKH P1  ZONE DELIMITEE PAR ROSE MARIE (HOTEL KASBAT) (NORD) TERRAIN AGRICOLE (SUD) ROUTE NATIONALE(EST) OCEAN
+                                                                                   OUEST)
+
+SKHT - SKH P2          AMPHYTRITE
+
+SKHT - SKH P3  ZONE DELIMITEE PAR AMPHYTRITE (NORD) MARSA PORT (SUD) ROUTE PRINCIERE, (EST), OCEAN (OUEST)
+
+SKHT - SKH P4  ZONE DELIMITEE PAR MARSA - PORT, (NORD) DOMAINE MARITIME (SUD) ROUTE PRINCIERE (EST) OCEAN (OUEST)
+SKHT - SKH P5
+SKHT - SKH P6       ZONE DELIMITEE PAR ROUTE PRINCIERE (NORD) TERRAIN AGRICOLE (SUD), ROUTE COTIERE(EST), ROUTE
+SKHT - SKH P7                                                            PRINCIERE(OUEST)
+SKHT - SKH P8
+               ZONE DELIMITEE PAR PATIO (NORD) RESIDENCE CHADIA (SUD), ROUTE COTIERE(EST), ROUTE PRINCIERE(OUEST)
+                                                                         RESIDENCES MARSA
+
+                    ZONE DELIMITEE PAR ROUTE PRINCIERE (NORD) RESIDENCES MARSA (SUD) ROUTE COTIERE (EST), ROUTE
+                                                                         PRINCIERE(OUEST)
+
+                        ZONE DELIMITEE PAR TERRAIN AGRICOLE (NORD) ROUTE PRINCIERE (SUD) ROUTE COTIERE (EST),
+                                                                        AMPHYTRITE(OUEST)
+
+               - 37 -
+7.7 Cartographie des Zones relevant de la Commune de Skhirat
+                             Skhirat ­Centre
+
+                                           - 38 -
+               7.8. Tableau des délimitations des Zones : Commune Skhirat
+                                           Skhirat -Centre
+
+Code Zone      Délimitations/Points de repère
+
+SKHT - SKH C1    ROUTE DE LA PLAGE (NORD) DELTA HOLDING (SUD) ROUTE NATIONALE (EST) MARCHE DE GROS
+SKHT - SKH C2                                               (OUEST) RESIDENCE IMANE
+SKHT - SKH C3
+SKHT - SKH C4  ZONE DELIMITEE PAR QURTIER AIN AL HAYAT (NORD) ROUTE VERS SIDI BETTACH (SUD) COMMUNE
+SKHT - SKH C5                             DE SABBAH (EST), ROUTE NATIONALE (OUEST) BOUAIBA
+SKHT - SKH C6
+SKHT - SKH C7   AIN AL HAYAT (NORD) ROUTE DE SIDI BETTACH (SUD) TERRAIN AGRICOLE (EST), LOTISSEMENT
+SKHT - SKH C8                                                IZDIHAR EL YOSR (OUEST)
+
+                   STATION BELLA, (NORD) BOUAIBA (SUD) TERRAIN AGRICOLE (EST) ROUTE NATIONALE (OUEST)
+                       COMATRALE (NORD) FERMES (SUD) , ROUTE NATIONALE(EST) LA VOIE FERREE(OUEST)
+                                                                   ABDOU FLEURI
+                             FERME (NORD) ERAC (SUD), ROUTE NATIONALE (EST) LA VOIE FERREE (OUEST)
+                                                                   AIN ATTARISSE
+
+                                                                         ERAC
+
+                                                                ZONE INDUSTRIELLE
+
+SKHT - SKH C9  UNITE INDUSTRIELLE
+
+               - 39 -
+7.9 Cartographie des Zones relevant de la Commune de Ain Attig
+
+                                             - 40 -
+               7.10. Tableau des délimitations des Zones : Commune Ain Attig
+
+Code Zone      Délimitations/Points de repère
+
+SKHT- A.ATG 1  USINE CIMENT DE TEMARA (NORD) MANDOULA (SUD) ROUTE FOUARATE (EST) AVENUE HASSAN 2,(OUEST)
+
+SKHT- A.ATG 2  ROUTE BENREHMOUNE (NORD) ROUTE TAMESNA (SUD) ROUTE FOUARRATE (EST) AVENUE HASSAN 2 (OUEST)
+SKHT- A.ATG 3  QUARTIER INDUSTRIEL TEMARA (NORD) QUARTIER INDUSTRIEL AIN ATTIG (SUD) AVENUE HASSAN 2 (EST) VOIE
+SKHT- A.ATG 4
+SKHT- A.ATG 5                                                            FERREE (OUEST
+
+                                                                      ZONE INDUSTRIELLE
+
+                                                                     EQUIPEMENTS PUBLIC
+
+SKHT- A.ATG 6          UNITE INDUSTRIELLE
+
+SKHT- A.ATG 7          TERRAIN AGRICOLE
+
+               - 41 -
+7.11 Cartographie des Zones relevant de la Commune de SIDI YAHYA ZAERS
+
+                                                     - 42 -
+7.12. Tableau des délimitations des Zones : Commune SIDI YAHYA ZAERS
+
+ Code Zone                                 Délimitations/Points de repère
+SKHT- SYZ 1
+SKHT- SYZ 2  TERRAIN AGRICOLE (NORD) AVENUE HASSAN II (SUD) TERRAIN AGRICOLE (EST), TERRAIN AGRICOLE
+                                                                    (OUEST)
+
+                                                             JARDINS D'YQUEM
+
+             - 43 -
+7.13 Cartographie des Zones relevant de la Commune de Tamesna
+
+                                              - 44 -
+           7.14. Tableau des délimitations des Zones : Commune Sidi YAHYA ZAERS
+                                            Ville de Tamesna
+
+Code Zone          Délimitations/Points de repère
+
+SKHT - TAMESNA 1   ROUTE P40369 (NORD) AV MOHAMED V(SUD) FORET (EST) FORET (OUEST)
+
+SKHT - TAMESNA 2   AVENUE YACOUB AL MANSOUR (NORD) AVENUE DRISS AL AKBAR (SUD) AVENUE ABDELMOUMEN (EST)
+                                                       ZONE INDUSTRIELLE DE TAMESNA (OUEST)
+
+SKHT - TAMESNA 3   ZONE DELIMITEE PAR TERRAIN AGRICOLE (NORD) ROUTE P40369 (SUD) AVENUE MOHAMMED VI
+
+SKHT - TAMESNA 4    ZONE DELIMITEE PAR AVENUE ABDELMOUMEN, (NORD) OUED SIDI YAHYA ZAERS (SUD) OUED SIDI YAHYA
+SKHT - TAMESNA 5                                            ZAERS (EST) LYCEE ABOU INANE(OUEST)
+SKHT - TAMESNA 6
+SKHT - TAMESNA 7   AVENUE MOHAMMED V ,(NORD) RESIDENCE KASBAT (SUD) AVENUE MOHAMMED VI (EST) NASSIM GROUPE
+SKHT - TAMESNA 8                                                            (OUEST) HIBA
+
+                    AVENUE HASSAN II, (NORD) AVENUE MLY YOUSSEF (SUD) AVENUE YACOUB AL MANSOUR (EST) AVENUE
+                                                                MOHAMMED VI (OUEST) KASBAT
+
+                        ROUTE P 4022, (NORD) VOIE EXPRESSE RELIANT AIN ATTIG TAMESNA (SUD) ZONE INDUSTRIELLE DE
+                                                            TAMESNA (EST) ROUTE P 4022 (OUEST)
+
+                   GROUPE SCOLAIRE ATLASS TAMESNA ET RESIDENCE HIBA, (NORD) KAMELIA (SUD) OUASIS - MARINA D'OR
+                                                                   (EST) ROUTE P 4032 (OUEST)
+
+SKHT - TAMESNA 9           ZONE INDUSTRIELLE
+
+SKHT - TAMESNA 10          FORET DE TAMESNA
+
+                   - 45 -
+7.15 Cartographie des Zones relevant de la Commune de AIN AOUDA
+
+                                                - 46 -
+           7.16. Tableau des délimitations des Zones : Commune AIN AOUDA
+
+Code Zone         Délimitations/Points de repère
+
+SKHT - A.AOUDA 1    AVENUE MOHAMMED VI (NORD) MADINAT AL FIRDAOUSS (SUD) TERRAIN AGRICOLE (EST), CHRAGA
+SKHT - A.AOUDA 2                                                            (OUEST)
+SKHT - A.AOUDA 3
+                  ROUTE VERS OVOMAROC (NORD) VERS ROMMANI AVENUE MOHAMMED VI (SUD)COMMUNE OUM AZZA
+                                                    TERRAIN AGRICOLE (EST)ROUTE P4036 (OUEST)
+
+                                PAM (NORD) ALLIANCE DARNA (SUD) TERRAIN AGRICOLE (EST) ANNASR (OUEST)
+
+SKHT - A.AOUDA 4          TERRAIN AGRICOLE
+SKHT - A.AOUDA 5           ALLIANCE DARNA
+
+SKHT - A.AOUDA 6          MADINAT AL FIRDAOUSSE
+
+                  - 47 -
+7.17 Cartographie des Zones relevant de la Commune d'EL MENZEH
+
+                                               - 48 -
+              7.18. Tableau des délimitations des Zones : Commune d'El Menzeh
+                                          Bassatine El Menzeh
+
+  Code Zone                                   Délimitations/Points De Repère
+
+SKHT - BSM 1  LES LILAS (NORD), ROUTE P 4034 (SUD) ROUTE P 4026 (EST) ECOLE LES PEUPLIERS (OUEST) RSIDENCES
+SKHT - BSM 2                                                     YASMINE ET DALIA
+SKHT - BSM 3
+SKHT - BSM 4                 LES VALLEES (NORD), RESIDENCES YASMINE (SUD) ROUTE P 4026 (EST) ECOLE
+                                                        LES PEUPLIERS (OUEST) LES LILAS
+
+                     LES VALLEES (NORD), LES LILAS (SUD) ROUTE P 4026 (EST) ECOLES LES PEUPLIERS (OUEST)
+
+                 LES VALLEES (NORD), LES VILLAS DES VALLEES (SUD) ROUTE P 4026 (EST) LES VILLAS DES VALLEES
+
+              - 49 -
+7.19 Cartographie des Zones relevant de la Commune de MERS EL KHIR
+
+                                                 - 50 -
+           7.20. Tableau des délimitations des Zones : Commune de MERS EL KHIR
+
+Code Zone     Délimitations/Points de repère
+
+SKHT - MKH 1  ROUTE DE SIDI YAHYA ZAERS P 4016 (NORD), MOSQUE ALLHASSANE (SUD) ROUTE P 4018 (EST) TERRAIN
+SKHT - MKH 2                                                       AGRICOLE (OUEST)
+SKHT - MKH 3
+SKHT - MKH 4   ROUTE DE SIDI YAHYA ZAERS P 4016 (NORD), EQUIPEMENT PUBLIC (SUD) ROUTE P 4026 (EST) QURTIER
+                                                               ADMINISTRATIF (OUEST)
+
+                                                      RECASEMENT ET EQUIPEMENTS PUBLIC
+
+                                                           TERRAIN A VOCATION AGRICOLE
+
+              - 51 -
+                                        8. Contacts utiles
+
+              Désignation                             Adresse                    Tél/Email
+         Centre de formation DGI        Haj Ahmed Cherkaoui Agdal Rabat        0537-27-37-27
+    Bureau d'Accueil de la direction                                      referentiel@tax.gov.ma
+   préfectorale de Skhirat - Témara         Quartier Industriel Attasnia         0537618490
+Bureau de contrôle de Skhirat - Témara      Quartier Industriel Attasnia
+                                                                                 0537277095
+
+                                        - 52 -
+

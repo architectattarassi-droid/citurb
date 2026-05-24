@@ -1,0 +1,315 @@
+{
+  "_meta": {
+    "ville": "Midelt",
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T21:51:34.493Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 6,
+    "zonesWithPrices": 5,
+    "zonesWithDelimitations": 2
+  },
+  "arrondissements": [
+    {
+      "code": "AA",
+      "nom": "Aït Ayach"
+    },
+    {
+      "code": "ER",
+      "nom": "Er-Rich"
+    }
+  ],
+  "zones": [
+    {
+      "code": "MI-AA1",
+      "arrondissement": "Aït Ayach",
+      "ville": "Midelt",
+      "region": "Drâa-Tafilalet",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 500,
+          "pc": 150
+        },
+        {
+          "type": "Maison",
+          "pt": 500,
+          "pc": 300
+        },
+        {
+          "type": "Maison",
+          "pt": 500,
+          "pc": 400
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 1000,
+          "pc": 800
+        },
+        {
+          "type": "Appartement",
+          "pt": 1000,
+          "pc": 1500
+        },
+        {
+          "type": "Appartement",
+          "pt": 1000,
+          "pc": 1700
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 2000,
+          "pc": 800
+        },
+        {
+          "type": "Appartement",
+          "pt": 2000,
+          "pc": 1000
+        },
+        {
+          "type": "Appartement",
+          "pt": 2000,
+          "pc": 1400
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2000
+        }
+      ]
+    },
+    {
+      "code": "MI-AA2",
+      "arrondissement": "Aït Ayach",
+      "ville": "Midelt",
+      "region": "Drâa-Tafilalet",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 2200
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 1300,
+          "pc": 1000
+        },
+        {
+          "type": "Maison",
+          "pt": 1300,
+          "pc": 1200
+        },
+        {
+          "type": "Maison",
+          "pt": 1300,
+          "pc": 1700
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 1400,
+          "pc": 1000
+        },
+        {
+          "type": "Appartement",
+          "pt": 1400,
+          "pc": 1500
+        },
+        {
+          "type": "Appartement",
+          "pt": 1400,
+          "pc": 1800
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1400
+        }
+      ]
+    },
+    {
+      "code": "MI-ER1",
+      "arrondissement": "Er-Rich",
+      "ville": "Midelt",
+      "region": "Drâa-Tafilalet",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 2000
+        }
+      ]
+    },
+    {
+      "code": "MI-ER2",
+      "arrondissement": "Er-Rich",
+      "ville": "Midelt",
+      "region": "Drâa-Tafilalet",
+      "delimitations": "Place Mohamed V, Bd Mohamed V, 20 Aout, Bd Al Masjid, Er-rich Akdim",
+      "avenues": [
+        "Bd Mohamed V",
+        "Bd Al Masjid"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 2700
+        },
+        {
+          "type": "Maison",
+          "pt": 2000,
+          "pc": 800
+        },
+        {
+          "type": "Maison",
+          "pt": 2000,
+          "pc": 1000
+        },
+        {
+          "type": "Maison",
+          "pt": 2000,
+          "pc": 1800
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 1800
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 2100
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 1600,
+          "pc": 600
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 1600,
+          "pc": 700
+        },
+        {
+          "type": "Maison",
+          "pt": 1600,
+          "pc": 1100
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1600
+        }
+      ]
+    },
+    {
+      "code": "MI-ER4",
+      "arrondissement": "Er-Rich",
+      "ville": "Midelt",
+      "region": "Drâa-Tafilalet",
+      "delimitations": "Lot. Ziz, Lot. Rafahiya, le village pilote, Bd Imam Malek",
+      "avenues": [
+        "Bd Imam Malek"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MI-ER5",
+      "arrondissement": "Er-Rich",
+      "ville": "Midelt",
+      "region": "Drâa-Tafilalet",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 1200,
+          "pc": 800
+        },
+        {
+          "type": "Maison",
+          "pt": 1200,
+          "pc": 900
+        },
+        {
+          "type": "Maison",
+          "pt": 1200,
+          "pc": 1300
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1200
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 1200
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 350,
+          "pc": 450
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 350,
+          "pc": 600
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 350,
+          "pc": 650
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 600,
+          "pc": 500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 600,
+          "pc": 600
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 600,
+          "pc": 700
+        }
+      ]
+    }
+  ]
+}

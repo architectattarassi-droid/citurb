@@ -1,0 +1,654 @@
+       Référentiel des Prix des Transactions Immobilières
+                                d'Errachidia
+
+   Les données de ce référentiel sont opposables uniquement
+                  à la Direction Générale des Impôts
+
+Site Internet : www.tax.gov.ma ­ Email : referentiel@tax.gov.ma
+
+                                                          Edition Décembre 2017
+                           Sommaire
+
+1. Préambule                                                              3
+
+2. Liste des abréviations                                                 4
+
+3. Lexique                                                                5
+
+4. Territoire, biens concernés et plan d'ensemble de la Municipalité d'Errachidia 7
+
+4.1. Territoire et biens concernés                                        7
+
+4.2. Plan d'ensemble de de la Municipalité d'Errachidia                   9
+
+                                                                                                               10
+5. Mode de recherche
+
+6. Référentiel des prix des transactions immobilières de la Municipalité
+
+d'Errachidia                                                              12
+
+7. Cartographie et tableaux des délimitations des Zones                   19
+
+8. Contacts utiles                                                        21
+
+                                    -2-
+                             1. Préambule
+
+Dans une démarche de transparence de l'action de l'Administration et de
+rationalisation de son pouvoir d'appréciation, le présent manuel assure la publication
+des prix de référence retenus par l'Administration pour les besoins de calcul des droits
+et taxes.
+Il s'applique à l'ensemble des cessions de biens immobiliers à usage d'habitation.
+Il permet aux citoyens, dans un souci d'amélioration du climat de confiance, de
+disposer du même niveau d'information que l'Administration.
+Pour se rapprocher le plus de la réalité du marché, les données de ce référentiel sont le
+résultat d'un travail de consultation et de concertation entre la Direction Générale des
+Impôts, l'Agence Nationale de la Conservation Foncière du Cadastre et de la Cartographie,
+la Fédération Nationale des Promoteurs Immobiliers, la Banque Centrale du Maroc (Bank
+Al Maghrib), l'Agence Urbaine d'Errachidia, le Ministère de l'Urbanisme et de
+l'Aménagement du Territoire et l'Ordre des Notaires.
+Il s'agit de prix moyens retenus pour le calcul des droits et taxes et ne constituent en
+aucun cas une évaluation directe d'un bien immobilier donné.
+Il constitue à cet effet une étape importante dans le processus de renforcement des
+garanties accordées aux citoyens.
+Les données de ce r éférentiel feront l'objet d'une actualisation périodique en
+fonction de l'évolution du marché de l'immobilier.
+
+                                                                -3-
+                      2. Liste des abréviations
+
+ANCFCC : Agence Nationale de la Conservation Foncière, du Cadastre et de la
+Cartographie
+Bd : boulevard
+DGI : Direction Générale des Impôts
+FNPI : Fédération Nationale des Promoteurs Immobiliers
+m2 : Mètre Carré
+Err. : Errachidia
+PC : Prix de la Construction
+PT : Prix du Terrain
+R+(i) : Rez-de-chaussée + (i) : Nombre d'étages
+ST : Superficie du Terrain
+T : Terrain
+ZI : Zone Immeuble
+ZV : Zone Villa
+ZM : Zone Meuble
+
+                                                                -4-
+                               3. Lexique
+
+Ancien (logement) : logement ayant été achevé depuis plus de quinze ans (> à 15 ans).
+Appartement : un appartement est une unité d'habitation, comportant un certain
+nombre de pièces et située dans un immeuble collectif généralement dans une ville.
+Immeuble : dans le langage courant, le mot "immeuble" désigne un bâtiment
+urbain de plusieurs étages, à usage d'habitation ou professionnel, en co-propriété.
+Logement social : par cette formule, on désigne un appartement dont la superficie
+couverte est comprise entre 50 et 80 m2 et le prix de vente n'excède pas 250.000
+dirhams, hors taxe sur la valeur ajoutée.
+Loti (terrain) : un terrain loti signifie un terrain situé dans un lot issement (voir
+lot issement ).
+Lotissement : un lotissement est constitué par un ensemble de lots provenant de la
+division d'un terrain en vue d'y recevoir des constructions qui sont vendues
+généralement séparément après que le lotisseur ait réalisés des voies d'accès, des espaces
+collectifs et des travaux de viabilité et les raccordements aux réseaux de fourniture en
+eau, en électricité, aux réseaux d'égouts et aux réseaux de télécommunication.
+Maison : u n e maison est un bâtiment destiné à être la demeure d'une famille, voire
+de plusieurs, et qui n'est pas un immeuble en copropriété.
+Neuf (logement) : logement achevé depuis six ans au plus (<= à 6 ans).
+Prix Appartement = Prix au m2 Appartement x (Superficie Appartement +
+Superficie
+Parking/3 + Superficie Terrasse/ 2).
+Prix de la Construction (PC) : par prix de la construction, on entend le prix du
+mètre carré couvert.
+Prix du Terrain (PT) : par prix du terrain, on entend le prix du terrain au mètre carré.
+Prix Maison = Prix au m2 T x Superficie Terrain Maison + Prix au m2 C x Superficie
+Couvert e
+Prix Terrain = Prix au m2 Terrain x Superficie Terrain.
+
+                                                                -5-
+ Prix Villa = Prix au m2 T x Superficie Terrain Villa + Prix au m2 C x Superficie
+ couvert e.
+ Récent (logement) : logement achevé depuis plus de six ans au moins et quinze
+ ans au plus (> à 6 ans et <= à 15 ans) + logement ancien achevé suite à rénovation
+ depuis six ans au plus (<= à 6 ans).
+Terrain ZI : est considéré comme terrain zone immeuble tout terrain destiné à
+la construction d'un immeuble collectif : terrain nu, terrain construit de bâtiments
+destinés à être démolis (cas de zone villa convertie en zone immeuble par exemple).
+ Terrain ZM : est considéré comme terrain zone maison tout terrain destiné à la
+ construction d'une maison : terrain nu, terrain construit de bâtiments destinés à être
+ démolis (cas de maison vétuste par exemple).
+ Terrain ZV : est considéré comme terrain zone villa tout terrain destiné à la
+ construction d'une villa : terrain nu, terrain construit de bâtiments destinés à être
+ démolis (cas de villa vétuste par exemple).
+ Villa : une villa est une maison avec jardin.
+ Zone : une zone est un groupe d'adresses où les prix sont relativement homogènes.
+
+                                                                  -6-
+ 4. Territoire, biens concernés et plan d'ensemble de la Municipalité
+
+                                             d'Errachidia
+
+     4.1. Territoire concerné ;
+Le périmètre de l'intervention de la Direction Régionale des Impôts de Fès couvre les
+Préfectures et les Provinces suivantes :
+
+     · Préfecture de Fès ;
+     · Préfecture de Meknès ;
+     · Province d'El Hajeb ;
+     · Province d'Ifrane ;
+     · Province de Midèlt ;
+     · Province d'Errachidia ;
+     · Province de Taza ;
+     · Province de Sefrou ;
+     · Province de Taounate ;
+     · Province de Boulmane ;
+     · Province de Zouagha Moulay Yacoub.
+
+La Province d'Errachidia englobe (7) Communes Urbaines (Municipalités) / Pachaliks
+et vingt-Neuf (29) Communes, dont vingt-deux (22) à caractère rurale et sept (7) à
+caractère urbain :
+
+     · Communes Urbaines/Pachaliks: Errachidia
+     · Communes Rurales: non concernées par le présent référentiel.
+
+Le territoire géographique et les biens concernés par le présent Référentiel se
+présentent comme suit :
+
+                                                                  -7-
+· Territoire concerné: de la Municipalité d'Errachidia
+· Types de biens immobiliers concernés :
+
+        o Appartement, Maison, Villa à usage d'habitation ;
+        o Terrain construit de bâtiments destinés à être démolis : ZV, ZI ou ZM.
+        o Terrain Loti : ZV et ZI
+· Types de biens immobiliers exclus :
+        o Appartement à usage professionnel ;
+        o Villa et Maison à vocation professionnelle ou commerciale ;
+        o Logement social ;
+        o Logement destiné au recasement des bidonvilles ;
+        o Terrain urbain non Loti ;
+        o Terrain à usage industriel ;
+        o Terrain à usage agricole
+
+                                                            -8-
+   4.2. Plan d'Ensemble de la Municipalité d'Errachidia:
+Voir l'image suivante :
+
+                                 ¾ PACHALIK D'ERRACHIDIA
+
+                                                                -9-
+                            5. Modes de recherche
+Actuellement, la recherche s'effectue:
+
+   · A travers la consultation sur une carte numérisée mise à la disposition du public
+       au niveau du portail de la DGI, le système situe le bien sur la carte et
+       affiche automatiquement son prix de référence ;
+
+   · A partir de la délimitation des zones ;
+   · En consultant le bureau d'accueil de la Direction Provinciale des Impôts de
+
+       Meknès et/ ou le Centre d'Information Téléphonique au numéro : 05.37.27.37.27.
+
+                                                                  - 10 -
+Précision :
+Lorsque un bien chevauche sur plusieurs zones, le prix à prendre en considération est
+celui de la zone la plus côté.
+
+                                            Exemple :
+Soit une maison X se trouvant entre Targua Jdida et Quartier Al Mohit, le point coté est celui
+le plus proche ;
+Situer la maison sur la carte et afficher les prix des maisons appartements de cette zone en
+cliquant ci-dessus (voir l'image).
+
+                                                                  - 11 -
+6.      Référentiel des Prix des Transactions Immobilières de la Municipalité
+
+                             d'Errachidia :
+
+La ville d'Errachidia est découpée en Douze Zones, dont chaque zone nommée
+Zone D.G.I. (d'Err. 1 à l'Err. 12) à savoir que le montant des transactions dans ladite
+zone est homogène.
+
+ZONES   Détail de Zone             Err. 1.           Prix au m2
+
+                                      Type de bien   2 500,00
+
+                             Appartement Neuf        2 000,00
+                             Appartement Récent
+                             Appartement Ancien      1 500,00
+                             Villa Neuve
+                             Villa Récente           PT 1 200,00 PC  3 000,00
+                             Villa Ancienne
+Err. 1  Lotissement OUED     Maison Neuve            PT 1 200,00 PC  2 500,00
+        DAHAB                Maison Récente
+                             Maison Ancienne         PT 1 200,00 PC  2 000,00
+                             Terrain Z I
+                             Terrain Z V             PT 2 000,00 PC  2 000,00
+
+                                                     PT 2 000,00 PC  1 500,00
+
+                                                     PT 2 000,00 PC  1 000,00
+
+                                                     2 000,00
+
+                                                     1 200,00
+
+ZONES   Détail de Zone             Err. 2            Prix au m2
+
+                                       Type de bien  2 500,00
+
+                             Appartement Neuf        2 000,00
+                             Appartement Récent
+                             Appartement Ancien      1 500,00
+                             Villa Neuve
+                             Villa Récente           PT 1 000,00 PC  3 000,00
+                             Villa Ancienne
+Err. 2-1 Quartier Militaire  Maison Neuve            PT 1 000,00 PC  2 500,00
+                             Maison Récente
+                             Maison Ancienne         PT 1 000,00 PC  2 000,00
+                             Terrain Z I
+                             Terrain Z V             PT 2 000,00 PC  2 500,00
+
+                                                     PT 2 000,00 PC  2 000,00
+
+                                                     PT 2 000,00 PC  1 500,00
+
+                                                     2 000,00
+
+                                                     1 000,00
+
+                             - 12 -
+ZONES   Détail de Zone           Type de bien                       Prix au m2
+
+                                 Appartement Neuf                   2 500,00
+
+                                 Appartement Récent                 2 000,00
+
+                                 Appartement Ancien                 1 500,00
+
+                                 Villa Neuve                        PT 1 000,00 PC  3 000,00
+
+                                                     Villa Récente  PT 1 000,00 PC  2 500,00
+                                                                    PT 1 000,00 PC  2 000,00
+Err. 2-2 Boutalamine Lakdim Villa Ancienne
+
+                                 Maison Neuve                       PT 2 000,00 PC  2 500,00
+
+                                 Maison Récente                     PT 2 000,00 PC  2 000,00
+
+                                 Maison Ancienne                    PT 2 000,00 PC  1 500,00
+
+                                 Terrain Z I                        2 000,00
+
+                                 Terrain Z V                        1 000,00
+
+                                 Err. 3
+
+ZONES   Détail de Zone           Type de bien                                              Prix au m2
+
+Err. 3  Lotissement Al Oued      Appartement Neuf                                   3 000,00
+        Lahmar                   Appartement Récent                                 2 500,00
+        Lotissement Ain El Atti  Appartement Ancien                                 2 000,00
+        1                        Maison Neuve                       PT 2 000,00 PC 2 000,00
+                                 Maison Récente                     PT 2 000,00 PC 1 500,00
+                                 Maison Ancienne                    PT 2 000,00 PC 1 000,00
+                                 Terrain Z I                                          2 000,00
+
+                                 Err. 4
+
+ZONES   Détail de Zone           Type de bien                       Prix au m2
+
+                                 Appartement Neuf                   2 000,00
+
+                                 Appartement Récent                 1 500,00
+
+Err. 4-1 Quartier Al Massira     Appartement Ancien                 1 000,00
+
+                                 Maison Neuve                       PT 1 300,00 PC 1 800,00
+
+                                 Maison Récente                     PT 1 300,00 PC 1 300,00
+
+                                 Maison Ancienne                    PT 1 300,00 PC 800,00
+
+                                 Terrain ZI                         1 300,00
+
+ZONES   Détail de Zone                    Type de bien              Prix au m2
+
+                                 Appartement Neuf                   2 000,00
+                                 Appartement Récent
+                                 Appartement Ancien                 1 500,00
+                                 Maison Neuve
+Err. 4-2 Quartier Al Mouhit      Maison Récente                     1 000,00
+                                 Maison Ancienne
+                                 Terrain ZI                         PT 1 300,00 PC  1 800,00
+
+                                                                    PT 1 300,00 PC  1 300,00
+
+                                                                    PT 1 300,00 PC  800,00
+
+                                                                    1 300,00
+
+                                 - 13 -
+ZONES    Détail de Zone                               Type de bien                         Prix au m2
+
+Err. 4-3 Quartier L'Habita               Appartement Neuf                           2 000,00           1 800,00
+                                         Appartement Récent                         1 500,00           1 300,00
+                                         Appartement Ancien                         1 000,00            800,00
+                                         Maison Neuve               PT 1 300,00 PC
+                                         Maison Récente             PT 1 300,00 PC
+                                         Maison Ancienne            PT 1 300,00 PC
+                                         Terrain ZI                                   1 300,00
+
+ZONES    Détail de Zone                               Type de bien  Prix au m2
+
+                                         Appartement Neuf           2 000,00
+                                         Appartement Récent
+                                         Appartement Ancien         1 500,00
+                                         Maison Neuve
+                     Labiada             Maison Récente             1 000,00
+                                         Maison Ancienne
+Err. 4-4 Oulad El Haj Jdid               Terrain ZI                 PT 1 300,00 PC 1 800,00
+                     Logement Militaire
+                                                                    PT 1 300,00 PC 1 300,00
+
+                                                                    PT 1 300,00 PC                     800,00
+
+                                                                    1 300,00
+
+ZONES    Détail de Zone                        Err. 5               Prix au m2
+
+                                                      Type de bien  1 200,00
+
+                                         Appartement Neuf           1 000,00
+                                         Appartement Récent
+Err. 5-1 Quartier Essahb                 Appartement Ancien         800,00
+                                         Maison Neuve
+                                         Maison Récente             PT 650,00 PC                       900,00
+                                         Maison Ancienne
+                                         Terrain Z I                PT 650,00 PC                       700,00
+
+                                                                    PT 650,00 PC                       500,00
+
+                                                                    650,00
+
+  ZONES       Détail de Zone                          Type de bien  Prix au m2
+
+Err.5-2  Quartier Oulad Al Haj           Appartement Neuf           1 200,00
+         Lakdim                          Appartement Récent
+                                         Appartement Ancien         1 000,00
+                                         Maison Neuve
+                                         Maison Récente             800,00
+                                         Maison Ancienne
+                                         Terrain Z I                PT 650,00 PC                       900,00
+
+                                                                    PT 650,00 PC                       700,00
+
+                                                                    PT 650,00 PC                       500,00
+
+                                                                    650,00
+
+                                         - 14 -
+ZONES    Détail de Zone                        Type de bien  Prix au m2
+
+                                  Appartement Neuf           1 200,00
+                                  Appartement Récent
+                                  Appartement Ancien         1 000,00
+                                  Maison Neuve
+Err.5-3  Quartier Chaaba          Maison Récente             800,00
+         Quartier Touchka         Maison Ancienne
+                                  Terrain Z I                PT 650,00 PC  900,00
+
+                                                             PT 650,00 PC  700,00
+
+                                                             PT 650,00 PC  500,00
+
+                                                             650,00
+
+ZONES    Détail de Zone                        Type de bien  Prix au m2
+
+                                  Appartement Neuf           1 200,00
+                                  Appartement Récent
+                                  Appartement Ancien         1 000,00
+                                  Maison Neuve
+                                  Maison Récente             800,00
+                                  Maison Ancienne
+Err.5-4 Ksar Tazamourite          Terrain Z I                PT 650,00 PC  900,00
+
+                                                             PT 650,00 PC  700,00
+
+                                                             PT 650,00 PC  500,00
+
+                                                             650,00
+
+ZONES    Détail de Zone           Type de bien               Prix au m2
+
+                                  Appartement Neuf           1 200,00
+                                  Appartement Récent
+                                  Appartement Ancien         1 000,00
+                                  Maison Neuve
+         Ksar Targua              Maison Récente             800,00
+         Ksar Azemour Lakdim      Maison Ancienne
+Err.5-5                           Terrain Z I                PT 650,00 PC  900,00
+
+                                                             PT 650,00 PC  700,00
+
+                                                             PT 650,00 PC  500,00
+
+                                                             650,00
+
+                                  Err. 6
+
+ZONES    Détail de Zone           Type de bien                                      Prix au m2
+
+Err. 6   Quartier Militaire Coté  Appartement Neuf                           5 000,00
+         de Sijilmassa            Appartement Récent                         4 500,00
+         Annexe Souk Oued         Appartement Ancien                         4 000,00
+         Lahmar                   Villa Neuve                PT 1 300,00 PC 3 000,00
+         Centre Errachidia        Villa Récente              PT 1 300,00 PC 2 500,00
+                                  Villa Ancienne             PT 1 300,00 PC 2 000,00
+                                  Maison Neuve               PT 3 500,00 PC 2 500,00
+                                  Maison Récente             PT 3 500,00 PC 2 000,00
+                                  Maison Ancienne            PT 3 500,00 PC 1 500,00
+                                  Terrain Z I                                  3 500,00
+                                  Terrain Z V                                  1 300,00
+
+                                  - 15 -
+                                    Err. 7
+
+ZONES   Détail de Zone                           Type de bien  Prix au m2
+
+                                    Appartement Neuf           2 500,00
+                                    Appartement Récent
+                                    Appartement Ancien         2 000,00
+                                    Maison Neuve
+        Quartier Targua Jdida       Maison Récente             1 500,00
+        Quartier Azemour Jdid       Maison Ancienne
+Err. 7                              Terrain Z I                PT 1 600,00 PC 1 500,00
+
+                                                               PT 1 600,00 PC 1 000,00
+
+                                                               PT 1 600,00 PC  500,00
+
+                                                               1 600,00
+
+                                    Err. 8
+
+ZONES   Détail de Zone              Type de bien               Prix au m2
+
+Err. 8                              Appartement Neuf           3 500,00
+                                    Appartement Récent
+                                    Appartement Ancien         3 000,00
+                                    Villa Neuve
+                                    Villa Récente              2 500,00
+                                    Villa Ancienne
+        Lotissement Ain Atti 2      Maison Neuve               PT 1 500,00 PC  3 000,00
+        Lotissement Extension Ain   Maison Récente
+        Atti 2                      Maison Ancienne            PT 1 500,00 PC  2 500,00
+        Lotissement Mly Ali Cherif  Terrain Z I
+                                    Terrain Z V                PT 1 500,00 PC  2 000,00
+
+                                                               PT 2 500,00 PC  2 000,00
+
+                                                               PT 2 500,00 PC  1 500,00
+
+                                                               PT 2 500,00 PC  1 000,00
+
+                                                               2 500,00
+
+                                                               1 500,00
+
+ZONES   Détail de Zone                    Err. 9               Prix au m2
+
+                                                Type de bien   1 500,00
+
+                                    Appartement Neuf           1 300,00
+                                    Appartement Récent
+Err. 9-1 Cité Amezouj               Appartement Ancien         1 000,00
+                                    Maison Neuve
+                                    Maison Récente             PT 1 200,00 PC  1 800,00
+                                    Maison Ancienne
+                                    Terrain Z I                PT 1 200,00 PC  1 300,00
+
+                                                               PT 1 200,00 PC  800,00
+
+                                                               1 200,00
+
+                                    - 16 -
+ZONES     Détail de Zone                      Type de bien  Prix au m2
+
+                                  Appartement Neuf          1 500,00
+                                  Appartement Récent
+                                  Appartement Ancien        1 300,00
+                                  Maison Neuve
+          Ksar Inghbi             Maison Récente            1 000,00
+          Quartier Al Koudsse     Maison Ancienne
+Err. 9-2                          Terrain Z I               PT 1 200,00 PC  1 800,00
+
+                                              Type de bien  PT 1 200,00 PC  1 300,00
+
+                                  Appartement Neuf          PT 1 200,00 PC  800,00
+                                  Appartement Récent
+                                  Appartement Ancien        1 200,00
+                                  Maison Neuve
+ZONES     Détail de Zone          Maison Récente            Prix au m2
+                                  Maison Ancienne
+                                  Terrain Z I               1 500,00
+
+                                                            1 300,00
+
+                                                            1 000,00
+
+Err. 9-3 Ksar Ait Ba Moha                                   PT 1 200,00 PC  1 800,00
+
+                                                            PT 1 200,00 PC  1 300,00
+
+                                                            PT 1 200,00 PC  800,00
+
+                                                            1 200,00
+
+                                  Err. 10
+
+  ZONES         Détail de Zone                Type de bien  Prix au m2
+          Boutalamine Zone Villa
+Err. 10                           Villa Neuve               PT 1 200,00 PC  3 000,00
+                                  Villa Récente
+                                  Villa Ancienne            PT 1 200,00 PC  2 500,00
+                                  Terrain Z V
+                                                            PT 1 200,00 PC  2 000,00
+
+                                                            1 200,00
+
+ZONES     Détail de Zone              Err. 11               Prix au m2
+
+                                              Type de bien  6 000,00
+
+                                  Appartement Neuf          5 500,00
+                                  Appartement Récent
+          Bd Mly Ali Cherif       Appartement Ancien        5 000,00
+          Av Al Massira           Maison Neuve
+Err. 11                           Maison Récente            PT 6 000,00 PC  3 000,00
+                                  Maison Ancienne
+                                  Terrain Z I               PT 6 000,00 PC  2 500,00
+
+                                                            PT 6 000,00 PC  2 000,00
+
+                                                            6 000,00
+
+                                  - 17 -
+                           Err. 12
+
+ZONES  Détail de Zone               Type de bien                          Prix au m2
+
+Err. 12 Avenue Mohamed VI  Appartement Neuf                        5 500,00
+                           Appartement Récent                      5 000,00
+                           Appartement Ancien                      4 500,00
+                           Maison Neuve           PT 5 000,00 PC 3 000,00
+                           Maison Récente         PT 5 000,00 PC 2 500,00
+                           Maison Ancienne        PT 5 000,00 PC 2 000,00
+                           Terrain Z I                               5 000,00
+
+                           - 18 -
+           7. Tableau des délimitations des Zones
+                      (Municipalité d'Errachidia)
+
+Code Zone                             Points de repère
+   Err. 1
+   Err. 2  Lotissement Oued Eddahab
+   Err. 3
+           Quartier Militaire
+   Err. 4  Boutalamine Lakdim
+           Lotissement Al Oued Lahmar
+   Err. 5  Lotissement Ain Atti 1
+           Quartier Al Massira
+   Err. 6  Quartier Al Mouhit
+   Err. 7  Quartier L'Habita
+   Err. 8  Labiada
+   Err. 9  Oulad El Haj Jdid
+           Logement Militaire
+           Quartier Essahb
+           Quartier Oulad Al Lhaj Lakdim
+           Quartier Chaaba
+           Ksar Touchka
+           Ksar Tazamourite
+           Ksar Targua
+           Ksar Azemour Lakdim
+           Quartier Militaire Coté Sijilmassa
+           Annexe Souk Oued Lahmar
+           Centre Errachidia
+           Quartier Targua Jdida
+           Quartier Azemour Jdid
+           Lotissement Ain Atti 2
+           Lotissement Extension Ain Atti 2
+           Lotissement Mly Ali Cherif
+           Cité Amezouj
+           Ksar Inaghbi
+           Quartier Al Koudsse
+           Ksar Ait Ba Moha
+
+           - 19 -
+Err. 10  Boutalamine Zone Villa
+Err. 11
+Err. 12  Bd Mly Ali Cherif
+         Av Mly Al Massira
+
+         Avenue Mohamed VI
+
+                                 - 20 -
+8. Contacts utiles
+
+         Désignation                     Adresse                   Tél/Email
+Centre d'Information DGI                                        05-37-27-37-27
+                             Bd Haj Ahmed Cherkaoui Agdal
+                                                           referentiel@tax.gov.ma
+                                              Rabat
+
+Direction régionale de Fès Rue Mohamed El Kaghat FES       05-35-93-20-40
+
+  Direction provinciale de   Bd Idriss II Meknès           05-35-52-37-40
+            Meknès            B.P 10 Errachidia
+                                                           05-35-57-21-17
+Recette de l'Administration                                05-35-57-37-28
+     Fiscale Errachidia
+
+                             - 21 -
+

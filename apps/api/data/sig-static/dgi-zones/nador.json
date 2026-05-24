@@ -1,0 +1,759 @@
+{
+  "_meta": {
+    "ville": "Nador",
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T21:51:34.496Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 1,
+    "zonesWithPrices": 1,
+    "zonesWithDelimitations": 0
+  },
+  "arrondissements": [
+    {
+      "code": "AA",
+      "nom": "Nador Atalayoun"
+    }
+  ],
+  "zones": [
+    {
+      "code": "NA-AA7",
+      "arrondissement": "Nador Atalayoun",
+      "ville": "Nador",
+      "region": "Oriental",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6600
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6200
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6200
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 6200
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5800
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 2750
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2750
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2750
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1700
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1700
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1700
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3200
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3200
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1700
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 1700
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1700
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 1700
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 6300
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 2800
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2800
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 7300
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 7300
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Ancien",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 1500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Ancien",
+          "prixUnique": 3300
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3300
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3300
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 3800
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1300
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 1800
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1300
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 2900
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2900
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2900
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1400
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1400
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1100
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1300
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1300
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1800
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 1600
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1600
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1600
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 6250
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6250
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 8300
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 5400
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2700
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 2700
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 18000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 18000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 18000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6300
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 13500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5500
+        }
+      ]
+    }
+  ]
+}

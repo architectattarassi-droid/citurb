@@ -1,0 +1,585 @@
+   Référentiel des Prix des Transactions Immobilières
+                     de la ville de Berkane
+
+       Les données de ce référentiel sont opposables uniquement
+                      à la Direction Générale des Impôts
+
+Site Internet : www.tax.gov.ma ­ Email : referentiel@tax.gov.ma
+                                                                        Édition Avril 2016
+
+                                       1
+                                 SOMMAIRE
+
+1. Préambule                                                                  03
+
+2. Liste des abréviations                                                     04
+
+3. Lexique                                                                    05
+
+4. Territoire, biens concernés et plan d'ensemble de la ville de Berkane      06
+
+4.1. Territoire concerné                                                      06
+
+4.2. Plan d'ensemble de la ville de Berkane                                   09
+
+5. Mode de recherche                                                          10
+
+6. Tableaux des délimitations des Zones                                       13
+
+6.1 Tableau des délimitations des Zones : Commune Urbaine de Berkane          13
+
+6.2 Tableau des délimitations des Zones : Commune Urbaine de Sidi Slimane Cheraâ 14
+
+6.3. Tableau des délimitations des Zones : Grands Boulevards de la ville de Berkane 15
+
+7. Référentiel des prix des transactions immobilières de la ville de Berkane  16
+
+7.1. Commune urbaine de Berkane                                               17
+
+7.2 .Commune urbaine Sidi Slimane Cheraâ                                      22
+
+7.3 Grands Boulevards                                                         23
+
+8. Contacts utiles                                                            25
+
+                                         2
+                                      1. Préambule
+
+Dans une démarche de transparence de l'action de l'Administration et de rationalisation de son
+pouvoir d'appréciation, le présent manuel assure la publication des prix de référence retenus par
+l'Administration pour les besoins de calcul des droits et taxes.
+Il s'applique à l'ensemble des cessions de biens immobiliers à usage d'habitation.
+Il permet aux citoyens, dans un souci d'amélioration du climat de confiance, de disposer du même
+niveau d'information que l'Administration.
+Pour se rapprocher le plus de la réalité du marché, les données de ce référentiel sont le résultat
+d'un travail de consultation et de concertation entre la Direction Générale des Impôts, l'Agence
+Nationale de la Conservation Foncière du Cadastre et de la Cartographie, la Fédération Nationale
+des Promoteurs Immobiliers, l'Agence Urbaine, le Ministère de l'Urbanisme et de l'Aménagement
+du Territoire, l'Ordre des Notaires et le Conseil Régional des Adouls de la ville.
+Il s'agit de prix moyens retenus pour le calcul des droits et taxes et ne constituent en aucun cas une
+évaluation directe d'un bien immobilier donné.
+Il constitue à cet effet une étape importante dans le processus de renforcement des garanties
+accordées aux citoyens.
+Les données de ce référentiel feront l'objet d'une actualisation périodique en fonction de
+l'évolution du marché de l'immobilier.
+
+                                                       3
+                                2. Liste des abréviations
+
+ANCFCC : Agence Nationale de la Conservation Foncière, du Cadastre et de la Cartographie
+BD : Boulevard
+BK : Berkane
+BK-SSC : Berkane Sidi Slimane Cheraâ
+DGI : Direction Générale des Impôts
+FNPI : Fédération Nationale des Promoteurs Immobiliers
+m2 : Mètre Carré
+PC : Prix de la Construction
+PT : Prix du Terrain
+ZI : Zone Immeuble
+ZM : Zone Maison
+ZV : Zone Villa
+
+                                                       4
+                                        3. Lexique
+
+Ancien (logement) : logement ayant été achevé depuis plus de quinze ans (> à 15 ans).
+Appartement : un appartement est une unité d'habitation, comportant un certain nombre de pièces et
+située dans un immeuble collectif généralement dans une ville.
+Immeuble : dans le langage courant, le mot "immeuble" désigne un bâtiment urbain de plusieurs étages, à
+usage d'habitation ou professionnel, en copropriété.
+Logement social : par cette formule, on désigne un appartement dont la superficie couverte est comprise
+entre 50 et 80 m2 et le prix de vente n'excède pas 250.000 dirhams, hors taxe sur la valeur ajoutée.
+Loti (terrain) : un terrain loti signifie un terrain situé dans un lotissement (voir lotissement).
+Lotissement : un lotissement est constitué par un ensemble de lots provenant de la division d'un terrain en
+vue d'y recevoir des constructions qui sont vendues généralement séparément après que le lotisseur ait
+réalisé des voies d'accès, des espaces collectifs et des travaux de viabilité et les raccordements aux réseaux
+de fourniture en eau, en électricité, aux réseaux d'égouts et aux réseaux de télécommunication.
+Maison : une maison est un bâtiment destiné à être la demeure d'une famille, voire de plusieurs, et qui
+n'est pas un immeuble en copropriété.
+Neuf (logement) : logement achevé depuis six ans au plus (<= à 6 ans).
+Prix de la Construction (PC) : par prix de la construction, on entend le prix du mètre carré couvert.
+Prix du Terrain (PT) : par prix du terrain, on entend le prix du terrain au mètre carré.
+Prix Terrain (une seule façade) = Prix au m2 Terrain x Superficie Terrain.
+Prix Terrain (deux façades et plus) = (Prix au m2 Terrain x Superficie Terrain) x 1,05.
+Prix Maison = Prix au m2 T x Superficie Terrain Maison + Prix au m2 C x Superficie Couverte.
+Prix Villa = Prix au m2 T x Superficie Terrain Villa + Prix au m2 C x Superficie Couverte.
+Récent (logement) : logement achevé depuis plus de six ans au moins et quinze ans au plus (> à 6 ans et <=
+à 15 ans) + logement ancien achevé suite à rénovation depuis six ans au plus (<= à 6 ans).
+Terrain ZI : est considéré comme terrain zone immeuble tout terrain destiné à la construction d'un
+immeuble collectif : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de zone villa
+convertie en zone immeuble par exemple).
+Terrain ZM : est considéré comme terrain zone maison tout terrain destiné à la construction d'une maison :
+terrain nu, terrain construit de bâtiments destinés à être démolis (cas de maison vétuste par exemple).
+Terrain ZV : est considéré comme terrain zone villa tout terrain destiné à la construction d'une villa : terrain
+nu, terrain construit de bâtiments destinés à être démolis (cas de villa vétuste par exemple).
+Villa : une villa est une maison avec jardin.
+Zone : une zone est un groupe d'adresses où les prix sont relativement homogènes.
+
+                                                       5
+        4. Territoire, biens concernés et plan d'ensemble de la ville de
+                                           Berkane
+
+4.1. Territoire concerné :
+
+La province de Berkane est limitée au Nord par la mer méditerranéenne, à l'Est par la frontière
+maroco-algérienne et la préfecture d'Oujda ­ Angad, à l'ouest par la province de Nador et au Sud
+par la province de Taourirt.
+La zone de Berkane est enclavée entre les plaines de Triffa et les montagnes des Béni-Znassen.
+Les béni-Znassen se fractionnent en quatre grandes tribus :
+
+                  ·Les Béni Ourimech
+                  ·Les Béni Atig
+                  ·Les Béni Mangouch
+                  ·Les Bni Khalid.
+La population de la ville de Berkane compte plus de 300000 habitants.
+
+                                                       6
+Le découpage administratif et communal de la ville de Berkane se présente comme suit :
+
+Découpage administratif :
+
+·Pachalik Berkane (5 arrondissements)
+
+·Pachalik Saidia
+
+·Pachalik Sidi Slimane
+
+·Pachalik Ahfir
+
+·Pachalik Reggada
+
+·Pachalik Aklim
+
+Découpage communal :
+
+La province est composée de 16 communes dont 6 urbaines et 10 rurales :
+
+Communes Urbaines             Communes Rurales
+
+         ·Berkane                      ·Chouihiya
+         ·Saidia                       ·Boughriba
+         ·Aklim                        ·Rislane
+         ·Ahfir                        ·Sidi Bouhria,
+         ·Sidi Slimane                 ·Tafoughalt
+         ·Ain Reggada                  ·Zegzel
+                                       ·Aghbal
+                                       ·Laatamna
+                                       ·Madagh
+                                       ·Fezouane
+
+                           7
+Le territoire géographique et les biens concernés par le présent Référentiel se présentent comme
+suit :
+* Territoire concerné : La Ville de Berkane
+* Types de biens immobiliers concernés :
+o Appartement, Maison et Villa à usage d'habitation
+o Terrain Loti : ZM, ZV et ZI.
+* Types de biens immobiliers exclus :
+o Appartement à usage professionnel ;
+o Villa et Maison à vocation professionnelle ou commerciale ;
+o Logement social ;
+o Logement destiné au recasement des bidonvilles ;
+o Terrain urbain non Loti ;
+o Terrain à usage industriel ;
+o Terrain à usage agricole.
+
+                                                       8
+4.2. Plan d'ensemble de la ville de Berkane :
+                                                       9
+                               5. Modes de recherche
+
+Actuellement, la recherche s'effectue :
+
+*  A travers la consultation sur une carte numérisée mise à la disposition du public au niveau du por-
+tail de la DGI, le système situe le bien sur la carte et affiche automatiquement son prix de référence ;
+
+*  A partir de la délimitation des zones ;
+
+*  En consultant le bureau d'accueil de la Direction Régionale des Impôts d'Oujda et/ou le Centre d'In -
+
+formation Téléphonique au numéro : 05.37.27.37.27.
+
+Précisions :
+
+*  Le nombre de Boulevards considérés comme Zone est de 6 (cf. liste page 15) ;
+
+*  Les prix à retenir pour les biens situés sur les Boulevards qui ne figurent pas sur la liste précitée,
+sont ceux des Zones dont ils relèvent.;
+
+*  Lorsque un bien chevauche sur plusieurs Zones, le prix à prendre en considération est celui de la
+
+Zone la plus côté.
+
+Exemples : voir les pages suivantes.
+
+                                            10
+Exemple 1
+
+Soit une villa X se trouvant à Quartier RIAD
+Situer le Quartier sur la carte et afficher les prix des Villas de cette Zone en cliquant dessus.
+
+                                                     11
+Exemple 2
+
+Soit une maison X se trouvant à Quartier SALAM à SIDI SLIMANE
+Situer le Quartier sur la carte et afficher les prix des Maisons de cette Zone en cliquant dessus.
+
+                                                     12
+                     6. Tableaux des délimitations des Zones:
+
+6.1. Tableau des délimitations des Zones : Commune Urbaine de Berkane
+
+Code Zone  Points de Repère
+BK1        HAY BOUKRAA, HAY BENI JDID
+BK2        HAY OUED ELMAKHAZINE, HAY HAMZA, HAY MANAR
+BK3        HAY MANAR, HAY BOUYKCHAR, HAY AIN SULTAN, HAY ZELLAKA
+BK4        HAY RIAD, HAY MOHAMADI, HAY BENSAID SEDDIK, HAY SALEM, HAY AMAL, HAY
+           KACHAD
+BK5
+BK6        HAY TIOURAR, HAY FATH, DOUAR HMIDOU, HAY RAMI 1/2/3, HAY JABER
+BK7        HAY PALESTINE
+BK8        HAY ANDALOUS,HAY LAAYOUNE
+           HAY EL MOUKAOUAMA (EX LAMHAL), HAY OUED EDDAHAB, HAY OURTASS, LOTIS
+BK9        KHAYBAR
+BK10
+BK11       HAY SIDI ALI BEN YAKHLEF, DOUAR OURTASS (HAUT ET BAS)
+BK12       HAY HASSANI
+BK13       HAY DAKHLA (EX MARBOUHA)
+           HAY MASSIRA
+BK14       LOTIS JNANE ZAITOUNE, LOTIS BAB MADINA, LOTIS RAHMA, LOTIS MAJD, HAY
+           OUIFAK, HAY SAFAE
+BK15
+           HAY LES ORANGERS, LOTIS MOSTAKBAL(HOUAR), LOTIS KARAM, LOTIS FATH, HAY
+           RACHAD, HAY OUAHDA, HAY NAHDA
+
+           HAY BOUHDILA, LOTIS TAJHIZ, LOTIS MOULOUYA, HAY SAADA, HAY INBIAT, HAY
+           HASSANIA, LOTIS SADAKA, LOTIS AZIZI & TALHAOUI, HAY HOURIA (Lotis cherra)
+
+           13
+6.2. Tableau des délimitations des Zones : Commune Urbaine de Sidi Slimane Cheraâ
+
+Code Zone  Points de Repère
+BK-SSC1
+           LOTIS YAACOUBI, LOTIS IMANE, LOTIS MOUNIA, LOTIS BELLE VUE, HAY OUIFAK,
+BK-SSC2    HAY HANAE, HAY HOUDA
+
+           HAY SAADA, HAY SIDI SLIMANE, HAY TRIFA, HAY SALAM, HAY TAKADOUM
+
+BK-SSC3    HAY FARAH (BOUJIR), HAY LAHBIL 1 /2 /3, HAY MAALOU 1 / 2, HAY OULAD HAJ,
+           HAY BOULGHALEGH
+
+           14
+6.3. Tableau des délimitations des Zones : Grands Boulevards de la ville de Berkane
+
+Code Zone  Points de Repère
+BK-BD1     BD MED V (RTE OUJDA VERS ROND POINT L'ORANGER)
+BK-BD2     BD MED V (ROND POINT L'ORANGER VERS PONT SIDI SLIMANE)
+BK-BD3     BD MED V (PONT SIDI SLIMANE VERS RTE NADOR)
+BK-BD4     BD IBN SINA, BD HASSAN II
+BK-BD5     RTE SAIDIA, BD BIR ANZARANE, RUE OUED DERAA, BD AHRAM, BD ISTIQLAL,
+           BD OUIFAK
+BK-BD6     BD PALESTINE
+
+           15
+7. Référentiel des prix des transactions immobilières de la ville de
+                                     Berkane
+
+La ville de Berkane est découpée en 24 Zones dont la ventilation est comme suit :
+
+Commune Urbain                     Nombre de  Nombre de Nombre totale
+
+                                   Zones      Zone : AV / BD des Zone
+
+Berkane       1er Arrondissement       3      1                                    4
+
+              2ème Arrondissement      3      --                                   3
+
+              3ème Arrondissement      3      1                                    4
+
+              4ème Arrondissement      3      3                                    6
+
+              5ème Arrondissement      3      --                                   3
+
+Sidi Slimane  Arrondissement Sidi      3      1                                    4
+
+Cherâa                Slimane
+
+              Totaux                   18     6                                    24
+
+                                   16
+7.1. Référentiel des prix des transactions immobilières de la commune urbaine de Berkane :
+
+Zone  Type de bien   Etat          Prix au m²
+BK1
+         Maison      Neuf   PT = 3500 + PC = 2500
+BK2      Maison     Récent  PT = 3500 + PC = 2000
+BK3      Maison     Ancien  PT = 3500 + PC = 1300
+      Appartement    Neuf
+      Appartement   Récent            5500
+      Appartement   Ancien            5000
+       Terrain ZM                     4000
+        Terrain ZI   Loti             3500
+                     Loti             4000
+         Maison
+         Maison      Neuf   PT = 2000 + PC = 2500
+         Maison     Récent  PT = 2000 + PC = 2000
+      Appartement   Ancien  PT = 2000 + PC = 1300
+      Appartement    Neuf
+      Appartement   Récent            4000
+       Terrain ZM   Ancien            3500
+        Terrain ZI                    3000
+                     Loti             2000
+         Maison      Loti             3000
+         Maison
+         Maison      Neuf   PT = 1500 + PC = 1800
+       Terrain ZM   Récent  PT = 1500 + PC = 1500
+                    Ancien  PT = 1500 + PC = 1300
+
+                     Loti             1500
+
+      17
+Zone  Type de bien   Etat          Prix au m²
+BK4      Maison      Neuf   PT = 2000 + PC = 2200
+BK5
+BK6      Maison     Récent  PT = 2000 + PC = 1800
+         Maison     Ancien  PT = 2000 + PC = 1300
+
+           Villa     Neuf   PT = 1800 + PC = 2800
+           Villa    Récent  PT = 1800 + PC = 2200
+
+           Villa    Ancien  PT = 1800 + PC = 2000
+       Terrain ZM    Loti             2000
+
+       Terrain ZV    Loti             1800
+         Maison      Neuf   PT = 1000 + PC = 1600
+
+         Maison     Récent  PT = 1000 + PC = 1400
+         Maison     Ancien  PT = 1000 + PC = 800
+
+       Terrain ZM    Loti             1000
+         Maison      Neuf   PT = 2700 + PC = 2500
+
+         Maison     Récent  PT = 2700 + PC = 2000
+         Maison     Ancien  PT = 2700 + PC = 1300
+
+           Villa     Neuf   PT = 2500 + PC = 3000
+           Villa    Récent  PT = 2500 + PC = 2500
+
+           Villa    Ancien  PT = 2500 + PC = 2000
+       Terrain ZM    Loti             2700
+
+       Terrain ZV    Loti             2500
+
+      18
+Zone  Type de bien   Etat          Prix au m²
+BK7      Maison      Neuf   PT = 1800 + PC = 2200
+
+BK8      Maison     Récent  PT = 1800 + PC = 1800
+         Maison     Ancien  PT = 1800 + PC = 1300
+BK9    Terrain ZM
+         Maison      Loti              1800
+                     Neuf   PT = 1800 + PC = 2200
+         Maison
+         Maison     Récent  PT = 1800 + PC = 1800
+       Terrain ZM   Ancien  PT = 1800 + PC = 1300
+         Maison
+         Maison      Loti             1800
+         Maison      Neuf   PT = 800 + PC = 1600
+       Terrain ZM   Récent  PT = 800 + PC = 1400
+                    Ancien   PT = 800 + PC = 800
+                     Loti
+                                       800
+
+      19
+Zone   Type de bien   Etat          Prix au m²
+BK 10  Appartement    Neuf             6000
+BK11   Appartement   Récent            5000
+       Appartement   Ancien            4500
+BK12                  Loti             5000
+         Terrain ZI   Neuf
+          Maison     Récent  PT = 2500 + PC = 2500
+          Maison     Ancien  PT = 2500 + PC = 2000
+          Maison      Neuf   PT = 2500 + PC = 1800
+       Appartement   Récent
+       Appartement   Ancien            4000
+       Appartement    Loti             3500
+        Terrain ZM    Loti             3000
+         Terrain ZI   Neuf             2500
+          Maison     Récent            3000
+          Maison     Ancien  PT = 3000 + PC = 2500
+          Maison      Neuf   PT = 3000 + PC = 2000
+       Appartement   Récent  PT = 3000 + PC = 1800
+       Appartement   Ancien            4000
+       Appartement    Neuf             3500
+                     Récent            3000
+            Villa    Ancien  PT = 2500 + PC = 3000
+            Villa     Loti   PT = 2500 + PC = 2500
+            Villa     Loti   PT = 2500 + PC = 2000
+        Terrain ZM    Loti             3000
+         Terrain ZV                    2500
+         Terrain ZI                    3500
+
+       20
+Zone  Type de bien    Etat        Prix au m²
+BK13
+BK14      Maison      Neuf   PT = 3000 + PC = 2500
+BK15      Maison     Récent  PT = 3000 + PC = 2000
+
+          Maison     Ancien  PT = 3000 + PC = 1800
+      Appartement     Neuf             5500
+
+      Appartement    Récent            5000
+      Appartement    Ancien            4000
+
+            Villa     Neuf   PT = 2500 + PC = 3000
+            Villa    Récent  PT = 2500 + PC = 2500
+
+            Villa    Ancien  PT = 2500 + PC = 2000
+        Terrain ZM    Loti             3000
+
+        Terrain ZV    Loti             2500
+         Terrain ZI   Loti             4000
+
+          Maison      Neuf   PT = 2800 + PC = 2500
+          Maison     Récent  PT = 2800 + PC = 2000
+
+          Maison     Ancien  PT = 2800 + PC = 1800
+      Appartement     Neuf             5000
+
+      Appartement    Récent            4500
+      Appartement    Ancien            4000
+
+            Villa     Neuf   PT = 2500 + PC = 3000
+            Villa    Récent  PT = 2500 + PC = 2500
+
+            Villa    Ancien  PT = 2500 + PC = 2000
+        Terrain ZM    Loti             2800
+
+        Terrain ZV    Loti             2300
+         Terrain ZI   Loti             3800
+
+          Maison      Neuf   PT = 2000 + PC = 2200
+          Maison     Récent  PT = 2000 + PC = 1800
+
+          Maison     Ancien  PT = 2000 + PC = 1300
+      Appartement     Neuf             4000
+
+      Appartement    Récent            3500
+      Appartement    Ancien            3000
+
+            Villa     Neuf   PT = 1800 + PC = 2800
+            Villa    Récent  PT = 1800 + PC = 2200
+
+            Villa    Ancien  PT = 1800 + PC = 2000
+        Terrain ZM    Loti             2000
+
+        Terrain ZV    Loti             1800
+         Terrain ZI   Loti             2500
+
+      21
+7.2 Référentiel des prix des transactions immobilières du district urbain de Sidi Slimane Cheraâ:
+
+  Zone   Type de bien   Etat          Prix au m²
+BK-SSC1     Maison      Neuf   PT = 2000 + PC = 2200
+            Maison     Récent  PT = 2000 + PC = 1800
+BK-SSC2     Maison     Ancien  PT = 2000 + PC = 1300
+BK-SSC3                 Neuf
+         Appartement   Récent            4000
+         Appartement   Ancien            3500
+         Appartement    Neuf             3000
+                       Récent  PT = 1700 + PC = 2800
+              Villa    Ancien  PT = 1700 + PC = 2200
+              Villa     Loti   PT = 1700 + PC = 2000
+              Villa     Loti             2000
+          Terrain ZM    Loti             1700
+           Terrain ZV   Neuf             3000
+           Terrain ZI  Récent  PT = 1000 + PC = 1800
+            Maison     Ancien  PT = 1000 + PC = 1500
+            Maison      Loti   PT = 1000 + PC = 1300
+            Maison      Neuf             1000
+          Terrain ZM   Récent  PT = 800 + PC = 1600
+            Maison     Ancien  PT = 800 + PC = 1400
+            Maison      Loti    PT = 800 + PC = 800
+            Maison                        800
+          Terrain ZM
+
+         22
+7.3 Grands Boulevards :      Type de bien   Etat          Prix au m²
+                       Zone  Appartement    Neuf             6000
+                             Appartement   Récent            5000
+                   BK-BD1    Appartement   Ancien            4500
+                   BK-BD2                   Loti             5000
+                               Terrain ZI   Neuf             6500
+                   BK-BD3    Appartement   Récent            6000
+                             Appartement   Ancien            5500
+                             Appartement    Loti             8000
+                                            Neuf
+                               Terrain ZI  Récent  PT = 2700 + PC = 2500
+                                Maison     Ancien  PT = 2700 + PC = 2000
+                                Maison      Neuf   PT = 2700 + PC = 1300
+                                Maison     Récent
+                             Appartement   Ancien            5500
+                             Appartement    Loti             5000
+                             Appartement    Loti             4000
+                              Terrain ZM                     2700
+                               Terrain ZI                    4000
+
+                             23
+  Zone  Type de bien   Etat          Prix au m²
+BK-BD4     Maison      Neuf   PT = 3500 + PC = 2500
+BK-BD5     Maison     Récent  PT = 3500 + PC = 2000
+           Maison     Ancien  PT = 3500 + PC = 1300
+BK-BD6                 Neuf
+        Appartement   Récent            5500
+        Appartement   Ancien            5000
+        Appartement    Loti             4000
+                       Loti             3500
+         Terrain ZM    Neuf             4000
+          Terrain ZI  Récent  PT = 3500 + PC = 2500
+           Maison     Ancien  PT = 3500 + PC = 2000
+           Maison      Neuf   PT = 3500 + PC = 1300
+           Maison     Récent            5500
+        Appartement   Ancien            5000
+        Appartement    Neuf             4000
+        Appartement   Récent  PT = 2500 + PC = 3000
+                      Ancien  PT = 2500 + PC = 2500
+             Villa     Loti   PT = 2500 + PC = 2000
+             Villa     Loti             3500
+             Villa     Loti             2500
+         Terrain ZM    Neuf             4000
+          Terrain ZV  Récent  PT = 3000 + PC = 2500
+          Terrain ZI  Ancien  PT = 3000 + PC = 2000
+           Maison      Neuf   PT = 3000 + PC = 1300
+           Maison     Récent            5000
+           Maison     Ancien            4500
+        Appartement    Neuf             3700
+        Appartement   Récent  PT = 3000 + PC = 2800
+        Appartement   Ancien  PT = 3000 + PC = 2200
+             Villa     Loti   PT = 3000 + PC = 2000
+             Villa     Loti             3000
+             Villa     Loti             2500
+         Terrain ZM                     3500
+          Terrain ZV
+          Terrain ZI
+
+        24
+                                   8. Contacts utiles
+
+           Désignation                          Adresse                    Tél/Email
+
+    Centre d'Information DGI       Haj Ahmed Cherkaoui Agdal Rabat       0537-27-37-27
+                                                                    referentiel@tax.gov.ma
+Bureau d'Accueil de la Direction   Bd Derfoufi Immeuble des Impôts
+ Régionale des Impôts d'Oujda                                            0536-68-41-85
+                                             Bd Mohammed V
+     Agence Urbaine d'Oujda                     Bd Hassan II             0536-68-04-13
+Wilaya de la Région de l'Oriental                                        0536-68-29-01
+                                            BP N°228 Berkane             0536-68-29-02
+       ANCFCC de Berkane               Route d'Oujda, Hay Dakhla         0536-61-31-77
+Commune Urbaine de Berkane                                               0536-61-96-11
+                                                   Berkane               0661-47-02-96
+Commune Urbaine Sidi Slimane            Sidi Slimane Cheraâ 63300        0536-25-59-50
+                Cheraâ
+
+                                   25
+

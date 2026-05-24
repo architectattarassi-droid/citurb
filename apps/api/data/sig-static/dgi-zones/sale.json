@@ -1,0 +1,1545 @@
+{
+  "_meta": {
+    "ville": "Salé",
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T21:51:34.460Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 36,
+    "zonesWithPrices": 36,
+    "zonesWithDelimitations": 4
+  },
+  "arrondissements": [
+    {
+      "code": "BE",
+      "nom": "Bettana"
+    },
+    {
+      "code": "BL",
+      "nom": "BL"
+    },
+    {
+      "code": "HS",
+      "nom": "Hssaine"
+    },
+    {
+      "code": "LA",
+      "nom": "LA"
+    },
+    {
+      "code": "LM",
+      "nom": "Bab Lamrissa"
+    },
+    {
+      "code": "TA",
+      "nom": "TA"
+    }
+  ],
+  "zones": [
+    {
+      "code": "SA-BE1",
+      "arrondissement": "Bettana",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 8000,
+          "pc": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 3500
+        }
+      ]
+    },
+    {
+      "code": "SA-BE2",
+      "arrondissement": "Bettana",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 8000,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "SA-BE3",
+      "arrondissement": "Bettana",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 8000,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 400034
+        }
+      ]
+    },
+    {
+      "code": "SA-BE4",
+      "arrondissement": "Bettana",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 10000
+        }
+      ]
+    },
+    {
+      "code": "SA-BE5",
+      "arrondissement": "Bettana",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 10000,
+          "pc": 4500
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 9000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 9000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 8000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 12000
+        }
+      ]
+    },
+    {
+      "code": "SA-BE6",
+      "arrondissement": "Bettana",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Rue Nouaser, Rue Saidia, Rue Khandaka, Rue Ahfir, Rue Mounira, Av Sakia El Hamra, Av Palestine, Rue Mounia , Bettana 2. Av Zarbiya, Av Martyr Mahjoub, Av Martyr Lhrach Mohamed, Av Martyr Salah Ben Bouchaib, Av Martyr Baghdi Laarbi, Av Martyr Amghir Ramadane, Hay Mly Ismail Vall�e Bouregreg, Oulja",
+      "avenues": [
+        "Rue Nouaser",
+        "Rue Saidia",
+        "Rue Khandaka",
+        "Rue Ahfir",
+        "Rue Mounira",
+        "Rue Mounia"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        }
+      ]
+    },
+    {
+      "code": "SA-BE8",
+      "arrondissement": "Bettana",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Zone Boulevard Abdelkrim Khattabi, Hay Salam 48",
+      "avenues": [
+        "Zone Boulevard Abdelkrim Khattabi"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 9000,
+          "pc": 6000
+        }
+      ]
+    },
+    {
+      "code": "SA-BL4",
+      "arrondissement": "BL",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 4000
+        }
+      ]
+    },
+    {
+      "code": "SA-HS11",
+      "arrondissement": "Hssaine",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 5500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 4500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 11000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 11000,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 11000,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 5500
+        }
+      ]
+    },
+    {
+      "code": "SA-HS2",
+      "arrondissement": "Hssaine",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3500,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 3500,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 7000,
+          "pc": 40008000
+        }
+      ]
+    },
+    {
+      "code": "SA-HS5",
+      "arrondissement": "Hssaine",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 8000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "SA-HS8",
+      "arrondissement": "Hssaine",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3500,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 3500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 3500
+        }
+      ]
+    },
+    {
+      "code": "SA-HS9",
+      "arrondissement": "Hssaine",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Lotissement Maamoura, Safae 4, Souk Lekhmis, Bd Hassan2, RN6, P4029, Bd Otta Hsaine, P4006 Bd Zarbia, Atacado , OULAD HLAL",
+      "avenues": [
+        "Bd Otta Hsaine",
+        "Bd Zarbia"
+      ],
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 6500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 6500,
+          "pc": 4500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 6500,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 12000
+        }
+      ]
+    },
+    {
+      "code": "SA-LA3",
+      "arrondissement": "LA",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 5500
+        }
+      ]
+    },
+    {
+      "code": "SA-LA4",
+      "arrondissement": "LA",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "SA-LA6",
+      "arrondissement": "LA",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 30007000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 200050004000
+        }
+      ]
+    },
+    {
+      "code": "SA-LM1",
+      "arrondissement": "Bab Lamrissa",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 26000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        }
+      ]
+    },
+    {
+      "code": "SA-LM10",
+      "arrondissement": "Bab Lamrissa",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Lakouass , Route de Kenitra RES Al Mehdi, RES Arrachi, RES Sophia, Av Salah Din Alayoubi , Lot Longevine, Gare Sal� Tabriquet.",
+      "avenues": [
+        "Lot Longevine"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 9500
+        }
+      ]
+    },
+    {
+      "code": "SA-LM11",
+      "arrondissement": "Bab Lamrissa",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 10000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 10000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 10000
+        }
+      ]
+    },
+    {
+      "code": "SA-LM12",
+      "arrondissement": "Bab Lamrissa",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 10500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 10500,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "pt": 10500,
+          "pc": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 10500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 11500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 11000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 11000,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 5500
+        }
+      ]
+    },
+    {
+      "code": "SA-LM14",
+      "arrondissement": "Bab Lamrissa",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 11000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 11000,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "pt": 11000,
+          "pc": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 12000
+        }
+      ]
+    },
+    {
+      "code": "SA-LM15",
+      "arrondissement": "Bab Lamrissa",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 5500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 10000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 10000,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "pt": 10000,
+          "pc": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 11000
+        }
+      ]
+    },
+    {
+      "code": "SA-LM2",
+      "arrondissement": "Bab Lamrissa",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "SA-LM3",
+      "arrondissement": "Bab Lamrissa",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 9000
+        }
+      ]
+    },
+    {
+      "code": "SA-LM4",
+      "arrondissement": "Bab Lamrissa",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 8000
+        }
+      ]
+    },
+    {
+      "code": "SA-LM5",
+      "arrondissement": "Bab Lamrissa",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8500
+        }
+      ]
+    },
+    {
+      "code": "SA-LM6",
+      "arrondissement": "Bab Lamrissa",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "pt": 9000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 9000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 10000
+        }
+      ]
+    },
+    {
+      "code": "SA-LM8",
+      "arrondissement": "Bab Lamrissa",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 2500
+        }
+      ]
+    },
+    {
+      "code": "SA-LM9",
+      "arrondissement": "Bab Lamrissa",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 1500
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 450022
+        }
+      ]
+    },
+    {
+      "code": "SA-TA10",
+      "arrondissement": "TA",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 6000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 200032
+        }
+      ]
+    },
+    {
+      "code": "SA-TA15",
+      "arrondissement": "TA",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "SA-TA3",
+      "arrondissement": "TA",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 10000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 400029
+        }
+      ]
+    },
+    {
+      "code": "SA-TA4",
+      "arrondissement": "TA",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        }
+      ]
+    },
+    {
+      "code": "SA-TA5",
+      "arrondissement": "TA",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "SA-TA6",
+      "arrondissement": "TA",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7500
+        }
+      ]
+    },
+    {
+      "code": "SA-TA7",
+      "arrondissement": "TA",
+      "ville": "Salé",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 8000,
+          "pc": 4000
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,730 @@
+Référentiel des Prix des Transactions Immobilières
+                         de Béni Mellal
+
+    Les données de ce référentiel sont opposables uniquement
+                   à la Direction Générale des Impôts
+
+Site Internet : www.tax.gov.ma ­ Email : referentiel@tax.gov.ma
+                                                                          Edition Juillet 2015
+
+                                                1
+                                   Sommaire
+
+1. Préambule                                                                      03
+
+2. Liste des abréviations                                                         04
+
+3. Lexique                                                                        05
+
+4. Territoire, biens concernés et plan d'ensemble de la Municipalité de Béni      07
+
+Mellal
+
+4.1 Territoire et biens concernés                                                 07
+
+4.2 Plan d'ensemble de la Municipalité de Béni Mellal                             08
+
+5. Mode de recherche                                                              09
+
+6. Référentiel des prix des transactions immobilières de la Municipalité de Béni  11
+    Mellal
+
+7. Cartographie et tableaux des délimitations des Zones                           23
+
+8. Contacts utiles                                                                27
+
+                                   2
+                                  1. Préambule
+
+Dans une démarche de transparence de l'action de l'Administration et de rationalisation de son pouvoir
+d'appréciation, le présent manuel assure la publication des prix de référence retenus par
+l'Administration pour les besoins de calcul des droits et taxes.
+Il s'applique à l'ensemble des cessions de biens immobiliers à usage d'habitation.
+Il permet aux citoyens, dans un souci d'amélioration du climat de confiance, de disposer du même
+niveau d'information que l'Administration.
+Pour se rapprocher le plus de la réalité du marché, les données de ce référentiel sont le résultat d'un
+travail de consultation et de concertation entre la Direction Générale des Impôts, l'Agence Nationale de
+la Conservation Foncière du Cadastre et de la Cartographie, la Fédération Nationale des Promoteurs
+Immobiliers, la Banque Centrale du Maroc (Bank Al Maghreb), l'Agence Urbaine de Béni Mellal, le
+Ministère de l'Urbanisme et de l'Aménagement du Territoire et l'Ordre des Notaires.
+Il s'agit de prix moyens retenus pour le calcul des droits et taxes et ne constituent en aucun cas une
+évaluation directe d'un bien immobilier donné.
+Il constitue à cet effet une étape importante dans le processus de renforcement des garanties accordées
+aux citoyens.
+Les données de ce référentiel feront l'objet d'une actualisation périodique en fonction de l'évolution du
+marché de l'immobilier.
+
+                                                                            3
+                           2. Liste des abréviations
+
+ANCFCC : Agence Nationale de la Conservation Foncière, du Cadastre et de la Cartographie
+Bd : Boulevard
+DGI : Direction Générale des Impôts
+FNPI : Fédération Nationale des Promoteurs Immobiliers
+m2 : Mètre Carré
+BM : Béni Mellal
+BM-BM : Béni Mellal - Municipalité de Béni Mellal
+PC : Prix de la Construction
+PT : Prix du Terrain
+R+(i) : Rez-de-chaussée + (i) : Nombre d'étages
+ST : Superficie du Terrain
+T : Terrain
+ZI : Zone Immeuble
+Zone Rue/Av./Bd : Rue, Avenue et Boulevard ayant le statut d'une Zone
+ZV : Zone Villa
+< à R+(i) : Zonage inférieur à R+(i)
+<= à R+(i) : Zonage inférieur ou égale à R+(i)
+> à R+(i) : Zonage supérieur à R+(i)
+>= à R+(i) : Zonage supérieur ou égale à R+(i)
+
+                                                                            4
+                                    3. Lexique
+
+Ancien (logement) : logement ayant été achevé depuis plus de quinze ans (> à 15 ans).
+Appartement : un appartement est une unité d'habitation, comportant un certain nombre de pièces et
+située dans un immeuble collectif généralement dans une ville.
+Immeuble : dans le langage courant, le mot "immeuble" désigne un bâtiment urbain de plusieurs
+étages, à usage d'habitation ou professionnel, en copropriété.
+Logement social : par cette formule, on désigne un appartement dont la superficie couverte est
+comprise entre 50 et 80 m2 et le prix de vente n'excède pas 250.000 dirhams, hors taxe sur la valeur
+ajoutée.
+Loti (terrain) : un terrain loti signifie un terrain situé dans un lotissement (voir lotissement).
+Lotissement : un lotissement est constitué par un ensemble de lots provenant de la division d'un terrain
+en vue d'y recevoir des constructions qui sont vendues généralement séparément après que le lotisseur
+ait réalisés des voies d'accès, des espaces collectifs et des travaux de viabilité et les raccordements aux
+réseaux de fourniture en eau, en électricité, aux réseaux d'égouts et aux réseaux de télécommunication.
+Maison : une maison est un bâtiment destiné à être la demeure d'une famille, voire de plusieurs, et qui
+n'est pas un immeuble en copropriété.
+Neuf (logement) : logement achevé depuis six ans au plus (<= à 6 ans).
+Prix Appartement = Prix au m2 Appartement x (Superficie Appartement + Superficie Parking/3 +
+Superficie Terrasse/2).
+Prix de la Construction (PC) : par prix de la construction, on entend le prix du mètre carré couvert.
+Prix du Terrain (PT) : par prix du terrain, on entend le prix du terrain au mètre carré.
+Prix Maison = Prix au m2 T x Superficie Terrain Maison + Prix au m2 C x Superficie Couverte.
+Prix Terrain = Prix au m2 Terrain x Superficie Terrain.
+Prix Villa = Prix au m2 T x Superficie Terrain Villa + Prix au m2 C x Superficie Couverte.
+Récent (logement) : logement achevé depuis plus de six ans au moins et quinze ans au plus (> à 6 ans
+et <= à 15 ans) + logement ancien achevé suite à rénovation depuis six ans au plus (<= à 6 ans).
+
+                                                                            5
+Terrain ZI : est considéré comme terrain zone immeuble tout terrain destiné à la construction d'un
+immeuble collectif : terrain nu, terrain construit de bâtiments ou maison destinés à être démolis (cas de
+zone villa convertie en zone immeuble par exemple).
+Terrain ZV : est considéré comme terrain zone villa tout terrain destiné à la construction d'une villa :
+terrain nu, terrain construit de bâtiments destinés à être démolis (cas de villa vétuste par exemple).
+Villa : une villa est une maison avec jardin.
+Zone : une zone est un groupe d'adresses où les prix sont relativement homogènes.
+
+                                                                            6
+4. Territoire, biens concernés et plan d'ensemble de la Municipalité de Béni
+
+                                                 Mellal
+
+   4.1. Territoire concerné :
+
+La Région de Béni Mellal-Khénifra est l'une des douze régions du Maroc instituées en 2015.
+Elle se compose de cinq Provinces :
+
+     Province de Béni Mellal ;
+     Province d'Azilal ;
+     Province de Fquih Ben Salah ;
+     Province de Khénifra ;
+     Province de Khouribga.
+La Province de Béni Mellal englobe quatre (4) Communes Urbaines ou Municipalités, dont la
+Municipalité de Béni Mellal est le chef lieu, et dix huit (18) Communes Rurales.
+Le territoire géographique et les biens concernés par le présent Référentiel se présentent comme suit :
+     Territoire concerné : Municipalité de Béni Mellal.
+     Types de biens immobiliers concernés :
+
+             o Appartement, Maison et Villa à usage d'habitation ;
+             o Terrain construit de bâtiments destinés à être démolis : ZV ou ZI ;
+             o Terrain Loti : ZV ou ZI.
+     Types de biens immobiliers exclus :
+             o Appartement à usage professionnel ;
+             o Villa et Maison à vocation professionnelle ou commerciale ;
+             o Logement social ;
+             o Logement destiné au recasement des bidonvilles ;
+             o Terrain urbain non Loti ;
+             o Terrain à usage industriel ;
+             o Terrain à usage agricole.
+
+                                                                            7
+4.2. Plan d'ensemble de Béni Mellal :
+
+                                                                       8
+                            5. Modes de recherche
+
+Actuellement, la recherche s'effectue :
+    · A travers la consultation sur une carte numérisée mise à la disposition du public au niveau du
+         portail de la DGI, le système situe le bien sur la carte et affiche automatiquement son prix de
+         référence ;
+    · A partir de la délimitation des zones ;
+    · En consultant le bureau d'accueil de la Direction Régionale des Impôts de Béni Mellal et/ou le
+         Centre d'Information Téléphonique au numéro : 0537-27-37-27.
+
+Précision :
+Lorsque un bien chevauche sur plusieurs zones, le prix à prendre en considération est celui de la zone la
+plus côté.
+Exemple 1 :
+Soit un Appartement X se trouvant sur Bd de Rabat.
+Situer le Bd sur la carte et afficher les prix des Appartements de cette Zone en cliquant dessus :
+
+                                                                            9
+Exemple 2 :
+Soit X un Appartement Neuf situé au Quartier Ryad Salam.
+Consulter la liste des points de repère de Béni Mellal pour déterminer la Zone :
+
+Connaissant la zone, on détermine le prix du bien concerné au niveau de la grille de prix
+correspondante :
+
+                                                                            10
+6. Référentiel des prix des transactions immobilières de la Municipalité de
+
+                                            Béni Mellal
+
+La Municipalité de Béni Mellal est découpée en 34 Zones dont la ventilation est comme suit :
+
+Municipalité  Nombre de Zones      Nombre de Zones  Nombre total des Zones
+Béni Mellal            28             Rue/Av./Bd                 34
+
+                                             6
+
+                               11
+Référentiel des prix des transactions immobilières de Béni Mellal
+
+  Zone  Type de bien       État           Prix au m2
+BM-BM1  Appartement       Récent
+        Appartement                           5 000
+BM-BM2                     Neuf
+BM-BM3        Villa       Récent              5 500
+
+              Villa        Neuf       Si ST >= 300 m² :
+          Terrain ZI        Loti   PT : 2 000/PC : 3 000
+          Terrain ZV        Loti
+        Appartement       Récent       Si ST < 300 m² :
+        Appartement        Neuf    PT : 2 400/PC : 3 000
+                          Récent
+              Villa                   Si ST >= 300 m² :
+                           Neuf    PT : 2 000/PC: 4 000
+              Villa       Récent
+            Maison                     Si ST < 300 m² :
+            Maison         Neuf    PT : 2 400/PC : 4 000
+          Terrain ZI        Loti
+          Terrain ZV        Loti              5 000
+                          Ancien
+              Villa               Si ST >= 300 m² : 2 000
+                          Récent  Si ST < 300 m² : 2 400
+              Villa
+                           Neuf               5 500
+              Villa         Loti
+          Terrain ZV                          6 000
+
+                                      Si ST >= 300 m² :
+                                   PT : 2 000/PC : 3 000
+
+                                       Si ST < 300 m² :
+                                   PT : 2 400/PC : 3 000
+
+                                      Si ST >= 300 m² :
+                                   PT : 2 000/PC : 4 000
+
+                                       Si ST < 300 m² :
+                                   PT : 2 400/PC : 4 000
+
+                                   PT : 4 500/PC : 2 500
+
+                                   PT : 4 500/PC : 3 000
+
+                                              4 500
+
+                                  Si ST >= 300 m² : 2 000
+                                  Si ST < 300 m² : 2 400
+
+                                      Si ST >= 300 m² :
+                                   PT : 2 000/PC : 2 500
+
+                                       Si ST < 300 m² :
+                                   PT : 2 400/PC : 2 500
+
+                                      Si ST >= 300 m² :
+                                   PT : 2 000/PC : 3 000
+
+                                       Si ST < 300 m² :
+                                   PT : 2 400/PC : 3 000
+
+                                      Si ST >= 300 m² :
+                                   PT : 2 000/PC : 4 000
+
+                                       Si ST < 300 m² :
+                                   PT : 2 400/PC : 4 000
+                                  Si ST >= 300 m² : 2 000
+                                  Si ST < 300 m² : 2 400
+
+                      12
+  Zone  Type de bien       État                         2
+BM-BM4        Villa       Récent          Prix au m
+
+BM-BM5        Villa        Neuf       Si ST >= 300 m² :
+            Maison        Ancien   PT : 1 800/PC : 3 000
+            Maison        Récent
+            Maison         Neuf        Si ST < 300 m² :
+          Terrain ZI               PT : 2 000/PC : 3 000
+          Terrain ZV        Loti
+        Appartement         Loti      Si ST >= 300 m² :
+        Appartement       Ancien   PT : 1 800/PC : 4 000
+        Appartement       Récent
+                           Neuf        Si ST < 300 m² :
+              Villa       Ancien   PT : 2 000/PC : 4 000
+
+              Villa       Récent   PT : 2 200/PC : 1 500
+
+              Villa        Neuf    PT : 2 200/PC : 1 800
+            Maison        Ancien
+            Maison        Récent   PT : 2 200/PC : 2 200
+            Maison         Neuf
+          Terrain ZI                          2 200
+          Terrain ZV        Loti
+                            Loti  Si ST >= 300 m² : 1 800
+                                  Si ST < 300 m² : 2 000
+
+                                              4 700
+
+                                              5 700
+
+                                              6 200
+
+                                      Si ST >= 300 m² :
+                                   PT : 2 000/PC : 2 500
+
+                                       Si ST < 300 m² :
+                                   PT : 2 500/PC : 2 500
+
+                                      Si ST >= 300 m² :
+                                   PT : 2 000/PC : 3 000
+
+                                       Si ST < 300 m² :
+                                   PT : 2 500/PC : 3 000
+
+                                      Si ST >= 300 m² :
+                                   PT : 2 000/PC : 4 000
+
+                                       Si ST < 300 m² :
+                                   PT : 2 500/PC : 4 000
+
+                                   PT : 5 500/PC : 1 800
+
+                                   PT : 5 500/PC : 2 400
+
+                                   PT : 5 500/PC : 3 000
+
+                                        <= R+3 : 5 500
+                                         > R+3 : 6 500
+                                  Si ST >= 300 m² : 2 000
+                                  Si ST < 300 m² : 2 500
+
+                      13
+  Zone  Type de bien       État                        2
+BM-BM6  Appartement       Ancien         Prix au m
+BM-BM7  Appartement       Récent
+BM-BM8  Appartement        Neuf              5 500
+                          Ancien             6 000
+            Maison        Récent             6 500
+            Maison         Neuf   PT : 10 000/PC : 2 500
+            Maison                PT : 10 000/PC : 3 000
+          Terrain ZI        Loti  PT : 10 000/PC : 3 500
+        Appartement       Ancien            10 000
+        Appartement       Récent             6 000
+        Appartement        Neuf              6 500
+          Terrain ZI                         7 000
+        Appartement         Loti            10 000
+        Appartement       Ancien             5 500
+        Appartement       Récent             6 000
+            Maison         Neuf              6 500
+            Maison        Ancien  PT : 8 000/PC : 2 500
+            Maison        Récent  PT : 8 000/PC : 3 000
+          Terrain ZI       Neuf   PT : 8 000/PC : 3 500
+                                             8 000
+                            Loti
+
+                      14
+   Zone  Type de bien       État                             2
+BM-BM9   Appartement       Ancien              Prix au m
+         Appartement       Récent
+BM-BM10  Appartement        Neuf                  5 000
+BM-BM11                    Ancien
+               Villa                              6 000
+                           Récent
+               Villa                              6 500
+                            Neuf          Si ST >= 300 m² :
+               Villa         Loti      PT : 2 500/PC : 3 000
+           Terrain ZI        Loti          Si ST < 300 m² :
+           Terrain ZV      Ancien      PT : 3 000/PC : 3 000
+         Appartement       Récent         Si ST >= 300 m² :
+         Appartement        Neuf       PT : 2 500/PC : 3 500
+         Appartement       Ancien          Si ST < 300 m² :
+                           Récent      PT : 3 000/PC : 3 500
+             Maison         Neuf          Si ST >= 300 m² :
+             Maison          Loti      PT : 2 500/PC : 4 000
+             Maison        Ancien          Si ST < 300 m² :
+           Terrain ZI        Loti      PT : 3 000/PC : 4 000
+             Maison
+           Terrain ZI                       <= R+3 : 5 000
+                                             > R+3 : 6 500
+                                   Si ST >= 300 m² : PT : 2 500
+                                   Si ST < 300 m² : PT : 3 000
+
+                                                   4 000
+
+                                                   5 000
+
+                                                   6 000
+
+                                        PT : 5 000/PC : 1 800
+
+                                        PT : 5 000/PC : 2 400
+
+                                        PT : 5 000/PC : 3 000
+
+                                                   5 000
+
+                                        PT : 2 000/PC : 1 200
+
+                                                   2 000
+
+                       15
+   Zone  Type de bien       État                       2
+BM-BM12  Appartement       Ancien         Prix au m
+BM-BM13  Appartement       Récent
+BM-BM14  Appartement        Neuf             4 000
+                           Ancien            5 000
+BM-BM15      Maison        Récent            5 500
+             Maison         Neuf   PT : 4 000/PC : 1 300
+             Maison                PT : 4 000/PC : 1 800
+           Terrain ZI        Loti  PT : 4 000/PC : 2 300
+             Maison        Ancien            4 000
+             Maison        Récent  PT : 2 300/PC : 1 300
+             Maison         Neuf   PT : 2 300/PC : 1 800
+           Terrain ZI              PT : 2 300/PC : 2 300
+         Appartement         Loti            2 300
+         Appartement       Ancien            4 500
+         Appartement       Récent            5 000
+             Maison         Neuf             5 500
+             Maison        Ancien  PT : 4 000/PC : 1 800
+             Maison        Récent  PT : 4 000/PC : 2 200
+           Terrain ZI       Neuf   PT : 4 000/PC : 2 800
+         Appartement                         4 000
+         Appartement         Loti            5 000
+         Appartement       Ancien            6 000
+             Maison        Récent            6 500
+             Maison         Neuf   PT : 8 000/PC : 2 000
+             Maison        Ancien  PT : 8 000/PC : 2 500
+           Terrain ZI      Récent  PT : 8000/PC : 3 000
+                            Neuf             8 000
+
+                             Loti
+
+                       16
+   Zone  Type de bien       État                       2
+BM-BM16      Maison        Ancien         Prix au m
+BM-BM17      Maison        Récent  PT : 1 500/PC : 1 300
+BM-BM18      Maison         Neuf   PT : 1 500/PC : 1 800
+BM-BM19                            PT : 1 500/PC : 2 300
+           Terrain ZI        Loti
+         Appartement       Ancien            1 500
+         Appartement       Récent            4 500
+         Appartement        Neuf             5 000
+                           Ancien            6 000
+             Maison        Récent  PT : 4 500/PC : 1 800
+             Maison         Neuf   PT : 4 500/PC : 2 400
+             Maison                PT : 4 500/PC : 3 000
+           Terrain ZI        Loti            4 500
+             Maison        Ancien  PT : 2 500/PC : 1 300
+             Maison        Récent  PT : 2 500/PC : 1 800
+             Maison         Neuf   PT : 2 500/PC : 2 300
+           Terrain ZI                        2 500
+         Appartement         Loti            4 500
+         Appartement       Ancien            5 000
+         Appartement       Récent            5 500
+             Maison         Neuf   PT : 5 500/PC : 2 000
+             Maison        Ancien  PT : 5 500/PC : 2 500
+             Maison        Récent  PT : 5 500/PC : 3 000
+           Terrain ZI       Neuf             5 500
+
+                             Loti
+
+                       17
+   Zone  Type de bien       État                       2
+BM-BM20  Appartement       Ancien         Prix au m
+BM-BM21  Appartement       Récent
+BM-BM22  Appartement        Neuf             5 000
+BM-BM23                    Ancien            5 500
+             Maison        Récent            6 000
+             Maison         Neuf   PT : 8 000/PC : 2 500
+             Maison                PT : 8 000/PC : 3 000
+           Terrain ZI        Loti  PT : 8 000/PC : 3 500
+         Appartement       Ancien            8 000
+         Appartement       Récent            5 000
+         Appartement        Neuf             5 500
+             Maison        Ancien            6 000
+             Maison        Récent  PT : 7 500/PC : 2 500
+             Maison         Neuf   PT : 7 500/PC : 3 000
+           Terrain ZI              PT : 7 500/PC : 3 500
+             Maison          Loti            7 500
+             Maison        Ancien  PT : 4 000/PC : 1 800
+             Maison        Récent  PT : 4 000/PC : 2 200
+           Terrain ZI       Neuf   PT : 4 000/PC : 2 800
+         Appartement                         4 000
+         Appartement         Loti            5 000
+         Appartement       Ancien            5 500
+             Maison        Récent            6 000
+             Maison         Neuf   PT : 5 000/PC : 1 800
+             Maison        Ancien  PT : 5 000/PC : 2 400
+           Terrain ZI      Récent  PT : 5 000/PC : 3 000
+                            Neuf             5 000
+
+                             Loti
+
+                       18
+   Zone  Type de bien       État                         2
+BM-BM24  Appartement       Ancien          Prix au m
+         Appartement       Récent
+BM-BM25  Appartement        Neuf               5 000
+                           Ancien
+             Maison        Récent              5 500
+             Maison         Neuf
+             Maison                            6 000
+           Terrain ZI        Loti
+         Appartement       Ancien   PT : 4 500/PC : 1 800
+         Appartement       Récent
+         Appartement        Neuf    PT : 4 500/PC : 2 200
+                           Ancien
+               Villa                PT : 4 500/PC : 2 800
+                           Récent
+               Villa                           4 500
+                            Neuf
+               Villa       Ancien              5 000
+             Maison        Récent
+             Maison         Neuf               5 500
+             Maison
+           Terrain ZI        Loti              6 500
+           Terrain ZV        Loti      Si ST >= 300 m² :
+                                    PT : 2 000/PC : 2 500
+                                        Si ST < 300 m² :
+                                    PT: 2 500/PC : 2 500
+                                       Si ST >= 300 m² :
+                                    PT : 2 000/PC : 3 000
+                                        Si ST < 300 m² :
+                                    PT : 2 500/PC: 3 000
+                                       Si ST >= 300 m² :
+                                    PT : 2 000/PC : 4 000
+                                        Si ST < 300 m² :
+                                    PT : 2 500/PC : 4 000
+                                    PT : 5 000/PC : 1 800
+
+                                    PT : 5 000/PC : 2 400
+
+                                    PT : 5 000/PC : 3 000
+
+                                         <= R+3 : 5 000
+                                          > R+3 : 6 500
+                                   Si ST >= 300 m² : 2 000
+                                   Si ST < 300 m² : 2 500
+
+                       19
+   Zone  Type de bien       État                         2
+         Appartement       Récent          Prix au m
+BM-BM26  Appartement
+                            Neuf               6 000
+BM-BM27        Villa       Récent
+BM-BM28                                        6 500
+BM-BM29        Villa        Neuf       Si ST >= 300 m² :
+BM-BM30      Maison        Récent   PT : 2 000/PC : 3 500
+             Maison                     Si ST < 300 m² :
+           Terrain ZI       Neuf    PT : 2 500/PC : 3 500
+           Terrain ZV        Loti      Si ST >= 300 m² :
+             Maison          Loti   PT : 2 000/PC : 4 000
+           Terrain ZI       Neuf        Si ST < 300 m² :
+         Appartement         Loti   PT : 2 500/PC : 4 000
+           Terrain ZI       Neuf    PT : 6 000/PC : 2 400
+           Terrain ZI        Loti
+             Maison          Loti   PT : 6 000/PC : 3 000
+             Maison        Ancien        <= R+3 : 6 000
+             Maison        Récent         > R+3 : 7 000
+           Terrain ZI       Neuf
+                             Loti  Si ST >= 300 m² : 2 000
+                                   Si ST < 300 m² : 2 500
+                                    PT: 4 500/PC : 3 000
+
+                                               4 500
+
+                                               5 000
+
+                                               4 000
+
+                                               4 000
+
+                                    PT : 2 000/PC : 1 300
+
+                                    PT : 2 000/PC : 1 800
+
+                                    PT : 2 000/PC : 2 300
+
+                                               2 000
+
+                       20
+   Zone  Type de bien       État                         2
+BM-BM31  Appartement       Ancien          Prix au m
+         Appartement       Récent
+BM-BM32  Appartement        Neuf               4 500
+BM-BM33                    Récent
+               Villa                           5 000
+                            Neuf
+               Villa       Ancien              5 500
+             Maison        Récent      Si ST >= 300 m² :
+             Maison         Neuf    PT : 2 000/PC : 3 500
+             Maison                     Si ST < 300 m² :
+           Terrain ZI        Loti   PT : 2 400/PC : 3 500
+           Terrain ZV        Loti      Si ST >= 300 m² :
+             Maison        Ancien   PT : 2 000/PC : 4 000
+             Maison        Récent       Si ST < 300 m² :
+             Maison         Neuf    PT : 2 400/PC : 4 000
+           Terrain ZI        Loti   PT : 4 500/PC : 1 800
+             Maison        Ancien
+             Maison        Récent   PT : 4 500/PC : 2 200
+             Maison         Neuf
+           Terrain ZI        Loti   PT : 4 500/PC : 2 800
+
+                                               4 500
+                                   Si ST >= 300 m² : 2 000
+                                   Si ST < 300 m² : 2 400
+
+                                    PT : 3 000/PC : 1 500
+
+                                    PT : 3 000/PC : 2 000
+
+                                    PT : 3 000/PC : 2 500
+
+                                               3 000
+
+                                    PT : 3 500/PC : 1 500
+
+                                    PT : 3 500/PC : 2 000
+
+                                    PT : 3 500/PC : 2 500
+
+                                               3 500
+
+                       21
+   Zone  Type de bien       État                       2
+BM-BM34  Appartement       Ancien         Prix au m
+         Appartement       Récent
+         Appartement        Neuf             4 500
+                           Ancien            5 000
+             Maison        Récent            5 500
+             Maison         Neuf   PT : 4 000/PC : 1 800
+             Maison                PT : 4 000/PC : 2 200
+           Terrain ZI        Loti  PT : 4 000/PC : 2 800
+                                             4 000
+
+                       22
+7. Annexes
+
+              23
+Cartographie des Zones relevant de la Municipalité de Béni Mellal
+
+                                                       24
+Tableau des délimitations des Zones de : Municipalité de Béni Mellal
+
+Code Zone  Points de Repère
+ BM-BM1
+ BM-BM2    Ryad Salam, Argana, Groupe Ait Abdellouli, Koulia, Mabrouka, Rida, El Badr, Ryad
+ BM-BM3    Assa, Ryad Salam 2
+ BM-BM4
+ BM-BM5    Lot EL Waha, El Kheir 1 et 2, Touta 1 et 2, Lot El Fajr, Al Ikhlas, Essalam, Lekbir 1
+           et 2, Narjis, El Balssam, Ain El Ati, Day Karma
+
+           Jnan Tahar, Lot Tamagnount, Khaoula, Chorouk, Nassim, Hassania (santé), Saad,
+           Nazha, Yasmine, Ghizlane, Jnane Ourbii,
+
+           Ait Tislit, Jamila, Ourbii, Inara
+
+           Hay Zitoune, Zitouna, Hay Soumia, Hay Limoune, Darkoum, Lot Oukacha, Lot
+           Mehdi, Nizar, Amal (Atfaoui), Mounjid, Lot 18 Novembre, Lot Touta, Lot Hay
+           Hassani, Fouzia, Fadl, Amal7, Quartier Administratif
+
+BM-BM6     BdMed V
+
+BM-BM7     Bd Hassan II (de Ecole Belle Vue à Bd Med V)
+
+BM-BM8     Bd Hassan II (de Bd Med V à Bd 20 Août), Bd Ibn Khaldoun
+
+BM-BM9     Quartier Administratif Avenue Taif, Quartier Belle Vue
+
+BM-BM10    Miftah, Dchira, Quartier Moderne
+
+BM-BM11    Ancienne Médina
+BM-BM12
+BM-BM13    Bab Ftouh, Quartier Ibn Sina, Rmila, Saada, Bd 9 Décembre
+BM-BM14
+           M'dioula, Sidi Abdelhalim, Asfat Serhani, Dar Dbagh, Essomaa, Quartier Ennassr
+           (Bouachouch)
+
+           Oum Dhar, Massira 1, Lot Joud, Kalam, Yasmine, Zahraa, Kassimia, Boustane,
+           Tamagnounte 1, Nour, Kadi Ayad, Nakhil, Tissir, Douha, Maghrib El Arabi, Naciria,
+           Amal, Oum Rabii, Chabab et Moustakbal, Ouafa, Farah
+
+BM-BM15    Bd 20 Août
+
+BM-BM16    M'Ghila
+BM-BM17
+BM-BM18    Takadoum, Houda, Ben Addi, Lot karima, Rizk, Tissir, Salam, Nour, Ghita, Iness,
+           Sitr, Latifa, Bazzaza, Chiadmia
+
+           Hay Si Salem, Hay Mourabitine (Khouribga), Castor, Rachad, Souk Berra, Nouayel
+           Makhzan, Ait Thaich
+
+                                             25
+Code Zone  Points de Repère
+BM-BM19
+BM-BM20    Quartier Doha, Ancien Souk
+BM-BM21
+BM-BM22    Bd des FAR (de Bd Med V à Bd 20 Août)
+BM-BM23
+BM-BM24    Bd des FAR (de BD 20 Aout à La mosquée d'EL Massira)
+BM-BM25
+BM-BM26    Hay Hassani, El Amria1 et El Amria 2
+BM-BM27    BD Casablanca,Hy Safa ,Jabalia, Mimouna, Bintourkan, Al Wafa, Lot Bouharraoui,
+BM-BM28    Lot Haj Khalifa, Lot Raha2, Lot Radouane, Naima , Lotf, Babay
+BM-BM29    Ouled Hamdane, Nzala, Skakim, Ramz, Loukilia, Lot Janah, Taha Houssine,Ihssane
+BM-BM30    El Adarissa, 3 Mars, Lot Youssef, Lot EL Qods, Laghzafia, Ghita, Mahrak, Ben Alla,
+BM-BM31    Laarsa, warda, Housna, Houria, Ain allah, Salsabil, lot El Kheir,
+BM-BM32    Hay Charaf, Lot Houria, Josephine, Waha2 Lot Ryad, Chems, Sakina
+BM-BM33
+BM-BM34    Ouled Ayad (Extension Argana)
+
+           Ouled Ayad Diar El Amane
+
+           SUBM
+
+           Ouled Ayad 1
+           Complexe Oumnia; Lot Hadria, Laasri, Meryem, Hamd, Chokr, Hind, Youssoufia,
+           Asmaa, Roumana, Mellalia, Nil, Inara, Soundous
+           Massira 2
+           Hay Essalam (Boulgroune), Hay Nkhila, Ksar Ghzafat,Lalla Aicha, Lot Ain
+           Asserdoune (Chouhada)
+           Atlas, Menzah Atlas, Lot Bissmillah, Somaa, 11 Janvier, Lot Chetbi,
+
+           26
+                                     8. Contacts utiles
+
+               Désignation                             Adresse                       Tél/Email
+                                                                                 0537-27-37-27
+      Centre d'Information DGI         Haj Ahmed Cherkaoui Agdal Rabat      referentiel@tax.gov.ma
+
+  Bureau d'Accueil de la Direction   Avenue Beyrout Quartier Administratif       0523-48-24-62
+Régionale des Impôts de Béni Mellal                   Béni Mellal                0523-48-22-36
+
+ Bureau de Contrôle de Béni Mellal     Quartier Administratif Béni Mellal        0523-48-29-79
+
+                                     27
+

@@ -1,0 +1,1341 @@
+   Référentiel des Prix des Transactions Immobilières
+                               de SAFI
+
+       Les données de ce référentiel sont opposables uniquement
+                      à la Direction Générale des Impôts
+
+Site Internet : www.tax.gov.ma ­ Email : referentiel@tax.gov.ma
+                                                                       Edition Décembre 2017
+                                           Sommaire
+
+1. Préambule                                                                       03
+
+2. Liste des abréviations                                                          04
+
+3. Lexique                                                                         05
+
+4. Territoire, biens concernés et plan d'ensemble de la Préfecture de Safi         07
+
+4.1.        Territoire et biens concernés                                          07
+
+4.2.        Plan d'ensemble de la Préfecture de Safi                               09
+
+5. Mode de recherche                                                               10
+
+6. Référentiel des prix des transactions immobilières de la Préfecture de de Safi  12
+
+6.1. District Boudhab                                                              13
+
+6.2. District Zaouia                                                               23
+
+6.3. District Biada                                                                28
+
+7. Cartographie et tableaux des délimitations des Zones                            33
+
+8. Contacts utiles                                                                 41
+
+                                           2
+                                     1.Préambule
+
+Dans une démarche de transparence de l'action de l'Administration et de rationalisation de son pouvoir
+d'appréciation, le présent manuel assure la publication des prix de référence retenus par
+l'Administration pour les besoins de calcul des droits et taxes.
+Il s'applique à l'ensemble des cessions de biens immobiliers à usage d'habitation.
+Il permet aux citoyens, dans un souci d'amélioration du climat de confiance, de disposer du même
+niveau d'information que l'Administration.
+Pour se rapprocher le plus de la réalité du marché, les données de ce référentiel sont le résultat d'un
+travail de consultation et de concertation entre la Direction Générale des Impôts, l'Agence Nationale de
+la Conservation Foncière du Cadastre et de la Cartographie, la Fédération Nationale des Promoteurs
+Immobiliers, la Banque Centrale du Maroc (Bank Al Maghrib), l'Agence Urbaine de Safi,Ministère de
+l'Urbanisme et de l'Aménagement du Territoire et l'Ordre des Notaires.
+Il s'agit de prix moyens retenus pour le calcul des droits et taxes et ne constituent en aucun cas une
+évaluation directe d'un bien immobilier donné.
+Il constitue à cet effet une étape importante dans le processus de renforcement des garanties accordées
+aux citoyens.
+Les données de ce référentiel feront l'objet d'une actualisation périodique en fonction de l'évolution du
+marché de l'immobilier.
+
+                                                                           3
+                              2.Liste des abréviations
+
+ANCFCC : Agence Nationale de la Conservation Foncière, du Cadastre et de la Cartographie
+DGI : Direction Générale des Impôts
+FNPI : Fédération Nationale des Promoteurs Immobiliers
+m2 : Mètre Carré
+SF: Safi
+SF -BH : Safi ­ Districte Boudhab
+SF-ZW : Safi ­ Districte Zawia
+SF-BD: Safi ­ Districte Biada
+PC : Prix de la Construction
+PCF : Prix de la Construction Finie
+PCSF : Prix de la Construction Semi Finie
+PT : Prix du Terrain
+R+(i) : Rez-de-chaussée + (i) : Nombre d'étages
+ST : Superficie du Terrain
+T : Terrain
+TSGolf : Terrain Sur Golf
+ZI : Zone Immeuble
+ZM : Zone Maison
+Zone Rue/Av./Bd : Rue, Avenue et Boulevard ayant le statut d'une Zone
+ZV : Zone Villa
+< à R+(i) : Zonage inférieur à R+(i)
+<= à R+(i) : Zonage inférieur ou égale à R+(i)
+> à R+(i) : Zonage supérieur à R+(i)
+>= à R+(i) : Zonage supérieur ou égale à R+(i)
+
+                                                                           4
+                                       3.Lexique
+
+Ancien (logement) : logement ayant été achevé depuis plus de quinze ans (> à 15 ans).
+Appartement sécurisé : appartement situé dans un projet immobilier fermé et sécurisé.
+Appartement : un appartement est une unité d'habitation, comportant un certain nombre de pièces et
+située dans un immeuble collectif généralement dans une ville.
+Immeuble : dans le langage courant, le mot "immeuble" désigne un bâtiment urbain de plusieurs
+étages, à usage d'habitation ou professionnel, en copropriété.
+Logement social : par cette formule, on désigne un appartement dont la superficie couverte est
+comprise entre 50 et 80 m2 et le prix de vente n'excède pas 250.000 dirhams, hors taxe sur la valeur
+ajoutée.
+Loti (terrain) : un terrain loti signifie un terrain situé dans un lotissement (voir lotissement).
+Lotissement : un lotissement est constitué par un ensemble de lots provenant de la division d'un terrain
+en vue d'y recevoir des constructions qui sont vendues généralement séparément après que le lotisseur
+ait réalisés des voies d'accès, des espaces collectifs et des travaux de viabilité et les raccordements aux
+réseaux de fourniture en eau, en électricité, aux réseaux d'égouts et aux réseaux de télécommunication.
+Maison : une maison est un bâtiment destiné à être la demeure d'une famille, voire de plusieurs, et qui
+n'est pas un immeuble en copropriété.
+Neuf (logement) : logement achevé depuis six ans au plus (<= à 6 ans).
+Prix Appartement = Prix au m2 Appartement x (Superficie Appartement + Superficie Parking/3 +
+Superficie Terrasse/2).
+Prix de la Construction (PC) : par prix de la construction, on entend le prix du mètre carré couvert.
+Prix du Terrain (PT) : par prix du terrain, on entend le prix du terrain au mètre carré.
+Prix Maison = Prix au m2 T x Superficie Terrain Maison + Prix au m2 C x Superficie Couverte.
+Prix Terrain = Prix au m2 Terrain x Superficie Terrain.
+Prix Villa = Prix au m2 T x Superficie Terrain Villa + Prix au m2 C x Superficie Couverte.
+Récent (logement) : logement achevé depuis plus de six ans au moins et quinze ans au plus (> à 6 ans
+et <= à 15 ans) + logement ancien achevé suite à rénovation depuis six ans au plus (<= à 6 ans).
+Riad : maison entièrement fermée sur l'extérieur, qui s'organise autour d'un patio central souvent
+arboré et doté d'une fontaine.
+
+                                                                           5
+Terrain ZI : est considéré comme terrain zone immeuble tout terrain destiné à la construction d'un
+immeuble collectif : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de zone villa
+convertie en zone immeuble par exemple).
+Terrain ZM : est considéré comme terrain zone maison tout terrain destiné à la construction d'une
+maison : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de maison vétuste par
+exemple).
+Terrain ZV : est considéré comme terrain zone villa tout terrain destiné à la construction d'une villa :
+terrain nu, terrain construit de bâtiments destinés à être démolis (cas de villa vétuste par exemple).
+Villa sécurisée : villa située dans un domaine résidentiel fermé et sécurisé.
+Villa : une villa est une maison avec jardin.
+Zone : une zone est un groupe d'adresses où les prix sont relativement homogènes.
+
+                                                                           6
+          4.Territoire, biens concernés et plan d'ensemble de la ville de Safi
+
+4.1. Territoire concerné :
+La ville de Safi est l'une des huit provinces de la région de Marrakech
+La province de Safi a un découpage administratif qui se repartie en 3 municipalités 3 cercles ,3
+pachalick et 25 communes rurales
+
+        Municipalité :
+                  x Asfi
+                  x Jamaat Shaim
+                  x Sebt Gzoula
+
+La province de Safi englobe trois Districtes , et trois Pachalick et vingt quatre Communes Rurales :
+                x Pachalick safi :
+
+                       - District Boudhab
+
+                           - District Zaouia
+                           - District Biada
+                x Pachalick Jemaa Shaim
+                x Pachalick Sebt Gzoula
+                x Communes Rurales :
+Bkhati, Goraani, Bouguedra, Sidi Tiji, Sidi issa, Ghiat, Khat Azakan, Khmiss Nega ,Bouguedra ,Hrara ,Moul
+Brgui ,Dar Si issa ,Ayeer,Lahdar,Lamsabih,Lamrasla,Chahda,Badouza,Saadla,Touabet,Lamaachat,Oueld
+Salman et Gzoula
+
+Le territoire géographique et les biens concernés par le présent Référentiel se présentent comme suit :
+    x Territoire concerné : Province de Safi (exception fait des communes rurales) ;
+    x Types de biens immobiliers concernés :
+             o Appartement, Maison, Villa et Riad à usage d'habitation ;
+             o Terrain construit de bâtiments destinés à être démolis : ZM, ZI ou ZV ;
+             o Terrain Loti : ZM, ZI ou ZV.
+    x Types de biens immobiliers exclus :
+             o Appartement à usage professionnel ;
+
+                                                                           7
+o Villa et Maison à vocation professionnelle ou commerciale ;
+o Logement social ;
+o Logement destiné au recasement des bidonvilles ;
+o Terrain urbain non Loti ;
+o Terrain à usage industriel ;
+o Terrain à usage agricole.
+
+                                                           8
+4.2. Plan d'ensemble de la Préfecture de Safi:
+
+                                                                           9
+                               5. Modes de recherche
+
+Actuellement, la recherche s'effectue:
+    · A partir de la délimitation des zones ;
+    · En consultant le bureau d'accueil de la Direction Régionale des Impôts de Marrakech et/ou le
+         Centre d'Information Téléphonique au numéro : 05.37.27.37.27.
+
+Précision :
+Lorsque un bien chevauche sur plusieurs zones, le prix à prendre en considération est celui de la zone la
+plus côté.
+Exemple 1 (à partir de la délimitation des zones) :
+Soit un appartement X se trouvant sur la rue de la Tunisie
+Situer la rue sur la carte et afficher le prix des appartements dans cette zone en cliquant dessus.
+
+                                                                           10
+Exemple 2 :
+Soit X un Appartement Récent relevant de la District de BOUDHAB.
+
+    x Consulter la liste des points de repères de la district pour déterminer la zone :
+
+    x Connaissant la zone, on détermine le prix du bien concerné au niveau de la grille de prix
+         correspondante :
+
+                                                                           11
+   6. Référentiel des prix des transactions immobilières de la Préfecture de Safi
+
+La Province de Safi est découpée en 59 Zones dont la ventilation est comme suit :
+
+ District  Nombre de Zones      Nombre de Zones  Nombre total des Zones
+                    11             Rue/Av./Bd                 12
+  BIADA             14                                        31
+                    11                    1                   16
+BOUDHAB             36                                        59
+                                         17
+ ZAOUIA
+ Totaux :                                 5
+                                         23
+
+                            12
+          6.1. Référentiel des prix des transactions immobilières
+                                de la district BOUDHAB
+
+Zone      Type de bien      Etat                                   Prix au m2
+
+          Appartement       Ancien                                 2000
+
+          Appartement       Récent                                 2500
+
+          Appartement       Neuf                                   3000
+
+SF - BH1  Maison            Ancien  PT : 2 000 /PC : 1 500
+          Maison            Récent  PT : 2 000 /PC : 2 000
+
+          Maison            Neuf    PT : 2 000 /PC : 3 500
+
+          Terrain ZM        Loti                                   2000
+
+          Appartement       Ancien                                 5000
+
+SF - BH2  Appartement       Récent                                 5500
+          Appartement        Neuf                                  6000
+
+          Terrain ZI        Loti                                   6000
+
+          Appartement       Ancien                                 5500
+
+          Appartement       Récent                                 6000
+
+SF - BH3  Appartement        Neuf              6500
+               Villa        Ancien
+               Villa        Récent      Si ST <500 m2 :
+               Villa         Neuf   PT : 5 000 /PC : 3 000
+
+           Terrain ZV         Loti     Si ST >=500 m2 :
+            Terrain ZI        Loti  PT : 4 500/PC : 3 000
+
+                                        Si ST <500 m2 :
+                                    PT : 5 000 /PC : 3 500
+
+                                       Si ST >=500 m2 :
+                                    PT : 4 500/PC : 3 500
+
+                                        Si ST <500 m2 :
+                                    PT : 5 000 /PC : 4 000
+
+                                       Si ST >=500 m2 :
+                                    PT : 4 500/PC : 4 000
+
+                                        Si ST <500 m2 :
+                                            PT : 5 000
+
+                                       Si ST >=500 m2 :
+                                            PT : 4 500
+
+                                               6000
+
+          Appartement       Ancien                                 4500
+
+SF - BH4  Appartement       Récent              5000
+          Appartement        Neuf               5500
+                            Ancien  PT : 5 500 /PC : 2 500
+             Maison                 PT : 5 500 /PC : 3 000
+             Maison         Récent  PT : 5 500 /PC : 3 500
+             Maison          Neuf
+
+          Terrain ZM        Loti                                   5500
+
+                        13
+  Zone    Type de bien       Etat          Prix au m2
+SF - BH5  Appartement       Ancien             4500
+SF - BH6  Appartement       Récent             5000
+SF - BH7  Appartement        Neuf              5500
+                            Ancien
+              Maison        Récent  PT : 5 500/PC : 2500
+              Maison         Neuf   PT : 5 500/PC : 3 000
+              Maison        Ancien  PT : 5 500/PC : 3500
+                            Récent  PT : 5 000/PC : 3000
+                Villa        Neuf   PT : 5 000/PC : 3 500
+                Villa               PT : 5 000/PC : 4 000
+                Villa         Loti
+           Terrain ZM         Loti             5500
+            Terrain ZV      ancien             5000
+          Appartement       Récent             3000
+          Appartement        Neuf              3500
+          Appartement       Ancien             4000
+              Maison        Récent   PT:3000 PC : 2000
+              Maison         Neuf    PT:3000 PC : 2500
+              Maison          Loti   PT:3000 PC : 3500
+           Terrain ZM       Ancien             3000
+          Appartement       Récent             4000
+          Appartement        Neuf              4500
+          Appartement       Ancien             5000
+              Maison        Récent   PT:4000 PC : 2500
+              Maison         Neuf    PT:4000 PC : 3000
+              Maison          Loti   PT:4000 PC : 3500
+           Terrain ZM         Loti             5000
+            Terrain ZI                         5000
+
+                        14
+   Zone    Type de bien        Etat              Prix au m2
+SF - BH8
+SF - BH9   Appartement       Ancien                  4000
+SF - BH10  Appartement       Récent                  4500
+SF - BH11  Appartement                               5000
+                              Neuf        PT : 4000/PC : 2 500
+               Maison        Ancien      PT : 4000 /PC : 3 000
+               Maison        Récent      PT : 4000 /PC : 3 500
+               Maison         Neuf                   4000
+            Terrain ZM                   Si ST <150m² : 4000
+                               Loti  Si 150m²<=ST<300m² :3500
+             Terrain ZI                  Si ST >=300m² : 2500
+                               Loti                  3000
+           Appartement                               3500
+           Appartement       Ancien                  4000
+           Appartement       Récent       PT : 2300/PC : 2 500
+
+               Maison         Neuf        PT : 2300/PC : 3 000
+               Maison        Ancien
+               Maison        Récent       PT : 2300/PC : 3 500
+            Terrain ZM        Neuf                   2300
+           Appartement                               3500
+           Appartement         Loti
+           Appartement       Ancien                  4000
+               Maison        Récent
+               Maison         Neuf                   4500
+               Maison        Ancien              PT : 2700/
+            Terrain ZM       Récent    PCF : 2 500-PCSF:1250
+           Appartement        Neuf               PT : 2700/
+           Appartement                 PCF : 3 000-PCSF:1500
+           Appartement         Loti              PT : 2700/
+               Maison        Ancien    PCF : 3 500-PCSF:1750
+               Maison        Récent
+               Maison         Neuf                   2700
+            Terrain ZM       Ancien
+                             Récent                  4000
+                              Neuf
+                                                     4500
+                               Loti
+                                                     5000
+
+                                          PT : 4000/PC : 2 500
+
+                                          PT : 4000/PC : 3 000
+
+                                          PT : 4000/PC : 3 500
+
+                                                     4000
+
+                         15
+   Zone    Type de bien        Etat           Prix au m2
+SF - BH12  Appartement       Ancien
+SF - BH13  Appartement       Récent               3500
+           Appartement        Neuf
+SF - BH14                    Ancien               4000
+               Maison        Récent
+               Maison         Neuf                4500
+               Maison
+             Terrain ZM        Loti    PT : 3 500/PC :1 500
+           Appartement       Ancien
+           Appartement       Récent    PT : 3 500/PC :2 000
+           Appartement        Neuf
+               Maison        Ancien    PT : 3 500/PC :3 500
+               Maison        Récent
+               Maison         Neuf                3500
+             Terrain ZM
+           Appartement         Loti               4500
+           Appartement       Ancien
+           Appartement       Récent               5000
+               Maison         Neuf
+               Maison        Ancien               5500
+               Maison        Récent
+                              Neuf    PT : 5 500/PC : 2 500
+                 Villa       Ancien
+                                      PT : 5 500/PC : 3 000
+                 Villa       Récent
+                                      PT : 5 500/PC : 3 500
+                 Villa        Neuf
+             Terrain ZM        Loti               5500
+             Terrain ZI        Loti
+             Terrain ZV        Loti               4500
+                                                  5000
+                                                  5500
+                                       PT : 6 000/PC : 2500
+
+                                      PT : 6 000/PC : 3 000
+
+                                      PT : 6 000/PC : 3 500
+                                     Si150m² <ST <= 200m²
+
+                                        PT:4000/ PC:3000
+                                            Si ST>200M²
+
+                                        PT:3500 /PC :3000
+                                     Si1 50m² <ST <= 200m²
+
+                                       PT :4000/ PC :3500
+                                            Si ST>200M²
+
+                                       PT :3500 /PC :3500
+                                     Si1 50m² <ST <= 200m²
+
+                                        PT:4000/ PC:4000
+                                            Si ST>200M²
+
+                                       PT :3500 /PC :4000
+                                                  6000
+
+                                                  6000
+                                     Si 150m² <ST <= 200m²
+
+                                              PT : 4000
+                                     Si ST>200M² PT : 3500
+
+                         16
+   Zone    Type de bien        Etat         Prix au m2
+SF - BH15  Appartement       Ancien              3500
+SF - BH16  Appartement       Récent              4000
+SF - BH17  Appartement        Neuf               4500
+                             Ancien
+               Maison        Récent   PT : 3000/PC : 1 500
+               Maison         Neuf    PT : 3 000/PC : 2000
+               Maison                PT : 3 000/PC : 3 500
+            Terrain ZM         Loti
+           Appartement       Ancien              3000
+           Appartement       Récent              4500
+           Appartement        Neuf               5000
+               Maison        Ancien              5500
+               Maison        Récent   PT : 6500/PC : 2 500
+               Maison         Neuf    PT : 6500/PC : 3 000
+            Terrain ZM               PT : 6500 /PC : 3 500
+           Appartement         Loti              6500
+           Appartement       Ancien             3000
+           Appartement       Récent             3500
+               Maison         Neuf              4000
+               Maison        Ancien  PT : 5 500/PC : 2 000
+               Maison        Récent  PT : 5 500/PC : 2 500
+            Terrain ZM        Neuf   PT : 5 500/PC : 3 500
+                                                5500
+                               Loti
+
+                         17
+   Zone    Type de bien        Etat             Prix au m2
+SF - BH18  Appartement       Ancien
+SF - BH19  Appartement       Récent                5000
+SF - BH20  Appartement        Neuf
+                             Ancien                5500
+               Maison        Récent
+               Maison         Neuf                 6000
+               Maison
+            Terrain ZM         Loti    PT : 7 000/PC : 2 500
+             Terrain ZI        Loti
+           Appartement       Ancien    PT : 7 000/PC : 3 000
+           Appartement       Récent
+           Appartement        Neuf     PT : 7 000/PC : 3 500
+               Maison        Ancien
+               Maison        Récent                7000
+               Maison         Neuf
+            Terrain ZM         Loti                7500
+             Terrain ZI        Loti
+           Appartement       Ancien                 4000
+           Appartement       Récent
+           Appartement        Neuf                  4500
+                             Ancien
+                 Villa                              5000
+                             Récent
+                 Villa                   PT : 5 500/PC : 2 500
+                              Neuf
+                 Villa         Loti      PT : 5 500/PC : 3 000
+             Terrain ZV        Loti
+             Terrain ZI                 PT : 5 500/PC : 3 500
+
+                                                    5500
+
+                                                    6000
+
+                                                    5500
+
+                                                    6000
+
+                                                    6500
+                                            Si ST <500 m2 :
+                                        PT : 5 000 /PC : 3 000
+                                            Si ST >=500 m2 :
+                                         PT : 4 500/PC : 3 000
+                                            Si ST <500 m2 :
+                                        PT : 5 000 /PC : 3 500
+                                            Si ST >=500 m2 :
+                                         PT : 4 500/PC : 3 500
+                                            Si ST <500 m2 :
+                                        PT : 5 000 /PC : 4 000
+                                            Si ST >=500 m2 :
+                                         PT : 4 500/PC : 4 000
+                                            Si ST <500 m2 :
+                                     PT : 5 000Si ST >=500 m2 :
+
+                                                 PT : 4 500
+                                                    7000
+
+                         18
+   Zone    Type de bien                   Etat              Prix au m2
+SF - BH21  Appartement                   Ancien
+SF - BH22  Appartement                  Récent                  5500
+SF - BH23  Appartement                    Neuf
+                                         Ancien                 6500
+                 Villa
+                                        Récent                  8000
+                 Villa
+                                          Neuf           Si ST <500 m2 :
+                 Villa                     Loti      PT : 5 000 /PC : 3 000
+             Terrain ZV                   Loti
+             Terrain ZI                  Ancien         Si ST >=500 m2 :
+           Appartement                  Récent       PT : 4 500/PC : 3 000
+           Appartement                    Neuf
+           Appartement                   Ancien          Si ST <500 m2 :
+                                                     PT : 5 000 /PC : 3 500
+                 Villa                   Récent
+                                                        Si ST >=500 m2 :
+                 Villa                    Neuf       PT : 4 500/PC : 3 500
+                                           Loti
+                 Villa                     Loti          Si ST <500 m2 :
+            Terrain ZV                   Ancien      PT : 5 000 /PC : 4 000
+             Terrain ZI                 Récent
+           Appartement                    Neuf          Si ST >=500 m2 :
+           Appartement                   Ancien      PT : 4 500/PC : 4 000
+           Appartement
+                                         Récent          Si ST <500 m2 :
+                 Villa                           PT : 5 000Si ST >=500 m2 :
+                                          Neuf
+                 Villa                                       PT : 4 500
+                                           Loti          Si ST <500 m2 :
+                 Villa                     Loti  PT : 8 000Si ST >=500 m2 :
+
+            Terrain ZV   19                                  PT : 7 000
+             Terrain ZI
+                                                                5500
+
+                                                                6500
+
+                                                                7000
+
+                                                         Si ST <500 m2 :
+                                                     PT : 5 000 /PC : 3 000
+
+                                                        Si ST >=500 m2 :
+                                                     PT : 4 500/PC : 3 000
+
+                                                         Si ST <500 m2 :
+                                                     PT : 5 000 /PC : 3 500
+
+                                                        Si ST >=500 m2 :
+                                                     PT : 4 500/PC : 3 500
+
+                                                         Si ST <500 m2 :
+                                                     PT : 5 000 /PC : 4 000
+
+                                                        Si ST >=500 m2 :
+                                                     PT : 4 500/PC : 4 000
+
+                                                         Si ST <500 m2 :
+                                                 PT : 5 000Si ST >=500 m2 :
+
+                                                             PT : 4 500
+
+                                                     Si ST <500 m2 : 8000
+                                                    Si ST >=500 m2 : 7000
+
+                                                                6500
+
+                                                                7000
+
+                                                                7500
+
+                                                         Si ST <500 m2 :
+                                                     PT : 5 000 /PC : 3 000
+
+                                                        Si ST >=500 m2 :
+                                                     PT : 4 500/PC : 3 000
+
+                                                         Si ST <500 m2 :
+                                                     PT : 5 000 /PC : 3 500
+
+                                                        Si ST >=500 m2 :
+                                                     PT : 4 500/PC : 3 500
+
+                                                         Si ST <500 m2 :
+                                                     PT : 5 000 /PC : 4 000
+
+                                                        Si ST >=500 m2 :
+                                                     PT : 4 500/PC : 4 000
+
+                                                         Si ST <500 m2 :
+                                                             PT : 5 000
+
+                                                        Si ST >=500 m2 :
+                                                             PT : 4 500
+
+                                                     Si ST <500 m2 : 8000
+                                                    Si ST >=500 m2 : 7000
+   Zone    Type de bien        Etat          Prix au m2
+SF - BH24  Appartement        Ancien
+SF - BH25  Appartement        Récent              6000
+SF - BH26  Appartement         Neuf
+SF - BH27                     Ancien              6500
+                 Villa                            7000
+                              Récent      Si ST <500 m2 :
+                 Villa                PT : 5 000 /PC : 3 000
+                               Neuf      Si ST >=500 m2 :
+                 Villa                 PT : 4 500/PC : 3 000
+                                Loti      Si ST <500 m2 :
+             Terrain ZV       Ancien  PT : 5 000 /PC : 3 500
+                              Récent     Si ST >=500 m2 :
+              Terrain ZI       Neuf    PT : 4 500/PC : 3 500
+           Appartement                    Si ST <500 m2 :
+           Appartement          Loti  PT : 5 000 /PC : 4 000
+           Appartement        Ancien     Si ST >=500 m2 :
+                              Récent   PT : 4 500/PC : 4 000
+              Terrain ZI       Neuf       Si ST <500 m2 :
+           Appartement        Ancien          PT : 5 000
+           Appartement        Récent     Si ST >=500 m2 :
+           Appartement         Neuf           PT : 4 500
+                                      Si ST <500 m2 : 8000
+               Maison           Loti  Si ST >=500 m2 : 7000
+               Maison           Loti
+               Maison         Ancien              6000
+             Terrain ZM       Récent
+              Terrain ZI       Neuf               6500
+           Appartement        Ancien
+           Appartement        Récent              7000
+           Appartement         Neuf
+               Maison           Loti              7500
+               Maison           Loti
+               Maison                             4500
+             Terrain ZM                           5000
+              Terrain ZI                          5500
+
+                                       PT : 6 000/PC : 2 500
+
+                                       PT : 6 000/PC : 3 000
+
+                                      PT : 6 000/PC : 3 500
+
+                                                  6000
+
+                                                  7000
+
+                                                  4500
+
+                                                  5000
+                                                  5500
+                                       PT : 6 000/PC : 2 500
+
+                                       PT : 6 000/PC : 3 000
+
+                                      PT : 6 000/PC : 3 500
+
+                                                  6000
+
+                                                  7000
+
+                          20
+   Zone    Type de bien        Etat         Prix au m2
+SF - BH28  Appartement       Ancien
+           Appartement       Récent             4500
+SF - BH29  Appartement        Neuf
+                             Ancien             5000
+               Maison        Récent
+               Maison         Neuf              5500
+               Maison
+            Terrain ZM         Loti  PT : 6 000/PC : 2 500
+             Terrain ZI        Loti
+           Appartement       Ancien  PT : 6 000/PC : 3 000
+           Appartement       Récent
+           Appartement        Neuf   PT : 6 000/PC : 3 500
+               Maison        Ancien
+               Maison        Récent             6000
+               Maison         Neuf
+                                                7000
+                 Villa       Ancien
+                                                4500
+                 Villa       Récent             5000
+                                                5500
+                 Villa        Neuf
+            Terrain ZM         Loti  PT : 6000 /PC : 2 500
+             Terrain ZV        Loti
+             Terrain ZI        Loti  PT : 6000 /PC : 3 000
+
+                                     PT : 6000 /PC : 3 500
+                                         Si ST <500 m2 :
+
+                                     PT : 5 000 /PC : 3 000
+                                        Si ST >=500 m2 :
+
+                                     PT : 4 500/PC : 3 000
+                                         Si ST <500 m2 :
+
+                                     PT : 5 000 /PC : 3 500
+                                        Si ST >=500 m2 :
+
+                                     PT : 4 500/PC : 3 500
+                                         Si ST <500 m2 :
+
+                                     PT : 5 000 /PC : 4 000
+                                        Si ST >=500 m2 :
+
+                                     PT : 4 500/PC : 4 000
+                                                6000
+
+                                         Si ST <500 m2 :
+                                             PT : 5 000
+
+                                        Si ST >=500 m2 :
+                                             PT : 4 500
+                                           <=R+4:6000
+                                           >=R+5:7000
+
+                         21
+   Zone    Type de bien        Etat           Prix au m2
+SF - BH30  Appartement       Ancien
+           Appartement       Récent               6000
+SF - BH31  Appartement        Neuf
+                             Ancien               6500
+               Maison        Récent
+               Maison         Neuf                7000
+               Maison        Ancien
+                                     PT : 10 000 /PC : 2 500
+                 Villa       Récent
+                                     PT : 10 000 /PC : 3 000
+                 Villa        Neuf
+                               Loti  PT : 10 000 /PC : 3 500
+                 Villa         Loti
+            Terrain ZM         Loti       Si ST <500 m2 :
+             Terrain ZV      Ancien   PT : 5 000 /PC : 3 000
+             Terrain ZI      Récent
+           Appartement        Neuf       Si ST >=500 m2 :
+           Appartement       Ancien   PT : 4 500/PC : 3 000
+           Appartement       Récent
+                              Neuf        Si ST <500 m2 :
+               Maison        Ancien   PT : 5 000 /PC : 3 500
+               Maison
+               Maison        Récent      Si ST >=500 m2 :
+                                      PT : 4 500/PC : 3 500
+                 Villa        Neuf
+                               Loti       Si ST <500 m2 :
+                 Villa         Loti   PT : 5 000 /PC : 4 000
+
+                 Villa                   Si ST >=500 m2 :
+            Terrain ZM                PT : 4 500/PC : 4 000
+             Terrain ZV
+                                                 10000
+
+                                          Si ST <500 m2 :
+                                              PT : 5 000
+
+                                         Si ST >=500 m2 :
+                                              PT : 4 500
+
+                                                 10000
+
+                                                  4500
+
+                                                  5000
+
+                                                  5500
+
+                                      PT : 6 500 /PC : 2 500
+
+                                      PT : 6 500 /PC : 3 000
+
+                                      PT : 6 500 /PC : 3 500
+
+                                     Si1 50m² <ST <= 200m²
+                                        PT:4000/ PC:3000
+                                            Si ST>200M²
+                                        PT:3500 /PC :3000
+
+                                     Si1 50m² <ST <= 200m²
+                                        PT :4000/ PC :3500
+                                            Si ST>200M²
+                                        PT :3500 /PC :3500
+
+                                     Si1 50m² <ST <= 200m²
+                                        PT:4000/ PC:4000
+                                            Si ST>200M²
+                                        PT :3500 /PC :4000
+                                                  6500
+
+                                     Si1 50m² <ST <= 200m²
+                                               PT:4500
+
+                                     Si ST>200M² : PT :4000
+
+                         22
+        6.2. Référentiel des prix des transactions immobilières
+                               de la District ZAOUIA
+
+  Zone  Type de bien         Etat         Prix au m2
+SF-ZW1  Appartement        Ancien             4500
+SF-ZW2  Appartement        Récent             5000
+SF-ZW3  Appartement          Neuf             5500
+                          Ancienne
+SF-ZW4      Maison        Récente   PT : 5000 PC : 2500
+            Maison          Neuve   PT : 5000 PC : 3000
+            Maison                  PT : 5000 PC : 3500
+         Terrain ZM          Loti
+          Terrain ZI         Loti             5000
+         Terrain ZM          Loti             5500
+        Appartement        Ancien             2500
+        Appartement        Récent             3000
+        Appartement          Neuf             3500
+            Maison        Ancienne            4000
+            Maison        Récente   PT : 3000 PC : 2000
+            Maison          Neuve   PT : 3000 PC : 2500
+         Terrain ZM          Loti   PT : 3000 PC : 3500
+        Appartement        Ancien             3000
+        Appartement        Récent             3500
+        Appartement          Neuf             4000
+            Maison        Ancienne            4500
+            Maison        Récente   PT : 4000 PC : 2500
+            Maison          Neuve   PT : 4000 PC : 3000
+         Terrain ZM          Loti   PT : 4000 PC : 3500
+                                              4000
+
+                      23
+  Zone  Type de bien         Etat         Prix au m2
+SF-ZW5  Appartement        Récent
+SF-ZW6  Appartement        Ancien             3500
+SF-ZW7  Appartement        Récent
+                          Ancienne            4000
+            Maison
+                          Récente             4500
+            Maison                    Si ST >120 m2 :
+                            Neuve   PT : 3500 PC : 2500
+            Maison                   Si ST <= 120 m2 :
+                             Loti   PT : 4500 PC : 2500
+         Terrain ZM        Récent     Si ST >120 m2 :
+        Appartement        Ancien   PT : 3500 PC : 3000
+        Appartement        Récent    Si ST <= 120 m2 :
+        Appartement       Ancienne  PT : 4500 PC : 3000
+                          Récente     Si ST >120 m2 :
+            Maison          Neuve   PT : 3500 PC : 3500
+            Maison                   Si ST <= 120 m2 :
+            Maison           Loti   PT : 4500 PC : 3500
+         Terrain ZM        Ancien     Si ST >120 m2 :
+        Appartement        Récent
+        Appartement          Neuf          PT : 3500
+        Appartement       Ancienne   Si ST <= 120 m2 :
+            Maison        Récente
+            Maison          Neuve          PT : 4500
+            Maison                            2500
+         Terrain ZM          Loti
+                                              3000
+
+                                              3500
+
+                                    PT : 2500 PC : 1000
+
+                                    PT : 2500 PC : 2000
+
+                                    PT : 2500 PC : 3500
+
+                                              2500
+
+                                              2500
+
+                                              3000
+
+                                              3500
+
+                                    PT : 3000 PC : 1500
+
+                                    PT : 3000 PC : 2000
+
+                                    PT : 3000 PC : 3500
+
+                                              3000
+
+                      24
+  Zone   Type de bien         Etat         Prix au m2
+SF-ZW8   Appartement        Ancien             2500
+SF-ZW9
+SF-ZW10  Appartement        Récent             3000
+SF-ZW11
+         Appartement          Neuf             3500
+             Maison        Ancienne  PT : 3000 PC : 1500
+             Maison        Récente   PT : 3000 PC : 2000
+             Maison                  PT : 3000 PC : 3500
+                            Neuve
+          Terrain ZM          Loti             3000
+         Appartement                           1500
+         Appartement        Ancien             2000
+         Appartement        Récent             2500
+                                     PT : 2500 PC : 1000
+             Maison           Neuf   PT : 2500 PC : 1200
+             Maison        Ancienne  PT : 2500 PC : 2000
+             Maison        Récente             2500
+          Terrain ZM                           2500
+         Appartement        Neuve              3000
+         Appartement          Loti             3500
+         Appartement                 PT : 2500 PC : 1500
+             Maison         Ancien   PT : 2500 PC : 2000
+             Maison         Récent   PT : 2500 PC : 2500
+             Maison                            2500
+          Terrain ZM          Neuf             4000
+         Appartement       Ancienne            4500
+         Appartement       Récente             5000
+         Appartement                 PT : 5500 PC : 2500
+             Maison         Neuve    PT : 5500 PC : 3000
+             Maison           Loti   PT : 5500 PC : 3500
+             Maison                            5500
+          Terrain ZM        Ancien
+                            Récent
+
+                              Neuf
+                           Ancienne
+                           Récente
+
+                            Neuve
+                              Loti
+
+                       25
+  Zone   Type de bien         Etat         Prix au m2
+SF-ZW12  Appartement        Ancien             4500
+SF-ZW13  Appartement        Récent             5000
+SF-ZW14
+SF-ZW15  Appartement          Neuf             5500
+             Maison        Ancienne  PT : 6000 PC : 2500
+             Maison        Récente   PT : 6000 PC : 3000
+             Maison                  PT : 6000 PC : 3500
+                            Neuve
+          Terrain ZM          Loti             6000
+         Appartement                           4000
+         Appartement        Ancien             4500
+         Appartement        Récent             5000
+                                     PT : 6000 PC : 2500
+             Maison           Neuf   PT : 6000 PC : 3000
+             Maison        Ancienne  PT : 6000 PC : 3500
+             Maison        Récente             6000
+          Terrain ZM                           2500
+         Appartement        Neuve              3000
+         Appartement          Loti             3500
+         Appartement                 PT : 5500 PC : 1500
+             Maison         Ancien   PT : 5500 PC : 2000
+             Maison         Récent   PT : 5500 PC : 3500
+             Maison                            5500
+          Terrain ZM          Neuf             2500
+         Appartement       Ancienne            3000
+         Appartement       Récente             3500
+         Appartement                 PT : 5000 PC : 1500
+             Maison         Neuve    PT : 5000 PC : 2000
+             Maison           Loti   PT : 5000 PC : 3500
+             Maison                            5000
+          Terrain ZM        Ancien
+                            Récent
+
+                              Neuf
+                           Ancienne
+                           Récente
+
+                            Neuve
+                              Loti
+
+                       26
+  Zone   Type de bien         Etat         Prix au m2
+SF-ZW16  Appartement        Ancien             3500
+         Appartement        Récent             4000
+         Appartement          Neuf             4500
+                           Ancienne
+             Maison        Récente   PT : 5500 PC : 2500
+             Maison         Neuve    PT : 5500 PC : 3000
+             Maison                  PT : 5500 PC : 3500
+          Terrain ZM          Loti
+                                               5500
+
+                       27
+        6.3. Référentiel des prix des transactions immobilières
+                                de la district BIADA
+
+ Zone   Type de bien         Etat                Prix au m2
+SF-BD1    Terrain ZV          Loti
+SF-BD2      Maison        Ancienne                   1000
+            Maison         Récente
+SF-BD3      Maison          Neuve           PT :3500 PC :2500
+
+              Villa       Ancienne         PT :3500 PC : 3000
+
+              Villa        Récente         PT :3500 PC : 3500
+                                             Si ST <=500 m2 :
+              Villa         Neuve          PT : 2500 PC : 3000
+                                      Si 500M² <ST <=1000 m2 :
+         Terrain ZM           loti         PT : 1500 PC : 3000
+          Terrain ZV          Loti           Si ST >1000 m2 :
+        Appartement         Ancien         PT : 1000 PC : 3000
+        Appartement         Récent           Si ST <=500 m2 :
+        Appartement          Neuf          PT : 2500 PC : 3500
+                          Ancienne    Si 500M² <ST <=1000 m2 :
+            Maison         Récente         PT : 1500 PC : 3500
+            Maison          Neuve            Si ST >1000 m2 :
+            Maison        Ancienne         PT : 1000 PC : 3500
+                           Récente           Si ST <=500 m2 :
+              Villa         Neuve          PT : 2500 PC : 4000
+              Villa           Loti    Si 500M² <ST <=1000 m2 :
+              Villa           Loti         PT : 1500 PC : 4000
+         Terrain ZM                          Si ST >1000 m2 :
+          Terrain ZV                       PT : 1000 PC : 4000
+
+                                                     3500
+                                    Si ST <=500 m2 : PT : 2500
+
+                                       Si 500M² <ST <=1000 m2
+                                                  PT : 1500
+
+                                      Si ST >1000 m2 : PT : 1000
+                                                     3000
+
+                                                     3500
+
+                                                     4000
+
+                                           PT: 3500 PC : 2500
+
+                                           PT: 3500 PC : 3000
+
+                                           PT: 3500 PC : 3500
+
+                                           PT: 2500 PC : 3000
+
+                                           PT: 250 0 PC : 3500
+
+                                           PT: 2500 PC : 4000
+
+                                                     3500
+
+                                                     2500
+
+                      28
+ Zone   Type de bien         Etat           Prix au m2
+SF-BD4  Appartement        Ancien
+SF-BD5  Appartement        Récent                3000
+        Appartement          Neuf                3500
+SF-BD6                    Ancienne               4000
+            Maison        Récente      PT: 3000 PC : 2500
+            Maison          Neuve      PT: 3000 PC : 3000
+            Maison                     PT: 3000 PC : 3500
+         Terrain ZM          Loti                3000
+        Appartement        Ancien                4500
+        Appartement        Récent                5000
+        Appartement          Neuf                5500
+            Maison        Ancienne    PT : 5500 PC : 2500
+            Maison        Récente
+            Maison          Neuve     PT : 5500 PC : 3000
+                          Ancienne
+              Villa       Récente     PT : 5500 PC : 3500
+              Villa         Neuve            PT : 3000 /
+              Villa
+         Terrain ZM          Loti   PCF : 3 000 PCSF:1500
+          Terrain ZV         Loti            PT : 3000/
+          Terrain ZI         Loti
+        Appartement        Ancien   PCF : 3 500 PCSF:1750
+        Appartement        Récent             PT : 3000
+        Appartement          Neuf
+            Maison        Ancienne  PCF : 4 000 PCSF:2000
+            Maison        Récente                5500
+            Maison          Neuve
+              Villa       Ancienne               3000
+              Villa       Récente
+              Villa         Neuve                5000
+         Terrain ZM          Loti                3000
+          Terrain ZV         Loti                3500
+                                                 4000
+                                      PT : 3000 PC : 2500
+
+                                      PT : 3000 PC : 3000
+
+                                      PT : 3000 PC : 3500
+
+                                       PT: 2500 PC : 3000
+
+                                       PT: 2500 PC : 3500
+
+                                       PT: 2500 PC : 4000
+
+                                                 3000
+
+                                                 2500
+
+                      29
+ Zone   Type de bien         Etat                   Prix au m2
+SF-BD7  Appartement        Ancien
+SF-BD8  Appartement        Récent                       3500
+        Appartement          Neuf                       4000
+SF-BD9                    Ancienne                      4500
+            Maison        Récente             PT: 4500 PC : 2500
+            Maison         Neuve              PT: 4500 PC : 3000
+            Maison        Ancienne
+                          Récente             PT: 4500 PC : 3500
+              Villa        Neuve              PT: 2500 PC : 3000
+              Villa                           PT: 2500 PC : 3500
+              Villa          Loti
+         Terrain ZM          Loti             PT: 2500 PC : 4000
+          Terrain ZV       Ancien
+          Terrain ZI       Ancien                       4500
+        Appartement        Récent
+        Appartement          Neuf                       2500
+        Appartement       Ancienne           Si ST<=100m² : 4500
+            Maison        Récente        Si 100<ST<=120m² : 4000
+            Maison         Neuve
+            Maison        Ancienne              ST>120M² : 3500
+              Villa       Récente                       3000
+              Villa        Neuve
+              Villa          Loti                       3500
+         Terrain ZM          Loti
+          Terrain ZV       Ancien                       4000
+        Appartement        Récent
+        Appartement          Neuf             PT: 4000 PC : 2500
+        Appartement       Ancienne
+            Maison        Récente             PT: 4000 PC : 3000
+            Maison         Neuve
+            Maison                            PT: 4000 PC : 3500
+                          Ancienne
+              Villa                           PT: 2800 PC : 3000
+                          Récente
+              Villa                           PT: 2800 PC : 3500
+                           Neuve
+              Villa                           PT: 2800 PC : 4000
+                             Loti
+         Terrain ZM                                     4000
+                             Loti                       2800
+          Terrain ZV
+                                                        3000
+
+                                                        3500
+
+                                                        4000
+
+                                    PT : 3500 PCF : 2500-PCSF:1250
+
+                                     PT : 3500 PC : 3000 PCSF:1500
+
+                                     PT : 3500 PC : 3500 PCSF:1750
+                                                Si ST >200 m2 :
+
+                                            PT : 2300 /PCF : 3000-
+                                                   PCSF :1500
+
+                                               Si ST <= 200 m2 :
+                                     PT : 2500 PC : 3000-PCSF :1500
+
+                                                Si ST >200 m2 :
+                                            PT : 2300 /PCF : 3500-
+
+                                                   PCSF :1750
+                                               Si ST <= 200 m2 :
+                                     PT : 2500 PCF : 3500-PCSF1750
+                                                Si ST >200 m2 :
+                                    PT : 2300/ PCF : 4000-PCSF:2000
+                                               Si ST <= 200 m2 :
+                                           PT : 2500 / PCF : 4000-
+
+                                                   PCSF:2000
+                                                        3500
+
+                                                Si ST >200 m2 :
+                                                     PT : 2300
+
+                                               Si ST <= 200 m2 :
+                                                     PT : 2500
+
+                      30
+  Zone   Type de bien         Etat                  Prix au m2
+SF-BD10  Appartement        Ancien                      3000
+SF-BD11  Appartement        Récent                      3500
+SF-BD12  Appartement          Neuf                      4000
+                           Ancienne
+             Maison        Récente            PT: 3000 PC : 2500
+             Maison         Neuve             PT: 3000 PC : 3000
+             Maison        Ancienne           PT: 3000 PC : 3500
+                           Récente   PT: 1800 PCF : 3000-PCSF:1500
+               Villa        Neuve    PT: 1800 PCF : 3500-PCSF:1750
+               Villa                 PT: 1800 PCF : 4000-PCSF:2000
+               Villa          Loti
+          Terrain ZM          Loti                      3000
+           Terrain ZV       Ancien
+         Appartement        Récent                      1800
+         Appartement          Neuf                      3000
+         Appartement       Ancienne                     3500
+             Maison        Récente                      4000
+             Maison         Neuve             PT : 3000 PC : 2500
+             Maison        Ancienne          PT : 3000 PC : 3000
+               Villa       Récente            PT : 3000 PC : 3500
+               Villa        Neuve            PT : 2200 PC : 3 000
+               Villa          Loti           PT : 2200 PC : 3 500
+          Terrain ZM          Loti           PT : 2200 PC : 4 000
+           Terrain ZV       Ancien                      3000
+         Appartement        Récent                      2200
+         Appartement          Neuf                      3500
+         Appartement       Ancienne                     4000
+             Maison        Récente                      4500
+             Maison         Neuve             PT : 9000 PC : 2500
+             Maison           Loti           PT : 9000 PC : 3000
+          Terrain ZM                          PT : 9000 PC : 3500
+                              Loti                      9000
+           Terrain ZI
+                                                        9000
+
+                       31
+7. Annexes
+
+          32
+7.1 Cartographie des Zones relevant de la district BOUDHAB
+
+                                                 33
+ Code Zone       7-1 Tableau des délimitations des Zones : District BOUDHAB
+ SF-BH1
+ SF-BH2      Points de Repère
+ SF-BH3      BAB CHAABA ,AVENUE RABAT ­ TRAB SINI-MDINA QDIMA
+             HNIA HAMRIA ­ PLACE INDEPENDANCE ­ PLACE MLY YOUSSEF
+SF-BH4       VILLE NOUVELLE - l'ABC -AL OUIFAK -CITY OCP -BALCO-LOT ITRI COIN DE PARIS
+
+ SF-BH5     HAY SAADA ­ DAKHLA - LOT BENIS ­ LOT MARJANE
+SF-BH6
+ SF-BH7      BLED JED -SAFI 2 -BOUAB -OUMNIA -AMINA -ATLAS -LOT NADIA -BLANCO
+SF-BH8      AZIB DERAI-HAY SAFAA
+ SF-BH9      AV FQIH ABDESSALAM EL MESTARI
+SF-BH10     HANA 1 ­ EL QODS-QUARTIER LAAYOUN
+ SF-BH11     HANA 2
+SF-BH12     AL MORJANE
+             YAZID -WADII -RAYHAN-KARYAN HERROUS-WIAAM 2 -NASSIM
+ SF-BH13    JRAIFAT
+SF-BH14      QUARTIER MESTARI
+ SF-BH15     JNAN ILLANE
+SF-BH16     ANAS-LOT MOUNA
+ SF-BH17     SANIA JAMRA
+SF-BH18     AVENUE IBN BATTOUTA 1 (DE :ROND POINT AZIB DERAI
+ SF-BH19    A :LA POSTE AZIB DERAI)
+SF-BH20      AVENUE IBN BATTOUTA 2 (DE :LA POSTE A :AV MLY SLIMAN)
+ SF-BH21    AV ABDESSLAM MAJID (DE:AGENCE ITIJARI WAFAABANK A : RUE 13 BOUAB)
+SF-BH22      AVENUE EL MASSIRA( DE :ROND POINT JRAIFAT A :LOT SAFAA)
+ SF-BH23
+            AVENUE MLY YOUSSEF ( DE :COUR D'APPEL A : PLACE D'INDEPENDANCE)
+SF-BH24      AVENUE MOHAMED 5 (DE :AV MLY YOUSSEF A :PLACE LA LIBERTE )
+            AVENUE MOHAMED 5 COIN DE PARIS ( DE :PLACE LA LIBERTE A : ANGLE RUE DRISS BENACER
+ SF-BH25    ET RUE IBN ZOHR )
+             AVENUE LA LIBERTE
+
+            AVENUE IBN KHALDOUN ­ AVENUE SIDI MED BEN ABDELLAH
+             AVENUE MLY DRISS 1 (DE ANGLE IBN BADISS et MLY DRISS 1 A ANGLE RUE INDEPENDANCE
+             ET MLY YOUSSEF)
+
+                                                      34
+SF-BH26   AVENUE ROUTE SIDI OUASSEL 1 (AV MED 5 - ONCF)
+ SF-BH27   AVENUE MEDIONA (DE:ANGLE KENEDY ET IBN SINA A:AVENUE MOULAY ABDELLAH )
+SF-BH28   AVENUE ROUTE EL MATAR ­ AVENUE EL OUROUBA
+SF-BH29   AV HASSAN 2 (DE : COUR D'APPEL A : LOTISSEMENT CHAMS )
+SF-BH30   AV KENEDY
+SF-BH31   RUE 37 (DE :Bd HASSAN 2 A : RUE 38)
+
+          35
+7.2 Cartographie des Zones relevant de la district ZAOUIA
+                                36
+           7,2 Tableau des délimitations des Zones : District ZAOUIA
+
+Code Zone  Points de Repère
+
+SF-ZW1     SAIDA I -SAIDA II
+SF-ZW2     LOTISSEMENT SAFAA- LOTISSEMENT MLY HAMOU
+SF-ZW3     SANIA - BAHIA
+SF-ZW4     OURIDA I ET II
+SF-ZW5     HAY RIAD -MATAR ­ EZZOUHOUR -HAY MOHAMMADI
+SF-ZW6     COURSE
+SF-ZW7     SIDI OUASSEL - BIAR-KLIAA
+SF-ZW8     KAOUKI 108
+SF-ZW9     KAOUKI 60 EXTENSION - DOUKKALA-LAGHFIRAT
+SF-ZW10    AMOUNI
+SF-ZW11    QUARTIER INDUSTRIEL
+SF-ZW12    AVENUE ROUTE SIDI OUASSEL 2
+SF-ZW13    BD LES FAR (DE:AVENUE HASSAN 2 A :AV CHAHID MOHAMMED HAYANI)
+SF-ZW14    RUE ABDERRAHMANE EL OUAZANI ­ RUE KAID
+SF-ZW15    AVENUE BOUJDOUR
+SF-ZW16    AV CHAHID MOHAMMED HAYANI
+
+                             37
+7.2Cartographie des Zones relevant de la district BIADA
+
+                              38
+Code Zone                       7.3. - Tableau des délimitations des Zones : district BIADA
+SF-BD1
+SF-BD2     Points de Repère
+SF-BD3     EL BADER-LOT IBN ROCHD
+SF-BD4     SIDI BOUZID PORT -LA COTE -EL FAJER
+SF-BD5     WIAAM 5 -FARAH -TAAYOUCH -EZZAHRAA-LOT AYMAN-LOT AWKAF
+SF-BD6     LOT AGDAL-IJENNAN -QU MY RCHID ROUTE MZOUGHEN-LOT NAJAH
+SF-BD7     QUARTIER FRANCE
+SF-BD8     JNAN FESIANE -JNAN CHKOURI -ACHBAR-OUED EL BACHA -LOT ZEMOURI -ALMAJD-JNAN 1-BIADA
+SF-BD9     HAY SALAM-KOUTOBIYA-MIFTAH EL KHIR - ENNAHDA ­ JNANE EZZAYTOUNE
+           LOTISSEMENT AL ANDALOUS
+SF-BD10    EL MASSIRA-LAMIA -LOT HICHAM-LOT AFFAF -WIDADIAT ALIAA- COOPERATIVE ELHASSANIA -COOERATIVE 3
+SF-BD11    MARS
+SF-BD12    SIDI ABDELKARIM -CHANGIT -NAJAH EL AMIR-LOT MAYA -LOT SAFAA-JNAN COLOMB 2
+           LOT HABIBA LOT FIRDAOUS
+           RUE EL HASKOURI ROUTE HRARA
+
+           39
+                                Contacts utiles
+
+Désignation                     Adresse                                 Tél/Email
+                                                                0537273727
+ Centre d'Information DGI         Haj Ahmed Cherkaoui Agdal  referentiel@tax.gov.ma
+                                                 Rabat
+ Bureau d'Accueil Service                                         0524 62 23 40
+régional d'assiette de SAFI     BOULVARD MOHAMED V SAFI           0524 63 07 45
+
+ Agence Urbaine de SAFI                                           0524 62 49 32
+
+        Province de SAFI        BOULVARD MOHAMED V SAFI
+                                BOULVARD MOHAMED V SAFI
+     Agence Nationale de la
+  Conservation Foncière, du
+Cadastre et de la Cartographie
+
+                 SAFI
+
+                                40
+

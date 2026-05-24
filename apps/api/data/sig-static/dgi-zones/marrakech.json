@@ -3,7 +3,7 @@
     "ville": "Marrakech",
     "source": "Référentiel DGI 2017",
     "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
-    "extractedAt": "2026-05-24T14:12:39.040Z",
+    "extractedAt": "2026-05-24T21:51:34.439Z",
     "parser": "apps/api/scripts/parse-dgi-generic.cjs",
     "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
     "totalZones": 62,

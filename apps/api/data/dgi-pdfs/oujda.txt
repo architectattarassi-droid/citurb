@@ -1,0 +1,1448 @@
+   Référentiel des Prix des Transactions Immobilières
+                              d'Oujda
+
+       Les données de ce référentiel sont opposables uniquement
+                      à la Direction Générale des Impôts
+
+Site Internet : www.tax.gov.ma ­ Email : referentiel@tax.gov.ma
+                                                                             Édition Juillet 2015
+
+                                                    1
+                                             Sommaire
+
+1. Préambule                                                                         03
+
+2. Liste des abréviations                                                            04
+
+3. Lexique                                                                           05
+
+4. Territoire, biens concernés et plan d'ensemble de la Commune Urbaine d'Oujda      07
+
+4.1. Territoire et biens concernés                                                   07
+
+4.2. Plan d'ensemble de la Commune Urbaine d'Oujda                                   08
+
+5. Mode de recherche                                                                 10
+
+6. Référentiel des prix des transactions immobilières de la Commune Urbaine d'Oujda  14
+
+6.1. District Urbain Sidi Driss El Kadi                                              15
+
+6.2. District Urbain Oued Nachef Sidi Maâfa                                          19
+
+6.3. District Urbain Sidi Ziane                                                      25
+
+6.4. District Urbain Sidi Yahya                                                      27
+
+6.5. Grands Boulevards                                                               29
+
+7. Cartographie et tableaux des délimitations des Zones                              34
+
+8. Contacts utiles                                                                   44
+
+                                             2
+                                  1. Préambule
+
+Dans une démarche de transparence de l'action de l'Administration et de rationalisation de son pouvoir
+d'appréciation, le présent manuel assure la publication des prix de référence retenus par
+l'Administration pour les besoins de calcul des droits et taxes.
+Il s'applique à l'ensemble des cessions de biens immobiliers à usage d'habitation.
+Il permet aux citoyens, dans un souci d'amélioration du climat de confiance, de disposer du même
+niveau d'information que l'Administration.
+Pour se rapprocher le plus de la réalité du marché, les données de ce référentiel sont le résultat d'un
+travail de consultation et de concertation entre la Direction Générale des Impôts, l'Agence Nationale de
+la Conservation Foncière du Cadastre et de la Cartographie, la Fédération Nationale des Promoteurs
+Immobiliers, l'Agence Urbaine d'Oujda, le Ministère de l'Urbanisme et de l'Aménagement du Territoire,
+l'Ordre des Notaires et le Conseil Régional des Adouls de la ville d'Oujda.
+Il s'agit de prix moyens retenus pour le calcul des droits et taxes et ne constituent en aucun cas une
+évaluation directe d'un bien immobilier donné.
+Il constitue à cet effet une étape importante dans le processus de renforcement des garanties accordées
+aux citoyens.
+Les données de ce référentiel feront l'objet d'une actualisation périodique en fonction de l'évolution du
+marché de l'immobilier.
+
+                                                                            3
+                           2. Liste des abréviations
+
+ANCFCC : Agence Nationale de la Conservation Foncière, du Cadastre et de la Cartographie
+BD : Boulevard
+DGI : Direction Générale des Impôts
+FNPI : Fédération Nationale des Promoteurs Immobiliers
+m2 : Mètre Carré
+OUJ : Oujda
+OUJ-BD : Grands Boulevards d'Oujda
+OUJ-DK : District Urbain Oujda - Sidi Driss EL Kadi
+OUJ-ONSM : District Urbain Oujda - Oued Nachef - Sidi Maafa
+OUJ-SY: District Urbain Oujda - Sidi Yahya
+OUJ-SZ : District Urbain Oujda - Sidi Ziane
+PC : Prix de la Construction
+PT : Prix du Terrain
+ST : Superficie du Terrain
+ZI : Zone Immeuble
+ZM : Zone Maison
+Zone Rue/Av./Bd : Rue, Avenue et Boulevard ayant le statut d'une Zone
+ZV : Zone Villa
+
+                                                                            4
+                                    3. Lexique
+
+Ancien (logement) : logement ayant été achevé depuis plus de quinze ans (> à 15 ans).
+Appartement : un appartement est une unité d'habitation, comportant un certain nombre de pièces et
+située dans un immeuble collectif généralement dans une ville.
+Immeuble : dans le langage courant, le mot "immeuble" désigne un bâtiment urbain de plusieurs
+étages, à usage d'habitation ou professionnel, en copropriété.
+Logement social : par cette formule, on désigne un appartement dont la superficie couverte est
+comprise entre 50 et 80 m2 et le prix de vente n'excède pas 250.000 dirhams, hors taxe sur la valeur
+ajoutée.
+Loti (terrain) : un terrain loti signifie un terrain situé dans un lotissement (voir lotissement).
+Lotissement : un lotissement est constitué par un ensemble de lots provenant de la division d'un terrain
+en vue d'y recevoir des constructions qui sont vendues généralement séparément après que le lotisseur
+ait réalisés des voies d'accès, des espaces collectifs et des travaux de viabilité et les raccordements aux
+réseaux de fourniture en eau, en électricité, aux réseaux d'égouts et aux réseaux de télécommunication.
+Maison : une maison est un bâtiment destiné à être la demeure d'une famille, voire de plusieurs, et qui
+n'est pas un immeuble en copropriété.
+Neuf (logement) : logement achevé depuis six ans au plus (<= à 6 ans).
+Prix de la Construction (PC) : par prix de la construction, on entend le prix du mètre carré couvert.
+Prix du Terrain (PT) : par prix du terrain, on entend le prix du terrain au mètre carré.
+Prix Maison = Prix au m2 T x Superficie Terrain Maison + Prix au m2 C x Superficie Couverte.
+Prix Terrain = Prix au m2 Terrain x Superficie Terrain.
+Prix Villa = Prix au m2 T x Superficie Terrain Villa + Prix au m2 C x Superficie Couverte.
+Récent (logement) : logement achevé depuis plus de six ans au moins et quinze ans au plus (> à 6 ans
+et <= à 15 ans) + logement ancien achevé suite à rénovation depuis six ans au plus (<= à 6 ans).
+Terrain ZI : est considéré comme terrain zone immeuble tout terrain destiné à la construction d'un
+immeuble collectif : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de zone villa
+convertie en zone immeuble par exemple).
+Terrain ZM : est considéré comme terrain zone maison tout terrain destiné à la construction d'une
+maison : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de maison vétuste par
+exemple).
+
+                                                                            5
+Terrain ZV : est considéré comme terrain zone villa tout terrain destiné à la construction d'une villa :
+terrain nu, terrain construit de bâtiments destinés à être démolis (cas de villa vétuste par exemple).
+Villa : une villa est une maison avec jardin.
+Zone : une zone est un groupe d'adresses où les prix sont relativement homogènes.
+
+                                                                            6
+ 4. Territoire, biens concernés et plan d'ensemble de la Commune Urbaine
+
+                                                d'Oujda
+
+   4.1. Territoire concerné :
+
+La Région de l'Oriental est l'une des douze régions du Maroc instituées en 2015.
+Elle se compose d'une (1) Préfecture et sept (7) Provinces :
+
+     La Préfecture d'Oujda-Angad ;
+     La Province de Berkane ;
+     La Province de Driouch ;
+     La Province de Figuig ;
+     La Province de Guercif ;
+     La Province de Jerada ;
+     La Province de Nador ;
+     La Province de Taourirt.
+Le périmètre de l'intervention de la Direction Régionale des Impôts d'Oujda couvre la Préfecture et les
+Provinces suivantes :
+     La Préfecture d'Oujda-Angad ;
+     La Province de Berkane ;
+     La Province de Taourirte ;
+     La Province de Jerada ;
+     La Province de Figuig.
+La Préfecture d'Oujda-Angad englobe trois (3) Communes Urbaines et huit (8) Communes Rurales :
+     Communes Urbaines : Oujda, Bni Drar et Naima ;
+     Communes Rurales : Aïn Sfa, Bsara, Bni Khaled, Ahl Angad, Mestferki, Sidi Boulenouar, Sidi
+
+         Moussa Lemhaya, Isly.
+La Commune Urbaine d'Oujda compte quatre (4) Districts Urbains :
+
+     Sidi Driss El Kadi ;
+     Oued Nachef - Sidi Maâfa ;
+     Sidi Ziane ;
+     Sidi Yahya.
+
+                                                                            7
+Le territoire géographique et les biens concernés par le présent Référentiel se présentent comme suit :
+     Territoire concerné : La Commune Urbaine d'Oujda.
+     Types de biens immobiliers concernés :
+             o Appartement, Maison et Villa à usage d'habitation
+             o Terrain Loti : ZM, ZV et ZI.
+     Types de biens immobiliers exclus :
+             o Appartement à usage professionnel ;
+             o Villa et Maison à vocation professionnelle ou commerciale ;
+             o Logement social ;
+             o Logement destiné au recasement des bidonvilles ;
+             o Terrain urbain non Loti ;
+             o Terrain à usage industriel ;
+             o Terrain à usage agricole.
+
+   4.2. Plan d'ensemble de la Commune Urbaine d'Oujda :
+
+Voir la page suivante.
+
+                                                                            8
+9
+                            5. Modes de recherche
+
+Actuellement, la recherche s'effectue :
+     A travers la consultation sur une carte numérisée mise à la disposition du public au niveau du
+         portail de la DGI, le système situe le bien sur la carte et affiche automatiquement son prix de
+         référence ;
+     A partir de la délimitation des zones ;
+     En consultant le bureau d'accueil de la Direction Régionale des Impôts d'Oujda et/ou le Centre
+         d'Information Téléphonique au numéro : 05.37.27.37.27.
+
+Précisions :
+     Le nombre de Boulevards considérés comme Zone est de 25 (cf. liste page 46) ;
+     Les prix à retenir pour les biens situés sur les Boulevards qui ne figurent pas sur la liste précitée,
+         sont ceux des Zones dont ils relèvent. ;
+     Lorsque un bien chevauche sur plusieurs Zones, le prix à prendre en considération est celui de la
+         Zone la plus côté.
+
+Exemples : voir les pages suivantes.
+
+                                                                            10
+Exemple 1 :
+Soit un Appartement X se trouvant sur BD ZERKTOUNI.
+Situer le BD sur la carte et afficher les prix des Appartements de cette Zone en cliquant dessus.
+
+                                                                            11
+Exemple 2 :
+Soit une Maison Y se trouvant dans Quartier AL ANDALOUS.
+Situer le Quartier sur la carte et afficher les prix des Maisons de cette Zone en cliquant dessus.
+
+                                                                            12
+Exemple 3 :
+Soit Z un Terrain relevant du District Urbain Sidi Driss El Kadi :
+
+     Consulter la liste des points de repères du District en question pour déterminer le code Zone ;
+     Connaissant le code Zone, on détermine le prix du bien concerné au niveau de la grille de prix
+
+         correspondante.
+
+                                                                            13
+6. Référentiel des prix des transactions immobilières de la Commune
+
+                                      Urbaine d'Oujda
+
+La Commune Urbaine d'Oujda est découpée en 81 Zones dont la ventilation est comme suit :
+
+     District Urbain  Nombre de Zones      Nombre de Zones  Nombre total des Zones
+                               14             Rue/Av./Bd                 18
+ Sidi Driss El Kadi            25                    4                   31
+Oued Nachef ­ Sidi              9                    6                   19
+                                8                   10                   13
+       Maâfa                   56                    5                   81
+                                                    25
+     Sidi Ziane
+
+     Sidi Yahya
+
+      Totaux :
+
+                                       14
+6.1. Référentiel des prix des transactions immobilières du District Urbain
+                                     de Sidi Driss El Kadi
+
+   Zone  Type de bien       Etat           Prix au m²
+OUJ-DK1
+OUJ-DK2      Maison         Neuf   PT = 2 200 + PC = 2 500
+OUJ-DK3      Maison        Récent  PT = 2 200 + PC = 2 200
+             Maison        Ancien  PT = 2 200 + PC = 2 000
+
+         Appartement        Neuf               5 000
+         Appartement       Récent              4 500
+         Appartement       Ancien              3 500
+                                   PT = 2 000 + PC = 3 000
+               Villa        Neuf   PT = 2 000 + PC = 2 800
+               Villa       Récent  PT = 2 000 + PC = 2 200
+               Villa       Ancien              2 200
+                                               2 000
+          Terrain ZM         Loti              3 200
+          Terrain ZV         Loti  PT = 1 800 + PC = 2 500
+           Terrain ZI        Loti  PT = 1 800 + PC = 2 200
+                                   PT = 1 800 + PC = 2 000
+             Maison         Neuf               5 000
+             Maison        Récent              4 500
+             Maison        Ancien              3 500
+                                   PT = 1 600 + PC = 3 000
+         Appartement        Neuf   PT = 1 600 + PC = 2 800
+         Appartement       Récent  PT = 1 600 + PC = 2 200
+         Appartement       Ancien              1 800
+                                               1 600
+               Villa        Neuf               3 200
+               Villa       Récent  PT = 2 200 + PC = 2 500
+               Villa       Ancien  PT = 2 200 + PC = 2 200
+                                   PT = 2 200 + PC = 2 000
+          Terrain ZM         Loti              6 000
+          Terrain ZV         Loti              5 500
+           Terrain ZI        Loti              5 000
+                                   PT = 2 000 + PC = 3 000
+             Maison         Neuf   PT = 2 000 + PC = 2 800
+             Maison        Récent  PT = 2 000 + PC = 2 200
+             Maison        Ancien              2 200
+                                               2 000
+         Appartement        Neuf               3 500
+         Appartement       Récent
+         Appartement       Ancien
+
+               Villa        Neuf
+               Villa       Récent
+               Villa       Ancien
+
+          Terrain ZM         Loti
+          Terrain ZV         Loti
+           Terrain ZI        Loti
+
+                       15
+   Zone  Type de bien       Etat           Prix au m²
+OUJ-DK4
+OUJ-DK5      Maison         Neuf   PT = 2 200 + PC = 2 200
+OUJ-DK6      Maison        Récent  PT = 2 200 + PC = 2 000
+             Maison        Ancien  PT = 2 200 + PC = 1 800
+
+         Appartement        Neuf               5 000
+         Appartement       Récent              4 500
+         Appartement       Ancien              4 000
+                                   PT = 2 000 + PC = 3 000
+               Villa        Neuf   PT = 2 000 + PC = 2 800
+               Villa       Récent  PT = 2 000 + PC = 2 200
+               Villa       Ancien              2 200
+                                               2 000
+          Terrain ZM         Loti              3 500
+          Terrain ZV         Loti  PT = 3 500 + PC = 2 500
+           Terrain ZI        Loti  PT = 3 500 + PC = 2 200
+                                   PT = 3 500 + PC = 2 000
+             Maison         Neuf               7 000
+             Maison        Récent              6 500
+             Maison        Ancien              6 000
+                                   PT = 3 000 + PC = 3 000
+         Appartement        Neuf   PT = 3 000 + PC = 2 800
+         Appartement       Récent  PT = 3 000 + PC = 2 200
+         Appartement       Ancien              3 500
+                                               3 000
+               Villa        Neuf               5 000
+               Villa       Récent  PT = 1 300 + PC = 2 000
+               Villa       Ancien  PT = 1 300 + PC = 1 500
+                                   PT = 1 300 + PC = 1 300
+          Terrain ZM         Loti              3 500
+          Terrain ZV         Loti              3 000
+           Terrain ZI        Loti              2 500
+                                   PT = 1 000 + PC = 3 000
+             Maison         Neuf   PT = 1 000 + PC = 2 800
+             Maison        Récent  PT = 1 000 + PC = 2 200
+             Maison        Ancien              1 300
+                                               1 000
+         Appartement        Neuf               2 500
+         Appartement       Récent
+         Appartement       Ancien
+
+               Villa        Neuf
+               Villa       Récent
+               Villa       Ancien
+          Terrain ZM
+          Terrain ZV         Loti
+           Terrain ZI        Loti
+                             Loti
+
+                       16
+   Zone  Type de bien       Etat           Prix au m²
+OUJ-DK7
+OUJ-DK8      Maison         Neuf   PT = 2 000 + PC = 2 200
+OUJ-DK9      Maison        Récent  PT = 2 000 + PC = 2 000
+             Maison        Ancien  PT = 2 000 + PC = 1 300
+
+         Appartement        Neuf                4 500
+         Appartement       Récent               4 000
+         Appartement       Ancien               3 500
+                                   PT = 1 800 + PC = 3 000
+               Villa        Neuf   PT = 1 800 + PC = 2 800
+               Villa       Récent  PT = 1 800 + PC = 2 200
+               Villa       Ancien               2 000
+                                                1 800
+          Terrain ZM         Loti  PT = 2 000 + PC = 2 000
+          Terrain ZV         Loti  PT = 2 000 + PC = 1 500
+                                   PT = 2 000 + PC = 1 000
+             Maison         Neuf                4 500
+             Maison        Récent               4 000
+             Maison        Ancien               3 500
+                                   PT = 1 500 + PC = 3 000
+         Appartement        Neuf   PT = 1 500 + PC = 2 800
+         Appartement       Récent  PT = 1 500 + PC = 2 200
+         Appartement       Ancien               2 000
+                                                1 500
+               Villa        Neuf                3 000
+               Villa       Récent  PT = 4 500 + PC = 2 500
+               Villa       Ancien  PT = 4 500 + PC = 2 000
+                                   PT = 4 500 + PC = 1 300
+          Terrain ZM         Loti               5 000
+          Terrain ZV         Loti               4 500
+           Terrain ZI        Loti               4 000
+                                   PT = 4 000 + PC = 3 000
+             Maison         Neuf   PT = 4 000 + PC = 2 800
+             Maison        Récent  PT = 4 000 + PC = 2 200
+             Maison        Ancien               4 500
+                                                4 000
+         Appartement        Neuf                5 000
+         Appartement       Récent
+         Appartement       Ancien
+
+               Villa        Neuf
+               Villa       Récent
+               Villa       Ancien
+
+          Terrain ZM         Loti
+          Terrain ZV         Loti
+           Terrain ZI        Loti
+
+                       17
+   Zone   Type de bien       Etat           Prix au m²
+OUJ-DK10
+OUJ-DK11      Maison         Neuf   PT = 2 500 + PC = 2 500
+OUJ-DK12      Maison        Récent  PT = 2 500 + PC = 2 200
+              Maison        Ancien  PT = 2 500 + PC = 2 000
+
+          Appartement        Neuf               5 000
+          Appartement       Récent              4 500
+          Appartement       Ancien              4 000
+                                    PT = 2 000 + PC = 3 000
+                Villa        Neuf   PT = 2 000 + PC = 2 800
+                Villa       Récent  PT = 2 000 + PC = 2 200
+                Villa       Ancien              2 500
+                                                2 000
+           Terrain ZM         Loti              5 000
+           Terrain ZV         Loti  PT = 2 500 + PC = 2 200
+            Terrain ZI        Loti  PT = 2 500 + PC = 2 000
+                                    PT = 2 500 + PC = 1 300
+              Maison         Neuf               5 000
+              Maison        Récent              4 500
+              Maison        Ancien              4 000
+                                    PT = 2 000 + PC = 3 000
+          Appartement        Neuf   PT = 2 000 + PC = 2 800
+          Appartement       Récent  PT = 2 000 + PC = 2 200
+          Appartement       Ancien              2 500
+                                                2 000
+                Villa        Neuf               4 500
+                Villa       Récent  PT = 1 800 + PC = 2 200
+                Villa       Ancien  PT = 1 800 + PC = 2 000
+                                    PT = 1 800 + PC = 1 300
+           Terrain ZM         Loti               4500
+           Terrain ZV         Loti               4000
+            Terrain ZI        Loti               3500
+                                    PT = 1 600 + PC = 3 000
+              Maison         Neuf   PT = 1 600 + PC = 2 800
+              Maison        Récent  PT = 1 600 + PC = 2 200
+              Maison        Ancien               1800
+                                                 1600
+          Appartement        Neuf               4 000
+          Appartement       Récent
+          Appartement       Ancien
+
+                Villa        Neuf
+                Villa       Récent
+                Villa       Ancien
+
+           Terrain ZM         Loti
+           Terrain ZV         Loti
+            Terrain ZI        Loti
+
+                        18
+   Zone   Type de bien       Etat           Prix au m²
+OUJ-DK13
+              Maison         Neuf   PT = 2 000 + PC = 2 200
+OUJ-DK14      Maison        Récent  PT = 2 000 + PC = 2 000
+              Maison        Ancien  PT = 2 000 + PC = 1 500
+          Appartement
+          Appartement        Neuf               5 500
+          Appartement       Récent              5 000
+                            Ancien              4 500
+                Villa               PT = 1 800 + PC = 3 000
+                Villa        Neuf   PT = 1 800 + PC = 2 800
+                Villa       Récent  PT = 1 800 + PC = 2 200
+           Terrain ZM       Ancien              2 000
+           Terrain ZV                           1 800
+            Terrain ZI        Loti              5 000
+                              Loti  PT = 1 600 + PC = 2 000
+              Maison          Loti  PT = 1 600 + PC = 1 800
+              Maison                PT = 1 600 + PC = 1 000
+              Maison         Neuf               3 500
+          Appartement       Récent              3 000
+          Appartement       Ancien              2 500
+          Appartement               PT = 1 300 + PC = 3 000
+                             Neuf   PT = 1 300 + PC = 2 800
+                Villa       Récent  PT = 1 300 + PC = 2 200
+                Villa       Ancien              1 600
+                Villa                           1 300
+           Terrain ZM        Neuf               2 500
+           Terrain ZV       Récent
+            Terrain ZI      Ancien
+
+                              Loti
+                              Loti
+                              Loti
+
+                        19
+6.2. Référentiel des prix des transactions immobilières du District Urbain
+                               de Oued Nachef - Sidi Maâfa
+
+     Zone  Type de bien       Etat           Prix au m²
+OUJ-ONSM1
+               Maison         Neuf   PT = 1 600 + PC = 2 200
+OUJ-ONSM2      Maison        Récent  PT = 1 600 + PC = 2 000
+OUJ-ONSM3      Maison        Ancien  PT = 1 600 + PC = 1 300
+
+           Appartement        Neuf                3 500
+           Appartement       Récent               3 000
+           Appartement       Ancien               2 500
+                                     PT = 1 300 + PC = 3 000
+                 Villa        Neuf   PT = 1 300 + PC = 2 800
+                 Villa       Récent  PT = 1 300 + PC = 2 200
+                 Villa       Ancien               1 600
+                                                  1 300
+            Terrain ZM         Loti               2 500
+            Terrain ZV         Loti  PT = 1 500 + PC = 1 800
+             Terrain ZI        Loti  PT = 1 500 + PC = 1 500
+                                      PT = 1 500 + PC = 700
+               Maison         Neuf                3 500
+               Maison        Récent               3 500
+               Maison        Ancien               3 000
+                                     PT = 1 300 + PC = 3 000
+           Appartement        Neuf   PT = 1 300 + PC = 2 800
+           Appartement       Récent  PT = 1 300 + PC = 2 200
+           Appartement       Ancien               1 500
+                                                  1 300
+                 Villa        Neuf                2 500
+                 Villa       Récent  PT = 1 300 + PC = 1 800
+                 Villa       Ancien  PT = 1 300 + PC = 1 500
+                                     PT = 1 300 + PC = 1 000
+            Terrain ZM         Loti               2 800
+            Terrain ZV         Loti               2 200
+             Terrain ZI        Loti               2 000
+
+               Maison         Neuf                1 300
+               Maison        Récent               2 000
+               Maison        Ancien
+
+           Appartement        Neuf
+           Appartement       Récent
+           Appartement       Ancien
+
+            Terrain ZM         Loti
+             Terrain ZI        Loti
+
+                         20
+     Zone  Type de bien       Etat           Prix au m²
+OUJ-ONSM4
+OUJ-ONSM5      Maison         Neuf   PT = 1 600 + PC = 2 200
+OUJ-ONSM6      Maison        Récent  PT = 1 600 + PC = 2 000
+OUJ-ONSM7      Maison        Ancien  PT = 1 600 + PC = 1 300
+
+           Appartement        Neuf               4 500
+           Appartement       Récent              4 000
+           Appartement       Ancien              3 500
+                                     PT = 1 400 + PC = 3 000
+                 Villa        Neuf   PT = 1 400 + PC = 2 800
+                 Villa       Récent  PT = 1 400 + PC = 2 200
+                 Villa       Ancien              1 600
+                                                 1 400
+            Terrain ZM         Loti              3 000
+            Terrain ZV         Loti  PT = 1 400 + PC = 1 800
+             Terrain ZI        Loti  PT = 1 400 + PC = 1 500
+                                     PT = 1 400 + PC = 1 300
+               Maison         Neuf               2 800
+               Maison        Récent              2 500
+               Maison        Ancien              2 200
+
+           Appartement        Neuf               1 400
+           Appartement       Récent              2 000
+           Appartement       Ancien
+                                     PT = 1 800 + PC = 2 200
+            Terrain ZM         Loti  PT = 1 800 + PC = 2 000
+             Terrain ZI        Loti  PT = 1 800 + PC = 1 300
+
+               Maison         Neuf               4 500
+               Maison        Récent              4 000
+               Maison        Ancien              3 500
+                                     PT = 1 500 + PC = 3 000
+           Appartement        Neuf   PT = 1 500 + PC = 2 800
+           Appartement       Récent  PT = 1 500 + PC = 2 200
+           Appartement       Ancien              1 800
+                                                 1 500
+                 Villa        Neuf               3 500
+                 Villa       Récent  PT = 1 000 + PC = 1 800
+                 Villa       Ancien  PT = 1 000 + PC = 1 500
+                                      PT = 1 000 + PC = 900
+            Terrain ZM         Loti              1 000
+            Terrain ZV         Loti
+             Terrain ZI        Loti
+
+               Maison         Neuf
+               Maison        Récent
+               Maison        Ancien
+            Terrain ZM
+                               Loti
+
+                         21
+      Zone  Type de bien       Etat           Prix au m²
+OUJ-ONSM8
+OUJ-ONSM9       Maison         Neuf   PT = 1 200 + PC = 1 800
+                Maison        Récent  PT = 1 200 + PC = 1 500
+OUJ-ONSM10      Maison        Ancien  PT = 1 200 + PC = 1 000
+
+OUJ-ONSM11   Terrain ZM         Loti              1 200
+                Maison         Neuf   PT = 1 700 + PC = 2 500
+                Maison        Récent  PT = 1 700 + PC = 2 000
+                Maison        Ancien  PT = 1 700 + PC = 1 300
+                               Neuf
+            Appartement       Récent              4 500
+            Appartement       Ancien              4 000
+            Appartement        Neuf               3 500
+                              Récent  PT = 1 400 + PC = 3 000
+                  Villa       Ancien  PT = 1 400 + PC = 2 800
+                  Villa         Loti  PT = 1 400 + PC = 2 200
+                  Villa         Loti              1 700
+             Terrain ZM         Loti              1 400
+             Terrain ZV        Neuf               3 000
+              Terrain ZI      Récent  PT = 1 400 + PC = 2 200
+                Maison        Ancien  PT = 1 400 + PC = 1 800
+                Maison         Neuf   PT = 1 400 + PC = 1 300
+                Maison        Récent              2 800
+            Appartement       Ancien              2 500
+            Appartement         Loti              2 200
+            Appartement         Loti              1 400
+             Terrain ZM        Neuf               2 700
+              Terrain ZI      Récent  PT = 2000 + PC = 2 500
+                Maison        Ancien  PT = 2000 + PC = 2 000
+                Maison         Neuf   PT = 2000 + PC = 1 300
+                Maison        Récent              4 500
+            Appartement       Ancien              4 000
+            Appartement        Neuf               3 500
+            Appartement       Récent  PT = 1 500 + PC = 3 000
+                  Villa       Ancien  PT = 1 500 + PC = 2 800
+                  Villa         Loti  PT = 1 500 + PC = 2 200
+                  Villa         Loti              2 000
+             Terrain ZM         Loti              1 500
+             Terrain ZV                           3 000
+              Terrain ZI
+
+                          22
+      Zone  Type de bien       Etat           Prix au m²
+OUJ-ONSM12
+OUJ-ONSM13      Maison         Neuf   PT = 3 000 + PC = 2 200
+OUJ-ONSM14      Maison        Récent  PT = 3 000 + PC = 2 000
+                Maison        Ancien  PT = 3 000 + PC = 1 300
+            Appartement
+            Appartement        Neuf               5 500
+            Appartement       Récent              5 000
+                              Ancien              4 500
+                  Villa               PT = 4 500 + PC = 3 000
+                  Villa        Neuf   PT = 4 500 + PC = 2 800
+                  Villa       Récent  PT = 4 500 + PC = 2 200
+             Terrain ZM       Ancien              3 000
+             Terrain ZV                           4 500
+              Terrain ZI        Loti              5 000
+                Maison          Loti  PT = 1 500 + PC = 1 800
+                Maison          Loti  PT = 1 500 + PC = 1 500
+                Maison         Neuf   PT = 1 500 + PC = 1 000
+                              Récent              4 500
+            Appartement       Ancien              4 000
+            Appartement        Neuf               3 500
+            Appartement       Récent  PT = 1 300 + PC = 3 000
+                              Ancien  PT = 1 300 + PC = 2 800
+                  Villa        Neuf   PT = 1 300 + PC = 2 200
+                  Villa       Récent              1 500
+                  Villa       Ancien              1 300
+             Terrain ZM         Loti              2 500
+             Terrain ZV         Loti  PT = 1 600 + PC = 2 200
+              Terrain ZI        Loti  PT = 1 600 + PC = 2 000
+                Maison         Neuf   PT = 1 600 + PC = 1 300
+                Maison        Récent              4 500
+                Maison        Ancien              4 000
+                               Neuf               3 500
+            Appartement       Récent  PT = 1500 + PC = 3 000
+            Appartement       Ancien  PT = 1500 + PC = 2 800
+            Appartement        Neuf   PT = 1500 + PC = 2 200
+                              Récent              1 600
+                  Villa       Ancien              1 500
+                  Villa         Loti              3 000
+                  Villa         Loti
+             Terrain ZM         Loti
+             Terrain ZV
+              Terrain ZI
+
+                          23
+      Zone  Type de bien       Etat           Prix au m²
+OUJ-ONSM15
+OUJ-ONSM16      Maison         Neuf   PT = 1 500 + PC = 2 300
+OUJ-ONSM17      Maison        Récent  PT = 1 500 + PC = 2 000
+OUJ-ONSM18      Maison        Ancien   PT = 1 500 + PC = 900
+            Appartement
+            Appartement        Neuf               3 500
+            Appartement       Récent              3 000
+                              Ancien              2 500
+                  Villa               PT = 1 300 + PC = 3 000
+                  Villa        Neuf   PT = 1 300 + PC = 2 800
+                  Villa       Récent  PT = 1 300 + PC = 2 200
+             Terrain ZM       Ancien              1 500
+             Terrain ZV                           1 300
+              Terrain ZI        Loti              2 500
+                Maison          Loti  PT = 1 600 + PC = 2 200
+                Maison          Loti  PT = 1 600 + PC = 2 000
+                Maison         Neuf   PT = 1 600 + PC = 1 300
+            Appartement       Récent              4 500
+            Appartement       Ancien              4 000
+            Appartement        Neuf               3 500
+                  Villa       Récent  PT = 1 400 + PC = 3000
+                  Villa       Ancien  PT = 1 400 + PC = 2 800
+                  Villa        Neuf   PT = 1 400 + PC = 2 200
+             Terrain ZM       Récent              1 600
+             Terrain ZV       Ancien              1 400
+              Terrain ZI        Loti              3 000
+                Maison          Loti  PT = 2 000 + PC = 2 500
+                Maison          Loti  PT = 2 000 + PC = 2 000
+                Maison         Neuf   PT = 2 000 + PC = 1 300
+            Appartement       Récent              4 500
+            Appartement       Ancien              4 000
+            Appartement        Neuf               3 500
+                  Villa       Récent  PT = 1 500 + PC = 3 000
+                  Villa       Ancien  PT = 1 500 + PC = 2 800
+                  Villa        Neuf   PT = 1 500 + PC = 2 200
+             Terrain ZM       Récent              2 000
+             Terrain ZV       Ancien              1 500
+              Terrain ZI        Loti              3 000
+                Maison          Loti  PT = 2 000 + PC = 2 500
+                Maison          Loti  PT = 2 000 + PC = 2 000
+                Maison         Neuf   PT = 2 000 + PC = 1 300
+            Appartement       Récent              4 500
+            Appartement       Ancien              4 000
+            Appartement        Neuf               3 500
+                  Villa       Récent  PT = 1 500 + PC = 3 000
+                  Villa       Ancien  PT = 1 500 + PC = 2 800
+                  Villa        Neuf   PT = 1 500 + PC = 2 200
+             Terrain ZM       Récent              2 000
+             Terrain ZV       Ancien              1 500
+              Terrain ZI        Loti              3 000
+                                Loti
+                                Loti
+
+                          24
+      Zone  Type de bien       Etat           Prix au m²
+OUJ-ONSM19
+OUJ-ONSM20      Maison         Neuf   PT = 1 200 + PC = 1 800
+OUJ-ONSM21      Maison        Récent  PT = 1 200 + PC = 1 500
+                Maison        Ancien  PT = 1 200 + PC = 1 000
+OUJ-ONSM22   Terrain ZM
+                Maison          Loti              1 200
+                Maison         Neuf   PT = 1 200 + PC = 1 800
+                Maison        Récent  PT = 1 200 + PC = 1 500
+             Terrain ZM       Ancien  PT = 1 200 + PC = 1 000
+                Maison          Loti
+                Maison         Neuf               1 200
+                Maison        Récent  PT = 1 600 + PC = 2 500
+                              Ancien  PT = 1 600 + PC = 2 000
+            Appartement        Neuf   PT = 1 600 + PC = 1 300
+            Appartement       Récent
+            Appartement       Ancien              4 500
+                               Neuf               4 000
+                  Villa       Récent              3 500
+                  Villa       Ancien  PT = 1 400 + PC = 3 000
+                  Villa         Loti  PT = 1 400 + PC = 2 800
+             Terrain ZM         Loti  PT = 1 400 + PC = 2 200
+             Terrain ZV         Loti              1 600
+              Terrain ZI       Neuf               1 400
+                Maison        Récent              3 500
+                Maison        Ancien  PT = 2 500 + PC = 2 500
+                Maison         Neuf   PT = 2 500 + PC = 2 000
+                              Récent  PT = 2 500 + PC = 1 300
+            Appartement       Ancien              6 500
+            Appartement        Neuf               5 000
+            Appartement       Récent              4 500
+                              Ancien  PT = 2 000 + PC = 3 000
+                  Villa         Loti  PT = 2 000 + PC = 2 800
+                  Villa         Loti  PT = 2 000 + PC = 2 200
+                  Villa         Loti              2 500
+             Terrain ZM                           2 000
+             Terrain ZV                           6 500
+              Terrain ZI
+
+                          25
+      Zone  Type de bien       Etat           Prix au m²
+OUJ-ONSM23
+OUJ-ONSM24      Maison         Neuf   PT = 1 800 + PC = 2 500
+OUJ-ONSM25      Maison        Récent  PT = 1 800 + PC = 2 000
+                Maison        Ancien  PT = 1 800 + PC = 1 300
+
+            Appartement        Neuf               4 500
+            Appartement       Récent              4 000
+            Appartement       Ancien              3 500
+                                      PT = 1 600 + PC = 3 000
+                  Villa        Neuf   PT = 1 600 + PC = 2 800
+                  Villa       Récent  PT = 1 600 + PC = 2 200
+                  Villa       Ancien              1 800
+             Terrain ZM                           1 600
+             Terrain ZV         Loti              3 500
+              Terrain ZI        Loti  PT = 1 200 + PC = 1 800
+                Maison          Loti  PT = 1 200 + PC = 1 500
+                Maison         Neuf    PT = 1 200 + PC = 900
+                Maison        Récent              1 200
+             Terrain ZM       Ancien  PT = 2 000 + PC = 2 300
+                Maison          Loti  PT = 2 000 + PC = 2 000
+                Maison         Neuf   PT = 2 000 + PC = 1 300
+                Maison        Récent              4 500
+            Appartement       Ancien              4 000
+            Appartement        Neuf               3 500
+            Appartement       Récent  PT = 1 500 + PC = 3 000
+                  Villa       Ancien  PT = 1 500 + PC = 2 800
+                  Villa        Neuf   PT = 1 500 + PC = 2 200
+                  Villa       Récent              2 000
+             Terrain ZM       Ancien              1 500
+             Terrain ZV         Loti              3 000
+              Terrain ZI        Loti
+                                Loti
+
+                          26
+6.3. Référentiel des prix des transactions immobilières du District Urbain
+                                          de Sidi Ziane
+
+  Zone   Type de bien       Etat           Prix au m²
+OUJ-SZ1
+OUJ-SZ2      Maison         Neuf   PT = 4 000 + PC = 2 500
+OUJ-SZ3      Maison        Récent  PT = 4 000 + PC = 2 000
+             Maison        Ancien  PT = 4 000 + PC = 1 300
+         Appartement
+         Appartement        Neuf               5 000
+         Appartement       Récent              4 500
+                           Ancien              4 000
+               Villa               PT = 3 500 + PC = 3 000
+               Villa        Neuf   PT = 3 500 + PC = 2 800
+               Villa       Récent  PT = 3 500 + PC = 2 200
+          Terrain ZM       Ancien
+          Terrain ZV                           4 000
+           Terrain ZI        Loti              3 500
+             Maison          Loti              4 500
+             Maison          Loti  PT = 2 000 + PC = 2 200
+             Maison         Neuf   PT = 2 000 + PC = 2 000
+         Appartement       Récent  PT = 2 000 + PC = 1 000
+         Appartement       Ancien              5 000
+         Appartement        Neuf               4 500
+          Terrain ZM       Récent              4 000
+           Terrain ZI      Ancien              2 000
+             Maison          Loti              4 000
+             Maison          Loti  PT = 1 500 + PC = 2 000
+             Maison         Neuf   PT = 1 500 + PC = 1 800
+                           Récent  PT = 1 500 + PC = 1 000
+         Appartement       Ancien              3 000
+         Appartement        Neuf               2 800
+         Appartement       Récent              2 500
+                           Ancien  PT = 1 300 + PC = 3 000
+               Villa        Neuf   PT = 1 300 + PC = 2 800
+               Villa       Récent  PT = 1 300 + PC = 2 200
+               Villa       Ancien              1 500
+          Terrain ZM         Loti              1 300
+          Terrain ZV         Loti              2 500
+           Terrain ZI        Loti
+
+                       27
+  Zone   Type de bien       Etat           Prix au m²
+OUJ-SZ4
+OUJ-SZ5      Maison         Neuf   PT = 2 200 + PC = 2 200
+OUJ-SZ6      Maison        Récent  PT = 2 200 + PC = 2 000
+             Maison        Ancien  PT = 2 200 + PC = 1 300
+
+         Appartement        Neuf               4 500
+         Appartement       Récent              4 500
+         Appartement       Ancien              4 000
+                                   PT = 1 600 + PC = 3 000
+               Villa        Neuf   PT = 1 600 + PC = 2 800
+               Villa       Récent  PT = 1 600 + PC = 2 200
+               Villa       Ancien              2 200
+          Terrain ZM                           1 600
+          Terrain ZV         Loti              3 500
+           Terrain ZI        Loti  PT = 2 200 + PC = 2 500
+             Maison          Loti  PT = 2 200 + PC = 2 000
+             Maison         Neuf   PT = 2 200 + PC = 1 300
+             Maison        Récent              4 500
+         Appartement       Ancien              4 500
+         Appartement        Neuf               4 000
+         Appartement       Récent  PT = 1 600 + PC = 3 000
+               Villa       Ancien  PT = 1 600 + PC = 2 800
+               Villa        Neuf   PT = 1 600 + PC = 2 200
+               Villa       Récent              2 200
+          Terrain ZM       Ancien              1 600
+          Terrain ZV         Loti              3 500
+           Terrain ZI        Loti  PT = 2 500 + PC = 2 500
+             Maison          Loti  PT = 2 500 + PC = 2 000
+             Maison         Neuf   PT = 2 500 + PC = 1 300
+             Maison        Récent              5 000
+         Appartement       Ancien              4 500
+         Appartement        Neuf               4 000
+         Appartement       Récent  PT = 2 000 + PC = 3 000
+               Villa       Ancien  PT = 2 000 + PC = 2 800
+               Villa        Neuf   PT = 2 000 + PC = 2 200
+               Villa       Récent              2 500
+          Terrain ZM       Ancien              2 000
+          Terrain ZV         Loti              5 000
+           Terrain ZI        Loti
+                             Loti
+
+                       28
+  Zone   Type de bien       Etat           Prix au m²
+OUJ-SZ7
+             Maison         Neuf   PT = 2 200 + PC = 2 200
+OUJ-SZ8      Maison        Récent  PT = 2 200 + PC = 2 000
+OUJ-SZ9      Maison        Ancien  PT = 2 200 + PC = 1 300
+         Appartement
+         Appartement        Neuf               5 000
+         Appartement       Récent              4 500
+                           Ancien              4 000
+               Villa               PT = 2 000 + PC = 3 000
+               Villa        Neuf   PT = 2 000 + PC = 2 800
+               Villa       Récent  PT = 2 000 + PC = 2 200
+          Terrain ZM       Ancien              2 200
+          Terrain ZV                           2 000
+           Terrain ZI        Loti              5 000
+             Maison          Loti  PT = 3 000 + PC = 2500
+             Maison          Loti  PT = 3 000 + PC = 2 000
+             Maison         Neuf   PT = 3 000 + PC = 1 300
+         Appartement       Récent              7 000
+         Appartement       Ancien              6 500
+         Appartement        Neuf               6 000
+               Villa       Récent  PT = 5 000 + PC = 3 000
+               Villa       Ancien  PT = 5 000 + PC = 2 800
+               Villa        Neuf   PT = 5 000 + PC = 2 200
+          Terrain ZM       Récent              3 000
+          Terrain ZV       Ancien              5 000
+           Terrain ZI        Loti              6 000
+             Maison          Loti  PT = 1 500 + PC = 2 000
+             Maison          Loti  PT = 1 500 + PC = 1 500
+             Maison         Neuf   PT = 1 500 + PC = 1 000
+          Terrain ZM       Récent              1 500
+                           Ancien
+                             Loti
+
+                       29
+6.4. Référentiel des prix des transactions immobilières du District Urbain
+                                          de Sidi Yahya
+
+  Zone   Type de bien       Etat           Prix au m²
+OUJ-SY1
+OUJ-SY2      Maison         Neuf   PT = 1 800 + PC = 2 200
+OUJ-SY3      Maison        Récent  PT = 1 800 + PC = 2 000
+             Maison        Ancien  PT = 1 800 + PC = 1 300
+         Appartement
+         Appartement        Neuf               5 000
+         Appartement       Récent              4 500
+                           Ancien              4 000
+               Villa               PT = 1 600 + PC = 3 000
+               Villa        Neuf   PT = 1 600 + PC = 2 800
+               Villa       Récent  PT = 1 600 + PC = 2 200
+          Terrain ZM       Ancien              1 800
+          Terrain ZV                           1 600
+           Terrain ZI        Loti              2 500
+             Maison          Loti  PT = 1 200 + PC = 1 800
+             Maison          Loti  PT = 1 200 + PC = 1 500
+             Maison         Neuf   PT = 1 200 + PC = 1 000
+         Appartement       Récent              4 500
+         Appartement       Ancien              4 000
+         Appartement        Neuf               3 500
+          Terrain ZM       Récent              1 200
+           Terrain ZI      Ancien              2 500
+             Maison          Loti  PT = 1 500 + PC = 2 200
+             Maison          Loti  PT = 1 500 + PC = 2 000
+             Maison         Neuf   PT = 1 500 + PC = 1 300
+                           Récent              5 000
+         Appartement       Ancien              4 500
+         Appartement        Neuf               4 000
+         Appartement       Récent  PT = 1 400 + PC = 3 000
+                           Ancien  PT = 1 400 + PC = 2 800
+               Villa        Neuf   PT = 1 400 + PC = 2 200
+               Villa       Récent              1 500
+               Villa       Ancien              1 400
+          Terrain ZM         Loti              2 000
+          Terrain ZV         Loti
+           Terrain ZI        Loti
+
+                       30
+  Zone   Type de bien       Etat           Prix au m²
+OUJ-SY4
+OUJ-SY5      Maison         Neuf   PT = 2 300 + PC = 2 200
+OUJ-SY6      Maison        Récent  PT = 2 300 + PC = 2 000
+             Maison        Ancien  PT = 2 300 + PC = 1 300
+
+         Appartement        Neuf                5 000
+         Appartement       Récent               4 500
+         Appartement       Ancien               4 000
+                                   PT = 2 000 + PC = 3 000
+               Villa        Neuf   PT = 2 000 + PC = 2 800
+               Villa       Récent  PT = 2 000 + PC = 2 200
+               Villa       Ancien               2 300
+          Terrain ZM                            2 000
+          Terrain ZV         Loti               4 000
+           Terrain ZI        Loti  PT = 1 200 + PC = 2 000
+             Maison          Loti  PT = 1 200 + PC = 1 500
+             Maison         Neuf   PT = 1 200 + PC = 1 000
+             Maison        Récent               4 500
+         Appartement       Ancien               4 000
+         Appartement        Neuf                3 500
+         Appartement       Récent               1 200
+          Terrain ZM       Ancien               2 500
+           Terrain ZI        Loti  PT = 2 200 + PC = 2 500
+             Maison          Loti  PT = 2 200 + PC = 2 000
+             Maison         Neuf   PT = 2 200 + PC = 1 300
+             Maison        Récent               4 500
+                           Ancien               4 500
+         Appartement        Neuf                4 000
+         Appartement       Récent  PT = 1 600 + PC = 3 000
+         Appartement       Ancien  PT = 1 600 + PC = 2 800
+                            Neuf   PT = 1 600 + PC = 2 200
+               Villa       Récent               2 200
+               Villa       Ancien               1 600
+               Villa         Loti               3 500
+          Terrain ZM         Loti
+          Terrain ZV         Loti
+           Terrain ZI
+
+                       31
+  Zone   Type de bien       Etat           Prix au m²
+OUJ-SY7
+             Maison         Neuf   PT = 1 500 + PC = 2 200
+OUJ-SY8      Maison        Récent  PT = 1 500 + PC = 2 000
+             Maison        Ancien  PT = 1 500 + PC = 1 300
+         Appartement
+         Appartement        Neuf               5 000
+         Appartement       Récent              4 500
+                           Ancien              4 000
+               Villa               PT = 1 400 + PC = 3 000
+               Villa        Neuf   PT = 1 400 + PC = 2 800
+               Villa       Récent  PT = 1 400 + PC = 2 200
+          Terrain ZM       Ancien              1 500
+          Terrain ZV                           1 400
+           Terrain ZI        Loti              2 000
+             Maison          Loti  PT = 1 600 + PC = 2 200
+             Maison          Loti  PT = 1 600 + PC = 2 000
+             Maison         Neuf   PT = 1 600 + PC = 1 300
+         Appartement       Récent              5 000
+         Appartement       Ancien              4 500
+         Appartement        Neuf               4 000
+               Villa       Récent  PT = 1 400 + PC = 3 000
+               Villa       Ancien  PT = 1 400 + PC = 2 800
+               Villa        Neuf   PT = 1 400 + PC = 2 200
+          Terrain ZM       Récent              1 600
+          Terrain ZV       Ancien              1 400
+           Terrain ZI        Loti              2 000
+                             Loti
+                             Loti
+
+                       32
+6.5. Référentiel des prix des transactions immobilières des Grands Boulevards d'Oujda
+
+   Zone  Type de bien       Etat           Prix au m²
+OUJ-BD1
+OUJ-BD2      Maison         Neuf   PT = 4 500 + PC = 2 500
+OUJ-BD3      Maison        Récent  PT = 4 500 + PC = 2 000
+             Maison        Ancien  PT = 4 500 + PC = 1 300
+         Appartement
+         Appartement        Neuf                7000
+         Appartement       Récent               6000
+                           Ancien               5000
+               Villa               PT = 4 000 + PC = 3 000
+               Villa        Neuf   PT = 4 000 + PC = 2 800
+               Villa       Récent  PT = 4 000 + PC = 2 200
+          Terrain ZM       Ancien              4 500
+          Terrain ZV                           4 000
+           Terrain ZI        Loti              5 000
+             Maison          Loti  PT = 3 000 + PC = 2 500
+             Maison          Loti  PT = 3 000 + PC = 2 000
+             Maison         Neuf   PT = 3 000 + PC = 1 300
+         Appartement       Récent              5 000
+         Appartement       Ancien              4 500
+         Appartement        Neuf               4 000
+               Villa       Récent  PT = 2 500 + PC = 3 000
+               Villa       Ancien  PT = 2 500 + PC = 2 800
+               Villa        Neuf   PT = 2 500 + PC = 2 200
+          Terrain ZM       Récent              3 000
+          Terrain ZV       Ancien              2 500
+           Terrain ZI        Loti              4 500
+             Maison          Loti  PT = 4 000 + PC = 2 500
+             Maison          Loti  PT = 4 000 + PC = 2 000
+             Maison         Neuf   PT = 4 000 + PC = 1 300
+                           Récent              6 000
+         Appartement       Ancien              5 500
+         Appartement        Neuf               4 500
+         Appartement       Récent  PT = 3 500 + PC = 3 000
+                           Ancien  PT = 3 500 + PC = 2 800
+               Villa        Neuf   PT = 3 500 + PC = 2 200
+               Villa       Récent              4 000
+               Villa       Ancien              3 500
+          Terrain ZM         Loti              5 000
+          Terrain ZV         Loti
+           Terrain ZI        Loti
+
+                       33
+   Zone  Type de bien       Etat           Prix au m²
+OUJ-BD4
+             Maison         Neuf   PT = 2 000 + PC = 2 500
+OUJ-BD5      Maison        Récent  PT = 2 000 + PC = 2 000
+OUJ-BD6      Maison        Ancien  PT = 2 000 + PC = 1 300
+OUJ-BD7
+         Appartement        Neuf               4 000
+         Appartement       Récent              3 500
+         Appartement       Ancien              3 000
+                                   PT = 1 600 + PC = 3 000
+               Villa        Neuf   PT = 1 600 + PC = 2 800
+               Villa       Récent  PT = 1 600 + PC = 2 200
+               Villa       Ancien              2 000
+          Terrain ZM                           1 600
+          Terrain ZV         Loti              3 000
+           Terrain ZI        Loti  PT = 2 500 + PC = 2 500
+             Maison          Loti  PT = 2 500 + PC = 2 000
+             Maison         Neuf   PT = 2 500 + PC = 1 300
+             Maison        Récent               6500
+         Appartement       Ancien              6 000
+         Appartement        Neuf               5 500
+         Appartement       Récent  PT = 2 000 + PC = 3 000
+               Villa       Ancien  PT = 2 000 + PC = 2 800
+               Villa        Neuf   PT = 2 000 + PC = 2 200
+               Villa       Récent              2 500
+          Terrain ZM       Ancien              2 000
+          Terrain ZV         Loti              4 000
+           Terrain ZI        Loti              6 500
+         Appartement         Loti              6 000
+         Appartement        Neuf               5 500
+         Appartement       Récent              9 000
+           Terrain ZI      Ancien              7 000
+         Appartement         Loti               6000
+         Appartement        Neuf                5000
+         Appartement       Récent              8 000
+           Terrain ZI      Ancien
+                             Loti
+
+                       34
+   Zone   Type de bien       Etat           Prix au m²
+OUJ-BD8
+OUJ-BD9   Appartement        Neuf               6 000
+OUJ-BD10  Appartement       Récent              5 500
+          Appartement       Ancien              5 000
+OUJ-BD11                            PT = 3 500 + PC = 3 000
+                Villa        Neuf   PT = 3 500 + PC = 2 800
+                Villa       Récent  PT = 3 500 + PC = 2 200
+                Villa       Ancien              3 500
+           Terrain ZV                           4 500
+            Terrain ZI        Loti              6 000
+          Appartement         Loti              5 500
+          Appartement        Neuf               5 000
+          Appartement       Récent              6 000
+            Terrain ZI      Ancien  PT = 2 500 + PC = 2 500
+              Maison          Loti  PT = 2 500 + PC = 2 000
+              Maison         Neuf   PT = 2 500 + PC = 1 300
+              Maison        Récent              5 000
+          Appartement       Ancien              4 500
+          Appartement        Neuf               4 000
+          Appartement       Récent  PT = 2 000 + PC = 3 000
+                Villa       Ancien  PT = 2 000 + PC = 2 800
+                Villa        Neuf   PT = 2 000 + PC = 2 200
+                Villa       Récent              2 500
+           Terrain ZM       Ancien              2 000
+           Terrain ZV         Loti              3 500
+            Terrain ZI        Loti  PT = 2 000 + PC = 2 500
+              Maison          Loti  PT = 2 000 + PC = 2 000
+              Maison         Neuf   PT = 2 000 + PC = 1 300
+              Maison        Récent              5 000
+          Appartement       Ancien              4 500
+          Appartement        Neuf               4 000
+          Appartement       Récent  PT = 1 800 + PC = 3 000
+                Villa       Ancien  PT = 1 800 + PC = 2 800
+                Villa        Neuf   PT = 1 800 + PC = 2 200
+                Villa       Récent              2 000
+           Terrain ZM       Ancien              1 800
+           Terrain ZV         Loti              3 000
+            Terrain ZI        Loti
+                              Loti
+
+                        35
+   Zone   Type de bien       Etat           Prix au m²
+OUJ-BD12
+OUJ-BD13  Appartement        Neuf               6 300
+          Appartement       Récent              5 500
+OUJ-BD14  Appartement       Ancien              5 000
+OUJ-BD15                                        7 000
+OUJ-BD16    Terrain ZI        Loti  PT = 3 500 + PC = 2 500
+              Maison         Neuf   PT = 3 500 + PC = 2 000
+              Maison        Récent  PT = 3 500 + PC = 1 300
+              Maison        Ancien              5 000
+                             Neuf               4 500
+          Appartement       Récent              4 000
+          Appartement       Ancien              3 500
+          Appartement         Loti              4 500
+           Terrain ZM         Loti  PT = 2 500 + PC = 2 500
+                             Neuf   PT = 2 500 + PC = 2 000
+            Terrain ZI      Récent  PT = 2 500 + PC = 1 300
+              Maison        Ancien              5 000
+              Maison         Neuf               4 500
+              Maison        Récent              4 000
+                            Ancien  PT = 2 200 + PC = 3 000
+          Appartement        Neuf   PT = 2 200 + PC = 2 800
+          Appartement       Récent  PT = 2 200 + PC = 2 200
+          Appartement       Ancien              2 500
+                              Loti              2 200
+                Villa         Loti              4 000
+                Villa         Loti              7 000
+                Villa        Neuf               6 500
+           Terrain ZM       Récent              6 000
+           Terrain ZV       Ancien              10 000
+            Terrain ZI        Loti  PT = 4 000 + PC = 2 500
+          Appartement        Neuf   PT = 4 000 + PC = 2 000
+          Appartement       Récent  PT = 4 000 + PC = 1 300
+          Appartement       Ancien              6 000
+            Terrain ZI       Neuf               5 500
+              Maison        Récent              4 500
+              Maison        Ancien  PT = 3 500 + PC = 3 000
+              Maison         Neuf   PT = 3 500 + PC = 2 800
+          Appartement       Récent  PT = 3 500 + PC = 2 200
+          Appartement       Ancien              4 000
+          Appartement         Loti              3 500
+                Villa         Loti              5 000
+                Villa         Loti
+                Villa
+           Terrain ZM
+           Terrain ZV
+            Terrain ZI
+
+                        36
+   Zone   Type de bien       Etat           Prix au m²
+OUJ-BD17
+OUJ-BD18  Appartement        Neuf               7 000
+OUJ-BD19  Appartement       Récent              6 500
+          Appartement       Ancien              6 000
+OUJ-BD20                            PT = 4 000 + PC = 3 000
+                Villa        Neuf   PT = 4 000 + PC = 2 800
+                Villa       Récent  PT = 4 000 + PC = 2 200
+                Villa       Ancien              4 000
+           Terrain ZV                           8 000
+            Terrain ZI        Loti              6 000
+          Appartement         Loti              5 500
+          Appartement        Neuf               5 000
+          Appartement       Récent  PT = 4 000 + PC = 3 000
+                Villa       Ancien  PT = 4 000 + PC = 2 800
+                Villa        Neuf   PT = 4 000 + PC = 2 200
+                Villa       Récent              3 000
+           Terrain ZV       Ancien              4 000
+            Terrain ZI        Loti  PT = 2 200 + PC = 2 500
+              Maison          Loti  PT = 2 200 + PC = 2 000
+              Maison         Neuf   PT = 2 200 + PC = 1 300
+              Maison        Récent              5 000
+          Appartement       Ancien              4 500
+          Appartement        Neuf               4 000
+          Appartement       Récent  PT = 2 000 + PC = 3 000
+                Villa       Ancien  PT = 2 000 + PC = 2 800
+                Villa        Neuf   PT = 2 000 + PC = 2 200
+                Villa       Récent              2 200
+           Terrain ZM       Ancien              2 000
+           Terrain ZV         Loti              3 500
+            Terrain ZI        Loti  PT = 2 200 + PC = 2 500
+              Maison          Loti  PT = 2 200 + PC = 2 000
+              Maison         Neuf   PT = 2 200 + PC = 1 300
+              Maison        Récent              5 000
+          Appartement       Ancien              4 500
+          Appartement        Neuf               4 000
+          Appartement       Récent  PT = 2 000 + PC = 3 000
+                Villa       Ancien  PT = 2 000 + PC = 2 800
+                Villa        Neuf   PT = 2 000 + PC = 2 200
+                Villa       Récent              2 200
+           Terrain ZM       Ancien              2 000
+           Terrain ZV         Loti              3 500
+            Terrain ZI        Loti
+                              Loti
+
+                        37
+   Zone   Type de bien       Etat           Prix au m²
+OUJ-BD21
+              Maison         Neuf   PT = 2 200 + PC = 2 500
+OUJ-BD22      Maison        Récent  PT = 2 200 + PC = 2 000
+OUJ-BD23      Maison        Ancien  PT = 2 200 + PC = 1 300
+OUJ-BD24  Appartement
+OUJ-BD25  Appartement        Neuf               5 000
+          Appartement       Récent              4 500
+                            Ancien              4 000
+                Villa               PT = 2 000 + PC = 3 000
+                Villa        Neuf   PT = 2 000 + PC = 2 800
+                Villa       Récent  PT = 2 000 + PC = 2 200
+           Terrain ZM       Ancien              2 200
+           Terrain ZV                           2 000
+            Terrain ZI        Loti              3 500
+              Maison          Loti  PT = 2 500 + PC = 2 500
+              Maison          Loti  PT = 2 500 + PC = 2 000
+              Maison         Neuf   PT = 2 500 + PC = 1 300
+          Appartement       Récent              5 500
+          Appartement       Ancien              5 000
+          Appartement        Neuf               4 500
+                Villa       Récent  PT = 2 000 + PC = 3 000
+                Villa       Ancien  PT = 2 000 + PC = 2 800
+                Villa        Neuf   PT = 2 000 + PC = 2 500
+           Terrain ZM       Récent              2 500
+           Terrain ZV       Ancien              2 000
+            Terrain ZI        Loti              4 500
+          Appartement         Loti              6 000
+          Appartement         Loti              5 500
+          Appartement        Neuf               5 000
+            Terrain ZI      Récent              7 000
+              Maison        Ancien  PT = 4 000 + PC = 2 500
+              Maison          Loti  PT = 4 000 + PC = 2 000
+              Maison         Neuf   PT = 4 000 + PC = 1 300
+          Appartement       Récent              5 000
+          Appartement       Ancien              4 500
+          Appartement        Neuf               4 000
+                Villa       Récent  PT = 3 000 + PC = 3 000
+                Villa       Ancien  PT = 3 000 + PC = 2 800
+                Villa        Neuf   PT = 3 000 + PC = 2 500
+           Terrain ZM       Récent              4 000
+           Terrain ZV       Ancien              3 000
+            Terrain ZI        Loti              5 000
+          Appartement         Loti              6 000
+          Appartement         Loti              5 500
+          Appartement        Neuf               5 000
+            Terrain ZI      Récent              7 000
+                            Ancien
+                              Loti
+
+                        38
+7. Annexes
+
+              39
+7.1 Cartographie des Zones relevant du District Urbain de Sidi Driss El Kadi
+                                                       40
+7.1.Tableau des délimitations des Zones : District Urbain de Sidi Driss El Kadi
+
+Code Zone  Points de Repère
+ OUJ-DK1   LOT CGI, HAY EL OUAHDA , RTE AHFIR
+ OUJ-DK2   LOT TALHAOUI ET EL MIR, MARJANE
+ OUJ-DK3   RIAD ISLY
+ OUJ-DK4   LOT AL KHEIR, LOT ALJ, RTE AHFIR
+ OUJ-DK5   CITE GOLF RTE AHFIR
+ OUJ-DK6   HAY SADRAT BOUAMOUD, HAY MED BELKHDAR, HAY EL OUIFAQ, LOT MSAAD ET RAHAL
+ OUJ-DK7   HAY MOHAMMADI (EX VGE TOBA EXTERIEUR)
+ OUJ-DK8   HAY HASSANI, HAY KOULOUCHE
+ OUJ-DK9   HAY TOBA INTERIEUR
+OUJ-DK10   HAY TANMIA 1, HAY TANMIA 2
+OUJ-DK11   HAY MAURITANIA
+OUJ-DK12   HAY TENIS, LOT BELAOUCHI
+OUJ-DK13   HAY AL BOUSTANE, LOT TALHAOUI ET MOUHOUB
+OUJ-DK14   HAY RJA F ALAH, HAY ENSAR, HAY GHAR EL BAROUD
+
+           41
+7.2. Cartographie des Zones relevant du District Urbain de Oued Nachef - Sidi Maâfa
+                                                                      42
+7.2.Tableau des délimitations des Zones : District Urbain de Oued Nachef - Sidi
+                                                      Maâfa
+
+  Code Zone                                                          Points de Repère
+OUJ-ONSM1    LOT NAHAR
+OUJ-ONSM2    HAY JARF LKHDAR, ATKADAO
+OUJ-ONSM3    HAY AMAL 1, HAY AMAL 2 (EX HAY LAMHARCHI)
+OUJ-ONSM4    LOT SALAMA, BENADDI, LOT SLIMANI RTE TAZA
+OUJ-ONSM5    HAY SI LAKHDAR, HAY MIR ALI, HAY NGADI
+OUJ-ONSM6    HAY OUAHDA, LOT TALHAOUI ET HASSANI RTE TAZA
+OUJ-ONSM7    HAY NAHDA (EX AMAR EL BOULISSI)
+OUJ-ONSM8    HAY KHALOUFI, HAY EL OUAFAE
+OUJ-ONSM9    LOT AZIZI, LOT ZOHOUR, LOT IBN KHALDOUN RTE JERRADA
+OUJ-ONSM10   HAY BENAZZI, HAY JAOUHARA, HAY OLD CHRIF, HAY KHALOUFI
+OUJ-ONSM11   LOT MILITAIRE (OLM), OUED NACHEF
+OUJ-ONSM12   HAY LAMHALLA (RHA TBOUL)
+OUJ-ONSM13   HAY SALAM AOUINT SERRAK, VGE MOUSAKINE
+OUJ-ONSM14   HAY SAADA AOUINT SERRAK
+OUJ-ONSM15   LOT KADA, LOT SAADI, LOT MADMAD, MOUAHIDINE, HAY GTAR, HAY STADE D'HONNEUR, HAY
+OUJ-ONSM16   SAMMARA
+OUJ-ONSM17   HAY BENKHIRANE
+OUJ-ONSM18   LOT IRIS
+OUJ-ONSM19   HAY IRFANE, HAY HIKMA
+OUJ-ONSM20   HAY BENMRAH
+OUJ-ONSM21   HAY BOUARFA
+OUJ-ONSM22   HAY ERABIE, LOT BELLAOUI
+OUJ-ONSM23   HAY QODS
+OUJ-ONSM24   HAY ANDALOUS
+OUJ-ONSM25   HAY MOUSTAKBAL, HAY JDID, HAY HAKKOU
+             DOHA
+
+             43
+7.3. Cartographie des Zones relevant du District Urbain de Sidi Ziane
+                                                          44
+           7.3.Tableau des délimitations des Zones : District Urbain de Sidi Ziane
+
+Code Zone  Points de Repère
+ OUJ-SZ1   CENTRE VILLE
+ OUJ-SZ2   HAY BOUDIR, HAY BERROUKACHE
+ OUJ-SZ3   DERB MBASSO, SIDI DRISS, DERB BERAHMOUNE
+ OUJ-SZ4   HAY RAS ASFOUR, JAKARTA
+ OUJ-SZ5   LOT BOUKNADEL RTE TAIRET
+ OUJ-SZ6   HAY MASSIRA (ZANGOT), HAY MAQSSEM
+ OUJ-SZ7   HAY LAMHALLA, BD HIJAZ, HAY SIDI AISSA (GENDARMERIE ROYALE)
+ OUJ-SZ8   CENTRE VILLE (VILLE NOUVELLE)
+ OUJ-SZ9   MEDINA, SOUK LAGHZAL, AHL ELJAMEL, DERB AISSAOUA
+
+           45
+7.4. Cartographie des Zones relevant du District Urbain de Sidi Yahya
+                                                     46
+           7.4.Tableau des délimitations des Zones : District Urbain de Sidi Yahya
+
+Code Zone  Points de Repère
+ OUJ-SY1   HAY EL FATH, LOT ANGAD, HAY SALAM DEM
+ OUJ-SY2   HAY MOULAY EL MILOUD, DERB LAKRAKAKER
+ OUJ-SY3   HAY LABYAYID, HAY FARAH, HAY MIXICO, LOT MUNICIPALITÉ DEM
+ OUJ-SY4   HAY LAHBOUS DEM
+ OUJ-SY5   HAY MOULAY MOUSTFA
+ OUJ-SY6   HAY ZAITOUNE, LOT BENMIMOUN, LOT BENMIRA, HAY WIDADIYA, HAY HASSANIA
+ OUJ-SY7   HAY AGDAL
+ OUJ-SY8   HAY NAJD, HAY PAM RTE SIDI YAHYA
+
+           47
+           7.5.Tableau des délimitations des Zones : Grands Boulevards d'Oujda
+
+Code Zone  Points de Repère
+ OUJ-BD1   BD MOULAY EL HASSAN (DE PLACE PASTEUR A PONT VGE TOBA)
+ OUJ-BD2   BD MOULAY EL HASSAN (DE PONT VGE TOBA AU PALAIS ROYAL)
+ OUJ-BD3   BD MOHAMMED V (DE DOUANE AU PONT RTE MAGHNIA)
+ OUJ-BD4   BD MOHAMMED V (DE PONT RTE MAGHNIA VERS CAFE GALA)
+ OUJ-BD5   BD NAKHIL
+ OUJ-BD6   BD MOHAMMED V (DE DOUANE A LA POSTE)
+ OUJ-BD7   BD DERFOUFI ET IDRIS EL AKBAR 1 (DE CAFE RIHAB AU ROND POINT BAB EL GHARBI)
+ OUJ-BD8   BD IDRIS EL AKBAR ET BD YAAKOUB EL MANSOUR (DE BAB EL GHARBI VERS LYCEE
+ OUJ-BD9   MAGHREB ARABI)
+OUJ-BD10   BD DERFOUFI (CENIMA COLISEE VERS ONE)
+OUJ-BD11   BD HASSAN II (D'ANGLE ECOLE ROMAYSAE AU CAFE MANAR)
+OUJ-BD12   BD HASSAN II (DE CAFE MANAR VERS SIDI YAHYA)
+OUJ-BD13   BD MAQDIS HAY QODS
+OUJ-BD14   BD MBAREK LAHBIL RTE TAZA
+OUJ-BD15   BD FAYCAL IBN ABDELAZIZ RTE AIN BNI MATHAR
+OUJ-BD16   BD MOHAMMED V (DE POSTE A HOTEL OUJDA)
+OUJ-BD17   BD ALLAL BEN ABDELLAH
+OUJ-BD18   BD YOUSEF IBN TACHFINE (DE HOTEL OUJDA A STATION TOTAL)
+OUJ-BD19   BD SAOURA, BD MOHAMMED VI
+OUJ-BD20   BD ALLAL EL FASSI
+OUJ-BD21   BD KADDOUR EL OUARTASSI (DE HOPITAL RAZI AU PONT RTE MAGHNIA)
+OUJ-BD22   BD BRAHIM ROUDANI
+OUJ-BD23   BD ABDERRAHIM BOUABID
+OUJ-BD24   BD HANSALI
+OUJ-BD25   BD DES FAR
+           BD ZERKTOUNI
+
+           48
+                                          8. Contacts utiles
+
+                  Désignation                             Adresse                   Tél/Email
+         Centre d'Information DGI         Haj Ahmed Cherkaoui Agdal Rabat       0537-27-37-27
+     Bureau d'Accueil de la Direction     Bd Derfoufi Immeuble des Impôts  referentiel@tax.gov.ma
+      Régionale des Impôts d'Oujda                                              0536-68-41-85
+          Agence Urbaine d'Oujda                    Bd Mohammed V
+                                                       Bd Hassan II             0536-68-04-13
+    Wilaya de la Région de l'Oriental                   Bd Derfoufi             0536-68-29-01
+                                                                                0536-68-29-02
+               ANCFCC d'Oujda                     Bd Mansour Adahbi             0660-10-28-26
+                                                Bd Fayçal Ibn Abdelaziz
+     District Urbain Sidi Driss El Kadi           37 Bd Hassan Loukili          0536-70-37-25
+
+District Urbain Oued Nachef - Sidi Maafa               Bd Hassan II             0536-51-53-86
+
+          District Urbain Sidi Ziane                                            0536-68-37-67
+
+         District Urbain Sidi Yahya                                             0536-54-14-65
+
+                                          49
+
