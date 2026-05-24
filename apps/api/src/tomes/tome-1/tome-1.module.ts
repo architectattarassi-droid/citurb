@@ -4,6 +4,7 @@ import { PackValidationService } from "./pack-validation.service";
 import { PackValidationController } from "./pack-validation.controller";
 import { StripeWebhookController } from "./stripe-webhook.controller";
 import { StripeCheckoutController } from "./stripe-checkout.controller";
+import { ManualPaymentController } from "./manual-payment.controller";
 import { UniversalContractService } from "./universal-contract.service";
 import { UniversalContractController } from "./universal-contract.controller";
 import { QuoteInvoiceService } from "./quote-invoice.service";
@@ -16,7 +17,7 @@ import { PhaseEngineModule } from "../../modules/phase-engine/phase-engine.modul
 
 @Module({
   imports: [PrismaModule, Tome5AuthModule, ClientNotifyModule, OwnerNotifyModule, PhaseEngineModule],
-  controllers: [PackValidationController, StripeWebhookController, StripeCheckoutController, UniversalContractController, QuoteInvoiceController],
+  controllers: [PackValidationController, StripeWebhookController, StripeCheckoutController, ManualPaymentController, UniversalContractController, QuoteInvoiceController],
   providers: [Tome1Service, PackValidationService, UniversalContractService, QuoteInvoiceService],
   exports: [Tome1Service, PackValidationService, UniversalContractService, QuoteInvoiceService],
 })
