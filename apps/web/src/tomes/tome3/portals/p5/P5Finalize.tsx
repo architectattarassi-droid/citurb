@@ -95,10 +95,16 @@ export default function P5Finalize() {
     if (b.geoLat != null && b.geoLng != null && Number.isFinite(+b.geoLat) && Number.isFinite(+b.geoLng)) {
       setCurrentCoords({ lat: +b.geoLat, lng: +b.geoLng });
     }
-    // Catalogue DGI par ville (Rabat aujourd'hui ; Casa/Marrakech/Tanger à venir)
+    // Catalogue DGI par ville — 6 villes extraites du PDF officiel DGI 2017
+    // (294 zones au total : Casa 73, Marrakech 62, Tanger 61, Agadir 45, Rabat 40, Fès 13).
     const c = (payloadState.commune || "").toLowerCase();
     let cityId: string | null = null;
     if (c.includes("rabat")) cityId = "rabat";
+    else if (c.includes("casa")) cityId = "casablanca";
+    else if (c.includes("marrakech") || c.includes("marrakesh")) cityId = "marrakech";
+    else if (c.includes("tanger") || c.includes("tangier")) cityId = "tanger";
+    else if (c.includes("fes") || c.includes("fès")) cityId = "fes";
+    else if (c.includes("agadir")) cityId = "agadir";
     if (cityId) {
       fetch(`${apiBase()}/api/sig/dgi-zones/${cityId}`)
         .then(r => r.json()).then(d => { if (d?.ok) setDgiCity(d); }).catch(() => {});

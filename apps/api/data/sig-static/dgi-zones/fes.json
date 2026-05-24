@@ -1,0 +1,577 @@
+{
+  "_meta": {
+    "ville": "Fès",
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T14:12:39.052Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 13,
+    "zonesWithPrices": 13,
+    "zonesWithDelimitations": 0
+  },
+  "arrondissements": [
+    {
+      "code": "AG",
+      "nom": "Agdal"
+    },
+    {
+      "code": "JW",
+      "nom": "Jnan El Ouard"
+    },
+    {
+      "code": "MR",
+      "nom": "MR"
+    },
+    {
+      "code": "ZW",
+      "nom": "ZW"
+    }
+  ],
+  "zones": [
+    {
+      "code": "FS-AG1",
+      "arrondissement": "Agdal",
+      "ville": "Fès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Villa",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        }
+      ]
+    },
+    {
+      "code": "FS-AG2",
+      "arrondissement": "Agdal",
+      "ville": "Fès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Villa",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        }
+      ]
+    },
+    {
+      "code": "FS-AG3",
+      "arrondissement": "Agdal",
+      "ville": "Fès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Villa",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        }
+      ]
+    },
+    {
+      "code": "FS-AG4",
+      "arrondissement": "Agdal",
+      "ville": "Fès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 1500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        }
+      ]
+    },
+    {
+      "code": "FS-AG6",
+      "arrondissement": "Agdal",
+      "ville": "Fès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 9000
+        }
+      ]
+    },
+    {
+      "code": "FS-AG7",
+      "arrondissement": "Agdal",
+      "ville": "Fès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Villa",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 1500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        }
+      ]
+    },
+    {
+      "code": "FS-JW1",
+      "arrondissement": "Jnan El Ouard",
+      "ville": "Fès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 2000
+        }
+      ]
+    },
+    {
+      "code": "FS-JW2",
+      "arrondissement": "Jnan El Ouard",
+      "ville": "Fès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 2000
+        }
+      ]
+    },
+    {
+      "code": "FS-MR3",
+      "arrondissement": "MR",
+      "ville": "Fès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 5300
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 25000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 16000
+        }
+      ]
+    },
+    {
+      "code": "FS-ZW1",
+      "arrondissement": "ZW",
+      "ville": "Fès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 3000
+        }
+      ]
+    },
+    {
+      "code": "FS-ZW2",
+      "arrondissement": "ZW",
+      "ville": "Fès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 1000
+        }
+      ]
+    },
+    {
+      "code": "FS-ZW3",
+      "arrondissement": "ZW",
+      "ville": "Fès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 1500
+        }
+      ]
+    },
+    {
+      "code": "FS-ZW4",
+      "arrondissement": "ZW",
+      "ville": "Fès",
+      "region": "Fès-Meknès",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        }
+      ]
+    }
+  ]
+}

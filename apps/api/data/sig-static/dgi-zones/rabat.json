@@ -1,20 +1,16 @@
 {
   "_meta": {
     "ville": "Rabat",
-    "source": "Référentiel DGI 2017 — version actualisée 29/12/2017",
-    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/referentiel-de-rabat-version-actualisee-de29-12-2017.pdf",
-    "extractedAt": "2026-05-23T23:13:01.680Z",
-    "parser": "apps/api/scripts/parse-dgi-rabat.cjs",
-    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent de 30-70%). L'expertise CITURBAREA donne la valeur marché réelle ; le prix DGI sert uniquement aux taxes et droits.",
-    "totalZones": 49,
-    "zonesWithPrices": 44,
-    "zonesWithDelimitations": 48
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T14:12:39.009Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 40,
+    "zonesWithPrices": 26,
+    "zonesWithDelimitations": 31
   },
   "arrondissements": [
-    {
-      "code": "SW",
-      "nom": "Souissi"
-    },
     {
       "code": "AR",
       "nom": "Agdal-Ryad"
@@ -24,17 +20,422 @@
       "nom": "Hassan"
     },
     {
-      "code": "YO",
-      "nom": "Youssoufia"
+      "code": "SW",
+      "nom": "Souissi"
     },
     {
       "code": "YM",
       "nom": "Yacoub Mansour"
+    },
+    {
+      "code": "YO",
+      "nom": "Youssoufia"
     }
   ],
   "zones": [
     {
       "code": "RA-AR1",
+      "arrondissement": "Agdal-Ryad",
+      "ville": "Rabat",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 9000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 9000,
+          "pc": 7000
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 7000
+        },
+        {
+          "type": "Appartement",
+          "pt": 9000,
+          "pc": 9000
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 900010000
+        }
+      ]
+    },
+    {
+      "code": "RA-AR11",
+      "arrondissement": "Agdal-Ryad",
+      "ville": "Rabat",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Av. Attine - Av. Al Melia - Av. Diae Errahmane (Ouest), Av. Attanoub (Nord), Av. Al Arz - Av. Catapulta",
+      "avenues": [
+        "Av. Attine",
+        "Av. Al Melia",
+        "Av. Diae Errahmane",
+        "Av. Attanoub",
+        "Av. Al Arz",
+        "Av. Catapulta"
+      ],
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 7500,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 9000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 13000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 7500,
+          "pc": 7000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 9000,
+          "pc": 7000
+        },
+        {
+          "type": "Appartement",
+          "pt": 13000,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 550 m²",
+          "pt": 7500,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 550 m²",
+          "pt": 9000,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 13000,
+          "pc": 9000170001900021000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 7500250,
+          "pc": 3500400
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 9000,
+          "pc": 3500250
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 13000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 7000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 9000,
+          "pc": 7000400
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 10000,
+          "pc": 7000250
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 13000,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 7000,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 9000,
+          "pc": 9000400
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 10000,
+          "pc": 9000250
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 13000,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 7000,
+          "pc": 9000160001800021000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 10000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 13000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 7000400
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 9000250
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 10000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 13000
+        }
+      ]
+    },
+    {
+      "code": "RA-AR13",
+      "arrondissement": "Agdal-Ryad",
+      "ville": "Rabat",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Av. Nakhil - Av. Mehdi Benbarka (Ouest), Av. Catapulta (Nord), Av. Attanoub (Est)",
+      "nomCommun": "Ryad Secteurs 5 et",
+      "avenues": [
+        "Av. Nakhil",
+        "Av. Mehdi Benbarka",
+        "Av. Catapulta",
+        "Av. Attanoub"
+      ],
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 7000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 8500,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 13000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 7000,
+          "pc": 7000
+        },
+        {
+          "type": "Villa",
+          "pt": 8500,
+          "pc": 7000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 13000,
+          "pc": 7000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 550 m²",
+          "pt": 7000,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 550 m²",
+          "pt": 8500,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 550 m²",
+          "pt": 13000,
+          "pc": 3500250
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 550 m²",
+          "pt": 7000250,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 550 m²",
+          "pt": 8500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 550 m²",
+          "pt": 13000,
+          "pc": 7000250
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 6500,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 8500,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 13000,
+          "pc": 9000250
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 6500,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 8500,
+          "pc": 9000150001600019000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 13000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 6500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 8500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 13000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 6500300
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 8500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 13000
+        }
+      ]
+    },
+    {
+      "code": "RA-AR15",
+      "arrondissement": "Agdal-Ryad",
+      "ville": "Rabat",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Av. Abderrahim Bouabid - Av. Al Melia (Ouest), Av. Attine - Av. Ryad (Nord), Av. Nakhil (Est)",
+      "nomCommun": "Ryad",
+      "avenues": [
+        "Av. Abderrahim Bouabid",
+        "Av. Al Melia",
+        "Av. Attine",
+        "Av. Ryad",
+        "Av. Nakhil"
+      ],
+      "prix": []
+    },
+    {
+      "code": "RA-AR16",
+      "arrondissement": "Agdal-Ryad",
+      "ville": "Rabat",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "superficie": "ST < 550 m²",
+          "pt": 10000,
+          "pc": 7000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 7500,
+          "pc": 9000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 550 m²",
+          "pt": 10000,
+          "pc": 9000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 550 m²",
+          "pt": 7500
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000130001400017000
+        }
+      ]
+    },
+    {
+      "code": "RA-AR2",
       "arrondissement": "Agdal-Ryad",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
@@ -47,55 +448,7 @@
       ],
       "prix": [
         {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 500 m²",
-          "pt": 9000,
-          "pc": 3000
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST <= 500 m²",
-          "pt": 10000,
-          "pc": 3000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 500 m²",
-          "pt": 9000,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST <= 500 m²",
-          "pt": 10000,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 500 m²",
-          "pt": 9000,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST <= 500 m²",
-          "pt": 10000,
-          "pc": 9000
-        },
-        {
           "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 10000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
           "prixUnique": 12000
         },
         {
@@ -104,727 +457,272 @@
           "prixUnique": 15000
         },
         {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 500 m²",
+          "type": "Terrain ZI",
           "pt": 9000
         },
         {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST <= 500 m²",
+          "type": "Villa",
           "pt": 10000
         },
         {
-          "type": "Terrain ZI",
-          "etat": "Loti",
-          "superficie": "ST > 800 m²",
-          "pt": 17000200
+          "type": "Appartement",
+          "pt": 17000
         },
         {
-          "type": "Terrain ZI",
+          "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST < 800 m²",
           "pt": 20000
         },
         {
           "type": "Terrain ZI",
           "etat": "Loti",
-          "superficie": "ST > 200 m²",
-          "pt": 15000
-        }
-      ]
-    },
-    {
-      "code": "RA-AR10",
-      "arrondissement": "Agdal-Ryad",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Nakhil - Av. Ryad (Ouest), Av. Al Arz (Nord), Av. Mehdi Benbarka (Est)",
-      "nomCommun": "Ryad Secteurs 8 et 9",
-      "avenues": [
-        "Av. Nakhil",
-        "Av. Ryad",
-        "Av. Al Arz",
-        "Av. Mehdi Benbarka"
-      ],
-      "prix": [
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 550 m²",
-          "pt": 7500,
-          "pc": 3500250
+          "pt": 15000,
+          "pc": 3000
         },
         {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 550 m²",
+          "type": "Terrain ZI",
+          "etat": "Loti",
           "pt": 9000,
-          "pc": 3500
+          "pc": 3000
         },
         {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 250 m²",
-          "pt": 13000,
-          "pc": 3500
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 10000,
+          "pc": 7000
         },
         {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 550 m²",
-          "pt": 7500,
-          "pc": 7000250
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 550 m²",
+          "type": "Terrain ZI",
+          "etat": "Loti",
           "pt": 9000,
           "pc": 7000
         },
         {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 250 m²",
-          "pt": 13000,
-          "pc": 7000
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 10000,
+          "pc": 9000
         },
         {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 550 m²",
-          "pt": 7500,
-          "pc": 9000250
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 550 m²",
+          "type": "Terrain ZI",
+          "etat": "Loti",
           "pt": 9000,
-          "pc": 9000
+          "pc": 9000140001500017000
         },
         {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 250 m²",
-          "pt": 13000,
-          "pc": 9000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 17000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 19000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 21000
-        },
-        {
-          "type": "Terrain ZV",
+          "type": "Terrain ZI",
           "etat": "Loti",
-          "superficie": "ST > 550 m²",
-          "pt": 7500250
+          "pt": 10000
         },
         {
-          "type": "Terrain ZV",
+          "type": "Terrain ZI",
           "etat": "Loti",
-          "superficie": "ST < 550 m²",
           "pt": 9000
         },
         {
-          "type": "Terrain ZV",
+          "type": "Terrain ZI",
           "etat": "Loti",
-          "superficie": "ST < 250 m²",
-          "pt": 13000
-        }
-      ]
-    },
-    {
-      "code": "RA-AR11",
-      "arrondissement": "Agdal-Ryad",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Addolb - Av. Abderrahim Bouabid (Ouest), Av. Araar (Nord), Allée Sud (Est)",
-      "nomCommun": "Ryad Secteurs 14 et 15",
-      "avenues": [
-        "Av. Addolb",
-        "Av. Abderrahim Bouabid",
-        "Av. Araar",
-        "Allée Sud"
-      ],
-      "prix": [
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 550 m²",
-          "pt": 7000,
-          "pc": 3500400
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 550 m²",
-          "pt": 9000,
-          "pc": 3500250
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 400 m²",
-          "pt": 10000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 250 m²",
-          "pt": 13000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 550 m²",
-          "pt": 7000,
-          "pc": 7000400
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 550 m²",
-          "pt": 9000,
-          "pc": 7000250
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 400 m²",
-          "pt": 10000,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 250 m²",
-          "pt": 13000,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 550 m²",
-          "pt": 7000,
-          "pc": 9000400
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 550 m²",
-          "pt": 9000,
-          "pc": 9000250
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 400 m²",
-          "pt": 10000,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 250 m²",
-          "pt": 13000,
-          "pc": 9000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 16000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 18000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 21000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 550 m²",
-          "pt": 7000400
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 550 m²",
-          "pt": 9000250
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 400 m²",
           "pt": 10000
         },
         {
-          "type": "Terrain ZV",
+          "type": "Terrain ZI",
           "etat": "Loti",
-          "superficie": "ST > 250 m²",
-          "pt": 13000
+          "pt": 16000600
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 18000200
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 26000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 20000
         }
       ]
     },
     {
-      "code": "RA-AR12",
+      "code": "RA-AR4",
       "arrondissement": "Agdal-Ryad",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Attarfae (Ouest), Voie Ferrée (Nord), Av. des FAR (Est), Av. Abderrahim Bouabid",
-      "nomCommun": "Ryad Secteurs 18, 19, 20 et 21",
-      "avenues": [
-        "Av. Attarfae",
-        "Av. Abderrahim Bouabid"
-      ],
-      "prix": [
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 550 m²",
-          "pt": 7000,
-          "pc": 3500250
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 550 m²",
-          "pt": 8500,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 250 m²",
-          "pt": 13000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 550 m²",
-          "pt": 7000,
-          "pc": 7000250
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 550 m²",
-          "pt": 8500,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 250 m²",
-          "pt": 13000,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 550 m²",
-          "pt": 7000,
-          "pc": 9000250
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 550 m²",
-          "pt": 8500,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 250 m²",
-          "pt": 13000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 15000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 17000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 19000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 550 m²",
-          "pt": 7000250
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 550 m²",
-          "pt": 8500
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 250 m²",
-          "pt": 13000
-        }
-      ]
-    },
-    {
-      "code": "RA-AR13",
-      "arrondissement": "Agdal-Ryad",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Eucalyptus - Av. Mehdi Benbarka (Ouest), Rocade vers Fès (Nord), Av. Nakhil - Av. Eucalyptus (Est)",
-      "nomCommun": "Ryad Secteurs 23 et 24",
-      "avenues": [
-        "Av. Eucalyptus",
-        "Av. Mehdi Benbarka",
-        "Av. Nakhil"
-      ],
-      "prix": [
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 550 m²",
-          "pt": 6500,
-          "pc": 3500250
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 550 m²",
-          "pt": 8500,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 250 m²",
-          "pt": 13000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 550 m²",
-          "pt": 6500,
-          "pc": 7000250
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 550 m²",
-          "pt": 8500,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 250 m²",
-          "pt": 13000,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 550 m²",
-          "pt": 6500,
-          "pc": 9000250
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 550 m²",
-          "pt": 8500,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 250 m²",
-          "pt": 13000,
-          "pc": 9000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 15000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 16000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 19000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 550 m²",
-          "pt": 6500300
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 550 m²",
-          "pt": 8500
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 250 m²",
-          "pt": 13000
-        }
-      ]
-    },
-    {
-      "code": "RA-AR14",
-      "arrondissement": "Agdal-Ryad",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Al Boustane - Voie Ferrée (Ouest), Av. Attarfae (Nord), Av. Abderrahim Bouabid (Est)",
-      "nomCommun": "Ryad Prestigia",
-      "avenues": [
-        "Av. Al Boustane",
-        "Av. Attarfae",
-        "Av. Abderrahim Bouabid"
-      ],
-      "prix": [
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 550 m²",
-          "pt": 7500,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 550 m²",
-          "pt": 10000,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 550 m²",
-          "pt": 7500,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 550 m²",
-          "pt": 10000,
-          "pc": 9000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 19000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 21000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 550 m²",
-          "pt": 7500
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 550 m²",
-          "pt": 10000
-        }
-      ]
-    },
-    {
-      "code": "RA-AR15",
-      "arrondissement": "Agdal-Ryad",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Ecole de Gouvernance - Voie Ferrée (Nord), Faculté des Sciences de l’Education (Est), Av. Med Abdellah Regragui (Sud)",
-      "avenues": [
-        "Av. Med Abdellah Regragui"
-      ],
-      "prix": [
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 13000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 14000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 16000
-        }
-      ]
-    },
-    {
-      "code": "RA-AR16",
-      "arrondissement": "Agdal-Ryad",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Omar Ibn Al Khattab (Ouest), Av. des Nations Unies - Av. Ibn Khaldoun (Nord), Av. Ibn Batouta (Est), Av. Imam Malik (Sud)",
-      "avenues": [
-        "Av. Omar Ibn Al Khattab",
-        "Av. Ibn Khaldoun",
-        "Av. Ibn Batouta",
-        "Av. Imam Malik"
-      ],
-      "prix": []
-    },
-    {
-      "code": "RA-AR2",
-      "arrondissement": "Agdal-Ryad",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Hassan II - Av. de la Victoire - An Nasr (Ouest), Av. Ibn Khaldoun - Av. des Nations Unies (Nord), Av. Omar Ibn Al khattab - Av. Oqba - Av. Ibn Sina (Est)",
-      "nomCommun": "Agdal 1",
+      "delimitations": "Av. Hassan II - Av. de la Victoire - An Nasr (Ouest), Av. Ibn Khaldoun - Av. des Nations Unies (Nord),",
       "avenues": [
         "Av. Hassan II",
         "Av. de la Victoire",
-        "Av. Ibn Khaldoun",
+        "Av. Ibn Khaldoun"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 15000
+        }
+      ]
+    },
+    {
+      "code": "RA-AR5",
+      "arrondissement": "Agdal-Ryad",
+      "ville": "Rabat",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Av. Omar Ibn Al khattab - Av. Oqba - Av. Ibn Sina (Est)",
+      "nomCommun": "Agdal 1",
+      "avenues": [
         "Av. Omar Ibn Al khattab",
         "Av. Oqba",
         "Av. Ibn Sina"
       ],
       "prix": [
         {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST >= 500 m²",
-          "pt": 9000,
-          "pc": 3000
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 16000
         },
         {
           "type": "Villa",
           "etat": "Ancien",
-          "superficie": "ST < 500 m²",
-          "pt": 10000,
-          "pc": 3000
+          "prixUnique": 18000
         },
         {
           "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST >= 500 m²",
-          "pt": 9000,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 500 m²",
-          "pt": 10000,
-          "pc": 7000
+          "prixUnique": 27000
         },
         {
           "type": "Villa",
           "etat": "Neuf",
-          "superficie": "ST >= 500 m²",
-          "pt": 9000,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 500 m²",
-          "pt": 10000,
-          "pc": 9000
+          "prixUnique": 1000
         },
         {
           "type": "Appartement",
           "etat": "Ancien",
-          "prixUnique": 14000
+          "pt": 7500,
+          "pc": 3500
         },
         {
           "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 15000
+          "prixUnique": 1000
         },
         {
           "type": "Appartement",
           "etat": "Neuf",
-          "prixUnique": 17000
+          "pt": 8500,
+          "pc": 3500
         },
         {
           "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST > 500 m²",
-          "pt": 9000
+          "pt": 9000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 7500,
+          "pc": 4500
+        },
+        {
+          "type": "Villa",
+          "pt": 8500,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 9000,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 1000
         },
         {
           "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST <= 500 m²",
-          "pt": 10000
+          "pt": 7500,
+          "pc": 6000500
         },
         {
-          "type": "Terrain ZI",
+          "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST > 900 m²",
-          "pt": 16000600
+          "pt": 8500,
+          "pc": 6000
         },
         {
-          "type": "Terrain ZI",
+          "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST < 900 m²",
-          "pt": 18000200
+          "pt": 9000,
+          "pc": 6000160001800019000
         },
         {
-          "type": "Terrain ZI",
+          "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST < 600 m²",
-          "pt": 26000
+          "pt": 7500500,
+          "pc": 3500
         },
         {
-          "type": "Terrain ZI",
+          "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST > 200 m²",
-          "pt": 20000
+          "pt": 8500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 9000,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 7000,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 8500,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 7000,
+          "pc": 90001600018000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 8500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 7000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 8500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 7000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 8500
         }
       ]
     },
     {
-      "code": "RA-AR3",
+      "code": "RA-AR7",
       "arrondissement": "Agdal-Ryad",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
@@ -838,29 +736,150 @@
       ],
       "prix": [
         {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 15000
+          "type": "Villa",
+          "pt": 8400,
+          "pc": 3500
         },
         {
           "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 16000
+          "pt": 10000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 13000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 8400,
+          "pc": 7000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 10000,
+          "pc": 7000
+        },
+        {
+          "type": "Appartement",
+          "pt": 13000,
+          "pc": 7000
         },
         {
           "type": "Appartement",
           "etat": "Neuf",
-          "prixUnique": 18000
+          "pt": 8400,
+          "pc": 9000
         },
         {
-          "type": "Terrain ZI",
+          "type": "Terrain ZV",
           "etat": "Loti",
-          "prixUnique": 27000
+          "superficie": "ST < 550 m²",
+          "pt": 10000,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 550 m²",
+          "pt": 13000,
+          "pc": 9000150001700019000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 550 m²",
+          "pt": 8400300,
+          "pc": 3500300
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 550 m²",
+          "pt": 10000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 550 m²",
+          "pt": 13000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 550 m²",
+          "pt": 8000,
+          "pc": 7000300
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 9000,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 13000,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 8000,
+          "pc": 9000300
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 9000,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 13000,
+          "pc": 9000150001700019000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 8000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 13000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 8000300
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 13000
         }
       ]
     },
     {
-      "code": "RA-AR4",
+      "code": "RA-AR9",
       "arrondissement": "Agdal-Ryad",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
@@ -875,628 +894,131 @@
       "prix": [
         {
           "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 1 000 m²",
-          "pt": 7500,
-          "pc": 3500500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 1 000 m²",
-          "pt": 8500,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 500 m²",
-          "pt": 9000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 1 000 m²",
-          "pt": 7500,
-          "pc": 4500500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 1 000 m²",
-          "pt": 8500,
-          "pc": 4500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 500 m²",
-          "pt": 9000,
-          "pc": 4500
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 1 000 m²",
-          "pt": 7500,
-          "pc": 6000500
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 1 000 m²",
-          "pt": 8500,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 500 m²",
-          "pt": 9000,
-          "pc": 6000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 16000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 18000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 19000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 1 000 m²",
-          "pt": 7500500
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 1 000 m²",
-          "pt": 8500
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 500 m²",
-          "pt": 9000
-        },
-        {
-          "type": "Terrain ZI",
-          "etat": "Loti",
-          "prixUnique": 27000
-        }
-      ]
-    },
-    {
-      "code": "RA-AR5",
-      "arrondissement": "Agdal-Ryad",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Attine - Av. Al Melia - Av. Diae Errahmane (Ouest), Av. Attanoub (Nord), Av. Al Arz - Av. Catapulta (Est)",
-      "nomCommun": "Ryad Secteurs 2, 3 et 4, Chaumière",
-      "avenues": [
-        "Av. Attine",
-        "Av. Al Melia",
-        "Av. Diae Errahmane",
-        "Av. Attanoub",
-        "Av. Al Arz",
-        "Av. Catapulta"
-      ],
-      "prix": [
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 900 m²",
-          "pt": 7000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "pt": 8500,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 900 m²",
-          "pt": 7000,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "pt": 8500,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 900 m²",
-          "pt": 7000,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "pt": 8500,
-          "pc": 9000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 16000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 18000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 900 m²",
-          "pt": 7000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST <= 900 m²",
-          "pt": 8500
-        }
-      ]
-    },
-    {
-      "code": "RA-AR6",
-      "arrondissement": "Agdal-Ryad",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Nakhil - Av. Mehdi Benbarka (Ouest), Av. Catapulta (Nord), Av. Attanoub (Est)",
-      "nomCommun": "Ryad Secteurs 5 et 6",
-      "avenues": [
-        "Av. Nakhil",
-        "Av. Mehdi Benbarka",
-        "Av. Catapulta",
-        "Av. Attanoub"
-      ],
-      "prix": [
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 550 m²",
-          "pt": 8400,
-          "pc": 3500300
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 550 m²",
-          "pt": 10000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 300 m²",
-          "pt": 13000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 550 m²",
-          "pt": 8400,
-          "pc": 7000300
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 550 m²",
-          "pt": 10000,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 300 m²",
-          "pt": 13000,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 550 m²",
-          "pt": 8400,
-          "pc": 9000300
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 550 m²",
-          "pt": 10000,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 300 m²",
-          "pt": 13000,
-          "pc": 9000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 15000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 17000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 19000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 550 m²",
-          "pt": 8400300
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 550 m²",
-          "pt": 10000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 300 m²",
-          "pt": 13000
-        }
-      ]
-    },
-    {
-      "code": "RA-AR7",
-      "arrondissement": "Agdal-Ryad",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Abderrahim Bouabid - Av. Al Melia (Ouest), Av. Attine - Av. Ryad (Nord), Av. Nakhil (Est)",
-      "nomCommun": "Ryad Secteurs 7, 10 et 22",
-      "avenues": [
-        "Av. Abderrahim Bouabid",
-        "Av. Al Melia",
-        "Av. Attine",
-        "Av. Ryad",
-        "Av. Nakhil"
-      ],
-      "prix": [
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 550 m²",
-          "pt": 8000,
-          "pc": 3500300
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 550 m²",
-          "pt": 9000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 300 m²",
-          "pt": 13000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 550 m²",
-          "pt": 8000,
-          "pc": 7000300
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 550 m²",
-          "pt": 9000,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST <= 300 m²",
-          "pt": 13000,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST >= 550 m²",
-          "pt": 8000,
-          "pc": 9000300
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 550 m²",
-          "pt": 9000,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST <= 300 m²",
-          "pt": 13000,
-          "pc": 9000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 15000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 17000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 19000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 550 m²",
-          "pt": 8000300
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 550 m²",
-          "pt": 9000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 250 m²",
-          "pt": 13000
-        }
-      ]
-    },
-    {
-      "code": "RA-AR8",
-      "arrondissement": "Agdal-Ryad",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Allée Sud - Av. Araar - Av. Abderrahim Bouabid (Ouest), Av. Nakhil (Nord), Rocade vers Casablanca (Est)",
-      "nomCommun": "Ryad Secteurs 11, 12, 13, 16 et 17",
-      "avenues": [
-        "Allée Sud",
-        "Av. Araar",
-        "Av. Abderrahim Bouabid",
-        "Av. Nakhil"
-      ],
-      "prix": [
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 550 m²",
           "pt": 8000
         },
         {
           "type": "Villa",
-          "etat": "Ancien",
+          "etat": "Neuf",
           "superficie": "ST < 550 m²",
           "pt": 9000
         },
         {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 250 m²",
+          "type": "Appartement",
           "pt": 13000
         },
         {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 550 m²",
+          "type": "Terrain ZV",
           "pt": 8000,
-          "pc": 7000250
+          "pc": 7000
         },
         {
           "type": "Villa",
-          "etat": "Récent",
+          "etat": "Ancien",
           "superficie": "ST < 550 m²",
           "pt": 9000,
           "pc": 7000
         },
         {
           "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST <= 250 m²",
+          "etat": "Neuf",
           "pt": 13000,
           "pc": 7000
         },
         {
-          "type": "Villa",
+          "type": "Appartement",
           "etat": "Neuf",
-          "superficie": "ST > 550 m²",
           "pt": 8000,
-          "pc": 9000250
+          "pc": 9000
         },
         {
-          "type": "Villa",
-          "etat": "Neuf",
+          "type": "Terrain ZV",
           "superficie": "ST < 550 m²",
           "pt": 9000,
           "pc": 9000
         },
         {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 250 m²",
-          "pt": 13000,
-          "pc": 9000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 16000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 17000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 20000
-        },
-        {
           "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 550 m²",
-          "pt": 8000250
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
           "superficie": "ST < 550 m²",
-          "pt": 9000
+          "pt": 13000,
+          "pc": 9000160001700020000
         },
         {
           "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 250 m²",
-          "pt": 13000
-        }
-      ]
-    },
-    {
-      "code": "RA-AR9",
-      "arrondissement": "Agdal-Ryad",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Nakhil - Av. Attanoub (Ouest), Av. Diae Errahmane (Nord), Rocade vers Casablanca (Est)",
-      "nomCommun": "Ryad Secteur 25",
-      "avenues": [
-        "Av. Nakhil",
-        "Av. Attanoub",
-        "Av. Diae Errahmane"
-      ],
-      "prix": [
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 550 m²",
-          "pt": 8000,
+          "superficie": "ST < 550 m²",
+          "pt": 8000250,
           "pc": 3500250
         },
         {
-          "type": "Villa",
-          "etat": "Ancien",
+          "type": "Terrain ZV",
           "superficie": "ST < 550 m²",
           "pt": 9000,
           "pc": 3500
         },
         {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 250 m²",
+          "type": "Terrain ZV",
+          "superficie": "ST < 550 m²",
           "pt": 13000,
           "pc": 3500
         },
         {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 550 m²",
+          "type": "Terrain ZV",
+          "superficie": "ST < 550 m²",
           "pt": 8000,
           "pc": 7000250
         },
         {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 550 m²",
+          "type": "Terrain ZV",
           "pt": 9000,
           "pc": 7000
         },
         {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 250 m²",
+          "type": "Terrain ZV",
           "pt": 13000,
           "pc": 7000
         },
         {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 550 m²",
+          "type": "Terrain ZV",
           "pt": 8000,
           "pc": 9000250
         },
         {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 550 m²",
+          "type": "Terrain ZV",
           "pt": 9000,
           "pc": 9000
         },
         {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 250 m²",
+          "type": "Terrain ZV",
           "pt": 13000,
-          "pc": 9000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 17000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 19000
+          "pc": 90001700019000
         },
         {
           "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 550 m²",
-          "pt": 8000250
+          "pt": 8000
         },
         {
           "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 550 m²",
           "pt": 9000
         },
         {
           "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 250 m²",
+          "pt": 13000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 8000250
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 9000
+        },
+        {
+          "type": "Terrain ZV",
           "pt": 13000
         }
       ]
     },
     {
-      "code": "RA-HA1",
+      "code": "RA-HA2",
       "arrondissement": "Hassan",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
@@ -1505,23 +1027,10 @@
       "avenues": [
         "Bd Al Marsa"
       ],
-      "prix": [
-        {
-          "type": "Maison",
-          "prixUnique": 7000
-        },
-        {
-          "type": "Maison",
-          "prixUnique": 10000
-        },
-        {
-          "type": "Maison",
-          "prixUnique": 15000
-        }
-      ]
+      "prix": []
     },
     {
-      "code": "RA-HA2",
+      "code": "RA-HA4",
       "arrondissement": "Hassan",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
@@ -1535,94 +1044,7 @@
       "prix": [
         {
           "type": "Maison",
-          "prixUnique": 8000
-        },
-        {
-          "type": "Maison",
-          "prixUnique": 11000
-        },
-        {
-          "type": "Maison",
-          "prixUnique": 15000
-        }
-      ]
-    },
-    {
-      "code": "RA-HA3",
-      "arrondissement": "Hassan",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Ibn Toumart - Av. Hassan II (Ouest), Av. Abderrahman Aneggay (Nord), Av. Mly Hassan - Bab Soufara (Est)",
-      "nomCommun": "Hassan 1",
-      "avenues": [
-        "Av. Ibn Toumart",
-        "Av. Hassan II",
-        "Av. Abderrahman Aneggay",
-        "Av. Mly Hassan"
-      ],
-      "prix": [
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 12000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 14000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 15000
-        }
-      ]
-    },
-    {
-      "code": "RA-HA4",
-      "arrondissement": "Hassan",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Abderrahman Aneggay, Av. Hassan II (Ouest), Av. Alaouiyine (Nord - Est)",
-      "nomCommun": "Hassan 2",
-      "avenues": [
-        "Av. Abderrahman Aneggay",
-        "Av. Hassan II",
-        "Av. Alaouiyine"
-      ],
-      "prix": [
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 12500
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 14500
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 16000
-        },
-        {
-          "type": "Terrain ZI",
-          "etat": "Loti",
-          "superficie": "ST > 300 m²",
-          "pt": 24000200
-        },
-        {
-          "type": "Terrain ZI",
-          "etat": "Loti",
-          "superficie": "ST < 300 m²",
-          "pt": 18000
-        },
-        {
-          "type": "Terrain ZI",
-          "etat": "Loti",
-          "superficie": "ST < 200 m²",
-          "pt": 16000
+          "prixUnique": 10000
         }
       ]
     },
@@ -1631,128 +1053,158 @@
       "arrondissement": "Hassan",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Mly El Hassan - Av. Alaouiyine - Av. Abi Raqraq (Ouest), Bd Tarik Ibn Ziyad - Bd Moussa Ibn Nnoussair (Nord), Bab Zaers (Est)",
-      "nomCommun": "Hassan 3",
-      "avenues": [
-        "Av. Mly El Hassan",
-        "Av. Alaouiyine",
-        "Av. Abi Raqraq",
-        "Bd Tarik Ibn Ziyad",
-        "Bd Moussa Ibn Nnoussair"
-      ],
       "prix": [
         {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 550 m²",
-          "pt": 8400,
-          "pc": 3000300
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 550 m²",
-          "pt": 10000,
-          "pc": 3000
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 300 m²",
-          "pt": 12000,
-          "pc": 3000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 550 m²",
-          "pt": 8400,
-          "pc": 6000300
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 550 m²",
-          "pt": 10000,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST <= 300 m²",
-          "pt": 12000,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 550 m²",
-          "pt": 8400,
-          "pc": 9000300
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 550 m²",
-          "pt": 10000,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 300 m²",
-          "pt": 12000,
-          "pc": 9000
-        },
-        {
           "type": "Appartement",
           "etat": "Ancien",
-          "prixUnique": 13000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
           "prixUnique": 15000
         },
         {
           "type": "Appartement",
           "etat": "Neuf",
-          "prixUnique": 17000
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 12500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 14500
         },
         {
           "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST > 550 m²",
-          "pt": 8400300
+          "prixUnique": 16000
         },
         {
-          "type": "Terrain ZV",
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 24000,
+          "pc": 3000300
+        },
+        {
+          "type": "Terrain ZI",
           "etat": "Loti",
           "superficie": "ST < 550 m²",
+          "pt": 18000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST < 550 m²",
+          "pt": 16000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST < 550 m²",
+          "pt": 8400,
+          "pc": 6000300
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST < 550 m²",
+          "pt": 10000,
+          "pc": 6000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 12000,
+          "pc": 6000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 8400,
+          "pc": 9000300
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 10000,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 12000,
+          "pc": 9000130001500017000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 8400
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
           "pt": 10000
         },
         {
-          "type": "Terrain ZV",
+          "type": "Terrain ZI",
           "etat": "Loti",
-          "superficie": "ST < 300 m²",
           "pt": 12000
         },
         {
           "type": "Terrain ZI",
           "etat": "Loti",
-          "superficie": "ST > 300 m²",
+          "pt": 8400300
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 10000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 12000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
           "pt": 24000200
         },
         {
           "type": "Terrain ZI",
           "etat": "Loti",
-          "superficie": "ST < 300 m²",
           "pt": 18000
         },
         {
           "type": "Terrain ZI",
           "etat": "Loti",
-          "superficie": "ST < 200 m²",
           "pt": 16000
         }
       ]
@@ -1762,137 +1214,78 @@
       "arrondissement": "Hassan",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Mokhtar Gazouilte (Ouest) - Av. Misr (Nord) - Av. Abdelkarim El Khattabi (Sud)",
+      "delimitations": "Av. Ibn Toumart - Av. Hassan II (Ouest), Av. Abderrahman Aneggay (Nord), Av. Mly Hassan - Bab",
       "avenues": [
-        "Av. Mokhtar Gazouilte",
-        "Av. Misr",
-        "Av. Abdelkarim El Khattabi"
+        "Av. Ibn Toumart",
+        "Av. Hassan II",
+        "Av. Abderrahman Aneggay",
+        "Av. Mly Hassan"
       ],
-      "prix": [
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 8500
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 10000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 12000
-        },
-        {
-          "type": "Terrain ZI",
-          "etat": "Loti",
-          "superficie": "ST > 800 m²",
-          "pt": 16000250
-        },
-        {
-          "type": "Terrain ZI",
-          "etat": "Loti",
-          "superficie": "ST < 800 m²",
-          "pt": 20000
-        },
-        {
-          "type": "Terrain ZI",
-          "etat": "Loti",
-          "superficie": "ST < 250 m²",
-          "pt": 15000
-        }
-      ]
+      "prix": []
     },
     {
       "code": "RA-HA7",
       "arrondissement": "Hassan",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Larbi Sayeh - Av. Abdelkarim El Khattabi (Ouest) - Av. Misr (Nord), Av. Hassan 2 (Est) , Bd. Zerktouni - Av. Kebibat (Sud)",
+      "delimitations": "Av. Abderrahman Aneggay, Av. Hassan II (Ouest), Av. Alaouiyine (Nord - Est) : Hassan 2 Av. Mly El Hassan - Av. Alaouiyine - Av. Abi Raqraq (Ouest), Bd Tarik Ibn Ziyad - Bd Moussa Ibn Nnoussair (Nord), Bab Zaers (Est) : Hassan 3 Av. Mokhtar Gazouilte (Ouest) - Av. Misr (Nord) - Av. Abdelkarim El Khattabi (Sud) Av. Larbi Sayeh - Av. Abdelkarim El Khattabi (Ouest) - Av. Misr (Nord), Av. Hassan 2 (Est) , Bd. Zerktouni - Av. Kebibat (Sud) Bd.Al Houria - Bd Mokhtar Gazoulite (Ouest), Bd Zerktouni - Rue Al Hachemi Mestari (Nord), Av. Hassan II (Est)",
+      "nomCommun": "Kebibat, Akkari Cimeti�re CHOUHADA - 37 -",
       "avenues": [
-        "Av. Larbi Sayeh",
-        "Av. Abdelkarim El Khattabi",
+        "Av. Abderrahman Aneggay",
+        "Av. Hassan II",
+        "Av. Alaouiyine",
+        "Av. Mly El Hassan",
+        "Av. Abi Raqraq",
+        "Bd Tarik Ibn Ziyad",
+        "Bd Moussa Ibn Nnoussair",
+        "Av. Mokhtar Gazouilte",
         "Av. Misr",
+        "Av. Abdelkarim El Khattabi",
+        "Av. Larbi Sayeh",
         "Bd. Zerktouni",
-        "Av. Kebibat"
+        "Av. Kebibat",
+        "Bd Mokhtar Gazoulite",
+        "Bd Zerktouni",
+        "Rue Al Hachemi Mestari"
       ],
+      "prix": []
+    },
+    {
+      "code": "RA-HA9",
+      "arrondissement": "Hassan",
+      "ville": "Rabat",
+      "region": "Rabat-Salé-Kénitra",
       "prix": [
         {
-          "type": "Appartement",
-          "etat": "Ancien",
+          "type": "Terrain ZI",
+          "etat": "Loti",
           "prixUnique": 10000
         },
         {
           "type": "Appartement",
-          "etat": "Récent",
+          "etat": "Ancien",
           "prixUnique": 12000
         },
         {
           "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 14000
+          "pt": 16000
         },
-        {
-          "type": "Terrain ZI",
-          "etat": "Loti",
-          "superficie": "ST > 800 m²",
-          "pt": 16000250
-        },
-        {
-          "type": "Terrain ZI",
-          "etat": "Loti",
-          "superficie": "ST < 800 m²",
-          "pt": 20000
-        },
-        {
-          "type": "Terrain ZI",
-          "etat": "Loti",
-          "superficie": "ST < 250 m²",
-          "pt": 15000
-        }
-      ]
-    },
-    {
-      "code": "RA-HA8",
-      "arrondissement": "Hassan",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Bd.Al Houria - Bd Mokhtar Gazoulite (Ouest), Bd Zerktouni - Rue Al Hachemi Mestari (Nord), Av. Hassan II (Est)",
-      "nomCommun": "Kebibat, Akkari",
-      "avenues": [
-        "Bd Mokhtar Gazoulite",
-        "Bd Zerktouni",
-        "Rue Al Hachemi Mestari",
-        "Av. Hassan II"
-      ],
-      "prix": [
         {
           "type": "Maison",
           "etat": "Ancien",
-          "pt": 8000,
-          "pc": 1500
-        },
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 8500
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 11000
+          "pt": 20000
         },
         {
           "type": "Appartement",
           "etat": "Neuf",
-          "prixUnique": 12500
+          "pt": 1500010000
         },
         {
           "type": "Terrain ZI",
           "etat": "Loti",
-          "superficie": "ST > 800 m²",
-          "pt": 16000250
+          "superficie": "ST < 800 m²",
+          "pt": 16000250,
+          "pc": 150085001100012500
         },
         {
           "type": "Terrain ZI",
@@ -1903,7 +1296,26 @@
         {
           "type": "Terrain ZI",
           "etat": "Loti",
-          "superficie": "ST < 250 m²",
+          "pt": 15000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 8000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 16000250
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 20000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
           "pt": 15000
         }
       ]
@@ -1914,108 +1326,38 @@
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
       "delimitations": "Av. Doustour - Av. Mohamed VI (Ouest - Nord), Av. Tadla (Est)",
-      "nomCommun": "Cité Militaire",
+      "nomCommun": "Cit� Militaire",
       "avenues": [
         "Av. Doustour",
         "Av. Mohamed VI",
         "Av. Tadla"
       ],
-      "prix": []
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST < 1 500 m²",
+          "pt": 7000,
+          "pc": 3000
+        }
+      ]
     },
     {
       "code": "RA-SW2",
       "arrondissement": "Souissi",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Doustour - Av. Tadla (Ouest - Nord), Av. Mohamed VI (Est), Av. Ahmed Balafrej - Av. Mehdi Benbarka (Sud)",
-      "avenues": [
-        "Av. Doustour",
-        "Av. Tadla",
-        "Av. Mohamed VI",
-        "Av. Ahmed Balafrej",
-        "Av. Mehdi Benbarka"
-      ],
       "prix": [
         {
           "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 1 500 m²",
-          "pt": 4500,
-          "pc": 3000950
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 1 500 m²",
-          "pt": 7000,
-          "pc": 3000
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 950 m²",
+          "etat": "Neuf",
           "pt": 8000,
           "pc": 3000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 1500 m²",
-          "pt": 4500,
-          "pc": 6000950
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 1 500 m²",
-          "pt": 7000,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 950 m²",
-          "pt": 8000,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 1 500 m²",
-          "pt": 4500,
-          "pc": 9000950
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 1 500 m²",
-          "pt": 7000,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 950 m²",
-          "pt": 8000,
-          "pc": 9000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 1 500 m²",
-          "pt": 4500950
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 1 500 m²",
-          "pt": 7000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 950 m²",
-          "pt": 8000
         }
       ]
     },
@@ -2024,162 +1366,148 @@
       "arrondissement": "Souissi",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Bni Mtir (Ouest), Av. Med Belarbi Alaoui - Av. Ahmed Balafrej (Nord), Av. Mehdi Benbarka (Est)",
+      "delimitations": "Av. Doustour - Av. Tadla (Ouest - Nord), Av. Mohamed VI (Est), Av. Ahmed Balafrej - Av. Mehdi",
       "avenues": [
-        "Av. Bni Mtir",
-        "Av. Med Belarbi Alaoui",
+        "Av. Doustour",
+        "Av. Tadla",
+        "Av. Mohamed VI",
         "Av. Ahmed Balafrej",
-        "Av. Mehdi Benbarka"
+        "Av. Mehdi"
       ],
       "prix": [
         {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 1500
+        },
+        {
           "type": "Villa",
           "etat": "Ancien",
-          "superficie": "ST > 4 000 m²",
-          "pt": 3500,
+          "pt": 4500,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 1500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 7000,
+          "pc": 6000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 1 500 m²",
+          "pt": 8000,
+          "pc": 6000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 1 500 m²",
+          "pt": 4500,
+          "pc": 9000950
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 4 000 m²",
+          "pt": 7000,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 4 000 m²",
+          "pt": 8000,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 4 000 m²",
+          "pt": 4500950,
           "pc": 35003000
         },
         {
-          "type": "Villa",
-          "etat": "Ancien",
+          "type": "Terrain ZV",
+          "etat": "Loti",
           "superficie": "ST < 4 000 m²",
-          "pt": 4000,
+          "pt": 7000,
           "pc": 3500
         },
         {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 3 000 m²",
-          "pt": 4500,
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 8000,
           "pc": 3500
         },
         {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 4 000 m²",
+          "type": "Terrain ZV",
+          "etat": "Loti",
           "pt": 3500,
           "pc": 60003000
         },
         {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 4 000 m²",
+          "type": "Terrain ZV",
+          "etat": "Loti",
           "pt": 4000,
           "pc": 6000
         },
         {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 3 000 m²",
+          "type": "Terrain ZV",
+          "etat": "Loti",
           "pt": 4500,
           "pc": 6000
         },
         {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 4 000 m²",
+          "type": "Terrain ZV",
+          "etat": "Loti",
           "pt": 3500,
           "pc": 90003000
         },
         {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 4 000 m²",
+          "type": "Terrain ZV",
+          "etat": "Loti",
           "pt": 4000,
           "pc": 9000
         },
         {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 3 000 m²",
+          "type": "Terrain ZV",
+          "etat": "Loti",
           "pt": 4500,
           "pc": 9000
         },
         {
           "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST > 4 000 m²",
+          "pt": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 4500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
           "pt": 35003000
         },
         {
           "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST < 4 000 m²",
           "pt": 4000
         },
         {
           "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST < 3 000 m²",
-          "pt": 4500
-        }
-      ]
-    },
-    {
-      "code": "RA-SW4",
-      "arrondissement": "Souissi",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Diae Errahmane - Av. Mehdi Benbarka - Av. Haouz (Ouest), Av. Med Belhassan El Ouazzani (Nord), Rocade vers Casablanca (Est)",
-      "avenues": [
-        "Av. Diae Errahmane",
-        "Av. Mehdi Benbarka",
-        "Av. Haouz",
-        "Av. Med Belhassan El Ouazzani"
-      ],
-      "prix": [
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 2 000 m²",
-          "pt": 4000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST <= 2 000 m²",
-          "pt": 4500,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 2 000 m²",
-          "pt": 4000,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST <= 2 000 m²",
-          "pt": 4500,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 2 000 m²",
-          "pt": 4000,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST <= 2 000 m²",
-          "pt": 4500,
-          "pc": 9000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 2 000 m²",
-          "pt": 4000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST <= 2 000 m²",
           "pt": 4500
         }
       ]
@@ -2189,101 +1517,174 @@
       "arrondissement": "Souissi",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Al Melia (Ouest), Av. Med Belarbi Alaoui, (Nord), Av. Bni Mtir (Est), Av. Mehdi Benbarka (Sud)",
+      "delimitations": "Av. Bni Mtir (Ouest), Av. Med Belarbi Alaoui - Av. Ahmed Balafrej (Nord), Av. Mehdi Benbarka (Est) Av. Diae Errahmane - Av. Mehdi Benbarka - Av. Haouz (Ouest), Av. Med Belhassan El Ouazzani (Nord), Rocade vers Casablanca (Est) Av. Al Melia (Ouest), Av. Med Belarbi Alaoui, (Nord), Av. Bni Mtir (Est), Av. Mehdi Benbarka (Sud)",
       "avenues": [
-        "Av. Al Melia",
-        "Av. Med Belarbi Alaoui",
         "Av. Bni Mtir",
-        "Av. Mehdi Benbarka"
+        "Av. Med Belarbi Alaoui",
+        "Av. Ahmed Balafrej",
+        "Av. Mehdi Benbarka",
+        "Av. Diae Errahmane",
+        "Av. Haouz",
+        "Av. Med Belhassan El Ouazzani",
+        "Av. Al Melia"
       ],
-      "prix": [
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 2 500 m²",
-          "pt": 4000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST <= 2 500 m²",
-          "pt": 4500,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 2 500 m²",
-          "pt": 4000,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST <= 2 500 m²",
-          "pt": 4500,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 2 500 m²",
-          "pt": 4000,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST <= 2 500 m²",
-          "pt": 4500,
-          "pc": 9000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 2 500 m²",
-          "pt": 4000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST <= 2 500 m²",
-          "pt": 4500
-        }
-      ]
+      "prix": []
     },
     {
       "code": "RA-SW6",
       "arrondissement": "Souissi",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
-      "delimitations": "La Ceinture Verte - Rocade vers Fès (Ouest), Av. Mohamed VI (Nord - Est)",
+      "delimitations": "La Ceinture Verte - Rocade vers F�s (Ouest), Av. Mohamed VI (Nord - Est)",
       "avenues": [
         "Av. Mohamed VI"
       ],
       "prix": [
         {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 3500
+        },
+        {
           "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST > 2 000 m²",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Villa",
+          "pt": 4500,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST <= 2 000 m²",
+          "pt": 4000,
+          "pc": 9000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST <= 2 000 m²",
+          "pt": 4500,
+          "pc": 9000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST <= 2 500 m²",
+          "pt": 4000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST <= 2 500 m²",
+          "pt": 4500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST <= 2 500 m²",
+          "pt": 4000,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST <= 2 500 m²",
+          "pt": 4500,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST <= 2 000 m²",
+          "pt": 4000,
+          "pc": 9000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST <= 2 000 m²",
+          "pt": 4500,
+          "pc": 9000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST <= 2 000 m²",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 9000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 9000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
           "pt": 4000
         },
         {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST <= 2 000 m²",
+          "type": "Villa",
+          "etat": "Neuf",
           "pt": 4500
         },
         {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 17000
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4000
         },
         {
-          "type": "Appartement",
+          "type": "Villa",
           "etat": "Neuf",
-          "prixUnique": 23000
+          "pt": 4500
         }
       ]
     },
@@ -2292,7 +1693,7 @@
       "arrondissement": "Souissi",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Mohamed VI - Rocade vers Fès (Ouest), Plateau Akreuch (Nord), Av. Oued Akreuch (Est)",
+      "delimitations": "Av. Mohamed VI - Rocade vers F�s (Ouest), Plateau Akreuch (Nord), Av. Oued Akreuch (Est)",
       "avenues": [
         "Av. Mohamed VI",
         "Plateau Akreuch",
@@ -2300,58 +1701,38 @@
       ],
       "prix": [
         {
+          "type": "Appartement",
+          "pt": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 2000
+        },
+        {
           "type": "Villa",
           "etat": "Ancien",
-          "superficie": "ST > 2 000 m²",
-          "pt": 4000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST <= 2 000 m²",
-          "pt": 4300,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST >= 2 000 m²",
-          "pt": 4000,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 2 000 m²",
-          "pt": 4300,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST >= 2 000 m²",
-          "pt": 4000,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 2 000 m²",
-          "pt": 4300,
-          "pc": 9000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 2 000 m²",
           "pt": 4500
         },
         {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 17000
+        },
+        {
           "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST <= 2 500 m²",
-          "pt": 5500
+          "prixUnique": 23000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 2000
         }
       ]
     },
@@ -2369,57 +1750,14 @@
       "prix": [
         {
           "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 2 000 m²",
-          "pt": 3200,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST <= 2 000 m²",
-          "pt": 3500,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 2 000 m²",
-          "pt": 3200,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST <= 2 000 m²",
-          "pt": 3500,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
           "etat": "Neuf",
-          "superficie": "ST > 2 000 m²",
-          "pt": 3200,
-          "pc": 9000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST <= 2 000 m²",
-          "pt": 3500,
-          "pc": 9000
+          "pt": 4000,
+          "pc": 6000
         },
         {
           "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST > 2 000 m²",
-          "pt": 3200
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST <= 2 000 m²",
-          "pt": 3500
+          "prixUnique": 2000
         }
       ]
     },
@@ -2428,14 +1766,14 @@
       "arrondissement": "Souissi",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Plateau Akreuch",
+      "delimitations": "Plateau Akreuch - 33 -",
       "avenues": [
         "Plateau Akreuch"
       ],
       "prix": []
     },
     {
-      "code": "RA-YM1",
+      "code": "RA-YM2",
       "arrondissement": "Yacoub Mansour",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
@@ -2448,190 +1786,146 @@
       "prix": [
         {
           "type": "Maison",
-          "etat": "Ancien",
-          "superficie": "ST > 150 m²",
           "pt": 9000,
-          "pc": 250065
+          "pc": 2500
         },
         {
-          "type": "Maison",
+          "type": "Terrain ZM",
           "etat": "Ancien",
-          "superficie": "ST < 150 m²",
           "pt": 10000,
           "pc": 2500
         },
         {
           "type": "Maison",
           "etat": "Ancien",
-          "superficie": "ST < 65 m²",
           "pt": 11000,
           "pc": 2500
         },
         {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST > 150 m²",
+          "type": "Terrain ZM",
+          "etat": "Ancien",
+          "superficie": "ST < 150 m²",
           "pt": 9000,
-          "pc": 350065
+          "pc": 3500
         },
         {
-          "type": "Maison",
-          "etat": "Récent",
+          "type": "Terrain ZM",
+          "etat": "Ancien",
           "superficie": "ST < 150 m²",
           "pt": 10000,
           "pc": 3500
         },
         {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST < 65 m²",
+          "type": "Terrain ZM",
+          "etat": "Ancien",
+          "superficie": "ST < 150 m²",
           "pt": 11000,
           "pc": 3500
         },
         {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST > 150 m²",
+          "type": "Terrain ZM",
+          "etat": "Ancien",
+          "superficie": "ST < 65 m²",
           "pt": 9000,
           "pc": 450065
         },
         {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST < 150 m²",
+          "type": "Terrain ZM",
+          "etat": "Ancien",
+          "superficie": "ST < 65 m²",
           "pt": 10000,
           "pc": 4500
         },
         {
-          "type": "Maison",
-          "etat": "Neuf",
+          "type": "Terrain ZM",
+          "etat": "Ancien",
           "superficie": "ST < 65 m²",
           "pt": 11000,
-          "pc": 4500
+          "pc": 45008500
         },
         {
-          "type": "Appartement",
+          "type": "Terrain ZM",
           "etat": "Ancien",
-          "prixUnique": 8500
-        },
-        {
-          "type": "Terrain ZM",
-          "etat": "Loti",
-          "superficie": "ST > 150 m²",
-          "pt": 900065
-        },
-        {
-          "type": "Terrain ZM",
-          "etat": "Loti",
-          "superficie": "ST < 150 m²",
-          "pt": 10000
-        },
-        {
-          "type": "Terrain ZM",
-          "etat": "Loti",
           "superficie": "ST < 65 m²",
-          "pt": 11000
-        }
-      ]
-    },
-    {
-      "code": "RA-YM2",
-      "arrondissement": "Yacoub Mansour",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Bd Al Houria, Hay Rjafillah, Rue Baraka, AV Rahma, Rue Ikhlass, Hay Chabab, Bloc TG TST, Bd Salam (Nord), Av. Hassan II (Sud), Av Anour (Ouest)",
-      "avenues": [
-        "Bd Al Houria",
-        "Rue Baraka",
-        "Rue Ikhlass",
-        "Bd Salam",
-        "Av. Hassan II"
-      ],
-      "prix": [
-        {
-          "type": "Maison",
-          "etat": "Ancien",
-          "superficie": "ST > 65 m²",
-          "pt": 8000,
+          "pt": 900065,
           "pc": 250050
         },
         {
-          "type": "Maison",
+          "type": "Terrain ZM",
           "etat": "Ancien",
-          "superficie": "ST < 65 m²",
-          "pt": 8500,
+          "pt": 10000,
           "pc": 2500
         },
         {
-          "type": "Maison",
+          "type": "Terrain ZM",
           "etat": "Ancien",
-          "superficie": "ST < 50 m²",
-          "pt": 9000,
+          "pt": 11000,
           "pc": 2500
         },
         {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST > 65 m²",
+          "type": "Terrain ZM",
+          "etat": "Ancien",
           "pt": 8000,
           "pc": 350050
         },
         {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST < 65 m²",
+          "type": "Terrain ZM",
+          "etat": "Ancien",
           "pt": 8500,
           "pc": 3500
         },
         {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST < 50 m²",
+          "type": "Terrain ZM",
+          "etat": "Ancien",
           "pt": 9000,
           "pc": 3500
         },
         {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST > 65 m²",
+          "type": "Terrain ZM",
+          "etat": "Ancien",
           "pt": 8000,
           "pc": 450050
         },
         {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST < 65 m²",
+          "type": "Terrain ZM",
+          "etat": "Ancien",
           "pt": 8500,
           "pc": 4500
         },
         {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST < 50 m²",
-          "pt": 9000,
-          "pc": 4500
-        },
-        {
-          "type": "Appartement",
+          "type": "Terrain ZM",
           "etat": "Ancien",
-          "prixUnique": 10000
+          "pt": 9000,
+          "pc": 450010000
         },
         {
           "type": "Terrain ZM",
-          "etat": "Loti",
-          "superficie": "ST > 65 m²",
-          "pt": 800050
+          "etat": "Ancien",
+          "pt": 8000
         },
         {
           "type": "Terrain ZM",
-          "etat": "Loti",
-          "superficie": "ST < 65 m²",
+          "etat": "Ancien",
           "pt": 8500
         },
         {
           "type": "Terrain ZM",
-          "etat": "Loti",
-          "superficie": "ST < 50 m²",
+          "etat": "Ancien",
+          "pt": 9000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Ancien",
+          "pt": 800050
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Ancien",
+          "pt": 8500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Ancien",
           "pt": 9000
         }
       ]
@@ -2641,103 +1935,163 @@
       "arrondissement": "Yacoub Mansour",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Bd Al Houria, Hay Rjafillah, Rue Baraka, AV Rahma, Rue Ikhlass, Hay Chabab, Bloc TG TST, Bd Salam",
+      "avenues": [
+        "Bd Al Houria",
+        "Rue Baraka",
+        "Rue Ikhlass",
+        "Bd Salam"
+      ],
+      "prix": []
+    },
+    {
+      "code": "RA-YM4",
+      "arrondissement": "Yacoub Mansour",
+      "ville": "Rabat",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 8500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 9000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 100 m²",
+          "pt": 8500,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 100 m²",
+          "pt": 9000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 100 m²",
+          "pt": 8000,
+          "pc": 450070
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 100 m²",
+          "pt": 8500,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 100 m²",
+          "pt": 9000,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 100 m²",
+          "pt": 800070,
+          "pc": 250070
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 100 m²",
+          "pt": 8500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 90008500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 9000,
+          "pc": 350070
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 11000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 9000,
+          "pc": 450070
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "pt": 11000,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "pt": 9000
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000
+        },
+        {
+          "type": "Appartement",
+          "pt": 11000
+        },
+        {
+          "type": "Appartement",
+          "pt": 900070
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000
+        },
+        {
+          "type": "Appartement",
+          "pt": 1100080001000011000
+        }
+      ]
+    },
+    {
+      "code": "RA-YM5",
+      "arrondissement": "Yacoub Mansour",
+      "ville": "Rabat",
+      "region": "Rabat-Salé-Kénitra",
       "delimitations": "Av. Med Ben Abdellah (Ouest), Av. Anour (Nord), Av. Al Kifah (Sud),",
       "avenues": [
         "Av. Med Ben Abdellah",
         "Av. Anour",
         "Av. Al Kifah"
       ],
-      "prix": [
-        {
-          "type": "Maison",
-          "etat": "Ancien",
-          "superficie": "ST > 100 m²",
-          "pt": 8000,
-          "pc": 250070
-        },
-        {
-          "type": "Maison",
-          "etat": "Ancien",
-          "superficie": "ST < 100 m²",
-          "pt": 8500,
-          "pc": 2500
-        },
-        {
-          "type": "Maison",
-          "etat": "Ancien",
-          "superficie": "ST < 70 m²",
-          "pt": 9000,
-          "pc": 2500
-        },
-        {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST > 100 m²",
-          "pt": 8000,
-          "pc": 350070
-        },
-        {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST < 100 m²",
-          "pt": 8500,
-          "pc": 3500
-        },
-        {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST < 70 m²",
-          "pt": 9000,
-          "pc": 3500
-        },
-        {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST > 100 m²",
-          "pt": 8000,
-          "pc": 450070
-        },
-        {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST < 100 m²",
-          "pt": 8500,
-          "pc": 4500
-        },
-        {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST < 70 m²",
-          "pt": 9000,
-          "pc": 4500
-        },
-        {
-          "type": "Terrain ZM",
-          "etat": "Loti",
-          "superficie": "ST > 100 m²",
-          "pt": 800070
-        },
-        {
-          "type": "Terrain ZM",
-          "etat": "Loti",
-          "superficie": "ST < 100 m²",
-          "pt": 8500
-        },
-        {
-          "type": "Terrain ZM",
-          "etat": "Loti",
-          "superficie": "ST < 70 m²",
-          "pt": 9000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 8500
-        }
-      ]
+      "prix": []
     },
     {
-      "code": "RA-YM4",
+      "code": "RA-YM7",
       "arrondissement": "Yacoub Mansour",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
@@ -2747,312 +2101,138 @@
         "Av. Al Kifah",
         "Av. Al Majd"
       ],
-      "prix": [
-        {
-          "type": "Maison",
-          "etat": "Ancien",
-          "superficie": "ST > 100 m²",
-          "pt": 9000,
-          "pc": 250070
-        },
-        {
-          "type": "Maison",
-          "etat": "Ancien",
-          "superficie": "ST < 100 m²",
-          "pt": 10000,
-          "pc": 2500
-        },
-        {
-          "type": "Maison",
-          "etat": "Ancien",
-          "superficie": "ST < 70 m²",
-          "pt": 11000,
-          "pc": 2500
-        },
-        {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST > 100 m²",
-          "pt": 9000,
-          "pc": 350070
-        },
-        {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST < 100 m²",
-          "pt": 10000,
-          "pc": 3500
-        },
-        {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST < 70 m²",
-          "pt": 11000,
-          "pc": 3500
-        },
-        {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST > 100 m²",
-          "pt": 9000,
-          "pc": 450070
-        },
-        {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST < 100 m²",
-          "pt": 10000,
-          "pc": 4500
-        },
-        {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST < 70 m²",
-          "pt": 11000,
-          "pc": 4500
-        },
-        {
-          "type": "Terrain ZM",
-          "etat": "Loti",
-          "superficie": "ST > 100 m²",
-          "pt": 900070
-        },
-        {
-          "type": "Terrain ZM",
-          "etat": "Loti",
-          "superficie": "ST < 100 m²",
-          "pt": 10000
-        },
-        {
-          "type": "Terrain ZM",
-          "etat": "Loti",
-          "superficie": "ST < 70 m²",
-          "pt": 11000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 8000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 10000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 11000
-        }
-      ]
+      "prix": []
     },
     {
-      "code": "RA-YM5",
+      "code": "RA-YM8",
       "arrondissement": "Yacoub Mansour",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Ceinture Verte (Ouest), Bd Mostafa Saih (Nord), Av. des FAR (Est), Bd Fath (Sud)",
+      "delimitations": "Ceinture Verte (Ouest), Bd Mostafa Saih (Nord), Av. des FAR (Est), Bd Fath (Sud) Sidi Yaroubi, Dr Kora, Bd Houria,Bd Mostafa Saih (Nord), Av. Al Kifah (Ouest), Av. Sidi Med Ben Abdellah (Ouest), Sabah, Diar Mansour Quartier Industriel Complexe sportif My Abdellah - 39 -",
       "avenues": [
         "Bd Mostafa Saih",
-        "Bd Fath"
-      ],
-      "prix": [
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 250 m²",
-          "pt": 10000,
-          "pc": 2500100
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 250 m²",
-          "pt": 11000,
-          "pc": 2500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 100 m²",
-          "pt": 12000,
-          "pc": 2500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 250 m²",
-          "pt": 10000,
-          "pc": 3500100
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 250 m²",
-          "pt": 11000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 100 m²",
-          "pt": 12000,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST >= 250 m²",
-          "pt": 10000,
-          "pc": 4500100
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 250 m²",
-          "pt": 11000,
-          "pc": 4500
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST <= 100 m²",
-          "pt": 12000,
-          "pc": 4500
-        },
-        {
-          "type": "Maison",
-          "etat": "Ancien",
-          "superficie": "ST > 150 m²",
-          "pt": 9000,
-          "pc": 2500100
-        },
-        {
-          "type": "Maison",
-          "etat": "Ancien",
-          "superficie": "ST < 150 m²",
-          "pt": 10000,
-          "pc": 2500
-        },
-        {
-          "type": "Maison",
-          "etat": "Ancien",
-          "superficie": "ST <= 100 m²",
-          "pt": 11000,
-          "pc": 2500
-        },
-        {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST > 150 m²",
-          "pt": 9000,
-          "pc": 3500100
-        },
-        {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST < 150 m²",
-          "pt": 10000,
-          "pc": 3500
-        },
-        {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST <= 100 m²",
-          "pt": 11000,
-          "pc": 3500
-        },
-        {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST > 150 m²",
-          "pt": 9000,
-          "pc": 4500100
-        },
-        {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST < 150 m²",
-          "pt": 10000,
-          "pc": 4500
-        },
-        {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST <= 100 m²",
-          "pt": 11000,
-          "pc": 4500
-        },
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 10000
-        },
-        {
-          "type": "Terrain ZM",
-          "etat": "Loti",
-          "superficie": "ST > 150 m²",
-          "pt": 9000100
-        },
-        {
-          "type": "Terrain ZM",
-          "etat": "Loti",
-          "superficie": "ST < 150 m²",
-          "pt": 10000
-        },
-        {
-          "type": "Terrain ZM",
-          "etat": "Loti",
-          "superficie": "ST < 100 m²",
-          "pt": 11000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 250 m²",
-          "pt": 10000100
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 250 m²",
-          "pt": 11000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 100 m²",
-          "pt": 12000
-        }
-      ]
-    },
-    {
-      "code": "RA-YM6",
-      "arrondissement": "Yacoub Mansour",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Sidi Yaroubi, Dr Kora, Bd Houria,Bd Mostafa Saih (Nord), Av. Al Kifah (Ouest), Av. Sidi Med Ben Abdellah (Ouest), Sabah, Diar Mansour",
-      "avenues": [
+        "Bd Fath",
         "Bd Houria",
-        "Bd Mostafa Saih",
         "Av. Al Kifah",
         "Av. Sidi Med Ben Abdellah"
       ],
       "prix": [
         {
-          "type": "Appartement",
+          "type": "Maison",
           "etat": "Ancien",
-          "prixUnique": 10000
+          "pt": 11000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 12000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 10000,
+          "pc": 3500
         },
         {
           "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 12000
+          "etat": "Loti",
+          "pt": 11000,
+          "pc": 3500
         },
         {
           "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 13000
+          "superficie": "ST < 250 m²",
+          "pt": 12000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 150 m²",
+          "pt": 10000,
+          "pc": 4500100
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 150 m²",
+          "pt": 11000,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 150 m²",
+          "pt": 12000,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 150 m²",
+          "pt": 9000,
+          "pc": 2500100
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 250 m²",
+          "pt": 10000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 11000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 9000,
+          "pc": 3500100
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 11000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 9000,
+          "pc": 4500100
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "pt": 11000,
+          "pc": 450010000
+        },
+        {
+          "type": "Appartement",
+          "pt": 9000100
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000
+        },
+        {
+          "type": "Appartement",
+          "pt": 11000
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000100
+        },
+        {
+          "type": "Appartement",
+          "pt": 11000
+        },
+        {
+          "type": "Appartement",
+          "pt": 12000100001200013000
         }
       ]
     },
@@ -3066,67 +2246,89 @@
         "Av. Med VI",
         "Av. Houmane Fetouaki"
       ],
+      "prix": []
+    },
+    {
+      "code": "RA-YO10",
+      "arrondissement": "Youssoufia",
+      "ville": "Rabat",
+      "region": "Rabat-Salé-Kénitra",
+      "delimitations": "Av. Med Bel Hassan El Oouazzani (Ouest), Bd Targa (Nord), Av. Melouana - Rue Bni Tililane (Est),",
+      "avenues": [
+        "Av. Med Bel Hassan El Oouazzani",
+        "Bd Targa",
+        "Av. Melouana",
+        "Rue Bni Tililane"
+      ],
+      "prix": []
+    },
+    {
+      "code": "RA-YO11",
+      "arrondissement": "Youssoufia",
+      "ville": "Rabat",
+      "region": "Rabat-Salé-Kénitra",
+      "prix": [
+        {
+          "type": "Immeuble",
+          "prixUnique": 537
+        }
+      ]
+    },
+    {
+      "code": "RA-YO2",
+      "arrondissement": "Youssoufia",
+      "ville": "Rabat",
+      "region": "Rabat-Salé-Kénitra",
       "prix": [
         {
           "type": "Villa",
           "etat": "Ancien",
-          "superficie": "ST > 1 000 m²",
           "pt": 4500,
-          "pc": 3000500
+          "pc": 3000
         },
         {
           "type": "Villa",
-          "etat": "Ancien",
           "superficie": "ST < 1 000 m²",
           "pt": 6000,
           "pc": 3000
         },
         {
           "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 500 m²",
+          "superficie": "ST < 1 000 m²",
           "pt": 8500,
           "pc": 3000
         },
         {
           "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 1 000 m²",
           "pt": 4500,
           "pc": 5000500
         },
         {
           "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 1 000 m²",
           "pt": 6000,
           "pc": 5000
         },
         {
           "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 500 m²",
           "pt": 8500,
           "pc": 5000
         },
         {
           "type": "Villa",
           "etat": "Neuf",
-          "superficie": "ST > 1 000 m²",
+          "superficie": "ST < 1 000 m²",
           "pt": 4500,
           "pc": 8000500
         },
         {
           "type": "Villa",
           "etat": "Neuf",
-          "superficie": "ST < 1 000 m²",
           "pt": 6000,
           "pc": 8000
         },
         {
           "type": "Villa",
           "etat": "Neuf",
-          "superficie": "ST < 500 m²",
           "pt": 8500,
           "pc": 8000
         },
@@ -3137,7 +2339,6 @@
         },
         {
           "type": "Appartement",
-          "etat": "Récent",
           "prixUnique": 12500
         },
         {
@@ -3148,84 +2349,117 @@
         {
           "type": "Terrain ZI",
           "etat": "Loti",
-          "superficie": "ST > 500 m²",
           "pt": 18000
         },
         {
-          "type": "Terrain ZI",
+          "type": "Terrain ZV",
           "etat": "Loti",
-          "superficie": "ST <= 500 m²",
           "pt": 23000
         },
         {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 1 000 m²",
-          "pt": 4500500
+          "type": "Maison",
+          "prixUnique": 1000
         },
         {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 1 000 m²",
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Villa",
           "pt": 6000
         },
         {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 500 m²",
-          "pt": 8500
-        }
-      ]
-    },
-    {
-      "code": "RA-YO10",
-      "arrondissement": "Youssoufia",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Med Bel Hassan El Oouazzani (Ouest), Av. Houmane Fetouaki (Nord), Route El Oulja (Est), Rue Mouad (Sud)",
-      "avenues": [
-        "Av. Med Bel Hassan El Oouazzani",
-        "Av. Houmane Fetouaki",
-        "Route El Oulja",
-        "Rue Mouad"
-      ],
-      "prix": []
-    },
-    {
-      "code": "RA-YO2",
-      "arrondissement": "Youssoufia",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Ouled Hassoun - Av. Tadla (Ouest), Av. Houmane Fetouaki - Av. Ooulad Mrah (Nord), Av. Goundafa (Est)",
-      "avenues": [
-        "Av. Ouled Hassoun",
-        "Av. Tadla",
-        "Av. Houmane Fetouaki",
-        "Av. Ooulad Mrah",
-        "Av. Goundafa"
-      ],
-      "prix": [
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 300 m²",
-          "pt": 8000
+          "type": "Villa",
+          "superficie": "ST < 100 m²",
+          "pt": 8500,
+          "pc": 250070
         },
         {
-          "type": "Terrain ZV",
-          "etat": "Loti",
+          "type": "Villa",
+          "superficie": "ST < 100 m²",
+          "pt": 9000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST < 100 m²",
+          "pt": 11000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
           "superficie": "ST <= 300 m²",
+          "pt": 13000,
+          "pc": 350070
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST <= 300 m²",
+          "pt": 9000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 11000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 13000,
+          "pc": 400070
+        },
+        {
+          "type": "Villa",
+          "pt": 9000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 11000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 13000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 9000,
+          "pc": 4500
+        },
+        {
+          "type": "Villa",
+          "pt": 8000,
+          "pc": 4500
+        },
+        {
+          "type": "Villa",
           "pt": 9000
         },
         {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 10000
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST <= 300 m²",
+          "pt": 8000,
+          "pc": 9000
         },
         {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 12000
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 9000,
+          "pc": 9000
         }
       ]
     },
@@ -3234,9 +2468,12 @@
       "arrondissement": "Youssoufia",
       "ville": "Rabat",
       "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Houmane Fetouaki (Ouest), Av. Goundafa (Nord), Av. Oulad Sbaa",
+      "delimitations": "Av. Ouled Hassoun - Av. Tadla (Ouest), Av. Houmane Fetouaki - Av. Ooulad Mrah (Nord), Av. Goundafa (Est) Av. Houmane Fetouaki (Ouest), Av. Goundafa (Nord), Av. Oulad Sbaa",
       "avenues": [
+        "Av. Ouled Hassoun",
+        "Av. Tadla",
         "Av. Houmane Fetouaki",
+        "Av. Ooulad Mrah",
         "Av. Goundafa",
         "Av. Oulad Sbaa"
       ],
@@ -3257,106 +2494,9 @@
       ],
       "prix": [
         {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 700 m²",
-          "pt": 5500,
-          "pc": 3500500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 700 m²",
-          "pt": 6500,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 500 m²",
-          "pt": 8500,
-          "pc": 3500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 700 m²",
-          "pt": 5500,
-          "pc": 4500500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 700 m²",
-          "pt": 6500,
-          "pc": 4500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 500 m²",
-          "pt": 8500
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 700 m²",
-          "pt": 5500,
-          "pc": 7000500
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 700 m²",
-          "pt": 6500,
-          "pc": 7000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 500 m²",
-          "pt": 8500,
-          "pc": 7000
-        },
-        {
           "type": "Appartement",
           "etat": "Ancien",
-          "prixUnique": 10000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 12000
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 15000
-        },
-        {
-          "type": "Terrain ZI",
-          "superficie": "ST > 300 m²",
-          "pt": 24000
-        },
-        {
-          "type": "Terrain ZI",
-          "superficie": "ST <= 300 m²",
-          "pt": 20000
-        },
-        {
-          "type": "Terrain ZV",
-          "superficie": "ST > 700 m²",
-          "pt": 5500500
-        },
-        {
-          "type": "Terrain ZV",
-          "superficie": "ST < 700 m²",
-          "pt": 6500
-        },
-        {
-          "type": "Terrain ZV",
-          "superficie": "ST < 500 m²",
-          "pt": 8500
+          "pt": 8000
         }
       ]
     },
@@ -3372,26 +2512,7 @@
         "Bd Ouled Sbaa",
         "Av. Oued Akreuch"
       ],
-      "prix": [
-        {
-          "type": "Maison",
-          "etat": "Ancien",
-          "pt": 6000,
-          "pc": 2500
-        },
-        {
-          "type": "Maison",
-          "etat": "Récent",
-          "pt": 6000,
-          "pc": 3500
-        },
-        {
-          "type": "Maison",
-          "etat": "Neuf",
-          "pt": 6000,
-          "pc": 4500
-        }
-      ]
+      "prix": []
     },
     {
       "code": "RA-YO6",
@@ -3404,31 +2525,7 @@
         "Av. Al Haouz",
         "Av. Houmane Fetouaki"
       ],
-      "prix": [
-        {
-          "type": "Maison",
-          "etat": "Ancien",
-          "pt": 12000,
-          "pc": 2500
-        },
-        {
-          "type": "Maison",
-          "etat": "Récent",
-          "pt": 12000,
-          "pc": 3500
-        },
-        {
-          "type": "Maison",
-          "etat": "Neuf",
-          "pt": 12000,
-          "pc": 4500
-        },
-        {
-          "type": "Terrain ZM",
-          "etat": "Loti",
-          "prixUnique": 12000
-        }
-      ]
+      "prix": []
     },
     {
       "code": "RA-YO7",
@@ -3437,27 +2534,126 @@
       "region": "Rabat-Salé-Kénitra",
       "prix": [
         {
-          "type": "Maison",
+          "type": "Villa",
           "etat": "Ancien",
-          "pt": 8000,
-          "pc": 2500
+          "prixUnique": 10000
         },
         {
-          "type": "Maison",
-          "etat": "Récent",
-          "pt": 8000,
+          "type": "Villa",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 6500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 8500,
           "pc": 3500
         },
         {
           "type": "Maison",
-          "etat": "Neuf",
-          "pt": 8000,
+          "pt": 5500,
+          "pc": 4500
+        },
+        {
+          "type": "Maison",
+          "pt": 6500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 8500,
           "pc": 4500
         },
         {
           "type": "Terrain ZM",
-          "etat": "Loti",
-          "prixUnique": 8000
+          "superficie": "ST < 700 m²",
+          "pt": 5500,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZM",
+          "superficie": "ST <= 300 m²",
+          "pt": 6500,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZM",
+          "superficie": "ST < 700 m²",
+          "pt": 8500,
+          "pc": 7000100001200015000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 24000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 20000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 5500500,
+          "pc": 4500
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 6500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 8500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 6000,
+          "pc": 450012000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 6000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 12000,
+          "pc": 45008000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 12000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 12000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 8000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 8000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 8000
         }
       ]
     },
@@ -3475,187 +2671,38 @@
       "prix": [
         {
           "type": "Maison",
-          "etat": "Ancien",
+          "etat": "Neuf",
           "pt": 12000,
           "pc": 2500
         },
         {
-          "type": "Maison",
-          "etat": "Récent",
+          "type": "Appartement",
           "pt": 12000,
           "pc": 3500
         },
         {
-          "type": "Maison",
-          "etat": "Neuf",
+          "type": "Appartement",
           "pt": 12000,
           "pc": 4500
         },
         {
-          "type": "Appartement",
-          "etat": "Ancien",
+          "type": "Villa",
           "prixUnique": 8000
         },
         {
-          "type": "Appartement",
-          "etat": "Récent",
+          "type": "Villa",
           "prixUnique": 9000
         },
         {
-          "type": "Appartement",
+          "type": "Villa",
           "etat": "Neuf",
           "prixUnique": 10000
-        }
-      ]
-    },
-    {
-      "code": "RA-YO9",
-      "arrondissement": "Youssoufia",
-      "ville": "Rabat",
-      "region": "Rabat-Salé-Kénitra",
-      "delimitations": "Av. Med Bel Hassan El Oouazzani (Ouest), Bd Targa (Nord), Av. Melouana - Rue Bni Tililane (Est), Rocade (Sud)",
-      "avenues": [
-        "Av. Med Bel Hassan El Oouazzani",
-        "Bd Targa",
-        "Av. Melouana",
-        "Rue Bni Tililane"
-      ],
-      "prix": [
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST > 700 m²",
-          "pt": 4500,
-          "pc": 3000500
         },
         {
-          "type": "Villa",
+          "type": "Maison",
           "etat": "Ancien",
-          "superficie": "ST < 700 m²",
-          "pt": 5000,
+          "pt": 4500,
           "pc": 3000
-        },
-        {
-          "type": "Villa",
-          "etat": "Ancien",
-          "superficie": "ST < 500 m²",
-          "pt": 6000,
-          "pc": 3000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST > 700 m²",
-          "pt": 4500,
-          "pc": 6000500
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 700 m²",
-          "pt": 5000,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
-          "etat": "Récent",
-          "superficie": "ST < 500 m²",
-          "pt": 6000,
-          "pc": 6000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST > 700 m²",
-          "pt": 4500,
-          "pc": 8000500
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 700 m²",
-          "pt": 5000,
-          "pc": 8000
-        },
-        {
-          "type": "Villa",
-          "etat": "Neuf",
-          "superficie": "ST < 500 m²",
-          "pt": 6000,
-          "pc": 8000
-        },
-        {
-          "type": "Maison",
-          "etat": "Ancien",
-          "superficie": "ST > 90 m²",
-          "pt": 13000,
-          "pc": 2500
-        },
-        {
-          "type": "Maison",
-          "etat": "Ancien",
-          "superficie": "ST <= 90 m²",
-          "pt": 11000,
-          "pc": 2500
-        },
-        {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST > 90 m²",
-          "pc": 3500
-        },
-        {
-          "type": "Maison",
-          "etat": "Récent",
-          "superficie": "ST <= 90 m²",
-          "pc": 3500
-        },
-        {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST > 90 m²",
-          "pt": 13000,
-          "pc": 4500
-        },
-        {
-          "type": "Maison",
-          "etat": "Neuf",
-          "superficie": "ST <= 90 m²",
-          "pt": 11000,
-          "pc": 4500
-        },
-        {
-          "type": "Appartement",
-          "etat": "Ancien",
-          "prixUnique": 8500
-        },
-        {
-          "type": "Appartement",
-          "etat": "Récent",
-          "prixUnique": 10500
-        },
-        {
-          "type": "Appartement",
-          "etat": "Neuf",
-          "prixUnique": 14000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST > 700 m²",
-          "pt": 4500500
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 700 m²",
-          "pt": 5000
-        },
-        {
-          "type": "Terrain ZV",
-          "etat": "Loti",
-          "superficie": "ST < 500 m²",
-          "pt": 6000
         }
       ]
     }

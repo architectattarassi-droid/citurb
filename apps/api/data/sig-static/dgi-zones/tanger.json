@@ -1,0 +1,2974 @@
+{
+  "_meta": {
+    "ville": "Tanger",
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T14:12:39.047Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 61,
+    "zonesWithPrices": 52,
+    "zonesWithDelimitations": 18
+  },
+  "arrondissements": [
+    {
+      "code": "AS",
+      "nom": "Tanger-Asilah"
+    },
+    {
+      "code": "BM",
+      "nom": "BM"
+    },
+    {
+      "code": "CM",
+      "nom": "CM"
+    },
+    {
+      "code": "TM",
+      "nom": "TM"
+    }
+  ],
+  "zones": [
+    {
+      "code": "TA-AS1",
+      "arrondissement": "Tanger-Asilah",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 1000
+        }
+      ]
+    },
+    {
+      "code": "TA-AS10",
+      "arrondissement": "Tanger-Asilah",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 5000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 4500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "TA-AS11",
+      "arrondissement": "Tanger-Asilah",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        }
+      ]
+    },
+    {
+      "code": "TA-AS15",
+      "arrondissement": "Tanger-Asilah",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 7000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Villa",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 1500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "TA-AS2",
+      "arrondissement": "Tanger-Asilah",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 2000
+        }
+      ]
+    },
+    {
+      "code": "TA-AS3",
+      "arrondissement": "Tanger-Asilah",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "TA-AS4",
+      "arrondissement": "Tanger-Asilah",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 4500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        }
+      ]
+    },
+    {
+      "code": "TA-AS5",
+      "arrondissement": "Tanger-Asilah",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 1000
+        }
+      ]
+    },
+    {
+      "code": "TA-AS6",
+      "arrondissement": "Tanger-Asilah",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        }
+      ]
+    },
+    {
+      "code": "TA-BM1",
+      "arrondissement": "BM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Route de Rabat, Av Martil, Av Mediaq, Av Nakhil, Rue Oued Merahrah, Rue Assardoun,",
+      "avenues": [
+        "Rue Oued Merahrah",
+        "Rue Assardoun"
+      ],
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 4500,
+          "pc": 4500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 5500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "TA-BM10",
+      "arrondissement": "BM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Quartier Zemmouri, Bni Ouriaghel, Quartier Beau Sejour, Rue des Iles Comores, Rue Angola, Rue Gabon, Avenue Nigeria, Rue S�n�gal, Rue Cap Vert, Rue Somalie, Rue Oued Romane, Rue Oued Lhachef, Rue Ijass, Av Hoceima Route de Rabat (des Jardins Ennasr aux Brasseries de Tanger), Rue Hamama",
+      "avenues": [
+        "Rue Angola",
+        "Rue Gabon",
+        "Avenue Nigeria",
+        "Rue Cap Vert",
+        "Rue Somalie",
+        "Rue Oued Romane",
+        "Rue Oued Lhachef",
+        "Rue Ijass",
+        "Rue Hamama"
+      ],
+      "prix": [
+        {
+          "type": "Terrain ZM",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        }
+      ]
+    },
+    {
+      "code": "TA-BM11",
+      "arrondissement": "BM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Quartier Ahlan, Quartier Karima, Lotis Bank Chaabi, Rue Fidae, Rue Amal, Rue Al Hamd, Rue Attasamouh, Av Hiwar, Rue Al Inssaf, Rue Attafaoul, Rue Arrajae, Rue Saada, Rue Al",
+      "avenues": [
+        "Rue Fidae",
+        "Rue Amal",
+        "Rue Al Hamd",
+        "Rue Attasamouh",
+        "Rue Al Inssaf",
+        "Rue Attafaoul",
+        "Rue Arrajae",
+        "Rue Saada",
+        "Rue Al"
+      ],
+      "prix": []
+    },
+    {
+      "code": "TA-BM13",
+      "arrondissement": "BM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Rue Al Mawadda",
+      "avenues": [
+        "Rue Al Mawadda"
+      ],
+      "prix": []
+    },
+    {
+      "code": "TA-BM15",
+      "arrondissement": "BM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "TA-BM16",
+      "arrondissement": "BM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 6000
+        }
+      ]
+    },
+    {
+      "code": "TA-BM17",
+      "arrondissement": "BM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Zone projet�e Loti R+3 : 7 000 Appartement Zone projet�e R+4 : 7 500 Appartement R�cent Terrain ZI Neuf Zone projet�e Terrain ZI Loti 6 000 Maison Loti 6 500 Maison Ancien Maison R�cent R+4 : 8 000 Terrain ZI Neuf R+4 : 7 000 Appartement Loti PT: 5 000 PC: 2 000 Maison Neuf PT: 5 000 PC: 2 500 Maison Ancien PT: 5 000 PC: 3 000 Maison R�cent R+4 : 7 500 Terrain ZM Neuf Terrain ZI Loti 6 000 Maison Loti PT: 4 500 PC: 2 000 Maison Ancien PT: 4 500 PC: 2 500 Maison R�cent PT: 4 500 PC: 3 000 Terrain ZM Neuf Terrain ZI Loti <= � R+2 : 4 500 Loti R+3 : 5 000 PT: 3 000 PC: 1 500 PT: 3 000 PC: 2 000 PT: 3 000 PC: 2 500 <= � R+2 : 3 000 R+3",
+      "nomCommun": "3 500 - 32 -",
+      "avenues": [],
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 4500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "TA-BM19",
+      "arrondissement": "BM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "TA-BM2",
+      "arrondissement": "BM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Rue Martyr Benlahcen Bouayad, Rue Bouhdach Mohamed, Rue Martyr Ibn Hassan Belaid, Rue Martyr Amezil Mohamed, Rue M'barek Ben Boubker Hamadi, Lotis Ennasr, Lotis Ines, Lotis Ellatif, Lotis Sanae, Av Martyr Alami Taghzouti (de la Mosqu�e Al Cantara Jusqu'� l'angle Av Martil) Bendibane",
+      "nomCommun": "Rue Bangladesh, Rue Indonesia, Rue Afghanistan, Rue Iran, Rue Martyr Abdelhadi Taieb, Rue Boussena, Rue Martyr Mouloud Ibn Allal, Rue Martyr Saidi Mohamed, Rue Martyr Idrissi Alami, Rue Abdelhadi Taieb, Rue Hassan Ben Mostafa, Rue Hassan Belhaj, Rue Martyr Jillali Benayouch, Rue Barakat, Rue Moulay Ali, Rue Stitou Mohamed",
+      "avenues": [
+        "Rue Martyr Benlahcen Bouayad",
+        "Rue Bouhdach Mohamed",
+        "Rue Martyr Ibn Hassan Belaid",
+        "Rue Martyr Amezil Mohamed",
+        "Rue M'barek Ben Boubker Hamadi"
+      ],
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "TA-BM22",
+      "arrondissement": "BM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Quartier Jamila, Al Mizane, Quartier Hanae, Quartier Al Andalous, Les Rosiers, Quartier El Mrabet, Av Aicha Moussafir (de l'av Koweit Jusqu'� la Fin de Aicha Moussafir), Rue Andalous, Quartier Aouamaia, Quartier Soussi Bni Touzine, Sidi Driss Quartier El Hassani Bir Chifa, Mers Achenad, Lotis Al Mers, Dhar Kanfoud, Dhar Ahajam, Gorziana, Quartier Bouhout, Zouitina Bhair Aouama, Bir El Ghazi, Ganbouria, Hjar Sfar - 53 -",
+      "avenues": [
+        "Rue Andalous"
+      ],
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 3500,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 3500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 1500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "pt": 2500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 2500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 2000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 2000,
+          "pc": 1800
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 2000,
+          "pc": 2000
+        }
+      ]
+    },
+    {
+      "code": "TA-BM3",
+      "arrondissement": "BM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 2000
+        }
+      ]
+    },
+    {
+      "code": "TA-BM4",
+      "arrondissement": "BM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        }
+      ]
+    },
+    {
+      "code": "TA-BM5",
+      "arrondissement": "BM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 7500
+        }
+      ]
+    },
+    {
+      "code": "TA-BM8",
+      "arrondissement": "BM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "TA-CM11",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 5500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 18000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 8000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 3500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 5000
+        },
+        {
+          "type": "Villa",
+          "pt": 3500,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 4000,
+          "pc": 6000
+        },
+        {
+          "type": "Appartement",
+          "pt": 3500,
+          "pc": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "TA-CM14",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 1500
+        }
+      ]
+    },
+    {
+      "code": "TA-CM15",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 5000,
+          "pc": 4500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 5500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 8000
+        }
+      ]
+    },
+    {
+      "code": "TA-CM16",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Route de T�touan � droite du rond point Jamiaa Arabia � Plaza Torro, Av Oued Souani, Rue Ahmed Tadili, Rue Ahmed Skiredj, Rue Khnata Mghafri, Av Abdellah Ibn Rouaha, Rue Ibn Chakrae, Rue Ibn Barri, Rue Ibn Barjane, Lotis Doukka, Rue Ghazouat Hanin, Rue Ghazouat Tabouk, Rue Ahmed Mokri, Rue Ibn Sabbagh, Rue Ibn Faras, Rue Las Colinas, Rue Barcelone, Rue Asturias, Rue Cannes, Rue Iberie, Rue Toledo, Rue Mallorca, Rue Vascovia, Rue Mont Blanc, Rue Taragone, Rue Aragon, Rue Normandie, Rue Rios, Rue Bretagne, Av De Provence (de l'Av Oued Souani � l'angle Av Omar Mokhtar) Av Mly Slimane ( du Jardin Mly Youssef � l'h�pital Razi), Av Tarik Ibn Ziad ( de l'Av Oued Souani � la Mosqu�e Al Omra), Ali Bay, Av Allal El Fassi (de la Route de T�touan � Rue Ghazouat Tabouk) - 44 -",
+      "avenues": [
+        "Rue Ahmed Tadili",
+        "Rue Ahmed Skiredj",
+        "Rue Khnata Mghafri",
+        "Rue Ibn Chakrae",
+        "Rue Ibn Barri",
+        "Rue Ibn Barjane",
+        "Rue Ghazouat Hanin",
+        "Rue Ghazouat Tabouk",
+        "Rue Ahmed Mokri",
+        "Rue Ibn Sabbagh",
+        "Rue Ibn Faras",
+        "Rue Las Colinas",
+        "Rue Barcelone",
+        "Rue Asturias",
+        "Rue Cannes",
+        "Rue Iberie",
+        "Rue Toledo",
+        "Rue Mallorca",
+        "Rue Vascovia",
+        "Rue Mont Blanc",
+        "Rue Taragone",
+        "Rue Aragon",
+        "Rue Normandie",
+        "Rue Rios",
+        "Rue Bretagne"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7500
+        }
+      ]
+    },
+    {
+      "code": "TA-CM18",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 6000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "TA-CM20",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Route Rgaiae (Route de T�touan au Rond Point Dar Tounsi)",
+      "avenues": [
+        "Route Rgaiae"
+      ],
+      "prix": []
+    },
+    {
+      "code": "TA-CM21",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "pt": 6500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 5500,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 5000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 5000,
+          "pc": 5000
+        }
+      ]
+    },
+    {
+      "code": "TA-CM22",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "TA-CM23",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Quartier Amal, Mernissi, March� de Gros, Av Martyr Abdeslam Ben Bouhout, Rue Sidi",
+      "avenues": [
+        "Rue Sidi"
+      ],
+      "prix": []
+    },
+    {
+      "code": "TA-CM24",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 8000
+        }
+      ]
+    },
+    {
+      "code": "TA-CM26",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Rue Ibn Saad Bnou Aad, Rue Ibn Moussa Achaari, Av Allal El Fassi (de l'angle Ghazouat",
+      "avenues": [
+        "Rue Ibn Saad Bnou Aad",
+        "Rue Ibn Moussa Achaari"
+      ],
+      "prix": []
+    },
+    {
+      "code": "TA-CM28",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6500
+        }
+      ]
+    },
+    {
+      "code": "TA-CM4",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 1000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "pt": 1000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 1000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 9500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 4500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 4500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 4000
+        }
+      ]
+    },
+    {
+      "code": "TA-CM6",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 4000
+        }
+      ]
+    },
+    {
+      "code": "TA-CM7",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 4500
+        }
+      ]
+    },
+    {
+      "code": "TA-CM8",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 11000
+        }
+      ]
+    },
+    {
+      "code": "TA-CM9",
+      "arrondissement": "CM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 11500
+        }
+      ]
+    },
+    {
+      "code": "TA-TM11",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Quartier Espagnol, Av Jebha Ouatania, Rue Cervantes, Place Du 09 Avril, Calle Murillo, Rue Magellan, Rue Amerique du Sud, Av La Plage, Av La Libert�, Rue Marco Polo",
+      "avenues": [
+        "Rue Cervantes",
+        "Rue Magellan",
+        "Rue Amerique du Sud",
+        "Rue Marco Polo"
+      ],
+      "prix": []
+    },
+    {
+      "code": "TA-TM12",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 4000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 4500,
+          "pc": 4500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 4000,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 4000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "TA-TM14",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Quartier La Plage",
+      "nomCommun": "Av Beethoven (de l'angle Av Med VI � Place Roudani), Rue Ibn Katir, Av Youssef Ibn Tachefine (de l'angle Av Med VI � l'angle Av Med V), Rue Antaki, Rue Tarik, Rue Saidia, Rue Mohammadia, Rue El Youssoufia (du Bd Med V � l'angle Rue Abou Alae Maari), Av la R�sistance (de l'angle Bd Med V � l'angle Rue Abou Alae El Maari), Rue Nobel, Av New-York, Rue Ahfir, Av Oujda, Rue Znata, Rue Abdellah Habti, Rue Mootamid Ibn Abad, Rue Abou Alaa El Maari, Rue Farabi, Rue La M�diterrann�e, Rue Abdellah Habti, Rue Canoes. Ain Ktiouet, Av de Belgique, Av Mohamed Ben Abdellah (de la Place Ain Ktiouet � la Place Iberia), Rue Des Pheniciens, Rue Mahatma Ghandi, Av D'angleterre, Av San Fransisco, Bouarakia, Av Hassan II (De l'angle Av De Belgique � l'angle Av Bouarakia) M'sallah - 38 -",
+      "avenues": [],
+      "prix": []
+    },
+    {
+      "code": "TA-TM15",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 10500
+        }
+      ]
+    },
+    {
+      "code": "TA-TM16",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Loti R+7",
+      "nomCommun": "14 000 Maison Ancien PT: 3 000 PC: 2 000",
+      "avenues": [],
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 2000
+        }
+      ]
+    },
+    {
+      "code": "TA-TM17",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        }
+      ]
+    },
+    {
+      "code": "TA-TM18",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 2000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 2000,
+          "pc": 4500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 2000,
+          "pc": 5500
+        },
+        {
+          "type": "Villa",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 2000,
+          "pc": 5000
+        },
+        {
+          "type": "Villa",
+          "pt": 2000,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 2000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 2000,
+          "pc": 4500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 2000,
+          "pc": 5500
+        },
+        {
+          "type": "Villa",
+          "pt": 2000,
+          "pc": 6000
+        }
+      ]
+    },
+    {
+      "code": "TA-TM20",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Plage Achakar, Plage Jbilat, Ba Kacem",
+      "avenues": [
+        "Plage Achakar",
+        "Plage Jbilat"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 10000
+        }
+      ]
+    },
+    {
+      "code": "TA-TM21",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Sidi Amar, California, Moujahidine, Hopital Mohamed V, Rue Imam Tirmidi, Rue Nador, Rue",
+      "avenues": [
+        "Rue Imam Tirmidi",
+        "Rue Nador"
+      ],
+      "prix": []
+    },
+    {
+      "code": "TA-TM22",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Sidi Boukhari, Av Hafid Ibn Hajar, Av Sidi Amar, Route California",
+      "avenues": [
+        "Route California"
+      ],
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 2500,
+          "pc": 3500
+        }
+      ]
+    },
+    {
+      "code": "TA-TM23",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 4500
+        }
+      ]
+    },
+    {
+      "code": "TA-TM24",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 5500
+        },
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 4500
+        },
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 5500
+        },
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 6500
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 5000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 6000
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Maison",
+          "pt": 2000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 2000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 2000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "pt": 1500,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 1500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 1500,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 2500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        }
+      ]
+    },
+    {
+      "code": "TA-TM28",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 4500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 4500
+        },
+        {
+          "type": "Villa",
+          "pt": 4500,
+          "pc": 5500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 5000
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 5500
+        },
+        {
+          "type": "Appartement",
+          "pt": 3500,
+          "pc": 6500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 8000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "TA-TM29",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 12000
+        }
+      ]
+    },
+    {
+      "code": "TA-TM32",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 4500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4500,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "pt": 4500,
+          "pc": 6000
+        },
+        {
+          "type": "Appartement",
+          "pt": 3000,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 5500
+        },
+        {
+          "type": "Appartement",
+          "pt": 2500,
+          "pc": 5500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 7500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 2500,
+          "pc": 7500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 7500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 8500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 4500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 5500500011000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 2500,
+          "pc": 5000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 2500,
+          "pc": 7000
+        }
+      ]
+    },
+    {
+      "code": "TA-TM36",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 4000,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "TA-TM40",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        }
+      ]
+    },
+    {
+      "code": "TA-TM42",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "delimitations": "Route de l'Aviation, Av Mly Rachid (du stade au rond point Facult� de Droit-ENCG)",
+      "avenues": [
+        "Route de l'Aviation"
+      ],
+      "prix": []
+    },
+    {
+      "code": "TA-TM43",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 2000,
+          "pc": 6000
+        }
+      ]
+    },
+    {
+      "code": "TA-TM6",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 13500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 30000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 35000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 1500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 12500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "superficie": "ST <= 1 000 m²",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "TA-TM7",
+      "arrondissement": "TM",
+      "ville": "Tanger",
+      "region": "Tanger-Tétouan-Al Hoceïma",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        }
+      ]
+    }
+  ]
+}

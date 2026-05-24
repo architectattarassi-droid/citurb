@@ -1,0 +1,3553 @@
+{
+  "_meta": {
+    "ville": "Marrakech",
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T14:12:39.040Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 62,
+    "zonesWithPrices": 48,
+    "zonesWithDelimitations": 19
+  },
+  "arrondissements": [
+    {
+      "code": "AN",
+      "nom": "Annakhil"
+    },
+    {
+      "code": "GZ",
+      "nom": "GZ"
+    },
+    {
+      "code": "MD",
+      "nom": "MD"
+    },
+    {
+      "code": "ME",
+      "nom": "Ménara"
+    },
+    {
+      "code": "MK",
+      "nom": "MK"
+    },
+    {
+      "code": "SY",
+      "nom": "Sidi Youssef Ben Ali"
+    }
+  ],
+  "zones": [
+    {
+      "code": "MA-AN11",
+      "arrondissement": "Annakhil",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Villa",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST >= 400 m²",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 400 m²",
+          "pt": 4500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 4500,
+          "pc": 5000
+        }
+      ]
+    },
+    {
+      "code": "MA-AN15",
+      "arrondissement": "Annakhil",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "pt": 3000,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "MA-AN16",
+      "arrondissement": "Annakhil",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Villa",
+          "pt": 700,
+          "pc": 8000
+        },
+        {
+          "type": "Villa",
+          "pt": 700,
+          "pc": 10000
+        },
+        {
+          "type": "Villa",
+          "pt": 700,
+          "pc": 12000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 10000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "pt": 4000,
+          "pc": 10000
+        },
+        {
+          "type": "Appartement",
+          "pt": 500,
+          "pc": 6000
+        },
+        {
+          "type": "Appartement",
+          "pt": 500,
+          "pc": 8000
+        },
+        {
+          "type": "Appartement",
+          "pt": 500,
+          "pc": 10000
+        },
+        {
+          "type": "Appartement",
+          "pt": 2500,
+          "pc": 6000
+        },
+        {
+          "type": "Appartement",
+          "pt": 2500,
+          "pc": 8000
+        },
+        {
+          "type": "Appartement",
+          "pt": 2500,
+          "pc": 10000
+        },
+        {
+          "type": "Appartement",
+          "pt": 800,
+          "pc": 8000
+        },
+        {
+          "type": "Appartement",
+          "pt": 800,
+          "pc": 10000
+        },
+        {
+          "type": "Appartement",
+          "pt": 800,
+          "pc": 1.2000130001500016e+21
+        }
+      ]
+    },
+    {
+      "code": "MA-AN17",
+      "arrondissement": "Annakhil",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 5000,
+          "pc": 8000
+        },
+        {
+          "type": "Villa",
+          "pt": 1000,
+          "pc": 8000
+        }
+      ]
+    },
+    {
+      "code": "MA-AN19",
+      "arrondissement": "Annakhil",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 1000,
+          "pc": 12000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 700,
+          "pc": 8000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 700,
+          "pc": 10000
+        },
+        {
+          "type": "Villa",
+          "pt": 700,
+          "pc": 12000
+        }
+      ]
+    },
+    {
+      "code": "MA-AN2",
+      "arrondissement": "Annakhil",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Loti Si ST >= 1 000 m2 : Terrain ZV Ancien PT : 3 000/PC",
+      "nomCommun": "5 000",
+      "avenues": [],
+      "prix": [
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 5000
+        }
+      ]
+    },
+    {
+      "code": "MA-AN3",
+      "arrondissement": "Annakhil",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "prixUnique": 1000
+        }
+      ]
+    },
+    {
+      "code": "MA-AN6",
+      "arrondissement": "Annakhil",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 800,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 800,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 800,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZM",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 2500,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZM",
+          "superficie": "ST < 1 000 m²",
+          "pt": 3000,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZM",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 1500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "superficie": "ST < 1 000 m²",
+          "pt": 1500,
+          "pc": 4500120001500
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 4000,
+          "pc": 10000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 4000,
+          "pc": 12000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 350,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 350,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 2800,
+          "pc": 2500280039
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 2800
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 2800
+        }
+      ]
+    },
+    {
+      "code": "MA-AN7",
+      "arrondissement": "Annakhil",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 6000,
+          "pc": 2000
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ10",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 5000
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ11",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 18000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 18000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 4000550065008000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ12",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 6000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ13",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 6000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "pt": 6000,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 9500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 1500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Villa",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Maison",
+          "pt": 2500,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST > 300 m²",
+          "pt": 2000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST =< 300 m²",
+          "pt": 2500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST > 300 m²",
+          "pt": 2000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST =< 300 m²",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST > 300 m²",
+          "pt": 2000,
+          "pc": 3000700080008500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 3500,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 3500,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 3500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 2000350017
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ15",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ16",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Maison",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 30004000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 3500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 2000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 3500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 200018
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ18",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Avenue Mly El Hassan, Avenue Mohamed VI, Avenue Prince My Rachid, et Avenue El Yarmouk",
+      "avenues": [
+        "Avenue Mly El Hassan",
+        "Avenue Mohamed VI",
+        "Avenue Prince My Rachid",
+        "Avenue El Yarmouk"
+      ],
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 2000
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ19",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ20",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Avenue Hassan II, Rue Iraq, Bd Mohamed VI",
+      "avenues": [
+        "Avenue Hassan II",
+        "Rue Iraq",
+        "Bd Mohamed VI"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MA-GZ25",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Place des 7 Saints, Avenue Allal Fassi, Rue Al Imam Al Jazouli Bd Abou Oubeida Al Jarah, Avenue Palestine, Bd Ariha Avenue Achatibi, Avenue Oued Issil Bd Oued Issil, Avenue Abdelkrim Khatib, Route de Casablanca CHU Mohamed VI, Avenue Ibn Sina, Rue Imam Jazouli Facult� des Sciences Juridiques, Bd Allal Fassi, Route de Casablanca Avenue Mohamed V (entre Av Abdelkrim Khattabi et Bd Zerktouni) Avenue Mohamed V (entre Bd Zerktouni et Avenue Mly El Hassan) Complexe CARRE EDEN R�sidence BABYLONE 1 Avenue Hassan II (du Th��tre Royal � Bab Doukkala) Avenue Yacoub El Mansour (de l'avenue Abdelkrim Khattabi � rue Erroda) 46",
+      "avenues": [
+        "Avenue Allal Fassi",
+        "Rue Al Imam Al Jazouli Bd Abou Oubeida Al Jarah",
+        "Avenue Palestine",
+        "Bd Ariha Avenue Achatibi",
+        "Avenue Oued Issil Bd Oued Issil",
+        "Avenue Abdelkrim Khatib",
+        "Avenue Ibn Sina",
+        "Bd Allal Fassi",
+        "Avenue Mohamed V",
+        "Bd Zerktouni",
+        "Bd Zerktouni et Avenue Mly El Hassan",
+        "Avenue Hassan II",
+        "Avenue Yacoub El Mansour"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MA-GZ26",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Rue Rahal Ben Ahmed",
+      "avenues": [
+        "Rue Rahal Ben Ahmed"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MA-GZ27",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Maison",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 9500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 30000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 20000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 18000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ28",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Rue Al Madina",
+      "avenues": [
+        "Rue Al Madina"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MA-GZ3",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 5000,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 17000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 13000
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ30",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Boulevard ALLAL FASSI (extension)",
+      "avenues": [
+        "Boulevard ALLAL FASSI"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MA-GZ32",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 9000
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ34",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 9000
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ35",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ36",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Av. Abdelkrim Al Khatib (en face de l'h�pital Mohamed VI)",
+      "avenues": [
+        "Av. Abdelkrim Al Khatib"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MA-GZ37",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Av. ALLAL FASSI (du centre commercial Marjane � l'�cole ENCG)",
+      "avenues": [
+        "Av. ALLAL FASSI"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MA-GZ39",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Avenue Echchouhada",
+      "avenues": [
+        "Avenue Echchouhada"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MA-GZ40",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Avenue Al Mouquawama, rue Iraq et la ligne ferroviaire",
+      "avenues": [
+        "Avenue Al Mouquawama"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MA-GZ41",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Avenue Hassan II, du th��tre royal � rue Errif",
+      "avenues": [
+        "Avenue Hassan II"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MA-GZ42",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 9500
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ44",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Villa",
+          "pt": 3500,
+          "pc": 80006
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ5",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 5000
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ6",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 9500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Villa",
+          "pt": 5000,
+          "pc": 5000
+        },
+        {
+          "type": "Villa",
+          "pt": 5000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 6500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 6500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 7000
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ7",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "MA-GZ8",
+      "arrondissement": "GZ",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Avenue Abdelkrim Khattabi et Bd Zerktouni",
+      "avenues": [
+        "Avenue Abdelkrim Khattabi et Bd Zerktouni"
+      ],
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 9500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "MA-MD3",
+      "arrondissement": "MD",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "MA-MD6",
+      "arrondissement": "MD",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 6000
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 4500
+        }
+      ]
+    },
+    {
+      "code": "MA-ME10",
+      "arrondissement": "Ménara",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "MA-ME11",
+      "arrondissement": "Ménara",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 4500,
+          "pc": 1500
+        },
+        {
+          "type": "Villa",
+          "pt": 4500,
+          "pc": 2000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 1500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Maison",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 3500,
+          "pc": 300029
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 1500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 1 000 m²",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 500 m²",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 3500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 1500,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 1 000 m²",
+          "pt": 2500,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 500 m²",
+          "pt": 3000,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 3500,
+          "pc": 5000600070007500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 6000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 1 000 m²",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 500 m²",
+          "pt": 6000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "MA-ME13",
+      "arrondissement": "Ménara",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST < 1 000 m²",
+          "pt": 1500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 500 m²",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 1 000 m²",
+          "pt": 1500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST < 500 m²",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST < 300 m²",
+          "pt": 3500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 1500,
+          "pc": 5000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST < 1 000 m²",
+          "pt": 2500,
+          "pc": 5000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST < 500 m²",
+          "pt": 3000,
+          "pc": 5000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST < 300 m²",
+          "pt": 3500,
+          "pc": 50001000070008000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 1000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST < 1 000 m²",
+          "pt": 1500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST < 500 m²",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST < 300 m²",
+          "pt": 1000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST > 750 m²",
+          "pt": 1500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST <= 750 m²",
+          "pt": 2000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST <= 400 m²",
+          "pt": 1000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST > 750 m²",
+          "pt": 1500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST <= 750 m²",
+          "pt": 2000,
+          "pc": 400030
+        }
+      ]
+    },
+    {
+      "code": "MA-ME17",
+      "arrondissement": "Ménara",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "superficie": "ST < 300 m²",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST >= 300 m²",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "superficie": "ST < 300 m²",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "superficie": "ST >= 300 m²",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "superficie": "ST < 300 m²",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "superficie": "ST >= 300 m²",
+          "pt": 3000,
+          "pc": 400055006000
+        }
+      ]
+    },
+    {
+      "code": "MA-ME18",
+      "arrondissement": "Ménara",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "superficie": "ST >= 2 000 m²",
+          "pt": 1500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 2 000 m²",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 1 000 m²",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 600 m²",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST >= 2 000 m²",
+          "pt": 1500,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 2 000 m²",
+          "pt": 2000,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 1 000 m²",
+          "pt": 3000,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 600 m²",
+          "pt": 4000,
+          "pc": 5000
+        }
+      ]
+    },
+    {
+      "code": "MA-ME2",
+      "arrondissement": "Ménara",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 2300,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 2000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 1500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 1000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 2300,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "superficie": "ST < 200 m²",
+          "pt": 1500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "superficie": "ST <= 300 m²",
+          "pt": 1000,
+          "pc": 300050005500
+        },
+        {
+          "type": "Terrain ZM",
+          "superficie": "ST <= 600 m²",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "superficie": "ST > 600 m²",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "superficie": "ST < 200 m²",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "superficie": "ST <= 300 m²",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "superficie": "ST <= 600 m²",
+          "pt": 2000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "superficie": "ST > 600 m²",
+          "pt": 1500,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "pt": 1500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "MA-ME3",
+      "arrondissement": "Ménara",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 5000,
+          "pc": 5000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST < 2 000 m²",
+          "pt": 1500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 1 000 m²",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 500 m²",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 300 m²",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST >= 2 000 m²",
+          "pt": 1500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 2 000 m²",
+          "pt": 2000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 1 000 m²",
+          "pt": 2500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 500 m²",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 300 m²",
+          "pt": 3500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST >= 2 000 m²",
+          "pt": 1500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 2 000 m²",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 1 000 m²",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 500 m²",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZV",
+          "superficie": "ST < 300 m²",
+          "pt": 3500,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "MA-ME4",
+      "arrondissement": "Ménara",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 1500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST < 1 000 m²",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST < 500 m²",
+          "pt": 3250,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 1500,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 3250,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 1500,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 1 000 m²",
+          "pt": 2500,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 500 m²",
+          "pt": 3250,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 4000,
+          "pc": 5000500060007000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 5000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 1 000 m²",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 500 m²",
+          "pt": 5000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "MA-ME5",
+      "arrondissement": "Ménara",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "superficie": "ST < 400 m²",
+          "pt": 2000,
+          "pc": 2000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "superficie": "ST < 400 m²",
+          "pt": 2000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST < 200 m²",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST >= 400 m²",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST < 400 m²",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST < 200 m²",
+          "pt": 5000,
+          "pc": 4000550065007000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST >= 400 m²",
+          "pt": 4500,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST < 400 m²",
+          "pt": 4500,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "superficie": "ST < 200 m²",
+          "pt": 2000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 50004500500026
+        }
+      ]
+    },
+    {
+      "code": "MA-ME6",
+      "arrondissement": "Ménara",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "MA-ME7",
+      "arrondissement": "Ménara",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 4500,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 4500,
+          "pc": 2000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 4500,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 4500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 1 000 m²",
+          "pt": 1500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 2500,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 1 000 m²",
+          "pt": 1500,
+          "pc": 350027
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 500 m²",
+          "pt": 2500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 3500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 1 000 m²",
+          "pt": 1500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 500 m²",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST >= 1 000 m²",
+          "pt": 3500,
+          "pc": 4000600070008000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 1 000 m²",
+          "pt": 5000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 500 m²",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 300 m²",
+          "pt": 5000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "MA-ME8",
+      "arrondissement": "Ménara",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 2500,
+          "pc": 2000
+        }
+      ]
+    },
+    {
+      "code": "MA-ME9",
+      "arrondissement": "Ménara",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 2500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Villa",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 2500
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 4000
+        },
+        {
+          "type": "Appartement",
+          "pt": 6000,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 200 m²",
+          "pt": 4000,
+          "pc": 4500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST >= 200 m²",
+          "pt": 5000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 200 m²",
+          "pt": 4000,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST >= 200 m²",
+          "pt": 5000,
+          "pc": 450018000500060000000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "superficie": "ST < 200 m²",
+          "pt": 5000,
+          "pc": 1500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "MA-MK2",
+      "arrondissement": "MK",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Villa",
+          "superficie": "ST < 2 000 m²",
+          "pt": 1500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 2000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST >= 2 000 m²",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "pt": 1500,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "superficie": "ST < 2 000 m²",
+          "pt": 2000,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "superficie": "ST < 1 000 m²",
+          "pt": 3000,
+          "pc": 5000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 1500,
+          "pc": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "superficie": "ST < 2 000 m²",
+          "pt": 2000,
+          "pc": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "superficie": "ST < 1 000 m²",
+          "pt": 3000,
+          "pc": 60001400014500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "superficie": "ST >= 2 000 m²",
+          "pt": 3000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "superficie": "ST < 2000 m²",
+          "pt": 6000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "superficie": "ST < 1 000 m²",
+          "pt": 6000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 6000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 4000336
+        }
+      ]
+    },
+    {
+      "code": "MA-SY1",
+      "arrondissement": "Sidi Youssef Ben Ali",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Route du Golf, Avenue Tassoultante, Avenue Al Massira, Rue Al Khoukha",
+      "avenues": [
+        "Avenue Tassoultante",
+        "Avenue Al Massira",
+        "Rue Al Khoukha"
+      ],
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 5500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 6500,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 6500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "pt": 5000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 5000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6500
+        }
+      ]
+    },
+    {
+      "code": "MA-SY2",
+      "arrondissement": "Sidi Youssef Ben Ali",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 5000
+        }
+      ]
+    },
+    {
+      "code": "MA-SY3",
+      "arrondissement": "Sidi Youssef Ben Ali",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Route du Golf, Oued Issil, Avenue Berrada, Avenue Ibn Al Haytham",
+      "avenues": [
+        "Avenue Berrada",
+        "Avenue Ibn Al Haytham"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MA-SY4",
+      "arrondissement": "Sidi Youssef Ben Ali",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Avenue Berrada, Avenue Msala, Avenue Sakia",
+      "avenues": [
+        "Avenue Berrada",
+        "Avenue Msala",
+        "Avenue Sakia"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MA-SY5",
+      "arrondissement": "Sidi Youssef Ben Ali",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Avenue Msala, Avenue Tassoultante, Ecole Youssef Ben Tachefine",
+      "avenues": [
+        "Avenue Msala",
+        "Avenue Tassoultante"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MA-SY6",
+      "arrondissement": "Sidi Youssef Ben Ali",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 6500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 5500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3500,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 3500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6500,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 6500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 6500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 4000
+        }
+      ]
+    },
+    {
+      "code": "MA-SY7",
+      "arrondissement": "Sidi Youssef Ben Ali",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Avenue El Oued, Avenue Msala, Avenue Madariss",
+      "avenues": [
+        "Avenue El Oued",
+        "Avenue Msala",
+        "Avenue Madariss"
+      ],
+      "prix": []
+    },
+    {
+      "code": "MA-SY8",
+      "arrondissement": "Sidi Youssef Ben Ali",
+      "ville": "Marrakech",
+      "region": "Marrakech-Safi",
+      "delimitations": "Avenue Msala, Avenue Madariss, Avenue Imam Ghazali 55",
+      "avenues": [
+        "Avenue Msala",
+        "Avenue Madariss"
+      ],
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 3500,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "pt": 4000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZM",
+          "etat": "Loti",
+          "prixUnique": 4000
+        }
+      ]
+    }
+  ]
+}

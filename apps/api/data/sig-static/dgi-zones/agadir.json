@@ -1,0 +1,1624 @@
+{
+  "_meta": {
+    "ville": "Agadir",
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T14:12:39.056Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 45,
+    "zonesWithPrices": 45,
+    "zonesWithDelimitations": 0
+  },
+  "arrondissements": [
+    {
+      "code": "AG",
+      "nom": "Agadir Ida-Outanane"
+    },
+    {
+      "code": "AN",
+      "nom": "AN"
+    },
+    {
+      "code": "BS",
+      "nom": "Bensergao"
+    },
+    {
+      "code": "TK",
+      "nom": "TK"
+    }
+  ],
+  "zones": [
+    {
+      "code": "AG-AG1",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 23000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG10",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain\r\n                                      ZI",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 8000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG11",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Villa",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "superficie": "ST < 300 m²",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "superficie": "ST < 1000 m²",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "superficie": "ST >= 500 m²",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "superficie": "ST < 500 m²",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "superficie": "ST >= 300 m²",
+          "pt": 7000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "superficie": "ST < 300 m²",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 2500,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 5000,
+          "pc": 4.000650060005501e+40
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 6000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG12",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "superficie": "ST > 300 m²",
+          "pt": 5000,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST <= 300 m²",
+          "pt": 6000,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "superficie": "ST > 300 m²",
+          "pt": 5000,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "superficie": "ST <= 300 m²",
+          "pt": 6000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG13",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Maison",
+          "pt": 10000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG14",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 7000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG15",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Terrain\r\n                                 ZI",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 9000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG16",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 12000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG17",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 11000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG18",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 9000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 9000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "AG-AG19",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 9000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 10000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG2",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 19000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG20",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 9000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 9000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 9000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 10000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG21",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 10000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 9000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG22",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Villa",
+          "pt": 8000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 9000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 9000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG23",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 9000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "AG-AG24",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 10000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 10000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 10000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain        ZM",
+          "prixUnique": 6000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG25",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "superficie": "ST < 200 m²",
+          "pt": 6000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 200 m²",
+          "pt": 7000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 200 m²",
+          "pt": 7000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 200 m²",
+          "pt": 8000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 200 m²",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 200 m²",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 200 m²",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 200 m²",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 200 m²",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 3000800075007000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG26",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 3500
+        }
+      ]
+    },
+    {
+      "code": "AG-AG27",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST < 200 m²",
+          "pt": 7000,
+          "pc": 3500
+        }
+      ]
+    },
+    {
+      "code": "AG-AG28",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 200 m²",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 200 m²",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "superficie": "ST < 200 m²",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "superficie": "ST < 200 m²",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 2500800075007000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 18000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 18000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG29",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Terrain         ZM",
+          "prixUnique": 7000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG3",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 18000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG30",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 10000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 8000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG31",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 10000,
+          "pc": 3500
+        }
+      ]
+    },
+    {
+      "code": "AG-AG32",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 10000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 10000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 7000,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "pt": 7000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 7000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 10000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "AG-AG33",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 12000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "pt": 12000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 12000,
+          "pc": 2000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG34",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 12000,
+          "pc": 5000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 12000,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 12000,
+          "pc": 2000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST < 500 m²",
+          "pt": 9000,
+          "pc": 7000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 7000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG4",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 19000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG5",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Villa",
+          "superficie": "ST < 200 m²",
+          "pt": 10000,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG6",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST >= 200 m²",
+          "pt": 8000,
+          "pc": 8000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST >= 500 m²",
+          "pt": 6000,
+          "pc": 8000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST < 200 m²",
+          "pt": 10000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG8",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST >= 500 m²",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST >= 1000 m²",
+          "pt": 3000,
+          "pc": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 1000 m²",
+          "pt": 3500,
+          "pc": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST >= 1000 m²",
+          "pt": 3000,
+          "pc": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 1000 m²",
+          "pt": 3500,
+          "pc": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST >= 1000 m²",
+          "pt": 3000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 1000 m²",
+          "pt": 3500,
+          "pc": 4000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 10000,
+          "pc": 6000
+        }
+      ]
+    },
+    {
+      "code": "AG-AG9",
+      "arrondissement": "Agadir Ida-Outanane",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 10000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 10000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 6000
+        }
+      ]
+    },
+    {
+      "code": "AG-AN2",
+      "arrondissement": "AN",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "pt": 3000,
+          "pc": 2700
+        }
+      ]
+    },
+    {
+      "code": "AG-AN3",
+      "arrondissement": "AN",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 3000,
+          "pc": 2000
+        }
+      ]
+    },
+    {
+      "code": "AG-BS1",
+      "arrondissement": "Bensergao",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "superficie": "ST < 500 m²",
+          "pt": 7000,
+          "pc": 6000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST < 1000 m²",
+          "pt": 5000
+        },
+        {
+          "type": "Appartement",
+          "pt": 4000
+        }
+      ]
+    },
+    {
+      "code": "AG-BS3",
+      "arrondissement": "Bensergao",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "superficie": "ST < 1000 m²",
+          "pt": 5000,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain                    ZI",
+          "superficie": "ST < 500 m²",
+          "pt": 4000
+        },
+        {
+          "type": "Terrain\r\n                                     ZM",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 8000
+        }
+      ]
+    },
+    {
+      "code": "AG-BS4",
+      "arrondissement": "Bensergao",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "pt": 8000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 8000,
+          "pc": 2000
+        }
+      ]
+    },
+    {
+      "code": "AG-BS5",
+      "arrondissement": "Bensergao",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Appartement",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6000
+        }
+      ]
+    },
+    {
+      "code": "AG-BS8",
+      "arrondissement": "Bensergao",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 4000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain         ZM",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "pt": 8000,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "AG-TK1",
+      "arrondissement": "TK",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 7000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 300 m²",
+          "pt": 6000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST > 300 m²",
+          "pt": 8000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 300 m²",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST > 300 m²",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST < 300 m²",
+          "pt": 6000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "superficie": "ST > 300 m²",
+          "pt": 5000,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 4500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 5000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 4000,
+          "pc": 4.000600055005001e+27
+        },
+        {
+          "type": "Terrain         ZM",
+          "prixUnique": 10000
+        }
+      ]
+    },
+    {
+      "code": "AG-TK2",
+      "arrondissement": "TK",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 10000,
+          "pc": 2700
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 8000,
+          "pc": 2700
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 6000,
+          "pc": 2200
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 6500
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 6500
+        }
+      ]
+    },
+    {
+      "code": "AG-TK3",
+      "arrondissement": "TK",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "prixUnique": 6000
+        },
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 5000,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "pt": 7000,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST > 300 m²",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST > 300 m²",
+          "pt": 5000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST > 300 m²",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5500,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5000,
+          "pc": 1500
+        },
+        {
+          "type": "Appartement",
+          "pt": 3500,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 3000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "pt": 3500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 3000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 3500,
+          "pc": 2500
+        },
+        {
+          "type": "Appartement",
+          "pt": 3000,
+          "pc": 2500700065006000
+        }
+      ]
+    },
+    {
+      "code": "AG-TK4",
+      "arrondissement": "TK",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 7000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 5500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 7000,
+          "pc": 2500
+        }
+      ]
+    },
+    {
+      "code": "AG-TK5",
+      "arrondissement": "TK",
+      "ville": "Agadir",
+      "region": "Souss-Massa",
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 5500,
+          "pc": 2500
+        },
+        {
+          "type": "Villa",
+          "pt": 7000,
+          "pc": 2000
+        },
+        {
+          "type": "Villa",
+          "pt": 5500,
+          "pc": 2000
+        }
+      ]
+    }
+  ]
+}

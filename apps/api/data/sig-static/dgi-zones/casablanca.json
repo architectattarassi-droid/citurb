@@ -1,0 +1,2554 @@
+{
+  "_meta": {
+    "ville": "Casablanca",
+    "source": "Référentiel DGI 2017",
+    "sourceUrl": "https://www.fiscamaroc.com/pdf/referentiel_des_prix/",
+    "extractedAt": "2026-05-24T14:12:39.034Z",
+    "parser": "apps/api/scripts/parse-dgi-generic.cjs",
+    "doctrine": "Prix DGI = référence administrative pour droits d'enregistrement. SOUS-ESTIME systématiquement le marché (souvent 30-70%). L'expertise CITURBAREA donne la valeur marché réelle.",
+    "totalZones": 73,
+    "zonesWithPrices": 38,
+    "zonesWithDelimitations": 63
+  },
+  "arrondissements": [
+    {
+      "code": "AF",
+      "nom": "Anfa"
+    },
+    {
+      "code": "AN",
+      "nom": "AN"
+    },
+    {
+      "code": "MA",
+      "nom": "MA"
+    },
+    {
+      "code": "MS",
+      "nom": "MS"
+    },
+    {
+      "code": "SB",
+      "nom": "Sidi Bernoussi"
+    }
+  ],
+  "zones": [
+    {
+      "code": "CC-AF3",
+      "arrondissement": "Anfa",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Sidi Belyout",
+      "avenues": [
+        "Rue Sidi Belyout"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 15000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 15000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 15000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 20000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 8200
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 15000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 15000,
+          "pc": 3500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "pt": 15000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 20000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "pt": 15000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "pt": 15000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "pt": 15000,
+          "pc": 400015000
+        }
+      ]
+    },
+    {
+      "code": "CC-AF6",
+      "arrondissement": "Anfa",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Omar Ben Abi Rabia ex Mouret",
+      "avenues": [
+        "Rue Omar Ben Abi Rabia ex Mouret"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 11000
+        }
+      ]
+    },
+    {
+      "code": "CC-AF7",
+      "arrondissement": "Anfa",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 16000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 16000,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "pt": 16000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Villa",
+          "pt": 15000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 15000,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "pt": 15000,
+          "pc": 9000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 9200
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Maison",
+          "pt": 15000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 15000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 15000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 20000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Maison",
+          "etat": "Ancien",
+          "prixUnique": 12500
+        },
+        {
+          "type": "Maison",
+          "pt": 16000,
+          "pc": 2500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "pt": 16000,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "pt": 16000,
+          "pc": 4000
+        }
+      ]
+    },
+    {
+      "code": "CC-AF8",
+      "arrondissement": "Anfa",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 7000
+        }
+      ]
+    },
+    {
+      "code": "CC-AF9",
+      "arrondissement": "Anfa",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Maison",
+          "prixUnique": 3003
+        }
+      ]
+    },
+    {
+      "code": "CC-AN1",
+      "arrondissement": "AN",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Ain Taoujtate",
+      "avenues": [
+        "Bd Ain Taoujtate"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-AN10",
+      "arrondissement": "AN",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Sidi Abderrahman ex Grande Ceinture (1/2) CN-SB2 CN-SB2 Bd Sidi Abderrahman ex Grande Ceinture (2/2)",
+      "avenues": [
+        "Bd Sidi Abderrahman ex Grande Ceinture"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-AN11",
+      "arrondissement": "AN",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Ibn Younouss",
+      "avenues": [
+        "Rue Ibn Younouss"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-AN12",
+      "arrondissement": "AN",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Verlet-Hanus = Jaber Ben Hayane CE-BM1",
+      "avenues": [
+        "Rue Verlet"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-AN13",
+      "arrondissement": "AN",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Av. Sakia El Hamra",
+      "avenues": [
+        "Av. Sakia El Hamra"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 18000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 15000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 15000,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 15000,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 16500,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 16500,
+          "pc": 7500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 16500,
+          "pc": 10000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 16500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 16000,
+          "pc": 3500
+        },
+        {
+          "type": "Villa",
+          "pt": 16000,
+          "pc": 7500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Neuf",
+          "pt": 16000,
+          "pc": 10000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 18500,
+          "pc": 4500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 18500,
+          "pc": 8500
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 18500,
+          "pc": 11500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 17500,
+          "pc": 3500
+        }
+      ]
+    },
+    {
+      "code": "CC-AN14",
+      "arrondissement": "AN",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Nassij",
+      "avenues": [
+        "Bd Nassij"
+      ],
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 17500,
+          "pc": 7500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 17500,
+          "pc": 10500
+        }
+      ]
+    },
+    {
+      "code": "CC-AN16",
+      "arrondissement": "AN",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 17500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 35000
+        }
+      ]
+    },
+    {
+      "code": "CC-AN3",
+      "arrondissement": "AN",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Ponsard (Fran�ois) = El Bachir La�lej",
+      "avenues": [
+        "Rue Ponsard"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 14000
+        }
+      ]
+    },
+    {
+      "code": "CC-AN4",
+      "arrondissement": "AN",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue de la Manutention",
+      "avenues": [
+        "Rue de la Manutention"
+      ],
+      "prix": [
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 19000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 35000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 14500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 30000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 22000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 25500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 12000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 12000,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 12000,
+          "pc": 8000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 17000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 12000
+        }
+      ]
+    },
+    {
+      "code": "CC-AN5",
+      "arrondissement": "AN",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue de la Mayenne = Assourkosti Rue Maymil (Sous Lieutenant) = Taounate Rue de Mazagan (Ancienne M�dina) Rue M'Barek Ben Brahim ex Taieb Derb M'Barek El Kandaoui Lot M�alla (Ain Diab) Bd-Rte de Mecque la Rue de M�diouna (Ancienne M�dina)",
+      "avenues": [
+        "Rue Maymil"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-AN6",
+      "arrondissement": "AN",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue de S�te = An�mones CS-HH3 CS-HH4 CS-HH5 CS-HH6 CS-HH7 CS-HH10 CS-HH13 CS-HH24 Bd Sfax ex Ben Aissa Ejjarouani",
+      "avenues": [
+        "Bd Sfax ex Ben Aissa Ejjarouani"
+      ],
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 12000,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 12000,
+          "pc": 8000
+        }
+      ]
+    },
+    {
+      "code": "CC-AN7",
+      "arrondissement": "AN",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Ribera = Ain Chifa CN-RN10 Rue Ricard",
+      "avenues": [
+        "Rue Ricard"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 17000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 20000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "pt": 10000,
+          "pc": 4000
+        },
+        {
+          "type": "Villa",
+          "pt": 10000,
+          "pc": 7000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 10000,
+          "pc": 9000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 20000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "pt": 13500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "pt": 13500,
+          "pc": 5000
+        },
+        {
+          "type": "Terrain ZV",
+          "pt": 13500,
+          "pc": 7500
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 13500
+        },
+        {
+          "type": "Villa",
+          "pt": 20000,
+          "pc": 2000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 20000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "pt": 20000,
+          "pc": 4000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 13500
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 25000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 30000
+        }
+      ]
+    },
+    {
+      "code": "CC-AN8",
+      "arrondissement": "AN",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Montaigne",
+      "avenues": [
+        "Rue Montaigne"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-AN9",
+      "arrondissement": "AN",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Quartier Racine Ouest d�limit� par Bd Ain Taoujtate, Bd Zerktouni, Bd Anfa, Bd Mly Rachid, Rue Abou",
+      "avenues": [
+        "Bd Ain Taoujtate",
+        "Bd Zerktouni",
+        "Bd Anfa",
+        "Bd Mly Rachid",
+        "Rue Abou"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-MA1",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Av. 2 Mars (de Bd Zerktouni � Bd Anoual)",
+      "avenues": [
+        "Bd Anoual"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-MA10",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue de la Loire",
+      "avenues": [
+        "Rue de la Loire"
+      ],
+      "prix": [
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 15000,
+          "pc": 6000
+        }
+      ]
+    },
+    {
+      "code": "CC-MA11",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Mly Youssef (2/2)",
+      "avenues": [
+        "Bd Mly Youssef"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 15000,
+          "pc": 9000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 32000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 17000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 20000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 23000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 42000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "superficie": "ST >= 600 m²",
+          "pt": 10500,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 12000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "superficie": "ST >= 600 m²",
+          "pt": 10500,
+          "pc": 6000
+        },
+        {
+          "type": "Terrain ZI",
+          "superficie": "ST >= 600 m²",
+          "pt": 12000,
+          "pc": 6000
+        },
+        {
+          "type": "Terrain ZI",
+          "superficie": "ST < 600 m²",
+          "pt": 10500,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZI",
+          "superficie": "ST >= 600 m²",
+          "pt": 12000,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZI",
+          "superficie": "ST < 600 m²",
+          "pt": 10500,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 10500,
+          "pc": 6000
+        },
+        {
+          "type": "Terrain ZI",
+          "pt": 10500,
+          "pc": 9.000120001400015e+23
+        }
+      ]
+    },
+    {
+      "code": "CC-MA14",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Turgot",
+      "avenues": [
+        "Rue Turgot"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 14500
+        }
+      ]
+    },
+    {
+      "code": "CC-MA15",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 25000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 30000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 12500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 12500,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "pt": 12500,
+          "pc": 9000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 12500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 28000
+        }
+      ]
+    },
+    {
+      "code": "CC-MA17",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Rostand",
+      "avenues": [
+        "Rue Rostand"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-MA18",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Soldat Armand Taieb CN-RN9",
+      "avenues": [
+        "Rue Soldat Armand Taieb CN"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-MA19",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 12500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 24000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 12500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 12500,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 12500,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "prixUnique": 12500
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 24000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 28000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 12000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "pt": 12000,
+          "pc": 6000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Ancien",
+          "pt": 12000,
+          "pc": 9000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 24000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 28000
+        },
+        {
+          "type": "Villa",
+          "pt": 12000,
+          "pc": 3000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 12000,
+          "pc": 6000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "pt": 12000,
+          "pc": 9000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 12500
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 13500
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 15000
+        }
+      ]
+    },
+    {
+      "code": "CC-MA20",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue de l' Is�re CS-HH12 Rue Ishak Ibn Hanin ex Lilas CN-SB8 Lot Islane (Nassim 2)",
+      "avenues": [
+        "Rue Ishak Ibn Hanin ex Lilas CN",
+        "Lot Islane"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-MA21",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Guillotte (Louis) = Haj Jilali Eloufir",
+      "avenues": [
+        "Rue Guillotte"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 14500
+        }
+      ]
+    },
+    {
+      "code": "CC-MA22",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Yacoub El Mansour (1/2) CS-AC20 CS-AC24 Bd Yacoub El Mansour (2/2) CS-HH7",
+      "avenues": [
+        "Bd Yacoub El Mansour"
+      ],
+      "prix": [
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 11000
+        }
+      ]
+    },
+    {
+      "code": "CC-MA23",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Lot Jawhara",
+      "avenues": [
+        "Lot Jawhara"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-MA24",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Raphael Mariscal (Soldat) CN-RN9 Rue Raqib El Moussaoui ex Calame CN-RN9 CN-RN10 Rue Ras El Ma� ex Narbonne (CIL) CS-HH5 Rue Ravel (Maurice) CN-RN6 Rue R�aumur = Arrachati",
+      "avenues": [
+        "Rue Raphael Mariscal",
+        "Rue Raqib El Moussaoui ex Calame CN",
+        "Rue Ravel"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 28000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "pt": 13500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 13500,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "pt": 13500,
+          "pc": 9000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 18000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 13500
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "pt": 15500,
+          "pc": 3500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "pt": 15500,
+          "pc": 7000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "pt": 15500,
+          "pc": 9000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "prixUnique": 15500
+        },
+        {
+          "type": "Villa",
+          "etat": "Loti",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Terrain ZV",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 25000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 28000
+        }
+      ]
+    },
+    {
+      "code": "CC-MA25",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue El Farouki ErrahaIi",
+      "avenues": [
+        "Rue El Farouki ErrahaIi"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-MA26",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue du Zaire ex La Bo�tie Rue Zaizafoune ex Garonne Impasse Zaizouna Lot Zakia 3 Impasse Zebbouja (Ancienne M�dina) Rue de Zegzel Place Zellaqa Groupe Z�nata Rue Z�nata ex Auber Bd Zerktouni (Mohamed) (de Bd Ain Taoujtate � Bd 2 Mars) Rue Zine El Abidine Lot Zine Salam (R+3) Bd Ziraoui (1/2) Bd Ziraoui (2/2) Bd Ziraoui (de Bd Zerktouni � Bd Bordeaux) Lot Zoubeir (Hay Hassani) Impasse Zoubeir Bnou El Aouam Rue de Zurich = Zaid Ibn Rifa� - 177 -",
+      "avenues": [
+        "Bd Zerktouni",
+        "Rue Zine El Abidine Lot Zine Salam",
+        "Bd Ziraoui",
+        "Bd Bordeaux",
+        "Lot Zoubeir"
+      ],
+      "prix": [
+        {
+          "type": "Immeuble",
+          "prixUnique": 522
+        }
+      ]
+    },
+    {
+      "code": "CC-MA27",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Tahiri Mohamed Bekay",
+      "avenues": [
+        "Bd Tahiri Mohamed Bekay"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-MA28",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Yasmine ex Myosotis",
+      "avenues": [
+        "Rue Yasmine ex Myosotis"
+      ],
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 15500,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 15500,
+          "pc": 3500
+        },
+        {
+          "type": "Maison",
+          "pt": 15500,
+          "pc": 4500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 15500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 25000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 30000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "prixUnique": 17000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 23000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 30000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 35000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 15500,
+          "pc": 3500
+        }
+      ]
+    },
+    {
+      "code": "CC-MA29",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Abou Ishak Chirazi ex Mont Perdu",
+      "avenues": [
+        "Rue Abou Ishak Chirazi ex Mont Perdu"
+      ],
+      "prix": [
+        {
+          "type": "Villa",
+          "pt": 15500,
+          "pc": 7000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 15500,
+          "pc": 9000
+        }
+      ]
+    },
+    {
+      "code": "CC-MA3",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Abdelmoumen",
+      "avenues": [
+        "Bd Abdelmoumen"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 13000
+        }
+      ]
+    },
+    {
+      "code": "CC-MA32",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 20500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 23000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 42000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 45000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 20000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 50000
+        }
+      ]
+    },
+    {
+      "code": "CC-MA4",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 40000
+        }
+      ]
+    },
+    {
+      "code": "CC-MA5",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Al Massira Al Khadra",
+      "avenues": [
+        "Bd Al Massira Al Khadra"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 1000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 22000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 25000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 65000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 15000,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "pt": 15000,
+          "pc": 6000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 15000,
+          "pc": 8000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 30000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 35000
+        }
+      ]
+    },
+    {
+      "code": "CC-MA7",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue El Jadida (Ancienne M�dina)",
+      "avenues": [
+        "Rue El Jadida"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-MA8",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Smara",
+      "avenues": [
+        "Bd Smara"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-MA9",
+      "arrondissement": "MA",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Jinine CN-SB7 CS-AC15 Rue Jonzac = Dayet Hachlaf Rte Jorf Al Asfar Bd Jouffroy = Ain Taoujtate Bd Joulane (El Fida) Rue Jouvencel (Soldat) = Y�men Rue Jules C�sar Rue Jules Gros (Chasseur) Rue Jules Mauran = Boukra� Rue Jules Verne = Jebala Derb Kabir Rue Kaddour Elalami ex Voltaire Rue Kafer Kacem ex Albert Durer Hay Kalojera = Belhassan El Ouazzani Rue Kamal (Mohamed) ex Pilote Vidal Rue Karatchi All�e-Bd Karbala ex Hesp�rides Rue Kartaja ex Cholet Hay Katafa All�e de K�nitra ex Amazones - 155 -",
+      "avenues": [
+        "Bd Jinine CN",
+        "Bd Joulane",
+        "Rue Jouvencel",
+        "Rue Jules Gros",
+        "Rue Kamal"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-MS1",
+      "arrondissement": "MS",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Av. 2 Mars (de Bd Zerktouni � Bd Anoual)",
+      "avenues": [
+        "Bd Anoual"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-MS12",
+      "arrondissement": "MS",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue El Khouzame ex R�s�das Rue El Kortobi Bd El Ma�dan ex Houcine Ben Mohamed Ben Ahmed Rue El Ma�den ex Fragonard Av. El Ma�ti Ben Ziad Rue El Madiaque ex La Baule Bd El Mahata ex La Croix Lot El Manar (El Hank) Av. El Manar = Mohamed Sijelmassi ex Phare Rce El Mansouria Rue El Markazia ex Centrale Rue El Marrakouchi ex Thomas Hay El Massira (Arrondissement Mly Rachid) Rue El Menara Impasse El Menara Lot El Menzah Lot El Menzah Derb El Miter 1 Derb El Miter 2 - 145 -",
+      "avenues": [
+        "Rue El Madiaque ex La Baule Bd El Mahata ex La Croix Lot El Manar",
+        "Rue El Markazia ex Centrale Rue El Marrakouchi ex Thomas Hay El Massira"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "pt": 12000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 12000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 12000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "etat": "Loti",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 12500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Ancien",
+          "prixUnique": 25000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 12500
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 20000
+        }
+      ]
+    },
+    {
+      "code": "CC-MS3",
+      "arrondissement": "MS",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 13000
+        }
+      ]
+    },
+    {
+      "code": "CC-MS4",
+      "arrondissement": "MS",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Hayfa CS-AC9 Rue d' Hendaye = lles Tasmanie",
+      "avenues": [
+        "Bd Hayfa CS"
+      ],
+      "prix": [
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 40000
+        }
+      ]
+    },
+    {
+      "code": "CC-MS5",
+      "arrondissement": "MS",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 35000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 9000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 11000,
+          "pc": 1500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "pt": 11000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "pt": 11000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Maison",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 11500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 12500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 25000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 30000
+        }
+      ]
+    },
+    {
+      "code": "CC-MS6",
+      "arrondissement": "MS",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Bouchaib Meqdad ex Docteur Baur",
+      "avenues": [
+        "Rue Bouchaib Meqdad ex Docteur Baur"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 7000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 9000
+        }
+      ]
+    },
+    {
+      "code": "CC-MS8",
+      "arrondissement": "MS",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Ibn Al Baytar",
+      "avenues": [
+        "Rue Ibn Al Baytar"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Maison",
+          "pt": 12000,
+          "pc": 1500
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 12000,
+          "pc": 2500
+        },
+        {
+          "type": "Maison",
+          "pt": 12000,
+          "pc": 3000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Villa",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Villa",
+          "etat": "Neuf",
+          "pt": 12500,
+          "pc": 3000
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 12500,
+          "pc": 5000
+        },
+        {
+          "type": "Appartement",
+          "pt": 12500,
+          "pc": 7000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Terrain ZV",
+          "etat": "Loti",
+          "prixUnique": 15500
+        },
+        {
+          "type": "Villa",
+          "etat": "Ancien",
+          "pt": 12500,
+          "pc": 3000
+        }
+      ]
+    },
+    {
+      "code": "CC-MS9",
+      "arrondissement": "MS",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Ahmed Annassiri ex Charles Lebrun",
+      "avenues": [
+        "Rue Ahmed Annassiri ex Charles Lebrun"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB10",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Tama�rouft ex Alma Rue de Tamanar Rue des Tamaris (Anfa Sup�rieur) Rue Tamasna ex Rossini Rue Tamouda Rue Tanane ex Colibris Rue de Tanger (Ancienne M�dina) Av. de Tantan ex Monte Carlo Rue Taoufik El Hakim ex Constantine Rue de Taounate ex Edmond Maymil (Sous Lieutenant) Rue de Taourirt Rue de Tarablous ex Lamorici�re Rue Taravo = Ibn Jahir Hay Tarik Bd-Rue Tarik Bnou Ziad Hay Tarik El Kheir Bd Tarik El Ouahda ex Unit� Rue du Tarn Rue Tata ex Poincar� - 174 -",
+      "avenues": [
+        "Rue Tamasna ex Rossini Rue Tamouda Rue Tanane ex Colibris Rue de Tanger",
+        "Rue Taoufik El Hakim ex Constantine Rue de Taounate ex Edmond Maymil"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB11",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Yassir ex Savoie",
+      "avenues": [
+        "Rue Yassir ex Savoie"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB12",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Rembrandt",
+      "avenues": [
+        "Rue Rembrandt"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 18000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 25000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 40000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 24000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 38000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 30000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 13500
+        }
+      ]
+    },
+    {
+      "code": "CC-SB13",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Youssef (de Bd Brahim Roudani � Bd Ziraoui) y compris Rce",
+      "avenues": [
+        "Bd Youssef",
+        "Bd Ziraoui"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB14",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Thomas (Officier) = Benbrahim El Marrakchi",
+      "avenues": [
+        "Rue Thomas"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB16",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Jabal Toubkal ex Saint Girons",
+      "avenues": [
+        "Rue Jabal Toubkal ex Saint Girons"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB17",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Lot Vermont = Badr Rue de Versailles = Brahim Ibn Adham Rue de Vevey Rue de la V�z�re Rue de la Victoire Place Victoire Bd Victor Hugo Rue Vidal (Pilote) = Mohamed Kamal Rue de Villefranche = Mer d'Oman Rue de Vilna = Cheikh AI Kairaouani Place Vingt Ao�t Rue des Violettes = Banafsaj Chemin Violettes = El Houdaibia Rue du Vizir Tazi Rue Voltaire = Kaddour Elalami Rue Vuillanier (Capitaine) = Mouatamid Ibn Abbad Rue Wagner = Bab Essalam Av. Wahda EI Ifriquia ex N Rue Washington - 176 -",
+      "avenues": [
+        "Rue de la Victoire Place Victoire Bd Victor Hugo Rue Vidal",
+        "Rue Vuillanier",
+        "Av. Wahda EI Ifriquia ex N Rue Washington"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB18",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Larache Rue de Larache (Ancienne M�dina) Bd-Av. Larbi El Bennai ex B Hay Larm�alla (Ain Chok) Rue Lathbane = Mohamed Loutbane Rue Latifi El Mekki ex Pillot All�e des Lauriers Rue de Lavaur = Jabal BouyebIane Rue Laymouna ex Poggi Rue Lazrak (Ahmed) ex El Farahidi Lot Le Boulard Bd Le Caire ex Ali Ben Ahmed Rue Le Catelet Rue Le Cornec = Lagramta Rue du Le Deuil (Commissaire) Rue Le Mans ex Essaidia Rue Le Nain Rue Ledru RoIlin = Six Novembre Rue Lef�vre ex Ghdifa Bent EI Madani - 157 -",
+      "avenues": [
+        "Rue Larache Rue de Larache",
+        "Rue Laymouna ex Poggi Rue Lazrak"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB19",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Av. Hassan II",
+      "avenues": [
+        "Av. Hassan II"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 19000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 8500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 11000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 15000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 18000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 25000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 12500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 15500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 20000
+        }
+      ]
+    },
+    {
+      "code": "CC-SB2",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Av. Hassan II",
+      "avenues": [
+        "Av. Hassan II"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB20",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Zaiou",
+      "avenues": [
+        "Bd Zaiou"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "prixUnique": 10000
+        }
+      ]
+    },
+    {
+      "code": "CC-SB21",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Rue Omar Slaoui CE-BM1",
+      "avenues": [
+        "Rue Omar Slaoui CE"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB22",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Av. Zaid ou Hmad CN-RN4 CN-SB3 Rue Zaidane ex Alleyrac",
+      "avenues": [
+        "Av. Zaid ou Hmad CN",
+        "Rue Zaidane ex Alleyrac"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB23",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Mohamed Zerktouni (de Bd Ain Taoujtate � Bd 2 Mars) Bd Mohamed Ben Abdellah/Sidi Mohamed Ben Abdellah (de Bd Zerktouni � Bd Mly Youssef) - 101 -",
+      "avenues": [
+        "Bd Mohamed Zerktouni",
+        "Bd Mly Youssef"
+      ],
+      "prix": [
+        {
+          "type": "Maison",
+          "pt": 20000,
+          "pc": 2000
+        },
+        {
+          "type": "Maison",
+          "etat": "Neuf",
+          "pt": 20000,
+          "pc": 3000
+        },
+        {
+          "type": "Maison",
+          "pt": 20000,
+          "pc": 4000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 20000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 23000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 14000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 17000
+        },
+        {
+          "type": "Terrain ZI",
+          "prixUnique": 19000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 30000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Loti",
+          "prixUnique": 40000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 50000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Neuf",
+          "prixUnique": 14500
+        }
+      ]
+    },
+    {
+      "code": "CC-SB3",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Av. Pasteur",
+      "avenues": [
+        "Av. Pasteur"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB4",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Ambassadeur Ben Aicha",
+      "avenues": [
+        "Bd Ambassadeur Ben Aicha"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB5",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Anfa (de Bd Zerktouni � Place Oued El Makhazine)",
+      "avenues": [
+        "Bd Anfa"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB6",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Mohammed V",
+      "avenues": [
+        "Bd Mohammed V"
+      ],
+      "prix": [
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 16000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 32000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 41000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 13500
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 15500
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 17000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 37000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 45000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 10000
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 12000
+        },
+        {
+          "type": "Appartement",
+          "prixUnique": 13000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 23000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Ancien",
+          "prixUnique": 8000
+        },
+        {
+          "type": "Appartement",
+          "etat": "Neuf",
+          "prixUnique": 9500
+        },
+        {
+          "type": "Terrain ZI",
+          "etat": "Loti",
+          "prixUnique": 11000
+        }
+      ]
+    },
+    {
+      "code": "CC-SB7",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Mly Youssef (de Bd Brahim Roudani � Bd Ziraoui) y compris Rce Mly Youssef",
+      "avenues": [
+        "Bd Mly Youssef",
+        "Bd Ziraoui"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB8",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Rachidi",
+      "avenues": [
+        "Bd Rachidi"
+      ],
+      "prix": []
+    },
+    {
+      "code": "CC-SB9",
+      "arrondissement": "Sidi Bernoussi",
+      "ville": "Casablanca",
+      "region": "Casablanca-Settat",
+      "delimitations": "Bd Ziraoui (de Bd Zerktouni � Bd Bordeaux) Alsace Lorraine, Ben Jdia, Libert�, Derb Omar, Mers Sultan (c�t� Arrondissement Sidi Belyout),",
+      "avenues": [
+        "Bd Ziraoui",
+        "Bd Bordeaux"
+      ],
+      "prix": []
+    }
+  ]
+}

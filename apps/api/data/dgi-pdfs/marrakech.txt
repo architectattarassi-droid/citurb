@@ -1,0 +1,1904 @@
+   Référentiel des Prix des Transactions Immobilières
+                            de Marrakech
+
+       Les données de ce référentiel sont opposables uniquement
+                      à la Direction Générale des Impôts
+
+Site Internet : www.tax.gov.ma ­ Email : referentiel@tax.gov.ma
+                                                                             Edition Mars 2017
+                                          Sommaire
+
+1. Préambule                                                                         03
+
+2. Liste des abréviations                                                            04
+
+3. Lexique                                                                           05
+
+4. Territoire, biens concernés et plan d'ensemble de la Préfecture de                07
+
+Marrakech
+
+4.1. Territoire et biens concernés                                                   07
+
+4.2. Plan d'ensemble de la Préfecture de Marrakech                                   08
+
+5. Mode de recherche                                                                 10
+
+6. Référentiel des prix des transactions immobilières de la Préfecture de Marrakech  12
+
+6.1. Arrondissement Guéliz                                                           13
+
+6.2. Arrondissement Ménara                                                           23
+
+6.3. Pachalick Al Méchouar Kasbah                                                    33
+
+6.4. Arrondissement Sidi Youssef Ben Ali                                             34
+
+6.5. Arrondissement Médina                                                           37
+
+6.6. Arrondissement Annakhil                                                         39
+
+7. Cartographie et tableaux des délimitations des Zones                              44
+
+8. Contacts utiles                                                                   61
+
+                                          2
+                                      Préambule
+
+Dans une démarche de transparence de l'action de l'Administration et de rationalisation de son pouvoir
+d'appréciation, le présent manuel assure la publication des prix de référence retenus par
+l'Administration pour les besoins de calcul des droits et taxes.
+Il s'applique à l'ensemble des cessions de biens immobiliers à usage d'habitation.
+Il permet aux citoyens, dans un souci d'amélioration du climat de confiance, de disposer du même
+niveau d'information que l'Administration.
+Pour se rapprocher le plus de la réalité du marché, les données de ce référentiel sont le résultat d'un
+travail de consultation et de concertation entre la Direction Générale des Impôts, l'Agence Nationale de
+la Conservation Foncière du Cadastre et de la Cartographie, la Fédération Nationale des Promoteurs
+Immobiliers, l'Agence Urbaine de Marrakech, le Ministère de l'Habitat et de la Politique de la Ville et
+l'Ordre des Notaires.
+Il s'agit de prix moyens retenus pour le calcul des droits et taxes et ne constituent en aucun cas une
+évaluation directe d'un bien immobilier donné.
+Il constitue à cet effet une étape importante dans le processus de renforcement des garanties accordées
+aux citoyens.
+Les données de ce référentiel feront l'objet d'une actualisation périodique en fonction de l'évolution du
+marché de l'immobilier.
+
+                                                                            3
+                               Liste des abréviations
+
+ANCFCC : Agence Nationale de la Conservation Foncière, du Cadastre et de la Cartographie
+DGI : Direction Générale des Impôts
+FNPI : Fédération Nationale des Promoteurs Immobiliers
+m2 : Mètre Carré
+MA : Marrakech
+MA-AN : Marr akech - Arrondissement Annakhil
+MA-GZ : Marrakech - Arrondissement Guéliz
+MA-MD : Marrakech - Arrondissement Médina
+MA-ME : Marrakech - Arrondissement Ménara
+MA-MK : Marrakech - Pachalick Al Méchouar Kasbah
+MA-SY : Marrakech - Arrondissement Sidi Youssef Ben Ali
+PC : Prix de la Construction
+PCF : Prix de la Construction Finie
+PCSF : Prix de la Conctruction Semi Finie
+PT : Prix du Terrain
+R+(i) : Rez-de-chaussée + (i) : Nombre d'étages
+ST : Superficie du Terrain
+T : Terrain
+TSGolf : Terrain Sur Golf
+ZI : Zone Immeuble
+ZM : Zone Maison
+Zone Rue/Av./Bd : Rue, Avenue et Boulevard ayant le statut d'une Zone
+ZV : Zone Villa
+< à R+(i) : Zonage inférieur à R+(i)
+<= à R+(i) : Zonage inférieur ou égale à R+(i)
+> à R+(i) : Zonage supérieur à R+(i)
+>= à R+(i) : Zonage supérieur ou égale à R+(i)
+
+                                                                            4
+                                        Lexique
+
+Ancien (logement) : logement ayant été achevé depuis plus de quinze ans (> à 15 ans).
+Appartement sécurisé : appartement situé dans un projet immobilier fermé et sécurisé.
+Appartement : un appartement est une unité d'habitation, comportant un certain nombre de pièces et
+située dans un immeuble collectif généralement dans une ville.
+Immeuble : dans le langage courant, le mot "immeuble" désigne un bâtiment urbain de plusieurs
+étages, à usage d'habitation ou professionnel, en copropriété.
+Logement social : par cette formule, on désigne un appartement dont la superficie couverte est
+comprise entre 50 et 80 m2 et le prix de vente n'excède pas 250.000 dirhams, hors taxe sur la valeur
+ajoutée.
+Loti (terrain) : un terrain loti signifie un terrain situé dans un lotissement (voir lotissement).
+Lotissement : un lotissement est constitué par un ensemble de lots provenant de la division d'un terrain
+en vue d'y recevoir des constructions qui sont vendues généralement séparément après que le lotisseur
+ait réalisés des voies d'accès, des espaces collectifs et des travaux de viabilité et les raccordements aux
+réseaux de fourniture en eau, en électricité, aux réseaux d'égouts et aux réseaux de télécommunication.
+Maison : une maison est un bâtiment destiné à être la demeure d'une famille, voire de plusieurs, et qui
+n'est pas un immeuble en copropriété.
+Neuf (logement) : logement achevé depuis six ans au plus (<= à 6 ans).
+Prix Appartement = Prix au m2 Appartement x (Superficie Appartement + Superficie Parking/3 +
+Superficie Terrasse/2).
+Prix de la Construction (PC) : par prix de la construction, on entend le prix du mètre carré couvert.
+Prix du Terrain (PT) : par prix du terrain, on entend le prix du terrain au mètre carré.
+Prix Maison = Prix au m2 T x Superficie Terrain Maison + Prix au m2 C x Superficie Couverte, à l'exception
+des maisons relevant de la zone MA-AN10 dont les prix sont calculés en multipliant la superficie du
+terrain par le prix au mètre carré.
+Prix Terrain = Prix au m2 Terrain x Superficie Terrain.
+Prix Villa = Prix au m2 T x Superficie Terrain Villa + Prix au m2 C x Superficie Couverte, à l'exception des
+villas relevant de la zone MA-GZ10 dont les prix sont calculés en multipliant la superficie du terrain par
+le prix au mètre carré.
+
+                                                                            5
+Récent (logement) : logement achevé depuis plus de six ans au moins et quinze ans au plus (> à 6 ans
+et <= à 15 ans) + logement ancien achevé suite à rénovation depuis six ans au plus (<= à 6 ans).
+Riad : maison entièrement fermée sur l'extérieur, qui s'organise autour d'un patio central souvent
+arboré et doté d'une fontaine.
+Terrain ZI : est considéré comme terrain zone immeuble tout terrain destiné à la construction d'un
+immeuble collectif : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de zone villa
+convertie en zone immeuble par exemple).
+Terrain ZM : est considéré comme terrain zone maison tout terrain destiné à la construction d'une
+maison : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de maison vétuste par
+exemple).
+Terrain ZV : est considéré comme terrain zone villa tout terrain destiné à la construction d'une villa :
+terrain nu, terrain construit de bâtiments destinés à être démolis (cas de villa vétuste par exemple).
+Villa sécurisée : villa située dans un domaine résidentiel fermé et sécurisé.
+Villa : une villa est une maison avec jardin.
+Zone : une zone est un groupe d'adresses où les prix sont relativement homogènes.
+
+                                                                            6
+  Territoire, biens concernés et plan d'ensemble de la Région de Marrakech-Safi
+
+Territoire concerné :
+La Région de Marrakech-Safi est l'une des douze régions du Maroc instituées en 2015.
+Elle se compose d'une Préfecture et sept Provinces :
+
+   · Préfecture de Marrakech ;
+   · Province de Chichaoua ;
+   · Province d'Al Haouz ;
+   · Province d'El Kelâa des Sraghna ;
+   · Province d'Essaouira ;
+   · Province de Rehamna ;
+   · Province de Safi ;
+   · Province de Youssoufia.
+
+La Préfecture de Marrakech englobe cinq Arrondissements, un Pachalick et treize Communes Rurales :
+    · Arrondissement Guéliz ;
+    · Arrondissement Ménara ;
+    · Arrondissement Sidi Youssef Ben Ali ;
+    · Arrondissement Médina ;
+    · Arrondissement Annakhil ;
+    · Pachalick Al Méchouar Kasbah ;
+    · Communes Rurales : Oulad Hassoun, Al Ouidane, Ouaha Sidi Brahim, Harbile, Lamnabha, Ouled
+         Dlim, Loudaya, Sidi Zouine, Aït Imour, Agfay, Souihla, Saâda et Tassoultanete.
+
+Le territoire géographique et les biens concernés par le présent Référentiel se présentent comme suit :
+    · Territoire concerné : Préfecture de Marrakech (exception fait des Communes Rurales) ;
+    · Types de biens immobiliers concernés :
+
+           o Appartement, Maison, Villa et Riad à usage d'habitation ;
+           o Terrain construit de bâtiments destinés à être démolis : ZV, ZI ou ZM ;
+           o Terrain Loti : ZV, ZI ou ZM.
+
+                                                                            7
+    · Types de biens immobiliers exclus :
+
+           o Appartement à usage professionnel ;
+           o Villa et Maison à vocation professionnelle ou commerciale ;
+           o Logement social ;
+           o Logement destiné au recasement des bidonvilles ;
+           o Terrain urbain non Loti ;
+           o Terrain à usage industriel ;
+           o Terrain à usage agricole.
+
+Plan d'ensemble de la Préfecture de Marrakech :
+Voir page suivante.
+
+                                                                            8
+9
+                                Modes de recherche
+
+Actuellement, la recherche s'effectue:
+    · A travers la consultation sur une carte numérisée mise à la disposition du public au niveau du
+         portail de la DGI, le système situe le bien sur la carte et affiche automatiquement son prix de
+         référence.
+    · A partir de la délimitation des zones ;
+    · En consultant le bureau d'accueil de la Direction Régionale des Impôts de Marrakech et/ou le
+         Centre d'Information Téléphonique au numéro : 05.37.27.37.27.
+
+Précision :
+Lorsque un bien chevauche sur plusieurs zones, le prix à prendre en considération est celui de la zone la
+plus côté.
+
+    Exemple 1 :
+    Soit un appartement X se trouvant sur la rue Ibn Aicha.
+    Situer la rue sur la carte et afficher le prix des appartements dans cette zone en cliquant dessus.
+
+                                                                            10
+    Exemple 2 :
+Soit X un Appartement Récent relevant de l'arrondissement de Guéliz.
+
+    · Consulter la liste des points de repères de l'arrondissement pour déterminer la zone :
+
+    · Connaissant la zone, on détermine le prix du bien concerné au niveau de la grille de prix
+         correspondante :
+
+                                                                            11
+Référentiel des prix des transactions immobilières de la Préfecture de Marrakech
+
+La Préfecture de Marrakech est découpée en 97 Zones dont la ventilation est comme suit :
+
+Arrondissement/Pachalick  Nombre de Zones      Nombre de Zones  Nombre total des Zones
+            Guéliz                 31             Rue/Av./Bd                 44
+           Ménara                  16                   13                   18
+                                    2                    2                    2
+   Al Méchouar Kasbah               8                    0                    8
+    Sidi Youssef Ben Ali            6                    0                    6
+                                   19                    0                   19
+           Médina                  80                    0                   97
+           Annakhil                                     15
+           Totaux :
+
+                                           12
+        6.1. Référentiel des prix des transactions immobilières
+                           de l'Arrondissement Guéliz
+
+  Zone       Type de bien            Etat          Prix au m2
+MA-GZ1             Villa          Ancienne  PT : 4 000/PC : 2 000
+MA-GZ2             Villa          Récente   PT : 4 000/PC : 3 000
+MA-GZ3             Villa                    PT : 4 000/PC : 4 000
+                                   Neuve
+        Appartement sécurisé       Récent             11 000
+              Appartement          Ancien             5 000
+              Appartement          Récent              7 000
+              Appartement                              9 000
+                Terrain ZI           Neuf             9 000
+                   Villa             Loti   PT : 5 000/PC : 2 500
+                   Villa          Ancienne  PT : 5 000/PC : 3 500
+                   Villa          Récente   PT : 5 000/PC : 4 500
+              Appartement          Neuve              8 000
+              Appartement          Ancien             10 000
+              Appartement          Récent             11 000
+                Terrain ZI           Neuf             9 000
+                                     Loti             15 000
+        Appartement sécurisé       Récent             17 000
+        Appartement sécurisé         Neuf             9 000
+                                   Ancien             10 000
+              Appartement          Récent             11 000
+              Appartement            Neuf             13 000
+              Appartement            Loti
+
+                Terrain ZI
+
+                              13
+  Zone  Type de bien                      Etat         Prix au m2
+MA-GZ4        Villa                   Ancienne  PT : 4 000/PC : 3 000
+MA-GZ5        Villa                    Récente  PT : 4 000/PC : 4 000
+              Villa                             PT : 4 000/PC : 5 000
+MA-GZ6                                  Neuve
+         Appartement                    Ancien            7 500
+         Appartement                    Récent            8 000
+         Appartement                     Neuf             9 500
+                                                    <= R+4 : 7 000
+           Terrain ZI                     Loti        R+5 : 9 000
+        Villa sécurisée                 Neuve   PT : 5 000/PC : 5 000
+        Villa sécurisée                Récente  PT : 5 000/PC : 4 000
+                                      Ancienne
+              Villa                    Récente  PT : 4 000/PC : 3 000
+              Villa                     Neuve   PT : 4 000/PC : 4 000
+              Villa                     Récent  PT : 4 000/PC : 5 000
+         Appartement                     Neuf
+         Appartement                                      11 000
+          Terrain ZV                      Loti            12 000
+              Villa                   Ancienne            4 000
+              Villa                    Récente  PT : 4 000/PC : 2 000
+              Villa                             PT : 4 000/PC : 3 000
+         Appartement                    Neuve   PT : 4 000/PC : 4 000
+         Appartement                    Ancien            5 500
+         Appartement                    Récent            6 000
+            Maison                       Neuf             7 000
+            Maison                    Ancienne  PT : 6 500/PC : 2 000
+            Maison                     Récente  PT : 6 500/PC : 2 500
+          Terrain ZV                    Neuve   PT : 6 500/PC : 3 000
+           Terrain ZI                                     4 000
+          Terrain ZM                      Loti      <= R+4 : 7 000
+                                          Loti        R+5 : 8 000
+                                          Loti            6 500
+
+                         14
+  Zone  Type de bien         Etat          Prix au m2
+MA-GZ7        Villa        Ancien   PT : 4 000/PC : 2 000
+              Villa        Récent   PT : 4 000/PC : 3 000
+MA-GZ8        Villa          Neuf   PT : 4 000/PC : 4 000
+                           Ancien
+        Appartement        Récent             6 000
+        Appartement          Neuf             8 000
+        Appartement       Ancienne            10 000
+                          Récente   PT : 6 000/PC : 2 000
+            Maison         Neuve    PT : 6 000/PC : 2 500
+            Maison                  PT : 6 000/PC : 3 000
+            Maison           Loti             4 000
+          Terrain ZV         Loti             11 000
+          Terrain ZI         Loti             6 000
+         Terrain ZM       Ancienne  PT : 4 000/PC : 2 000
+                          Récente   PT : 4 000/PC : 3 000
+              Villa        Neuve    PT : 4 000/PC : 4 000
+              Villa        Ancien             7 000
+              Villa        Récent             9 000
+        Appartement          Neuf             10 000
+        Appartement       Ancienne  PT : 5 000/PC : 2 000
+        Appartement       Récente   PT : 5 000/PC : 2 500
+            Maison         Neuve    PT : 5 000/PC : 3 000
+            Maison           Loti             4 000
+            Maison           Loti             9 500
+          Terrain ZV         Loti             5 000
+          Terrain ZI
+         Terrain ZM
+
+                      15
+   Zone       Type de bien            Etat              Prix au m2
+MA-GZ9       Villa sécurisée        Neuve
+MA-GZ10                            Ancienne     PT : 6 000/PC : 5 000
+                    Villa          Récente              PT : 5 000/
+MA-GZ11             Villa           Neuve
+                    Villa             Neuf   PCSF : 2 000 - PCF : 4 000
+         Appartement sécurisé       Récent              PT : 5 000/
+               Appartement
+                                    Ancien   PCSF : 2 500 - PCF : 5 000
+               Appartement                              PT : 5 000/
+                                    Récent
+               Appartement            Neuf   PCSF : 3 000 - PCF : 6 000
+               Appartement                                18 000
+                                   Ancienne
+                    Villa          Récente                12 000
+                    Villa           Neuve
+                    Villa                                 14 000
+                 Terrain ZI           Loti
+                Terrain ZV            Loti                16 000
+                    Villa          Ancienne               18 000
+                    Villa          Récente                 9 000
+                    Villa           Neuve                 10 000
+               Appartement          Ancien                11 000
+               Appartement          Récent
+               Appartement            Neuf                12 000
+                  Maison           Ancienne
+                  Maison           Récente                 6 000
+                  Maison            Neuve       PT : 5 000/PC : 2 500
+                 Terrain ZI           Loti      PT : 5 000/PC : 3 500
+                                                PT : 5 000/PC : 4 000
+
+                                                           5 500
+                                                           6 500
+                                                           8 000
+                                                 PT : 4 000/PC : 1500
+                                                 PT : 4 000/PC : 2000
+                                                 PT : 4 000/PC : 2500
+                                                        R+3: 8 000
+                                                       R+5: 10 000
+
+                               16
+   Zone  Type de bien         Etat             Prix au m2
+MA-GZ12        Villa       Ancienne
+               Villa       Récente      PT : 6 000/PC : 3 000
+MA-GZ13        Villa
+                             Neuve      PT : 6 000/PC : 4 000
+         Appartement        Ancien
+         Appartement        Récent      PT : 6 000/PC : 5 000
+         Appartement          Neuf
+                           Ancienne                8 500
+             Maison        Récente
+             Maison          Neuve                 9 500
+             Maison
+          Terrain ZM          Loti                11 000
+           Terrain ZI         Loti
+                                       PT : 5 000 / PC : 1 500
+               Villa       Ancienne
+                                       PT : 5 000 / PC : 2 000
+               Villa       Récente
+                                       PT : 5 000 / PC : 2 500
+               Villa         Neuve
+         Appartement        Ancien                 5 000
+         Appartement        Récent
+         Appartement          Neuf          <= R+3 : 10 000
+                           Ancienne           R+5 : 12 000
+             Maison        Récente
+             Maison          Neuve        Si ST =< 300 m2 :
+             Maison                      PT : 2500/PC : 2000
+           Terrain ZV         Loti
+          Terrain ZM          Loti         Si ST > 300 m² :
+                                         PT : 2000/PC : 2000
+                                          Si ST =< 300 m2 :
+                                        PT : 2 500/PC : 2 500
+
+                                           Si ST > 300 m² :
+                                         PT : 2000/PC : 2500
+                                          Si ST =< 300 m2 :
+                                        PT : 2500/PC : 3 000
+
+                                           Si ST > 300 m² :
+                                         PT : 2000/PC : 3000
+
+                                                   7 000
+
+                                                   8 000
+
+                                                   8 500
+
+                                        PT : 3 500/PC : 1 500
+
+                                        PT : 3 500/PC : 2 000
+
+                                        PT : 3 500/PC : 2 500
+                                     Si T =< 300 m2 PT: 2 500
+                                     Si T > 300 m2 PT: 2 000
+
+                                                   3 500
+
+                       17
+   Zone  Type de bien         Etat             Prix au m2
+MA-GZ14  Appartement        Ancien
+MA-GZ15  Appartement        Récent                7 000
+         Appartement          Neuf
+MA-GZ16                    Ancienne               8 000
+             Maison        Récente
+             Maison          Neuve                8 500
+             Maison
+           Terrain ZI         Loti     PT : 5 000/PC : 2 000
+          Terrain ZM          Loti
+             Maison         Ancien     PT : 5 000/PC : 2 500
+             Maison         Récent
+             Maison           Neuf     PT : 5 000/PC : 3 000
+          Terrain ZM          Loti
+                                                  9 000
+               Villa       Ancienne
+                                                  5 000
+         Villa             Récente
+                                       PT : 4 000/PC : 2 000
+         Villa             Neuve
+                                       PT : 4 000/PC : 2 500
+         Terrain ZV        Loti
+                                       PT : 4 000/PC : 3 000
+
+                                                  4 000
+
+                                            Si T=< 400 m²
+                                       PT : 3 500 / PC : 3 000
+                                      Si 400 m²< T =< 700 m²
+                                       PT : 3 000 / PC : 3 000
+                                     Si 700 m²< T =< 1 000 m²
+                                       PT : 2 500 / PC : 3 000
+
+                                            Si T > 1 000 m²
+                                       PT : 2 000 / PC : 3 000
+
+                                            Si T=< 400 m²
+                                       PT : 3 500 / PC : 3 500
+                                      Si 400 m²< T =< 700 m²
+                                       PT : 3 000 / PC : 3 500
+                                     Si 700 m²< T =< 1 000 m²
+                                       PT : 2 500 / PC : 3 500
+
+                                            Si T > 1 000 m²
+                                       PT : 2 000 / PC : 3 500
+
+                                            Si T=< 400 m²
+                                       PT : 3 500 / PC : 4 000
+                                      Si 400 m²< T =< 700 m²
+                                       PT : 3 000 / PC : 4 000
+                                     Si 700 m²< T =< 1 000 m²
+                                       PT : 2 500 / PC : 4 000
+
+                                            Si T > 1 000 m²
+                                       PT : 2 000 / PC : 4 000
+
+                                     Si T=< 400 m² PT : 3 500
+                                      Si 400 m²< T =< 700 m²
+
+                                               PT : 3 000
+                                     Si 700 m²< T =< 1 000 m²
+
+                                               PT : 2 500
+                                            Si T > 1 000 m²
+
+                                               PT : 2 000
+
+                       18
+   Zone       Type de bien          Etat          Prix au m2
+MA-GZ17             Villa          Ancien  PT : 3 000/PC : 3 000
+MA-GZ18             Villa          Récent  PT : 3 000/PC : 3 500
+                    Villa           Neuf   PT : 3 000/PC : 4 000
+                                   Récent
+         Appartement sécurisé      Ancien             9 000
+               Appartement         Récent             7 000
+               Appartement          Neuf              8 000
+               Appartement          LOTI              9 000
+                Terrain ZM                            6 000
+                Terrain ZV           Loti             3 000
+                  Maison           Ancien  PT : 6 000 / PC : 2 000
+                  Maison           Récent  PT : 6 000 / PC : 2 500
+                  Maison            Neuf   PT : 6 000 / PC : 3 000
+               Appartement         Ancien             6 500
+               Appartement         Récent             7 500
+               Appartement          Neuf              8 500
+                  Maison           Ancien  PT : 5 000/PC : 2 000
+                  Maison           Récent  PT : 5 000/PC : 2 500
+                  Maison            Neuf   PT : 5 000/PC : 3 000
+                Terrain ZM                            5 000
+                                     Loti
+
+                               19
+   Zone       Type de bien            Etat          Prix au m2
+                    Villa          Ancienne  PT : 4 000/PC : 2 000
+MA-GZ19             Villa          Récente   PT : 4 000/PC : 3 000
+                    Villa                    PT : 4 000/PC : 4 000
+MA-GZ20                              Neuve
+MA-GZ21        Appartement          Ancien              6 500
+MA-GZ22        Appartement          Récent              7 500
+MA-GZ23        Appartement            Neuf              8 500
+MA-GZ24                            Ancienne  PT : 6 000/PC : 2 000
+MA-GZ25           Maison           Récente   PT : 6 000/PC : 2 500
+MA-GZ26           Maison             Neuve   PT : 6 000/PC : 3 000
+MA-GZ27           Maison                                4 000
+                Terrain ZV            Loti              9 500
+                 Terrain ZI           Loti              6 000
+                Terrain ZM            Loti             16 000
+                 Terrain ZI           Loti             30 000
+                 Terrain ZI           Loti             20 000
+         Appartement sécurisé         Neuf             12 000
+               Appartement          Récent               8000
+               Appartement          Ancien             10 000
+               Appartement          Récent             11 000
+               Appartement            Neuf             14 000
+                 Terrain ZI           Loti             18 000
+                 Terrain ZI           Loti              6 000
+                 Terrain ZI           Loti   PT : 4 000 / PC : 2 000
+                                    Ancien   PT : 4 000 / PC : 3 000
+                    Villa           Récent   PT : 4 000 / PC : 4 000
+                    Villa             Neuf
+                    Villa
+
+                               20
+   Zone  Type de bien       Etat          Prix au m2
+MA-GZ28  Appartement       Récent            14 000
+MA-GZ29  Appartement                         16 000
+MA-GZ30                     Neuf              9 000
+MA-GZ31    Terrain ZI        Loti            14 000
+MA-GZ32  Appartement                          9 000
+                             Loti             8 000
+MA-GZ33    Terrain ZI        Loti             7 000
+MA-GZ34    Terrain ZI      Ancien             8 000
+         Appartement       Récent             9 000
+MA-GZ35  Appartement        Neuf              9 000
+         Appartement         Loti             5 500
+           Terrain ZI      Ancien             6 000
+         Appartement       Récent             7 000
+         Appartement        Neuf
+         Appartement                  Zone en cours de
+                           Ancien         lotissement
+             Maison        Récent
+             Maison                PT : 6 000 / PC : 1 500
+             Maison         Neuf   PT : 6 000 / PC : 2 000
+          Terrain ZM         Loti  PT : 6 000 / PC : 2 500
+         Appartement       Récent
+         Appartement        Neuf              6 000
+                                              6 500
+                                              7 000
+
+                       21
+   Zone  Type de bien                      Etat             Prix au m2
+MA-GZ36        Villa                     Ancien     PT : 5 000 / PC : 3 000
+MA-GZ37        Villa                     Récent     PT : 5 000 / PC : 3 500
+MA-GZ38        Villa                       Neuf     PT : 5 000 / PC : 4 000
+MA-GZ39                                  Ancien
+MA-GZ40   Appartement                    Récent                7 500
+MA-GZ41   Appartement                      Neuf                8 500
+MA-GZ42   Appartement                    Ancien                9 500
+          Appartement
+MA-GZ43                                    Loti               10 000
+            Terrain ZI                   Ancien
+MA-GZ44   Appartement                    Récent               15 000
+          Appartement                      Neuf
+          Appartement                                          5 500
+                                         Ancien                7 500
+            Terrain ZI                   Récent                8 500
+               Villa                                          11 000
+               Villa                       Neuf             PT : 4 000/
+               Villa                     Ancien  PCSF : 2 000 - PCF : 4 000
+                                         Récent             PT : 4 000/
+          Appartement                      Neuf  PCSF : 2 500 - PCF : 5 000
+          Appartement                                       PT : 4 000/
+          Appartement                    Ancien  PCSF : 3 000 - PCF : 6 000
+                                         Récent                8 000
+            Terrain ZI                                         9 000
+          Appartement                      Neuf               10 000
+          Appartement
+                          22                                  11 000
+          Appartement
+         Villa sécurisée                                      13 000
+
+                                                              14 000
+
+                                                              17 000
+
+                                                    PT: 3 500 / PC: 8 000
+        6.2. Référentiel des prix des transactions immobilières
+                          de l'Arrondissement Ménara
+
+  Zone  Type de bien       Etat             Prix au m2
+MA-ME1        Villa       Récent
+MA-ME2                                   Si T<= 300 m² :
+              Villa        Neuf     PT : 2 300 / PC : 2 500
+        Appartement       Récent   Si 300 m² <T<= 400 m² :
+        Appartement                  PT : 2 000 / PC :2 500
+                           Neuf     Si 400 m²<T<= 750 m² :
+            Maison        Récent    PT : 1 500 / PC : 2 500
+            Maison
+          Terrain ZV       Neuf          Si T>= 750 m² :
+         Terrain ZM         Loti    PT : 1 000 / PC : 2 500
+        Appartement         Loti
+        Appartement       Récent         Si T<= 300 m² :
+            Maison         Neuf     PT : 2 300 / PC : 3 000
+                          Récent   Si 300 m² <T<= 400 m² :
+            Maison                  PT : 2 000 / PC : 3 000
+                           Neuf     Si 400 m²<T<= 750 m² :
+         Terrain ZM                 PT : 1 500 / PC : 3 000
+                            Loti
+                                         Si T>= 750 m² :
+                                    PT : 1 000 / PC : 3 000
+
+                                                 5000
+
+                                                 5500
+
+                                     PT : 4 000/PC : 2 000
+
+                                     PT : 4 000/PC : 2 500
+
+                                     Si T<= 300 m² : 2 300
+                                   Si 300 m² <T<= 400 m² :
+
+                                                2 000
+                                    Si 400 m²<T<= 750 m² :
+
+                                                1 500
+                                     Si T>= 750 m² : 1 000
+
+                                                4 000
+
+                                                6 000
+
+                                                7 000
+
+                                        Si ST < 200 m2 :
+                                     PT : 6 000/PC : 2 000
+                                  Si 200 m² <ST <= 300 m2 :
+                                     PT : 3 000/PC : 2 000
+                                  Si 300 m² <ST <= 600 m2 :
+                                     PT : 2 000/PC : 2 000
+
+                                          Si ST > 600 m²
+                                     PT : 1 500/PC : 2 000
+
+                                        Si ST < 200 m2 :
+                                     PT : 6 000/PC : 3 000
+                                  Si 200 m² <ST <= 300 m2 :
+                                     PT : 3 000/PC : 3 000
+                                  Si 300 m² <ST <= 600 m2 :
+                                     PT : 2 000/PC : 3 000
+
+                                          Si ST > 600 m²
+                                     PT : 1 500/PC : 3 000
+                                     Si T<= 200 m² : 6 000
+                                   Si 200 m² <T<= 300 m² :
+
+                                                3 000
+                                    Si 300 m²<T<= 600 m² :
+
+                                                2 000
+                                     Si T>= 600 m² : 1 500
+
+                      23
+  Zone  Type de bien          Etat               Prix au m2
+MA-ME3  Villa sécurisée      Récent
+                             Ancien       PT : 5 000/PC : 5 000
+              Villa
+                             Récent        Si ST >= 2 000 m2 :
+              Villa                       PT : 1 500/PC : 3 000
+                              Neuf    Si 1 000 <= ST < 2 000 m2 :
+              Villa            Loti       PT : 2 000/PC : 3 000
+          Terrain ZV                   Si 500 <= ST < 1 000 m2 :
+                                          PT : 2 500/PC : 3 000
+                                        Si 300 <= ST < 500 m2 :
+                                          PT : 3 000/PC : 3 000
+
+                                             Si ST < 300 m2 :
+                                          PT : 3 500/PC : 3 000
+                                           Si ST >= 2 000 m2 :
+                                          PT : 1 500/PC : 3 500
+                                      Si 1 000 <= ST < 2 000 m2 :
+                                          PT : 2 000/PC : 3 500
+                                       Si 500 <= ST < 1 000 m2 :
+                                          PT : 2 500/PC : 3 500
+                                        Si 300 <= ST < 500 m2 :
+                                          PT : 3 000/PC : 3 500
+
+                                             Si ST < 300 m2 :
+                                          PT : 3 500/PC : 3 500
+                                           Si ST >= 2 000 m2 :
+                                          PT : 1 500/PC : 4 000
+                                      Si 1 000 <= ST < 2 000 m2 :
+                                          PT : 2 000/PC : 4 000
+                                       Si 500 <= ST < 1 000 m2 :
+                                          PT : 2 500/PC : 4 000
+                                        Si 300 <= ST < 500 m2 :
+                                          PT : 3 000/PC : 4 000
+
+                                             Si ST < 300 m2 :
+                                          PT : 3 500/PC : 4 000
+                                         Si ST>=2000m2 : 1 500
+                                     Si 1000<=ST<2000m2 : 2 000
+                                     Si 500<=ST<1000m2 : 2 500
+                                      Si 300 <=ST<500m2 : 3 000
+                                          Si ST< 300m2 : 3 500
+
+                         24
+  Zone  Type de bien       Etat               Prix au m2
+MA-ME4
+              Villa       Ancien        Si ST >= 1 000 m2 :
+                                      PT : 1 500 / PC : 3 000
+              Villa       Récent    Si 500 <= ST < 1 000 m2 :
+                                      PT : 2 500 / PC : 3 000
+              Villa        Neuf      Si 300 <= ST < 500 m2 :
+                                      PT : 3 250 / PC : 3 000
+        Appartement       Ancien
+        Appartement       Récent          Si ST < 300 m2 :
+        Appartement                    PT : 4 000/PC : 3 000
+                           Neuf         Si ST >= 1 000 m2 :
+            Maison        Ancien      PT : 1 500 / PC : 4 000
+            Maison        Récent    Si 500 <= ST < 1 000 m2 :
+            Maison         Neuf       PT : 2 500 / PC : 4 000
+          Terrain ZV                 Si 300 <= ST < 500 m2 :
+          Terrain ZI        Loti      PT : 3 250 / PC : 4 000
+         Terrain ZM         Loti
+                            Loti          Si ST < 300 m2 :
+                                       PT : 4 000/PC : 4 000
+                                        Si ST >= 1 000 m2 :
+                                      PT : 1 500 / PC : 5 000
+                                    Si 500 <= ST < 1 000 m2 :
+                                      PT : 2 500 / PC : 5 000
+                                     Si 300 <= ST < 500 m2 :
+                                      PT : 3 250 / PC : 5 000
+
+                                          Si ST < 300 m2 :
+                                       PT : 4 000/PC : 5 000
+
+                                                  5 000
+
+                                                  6 000
+
+                                                  7 000
+
+                                       PT : 5 000/PC : 1 500
+
+                                       PT : 5 000/PC : 2 000
+
+                                       PT : 5 000/PC : 2 500
+
+                                     Si ST>=1 000m2 : 1 500
+                                  Si 500<=ST< 1 000m2 : 2 500
+                                   Si 300<=ST< 500m2 : 3 250
+
+                                       Si ST< 300m2 : 4 000
+
+                                                  8 500
+
+                                                  5 000
+
+                      25
+  Zone  Type de bien       Etat            Prix au m2
+MA-ME5        Villa       Ancien
+                                      Si ST >= 400 m2 :
+              Villa       Récent   PT : 2 000 / PC : 2 000
+                                  Si 300 <= ST < 400 m2 :
+              Villa        Neuf    PT : 3 000 / PC : 2 000
+        Appartement       Ancien  Si 200 <= ST < 300 m2 :
+        Appartement       Récent   PT : 4 000 / PC : 2 000
+        Appartement        Neuf
+                          Ancien       Si ST < 200 m2 :
+            Maison        Récent   PT : 5 000/PC : 2 000
+            Maison         Neuf
+            Maison                    Si ST >= 400 m2 :
+          Terrain ZV       Loti    PT : 2 000 / PC : 3 000
+                                  Si 300 <= ST < 400 m2 :
+         Terrain ZM         Loti   PT : 3 000 / PC : 3 000
+          Terrain ZI        Loti  Si 200 <= ST < 300 m2 :
+                                   PT : 4 000 / PC : 3 000
+
+                                       Si ST < 200 m2 :
+                                   PT : 5 000/PC : 3 000
+
+                                      Si ST >= 400 m2 :
+                                   PT : 2 000 / PC : 4 000
+                                  Si 300 <= ST < 400 m2 :
+                                   PT : 3 000 / PC : 4 000
+                                  Si 200 <= ST < 300 m2 :
+                                   PT : 4 000 / PC : 4 000
+
+                                       Si ST < 200 m2 :
+                                   PT : 5 000/PC : 4 000
+
+                                              5 500
+
+                                              6 500
+
+                                              7 000
+
+                                   PT : 4 500/PC : 1 500
+
+                                   PT : 4 500/PC : 2 000
+
+                                   PT : 4 500/PC : 2 500
+
+                                      Si ST >= 400 m2 :
+                                           PT : 2 000
+
+                                  Si 300 <= ST < 400 m2 :
+                                           PT : 3 000
+
+                                  Si 200 <= ST < 300 m2 :
+                                           PT : 4 000
+
+                                       Si ST < 200 m2 :
+                                           PT : 5 000
+
+                                              4 500
+
+                                              5 000
+
+                      26
+  Zone  Type de bien   Etat                              Prix au m2
+MA-ME6  Appartement   Ancien
+        Appartement   Récent                                 5 000
+MA-ME7  Appartement    Neuf
+                      Ancien                                 5 500
+            Maison    Récent
+            Maison     Neuf                                  6 000
+            Maison
+          Terrain ZI    Loti                      PT : 4 500/PC : 1 500
+         Terrain ZM     Loti
+                                                  PT : 4 500/PC : 2 000
+              Villa   Ancien
+                                                  PT : 4 500/PC : 2 500
+        Villa         Récent
+                                                         R+3 :6 000
+        Villa         Neuf
+                                                             4 500
+        Appartement                  Ancien
+        Appartement                  Récent        Si ST >= 1 000 m2 :
+        Appartement                              PT : 1 500 / PC : 3 000
+                                      Neuf     Si 500 <= ST < 1 000 m2 :
+           Maison                    Ancien      PT : 2 500 / PC : 3 000
+           Maison                    Récent     Si 300 <= ST < 500 m2 :
+           Maison                     Neuf       PT : 3 000 / PC : 3 000
+         Terrain ZV
+          Terrain ZI                   Loti          Si ST < 300 m2 :
+         Terrain ZM                    Loti       PT : 3 500/PC : 3 000
+                                       Loti        Si ST >= 1 000 m2 :
+                                                 PT : 1 500 / PC : 3 500
+                      27                       Si 500 <= ST < 1 000 m2 :
+                                                 PT : 2 500 / PC : 3 500
+                                                Si 300 <= ST < 500 m2 :
+                                                 PT : 3 000 / PC : 3 500
+
+                                                     Si ST < 300 m2 :
+                                                  PT : 3 500/PC : 3 500
+                                                   Si ST >= 1 000 m2 :
+                                                 PT : 1 500 / PC : 4 000
+                                               Si 500 <= ST < 1 000 m2 :
+                                                 PT : 2 500 / PC : 4 000
+                                                Si 300 <= ST < 500 m2 :
+                                                 PT : 3 000 / PC : 4 000
+
+                                                     Si ST < 300 m2 :
+                                                  PT : 3 500/PC : 4 000
+
+                                                             6 000
+
+                                                             7 000
+
+                                                             8 000
+
+                                                  PT : 5 000/PC : 1 500
+
+                                                  PT : 5 000/PC : 2 000
+
+                                                  PT : 5 000/PC : 2 500
+
+                                                Si ST>=1 000m2 : 1 500
+                                             Si 500<=ST< 1 000m2 : 2 500
+                                              Si 300<=ST< 500m2 : 3 000
+
+                                                  Si ST< 300m2 : 3 500
+
+                                                             8 000
+
+                                                             5 000
+  Zone  Type de bien                        Etat            Prix au m2
+MA-ME8        Villa                        Récent
+              Villa                                 PT : 2 500 / PC: 2000
+MA-ME9                                      Neuf
+        Appartement                        Ancien   PT: 2 500 / PC: 2500
+        Appartement                        Récent
+        Appartement                         Neuf               5 500
+                                           Ancien
+            Maison                                             6 000
+
+        Maison                             Récent              6 500
+
+            Maison                          Neuf    PT: 4 000 / PC: 1 500
+          Terrain ZV                         Loti
+           Terrain ZI                        Loti   PT: 4 000 / PC: 2 000
+          Terrain ZM                         Loti
+        Villa sécurisée                     Neuf    PT: 4 000 / PC: 2 500
+                                           Ancien
+              Villa                                            2 500
+
+        Villa                              Récent              5 500
+
+                   Villa                    Neuf               4 000
+
+        Appartement sécurisé                Neuf    PT : 6 000/PC : 5 000
+              Appartement                  Ancien      Si ST >= 200 m2 :
+              Appartement                  Récent
+              Appartement                   Neuf    PT : 4 000/PC : 4 000
+                 Maison                    Ancien       Si ST < 200 m2 :
+                 Maison                    Récent
+                 Maison                     Neuf    PT : 5 000/PC : 3 500
+               Terrain ZV                              Si ST >= 200 m2 :
+                                             Loti
+               Terrain ZM                    Loti   PT : 4 000/PC : 4 500
+                                                        Si ST < 200 m2 :
+                                       28
+                                                    PT : 5 000/PC : 4 000
+                                                       Si ST >= 200 m2 :
+
+                                                    PT : 4 000/PC : 5 000
+                                                        Si ST < 200 m2 :
+
+                                                    PT : 5 000/PC : 4 500
+                                                              18 000
+                                                               5 000
+
+                                                               6 000
+
+                                                               6 500
+
+                                                    PT : 5 000/PC : 1 500
+
+                                                    PT : 5 000/PC : 2 000
+                                                    PT : 5 000/PC : 2 500
+
+                                                   Si ST >= 200 m2 : 4 000
+                                                   Si ST < 200 m2 : 5 000
+
+                                                               5 000
+   Zone  Type de bien      Etat                              Prix au m2
+MA-ME10   Appartement     Ancien
+          Appartement     Récent                                 5 000
+MA-ME11   Appartement      Neuf
+                          Ancien                                 6 000
+             Maison       Récent
+             Maison        Neuf                                  6 500
+             Maison
+            Terrain ZI      Loti                      PT : 4 500/PC : 1 500
+           Terrain ZM       Loti
+         Villa sécurisée  Récent                      PT : 4 500/PC : 2 000
+
+               Villa      Ancien                      PT : 4 500/PC : 2 500
+
+         Villa            Récent                                 5 500
+
+         Villa            Neuf                                   4 500
+
+         Appartement                     Ancien       PT : 5 000/PC : 5 000
+         Appartement                     Récent
+         Appartement                                   Si ST >= 1 000 m2 :
+                                          Neuf       PT : 1 500 / PC : 3 000
+            Maison                       Ancien    Si 500 <= ST < 1 000 m2 :
+            Maison                       Récent      PT : 2 500 / PC : 3 000
+            Maison                        Neuf      Si 300 <= ST < 500 m2 :
+          Terrain ZV                                 PT : 3 000 / PC : 3 000
+          Terrain ZM                       Loti
+                                           Loti          Si ST < 300 m2 :
+                                                      PT : 3 500/PC : 3 000
+                          29                           Si ST >= 1 000 m2 :
+                                                     PT : 1 500 / PC : 4 000
+                                                   Si 500 <= ST < 1 000 m2 :
+                                                     PT : 2 500 / PC : 4 000
+                                                    Si 300 <= ST < 500 m2 :
+                                                     PT : 3 000 / PC : 4 000
+
+                                                         Si ST < 300 m2 :
+                                                      PT : 3 500/PC : 4 000
+                                                       Si ST >= 1 000 m2 :
+                                                     PT : 1 500 / PC : 5 000
+                                                   Si 500 <= ST < 1 000 m2 :
+                                                     PT : 2 500 / PC : 5 000
+                                                    Si 300 <= ST < 500 m2 :
+                                                     PT : 3 000 / PC : 5 000
+
+                                                         Si ST < 300 m2 :
+                                                      PT : 3 500/PC : 5 000
+
+                                                                 6 000
+
+                                                                 7 000
+
+                                                                 7 500
+
+                                                      PT : 6 000/PC : 1 500
+
+                                                      PT : 6 000/PC : 2 000
+
+                                                      PT : 6 000/PC : 2 500
+                                                    Si ST>=1 000m2 : 1 500
+                                                 Si 500<=ST< 1 000m2 : 2 500
+                                                  Si 300<=ST< 500m2 : 3 000
+
+                                                      Si ST< 300m2 : 3 500
+
+                                                                 6 000
+   Zone       Type de bien          Etat                Prix au m2
+MA-ME12      Villa sécurisée       Récent
+MA-ME13                            Ancien        PT : 5 000/PC : 5 000
+                    Villa
+                                   Récent         Si ST >= 1 000 m2 :
+                    Villa                       PT : 1 500 / PC : 3 000
+                                    Neuf     Si 500 <= ST < 1 000 m2 :
+                    Villa          Récent       PT : 2 500 / PC : 3 000
+         Appartement sécurisé      Récent      Si 300 <= ST < 500 m2 :
+                                                PT : 3 000 / PC : 3 000
+               Appartement          Neuf
+               Appartement           Loti           Si ST < 300 m2 :
+                                     Loti        PT : 3 500/PC : 3 000
+                Terrain ZV         Ancien         Si ST >= 1 000 m2 :
+                Terrain ZV                      PT : 1 500 / PC : 4 000
+                                   Récent    Si 500 <= ST < 1 000 m2 :
+                    Villa                       PT : 2 500 / PC : 4 000
+                                    Neuf       Si 300 <= ST < 500 m2 :
+                    Villa                       PT : 3 000 / PC : 4 000
+
+                    Villa                           Si ST < 300 m2 :
+                                                 PT : 3 500/PC : 4 000
+                                                  Si ST >= 1 000 m2 :
+                                                PT : 1 500 / PC : 5 000
+                                             Si 500 <= ST < 1 000 m2 :
+                                                PT : 2 500 / PC : 5 000
+                                               Si 300 <= ST < 500 m2 :
+                                                PT : 3 000 / PC : 5 000
+
+                                                    Si ST < 300 m2 :
+                                                 PT : 3 500/PC : 5 000
+
+                                                           10 000
+
+                                                           7 000
+
+                                                           8 000
+
+                                               Si ST>=1 000m2 : 1 500
+                                           Si 500<=ST< 1 000m2 : 2 500
+                                            Si 300<=ST< 500m2 : 3 000
+
+                                                Si ST< 300m2 : 3 500
+
+                                                Si ST > 750 m2 : 1 000
+                                           Si 400m²<ST<=750 m2 :1 500
+                                           Si 300m²<ST<=400 m2: 2 000
+
+                                                    Si ST > 750 m2 :
+                                                 PT : 1 000/PC : 3 000
+                                               Si 400 <ST<= 750 m2 :
+                                                PT : 1 500/ PC : 3 000
+                                               Si 300 <ST<= 400 m2 :
+                                                 PT : 2 000/PC : 3 000
+
+                                                    Si ST > 750 m2 :
+                                                 PT : 1 000/PC : 3 500
+                                               Si 400 <ST<= 750 m2 :
+                                                PT : 1 500/ PC : 3 500
+                                               Si 300 <ST<= 400 m2 :
+                                                 PT : 2 000/PC : 3 500
+
+                                                    Si ST > 750 m2 :
+                                                 PT : 1 000/PC : 4 000
+                                               Si 400 <ST<= 750 m2 :
+                                                PT : 1 500/ PC : 4 000
+                                               Si 300 <ST<= 400 m2 :
+                                                 PT : 2 000/PC : 4 000
+
+                               30
+   Zone  Type de bien       Etat            Prix au m2
+MA-ME14        Villa       Récent
+                                        Si ST >= 300 m²
+MA-ME15        Villa        Neuf    PT : 2 500 / PC : 3 000
+MA-ME16  Appartement       Récent
+MA-ME17  Appartement                    Si ST < 300 m2 :
+                            Neuf    PT : 3 000/PC : 3 000
+           Terrain ZV        Loti
+               Villa       Récent       Si ST >= 300 m²
+                                    PT : 2 500 / PC : 4 000
+               Villa        Neuf
+         Appartement       Récent       Si ST < 300 m2 :
+         Appartement                PT : 3 000/PC : 4 000
+                            Neuf
+           Terrain ZV        Loti              5 500
+         Appartement       Récent
+         Appartement        Neuf               6 000
+                             Loti  Si ST >= 300 m² : 2 500
+           Terrain ZI      Récent
+         Appartement        Neuf    Si ST< 300m2 : 3 000
+         Appartement         Loti       Si ST >= 300 m²
+
+           Terrain ZI               PT : 2 500 / PC : 3 000
+                                        Si ST < 300 m2 :
+
+                                    PT : 3 000/PC : 3 000
+
+                                        Si ST >= 300 m²
+                                    PT : 2 500 / PC : 4 000
+
+                                        Si ST < 300 m2 :
+                                    PT : 3 000/PC : 4 000
+
+                                               5 500
+
+                                               6 000
+
+                                   Si ST >= 300 m² : 2 500
+                                    Si ST< 300m2 : 3 000
+
+                                               6 000
+
+                                               7 000
+
+                                                7000
+
+                                               6 000
+
+                                               7 000
+
+                                               7 000
+
+                       31
+   Zone  Type de bien       Etat             Prix au m2
+MA-ME18        Villa       Récent
+               Villa                   Si ST >= 2 000 m2 :
+                            Neuf      PT : 1 500/PC : 4 000
+           Terrain ZV        Loti  Si 1 000 =<ST< 2 000 m2 :
+                                      PT : 2 000/ PC : 4 000
+                                    Si 600 =<ST< 1 000 m2 :
+                                      PT : 3 000/PC : 4 000
+
+                                          Si ST< 600m2 :
+                                     PT : 4 000 / PC : 4 000
+
+                                       Si ST >= 2 000 m2 :
+                                      PT : 1 500/PC : 5 000
+                                   Si 1 000 =<ST< 2 000 m2 :
+                                      PT : 2 000/ PC : 5 000
+                                    Si 600 =<ST< 1 000 m2 :
+                                      PT : 3 000/PC : 5 000
+
+                                          Si ST< 600m2 :
+                                     PT : 4 000 / PC : 5 000
+
+                                       Si ST >= 2 000 m2 :
+                                                 1 500
+
+                                   Si 1 000 =<ST< 2 000 m2 :
+                                                 2 000
+
+                                    Si 600 =<ST< 1 000 m2 :
+                                                  3 000
+
+                                          Si ST< 600m2 :
+                                                 4 000
+
+                       32
+        6.3. Référentiel des prix des transactions immobilières
+                      du Pachalick Al Méchouar Kasbah
+
+  Zone       Type de bien          Etat               Prix au m2
+MA-MK1      Villa sécurisée        Neuf
+MA-MK2                                         PT : 4 000/PC : 6 000
+                   Villa          Ancien
+                                                Si ST >= 2 000 m2 :
+                   Villa          Récent       PT : 1 500/PC : 4 000
+                                           Si 1 000 <= ST < 2 000 m2 :
+                   Villa           Neuf        PT : 2 000/PC : 4 000
+
+        Appartement sécurisé      Récent         Si ST < 1 000 m2 :
+        Appartement sécurisé       Neuf        PT : 3 000/PC : 4 000
+                                  Ancien        Si ST >= 2 000 m2 :
+                 Maison             Loti       PT : 1 500/PC : 5 000
+               Terrain ZV         Ancien   Si 1 000 <= ST < 2 000 m2 :
+                                               PT : 2 000/PC : 5 000
+                   Riad           Récent
+                   Riad            Neuf          Si ST < 1 000 m2 :
+                   Riad           Ancien       PT : 3 000/PC : 5 000
+                 Maison                         Si ST >= 2 000 m2 :
+                 Maison           Récent       PT : 1 500/PC : 6 000
+                 Maison            Neuf    Si 1 000 <= ST < 2 000 m2 :
+                                               PT : 2 000/PC : 6 000
+
+                                                 Si ST < 1 000 m2 :
+                                               PT : 3 000/PC : 6 000
+
+                                                         14 000
+
+                                                         14 500
+
+                                               PT : 3 000/PC : 2 000
+
+                                            Si ST >= 2 000 m2 : 1 500
+                                          Si 1000<=ST<2000m2 : 2 000
+
+                                             Si ST < 1 000 m2 : 3 000
+
+                                               PT : 6 000/PC : 1 500
+
+                                               PT : 6 000/PC : 3 500
+
+                                               PT : 6 000/PC : 6 000
+
+                                               PT : 4 000/PC : 2 000
+
+                                               PT : 4 000/PC : 3 000
+
+                                               PT : 4 000/PC : 4 000
+
+                              33
+        6.4. Référentiel des prix des transactions immobilières
+                 de l'Arrondissement Sidi Youssef Ben Ali
+
+  Zone  Type de bien       Etat          Prix au m2
+MA-SY1        Villa       Ancien  PT : 5 500/PC : 3 000
+              Villa       Récent  PT : 5 500/PC : 3 500
+              Villa        Neuf   PT : 5 500/PC : 4 000
+                          Ancien  PT : 6 500/PC : 1 500
+            Maison        Récent  PT : 6 500/PC : 2 000
+            Maison         Neuf   PT : 6 500/PC : 2 500
+            Maison
+          Terrain ZV        Loti            5 500
+         Terrain ZM         Loti            6 500
+                          Ancien  PT : 5 000/PC : 3 000
+              Villa       Récent  PT : 5 000/PC : 3 500
+              Villa        Neuf   PT : 5 000/PC : 4 000
+              Villa
+
+        Appartement       Récent                                 6500
+
+MA-SY2  Appartement        Neuf             7 000
+           Maison         Ancien  PT : 6 000/PC : 1 500
+           Maison         Récent  PT : 6 000/PC : 2 000
+           Maison          Neuf   PT : 6 000/PC : 2 500
+
+        Terrain ZV        Loti                                   5 000
+                                                                 6 000
+        Terrain ZM        Loti
+
+                      34
+  Zone  Type de bien       Etat          Prix au m2
+MA-SY3        Villa       Ancien  PT : 5 500/PC : 3 000
+MA-SY4        Villa       Récent  PT : 5 500/PC : 3 500
+MA-SY5        Villa        Neuf   PT : 5 500/PC : 4 000
+MA-SY6                    Ancien  PT : 6 500/PC : 1 500
+            Maison        Récent  PT : 6 500/PC : 2 000
+            Maison         Neuf   PT : 6 500/PC : 2 500
+            Maison
+          Terrain ZV        Loti            5 500
+         Terrain ZM         Loti            6 500
+            Maison        Ancien  PT : 3 500/PC : 1 500
+            Maison        Récent  PT : 3 500/PC : 2 000
+            Maison         Neuf   PT : 3 500/PC : 2 500
+         Terrain ZM         Loti            3 500
+            Maison        Ancien  PT : 6 500/PC : 1 500
+            Maison        Récent  PT : 6 500/PC : 2 000
+            Maison         Neuf   PT : 6 500/PC : 2 500
+         Terrain ZM         Loti            6 500
+        Appartement       Ancien            6 000
+        Appartement       Récent            6 500
+        Appartement        Neuf             7 000
+            Maison        Ancien  PT : 4 000/PC : 1 500
+            Maison        Récent  PT : 4 000/PC : 2 000
+            Maison         Neuf   PT : 4 000/PC : 2 500
+         Terrain ZM         Loti            4 000
+
+                      35
+  Zone  Type de bien       Etat          Prix au m2
+MA-SY7      Maison        Ancien  PT : 3 500/PC : 1 500
+MA-SY8      Maison        Récent  PT : 3 500/PC : 2 000
+            Maison         Neuf   PT : 3 500/PC : 2 500
+
+         Terrain ZM         Loti            3 500
+            Maison        Ancien  PT : 4 000/PC : 1 500
+            Maison        Récent  PT : 4 000/PC : 2 000
+            Maison         Neuf   PT : 4 000/PC : 2 500
+
+         Terrain ZM         Loti            4 000
+
+                      36
+        6.5. Référentiel des prix des transactions immobilières
+                          de l'Arrondissement Médina
+
+  Zone  Type de bien       Etat          Prix au m2
+MA-MD1        Riad        Ancien  PT : 7 000/PC : 3 000
+MA-MD2        Riad        Récent  PT : 7 000/PC : 5 000
+MA-MD3        Riad         Neuf   PT : 7 000/PC : 7 000
+                          Ancien  PT : 5 000/PC : 2 500
+            Maison        Récent  PT : 5 000/PC : 3 500
+            Maison         Neuf   PT : 5 000/PC : 5 000
+            Maison        Ancien  PT : 7 000/PC : 3 000
+                          Récent  PT : 7 000/PC : 5 000
+              Riad         Neuf   PT : 7 000/PC : 7 000
+              Riad        Ancien  PT : 5 000/PC : 2 500
+              Riad        Récent  PT : 5 000/PC : 3 500
+            Maison         Neuf   PT : 5 000/PC : 5 000
+            Maison        Ancien  PT : 4 000/PC : 1 500
+            Maison        Récent  PT : 4 000/PC : 2 500
+              Riad         Neuf   PT : 4 000/PC : 3 500
+              Riad        Ancien  PT : 3 000/PC : 1 500
+              Riad        Récent  PT : 3 000/PC : 2 000
+            Maison         Neuf   PT : 3 000/PC : 2 500
+            Maison
+            Maison
+
+                      37
+  Zone  Type de bien       Etat          Prix au m2
+MA-MD4        Riad        Ancien  PT : 4 000/PC : 1 500
+MA-MD5        Riad        Récent  PT : 4 000/PC : 2 500
+MA-MD6        Riad         Neuf   PT : 4 000/PC : 3 500
+                          Ancien  PT : 3 000/PC : 1 500
+            Maison        Récent  PT : 3 000/PC : 2 000
+            Maison         Neuf   PT : 3 000/PC : 2 500
+            Maison        Ancien  PT : 4 000/PC : 1 500
+                          Récent  PT : 4 000/PC : 2 500
+              Riad         Neuf   PT : 4 000/PC : 3 500
+              Riad        Ancien  PT : 3 000/PC : 1 500
+              Riad        Récent  PT : 3 000/PC : 2 000
+            Maison         Neuf   PT : 3 000/PC : 2 500
+            Maison        Ancien  PT : 6 000/PC : 1 500
+            Maison        Récent  PT : 6 000/PC : 3 500
+              Riad         Neuf   PT : 6 000/PC : 6 000
+              Riad        Ancien  PT : 4 000/PC : 2 000
+              Riad        Récent  PT : 4 000/PC : 3 000
+            Maison         Neuf   PT : 4 000/PC : 4 500
+            Maison
+            Maison
+
+                      38
+        6.6. Référentiel des prix des transactions immobilières
+                         de l'Arrondissement Annakhil
+
+  Zone       Type de bien          Etat              Prix au m2
+MA-AN1      Villa sécurisée        Neuf
+MA-AN2                              Loti      Si ST >= 1 000 m2 :
+               Terrain ZV         Ancien     PT : 3 000/PC : 5 000
+MA-AN3      Villa sécurisée       Récent
+            Villa sécurisée        Neuf        Si ST < 1 000 m2 :
+MA-AN4      Villa sécurisée                  PT : 5 000/PC : 5 000
+MA-AN5                            Récent
+MA-AN6      Villa sécurisée                       TSGolf : 4 000
+                                   Neuf            Autre : 3 000
+            Villa sécurisée
+                                    Loti       PT : 800/PC : 3 000
+               Terrain ZV         Récent
+                   Villa                       PT : 800/PC : 4 000
+                   Villa           Neuf
+                                  Récent       PT : 800/PC : 5 000
+        Appartement sécurisé
+               Terrain ZV           Loti            Si TSGolf :
+                                  Récent     PT : 3 000/PC : 6 000
+            Villa sécurisée                   Si ST >= 1 000 m2 :
+            Villa sécurisée        Neuf      PT : 2 500/PC : 6 000
+                                  Récent
+                   Villa                       Si ST < 1 000 m2 :
+                   Villa           Neuf      PT : 3 000/PC : 6 000
+                 Maison           Ancien
+                 Maison           Récent            Si TSGolf :
+                 Maison            Neuf      PT : 3 000/PC : 7 000
+               Terrain ZM                     Si ST >= 1 000 m2 :
+                                    Loti     PT : 2 500/PC : 7 000
+
+                                               Si ST < 1 000 m2 :
+                                             PT : 3 000/PC : 7 000
+
+                                                Si TSGolf : 3 000
+                                          Si ST >= 1 000 m2 : 2 500
+                                           Si ST < 1 000 m2 : 3 000
+
+                                             PT : 1 500/PC : 4 000
+
+                                             PT : 1 500/PC : 4 500
+
+                                                       12 000
+
+                                                        1 500
+
+                                                     PT : 4 000/
+                                          PCSF : 2 000 - PCF : 4 000
+
+                                                     PT : 4 000/
+                                          PCSF : 2 500 - PCF : 5 000
+
+                                              PT : 350/PC : 10 000
+
+                                              PT : 350/PC : 12 000
+
+                                             PT : 2 800/PC : 1 500
+
+                                             PT : 2 800/PC : 2 000
+
+                                             PT : 2 800/PC : 2 500
+
+                                                        2 800
+
+                              39
+   Zone       Type de bien          Etat          Prix au m2
+             Villa sécurisée       Ancien
+MA-AN7       Villa sécurisée       Récent  PT : 6 000/PC : 2 000
+             Villa sécurisée        Neuf
+MA-AN8                             Ancien  PT : 6 000/PC : 3 000
+MA-AN9              Villa          Récent
+MA-AN10             Villa           Neuf   PT : 6 000/PC : 4 000
+MA-AN11             Villa          Ancien
+               Appartement         Récent  PT : 4 000/PC : 3 000
+               Appartement          Neuf
+               Appartement         Ancien  PT : 4 000/PC : 4 000
+                  Maison           Récent  PT : 4 000/PC : 5 000
+                  Maison            Neuf
+                  Maison                             6 500
+                Terrain ZV           Loti
+                Terrain ZM           Loti            7 000
+
+             Villa sécurisée       Récent            7 500
+
+             Villa sécurisée        Neuf   PT : 5 000/PC : 2 000
+                Terrain ZV           Loti
+                                   Récent  PT : 5 000/PC : 2 500
+         Appartement sécurisé      Récent
+                  Maison           Récent  PT : 5 000/PC : 3 000
+                                    Neuf             4 000
+         Appartement sécurisé
+         Appartement sécurisé                        5 000
+                                             Si ST >= 400 m2 :
+                                           PT : 3 000/PC : 3 000
+                                              Si ST < 400 m2 :
+                                           PT : 4 500/PC : 3 000
+                                           PT : 4 500/PC : 5 000
+
+                                               TSGolf : 2 500
+                                                Autre : 2 000
+
+                                                     7 000
+                                                     17 500
+                                                     11 000
+
+                                                     12 000
+
+                               40
+   Zone       Type de bien          Etat               Prix au m2
+MA-AN12                                          Si ST >= 1 000 m2 :
+MA-AN13      Villa sécurisée        Neuf        PT : 2 000/PC : 4 000
+MA-AN14                                    Si 400 m² <= ST < 1 000 m2 :
+MA-AN15        Appartement         Récent       PT : 3 000/PC : 4 000
+               Appartement          Neuf
+MA-AN16                            Ancien          Si ST < 400 m2 :
+                    Villa                       PT : 4 000/PC : 4 000
+                    Villa          Récent
+                    Villa           Neuf                   7 000
+             Villa sécurisée        Neuf
+                    Villa          Ancien                  7 500
+                    Villa
+                    Villa          Récent        PT : 700/PC : 8 000
+             Villa sécurisée        Neuf
+             Villa sécurisée       Ancien       PT : 700/PC : 10 000
+             Villa sécurisée
+                    Villa          Récent       PT : 700/PC : 12 000
+                    Villa           Neuf         Si ST >= 1 000 m² :
+                    Villa          Ancien      PT : 3 000/PC : 10 000
+         Appartement sécurisé                     Si ST < 1 000 m² :
+         Appartement sécurisé      Récent      PT : 4 000/PC : 10 000
+         Appartement sécurisé       Neuf         PT : 500/PC : 6 000
+                                   Ancien
+                                                 PT : 500/PC : 8 000
+                                   Récent
+                                    Neuf        PT : 500/PC : 10 000
+
+                                                PT : 2 500/PC : 6 000
+
+                                                PT : 2 500/PC : 8 000
+
+                                               PT : 2 500/PC : 10 000
+
+                                                 PT : 800/PC : 8 000
+
+                                                PT : 800/PC : 10 000
+
+                                                PT : 800/PC : 12 000
+
+                                                          13 000
+
+                                                          15 000
+
+                                                          17 000
+
+                               41
+   Zone  Type de bien          Etat          Prix au m2
+MA-AN17  Villa sécurisée      Récent  PT : 5 000/PC : 8 000
+                              Ancien   PT : 1 000/PC : 8000
+MA-AN18        Villa          Récent  PT : 1 000/PC : 10 000
+MA-AN19        Villa                  PT : 1 000/PC : 12 000
+               Villa           Neuf
+          Appartement         Ancien             5 000
+          Appartement         Récent             6 000
+          Appartement          Neuf              7 000
+             Maison           Ancien  PT : 5 000/PC : 2 000
+             Maison           Récent  PT : 5 000/PC : 2 500
+             Maison            Neuf   PT : 5 000/PC : 3 000
+           Terrain ZM                            5 000
+               Villa            Loti    PT : 700/PC : 8 000
+               Villa          Ancien   PT : 700/PC : 10 000
+               Villa          Récent   PT : 700/PC : 12 000
+                               Neuf
+
+                          42
+Annexes
+
+    43
+         7.1 Cartographie des Zones relevant de l'Arrondissement Guéliz
+
+                                    MA-GZ6     MA-GZ5
+
+                                                                MA-GZ34
+
+         MA-GZ31
+            MA-GZ30
+
+                                                                         MA-GZ17
+
+                  MA-GZ4
+
+                                                       MA-GZ19  MA-GZ36
+
+MA-GZ33                                      MA-GZ37            MA-GZ18
+                                    MA-GZ8
+                                                                                  MA-GZ35
+
+                  MA-GZ32
+
+                                                                                        MA-GZ16
+                                                                         MA-GZ15
+
+         MA-GZ13
+
+                                                                MA-GZ14
+
+                                    MA-GZ1
+
+                           MA-GZ26  MA-GZ2           MA-GZ7
+                                               MA-GZ28MA-GZ29
+         MA-GZ12           MA-GZ27
+
+                           MA-GZ20    MA-GZ25
+                                    MA-GZ22
+                                               MA-GZ3
+
+                                            MA-GZ21
+
+                                    44
+                                                                             MA-GZ3
+
+                                                                    MA-GZ21
+
+                              MA-GZ40                                        MA-GZ43
+                                                 MA-GZ41
+                                                  MA-GZ11                      MA-GZ39
+                                                           MA-GZ44           MA-GZ38
+
+                                                                    MA-GZ10
+
+                                                                             MA-GZ9
+                                                                                 MA-GZ42
+
+Zoom sur le centre de Guéliz
+
+         MA-GZ26                       MA-GZ2                                             MA-GZ28
+                            MA-GZ27
+                                                                                                   MA-GZ29
+
+                                                                                                   MA-GZ7
+
+                              MA-GZ20  MA-GZ25
+
+MA-GZ12
+
+                                       MA-GZ22                               MA-GZ3
+
+                                                                    MA-GZ21
+
+MA-GZ40
+
+                                       45
+Code Zone   7.2. Tableau des délimitations des Zones : Arrondissement Guéliz
+
+ MA-GZ1    Points de Repère
+ MA-GZ2
+ MA-GZ3    Croisement Avenue Abdelkrim Khattabi et Avenue Mly Abdellah, Club du Ministère de la Justice,
+ MA-GZ4    Hôpital civil, Station Shell Avenue Abdelkrim Khattabi
+ MA-GZ5    Club du Ministère de la Justice, Croisement Avenue Yacoub El Mansour et Avenue Mly Abdellah,
+ MA-GZ6    Croisement Avenue Abdelkrim Khattabi et Bd Zerktouni
+ MA-GZ7    Bab Doukkala, Croisement Avenue Yacoub El Mansour et Avenue Mly Abdellah, Croisement
+ MA-GZ8    Avenue Abdelkrim Khattabi et Bd Zerktouni
+ MA-GZ9    Marjane Route de Casablanca, Koudiat Laabid, Croisement Avenue Abdelkrim Khattabi et Avenue
+ MA-GZ10   Mly Abdellah
+ MA-GZ11   Marjane Route de Casablanca, Route de Casablanca
+ MA-GZ12   Chemin de fer, Koudiat Laabid
+ MA-GZ13   Bab Doukkala, Rue Mouzdalifa, Avenue Allal Fassi
+ MA-GZ14   Croisement Avenue Abdelkrim Khattabi et Avenue Mly Abdellah, Rue Mouzdalifa, Avenue Allal Fassi
+ MA-GZ15
+ MA-GZ16   Avenue Ménara, Marrakech Golf City, Villas Al Omrane
+ MA-GZ17
+ MA-GZ18   Avenue Mly El Hassan, Avenue Mohamed VI, Avenue Prince My Rachid, et Avenue El Yarmouk
+ MA-GZ19
+ MA-GZ20   Avenue Hassan II, Rue Iraq, Bd Mohamed VI
+ MA-GZ21
+ MA-GZ22   Gare Ferroviaire, Avenue Abdelkrim Khattabi, Avenue Hassan II, Avenue 4ème DMM
+ MA-GZ23
+ MA-GZ24   Route de Safi, Chemin de fer, Koudia
+ MA-GZ25
+           Place des 7 Saints, Avenue Allal Fassi, Rue Al Imam Al Jazouli
+
+           Bd Abou Oubeida Al Jarah, Avenue Palestine, Bd Ariha
+           Avenue Achatibi, Avenue Oued Issil
+           Bd Oued Issil, Avenue Abdelkrim Khatib, Route de Casablanca
+
+           CHU Mohamed VI, Avenue Ibn Sina, Rue Imam Jazouli
+
+           Faculté des Sciences Juridiques, Bd Allal Fassi, Route de Casablanca
+
+           Avenue Mohamed V (entre Av Abdelkrim Khattabi et Bd Zerktouni)
+           Avenue Mohamed V (entre Bd Zerktouni et Avenue Mly El Hassan)
+           Complexe CARRE EDEN
+           Résidence BABYLONE 1
+           Avenue Hassan II (du Théâtre Royal à Bab Doukkala)
+           Avenue Yacoub El Mansour (de l'avenue Abdelkrim Khattabi à rue Erroda)
+
+                                                        46
+Code Zone  Points de Repère
+ MA-GZ26   Rue Rahal Ben Ahmed
+ MA-GZ27   Quartier en face de l'hôpital Ibn Tofail
+ MA-GZ28   Rue Al Madina
+ MA-GZ29   Résidence EL MIRADOR DE MAJORELLE
+ MA-GZ30   Boulevard ALLAL FASSI (extension)
+ MA-GZ31   Avenue en double voie au quartier IZDIHAR (voir la mappe)
+ MA-GZ32   Croisement entre Av. Abdelkrim Khattabi et Av My Abdellah, extension du boulevard 18 novembre
+ MA-GZ33   Résidence NAJD
+ MA-GZ34   Zone en cours de lotissement sur la route de Casa à côté de la station AFRIQUIA
+ MA-GZ35   Quartier BelBekkar
+ MA-GZ36   Av. Abdelkrim Al Khatib (en face de l'hôpital Mohamed VI)
+ MA-GZ37   Av. ALLAL FASSI (du centre commercial Marjane à l'école ENCG)
+ MA-GZ38   Résidence de l'ERAC à l'hivernage au croisement Avenue Quadissia et rue du Temple
+ MA-GZ39   Avenue Echchouhada
+ MA-GZ40   Avenue Al Mouquawama, rue Iraq et la ligne ferroviaire
+ MA-GZ41   Avenue Hassan II, du théâtre royal à rue Errif
+ MA-GZ42   Avenue de l'aéroport (depuis BD Al Yarmouk) jusqu'au croisement avec l'avenue Mohamed VI,
+ MA-GZ43   Avenue Mohamed VI jusqu'à la route du barrage
+ MA-GZ44   Entre Bd My El Hassan, Avenue Hassan II et Avenue Mohamed VI, Avenue Ahmed Ouaqala
+           Avenue Mohamed VI, Avenue Prince My Rachid et avenue de la Ménara
+
+           47
+7.3 Cartographie des Zones relevant de l'Arrondissement Menara
+
+MA-ME1
+
+                                                                MA-ME2
+
+               MA-ME13  MA-ME3
+         MA-ME12
+
+MA-ME14
+
+                        MA-ME11
+
+         48
+MA-ME14
+
+MA-ME15  MA-ME4      MA-ME11
+                                     MA-ME7
+
+         MA-ME6      MA-ME5
+                                                   MA-ME10
+
+                 49
+                         MA-ME10
+
+        MA-ME17                   MA-ME9
+                MA-ME16
+                                          MA-ME18
+
+MA-ME8
+
+                         50
+Code Zone            7.4 Tableau des délimitations des Zones : Arrondissement Menara
+ MA-ME1
+ MA-ME2    Points de Repère
+ MA-ME3    Oued Tensift, Lotissement Azzouzia
+ MA-ME4    Oued Tensift, Lotissement Al Massar
+ MA-ME5    Quartier Industriel Sidi Ghanem, Lotissement Jawhar, Lotissement Lalla Haya
+ MA-ME6    Hay Massira 2, Opération les Portes de Marrakech 1
+ MA-ME7    Iziki 1 et 3, Hay Azli Sud 1 et 2
+ MA-ME8    Douar Iziki, Lotissement Socoma 1, Lotissement Hassan 2
+ MA-ME9    Massira 1, Hay Hassani
+MA-ME10    Berradi 2, Mhamid 7, Mhamid 9
+MA-ME11    Lotissement Zerktouni, Bouaakaz
+MA-ME12    Aéroport Marrakech Ménara, Hay Annahda 1 et 2
+MA-ME13    Lotissement Safsaf, Massira 3, Lotissement les Palmiers
+MA-ME14    Douar Sid Daou, Lotissement Masmoudi
+MA-ME15    Lotissement Addoha
+MA-ME16    Les portes de Marrakech 2
+MA-ME17    Les portes de Marrakech 1
+MA-ME18    Avenue Guemassa
+           Avenue Annakhil
+           Atlas Golf Marrakech
+
+           51
+7.5. Cartographie des Zones relevant du Pachalick Al Méchouar Kasbah
+                                                   MA-MK2
+                                                    MA-MK1
+
+                                       52
+Code Zone  7.6. - Tableau des délimitations des Zones : Pachalick Al Méchoura Kasbah
+ MA-MK1                                                             Points de Repère
+ MA-MK2
+           El Mechouar, Al Qantara, Résidence Parc d'Agdal
+           Kasbah
+
+           53
+7.7. Cartographie des Zones relevant de l'Arrondissement Sidi Youssef Ben Ali
+
+MA-SY8
+
+                MA-SY7
+
+MA-SY5          MA-SY4
+
+        MA-SY2              MA-SY3
+
+        MA-SY1
+
+                                    MA-SY6
+
+                        54
+           7.8. - Tableau des délimitations des Zones : Arrondissement Sidi Youssef Ben Ali
+
+Code Zone  Points de Repère
+
+MA-SY1     Route du Golf, Avenue Tassoultante, Avenue Al Massira, Rue Al Khoukha
+MA-SY2     Route du Golf, Ecole SYBA Al Jadida, Complexe Sportif SYBA
+MA-SY3     Route du Golf, Oued Issil, Avenue Berrada, Avenue Ibn Al Haytham
+MA-SY4     Avenue Berrada, Avenue Msala, Avenue Sakia
+MA-SY5     Avenue Msala, Avenue Tassoultante, Ecole Youssef Ben Tachefine
+MA-SY6     Hay Ljadid
+MA-SY7     Avenue El Oued, Avenue Msala, Avenue Madariss
+MA-SY8     Avenue Msala, Avenue Madariss, Avenue Imam Ghazali
+
+           55
+7.9. Cartographie des Zones relevant de l'Arrondissement Médina
+
+        MA-MD4
+
+MA-MD6                    MA-MD3
+
+        MA-MD2            MA-MD5
+                  MA-MD1
+
+        56
+Code Zone      8.0. - Tableau des délimitations des Zones : Arrondissement Médina
+ MA-MD1                                                            Points de Repère
+ MA-MD2
+ MA-MD3    Bahia
+ MA-MD4    Jamaa Lafna
+ MA-MD5    Bab Dbagh
+ MA-MD6    Bab Ghmate
+           Bab Taghzout
+           Bab Doukkala
+
+           57
+                  8.1. Cartographie des zones relevant de l'Arrondissement Annakhil
+
+MA-AN16                                        MA-AN15
+
+           MA-AN19
+                              MA-AN17
+
+                                       MA-AN14          MA-AN12
+
+MA-AN18                          MA-AN13        MA-AN9
+  MA-AN7 MA-AN11              MA-AN5
+       MA-AN10
+                  MA-AN6
+
+                                                         MA-MAN8
+                                       MA-AN4
+
+                                                                  MA-AN3
+
+                                       MA-AN1
+
+                                                MA-AN2
+
+                                       58
+                    MA-AN3
+
+MA-AN1
+
+        MA-AN2
+
+                59
+           8.2. - Tableau des délimitations des Zones : Arrondissement Annakhil
+
+Code Zone                                                                 Points de Repère
+ MA-AN1    Résidence Golfique Al Maaden
+ MA-AN2    Route de Sidi Abdellah Ghiate, Douar Ain Slim
+ MA-AN3    Résidence Golfique Amelkis
+ MA-AN4    Résidence des Golfs
+ MA-AN5    Opération Borj Annakhil
+ MA-AN6    Lotissement Kawtar, Douar Fekhara
+ MA-AN7    Route de Fès, Opération Nour Ennakhil, Opération Zohour
+ MA-AN8    Résidence Garden City
+ MA-AN9    Projet Excelia
+ MA-AN10   Al Qaria Assiyahia
+ MA-AN11   Résidence Sécurisée Patios et Jardins
+ MA-AN12   Résidence les Demeures de Marrakech
+ MA-AN13   Projet Al Omrane sur la Route de Fès près de la Mosquée Dar Tounsi
+ MA-AN14   Dar Tounsi
+ MA-AN15   Nord-Est de la Palmeraie
+ MA-AN16   Résidence Jardins de la Palmeraie 1, 2 et 3
+ MA-AN17   Circuit de la Palmeraie
+ MA-AN18   Ain Itti
+ MA-AN19   Côté droit du circuit de la palmeraie
+
+           60
+                                     Contacts utiles
+
+               Désignation                            Adresse                     Tél/Email
+                                                                               0537-27-37-27
+       Centre d'Information DGI       Haj Ahmed Cherkaoui Agdal Rabat    referentiel@tax.gov.ma
+   Bureau d'Accueil de la Direction          Route de Souihla Targa            0524-49-05-07
+Régionale des Impôts de Marrakech               Avenue Allal Fassi             0524-49-13-71
+
+    Agence Urbaine de Marrakech      Rue Hassan Ben M'Barek Marrakech          0524-43-83-90
+ Wilaya de la Région de Marrakech-       Avenue 11 Janvier Daoudiate           0524-33-27-39
+                                                    Marrakech                  0524-33-27-40
+            Tensift Al Haouz
+Agence Nationale de la Conservation   Rue Mly Hassan Guéliz Marrakech          0524-44-73-35
+
+    Foncière, du Cadastre et de la     Lotissement Sidi Youssef Ben Ali        0524-40-11-67
+         Cartographie Menara                        Marrakech
+                                                                               0524-43-32-59
+Agence Nationale de la Conservation                       -
+    Foncière, du Cadastre et de la                                             0524-38-55-98
+                                                          -                    0524-40-33-66
+  Cartographie Sidi Youssef Ben Ali                                            0524-40-21-35
+                                                          -
+        Arrondissement Guéliz                                                  0524-38-37-32
+                                                          -                    0524-32-89-79
+       Arrondissement Ménara                                                   0524-32-67-15
+                                                          -
+Arrondissement Sidi Youssef Ben Ali
+
+       Arrondissement Médina
+
+       Arrondissement Annakhil
+
+                                     61
+

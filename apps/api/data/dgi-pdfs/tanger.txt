@@ -1,0 +1,1469 @@
+   Référentiel des Prix des Transactions Immobilières
+                              de Tanger
+
+       Les données de ce référentiel sont opposables uniquement
+                      à la Direction Générale des Impôts
+
+Site Internet : www.tax.gov.ma ­ Email : referentiel@tax.gov.ma
+                                                                          Edition Octobre 2015
+                                    Sommaire
+
+1. Préambule                                                                    03
+
+2. Liste des abréviations                                                       04
+
+3. Lexique                                                                      05
+
+4. Territoire, biens concernés et plan d'ensemble de Tanger                     07
+
+4.1. Territoire et biens concernés                                              07
+
+4.2. Plan d'ensemble de Tanger                                                  09
+
+5. Mode de recherche                                                            10
+
+6. Référentiel des prix des transactions immobilières de la Commune Urbaine de  12
+
+    Tanger
+
+6.1. Arrondissement Tanger Medina                                               13
+
+6.2. Arrondissement Charf Mghogha                                               21
+
+6.3. Arrondissement Souani                                                      27
+
+6.4. Arrondissement Beni Makada                                                 30
+
+7. Cartographie et tableaux des délimitations des Zones                         34
+
+8. Contacts utiles                                                              54
+
+                                    -2-
+                                  1. Préambule
+
+Dans une démarche de transparence de l'action de l'Administration et de rationalisation de son pouvoir
+d'appréciation, le présent manuel assure la publication des prix de référence retenus par
+l'Administration pour les besoins de calcul des droits et taxes.
+Il s'applique à l'ensemble des cessions de biens immobiliers à usage d'habitation.
+Il permet aux citoyens, dans un souci d'amélioration du climat de confiance, de disposer du même
+niveau d'information que l'Administration.
+Pour se rapprocher le plus de la réalité du marché, les données de ce référentiel sont le résultat d'un
+travail de consultation et de concertation entre la Direction Générale des Impôts, la Fédération
+Nationale des Promoteurs Immobiliers et l'Agence Urbaine de Tanger.
+Il s'agit de prix moyens retenus pour le calcul des droits et taxes et ne constituent en aucun cas une
+évaluation directe d'un bien immobilier donné.
+Il constitue à cet effet une étape importante dans le processus de renforcement des garanties accordées
+aux citoyens.
+Les données de ce référentiel feront l'objet d'une actualisation périodique en fonction de l'évolution du
+marché de l'immobilier.
+
+                                                                           -3-
+                           2. Liste des abréviations
+
+ANCFCC : Agence Nationale de la Conservation Foncière, du Cadastre et de la Cartographie
+DGI : Direction Générale des Impôts
+FNPI : Fédération Nationale des Promoteurs Immobiliers
+m2 : Mètre Carré
+TA : Tanger
+TA-TM : Tanger ­ Arrondissement/ Tanger Médina
+TA-AS : Tanger ­ Arrondissement/ Souani
+TA-CM : Tanger ­ Arrondissement/ Charf Mghogha
+TA-BM: Tanger ­ Arrondissement/ Béni Makada
+PC : Prix de la Construction
+PT : Prix du Terrain
+R+(i) : Rez-de-chaussée + (i) : Nombre d'étages
+ST : Superficie du Terrain
+T : Terrain
+ZM : Zone Maison
+ZI : Zone Immeuble
+Zone Rue/Av./Bd : Rue, Avenue et Boulevard ayant le statut d'une Zone
+ZV : Zone Villa
+< à R+(i) : Zonage inférieur à R+(i)
+<= à R+(i) : Zonage inférieur ou égale à R+(i)
+> à R+(i) : Zonage supérieur à R+(i)
+>= à R+(i) : Zonage supérieur ou égale à R+(i)
+
+                                                                           -4-
+                                    3. Lexique
+
+Ancien (logement) : logement ayant été achevé depuis plus de quinze ans (> à 15 ans).
+Appartement sécurisé : appartement situé dans un projet immobilier fermé et sécurisé.
+Appartement : un appartement est une unité d'habitation, comportant un certain nombre de pièces et
+située dans un immeuble collectif généralement dans une ville.
+Immeuble : dans le langage courant, le mot "immeuble" désigne un bâtiment urbain de plusieurs étages,
+à usage d'habitation ou professionnel, en copropriété.
+Logement social : par cette formule, on désigne un appartement dont la superficie couverte est
+comprise entre 50 et 80 m2 et le prix de vente n'excède pas 250.000 dirhams, hors taxe sur la valeur
+ajoutée.
+Loti (terrain) : un terrain loti signifie un terrain situé dans un lotissement (voir lotissement), ou donnant
+sur une avenue aménagée.
+Lotissement : un lotissement est constitué par un ensemble de lots provenant de la division d'un terrain
+en vue d'y recevoir des constructions qui sont vendues généralement séparément après que le lotisseur
+ait réalisés des voies d'accès, des espaces collectifs et des travaux de viabilité et les raccordements aux
+réseaux de fourniture en eau, en électricité, aux réseaux d'égouts et aux réseaux de télécommunication.
+Maison : une maison est un bâtiment destiné à être la demeure d'une famille, voire de plusieurs, et qui
+n'est pas un immeuble en copropriété.
+Neuf (logement) : logement achevé depuis six ans au plus (<= à 6 ans).
+Prix Appartement = Prix au m2 Appartement x (Superficie Appartement + Superficie Parking/3 +
+Superficie Terrasse/2).
+Prix de la Construction (PC) : par prix de la construction, on entend le prix du mètre carré couvert.
+Prix du Terrain (PT) : par prix du terrain, on entend le prix du terrain au mètre carré.
+Prix Maison = Prix au m2 T x Superficie Terrain Maison + Prix au m2 C x Superficie Couverte.
+Prix Terrain = Prix au m2 Terrain x Superficie Terrain.
+Prix Villa = Prix au m2 T x Superficie Terrain Villa + Prix au m2 C x Superficie Couverte.
+Récent (logement) : logement achevé depuis plus de six ans au moins et quinze ans au plus (> à 6 ans
+et <= à 15 ans) + logement ancien achevé suite à rénovation depuis six ans au plus (<= à 6 ans).
+Terrain ZI : est considéré comme terrain zone immeuble tout terrain destiné à la construction d'un
+immeuble collectif ou: terrain nu, terrain construit de bâtiments destinés à être démolis (cas de zone
+villa convertie en zone immeuble par exemple).
+
+                                                                           -5-
+Terrain ZV : est considéré comme terrain zone villa tout terrain destiné à la construction d'une villa :
+terrain nu, terrain construit de bâtiments destinés à être démolis (cas de villa vétuste par exemple).
+Villa sécurisée : villa située dans un domaine résidentiel fermé et sécurisé.
+Villa : une villa est une maison avec jardin.
+Zone : une zone est un groupe d'adresses où les prix sont relativement homogènes.
+Zone projetée : c'est une zone en développement et dont les prix seront attribués lors des prochaines
+mises à jour.
+
+                                                                           -6-
+  4. Territoire, biens concernés et plan d'ensemble de la Région de Tanger
+
+   4.1. Territoire concerné :
+
+La région de Tanger-Tétouan-AL Hoceima est l'une des douze régions du Maroc instituées en 2015.
+Elle se compose de deux Préfectures et six Provinces :
+
+     Préfecture de Tanger-Assilah ;
+     Préfecture de Medieq-Fnideq ;
+     Province de Fahs Anjra ;
+     Province de Chefchaouen ;
+     Province de Tétouan ;
+     Province de Larache ;
+     Province de Ouazzan ;
+     Province d'Al Hoceima ;
+La Préfecture de Tanger-Assilah englobe trois communes urbaines:
+     Commune urbaine de Tanger
+     Commune urbaine de Gzenaya
+     Commune urbaine d'Assilah
+La commune urbaine de Tanger, objet de ce référentiel, englobe quatre arrondissements :
+     Arrondissement Tanger Medina
+     Arrondissement Charf Mghogha
+     Arrondissement Souani
+     Arrondissement Beni Makada
+Le territoire géographique et les biens concernés par le présent Référentiel se présentent comme suit :
+     Territoire concerné : Commune Urbaine de Tanger ;
+     Types de biens immobiliers concernés :
+
+             o Appartement, Maison et Villa à usage d'habitation ;
+             o Terrain construit de bâtiments destinés à être démolis : ZV, ZI, ZM;
+             o Terrain Loti : ZV, ZI, ZM.
+     Types de biens immobiliers exclus :
+             o Appartement à usage professionnel ;
+             o Villa et Maison à vocation professionnelle ou commerciale ;
+
+                                                                           -7-
+             o Logement social ;
+             o Logement destiné au recasement des bidonvilles ;
+             o Terrain urbain non Loti ;
+             o Terrain à usage industriel ;
+             o Terrain à usage agricole.
+
+   4.2. Plan d'ensemble de la Commune Urbaine de Tanger :
+
+Voir page suivante.
+
+                                                                           -8-
+-9-
+                            5. Modes de recherche
+
+Actuellement, la recherche s'effectue:
+    · A travers la consultation sur une carte numérisée mise à la disposition du public au niveau du
+         portail de la DGI, le système situe le bien sur la carte et affiche automatiquement son prix de
+         référence ;
+    · A partir de la délimitation des zones ;
+    · En consultant le bureau d'accueil de la Direction Régionale des Impôts de Tanger et/ou le
+         Centre d'Information Téléphonique au numéro : 05.37.27.37.27.
+
+Précisions :
+     Lorsqu'un bien chevauche sur plusieurs zones, le prix à prendre en considération est celui de la
+         zone la plus côté.
+     Lorsqu'une zone comporte des maisons construites sur un terrain loti et d'autres non lotis, ces
+         dernières ne seront prises en consideration que lorsqu'elles donnent sur une avenue aménagée
+         supérieure à 10 m de largeur.
+
+Exemple 1 :
+Soit un appartement X se trouvant sur l'Avenue Mohamed V.
+Situer l'avenue sur la carte et afficher le prix des appartements dans cette zone en cliquant dessus.
+
+                                                                          - 10 -
+Exemple 2 :
+Soit X un appartement relevant de l'Arrondisssement Souani, AV Essalam
+Consulter la liste des points de repère de l'Arrondissement Souani pour déterminer la zone :
+
+     Connaissant la zone, on détermine le prix du bien concerné au niveau de la grille des prix
+         correspondante :
+
+                                                                          - 11 -
+6. Référentiel des prix des transactions immobilières de la Commune
+                                    Urbaine de Tanger
+
+La Commune Urbaine de Tanger est découpée en 108 Zones dont la ventilation est comme suit :
+
+ Arrondissement  Nombre de Zones          Nombre de Zones  Nombre total des Zones
+                          41                 Rue/Av./Bd                 43
+Tanger-Médina             22                        2                   28
+Charf-Mghogha             14                        6                   15
+                          17                        1                   22
+     Souani               94                        5                  108
+ Béni Makada                                       14
+
+      Total
+
+                                  - 12 -
+        6.1. Référentiel des prix des transactions immobilières
+                     de l'Arrondissement Tanger Médina
+
+ Zone   Type de bien            Etat                             Prix au m2
+TA-TM1
+TA-TM2  Maison                  Ancien         PT: 3 000 PC: 2 000
+
+TA-TM3  Maison                  Récent         PT: 3 000 PC: 4 000
+
+TA-TM4  Appartement             Ancien                           10 000
+TA-TM5
+TA-TM6  Appartement             Récent                           12 000
+
+        Appartement              Neuf                                   13 500
+          Terrain ZI              Loti
+                                Ancien                           <= à R+7 : 30 000
+        Appartement                                               > à R+7 : 35 000
+
+                                                                         9 000
+
+        Appartement             Récent                           11 000
+
+        Appartement              Neuf                 12 000
+        Terrain ZIbien            Loti
+        Appartement             Ancien         Si ST <= 1 500 m²
+                                               <= à R+7 : 20 000
+
+                                                > à R+7 : 27 500
+
+                                                       9 000
+
+        Appartement             Récent                           11 000
+
+        Appartement              Neuf                       12 500
+          Terrain ZI              Loti
+           Maison               Ancien                        R+7
+                                               Si ST <= 1 000 m²: 25 000
+                                               Si ST > 1 000 m²: 20 000
+
+                                                   PT: 3 000 PC: 2 000
+
+        Maison                  Récent         PT: 3 000 PC: 2 500
+
+        Maison                  Neuf           PT: 3 000 PC: 3 000
+
+        Zone projetée           Zone projetée                    Zone projetée
+
+                        - 13 -
+  Zone       Type de bien           Etat               Prix au m2
+             Appartement
+TA-TM7       Appartement            Ancien             6 000
+             Appartement
+TA-TM8                              Récent                       8 000
+TA-TM9           Maison              Neuf                        9 000
+TA-TM10          Maison             Ancien             PT: 5 000 PC: 1 500
+TA-TM11          Maison
+TA-TM12                             Récent             PT: 5 000 PC: 2 000
+                   Villa
+                   Villa            Neuf               PT: 5 000 PC: 2 500
+
+                   Villa            Ancien             Si ST <= à 1 000 m² : PT: 4 500 PC: 3 000
+               Terrain ZM           Récent             Si ST > à 1 000 m² : PT: 4 000 PC: 3 000
+               Terrain ZI
+                                     Neuf              Si ST <= à 1 000 m² : PT: 4 500 PC: 3 500
+               Terrain ZV                              Si ST > à 1 000 m² : PT: 4 000 PC: 3 500
+         Réserve naturelle
+         Equipement public                             Si ST <= à 1 000 m² : PT: 4 500 PC: 4 500
+                                                       Si ST > à 1 000 m² : PT: 4 000 PC: 4 500
+             Appartement
+             Appartement            Loti               <= à R+2 : 5 000
+
+                 Maison             Loti                    R+ 3 : 6 500
+                 Maison                                > à R+ 3 : 8 000
+                 Maison
+             Appartement            Loti               Si ST <= à 1 000 m² : 4 500
+             Appartement                               Si ST > à 1 000 m² : 4 000
+             Appartement
+             Appartement            Réserve naturelle  Réserve naturelle
+             Appartement
+               Terrain ZIn          Equipement public  Equipement public
+                                            Ancien              6 000
+
+                                    Récent             8 000
+
+                                    Ancien             PT: 4 000 PC: 2 000
+                                    Récent             PT: 4 000 PC: 2 500
+                                                       PT: 4 000 PC: 3 000
+                                     Neuf
+                                    Ancien                       6 000
+                                    Récent                       7 000
+                                    Ancien                       9 000
+                                    Récent                      10 000
+
+                                    Neuf                      12 000
+                                    Loti
+                                                       <= à R+7 : 20 000
+                                                                                        2
+
+                                                        > à R+7 : 27 500Prix m
+
+                            - 14 -
+  Zone        Type de bien              Etat         Prix au m2
+TA-TM13        Appartement             Ancien            8 000
+TA-TM14        Appartement             Récent            9 000
+TA-TM15        Appartement              Neuf            10 500
+                Terrain ZIn
+TA-TM16                                  Loti       R+7 : 14 000
+                  Maison               Ancien  PT: 3 000 PC: 2 000
+TA-TM17        Appartement             Ancien
+               Appartement             Récent            8 000
+TA-TM18        Appartement              Neuf             9 000
+                Terrain ZIn                             11 000
+               Appartement               Loti       R+7 : 15 000
+               Appartement             Ancien            6 000
+               Appartement             Récent            7 000
+                                        Neuf             8 000
+                  Maison               Ancien  PT: 6 000 PC: 2 000
+                  Maison               Récent  PT: 6 000 PC: 2 500
+                  Maison                Neuf   PT: 6 000 PC: 3 000
+                Terrain ZM                       <= à R+2 : 6 000
+                Terrain ZIn              Loti        R+3 : 6 500
+         Appartement sécurisé            Loti        R+4 : 8 000
+         Appartement sécurisé          Récent            8 500
+                                        Neuf             9 500
+                    Villa              Ancien  PT: 2 000 PC: 3 500
+                    Villa              Récent  PT: 2 000 PC: 4 500
+                    Villa               Neuf   PT: 2 000 PC: 5 500
+             Villa sécurisée           Ancien  PT: 2 000 PC: 4 000
+             Villa sécurisée           Récent  PT: 2 000 PC: 5 000
+             Villa sécurisée            neuf   PT: 2 000 PC: 6 000
+                    Villa              Ancien  PT: 2 000 PC: 3 500
+                    Villa              Récent  PT: 2 000 PC: 4 500
+                    Villa               Neuf   PT: 2 000 PC: 5 500
+             Villa sécurisée            Neuf   PT: 2 000 PC: 6 000
+
+                               - 15 -
+  Zone        Type de bien                       Etat                 Prix au m2
+TA-TM19   Equipement public            Equipement public        Equipement public
+TA-TM20  Appartement sécurisé
+         Appartement sécurisé                  Récent                    10 000
+TA-TM21                                          Neuf                    16 000
+TA-TM22             Villa                      Ancien           PT: 2 500 PC: 3 500
+TA-TM23             Villa                                       PT: 2 500 PC: 4 500
+TA-TM24             Villa                      Récent           PT: 2 500 PC: 5 500
+             Villa sécurisée                     Neuf           PT: 2 500 PC: 4 500
+             Villa sécurisée                   Ancien           PT: 2 500 PC: 5 500
+             Villa sécurisée                                    PT: 2 500 PC: 6 500
+                Terrain ZV                     Récent      Si ST <= à 1 000 m² : 2 500
+                    Villa                        Neuf           PT: 5 000 PC: 4 000
+                    Villa                         Loti          PT: 5 000 PC: 5 000
+                    Villa                      Ancien           PT: 5 000 PC: 6 000
+                Terrain ZV                                 Si ST <= à 1 000 m² : 5 000
+                  Maison                       Récent           PT: 2 000 PC: 1 500
+                  Maison                         Neuf          PT: 2 000 PC: 2 000
+                  Maison                          Loti          PT: 2 000 PC: 2 500
+                    Villa                      Ancien           PT: 3 000 PC: 3 500
+                  Maison                                        PT: 1 500 PC: 1 500
+                  Maison                       Récent           PT: 1 500 PC: 2 000
+                  Maison                         Neuf           PT: 1 500 PC: 2 500
+                    Villa                        Neuf           PT: 2 500 PC: 3 500
+                    Villa                      Ancien           PT: 2 500 PC: 4 000
+               Appartement                                                6 000
+               Appartement                     Récent                     7 000
+                Terrain ZIn                      Neuf     R+7 si ST <= 1 500 m²: 7 000
+
+                                               Récent
+                                                 Neuf
+
+                                               Récent
+                                                 Neuf
+                                                  Loti
+
+                               - 16 -
+  Zone   Type de bien                  Etat            Prix au m2
+TA-TM25   Appartement                 Ancien
+TA-TM26   Appartement                 Récent               6 000
+TA-TM27   Appartement                  Neuf                6 500
+TA-TM28                               Ancien               7 500
+               Villa                  Récent     PT: 4 500 PC: 3 500
+               Villa                   Neuf      PT: 4 500 PC: 4 500
+               Villa                             PT: 4 500 PC: 5 500
+           Terrain ZIn                  Loti           R+3 : 7 000
+           Terrain ZV                   Loti           R+4 : 8 500
+          Appartement                 Récent  Si ST <= à 500 m² : 4 500
+          Appartement                  Neuf                6 000
+             Maison                   Ancien               7 000
+             Maison                   Récent     PT: 6 000 PC: 2 000
+             Maison                    Neuf      PT: 6 000 PC: 2 500
+           Terrain ZM                   Loti     PT: 6 000 PC: 3 000
+           Terrain ZIn                  Loti        <= à R+2 : 6 000
+             Maison                   Ancien           R+3 : 6 500
+             Maison                   Récent           R+4 : 7 000
+             Maison                    Neuf      PT: 3 000 PC: 2 000
+               Villa                  Ancien     PT: 3 000 PC: 2 500
+               Villa                  Récent     PT: 3 000 PC: 3 000
+               Villa                   Neuf      PT: 3 000 PC: 4 000
+         Villa sécurisée              Récent     PT: 3 000 PC: 5 000
+         Villa sécurisée               Neuf      PT: 3 000 PC: 5 500
+          Appartement                 Récent     PT: 3 500 PC: 6 500
+          Appartement                  Neuf      PT: 3 500 PC: 8 000
+             Maison                   Récent               6 000
+             Maison                    Neuf                7 500
+          Terrain ZMn                   Loti     PT: 6 000 PC: 2 000
+           Terrain ZIn                  Loti     PT: 6 000 PC: 2 500
+                                                    <= à R+2 : 6 000
+                              - 17 -                   R+3 : 6 500
+                                                       R+4 : 7 000
+  Zone        Type de bien              Etat                        Prix au m2
+TA-TM29  Appartement sécurisé          Récent
+         Appartement sécurisé                                          12 000
+TA-TM30                                 Neuf
+TA-TM31             Villa              Ancien                          13 000
+TA-TM32
+                    Villa              Récent   Si ST <= à 600 m² : PT: 4 500 PC: 4 000
+                                                Si ST > à 600 m² : PT: 3 000 PC: 4 000
+                    Villa               Neuf
+                                                Si ST <= à 600 m² : PT: 4 500 PC: 5 000
+                Terrain ZV               Loti   Si ST > à 600 m² : PT: 3 000 PC: 5 000
+         Appartement sécurisé          Récent
+         Appartement sécurisé                   Si ST <= à 600 m² : PT: 4 500 PC: 6 000
+                                        Neuf    Si ST > à 600 m² : PT: 3 000 PC: 6 000
+                    Villa              Ancien
+                    Villa              Récent             Si ST <= à 600 m² : 4 500
+                    Villa               Neuf              Si ST > à 600 m² : 3 000
+             Villa sécurisée           Récent
+             Villa sécurisée            Neuf                           12 000
+                Terrain ZV
+                    Villa                Loti                          13 000
+                    Villa              Ancien  Si ST <= à 1 000 m² : PT: 3 000 PC: 4 000
+                    Villa              Récent  Si ST > à 1 000 m² : PT: 2 500 PC: 4 000
+                Terrain ZV              Neuf   Si ST <= à 1 000 m² : PT: 3 000 PC: 5 500
+               Appartement                     Si ST > à 1 000 m² : PT: 2 500 PC: 5 500
+                    Villa                Loti  Si ST <= à 1 000 m² : PT: 3 000 PC: 7 500
+                    Villa               Neuf   Si ST > à 1 000 m² : PT: 2 500 PC: 7 500
+                                       Récent
+                                        Neuf                  PT: 3 000 PC: 7 500
+
+                                                              PT: 3 000 PC: 8 500
+                                                         Si ST <= à 1 000 m² : 3 000
+                                                         Si ST > à 1 000 m² : 2 500
+
+                                                              PT: 5 000 PC: 3 000
+
+                                                              PT: 5 000 PC: 4 500
+
+                                                              PT: 5 000 PC: 5 500
+
+                                                                        5 000
+
+                                                                       11 000
+
+                                                              PT: 2 500 PC: 5 000
+
+                                                              PT: 2 500 PC: 7 000
+
+                               - 18 -
+  Zone   Type de bien            Etat        Prix au m2
+TA-TM33  Appartement           Ancien            5 500
+TA-TM34  Appartement           Récent            6 000
+TA-TM35  Appartement            Neuf             6 500
+TA-TM36                        Ancien
+            Maison             Récent  PT: 5 000 PC: 2 000
+            Maison              Neuf   PT: 5 000 PC: 2 500
+            Maison                     PT: 5 000 PC: 3 000
+         Terrain ZMn             Loti
+          Terrain ZIn            Loti    <= à R+2 : 5 000
+         Appartement           Récent       R+3 : 6 500
+         Appartement            Neuf             5 500
+            Maison             Ancien            6 000
+            Maison             Récent
+            Maison              Neuf   PT: 3 000 PC: 2 000
+                               Récent  PT: 3 000 PC: 2 500
+              Villa             Neuf   PT: 3 000 PC: 3 000
+              Villa              Loti  PT: 3 000 PC: 3 000
+          Terrain ZV           Ancien  PT: 3 000 PC: 3 500
+         Appartement           Récent
+         Appartement            Neuf             3 000
+         Appartement           Ancien            5 500
+              Villa            Récent            6 000
+              Villa             Neuf             7 000
+              Villa              Loti  PT: 4 000 PC: 3 000
+          Terrain ZIn            Loti  PT: 4 000 PC: 4 000
+          Terrain ZV           Récent  PT: 4 000 PC: 5 000
+         Appartement            Neuf       <=R+3 : 6 500
+         Appartement           Ancien       >R+3 : 7 000
+            Maison             Récent            4 000
+            Maison              Neuf             6 500
+            Maison                               7 000
+                                       PT: 5 500 PC: 2 000
+                                       PT: 5 500 PC: 2 500
+                                       PT: 5 500 PC: 3 000
+
+                       - 19 -
+  Zone       Type de bien                     Etat           Prix au m2
+TA-TM37      Appartement                    Récent               7 500
+TA-TM38      Appartement                                         8 000
+TA-TM39  Equipement public                    Neuf
+             Appartement            Equipement public  Equipement public
+TA-TM40      Appartement                                         6 000
+                                            Récent               6 500
+TA-TM41          Maison                       Neuf
+TA-TM42          Maison                     Ancien     PT: 5 000 PC: 1 500
+TA-TM43          Maison                                PT: 5 000 PC: 2 000
+              Terrain ZMn                   Récent     PT: 5 000 PC: 2 500
+               Terrain ZIn                    Neuf
+             Appartement                       Loti      <= à R+2 : 5 000
+             Appartement                       Loti      >= à R+3 : 6 000
+                 Maison
+                 Maison                     Récent               6 000
+                 Maison                       Neuf               6 500
+              Terrain ZMn                   Ancien     PT: 5 000 PC: 2 000
+               Terrain ZIn                             PT: 5 000 PC: 2 500
+             Appartement                    Récent     PT: 5 000 PC: 3 000
+             Appartement                      Neuf       <= à R+2 : 5 000
+                 Maison                        Loti       >= à R+3 : 6 500Prix m2
+                 Maison                        Loti              6 000
+                 Maison                                          6 500
+              Terrain ZMn                   Récent     PT: 6 000 PC: 2 000
+               Terrain ZIn                    Neuf     PT: 6 000 PC: 2 500
+             Appartement                    Ancien     PT: 6 000 PC: 3 000
+             Appartement                                 <= à R+2 : 6 000
+                                            Récent          R+3 : 6 500
+                   Villa                      Neuf          R+4 : 8 000
+                                               Loti              6 000
+                                               Loti              6 500
+                                                       PT: 2 000 PC: 6 000
+                                            Récent
+                                              Neuf
+                                              Neuf
+
+                            - 20 -
+        6.2. Référentiel des prix des transactions immobilières
+                    de l'Arrondissement Charf-Mghogha
+
+  Zone  Type de bien          Etat                               Prix au m2
+TA-CM1
+TA-CM2  Maison                Ancien  PT: 2 000 PC: 1 500
+TA-CM3
+        Maison                Récent  PT: 2 000 PC: 2 000
+TA-CM4
+        Villa                 Ancien  PT: 1 000 PC: 2 500
+
+        Villa                 Récent  PT: 1 000 PC: 3 000
+
+        Villa                 Neuf    PT: 1 000 PC: 3 500
+
+        Appartement           Récent                             9 000
+
+        Appartement           Neuf                                      9 500
+          Terrain ZI          Loti
+         Terrain ZV           Loti                               <= à R+3 : 5 000
+                                                                  > à R+3 : 6 500
+
+                                                                        3 000
+
+        Maison                Ancien  PT: 4 500 PC: 1 500
+
+        Maison                Récent  PT: 4 500 PC: 2 000
+
+        Maison                Neuf    PT: 4 500 PC: 2 500
+
+        Villa                 Récent  PT: 3 000 PC: 3 000
+
+        Villa                 Neuf    PT: 3 000 PC: 3 500
+
+        Terrain ZM            Loti                               <= à R+2 : 4 500
+
+        Terrain ZI            Loti                               >= à R+3 : 5 000
+
+        Terrain ZV            Loti                               3 000
+
+        Appartement           Récent                             6 000
+
+        Appartement           Neuf                               6 500
+
+        Maison                Ancien  PT: 5 000 PC: 2 000
+
+        Maison                Récent  PT: 5 000 PC: 2 500
+
+        Maison                Neuf    PT: 5 000 PC: 3 000
+
+        Villa                 Ancien  PT: 4 000 PC: 2 500
+
+        Villa                 Récent  PT: 4 000 PC: 3 500
+
+        Villa                 Neuf    PT: 4 000 PC: 4 500
+
+        Terrain ZM            Loti                               <= à R+2 : 5 000
+
+        Terrain ZI            Loti                               >= à R+3 : 6 500
+
+        Terrain ZV            Loti                               4 000
+
+                      - 21 -
+  Zone        Type de bien                    Etat                         Prix au m2
+TA-CM5
+TA-CM6           Terrain ZI                   Loti                     <= à R+2 : 4 000
+TA-CM7         Appartement                  Ancien                       > à R+2 : 4 500
+TA-CM8         Appartement                  Récent                            11 000
+TA-CM9         Appartement                   Neuf                             11 500
+TA-CM10                                     Ancien                            13 500
+                    Villa                   Récent
+TA-CM11             Villa                    Neuf                    PT: 5 000 PC: 3 500
+                    Villa                    Neuf                    PT: 5 000 PC: 4 500
+               Appartement                   Neuf                    PT: 5 000 PC: 5 500
+         Appartement sécurisé                Neuf
+             Villa sécurisée                Ancien                            15 000
+               Appartement                  Récent                            18 000
+               Appartement                   Neuf                    PT: 3 000 PC: 8 000
+               Appartement             Zone projetée                           9 000
+             Zone projetée                  Ancien                            10 000
+               Appartement                  Récent                            11 500
+               Appartement                   Neuf                        Zone projetée
+               Appartement                  Ancien                            10 000
+                    Villa                                                     11 000
+                                            Récent                            13 000
+                    Villa                             si ST<= à 500 m² PT: 4 000 PC : 3 500
+                                             Neuf     si ST > à 500 m² PT: 3 500 PC : 3 500
+                    Villa                             si ST <= à 500 m² PT: 4 000 PC: 5 000
+                                              Loti    si ST >à 500 m² PT: 3 500 PC: 5 000
+                Terrain ZV                  Récent    si ST<= à 500 m² PT : 4 000 PC: 6 000
+               Appartement                            si ST > à 500 m² PT : 3 500 PC: 6 000
+               Appartement                   Neuf                 si ST<= à 500 m²: 4 000
+                                            Ancien                si ST > à 500 m²: 3 500
+                  Maison                    Récent                             5 000
+                  Maison                     Neuf                              6 000
+                  Maison                                             PT: 4 000 PC: 2 000
+                Terrain ZM                    Loti                   PT: 4 000 PC: 2 500
+                 Terrain ZI                   Loti                   PT: 4 000 PC: 3 000
+                                                                       <= à R+2 : 4 000
+                                                                        >= à R+3 : 5 000
+
+                               - 22 -
+  Zone   Type de bien           Etat         Prix au m2
+TA-CM12  Appartement           Récent
+TA-CM13  Appartement                             8 500
+TA-CM14                         Neuf            10 000
+             Maison            Ancien  PT: 3 000 PC: 1 500
+TA-CM15      Maison            Récent  PT: 3 000 PC: 2 000
+         Appartement           Ancien            5 500
+         Appartement           Récent            6 000
+         Appartement            Neuf             7 000
+             Maison            Ancien  PT: 5 000 PC: 2 000
+             Maison            Récent  PT: 5 000 PC: 2 500
+             Maison             Neuf   PT: 5 000 PC: 3 000
+          Terrain ZM                     <= à R+2 : 5 000
+           Terrain ZI            Loti       R+3 : 6 500
+             Maison              Loti       R+4 : 8 000
+             Maison            Ancien  PT: 5 000 PC: 2 000
+             Maison            Récent  PT: 5 000 PC: 2 500
+                                Neuf   PT: 5 000 PC: 3 000
+               Villa           Ancien  PT: 5 000 PC: 3 500
+               Villa           Récent  PT: 5 000 PC: 4 500
+               Villa            Neuf   PT: 5 000 PC: 5 500
+          Terrain ZM             Loti    <= à R+2 : 5 000
+           Terrain ZI            Loti       R+3 : 6 500
+           Terrain ZV            Loti       R+4 : 8 000
+                                                 5 000
+
+                       - 23 -
+  Zone   Type de bien            Etat        Prix au m2
+TA-CM16  Appartement            Neuf             7 500
+                               Ancien
+TA-CM17     Maison             Récent  PT: 5 000 PC: 2 000
+TA-CM18     Maison              Neuf   PT: 5 000 PC: 2 500
+            Maison             Ancien  PT: 5 000 PC: 3 000
+                               Récent  PT: 5 000 PC: 3 000
+              Villa             Neuf   PT: 5 000 PC: 4 000
+              Villa              Loti  PT: 5 000 PC: 5 000
+              Villa              Loti
+          Terrain ZM             Loti    <= à R+2 : 5 000
+           Terrain ZI          Ancien       R+3 : 6 500
+          Terrain ZV           Récent       R+4 : 8 000
+            Maison              Neuf             5 000
+            Maison               Loti
+            Maison               Loti  PT: 6 000 PC: 2 000
+          Terrain ZM           Ancien  PT: 6 000 PC: 2 500
+           Terrain ZI          Récent  PT: 6 000 PC: 3 000
+            Maison              Neuf
+            Maison               Loti    <= à R+2 : 6 000
+            Maison               Loti       R+4 : 8 000
+          Terrain ZM
+           Terrain ZI                  PT: 6 000 PC: 2 000
+                                       PT: 6 000 PC: 2 500
+                                       PT: 6 000 PC: 3 000
+
+                                         <= à R+2 : 6 000
+                                            R+4 : 8 000
+
+                       - 24 -
+  Zone   Type de bien            Etat        Prix au m2
+TA-CM19  Appartement           Ancien            6 000
+TA-CM20  Appartement           Récent            6 500
+TA-CM21  Appartement            Neuf             7 000
+                               Ancien
+            Maison             Récent  PT: 6 500 PC: 2 000
+            Maison              Neuf   PT: 6 500 PC: 2 500
+            Maison             Ancien  PT: 6 500 PC: 3 000
+                               Récent  PT: 5 500 PC: 3 000
+              Villa             Neuf   PT: 5 500 PC: 4 000
+              Villa                    PT: 5 500 PC: 5 000
+              Villa              Loti
+          Terrain ZM             Loti    <= à R+2 : 6 500
+           Terrain ZI            Loti       R+4 : 10 000
+          Terrain ZV           Ancien            5 500
+         Appartement           Récent            5 500
+         Appartement            Neuf             6 000
+         Appartement           Ancien            7 000
+            Maison             Récent
+            Maison              Neuf   PT: 5 000 PC: 2 000
+            Maison               Loti  PT: 5 000 PC: 2 500
+          Terrain ZM             Loti  PT: 5 000 PC: 3 000
+           Terrain ZI          Ancien
+            Maison             Récent    <= à R+2 : 5 000
+            Maison              Neuf        R+3 : 6 500
+            Maison             Ancien       R+4 : 7 500
+              Villa            Récent
+              Villa             Neuf   PT: 5 000 PC: 2 000
+              Villa              Loti  PT: 5 000 PC: 2 500
+          Terrain ZM             Loti  PT: 5 000 PC: 3 000
+           Terrain ZI            Loti  PT: 5 000 PC: 3 000
+          Terrain ZV                   PT: 5 000 PC: 4 000
+                                       PT: 5 000 PC: 5 000
+
+                                         <= à R+2 : 5 000
+                                         >= à R+3 : 7 000
+
+                                                 5 000
+
+                       - 25 -
+  Zone   Type de bien            Etat        Prix au m2
+TA-CM22     Maison             Ancien  PT: 6 000 PC: 2 000
+            Maison             Récent  PT: 6 000 PC: 2 500
+TA-CM23     Maison              Neuf   PT: 6 000 PC: 3 000
+
+TA-CM24   Terrain ZM             Loti    <= à R+2 : 6 000
+           Terrain ZI            Loti       R+4 : 8 000
+TA-CM25                        Ancien
+TA-CM26     Maison             Récent  PT: 5 000 PC: 2 000
+TA-CM27     Maison              Neuf   PT: 5 000 PC: 2 500
+TA-CM28     Maison               Loti  PT: 5 000 PC: 3 000
+          Terrain ZM             Loti
+           Terrain ZI          Récent    <= à R+2 : 5 000
+         Appartement           Ancien     >= à R+3 : 7 000
+            Maison             Récent
+            Maison             Ancien            5 500
+            Maison             Récent  PT: 3 000 PC: 2 000
+            Maison              Neuf   PT: 3 000 PC: 2 500
+            Maison               Loti  PT: 5 000 PC: 2 000
+          Terrain ZM             Loti  PT: 5 000 PC: 2 500
+           Terrain ZI           Neuf   PT: 5 000 PC: 3 000
+         Appartement            Neuf
+         Appartement            Neuf     <= à R+2 : 5 000
+         Appartement                      >= à R+3 : 7 000
+
+                                                 5 500
+                                                16 000
+                                                13 000
+
+                       - 26 -
+        6.3. Référentiel des prix des transactions immobilières
+                           de l'Arrondissement Souani
+
+Zone    Type de bien          Etat                               Prix au m2
+
+        Appartement           Ancien                             6 500
+
+TA-AS1  Appartement           Récent                 7 500
+        Appartement            Neuf
+                                Loti                 8 500
+          Terrain ZI          Ancien
+        Appartement                                   R+7
+                                      si ST <= à 1 000 m²: 13 000
+                                      si ST > à 1 000 m²: 11 000
+
+                                                     7 000
+
+TA-AS2  Appartement           Récent                 8 000
+        Appartement            Neuf
+                                Loti                 9 000
+          Terrain ZI          Ancien
+           Maison                                     R+7
+                                      si ST <= à 1 000 m²: 14 000
+                                      si ST > à 1 000 m²: 12 000
+
+                                           PT: 4 500 PC: 1 500
+
+        Maison                Récent  PT: 4 500 PC: 2 000
+
+TA-AS3  Maison                Neuf    PT: 4 500 PC: 2 500
+
+        Terrain ZM            Loti    <= à R+2 : 4 500
+
+        Terrain ZI            Loti    >= à R+3 : 6 000
+
+        Maison                Ancien  PT: 5 000 PC: 2 000
+
+        Maison                Récent  PT: 5 000 PC: 2 500
+
+        Maison                Neuf    PT: 5 000 PC: 3 000
+
+        Villa                 Ancien  PT: 4 500 PC: 3 000
+
+TA-AS4  Villa                 Récent  PT: 4 500 PC: 4 000
+
+        Villa                 Neuf    PT: 4 500 PC: 5 000
+
+        Terrain ZM            Loti    <= à R+2 : 5 000
+
+        Terrain ZI            Loti    >= à R+3 : 6 500
+
+        Terrain ZV            Loti                               4 500
+
+        Appartement           Ancien                             6 000
+
+        Appartement           Récent                             7 000
+
+TA-AS5  Appartement            Neuf             8 000
+           Maison             Ancien
+                                      PT: 5 000 PC: 2 000
+          Terrain ZI            Loti
+                                       si ST<= 1 000 m²
+                                       <= à R+4 : 11 000
+
+                                         > à R+4 : 13 000
+
+                      - 27 -
+  Zone   Type de bien            Etat              Prix au m2
+TA-AS6   Appartement           Ancien                  6 000
+         Appartement           Récent                  7 000
+TA-AS7   Appartement            Neuf                   8 000
+
+TA-AS8     Terrain ZI            Loti  R+7 si ST<= 1 000 m²: 12 500
+TA-AS9      Maison             Ancien        PT: 6 000 PC: 2 000
+TA-AS10     Maison             Récent        PT: 6 000 PC: 2 500
+            Maison              Neuf         PT: 6 000 PC: 3 000
+              Villa            Ancien        PT: 5 000 PC: 3 000
+              Villa            Récent        PT: 5 000 PC: 4 000
+              Villa             Neuf         PT: 5 000 PC: 5 000
+                                                <= à R+2 : 6 000
+          Terrain ZM             Loti              R+3 : 7 000
+           Terrain ZI            Loti              R+4 : 8 000
+          Terrain ZV             Loti                  5 000
+                               Ancien        PT: 4 500 PC: 2 000
+            Maison             Récent        PT: 4 500 PC: 2 500
+            Maison              Neuf         PT: 4 500 PC: 3 000
+            Maison             Ancien        PT: 4 000 PC: 2 000
+            Maison             Récent        PT: 4 000 PC: 2 500
+            Maison              Neuf         PT: 4 000 PC: 3 000
+            Maison             Ancien                  5 500
+         Appartement           Récent                  6 000
+         Appartement            Neuf                   7 000
+         Appartement           Ancien        PT: 4 500 PC: 2 000
+            Maison             Récent        PT: 4 500 PC: 2 500
+            Maison              Neuf         PT: 4 500 PC: 3 000
+            Maison
+
+                       - 28 -
+  Zone   Type de bien            Etat               Prix au m2
+TA-AS11  Appartement           Ancien
+         Appartement           Récent                   6 000
+TA-AS12  Appartement            Neuf                    6 500
+TA-AS13                        Ancien                   7 000
+TA-AS14     Maison             Récent         PT: 7 000 PC: 2 000
+TA-AS15     Maison              Neuf          PT: 7 000 PC: 2 500
+            Maison                            PT: 7 000 PC: 3 000
+          Terrain ZM             Loti           <= à R+2 : 7 000
+           Terrain ZI            Loti               R+3 : 8 000
+         Appartement           Ancien               R+4 : 9 000
+         Appartement           Récent                   6 000
+         Appartement            Neuf                    7 000
+                               Ancien                   7 500
+              Villa            Récent         PT: 5 000 PC: 3 000
+              Villa             Neuf          PT: 5 000 PC: 4 000
+              Villa              Loti         PT: 5 000 PC: 5 000
+           Terrain ZI            Loti           <= à R+3 : 7 000
+          Terrain ZV           Ancien             > à R+3 : 9 000
+            Maison             Récent                   5 000
+            Maison              Neuf          PT: 4 500 PC: 2 000
+            Maison             Récent         PT: 4 500 PC: 2 500
+         Appartement            Neuf          PT: 4 500 PC: 3 000
+         Appartement             Loti                   6 500
+           Terrain ZI          Ancien                   7 500
+         Appartement           Récent  R+7 si ST<= 1 500 m² : 11 000
+         Appartement            Neuf                    7 000
+         Appartement             Loti                   8 000
+           Terrain ZI                                   9 000
+                                                   R+7 : 17 000
+
+                       - 29 -
+        6.4. Référentiel des prix des transactions immobilières
+                      de l'Arrondissement Beni Makada
+
+Zone    Type de bien  Etat                                       Prix au m2
+
+        Maison        Ancien                 PT: 6 000 PC: 2 000
+
+        Maison        Récent                 PT: 6 000 PC: 2 500
+
+        Maison        Neuf                   PT: 6 000 PC: 3 000
+
+        Villa         Ancien                 PT: 4 500 PC: 3 000
+
+TA-BM1  Villa         Récent                 PT: 4 500 PC: 4 500
+
+        Villa         Neuf                   PT: 4 500 PC: 5 500
+
+        Terrain ZM    Loti                                       <= à R+2 : 6 000
+        Terrain ZI
+        Terrain ZV    Loti                                       R+3 : 7 000
+                                                                 R+4 : 7 500
+
+                      Loti                                       4 500
+
+        Maison        Ancien                 PT: 5 000 PC: 2 000
+
+        Maison        Récent                 PT: 5 000 PC: 2 500
+
+TA-BM2    Maison       Neuf                  PT: 5 000 PC: 3 000
+        Terrain ZM      Loti
+        Terrain ZI      Loti                   <= à R+2 : 5 000
+                      Ancien                      R+3 : 6 000
+          Maison                                  R+4 : 7 500
+
+                                             PT: 5 500 PC: 2 000
+
+        Maison        Récent                 PT: 5 500 PC: 2 500
+
+TA-BM3    Maison       Neuf                  PT: 5 500 PC: 3 000
+        Terrain ZM      Loti
+        Terrain ZI      Loti                   <= à R+2 : 5 500
+                      Ancien                      R+3 : 6 500
+          Maison                                  R+4 : 7 500
+
+                                             PT: 4 000 PC: 1 500
+
+        Maison        Récent                 PT: 4 000 PC: 2 000
+
+TA-BM4  Maison        Neuf                   PT: 4 000 PC: 2 500
+
+        Terrain ZM    Loti                                       <= à R+2 : 4 000
+
+        Terrain ZI    Loti                                       R+3 : 5 000
+
+        Appartement   Ancien                                     5 500
+
+TA-BM5  Appartement   Récent                                     6 000
+        Appartement    Neuf                                      6 500
+
+        Terrain ZI                     Loti                      R+4 : 7 500
+
+                      - 30 -
+  Zone   Type de bien            Etat             Prix au m2
+TA-BM6   Appartement           Récent
+TA-BM7   Appartement                                 5 500
+TA-BM8                          Neuf                 6 000
+            Maison             Récent      PT: 5 500 PC: 2 500
+TA-BM9      Maison                         PT: 5 500 PC: 3 000
+TA-BM10   Terrain ZM            Neuf          <= à R+2 : 5 500
+           Terrain ZI            Loti            R+3 : 6 500
+         Appartement             Loti            R+4 : 7 000
+         Appartement           Récent                5 500
+           Terrain ZI           Neuf                 6 000
+            Maison               Loti            R+4 : 7 500
+            Maison             Ancien      PT: 4 000 PC: 1 500
+            Maison             Récent      PT: 4 000 PC: 2 000
+          Terrain ZM            Neuf       PT: 4 000 PC: 2 500
+           Terrain ZI            Loti         <= à R+2 : 4 000
+         Appartement             Loti            R+3 : 4 500
+         Appartement           Ancien                5 500
+         Appartement           Récent                6 000
+            Maison              Neuf                 6 500
+            Maison             Ancien      PT: 6 000 PC: 2 000
+            Maison             Récent      PT: 6 000 PC: 2 500
+          Terrain ZM            Neuf       PT: 6 000 PC: 3 000
+           Terrain ZI            Loti         <= à R+2 : 6 000
+         Appartement             Loti            R+3 : 6 500
+         Appartement           Ancien            R+4 : 7 500
+         Appartement           Récent                5 500
+           Terrain ZI           Neuf                 6 000
+                                 Loti                6 500
+                                       R+7 <= à 1 500 m² : 11 000
+
+                       - 31 -
+  Zone    Type de bien                 Etat          Prix au m2
+TA-BM11   Appartement                Récent              5 500
+TA-BM12   Appartement                                    6 000
+TA-BM13                               Neuf
+TA-BM14       Maison                 Ancien    PT: 6 000 PC: 2 000
+TA-BM15       Maison                 Récent    PT: 6 000 PC: 2 500
+              Maison                  Neuf     PT: 6 000 PC: 3 000
+TA-BM16    Terrain ZM
+            Terrain ZI                 Loti      <= à R+2 : 6 000
+TA-BM17  Zone projetée                 Loti         R+3 : 7 000
+          Appartement           Zone projetée       R+4 : 7 500
+          Appartement                Récent
+            Terrain ZI                Neuf        Zone projetée
+            Terrain ZI                 Loti              6 000
+              Maison                   Loti              6 500
+              Maison                 Ancien
+              Maison                 Récent         R+4 : 8 000
+            Terrain ZI                Neuf          R+4 : 7 000
+          Appartement                  Loti    PT: 5 000 PC: 2 000
+              Maison                  Neuf     PT: 5 000 PC: 2 500
+              Maison                 Ancien    PT: 5 000 PC: 3 000
+              Maison                 Récent         R+4 : 7 500
+           Terrain ZM                 Neuf
+            Terrain ZI                 Loti              6 000
+              Maison                   Loti    PT: 4 500 PC: 2 000
+              Maison                 Ancien    PT: 4 500 PC: 2 500
+              Maison                 Récent    PT: 4 500 PC: 3 000
+           Terrain ZM                 Neuf
+            Terrain ZI                 Loti      <= à R+2 : 4 500
+                                       Loti         R+3 : 5 000
+
+                                               PT: 3 000 PC: 1 500
+                                               PT: 3 000 PC: 2 000
+                                               PT: 3 000 PC: 2 500
+
+                                                 <= à R+2 : 3 000
+                                                     R+3 : 3 500
+
+                        - 32 -
+  Zone   Type de bien            Etat               Prix au m2
+TA-BM18     Maison             Ancien         PT: 4 500 PC: 2 000
+TA-BM19     Maison             Récent         PT: 4 500 PC: 2 500
+            Maison              Neuf          PT: 4 500 PC: 3 000
+TA-BM20
+          Terrain ZM             Loti            <= à R+2 : 4 500
+TA-BM21    Terrain ZI            Loti                R+3 : 5 500
+TA-BM22                        Ancien
+            Maison             Récent         PT: 3 500 PC: 1 500
+            Maison              Neuf          PT: 3 500 PC: 2 000
+            Maison               Loti         PT: 3 500 PC: 2 500
+          Terrain ZM             Loti
+           Terrain ZI          Ancien            <= à R+2 : 3 500
+         Appartement           Récent               R+3 : 4 500
+         Appartement            Neuf                    5 500
+         Appartement           Ancien                   6 000
+            Maison             Récent                   6 500
+            Maison              Neuf
+            Maison               Loti         PT: 4 000 PC: 2 000
+          Terrain ZM             Loti         PT: 4 000 PC: 2 500
+           Terrain ZI            Loti         PT: 4 000 PC: 3 000
+           Terrain ZI          Ancien
+            Maison             Récent            <= à R+2 : 4 000
+            Maison              Neuf              >= à R+3 : 5 000
+            Maison               Loti  R+7 SI ST <= à 1 500 m²: 9 000
+          Terrain ZM             Loti         PT: 2 500 PC: 1 500
+           Terrain ZI          Ancien         PT: 2 500 PC: 2 000
+            Maison             Récent         PT: 2 500 PC: 2 500
+            Maison              Neuf             <= à R+2 : 2 500
+            Maison               Loti
+          Terrain ZM             Loti               R+3 : 3 000
+           Terrain ZI                         PT: 2 000 PC: 1 500
+                                              PT: 2 000 PC: 1 800
+                                              PT: 2 000 PC: 2 000
+
+                                                 <= à R+2 : 2 000
+                                                    R+3 : 3 000
+
+                       - 33 -
+7. Annexes
+
+            - 34 -
+7.1 Cartographie des Zones relevant de l'ArrondissementTanger Médina
+                                                                          - 35 -
+- 36 -
+- 37 -
+7.1. Tableau des délimitations des Zones : l'Arrondissement Tanger Médina
+
+Code Zone  Points de Repère
+
+TA-TM1     Ancienne Medina : Rue Riad Sultan Place du Tabor, Rue Zaitouni, Rue Ibn Abou, Rue
+TA-TM2     Jnane Al Captane, Rue Gzenaya, Rue Al Mansour, Rue Ben Abdessadak, Rue Sbou, Rue
+           des Postes, Rue Skiredj, Rue Siaghine, Rue Haj Mohamed Torris
+
+           Av Mohamed VI (Du Port de Tanger au Cafe Panorama) ; Plage Municipale
+
+TA-TM3     Bd mohamed V, Place Roudani, Place des Nations, Av Pasteur, Place de France
+TA-TM4
+TA-TM5     Iberia-Sidi Bouarakiya, Rue El Ouchak, Rue Kortoba, Rue Grenade, Rue Ibn Zaidoun, Av
+           Mohamed Ben Abdellah (De la Place Iberia au Rond Point Av Imam Mouslim), Av Habib
+           Bourkiba
+
+           Ancienne Dradeb, Sabila Djamaa, Ancienne Route de la Montagne
+
+TA-TM6     Vieux Port, Marina
+TA-TM7
+TA-TM8     Merchane, Av Hassan II (de l'angle Av Sidi Bouarakia à l'angle Av Med Tazi) Rue Assilah,
+           Av Ibn Abbar, Av Hassan I, Quartier Khousafat, Rue Imam Malik, Rue Assad Ibn Al Farrat,
+           Rue Haj Mohamed Tazi, Av des USA, Av Ibn Hazm
+
+           Réserve naturelle
+
+TA-TM9     Equipement public
+TA-TM10
+TA-TM11    Quartier Espagnol, Av Jebha Ouatania, Rue Cervantes, Place Du 09 Avril, Calle Murillo,
+           Rue Magellan, Rue Amerique du Sud, Av La Plage, Av La Liberté, Rue Marco Polo
+TA-TM12
+           Sour El Meeguazine, Av Khalid Ibn El Oualid, Amr Ben El Ass (de l'Av Pasteur à l'angle
+TA-TM13    Khalid Bnou Oualid), Av Prince Mly Abdellah (De L'Av Pasteur à l'angle Amr Ben El Ass)
+TA-TM14
+           Quartier La Plage : Av Beethoven (de l'angle Av Med VI à Place Roudani), Rue Ibn Katir, Av
+           Youssef Ibn Tachefine (de l'angle Av Med VI à l'angle Av Med V), Rue Antaki, Rue Tarik,
+           Rue Saidia, Rue Mohammadia, Rue El Youssoufia (du Bd Med V à l'angle Rue Abou Alae
+           Maari), Av la Résistance (de l'angle Bd Med V à l'angle Rue Abou Alae El Maari), Rue
+           Nobel, Av New-York, Rue Ahfir, Av Oujda, Rue Znata, Rue Abdellah Habti, Rue Mootamid
+           Ibn Abad, Rue Abou Alaa El Maari, Rue Farabi, Rue La Méditerrannée, Rue Abdellah Habti,
+           Rue Canoes.
+
+           Ain Ktiouet, Av de Belgique, Av Mohamed Ben Abdellah (de la Place Ain Ktiouet à la Place
+           Iberia), Rue Des Pheniciens, Rue Mahatma Ghandi, Av D'angleterre, Av San Fransisco,
+           Bouarakia, Av Hassan II (De l'angle Av De Belgique à l'angle Av Bouarakia)
+
+            M'sallah
+
+           - 38 -
+Code Zone  Points de Repère
+
+TA-TM15    Centre Ville : Av Abi Jarir Tabari, Av Mly Youssef, Av Youssef Ibn Tachefine (de l'angle Av
+           Med V à l'angle Av Beethoven), Av Beethoven (de la Place Roudani à la Place de la Ligue
+           Arabe), Av Moulay Hicham, Av New York ( de l'Av Med V à l'angle Av Abi Jarir Tabari),
+           Place Mozart, Av de Fes (De L'angle Av Belgique à la Place Bir Anzarane), Av Gibraltar, Av
+           de la Marche Verte, Rue Ibn Toumert, Rue Ibn Attia, Rue Senhaja, Rue Mansour Eddahabi,
+           Rue Bilal Rue Teheran, Rue Ibn Haitam, Rue Ibn Wakili, Rue Sijelmasa Rue Ibn Ajroum,Av
+           Idriss 1er, Rue El Iraq, Rue Jordanie, Rue Liban, Rue Jamal Eddine Afghani, Rue Rachid
+           Reda, Rue Ibn Okail, Av Imam Ibn Taymiya, Rue Omar Ibn Abdelaziz, Rue Abou Bakra
+           Razi, Rue Hariri, Rue Youssoufia (De l'angle Med V à l'angle Imam Ghazali) Rue Abi
+           Dardae, Rue Imam Ghazali, Av de la Résistance (de l'Av Med V à la Place Medina), Rue
+           Lafayette, Rue Omar Ibn Khattab, Rue Ibn Achir, Rue Al Khawarizmi, Rue Gibraltar, Rue
+           Kindy, Rue Egypte, Rue Allal Ben Abdellah, Rue Abou Naouass, Rue Hassan Ibn Ouazan,
+           Av Moussa Ibn Noussair, Av Prince Heritier, Rue Moutanabi, Rue Zeriab, Rue Bouhtouri,
+           Rue Zerktouni, Rue Tahran, Rue Ibn Okail
+
+TA-TM16    Ain Hayani, Nouveau Dradeb, Av Imam Mouslim
+TA-TM17    Achakar
+TA-TM18    Mediouna
+TA-TM19    Equipement public
+TA-TM20    Plage Achakar, Plage Jbilat, Ba Kacem
+TA-TM21    Sidi Amar, California, Moujahidine, Hopital Mohamed V, Rue Imam Tirmidi, Rue Nador, Rue
+TA-TM22    Sidi Boukhari, Av Hafid Ibn Hajar, Av Sidi Amar, Route California
+TA-TM23    Branes Kadima, Ziaten, Ahammar
+TA-TM24    Mghayer, Khandak Gour
+TA-TM25    Route de Rahrah
+TA-TM26    Koudiat Hadj Thami, Val Fleuri, Rocade Moujahidine Av Mly Rachid (de l'angle Av Anfa à
+TA-TM27    l'angle Av Ibn Abi Zaraa), Hay Al Farah
+TA-TM28    Satvillage, Route Moujahidine
+TA-TM29    Rahrah
+TA-TM30    Hay Manar, Golf, Av Mly Rachid
+TA-TM31    Jamaa Mokra, Jbel Kebir, Rmilat
+TA-TM32    Boubana 1 (voir TA-TM43)
+           Av Al Banafsaj, Dradeb
+           Route de Merkala
+
+           - 39 -
+Code Zone                                                    Points de Repère
+ TA-TM33   Mesnana
+ TA-TM34   Boukhalef, Jbilat
+ TA-TM35   Mesterkhouch, Av d'Anfa, Av Mly Rachid (de l'angle Av Harroun Errachid à l'angle Av
+ TA-TM36   d'Anfa), Route Moujahidine, Av Imam Tirmidi
+ TA-TM37   Marjane, Route De Rabat
+ TA-TM38   Route de Rabat, Stade de Tanger
+ TA-TM39   Equipement public
+ TA-TM40   Kherba, Laouina
+ TA-TM41   Laazib
+ TA-TM42   Route de l'Aviation, Av Mly Rachid (du stade au rond point Faculté de Droit-ENCG)
+ TA-TM43   Route de Rabat (de Km 7 à Km 10), Av Moulay Rachid (de la salle couverte au rond point
+           Ziaten), Aswak Essalam
+           Boubana 2 (voir TA-TM30)
+
+           - 40 -
+7.2 Cartographie des Zones relevant de l'Arrondissement Charf Mghogha
+                                                                          - 41 -
+- 42 -
+- 43 -
+7.2. Tableau des délimitations des Zones : l'Arrondissement Charf Mghogha
+
+Code Zone                                    Points de Repère
+
+TA-CM1     Playa Blanca, Cap Malabata, Mnar
+
+TA-CM2     Quartier Sania, Route Nationale n°16, Sania Hill
+
+TA-CM3     Oued Sania, Lotis Sania Omrane
+TA-CM4
+TA-CM5     Tanja Balia : Av Plage Oualidia, Lotis Méditerrannée, Lotis Facinta, Lotis Ratma, Lotis
+TA-CM6     Omrane, Lotis Arimas, Rue Plage Kozah, Rue Plage Noire, Route Tanja Balia
+
+           Tanja Balia Extension vers Mghogha (vers Khreb et Chjirat), Av Plage Oualidia, Lotis Tingis
+           Omrane
+
+           Bd Med VI (du Café Panorama à l'hôtel Movenpick), Plage Malabata
+
+TA-CM7     Malabata, Av Front de Mer, Ghandouri, Mnar, Route de Ksar Seghir n°16 (côté gauche),
+TA-CM8
+TA-CM9     Zone Offshore1, Gare Ferrovière Tanger - Ville, Av d'Espagne, Route de Malabata (du
+           Pond l'Oued à l'angle Av Med VI)
+
+           Zone Offshore 2, Mosquée Al Fath, l'Abattoir Communal
+
+TA-CM10    Route de Malabata, Lotis Tingis, Bella Vista, Mirador, Baie de Tanger, Malabata
+TA-CM11
+TA-CM12    Mghogha, Lotis El Assil, Tabchicha, Lotis Kanouni, Lotis Fatine, Route National n°2 (du
+TA-CM13    Rond Point Mghogha au Rond Point Marjane route de Tétouan)
+TA-CM14
+           Route des Abatoires, Ex Centre D'acceuil des MRE à la Route de Tétouan Rond point
+TA-CM15    Mghogha station-services Afriquia
+
+           Hay Benkirane
+
+           Plaza Torro, Complexe Ibn Batouta, Hay Zoufri, Hay Alia, Av Salah Eddine Ayoubi (de la
+           route de tétouan à l'Angle Rue Cheikh Makoudi), Rue Ibn Alkadi, Rue Mezouar, Rue
+           Merdassi
+
+           Hay Sourienne, Nzaha, Charf, Av Yacoub Mansour, (de l'angle Cheikh Makoudi à l'angle
+           Cheikh Mayara pente Charf), Av Moulay Larbi Alaoui, Rue Ibn Attia, Rue Ibn Khattib, Rue
+           Ibn Kattane, Rue Cheikh Mayara, Rue Fkih Zarhouni, Rue Ali Ibn Hrazm, Rue
+           Abdelmoumen, Rue Abi Kacem Tadili, Av Chorafa, Av Cheikh Makoudi, Rue Ibrahim Ibn
+           Hilal, Rue Ibn Taki, Rue Ibn Nacer Dareii
+
+TA-CM16    Route de Tétouan à droite du rond point Jamiaa Arabia à Plaza Torro, Av Oued Souani,
+           Rue Ahmed Tadili, Rue Ahmed Skiredj, Rue Khnata Mghafri, Av Abdellah Ibn Rouaha, Rue
+           Ibn Chakrae, Rue Ibn Barri, Rue Ibn Barjane, Lotis Doukka, Rue Ghazouat Hanin, Rue
+           Ghazouat Tabouk, Rue Ahmed Mokri, Rue Ibn Sabbagh, Rue Ibn Faras, Rue Las Colinas,
+           Rue Barcelone, Rue Asturias, Rue Cannes, Rue Iberie, Rue Toledo, Rue Mallorca, Rue
+           Vascovia, Rue Mont Blanc, Rue Taragone, Rue Aragon, Rue Normandie, Rue Rios, Rue
+           Bretagne, Av De Provence (de l'Av Oued Souani à l'angle Av Omar Mokhtar) Av Mly
+           Slimane ( du Jardin Mly Youssef à l'hôpital Razi), Av Tarik Ibn Ziad ( de l'Av Oued Souani à
+           la Mosquée Al Omra), Ali Bay, Av Allal El Fassi (de la Route de Tétouan à Rue Ghazouat
+           Tabouk)
+
+                                             - 44 -
+Code Zone                                                          Points de Repère
+ TA-CM17
+ TA-CM18   Av Tarik Bnou Ziad (de l'angle Khnata Mgharfi Las Colinas Mosquée Al Omra jusqu'à la
+ TA-CM19   Route de Rgayae)
+ TA-CM20
+           Route Rgaiae (Route de Tétouan au Rond Point Dar Tounsi)
+ TA-CM21
+           Route de Tétouan (rond point de la Ligue Arabe au Rond Point Mghogha)
+ TA-CM22
+ TA-CM23   Quartier Amal, Mernissi, Marché de Gros, Av Martyr Abdeslam Ben Bouhout, Rue Sidi
+ TA-CM24   Mohamed Ben Hossein, Rue Roukia Bent Abdeslam, Rue Allal Bouzekri, Rue Berni Aicha
+ TA-CM25   Drissia 2, Mandar Jamil, Av Panoramique, Rue Mourad Ibn Jabal, Rue Sayidouna Hamza,
+ TA-CM26   Rue Ibn Saad Bnou Aad, Rue Ibn Moussa Achaari, Av Allal El Fassi (de l'angle Ghazouat
+ TA-CM27   Tabouk à l'angle Tarik Ibn Ziad), Rue Ghazouat Khaybar, Rue Ghazouat Isly, Mosquée Al
+ TA-CM28   Omra
+           Av Fatima Zohra
+
+           Dar Tounsi, Av Moulay Ali Cherif (du rond point Dar Tounsi à l'angle Av Fatima Zohra)
+
+           Ard Daoula, Place Tafilalt, Grand Marché Beni Makada
+
+           Drissia 1, Av Omar Fakhouri, Av Omar Mokhtar, Rue Cherif Idrissi, Rue Ibn Oumeir, Rue
+           Adarissa, Hay Massouda
+
+           Azib Abekiou, Khreb
+
+           City Center, Place Maghreb Arab
+
+           Sania La Perle
+
+           - 45 -
+7.3 Cartographie des Zones relevant de l'Arrondissement Souani
+                                                                          - 46 -
+7.3. Tableau des délimitations des Zones : l'Arrondissement Souani
+
+Code Zone  Points de Repère
+
+TA-AS1     Av Oued Souani, Av Marrakech, Hotel de Ville, Av de Provence (de place Volubilis à l'angle
+TA-AS2     Av Oued Souani), Rue Acacias, Place de la Ligue Arabe, Rue Agadir, Rue Taroudant, Av
+TA-AS3     Tarik Ibn Ziad (de l'angle Av Moulay Ismael au Pont Oued Souani)
+
+           Place de la Ligue Arabe, Av Abi Hassan Chadili, Av Mly Youssef (jusqu'à la Place Bir
+           Anzarane), Av Essalam, Av. Cadi Ayad (jusqu'à l'angle Av de Fès) Av Oued Ziz (angle Mly
+           Youssef et angle Av de Fès) Av Raimondo Lulio, Rue Zoubeir Ben Aouam, Av Sidi Ifni, Rue
+           Lisbonne
+
+           Mabrouka V, Bir Chairi, Rue Martir Ben Daoud, Rue Oued Chatt, Marché Bir Chairi, Ecole
+           Omar Ibn Khattab
+
+TA-AS4     Hay Mouadafine, Al Boughaz, Av Al Ouahda Al Ouatania, Av Mly Slimane, Av Chouhadae
+TA-AS5
+TA-AS6     Castilla, Rue Gutemberg, Av Bir Anzarane, Av Oued Ziz (angle Av Fès à Oued Dahab), Rue
+TA-AS7     Oued Kabir (de la Place du Maroc à l'Av Haroun Rachid), Av Kadi Ayad, Av Oued Dahab,
+           Av Abi Hassan Chadili (de l'Angle Av De Fès à l'angle Av Oued Dahab), Mosquée Al
+TA-AS8     Andalous
+
+TA-AS9     Av Mly abdelaziz, Place du Maroc, Av des FAR (de l'angle Av Moulay Slimane au Pont
+TA-AS10    Bendibane) Av Mly Slimane Rue Atlas
+
+           Av Mly Rachid (de la Place Consulat Espagnol à l'angle Av Anfa), Av Abi Chouaib Doukali,
+           Marché Najiba, Rue Abdellah Ansari, l'Ecole Americaine, Rue Le Rossignol, Hay Belair, Av
+           Haroun Rachid (de l'angle Av Habib Bourkiba au rond point Av d'Angleterre)
+
+           Av Haroun Rachid (du rond point Av d'Angleterre à la Place 20 Août), Haoumat Belgique,
+           Av Med Ben Abdellah (de la Boulangerie Paris au Jardin Ain Ktiouet), Av Docteur Faraj, Av
+           du Cancer, Av du Belier, Av du Scorpion, Av du Sagitaire, Av de La Vierge, Av des
+           Gemeaux, Av des Taureaux, Rue Erkaina, Av Hassan Dakhil (Du Marché Najiba à l'angle
+           Haroun Rachid), Av Bnou Khaldoun, Av Anfa, Place Du 20 Août, angle Av Bnou Khaldoun,
+           Lalla Chafia
+
+           Casabarata, Av Abou Kacem Cherif Sebti, Av Moulay Abdelhafid, Av Ahmed Zerrouk, Av
+           Ibn Kattane, Av Ibn Taieb El Alami, Av Ibn Batouta (du café Abderrahman à l'angle Av
+           Faiçal Ibn Abdelaziz)
+
+           Av Faiçal Ibn Abdelaziz, Rue Ibn Koutaiba, Rue Ibn Aissa, Av Ibn Taieb Alami (de l'angle
+           Faiçal Ibn Abdelaziz à l'angle Av Kaouakibi), Av Agensous, Av Ibn Zagour, Av Ibn Batouta
+           (de l'angle Av Faiçal Ibn Abdelaziz à l'angle, Av Ibn Ardoun) Av Ibn Ardoun (de l'angle
+           Faiçal Ibn Abdelaziz à l'angle Av Kaouakibi)
+
+TA-AS11    Branes: Av Ibn Ardoun (de l'école Qods à Av Ibn Zarae), Rue Ibn Habous, Av Abderrahman
+TA-AS12    Kaouakibi, Av Ibn Zagour (de l'angle Av Kaouakibi à Rue Ibn Farda), Av Ibn Hicham, Av Ibn
+           Sirine, Av Ibn Achik, Av Ibn Nadim, Rue Ibn Farda, Av Ibn Zarae, Lotis Nargis, Av
+           Yassmine, Av des Myrtes, Av des Sols, Av des Pins, Av des Noyers, Rue des Cedres, Av
+           des Marguerites, Av des Pistaches Rue des Citronniers, Av des Pommiers, Av Zaizafoun,
+           Av des Poiriers, Av des Grenadiers, Rue des Chênes Liège, Av des Cognassiers, Av des
+           Lauriers, Av des Roses, Av des Lavandes, Av Palmiers, Av Musk, Rue Forêt Maamoura,
+           Rue Forêt Savane, Rue Hammadi Ameziane, Rue Arif Ali, Rue Fqih Ben Mekki
+
+           Bassatine, Av Mly Rachid (de l'angle Anfa jusqu'au Rond Point Trial Atlas) Av Faiçal Ibn
+           Abdelaziz (de l'av Mly Rachid à la Rue Nid d'Oiseaux), Rue les Nids d'Oiseaux, Av Laith
+           Bnou Saad
+
+           - 47 -
+Code Zone                                                          Points de Repère
+ TA-AS13
+ TA-AS14   Souani Place du Maroc, Place 20 Août, Route de Branes, Av Layt Bnou Saad, Café
+ TA-AS15   Abderrahman, Av Moulay Abdelhafid (de la place du Maroc à La Route Branes) Av Haroun
+           Rachid (de la place du Maroc à la Place 20 Août)
+
+           Route de Rabat (de la Centrale Laitière à l'angle Av Martil)
+
+           Av Moulay Smail, Place Volubilis
+
+           - 48 -
+7.4 Cartographie des Zones relevant de l'Arrondissement Beni Makada
+                                                                          - 49 -
+- 50 -
+- 51 -
+7.4. Tableau des délimitations des Zones : l'Arrondissement Beni Makada
+
+Code Zone  Points de Repère
+
+TA-BM1     Route de Rabat, Av Martil, Av Mediaq, Av Nakhil, Rue Oued Merahrah, Rue Assardoun,
+TA-BM2     Rue Martyr Benlahcen Bouayad, Rue Bouhdach Mohamed, Rue Martyr Ibn Hassan Belaid,
+           Rue Martyr Amezil Mohamed, Rue M'barek Ben Boubker Hamadi, Lotis Ennasr, Lotis Ines,
+           Lotis Ellatif, Lotis Sanae, Av Martyr Alami Taghzouti (de la Mosquée Al Cantara Jusqu'à
+           l'angle Av Martil)
+
+           Bendibane : Rue Bangladesh, Rue Indonesia, Rue Afghanistan, Rue Iran, Rue Martyr
+           Abdelhadi Taieb, Rue Boussena, Rue Martyr Mouloud Ibn Allal, Rue Martyr Saidi
+           Mohamed, Rue Martyr Idrissi Alami, Rue Abdelhadi Taieb, Rue Hassan Ben Mostafa, Rue
+           Hassan Belhaj, Rue Martyr Jillali Benayouch, Rue Barakat, Rue Moulay Ali, Rue Stitou
+           Mohamed
+
+TA-BM3     Jirrari : Quartier Saada, Av Moulay Ali Cherif, Beni Makada, Quartier El Kheir, Rue Jirari
+           Ben Lakhdar, Rue Ouargha, Av Oued Saboune, Rue Oued Daraa, Av Aicha Moussfir ( de
+TA-BM4     l'angle Av Moulay Ali Cherif à l'angle Av Arabie Saoudite), Rue Settat, Rue Méknes, Rue
+TA-BM5     Mehdia, Rue Tripoli, Rue Syrie, Av Soudan, Rue Le Caire, Mosquée Al Arbaiine, Rue
+TA-BM6     Sefrou, Rue Berkane, Rue Dakhla, Av Moulay Yaacoub
+
+           Dhar Hmam, Dhar Jaidi, Quartier Sania Quartier Rgayae, Av Tunisie, Av d'Algérie, Rue
+           Bamako, Rue Dakar, Rue Ossaka, Rue Kinshasa, Rue Mogadishiou, Av Omane, Av Libye,
+           Av D'algérie
+
+           Av Al Qods
+
+           Quartier El Majd, Rue Assouane, Rue Aadan, Rue Sayeda, Rue Ach-Charika, Av Damas,
+           Rue Beyrouth, Rue Sour, Rue Baalabek, Rue Amiad, Rue Ariha, Rue Al Okssor, Rue
+           Jeddah, Rue Al Bassra, Rue Sadad, Rue Alladikia, Rue Al Kadissia, Rue Al Ismailia
+
+TA-BM7     Av Martyr Alami Taghzouti (de l'angle Av Martil au rond point Av Arabie Saoudite)
+
+TA-BM8     Quartier Kheir II, Bni Makada Kadima, Quartier Bouchta Abdellatif
+TA-BM9
+TA-BM10    Quartier Zemmouri, Bni Ouriaghel, Quartier Beau Sejour, Rue des Iles Comores, Rue
+           Angola, Rue Gabon, Avenue Nigeria, Rue Sénégal, Rue Cap Vert, Rue Somalie, Rue Oued
+           Romane, Rue Oued Lhachef, Rue Ijass, Av Hoceima
+
+           Route de Rabat (des Jardins Ennasr aux Brasseries de Tanger), Rue Hamama
+
+TA-BM11    Quartier Ahlan, Quartier Karima, Lotis Bank Chaabi, Rue Fidae, Rue Amal, Rue Al Hamd,
+           Rue Attasamouh, Av Hiwar, Rue Al Inssaf, Rue Attafaoul, Rue Arrajae, Rue Saada, Rue Al
+TA-BM12    Imane, Rue Al Joud, Rue Annour, Av Al Afaou, Av Al Iqbal, Rue Annour, Rue Arrachad,
+TA-BM13    Rue Al Mawadda
+TA-BM14
+TA-BM15    Rocade n°9
+
+           Av Arabie Saoudite (De Hotel Ahlan au Rond Point Av Martyr Alami Taghzouti)
+
+           Av Arabie Saoudite (de l'angle rond point Av Martyr Alami Taghzouti à l'angle Av Qods)
+
+           Route Sidi Driss (du rond point angle Av Arabie Saoudite au Cimetière de Sidi Driss)
+
+           - 52 -
+Code Zone                                                          Points de Repère
+ TA-BM16
+ TA-BM17   Hay El Hadad, Av Aicha Moussafir (de l'angle Av Arabie Saoudite à l'angle Av Koweit), Av
+ TA-BM18   Irak, Rue Ras El Khaima, Av Ajmane, Av Al Manama, Quartier Al Inaach, Quartier
+ TA-BM19   Ezzahara, Quartier El Anbar
+ TA-BM20
+ TA-BM21   Bni Said, Ahrarrine, Lotis Badil
+ TA-BM22
+           Quartier Jamila, Al Mizane, Quartier Hanae, Quartier Al Andalous, Les Rosiers, Quartier El
+           Mrabet, Av Aicha Moussafir (de l'av Koweit Jusqu'à la Fin de Aicha Moussafir), Rue
+           Andalous, Quartier Aouamaia, Quartier Soussi
+
+           Bni Touzine, Sidi Driss
+
+           Quartier El Hassani
+
+           Bir Chifa, Mers Achenad, Lotis Al Mers, Dhar Kanfoud, Dhar Ahajam, Gorziana, Quartier
+           Bouhout, Zouitina
+
+           Bhair Aouama, Bir El Ghazi, Ganbouria, Hjar Sfar
+
+           - 53 -
+                                     8. Contacts utiles
+
+            Désignation                              Adresse                       Tél/Email
+    Centre d'Information DGI         Haj Ahmed Cherkaoui Agdal Rabat           0537-27-37-27
+Bureau d'Accueil de la Direction                                          referentiel@tax.gov.ma
+Régionale des Impôts de Tanger           Rue Abi Jarir Tabari Tanger           0539-94-09-80
+   Agence Urbaine de Tanger          53 Rue Abou Alae Al Maari Tanger          0539-94-02-85
+                                                                               0539-32-15-00
+   Préfecture Tanger-Assilah           Quartier Administratif Tanger           0539-34-07-97
+                                                                               0539-94-02-72
+Agence Nationale de la Conservation  28 Av Prince Moulay Abdellah Tanger       0539-94-02-77
+    Foncière, du Cadastre et de la
+     Cartographie Tanger Médina                                                0539-93-82-45
+
+Agence Nationale de la Conservation  Av Al Qods Al Majd Aouama Tanger          0539-95-51-02
+    Foncière, du Cadastre et de la
+                                                                               0539-93-79-71
+ Cartographie Tanger Beni Makada                                               0539-95-61-78
+                                                                               0539-36-18-04
+    Arrondissement/Tanger Medina     Rue Moatamid Ibn Abbad Tanger             0539-95-15-11
+Arrondissement/Tanger Charf Mghogha   Av Yaacoub Al Mansour Tanger
+
+     Arrondissement/Tanger Souani        Av Moulay Slimane Tanger
+ Arrondissement/Tanger Ben Makada             Av Al Qods Tanger
+
+                                     - 54 -
+
