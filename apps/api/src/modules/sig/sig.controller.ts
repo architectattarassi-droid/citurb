@@ -65,6 +65,25 @@ export class SigController {
     res.json({ ok: true, ...data });
   }
 
+  /**
+   * Catalogue OSM des quartiers du Maroc (admin_level 9-10 + place=suburb/quarter/
+   * neighbourhood). Extrait via Overpass API — 1 835 quartiers / suburbs / arrondissements
+   * couvrant tout le territoire. Source ODbL, indépendante (pas de convention).
+   *
+   *   GET /api/sig/osm-quartiers.geojson
+   */
+  @Get("osm-quartiers.geojson")
+  getOsmQuartiers(@Res() res: Response) {
+    const data = this.sig["loadJsonStatic"]("osm-quartiers-ma.geojson");
+    if (!data) {
+      res.status(404).json({ ok: false, error: "OSM quartiers MA non disponible" });
+      return;
+    }
+    res.setHeader("Content-Type", "application/geo+json; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=86400, stale-while-revalidate=604800");
+    res.send(JSON.stringify(data));
+  }
+
   @Get("auto-detect-zone")
   async autoDetectZone(
     @Query("lat") lat?: string,

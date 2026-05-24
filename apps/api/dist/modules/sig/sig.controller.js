@@ -73,6 +73,23 @@ let SigController = class SigController {
         res.setHeader("Cache-Control", "public, max-age=3600, stale-while-revalidate=86400");
         res.json({ ok: true, ...data });
     }
+    /**
+     * Catalogue OSM des quartiers du Maroc (admin_level 9-10 + place=suburb/quarter/
+     * neighbourhood). Extrait via Overpass API — 1 835 quartiers / suburbs / arrondissements
+     * couvrant tout le territoire. Source ODbL, indépendante (pas de convention).
+     *
+     *   GET /api/sig/osm-quartiers.geojson
+     */
+    getOsmQuartiers(res) {
+        const data = this.sig["loadJsonStatic"]("osm-quartiers-ma.geojson");
+        if (!data) {
+            res.status(404).json({ ok: false, error: "OSM quartiers MA non disponible" });
+            return;
+        }
+        res.setHeader("Content-Type", "application/geo+json; charset=utf-8");
+        res.setHeader("Cache-Control", "public, max-age=86400, stale-while-revalidate=604800");
+        res.send(JSON.stringify(data));
+    }
     async autoDetectZone(lat, lng, commune, region, bienFamily, address, res) {
         const result = await this.detector.detect({
             lat: lat != null ? +lat : undefined,
@@ -151,6 +168,13 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], SigController.prototype, "getDgiZones", null);
+__decorate([
+    (0, common_1.Get)("osm-quartiers.geojson"),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], SigController.prototype, "getOsmQuartiers", null);
 __decorate([
     (0, common_1.Get)("auto-detect-zone"),
     __param(0, (0, common_1.Query)("lat")),

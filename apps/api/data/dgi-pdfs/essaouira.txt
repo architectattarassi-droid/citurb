@@ -1,0 +1,696 @@
+   Référentiel des Prix des Transactions Immobilières
+                             d’Essaouira
+
+       Les données de ce référentiel sont opposables uniquement
+                      à la Direction Générale des Impôts
+
+Site Internet : www.tax.gov.ma – Email : referentiel@tax.gov.ma
+                                                                       Edition Décembre 2016
+                                    Sommaire
+
+1. Préambule                                                                      03
+
+2. Liste des abréviations                                                         04
+
+3. Lexique                                                                        05
+
+4. Territoire, biens concernés et plan d’ensemble de la Province d’Essaouira      07
+
+4.1. Territoire et biens concernés                                                07
+
+4.2. Plan d’ensemble de la Province d’Essaouira                                   09
+
+5. Mode de recherche                                                              10
+
+6. Référentiel des prix des transactions immobilières de la Province d’Essaouira  11
+
+6.1. Arrondissement 1                                                             12
+
+6.2. Arrondissement 2                                                             14
+
+6.3. Arrondissement 3                                                             18
+
+6.4. Arrondissement 4                                                             20
+
+7. Cartographie et tableaux des délimitations des Zones                           22
+
+8. Contacts utiles                                                                31
+
+                                    -2-
+                                  1. Préambule
+
+Dans une démarche de transparence de l’action de l’Administration et de rationalisation de son pouvoir
+d’appréciation, le présent manuel assure la publication des prix de référence retenus par
+l’Administration pour les besoins de calcul des droits et taxes.
+Il s’applique à l’ensemble des cessions de biens immobiliers à usage d’habitation.
+Il permet aux citoyens, dans un souci d’amélioration du climat de confiance, de disposer du même
+niveau d’information que l’Administration.
+Pour se rapprocher le plus de la réalité du marché, les données de ce référentiel sont le résultat d’un
+travail de consultation et de concertation entre la Direction Générale des Impôts, l’Agence Nationale de
+la Conservation Foncière du Cadastre et de la Cartographie, la Fédération Nationale des Promoteurs
+Immobiliers, l’Agence Urbaine d’Essaouira, le Ministère de l’Urbanisme et de l’Aménagement du
+Territoire et l’Ordre des Notaires.
+Il s’agit de prix moyens retenus pour le calcul des droits et taxes et ne constituent en aucun cas une
+évaluation directe d’un bien immobilier donné.
+Il constitue à cet effet une étape importante dans le processus de renforcement des garanties accordées
+aux citoyens.
+Les données de ce référentiel feront l’objet d’une actualisation périodique en fonction de l’évolution du
+marché de l’immobilier.
+
+                                                                          -3-
+                           2. Liste des abréviations
+
+ANCFCC : Agence Nationale de la Conservation Foncière, du Cadastre et de la Cartographie
+DGI : Direction Générale des Impôts
+FNPI : Fédération Nationale des Promoteurs Immobiliers
+m2 : Mètre Carré
+ESS : Essaouia
+ESS-01 : Essaouira - Arrondissement 01
+ESS-02 : Essaouira – Arrondissement 02
+ESS-03 : Essaouira - Arrondissement 03
+ESS-04 : Essaouira – Arrondissement 04
+PC : Prix de la Construction
+PCF : Prix de la Construction Finie
+PCSF : Prix de la Construction Semi Finie
+PT : Prix du Terrain
+ST : Superficie du Terrain
+T : Terrain
+ZI : Zone Immeuble
+ZM : Zone Maison
+Zone Rue/Av./Bd : Rue, Avenue et Boulevard ayant le statut d’une Zone
+ZV : Zone Villa
+
+                                                                          -4-
+                                    3. Lexique
+
+Ancien (logement) : logement ayant été achevé depuis plus de quinze ans (> à 15 ans).
+Appartement sécurisé : appartement situé dans un projet immobilier fermé et sécurisé.
+Appartement : un appartement est une unité d’habitation, comportant un certain nombre de pièces et
+située dans un immeuble collectif généralement dans une ville.
+Appt (vue sur Mer) : Appartement avec une vue sur la mer.
+Immeuble : dans le langage courant, le mot "immeuble" désigne un bâtiment urbain de plusieurs étages,
+à usage d’habitation ou professionnel, en copropriété.
+Logement social : par cette formule, on désigne un appartement dont la superficie couverte est
+comprise entre 50 et 80 m2 et le prix de vente n’excède pas 250.000 dirhams, hors taxe sur la valeur
+ajoutée.
+Loti (terrain) : un terrain loti signifie un terrain situé dans un lotissement (voir lotissement).
+Lotissement : un lotissement est constitué par un ensemble de lots provenant de la division d’un terrain
+en vue d’y recevoir des constructions qui sont vendues généralement séparément après que le lotisseur
+ait réalisés des voies d’accès, des espaces collectifs et des travaux de viabilité et les raccordements aux
+réseaux de fourniture en eau, en électricité, aux réseaux d’égouts et aux réseaux de télécommunication.
+Maison : une maison est un bâtiment destiné à être la demeure d’une famille, voire de plusieurs, et qui
+n’est pas un immeuble en copropriété.
+Neuf (logement) : logement achevé depuis six ans au plus (<= à 6 ans).
+Prix Appartement = Prix au m2 Appartement x (Superficie Appartement + Superficie Parking/3 +
+Superficie Terrasse/2).
+Prix de la Construction (PC) : par prix de la construction, on entend le prix du mètre carré couvert.
+Prix du Terrain (PT) : par prix du terrain, on entend le prix du terrain au mètre carré.
+Prix Maison = Prix au m2 T x Superficie Terrain Maison + Prix au m2 C x Superficie Couverte.
+Prix Terrain = Prix au m2 Terrain x Superficie Terrain.
+Prix Villa = Prix au m2 T x Superficie Terrain Villa + Prix au m2 C x Superficie Couverte.
+Récent (logement) : logement achevé depuis plus de six ans au moins et quinze ans au plus (> à 6 ans
+et <= à 15 ans) + logement ancien achevé suite à rénovation depuis six ans au plus (<= à 6 ans).
+Riad : maison entièrement fermée sur l'extérieur, qui s'organise autour d'un patio central souvent
+arboré et doté d'une fontaine.
+
+                                                                          -5-
+Terrain ZI : est considéré comme terrain zone immeuble tout terrain destiné à la construction d’un
+immeuble collectif : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de zone villa
+convertie en zone immeuble par exemple).
+Terrain ZM : est considéré comme terrain zone maison tout terrain destiné à la construction d’une
+maison : terrain nu, terrain construit de bâtiments destinés à être démolis (cas de maison vétuste par
+exemple).
+Terrain ZV : est considéré comme terrain zone villa tout terrain destiné à la construction d’une villa :
+terrain nu, terrain construit de bâtiments destinés à être démolis (cas de villa vétuste par exemple).
+Villa sécurisée : villa située dans un domaine résidentiel fermé et sécurisé.
+Villa : une villa est une maison avec jardin.
+Zone : une zone est un groupe d’adresses où les prix sont relativement homogènes.
+
+                                                                          -6-
+4. Territoire, biens concernés et plan d’ensemble de la Province d’Essaouira :
+
+   4.1. Territoire et biens concernés :
+
+La Région de Marrakech-Safi est l'une des douze régions du Maroc instituées en 2015.
+Elle se compose d’une Préfecture et sept Provinces :
+
+    x Préfecture de Marrakech ;
+    x Province de Chichaoua ;
+    x Province d'Al Haouz ;
+    x Province d'El Kelâa des Sraghna ;
+    x Province d'Essaouira ;
+    x Province de Rehamna ;
+    x Province de Safi ;
+    x Province de Youssoufia.
+
+x  La Province d’Essaouira est composée de 57 communes, dont 5 communes urbaines (ou
+
+   municipalités) : Essaouira, le chef-lieu, El Hanchane, Talmest, Aït Daoud et Tamanar ;
+
+Le territoire géographique et les biens concernés par le présent Référentiel se présentent comme suit :
+
+   x Territoire concerné : La commune urbaine d’ESSAOUIRA ;
+
+        La commune Urbaine d’Essaouira englobe (4)Quatre Arrondissements à savoir :
+   x Arrondissement 01 (Ancienne médina) ;
+   x Arrondissement 02 (Chbanate-Quartier industriel-Bab Doukala-Lots.04 -Bin AL Aswar-Sekala-
+
+                                                la lagune-Tafoukte-Borj2);
+   x Arrondissement 03 (EL Borj-Les Dunes-Azlef – Erraounak-EL Mostakbal- Douar Laarab- Sidi
+
+                                    Magdoul- Lots Argana « qui est en cours d’aménagement »)
+   x Arrondissement 04 (EL Ghazoua-Essaouira AL jadida- Station Touristique(Golf) -Diabat).
+
+   x Types de biens immobiliers concernés :
+            o Appartement, Maison, Villa et Riad à usage d’habitation ;
+            o Terrain construit de bâtiments destinés à être démolis : ZM, ZI ou ZV ;
+            o Terrain Loti : ZM, ZI ou ZV.
+
+   -7-
+x Types de biens immobiliers exclus :
+         o Appartement à usage professionnel ;
+         o Villa et Maison à vocation professionnelle ou commerciale ;
+         o Logement social ;
+         o Logement destiné au recasement des bidonvilles ;
+         o Terrain urbain non Loti ;
+         o Terrain à usage industriel ;
+         o Terrain à usage agricole.
+
+                                                                    -8-
+4.2. Plan d’ensemble de la Province d’Essaouira :
+
+                                                                    -9-
+                            5. Mode de recherche :
+
+Actuellement, la recherche s’effectue:
+    • A partir de la délimitation des zones ;
+    • En consultant le Bureau d’Enregistrement d’Essaouira relevant de la Direction Régionale des
+         Impôts de Marrakech et/ou le Centre d’Information Téléphonique au numéro : 05.37.27.37.27.
+
+Précision :
+Lorsque un bien chevauche sur plusieurs zones, le prix à prendre en considération est celui de la zone la
+plus côté.
+
+                                                                         - 10 -
+6. Référentiel des prix des transactions immobilières de la Province
+                                       d’Essaouira
+
+La Commune Urbaine d’Essaouira est découpée en 22 Zones dont la ventilation est comme suit :
+
+Arrondissement/Pachalick  Nombre de Zones          Nombre de Zones  Nombre total des Zones
+    Arrondissement 01              03                 Rue/Av./Bd                 04
+    Arrondissement 02              09                        1                   09
+    Arrondissement 03              05                        0                   05
+    Arrondissement 04              04                        0                   04
+                                   21                        0                   22
+                                                             1
+
+                                           - 11 -
+            6.1. Référentiel des prix des transactions immobilières
+                                  de l’Arrondissement 01
+
+      Zone  Type de bien            Etat                             Prix au m2
+ESS-KASBAH  Appartement           Ancien                                3 500
+            Appartement           Récent                                4 500
+ESS-MELLAH  Appartement                                                 5 500
+                                   Neuf                                 4 500
+                Maison            Ancien                                7 000
+                Maison            Récent                                9 000
+                Maison                                                  5 500
+                                   Neuf                                  7 500
+                  Riad            Ancien                               10 500
+                  Riad            Récent                                2 500
+                  Riad                                                  3 500
+            Appartement            Neuf                                 4 500
+            Appartement           Ancien                                3 500
+            Appartement           Récent                                5 000
+                Maison                                                  7 000
+                Maison             Neuf                                 4 000
+                Maison            Ancien                                6 000
+                  Riad            Récent                                8 000
+                  Riad
+                  Riad             Neuf
+                                  Ancien
+                                  Récent
+
+                                   Neuf
+
+                          - 12 -
+        Zone         Type de bien              Etat  Prix au m2
+ESS-DB.AGADIR                                Ancien     3 000
+                     Appartement             Récent     4 000
+  ESS-LITORAL        Appartement                        5 000
+                     Appartement              Neuf      4 000
+                                             Ancien     5 500
+                         Maison              Récent     8 500
+                         Maison                         5 000
+                         Maison               Neuf      7 000
+                                             Ancien    10 000
+                           Riad              Récent     3 500
+                           Riad                         4 500
+                           Riad               Neuf      5 500
+                     Appartement             Ancien     6 000
+                     Appartement             Récent     8 000
+                     Appartement                       12 000
+               Appartement (Vue sur           Neuf      7 000
+                           Mer)              Ancien     8 000
+               Appartement (Vue sur          Récent    11 000
+                           Mer)
+               Appartement (Vue sur           Neuf
+                           Mer)              Ancien
+                         Maison              Récent
+                         Maison               Neuf
+
+                         Maison
+
+                                     - 13 -
+              6.2. Référentiel des prix des transactions immobilières
+                                    de l’Arrondissement 02
+
+Zone          Type de bien          Etat  Prix au m2
+
+ESS-CHBANAT   Appartement   Ancien                         2 500
+  ESS-BAB.D   Appartement   Récent                         3 500
+              Appartement                                  4 500
+ESS-Q.INDUST                 Neuf                          3 500
+                  Maison    Ancien                         5 000
+                  Maison    Récent                         7 000
+                  Maison                                   4 000
+                             Neuf                          6 000
+                    Riad    Ancien                         8 000
+                    Riad    Récent                         4 500
+                    Riad                                   3 500
+              Appartement    Neuf                          4 000
+              Appartement   Récent                         5 000
+              Appartement   Ancien        PT : 2 000 PC : 2 000
+              Appartement   Récent        PT : 2 000 PC : 2 500
+                  Maison                  PT : 2 000 PC : 3 000
+                  Maison     Neuf                          2 000
+                  Maison    Ancien                         1 500
+               Terrain ZM   Récent
+                Terrain ZI
+                             Neuf
+                              Loti
+                              Loti
+
+                            - 14 -
+        Zone   Type de bien             Etat                    Prix au m2
+    ESS-LOT.4                                                       4 000
+                      Appartement              Ancien               5 000
+ESS-BIN.ASWAR         Appartement              Récent               6 000
+                      Appartement
+                                                Neuf    PT : 5 500 PC : 1 500
+                           Maison              Ancien   PT : 5 500 PC : 2 000
+                           Maison              Récent   PT : 5 500 PC : 3 000
+                           Maison
+                        Terrain ZM              Neuf                5 500
+                         Terrain ZI              Loti               6 500
+                      Appartement                Loti               5 000
+                      Appartement              Ancien               6 000
+                      Appartement              Récent               7 000
+                  Appt (vue sur Mer)            Neuf                6 000
+                  Appt (vue sur Mer)           Ancien               7 000
+                  Appt (vue sur Mer)           Récent              10 000
+                     Appt (Sécurisé)            Neuf                6 000
+                     Appt (Sécurisé)           Ancien               7 000
+                     Appt (Sécurisé)           Récent               9 500
+               Appt(Sécurisé-Vue sur            Neuf               11 000
+                                               Récent              14 000
+                             Mer)               Neuf    PT : 3 500 PC : 2 000
+               Appt(Sécurisé-Vue sur           Ancien   PT : 3 500 PC : 3 500
+                                               Récent   PT : 3 500 PC : 5 000
+                             Mer)               Neuf     PT : 2 500 PC : 2 000
+                 Villa inf ou = à 400m         Ancien    PT : 2 500 PC : 3 500
+                 Villa inf ou = à 400m         Récent    PT : 2 500 PC : 5 000
+                 Villa inf ou = à 400m          Neuf                8 000
+                                                  loti              3 500
+                    Villa Sup à 400m             Loti               2 500
+                    Villa Sup à 400m             Loti
+                    Villa Sup à 400m
+                                        - 15 -
+                         Terrain ZI
+                   Terrain ZV < ou= à
+
+                            400m
+               Terrain ZV (sup à 400m)
+      Zone  Type de bien    Etat                    Prix au m2
+ESS-SEKALA  Appartement   Ancien                        3 000
+ESS-TAFKTE  Appartement   Récent                        4 000
+            Appartement                                 5 000
+ESS-LA LAG                 Neuf
+                Maison    Ancien            PT : 5 000 PC : 1 500
+                Maison    Récent            PT : 5 000 PC : 2 000
+                Maison                      PT : 5 000 PC : 2 500
+             Terrain ZM    Neuf
+            Appartement     Loti                        5 000
+            Appartement   Récent                        4 500
+                Maison     Neuf                         5 500
+                Maison    Ancien            PT : 6 000 PC : 1 500
+                Maison    Récent            PT : 6 000 PC : 2 000
+                           Neuf             PT : 6 000 PC : 2 500
+                  Villa    Neuf   PT : 3 500 PCSF : 1 500 PCF : 3 000
+             Terrain ZM     Loti                        6 000
+             Terrain ZV     Loti                        3 500
+            Appartement   Ancien                        4 000
+            Appartement   Récent                        5 000
+            Appartement    Neuf                         6 000
+                          Ancien            PT : 5 500 PC : 1 500
+                Maison    Récent            PT : 5 500 PC : 2 000
+                Maison
+                           Neuf             PT : 5 500 PC : 3 000
+                Maison
+                            Loti                        5 500
+             Terrain ZM
+                            Loti                        6 500
+              Terrain ZI
+
+                          - 16 -
+     Zone    Type de bien    Etat         Prix au m2
+ESS-BORJ II  Appartement   Ancien             4 500
+             Appartement   Récent             5 500
+             Appartement                      6 500
+                            Neuf
+                 Maison    Ancien  PT : 7 000 PC : 1 500
+                 Maison    Récent  PT : 7 000 PC : 2 000
+                 Maison            PT : 7 000 PC : 2 500
+                            Neuf   PT : 5 000 PC : 1 500
+                   Villa   Ancien  PT : 5 000 PC : 2 000
+                   Villa   Récent  PT : 5 000 PC : 2 500
+                   Villa
+              Terrain ZM    Neuf              7 000
+               Terrain ZI    Loti             8 000
+              Terrain ZV     Loti             5 000
+                             Loti
+
+                           - 17 -
+             6.3. Référentiel des prix des transactions immobilières
+                                   de l’Arrondissement 03
+
+    Zone     Type de bien                Etat            Prix au m2
+  ESS-LBORJ       Appartement              Ancien              4 500
+                  Appartement              Récent              5 500
+ESS-RAOUNAK       Appartement               Neuf               6 500
+                      Maison               Ancien
+                      Maison               Récent   PT : 7 000 PC : 1 500
+                      Maison                Neuf    PT : 7 000 PC : 2 000
+                        Villa              Ancien   PT : 7 000 PC : 2 500
+                        Villa              Récent  PT : 5 000 PC : 1 500
+                        Villa               Neuf   PT : 5 000 PC : 2 000
+                    Terrain ZM               Loti  PT : 5 000 PC : 3 000
+                     Terrain ZI              Loti
+                    Terrain ZV               Loti              7 000
+                  Appartement              Ancien              8 000
+                  Appartement              Récent              5 000
+                  Appartement               Neuf               4 500
+                      Maison               Ancien              5 500
+                      Maison               Récent              6 500
+                      Maison                Neuf    PT : 7 000 PC : 1 500
+                        Villa              Ancien   PT : 7 000 PC : 2 000
+                        Villa              Récent   PT : 7 000 PC : 2 500
+                        Villa               Neuf    PT : 6 000 PC : 2 000
+                    Terrain ZM               Loti   PT : 6 000 PC : 3 000
+                     Terrain ZI              Loti   PT : 6 000 PC : 3 500
+                                                               7 000
+                    Terrain ZV               Loti              8 000
+
+                                                               6 000
+
+                                 - 18 -
+       Zone    Type de bien                   Etat             Prix au m2
+  ESS-DUNES                                                        5 000
+               Appartement                    Ancien               6 000
+ ESS-SIDI MAG                                                      7 000
+ESS-DR.LARAB   Appartement                    Récent               6 000
+                                                                   7 000
+               Appartement                    Neuf                10 000
+                                                                   6 000
+               Appt (vue sur Mer)             Ancien               7 000
+                                                                   9 500
+               Appt (vue sur Mer)             Récent              11 000
+                                                                  14 000
+               Appt (vue sur Mer)             Neuf
+                                                        PT : 3 500 PC : 2 000
+               Appt (sécurisé)                Ancien    PT : 3 500 PC : 3 500
+                                                        PT : 3 500 PC : 5 000
+               Appt (sécurisé)                Récent    PT : 2 500 PC : 2 000
+                                                        PT : 2 500 PC : 3 500
+                    Appt (sécurisé)            Neuf     PT : 2 500 PC : 5 000
+                                              Récent
+               Appt(sécurisé-Vue sur                               8 000
+                            Mer)               Neuf                3 500
+                                              Ancien               2 500
+               Appt(sécurisé-Vue sur                               9 000
+                            Mer)                                   5 000
+                                                         PT : 100 PC : 2 000
+                Villa inf ou = à 400m                    PT : 100 PC : 2 500
+                                                         PT : 100 PC : 3 000
+               Villa inf ou = à 400m          Récent                100
+
+               Villa inf ou = à 400m          Neuf
+
+               Villa Sup à 400m               Ancien
+
+               Villa Sup à 400m               Récent
+
+                    Villa Sup à 400m          Neuf
+                                              Loti
+                         Terrain ZI           Loti
+                  Terrain ZV < ou = à         Loti
+
+                            400m
+               Terrain ZV (sup à 400m)
+
+               Terrain ZI                     Loti
+
+               Terrain ZV                     Loti
+
+               Villa                          Ancien
+
+               Villa                           Récent
+                                                Neuf
+               Villa
+                                              Non Loti
+               Terrain ZV
+
+                                      - 19 -
+             6-4. Référentiel des prix des transactions immobilières
+                                  De l’Arrondissement 04 :
+
+   Zone        Type de bien       Etat         Prix au m²
+ ESS-JADIDA       Appartement          Ancien               3 000
+ESS-DIABAT        Appartement          Récent               3 500
+                  Appartement            Neuf               4 500
+                      Maison           Ancien
+                      Maison           Récent   PT : 3 000 PC : 1 500
+                      Maison             Neuf   PT : 3 000 PC : 2 000
+                        Villa          Ancien   PT : 3 000 PC : 2 500
+                        Villa          Récent   PT : 1 500 PC : 2 000
+                        Villa            Neuf   PT : 1 500 PC : 2 500
+                   Terrain ZM            Loti   PT : 1 500 PC : 3 000
+                    Terrain ZV           Loti
+                  Appartement          Ancien               3 000
+                  Appartement          Récent               1 500
+                  Appartement            Neuf               3 000
+                                       Ancien               3 500
+             Appart(Vue sur Mer)       Récent               4 000
+             Appart(Vue sur Mer)         Neuf               5 000
+             Appart(Vue sur Mer)       Ancien               6 000
+                                       Récent               7 000
+                      Maison             Neuf   PT : 1 000 PC : 1 300
+                      Maison             Loti   PT : 1 000 PC : 1 500
+                      Maison                    PT : 1 000 PC : 2 000
+                   Terrain ZM                               1 000
+
+             - 20 -
+Zone      Type de bien    Etat         Prix au m²
+ESS-GHAZ  Appartement   Ancien             3 500
+ESS-GOLF  Appartement   Récent             4 000
+          Appartement                      5 000
+                         Neuf
+              Maison    Ancien  PT : 2 500 PC : 1 500
+              Maison    Récent  PT : 2 500 PC : 2 000
+              Maison            PT : 2 500 PC : 3 000
+                         Neuf   PT : 1 000 PC : 1 500
+                Villa   Ancien  PT : 1 000 PC : 2 000
+                Villa   Récent  PT : 1 000 PC : 3 500
+                Villa
+           Terrain ZM    Neuf              2 500
+            Terrain ZI    Loti             1 000
+           Terrain ZV     Loti             1 000
+                Villa     Loti  PT : 2 000 PC : 3 500
+                Villa   Récent  PT : 2 000 PC : 4 000
+           Terrain ZV    Neuf              2 000
+                          Loti
+
+                        - 21 -
+7- Cartographie et Tableaux des délimitations des Zones :
+                                       - 22 -
+7.1 Cartographie des Zones relevant de l’Arrondissement 01
+
+                               - 23 -
+                      Code Zone  7.2. Tableau des délimitations des Zones : Arrondissement 01
+ESS- KASBAH
+ESS- MELLAH                                   Points de Repère
+ESS- DB.AGADIR
+                                              Avenue Oqba bnou Nafiaa
+  ESS- LITORAL                                Bab Sbaa
+                                              Place Moulay EL Hassan
+                                              La Muraille Nord
+                                              Rue Sekala
+                                              Av.Mohamed Zerktouni
+                                              Rue Abdelaziz EL Fachtali
+                                              Muraille nord de l’ancienne médina
+                                              Bab Doukala
+
+                                              Av.de L’istiqlal
+                                              Bin AL Aswar
+                                              Rue Mohamed EL Qorry
+                                              Place de Marrakech
+
+                                              La Muraille Nord de l’ancienne Médina
+                                              La Muraille West de l’ancienne Médina
+
+                                 - 24 -
+7.3. Cartographie des Zones relevant de l’Arrondissement 02
+
+                                - 25 -
+                                 7.4. Tableau des délimitations des Zones : Arrondissement 02
+
+                      Code Zone   Points de Repère
+ESS- CHBANATE
+ESS- BAB.D                        La cote Weste
+ESS- QT.INDUST                    Av.AL Aqaba
+ESS- LOT.04                       Place Bab Doukala
+                                  Av. 2 Mars
+ESS- BIN ASWAR                    Av.Moulay youssef
+                                  Av.2 Mars
+ ESS-SEKALA                       Av.EL Aqaba
+  ESS- TAFKTE                     Av. de Fes
+ ESS-LA LAG                       Place Bab Marrakech
+                                  Place Bin Al Aswar
+ESS- BORJ.2                       Plage d’Essaouira
+                                  Hôtel Riad Mogador
+                                  Av.AL Aqaba
+                                  Av.de FES
+                                  Place de Marrakech
+                                 Av.Moulay youssef
+                                 Av.2 Mars
+                                 Av.EL Aqaba
+                                 Av. AL Moukaouama
+                                 Place Bab Marrakech
+                                 Rue du Stade
+
+                                 Place de Marrakech
+                                 Bab Sbaa
+                                 Av.Mohamed .V
+                                 Av.Princess Lalla Amina
+                                 Av.AL Aqaba
+                                 Rue du Stade
+
+                                  Av.AL Aqaba
+                                  Domaine Forestier
+                                  Av.Haj BARZI Mohamed
+
+                                  Domaine Forestier
+                                  Ecole Primaire AL Bouhaira
+                                  Rue Annabigha Addoubiani
+
+                                   Av.AL Aqaba
+                                   Domaine Forestier
+                                   Av.Abdellah Guennoune
+                                   Tafoukte Extention
+
+                                  Av.Abdellah Guennoune
+                                   Av.AL Aqaba
+                                  Av. Casablanca
+                                  Av.Abdelkrim EL Khattabi
+
+                                 - 26 -
+7.5. Cartographie des Zones relevant de l’Arrondissement 03
+
+                               - 27 -
+       Code Zone  7.6. - Tableau des délimitations des Zones : Arrondissement 03
+ESS-LBORJ
+ESS- RAOUNAK                                                       Points de Repère
+ESS- DUNES
+                                Domaine Forestier
+ESS-SIDI MAG                    Av.Al Aqaba
+                                Av.Casablanca
+ESS- ARGANA                     Av.Mohamed EL Yazidi
+                                Domaine Forestier
+ESS-DR.LARAB                    Av.Mohamed EL Yazidi
+                                Av.AL Aqaba
+                                Route de Marrakech
+
+                              Av.Princesse Lalla Amina
+                                Av.Al Aqaba
+
+                              Av.Mohamed .V
+                              Route de Marrakech
+
+                                Route de Marrakech
+                                Route d’Agadir
+                                Domaine Forestier
+                                Lots Argana
+
+                              Route de Marrakech
+                              Lots Sidi Magdoule
+                              Domaine Forestier
+
+                                Route de Marrakech
+                                Oued Loqsob
+                                Domaine Forestier
+                                Lots Argana
+                                Route d’Agadir
+
+                  - 28 -
+7.7. Cartographie des Zones relevant de l’Arrondissement 04 :
+
+                                - 29 -
+       Code Zone  7.8. - Tableau des délimitations des Zones : Arrondissement 04
+ESS-JADIDA
+ESS-DIABAT                                                         Points de Repère
+
+ESS- GHAZ                             Oued Loqsob
+                                     Route d’Agadir
+ESS-GOLF                              Domaine Forestier
+                                      Diabat
+                                     Route d’Agadir
+                                     Station Touristique
+                                     Douar EL Ghazoua
+
+                                   Route d’Agadir
+                                   Station Touristique
+                                   Domaine Forestier
+
+                                     Route d’Agadir
+                                      Plage d’Essaouira
+                                      Commune Rurale Sidi Kaouki
+
+                  - 30 -
+                                    7. Contacts utiles
+
+Désignation                         Adresse                                      Tél/Email
+                                                                             0537-27-37-27
+       Centre d’Information DGI     Haj Ahmed Cherkaoui Agdal Rabat     referentiel@tax.gov.ma
+                                          Route de Souihla, Targa            0524-49-05-07
+  Bureau d’Accueil de la Direction              Av. Allal Fassi              0524-49-13-71
+Régionale des Impôts de Marrakech
+                                            Rue AL moukaouama                0524-47-53-12
+   Bureau d’enregistrement et de
+          Contrôle d’Essaouira                                               0524-47-40-37
+                                                                             0524-33-27-39
+     Agence Urbaine d’Essaouira             Av.AL Aqaba Essaouira            0524-33-27-40
+                                    Av 11 Janvier, Daoudiate Marrakech
+Wilaya de la Région de Marrakech-                                            06 60 10 27 75
+             Tensift Al Haouz               Av.AL Aqaba Essaouira
+                                                                             0524 78-40-33
+        Agence Nationale de la
+Conservation Foncière, du Cadastre
+
+  et de la Cartographie Essaouira
+
+Province d’Essaouira                Qt.des Dunes Essaouira
+
+                                    - 31 -
+
