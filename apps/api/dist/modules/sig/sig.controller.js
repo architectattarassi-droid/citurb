@@ -161,6 +161,120 @@ let SigController = class SigController {
         res.setHeader("Cache-Control", "public, max-age=3600, stale-while-revalidate=86400");
         res.send(JSON.stringify(merged));
     }
+    /**
+     * Détecteur d'anomalies prix — "Trop beau pour être vrai" (Shield anti-arnaque).
+     *
+     *   GET /api/sig/price-anomaly?lat=&lng=&priceMad=&surfaceM2=&bienFamily=
+     *
+     * Pour un terrain/bien donné, compare le prix déclaré au prix de marché 2026
+     * estimé (DGI 2017 × IPAI BAM × multiplicateur destination). Calcule un
+     * z-score local et flag les anomalies :
+     *   - SUSPICIOUS_LOW  : prix < -2σ (sous-évaluation > 40% — risque arnaque, faux titre, vice caché)
+     *   - UNDERPRICED     : prix < -1σ (sous-évaluation 20-40% — bonne affaire ou problème ?)
+     *   - NORMAL          : prix dans ±1σ
+     *   - OVERPRICED      : prix > +1σ (surévaluation 20-40% — marge négociation)
+     *   - SUSPICIOUS_HIGH : prix > +2σ (surévaluation > 40% — risque escroquerie, manipulation)
+     *
+     * Endpoint public (utilisable depuis wizards et explorateur SIG).
+     */
+    async detectPriceAnomaly(lat, lng, priceMad, surfaceM2, bienFamily, commune, res) {
+        const latNum = lat ? +lat : undefined;
+        const lngNum = lng ? +lng : undefined;
+        const priceNum = priceMad ? +priceMad : NaN;
+        const surfaceNum = surfaceM2 ? +surfaceM2 : NaN;
+        if (!isFinite(priceNum) || priceNum <= 0 || !isFinite(surfaceNum) || surfaceNum <= 0) {
+            res?.status(400).json({ ok: false, error: "priceMad et surfaceM2 sont requis et doivent être > 0" });
+            return;
+        }
+        // 1. Détecter la zone via le service existant
+        const zone = await this.detector.detect({
+            lat: latNum, lng: lngNum, commune,
+            bienFamily: bienFamily,
+        });
+        // 2. Extraire le prix de référence 2026 estimé (DH/m²)
+        const ref = zone?.suggestion?.pt2026Ref
+            || zone?.suggestion?.midRef
+            || zone?.pt2026Ref
+            || null;
+        if (!ref || !isFinite(+ref)) {
+            res?.json({
+                ok: true,
+                verdict: "INSUFFICIENT_DATA",
+                message: "Pas de référentiel DGI disponible pour cette zone — impossible de calculer l'anomalie.",
+                zone,
+            });
+            return;
+        }
+        const refPerM2 = +ref;
+        const declaredPerM2 = priceNum / surfaceNum;
+        const ratio = declaredPerM2 / refPerM2;
+        // Hypothèse : σ = 20% de la moyenne marché (volatilité typique foncier MA)
+        const sigmaPct = 0.20;
+        const zScore = (ratio - 1) / sigmaPct;
+        const deviationPct = (ratio - 1) * 100;
+        let verdict;
+        let severity;
+        let message;
+        let recommendation;
+        let emoji;
+        if (zScore < -2) {
+            verdict = "SUSPICIOUS_LOW";
+            severity = "danger";
+            emoji = "🚨";
+            message = `Prix déclaré ${Math.abs(deviationPct).toFixed(0)}% SOUS le marché — anomalie majeure.`;
+            recommendation = `Vérifications urgentes : (1) authentifier le titre foncier auprès de l'ANCFCC, (2) lire avec attention les charges et servitudes, (3) faire un état des lieux contradictoire avant signature. Ce niveau d'écart cache souvent un vice caché, un litige successoral ou un faux titre.`;
+        }
+        else if (zScore < -1) {
+            verdict = "UNDERPRICED";
+            severity = "warning";
+            emoji = "⚠️";
+            message = `Prix déclaré ${Math.abs(deviationPct).toFixed(0)}% sous le marché — bonne affaire à vérifier.`;
+            recommendation = `Avantage compétitif notable, mais à valider : raison de la baisse (héritage urgent, départ vendeur, contentieux ?), état réel, zone à risque (érosion, urbanisme en révision) ?`;
+        }
+        else if (zScore <= 1) {
+            verdict = "NORMAL";
+            severity = "info";
+            emoji = "✅";
+            message = `Prix déclaré aligné avec le marché 2026 (écart ${deviationPct >= 0 ? "+" : ""}${deviationPct.toFixed(0)}%).`;
+            recommendation = `Niveau de prix cohérent avec la zone. Marge de négociation typique : ±10%.`;
+        }
+        else if (zScore <= 2) {
+            verdict = "OVERPRICED";
+            severity = "warning";
+            emoji = "💰";
+            message = `Prix déclaré ${deviationPct.toFixed(0)}% au-dessus du marché — marge de négociation.`;
+            recommendation = `Potentiel de négociation important. Préparez un dossier d'arguments : comparables récents de la zone, écart vs DGI 2017 × IPAI 2026, défauts à charge du vendeur.`;
+        }
+        else {
+            verdict = "SUSPICIOUS_HIGH";
+            severity = "danger";
+            emoji = "🚩";
+            message = `Prix déclaré ${deviationPct.toFixed(0)}% au-dessus du marché — anomalie majeure.`;
+            recommendation = `Plusieurs scénarios possibles : (1) bien d'exception non capté par le référentiel (résidence haut-standing, vue exceptionnelle), (2) survalorisation pour blanchiment / surfacturation immobilière, (3) tentative d'escroquerie. Faites évaluer indépendamment par un expert agréé avant tout engagement.`;
+        }
+        res?.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=600");
+        res?.json({
+            ok: true,
+            verdict,
+            severity,
+            emoji,
+            message,
+            recommendation,
+            details: {
+                declaredPriceMad: priceNum,
+                declaredPerM2,
+                marketRefPerM2: refPerM2,
+                deviationPct: +deviationPct.toFixed(1),
+                zScore: +zScore.toFixed(2),
+                sigmaAssumed: sigmaPct,
+            },
+            zone: {
+                code: zone?.suggestion?.zoneCode || zone?.zoneCode,
+                source: zone?.suggestion?.source || "DGI 2017 × IPAI BAM 2026",
+            },
+            _disclaimer: "Détecteur statistique CITURBAREA basé sur référentiels DGI 2017 corrigés IPAI BAM 2026. Indication uniquement — ne se substitue pas à une expertise foncière agréée.",
+        });
+    }
     async autoDetectZone(lat, lng, commune, region, bienFamily, address, res) {
         const result = await this.detector.detect({
             lat: lat != null ? +lat : undefined,
@@ -262,6 +376,19 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], SigController.prototype, "getDgiZonesGeo", null);
+__decorate([
+    (0, common_1.Get)("price-anomaly"),
+    __param(0, (0, common_1.Query)("lat")),
+    __param(1, (0, common_1.Query)("lng")),
+    __param(2, (0, common_1.Query)("priceMad")),
+    __param(3, (0, common_1.Query)("surfaceM2")),
+    __param(4, (0, common_1.Query)("bienFamily")),
+    __param(5, (0, common_1.Query)("commune")),
+    __param(6, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String, String, String, String, String, Object]),
+    __metadata("design:returntype", Promise)
+], SigController.prototype, "detectPriceAnomaly", null);
 __decorate([
     (0, common_1.Get)("auto-detect-zone"),
     __param(0, (0, common_1.Query)("lat")),
