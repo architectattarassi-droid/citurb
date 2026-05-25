@@ -10,13 +10,15 @@ exports.Tome6Module = void 0;
 const common_1 = require("@nestjs/common");
 const p5_module_1 = require("./p5/p5.module");
 const tome_6_service_1 = require("./tome-6.service");
+const project_calendar_module_1 = require("./project-calendar/project-calendar.module");
+const dossier_interactions_module_1 = require("./dossier-interactions/dossier-interactions.module");
 let Tome6Module = class Tome6Module {
 };
 exports.Tome6Module = Tome6Module;
 exports.Tome6Module = Tome6Module = __decorate([
     (0, common_1.Module)({
-        imports: [p5_module_1.P5Module],
+        imports: [p5_module_1.P5Module, project_calendar_module_1.ProjectCalendarModule, dossier_interactions_module_1.DossierInteractionsModule],
         providers: [tome_6_service_1.Tome6Service],
-        exports: [tome_6_service_1.Tome6Service, p5_module_1.P5Module],
+        exports: [tome_6_service_1.Tome6Service, p5_module_1.P5Module, project_calendar_module_1.ProjectCalendarModule, dossier_interactions_module_1.DossierInteractionsModule],
     })
 ], Tome6Module);

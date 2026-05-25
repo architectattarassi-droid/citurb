@@ -170,6 +170,62 @@ export class AntiDesintService {
   }
 
   /**
+   * Scan ad-hoc d'un contenu textuel arbitraire (interaction dossier,
+   * commentaire, etc.) — réutilise la même pipeline détection + incident
+   * + append flags que `scanSince`, mais sans dépendre de DossierMessage.
+   *
+   * Fire-and-forget : ne lève jamais, log uniquement.
+   */
+  async scanContent(input: {
+    dossierId: string;
+    messageId: string;
+    expediteurId: string;
+    expediteurRole: string;
+    contenu: string;
+  }): Promise<{ flagsCreated: number; isCritical: boolean }> {
+    try {
+      const detections = this.detect(input.contenu || "");
+      if (detections.length === 0) return { flagsCreated: 0, isCritical: false };
+      const flags: AntiDesintFlag[] = [];
+      for (const det of detections) {
+        const incidentResult = await this.incidents.createFromDoctrinePointer({
+          rule_id: "T2-R-ANTI-DESINT-001",
+          error_code: `ERR-T2-DESINT-${det.type}`,
+          category: "DISINTERMEDIATION_RISK",
+          severity: det.severity === "HIGH" ? "WARN" : "INFO",
+          projectId: input.dossierId,
+          actorId: input.expediteurId,
+          actorType: input.expediteurRole === "CLIENT" ? "CLIENT" : "OPERATOR",
+          door: 2,
+          metadata: {
+            messageId: input.messageId,
+            patternType: det.type,
+            evidence: det.evidence,
+            source: "DOSSIER_INTERACTION",
+            createdAt: new Date().toISOString(),
+          },
+        });
+        flags.push({
+          ts: new Date().toISOString(),
+          messageId: input.messageId,
+          expediteurId: input.expediteurId,
+          expediteurRole: input.expediteurRole,
+          type: det.type,
+          evidence: det.evidence.slice(0, 200),
+          severity: det.severity,
+          incidentId: incidentResult.incidentId,
+        });
+      }
+      await this.appendFlagsToDossier(input.dossierId, flags);
+      const isCritical = await this.checkCriticalThreshold(input.dossierId);
+      return { flagsCreated: flags.length, isCritical };
+    } catch (e: any) {
+      this.logger.warn(`[AntiDesint] scanContent failed: ${e?.message}`);
+      return { flagsCreated: 0, isCritical: false };
+    }
+  }
+
+  /**
    * Détecte tous les patterns suspects dans un message.
    */
   private detect(content: string): Array<{ type: AntiDesintType; severity: "LOW" | "MEDIUM" | "HIGH"; evidence: string }> {

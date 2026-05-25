@@ -1,0 +1,240 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "description": "Phases standard projet CITURBAREA par porte. Toutes durées en jours ouvrés indicatifs — modifiables par dossier.",
+    "phases_ref": ["ESQ", "APS", "APD", "DCE", "DAO", "MARCHE", "EXEC", "RECEPTION", "GPA"]
+  },
+  "P2": {
+    "label": "Promoteur — projet immobilier classique",
+    "phases": [
+      {
+        "phase": "ESQ",
+        "label": "Esquisse",
+        "tasks": [
+          { "titre": "Visite site et relevé topo", "durationDays": 2 },
+          { "titre": "Programme fonctionnel et besoins", "durationDays": 3 },
+          { "titre": "Esquisses 2 variantes architecturales", "durationDays": 5, "isMilestone": true }
+        ]
+      },
+      {
+        "phase": "APS",
+        "label": "Avant-projet sommaire",
+        "tasks": [
+          { "titre": "Choix variante par MOA", "durationDays": 1, "isMilestone": true },
+          { "titre": "Plans niveaux 1/100", "durationDays": 10 },
+          { "titre": "Façades et coupes principales", "durationDays": 5 },
+          { "titre": "Notice descriptive APS", "durationDays": 4 }
+        ]
+      },
+      {
+        "phase": "APD",
+        "label": "Avant-projet détaillé",
+        "tasks": [
+          { "titre": "Plans côtés 1/50", "durationDays": 15 },
+          { "titre": "Coupes et détails", "durationDays": 10 },
+          { "titre": "Descriptif sommaire matériaux", "durationDays": 5 }
+        ]
+      },
+      {
+        "phase": "DCE",
+        "label": "Dossier consultation entreprises",
+        "tasks": [
+          { "titre": "CPS lots techniques (GO, second œuvre, fluides)", "durationDays": 20 },
+          { "titre": "Plans exécution", "durationDays": 15 },
+          { "titre": "Métré quantitatif détaillé", "durationDays": 10 }
+        ]
+      },
+      {
+        "phase": "DAO",
+        "label": "Dossier appel d'offres",
+        "tasks": [
+          { "titre": "Publication AO et dossier consultation", "durationDays": 5 },
+          { "titre": "Période de remise des offres", "durationDays": 21 },
+          { "titre": "Analyse comparative des offres", "durationDays": 7 },
+          { "titre": "Négociation et attribution", "durationDays": 5, "isMilestone": true }
+        ]
+      },
+      {
+        "phase": "MARCHE",
+        "label": "Passation marché",
+        "tasks": [
+          { "titre": "Rédaction marché signé", "durationDays": 7 },
+          { "titre": "Notification ordre de service", "durationDays": 3, "isMilestone": true }
+        ]
+      },
+      {
+        "phase": "EXEC",
+        "label": "Exécution travaux",
+        "tasks": [
+          { "titre": "Installation chantier + GO infrastructure", "durationDays": 60 },
+          { "titre": "GO superstructure", "durationDays": 90 },
+          { "titre": "Second œuvre cloisons + plomberie + élec", "durationDays": 60 },
+          { "titre": "Finitions et revêtements", "durationDays": 45 },
+          { "titre": "VRD et aménagements extérieurs", "durationDays": 30 }
+        ]
+      },
+      {
+        "phase": "RECEPTION",
+        "label": "Réception et OPR",
+        "tasks": [
+          { "titre": "Pré-réception et levée réserves", "durationDays": 15 },
+          { "titre": "Réception provisoire", "durationDays": 1, "isMilestone": true },
+          { "titre": "DOE et plans de récolement", "durationDays": 10 }
+        ]
+      },
+      {
+        "phase": "GPA",
+        "label": "Garantie parfait achèvement",
+        "tasks": [
+          { "titre": "Suivi GPA 12 mois", "durationDays": 365 },
+          { "titre": "Réception définitive", "durationDays": 1, "isMilestone": true }
+        ]
+      }
+    ]
+  },
+  "P3": {
+    "label": "MOD délégué — clé en main",
+    "phases": [
+      {
+        "phase": "ESQ",
+        "label": "Cadrage projet",
+        "tasks": [
+          { "titre": "Audit besoins + visite site", "durationDays": 3 },
+          { "titre": "Définition programme + budget", "durationDays": 5 }
+        ]
+      },
+      {
+        "phase": "APS",
+        "label": "Conception sommaire",
+        "tasks": [
+          { "titre": "Choix corps métiers consultation", "durationDays": 4 },
+          { "titre": "Esquisses + variante optimisée", "durationDays": 10 }
+        ]
+      },
+      {
+        "phase": "APD",
+        "label": "Conception détaillée",
+        "tasks": [
+          { "titre": "Plans 1/50 + détails", "durationDays": 20 },
+          { "titre": "Notices techniques par lot", "durationDays": 10 }
+        ]
+      },
+      {
+        "phase": "DAO",
+        "label": "Sélection prestataires",
+        "tasks": [
+          { "titre": "Consultation 3+ entreprises par corps", "durationDays": 14 },
+          { "titre": "Analyse + négociation", "durationDays": 7 },
+          { "titre": "Attribution + signature contrats", "durationDays": 5, "isMilestone": true }
+        ]
+      },
+      {
+        "phase": "EXEC",
+        "label": "Pilotage chantier MOD",
+        "tasks": [
+          { "titre": "Phase GO + structure", "durationDays": 120 },
+          { "titre": "Phase second œuvre", "durationDays": 90 },
+          { "titre": "Phase finitions", "durationDays": 45 },
+          { "titre": "Réunions hebdo de coordination", "durationDays": 270 }
+        ]
+      },
+      {
+        "phase": "RECEPTION",
+        "label": "Livraison clé en main",
+        "tasks": [
+          { "titre": "OPR + corrections", "durationDays": 15 },
+          { "titre": "Livraison MOA + remise des clés", "durationDays": 1, "isMilestone": true }
+        ]
+      }
+    ]
+  },
+  "P4": {
+    "label": "Investisseur foncier",
+    "phases": [
+      {
+        "phase": "ESQ",
+        "label": "Pré-analyse foncière",
+        "tasks": [
+          { "titre": "Visite terrain + constat", "durationDays": 1 },
+          { "titre": "Recherche cadastre + titres", "durationDays": 3 }
+        ]
+      },
+      {
+        "phase": "APS",
+        "label": "Étude réglementaire",
+        "tasks": [
+          { "titre": "Analyse PA / zoning / COS / CES", "durationDays": 5 },
+          { "titre": "Calcul rendement potentiel", "durationDays": 3 }
+        ]
+      },
+      {
+        "phase": "APD",
+        "label": "Audit technique",
+        "tasks": [
+          { "titre": "Étude géotechnique sommaire", "durationDays": 7 },
+          { "titre": "Étude faisabilité économique", "durationDays": 5 }
+        ]
+      },
+      {
+        "phase": "DCE",
+        "label": "Rapport investisseur",
+        "tasks": [
+          { "titre": "Synthèse + scénarios projet", "durationDays": 5 },
+          { "titre": "Rapport final watermarqué", "durationDays": 2, "isMilestone": true }
+        ]
+      },
+      {
+        "phase": "DAO",
+        "label": "Négociation",
+        "tasks": [
+          { "titre": "Accompagnement négociation prix", "durationDays": 14 }
+        ]
+      },
+      {
+        "phase": "MARCHE",
+        "label": "Acquisition",
+        "tasks": [
+          { "titre": "Suivi acte notarié", "durationDays": 30 },
+          { "titre": "Transfert propriété", "durationDays": 1, "isMilestone": true }
+        ]
+      }
+    ]
+  },
+  "P5": {
+    "label": "Rapports / expertises",
+    "phases": [
+      {
+        "phase": "ESQ",
+        "label": "Cadrage rapport",
+        "tasks": [
+          { "titre": "Brief client + cahier des charges", "durationDays": 1 },
+          { "titre": "Visite site + relevé", "durationDays": 2 }
+        ]
+      },
+      {
+        "phase": "APD",
+        "label": "Investigation",
+        "tasks": [
+          { "titre": "Recueil données + photos", "durationDays": 3 },
+          { "titre": "Analyses techniques", "durationDays": 5 }
+        ]
+      },
+      {
+        "phase": "DCE",
+        "label": "Rédaction",
+        "tasks": [
+          { "titre": "Rédaction rapport", "durationDays": 5 },
+          { "titre": "Revue interne", "durationDays": 1 }
+        ]
+      },
+      {
+        "phase": "RECEPTION",
+        "label": "Livraison",
+        "tasks": [
+          { "titre": "Mise en forme + watermark", "durationDays": 1 },
+          { "titre": "Livraison client + signature", "durationDays": 1, "isMilestone": true }
+        ]
+      }
+    ]
+  }
+}

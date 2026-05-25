@@ -4,6 +4,7 @@ import { useAuth } from "../../tome5/AuthProvider";
 import { NAV_ROUTES } from "../../../application/routeRegistry";
 import { useT } from "../../../i18n/i18n";
 import LangSwitcher from "../../../i18n/LangSwitcher";
+import { BottomNav } from "../../../components/bottom-nav/BottomNav";
 
 /* ── PublicLayout ─────────────────────────────────────────────────────────── */
 export function PublicLayout() {
@@ -56,6 +57,7 @@ export function PublicLayout() {
       <main style={mainStyle}>
         <Outlet />
       </main>
+      <BottomNav />
     </div>
   );
 }

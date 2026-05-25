@@ -15,6 +15,14 @@ import P5Home from "../../tome3/portals/p5/P5Home";
 import P5Finalize from "../../tome3/portals/p5/P5Finalize";
 import SigExplorer from "../../../features/geo/SigExplorer";
 import P6Dashboard from "../../tome3/portals/p6/P6Dashboard";
+
+// ── Nouveaux modules (Phase 3 push 7-agents v3) ──
+import MaterialsCatalogPage from "../../../features/materials/MaterialsCatalogPage";
+import MaterialDetail from "../../../features/materials/MaterialDetail";
+import PrestataireTarifsList from "../../../features/prestataire-tarifs/PrestataireTarifsList";
+import PrestataireTarifsEditor from "../../../features/prestataire-tarifs/PrestataireTarifsEditor";
+import TarifContractPublic from "../../../features/prestataire-tarifs/TarifContractPublic";
+import ProjectCalendarPage from "../../../features/project-calendar/ProjectCalendarPage";
 import { PaymentSuccessPage, PaymentCancelPage, PaymentStartPage } from "../../tome3/portals/payment/PaymentPages";
 import DocsPage from "../../../ui/docs/DocsPage";
 
@@ -227,6 +235,18 @@ export const router = createBrowserRouter([
       // Porte 6 = réseau pro Cercles : /p6 redirige vers l'espace Cercles
       { path: '/p6', element: <Redirect to="/cercles" /> },
       { path: '/p6/dashboard', element: <AdminHostBlock><P6Dashboard /></AdminHostBlock> },
+      // ── Catalogue Matériaux BTP Maroc (Phase 3) ──
+      { path: '/materiaux', element: <AdminHostBlock><MaterialsCatalogPage /></AdminHostBlock> },
+      { path: '/materiaux/:code', element: <AdminHostBlock><MaterialDetail /></AdminHostBlock> },
+
+      // ── Tarifs Contractuels Prestataires P6 (Phase 3) ──
+      { path: '/prestataires/tarifs', element: <AdminHostBlock><PrestataireTarifsList /></AdminHostBlock> },
+      { path: '/prestataires/tarifs/editor', element: <AdminHostBlock><PrestataireTarifsEditor /></AdminHostBlock> },
+      { path: '/prestataires/tarifs/:tarifId', element: <AdminHostBlock><TarifContractPublic /></AdminHostBlock> },
+
+      // ── Calendrier Projet (Gantt + CPM + Kanban) ──
+      { path: '/projet/:dossierId/calendrier', element: <AdminHostBlock><ProjectCalendarPage /></AdminHostBlock> },
+
       { path: '/payment/start', element: <AdminHostBlock><PaymentStartPage /></AdminHostBlock> },
       { path: '/docs', element: <AdminHostBlock><DocsPage /></AdminHostBlock> },
       { path: '/payment/success', element: <AdminHostBlock><PaymentSuccessPage /></AdminHostBlock> },

@@ -9,6 +9,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tome5Module = void 0;
 const common_1 = require("@nestjs/common");
 const auth_module_1 = require("./auth/auth.module");
+const materials_catalog_module_1 = require("./materials-catalog/materials-catalog.module");
+const prestataire_tarifs_module_1 = require("./prestataire-tarifs/prestataire-tarifs.module");
 /**
  * TOME@5 — Facade module (canonical import for AppModule)
  * Doctrine: AppModule importe uniquement depuis ./tomes/tome-x/tome-x.module
@@ -18,7 +20,7 @@ let Tome5Module = class Tome5Module {
 exports.Tome5Module = Tome5Module;
 exports.Tome5Module = Tome5Module = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.Tome5AuthModule],
-        exports: [auth_module_1.Tome5AuthModule],
+        imports: [auth_module_1.Tome5AuthModule, materials_catalog_module_1.MaterialsCatalogModule, prestataire_tarifs_module_1.PrestataireTarifsModule],
+        exports: [auth_module_1.Tome5AuthModule, materials_catalog_module_1.MaterialsCatalogModule, prestataire_tarifs_module_1.PrestataireTarifsModule],
     })
 ], Tome5Module);

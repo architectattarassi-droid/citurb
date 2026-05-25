@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /cc/
+Disallow: /admin/
+Disallow: /share-target
+
+Sitemap: https://citurbarea.com/sitemap.xml

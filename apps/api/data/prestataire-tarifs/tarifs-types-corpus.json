@@ -1,0 +1,377 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-05-25",
+  "source": "Barèmes indicatifs CITURBAREA — observatoire prix BTP Maroc 2026",
+  "currency": "MAD_HT",
+  "prestations": [
+    {
+      "code": "MACO_MUR_AGGLO_15",
+      "corpsMetier": "maconnerie",
+      "label": "Mur agglo creux 15 cm (pose seule)",
+      "description": "Pose mur en agglomérés creux 20×20×15, mortier ciment, hors enduits.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 55,
+      "prixIndicatifMaxMAD": 85
+    },
+    {
+      "code": "MACO_ENDUIT_CIM_INT",
+      "corpsMetier": "maconnerie",
+      "label": "Enduit ciment intérieur (gobetis + dégrossi + finition)",
+      "description": "Enduit traditionnel 3 couches sur mur brut, prêt à peindre.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 45,
+      "prixIndicatifMaxMAD": 70
+    },
+    {
+      "code": "MACO_CHAPE_LISSE",
+      "corpsMetier": "maconnerie",
+      "label": "Chape lissée sol intérieur ép. 5 cm",
+      "description": "Chape mortier dosé 350 kg/m³, lissée mécanique, prête à carreler.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 50,
+      "prixIndicatifMaxMAD": 80
+    },
+    {
+      "code": "PLOMB_INSTAL_WC_COMPLETE",
+      "corpsMetier": "plomberie_sanitaire",
+      "label": "Installation WC suspendu complet (bâti + cuvette + raccordement)",
+      "description": "Pose bâti-support, cuvette suspendue, plaque commande, raccord EU/EV, mise en eau.",
+      "uniteRecommandee": "U",
+      "prixIndicatifMinMAD": 1200,
+      "prixIndicatifMaxMAD": 1800
+    },
+    {
+      "code": "PLOMB_INSTAL_LAVABO",
+      "corpsMetier": "plomberie_sanitaire",
+      "label": "Pose lavabo + mitigeur + siphon (fourniture non incluse)",
+      "description": "Fixation lavabo, montage robinetterie, raccordement EU/EF/EV.",
+      "uniteRecommandee": "U",
+      "prixIndicatifMinMAD": 450,
+      "prixIndicatifMaxMAD": 700
+    },
+    {
+      "code": "PLOMB_CHAUFFE_EAU_ELEC_100L",
+      "corpsMetier": "plomberie_sanitaire",
+      "label": "Pose chauffe-eau électrique 100 L (mural)",
+      "description": "Fixation, raccordement EF/ECS, groupe sécurité, mise en service.",
+      "uniteRecommandee": "U",
+      "prixIndicatifMinMAD": 650,
+      "prixIndicatifMaxMAD": 950
+    },
+    {
+      "code": "PLOMB_RESEAU_PER_MULTI",
+      "corpsMetier": "plomberie_sanitaire",
+      "label": "Réseau PER multicouche encastré (par mètre linéaire)",
+      "description": "Pose tube PER Ø16 encastré sous chape ou cloison, raccords sertis.",
+      "uniteRecommandee": "ml",
+      "prixIndicatifMinMAD": 35,
+      "prixIndicatifMaxMAD": 55
+    },
+    {
+      "code": "ELEC_POINT_LUMIERE_SA",
+      "corpsMetier": "electricite",
+      "label": "Installation point d'éclairage simple allumage",
+      "description": "Saignée, gaine ICTA, fil 1.5 mm², boîte, interrupteur, douille DCL.",
+      "uniteRecommandee": "U",
+      "prixIndicatifMinMAD": 220,
+      "prixIndicatifMaxMAD": 320
+    },
+    {
+      "code": "ELEC_PC_16A",
+      "corpsMetier": "electricite",
+      "label": "Pose prise de courant 16 A 2P+T",
+      "description": "Saignée, gaine, fil 2.5 mm², boîte d'encastrement, prise certifiée NM.",
+      "uniteRecommandee": "U",
+      "prixIndicatifMinMAD": 180,
+      "prixIndicatifMaxMAD": 260
+    },
+    {
+      "code": "ELEC_TGBT_LOGEMENT_T4",
+      "corpsMetier": "electricite",
+      "label": "Tableau électrique appartement T4 (équipé)",
+      "description": "Coffret 3 rangées, disjoncteurs divisionnaires, ID 30 mA, AGCP, labellisation.",
+      "uniteRecommandee": "U",
+      "prixIndicatifMinMAD": 3500,
+      "prixIndicatifMaxMAD": 5500
+    },
+    {
+      "code": "PEINT_INT_2C_MAT",
+      "corpsMetier": "peinture",
+      "label": "Peinture mur intérieur 2 couches mat + sous-couche",
+      "description": "Préparation, sous-couche d'accrochage, 2 couches finition mat sur mur enduit prêt.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 35,
+      "prixIndicatifMaxMAD": 50
+    },
+    {
+      "code": "PEINT_PLAFOND_2C",
+      "corpsMetier": "peinture",
+      "label": "Peinture plafond 2 couches blanc mat",
+      "description": "Brossage, sous-couche, 2 couches finition mat haute opacité.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 40,
+      "prixIndicatifMaxMAD": 60
+    },
+    {
+      "code": "PEINT_FACADE_EXT_ELASTOMERE",
+      "corpsMetier": "peinture",
+      "label": "Peinture façade extérieure élastomère",
+      "description": "Lavage HP, rebouchage, fixateur, 2 couches élastomère anti-fissures.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 55,
+      "prixIndicatifMaxMAD": 90
+    },
+    {
+      "code": "MENA_COULISSANTE",
+      "corpsMetier": "menuiserie_alu",
+      "label": "Pose menuiserie alu coulissante 2 vantaux (fourniture non incluse)",
+      "description": "Dépose ancienne, scellement, pose dormant, vantaux, joints, finitions.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 250,
+      "prixIndicatifMaxMAD": 380
+    },
+    {
+      "code": "MENA_FENETRE_OB",
+      "corpsMetier": "menuiserie_alu",
+      "label": "Pose fenêtre alu oscillo-battante (fourniture non incluse)",
+      "description": "Scellement dormant, pose ouvrant, réglage quincaillerie, calfeutrement.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 280,
+      "prixIndicatifMaxMAD": 420
+    },
+    {
+      "code": "MENA_PORTE_ENTREE_BLINDEE",
+      "corpsMetier": "menuiserie_alu",
+      "label": "Pose porte d'entrée blindée (fourniture non incluse)",
+      "description": "Dépose ancien bâti, pose porte blindée, serrure multipoints, ajustements.",
+      "uniteRecommandee": "U",
+      "prixIndicatifMinMAD": 1500,
+      "prixIndicatifMaxMAD": 2500
+    },
+    {
+      "code": "MENB_PORTE_INT_MELAMINE",
+      "corpsMetier": "menuiserie_bois",
+      "label": "Pose porte intérieure âme creuse mélaminée (fourniture non incluse)",
+      "description": "Pose bâti, vantail, paumelles, serrure, poignée, ajustements.",
+      "uniteRecommandee": "U",
+      "prixIndicatifMinMAD": 350,
+      "prixIndicatifMaxMAD": 500
+    },
+    {
+      "code": "MENB_PLACARD_INTEGRE_ML",
+      "corpsMetier": "menuiserie_bois",
+      "label": "Placard intégré mélaminé 2 portes (par mètre linéaire)",
+      "description": "Caisson mélaminé, étagères, tringle, portes coulissantes ou battantes.",
+      "uniteRecommandee": "ml",
+      "prixIndicatifMinMAD": 1800,
+      "prixIndicatifMaxMAD": 3200
+    },
+    {
+      "code": "MENB_CUISINE_AMENAGEE_ML",
+      "corpsMetier": "menuiserie_bois",
+      "label": "Cuisine équipée mélaminé (par mètre linéaire, bas + haut)",
+      "description": "Caissons bas et hauts, façades, charnières, plinthes, hors électroménager.",
+      "uniteRecommandee": "ml",
+      "prixIndicatifMinMAD": 3500,
+      "prixIndicatifMaxMAD": 6500
+    },
+    {
+      "code": "ETAN_BICOUCHE_SBS",
+      "corpsMetier": "etancheite",
+      "label": "Étanchéité bicouche SBS sur terrasse (pose seule)",
+      "description": "EIF + 1ère couche feutre bitumineux + 2ème couche SBS soudée.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 60,
+      "prixIndicatifMaxMAD": 90
+    },
+    {
+      "code": "ETAN_LIQUIDE_SDB",
+      "corpsMetier": "etancheite",
+      "label": "Étanchéité liquide SPEC salle de bain",
+      "description": "Application 2 couches résine étanche + bande renfort angles + douche.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 80,
+      "prixIndicatifMaxMAD": 130
+    },
+    {
+      "code": "ETAN_RELEVE_ML",
+      "corpsMetier": "etancheite",
+      "label": "Relevé d'étanchéité H=20 cm (par mètre linéaire)",
+      "description": "Relevé bitumineux SBS sur acrotère ou émergence, fixation mécanique.",
+      "uniteRecommandee": "ml",
+      "prixIndicatifMinMAD": 45,
+      "prixIndicatifMaxMAD": 75
+    },
+    {
+      "code": "CARR_SOL_6060",
+      "corpsMetier": "carrelage",
+      "label": "Pose carrelage sol 60×60 (fourniture non incluse)",
+      "description": "Préparation support, pose colle améliorée C2, jointoiement, nettoyage.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 60,
+      "prixIndicatifMaxMAD": 90
+    },
+    {
+      "code": "CARR_FAIENCE_MUR",
+      "corpsMetier": "carrelage",
+      "label": "Pose faïence murale (fourniture non incluse)",
+      "description": "Pose colle C2, calepinage, joints, hors plinthes et accessoires.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 70,
+      "prixIndicatifMaxMAD": 110
+    },
+    {
+      "code": "CARR_PLINTHE_ML",
+      "corpsMetier": "carrelage",
+      "label": "Pose plinthe carrelage (par mètre linéaire)",
+      "description": "Coupe + pose + jointoiement plinthe assortie.",
+      "uniteRecommandee": "ml",
+      "prixIndicatifMinMAD": 20,
+      "prixIndicatifMaxMAD": 35
+    },
+    {
+      "code": "FP_BA13_PLAT",
+      "corpsMetier": "faux_plafond",
+      "label": "Pose faux plafond placoplâtre BA13 lisse",
+      "description": "Ossature métallique, plaques BA13, bandes, enduit prêt à peindre.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 110,
+      "prixIndicatifMaxMAD": 150
+    },
+    {
+      "code": "FP_RETOMBEE_DESIGN",
+      "corpsMetier": "faux_plafond",
+      "label": "Retombée plafond design avec spots intégrés (par mètre linéaire)",
+      "description": "Caisson BA13, ossature, enduit, réservations spots LED non fournis.",
+      "uniteRecommandee": "ml",
+      "prixIndicatifMinMAD": 180,
+      "prixIndicatifMaxMAD": 280
+    },
+    {
+      "code": "FP_DALLE_60X60_DEMONTABLE",
+      "corpsMetier": "faux_plafond",
+      "label": "Faux plafond dalles 60×60 démontables (bureaux)",
+      "description": "Ossature T24, dalles fibres minérales 600×600, suspension.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 95,
+      "prixIndicatifMaxMAD": 140
+    },
+    {
+      "code": "CLIM_SPLIT_12000_POSE",
+      "corpsMetier": "climatisation",
+      "label": "Climatisation split mural 12000 BTU (pose seule)",
+      "description": "Pose UI + UE, liaison frigo 3 ml, mise sous vide, mise en service.",
+      "uniteRecommandee": "U",
+      "prixIndicatifMinMAD": 1200,
+      "prixIndicatifMaxMAD": 1800
+    },
+    {
+      "code": "CLIM_GAINABLE_M2",
+      "corpsMetier": "climatisation",
+      "label": "Climatisation gainable (forfait surface traitée)",
+      "description": "Étude, pose UI gainable, réseau aéraulique, grilles, hors GTB.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 350,
+      "prixIndicatifMaxMAD": 550
+    },
+    {
+      "code": "METAL_GARDE_CORPS_ML",
+      "corpsMetier": "metallerie",
+      "label": "Pose garde-corps acier galvanisé H=1m (par mètre linéaire)",
+      "description": "Garde-corps acier laqué, fixation chimique sur dalle ou acrotère.",
+      "uniteRecommandee": "ml",
+      "prixIndicatifMinMAD": 600,
+      "prixIndicatifMaxMAD": 1100
+    },
+    {
+      "code": "METAL_PORTAIL_COULISSANT_M2",
+      "corpsMetier": "metallerie",
+      "label": "Portail coulissant acier (fab. + pose)",
+      "description": "Fabrication sur mesure, rail au sol, motorisation en option non incluse.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 850,
+      "prixIndicatifMaxMAD": 1400
+    },
+    {
+      "code": "JARDIN_GAZON_NATUREL_M2",
+      "corpsMetier": "jardinage",
+      "label": "Création pelouse gazon naturel (préparation + semis)",
+      "description": "Décompactage, apport terre végétale, semis, premier arrosage.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 80,
+      "prixIndicatifMaxMAD": 140
+    },
+    {
+      "code": "JARDIN_ARROSAGE_AUTO_M2",
+      "corpsMetier": "jardinage",
+      "label": "Installation arrosage automatique enterré",
+      "description": "Tuyaux PE, électrovannes, asperseurs, programmateur, mise en service.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 70,
+      "prixIndicatifMaxMAD": 120
+    },
+    {
+      "code": "ASC_MAINT_TRIM",
+      "corpsMetier": "ascenseur_maintenance",
+      "label": "Contrat maintenance ascenseur (forfait trimestriel)",
+      "description": "4 visites/an, lubrification, contrôles sécurité, hors pièces majeures.",
+      "uniteRecommandee": "forfait",
+      "prixIndicatifMinMAD": 2400,
+      "prixIndicatifMaxMAD": 4500
+    },
+    {
+      "code": "ALARME_KIT_5_ZONES",
+      "corpsMetier": "alarme",
+      "label": "Installation alarme intrusion sans-fil 5 zones (kit + pose)",
+      "description": "Centrale, sirène, 4 détecteurs IRP, 1 contact porte, clavier, mise en service.",
+      "uniteRecommandee": "forfait",
+      "prixIndicatifMinMAD": 4500,
+      "prixIndicatifMaxMAD": 8000
+    },
+    {
+      "code": "VIDEO_CAM_IP_FORFAIT_4",
+      "corpsMetier": "videosurveillance",
+      "label": "Vidéosurveillance IP 4 caméras + NVR (forfait)",
+      "description": "4 caméras IP 4MP PoE, NVR 8 voies, HDD 2 To, configuration distante.",
+      "uniteRecommandee": "forfait",
+      "prixIndicatifMinMAD": 6500,
+      "prixIndicatifMaxMAD": 12000
+    },
+    {
+      "code": "PV_KIT_3KWC",
+      "corpsMetier": "photovoltaique",
+      "label": "Installation photovoltaïque autoconso 3 kWc (forfait)",
+      "description": "Panneaux 8×375 Wc, onduleur, structure, câblage AC/DC, mise en service.",
+      "uniteRecommandee": "forfait",
+      "prixIndicatifMinMAD": 28000,
+      "prixIndicatifMaxMAD": 42000
+    },
+    {
+      "code": "PV_KIT_5KWC",
+      "corpsMetier": "photovoltaique",
+      "label": "Installation photovoltaïque autoconso 5 kWc (forfait)",
+      "description": "Panneaux 14×375 Wc, onduleur, structure, câblage, mise en service.",
+      "uniteRecommandee": "forfait",
+      "prixIndicatifMinMAD": 45000,
+      "prixIndicatifMaxMAD": 65000
+    },
+    {
+      "code": "NETT_FIN_CHANTIER",
+      "corpsMetier": "nettoyage",
+      "label": "Nettoyage fin de chantier (par mètre carré)",
+      "description": "Dépoussiérage, nettoyage vitres, sols, sanitaires, évacuation déchets.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 8,
+      "prixIndicatifMaxMAD": 15
+    },
+    {
+      "code": "NETT_VITRE_HAUTEUR_M2",
+      "corpsMetier": "nettoyage",
+      "label": "Nettoyage vitres en hauteur (>3m, avec nacelle)",
+      "description": "Nettoyage vitrerie façade ou cage, accès nacelle inclus.",
+      "uniteRecommandee": "m2",
+      "prixIndicatifMinMAD": 18,
+      "prixIndicatifMaxMAD": 35
+    }
+  ]
+}

@@ -35,6 +35,14 @@ export class MutationGateGuard implements CanActivate {
       "/api/marketplace",               // marketplace BTP — vitrine fournisseurs (Sprint M+)
       "/admin",                         // app admin ultra-sécurisée Sprint H (silos étanche, garde dédié)
       "/api/payment",                   // Stripe checkout session creation (auth user)
+      "/api/pv-chantier",               // PV de chantier (Tome 2) — mutations JWT-gated
+      "/api/pv-commission",             // PV commission Rokhas (Tome 2) — upload + workflow réserves
+      "/api/materials",                 // Catalogue matériaux (POST observation anonyme)
+      "/api/prestataire-tarifs",        // Tarifs contractuels P6 (CRUD + signature contrat)
+      "/api/project-calendar",          // Calendrier projet (Tome 6) — tâches + CPM replan
+      "/api/dossier",                   // Dossier interactions timeline (Tome 6)
+      "/api/me",                        // Mentions read + marquage lu
+      "/api/telemetry",                 // Web Vitals + client error reporter (silent fail)
       "/p1",
       "/p2",
       "/p3",
