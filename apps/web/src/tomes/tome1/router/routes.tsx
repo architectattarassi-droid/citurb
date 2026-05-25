@@ -75,6 +75,7 @@ import AdminRegisterPasskeyPage from "../../../features/admin/AdminRegisterPassk
 
 const HOST_CERCLES = "cercles.citurbarea.com";
 const HOST_ADMIN   = "admin.citurbarea.com";
+const HOST_SIG     = "sig.citurbarea.com";
 
 const currentHost = (): string =>
   (typeof window !== "undefined" ? window.location.hostname : "");
@@ -86,6 +87,13 @@ const LandingRoute = () => {
   if (h === HOST_CERCLES) return <CerclesLanding />;
   // admin.citurbarea.com → backoffice CITURBAREA Command Center (leads Cercles + leads des portes).
   if (h === HOST_ADMIN)   return <Navigate to="/cc/dashboard" replace />;
+  // sig.citurbarea.com → explorateur SIG (gated par auth + au moins 1 dossier).
+  // Si pas connecté → /login. Si connecté sans dossier → /portal pour en créer un.
+  // Si connecté avec dossier → /sig directement.
+  if (h === HOST_SIG) {
+    if (!auth.isAuthed) return <Navigate to={`/login?next=/sig`} replace />;
+    return <Navigate to="/sig" replace />;
+  }
   return <LandingPage />;
 };
 
@@ -126,6 +134,23 @@ const AdminHostBlock = ({ children }: { children: React.ReactNode }) => {
   // Sur admin.citurbarea.com, on bloque les routes publiques (portes P1..P6, Cercles…)
   // et on renvoie vers le backoffice CC (les routes /cc/* et /admin/* restent accessibles).
   if (currentHost() === HOST_ADMIN) return <Navigate to="/cc/dashboard" replace />;
+  // Sur sig.citurbarea.com, on bloque tout sauf /sig + /login + /portal (pour créer dossier)
+  // → cf SigHostGate ci-dessous
+  if (currentHost() === HOST_SIG) return <Navigate to="/sig" replace />;
+  return <>{children}</>;
+};
+
+/**
+ * SigHostGate — restreint sig.citurbarea.com aux SEULES routes utiles :
+ *  - / → redirect /sig (déjà géré par LandingRoute)
+ *  - /sig → explorateur (gated par auth + dossier dans SigExplorer)
+ *  - /login → connexion (pour accéder au /sig)
+ *  - /portal → mes dossiers (pour en créer un)
+ *  - /creer-compte → signup (pour créer compte qui accède à /sig)
+ * Toutes les autres routes redirigent vers /sig.
+ */
+const SigHostBlock = ({ children }: { children: React.ReactNode }) => {
+  if (currentHost() === HOST_SIG) return <Navigate to="/sig" replace />;
   return <>{children}</>;
 };
 
@@ -137,7 +162,8 @@ export const router = createBrowserRouter([
   // JWT en interne). On a levé le PublicHostBlock car admin.citurbarea.com n'est
   // pas configuré en DNS (Cloudflare) ; le backoffice serait sinon inaccessible.
   // La défense en profondeur reste assurée par CCGuard + RolesGuard côté API.
-  { path: '/cc/*', element: <CommandCenterApp /> },
+  // SigHostBlock : sur sig.citurbarea.com, /cc/* → redirect /sig
+  { path: '/cc/*', element: <SigHostBlock><CommandCenterApp /></SigHostBlock> },
 
   // Admin Vault (Sprint H — app admin ultra-sécurisée) — bloqué sur les hôtes publics
   { path: '/admin',                            element: <PublicHostBlock><Navigate to="/admin/login" replace /></PublicHostBlock> },

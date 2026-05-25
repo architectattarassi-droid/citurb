@@ -106,6 +106,11 @@ export default function SigExplorer({ mode = "client" }: { mode?: Mode }) {
   const [references, setReferences] = useState<ReferencesResponse | null>(null);
   const [referencesFilter, setReferencesFilter] = useState<string>("");
 
+  // GATING — vérifie que l'utilisateur a au moins un dossier créé.
+  // L'admin/OPS bypass cette vérification.
+  const [dossierCheck, setDossierCheck] = useState<"loading" | "has_dossiers" | "no_dossiers">("loading");
+  const isAdmin = mode === "admin" || ["ADMIN", "OWNER", "OPS"].includes((auth.role || "").toUpperCase());
+
   // Garde-fou : on protège l'accès si pas connecté (selon le mode)
   useEffect(() => {
     if (auth.loading) return;
@@ -113,6 +118,22 @@ export default function SigExplorer({ mode = "client" }: { mode?: Mode }) {
       navigate(mode === "admin" ? "/admin/login" : `/login?next=/sig`, { replace: true });
     }
   }, [auth.isAuthed, auth.loading, mode, navigate]);
+
+  // GATING DOSSIER — vérifie que l'utilisateur a au moins 1 dossier créé.
+  // Si admin/OPS → bypass. Sinon, fetch /p2/dossier et vérifie qu'il y a
+  // au moins 1 dossier ; si 0 → écran "Créez d'abord un dossier".
+  useEffect(() => {
+    if (auth.loading || !auth.isAuthed) return;
+    if (isAdmin) { setDossierCheck("has_dossiers"); return; }
+    const tk = localStorage.getItem("citurbarea.token");
+    fetch(`${apiBase()}/p2/dossier`, { headers: tk ? { Authorization: `Bearer ${tk}` } : {} })
+      .then(r => r.json())
+      .then((d: any) => {
+        const list = Array.isArray(d) ? d : (d?.items || d?.dossiers || []);
+        setDossierCheck(list && list.length > 0 ? "has_dossiers" : "no_dossiers");
+      })
+      .catch(() => setDossierCheck("no_dossiers"));
+  }, [auth.loading, auth.isAuthed, isAdmin]);
 
   useEffect(() => {
     fetch(`${apiBase()}/api/sig/sources`)
@@ -144,6 +165,64 @@ export default function SigExplorer({ mode = "client" }: { mode?: Mode }) {
   })();
 
   if (!auth.isAuthed) return null;
+
+  // ÉCRAN GATING : "Créez un dossier avant d'accéder à l'explorateur SIG"
+  if (dossierCheck === "loading") {
+    return (
+      <div style={S.page}>
+        <div style={{ ...S.container, textAlign: "center", padding: "80px 20px" }}>
+          <div style={{ fontSize: 14, color: "rgba(11,27,58,0.55)", fontStyle: "italic" }}>
+            Vérification de votre espace…
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (dossierCheck === "no_dossiers") {
+    return (
+      <div style={S.page}>
+        <div style={{ ...S.container, maxWidth: 680 }}>
+          <div style={{
+            background: "#fff", border: "1px solid rgba(201,162,39,0.30)", borderRadius: 16,
+            padding: 40, textAlign: "center" as const, boxShadow: "0 14px 42px rgba(11,27,58,0.10)",
+          }}>
+            <div style={{ fontSize: 56, marginBottom: 12 }}>🔒</div>
+            <h1 style={{ fontFamily: '"Playfair Display",Georgia,serif', fontSize: 28, color: "#0B1B3A", margin: "0 0 12px" }}>
+              L'explorateur SIG est réservé aux clients avec dossier
+            </h1>
+            <p style={{ fontSize: 14, color: "rgba(11,27,58,0.72)", lineHeight: 1.65, margin: "0 0 22px" }}>
+              Le module SIG (Plans d'Aménagement, référentiels DGI/ANCFCC, géoportails
+              urbanistiques officiels) est un service métier réservé aux utilisateurs
+              qui ont un dossier d'expertise en cours sur la plateforme.
+              <br /><br />
+              Créez d'abord un dossier (rapport d'expertise, projet immobilier,
+              qualification foncière, etc.) via l'une de nos 6 portes — l'accès à
+              l'explorateur SIG vous sera ensuite automatiquement débloqué.
+            </p>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+              <a href="/p5" style={{
+                background: "linear-gradient(135deg,#C9A227,#E6C75B)", color: "#fff",
+                padding: "12px 22px", borderRadius: 8, fontWeight: 700, fontSize: 14,
+                textDecoration: "none",
+              }}>
+                📋 Créer un rapport d'expertise (Porte 5)
+              </a>
+              <a href="/" style={{
+                background: "#0B1B3A", color: "#fff",
+                padding: "12px 22px", borderRadius: 8, fontWeight: 600, fontSize: 14,
+                textDecoration: "none",
+              }}>
+                🏠 Voir les 6 portes
+              </a>
+            </div>
+            <div style={{ marginTop: 20, fontSize: 11.5, color: "rgba(11,27,58,0.55)", fontStyle: "italic" }}>
+              Doctrine : protection de la qualité d'expertise + conformité loi 09-08 (données personnelles)
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="sig-explorer-page" style={S.page}>
