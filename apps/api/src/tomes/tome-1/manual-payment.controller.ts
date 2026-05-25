@@ -34,8 +34,9 @@ type ManualPaymentDeclaration = {
 
 @Tome("tome1")
 @Controller("api/payment")
-@UseGuards(JwtAuthGuard)
 export class ManualPaymentController {
+  // Guard appliqué par méthode : methods/info est public (catalogue),
+  // declare-manual et manual-status nécessitent un JWT.
   private readonly logger = new Logger(ManualPaymentController.name);
 
   constructor(
@@ -110,6 +111,7 @@ export class ManualPaymentController {
    *   Body: { method, reference?, expectedDate?, note? }
    */
   @Post("declare-manual/:dossierId")
+  @UseGuards(JwtAuthGuard)
   async declareManual(
     @Param("dossierId") dossierId: string,
     @Body() body: { method: ManualPaymentMethod; reference?: string; expectedDate?: string; note?: string },
@@ -206,6 +208,7 @@ export class ManualPaymentController {
    *   GET /api/payment/manual-status/:dossierId
    */
   @Get("manual-status/:dossierId")
+  @UseGuards(JwtAuthGuard)
   async getManualStatus(@Param("dossierId") dossierId: string, @Req() req: any) {
     const dossier = await this.prisma.dossier.findUniqueOrThrow({
       where: { id: dossierId },

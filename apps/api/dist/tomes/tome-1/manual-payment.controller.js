@@ -22,6 +22,8 @@ const owner_notify_service_1 = require("../../modules/owner-notify/owner-notify.
 let ManualPaymentController = ManualPaymentController_1 = class ManualPaymentController {
     prisma;
     ownerNotify;
+    // Guard appliqué par méthode : methods/info est public (catalogue),
+    // declare-manual et manual-status nécessitent un JWT.
     logger = new common_1.Logger(ManualPaymentController_1.name);
     constructor(prisma, ownerNotify) {
         this.prisma = prisma;
@@ -253,6 +255,7 @@ __decorate([
 ], ManualPaymentController.prototype, "getMethodsInfo", null);
 __decorate([
     (0, common_1.Post)("declare-manual/:dossierId"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Param)("dossierId")),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.Req)()),
@@ -262,6 +265,7 @@ __decorate([
 ], ManualPaymentController.prototype, "declareManual", null);
 __decorate([
     (0, common_1.Get)("manual-status/:dossierId"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __param(0, (0, common_1.Param)("dossierId")),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -271,7 +275,6 @@ __decorate([
 exports.ManualPaymentController = ManualPaymentController = ManualPaymentController_1 = __decorate([
     (0, tome_at_1.Tome)("tome1"),
     (0, common_1.Controller)("api/payment"),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
         owner_notify_service_1.OwnerNotifyService])
 ], ManualPaymentController);
