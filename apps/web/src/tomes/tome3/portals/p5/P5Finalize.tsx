@@ -242,6 +242,16 @@ export default function P5Finalize() {
             height={520}
             showSigLayers={true}
             autoGeocodeAddress
+            dgiZonesGeo={dgiZonesGeo}
+            selectedDgiZoneCode={selectedDgiZone}
+            onDgiZoneClick={(code) => {
+              // Click marker DGI sur la carte → active la zone dans le dropdown ci-dessous
+              setSelectedDgiZone(code);
+              // Scroll vers le détail de la zone (dans le panneau Foncier)
+              setTimeout(() => {
+                document.getElementById("p5-dgi-zone-detail")?.scrollIntoView({ behavior: "smooth", block: "center" });
+              }, 100);
+            }}
           />
           {currentCoords && (
             <div style={{ marginTop: 10, fontSize: 12, color: "rgba(11,27,58,0.65)", fontFamily: "ui-monospace, monospace" }}>
@@ -375,21 +385,25 @@ export default function P5Finalize() {
               // Zone géocodée (pour bouton "voir sur carte")
               const geoFeature = dgiZonesGeo?.features?.find((f: any) => f.properties?.code === selectedDgiZone);
               return (
-                <div style={S.dgiDetail}>
+                <div style={S.dgiDetail} id="p5-dgi-zone-detail">
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 6 }}>
                     <div style={{ fontWeight: 800, color: "#1e40af" }}>📜 Zone {z.code} — {z.nomCommun || z.arrondissement}</div>
-                    {geoFeature && (
+                    {geoFeature ? (
                       <button
                         type="button"
                         onClick={() => {
-                          const [lng, lat] = geoFeature.geometry.coordinates;
-                          setCurrentCoords({ lat, lng });
-                          document.querySelector('.sig-explorer-page, [class*="MapPicker"], canvas')?.scrollIntoView({ behavior: "smooth", block: "center" });
+                          // Recentre la carte sur la zone (le useEffect du MapPicker
+                          // s'occupe du flyTo + agrandissement du cercle)
+                          document.querySelector('.maplibregl-canvas, canvas')?.scrollIntoView({ behavior: "smooth", block: "center" });
                         }}
                         style={{ padding: "6px 12px", background: "#1e40af", color: "#fff", border: 0, borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}
                       >
                         📍 Voir sur la carte
                       </button>
+                    ) : (
+                      <span style={{ padding: "4px 10px", background: "rgba(11,27,58,0.06)", color: "rgba(11,27,58,0.55)", borderRadius: 4, fontSize: 11, fontStyle: "italic" }}>
+                        Zone non géocodée
+                      </span>
                     )}
                   </div>
                   {z.delimitations && (

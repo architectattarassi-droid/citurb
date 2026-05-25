@@ -84,6 +84,16 @@ type Props = {
     zone: "EPSG:26191" | "EPSG:26192" | "EPSG:26194" | "EPSG:26195";
     points: { x: number; y: number }[];
   };
+  /**
+   * Zones DGI géocodées à afficher sur la carte (markers cliquables).
+   * Chaque feature doit avoir properties.code (ex. "RA-SW4") pour la sync
+   * bidirectionnelle avec un dropdown externe.
+   */
+  dgiZonesGeo?: { type: "FeatureCollection"; features: any[] } | null;
+  /** Code de la zone DGI actuellement sélectionnée (ex. dropdown parent) — sera mise en surbrillance sur la carte. */
+  selectedDgiZoneCode?: string;
+  /** Callback : appelé quand l'utilisateur clique un marker zone DGI sur la carte. */
+  onDgiZoneClick?: (code: string) => void;
 };
 
 type Mode = "adresse" | "lambert" | "carte";
@@ -139,6 +149,9 @@ export default function MapPicker({
   highlightRegionCode, highlightProvinceCode, highlightCommuneCode,
   autoGeocodeAddress = true,
   externalLambert,
+  dgiZonesGeo,
+  selectedDgiZoneCode,
+  onDgiZoneClick,
 }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -278,6 +291,112 @@ export default function MapPicker({
       setSigBusy(b => ({ ...b, [key]: false }));
     }
   };
+
+  // ── Rendu des zones DGI géocodées sur la carte (cercles cliquables) ──
+  // Les zones du parent (P5Finalize) sont passées via prop dgiZonesGeo.
+  // Synchronisation bidirectionnelle :
+  //   - Click cercle map → onDgiZoneClick(code) → parent met à jour son dropdown
+  //   - selectedDgiZoneCode (prop) change → cercle correspondant agrandi + en or
+  const DGI_SRC = "dgi-zones-src";
+  const DGI_CIRCLE = "dgi-zones-circle";
+  const DGI_LABEL = "dgi-zones-label";
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+    const onLoad = () => {
+      if (!dgiZonesGeo || !dgiZonesGeo.features || dgiZonesGeo.features.length === 0) {
+        // Si on retire le geojson, nettoyer les layers/source
+        if (map.getLayer(DGI_LABEL)) map.removeLayer(DGI_LABEL);
+        if (map.getLayer(DGI_CIRCLE)) map.removeLayer(DGI_CIRCLE);
+        if (map.getSource(DGI_SRC)) map.removeSource(DGI_SRC);
+        return;
+      }
+      // Inject / update la source
+      if (map.getSource(DGI_SRC)) {
+        (map.getSource(DGI_SRC) as any).setData(dgiZonesGeo);
+      } else {
+        map.addSource(DGI_SRC, { type: "geojson", data: dgiZonesGeo as any });
+      }
+      // Cercles colorés (taille + couleur dépendent du code sélectionné)
+      if (!map.getLayer(DGI_CIRCLE)) {
+        map.addLayer({
+          id: DGI_CIRCLE,
+          source: DGI_SRC,
+          type: "circle",
+          paint: {
+            "circle-radius": [
+              "case",
+              ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], 18,
+              12,
+            ],
+            "circle-color": [
+              "case",
+              ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], "#C9A227",
+              "#3b82f6",
+            ],
+            "circle-opacity": 0.75,
+            "circle-stroke-color": "#fff",
+            "circle-stroke-width": 3,
+          },
+        });
+        // Hover cursor pointer
+        map.on("mouseenter", DGI_CIRCLE, () => { map.getCanvas().style.cursor = "pointer"; });
+        map.on("mouseleave", DGI_CIRCLE, () => { map.getCanvas().style.cursor = ""; });
+        // Click → callback parent
+        map.on("click", DGI_CIRCLE, (e) => {
+          const f = e.features?.[0];
+          const code = f?.properties?.code;
+          if (code && onDgiZoneClick) onDgiZoneClick(code);
+        });
+      }
+      // Labels (codes zone)
+      if (!map.getLayer(DGI_LABEL)) {
+        map.addLayer({
+          id: DGI_LABEL,
+          source: DGI_SRC,
+          type: "symbol",
+          layout: {
+            "text-field": ["get", "code"],
+            "text-size": 11,
+            "text-font": ["Noto Sans Regular"],
+            "text-offset": [0, 1.6],
+            "text-anchor": "top",
+          },
+          paint: {
+            "text-color": "#0B1B3A",
+            "text-halo-color": "#fff",
+            "text-halo-width": 2,
+          },
+        });
+      }
+    };
+    if (map.isStyleLoaded()) onLoad();
+    else map.once("load", onLoad);
+  }, [dgiZonesGeo, onDgiZoneClick]);
+
+  // Met à jour les styles du layer quand selectedDgiZoneCode change (highlight)
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !map.getLayer(DGI_CIRCLE)) return;
+    map.setPaintProperty(DGI_CIRCLE, "circle-radius", [
+      "case",
+      ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], 18,
+      12,
+    ]);
+    map.setPaintProperty(DGI_CIRCLE, "circle-color", [
+      "case",
+      ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], "#C9A227",
+      "#3b82f6",
+    ]);
+    // Si une zone est sélectionnée, fly vers elle
+    if (selectedDgiZoneCode && dgiZonesGeo?.features) {
+      const f = dgiZonesGeo.features.find((x: any) => x.properties?.code === selectedDgiZoneCode);
+      if (f?.geometry?.coordinates) {
+        const [lng, lat] = f.geometry.coordinates;
+        map.flyTo({ center: [lng, lat], zoom: Math.max(map.getZoom(), 14), duration: 800 });
+      }
+    }
+  }, [selectedDgiZoneCode, dgiZonesGeo]);
 
   const placeMarker = (lat: number, lng: number) => {
     const map = mapRef.current;
