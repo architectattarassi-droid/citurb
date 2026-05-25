@@ -102,6 +102,29 @@ let SigController = class SigController {
      * Chaque feature = 1 zone DGI avec ses propriétés (code, prix DGI 2017,
      * délimitations textuelles, etc.). Coordonnées approximatives (~100-500m).
      */
+    /**
+     * Polygones DGI VECTORISÉS depuis les PDFs cartographiques (PoC interne).
+     *
+     *   GET /api/sig/dgi-zones-poc/rabat-souissi.geojson
+     *
+     * Pipeline : mupdf-js → segmentation HSV → Moore-Neighbor tracing →
+     * Douglas-Peucker → affine pixel→WGS84. Précision actuelle ~200m (bbox
+     * approx.) — itération suivante : homographie 4-GCPs pour <30m.
+     *
+     * Sert directement les fichiers GeoJSON déposés dans
+     * `apps/api/data/sig-static/dgi-zones-poc/`.
+     */
+    getDgiZonesPoc(file, res) {
+        const name = file.replace(/\.geojson$/i, "");
+        const data = this.sig["loadJsonStatic"](`dgi-zones-poc/${name}.geojson`);
+        if (!data) {
+            res.status(404).json({ ok: false, error: `Aucun PoC vectorisation disponible pour « ${name} »` });
+            return;
+        }
+        res.setHeader("Content-Type", "application/geo+json; charset=utf-8");
+        res.setHeader("Cache-Control", "public, max-age=3600, stale-while-revalidate=86400");
+        res.send(JSON.stringify(data));
+    }
     getDgiZonesGeo(cityFile, res) {
         // cityFile = "rabat.geojson" — on garde l'extension pour l'URL
         const id = cityFile.replace(/\.geojson$/i, "");
@@ -223,6 +246,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], SigController.prototype, "getOsmQuartiers", null);
+__decorate([
+    (0, common_1.Get)("dgi-zones-poc/:file"),
+    __param(0, (0, common_1.Param)("file")),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], SigController.prototype, "getDgiZonesPoc", null);
 __decorate([
     (0, common_1.Get)("dgi-zones-geo/:cityFile"),
     __param(0, (0, common_1.Param)("cityFile")),

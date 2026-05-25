@@ -96,6 +96,31 @@ export class SigController {
    * Chaque feature = 1 zone DGI avec ses propriétés (code, prix DGI 2017,
    * délimitations textuelles, etc.). Coordonnées approximatives (~100-500m).
    */
+  /**
+   * Polygones DGI VECTORISÉS depuis les PDFs cartographiques (PoC interne).
+   *
+   *   GET /api/sig/dgi-zones-poc/rabat-souissi.geojson
+   *
+   * Pipeline : mupdf-js → segmentation HSV → Moore-Neighbor tracing →
+   * Douglas-Peucker → affine pixel→WGS84. Précision actuelle ~200m (bbox
+   * approx.) — itération suivante : homographie 4-GCPs pour <30m.
+   *
+   * Sert directement les fichiers GeoJSON déposés dans
+   * `apps/api/data/sig-static/dgi-zones-poc/`.
+   */
+  @Get("dgi-zones-poc/:file")
+  getDgiZonesPoc(@Param("file") file: string, @Res() res: Response) {
+    const name = file.replace(/\.geojson$/i, "");
+    const data = this.sig["loadJsonStatic"](`dgi-zones-poc/${name}.geojson`);
+    if (!data) {
+      res.status(404).json({ ok: false, error: `Aucun PoC vectorisation disponible pour « ${name} »` });
+      return;
+    }
+    res.setHeader("Content-Type", "application/geo+json; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600, stale-while-revalidate=86400");
+    res.send(JSON.stringify(data));
+  }
+
   @Get("dgi-zones-geo/:cityFile")
   getDgiZonesGeo(@Param("cityFile") cityFile: string, @Res() res: Response) {
     // cityFile = "rabat.geojson" — on garde l'extension pour l'URL

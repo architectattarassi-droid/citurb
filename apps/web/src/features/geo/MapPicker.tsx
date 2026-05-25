@@ -29,6 +29,10 @@ const SIG_LAYERS: SigLayerDef[] = [
   { source: "aurs", layer: "25", label: "Espaces verts (Rabat-Salé)",  geomType: "polygon", color: "#22c55e" },
   { source: "aurs", layer: "23", label: "Équipements publics (Rabat-Salé)", geomType: "polygon", color: "#a855f7" },
   { source: "aurs", layer: "27", label: "Voiries projetées (Rabat-Salé)", geomType: "line",    color: "#dc2626" },
+  // PoC vectorisation PDF DGI → polygones (pipeline interne mupdf-js + HSV + Moore-Neighbor)
+  { source: "dgi-zones-poc", layer: "rabat-souissi", label: "🧪 PoC zones DGI Rabat Souissi",
+    geomType: "polygon", color: "#ff006e",
+    description: "PoC vectorisation page 32 PDF DGI 2017 — 5 polygones extraits, précision ~200m (sera affinée via 4 GCPs)" },
 ];
 const layerKey = (l: SigLayerDef) => `${l.source}-${l.layer}`;
 
