@@ -105,14 +105,38 @@ let SigController = class SigController {
     getDgiZonesGeo(cityFile, res) {
         // cityFile = "rabat.geojson" — on garde l'extension pour l'URL
         const id = cityFile.replace(/\.geojson$/i, "");
-        const data = this.sig["loadJsonStatic"](`dgi-zones-geo/${id}.geojson`);
-        if (!data) {
-            res.status(404).json({ ok: false, error: `Zones géocodées non disponibles pour « ${id} »` });
+        // Préfère les POLYGONES OSM matchés (~20% des zones, précision 10-30m)
+        // Fallback sur les POINTS Nominatim (~14% supplémentaires, précision 100-500m)
+        // Idéalement on fusionne les deux dans une seule FeatureCollection.
+        const osmPolys = this.sig["loadJsonStatic"](`dgi-zones-osm/${id}.geojson`);
+        const nominatimPoints = this.sig["loadJsonStatic"](`dgi-zones-geo/${id}.geojson`);
+        if (!osmPolys && !nominatimPoints) {
+            res.status(404).json({ ok: false, error: `Aucune géocodification disponible pour « ${id} »` });
             return;
         }
+        // Fusion : OSM polygones prioritaires, points Nominatim en complément
+        const polyCodes = new Set((osmPolys?.features || []).map((f) => f.properties?.code));
+        const mergedFeatures = [
+            ...(osmPolys?.features || []),
+            ...(nominatimPoints?.features || []).filter((f) => !polyCodes.has(f.properties?.code)),
+        ];
+        const merged = {
+            type: "FeatureCollection",
+            _meta: {
+                city: osmPolys?._meta?.city || nominatimPoints?._meta?.city || id,
+                sources: {
+                    osmPolygons: osmPolys?._meta?.stats || null,
+                    nominatimPoints: nominatimPoints?._meta?.stats || null,
+                },
+                totalFeatures: mergedFeatures.length,
+                polygons: (osmPolys?.features || []).length,
+                points: mergedFeatures.length - (osmPolys?.features || []).length,
+            },
+            features: mergedFeatures,
+        };
         res.setHeader("Content-Type", "application/geo+json; charset=utf-8");
         res.setHeader("Cache-Control", "public, max-age=3600, stale-while-revalidate=86400");
-        res.send(JSON.stringify(data));
+        res.send(JSON.stringify(merged));
     }
     async autoDetectZone(lat, lng, commune, region, bienFamily, address, res) {
         const result = await this.detector.detect({

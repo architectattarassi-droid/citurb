@@ -317,12 +317,65 @@ export default function MapPicker({
       } else {
         map.addSource(DGI_SRC, { type: "geojson", data: dgiZonesGeo as any });
       }
+      // POLYGONES remplis (zones OSM matched, précision 10-30m)
+      const DGI_FILL = "dgi-zones-fill";
+      const DGI_OUTLINE = "dgi-zones-outline";
+      if (!map.getLayer(DGI_FILL)) {
+        map.addLayer({
+          id: DGI_FILL,
+          source: DGI_SRC,
+          type: "fill",
+          filter: ["==", ["geometry-type"], "Polygon"],
+          paint: {
+            "fill-color": [
+              "case",
+              ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], "#C9A227",
+              "#3b82f6",
+            ],
+            "fill-opacity": [
+              "case",
+              ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], 0.45,
+              0.20,
+            ],
+          },
+        });
+        map.on("mouseenter", DGI_FILL, () => { map.getCanvas().style.cursor = "pointer"; });
+        map.on("mouseleave", DGI_FILL, () => { map.getCanvas().style.cursor = ""; });
+        map.on("click", DGI_FILL, (e) => {
+          const f = e.features?.[0];
+          const code = f?.properties?.code;
+          if (code && onDgiZoneClick) onDgiZoneClick(code);
+        });
+      }
+      if (!map.getLayer(DGI_OUTLINE)) {
+        map.addLayer({
+          id: DGI_OUTLINE,
+          source: DGI_SRC,
+          type: "line",
+          filter: ["==", ["geometry-type"], "Polygon"],
+          paint: {
+            "line-color": [
+              "case",
+              ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], "#C9A227",
+              "#1e40af",
+            ],
+            "line-width": [
+              "case",
+              ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], 3,
+              1.5,
+            ],
+            "line-opacity": 0.9,
+          },
+        });
+      }
       // Cercles colorés (taille + couleur dépendent du code sélectionné)
+      // Affichés UNIQUEMENT pour les features ponctuelles (pas les polygones)
       if (!map.getLayer(DGI_CIRCLE)) {
         map.addLayer({
           id: DGI_CIRCLE,
           source: DGI_SRC,
           type: "circle",
+          filter: ["==", ["geometry-type"], "Point"],
           paint: {
             "circle-radius": [
               "case",
@@ -374,26 +427,55 @@ export default function MapPicker({
     else map.once("load", onLoad);
   }, [dgiZonesGeo, onDgiZoneClick]);
 
-  // Met à jour les styles du layer quand selectedDgiZoneCode change (highlight)
+  // Met à jour les styles des layers quand selectedDgiZoneCode change (highlight)
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !map.getLayer(DGI_CIRCLE)) return;
-    map.setPaintProperty(DGI_CIRCLE, "circle-radius", [
-      "case",
-      ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], 18,
-      12,
-    ]);
-    map.setPaintProperty(DGI_CIRCLE, "circle-color", [
-      "case",
-      ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], "#C9A227",
-      "#3b82f6",
-    ]);
-    // Si une zone est sélectionnée, fly vers elle
+    if (!map) return;
+    if (map.getLayer(DGI_CIRCLE)) {
+      map.setPaintProperty(DGI_CIRCLE, "circle-radius", [
+        "case", ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], 18, 12,
+      ]);
+      map.setPaintProperty(DGI_CIRCLE, "circle-color", [
+        "case", ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], "#C9A227", "#3b82f6",
+      ]);
+    }
+    if (map.getLayer("dgi-zones-fill")) {
+      map.setPaintProperty("dgi-zones-fill", "fill-color", [
+        "case", ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], "#C9A227", "#3b82f6",
+      ]);
+      map.setPaintProperty("dgi-zones-fill", "fill-opacity", [
+        "case", ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], 0.45, 0.20,
+      ]);
+    }
+    if (map.getLayer("dgi-zones-outline")) {
+      map.setPaintProperty("dgi-zones-outline", "line-color", [
+        "case", ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], "#C9A227", "#1e40af",
+      ]);
+      map.setPaintProperty("dgi-zones-outline", "line-width", [
+        "case", ["==", ["get", "code"], selectedDgiZoneCode || "__none__"], 3, 1.5,
+      ]);
+    }
+    // Si une zone est sélectionnée, fly vers elle (gère Point + Polygon)
     if (selectedDgiZoneCode && dgiZonesGeo?.features) {
       const f = dgiZonesGeo.features.find((x: any) => x.properties?.code === selectedDgiZoneCode);
-      if (f?.geometry?.coordinates) {
-        const [lng, lat] = f.geometry.coordinates;
-        map.flyTo({ center: [lng, lat], zoom: Math.max(map.getZoom(), 14), duration: 800 });
+      if (f?.geometry) {
+        if (f.geometry.type === "Point") {
+          const [lng, lat] = f.geometry.coordinates;
+          map.flyTo({ center: [lng, lat], zoom: Math.max(map.getZoom(), 14), duration: 800 });
+        } else if (f.geometry.type === "Polygon" || f.geometry.type === "MultiPolygon") {
+          // Calculer bbox du polygone et fitBounds
+          let xmin = 180, ymin = 90, xmax = -180, ymax = -90;
+          const visit = (c: any): void => {
+            if (typeof c[0] === "number" && typeof c[1] === "number") {
+              if (c[0] < xmin) xmin = c[0]; if (c[0] > xmax) xmax = c[0];
+              if (c[1] < ymin) ymin = c[1]; if (c[1] > ymax) ymax = c[1];
+            } else if (Array.isArray(c)) c.forEach(visit);
+          };
+          visit(f.geometry.coordinates);
+          if (xmin < xmax && ymin < ymax) {
+            map.fitBounds([[xmin, ymin], [xmax, ymax]], { padding: 60, maxZoom: 15, duration: 800 });
+          }
+        }
       }
     }
   }, [selectedDgiZoneCode, dgiZonesGeo]);
