@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>GCPs Picker — Rabat Souissi page 32 (CITURBAREA SIG)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    *{box-sizing:border-box;font-family:system-ui,sans-serif}
+    body{margin:0;padding:14px;background:#0B1B3A;color:#fff}
+    h1{font-size:18px;margin:0 0 6px}
+    .sub{font-size:12.5px;opacity:.8;margin-bottom:14px;max-width:1100px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;height:calc(100vh - 320px)}
+    .pane{background:#0e2347;border:1px solid #1f3a6b;border-radius:8px;padding:8px;display:flex;flex-direction:column;min-height:0}
+    .pane h3{margin:0 0 8px;font-size:13px;color:#C9A227}
+    .pdf-wrap{flex:1;overflow:auto;background:#fff;border-radius:4px;position:relative;cursor:crosshair}
+    .pdf-wrap img{display:block;max-width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+    .pdf-wrap .marker{position:absolute;width:20px;height:20px;border:2px solid #ff006e;background:rgba(255,0,110,.3);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;font-size:11px;font-weight:bold;color:#fff;display:flex;align-items:center;justify-content:center;text-shadow:0 0 3px #000}
+    #osm-map{flex:1;border-radius:4px;background:#222}
+    .gcps-table{margin-top:12px;background:#0e2347;border:1px solid #1f3a6b;border-radius:8px;padding:10px}
+    .gcps-table h3{margin:0 0 10px;font-size:13px;color:#C9A227}
+    table{width:100%;border-collapse:collapse;font-size:12px}
+    th,td{padding:5px 8px;border-bottom:1px solid #1f3a6b;text-align:left}
+    th{background:#163161;color:#C9A227;font-weight:600;font-size:11px}
+    td input{width:100%;background:#163161;color:#fff;border:1px solid #2a4a8a;padding:4px 6px;border-radius:3px;font-size:11.5px;font-family:inherit}
+    .actions{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+    button{background:#C9A227;color:#0B1B3A;border:0;padding:8px 14px;border-radius:5px;font-weight:700;cursor:pointer;font-family:inherit;font-size:12.5px}
+    button.danger{background:#b91c1c;color:#fff}
+    button.ghost{background:transparent;color:#C9A227;border:1px solid #C9A227}
+    .result{margin-top:10px;padding:10px;background:#163161;border-radius:5px;font-size:12px;font-family:monospace}
+    .err{color:#fca5a5}
+    .ok{color:#86efac}
+  </style>
+</head>
+<body>
+<h1>🧭 GCPs Picker — Rabat Souissi page 32</h1>
+<p class="sub">
+  <strong>1.</strong> Identifiez 4-6 points reconnaissables sur la page PDF (carrefour, mosquée, place, équipement public).
+  <strong>2.</strong> Cliquez sur le point dans l'image PDF (à gauche) → un marqueur rose s'ajoute.
+  <strong>3.</strong> Cliquez ensuite sur le MÊME point réel dans OpenStreetMap (à droite) → le couple est complet.
+  <strong>4.</strong> Une fois 4+ paires complètes, cliquez « Calculer homographie » pour voir le GeoJSON corrigé.
+</p>
+
+<div class="grid">
+  <div class="pane">
+    <h3>📄 Page PDF DGI — Rabat Souissi p32</h3>
+    <div class="pdf-wrap" id="pdf-wrap">
+      <img id="pdf-img" src="../../dgi-pdfs/rabat-p32.png" alt="Rabat p32" onload="onImgLoaded()" />
+    </div>
+  </div>
+  <div class="pane">
+    <h3>🗺️ OpenStreetMap — Souissi</h3>
+    <div id="osm-map"></div>
+  </div>
+</div>
+
+<div class="gcps-table">
+  <h3>📍 Points de contrôle (GCPs)</h3>
+  <table id="gcps-table">
+    <thead><tr>
+      <th>#</th><th>Libellé</th><th>px X</th><th>px Y</th><th>lng</th><th>lat</th><th>État</th><th></th>
+    </tr></thead>
+    <tbody id="gcps-body"></tbody>
+  </table>
+  <div class="actions">
+    <button onclick="exportJSON()">💾 Exporter JSON GCPs</button>
+    <button class="ghost" onclick="computeHomographyClient()">🔢 Calculer homographie (preview)</button>
+    <button class="danger" onclick="resetAll()">🗑️ Reset</button>
+  </div>
+  <div class="result" id="result">Aucun calcul effectué.</div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ── État global ──
+const gcps = []; // { label, px, py, lng, lat }
+let pendingPx = null; // { px, py } en attente de pair WGS84
+let imgNatW = 0, imgNatH = 0;
+
+const map = L.map('osm-map').setView([33.955, -6.83], 14);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19 }).addTo(map);
+
+// ── Click sur image PDF ──
+function onImgLoaded() {
+  imgNatW = document.getElementById('pdf-img').naturalWidth;
+  imgNatH = document.getElementById('pdf-img').naturalHeight;
+  document.getElementById('result').textContent =
+    `Image chargée : ${imgNatW}×${imgNatH} px. Cliquez sur un point reconnaissable.`;
+}
+
+document.getElementById('pdf-wrap').addEventListener('click', e => {
+  const img = document.getElementById('pdf-img');
+  const rect = img.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  const clickY = e.clientY - rect.top;
+  const scaleX = imgNatW / rect.width;
+  const scaleY = imgNatH / rect.height;
+  const px = Math.round(clickX * scaleX);
+  const py = Math.round(clickY * scaleY);
+  pendingPx = { px, py };
+  document.getElementById('result').innerHTML =
+    `<span class="ok">Pixel sélectionné : (${px}, ${py})</span> → cliquez maintenant le MÊME point sur la carte OSM →`;
+  // marker temporaire
+  const m = document.createElement('div');
+  m.className = 'marker';
+  m.style.left = (clickX + img.offsetLeft) + 'px';
+  m.style.top = (clickY + img.offsetTop) + 'px';
+  m.textContent = '?';
+  m.id = 'pending-px-marker';
+  const old = document.getElementById('pending-px-marker');
+  if (old) old.remove();
+  document.getElementById('pdf-wrap').appendChild(m);
+});
+
+// ── Click sur carte OSM ──
+let pendingMapMarker = null;
+map.on('click', e => {
+  if (!pendingPx) {
+    document.getElementById('result').innerHTML =
+      `<span class="err">⚠ Cliquez d'abord un pixel sur l'image PDF avant le point WGS84.</span>`;
+    return;
+  }
+  if (pendingMapMarker) map.removeLayer(pendingMapMarker);
+  const label = prompt('Nom de ce point de contrôle (ex: "Carrefour Mosquée Souissi", "Av Mehdi Ben Barka × Mohammed VI") :', `GCP-${gcps.length+1}`);
+  if (!label) return;
+  gcps.push({
+    label,
+    px: pendingPx.px, py: pendingPx.py,
+    lng: +e.latlng.lng.toFixed(6),
+    lat: +e.latlng.lat.toFixed(6),
+  });
+  L.circleMarker(e.latlng, { color:'#ff006e', radius:6, fillOpacity:.7 })
+    .bindPopup(`<b>${label}</b><br>px:(${pendingPx.px},${pendingPx.py})<br>${e.latlng.lng.toFixed(5)},${e.latlng.lat.toFixed(5)}`)
+    .addTo(map);
+  // Marker pixel devient permanent
+  const m = document.getElementById('pending-px-marker');
+  if (m) { m.textContent = gcps.length; m.id = 'gcp-marker-' + (gcps.length - 1); }
+  pendingPx = null; pendingMapMarker = null;
+  renderTable();
+});
+
+// ── Rendu table ──
+function renderTable() {
+  const body = document.getElementById('gcps-body');
+  body.innerHTML = '';
+  gcps.forEach((g, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${i+1}</td>
+      <td><input value="${g.label}" oninput="gcps[${i}].label = this.value"></td>
+      <td><input value="${g.px}" type="number" oninput="gcps[${i}].px = +this.value"></td>
+      <td><input value="${g.py}" type="number" oninput="gcps[${i}].py = +this.value"></td>
+      <td><input value="${g.lng}" type="number" step="0.000001" oninput="gcps[${i}].lng = +this.value"></td>
+      <td><input value="${g.lat}" type="number" step="0.000001" oninput="gcps[${i}].lat = +this.value"></td>
+      <td>${(g.px && g.lng) ? '✓' : '⌛'}</td>
+      <td><button class="danger" style="padding:3px 8px;font-size:11px" onclick="removeGcp(${i})">×</button></td>
+    `;
+    body.appendChild(tr);
+  });
+}
+function removeGcp(i) {
+  gcps.splice(i, 1);
+  renderTable();
+  // Remove all markers and re-render
+  document.querySelectorAll('[id^=gcp-marker-]').forEach(m => m.remove());
+}
+function resetAll() {
+  if (!confirm('Tout reset ?')) return;
+  gcps.length = 0;
+  pendingPx = null;
+  document.querySelectorAll('[id^=gcp-marker-], #pending-px-marker').forEach(m => m.remove());
+  renderTable();
+  document.getElementById('result').textContent = 'Reset.';
+}
+
+// ── Export JSON ──
+function exportJSON() {
+  const cfg = {
+    _meta: {
+      purpose: 'GCPs saisis interactivement pour Rabat Souissi p32',
+      createdAt: new Date().toISOString(),
+      count: gcps.length,
+    },
+    pdf: 'apps/api/data/dgi-pdfs/rabat-p32.png',
+    clusters: 'apps/api/data/dgi-pdfs/rabat-p32-clusters.json',
+    output: 'apps/api/data/sig-static/dgi-zones-poc/rabat-souissi.geojson',
+    cartoBboxPx: { minX: 80, minY: 100, maxX: 1110, maxY: 1620 },
+    gcps: gcps.map(g => ({ label: g.label, px: g.px, py: g.py, lng: g.lng, lat: g.lat })),
+  };
+  const blob = new Blob([JSON.stringify(cfg, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'gcps-rabat-souissi.json';
+  a.click();
+  document.getElementById('result').innerHTML =
+    `<span class="ok">✓ JSON exporté.</span> Placez dans <code>apps/api/data/sig-static/dgi-zones-poc/</code> puis lancez :<br>` +
+    `<code>node apps/api/scripts/apply-gcps.mjs apps/api/data/sig-static/dgi-zones-poc/gcps-rabat-souissi.json</code>`;
+}
+
+// ── Homographie côté client (preview RMS) ──
+function solve(A, b) {
+  const n = A.length;
+  const M = A.map((r,i) => [...r, b[i]]);
+  for (let i = 0; i < n; i++) {
+    let mr = i, ma = Math.abs(M[i][i]);
+    for (let k = i+1; k < n; k++) if (Math.abs(M[k][i]) > ma) { ma = Math.abs(M[k][i]); mr = k; }
+    if (ma < 1e-12) throw new Error('singular');
+    if (mr !== i) [M[i], M[mr]] = [M[mr], M[i]];
+    for (let k = i+1; k < n; k++) { const f = M[k][i]/M[i][i]; for (let j = i; j <= n; j++) M[k][j] -= f*M[i][j]; }
+  }
+  const x = new Array(n).fill(0);
+  for (let i = n-1; i >= 0; i--) { let s = M[i][n]; for (let j = i+1; j < n; j++) s -= M[i][j]*x[j]; x[i] = s/M[i][i]; }
+  return x;
+}
+function computeHomographyClient() {
+  if (gcps.length < 4) {
+    document.getElementById('result').innerHTML = `<span class="err">⚠ Minimum 4 GCPs requis (vous en avez ${gcps.length}).</span>`;
+    return;
+  }
+  // Construct system pour 4 GCPs (8 eq × 8 unk)
+  const A = [], b = [];
+  for (const g of gcps.slice(0, 4)) {
+    A.push([g.px, g.py, 1, 0, 0, 0, -g.px*g.lng, -g.py*g.lng]); b.push(g.lng);
+    A.push([0, 0, 0, g.px, g.py, 1, -g.px*g.lat, -g.py*g.lat]); b.push(g.lat);
+  }
+  let h;
+  try { h = solve(A, b); } catch(e) { document.getElementById('result').innerHTML = `<span class="err">⚠ Système singulier : les 4 GCPs sont colinéaires ?</span>`; return; }
+  const H = [[h[0],h[1],h[2]],[h[3],h[4],h[5]],[h[6],h[7],1]];
+  const apply = (x, y) => {
+    const d = H[2][0]*x + H[2][1]*y + 1;
+    return [(H[0][0]*x + H[0][1]*y + H[0][2])/d, (H[1][0]*x + H[1][1]*y + H[1][2])/d];
+  };
+  // RMS sur tous les GCPs
+  let ss = 0;
+  for (const g of gcps) {
+    const [px, py] = apply(g.px, g.py);
+    ss += (px - g.lng)**2 + (py - g.lat)**2;
+  }
+  const rms = Math.sqrt(ss / gcps.length);
+  const rmsM = rms * 100000;
+  document.getElementById('result').innerHTML =
+    `<span class="ok">✓ Homographie calculée (4 GCPs principaux).</span><br>` +
+    `H = [<br>` +
+    `&nbsp;&nbsp;[${H[0].map(v=>v.toExponential(3)).join(', ')}],<br>` +
+    `&nbsp;&nbsp;[${H[1].map(v=>v.toExponential(3)).join(', ')}],<br>` +
+    `&nbsp;&nbsp;[${H[2].map(v=>v.toExponential(3)).join(', ')}]<br>` +
+    `]<br>` +
+    `RMS reprojection : ${rms.toExponential(3)}° ≈ <strong>${rmsM.toFixed(1)} m</strong>`;
+}
+
+renderTable();
+</script>
+</body>
+</html>

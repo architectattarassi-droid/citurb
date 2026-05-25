@@ -1,0 +1,17 @@
+{
+  "_meta": {
+    "purpose": "Test sanity-check : 4 GCPs aux 4 coins de la bbox carto. Doit reproduire l'output v1 PoC (affine bbox approximative).",
+    "source": "Test pipeline homographie — pas un vrai jeu de GCPs",
+    "createdAt": "2026-05-25"
+  },
+  "pdf": "apps/api/data/dgi-pdfs/rabat-p32.png",
+  "clusters": "apps/api/data/dgi-pdfs/rabat-p32-clusters.json",
+  "output": "apps/api/data/sig-static/dgi-zones-poc/rabat-souissi-affine-via-homography.geojson",
+  "cartoBboxPx": { "minX": 80, "minY": 100, "maxX": 1110, "maxY": 1620 },
+  "gcps": [
+    { "label": "Coin haut-gauche bbox carto",   "px": 80,   "py": 100,  "lng": -6.860, "lat": 33.984 },
+    { "label": "Coin haut-droit bbox carto",    "px": 1110, "py": 100,  "lng": -6.795, "lat": 33.984 },
+    { "label": "Coin bas-droit bbox carto",     "px": 1110, "py": 1620, "lng": -6.795, "lat": 33.926 },
+    { "label": "Coin bas-gauche bbox carto",    "px": 80,   "py": 1620, "lng": -6.860, "lat": 33.926 }
+  ]
+}
