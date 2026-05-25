@@ -84,6 +84,32 @@ export class SigController {
     res.send(JSON.stringify(data));
   }
 
+  /**
+   * Zones DGI géocodées par ville — markers GeoJSON aux centroïdes Nominatim
+   * des avenues délimitantes. Permet d'AFFICHER les zones DGI sur la carte
+   * (pas juste un dropdown texte).
+   *
+   *   GET /api/sig/dgi-zones-geo/rabat.geojson
+   *   GET /api/sig/dgi-zones-geo/casablanca.geojson
+   *   etc.
+   *
+   * Chaque feature = 1 zone DGI avec ses propriétés (code, prix DGI 2017,
+   * délimitations textuelles, etc.). Coordonnées approximatives (~100-500m).
+   */
+  @Get("dgi-zones-geo/:cityFile")
+  getDgiZonesGeo(@Param("cityFile") cityFile: string, @Res() res: Response) {
+    // cityFile = "rabat.geojson" — on garde l'extension pour l'URL
+    const id = cityFile.replace(/\.geojson$/i, "");
+    const data = this.sig["loadJsonStatic"](`dgi-zones-geo/${id}.geojson`);
+    if (!data) {
+      res.status(404).json({ ok: false, error: `Zones géocodées non disponibles pour « ${id} »` });
+      return;
+    }
+    res.setHeader("Content-Type", "application/geo+json; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600, stale-while-revalidate=86400");
+    res.send(JSON.stringify(data));
+  }
+
   @Get("auto-detect-zone")
   async autoDetectZone(
     @Query("lat") lat?: string,

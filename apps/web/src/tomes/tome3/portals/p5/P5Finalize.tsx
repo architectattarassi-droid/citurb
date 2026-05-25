@@ -34,6 +34,8 @@ export default function P5Finalize() {
   const [autoDetect, setAutoDetect] = useState<any>(null);
   const [dgiCity, setDgiCity] = useState<any>(null);
   const [selectedDgiZone, setSelectedDgiZone] = useState<string>("");
+  // Zones DGI géocodées (markers GeoJSON aux centroïdes Nominatim des avenues)
+  const [dgiZonesGeo, setDgiZonesGeo] = useState<any>(null);
 
   // Position GPS courante — initialisée depuis le brief, peut être ajustée
   // visuellement par l'utilisateur sur la carte. Chaque modification re-déclenche
@@ -123,6 +125,10 @@ export default function P5Finalize() {
     if (cityId) {
       fetch(`${apiBase()}/api/sig/dgi-zones/${cityId}`)
         .then(r => r.json()).then(d => { if (d?.ok) setDgiCity(d); }).catch(() => {});
+      // Zones géocodées (markers GeoJSON) — affiche les emplacements approximatifs
+      // des zones DGI sur la carte. Fallback silencieux si pas géocodé pour cette ville.
+      fetch(`${apiBase()}/api/sig/dgi-zones-geo/${cityId}.geojson`)
+        .then(r => r.ok ? r.json() : null).then(d => { if (d?.features) setDgiZonesGeo(d); }).catch(() => {});
     }
   }, [phase, error, payloadState]);
 
@@ -361,18 +367,44 @@ export default function P5Finalize() {
               const ptMax = ptValues.length ? Math.max(...ptValues) : null;
               const pcMin = pcValues.length ? Math.min(...pcValues) : null;
               const pcMax = pcValues.length ? Math.max(...pcValues) : null;
+              // Prix marché 2026 (enrichi par enrichWithMarketCorrection backend)
+              const marketMinValues = z.prix.filter((p: any) => p.marketMinPt).map((p: any) => p.marketMinPt);
+              const marketMaxValues = z.prix.filter((p: any) => p.marketMaxPt).map((p: any) => p.marketMaxPt);
+              const marketMin = marketMinValues.length ? Math.min(...marketMinValues) : null;
+              const marketMax = marketMaxValues.length ? Math.max(...marketMaxValues) : null;
+              // Zone géocodée (pour bouton "voir sur carte")
+              const geoFeature = dgiZonesGeo?.features?.find((f: any) => f.properties?.code === selectedDgiZone);
               return (
                 <div style={S.dgiDetail}>
-                  <div style={{ fontWeight: 800, color: "#1e40af", marginBottom: 6 }}>📜 Zone {z.code} — {z.nomCommun || z.arrondissement}</div>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", marginBottom: 6 }}>
+                    <div style={{ fontWeight: 800, color: "#1e40af" }}>📜 Zone {z.code} — {z.nomCommun || z.arrondissement}</div>
+                    {geoFeature && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const [lng, lat] = geoFeature.geometry.coordinates;
+                          setCurrentCoords({ lat, lng });
+                          document.querySelector('.sig-explorer-page, [class*="MapPicker"], canvas')?.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }}
+                        style={{ padding: "6px 12px", background: "#1e40af", color: "#fff", border: 0, borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}
+                      >
+                        📍 Voir sur la carte
+                      </button>
+                    )}
+                  </div>
                   {z.delimitations && (
                     <div style={{ fontSize: 12, color: "rgba(11,27,58,0.72)", fontStyle: "italic", marginBottom: 10 }}>
                       <strong>Délimitations :</strong> {z.delimitations}
                     </div>
                   )}
+                  {/* PRIX DGI 2017 = référence administrative */}
+                  <div style={{ fontSize: 11, fontWeight: 800, color: "#1e40af", textTransform: "uppercase" as const, letterSpacing: "0.05em", marginBottom: 6 }}>
+                    🏛 Référence administrative DGI 2017
+                  </div>
                   <div style={S.dgiPriceGrid}>
                     {ptMin != null && (
                       <div style={S.dgiPriceCard}>
-                        <div style={S.dgiPriceLabel}>Prix Terrain DGI</div>
+                        <div style={S.dgiPriceLabel}>Terrain DGI 2017</div>
                         <div style={S.dgiPriceValue}>
                           {ptMin === ptMax ? ptMin.toLocaleString("fr-FR") : `${ptMin.toLocaleString("fr-FR")} – ${ptMax!.toLocaleString("fr-FR")}`} DH/m²
                         </div>
@@ -380,13 +412,35 @@ export default function P5Finalize() {
                     )}
                     {pcMin != null && (
                       <div style={S.dgiPriceCard}>
-                        <div style={S.dgiPriceLabel}>Prix Construction DGI</div>
+                        <div style={S.dgiPriceLabel}>Construction DGI 2017</div>
                         <div style={S.dgiPriceValue}>
                           {pcMin === pcMax ? pcMin.toLocaleString("fr-FR") : `${pcMin.toLocaleString("fr-FR")} – ${pcMax!.toLocaleString("fr-FR")}`} DH/m²
                         </div>
                       </div>
                     )}
                   </div>
+                  {/* ESTIMATION MARCHÉ 2026 = reprojection IPAI BAM + facteur marché */}
+                  {marketMin != null && (
+                    <>
+                      <div style={{ fontSize: 11, fontWeight: 800, color: "#166534", textTransform: "uppercase" as const, letterSpacing: "0.05em", margin: "12px 0 6px" }}>
+                        📈 Estimation marché 2026 (IPAI BAM × facteur marché)
+                      </div>
+                      <div style={{ ...S.dgiPriceGrid }}>
+                        <div style={{ ...S.dgiPriceCard, borderColor: "rgba(34,197,94,0.40)", background: "rgba(34,197,94,0.04)" }}>
+                          <div style={{ ...S.dgiPriceLabel, color: "#166534" }}>Fourchette marché terrain</div>
+                          <div style={{ ...S.dgiPriceValue, color: "#0B1B3A" }}>
+                            {marketMin.toLocaleString("fr-FR")} – {marketMax!.toLocaleString("fr-FR")} DH/m²
+                          </div>
+                          <div style={{ fontSize: 10.5, color: "rgba(11,27,58,0.55)", marginTop: 3, fontStyle: "italic" }}>
+                            DGI 2017 × IPAI BAM (~+5%/8a) × facteur marché 1,3-1,7
+                          </div>
+                        </div>
+                      </div>
+                      <div style={{ fontSize: 11, color: "rgba(11,27,58,0.62)", marginTop: 6, lineHeight: 1.55 }}>
+                        ⓘ Le marché réel se situe systématiquement <strong>30 à 70 % au-dessus</strong> du référentiel DGI (qui sert au calcul des droits d'enregistrement, sous-évalué volontairement). Cette fourchette est une estimation indicative ; le rapport d'expertise CITURBAREA finalise la valeur après visite + comparables transactions Yakeey/Agenz/Mubawab/notaires.
+                      </div>
+                    </>
+                  )}
                   <details>
                     <summary style={S.summary}>Voir le tableau complet ({z.prix.length} lignes)</summary>
                     <div style={{ overflowX: "auto" }}>

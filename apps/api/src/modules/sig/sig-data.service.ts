@@ -147,6 +147,63 @@ export class SigDataService implements OnModuleInit {
   private _dgiZonesCache: Map<string, any> = new Map();
 
   /**
+   * Charge la table de correction IPAI BAM pour reprojeter les prix DGI 2017
+   * → estimation 2026 (IPAI officiel + multiplicateur marché vs DGI).
+   */
+  private _ipaiCache: any | null = null;
+  private getIpaiCorrections(): any {
+    if (this._ipaiCache) return this._ipaiCache;
+    this._ipaiCache = this.loadJsonStatic("ipai-corrections.json") || { _meta: {}, by_type: {} };
+    return this._ipaiCache;
+  }
+
+  /**
+   * Enrichit chaque zone DGI avec une estimation 2026 calculée à partir de la
+   * correction IPAI BAM + facteur marché vs DGI (toujours sous-évalué).
+   * Renvoie 2 fourchettes : `dgi2017Pt`/`dgi2017Pc` (référence légale immuable)
+   * + `marche2026MinPt`/`marche2026MaxPt` (estimation marché actuelle).
+   */
+  private enrichWithMarketCorrection(zonesData: any): any {
+    if (!zonesData?.zones) return zonesData;
+    const ipai = this.getIpaiCorrections();
+    const byType = ipai.by_type || {};
+    const defaultCorr = { ipai_correction: 1.05, marche_factor_min: 1.30, marche_factor_max: 1.70 };
+
+    const enrichedZones = zonesData.zones.map((z: any) => {
+      const enrichedPrix = (z.prix || []).map((p: any) => {
+        const corr = byType[p.type] || defaultCorr;
+        const out: any = { ...p };
+        if (p.pt && Number.isFinite(p.pt)) {
+          const base2026 = Math.round(p.pt * corr.ipai_correction);
+          out.pt2026Ref = base2026; // référence DGI ré-actualisée
+          out.marketMinPt = Math.round(base2026 * corr.marche_factor_min);
+          out.marketMaxPt = Math.round(base2026 * corr.marche_factor_max);
+        }
+        if (p.pc && Number.isFinite(p.pc)) {
+          out.pc2026Ref = Math.round(p.pc * corr.ipai_correction);
+        }
+        if (p.prixUnique && Number.isFinite(p.prixUnique)) {
+          const base2026 = Math.round(p.prixUnique * corr.ipai_correction);
+          out.prixUnique2026Ref = base2026;
+          out.marketMin = Math.round(base2026 * corr.marche_factor_min);
+          out.marketMax = Math.round(base2026 * corr.marche_factor_max);
+        }
+        return out;
+      });
+      return { ...z, prix: enrichedPrix };
+    });
+
+    return {
+      ...zonesData,
+      _meta: {
+        ...zonesData._meta,
+        ipaiCorrection: ipai._meta,
+      },
+      zones: enrichedZones,
+    };
+  }
+
+  /**
    * Catalogue DGI par ville — extrait par parsing PDF (Niveau 2 du module SIG).
    * Pour chaque ville couverte, retourne les zones avec leurs prix de référence
    * officiels, leurs délimitations géographiques et la liste des avenues.
@@ -160,9 +217,12 @@ export class SigDataService implements OnModuleInit {
   getDgiZones(cityId: string): any | null {
     const id = cityId.toLowerCase().trim();
     if (this._dgiZonesCache.has(id)) return this._dgiZonesCache.get(id);
-    const data = this.loadJsonStatic(`dgi-zones/${id}.json`);
-    if (data) this._dgiZonesCache.set(id, data);
-    return data;
+    const raw = this.loadJsonStatic(`dgi-zones/${id}.json`);
+    if (!raw) return null;
+    // Enrichit avec correction IPAI BAM + estimation marché 2026
+    const enriched = this.enrichWithMarketCorrection(raw);
+    this._dgiZonesCache.set(id, enriched);
+    return enriched;
   }
 
   /** Liste les villes qui ont une extraction DGI disponible. */

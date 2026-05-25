@@ -90,6 +90,30 @@ let SigController = class SigController {
         res.setHeader("Cache-Control", "public, max-age=86400, stale-while-revalidate=604800");
         res.send(JSON.stringify(data));
     }
+    /**
+     * Zones DGI géocodées par ville — markers GeoJSON aux centroïdes Nominatim
+     * des avenues délimitantes. Permet d'AFFICHER les zones DGI sur la carte
+     * (pas juste un dropdown texte).
+     *
+     *   GET /api/sig/dgi-zones-geo/rabat.geojson
+     *   GET /api/sig/dgi-zones-geo/casablanca.geojson
+     *   etc.
+     *
+     * Chaque feature = 1 zone DGI avec ses propriétés (code, prix DGI 2017,
+     * délimitations textuelles, etc.). Coordonnées approximatives (~100-500m).
+     */
+    getDgiZonesGeo(cityFile, res) {
+        // cityFile = "rabat.geojson" — on garde l'extension pour l'URL
+        const id = cityFile.replace(/\.geojson$/i, "");
+        const data = this.sig["loadJsonStatic"](`dgi-zones-geo/${id}.geojson`);
+        if (!data) {
+            res.status(404).json({ ok: false, error: `Zones géocodées non disponibles pour « ${id} »` });
+            return;
+        }
+        res.setHeader("Content-Type", "application/geo+json; charset=utf-8");
+        res.setHeader("Cache-Control", "public, max-age=3600, stale-while-revalidate=86400");
+        res.send(JSON.stringify(data));
+    }
     async autoDetectZone(lat, lng, commune, region, bienFamily, address, res) {
         const result = await this.detector.detect({
             lat: lat != null ? +lat : undefined,
@@ -175,6 +199,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], SigController.prototype, "getOsmQuartiers", null);
+__decorate([
+    (0, common_1.Get)("dgi-zones-geo/:cityFile"),
+    __param(0, (0, common_1.Param)("cityFile")),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], SigController.prototype, "getDgiZonesGeo", null);
 __decorate([
     (0, common_1.Get)("auto-detect-zone"),
     __param(0, (0, common_1.Query)("lat")),

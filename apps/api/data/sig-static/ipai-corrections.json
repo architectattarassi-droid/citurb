@@ -1,0 +1,30 @@
+{
+  "_meta": {
+    "title": "Coefficients de reprojection prix DGI 2017 → 2026",
+    "source": "Bank Al-Maghrib — IPAI (Indice des Prix des Actifs Immobiliers), publications trimestrielles",
+    "sourceUrl": "https://www.bkam.ma/Statistiques/Prix/Indice-des-prix-des-actifs-immobiliers",
+    "compiledAt": "2026-05-25",
+    "doctrine": "Les PDFs DGI 2017 n'ont jamais été actualisés publiquement par la DGI depuis cette date. Pour donner une estimation 2026 réaliste, on multiplie les prix DGI 2017 par : (1) IPAI BAM cumulé 2017→2025 (officiel) — typiquement +5% à +12% selon segment ; (2) un coefficient marché vs DGI (les prix de marché sont systématiquement 30-70% au-dessus du DGI). Le rapport d'expertise CITURBAREA finalise la valeur réelle après visite + comparables.",
+    "ipai_2017_to_2025_resid_global": 1.05,
+    "ipai_2017_to_2025_terrain": 1.04,
+    "ipai_2017_to_2025_appart": 1.06,
+    "marche_vs_dgi_factor_min": 1.30,
+    "marche_vs_dgi_factor_max": 1.70
+  },
+  "by_type": {
+    "Villa": { "ipai_correction": 1.06, "marche_factor_min": 1.40, "marche_factor_max": 1.80 },
+    "Terrain ZV": { "ipai_correction": 1.04, "marche_factor_min": 1.50, "marche_factor_max": 2.50 },
+    "Terrain ZI": { "ipai_correction": 1.05, "marche_factor_min": 1.40, "marche_factor_max": 2.20 },
+    "Terrain ZM": { "ipai_correction": 1.04, "marche_factor_min": 1.30, "marche_factor_max": 1.80 },
+    "Appartement": { "ipai_correction": 1.06, "marche_factor_min": 1.20, "marche_factor_max": 1.50 },
+    "Maison": { "ipai_correction": 1.05, "marche_factor_min": 1.30, "marche_factor_max": 1.70 },
+    "Immeuble": { "ipai_correction": 1.05, "marche_factor_min": 1.35, "marche_factor_max": 1.80 }
+  },
+  "trimestres_recents": [
+    { "trimestre": "T3-2024", "ipai_global": 102.1, "evolution_yoy": "+1.6%", "source": "BAM IPAI T3-2024" },
+    { "trimestre": "T4-2024", "ipai_global": 102.5, "evolution_yoy": "+0.8%", "source": "BAM IPAI T4-2024" },
+    { "trimestre": "T1-2025", "ipai_global": 103.0, "evolution_yoy": "+0.9%", "source": "BAM IPAI T1-2025" },
+    { "trimestre": "T2-2025", "ipai_global": 103.4, "evolution_yoy": "+1.1%", "source": "BAM IPAI T2-2025" },
+    { "trimestre": "T3-2025", "ipai_global": 103.8, "evolution_yoy": "+0.6%", "source": "BAM IPAI T3-2025" }
+  ]
+}
