@@ -1,0 +1,71 @@
+{
+  "code": "VILLA_R1_HS",
+  "label": "Villa R+1 résidentiel haut standing",
+  "labelAr": "فيلا طابق أرضي + علوي راقي",
+  "labelDarija": "Villa rdi3 + tarras haut standing",
+  "description": "Villa individuelle ou jumelée, R+1, surface bâtie 200-500 m², standing supérieur avec finitions luxe (zellige, tadelakt, marbre, menuiserie bois noble).",
+  "porteScope": ["P1", "P2"],
+  "defaultClasseSismique": "II",
+  "defaultZoneRT": "Z2",
+  "fourchettePrixMad": { "min": 1500000, "max": 8000000 },
+  "delaiTypique": { "etudes": 60, "permis": 90, "chantier": 540, "total": 690 },
+  "lots": [
+    { "code": "LOT_00_GENERALITES", "obligatoire": true, "ordre": 0 },
+    { "code": "LOT_01_TERRASSEMENT", "obligatoire": true, "ordre": 1 },
+    { "code": "LOT_02_GO_BETON", "obligatoire": true, "ordre": 2 },
+    { "code": "LOT_03_MACONNERIE", "obligatoire": true, "ordre": 3 },
+    { "code": "LOT_04_ETANCHEITE", "obligatoire": true, "ordre": 4 },
+    { "code": "LOT_05_CHARPENTE", "obligatoire": false, "ordre": 5, "condition": "tuiles_traditionnelles" },
+    { "code": "LOT_06_COUVERTURE", "obligatoire": false, "ordre": 6 },
+    { "code": "LOT_07_MENUISERIE_EXT_ALU", "obligatoire": true, "ordre": 7 },
+    { "code": "LOT_08_MENUISERIE_INT_BOIS", "obligatoire": true, "ordre": 8 },
+    { "code": "LOT_09_METALLERIE", "obligatoire": true, "ordre": 9 },
+    { "code": "LOT_10_CLOISONS_DOUBLAGES", "obligatoire": true, "ordre": 10 },
+    { "code": "LOT_11_REVETEMENTS_SOLS", "obligatoire": true, "ordre": 11 },
+    { "code": "LOT_12_REVETEMENTS_MURS", "obligatoire": true, "ordre": 12 },
+    { "code": "LOT_13_PEINTURE", "obligatoire": true, "ordre": 13 },
+    { "code": "LOT_14_PLOMBERIE_SANITAIRE", "obligatoire": true, "ordre": 14 },
+    { "code": "LOT_15_ELECTRICITE", "obligatoire": true, "ordre": 15 },
+    { "code": "LOT_16_CLIMATISATION", "obligatoire": true, "ordre": 16 },
+    { "code": "LOT_17_PLOMBERIE_ECS", "obligatoire": true, "ordre": 17 },
+    { "code": "LOT_21_ESPACES_VERTS", "obligatoire": false, "ordre": 21 },
+    { "code": "LOT_24_DOMOTIQUE", "obligatoire": false, "ordre": 24, "condition": "smart_home_option" },
+    { "code": "LOT_25_PHOTOVOLTAIQUE", "obligatoire": false, "ordre": 25, "condition": "auto_consommation" }
+  ],
+  "normesPivots": [
+    "RPS_2011",
+    "NM_EN_206_1_2014",
+    "NM_EN_1992_EC2",
+    "RT_2024_RESIDENTIEL",
+    "NM_10_1_008",
+    "NM_03_7_001_INCENDIE"
+  ],
+  "clausesLegalesObligatoires": [
+    "DECENNALE_DOC_769",
+    "BIENNALE_DOC_769_BIS",
+    "PARFAIT_ACHEVEMENT_1_AN",
+    "DELAIS_PAIEMENT_LOI_32_10",
+    "FORCE_MAJEURE_DOC_268"
+  ],
+  "assurancesObligatoires": [
+    { "type": "TRC", "souscripteurDefault": "MO", "couvertureMin": "100_pct_montant_travaux" },
+    { "type": "DECENNALE", "souscripteur": "ENTREPRISE_GENERALE", "duree": 10, "fondement": "DOC art. 769" },
+    { "type": "RC_PRO_ARCHITECTE", "souscripteur": "ARCHITECTE", "fondement": "Loi 016-89 art. 24" }
+  ],
+  "visasObligatoires": [
+    { "type": "VISA_CROA", "phase": "APD_PRET_DEPOT_PERMIS", "delaiLegal": 15 }
+  ],
+  "permisRequis": ["PERMIS_DE_CONSTRUIRE", "AUTORISATION_LOTIR_SI_NEUF"],
+  "metadata": {
+    "version": "1.0.0",
+    "validePar": "Architecte CITURBAREA + BET structure partenaire",
+    "valideLe": "2026-05-25",
+    "prochaineRevision": "2027-05-25",
+    "sourcesReference": [
+      "Barème CNOA 2018",
+      "Cahier des Charges types Ministère Habitat",
+      "RPS 2011 (Règles Parasismiques Marocaines)",
+      "RT 2024 (Réglementation Thermique du Bâtiment AMEE)"
+    ]
+  }
+}

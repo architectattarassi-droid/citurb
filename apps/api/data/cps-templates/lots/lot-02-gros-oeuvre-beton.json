@@ -1,0 +1,74 @@
+{
+  "code": "LOT_02_GO_BETON",
+  "numero": 2,
+  "intitule": "Gros œuvre — Béton armé",
+  "intituleAr": "البناء الخرساني المسلح",
+  "description": "Travaux de fondations, structure, voiles, planchers et escaliers en béton armé conformes RPS 2011 et NM EN 1992.",
+  "normesRefs": [
+    "NM_EN_206_1_2014",
+    "NM_EN_1992_EC2",
+    "RPS_2011",
+    "NM_10_1_004_CIMENT",
+    "NM_10_1_008_GRANULATS"
+  ],
+  "competencesRequises": ["ENTREPRISE_QUALIFIEE_GO", "BET_STRUCTURE_HMONP"],
+  "articles": [
+    {
+      "numero": "2.1",
+      "titre": "Objet",
+      "corpsMD": "Le présent lot a pour objet l'exécution de l'ensemble des travaux de gros œuvre en béton armé du projet **{{PROJECT_NAME}}**, situé {{PROJECT_ADDRESS}}, comprenant : fondations, voiles, poteaux, poutres, planchers, escaliers, acrotères et tous ouvrages annexes nécessaires à la stabilité de la structure conformément aux plans d'exécution visés par le BET Structure."
+    },
+    {
+      "numero": "2.2",
+      "titre": "Provenance et origine des matériaux",
+      "corpsMD": "**Ciment** : usine marocaine agréée IMANOR (LafargeHolcim Maroc, Ciments du Maroc, Asment Temara), type **CEM II/A 42,5 N** conforme **NM 10.1.004**.\n\n**Granulats** : carrière locale agréée à moins de **{{MAX_TRANSPORT_KM}} km** du chantier ; classes 0/4, 4/16, 16/25 conformes **NM 10.1.008** ; rapport d'essais Los Angeles < 30%, MicroDeval < 25%.\n\n**Aciers HA** : barres haute adhérence Fe E500-3, marque Sonasid ou Maghreb Steel, classe **HA500** conforme **NM EN 10080**, livrées avec certificat de conformité par lot."
+    },
+    {
+      "numero": "2.3",
+      "titre": "Caractéristiques techniques des bétons",
+      "corpsMD": "Les bétons seront conformes à la norme **NM EN 206-1:2014** « Béton — Spécification, performances, production et conformité ».\n\n**Classes d'exposition** :\n- Fondations : **XC2** (humide, rarement sec)\n- Élévations courantes : **XC4** (cycliquement humide et sec)\n- Voiles enterrés en contact eau de mer (≤ 1 km côte) : **XS2 ou XS3**\n\n**Classes de résistance minimales** :\n- Fondations : **C25/30** (résistance caractéristique fc28 ≥ 25 MPa)\n- Superstructure : **C25/30**\n- Voiles parasismiques zone sismique {{ZONE_SISMIQUE}} : **C30/37** conformément **RPS 2011 §7.3.2** (coefficient d'accélération A={{COEF_A}})\n\n**Caractéristiques de mise en œuvre** :\n- Diamètre maximal des granulats **Dmax = 20 mm**\n- Affaissement au cône d'Abrams classe **S3 (100-150 mm)**\n- Rapport E/C ≤ 0,55 (≤ 0,50 pour XC4)\n- Dosage minimal en ciment : 300 kg/m³ (320 kg/m³ pour XC4)"
+    },
+    {
+      "numero": "2.4",
+      "titre": "Échantillons et agréments préalables",
+      "corpsMD": "Avant tout coulage, l'entreprise soumettra à l'agrément du Maître d'Œuvre :\n1. Étude de formulation des bétons (mix design) par laboratoire **agréé IMANOR** ou **LPEE**\n2. Résultats d'essais de convenance sur trois gâchées d'épreuve\n3. Fiche technique fournisseur ciment + bons de livraison\n4. Procès-verbal d'essai des aciers HA par lot livré\n5. Plan d'installation centrale à béton si BPE (béton prêt à l'emploi)\n\nAucun coulage ne pourra démarrer sans accord écrit du Maître d'Œuvre, sous peine de démolition aux frais exclusifs de l'entreprise."
+    },
+    {
+      "numero": "2.5",
+      "titre": "Mise en œuvre",
+      "corpsMD": "**Coffrages** : panneaux métalliques ou bois CTBX selon plans, parement soigné côté visible. Décintrement après obtention de 70% de la résistance caractéristique (généralement 7 jours).\n\n**Ferraillage** : façonnage en atelier, pose conforme aux plans BET, espacement entre barres respecté (3 × Dmax granulats min.), enrobages **35 mm** courant, **50 mm** en milieu agressif XC4/XS.\n\n**Bétonnage** :\n- Vibration mécanique à l'aiguille, durée selon affaissement (jamais ségrégation)\n- Hauteur de chute libre ≤ 1,50 m (au-delà : trémie ou pompe)\n- Reprise de bétonnage : surface piochée, lavée, badigeon barbotine ciment pur\n- Coulage en continu sur élément structurel\n\n**Cure** : protection humide minimum 7 jours (28 jours pour C30/37 et plus), interdiction stricte coulage par température ambiante > 32°C (chergui) sans précautions (eau glacée, bétonnage de nuit, retardateur).\n\n**Joints sismiques** : conformes **RPS 2011 §6.4**, largeur calculée par BET, joints traversants jusqu'aux fondations, rupture totale de continuité structurelle."
+    },
+    {
+      "numero": "2.6",
+      "titre": "Contrôles et essais",
+      "corpsMD": "**Contrôle de conformité** selon **NM EN 206-1 Annexe B** :\n- Prélèvement de **3 éprouvettes cylindriques 16×32 cm** tous les **50 m³** ou **par jour de coulage** par élément\n- Écrasement à 7 et 28 jours par laboratoire agréé\n- Contrôle complémentaire au scléromètre Schmidt sur ouvrages douteux\n\n**Critère d'acceptation** (NM EN 206-1) :\n- Résistance individuelle ≥ fck - 4 MPa\n- Résistance moyenne 3 prélèvements ≥ fck + 1 MPa\n\n**En cas de non-conformité** : essais complémentaires par carottage (norme NM EN 12504-1), expertise du BET, démolition + reprise aux frais de l'entreprise si confirmation."
+    },
+    {
+      "numero": "2.7",
+      "titre": "Tolérances de réception",
+      "corpsMD": "Tolérances maximales acceptées (DTU 21 transposé) :\n- Verticalité voile : ± 1 cm/m, max 3 cm sur 3 m\n- Planéité plancher fini : ± 7 mm sous règle 2 m\n- Implantation poteaux : ± 1 cm en X/Y, ± 2 cm en Z\n- Épaisseur dalle : - 0 / + 1 cm sur épaisseur nominale\n\nTout dépassement entraîne reprise aux frais de l'entreprise ou réfaction de prix après avis du Maître d'Œuvre + BET."
+    },
+    {
+      "numero": "2.8",
+      "titre": "Garanties",
+      "corpsMD": "L'entreprise est tenue, conformément aux **articles 769 et 770 du Dahir formant Code des Obligations et Contrats (DOC)** :\n\n- **Garantie de parfait achèvement** : **1 an** à compter de la réception provisoire, couvrant tous désordres signalés par procès-verbal contradictoire\n- **Garantie biennale** (art. 769 bis DOC) : **2 ans** sur les éléments d'équipement dissociables\n- **Garantie décennale** : **10 ans** sur la solidité de l'ouvrage et des éléments faisant indissociablement corps avec lui, ainsi que sur les défauts compromettant la destination de l'ouvrage\n\nL'entreprise présentera son **attestation d'assurance décennale** souscrite auprès d'une compagnie marocaine agréée ACAPS, montant de garantie ≥ {{MONTANT_TRAVAUX_LOT}} MAD, **avant tout démarrage des travaux** sous peine de résiliation aux torts exclusifs."
+    }
+  ],
+  "cross_referencesInterlots": [
+    { "lotCible": "LOT_03_MACONNERIE", "type": "RESERVATIONS", "description": "Coordination des réservations maçonnerie dans voiles BA (gaines, trémies)" },
+    { "lotCible": "LOT_14_PLOMBERIE_SANITAIRE", "type": "RESERVATIONS", "description": "Réservations pour passages canalisations et siphons sols" },
+    { "lotCible": "LOT_15_ELECTRICITE", "type": "RESERVATIONS", "description": "Saignées et fourreaux noyés en dalle pour courants forts/faibles" },
+    { "lotCible": "LOT_23_ASCENSEUR", "type": "PUITS_GAINE", "description": "Coordination puits ascenseur ; précision dimensions et niveaux ±5 mm" }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "valideLe": "2026-05-25",
+    "auteur": "Équipe ingénierie CITURBAREA + BET partenaire NOVEC",
+    "sources": [
+      "NM EN 206-1:2014 (IMANOR)",
+      "NM EN 1992-1-1:2005 — Eurocode 2 (IMANOR)",
+      "RPS 2011 (Direction de la Réglementation et de la Normalisation Technique, Ministère Habitat)",
+      "DOC art. 769, 770"
+    ]
+  }
+}
