@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="96" fill="#0B1B3A"/>
+  <circle cx="256" cy="256" r="180" fill="none" stroke="#C9A227" stroke-width="14"/>
+  <path d="M 130 350 L 256 130 L 382 350 Z" fill="#C9A227" opacity="0.9"/>
+  <rect x="232" y="270" width="48" height="80" fill="#0B1B3A"/>
+  <text x="256" y="430" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="48" font-weight="700" fill="#FFFFFF">CITURBAREA</text>
+</svg>

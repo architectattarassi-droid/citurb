@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hors ligne — CITURBAREA</title>
+  <style>
+    body { margin: 0; min-height: 100vh; background: #0B1B3A; color: #fff; font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .card { max-width: 420px; text-align: center; padding: 32px; background: rgba(255,255,255,0.05); border: 1px solid rgba(201,162,39,0.3); border-radius: 16px; }
+    .icon { font-size: 56px; margin-bottom: 16px; }
+    h1 { margin: 0 0 12px; font-size: 22px; color: #C9A227; }
+    p { margin: 0 0 20px; opacity: 0.85; line-height: 1.5; }
+    button { background: #C9A227; color: #0B1B3A; border: 0; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 15px; cursor: pointer; font-family: inherit; }
+    .footer { margin-top: 24px; font-size: 12px; opacity: 0.6; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="icon">📡</div>
+    <h1>Vous êtes hors ligne</h1>
+    <p>
+      Aucune connexion internet détectée. Vos derniers dossiers consultés
+      sont disponibles depuis le cache local. Reconnectez-vous pour synchroniser
+      les modifications en attente.
+    </p>
+    <button onclick="window.location.reload()">Réessayer</button>
+    <div class="footer">CITURBAREA · Mode offline · Données mises en cache lors de votre dernière session</div>
+  </div>
+</body>
+</html>
