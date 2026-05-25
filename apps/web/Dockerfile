@@ -17,7 +17,7 @@ RUN cd apps/web && npm run build
 
 FROM nginx:1.27-alpine
 
-ARG CACHE_BUST=20260526-pwa-sw-icons-public
+ARG CACHE_BUST=20260526-nginx-api-proxy-icon-v2
 ENV PORT=8080
 
 COPY apps/web/nginx.conf /etc/nginx/templates/default.conf.template
