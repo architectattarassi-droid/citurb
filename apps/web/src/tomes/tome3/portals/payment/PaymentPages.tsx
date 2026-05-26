@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { apiBase, getToken } from "../../../tome4/apiClient";
+import { useT } from "../../../../i18n/i18n";
 
 /**
  * Pages de paiement CITURBAREA — 4 méthodes :
@@ -289,6 +290,7 @@ export function PaymentStartPage() {
 }
 
 export function PaymentSuccessPage() {
+  const t = useT();
   const [params] = useSearchParams();
   const sessionId = params.get("session_id");
   const dossierId = params.get("dossierId");
@@ -310,9 +312,9 @@ export function PaymentSuccessPage() {
     <div style={S.root}><div style={S.container}>
       <div style={{ ...S.card, ...S.cardSuccess, textAlign: "center" }}>
         <div style={S.icon}>✅</div>
-        <h1 style={{ ...S.title, color: "#166534" }}>Paiement reçu</h1>
+        <h1 style={{ ...S.title, color: "#166534" }}>{t("payment.success_title")}</h1>
         <p style={S.sub}>
-          Merci pour votre paiement. CITURBAREA a bien reçu votre règlement Stripe.<br />
+          {t("payment.success_sub")}<br />
           {loading && <span style={{ color: "rgba(11,27,58,0.55)" }}>Vérification…</span>}
           {!loading && status?.ok && (
             <>
@@ -341,20 +343,20 @@ export function PaymentSuccessPage() {
 }
 
 export function PaymentCancelPage() {
+  const t = useT();
   const [params] = useSearchParams();
   const dossierId = params.get("dossierId");
   return (
     <div style={S.root}><div style={S.container}>
       <div style={{ ...S.card, ...S.cardCancel, textAlign: "center" }}>
         <div style={S.icon}>↻</div>
-        <h1 style={{ ...S.title, color: "#92400e" }}>Paiement annulé</h1>
+        <h1 style={{ ...S.title, color: "#92400e" }}>{t("payment.cancel_title")}</h1>
         <p style={S.sub}>
-          Votre paiement Stripe a été annulé ou interrompu. Aucun montant n'a été prélevé.<br />
-          Vous pouvez reprendre le paiement avec la méthode de votre choix.
+          {t("payment.cancel_sub")}
         </p>
         <div style={{ marginTop: 16, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-          {dossierId && <a href={`/payment/start?dossier=${dossierId}`} style={S.btnGold}>💳 Reprendre le paiement</a>}
-          <a href="/portal" style={S.btnDark}>📁 Mes dossiers</a>
+          {dossierId && <a href={`/payment/start?dossier=${dossierId}`} style={S.btnGold}>💳 {t("pay.now")}</a>}
+          <a href="/portal" style={S.btnDark}>📁 {t("nav.my_dossiers")}</a>
         </div>
       </div>
     </div></div>

@@ -1,30 +1,31 @@
 import React from "react";
 import CerclesShell from "./CerclesShell";
 import { CC_THEME } from "./theme";
+import { useT } from "../../i18n/i18n";
 
 /**
  * CerclesHomePage — landing du module Cercles (lorsque aucun cercle sélectionné)
  */
 export default function CerclesHomePage() {
+  const t = useT();
   return (
     <CerclesShell>
       <div style={S.root}>
         <div>
-          <div style={S.eyebrow}>Atelier · Réseau pro</div>
-          <h1 style={S.title}>Bienvenue dans Cercles</h1>
+          <div style={S.eyebrow}>Atelier · {t("cercles.home_title")}</div>
+          <h1 style={S.title}>{t("common.welcome")} — {t("cercles.home_title")}</h1>
           <p style={S.lead}>
-            L'espace officiel d'échanges entre architectes, BET, bureaux de contrôle,
-            entreprises GO et fournisseurs matériaux du Maroc.
+            {t("cercles.home_subtitle")}
           </p>
           <p style={S.lead}>
-            Sélectionne un cercle dans la barre latérale, ou crée le tien.
+            {t("cercles.annuaire_sub")}
           </p>
 
           <div style={S.bullets}>
-            <Bullet icon="💬" title="Discussions"   body="Threads structurés, replies, upvotes, posts épinglés." />
-            <Bullet icon="🎥" title="Visioconférence" body="Salles dédiées, jusqu'à 50 participants, recording sur le cloud Cercles." />
-            <Bullet icon="📡" title="Diffusion live"  body="Multi-RTMP simultané vers YouTube, Facebook, LinkedIn." />
-            <Bullet icon="🏛"  title="Pour les pros"   body="Réservé aux architectes, BET et entreprises BTP qualifiées." />
+            <Bullet icon="💬" title={t("cercles.post_comment")}   body={t("cercles.feed_compose_placeholder")} />
+            <Bullet icon="🎥" title={t("cercles.visio_start")}    body={t("cercles.visio_join")} />
+            <Bullet icon="📡" title={t("landing.media.coming")}   body={t("landing.media.coming_sub")} />
+            <Bullet icon="🏛"  title={t("auth.profile_pro")}      body={t("auth.profile_pro_desc")} />
           </div>
         </div>
       </div>

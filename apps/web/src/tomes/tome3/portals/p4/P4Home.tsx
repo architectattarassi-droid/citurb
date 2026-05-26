@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
-import { getStoredLang } from "../../../../i18n/i18n";
+import { getStoredLang, useT } from "../../../../i18n/i18n";
 
 /**
  * P4Home — Wizard analyse foncière (3 packs)
@@ -99,6 +99,7 @@ const S: Record<string, React.CSSProperties> = {
 type Step = "pack" | "foncier" | "quote" | "identity" | "submitting" | "success";
 
 export default function P4Home() {
+  const t = useT();
   const [step, setStep] = useState<Step>("pack");
   const [packs, setPacks] = useState<Pack[]>([]);
   const [pack, setPack] = useState<P4Pack | null>(null);
@@ -226,9 +227,9 @@ export default function P4Home() {
     return (
       <div style={S.root}>
         <div style={S.hero}>
-          <div style={S.badge}>PORTE P4 — INVESTISSEUR / FONCIER</div>
-          <div style={S.title}>Analyse foncière complète</div>
-          <div style={S.sub}>Rapport exclusif CITURBAREA · Décision Go/No-Go · 3 niveaux d'analyse</div>
+          <div style={S.badge}>PORTE P4 — {t("p4.home_title").toUpperCase()}</div>
+          <div style={S.title}>{t("p4.home_title")}</div>
+          <div style={S.sub}>{t("p4.home_subtitle")}</div>
         </div>
         <div style={S.grid}>
           {packs.map(p => (
@@ -283,7 +284,7 @@ export default function P4Home() {
           <label style={S.label}>Nature d'usage prévue (si pack RENTABILITÉ)</label>
           <input style={S.inp} value={foncier.natureUsagePrevu} onChange={e => setFoncier({...foncier, natureUsagePrevu: e.target.value})} placeholder="Résidentiel R+4, équipement, lotissement…" />
 
-          <button style={S.btn} onClick={compute}>Calculer le devis →</button>
+          <button style={S.btn} onClick={compute}>{t("wizard.compute_quote")} →</button>
         </div>
       </div>
     );
@@ -369,7 +370,7 @@ export default function P4Home() {
           <label style={S.label}>Raison sociale (si entreprise)</label>
           <input style={S.inp} value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder="—" />
 
-          <button style={S.btn} onClick={submit}>Soumettre la demande →</button>
+          <button style={S.btn} onClick={submit}>{t("wizard.submit")} →</button>
         </div>
       </div>
     );

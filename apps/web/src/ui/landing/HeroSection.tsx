@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useT } from "../../i18n/i18n";
 
 const WA = "https://wa.me/212700127892?text=Salam%20Yassine%2C%20je%20veux%20un%20diagnostic%20pour%20mon%20projet%20via%20CITURBAREA.";
 
@@ -11,6 +12,7 @@ const TICKER = [
 ];
 
 export function HeroSection() {
+  const t = useT();
   const items = [...TICKER, ...TICKER];
   return (
     <>
@@ -40,10 +42,10 @@ export function HeroSection() {
               Yassine Attarassi · Arc Bati
             </span>
             <a href={WA} target="_blank" rel="noopener" style={{ display:"inline-flex",alignItems:"center",gap:8,background:"#25d366",color:"#fff",fontSize:13,fontWeight:700,padding:"9px 18px",borderRadius:99,border:"none",boxShadow:"0 2px 12px rgba(37,211,102,.25)" }}>
-              💬 RDV WhatsApp
+              💬 {t("landing.cta_whatsapp")}
             </a>
             <Link to="/login" style={{ display:"inline-flex",alignItems:"center",background:"var(--c-blue)",color:"#fff",fontSize:13,fontWeight:600,padding:"9px 18px",borderRadius:99 }}>
-              Connexion
+              {t("nav.login")}
             </Link>
           </div>
         </div>
@@ -54,27 +56,25 @@ export function HeroSection() {
         <div>
           <div style={{ display:"inline-flex",alignItems:"center",gap:8,fontSize:11,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",color:"var(--c-gold)",marginBottom:20 }}>
             <span style={{ width:24,height:2,background:"var(--c-gold)",borderRadius:1 }} />
-            Architecture · Urbanisme · Investissement
+            {t("landing.hero_kicker")}
           </div>
           <h1 style={{ fontFamily:"var(--font-display)",fontSize:"clamp(34px,4.5vw,56px)",fontWeight:800,lineHeight:1.07,letterSpacing:"-.03em",color:"var(--c-ink)",marginBottom:24 }}>
-            Votre projet au Maroc,{" "}
-            <span style={{ color:"var(--c-blue)",display:"block" }}>sécurisé de A à Z.</span>
+            {t("landing.title").replace(t("landing.title_highlight"), "")}{" "}
+            <span style={{ color:"var(--c-blue)",display:"block" }}>{t("landing.title_highlight")}</span>
           </h1>
           <p style={{ fontSize:16,lineHeight:1.75,color:"var(--c-muted)",maxWidth:500,marginBottom:36 }}>
-            Permis bloqué, chantier qui dérape, terrain sans plan —{" "}
-            <strong style={{ color:"var(--c-ink)",fontWeight:500 }}>nous traitons les projets complexes</strong>{" "}
-            que les autres cabinets évitent. Diagnostic gratuit en 30 minutes.
+            {t("landing.hero_subtitle")}
           </p>
           <div style={{ display:"flex",flexWrap:"wrap",gap:12,marginBottom:48 }}>
             <a href={WA} target="_blank" rel="noopener" style={{ display:"inline-flex",alignItems:"center",gap:10,background:"var(--c-blue)",color:"#fff",fontSize:15,fontWeight:700,padding:"14px 28px",borderRadius:14,boxShadow:"0 4px 20px rgba(13,53,102,.22)",border:"none" }}>
-              📋 Démarrer mon diagnostic
+              📋 {t("landing.cta_start")}
             </a>
             <a href="#portes" style={{ display:"inline-flex",alignItems:"center",background:"transparent",color:"var(--c-ink)",fontSize:14,fontWeight:500,padding:"13px 24px",borderRadius:14,border:"1.5px solid var(--c-line)" }}>
-              Voir les services →
+              {t("landing.cta_explore")} →
             </a>
           </div>
           <div style={{ display:"flex",flexWrap:"wrap",gap:20 }}>
-            {[["🏛️","Cabinet agréé Maroc"],["📍","Kénitra & national"],["✈️","MRE — suivi à distance"],["🔒","Preuves opposables"]].map(([icon,label]) => (
+            {[["🏛️",t("landing.feature.cabinet")],["📍",t("landing.feature.kenitra")],["✈️",t("landing.feature.mre")],["🔒",t("landing.feature.proofs")]].map(([icon,label]) => (
               <div key={label as string} style={{ display:"flex",alignItems:"center",gap:8,fontSize:13,color:"var(--c-muted)" }}>
                 <div style={{ width:30,height:30,borderRadius:8,background:"var(--c-card)",border:"1px solid var(--c-line)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14 }}>{icon}</div>
                 {label}
@@ -86,12 +86,12 @@ export function HeroSection() {
         {/* CONTACT CARD */}
         <div style={{ background:"var(--c-card)",borderRadius:24,padding:32,boxShadow:"var(--shadow-lg)",border:"1px solid var(--c-line)",position:"sticky",top:84 }}>
           <div style={{ fontFamily:"var(--font-display)",fontSize:18,fontWeight:700,color:"var(--c-ink)",marginBottom:6 }}>
-            Diagnostic gratuit — 30 min
+            {t("landing.contact.title")}
           </div>
           <p style={{ fontSize:13,color:"var(--c-muted)",marginBottom:20,lineHeight:1.5 }}>
-            Choisissez votre profil. On vous répond en moins de 2h.
+            {t("landing.contact.sub")}
           </p>
-          <div style={{ fontSize:12,fontWeight:700,letterSpacing:".05em",textTransform:"uppercase",color:"var(--c-muted)",marginBottom:10 }}>Votre situation</div>
+          <div style={{ fontSize:12,fontWeight:700,letterSpacing:".05em",textTransform:"uppercase",color:"var(--c-muted)",marginBottom:10 }}>{t("landing.contact.situation")}</div>
           <div style={{ display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:20 }}>
             {[["🏠","Maison R+1"],["🏢","Maison R+2/R+3"],["🏡","Villa"],["✈️","MRE / Distance"],["🏗️","Promoteur"],["📐","Terrain sans plan"]].map(([icon,label]) => (
               <button key={label as string}
@@ -108,11 +108,11 @@ export function HeroSection() {
             ))}
           </div>
           <a href={WA} target="_blank" rel="noopener" style={{ display:"flex",alignItems:"center",justifyContent:"center",gap:10,width:"100%",padding:14,background:"linear-gradient(135deg,#25d366,#1da851)",color:"#fff",border:"none",borderRadius:12,fontSize:14,fontWeight:700,boxShadow:"0 4px 20px rgba(37,211,102,.3)",marginBottom:12 }}>
-            <span style={{ fontSize:18 }}>💬</span> Démarrer sur WhatsApp
+            <span style={{ fontSize:18 }}>💬</span> {t("landing.contact.start_wa")}
           </a>
           <div style={{ textAlign:"center",fontSize:11,color:"var(--c-muted)",lineHeight:1.5 }}>
-            Aucun paiement requis · Diagnostic 30 min gratuit<br/>
-            Ou <Link to="/login" style={{ color:"var(--c-blue)",fontWeight:600 }}>accédez à votre espace plateforme</Link>
+            {t("landing.contact.no_payment")}<br/>
+            <Link to="/login" style={{ color:"var(--c-blue)",fontWeight:600 }}>{t("landing.contact.or_login")}</Link>
           </div>
         </div>
       </section>

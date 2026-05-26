@@ -8,8 +8,10 @@ import CerclesShell from "../CerclesShell";
 import { CC_THEME } from "../theme";
 import { marketplaceApi, MarketProduct, CorpsMetierNode } from "../api";
 import ProductCard from "./ProductCard";
+import { useT } from "../../../i18n/i18n";
 
 export default function MarketplacePage() {
+  const t = useT();
   const [taxonomy, setTaxonomy] = useState<CorpsMetierNode[]>([]);
   const [total, setTotal] = useState(0);
   const [products, setProducts] = useState<MarketProduct[]>([]);
@@ -49,13 +51,13 @@ export default function MarketplacePage() {
       <div style={S.root}>
         <header style={S.header}>
           <div>
-            <div style={S.eyebrow}>Marketplace · Matériaux & équipements BTP</div>
-            <h1 style={S.title}>Marketplace BTP Maroc</h1>
-            <p style={S.lead}>{total} matériaux référencés — du gros œuvre aux finitions, organisés par corps de métier.</p>
+            <div style={S.eyebrow}>{t("cercles.marketplace_title")}</div>
+            <h1 style={S.title}>{t("cercles.marketplace_title")}</h1>
+            <p style={S.lead}>{t("cercles.marketplace_sub")} — {total}</p>
           </div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <Link to="/cercles/marketplace/photos" style={S.photoBtn}>🖼 Gérer les photos</Link>
-            <Link to="/cercles/mes-offres" style={S.myBtn}>🏪 Mes offres fournisseur</Link>
+            <Link to="/cercles/marketplace/photos" style={S.photoBtn}>🖼 {t("common.edit")}</Link>
+            <Link to="/cercles/mes-offres" style={S.myBtn}>🏪 {t("cercles.marketplace_add")}</Link>
           </div>
         </header>
 
@@ -64,18 +66,18 @@ export default function MarketplacePage() {
             value={q}
             onChange={e => setQ(e.target.value)}
             onKeyDown={e => { if (e.key === "Enter") search(); }}
-            placeholder="Rechercher un matériau (ciment, fer, carrelage, câble…)"
+            placeholder={t("mat.search.placeholder")}
             style={S.search}
           />
-          <button onClick={() => search()} style={S.searchBtn}>Rechercher</button>
+          <button onClick={() => search()} style={S.searchBtn}>{t("common.search")}</button>
         </div>
 
         <div style={S.layout}>
           {/* Corps de métier */}
           <aside style={S.sidebar}>
-            <div style={S.sideTitle}>Corps de métier</div>
+            <div style={S.sideTitle}>{t("p3.corps_metiers_title")}</div>
             <button onClick={() => pickCorps("")} style={{ ...S.corpsBtn, ...(corpsMetier === "" ? S.corpsActive : {}) }}>
-              Tous · {total}
+              {t("mat.filter.all_categories")} · {total}
             </button>
             {taxonomy.map(c => (
               <div key={c.code}>
@@ -99,13 +101,13 @@ export default function MarketplacePage() {
           {/* Produits */}
           <main style={S.main}>
             <div style={S.crumb}>
-              {activeCorps ? activeCorps.label : "Tous les corps de métier"}
+              {activeCorps ? activeCorps.label : t("mat.filter.all_categories")}
               {famille && ` › ${famille}`}
-              <span style={S.crumbCount}> — {products.length} résultat{products.length > 1 ? "s" : ""}</span>
+              <span style={S.crumbCount}> — {t("mat.results.count", { n: products.length })}</span>
             </div>
-            {loading && <div style={S.muted}>Chargement…</div>}
+            {loading && <div style={S.muted}>{t("common.loading")}</div>}
             {!loading && products.length === 0 && (
-              <div style={S.empty}>Aucun matériau pour ces critères.</div>
+              <div style={S.empty}>{t("mat.search.no_match")}</div>
             )}
             {!loading && products.length > 0 && (
               <div style={S.grid}>

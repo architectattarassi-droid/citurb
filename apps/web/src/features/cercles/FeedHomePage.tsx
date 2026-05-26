@@ -18,6 +18,7 @@ import MediaEmbed, { extractUrls, isEmbeddable } from "./MediaEmbed";
 import InlineComments from "./InlineComments";
 import { SharePost } from "./SharePost";
 import { PostAttachments } from "./PostAttachments";
+import { useT } from "../../i18n/i18n";
 
 const METIER_LABELS: Record<string, string> = {
   ARCHITECTE: "Architecte", BET_STRUCTURE: "BET Structure", BET_FLUIDES: "BET Fluides", BET_VRD: "BET VRD",
@@ -27,6 +28,7 @@ const METIER_LABELS: Record<string, string> = {
 };
 
 export default function FeedHomePage() {
+  const t = useT();
   const navigate = useNavigate();
   const auth = useAuth();
   const [feed, setFeed] = useState<FeedResponse | null>(null);
@@ -143,13 +145,13 @@ export default function FeedHomePage() {
             <input
               value={composerTitle}
               onChange={e => setComposerTitle(e.target.value)}
-              placeholder="Titre (optionnel)"
+              placeholder={t("common.optional")}
               style={S.composerTitle}
             />
             <textarea
               value={composerBody}
               onChange={e => setComposerBody(e.target.value)}
-              placeholder="Partage une actualité avec toute la communauté BTP… (lien YouTube / image / vidéo détecté automatiquement)"
+              placeholder={t("cercles.feed_compose_placeholder")}
               style={S.composerBody}
             />
             {err && (

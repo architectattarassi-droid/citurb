@@ -1,0 +1,7 @@
+# Dossier resources/
+#
+# Contient les assets sources (icon.png 1024x1024 + splash.png 2732x2732)
+# utilisés par `@capacitor/assets generate` pour produire toutes les variantes
+# iOS + Android.
+#
+# Les PNG sont gitignorés (regénérables via `bash scripts/generate-icons.sh`).

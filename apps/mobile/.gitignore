@@ -1,0 +1,50 @@
+# =====================================================
+# .gitignore — apps/mobile (Capacitor)
+# =====================================================
+
+# Node
+node_modules/
+dist/
+www/
+*.log
+npm-debug.log*
+
+# Capacitor cache
+.capacitor/
+
+# Plates-formes natives générées par `npx cap add`
+android/
+ios/
+
+# Mais on garde les overrides versionnés :
+!android-overrides/
+!ios-overrides/
+!android-overrides/**
+!ios-overrides/**
+
+# Keystores Android — NE JAMAIS COMMITTER
+*.keystore
+*.jks
+keystore.properties
+
+# Firebase / Google Services — secrets
+google-services.json
+GoogleService-Info.plist
+
+# Build outputs
+build/
+*.apk
+*.aab
+*.ipa
+*.xcarchive
+
+# Resources générés (regénérables via generate-icons.sh)
+resources/icon.png
+resources/splash.png
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store

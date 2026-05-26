@@ -11,6 +11,8 @@ import { CC_THEME, ensureFonts } from "./theme";
 import { cerclesApi, CercleListItem, ProProfile, dmApi } from "./api";
 import { apiBase } from "../../tomes/tome4/apiClient";
 import { useAuth } from "../../tomes/tome5/AuthProvider";
+import { useIsMobile, MobileDrawer, MobileHeader, HeaderIconButton } from "../../components/mobile";
+import { BottomNav } from "../../components/bottom-nav/BottomNav";
 
 function resolveAvatarUrl(url?: string | null): string | undefined {
   if (!url) return undefined;
@@ -30,6 +32,9 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
   const [myProfile, setMyProfile] = useState<ProProfile | null>(null);
   // GATE — bloque l'accès aux particuliers (sans ProProfile et non-admin)
   const [accessReady, setAccessReady] = useState(false);
+  // ── Mobile : drawer pour la sidebar 320 px qui consommerait 89 % du viewport ──
+  const isMobile = useIsMobile();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   // Rôles admin exemptés (ils accèdent à Cercles pour modération sans ProProfile)
   const isAdminRole =
@@ -97,10 +102,10 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
     );
   }
 
-  return (
-    <div style={S.root}>
-      <aside style={S.sidebar}>
-        <Link to="/" style={{ ...S.brand, textDecoration: "none", color: "inherit", cursor: "pointer" }} title="Accueil — landing CITURBAREA Cercles">
+  // ── Sidebar content extrait pour réutilisation desktop sidebar / mobile drawer ──
+  const sidebarContent = (
+    <>
+      <Link to="/" style={{ ...S.brand, textDecoration: "none", color: "inherit", cursor: "pointer" }} title="Accueil — landing CITURBAREA Cercles">
           <div style={S.brandSeal}>C</div>
           <div>
             <div style={S.brandName}>CERCLES</div>
@@ -131,10 +136,10 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 8, padding: "0 18px 14px" }}>
-          <button onClick={() => navigate("/cercles/nouveau")} style={{ ...S.newBtn, margin: 0 }}>
+          <button onClick={() => { setDrawerOpen(false); navigate("/cercles/nouveau"); }} style={{ ...S.newBtn, margin: 0, minHeight: 44 }}>
             + Nouveau cercle
           </button>
-          <button onClick={() => navigate("/cercles/messages")} style={{ position: "relative", background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.navy, padding: "9px 12px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontFamily: "inherit", fontWeight: 500 }}>
+          <button onClick={() => { setDrawerOpen(false); navigate("/cercles/messages"); }} style={{ position: "relative", background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.navy, padding: "11px 12px", borderRadius: 6, fontSize: 13, cursor: "pointer", fontFamily: "inherit", fontWeight: 500, minHeight: 44 }}>
             💬 Messages
             {dmUnread > 0 && (
               <span style={{ position: "absolute", top: -5, right: -5, background: CC_THEME.or, color: CC_THEME.bgDeep, fontSize: 10, fontWeight: 700, minWidth: 18, height: 18, padding: "0 5px", borderRadius: 9, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -142,13 +147,13 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
               </span>
             )}
           </button>
-          <button onClick={() => navigate("/cercles/annuaire")} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.navy, padding: "9px 12px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontFamily: "inherit", fontWeight: 500 }}>
+          <button onClick={() => { setDrawerOpen(false); navigate("/cercles/annuaire"); }} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.navy, padding: "11px 12px", borderRadius: 6, fontSize: 13, cursor: "pointer", fontFamily: "inherit", fontWeight: 500, minHeight: 44 }}>
             📇 Annuaire pro
           </button>
-          <button onClick={() => navigate("/cercles/marketplace")} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.navy, padding: "9px 12px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontFamily: "inherit", fontWeight: 500 }}>
+          <button onClick={() => { setDrawerOpen(false); navigate("/cercles/marketplace"); }} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.navy, padding: "11px 12px", borderRadius: 6, fontSize: 13, cursor: "pointer", fontFamily: "inherit", fontWeight: 500, minHeight: 44 }}>
             🛒 Marketplace BTP
           </button>
-          <button onClick={logout} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.danger, padding: "9px 12px", borderRadius: 6, fontSize: 12, cursor: "pointer", fontFamily: "inherit", fontWeight: 500, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }} title="Se déconnecter">
+          <button onClick={logout} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, color: CC_THEME.danger, padding: "11px 12px", borderRadius: 6, fontSize: 13, cursor: "pointer", fontFamily: "inherit", fontWeight: 500, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, minHeight: 44 }} title="Se déconnecter">
             <span>⎋</span> Se déconnecter
           </button>
         </div>
@@ -168,6 +173,7 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
               <Link
                 key={c.id}
                 to={`/cercles/${c.slug}`}
+                onClick={() => setDrawerOpen(false)}
                 style={{ ...S.cercleRow, ...(isActive ? S.cercleRowActive : {}) }}
               >
                 <div style={S.cercleAvatar}>{c.name.slice(0, 1).toUpperCase()}</div>
@@ -184,6 +190,49 @@ export default function CerclesShell({ children }: { children: React.ReactNode }
             );
           })}
         </div>
+    </>
+  );
+
+  // ── Layout mobile : MobileHeader + Drawer + main pleine largeur + BottomNav ──
+  if (isMobile) {
+    return (
+      <div style={{ minHeight: "100vh", background: CC_THEME.bg, fontFamily: CC_THEME.fontBody, color: CC_THEME.ink, display: "flex", flexDirection: "column" }}>
+        <MobileHeader
+          title="CERCLES"
+          leftSlot={
+            <HeaderIconButton ariaLabel="Ouvrir le menu" onClick={() => setDrawerOpen(true)}>
+              <span style={{ fontSize: 22 }}>☰</span>
+            </HeaderIconButton>
+          }
+          rightSlot={
+            <HeaderIconButton ariaLabel="Messages" onClick={() => navigate("/cercles/messages")}>
+              <span style={{ position: "relative", fontSize: 18 }}>
+                💬
+                {dmUnread > 0 && (
+                  <span style={{ position: "absolute", top: -4, right: -6, background: CC_THEME.or, color: CC_THEME.bgDeep, fontSize: 9, fontWeight: 700, minWidth: 16, height: 16, padding: "0 4px", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    {dmUnread > 99 ? "99+" : dmUnread}
+                  </span>
+                )}
+              </span>
+            </HeaderIconButton>
+          }
+        />
+        <MobileDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+          <div style={{ display: "flex", flexDirection: "column", background: CC_THEME.bgRaised, minHeight: "100%" }}>
+            {sidebarContent}
+          </div>
+        </MobileDrawer>
+        <main style={{ flex: 1, overflowY: "auto", background: CC_THEME.bg }}>{children}</main>
+        <BottomNav />
+      </div>
+    );
+  }
+
+  // ── Layout desktop : sidebar 320 px + main, identique à l'original ──
+  return (
+    <div style={S.root}>
+      <aside style={S.sidebar}>
+        {sidebarContent}
       </aside>
 
       <main style={S.main}>{children}</main>

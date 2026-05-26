@@ -1,54 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0B1B3A"/>
-      <stop offset="100%" stop-color="#1a2f5f"/>
-    </linearGradient>
+    <radialGradient id="bg" cx="0.5" cy="0.5" r="0.7">
+      <stop offset="0%" stop-color="#15294e"/>
+      <stop offset="100%" stop-color="#0B1B3A"/>
+    </radialGradient>
     <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#E8C66A"/>
-      <stop offset="100%" stop-color="#C9A227"/>
+      <stop offset="100%" stop-color="#B8911D"/>
     </linearGradient>
   </defs>
   <rect width="512" height="512" rx="112" fill="url(#bg)"/>
-  <!-- Building silhouette : 3 tours stylisées (urbanisme + immobilier) -->
-  <g transform="translate(0,-12)">
-    <rect x="120" y="240" width="72" height="180" fill="url(#gold)" opacity="0.9"/>
-    <rect x="220" y="180" width="72" height="240" fill="url(#gold)"/>
-    <rect x="320" y="220" width="72" height="200" fill="url(#gold)" opacity="0.95"/>
-    <!-- Fenêtres -->
-    <g fill="#0B1B3A">
-      <rect x="138" y="270" width="14" height="14"/>
-      <rect x="160" y="270" width="14" height="14"/>
-      <rect x="138" y="298" width="14" height="14"/>
-      <rect x="160" y="298" width="14" height="14"/>
-      <rect x="138" y="326" width="14" height="14"/>
-      <rect x="160" y="326" width="14" height="14"/>
-      <rect x="138" y="354" width="14" height="14"/>
-      <rect x="160" y="354" width="14" height="14"/>
-      <rect x="238" y="210" width="14" height="14"/>
-      <rect x="260" y="210" width="14" height="14"/>
-      <rect x="238" y="238" width="14" height="14"/>
-      <rect x="260" y="238" width="14" height="14"/>
-      <rect x="238" y="266" width="14" height="14"/>
-      <rect x="260" y="266" width="14" height="14"/>
-      <rect x="238" y="294" width="14" height="14"/>
-      <rect x="260" y="294" width="14" height="14"/>
-      <rect x="238" y="322" width="14" height="14"/>
-      <rect x="260" y="322" width="14" height="14"/>
-      <rect x="238" y="350" width="14" height="14"/>
-      <rect x="260" y="350" width="14" height="14"/>
-      <rect x="338" y="250" width="14" height="14"/>
-      <rect x="360" y="250" width="14" height="14"/>
-      <rect x="338" y="278" width="14" height="14"/>
-      <rect x="360" y="278" width="14" height="14"/>
-      <rect x="338" y="306" width="14" height="14"/>
-      <rect x="360" y="306" width="14" height="14"/>
-      <rect x="338" y="334" width="14" height="14"/>
-      <rect x="360" y="334" width="14" height="14"/>
-    </g>
+  <!-- Lettre A monumentale (architecture, atlas, ALPHA) -->
+  <g stroke="url(#gold)" stroke-width="22" stroke-linejoin="round" fill="none">
+    <!-- Branche gauche -->
+    <path d="M 158 388 L 256 134"/>
+    <!-- Branche droite -->
+    <path d="M 354 388 L 256 134"/>
+    <!-- Barre horizontale -->
+    <path d="M 196 290 L 316 290"/>
   </g>
-  <!-- Ligne de sol stylisée (couleur or qui devient un horizon) -->
-  <rect x="80" y="416" width="352" height="6" fill="url(#gold)"/>
-  <!-- Initiales discrètes en bas -->
-  <text x="256" y="465" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="32" font-weight="800" letter-spacing="6" fill="#C9A227">CTB</text>
+  <!-- Cercle horizon en haut (vue urbaine) -->
+  <circle cx="256" cy="134" r="14" fill="url(#gold)"/>
+  <!-- Socle gold subtil -->
+  <rect x="120" y="402" width="272" height="6" rx="3" fill="url(#gold)" opacity="0.85"/>
 </svg>

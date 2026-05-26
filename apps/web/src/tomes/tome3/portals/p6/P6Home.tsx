@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
-import { getStoredLang } from "../../../../i18n/i18n";
+import { getStoredLang, useT } from "../../../../i18n/i18n";
 
 /**
  * P6Home — Onboarding réseau prestataires & fournisseurs
@@ -89,6 +89,7 @@ const S: Record<string, React.CSSProperties> = {
 type Step = "type" | "identite" | "classement" | "docs" | "score" | "contact" | "submitting" | "success";
 
 export default function P6Home() {
+  const t = useT();
   const [step, setStep] = useState<Step>("type");
   const [types, setTypes] = useState<P6TypeDef[]>([]);
   const [classes, setClasses] = useState<ClasseBTP[]>([]);
@@ -245,9 +246,9 @@ export default function P6Home() {
     return (
       <div style={S.root}>
         <div style={S.hero}>
-          <div style={S.badge}>PORTE P6 — RÉSEAU PRESTATAIRES & FOURNISSEURS</div>
-          <div style={S.title}>Rejoindre le réseau CITURBAREA</div>
-          <div style={S.sub}>2 types de fiches — score interne L7 + accès aux dossiers qualifiés</div>
+          <div style={S.badge}>PORTE P6 — {t("p6.home_title").toUpperCase()}</div>
+          <div style={S.title}>{t("p6.home_title")}</div>
+          <div style={S.sub}>{t("p6.home_subtitle")}</div>
         </div>
         <div style={S.grid}>
           {types.map(t => (

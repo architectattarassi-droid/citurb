@@ -162,7 +162,9 @@ export default function DossierCommentComposer(props: Props) {
     <div
       style={{
         position: "sticky", bottom: 0, background: "#FFFFFF",
-        borderTop: "1px solid #E5E7EB", padding: 10, zIndex: 5,
+        borderTop: "1px solid #E5E7EB",
+        padding: "10px 10px calc(10px + env(safe-area-inset-bottom, 0px))",
+        zIndex: 5,
       }}
     >
       {parentId && (
@@ -209,25 +211,27 @@ export default function DossierCommentComposer(props: Props) {
           onKeyDown={(e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); submit(); } }}
           placeholder={parentId ? "Répondre…" : "Écrire un message, @nom pour mentionner…"}
           rows={1}
+          inputMode="text"
           style={{
-            flex: 1, resize: "none", padding: "8px 10px", border: "1px solid #CBD5E1", borderRadius: 8,
-            font: "inherit", outline: "none", minHeight: 38, maxHeight: 200,
+            flex: 1, resize: "none", padding: "10px 12px", border: "1px solid #CBD5E1", borderRadius: 10,
+            font: "inherit", fontSize: 14, outline: "none", minHeight: 44, maxHeight: 200,
           }}
         />
         <input ref={fileRef} type="file" multiple style={{ display: "none" }} onChange={(e) => onPickFiles(e.currentTarget)} />
         <input ref={photoRef} type="file" accept="image/*" capture="environment" style={{ display: "none" }} onChange={(e) => onPickFiles(e.currentTarget)} />
-        <button title="Photo" onClick={() => photoRef.current?.click()} style={iconBtn}>📷</button>
-        <button title="Fichier" onClick={() => fileRef.current?.click()} style={iconBtn}>📎</button>
+        <button title="Photo" aria-label="Prendre une photo" onClick={() => photoRef.current?.click()} style={iconBtn}>📷</button>
+        <button title="Fichier" aria-label="Joindre un fichier" onClick={() => fileRef.current?.click()} style={iconBtn}>📎</button>
         {recording ? (
-          <button title="Stop" onClick={stopRecording} style={{ ...iconBtn, background: "#FEE2E2", color: "#B91C1C" }}>
+          <button title="Stop" aria-label="Arrêter l'enregistrement" onClick={stopRecording} style={{ ...iconBtn, background: "#FEE2E2", color: "#B91C1C" }}>
             ■ {Math.ceil((MAX_AUDIO_MS - recMs) / 1000)}s
           </button>
         ) : (
-          <button title="Note vocale" onClick={startRecording} style={iconBtn}>🎙</button>
+          <button title="Note vocale" aria-label="Enregistrer une note vocale" onClick={startRecording} style={iconBtn}>🎙</button>
         )}
-        <button onClick={submit} disabled={busy} style={{
+        <button onClick={submit} disabled={busy} aria-label="Envoyer le message" style={{
           background: busy ? "#94A3B8" : "#2563EB", color: "#FFFFFF", border: "none",
-          borderRadius: 8, padding: "8px 14px", fontWeight: 600, cursor: busy ? "default" : "pointer",
+          borderRadius: 10, padding: "0 16px", minHeight: 44, fontWeight: 600, fontSize: 14,
+          cursor: busy ? "default" : "pointer",
         }}>{busy ? "…" : "Envoyer"}</button>
       </div>
 
@@ -249,8 +253,14 @@ const iconBtn: React.CSSProperties = {
   background: "#F1F5F9",
   color: "#0F172A",
   border: "1px solid #E2E8F0",
-  borderRadius: 8,
-  padding: "8px 10px",
+  borderRadius: 10,
+  width: 44,
+  height: 44,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexShrink: 0,
   cursor: "pointer",
-  fontSize: 14,
+  fontSize: 16,
+  WebkitTapHighlightColor: "transparent",
 };

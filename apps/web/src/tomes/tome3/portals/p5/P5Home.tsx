@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { apiBase } from "../../../tome4/apiClient";
 import { useAuth } from "../../../tome5/AuthProvider";
-import { getStoredLang } from "../../../../i18n/i18n";
+import { getStoredLang, useT } from "../../../../i18n/i18n";
 import MapPicker from "../../../../features/geo/MapPicker";
 import MohafadatiUpload, { UploadedDoc } from "../../../../features/geo/MohafadatiUpload";
 import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
@@ -172,6 +172,7 @@ export default function P5Home() {
 }
 
 function P5HomeInner() {
+  const t = useT();
   const auth = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -681,16 +682,15 @@ function P5HomeInner() {
           </div>
           <div className="grid-2" style={{ alignItems: "center" }}>
             <div>
-              <h1>Le rapport qui sécurise votre décision d'investissement.</h1>
+              <h1>{t("p5.home_subtitle")}</h1>
               <p className="sub" style={{ fontSize: 18, marginBottom: 26 }}>
-                Quatre rapports calibrés à votre besoin — de l'estimation express forfaitaire
-                à 990 DH au business plan complet ready-to-invest pour banques et fonds.
+                {t("p5.bankable_notice")}
               </p>
               <button className="btn btn-gold" onClick={() => {
                 const el = document.getElementById("p5-identity");
                 if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
               }}>
-                Démarrer ma qualification →
+                {t("p5.start_qualification")} →
               </button>
               {fromP2 && (
                 <div className="mini-note" style={{ marginTop: 18, fontSize: 12.5 }}>
@@ -727,7 +727,7 @@ function P5HomeInner() {
         <section className="section" id="p5-identity" style={{ order: -1 }}>
           <div className="container-max">
             <div className="eyebrow">Étape 1</div>
-            <h2 className="section-title">Qui êtes-vous ?</h2>
+            <h2 className="section-title">{t("p5.who_are_you")}</h2>
             <p className="sub" style={{ marginBottom: 24 }}>
               On commence par vous identifier : statut, contact et localisation du bien.
             </p>

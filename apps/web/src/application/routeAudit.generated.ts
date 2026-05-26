@@ -39,37 +39,37 @@ export const ROUTE_USAGES = [
   {
     "route": "/login",
     "file": "src/ui/landing/CTASection.tsx",
-    "line": 26
+    "line": 28
   },
   {
     "route": "/cercles",
     "file": "src/ui/landing/DoorsSection.tsx",
-    "line": 62
+    "line": 64
   },
   {
     "route": "/",
     "file": "src/ui/landing/DoorsSection.tsx",
-    "line": 65
+    "line": 67
   },
   {
     "route": "/login",
     "file": "src/ui/landing/FooterSection.tsx",
-    "line": 34
+    "line": 36
   },
   {
     "route": "/login",
     "file": "src/ui/landing/FooterSection.tsx",
-    "line": 35
+    "line": 37
   },
   {
     "route": "/media",
     "file": "src/ui/landing/FooterSection.tsx",
-    "line": 53
+    "line": 55
   },
   {
     "route": "/login",
     "file": "src/ui/landing/HeroSection.tsx",
-    "line": 45
+    "line": 47
   },
   {
     "route": "/login",
@@ -234,27 +234,27 @@ export const ROUTE_USAGES = [
   {
     "route": "/",
     "file": "src/tomes/tome5/pages/AccountTypeChooser.tsx",
-    "line": 25
+    "line": 27
   },
   {
     "route": "/inscription",
     "file": "src/tomes/tome5/pages/AccountTypeChooser.tsx",
-    "line": 31
+    "line": 33
   },
   {
     "route": "/login",
     "file": "src/tomes/tome5/pages/AccountTypeChooser.tsx",
-    "line": 55
+    "line": 53
   },
   {
     "route": "/creer-compte",
     "file": "src/tomes/tome5/pages/ClientSignup.tsx",
-    "line": 114
+    "line": 116
   },
   {
     "route": "/login",
     "file": "src/tomes/tome5/pages/ClientSignup.tsx",
-    "line": 212
+    "line": 213
   },
   {
     "route": "/login",
@@ -269,32 +269,32 @@ export const ROUTE_USAGES = [
   {
     "route": "/login",
     "file": "src/tomes/tome5/pages/ForgotPassword.tsx",
-    "line": 87
+    "line": 89
   },
   {
     "route": "/login",
     "file": "src/tomes/tome5/pages/ForgotPassword.tsx",
-    "line": 146
+    "line": 148
   },
   {
     "route": "/",
     "file": "src/tomes/tome5/pages/Login.tsx",
-    "line": 71
+    "line": 73
   },
   {
     "route": "/mot-de-passe-oublie",
     "file": "src/tomes/tome5/pages/Login.tsx",
-    "line": 184
+    "line": 186
   },
   {
     "route": "/cercles",
     "file": "src/tomes/tome5/pages/Login.tsx",
-    "line": 39
+    "line": 41
   },
   {
     "route": "/p1/packs",
     "file": "src/tomes/tome5/pages/Login.tsx",
-    "line": 44
+    "line": 46
   },
   {
     "route": "/",
@@ -344,122 +344,157 @@ export const ROUTE_USAGES = [
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
-    "line": 80
+    "line": 129
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
-    "line": 136
+    "line": 176
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
+    "line": 337
   },
   {
     "route": "/",
     "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
-    "line": 137
+    "line": 338
   },
   {
-    "route": "/",
+    "route": "/portal",
     "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
-    "line": 158
+    "line": 359
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
+    "line": 177
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
+    "line": 358
   },
   {
     "route": "/login",
     "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
-    "line": 38
+    "line": 75
   },
   {
     "route": "/p6",
     "file": "src/tomes/tome3/portals/p6/P6Dashboard.tsx",
-    "line": 167
+    "line": 169
   },
   {
     "route": "/",
     "file": "src/tomes/tome3/portals/p6/P6Home.tsx",
-    "line": 233
+    "line": 234
   },
   {
     "route": "/creer-compte/client",
     "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
-    "line": 27
+    "line": 49
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
-    "line": 33
+    "line": 55
   },
   {
     "route": "/p5",
     "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
-    "line": 40
-  },
-  {
-    "route": "/portal",
-    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
-    "line": 96
+    "line": 62
   },
   {
     "route": "/p5",
     "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
-    "line": 106
+    "line": 184
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
-    "line": 107
+    "line": 185
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 214
+  },
+  {
+    "route": "/sig",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 215
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 501
   },
   {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
-    "line": 94
-  },
-  {
-    "route": "/creer-compte/client",
-    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 505
-  },
-  {
-    "route": "/portal",
-    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 620
-  },
-  {
-    "route": "/",
-    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 621
-  },
-  {
-    "route": "/payment/start",
-    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 619
-  },
-  {
-    "route": "/portal",
-    "file": "src/tomes/tome3/portals/p4/P4Home.tsx",
     "line": 212
   },
   {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 499
+  },
+  {
+    "route": "/p5/finalize",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 573
+  },
+  {
+    "route": "/creer-compte/client",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 567
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 662
+  },
+  {
     "route": "/",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 663
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 661
+  },
+  {
+    "route": "/portal",
     "file": "src/tomes/tome3/portals/p4/P4Home.tsx",
     "line": 213
   },
   {
+    "route": "/",
+    "file": "src/tomes/tome3/portals/p4/P4Home.tsx",
+    "line": 214
+  },
+  {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p4/P4Home.tsx",
-    "line": 211
+    "line": 212
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p3/P3Home.tsx",
-    "line": 216
+    "line": 217
   },
   {
     "route": "/",
     "file": "src/tomes/tome3/portals/p3/P3Home.tsx",
-    "line": 217
+    "line": 218
   },
   {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p3/P3Home.tsx",
-    "line": 215
+    "line": 216
   },
   {
     "route": "/creer-compte/client",
@@ -504,32 +539,32 @@ export const ROUTE_USAGES = [
   {
     "route": "/creer-compte/client",
     "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
-    "line": 692
+    "line": 693
   },
   {
     "route": "/p5",
     "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
-    "line": 723
+    "line": 724
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
-    "line": 812
+    "line": 813
   },
   {
     "route": "/",
     "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
-    "line": 813
+    "line": 814
   },
   {
     "route": "/p1",
     "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
-    "line": 1211
+    "line": 1210
   },
   {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
-    "line": 811
+    "line": 812
   },
   {
     "route": "/p1",
@@ -659,57 +694,97 @@ export const ROUTE_USAGES = [
   {
     "route": "/",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 41
+    "line": 43
   },
   {
     "route": "/",
-    "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 46
-  },
-  {
-    "route": "/portal",
     "file": "src/tomes/tome1/router/layouts.tsx",
     "line": 48
   },
   {
-    "route": "/login",
+    "route": "/portal",
     "file": "src/tomes/tome1/router/layouts.tsx",
     "line": 50
   },
   {
+    "route": "/login",
+    "file": "src/tomes/tome1/router/layouts.tsx",
+    "line": 52
+  },
+  {
     "route": "/",
     "file": "src/tomes/tome1/router/layouts.tsx",
+    "line": 90
+  },
+  {
+    "route": "/",
+    "file": "src/tomes/tome1/router/layouts.tsx",
+    "line": 199
+  },
+  {
+    "route": "/cc/dashboard",
+    "file": "src/tomes/tome1/router/routes.tsx",
     "line": 97
   },
   {
-    "route": "/",
-    "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 170
-  },
-  {
-    "route": "/cc/dashboard",
+    "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 88
+    "line": 103
   },
   {
     "route": "/",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 115
+    "line": 131
   },
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 128
+    "line": 144
+  },
+  {
+    "route": "/sig",
+    "file": "src/tomes/tome1/router/routes.tsx",
+    "line": 147
+  },
+  {
+    "route": "/sig",
+    "file": "src/tomes/tome1/router/routes.tsx",
+    "line": 161
   },
   {
     "route": "/admin/login",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 143
+    "line": 177
   },
   {
     "route": "/cercles",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 202
+    "line": 236
+  },
+  {
+    "route": "/p2/dossier/",
+    "file": "src/features/pv-commission/PvCommissionDecisions.tsx",
+    "line": 164
+  },
+  {
+    "route": "/p2/dossier/",
+    "file": "src/features/pv-commission/PvCommissionUpload.tsx",
+    "line": 112
+  },
+  {
+    "route": "/p2/dossier/",
+    "file": "src/features/pv-commission/PvCommissionUpload.tsx",
+    "line": 115
+  },
+  {
+    "route": "/prestataires/tarifs/",
+    "file": "src/features/prestataire-tarifs/PrestataireTarifsList.tsx",
+    "line": 140
+  },
+  {
+    "route": "/p6",
+    "file": "src/features/prestataire-tarifs/TarifContractPublic.tsx",
+    "line": 72
   },
   {
     "route": "/login",
@@ -722,14 +797,39 @@ export const ROUTE_USAGES = [
     "line": 213
   },
   {
+    "route": "/materiaux",
+    "file": "src/features/materials/MaterialDetail.tsx",
+    "line": 72
+  },
+  {
+    "route": "/materiaux",
+    "file": "src/features/materials/MaterialDetail.tsx",
+    "line": 112
+  },
+  {
+    "route": "/p5",
+    "file": "src/features/geo/SigExplorer.tsx",
+    "line": 208
+  },
+  {
+    "route": "/",
+    "file": "src/features/geo/SigExplorer.tsx",
+    "line": 215
+  },
+  {
+    "route": "/dossier/",
+    "file": "src/features/dossier-interactions/DossierMentionsPanel.tsx",
+    "line": 5
+  },
+  {
     "route": "/cercles/me/profile",
     "file": "src/features/cercles/AnnuairePage.tsx",
-    "line": 127
+    "line": 174
   },
   {
     "route": "/cercles/profile/",
     "file": "src/features/cercles/AnnuairePage.tsx",
-    "line": 135
+    "line": 182
   },
   {
     "route": "/cercles/",
@@ -839,47 +939,52 @@ export const ROUTE_USAGES = [
   {
     "route": "/",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 103
+    "line": 108
   },
   {
     "route": "/login",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 49
+    "line": 54
   },
   {
     "route": "/p1",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 60
+    "line": 65
   },
   {
     "route": "/login",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 68
+    "line": 73
   },
   {
     "route": "/login",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 88
+    "line": 93
   },
   {
     "route": "/cercles/nouveau",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 134
+    "line": 139
   },
   {
     "route": "/cercles/messages",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 137
+    "line": 142
   },
   {
     "route": "/cercles/annuaire",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 145
+    "line": 150
   },
   {
     "route": "/cercles/marketplace",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 148
+    "line": 153
+  },
+  {
+    "route": "/cercles/messages",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 208
   },
   {
     "route": "/cercles",
@@ -909,27 +1014,27 @@ export const ROUTE_USAGES = [
   {
     "route": "/cercles/annuaire",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 219
+    "line": 221
   },
   {
     "route": "/cercles/annuaire",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 291
+    "line": 293
   },
   {
     "route": "/cercles/",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 134
+    "line": 136
   },
   {
     "route": "/post/",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 233
+    "line": 235
   },
   {
     "route": "/cercles/",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 234
+    "line": 236
   },
   {
     "route": "/",
@@ -1019,12 +1124,12 @@ export const ROUTE_USAGES = [
   {
     "route": "/cercles/marketplace/photos",
     "file": "src/features/cercles/marketplace/MarketplacePage.tsx",
-    "line": 57
+    "line": 59
   },
   {
     "route": "/cercles/mes-offres",
     "file": "src/features/cercles/marketplace/MarketplacePage.tsx",
-    "line": 58
+    "line": 60
   },
   {
     "route": "/cercles/marketplace",
@@ -1147,6 +1252,11 @@ export const ROUTE_USAGES = [
     "line": 40
   },
   {
+    "route": "/",
+    "file": "src/components/error-boundary/ErrorPage.tsx",
+    "line": 141
+  },
+  {
     "route": "/cc/login",
     "file": "src/command-center/CommandCenterApp.tsx",
     "line": 44
@@ -1174,7 +1284,7 @@ export const ROUTE_USAGES = [
   {
     "route": "/cc/dossiers/",
     "file": "src/command-center/modules/leads/LeadsModule.tsx",
-    "line": 212
+    "line": 228
   },
   {
     "route": "/cercles/profile/",
@@ -1194,17 +1304,27 @@ export const ROUTE_USAGES = [
   {
     "route": "/cc/dossiers/",
     "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
-    "line": 233
+    "line": 240
   },
   {
     "route": "/cc/dossiers/",
     "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
-    "line": 237
+    "line": 243
   },
   {
     "route": "/cc/dossiers/",
     "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
-    "line": 238
+    "line": 276
+  },
+  {
+    "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
+    "line": 280
+  },
+  {
+    "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
+    "line": 281
   },
   {
     "route": "/simulateur",
@@ -1236,7 +1356,7 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/cercles",
     "file": "src/ui/landing/DoorsSection.tsx",
-    "line": 62
+    "line": 64
   },
   {
     "route": "/creer-compte",
@@ -1261,22 +1381,22 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/inscription",
     "file": "src/tomes/tome5/pages/AccountTypeChooser.tsx",
-    "line": 31
+    "line": 33
   },
   {
     "route": "/creer-compte",
     "file": "src/tomes/tome5/pages/ClientSignup.tsx",
-    "line": 114
+    "line": 116
   },
   {
     "route": "/mot-de-passe-oublie",
     "file": "src/tomes/tome5/pages/Login.tsx",
-    "line": 184
+    "line": 186
   },
   {
     "route": "/cercles",
     "file": "src/tomes/tome5/pages/Login.tsx",
-    "line": 39
+    "line": 41
   },
   {
     "route": "/cc/login",
@@ -1286,72 +1406,112 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
-    "line": 80
+    "line": 129
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
-    "line": 136
+    "line": 176
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
+    "line": 337
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
+    "line": 359
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
+    "line": 177
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/payment/PaymentPages.tsx",
+    "line": 358
   },
   {
     "route": "/creer-compte/client",
     "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
-    "line": 27
+    "line": 49
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
-    "line": 33
+    "line": 55
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
-    "line": 96
+    "line": 185
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
-    "line": 107
+    "line": 214
+  },
+  {
+    "route": "/sig",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 215
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 501
   },
   {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
-    "line": 94
-  },
-  {
-    "route": "/creer-compte/client",
-    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 505
-  },
-  {
-    "route": "/portal",
-    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 620
-  },
-  {
-    "route": "/payment/start",
-    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
-    "line": 619
-  },
-  {
-    "route": "/portal",
-    "file": "src/tomes/tome3/portals/p4/P4Home.tsx",
     "line": 212
   },
   {
     "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p5/P5Finalize.tsx",
+    "line": 499
+  },
+  {
+    "route": "/p5/finalize",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 573
+  },
+  {
+    "route": "/creer-compte/client",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 567
+  },
+  {
+    "route": "/portal",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 662
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p5/P5Home.tsx",
+    "line": 661
+  },
+  {
+    "route": "/portal",
     "file": "src/tomes/tome3/portals/p4/P4Home.tsx",
-    "line": 211
+    "line": 213
+  },
+  {
+    "route": "/payment/start",
+    "file": "src/tomes/tome3/portals/p4/P4Home.tsx",
+    "line": 212
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p3/P3Home.tsx",
-    "line": 216
+    "line": 217
   },
   {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p3/P3Home.tsx",
-    "line": 215
+    "line": 216
   },
   {
     "route": "/creer-compte/client",
@@ -1381,17 +1541,17 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/creer-compte/client",
     "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
-    "line": 692
+    "line": 693
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
-    "line": 812
+    "line": 813
   },
   {
     "route": "/payment/start",
     "file": "src/tomes/tome3/portals/p2/P2Home.tsx",
-    "line": 811
+    "line": 812
   },
   {
     "route": "/p1/dossier/phases",
@@ -1416,37 +1576,87 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/portal",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 48
+    "line": 50
   },
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 88
+    "line": 97
+  },
+  {
+    "route": "/sig",
+    "file": "src/tomes/tome1/router/routes.tsx",
+    "line": 103
   },
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 128
+    "line": 144
+  },
+  {
+    "route": "/sig",
+    "file": "src/tomes/tome1/router/routes.tsx",
+    "line": 147
+  },
+  {
+    "route": "/sig",
+    "file": "src/tomes/tome1/router/routes.tsx",
+    "line": 161
   },
   {
     "route": "/admin/login",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 143
+    "line": 177
   },
   {
     "route": "/cercles",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 202
+    "line": 236
+  },
+  {
+    "route": "/p2/dossier/",
+    "file": "src/features/pv-commission/PvCommissionDecisions.tsx",
+    "line": 164
+  },
+  {
+    "route": "/p2/dossier/",
+    "file": "src/features/pv-commission/PvCommissionUpload.tsx",
+    "line": 112
+  },
+  {
+    "route": "/p2/dossier/",
+    "file": "src/features/pv-commission/PvCommissionUpload.tsx",
+    "line": 115
+  },
+  {
+    "route": "/prestataires/tarifs/",
+    "file": "src/features/prestataire-tarifs/PrestataireTarifsList.tsx",
+    "line": 140
+  },
+  {
+    "route": "/materiaux",
+    "file": "src/features/materials/MaterialDetail.tsx",
+    "line": 72
+  },
+  {
+    "route": "/materiaux",
+    "file": "src/features/materials/MaterialDetail.tsx",
+    "line": 112
+  },
+  {
+    "route": "/dossier/",
+    "file": "src/features/dossier-interactions/DossierMentionsPanel.tsx",
+    "line": 5
   },
   {
     "route": "/cercles/me/profile",
     "file": "src/features/cercles/AnnuairePage.tsx",
-    "line": 127
+    "line": 174
   },
   {
     "route": "/cercles/profile/",
     "file": "src/features/cercles/AnnuairePage.tsx",
-    "line": 135
+    "line": 182
   },
   {
     "route": "/cercles/",
@@ -1536,22 +1746,27 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/cercles/nouveau",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 134
+    "line": 139
   },
   {
     "route": "/cercles/messages",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 137
+    "line": 142
   },
   {
     "route": "/cercles/annuaire",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 145
+    "line": 150
   },
   {
     "route": "/cercles/marketplace",
     "file": "src/features/cercles/CerclesShell.tsx",
-    "line": 148
+    "line": 153
+  },
+  {
+    "route": "/cercles/messages",
+    "file": "src/features/cercles/CerclesShell.tsx",
+    "line": 208
   },
   {
     "route": "/cercles",
@@ -1581,27 +1796,27 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/cercles/annuaire",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 219
+    "line": 221
   },
   {
     "route": "/cercles/annuaire",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 291
+    "line": 293
   },
   {
     "route": "/cercles/",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 134
+    "line": 136
   },
   {
     "route": "/post/",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 233
+    "line": 235
   },
   {
     "route": "/cercles/",
     "file": "src/features/cercles/FeedHomePage.tsx",
-    "line": 234
+    "line": 236
   },
   {
     "route": "/cercles/",
@@ -1666,12 +1881,12 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/cercles/marketplace/photos",
     "file": "src/features/cercles/marketplace/MarketplacePage.tsx",
-    "line": 57
+    "line": 59
   },
   {
     "route": "/cercles/mes-offres",
     "file": "src/features/cercles/marketplace/MarketplacePage.tsx",
-    "line": 58
+    "line": 60
   },
   {
     "route": "/cercles/marketplace",
@@ -1821,7 +2036,7 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/cc/dossiers/",
     "file": "src/command-center/modules/leads/LeadsModule.tsx",
-    "line": 212
+    "line": 228
   },
   {
     "route": "/cercles/profile/",
@@ -1841,17 +2056,27 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/cc/dossiers/",
     "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
-    "line": 233
+    "line": 240
   },
   {
     "route": "/cc/dossiers/",
     "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
-    "line": 237
+    "line": 243
   },
   {
     "route": "/cc/dossiers/",
     "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
-    "line": 238
+    "line": 276
+  },
+  {
+    "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
+    "line": 280
+  },
+  {
+    "route": "/cc/dossiers/",
+    "file": "src/command-center/modules/dossiers/DossiersModule.tsx",
+    "line": 281
   },
   {
     "route": "/simulateur",

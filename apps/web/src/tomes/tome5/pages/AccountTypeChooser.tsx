@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { useT } from "../../../i18n/i18n";
 
 /**
  * AccountTypeChooser — /creer-compte
@@ -12,6 +13,7 @@ import { Link, useSearchParams } from "react-router-dom";
  * jusqu'à la fin de l'inscription client.
  */
 export default function AccountTypeChooser() {
+  const t = useT();
   const [params] = useSearchParams();
   const redirect = params.get("redirect") || params.get("next") || "";
   const clientHref = redirect
@@ -22,37 +24,33 @@ export default function AccountTypeChooser() {
     <div style={S.screen}>
       <div style={S.wrap}>
         <div style={S.head}>
-          <Link to="/" style={S.back}>← Retour à l'accueil</Link>
-          <h1 style={S.title}>Créer un compte</h1>
-          <p style={S.sub}>Quel profil correspond à votre situation ?</p>
+          <Link to="/" style={S.back}>← {t("auth.back_home")}</Link>
+          <h1 style={S.title}>{t("auth.signup_title")}</h1>
+          <p style={S.sub}>{t("auth.signup_subtitle")}</p>
         </div>
 
         <div style={S.grid}>
           <Link to="/inscription" style={{ ...S.card, ...S.cardPro }}>
             <div style={S.icon}>📐</div>
-            <div style={S.cardTitle}>Professionnel du BTP</div>
+            <div style={S.cardTitle}>{t("auth.profile_pro")}</div>
             <p style={S.cardDesc}>
-              Architecte, bureau d'études, topographe, laboratoire, entreprise ou
-              fournisseur. Rejoignez le réseau CITURBAREA Cercles : annuaire pro,
-              marketplace matériaux, visioconférences et messagerie entre pairs.
+              {t("auth.profile_pro_desc")}
             </p>
-            <span style={{ ...S.cta, ...S.ctaPro }}>Je suis un professionnel →</span>
+            <span style={{ ...S.cta, ...S.ctaPro }}>{t("auth.profile_pro_cta")} →</span>
           </Link>
 
           <Link to={clientHref} style={{ ...S.card, ...S.cardClient }}>
             <div style={S.icon}>🏠</div>
-            <div style={S.cardTitle}>Particulier / Client</div>
+            <div style={S.cardTitle}>{t("auth.profile_client")}</div>
             <p style={S.cardDesc}>
-              Vous avez un projet de construction, de rénovation, un terrain ou un
-              bien à valoriser. Créez votre espace client et lancez votre dossier
-              CITURBAREA en toute simplicité.
+              {t("auth.profile_client_desc")}
             </p>
-            <span style={{ ...S.cta, ...S.ctaClient }}>Je suis un particulier →</span>
+            <span style={{ ...S.cta, ...S.ctaClient }}>{t("auth.profile_client_cta")} →</span>
           </Link>
         </div>
 
         <div style={S.footer}>
-          Déjà un compte ? <Link to="/login" style={S.footerLink}>Se connecter</Link>
+          {t("auth.already_account")} <Link to="/login" style={S.footerLink}>{t("auth.sign_in_btn")}</Link>
         </div>
       </div>
     </div>

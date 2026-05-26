@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../AuthProvider";
+import { useT } from "../../../i18n/i18n";
 
 export default function Login() {
+  const t = useT();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -69,7 +71,7 @@ export default function Login() {
       }}>
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
           <Link to="/" style={{ textDecoration: "none", color: "rgba(11,27,58,0.68)", fontSize: "14px", display: "inline-block", marginBottom: "16px" }}>
-            ← Retour à l\'accueil
+            ← {t("auth.back_home")}
           </Link>
           <h1 style={{
             fontFamily: "\"Playfair Display\", serif",
@@ -78,10 +80,10 @@ export default function Login() {
             color: "#0B1B3A",
             margin: "0 0 8px",
           }}>
-            Connexion
+            {t("auth.login_title")}
           </h1>
           <p style={{ fontSize: "15px", color: "rgba(11,27,58,0.68)", margin: 0 }}>
-            Accédez à votre espace CITURBAREA.
+            {t("auth.login_subtitle")}
           </p>
         </div>
 
@@ -110,7 +112,7 @@ export default function Login() {
               letterSpacing: "0.03em",
               textTransform: "uppercase",
             }}>
-              EMAIL
+              {t("auth.email_label")}
             </label>
             <input
               type="text"
@@ -141,7 +143,7 @@ export default function Login() {
               letterSpacing: "0.03em",
               textTransform: "uppercase",
             }}>
-              MOT DE PASSE
+              {t("auth.password_label")}
             </label>
             <input
               type="password"
@@ -176,13 +178,13 @@ export default function Login() {
               cursor: loading ? "not-allowed" : "pointer",
             }}
           >
-            {loading ? "Connexion..." : "Se connecter"}
+            {loading ? t("auth.signing_in") : t("auth.sign_in_btn")}
           </button>
         </form>
 
         <div style={{ marginTop: "18px", textAlign: "center" }}>
           <Link to="/mot-de-passe-oublie" style={{ color: "rgba(11,27,58,0.68)", fontSize: "14px", textDecoration: "none" }}>
-            Mot de passe oublié ?
+            {t("auth.forgot_password")}
           </Link>
         </div>
 
@@ -192,7 +194,7 @@ export default function Login() {
           fontSize: "14px",
           color: "rgba(11,27,58,0.68)",
         }}>
-          Nouveau ici ? <Link to={redirectFromQuery ? `/creer-compte?redirect=${encodeURIComponent(redirectFromQuery)}` : "/creer-compte"} style={{ color: "#C9A227", fontWeight: 600, textDecoration: "none" }}>Créer un compte</Link>
+          {t("auth.new_here")} <Link to={redirectFromQuery ? `/creer-compte?redirect=${encodeURIComponent(redirectFromQuery)}` : "/creer-compte"} style={{ color: "#C9A227", fontWeight: 600, textDecoration: "none" }}>{t("auth.create_account")}</Link>
         </div>
 
         {import.meta.env.VITE_SHOW_DEV_CREDENTIALS === 'true' && (

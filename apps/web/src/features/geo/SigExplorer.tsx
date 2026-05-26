@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../tomes/tome5/AuthProvider";
 import { apiBase } from "../../tomes/tome4/apiClient";
 import MapPicker from "./MapPicker";
+import { useIsMobile, BottomSheet } from "../../components/mobile";
 
 /**
  * SigExplorer — explorateur SIG complet, accessible post-login uniquement.
@@ -101,10 +102,14 @@ const fmtDate = (iso?: string): string => {
 export default function SigExplorer({ mode = "client" }: { mode?: Mode }) {
   const auth = useAuth();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [sources, setSources] = useState<SigSource[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [references, setReferences] = useState<ReferencesResponse | null>(null);
   const [referencesFilter, setReferencesFilter] = useState<string>("");
+  /** Sur mobile, les sources/couches/références s'ouvrent dans une BottomSheet pour
+   *  laisser la carte pleine largeur. */
+  const [layersOpen, setLayersOpen] = useState(false);
 
   // GATING — vérifie que l'utilisateur a au moins un dossier créé.
   // L'admin/OPS bypass cette vérification.
@@ -225,7 +230,7 @@ export default function SigExplorer({ mode = "client" }: { mode?: Mode }) {
   }
 
   return (
-    <div className="sig-explorer-page" style={S.page}>
+    <div className="sig-explorer-page" style={{ ...S.page, padding: isMobile ? "16px 12px 100px" : "32px 20px" }}>
       <style>{SIG_RESPONSIVE_CSS}</style>
       <div style={S.container}>
         <div style={S.header}>
@@ -241,19 +246,48 @@ export default function SigExplorer({ mode = "client" }: { mode?: Mode }) {
           </div>
         </div>
 
-        {/* Carte principale + couches SIG (showSigLayers=true) */}
+        {/* Carte principale + couches SIG (showSigLayers=true). En mobile, on
+            laisse la carte respirer en pleine largeur et on offre un bouton
+            "Couches / Filtres" qui ouvre les fiches dans une BottomSheet. */}
         <div style={S.mapBlock}>
           <MapPicker
             commune=""
             province=""
             region=""
-            height={mode === "admin" ? 600 : 520}
+            height={isMobile ? 360 : (mode === "admin" ? 600 : 520)}
             showSigLayers={true}
           />
+          {isMobile && (
+            <div style={{ position: "sticky", top: 8, display: "flex", justifyContent: "flex-end", padding: "8px 4px", pointerEvents: "none" }}>
+              <button
+                type="button"
+                onClick={() => setLayersOpen(true)}
+                aria-label="Ouvrir les couches et fiches officielles"
+                style={{
+                  pointerEvents: "auto",
+                  minHeight: 44,
+                  padding: "0 16px",
+                  background: "rgba(11,27,58,0.95)",
+                  color: "#fff",
+                  border: 0,
+                  borderRadius: 22,
+                  fontSize: 13,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  fontFamily: "inherit",
+                  boxShadow: "0 6px 18px rgba(0,0,0,0.18)",
+                }}
+              >
+                🗺 Couches & fiches
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Référentiels officiels DGI / ANCFCC / Taamir / Agences urbaines */}
-        {references && (
+        {/* Référentiels officiels DGI / ANCFCC / Taamir / Agences urbaines.
+            En mobile, ce gros bloc est rendu DANS la BottomSheet pour laisser
+            la carte respirer en pleine largeur. */}
+        {references && !isMobile && (
           <div style={S.refsBlock}>
             <div style={S.refsHeader}>
               <div>
@@ -563,6 +597,62 @@ export default function SigExplorer({ mode = "client" }: { mode?: Mode }) {
           </div>
         </div>
       </div>
+
+      {/* BottomSheet mobile : référentiels DGI / ANCFCC / Agences urbaines.
+          Réutilise les mêmes styles que le bloc desktop pour ne pas dupliquer. */}
+      {isMobile && references && (
+        <BottomSheet
+          open={layersOpen}
+          onClose={() => setLayersOpen(false)}
+          snap="full"
+          title="Couches & fiches officielles"
+        >
+          <input
+            type="text"
+            placeholder="🔎 Filtrer par ville ou région…"
+            value={referencesFilter}
+            onChange={(e) => setReferencesFilter(e.target.value)}
+            inputMode="search"
+            style={{
+              width: "100%",
+              padding: "12px 14px",
+              border: "1px solid rgba(11,27,58,0.2)",
+              borderRadius: 10,
+              fontSize: 14,
+              minHeight: 44,
+              marginBottom: 14,
+              boxSizing: "border-box",
+              fontFamily: "inherit",
+            }}
+          />
+          {references._meta && (
+            <div style={{ fontSize: 13, color: "rgba(11,27,58,0.7)", marginBottom: 12, padding: "10px 12px", background: "rgba(11,27,58,0.04)", borderRadius: 8, lineHeight: 1.5 }}>
+              <strong>📊 Couverture</strong> · {references._meta.totalCities || (references.cities?.length || 0)} villes DGI · {references.agences?.length || 0} Agences Urbaines.
+            </div>
+          )}
+          {/* Liste des fiches villes en cards verticales */}
+          {filteredCities.map(city => (
+            <div key={city.id} style={{ border: "1px solid rgba(11,27,58,0.1)", borderRadius: 10, padding: 12, marginBottom: 10, background: "#fff" }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: "#0B1B3A" }}>{city.name}</div>
+              <div style={{ fontSize: 12.5, color: "rgba(11,27,58,0.65)", marginBottom: 8 }}>{city.region}</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {city.fiches.map((f, i) => (
+                  <a key={i} href={f.url} target="_blank" rel="noopener noreferrer"
+                    style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", background: "rgba(11,27,58,0.04)", borderRadius: 8, textDecoration: "none", color: "#0B1B3A", fontSize: 13, minHeight: 44 }}>
+                    <span style={{ flex: 1, fontWeight: 600 }}>{f.label}</span>
+                    <span style={{ color: "#C9A227", fontWeight: 700 }}>↗</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+          {filteredCities.length === 0 && (
+            <div style={{ padding: 24, textAlign: "center", color: "rgba(11,27,58,0.55)", fontSize: 13 }}>
+              Aucune ville ne correspond.
+            </div>
+          )}
+        </BottomSheet>
+      )}
     </div>
   );
 }

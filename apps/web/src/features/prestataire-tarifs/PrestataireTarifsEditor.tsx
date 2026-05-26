@@ -10,6 +10,7 @@ import {
   submitTarif,
   uniteLabel,
 } from "./prestataire-tarifs.api";
+import { useIsMobile, FAB } from "../../components/mobile";
 
 /**
  * Éditeur de tarifs — vue prestataire.
@@ -19,6 +20,7 @@ import {
  * MVP: prestataireId saisi en clair (champ visible). En prod, lu depuis le JWT.
  */
 export default function PrestataireTarifsEditor(): React.ReactElement {
+  const isMobile = useIsMobile();
   const [corpus, setCorpus] = useState<PrestationCorpus[]>([]);
   const [prestataireId, setPrestataireId] = useState<string>("");
   const [myTarifs, setMyTarifs] = useState<TarifContractuel[]>([]);
@@ -135,7 +137,7 @@ export default function PrestataireTarifsEditor(): React.ReactElement {
   };
 
   return (
-    <div style={styles.page}>
+    <div style={{ ...styles.page, padding: isMobile ? "12px 12px 100px" : 16 }}>
       <h1 style={styles.h1}>Mes tarifs contractuels</h1>
       <p style={styles.sub}>
         Engage tes prix avec CITURBAREA — flux régulier en échange d'un prix négocié.
@@ -156,7 +158,7 @@ export default function PrestataireTarifsEditor(): React.ReactElement {
         </div>
       </section>
 
-      <form onSubmit={onCreate} style={styles.section}>
+      <form id="tarif-create-form" onSubmit={onCreate} style={styles.section}>
         <h2 style={styles.h2}>Nouveau tarif (brouillon)</h2>
 
         <label style={styles.label}>Prestation (corpus standardisé)</label>
@@ -176,7 +178,7 @@ export default function PrestataireTarifsEditor(): React.ReactElement {
           </p>
         )}
 
-        <div style={styles.grid2}>
+        <div style={isMobile ? styles.grid1Mobile : styles.grid2}>
           <div>
             <label style={styles.label}>Prix unitaire (MAD HT)</label>
             <input
@@ -208,7 +210,7 @@ export default function PrestataireTarifsEditor(): React.ReactElement {
           style={styles.input}
         />
 
-        <div style={styles.grid2}>
+        <div style={isMobile ? styles.grid1Mobile : styles.grid2}>
           <div>
             <label style={styles.label}>Inclus (virgule)</label>
             <input value={inclus} onChange={(e) => setInclus(e.target.value)} style={styles.input} placeholder="pose, raccordement" />
@@ -219,7 +221,7 @@ export default function PrestataireTarifsEditor(): React.ReactElement {
           </div>
         </div>
 
-        <div style={styles.grid2}>
+        <div style={isMobile ? styles.grid1Mobile : styles.grid2}>
           <div>
             <label style={styles.label}>Délai intervention</label>
             <input value={delaiIntervention} onChange={(e) => setDelaiIntervention(e.target.value)} style={styles.input} />
@@ -233,7 +235,7 @@ export default function PrestataireTarifsEditor(): React.ReactElement {
         <label style={styles.label}>Assurances (virgule)</label>
         <input value={assurances} onChange={(e) => setAssurances(e.target.value)} style={styles.input} />
 
-        <div style={styles.grid2}>
+        <div style={isMobile ? styles.grid1Mobile : styles.grid2}>
           <div>
             <label style={styles.label}>Valide jusqu'au</label>
             <input type="date" value={validUntil} onChange={(e) => setValidUntil(e.target.value)} style={styles.input} />
@@ -250,9 +252,12 @@ export default function PrestataireTarifsEditor(): React.ReactElement {
           </div>
         </div>
 
-        <button type="submit" style={styles.btnPrimary} disabled={loading}>
-          Créer le brouillon
-        </button>
+        {/* Sur desktop : bouton submit inline. Sur mobile : FAB sticky bottom (cf. fin du render). */}
+        {!isMobile && (
+          <button type="submit" style={styles.btnPrimary} disabled={loading}>
+            Créer le brouillon
+          </button>
+        )}
       </form>
 
       {error && <p style={styles.error}>{error}</p>}
@@ -278,6 +283,24 @@ export default function PrestataireTarifsEditor(): React.ReactElement {
           </div>
         ))}
       </section>
+
+      {/* FAB Save mobile : déclenche le submit du form #tarif-create-form */}
+      {isMobile && (
+        <FAB
+          icon="💾"
+          label="Créer le brouillon"
+          ariaLabel="Créer le brouillon"
+          disabled={loading}
+          bottomOffset={20}
+          onClick={() => {
+            const form = document.getElementById("tarif-create-form") as HTMLFormElement | null;
+            if (!form) return;
+            // requestSubmit déclenche la validation HTML5 + l'event submit, contrairement à submit().
+            if (typeof form.requestSubmit === "function") form.requestSubmit();
+            else form.submit();
+          }}
+        />
+      )}
     </div>
   );
 }
@@ -304,14 +327,17 @@ const styles: Record<string, React.CSSProperties> = {
     boxSizing: "border-box",
   },
   grid2: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 },
+  grid1Mobile: { display: "flex", flexDirection: "column", gap: 4 },
   btnPrimary: {
-    padding: "10px 16px",
+    padding: "12px 18px",
     background: "#0f172a",
     color: "#fff",
     border: "none",
     borderRadius: 8,
     cursor: "pointer",
     fontWeight: 600,
+    fontSize: 14,
+    minHeight: 44,
     marginTop: 12,
   },
   row: {

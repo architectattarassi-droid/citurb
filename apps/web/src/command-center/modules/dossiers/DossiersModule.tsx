@@ -5,6 +5,7 @@ import ProjectMilestonesTimeline from "./ProjectMilestonesTimeline";
 import PaymentFicheModal from "./PaymentFicheModal";
 import DossierAdminCreate from "./DossierAdminCreate";
 import DossierPhaseTimeline from "./DossierPhaseTimeline";
+import { useIsMobile } from "../../../components/mobile";
 
 const API_ORIGIN = (import.meta as any).env?.VITE_API_URL || "http://localhost:4000";
 
@@ -74,6 +75,7 @@ const API_BASE = (import.meta as any).env?.VITE_API_URL || "http://localhost:400
 
 export default function DossiersModule() {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [items, setItems] = useState<Dossier[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -212,6 +214,47 @@ export default function DossiersModule() {
         <div style={{ color: "#4a5568", fontSize: 13, padding: 24, textAlign: "center" }}>Chargement…</div>
       ) : items.length === 0 ? (
         <div style={{ color: "#4a5568", fontSize: 13, padding: 24, textAlign: "center" }}>Aucun dossier.</div>
+      ) : isMobile ? (
+        /* ── Vue mobile : stack de cards (cf. ResponsiveTable mais avec actions inline) ── */
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {items.map(d => {
+            const badge = STATUS_BADGE[d.status] ?? STATUS_BADGE.DRAFT;
+            const isSelected = selectedDossier?.id === d.id;
+            return (
+              <div key={d.id} style={{ background: "#0d1017", border: `1px solid ${isSelected ? "#60a5fa" : "#1e2330"}`, borderRadius: 10, padding: 14 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 8 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: "#e8eaf0", lineHeight: 1.3, marginBottom: 4 }}>{d.title}</div>
+                    <div style={{ fontSize: 12, color: "#8892a4", wordBreak: "break-all" }}>{d.owner?.email ?? "—"}</div>
+                  </div>
+                  <span style={{ padding: "4px 10px", borderRadius: 4, fontSize: 11, fontWeight: 600, background: badge.bg, color: badge.color, whiteSpace: "nowrap" }}>
+                    {badge.label}
+                  </span>
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, fontSize: 12, color: "#8892a4", marginBottom: 10 }}>
+                  <span>📁 {d._count?.documents ?? 0} docs</span>
+                  {d.firm && <span>🏢 {d.firm.slug}</span>}
+                  {d.submittedAt && <span>📅 {new Date(d.submittedAt).toLocaleDateString("fr-MA")}</span>}
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                  <button onClick={() => navigate(`/cc/dossiers/${d.id}`)} style={{ ...btnStyle("rgba(96,165,250,0.15)", "#60a5fa"), fontSize: 13, minHeight: 44, padding: "8px 14px", flex: "1 1 auto" }}>
+                    → Détail
+                  </button>
+                  <button onClick={() => navigate(`/cc/dossiers/${d.id}/shadow`)} style={{ ...btnStyle("rgba(124,58,237,0.15)", "#a78bfa"), fontSize: 13, minHeight: 44, padding: "8px 14px", flex: "1 1 auto" }}>
+                    👁 Vue client
+                  </button>
+                  <button onClick={() => openHtmlInTab(`/api/cc/quote/${d.id}/html`)} style={{ ...btnStyle("rgba(176,141,87,0.15)", "#B08D57"), fontSize: 13, minHeight: 44, padding: "8px 14px" }}>
+                    📄 Devis
+                  </button>
+                  <button onClick={() => inviteClient(d.id, d.owner?.email)} style={{ ...btnStyle("rgba(107,127,92,0.15)", "#6B7F5C"), fontSize: 13, minHeight: 44, padding: "8px 14px" }}>
+                    ✉ Inviter
+                  </button>
+                </div>
+                {txError[d.id] && <div style={{ color: "#f87171", fontSize: 12, marginTop: 6 }}>{txError[d.id]}</div>}
+              </div>
+            );
+          })}
+        </div>
       ) : (
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
           <thead>

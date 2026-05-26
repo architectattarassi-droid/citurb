@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../AuthProvider";
 import { apiFetch } from "../../tome4/apiClient";
+import { useT } from "../../../i18n/i18n";
 
 /**
  * ClientSignup — /creer-compte/client
@@ -15,6 +16,7 @@ import { apiFetch } from "../../tome4/apiClient";
  * Accepte ?redirect= pour revenir sur la porte d'origine après inscription.
  */
 export default function ClientSignup() {
+  const t = useT();
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const { loginWithPassword } = useAuth();
@@ -45,11 +47,11 @@ export default function ClientSignup() {
   const cleanEmail = email.trim().toLowerCase();
 
   const validateForm = (): string | null => {
-    if (!prenom.trim() || !nom.trim()) return "Indiquez votre prénom et votre nom.";
-    if (!cleanEmail.includes("@") || cleanEmail.length < 5) return "Adresse email invalide.";
-    if (phone.replace(/[^0-9+]/g, "").length < 8) return "Numéro de téléphone invalide (format conseillé : +212…).";
-    if (password.length < 8) return "Le mot de passe doit contenir au moins 8 caractères.";
-    if (password !== confirm) return "Les deux mots de passe ne correspondent pas.";
+    if (!prenom.trim() || !nom.trim()) return t("auth.error_required_firstlast");
+    if (!cleanEmail.includes("@") || cleanEmail.length < 5) return t("auth.error_invalid_email");
+    if (phone.replace(/[^0-9+]/g, "").length < 8) return t("auth.error_invalid_phone");
+    if (password.length < 8) return t("auth.error_password_min");
+    if (password !== confirm) return t("auth.error_password_mismatch");
     return null;
   };
 
@@ -80,7 +82,7 @@ export default function ClientSignup() {
     e.preventDefault();
     setError("");
     if (emailCode.trim().length < 4 || phoneCode.trim().length < 4) {
-      setError("Saisissez les deux codes reçus (email + SMS).");
+      setError(t("auth.error_codes_required"));
       return;
     }
     setLoading(true);
@@ -111,9 +113,9 @@ export default function ClientSignup() {
         {step === "form" ? (
           <>
             <div style={S.head}>
-              <Link to="/creer-compte" style={S.back}>← Type de compte</Link>
-              <h1 style={S.title}>Créer mon espace client</h1>
-              <p style={S.sub}>Pour suivre votre projet et vos dossiers CITURBAREA.</p>
+              <Link to="/creer-compte" style={S.back}>← {t("auth.account_type_back")}</Link>
+              <h1 style={S.title}>{t("auth.client_create_title")}</h1>
+              <p style={S.sub}>{t("auth.client_create_sub")}</p>
             </div>
 
             {error && <div style={S.error}>{error}</div>}
@@ -121,43 +123,43 @@ export default function ClientSignup() {
             <form onSubmit={requestCodes}>
               <div style={S.row}>
                 <div style={S.col}>
-                  <label style={S.label}>Prénom</label>
+                  <label style={S.label}>{t("auth.firstname")}</label>
                   <input type="text" value={prenom} onChange={(e) => setPrenom(e.target.value)}
-                    placeholder="Prénom" required autoFocus style={S.input} />
+                    placeholder={t("auth.firstname")} required autoFocus style={S.input} />
                 </div>
                 <div style={S.col}>
-                  <label style={S.label}>Nom</label>
+                  <label style={S.label}>{t("auth.lastname")}</label>
                   <input type="text" value={nom} onChange={(e) => setNom(e.target.value)}
-                    placeholder="Nom" required style={S.input} />
+                    placeholder={t("auth.lastname")} required style={S.input} />
                 </div>
               </div>
 
               <div style={S.field}>
-                <label style={S.label}>Email</label>
+                <label style={S.label}>{t("auth.email_label")}</label>
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                  placeholder="votre@email.com" required style={S.input} />
+                  placeholder={t("common.placeholder_email")} required style={S.input} />
               </div>
 
               <div style={S.field}>
-                <label style={S.label}>Téléphone</label>
+                <label style={S.label}>{t("auth.phone")}</label>
                 <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+212 6 00 00 00 00" required style={S.input} />
+                  placeholder={t("common.placeholder_phone")} required style={S.input} />
               </div>
 
               <div style={S.field}>
-                <label style={S.label}>Mot de passe</label>
+                <label style={S.label}>{t("auth.password_label")}</label>
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Au moins 8 caractères" required style={S.input} />
+                  placeholder={t("auth.password_placeholder")} required style={S.input} />
               </div>
 
               <div style={{ ...S.field, marginBottom: 28 }}>
-                <label style={S.label}>Confirmer le mot de passe</label>
+                <label style={S.label}>{t("auth.confirm_password")}</label>
                 <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)}
-                  placeholder="••••••••••••" required style={S.input} />
+                  placeholder={t("auth.password_placeholder")} required style={S.input} />
               </div>
 
               <button type="submit" disabled={loading} style={{ ...S.submit, ...(loading ? S.submitOff : {}) }}>
-                {loading ? "Envoi des codes…" : "Continuer"}
+                {loading ? t("auth.sending_codes") : t("auth.continue")}
               </button>
             </form>
           </>
@@ -165,12 +167,11 @@ export default function ClientSignup() {
           <>
             <div style={S.head}>
               <button type="button" onClick={() => { setStep("form"); setError(""); }} style={S.linkBtn}>
-                ← Modifier mes informations
+                ← {t("auth.modify_info")}
               </button>
-              <h1 style={S.title}>Vérification</h1>
+              <h1 style={S.title}>{t("auth.verification_title")}</h1>
               <p style={S.sub}>
-                Pour confirmer votre identité, saisissez les deux codes — un envoyé par email à{" "}
-                <b>{masked.email}</b>, un par SMS au <b>{masked.phone}</b>.
+                {t("auth.verification_sub", { email: masked.email, phone: masked.phone })}
               </p>
             </div>
 
@@ -183,33 +184,33 @@ export default function ClientSignup() {
 
             <form onSubmit={confirmSignup}>
               <div style={S.field}>
-                <label style={S.label}>Code reçu par email</label>
+                <label style={S.label}>{t("auth.email_code")}</label>
                 <input type="text" inputMode="numeric" value={emailCode}
                   onChange={(e) => setEmailCode(e.target.value)} placeholder="6 chiffres"
                   maxLength={6} required autoFocus style={{ ...S.input, ...S.codeInput }} />
               </div>
 
               <div style={{ ...S.field, marginBottom: 28 }}>
-                <label style={S.label}>Code reçu par SMS</label>
+                <label style={S.label}>{t("auth.sms_code")}</label>
                 <input type="text" inputMode="numeric" value={phoneCode}
                   onChange={(e) => setPhoneCode(e.target.value)} placeholder="6 chiffres"
                   maxLength={6} required style={{ ...S.input, ...S.codeInput }} />
               </div>
 
               <button type="submit" disabled={loading} style={{ ...S.submit, ...(loading ? S.submitOff : {}) }}>
-                {loading ? "Vérification…" : "Vérifier et créer mon compte"}
+                {loading ? t("auth.verifying") : t("auth.verify_create")}
               </button>
             </form>
 
             <div style={S.footer}>
-              Codes non reçus ?{" "}
-              <button type="button" onClick={() => requestCodes()} style={S.footerLinkBtn}>Renvoyer les codes</button>
+              {t("auth.codes_not_received")}{" "}
+              <button type="button" onClick={() => requestCodes()} style={S.footerLinkBtn}>{t("auth.otp_resend")}</button>
             </div>
           </>
         )}
 
         <div style={S.footer}>
-          Déjà un compte ? <Link to="/login" style={S.footerLink}>Se connecter</Link>
+          {t("auth.already_account")} <Link to="/login" style={S.footerLink}>{t("auth.sign_in_btn")}</Link>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiBase } from "../../../tome4/apiClient";
 import { useAuth } from "../../../tome5/AuthProvider";
-import { getStoredLang } from "../../../../i18n/i18n";
+import { getStoredLang, useT } from "../../../../i18n/i18n";
 import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
 
 const P2_PENDING_KEY = "citurbarea:p2:pending_intake:v1";
@@ -372,6 +372,7 @@ const HERO_POINTS = [
 ];
 
 function P2HomeInner() {
+  const t = useT();
   const auth = useAuth();
   const navigate = useNavigate();
   const [screen, setScreen] = useState<"flow" | "success">("flow");
@@ -833,17 +834,15 @@ function P2HomeInner() {
           </div>
           <div className="grid-2" style={{ alignItems: "center" }}>
             <div>
-              <h1>Votre projet de promotion, chiffré au barème officiel.</h1>
+              <h1>{t("p2.home_title")} — {t("p2.cnoa_visa")}</h1>
               <p className="sub" style={{ fontSize: 18, marginBottom: 26 }}>
-                Immeuble, groupement résidentiel, lotissement, équipement privé ou aménagement —
-                qualifiez votre projet et obtenez un devis d'honoraires d'architecte transparent,
-                issu du barème officiel CNOA 2021.
+                {t("p2.home_subtitle")}
               </p>
               <button className="btn btn-gold" onClick={() => {
                 const el = document.getElementById("p2-identity");
                 if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
               }}>
-                Démarrer ma qualification →
+                {t("p5.start_qualification")} →
               </button>
             </div>
             <div>
@@ -872,7 +871,7 @@ function P2HomeInner() {
       <section className="section" id="p2-section" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
         <div className="container-max">
           <div className="eyebrow">Étape 2</div>
-          <h2 className="section-title">Quel type de projet ?</h2>
+          <h2 className="section-title">{t("wizard.choose_section")}</h2>
           <p className="sub" style={{ marginBottom: 34 }}>
             Sélectionnez la nature de votre projet. Le périmètre choisi détermine les catégories
             et le mode de tarification appliqués.
@@ -901,7 +900,7 @@ function P2HomeInner() {
         <section className="section" id="p2-category" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
           <div className="container-max">
             <div className="eyebrow">Étape 2</div>
-            <h2 className="section-title">Catégorie de projet</h2>
+            <h2 className="section-title">{t("wizard.choose_category")}</h2>
             <p className="sub" style={{ marginBottom: 34 }}>
               Section : <strong style={{ color: "#0B1B3A" }}>{SECTIONS.find(s => s.id === section)?.label}</strong>. Le coût de
               construction au m² est issu du barème officiel CNOA 2021 ; les honoraires sont révisés en cas de constatation
@@ -938,7 +937,7 @@ function P2HomeInner() {
         <section className="section" id="p2-measures" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
           <div className="container-max">
             <div className="eyebrow">Étape {isLOT ? 2 : 3}</div>
-            <h2 className="section-title">Dimensions du projet</h2>
+            <h2 className="section-title">{t("wizard.dimensions")}</h2>
             <p className="sub" style={{ marginBottom: 30 }}>
               {isLOT
                 ? "Surface du terrain à lotir / morceler, en hectares (1 ha = 10 000 m²)."
@@ -1063,7 +1062,7 @@ function P2HomeInner() {
         <section className="section" id="p2-follow" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
           <div className="container-max">
             <div className="eyebrow">Étape 5</div>
-            <h2 className="section-title">Mode de suivi du chantier</h2>
+            <h2 className="section-title">{t("wizard.follow_mode")}</h2>
             <p className="sub" style={{ marginBottom: 30 }}>
               Phase C des honoraires (suivi des travaux). Source : contrat type unifié Construction CNOA, article 7.
             </p>
@@ -1111,7 +1110,7 @@ function P2HomeInner() {
         <section className="section" id="p2-identity" style={{ order: -1 }}>
           <div className="container-max">
             <div className="eyebrow">Étape 1</div>
-            <h2 className="section-title">Qui êtes-vous ?</h2>
+            <h2 className="section-title">{t("p5.who_are_you")}</h2>
             <p className="sub" style={{ marginBottom: 24 }}>
               On commence par vous identifier : statut, contact, localisation et caractéristiques
               du projet — ces données alimentent votre dossier et conditionnent le calcul du devis

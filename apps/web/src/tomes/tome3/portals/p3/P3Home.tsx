@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
-import { getStoredLang } from "../../../../i18n/i18n";
+import { getStoredLang, useT } from "../../../../i18n/i18n";
 
 /**
  * P3Home — Wizard MOD (Maîtrise d'Ouvrage Déléguée)
@@ -96,6 +96,7 @@ const S: Record<string, React.CSSProperties> = {
 type Step = "section" | "category" | "measures" | "corps" | "quote" | "identity" | "submitting" | "success";
 
 export default function P3Home() {
+  const t = useT();
   const [step, setStep] = useState<Step>("section");
   const [section, setSection] = useState<P3Section | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -229,9 +230,9 @@ export default function P3Home() {
     return (
       <div style={S.root}>
         <div style={S.hero}>
-          <div style={S.badge}>PORTE P3 — MAÎTRISE D'OUVRAGE DÉLÉGUÉE</div>
-          <div style={S.title}>Pilotage chantier complet</div>
-          <div style={S.sub}>CITURBAREA orchestre vos entreprises, BET, BC. Paiements via escrow plateforme. 10% du coût de réalisation.</div>
+          <div style={S.badge}>PORTE P3 — {t("p3.home_title").toUpperCase()}</div>
+          <div style={S.title}>{t("p3.home_title")}</div>
+          <div style={S.sub}>{t("p3.home_subtitle")}</div>
         </div>
         <div style={S.grid}>
           {SECTIONS.map(s => (
@@ -306,8 +307,8 @@ export default function P3Home() {
         <div style={S.wrap}>
           <button style={S.btnBack} onClick={() => setStep("measures")}>← Retour</button>
           <Stepper />
-          <div style={S.formTitle}>Corps de métiers à coordonner</div>
-          <div style={S.formSub}>Sélectionnez les corps d'état impliqués. <strong>{selectedCorps.size} sélectionné(s) sur {totalCorps}</strong> disponibles.</div>
+          <div style={S.formTitle}>{t("p3.corps_metiers_title")}</div>
+          <div style={S.formSub}>{t("p3.corps_metiers_sub")} <strong>{selectedCorps.size} / {totalCorps}</strong></div>
           {error && <div style={S.err}>⚠ {error}</div>}
 
           {corpsGroupes.map(g => (
@@ -326,7 +327,7 @@ export default function P3Home() {
             </div>
           ))}
 
-          <button style={S.btn} onClick={computeQuote}>Calculer le devis →</button>
+          <button style={S.btn} onClick={computeQuote}>{t("wizard.compute_quote")} →</button>
         </div>
       </div>
     );
@@ -367,7 +368,7 @@ export default function P3Home() {
             </div>
 
             <div style={S.noteBox}>
-              <strong>🔒 Escrow plateforme :</strong> {quote.escrow.notice}
+              <strong>🔒 {t("p3.escrow_notice")} :</strong> {quote.escrow.notice}
             </div>
 
             <div style={{ marginTop: 14, color: "#6b7280", fontSize: 11, lineHeight: 1.6 }}>
@@ -416,7 +417,7 @@ export default function P3Home() {
           <label style={S.label}>Nature du projet</label>
           <input style={S.inp} value={identity.natureProjet} onChange={e => setIdentity({...identity, natureProjet: e.target.value})} placeholder="Construction neuve / extension…" />
 
-          <button style={S.btn} onClick={submit}>Soumettre la demande →</button>
+          <button style={S.btn} onClick={submit}>{t("wizard.submit")} →</button>
         </div>
       </div>
     );

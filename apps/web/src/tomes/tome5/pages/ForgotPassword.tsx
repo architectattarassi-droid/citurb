@@ -10,10 +10,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiBase } from "../../tome4/apiClient";
+import { useT } from "../../../i18n/i18n";
 
 type Step = "email" | "code" | "done";
 
 export default function ForgotPassword() {
+  const t = useT();
   const navigate = useNavigate();
   const [step, setStep] = useState<Step>("email");
 
@@ -61,8 +63,8 @@ export default function ForgotPassword() {
   const confirmReset = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (newPassword.length < 8) { setError("Le mot de passe doit faire au moins 8 caractères."); return; }
-    if (newPassword !== confirmPassword) { setError("Les deux mots de passe ne correspondent pas."); return; }
+    if (newPassword.length < 8) { setError(t("auth.error_password_min")); return; }
+    if (newPassword !== confirmPassword) { setError(t("auth.error_password_mismatch")); return; }
     setLoading(true);
     try {
       const r = await fetch(`${apiBase()}/auth/password-reset/confirm`, {
@@ -84,12 +86,12 @@ export default function ForgotPassword() {
     <div style={S.root}>
       <div style={S.card}>
         <div style={{ textAlign: "center", marginBottom: 28 }}>
-          <Link to="/login" style={S.backLink}>← Retour à la connexion</Link>
-          <h1 style={S.title}>Mot de passe oublié</h1>
+          <Link to="/login" style={S.backLink}>← {t("auth.back_login")}</Link>
+          <h1 style={S.title}>{t("auth.forgot_title")}</h1>
           <p style={S.subtitle}>
-            {step === "email" && "Saisis ton email — un code de réinitialisation te sera envoyé."}
-            {step === "code" && "Saisis le code reçu et choisis un nouveau mot de passe."}
-            {step === "done" && "Mot de passe réinitialisé avec succès."}
+            {step === "email" && t("auth.forgot_step_email")}
+            {step === "code" && t("auth.forgot_step_code")}
+            {step === "done" && t("auth.forgot_step_done")}
           </p>
         </div>
 
@@ -98,41 +100,41 @@ export default function ForgotPassword() {
 
         {step === "email" && (
           <form onSubmit={requestCode}>
-            <label style={S.label}>EMAIL DU COMPTE</label>
+            <label style={S.label}>{t("auth.forgot_email_label")}</label>
             <input
               type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-              placeholder="prenom.nom@example.ma" required autoFocus style={S.input}
+              placeholder={t("common.placeholder_email")} required autoFocus style={S.input}
             />
             <button type="submit" disabled={loading} style={{ ...S.btn, marginTop: 24, opacity: loading ? 0.6 : 1 }}>
-              {loading ? "Envoi du code…" : "Recevoir le code"}
+              {loading ? t("auth.forgot_sending") : t("auth.forgot_receive_code")}
             </button>
           </form>
         )}
 
         {step === "code" && (
           <form onSubmit={confirmReset}>
-            <label style={S.label}>CODE REÇU (6 CHIFFRES)</label>
+            <label style={S.label}>{t("auth.forgot_code_label")}</label>
             <input
               type="text" inputMode="numeric" value={code}
               onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
               placeholder="000000" required autoFocus
               style={{ ...S.input, letterSpacing: "0.4em", fontSize: 20, textAlign: "center" }}
             />
-            <label style={{ ...S.label, marginTop: 18 }}>NOUVEAU MOT DE PASSE</label>
+            <label style={{ ...S.label, marginTop: 18 }}>{t("auth.forgot_new_password")}</label>
             <input
               type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)}
-              placeholder="••••••••••••" required style={S.input}
+              placeholder={t("auth.password_placeholder")} required style={S.input}
             />
-            <label style={{ ...S.label, marginTop: 18 }}>CONFIRMER LE MOT DE PASSE</label>
+            <label style={{ ...S.label, marginTop: 18 }}>{t("auth.forgot_confirm_password")}</label>
             <input
               type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="••••••••••••" required style={S.input}
+              placeholder={t("auth.password_placeholder")} required style={S.input}
             />
             <button type="submit" disabled={loading} style={{ ...S.btn, marginTop: 24, opacity: loading ? 0.6 : 1 }}>
-              {loading ? "Validation…" : "Réinitialiser le mot de passe"}
+              {loading ? t("auth.forgot_validating") : t("auth.forgot_reset_btn")}
             </button>
             <button type="button" onClick={() => { setStep("email"); setError(""); setChannelsMsg(""); }} style={S.btnGhost}>
-              Renvoyer un code
+              {t("auth.forgot_resend")}
             </button>
           </form>
         )}
@@ -141,10 +143,10 @@ export default function ForgotPassword() {
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: 48, marginBottom: 12 }}>✅</div>
             <p style={{ color: "rgba(11,27,58,0.7)", fontSize: 15, lineHeight: 1.6, marginBottom: 24 }}>
-              Ton mot de passe a été modifié. Tu peux maintenant te connecter avec le nouveau.
+              {t("auth.forgot_done_msg")}
             </p>
             <button onClick={() => navigate("/login")} style={S.btn}>
-              Aller à la connexion
+              {t("auth.forgot_go_login")}
             </button>
           </div>
         )}

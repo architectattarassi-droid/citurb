@@ -1,4 +1,5 @@
 import React from "react";
+import { useT } from "../../i18n/i18n";
 
 const MEDIA_ITEMS = [
   { type:"article", premium:false, tag:"ARTICLE", badge:"Analyse", title:"Terrain stratégique : potentiel réel & risques cachés", excerpt:"Règles applicables, marge de manœuvre, points de blocage fréquents, et scénarios de valorisation.", meta:"Urbanisme · ✅ Vérifié" },
@@ -7,21 +8,22 @@ const MEDIA_ITEMS = [
 ];
 
 export function MediaSection() {
+  const t = useT();
   return (
     <section style={{ maxWidth:1200,margin:"0 auto",padding:"72px 24px" }}>
       <div style={{ display:"flex",alignItems:"flex-end",justifyContent:"space-between",gap:24,marginBottom:48,flexWrap:"wrap" }}>
         <div>
-          <div style={{ fontSize:11,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",color:"var(--c-gold)",marginBottom:12 }}>Journal premium</div>
+          <div style={{ fontSize:11,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",color:"var(--c-gold)",marginBottom:12 }}>{t("landing.section.media.kicker")}</div>
           <h2 style={{ fontFamily:"var(--font-display)",fontSize:"clamp(24px,3vw,36px)",fontWeight:800,letterSpacing:"-.025em",color:"var(--c-ink)",lineHeight:1.15,marginBottom:12 }}>
-            Médias & Analyses
+            {t("landing.section.media.title")}
           </h2>
           <p style={{ fontSize:15,color:"var(--c-muted)",maxWidth:480,lineHeight:1.7 }}>
-            Contenus éditoriaux vérifiés — immobilier, urbanisme, investissement, construction.
+            {t("landing.section.media.sub")}
           </p>
         </div>
         <div style={{ display:"flex",gap:10 }}>
-          <span className="badge-soon">VIP — Bientôt</span>
-          <span className="badge-soon">VVIP — Bientôt</span>
+          <span className="badge-soon">VIP — {t("landing.porte.soon")}</span>
+          <span className="badge-soon">VVIP — {t("landing.porte.soon")}</span>
         </div>
       </div>
 
@@ -34,8 +36,8 @@ export function MediaSection() {
                 <span style={{ fontSize:12,color:"var(--c-muted)" }}>{m.badge}</span>
               </div>
               {m.premium
-                ? <span style={{ padding:"4px 10px",background:"var(--c-blue)",color:"#fff",borderRadius:99,fontSize:11,fontWeight:700 }}>Premium</span>
-                : <span style={{ padding:"4px 10px",border:"1px solid var(--c-line)",borderRadius:99,fontSize:11,fontWeight:600,color:"var(--c-muted)" }}>Libre</span>
+                ? <span style={{ padding:"4px 10px",background:"var(--c-blue)",color:"#fff",borderRadius:99,fontSize:11,fontWeight:700 }}>{t("landing.media.tag_premium")}</span>
+                : <span style={{ padding:"4px 10px",border:"1px solid var(--c-line)",borderRadius:99,fontSize:11,fontWeight:600,color:"var(--c-muted)" }}>{t("landing.media.tag_free")}</span>
               }
             </div>
             <div>
@@ -45,8 +47,8 @@ export function MediaSection() {
             <div style={{ marginTop:"auto",paddingTop:12,borderTop:"1px solid var(--c-line)",display:"flex",alignItems:"center",justifyContent:"space-between" }}>
               <span style={{ fontSize:12,color:"var(--c-muted)" }}>{m.meta}</span>
               {m.premium
-                ? <span className="badge-soon" style={{ fontSize:10 }}>Accès VIP</span>
-                : <button style={{ fontSize:12,fontWeight:600,color:"var(--c-blue)",background:"none",border:"none",cursor:"pointer",padding:0 }}>Lire →</button>
+                ? <span className="badge-soon" style={{ fontSize:10 }}>{t("landing.media.access_vip")}</span>
+                : <button style={{ fontSize:12,fontWeight:600,color:"var(--c-blue)",background:"none",border:"none",cursor:"pointer",padding:0 }}>{t("landing.media.read")} →</button>
               }
             </div>
           </article>
@@ -56,10 +58,10 @@ export function MediaSection() {
       {/* More coming */}
       <div style={{ marginTop:32,padding:24,background:"var(--c-blueSoft)",borderRadius:16,display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:16 }}>
         <div>
-          <div style={{ fontFamily:"var(--font-display)",fontSize:15,fontWeight:700,color:"var(--c-blue)",marginBottom:4 }}>Journal complet — Bientôt disponible</div>
-          <div style={{ fontSize:13,color:"var(--c-muted)" }}>Briefs d'analyse, études de marché, dossiers techniques — accès VIP & VVIP en cours de déploiement.</div>
+          <div style={{ fontFamily:"var(--font-display)",fontSize:15,fontWeight:700,color:"var(--c-blue)",marginBottom:4 }}>{t("landing.media.coming")}</div>
+          <div style={{ fontSize:13,color:"var(--c-muted)" }}>{t("landing.media.coming_sub")}</div>
         </div>
-        <span className="badge-soon">En cours</span>
+        <span className="badge-soon">{t("landing.media.in_progress")}</span>
       </div>
     </section>
   );

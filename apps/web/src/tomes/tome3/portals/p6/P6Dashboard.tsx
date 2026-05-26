@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { apiBase, apiFetch, getToken } from "../../../tome4/apiClient";
+import { useT } from "../../../../i18n/i18n";
 
 /**
  * P6Dashboard — Tableau de bord prestataire/fournisseur
@@ -88,6 +89,7 @@ const S: Record<string, React.CSSProperties> = {
 };
 
 export default function P6Dashboard() {
+  const t = useT();
   const [supplierId, setSupplierId] = useState<string | null>(null);
   const [supplierInfo, setSupplierInfo] = useState<any>(null);
   const [items, setItems] = useState<CatalogItem[]>([]);
@@ -172,7 +174,7 @@ export default function P6Dashboard() {
     <div style={S.root}>
       <div style={S.hero}>
         <div>
-          <div style={S.title}>📦 Mon catalogue matériaux</div>
+          <div style={S.title}>📦 {t("mat.catalog.title")}</div>
           <div style={S.sub}>
             {supplierInfo?.raisonSociale || supplierInfo?.clientNom || "—"}
             <span style={{ ...S.pill, color: "#a7f3d0", background: "rgba(16,185,129,0.15)" }}>
@@ -184,7 +186,7 @@ export default function P6Dashboard() {
           </div>
         </div>
         <button style={S.btnPrimary} onClick={() => { setEditingItem(null); setShowCreate(true); }}>
-          + Ajouter matériau
+          + {t("cercles.marketplace_add")}
         </button>
       </div>
 

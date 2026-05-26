@@ -1,0 +1,194 @@
+# =====================================================
+# mobile-build.yml — Build APK debug Android à chaque PR
+# =====================================================
+#
+# Trigger : push sur main + PR vers main (modifs dans apps/mobile/ ou apps/web/)
+# Output : artefact app-debug.apk téléchargeable depuis l'onglet Actions
+#
+# Stratégie :
+#   - Build DEBUG uniquement (pas de signature requise → pas de secrets)
+#   - Cache Gradle pour rebuild rapide (~3 min après premier run)
+#   - macOS pour iOS build (skip si pas dispo sur free tier)
+#
+# Pour un build RELEASE signé + upload Play Store, voir INTEGRATION.md section 6.
+
+name: Mobile Build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/mobile/**'
+      - 'apps/web/**'
+      - '.github/workflows/mobile-build.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/mobile/**'
+      - 'apps/web/**'
+  workflow_dispatch: # Permet le trigger manuel depuis l'UI GitHub
+
+jobs:
+  # =====================================================
+  # ANDROID — Build APK debug
+  # =====================================================
+  android:
+    name: Build Android APK (debug)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          api-level: 34
+          build-tools: 34.0.0
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            apps/mobile/android/.gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('apps/mobile/android/**/*.gradle*', 'apps/mobile/android/**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Install mobile dependencies
+        working-directory: apps/mobile
+        run: npm ci
+
+      - name: Validate capacitor.config.ts
+        working-directory: apps/mobile
+        run: npm run validate:config
+
+      - name: Build TypeScript bridge
+        working-directory: apps/mobile
+        run: |
+          npm run build
+          mkdir -p www
+          cp -r dist/* www/ || true
+
+      - name: Add Android platform
+        working-directory: apps/mobile
+        run: npx cap add android || echo "android platform already exists"
+
+      - name: Sync Capacitor
+        working-directory: apps/mobile
+        run: npx cap sync android
+
+      - name: Merge AndroidManifest permissions
+        working-directory: apps/mobile
+        run: |
+          # Note : merge automatique via simple injection.
+          # Pour un merge production, utiliser un outil comme xmlstarlet.
+          echo "Permissions overrides disponibles dans android-overrides/"
+          echo "Merger manuellement ou via script dédié si nécessaire."
+
+      - name: Build APK debug
+        working-directory: apps/mobile/android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: citurbarea-android-debug-${{ github.sha }}
+          path: apps/mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
+
+      - name: Comment PR with APK link
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `APK debug Android disponible : [Télécharger](${runUrl})\n\nCommit : \`${context.sha.substring(0, 7)}\``
+            });
+
+  # =====================================================
+  # iOS — Build IPA debug (macOS runner, skip si free tier épuisé)
+  # =====================================================
+  ios:
+    name: Build iOS (validation only — pas de signature)
+    runs-on: macos-14
+    timeout-minutes: 30
+    # Skip iOS build sur PR pour économiser les minutes macOS (5x plus cher)
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.2'
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: apps/mobile/ios/App/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('apps/mobile/ios/App/Podfile.lock') }}
+
+      - name: Install mobile dependencies
+        working-directory: apps/mobile
+        run: npm ci
+
+      - name: Build TypeScript bridge
+        working-directory: apps/mobile
+        run: |
+          npm run build
+          mkdir -p www
+          cp -r dist/* www/ || true
+
+      - name: Add iOS platform
+        working-directory: apps/mobile
+        run: npx cap add ios || echo "ios platform already exists"
+
+      - name: Install CocoaPods
+        working-directory: apps/mobile/ios/App
+        run: pod install --repo-update
+
+      - name: Sync Capacitor
+        working-directory: apps/mobile
+        run: npx cap sync ios
+
+      - name: Build iOS (no signing)
+        working-directory: apps/mobile
+        run: |
+          xcodebuild \
+            -workspace ios/App/App.xcworkspace \
+            -scheme App \
+            -configuration Debug \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build/derived \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build

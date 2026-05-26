@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Additions AndroidManifest.xml — CITURBAREA Mobile
+
+  Ces permissions DOIVENT être mergées dans
+  `android/app/src/main/AndroidManifest.xml` après `npx cap add android`.
+
+  Workflow d'intégration :
+    1. `npx cap add android`
+    2. Ouvrir `android/app/src/main/AndroidManifest.xml`
+    3. Copier-coller les <uses-permission> + <uses-feature> ci-dessous dans
+       le <manifest> root (avant <application>)
+    4. (Optionnel) Auto-merge via scripts/merge-android-manifest.sh
+
+  IMPORTANT — Permissions dangereuses (LOCATION, CAMERA, RECORD_AUDIO,
+  READ_MEDIA_*) nécessitent une demande RUNTIME en plus de la déclaration.
+  Capacitor gère ça automatiquement via les plugins (Geolocation, Camera, etc.).
+
+  @see https://developer.android.com/guide/topics/manifest/uses-permission-element
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- =================================================== -->
+    <!-- RÉSEAU                                               -->
+    <!-- Indispensables pour wrapper WebView.                 -->
+    <!-- =================================================== -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!-- =================================================== -->
+    <!-- LOCALISATION                                         -->
+    <!-- FINE = GPS (~5m), COARSE = réseau (~500m).           -->
+    <!-- Utilisé par : P2 zones, P4 terrains, P3 PV chantier. -->
+    <!-- =================================================== -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- =================================================== -->
+    <!-- CAMÉRA                                               -->
+    <!-- =================================================== -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+
+    <!-- =================================================== -->
+    <!-- STOCKAGE / PHOTOS                                    -->
+    <!-- Android 13+ (API 33) : READ_MEDIA_IMAGES granulaire. -->
+    <!-- Android <13 : READ_EXTERNAL_STORAGE legacy.          -->
+    <!-- =================================================== -->
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_IMAGES"
+        android:minSdkVersion="33" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <!-- Écriture stockage (rapports PDF Downloads) — limité à API 28 -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <!-- =================================================== -->
+    <!-- NOTIFICATIONS                                        -->
+    <!-- Android 13+ : permission runtime obligatoire.        -->
+    <!-- =================================================== -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- =================================================== -->
+    <!-- VIBRATIONS / HAPTICS                                 -->
+    <!-- =================================================== -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- =================================================== -->
+    <!-- MICROPHONE                                           -->
+    <!-- Utilisé par : notes vocales + visio Cercles.         -->
+    <!-- =================================================== -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-feature
+        android:name="android.hardware.microphone"
+        android:required="false" />
+
+    <!-- =================================================== -->
+    <!-- WAKE LOCK                                            -->
+    <!-- Empêche l'écran de s'éteindre pendant un livestream  -->
+    <!-- LiveKit/Jitsi (Cercles visio).                       -->
+    <!-- =================================================== -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- =================================================== -->
+    <!-- BIOMÉTRIE                                            -->
+    <!-- Utilisé par : déverrouillage app, confirm paiement.  -->
+    <!-- =================================================== -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
+    <!-- =================================================== -->
+    <!-- FOREGROUND SERVICE (livestream visio)                -->
+    <!-- =================================================== -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
+
+    <!-- =================================================== -->
+    <!-- QUERIES (Android 11+ Package Visibility)             -->
+    <!-- Permet à l'app de détecter Maps/Browsers/Dialer pour -->
+    <!-- les liens externes (tel:, mailto:, geo:).            -->
+    <!-- =================================================== -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="tel" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="geo" />
+        </intent>
+    </queries>
+
+    <!-- =================================================== -->
+    <!-- INTENT FILTERS pour deep links (à coller dans        -->
+    <!-- <activity android:name=".MainActivity">)             -->
+    <!-- =================================================== -->
+    <!--
+    <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="citurbarea" />
+    </intent-filter>
+
+    <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="https"
+              android:host="citurbarea.com" />
+    </intent-filter>
+    -->
+
+</manifest>

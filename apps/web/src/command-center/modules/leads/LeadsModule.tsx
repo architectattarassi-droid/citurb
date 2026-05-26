@@ -14,6 +14,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiBase, getToken } from "../../../tomes/tome4/apiClient";
+import { useIsMobile, BottomSheet } from "../../../components/mobile";
 
 // ─── Types alignés sur backend cc.controller.ts ──────────────
 
@@ -73,6 +74,7 @@ const PORTE_CONFIG: Record<PorteType, { label: string; color: string }> = {
 
 export default function LeadsModule() {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -181,32 +183,46 @@ export default function LeadsModule() {
 
       {error && <div style={S.errorBanner}>⚠ {error}</div>}
 
-      <div style={S.tableWrap}>
-        <table style={S.table}>
-          <thead>
-            <tr>
-              {["Nom", "Porte", "Ville", "Contact", "Statut", "Notes", "Date", ""].map(h => (
-                <th key={h} style={S.th}>{h}</th>
+      {isMobile ? (
+        /* ── Mobile : stack de cards verticales — le tableau 8 colonnes déborde sur 360px ── */
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {filtered.map(l => <LeadCardMobile key={l.id} lead={l} onSelect={() => setSelectedId(l.id)} />)}
+          {!loading && filtered.length === 0 && (
+            <div style={S.emptyCell}>Aucun lead</div>
+          )}
+          {loading && filtered.length === 0 && (
+            <div style={S.emptyCell}>Chargement…</div>
+          )}
+        </div>
+      ) : (
+        <div style={S.tableWrap}>
+          <table style={S.table}>
+            <thead>
+              <tr>
+                {["Nom", "Porte", "Ville", "Contact", "Statut", "Notes", "Date", ""].map(h => (
+                  <th key={h} style={S.th}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((l, i) => (
+                <LeadRow key={l.id} lead={l} even={i % 2 === 0} onSelect={() => setSelectedId(l.id)} />
               ))}
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((l, i) => (
-              <LeadRow key={l.id} lead={l} even={i % 2 === 0} onSelect={() => setSelectedId(l.id)} />
-            ))}
-            {!loading && filtered.length === 0 && (
-              <tr><td colSpan={8} style={S.emptyCell}>Aucun lead</td></tr>
-            )}
-            {loading && (
-              <tr><td colSpan={8} style={S.emptyCell}>Chargement…</td></tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+              {!loading && filtered.length === 0 && (
+                <tr><td colSpan={8} style={S.emptyCell}>Aucun lead</td></tr>
+              )}
+              {loading && (
+                <tr><td colSpan={8} style={S.emptyCell}>Chargement…</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {selected && (
         <LeadDrawer
           lead={selected}
+          isMobile={isMobile}
           onClose={() => setSelectedId(null)}
           onUpdated={(l) => setLeads(prev => prev.map(x => x.id === l.id ? { ...x, ...l } : x))}
           onOpenShadow={() => navigate(`/cc/dossiers/${selected.id}/shadow`)}
@@ -269,13 +285,48 @@ function LeadRow({ lead, even, onSelect }: { lead: Lead; even: boolean; onSelect
   );
 }
 
-// ─── LeadDrawer (détail latéral) ─────────────────────────────
+// ─── LeadCardMobile — variante mobile en card verticale ──────
 
-function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow }: {
+function LeadCardMobile({ lead, onSelect }: { lead: Lead; onSelect: () => void }) {
+  const sta = STATUS_CONFIG[lead.status] ?? STATUS_CONFIG.NEW;
+  const porte = PORTE_CONFIG[lead.type] ?? PORTE_CONFIG.P1;
+  return (
+    <div
+      onClick={onSelect}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(); } }}
+      style={{ background: "#0d1017", border: "1px solid #1e2330", borderRadius: 10, padding: 14, cursor: "pointer", minHeight: 44 }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, marginBottom: 8 }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 15, fontWeight: 600, color: "#e8eaf0", lineHeight: 1.3 }}>{lead.nom}</div>
+          {lead.raisonSociale && <div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>{lead.raisonSociale}</div>}
+        </div>
+        <span style={{ ...S.statusBadge, color: sta.color, background: sta.bg, fontSize: 12, whiteSpace: "nowrap" }}>{sta.label}</span>
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8, fontSize: 12.5, color: "#9ca3af" }}>
+        <span style={{ ...S.porteBadge, color: porte.color, borderColor: porte.color + "40", fontSize: 11 }}>{lead.type}</span>
+        {lead.ville && <span>📍 {lead.ville}</span>}
+        {lead.tel && <span>📞 {lead.tel}</span>}
+      </div>
+      {lead.interet && <div style={{ fontSize: 12.5, color: "#9ca3af", marginTop: 8, fontStyle: "italic" }}>{truncate(lead.interet, 100)}</div>}
+      <div style={{ fontSize: 11, color: "#6b7280", marginTop: 8 }}>
+        {lead.notesCount > 0 && <>📝 {lead.notesCount} note(s) · </>}
+        {fmtDate(lead.createdAt)}
+      </div>
+    </div>
+  );
+}
+
+// ─── LeadDrawer (détail latéral — BottomSheet sur mobile) ───
+
+function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow, isMobile }: {
   lead: Lead;
   onClose: () => void;
   onUpdated: (l: Lead) => void;
   onOpenShadow: () => void;
+  isMobile?: boolean;
 }) {
   const [status, setStatus] = useState<LeadStatus>(lead.status);
   const [note, setNote] = useState("");
@@ -323,6 +374,85 @@ function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow }: {
   const sta = STATUS_CONFIG[lead.status] ?? STATUS_CONFIG.NEW;
   const porte = PORTE_CONFIG[lead.type] ?? PORTE_CONFIG.P1;
 
+  // ── Contenu factorisé du drawer (réutilisé desktop et mobile) ──
+  const drawerBody = (
+    <div style={{ background: isMobile ? "transparent" : "#0d1017", color: "#e8eaf0", padding: isMobile ? 0 : 24, overflowY: "auto", flex: 1 }}>
+      <div style={{ marginBottom: 16 }}>
+        <div style={{ fontSize: 18, fontWeight: 700, color: isMobile ? "#0f172a" : "#e8eaf0" }}>{lead.nom}</div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 6 }}>
+          <span style={{ ...S.porteBadge, color: porte.color, borderColor: porte.color + "40" }}>{lead.type}</span>
+          <span style={{ ...S.statusBadge, color: sta.color, background: sta.bg }}>{sta.label}</span>
+          {lead.dossierStatus && <span style={{ ...S.porteBadge, color: "#6b7280", borderColor: "#1e2330" }}>Dossier: {lead.dossierStatus}</span>}
+        </div>
+      </div>
+
+      <Section title="Identité">
+        <Field k="Téléphone" v={lead.tel} />
+        <Field k="Email" v={lead.email} />
+        <Field k="Ville" v={lead.ville} />
+        {lead.raisonSociale && <Field k="Raison sociale" v={lead.raisonSociale} />}
+        {lead.gestionMode && <Field k="Mode gestion" v={lead.gestionMode} />}
+        <Field k="Source" v={lead.source} />
+        <Field k="Reçu" v={fmtDate(lead.createdAt) + " · " + timeSince(lead.createdAt)} />
+      </Section>
+
+      {(lead.interet || lead.brief) && (
+        <Section title="Demande">
+          {lead.interet && <div style={S.briefText}>{lead.interet}</div>}
+          {lead.brief && <pre style={S.briefJson}>{JSON.stringify(lead.brief, null, 2)}</pre>}
+        </Section>
+      )}
+
+      <Section title="Qualifier">
+        {err && <div style={S.errorMini}>⚠ {err}</div>}
+        <label style={S.label}>Nouveau statut</label>
+        <select value={status} onChange={e => setStatus(e.target.value as LeadStatus)} style={{ ...S.select, width: "100%", marginBottom: 12, minHeight: isMobile ? 44 : undefined, fontSize: isMobile ? 14 : 11 }}>
+          {(Object.keys(STATUS_CONFIG) as LeadStatus[]).map(s => (
+            <option key={s} value={s}>{STATUS_CONFIG[s].label}</option>
+          ))}
+        </select>
+        <label style={S.label}>Note (timeline horodatée)</label>
+        <textarea
+          value={note}
+          onChange={e => setNote(e.target.value)}
+          placeholder="Ex: Appelé, RDV fixé jeudi 15h, intéressé par pack ESSENTIEL…"
+          rows={3}
+          style={{ ...S.textarea, minHeight: isMobile ? 88 : undefined, fontSize: isMobile ? 14 : 13 }}
+        />
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 8 }}>
+          <button style={{ ...S.btnPrimary, minHeight: 44, fontSize: 14 }} onClick={commit} disabled={busy}>
+            {busy ? "…" : "Enregistrer"}
+          </button>
+          <button style={{ ...S.btnGhost, minHeight: 44, fontSize: 14 }} onClick={onOpenShadow}>👁️ Vue dossier</button>
+        </div>
+      </Section>
+
+      <Section title={`Historique (${lead.notes.length})`}>
+        {lead.notes.length === 0 && <div style={S.emptyMini}>Aucune note pour le moment</div>}
+        {[...lead.notes].reverse().map((n, i) => (
+          <div key={i} style={S.noteItem}>
+            <div style={S.noteHead}>
+              <span style={{ color: "#a78bfa", fontWeight: 600 }}>{n.author}</span>
+              <span style={{ color: "#6b7280", fontSize: 10 }}>{fmtDateTime(n.ts)}</span>
+              {n.status && <span style={{ ...S.statusBadge, color: STATUS_CONFIG[n.status]?.color, background: STATUS_CONFIG[n.status]?.bg, fontSize: 9 }}>→ {STATUS_CONFIG[n.status]?.label}</span>}
+            </div>
+            <div style={S.noteText}>{n.text}</div>
+          </div>
+        ))}
+      </Section>
+    </div>
+  );
+
+  // ── Mobile : BottomSheet full-height ──
+  if (isMobile) {
+    return (
+      <BottomSheet open onClose={onClose} snap="full" title={lead.nom}>
+        {drawerBody}
+      </BottomSheet>
+    );
+  }
+
+  // ── Desktop : drawer latéral classique ──
   return (
     <div style={S.drawerOverlay} onClick={onClose}>
       <div style={S.drawer} onClick={e => e.stopPropagation()}>
@@ -337,69 +467,7 @@ function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow }: {
           </div>
           <button style={S.closeBtn} onClick={onClose}>✕</button>
         </div>
-
-        <div style={S.drawerBody}>
-          {/* Identité */}
-          <Section title="Identité">
-            <Field k="Téléphone" v={lead.tel} />
-            <Field k="Email" v={lead.email} />
-            <Field k="Ville" v={lead.ville} />
-            {lead.raisonSociale && <Field k="Raison sociale" v={lead.raisonSociale} />}
-            {lead.gestionMode && <Field k="Mode gestion" v={lead.gestionMode} />}
-            <Field k="Source" v={lead.source} />
-            <Field k="Reçu" v={fmtDate(lead.createdAt) + " · " + timeSince(lead.createdAt)} />
-          </Section>
-
-          {/* Intérêt / brief */}
-          {(lead.interet || lead.brief) && (
-            <Section title="Demande">
-              {lead.interet && <div style={S.briefText}>{lead.interet}</div>}
-              {lead.brief && (
-                <pre style={S.briefJson}>{JSON.stringify(lead.brief, null, 2)}</pre>
-              )}
-            </Section>
-          )}
-
-          {/* Action zone */}
-          <Section title="Qualifier">
-            {err && <div style={S.errorMini}>⚠ {err}</div>}
-            <label style={S.label}>Nouveau statut</label>
-            <select value={status} onChange={e => setStatus(e.target.value as LeadStatus)} style={{ ...S.select, width: "100%", marginBottom: 12 }}>
-              {(Object.keys(STATUS_CONFIG) as LeadStatus[]).map(s => (
-                <option key={s} value={s}>{STATUS_CONFIG[s].label}</option>
-              ))}
-            </select>
-            <label style={S.label}>Note (timeline horodatée)</label>
-            <textarea
-              value={note}
-              onChange={e => setNote(e.target.value)}
-              placeholder="Ex: Appelé, RDV fixé jeudi 15h, intéressé par pack ESSENTIEL…"
-              rows={3}
-              style={S.textarea}
-            />
-            <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-              <button style={S.btnPrimary} onClick={commit} disabled={busy}>
-                {busy ? "…" : "Enregistrer"}
-              </button>
-              <button style={S.btnGhost} onClick={onOpenShadow}>👁️ Ouvrir vue dossier</button>
-            </div>
-          </Section>
-
-          {/* Timeline notes */}
-          <Section title={`Historique (${lead.notes.length})`}>
-            {lead.notes.length === 0 && <div style={S.emptyMini}>Aucune note pour le moment</div>}
-            {[...lead.notes].reverse().map((n, i) => (
-              <div key={i} style={S.noteItem}>
-                <div style={S.noteHead}>
-                  <span style={{ color: "#a78bfa", fontWeight: 600 }}>{n.author}</span>
-                  <span style={{ color: "#6b7280", fontSize: 10 }}>{fmtDateTime(n.ts)}</span>
-                  {n.status && <span style={{ ...S.statusBadge, color: STATUS_CONFIG[n.status]?.color, background: STATUS_CONFIG[n.status]?.bg, fontSize: 9 }}>→ {STATUS_CONFIG[n.status]?.label}</span>}
-                </div>
-                <div style={S.noteText}>{n.text}</div>
-              </div>
-            ))}
-          </Section>
-        </div>
+        {drawerBody}
       </div>
     </div>
   );
