@@ -38,11 +38,22 @@ export class MutationGateGuard implements CanActivate {
       "/api/pv-chantier",               // PV de chantier (Tome 2) — mutations JWT-gated
       "/api/pv-commission",             // PV commission Rokhas (Tome 2) — upload + workflow réserves
       "/api/materials",                 // Catalogue matériaux (POST observation anonyme)
+      "/api/livraisons",                // Livraisons matériaux (commandes, réception chantier)
       "/api/prestataire-tarifs",        // Tarifs contractuels P6 (CRUD + signature contrat)
       "/api/project-calendar",          // Calendrier projet (Tome 6) — tâches + CPM replan
       "/api/dossier",                   // Dossier interactions timeline (Tome 6)
       "/api/me",                        // Mentions read + marquage lu
       "/api/telemetry",                 // Web Vitals + client error reporter (silent fail)
+      "/api/notifications-hub",         // Notifications hub centralisé (Tome 0) — dispatch + prefs + push subs
+      "/api/lead-funnel",               // Lead capture + scoring + nurture (Phase 5)
+      "/api/documents-repo",            // Documents repository + e-signature multi-parties
+      "/api/permis-construire",         // PC wizard 5 étapes + génération formulaires
+      "/api/rokhas-tracker",            // Tracker visuel instruction permis
+      "/api/sous-traitants",            // Sous-traitants management loi 32-99
+      "/api/reception",                 // PV réception + permis habiter + garanties
+      "/api/incidents-chantier",        // Incidents + SOS + weather replan
+      "/api/zillow-ma",                 // Estimation foncière publique (Visa du foncier)
+      "/api/dossier-overview",          // Dashboard client unifié Mon Parcours
       "/p1",
       "/p2",
       "/p3",

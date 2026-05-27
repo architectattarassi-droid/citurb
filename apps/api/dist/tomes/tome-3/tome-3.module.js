@@ -10,13 +10,14 @@ exports.Tome3Module = void 0;
 const common_1 = require("@nestjs/common");
 const p3_module_1 = require("./p3/p3.module");
 const tome_3_service_1 = require("./tome-3.service");
+const reception_conformite_module_1 = require("../../modules/reception-conformite/reception-conformite.module");
 let Tome3Module = class Tome3Module {
 };
 exports.Tome3Module = Tome3Module;
 exports.Tome3Module = Tome3Module = __decorate([
     (0, common_1.Module)({
-        imports: [p3_module_1.P3Module],
+        imports: [p3_module_1.P3Module, reception_conformite_module_1.ReceptionConformiteModule],
         providers: [tome_3_service_1.Tome3Service],
-        exports: [tome_3_service_1.Tome3Service, p3_module_1.P3Module],
+        exports: [tome_3_service_1.Tome3Service, p3_module_1.P3Module, reception_conformite_module_1.ReceptionConformiteModule],
     })
 ], Tome3Module);

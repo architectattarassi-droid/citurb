@@ -9,6 +9,7 @@ import { CerclesModule } from "./modules/cercles/cercles.module";
 import { AdminModule } from "./admin/admin.module";
 import { TwilioModule } from "./modules/twilio/twilio.module";
 import { EmailModule } from "./modules/email/email.module";
+import { NotificationsHubModule } from "./modules/notifications-hub/notifications-hub.module";
 
 // Infra
 import { PrismaDossiersModule } from "./tomes/tome-at/kernel/prisma-dossiers/prisma-dossiers.module";
@@ -41,6 +42,18 @@ import { SigModule } from "./modules/sig/sig.module";
 import { PhaseEngineModule } from "./modules/phase-engine/phase-engine.module";
 import { MessagerieModule } from "./modules/messagerie/messagerie.module";
 import { SousPhaseModule } from "./modules/sous-phase/sous-phase.module";
+import { SousTraitantsModule } from "./modules/sous-traitants/sous-traitants.module";
+import { LivraisonsMateriauxModule } from "./modules/livraisons-materiaux/livraisons-materiaux.module";
+
+// Phase 5 modules (parcours complet lead → use permit)
+import { LeadFunnelModule } from "./modules/lead-funnel/lead-funnel.module";
+import { DossierOverviewModule } from "./modules/dossier-overview/dossier-overview.module";
+import { DocumentsRepoModule } from "./modules/documents-repo/documents-repo.module";
+import { PermisConstruireModule } from "./modules/permis-construire/permis-construire.module";
+import { RokhasTrackerModule } from "./modules/rokhas-tracker/rokhas-tracker.module";
+import { ReceptionConformiteModule } from "./modules/reception-conformite/reception-conformite.module";
+import { IncidentsChantierModule } from "./modules/incidents-chantier/incidents-chantier.module";
+import { ZillowMaModule } from "./modules/zillow-ma/zillow-ma.module";
 
 @Module({
   imports: [
@@ -50,6 +63,7 @@ import { SousPhaseModule } from "./modules/sous-phase/sous-phase.module";
     PrismaDossiersModule,
     TwilioModule, // global — disponible partout
     EmailModule, // global — Resend (prioritaire) + SMTP fallback
+    NotificationsHubModule, // global — dispatch multi-canal centralisé (email/sms/wa/push/in-app)
     CCModule,
     ArchiveModule,
     CerclesModule,
@@ -80,6 +94,18 @@ import { SousPhaseModule } from "./modules/sous-phase/sous-phase.module";
     PhaseEngineModule,
     MessagerieModule,
     SousPhaseModule,
+    SousTraitantsModule,
+    LivraisonsMateriauxModule,
+
+    // Phase 5 (parcours complet lead → manage → permit → site → delivery)
+    LeadFunnelModule,
+    DossierOverviewModule,
+    DocumentsRepoModule,
+    PermisConstruireModule,
+    RokhasTrackerModule,
+    ReceptionConformiteModule,
+    IncidentsChantierModule,
+    ZillowMaModule,
   ],
   controllers: [],
   providers: [],

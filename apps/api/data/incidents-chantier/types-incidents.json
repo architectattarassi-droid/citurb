@@ -1,0 +1,167 @@
+{
+  "version": "1.0.0",
+  "country": "MA",
+  "types": [
+    {
+      "code": "ACCIDENT_TRAVAIL",
+      "label": "Accident de travail",
+      "labelAr": "حادث شغل",
+      "icon": "siren",
+      "color": "#dc2626",
+      "severityDefault": "CRITICAL",
+      "procedure": [
+        "Sécuriser la zone et porter assistance",
+        "Appeler le SAMU (150) si blessé grave",
+        "Photos et témoignages",
+        "Déclaration CNSS sous 48h legal",
+        "Notifier inspection du travail"
+      ],
+      "legalText": "Loi 18-12 relative à la réparation des accidents du travail. Déclaration CNSS obligatoire sous 48h ouvrées. Tout retard expose l'employeur à des sanctions.",
+      "autoNotify": ["SAMU", "PROTECTION_CIVILE", "CNSS", "INSPECTION_TRAVAIL", "OPS_CITURBAREA"],
+      "autoSuspendChantier": true
+    },
+    {
+      "code": "VOL_CHANTIER",
+      "label": "Vol sur chantier",
+      "labelAr": "سرقة في الورش",
+      "icon": "shield-off",
+      "color": "#ea580c",
+      "severityDefault": "WARN",
+      "procedure": [
+        "Ne pas toucher la scène",
+        "Photos détaillées",
+        "Dépôt de plainte commissariat sous 24h",
+        "Notifier assurance dans les 48h",
+        "Inventaire des éléments volés"
+      ],
+      "legalText": "Article 505 du Code Pénal marocain. Dépôt de plainte recommandé dans les 24h pour activation assurance.",
+      "autoNotify": ["POLICE", "GENDARMERIE", "OPS_CITURBAREA"],
+      "autoSuspendChantier": false
+    },
+    {
+      "code": "EFFONDREMENT",
+      "label": "Effondrement",
+      "labelAr": "انهيار",
+      "icon": "alert-octagon",
+      "color": "#991b1b",
+      "severityDefault": "CRITICAL",
+      "procedure": [
+        "Évacuer immédiatement la zone (périmètre 20m mini)",
+        "Appel Protection Civile (150)",
+        "Couper alimentations (eau, élec, gaz)",
+        "Bureau de contrôle obligatoire",
+        "Expertise structurelle"
+      ],
+      "legalText": "Code de la construction. Arrêt obligatoire du chantier. Information immédiate à l'inspection du travail et à la commune.",
+      "autoNotify": ["PROTECTION_CIVILE", "POMPIERS", "POLICE", "INSPECTION_TRAVAIL", "OPS_CITURBAREA"],
+      "autoSuspendChantier": true
+    },
+    {
+      "code": "INCENDIE",
+      "label": "Incendie",
+      "labelAr": "حريق",
+      "icon": "flame",
+      "color": "#dc2626",
+      "severityDefault": "CRITICAL",
+      "procedure": [
+        "Évacuation immédiate de tout le personnel",
+        "Appel Pompiers (150)",
+        "Couper l'alimentation électrique",
+        "Périmètre de sécurité",
+        "Notifier assurance dans les 24h"
+      ],
+      "legalText": "Code de la construction et règlement de sécurité incendie. Déclaration sinistre assurance sous 5 jours.",
+      "autoNotify": ["POMPIERS", "PROTECTION_CIVILE", "POLICE", "OPS_CITURBAREA"],
+      "autoSuspendChantier": true
+    },
+    {
+      "code": "INTRUSION",
+      "label": "Intrusion / vandalisme",
+      "labelAr": "اقتحام",
+      "icon": "user-x",
+      "color": "#b45309",
+      "severityDefault": "WARN",
+      "procedure": [
+        "Sécuriser la zone",
+        "Photos des dégâts",
+        "Dépôt de plainte",
+        "Renforcer dispositif gardiennage",
+        "Vérifier caméras de surveillance"
+      ],
+      "legalText": "Article 511 du Code Pénal. Plainte recommandée pour activation assurance et identification responsables.",
+      "autoNotify": ["POLICE", "GENDARMERIE", "OPS_CITURBAREA"],
+      "autoSuspendChantier": false
+    },
+    {
+      "code": "METEO_DOMMAGE",
+      "label": "Dommage météo (chergui, pluies, gel)",
+      "labelAr": "أضرار طقس",
+      "icon": "cloud-rain",
+      "color": "#0891b2",
+      "severityDefault": "INFO",
+      "procedure": [
+        "Évaluation des dommages",
+        "Photos avant intervention",
+        "Bâchage / protection complémentaire",
+        "Replan des tâches météo-sensibles",
+        "Déclaration assurance si dégâts >5000 MAD"
+      ],
+      "legalText": "Clause force majeure du marché. Justifie le décalage du planning sans pénalités.",
+      "autoNotify": ["OPS_CITURBAREA"],
+      "autoSuspendChantier": false
+    },
+    {
+      "code": "LITIGE_VOISINAGE",
+      "label": "Litige de voisinage",
+      "labelAr": "نزاع جوار",
+      "icon": "users",
+      "color": "#7c3aed",
+      "severityDefault": "WARN",
+      "procedure": [
+        "Documenter le litige (photos, témoins)",
+        "Notification commune par écrit",
+        "Médiation amiable préalable",
+        "Saisir avocat si non résolu sous 7 jours",
+        "Conservation toutes correspondances"
+      ],
+      "legalText": "Code des obligations et contrats - troubles anormaux de voisinage. Procédure amiable préalable obligatoire.",
+      "autoNotify": ["OPS_CITURBAREA"],
+      "autoSuspendChantier": false
+    },
+    {
+      "code": "NON_CONFORMITE",
+      "label": "Non-conformité vs PC autorisé",
+      "labelAr": "عدم مطابقة",
+      "icon": "file-warning",
+      "color": "#c2410c",
+      "severityDefault": "WARN",
+      "procedure": [
+        "Identifier précisément l'écart vs plans PC",
+        "Photos + relevé dimensions",
+        "Stopper la zone concernée",
+        "Régularisation si possible (PC modificatif)",
+        "Risque démolition si refus régularisation"
+      ],
+      "legalText": "Loi 12-90 sur l'urbanisme. Sanctions: amende + démolition possible. PC modificatif sous 3 mois.",
+      "autoNotify": ["INSPECTION_TRAVAIL", "OPS_CITURBAREA"],
+      "autoSuspendChantier": true
+    },
+    {
+      "code": "AUTRE",
+      "label": "Autre incident",
+      "labelAr": "حادث آخر",
+      "icon": "alert-circle",
+      "color": "#64748b",
+      "severityDefault": "INFO",
+      "procedure": [
+        "Documenter l'incident",
+        "Photos et descriptions",
+        "Informer parties concernées",
+        "Suivi adapté selon nature"
+      ],
+      "legalText": "Suivi adapté selon la nature de l'incident.",
+      "autoNotify": ["OPS_CITURBAREA"],
+      "autoSuspendChantier": false
+    }
+  ]
+}

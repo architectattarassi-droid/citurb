@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  sitemap-lead.xml — Sitemap dédié landings SEO Lead Funnel.
+  12 villes × 6 portes = 72 URLs (FR uniquement listées ici ;
+  alternates AR/EN exposés via balises <xhtml:link rel="alternate" hreflang="…"/>).
+
+  À référencer dans /robots.txt :
+    Sitemap: https://citurbarea.com/sitemap-lead.xml
+
+  Slugs canoniques :
+    porte 1 → permis-construire-{ville}
+    porte 2 → promotion-immobiliere-{ville}
+    porte 3 → mod-chantier-{ville}
+    porte 4 → etude-fonciere-{ville}
+    porte 5 → rapport-expertise-{ville}
+    porte 6 → prestataires-btp-{ville}
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Casablanca -->
+  <url><loc>https://citurbarea.com/fr/porte-1-permis-construire-casablanca</loc><changefreq>weekly</changefreq><priority>0.9</priority><xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/porte-1-permis-construire-casablanca"/><xhtml:link rel="alternate" hreflang="en" href="https://citurbarea.com/en/porte-1-permis-construire-casablanca"/></url>
+  <url><loc>https://citurbarea.com/fr/porte-2-promotion-immobiliere-casablanca</loc><changefreq>weekly</changefreq><priority>0.9</priority><xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/porte-2-promotion-immobiliere-casablanca"/><xhtml:link rel="alternate" hreflang="en" href="https://citurbarea.com/en/porte-2-promotion-immobiliere-casablanca"/></url>
+  <url><loc>https://citurbarea.com/fr/porte-3-mod-chantier-casablanca</loc><changefreq>weekly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/porte-3-mod-chantier-casablanca"/><xhtml:link rel="alternate" hreflang="en" href="https://citurbarea.com/en/porte-3-mod-chantier-casablanca"/></url>
+  <url><loc>https://citurbarea.com/fr/porte-4-etude-fonciere-casablanca</loc><changefreq>weekly</changefreq><priority>0.8</priority><xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/porte-4-etude-fonciere-casablanca"/><xhtml:link rel="alternate" hreflang="en" href="https://citurbarea.com/en/porte-4-etude-fonciere-casablanca"/></url>
+  <url><loc>https://citurbarea.com/fr/porte-5-rapport-expertise-casablanca</loc><changefreq>weekly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/porte-5-rapport-expertise-casablanca"/><xhtml:link rel="alternate" hreflang="en" href="https://citurbarea.com/en/porte-5-rapport-expertise-casablanca"/></url>
+  <url><loc>https://citurbarea.com/fr/porte-6-prestataires-btp-casablanca</loc><changefreq>weekly</changefreq><priority>0.7</priority><xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/porte-6-prestataires-btp-casablanca"/><xhtml:link rel="alternate" hreflang="en" href="https://citurbarea.com/en/porte-6-prestataires-btp-casablanca"/></url>
+
+  <!-- Rabat -->
+  <url><loc>https://citurbarea.com/fr/porte-1-permis-construire-rabat</loc><changefreq>weekly</changefreq><priority>0.9</priority><xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/porte-1-permis-construire-rabat"/><xhtml:link rel="alternate" hreflang="en" href="https://citurbarea.com/en/porte-1-permis-construire-rabat"/></url>
+  <url><loc>https://citurbarea.com/fr/porte-2-promotion-immobiliere-rabat</loc><changefreq>weekly</changefreq><priority>0.9</priority><xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/porte-2-promotion-immobiliere-rabat"/><xhtml:link rel="alternate" hreflang="en" href="https://citurbarea.com/en/porte-2-promotion-immobiliere-rabat"/></url>
+  <url><loc>https://citurbarea.com/fr/porte-3-mod-chantier-rabat</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-4-etude-fonciere-rabat</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-5-rapport-expertise-rabat</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-6-prestataires-btp-rabat</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+
+  <!-- Marrakech -->
+  <url><loc>https://citurbarea.com/fr/porte-1-permis-construire-marrakech</loc><changefreq>weekly</changefreq><priority>0.9</priority><xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/porte-1-permis-construire-marrakech"/><xhtml:link rel="alternate" hreflang="en" href="https://citurbarea.com/en/porte-1-permis-construire-marrakech"/></url>
+  <url><loc>https://citurbarea.com/fr/porte-2-promotion-immobiliere-marrakech</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-3-mod-chantier-marrakech</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-4-etude-fonciere-marrakech</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-5-rapport-expertise-marrakech</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-6-prestataires-btp-marrakech</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+
+  <!-- Tanger -->
+  <url><loc>https://citurbarea.com/fr/porte-1-permis-construire-tanger</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-2-promotion-immobiliere-tanger</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-3-mod-chantier-tanger</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-4-etude-fonciere-tanger</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-5-rapport-expertise-tanger</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-6-prestataires-btp-tanger</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+
+  <!-- Agadir -->
+  <url><loc>https://citurbarea.com/fr/porte-1-permis-construire-agadir</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-2-promotion-immobiliere-agadir</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-3-mod-chantier-agadir</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-4-etude-fonciere-agadir</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-5-rapport-expertise-agadir</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-6-prestataires-btp-agadir</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+
+  <!-- Fès -->
+  <url><loc>https://citurbarea.com/fr/porte-1-permis-construire-fes</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-2-promotion-immobiliere-fes</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-3-mod-chantier-fes</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-4-etude-fonciere-fes</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-5-rapport-expertise-fes</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-6-prestataires-btp-fes</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+
+  <!-- Meknès -->
+  <url><loc>https://citurbarea.com/fr/porte-1-permis-construire-meknes</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-2-promotion-immobiliere-meknes</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-3-mod-chantier-meknes</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-4-etude-fonciere-meknes</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-5-rapport-expertise-meknes</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-6-prestataires-btp-meknes</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+
+  <!-- Oujda -->
+  <url><loc>https://citurbarea.com/fr/porte-1-permis-construire-oujda</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-2-promotion-immobiliere-oujda</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-3-mod-chantier-oujda</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-4-etude-fonciere-oujda</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-5-rapport-expertise-oujda</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-6-prestataires-btp-oujda</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+
+  <!-- Kénitra -->
+  <url><loc>https://citurbarea.com/fr/porte-1-permis-construire-kenitra</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-2-promotion-immobiliere-kenitra</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-3-mod-chantier-kenitra</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-4-etude-fonciere-kenitra</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-5-rapport-expertise-kenitra</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-6-prestataires-btp-kenitra</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+
+  <!-- Salé -->
+  <url><loc>https://citurbarea.com/fr/porte-1-permis-construire-sale</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-2-promotion-immobiliere-sale</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-3-mod-chantier-sale</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-4-etude-fonciere-sale</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-5-rapport-expertise-sale</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-6-prestataires-btp-sale</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+
+  <!-- Témara -->
+  <url><loc>https://citurbarea.com/fr/porte-1-permis-construire-temara</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-2-promotion-immobiliere-temara</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-3-mod-chantier-temara</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-4-etude-fonciere-temara</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-5-rapport-expertise-temara</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-6-prestataires-btp-temara</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+
+  <!-- Bouskoura -->
+  <url><loc>https://citurbarea.com/fr/porte-1-permis-construire-bouskoura</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-2-promotion-immobiliere-bouskoura</loc><changefreq>weekly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-3-mod-chantier-bouskoura</loc><changefreq>weekly</changefreq><priority>0.65</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-4-etude-fonciere-bouskoura</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-5-rapport-expertise-bouskoura</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://citurbarea.com/fr/porte-6-prestataires-btp-bouskoura</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+
+</urlset>

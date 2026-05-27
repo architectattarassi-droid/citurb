@@ -1,0 +1,88 @@
+{
+  "version": "1.0.0",
+  "country": "MA",
+  "lastUpdated": "2026-05-01",
+  "contacts": [
+    {
+      "code": "SAMU",
+      "label": "SAMU - Urgences médicales",
+      "tel": "150",
+      "email": "samu@sante.gov.ma",
+      "type": "MEDICAL",
+      "priority": 1,
+      "available24_7": true,
+      "trigger": ["ACCIDENT_TRAVAIL"]
+    },
+    {
+      "code": "PROTECTION_CIVILE",
+      "label": "Protection civile",
+      "tel": "150",
+      "email": null,
+      "type": "RESCUE",
+      "priority": 1,
+      "available24_7": true,
+      "trigger": ["ACCIDENT_TRAVAIL", "EFFONDREMENT", "INCENDIE"]
+    },
+    {
+      "code": "POLICE",
+      "label": "Police nationale",
+      "tel": "190",
+      "email": null,
+      "type": "SECURITY",
+      "priority": 1,
+      "available24_7": true,
+      "trigger": ["VOL_CHANTIER", "INTRUSION", "INCENDIE", "EFFONDREMENT"]
+    },
+    {
+      "code": "GENDARMERIE",
+      "label": "Gendarmerie royale",
+      "tel": "177",
+      "email": null,
+      "type": "SECURITY",
+      "priority": 2,
+      "available24_7": true,
+      "trigger": ["VOL_CHANTIER", "INTRUSION"]
+    },
+    {
+      "code": "POMPIERS",
+      "label": "Pompiers",
+      "tel": "150",
+      "email": null,
+      "type": "RESCUE",
+      "priority": 1,
+      "available24_7": true,
+      "trigger": ["INCENDIE", "EFFONDREMENT", "METEO_DOMMAGE"]
+    },
+    {
+      "code": "CNSS",
+      "label": "Caisse nationale de sécurité sociale (CNSS)",
+      "tel": "+212522303636",
+      "email": "contact@cnss.ma",
+      "type": "ADMINISTRATIVE",
+      "priority": 2,
+      "available24_7": false,
+      "trigger": ["ACCIDENT_TRAVAIL"],
+      "legalDeadlineHours": 48
+    },
+    {
+      "code": "INSPECTION_TRAVAIL",
+      "label": "Inspection du travail",
+      "tel": "+212537760750",
+      "email": "inspection@emploi.gov.ma",
+      "type": "ADMINISTRATIVE",
+      "priority": 2,
+      "available24_7": false,
+      "trigger": ["ACCIDENT_TRAVAIL", "NON_CONFORMITE"]
+    },
+    {
+      "code": "OPS_CITURBAREA",
+      "label": "Ops CITURBAREA",
+      "tel": "+212661362476",
+      "email": "ops@citurbarea.com",
+      "type": "PLATFORM",
+      "priority": 1,
+      "available24_7": true,
+      "trigger": ["*"]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+# RULE REGISTRY — CANONIQUE (OPS-ONLY)
+# Chaque règle doit mapper : rule_id -> tome -> module -> enforcement -> db -> tests
+# Règle : aucune règle doctrinale n’est "vague" : elle doit être testable.
+
+rules:
+  - rule_id: T@-META-001
+    tome: "Tome @"
+    module: "kernel"
+    category: DOCTRINE_BLOCK
+    severity: CRITICAL
+    requirement: "All doctrine rules must be implementable and testable"
+    enforcement: ["RuleRegistryGuard"]
+    db: ["Incident", "ProbativeLog"]
+    tests: ["registry_requires_test_coverage"]
+
+  - rule_id: T@-R-TRACE-001
+    tome: "Tome @"
+    module: "kernel"
+    category: DOCTRINE_BLOCK
+    severity: CRITICAL
+    requirement: "Public response must be redacted + incident logged"
+    enforcement: ["GlobalExceptionFilter", "IncidentsService"]
+    db: ["Incident", "IncidentEvent", "NotificationDelivery", "ProbativeLog"]
+    tests: ["public_response_does_not_leak_internal_refs"]
+
+  - rule_id: T@-R-ALERT-001
+    tome: "Tome @"
+    module: "kernel"
+    category: DOCTRINE_BLOCK
+    severity: WARN
+    requirement: "WARN/CRITICAL => notify admin channels"
+    enforcement: ["IncidentsService.dispatch"]
+    db: ["NotificationDelivery"]
+    tests: ["warn_dispatch_two_channels", "delivery_status_updated"]
+
+  - rule_id: T3-R-L1-014
+    tome: "Tome 3"
+    module: "policy"
+    category: DOCTRINE_BLOCK
+    severity: CRITICAL
+    requirement: "Action hors matrice permissions => rejet + log + incident"
+    enforcement: ["PolicyGuard"]
+    db: ["ProbativeLog", "Incident"]
+    tests: ["forbidden_action_403_with_incident_id"]
+
+  - rule_id: T@-META-005
+    tome: "Tome @"
+    module: "kernel"
+    category: DOCTRINE_BLOCK
+    severity: CRITICAL
+    requirement: "Toute mutation doit passer par /tomes/tome-at/orchestrator (pipeline Tome @ → Tome 9)."
+    enforcement: ["MutationGateGuard"]
+    db: ["ProbativeLog", "Incident"]
+    tests: ["direct_mutation_endpoint_403_with_incident_id"]
+
+  - rule_id: T@-R-CONTRACT-001
+    tome: "Tome @"
+    module: "kernel/contracts"
+    category: DOCTRINE_BLOCK
+    severity: CRITICAL
+    requirement: "Tout endpoint doit déclarer son tome et passer la tome-chain"
+    enforcement: ["TomeChainGuard"]
+    db: ["ProbativeLog"]
+    tests: ["missing_tome_header_rejected"]

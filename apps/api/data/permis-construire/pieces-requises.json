@@ -1,0 +1,395 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "lastUpdated": "2026-05-27",
+    "reference": "Arrêté MHPV / circulaire SDAU 2024 — applicable à toutes les communes urbaines du Maroc",
+    "source": "CITURBAREA — synthèse Rokhas + agences urbaines (AUC, AUR, AUF, AUT)"
+  },
+  "commonPieces": [
+    {
+      "code": "DEMANDE_OFFICIELLE",
+      "label": "Demande d'autorisation de construire",
+      "labelAr": "طلب رخصة البناء",
+      "description": "Formulaire officiel signé par le propriétaire et l'architecte.",
+      "helpText": "Généré automatiquement par CITURBAREA à l'étape 3.",
+      "required": true,
+      "category": "ADMINISTRATIF",
+      "acceptMime": ["application/pdf"],
+      "maxSizeMb": 5
+    },
+    {
+      "code": "CIN_MO",
+      "label": "Copie CIN du maître d'ouvrage",
+      "labelAr": "نسخة من البطاقة الوطنية لصاحب المشروع",
+      "description": "Copie lisible recto-verso, valide.",
+      "helpText": "Photo nette ou scan ≥ 300 DPI.",
+      "required": true,
+      "category": "ADMINISTRATIF",
+      "acceptMime": ["application/pdf", "image/jpeg", "image/png"],
+      "maxSizeMb": 3
+    },
+    {
+      "code": "TITRE_FONCIER",
+      "label": "Titre foncier (≤ 3 mois)",
+      "labelAr": "الرسم العقاري (لا يتجاوز 3 أشهر)",
+      "description": "Certificat de propriété délivré par la Conservation Foncière, daté de moins de 3 mois.",
+      "helpUrl": "https://www.ancfcc.gov.ma",
+      "required": true,
+      "category": "FONCIER",
+      "acceptMime": ["application/pdf"],
+      "maxSizeMb": 5
+    },
+    {
+      "code": "PLAN_SITUATION_2000",
+      "label": "Plan de situation 1/2000",
+      "labelAr": "تصميم الموقع 1/2000",
+      "description": "Plan extrait du PA (Plan d'Aménagement) avec emplacement du terrain.",
+      "helpText": "Disponible auprès de l'agence urbaine de votre commune.",
+      "required": true,
+      "category": "GRAPHIQUE",
+      "acceptMime": ["application/pdf"],
+      "maxSizeMb": 10
+    },
+    {
+      "code": "PLAN_MASSE_500",
+      "label": "Plan de masse 1/500",
+      "labelAr": "تصميم الكتلة 1/500",
+      "description": "Implantation, limites, voies, distances, RFL/CES/COS.",
+      "required": true,
+      "category": "GRAPHIQUE",
+      "acceptMime": ["application/pdf"],
+      "maxSizeMb": 10
+    },
+    {
+      "code": "PLANS_NIVEAUX_100",
+      "label": "Plans des niveaux 1/100",
+      "labelAr": "تصاميم المستويات 1/100",
+      "description": "Sous-sol, RDC, étages courants, terrasse, avec cotes intérieures.",
+      "required": true,
+      "category": "GRAPHIQUE",
+      "acceptMime": ["application/pdf"],
+      "maxSizeMb": 20
+    },
+    {
+      "code": "COUPES",
+      "label": "Coupes (longitudinale + transversale)",
+      "labelAr": "المقاطع (طولية وعرضية)",
+      "description": "Au moins une coupe AA et une coupe BB, cotes verticales lisibles.",
+      "required": true,
+      "category": "GRAPHIQUE",
+      "acceptMime": ["application/pdf"],
+      "maxSizeMb": 10
+    },
+    {
+      "code": "FACADES",
+      "label": "Façades (4 orientations)",
+      "labelAr": "الواجهات (4 جهات)",
+      "description": "Façades Nord, Sud, Est, Ouest avec hauteurs et matériaux annotés.",
+      "required": true,
+      "category": "GRAPHIQUE",
+      "acceptMime": ["application/pdf"],
+      "maxSizeMb": 10
+    },
+    {
+      "code": "NOTICE_DESCRIPTIVE",
+      "label": "Notice descriptive du projet",
+      "labelAr": "البطاقة الوصفية للمشروع",
+      "description": "Description programme, surfaces, matériaux, équipements.",
+      "required": true,
+      "category": "TECHNIQUE",
+      "acceptMime": ["application/pdf"],
+      "maxSizeMb": 3
+    },
+    {
+      "code": "PHOTOS_TERRAIN",
+      "label": "Photos terrain (4 cardinaux)",
+      "labelAr": "صور الأرض (4 جهات)",
+      "description": "Photos N/S/E/O du terrain avec environnement immédiat.",
+      "required": true,
+      "category": "ANNEXE",
+      "acceptMime": ["application/pdf", "image/jpeg", "image/png"],
+      "maxSizeMb": 15
+    },
+    {
+      "code": "ENGAGEMENT_ARCHITECTE",
+      "label": "Engagement de l'architecte (visa CROA)",
+      "labelAr": "التزام المهندس المعماري",
+      "description": "Formulaire signé par l'architecte CNOA + visa CROA.",
+      "helpText": "Généré automatiquement à l'étape 3 puis signé.",
+      "required": true,
+      "category": "ATTESTATION",
+      "acceptMime": ["application/pdf"],
+      "maxSizeMb": 2
+    }
+  ],
+  "byProjectType": {
+    "VILLA": {
+      "additional": [
+        {
+          "code": "NOTE_RPS_2011_SIMPLE",
+          "label": "Note parasismique RPS 2011 (simplifiée)",
+          "labelAr": "مذكرة الحساب الزلزالي RPS 2011 (مبسطة)",
+          "description": "Note simplifiée villa R+2 max — référence RPS 2011 révisée 2024.",
+          "required": true,
+          "category": "TECHNIQUE",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 5
+        },
+        {
+          "code": "ATTESTATION_BET_STRUCTURE",
+          "label": "Attestation BET structure",
+          "labelAr": "شهادة مكتب الدراسات التقنية للهيكل",
+          "description": "BET structure agréé, attestation de prise en charge.",
+          "required": true,
+          "category": "ATTESTATION",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 2
+        }
+      ]
+    },
+    "IMMEUBLE": {
+      "additional": [
+        {
+          "code": "NOTE_RPS_2011",
+          "label": "Note de calcul parasismique RPS 2011",
+          "labelAr": "مذكرة الحساب الزلزالي RPS 2011",
+          "description": "Note complète signée ingénieur structure.",
+          "required": true,
+          "category": "TECHNIQUE",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 15
+        },
+        {
+          "code": "ETUDE_GEOTECHNIQUE_G2_PRO",
+          "label": "Étude géotechnique G2 PRO",
+          "labelAr": "الدراسة الجيوتقنية G2 PRO",
+          "description": "Étude G2 PRO selon norme NF P 94-500, obligatoire R+3 et plus.",
+          "required": true,
+          "category": "TECHNIQUE",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 20
+        },
+        {
+          "code": "ATTESTATION_BET_STRUCTURE",
+          "label": "Attestation BET structure",
+          "labelAr": "شهادة مكتب الدراسات التقنية للهيكل",
+          "description": "BET structure agréé, attestation de prise en charge.",
+          "required": true,
+          "category": "ATTESTATION",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 2
+        },
+        {
+          "code": "ATTESTATION_BET_FLUIDES",
+          "label": "Attestation BET fluides",
+          "labelAr": "شهادة مكتب الدراسات للمياه والكهرباء",
+          "description": "BET fluides (plomberie, électricité, climatisation).",
+          "required": true,
+          "category": "ATTESTATION",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 2
+        },
+        {
+          "code": "ATTESTATION_HQE_RT2024",
+          "label": "Attestation HQE / RT 2024",
+          "labelAr": "شهادة الأداء الحراري RT 2024",
+          "description": "Conformité Règlement Thermique de Construction au Maroc 2024.",
+          "required": true,
+          "category": "ATTESTATION",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 2
+        }
+      ]
+    },
+    "LOTISSEMENT": {
+      "additional": [
+        {
+          "code": "PLAN_PARCELLAIRE",
+          "label": "Plan parcellaire",
+          "labelAr": "تصميم التجزئة",
+          "description": "Découpage en lots avec numérotation et surfaces.",
+          "required": true,
+          "category": "GRAPHIQUE",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 20
+        },
+        {
+          "code": "PROGRAMME_EQUIPEMENTS",
+          "label": "Programme d'équipements (voirie, AEP, EU, électricité)",
+          "labelAr": "برنامج التجهيزات",
+          "description": "Réseaux primaires et secondaires détaillés.",
+          "required": true,
+          "category": "TECHNIQUE",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 15
+        }
+      ]
+    },
+    "HANGAR": {
+      "additional": [
+        {
+          "code": "NOTE_CALCUL_CHARPENTE",
+          "label": "Note de calcul charpente métallique",
+          "labelAr": "مذكرة حساب الهيكل المعدني",
+          "description": "Note de calcul Eurocode 3 ou CM66.",
+          "required": true,
+          "category": "TECHNIQUE",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 10
+        }
+      ]
+    },
+    "EQUIPEMENT_PUBLIC": {
+      "additional": [
+        {
+          "code": "PROGRAMME_FONCTIONNEL",
+          "label": "Programme fonctionnel",
+          "labelAr": "البرنامج الوظيفي",
+          "description": "Programme détaillé validé par la maîtrise d'ouvrage publique.",
+          "required": true,
+          "category": "TECHNIQUE",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 10
+        },
+        {
+          "code": "NOTICE_PMR",
+          "label": "Notice accessibilité PMR (NM ISO 23599)",
+          "labelAr": "بطاقة ولوجية الأشخاص في وضعية إعاقة",
+          "description": "Conformité norme marocaine NM ISO 23599.",
+          "helpText": "Généré automatiquement à l'étape 3.",
+          "required": true,
+          "category": "ATTESTATION",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 3
+        }
+      ]
+    },
+    "ERP": {
+      "additional": [
+        {
+          "code": "NOTICE_INCENDIE",
+          "label": "Notice sécurité incendie",
+          "labelAr": "بطاقة الوقاية من الحرائق",
+          "description": "Conformité Décret n° 2-14-499 relatif aux ERP.",
+          "helpText": "Généré automatiquement à l'étape 3.",
+          "required": true,
+          "category": "ATTESTATION",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 5
+        },
+        {
+          "code": "NOTICE_PMR",
+          "label": "Notice accessibilité PMR (NM ISO 23599)",
+          "labelAr": "بطاقة ولوجية الأشخاص في وضعية إعاقة",
+          "description": "Norme marocaine NM ISO 23599 — obligatoire ERP.",
+          "required": true,
+          "category": "ATTESTATION",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 3
+        },
+        {
+          "code": "AVIS_PROTECTION_CIVILE",
+          "label": "Avis Protection Civile (à joindre)",
+          "labelAr": "رأي الوقاية المدنية",
+          "description": "Visa préalable Protection Civile pour ERP > 1ʳᵉ catégorie.",
+          "required": false,
+          "category": "ATTESTATION",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 3
+        }
+      ]
+    },
+    "MOSQUEE": {
+      "additional": [
+        {
+          "code": "AVIS_HABOUS",
+          "label": "Avis du Ministère des Habous",
+          "labelAr": "رأي وزارة الأوقاف والشؤون الإسلامية",
+          "description": "Visa préalable obligatoire pour tout édifice cultuel.",
+          "required": true,
+          "category": "ATTESTATION",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 3
+        },
+        {
+          "code": "NOTICE_INCENDIE",
+          "label": "Notice sécurité incendie (ERP type V)",
+          "labelAr": "بطاقة الوقاية من الحرائق",
+          "description": "ERP type V — obligation incendie.",
+          "required": true,
+          "category": "ATTESTATION",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 5
+        }
+      ]
+    },
+    "INDUSTRIEL": {
+      "additional": [
+        {
+          "code": "ETUDE_IMPACT_ENV",
+          "label": "Étude d'impact environnemental",
+          "labelAr": "دراسة التأثير البيئي",
+          "description": "Loi 12-03 — obligatoire pour installations classées.",
+          "required": true,
+          "category": "TECHNIQUE",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 25
+        },
+        {
+          "code": "ETUDE_DANGER",
+          "label": "Étude de danger",
+          "labelAr": "دراسة المخاطر",
+          "description": "Loi 28-00 sur la gestion des déchets et installations classées.",
+          "required": true,
+          "category": "TECHNIQUE",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 15
+        }
+      ]
+    }
+  },
+  "communeOverrides": {
+    "CASABLANCA": {
+      "add": [
+        {
+          "code": "VISA_AUC",
+          "label": "Visa de l'Agence Urbaine de Casablanca",
+          "labelAr": "تأشيرة الوكالة الحضرية للدار البيضاء",
+          "description": "Pour zones soumises à visa préalable AUC.",
+          "required": false,
+          "category": "ATTESTATION",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 2
+        }
+      ]
+    },
+    "RABAT": {
+      "add": [
+        {
+          "code": "VISA_AUR",
+          "label": "Visa de l'Agence Urbaine de Rabat-Salé",
+          "labelAr": "تأشيرة الوكالة الحضرية للرباط-سلا",
+          "description": "Pour zones soumises à visa préalable AUR.",
+          "required": false,
+          "category": "ATTESTATION",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 2
+        }
+      ]
+    },
+    "MARRAKECH": {
+      "add": [
+        {
+          "code": "AVIS_PATRIMOINE_MEDINA",
+          "label": "Avis Inspection du Patrimoine (si Médina)",
+          "labelAr": "رأي مفتشية التراث (المدينة العتيقة)",
+          "description": "Pour tout projet en zone Médina classée UNESCO.",
+          "required": false,
+          "category": "ATTESTATION",
+          "acceptMime": ["application/pdf"],
+          "maxSizeMb": 3
+        }
+      ]
+    }
+  }
+}

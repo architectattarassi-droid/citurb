@@ -1,0 +1,407 @@
+{
+  "av. attine, rabat": {
+    "lat": 33.9648502,
+    "lon": -6.8631751,
+    "display": "Avenue Attine, Riad, Arrondissement Agdal-Riyad, Rabat, Pachalik de Rabat, Préfecture de Rabat, Rabat-Salé-Kénitra, 10100, Maroc"
+  },
+  "av. nakhil, rabat": {
+    "lat": 33.9091864,
+    "lon": -6.976171,
+    "display": "Rue Nakhil, Harhoura, Pachalik de Harhoura, Préfecture de Skhirate-Témara, Rabat-Salé-Kénitra, 12022, Maroc"
+  },
+  "av. abderrahim bouabid, rabat": {
+    "lat": 33.9526225,
+    "lon": -6.8817932,
+    "display": "Avenue Abderrahim Bouabid, Riad, Arrondissement Agdal-Riyad, Rabat, Pachalik de Rabat, Préfecture de Rabat, Rabat-Salé-Kénitra, 10150, Maroc"
+  },
+  "av. hassan ii, rabat": {
+    "lat": 34.0153449,
+    "lon": -6.8466819,
+    "display": "Avenue Hassan II, Agdal, Arrondissement Agdal-Riyad, Rabat, Pachalik de Rabat, Préfecture de Rabat, Rabat-Salé-Kénitra, 10003, Maroc"
+  },
+  "av. omar ibn al khattab, rabat": null,
+  "av. ibn sina, rabat": {
+    "lat": 33.9884043,
+    "lon": -6.8514849,
+    "display": "Avenue Ibn Sina, Agdal, Arrondissement Agdal-Riyad, Rabat, Pachalik de Rabat, Préfecture de Rabat, Rabat-Salé-Kénitra, 10000, Maroc"
+  },
+  "bd al marsa, rabat": {
+    "lat": 34.0306098,
+    "lon": -6.8371778,
+    "display": "Avenue Al Marsa, Océan, Arrondissement Hassan, Rabat, Pachalik de Rabat, Préfecture de Rabat, Rabat-Salé-Kénitra, 10030, Maroc"
+  },
+  "av. misr bd laalou, rabat": null,
+  "av. ibn toumart, rabat": null,
+  "av. abderrahman aneggay, rabat": null,
+  "av. doustour, rabat": null,
+  "av. bni mtir, rabat": null,
+  "av. mohamed vi, rabat": {
+    "lat": 33.9292939,
+    "lon": -6.9235966,
+    "display": "Avenue Mohamed VI, Témara, Pachalik de Témara, Préfecture de Skhirate-Témara, Rabat-Salé-Kénitra, 12000, Maroc"
+  },
+  "plateau akreuch, rabat": null,
+  "av. sidi med ben abdellah, rabat": null,
+  "bd al houria, rabat": {
+    "lat": 34.0043494,
+    "lon": -6.8615868,
+    "display": "Avenue Al Houria, Yacoub El Mansour, Rabat, Pachalik de Rabat, Préfecture de Rabat, Rabat-Salé-Kénitra, 10090, Maroc"
+  },
+  "av. med ben abdellah, rabat": null,
+  "bd mostafa saih, rabat": null,
+  "av. med vi, rabat": null,
+  "av. med bel hassan el oouazzani, rabat": null,
+  "av. ouled hassoun, rabat": null,
+  "av. souss, rabat": {
+    "lat": 34.0015218,
+    "lon": -6.844514,
+    "display": "Rue Oued Souss, Agdal, Arrondissement Agdal-Riyad, Rabat, Pachalik de Rabat, Préfecture de Rabat, Rabat-Salé-Kénitra, 10080, Maroc"
+  },
+  "route de l'oulja, rabat": null,
+  "av. melouana, rabat": null,
+  "rue sidi belyout, casablanca": {
+    "lat": 33.5975964,
+    "lon": -7.6143574,
+    "display": "Rue Sidi Belyout, Ancienne Medina, Arrondissement de Sidi Belyout, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20003, Maroc"
+  },
+  "rue omar ben abi rabia ex mouret, casablanca": null,
+  "bd ain taoujtate, casablanca": {
+    "lat": 33.59536,
+    "lon": -7.6394317,
+    "display": "Boulevard Ain Taoujtate, Bourgogne, Arrondissement d'Anfa, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20053, Maroc"
+  },
+  "bd sidi abderrahman ex grande ceinture, casablanca": null,
+  "rue ibn younouss, casablanca": null,
+  "rue verlet, casablanca": null,
+  "av. sakia el hamra, casablanca": null,
+  "bd nassij, casablanca": null,
+  "rue ponsard, casablanca": null,
+  "rue de la manutention, casablanca": {
+    "lat": 33.5755978,
+    "lon": -7.5971876,
+    "display": "Rue de la Manutention, Garage Allal, Mers Sultan, Arrondissement de Mers Sultan, Préfecture d’arrondissements Al Fida-Mers Sultan, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20504, Maroc"
+  },
+  "rue maymil, casablanca": null,
+  "bd sfax ex ben aissa ejjarouani, casablanca": null,
+  "rue ricard, casablanca": {
+    "lat": 33.5845723,
+    "lon": -7.590537,
+    "display": "Rue Ricard, Assoukhour Assawda, Arrondissement des Roches noires, Préfecture d'arrondissements d'Aïn Sebaâ-Hay Mohammadi, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20304, Maroc"
+  },
+  "rue montaigne, casablanca": {
+    "lat": 33.5773517,
+    "lon": -7.6368293,
+    "display": "Rue Montaigne, Val Fleuri, Arrondissement Maârif, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20104, Maroc"
+  },
+  "bd anoual, casablanca": {
+    "lat": 33.5698216,
+    "lon": -7.6309371,
+    "display": "Boulevard Anoual, Cité Plateau, Arrondissement Maârif, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20102, Maroc"
+  },
+  "rue de la loire, casablanca": {
+    "lat": 33.5551455,
+    "lon": -7.6191571,
+    "display": "Rue de la Loire, Polo, Arrondissement Maârif, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20076, Maroc"
+  },
+  "bd mly youssef, casablanca": null,
+  "rue turgot, casablanca": {
+    "lat": 33.5883265,
+    "lon": -7.638229,
+    "display": "Rue Turgot, Les Arènes, راسين, Arrondissement Maârif, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20060, Maroc"
+  },
+  "rue rostand, casablanca": {
+    "lat": 33.5634199,
+    "lon": -7.634609,
+    "display": "Rue Rostand, Riviera, Arrondissement Maârif, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20410, Maroc"
+  },
+  "rue soldat armand taieb cn, casablanca": null,
+  "rue ishak ibn hanin ex lilas cn, casablanca": null,
+  "rue guillotte, casablanca": null,
+  "bd yacoub el mansour, casablanca": {
+    "lat": 33.5739004,
+    "lon": -7.6444812,
+    "display": "Boulevard Yacoub El Mansour, Berger, Arrondissement Maârif, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20026, Maroc"
+  },
+  "lot jawhara, casablanca": {
+    "lat": 33.2301903,
+    "lon": -8.5145801,
+    "display": "Lot. Jawhara, 8ème Arrondissement, pachalik d'El Jadida, Province d'El Jadida, Casablanca-Settat, 24000, Maroc"
+  },
+  "rue raphael mariscal, casablanca": {
+    "lat": 33.581354,
+    "lon": -7.5804484,
+    "display": "Rue du Soldat Raphaël Mariscal, Assoukhour Assawda, Arrondissement des Roches noires, Préfecture d'arrondissements d'Aïn Sebaâ-Hay Mohammadi, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20302, Maroc"
+  },
+  "rue el farouki errahaii, casablanca": null,
+  "bd zerktouni, casablanca": {
+    "lat": 33.5861899,
+    "lon": -7.6306751,
+    "display": "Boulevard Mohamed Zerktouni, Palmiers, Arrondissement Maârif, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20400, Maroc"
+  },
+  "bd tahiri mohamed bekay, casablanca": null,
+  "rue yasmine ex myosotis, casablanca": null,
+  "rue abou ishak chirazi ex mont perdu, casablanca": null,
+  "bd abdelmoumen, casablanca": {
+    "lat": 33.5652433,
+    "lon": -7.6267226,
+    "display": "Boulevard Abdelmoumen, L'Hermitage, Arrondissement Maârif, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20102, Maroc"
+  },
+  "bd al massira al khadra, casablanca": {
+    "lat": 33.5876489,
+    "lon": -7.642751,
+    "display": "Boulevard Al Massira Al Khadra, Les Arènes, Maârif, Arrondissement Maârif, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20060, Maroc"
+  },
+  "rue el jadida, casablanca": {
+    "lat": 33.5984445,
+    "lon": -7.6190317,
+    "display": "Rue El Jadida, Ancienne Medina, Arrondissement de Sidi Belyout, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20004, Maroc"
+  },
+  "bd smara, casablanca": {
+    "lat": 33.5380538,
+    "lon": -7.590583,
+    "display": "Boulevard de Smara, Salima, Arrondissement d'Aïn-Chock, Préfecture d'arrondissement d'Aïn Chock, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20154, Maroc"
+  },
+  "bd jinine cn, casablanca": {
+    "lat": 33.6190805,
+    "lon": -7.484628,
+    "display": "Boulevard Jinine, Sidi Bernoussi, Arrondissement de Sidi Bernoussi, Préfecture d'arrondissements de Sidi Bernoussi, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20602, Maroc"
+  },
+  "rue el madiaque ex la baule bd el mahata ex la croix lot el manar, casablanca": null,
+  "bd hayfa cs, casablanca": null,
+  "rue bouchaib meqdad ex docteur baur, casablanca": null,
+  "rue ibn al baytar, casablanca": null,
+  "rue ahmed annassiri ex charles lebrun, casablanca": null,
+  "rue tamasna ex rossini rue tamouda rue tanane ex colibris rue de tanger, casablanca": null,
+  "rue yassir ex savoie, casablanca": null,
+  "rue rembrandt, casablanca": {
+    "lat": 33.5782195,
+    "lon": -7.6262152,
+    "display": "Rue Rembrandt, Palmiers, Arrondissement Maârif, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20340, Maroc"
+  },
+  "bd youssef, casablanca": {
+    "lat": 33.6047049,
+    "lon": -7.6332025,
+    "display": "Préfecture d'arrondissements de Casablanca-Anfa, Boulevard Moulay Youssef, Sour Jdid, Arrondissement de Sidi Belyout, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20040, Maroc"
+  },
+  "rue thomas, casablanca": null,
+  "rue jabal toubkal ex saint girons, casablanca": null,
+  "rue de la victoire place victoire bd victor hugo rue vidal, casablanca": null,
+  "rue larache rue de larache, casablanca": {
+    "lat": 33.5730781,
+    "lon": -7.6550137,
+    "display": "Préfecture de police du Grand Casablanca Arr de Police Essalam, S.A.C 1, Rue Larache, CIL, Préfecture d'arrondissement de Hay Hassani, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20380, Maroc"
+  },
+  "av. hassan ii, casablanca": {
+    "lat": 33.5847876,
+    "lon": -7.6228062,
+    "display": "Avenue Hassan II, Ancienne Medina, Arrondissement de Sidi Belyout, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20130, Maroc"
+  },
+  "bd zaiou, casablanca": null,
+  "rue omar slaoui ce, casablanca": {
+    "lat": 33.5872469,
+    "lon": -7.6200031,
+    "display": "Rue Omar Slaoui, Ancienne Medina, Arrondissement de Sidi Belyout, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20130, Maroc"
+  },
+  "av. zaid ou hmad cn, casablanca": null,
+  "bd mohamed zerktouni, casablanca": {
+    "lat": 33.5934678,
+    "lon": -7.6376275,
+    "display": "Boulevard Mohamed Zerktouni, Bourgogne, Arrondissement d'Anfa, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20053, Maroc"
+  },
+  "av. pasteur, casablanca": {
+    "lat": 33.5967566,
+    "lon": -7.5964595,
+    "display": "Avenue Pasteur, Assoukhour Assawda, Arrondissement des Roches noires, Préfecture d'arrondissements d'Aïn Sebaâ-Hay Mohammadi, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20082, Maroc"
+  },
+  "bd ambassadeur ben aicha, casablanca": null,
+  "bd anfa, casablanca": {
+    "lat": 33.5961037,
+    "lon": -7.6188156,
+    "display": "Hyatt Regency Casablanca, Boulevard Moulay Hassan Ier, Ancienne Medina, Arrondissement de Sidi Belyout, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20000, Maroc"
+  },
+  "bd mohammed v, casablanca": {
+    "lat": 33.5933319,
+    "lon": -7.6009378,
+    "display": "Boulevard Mohammed V, Assoukhour Assawda, Arrondissement des Roches noires, Préfecture d'arrondissements d'Aïn Sebaâ-Hay Mohammadi, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20300, Maroc"
+  },
+  "bd rachidi, casablanca": {
+    "lat": 33.5930454,
+    "lon": -7.6268962,
+    "display": "Boulevard Rachidi, Sour Jdid, Arrondissement de Sidi Belyout, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20070, Maroc"
+  },
+  "bd ziraoui, casablanca": {
+    "lat": 33.5951287,
+    "lon": -7.6330441,
+    "display": "Boulevard Ziraoui, Sour Jdid, Arrondissement de Sidi Belyout, Préfecture d'arrondissements de Casablanca-Anfa, Casablanca, Pachalik de Casablanca, Préfecture de Casablanca, Casablanca-Settat, 20053, Maroc"
+  },
+  "5 000, marrakech": {
+    "lat": 32.3347,
+    "lon": -6.3567649,
+    "display": "Rue Marrakech, Beni Mellal, Pachalik de Beni Mellal, Province de Beni Mellal, Béni Mellal-Khénifra, 23010, Maroc"
+  },
+  "avenue mly el hassan, marrakech": null,
+  "avenue hassan ii, marrakech": {
+    "lat": 31.632054,
+    "lon": -8.0080164,
+    "display": "Avenue Hassan II, Guéliz, Arrondissement de Gueliz, Marrakech, Préfecture de Marrakech, Marrakech-Safi, 40025, Maroc"
+  },
+  "avenue allal fassi, marrakech": {
+    "lat": 31.5134937,
+    "lon": -9.7559286,
+    "display": "Avenue Allal El Fassi, Essaouira Ville Nouvelle, Essaouira, Pachalik d'Essaouira, Province d'Essaouira, Marrakech-Safi, 44002, Maroc"
+  },
+  "rue rahal ben ahmed, marrakech": null,
+  "rue al madina, marrakech": {
+    "lat": 31.6408106,
+    "lon": -8.0042095,
+    "display": "Rue Al Madina, Guéliz, Arrondissement de Gueliz, Marrakech, Préfecture de Marrakech, Marrakech-Safi, 40000, Maroc"
+  },
+  "boulevard allal fassi, marrakech": {
+    "lat": 31.6787794,
+    "lon": -8.0327757,
+    "display": "Marché de gros aux légumes et fruits de Marrakech, Boulevard Allal El Fassi, Arrondissement de Gueliz, Marrakech, Préfecture de Marrakech, Marrakech-Safi, 40074, Maroc"
+  },
+  "av. abdelkrim al khatib, marrakech": {
+    "lat": 31.6769266,
+    "lon": -7.9998079,
+    "display": "Avenue Abdelkrim Al Khatib, Hay Andalaous, Arrondissement de Gueliz, Marrakech, Préfecture de Marrakech, Marrakech-Safi, 40080, Maroc"
+  },
+  "av. allal fassi, marrakech": {
+    "lat": 31.5134937,
+    "lon": -9.7559286,
+    "display": "Avenue Allal El Fassi, Essaouira Ville Nouvelle, Essaouira, Pachalik d'Essaouira, Province d'Essaouira, Marrakech-Safi, 44002, Maroc"
+  },
+  "avenue echchouhada, marrakech": null,
+  "avenue al mouquawama, marrakech": null,
+  "avenue abdelkrim khattabi et bd zerktouni, marrakech": null,
+  "avenue tassoultante, marrakech": {
+    "lat": 31.6022545,
+    "lon": -8.0146457,
+    "display": "K club Marrakech, Avenue Guemassa, Arrondissement de Ménara, Marrakech, caïdat de Tasoultante, Marrakech, Préfecture de Marrakech, Marrakech-Safi, 40160, Maroc"
+  },
+  "avenue berrada, marrakech": null,
+  "avenue msala, marrakech": null,
+  "avenue el oued, marrakech": {
+    "lat": 32.3098464,
+    "lon": -9.2323172,
+    "display": "Avenue Lafkih El Haskouri, Hay Al Majd, Pachalik de Safi, Province de Safi, Marrakech-Safi, 46004, Maroc"
+  },
+  "rue oued merahrah, tanger": null,
+  "rue angola, tanger": {
+    "lat": 35.7479433,
+    "lon": -5.838729,
+    "display": "Rue Angola, Ahlan, arrondissement de Bni Makada, Tanger, Pachalik de Tanger, Préfecture de Tanger-Assilah, Tanger-Tétouan-Al Hoceïma, 90024, Maroc"
+  },
+  "rue fidae, tanger": {
+    "lat": 35.7443357,
+    "lon": -5.84105,
+    "display": "Rue Al Fidae, Ahlan, arrondissement de Bni Makada, Tanger, Pachalik de Tanger, Préfecture de Tanger-Assilah, Tanger-Tétouan-Al Hoceïma, 90022, Maroc"
+  },
+  "rue al mawadda, tanger": null,
+  "3 500 - 32 -, tanger": {
+    "lat": 34.0310606,
+    "lon": -4.9927534,
+    "display": "Rue Tanger, Hay Atlas, Arrondissement d'Agdal, Fès, Pachalik du Fes, Préfecture de Fès, Fès-Meknès, 30003, Maroc"
+  },
+  "rue martyr benlahcen bouayad, tanger": null,
+  "rue andalous, tanger": {
+    "lat": 35.2432477,
+    "lon": -3.9312206,
+    "display": "Rue Al Andalous, Hay el Manzeh, Al Hoceïma, Pachalik d'Al Hoceïma, Province d'Al Hoceïma, Tanger-Tétouan-Al Hoceïma, 32005, Maroc"
+  },
+  "rue ahmed tadili, tanger": null,
+  "route rgaiae, tanger": null,
+  "rue sidi, tanger": {
+    "lat": 35.7878594,
+    "lon": -5.8123659,
+    "display": "Tangier Kasbah Hostel, 17, Rue Sidi Khalil, Jnan Kaptan, arrondissement de Tanger-Medina, Tanger, Pachalik de Tanger, Préfecture de Tanger-Assilah, Tanger-Tétouan-Al Hoceïma, 90030, Maroc"
+  },
+  "rue ibn saad bnou aad, tanger": null,
+  "rue cervantes, tanger": null,
+  "av beethoven (de l'angle av med vi � place roudani), rue ibn katir, av youssef ibn tachefine (de l'angle av med vi � l'angle av med v), rue antaki, rue tarik, rue saidia, rue mohammadia, rue el youssoufia (du bd med v � l'angle rue abou alae maari), av la r�sistance (de l'angle bd med v � l'angle rue abou alae el maari), rue nobel, av new-york, rue ahfir, av oujda, rue znata, rue abdellah habti, rue mootamid ibn abad, rue abou alaa el maari, rue farabi, rue la m�diterrann�e, rue abdellah habti, rue canoes. ain ktiouet, av de belgique, av mohamed ben abdellah (de la place ain ktiouet � la place iberia), rue des pheniciens, rue mahatma ghandi, av d'angleterre, av san fransisco, bouarakia, av hassan ii (de l'angle av de belgique � l'angle av bouarakia) m'sallah - 38 -, tanger": null,
+  "14 000 maison ancien pt: 3 000 pc: 2 000, tanger": null,
+  "plage achakar, tanger": {
+    "lat": 35.776388,
+    "lon": -5.9302808,
+    "display": "Ba Kacem, arrondissement de Tanger-Medina, Mediouna, Tanger, Pachalik de Tanger, Préfecture de Tanger-Assilah, Tanger-Tétouan-Al Hoceïma, Maroc"
+  },
+  "rue imam tirmidi, tanger": null,
+  "route california, tanger": {
+    "lat": 35.7786091,
+    "lon": -5.8335779,
+    "display": "Route California, Marstarkhouch, arrondissement de Tanger-Medina, Tanger, Pachalik de Tanger, Préfecture de Tanger-Assilah, Tanger-Tétouan-Al Hoceïma, 90005, Maroc"
+  },
+  "route de l'aviation, tanger": null,
+  "zone bd. tarik ibn ziad allant de rue idriss al akbar, kénitra": null,
+  "av. mohamed v, kénitra": {
+    "lat": 34.2618024,
+    "lon": -6.5789672,
+    "display": "Avenue Mohamed V, Kenitra, Maamora, Kénitra, Pachalik de Kenitra, Province de Kenitra, Rabat-Salé-Kénitra, 14020, Maroc"
+  },
+  "av. imam ali, kénitra": {
+    "lat": 34.2628035,
+    "lon": -6.5857102,
+    "display": "Avenue Imam Ali, Kenitra, La Ville Haute, Kénitra, Pachalik de Kenitra, Province de Kenitra, Rabat-Salé-Kénitra, 14020, Maroc"
+  },
+  "3000 maison r�cent 5000 maison neuf 5000 tzi loti tzm loti - 15 -, kénitra": null,
+  "rue ibn al banna, kénitra": null,
+  "av. moulay youssef (ouest), av. mohamed v (sud), voie ferr�e, kénitra": null,
+  "av. palestine, kénitra": {
+    "lat": 34.2686982,
+    "lon": -6.561074,
+    "display": "Avenue Palestine, Kenitra, Bab Fès, Kénitra, Pachalik de Kenitra, Province de Kenitra, Rabat-Salé-Kénitra, 14015, Maroc"
+  },
+  "rue john kennedy, kénitra": null,
+  "av. youssef ibn tachafine, kénitra": null,
+  "zone bd. lot. al kasbah de mehdia, kénitra": null,
+  "zone bd. lot. al amria mehdia plage corniche lot. alliances mehdia, kénitra": null,
+  "rue lamhanned kacem, kénitra": {
+    "lat": 34.2514744,
+    "lon": -6.5997054,
+    "display": "Rue Lamhanned Kacem, Kenitra, Mimosa, Bir Rami, Kénitra, Pachalik de Kenitra, Province de Kenitra, 14090, Maroc"
+  },
+  "route antara, kénitra": {
+    "lat": 34.2714663,
+    "lon": -6.6029606,
+    "display": "Route Antara, Kenitra, Sayad, Kénitra, Pachalik de Kenitra, Province de Kenitra, Rabat-Salé-Kénitra, 14043, Maroc"
+  },
+  "zone bd. place des palmiers., kénitra": null,
+  "route mehdia, kénitra": {
+    "lat": 34.258877,
+    "lon": -6.67326,
+    "display": "Kenitra-Mehdia, Camping International, Route Mahdia, Alliance, Mehdia, Mehdya, Pachalik de Mehdiya, Province de Kenitra, Rabat-Salé-Kénitra, 14080, Maroc"
+  },
+  "route secondaire mehdia et rue colonel allam, kénitra": null,
+  "zone bd. al massira, kénitra": null,
+  "rue nouaser, salé": null,
+  "zone boulevard abdelkrim khattabi, salé": null,
+  "bd otta hsaine, salé": null,
+  "lot longevine, salé": null,
+  "lot el youmne, meknès": null,
+  "rue razi, meknès": null,
+  "rue abou hassan el, meknès": {
+    "lat": 33.9000151,
+    "lon": -5.5512946,
+    "display": "Rue Abou El Hassan El M'rini, Qobbat Souk, Meknès, Pachalik de Meknes, Prefecture de Meknès, Fès-Meknès, 50032, Maroc"
+  },
+  "lot zahra, meknès": {
+    "lat": 33.2340634,
+    "lon": -8.4860196,
+    "display": "Résidence Meknès, Abraj Al Boustane, 6ème Arrondissement, pachalik d'El Jadida, Province d'El Jadida, Casablanca-Settat, Maroc"
+  },
+  "rue dispensaire, meknès": null,
+  "lot travaux publiques, meknès": null,
+  "lot tazi, meknès": null,
+  "lot zin el abdine, meknès": null,
+  "lot haj khalifa, béni mellal": null,
+  "lot houria, béni mellal": null,
+  "lot el waha, béni mellal": null,
+  "bd hassan ii, béni mellal": {
+    "lat": 32.5967187,
+    "lon": -6.2728533,
+    "display": "Boulevard Hassan II, Hay Boudra III, Quartier administratif, Kasba Tadla, Pachalik de Kasba Tadla, Province de Beni Mellal, Béni Mellal-Khénifra, 23352, Maroc"
+  },
+  "avenue taif, béni mellal": null,
+  "bd mohamed v, midelt": null,
+  "bd imam malek, midelt": null
+}

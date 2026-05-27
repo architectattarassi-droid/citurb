@@ -1,0 +1,73 @@
+<!--
+  Template DEMANDE_AUTORISATION — variante alternative.
+
+  La génération HTML "live" est faite par pc-formulaire-generator.ts.
+  Ce fichier sert de :
+    1. Référence visuelle du gabarit officiel attendu par les communes marocaines.
+    2. Point d'extension : un futur moteur de templates (Handlebars, Liquid)
+       pourra consommer ce HTML avec placeholders {{...}}.
+
+  Doctrine : tous les placeholders sont préfixés `pc.` pour éviter collisions.
+-->
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Demande d'autorisation de construire — Modèle CITURBAREA</title>
+  <style>
+    body { font-family: Helvetica, Arial, sans-serif; padding: 28px; color: #111827; max-width: 780px; margin: 0 auto; }
+    h1 { font-size: 22px; border-bottom: 2px solid #111827; padding-bottom: 6px; }
+    h2 { font-size: 14px; margin-top: 18px; color: #1f2937; border-bottom: 1px solid #e5e7eb; padding-bottom: 3px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    table td { padding: 5px 6px; border-bottom: 1px solid #f3f4f6; vertical-align: top; }
+    table td.k { width: 38%; color: #6b7280; font-weight: 600; }
+    .sign { display: flex; gap: 24px; margin-top: 28px; }
+    .sign .b { flex: 1; border: 1px solid #d1d5db; height: 80px; padding: 6px; font-size: 11px; color: #6b7280; }
+    .footer { margin-top: 32px; font-size: 10px; color: #6b7280; border-top: 1px solid #e5e7eb; padding-top: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Demande d'autorisation de construire</h1>
+  <p style="font-size:11px;color:#6b7280;">Référence réglementaire : Code de l'urbanisme — Décret 2-13-424 et arrêtés d'application.</p>
+
+  <h2>1. Identification du projet</h2>
+  <table>
+    <tr><td class="k">Commune</td><td>{{pc.commune}}</td></tr>
+    <tr><td class="k">Préfecture / Province</td><td>{{pc.prefecture}}</td></tr>
+    <tr><td class="k">Type de projet</td><td>{{pc.typeProjet}}</td></tr>
+    <tr><td class="k">Surface du terrain (m²)</td><td>{{pc.surfaceTerrainM2}}</td></tr>
+    <tr><td class="k">Surface plancher (m²)</td><td>{{pc.surfacePlancherM2}}</td></tr>
+    <tr><td class="k">Nombre de niveaux</td><td>{{pc.niveaux}}</td></tr>
+    <tr><td class="k">Zone sismique RPS 2011</td><td>{{pc.zoneSismique}}</td></tr>
+  </table>
+
+  <h2>2. Maître d'ouvrage</h2>
+  <table>
+    <tr><td class="k">Nom et prénom</td><td>{{pc.moNom}}</td></tr>
+    <tr><td class="k">CIN</td><td>{{pc.moCin}}</td></tr>
+    <tr><td class="k">Adresse</td><td>{{pc.moAdresse}}</td></tr>
+    <tr><td class="k">Téléphone</td><td>{{pc.moTel}}</td></tr>
+  </table>
+
+  <h2>3. Architecte conception</h2>
+  <table>
+    <tr><td class="k">Architecte (slug Cercles)</td><td>{{pc.architecteSlug}}</td></tr>
+    <tr><td class="k">N° d'inscription CNOA</td><td>{{pc.architecteCnoa}}</td></tr>
+    <tr><td class="k">Visa CROA régional</td><td>{{pc.visaCroa}}</td></tr>
+  </table>
+
+  <h2>4. Engagement</h2>
+  <p style="font-size:12px;">Le maître d'ouvrage soussigné certifie l'exactitude des informations
+  ci-dessus et s'engage à respecter les prescriptions du Plan d'Aménagement en vigueur
+  ainsi que les règlements de construction applicables.</p>
+
+  <div class="sign">
+    <div class="b">Signature MO + cachet</div>
+    <div class="b">Signature architecte + visa CROA</div>
+  </div>
+
+  <div class="footer">
+    Modèle généré par CITURBAREA · citurbarea.com · {{pc.generatedAt}}
+  </div>
+</body>
+</html>

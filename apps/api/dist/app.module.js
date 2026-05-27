@@ -17,6 +17,7 @@ const cercles_module_1 = require("./modules/cercles/cercles.module");
 const admin_module_1 = require("./admin/admin.module");
 const twilio_module_1 = require("./modules/twilio/twilio.module");
 const email_module_1 = require("./modules/email/email.module");
+const notifications_hub_module_1 = require("./modules/notifications-hub/notifications-hub.module");
 // Infra
 const prisma_dossiers_module_1 = require("./tomes/tome-at/kernel/prisma-dossiers/prisma-dossiers.module");
 // Modules
@@ -45,6 +46,17 @@ const sig_module_1 = require("./modules/sig/sig.module");
 const phase_engine_module_1 = require("./modules/phase-engine/phase-engine.module");
 const messagerie_module_1 = require("./modules/messagerie/messagerie.module");
 const sous_phase_module_1 = require("./modules/sous-phase/sous-phase.module");
+const sous_traitants_module_1 = require("./modules/sous-traitants/sous-traitants.module");
+const livraisons_materiaux_module_1 = require("./modules/livraisons-materiaux/livraisons-materiaux.module");
+// Phase 5 modules (parcours complet lead → use permit)
+const lead_funnel_module_1 = require("./modules/lead-funnel/lead-funnel.module");
+const dossier_overview_module_1 = require("./modules/dossier-overview/dossier-overview.module");
+const documents_repo_module_1 = require("./modules/documents-repo/documents-repo.module");
+const permis_construire_module_1 = require("./modules/permis-construire/permis-construire.module");
+const rokhas_tracker_module_1 = require("./modules/rokhas-tracker/rokhas-tracker.module");
+const reception_conformite_module_1 = require("./modules/reception-conformite/reception-conformite.module");
+const incidents_chantier_module_1 = require("./modules/incidents-chantier/incidents-chantier.module");
+const zillow_ma_module_1 = require("./modules/zillow-ma/zillow-ma.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -57,6 +69,7 @@ exports.AppModule = AppModule = __decorate([
             prisma_dossiers_module_1.PrismaDossiersModule,
             twilio_module_1.TwilioModule, // global — disponible partout
             email_module_1.EmailModule, // global — Resend (prioritaire) + SMTP fallback
+            notifications_hub_module_1.NotificationsHubModule, // global — dispatch multi-canal centralisé (email/sms/wa/push/in-app)
             cc_module_1.CCModule,
             archive_module_1.ArchiveModule,
             cercles_module_1.CerclesModule,
@@ -85,6 +98,17 @@ exports.AppModule = AppModule = __decorate([
             phase_engine_module_1.PhaseEngineModule,
             messagerie_module_1.MessagerieModule,
             sous_phase_module_1.SousPhaseModule,
+            sous_traitants_module_1.SousTraitantsModule,
+            livraisons_materiaux_module_1.LivraisonsMateriauxModule,
+            // Phase 5 (parcours complet lead → manage → permit → site → delivery)
+            lead_funnel_module_1.LeadFunnelModule,
+            dossier_overview_module_1.DossierOverviewModule,
+            documents_repo_module_1.DocumentsRepoModule,
+            permis_construire_module_1.PermisConstruireModule,
+            rokhas_tracker_module_1.RokhasTrackerModule,
+            reception_conformite_module_1.ReceptionConformiteModule,
+            incidents_chantier_module_1.IncidentsChantierModule,
+            zillow_ma_module_1.ZillowMaModule,
         ],
         controllers: [],
         providers: [],

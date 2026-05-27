@@ -23,6 +23,19 @@ import PrestataireTarifsList from "../../../features/prestataire-tarifs/Prestata
 import PrestataireTarifsEditor from "../../../features/prestataire-tarifs/PrestataireTarifsEditor";
 import TarifContractPublic from "../../../features/prestataire-tarifs/TarifContractPublic";
 import ProjectCalendarPage from "../../../features/project-calendar/ProjectCalendarPage";
+import LivraisonsPage from "../../../features/livraisons-materiaux/LivraisonsPage";
+
+// ── Phase 5 (parcours complet lead → manage → permit → site → delivery) ──
+import MonParcoursPage from "../../../features/mon-parcours/MonParcoursPage";
+import DocumentsRepoPage from "../../../features/documents-repo/DocumentsRepoPage";
+import PcWizardPage from "../../../features/permis-construire/PcWizardPage";
+import RokhasTrackerPage from "../../../features/rokhas-tracker/RokhasTrackerPage";
+import SousTraitantsPage from "../../../features/sous-traitants/SousTraitantsPage";
+import ReceptionPage from "../../../features/reception-conformite/ReceptionPage";
+import IncidentsChantierPage from "../../../features/incidents-chantier/IncidentsChantierPage";
+import EstimationPage from "../../../features/zillow-ma/EstimationPage";
+import RoiCalculator from "../../../features/lead-funnel/RoiCalculator";
+import NotificationsCenterPage from "../../../features/notifications/NotificationsCenterPage";
 import { PaymentSuccessPage, PaymentCancelPage, PaymentStartPage } from "../../tome3/portals/payment/PaymentPages";
 import DocsPage from "../../../ui/docs/DocsPage";
 
@@ -246,6 +259,21 @@ export const router = createBrowserRouter([
 
       // ── Calendrier Projet (Gantt + CPM + Kanban) ──
       { path: '/projet/:dossierId/calendrier', element: <AdminHostBlock><ProjectCalendarPage /></AdminHostBlock> },
+
+      // ── Phase 5 — parcours complet lead → manage → permit → site → delivery ──
+      { path: '/mon-parcours/:dossierId', element: <AdminHostBlock><MonParcoursPage /></AdminHostBlock> },
+      { path: '/dossier/:dossierId/documents', element: <AdminHostBlock><DocumentsRepoPage /></AdminHostBlock> },
+      { path: '/dossier/:dossierId/rokhas', element: <AdminHostBlock><RokhasTrackerPage /></AdminHostBlock> },
+      { path: '/dossier/:dossierId/reception', element: <AdminHostBlock><ReceptionPage /></AdminHostBlock> },
+      { path: '/permis-construire/:dossierId', element: <AdminHostBlock><PcWizardPage /></AdminHostBlock> },
+      { path: '/chantier/:dossierId/sous-traitants', element: <AdminHostBlock><SousTraitantsPage /></AdminHostBlock> },
+      { path: '/chantier/:dossierId/incidents', element: <AdminHostBlock><IncidentsChantierPage /></AdminHostBlock> },
+      { path: '/foncier/estimation', element: <EstimationPage /> },
+      { path: '/calculateur', element: <RoiCalculator /> },
+      { path: '/notifications', element: <AdminHostBlock><NotificationsCenterPage /></AdminHostBlock> },
+
+      // ── Livraisons Matériaux (Tome 5 — chef chantier + fournisseur) ──
+      { path: '/chantier/:dossierId/livraisons', element: <AdminHostBlock><LivraisonsPage /></AdminHostBlock> },
 
       { path: '/payment/start', element: <AdminHostBlock><PaymentStartPage /></AdminHostBlock> },
       { path: '/docs', element: <AdminHostBlock><DocsPage /></AdminHostBlock> },

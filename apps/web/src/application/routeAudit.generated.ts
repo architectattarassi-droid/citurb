@@ -724,42 +724,42 @@ export const ROUTE_USAGES = [
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 97
+    "line": 110
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 103
+    "line": 116
   },
   {
     "route": "/",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 131
+    "line": 144
   },
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 144
+    "line": 157
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 147
+    "line": 160
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 161
+    "line": 174
   },
   {
     "route": "/admin/login",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 177
+    "line": 190
   },
   {
     "route": "/cercles",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 236
+    "line": 249
   },
   {
     "route": "/p2/dossier/",
@@ -785,6 +785,21 @@ export const ROUTE_USAGES = [
     "route": "/p6",
     "file": "src/features/prestataire-tarifs/TarifContractPublic.tsx",
     "line": 72
+  },
+  {
+    "route": "/notifications",
+    "file": "src/features/notifications/NotificationBell.tsx",
+    "line": 150
+  },
+  {
+    "route": "/notifications",
+    "file": "src/features/notifications/NotificationPreferencesPage.tsx",
+    "line": 117
+  },
+  {
+    "route": "/parametres/notifications",
+    "file": "src/features/notifications/NotificationsCenterPage.tsx",
+    "line": 121
   },
   {
     "route": "/login",
@@ -1581,37 +1596,37 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 97
+    "line": 110
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 103
+    "line": 116
   },
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 144
+    "line": 157
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 147
+    "line": 160
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 161
+    "line": 174
   },
   {
     "route": "/admin/login",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 177
+    "line": 190
   },
   {
     "route": "/cercles",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 236
+    "line": 249
   },
   {
     "route": "/p2/dossier/",
@@ -1632,6 +1647,21 @@ export const UNKNOWN_ROUTE_USAGES = [
     "route": "/prestataires/tarifs/",
     "file": "src/features/prestataire-tarifs/PrestataireTarifsList.tsx",
     "line": 140
+  },
+  {
+    "route": "/notifications",
+    "file": "src/features/notifications/NotificationBell.tsx",
+    "line": 150
+  },
+  {
+    "route": "/notifications",
+    "file": "src/features/notifications/NotificationPreferencesPage.tsx",
+    "line": 117
+  },
+  {
+    "route": "/parametres/notifications",
+    "file": "src/features/notifications/NotificationsCenterPage.tsx",
+    "line": 121
   },
   {
     "route": "/materiaux",

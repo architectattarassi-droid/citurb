@@ -1,3 +1,6 @@
 dump_production.sql
 .env.production
 apps/api/data/dgi-pdfs/
+.env
+.env.*
+!.env.example
