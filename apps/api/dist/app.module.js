@@ -39,6 +39,8 @@ const tome_9_module_1 = require("./tomes/tome-9/tome-9.module");
 const tome_10_module_1 = require("./tomes/tome-10/tome-10.module");
 // App-level orchestration
 const orchestrator_module_1 = require("./orchestrator/orchestrator.module");
+// TerriScan Lab — proxy LLM Anthropic (thèse Y. AT-TARASSI)
+const llm_module_1 = require("./modules/llm/llm.module");
 const firm_module_1 = require("./modules/firm/firm.module");
 const storage_module_1 = require("./modules/storage/storage.module");
 const geo_module_1 = require("./modules/geo/geo.module");
@@ -61,6 +63,7 @@ const mre_diaspora_module_1 = require("./modules/mre-diaspora/mre-diaspora.modul
 const analytics_hub_module_1 = require("./modules/analytics-hub/analytics-hub.module");
 const chef_copilote_module_1 = require("./modules/chef-copilote/chef-copilote.module");
 const avance_tresorerie_module_1 = require("./modules/avance-tresorerie/avance-tresorerie.module");
+const mandataires_registry_module_1 = require("./modules/mandataires-registry/mandataires-registry.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -81,6 +84,7 @@ exports.AppModule = AppModule = __decorate([
             // ── Tomes (@ → 0 → 1 → … → 10)
             tome_at_module_1.TomeAtModule,
             orchestrator_module_1.OrchestratorModule,
+            llm_module_1.LlmModule,
             tome_0_module_1.Tome0Module,
             tome_1_module_1.Tome1Module,
             tome_2_module_1.Tome2Module,
@@ -117,6 +121,7 @@ exports.AppModule = AppModule = __decorate([
             analytics_hub_module_1.AnalyticsHubModule,
             chef_copilote_module_1.ChefCopiloteModule,
             avance_tresorerie_module_1.AvanceTresorerieModule,
+            mandataires_registry_module_1.MandatairesRegistryModule,
         ],
         controllers: [],
         providers: [],

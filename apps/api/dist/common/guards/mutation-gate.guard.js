@@ -64,6 +64,7 @@ let MutationGateGuard = class MutationGateGuard {
             "/api/analytics-hub", // Instrumentation events 6 portes (POST event public)
             "/api/chef-copilote", // Copilote IA chef chantier darija (Brahim)
             "/api/avance-tresorerie", // Avance trésorerie sur situation (Brahim)
+            "/api/mandataires", // Annuaire mandataires agréés (missions MRE)
             "/p1",
             "/p2",
             "/p3",

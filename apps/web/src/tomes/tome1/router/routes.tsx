@@ -39,6 +39,7 @@ import NotificationsCenterPage from "../../../features/notifications/Notificatio
 import MreDiasporaLanding from "../../../features/mre-diaspora/MreDiasporaLanding";
 import MetricsDashboardPage from "../../../features/analytics/MetricsDashboardPage";
 import CopiloteChantierPage from "../../../features/chef-copilote/CopiloteChantierPage";
+import MandataireSearchPage from "../../../features/mandataires-registry/MandataireSearchPage";
 import { PaymentSuccessPage, PaymentCancelPage, PaymentStartPage } from "../../tome3/portals/payment/PaymentPages";
 import DocsPage from "../../../ui/docs/DocsPage";
 
@@ -275,6 +276,7 @@ export const router = createBrowserRouter([
       { path: '/chantier/:dossierId/copilote', element: <AdminHostBlock><CopiloteChantierPage /></AdminHostBlock> },
       { path: '/foncier/estimation', element: <EstimationPage /> },
       { path: '/mre', element: <MreDiasporaLanding /> },
+      { path: '/mandataires', element: <MandataireSearchPage /> },
       { path: '/metrics', element: <AdminHostBlock><MetricsDashboardPage /></AdminHostBlock> },
       { path: '/calculateur', element: <RoiCalculator /> },
       { path: '/notifications', element: <AdminHostBlock><NotificationsCenterPage /></AdminHostBlock> },

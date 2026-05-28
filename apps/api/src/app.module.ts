@@ -35,6 +35,9 @@ import { Tome10FinancingModule } from "./tomes/tome-10/tome-10.module";
 
 // App-level orchestration
 import { OrchestratorModule } from "./orchestrator/orchestrator.module";
+
+// TerriScan Lab — proxy LLM Anthropic (thèse Y. AT-TARASSI)
+import { LlmModule } from "./modules/llm/llm.module";
 import { FirmModule } from "./modules/firm/firm.module";
 import { StorageModule } from "./modules/storage/storage.module";
 import { GeoModule } from "./modules/geo/geo.module";
@@ -58,6 +61,7 @@ import { MreDiasporaModule } from "./modules/mre-diaspora/mre-diaspora.module";
 import { AnalyticsHubModule } from "./modules/analytics-hub/analytics-hub.module";
 import { ChefCopiloteModule } from "./modules/chef-copilote/chef-copilote.module";
 import { AvanceTresorerieModule } from "./modules/avance-tresorerie/avance-tresorerie.module";
+import { MandatairesRegistryModule } from "./modules/mandataires-registry/mandataires-registry.module";
 
 @Module({
   imports: [
@@ -76,6 +80,7 @@ import { AvanceTresorerieModule } from "./modules/avance-tresorerie/avance-treso
     // ── Tomes (@ → 0 → 1 → … → 10)
     TomeAtModule,
     OrchestratorModule,
+    LlmModule,
     Tome0Module,
     Tome1Module,
     Tome2Module,
@@ -114,6 +119,7 @@ import { AvanceTresorerieModule } from "./modules/avance-tresorerie/avance-treso
     AnalyticsHubModule,
     ChefCopiloteModule,
     AvanceTresorerieModule,
+    MandatairesRegistryModule,
   ],
   controllers: [],
   providers: [],
