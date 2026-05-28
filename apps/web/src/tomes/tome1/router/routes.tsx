@@ -38,6 +38,7 @@ import RoiCalculator from "../../../features/lead-funnel/RoiCalculator";
 import NotificationsCenterPage from "../../../features/notifications/NotificationsCenterPage";
 import MreDiasporaLanding from "../../../features/mre-diaspora/MreDiasporaLanding";
 import MetricsDashboardPage from "../../../features/analytics/MetricsDashboardPage";
+import CopiloteChantierPage from "../../../features/chef-copilote/CopiloteChantierPage";
 import { PaymentSuccessPage, PaymentCancelPage, PaymentStartPage } from "../../tome3/portals/payment/PaymentPages";
 import DocsPage from "../../../ui/docs/DocsPage";
 
@@ -51,6 +52,7 @@ import LandingPage from "../../../ui/landing/LandingPage";
 import { useAuth } from "../../tome5/AuthProvider";
 import DevRoutesPage from "../../../ui/dev/DevRoutesPage";
 import SimulatorPage from "../../../ui/simulateur/SimulatorPage";
+import TerriScanLab from "../../../features/terriscan/TerriScanLab";
 
 import { CANON, REDIRECTS } from "../../../application/routeRegistry";
 import CommandCenterApp from '../../../command-center/CommandCenterApp';
@@ -270,6 +272,7 @@ export const router = createBrowserRouter([
       { path: '/permis-construire/:dossierId', element: <AdminHostBlock><PcWizardPage /></AdminHostBlock> },
       { path: '/chantier/:dossierId/sous-traitants', element: <AdminHostBlock><SousTraitantsPage /></AdminHostBlock> },
       { path: '/chantier/:dossierId/incidents', element: <AdminHostBlock><IncidentsChantierPage /></AdminHostBlock> },
+      { path: '/chantier/:dossierId/copilote', element: <AdminHostBlock><CopiloteChantierPage /></AdminHostBlock> },
       { path: '/foncier/estimation', element: <EstimationPage /> },
       { path: '/mre', element: <MreDiasporaLanding /> },
       { path: '/metrics', element: <AdminHostBlock><MetricsDashboardPage /></AdminHostBlock> },
@@ -285,6 +288,9 @@ export const router = createBrowserRouter([
       { path: '/payment/cancel', element: <AdminHostBlock><PaymentCancelPage /></AdminHostBlock> },
       { path: CANON.DEV_ROUTES, element: <DevRoutesPage /> },
       { path: '/simulateur', element: <AdminHostBlock><SimulatorPage /></AdminHostBlock> },
+
+      // ── TerriScan Lab — laboratoire doctoral RA-CUE-ULV (thèse Y. AT-TARASSI) ──
+      { path: '/terriscan', element: <AdminHostBlock><TerriScanLab /></AdminHostBlock> },
 
       // Redirect aliases (legacy)
       ...REDIRECTS.map(r => ({

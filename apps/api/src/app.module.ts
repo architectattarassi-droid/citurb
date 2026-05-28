@@ -56,6 +56,8 @@ import { IncidentsChantierModule } from "./modules/incidents-chantier/incidents-
 import { ZillowMaModule } from "./modules/zillow-ma/zillow-ma.module";
 import { MreDiasporaModule } from "./modules/mre-diaspora/mre-diaspora.module";
 import { AnalyticsHubModule } from "./modules/analytics-hub/analytics-hub.module";
+import { ChefCopiloteModule } from "./modules/chef-copilote/chef-copilote.module";
+import { AvanceTresorerieModule } from "./modules/avance-tresorerie/avance-tresorerie.module";
 
 @Module({
   imports: [
@@ -110,6 +112,8 @@ import { AnalyticsHubModule } from "./modules/analytics-hub/analytics-hub.module
     ZillowMaModule,
     MreDiasporaModule,
     AnalyticsHubModule,
+    ChefCopiloteModule,
+    AvanceTresorerieModule,
   ],
   controllers: [],
   providers: [],

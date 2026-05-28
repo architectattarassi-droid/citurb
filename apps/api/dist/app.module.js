@@ -59,6 +59,8 @@ const incidents_chantier_module_1 = require("./modules/incidents-chantier/incide
 const zillow_ma_module_1 = require("./modules/zillow-ma/zillow-ma.module");
 const mre_diaspora_module_1 = require("./modules/mre-diaspora/mre-diaspora.module");
 const analytics_hub_module_1 = require("./modules/analytics-hub/analytics-hub.module");
+const chef_copilote_module_1 = require("./modules/chef-copilote/chef-copilote.module");
+const avance_tresorerie_module_1 = require("./modules/avance-tresorerie/avance-tresorerie.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -113,6 +115,8 @@ exports.AppModule = AppModule = __decorate([
             zillow_ma_module_1.ZillowMaModule,
             mre_diaspora_module_1.MreDiasporaModule,
             analytics_hub_module_1.AnalyticsHubModule,
+            chef_copilote_module_1.ChefCopiloteModule,
+            avance_tresorerie_module_1.AvanceTresorerieModule,
         ],
         controllers: [],
         providers: [],

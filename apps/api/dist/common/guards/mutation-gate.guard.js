@@ -62,6 +62,8 @@ let MutationGateGuard = class MutationGateGuard {
             "/api/dossier-overview", // Dashboard client unifié Mon Parcours
             "/api/mre-diaspora", // Parcours MRE — procuration eIDAS + escrow (Pivot Visa foncier)
             "/api/analytics-hub", // Instrumentation events 6 portes (POST event public)
+            "/api/chef-copilote", // Copilote IA chef chantier darija (Brahim)
+            "/api/avance-tresorerie", // Avance trésorerie sur situation (Brahim)
             "/p1",
             "/p2",
             "/p3",
