@@ -64,6 +64,7 @@ const analytics_hub_module_1 = require("./modules/analytics-hub/analytics-hub.mo
 const chef_copilote_module_1 = require("./modules/chef-copilote/chef-copilote.module");
 const avance_tresorerie_module_1 = require("./modules/avance-tresorerie/avance-tresorerie.module");
 const mandataires_registry_module_1 = require("./modules/mandataires-registry/mandataires-registry.module");
+const opci_tokenise_module_1 = require("./modules/opci-tokenise/opci-tokenise.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -122,6 +123,7 @@ exports.AppModule = AppModule = __decorate([
             chef_copilote_module_1.ChefCopiloteModule,
             avance_tresorerie_module_1.AvanceTresorerieModule,
             mandataires_registry_module_1.MandatairesRegistryModule,
+            opci_tokenise_module_1.OpciTokeniseModule,
         ],
         controllers: [],
         providers: [],

@@ -65,6 +65,7 @@ let MutationGateGuard = class MutationGateGuard {
             "/api/chef-copilote", // Copilote IA chef chantier darija (Brahim)
             "/api/avance-tresorerie", // Avance trésorerie sur situation (Brahim)
             "/api/mandataires", // Annuaire mandataires agréés (missions MRE)
+            "/api/opci-tokenise", // OPCI tokenisé AMMC (souscription parts MRE)
             "/p1",
             "/p2",
             "/p3",

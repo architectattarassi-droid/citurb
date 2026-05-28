@@ -62,6 +62,7 @@ import { AnalyticsHubModule } from "./modules/analytics-hub/analytics-hub.module
 import { ChefCopiloteModule } from "./modules/chef-copilote/chef-copilote.module";
 import { AvanceTresorerieModule } from "./modules/avance-tresorerie/avance-tresorerie.module";
 import { MandatairesRegistryModule } from "./modules/mandataires-registry/mandataires-registry.module";
+import { OpciTokeniseModule } from "./modules/opci-tokenise/opci-tokenise.module";
 
 @Module({
   imports: [
@@ -120,6 +121,7 @@ import { MandatairesRegistryModule } from "./modules/mandataires-registry/mandat
     ChefCopiloteModule,
     AvanceTresorerieModule,
     MandatairesRegistryModule,
+    OpciTokeniseModule,
   ],
   controllers: [],
   providers: [],
