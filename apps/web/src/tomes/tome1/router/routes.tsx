@@ -36,6 +36,7 @@ import IncidentsChantierPage from "../../../features/incidents-chantier/Incident
 import EstimationPage from "../../../features/zillow-ma/EstimationPage";
 import RoiCalculator from "../../../features/lead-funnel/RoiCalculator";
 import NotificationsCenterPage from "../../../features/notifications/NotificationsCenterPage";
+import MreDiasporaLanding from "../../../features/mre-diaspora/MreDiasporaLanding";
 import { PaymentSuccessPage, PaymentCancelPage, PaymentStartPage } from "../../tome3/portals/payment/PaymentPages";
 import DocsPage from "../../../ui/docs/DocsPage";
 
@@ -269,6 +270,7 @@ export const router = createBrowserRouter([
       { path: '/chantier/:dossierId/sous-traitants', element: <AdminHostBlock><SousTraitantsPage /></AdminHostBlock> },
       { path: '/chantier/:dossierId/incidents', element: <AdminHostBlock><IncidentsChantierPage /></AdminHostBlock> },
       { path: '/foncier/estimation', element: <EstimationPage /> },
+      { path: '/mre', element: <MreDiasporaLanding /> },
       { path: '/calculateur', element: <RoiCalculator /> },
       { path: '/notifications', element: <AdminHostBlock><NotificationsCenterPage /></AdminHostBlock> },
 

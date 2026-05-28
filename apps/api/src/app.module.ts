@@ -54,6 +54,7 @@ import { RokhasTrackerModule } from "./modules/rokhas-tracker/rokhas-tracker.mod
 import { ReceptionConformiteModule } from "./modules/reception-conformite/reception-conformite.module";
 import { IncidentsChantierModule } from "./modules/incidents-chantier/incidents-chantier.module";
 import { ZillowMaModule } from "./modules/zillow-ma/zillow-ma.module";
+import { MreDiasporaModule } from "./modules/mre-diaspora/mre-diaspora.module";
 
 @Module({
   imports: [
@@ -106,6 +107,7 @@ import { ZillowMaModule } from "./modules/zillow-ma/zillow-ma.module";
     ReceptionConformiteModule,
     IncidentsChantierModule,
     ZillowMaModule,
+    MreDiasporaModule,
   ],
   controllers: [],
   providers: [],
