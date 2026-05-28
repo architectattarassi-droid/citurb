@@ -55,6 +55,7 @@ import { ReceptionConformiteModule } from "./modules/reception-conformite/recept
 import { IncidentsChantierModule } from "./modules/incidents-chantier/incidents-chantier.module";
 import { ZillowMaModule } from "./modules/zillow-ma/zillow-ma.module";
 import { MreDiasporaModule } from "./modules/mre-diaspora/mre-diaspora.module";
+import { AnalyticsHubModule } from "./modules/analytics-hub/analytics-hub.module";
 
 @Module({
   imports: [
@@ -108,6 +109,7 @@ import { MreDiasporaModule } from "./modules/mre-diaspora/mre-diaspora.module";
     IncidentsChantierModule,
     ZillowMaModule,
     MreDiasporaModule,
+    AnalyticsHubModule,
   ],
   controllers: [],
   providers: [],

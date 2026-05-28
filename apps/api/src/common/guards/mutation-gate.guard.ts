@@ -55,6 +55,7 @@ export class MutationGateGuard implements CanActivate {
       "/api/zillow-ma",                 // Estimation foncière publique (Visa du foncier)
       "/api/dossier-overview",          // Dashboard client unifié Mon Parcours
       "/api/mre-diaspora",              // Parcours MRE — procuration eIDAS + escrow (Pivot Visa foncier)
+      "/api/analytics-hub",             // Instrumentation events 6 portes (POST event public)
       "/p1",
       "/p2",
       "/p3",

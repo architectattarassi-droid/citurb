@@ -58,6 +58,7 @@ const reception_conformite_module_1 = require("./modules/reception-conformite/re
 const incidents_chantier_module_1 = require("./modules/incidents-chantier/incidents-chantier.module");
 const zillow_ma_module_1 = require("./modules/zillow-ma/zillow-ma.module");
 const mre_diaspora_module_1 = require("./modules/mre-diaspora/mre-diaspora.module");
+const analytics_hub_module_1 = require("./modules/analytics-hub/analytics-hub.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -111,6 +112,7 @@ exports.AppModule = AppModule = __decorate([
             incidents_chantier_module_1.IncidentsChantierModule,
             zillow_ma_module_1.ZillowMaModule,
             mre_diaspora_module_1.MreDiasporaModule,
+            analytics_hub_module_1.AnalyticsHubModule,
         ],
         controllers: [],
         providers: [],
