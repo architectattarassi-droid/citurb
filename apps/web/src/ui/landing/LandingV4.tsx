@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { listPublished } from "../../features/media/articles/store";
+import type { Article } from "../../features/media/articles/types";
 import { ArticleCard } from "../../features/media/components/ArticleCard";
-import LandingCommunityFeed from "./LandingCommunityFeed";
+import { cerclesApi } from "../../features/cercles/api";
+import { cerclePostToArticle } from "./cerclePostToArticle";
 
 // Landing keeps the validated HTML/CSS identity, but renders the Articles preview in React.
 // Legacy inline JS media feed is removed to avoid runtime errors and to make content maintainable.
@@ -1203,7 +1205,34 @@ export default function LandingV4() {
     });
   }, []);
 
-  const articles = listPublished().slice(0, 6);
+  // Publications PUBLIQUES Cercles → mêmes cartes que le journal (ArticleCard).
+  const [cercleArticles, setCercleArticles] = useState<Article[]>([]);
+  useEffect(() => {
+    let alive = true;
+    cerclesApi
+      .publicFeed(1)
+      .then((r) => {
+        if (!alive) return;
+        const mapped = (r.data || []).map(cerclePostToArticle);
+        setCercleArticles(mapped);
+      })
+      .catch(() => {
+        if (alive) setCercleArticles([]);
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  // Fusion journal + communauté, triée du plus récent au plus ancien.
+  const articles = useMemo(() => {
+    const merged = [...listPublished(), ...cercleArticles];
+    merged.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
+    return merged.slice(0, 9);
+  }, [cercleArticles]);
 
   return (
     <div>
@@ -1219,7 +1248,7 @@ export default function LandingV4() {
                 Nos médias — Journal premium
               </h2>
               <p id="media-sub-txt" style={{ margin: 0, color: "#64748b", fontSize: 13, lineHeight: 1.6 }}>
-                Articles validés par l’équipe CITURBAREA. Accès public + contenus premium (VIP/VVIP).
+                Articles de l’équipe CITURBAREA et publications publiques de la communauté Cercles (vidéos incluses).
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 12 }}>
                 {["Tous", "FR", "AR", "Investissement", "Chantier", "Rapports", "Premium"].map((c, i) => (
@@ -1248,8 +1277,6 @@ export default function LandingV4() {
           </div>
         </div>
       </section>
-
-      <LandingCommunityFeed />
 
       <div dangerouslySetInnerHTML={{ __html: POST_HTML }} />
     </div>

@@ -52,7 +52,9 @@ export function ArticleCard({ article, mode }: { article: Article; mode?: "landi
 
   useEffect(() => { setMeta(getArticleMeta(article.id)); }, [article.id]);
 
-  const grad = GRADIENTS[parseInt(article.id.replace(/\D/g, ""), 10) % GRADIENTS.length];
+  const idDigits = article.id.replace(/\D/g, "");
+  const gradSeed = idDigits ? parseInt(idDigits, 10) : article.id.length;
+  const grad = GRADIENTS[(Number.isFinite(gradSeed) ? gradSeed : 0) % GRADIENTS.length];
   const catColor = CAT_COLORS[article.category] ?? "#475569";
   const langStyle = LANG_COLOR[article.lang] ?? { bg: "#334155", text: "#fff" };
   const excerpt = useMemo(() => mkExcerpt(article), [article]);

@@ -80,87 +80,87 @@ export const ROUTE_USAGES = [
   {
     "route": "/p1",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 688
+    "line": 691
   },
   {
     "route": "/p1",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 707
+    "line": 710
   },
   {
     "route": "/p2",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 711
+    "line": 714
   },
   {
     "route": "/p3",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 715
+    "line": 718
   },
   {
     "route": "/p4",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 719
+    "line": 722
   },
   {
     "route": "/p5",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 723
+    "line": 726
   },
   {
     "route": "/p6",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 727
+    "line": 730
   },
   {
     "route": "/login",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 751
+    "line": 754
   },
   {
     "route": "/creer-compte",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 752
+    "line": 755
   },
   {
     "route": "/p1",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 771
+    "line": 774
   },
   {
     "route": "/p2",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 777
+    "line": 780
   },
   {
     "route": "/p3",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 783
+    "line": 786
   },
   {
     "route": "/p4",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 789
+    "line": 792
   },
   {
     "route": "/p5",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 795
+    "line": 798
   },
   {
     "route": "/p6",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 801
+    "line": 804
   },
   {
     "route": "/media",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1230
+    "line": 1260
   },
   {
     "route": "/media",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1244
+    "line": 1274
   },
   {
     "route": "/cc",
@@ -805,12 +805,12 @@ export const ROUTE_USAGES = [
   {
     "route": "/login",
     "file": "src/features/media/components/ArticleCard.tsx",
-    "line": 263
+    "line": 265
   },
   {
     "route": "/media",
     "file": "src/features/media/components/ArticleCard.tsx",
-    "line": 213
+    "line": 215
   },
   {
     "route": "/materiaux",
@@ -836,6 +836,36 @@ export const ROUTE_USAGES = [
     "route": "/dossier/",
     "file": "src/features/dossier-interactions/DossierMentionsPanel.tsx",
     "line": 5
+  },
+  {
+    "route": "/login",
+    "file": "src/features/cps-generator/DossierCpsPage.tsx",
+    "line": 96
+  },
+  {
+    "route": "/portal",
+    "file": "src/features/cps-generator/DossierCpsPage.tsx",
+    "line": 100
+  },
+  {
+    "route": "/p1",
+    "file": "src/features/cps-generator/DossierCpsPage.tsx",
+    "line": 106
+  },
+  {
+    "route": "/p2",
+    "file": "src/features/cps-generator/DossierCpsPage.tsx",
+    "line": 107
+  },
+  {
+    "route": "/p3",
+    "file": "src/features/cps-generator/DossierCpsPage.tsx",
+    "line": 108
+  },
+  {
+    "route": "/portal",
+    "file": "src/features/cps-generator/DossierCpsPage.tsx",
+    "line": 109
   },
   {
     "route": "/cercles/me/profile",
@@ -1377,7 +1407,7 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/creer-compte",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 752
+    "line": 755
   },
   {
     "route": "/cc",
@@ -1678,6 +1708,16 @@ export const UNKNOWN_ROUTE_USAGES = [
     "route": "/dossier/",
     "file": "src/features/dossier-interactions/DossierMentionsPanel.tsx",
     "line": 5
+  },
+  {
+    "route": "/portal",
+    "file": "src/features/cps-generator/DossierCpsPage.tsx",
+    "line": 100
+  },
+  {
+    "route": "/portal",
+    "file": "src/features/cps-generator/DossierCpsPage.tsx",
+    "line": 109
   },
   {
     "route": "/cercles/me/profile",
@@ -2145,289 +2185,289 @@ export const DEAD_CTA_HINTS = [
   {
     "kind": "href_hash",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 741,
+    "line": 744,
     "snippet": "\">VVIP</div> <a class=\"pill\" href=\"#\" onclick=\"soon('Panier activé après tunnel de commande');return false;\">"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 682,
+    "line": 685,
     "snippet": "trine)\"> <button type=\"button\" onclick=\"window.open('https://web.facebook.com/yassineattarassi','_blank')\">f</b"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 683,
+    "line": 686,
     "snippet": "/button> <button type=\"button\" onclick=\"window.open('https://www.instagram.com/arc_bati_architecture','_blank')"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 684,
+    "line": 687,
     "snippet": "/button> <button type=\"button\" onclick=\"soon('LinkedIn — bientôt disponible')\">in</button> <button typ"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 685,
+    "line": 688,
     "snippet": "/button> <button type=\"button\" onclick=\"soon('TikTok @arc_bati_architecture — bientôt')\">tt</button> </d"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 688,
+    "line": 691,
     "snippet": "</div> <div class=\"chip\" onclick=\"window.location.href='/p1'\">Concevoir</div> <div class=\"chip\" on"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 689,
+    "line": 692,
     "snippet": "oncevoir</div> <div class=\"chip\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20cl%C3"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 690,
+    "line": 693,
     "snippet": "en main</div> <div class=\"chip\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20fonci"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 707,
+    "line": 710,
     "snippet": "role=\"menu\"> <a href=\"/p1\" onclick=\"window.location.href='/p1';return false;\"> <strong>Proje"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 711,
+    "line": 714,
     "snippet": "</a> <a href=\"/p2\" onclick=\"window.location.href='/p2';return false;\"> <strong>Proje"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 715,
+    "line": 718,
     "snippet": "</a> <a href=\"/p3\" onclick=\"window.location.href='/p3';return false;\"> <strong>Réali"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 719,
+    "line": 722,
     "snippet": "</a> <a href=\"/p4\" onclick=\"window.location.href='/p4';return false;\"> <strong>Inves"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 723,
+    "line": 726,
     "snippet": "</a> <a href=\"/p5\" onclick=\"window.location.href='/p5';return false;\"> <strong>Rappo"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 727,
+    "line": 730,
     "snippet": "</a> <a href=\"/p6\" onclick=\"window.location.href='/p6';return false;\"> <strong>Entre"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 735,
+    "line": 738,
     "snippet": "<a class=\"pill\" href=\"#medias\" onclick=\"scrollToId('medias');return false;\">Médias</a> <!-- Vente ab"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 738,
+    "line": 741,
     "snippet": "ice) --> <div class=\"pill vip\" onclick=\"openSubModal('vip')\">VIP</div> <div class=\"pill vvip\" onclick="
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 739,
+    "line": 742,
     "snippet": "P</div> <div class=\"pill vvip\" onclick=\"openSubModal('vvip')\">VVIP</div> <a class=\"pill\" href=\"#\" on"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 741,
+    "line": 744,
     "snippet": "iv> <a class=\"pill\" href=\"#\" onclick=\"soon('Panier activé après tunnel de commande');return false;\">Panier</a"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 745,
+    "line": 748,
     "snippet": "<button class=\"lang-btn active\" onclick=\"setLang('fr')\">FR</button> <button class=\"lang-btn\" onclick="
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 746,
+    "line": 749,
     "snippet": "on> <button class=\"lang-btn\" onclick=\"setLang('ar')\">AR</button> <button class=\"lang-btn\" onclick="
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 747,
+    "line": 750,
     "snippet": "on> <button class=\"lang-btn\" onclick=\"setLang('en')\">EN</button> </div> <!-- AUTH BUTTONS"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 771,
+    "line": 774,
     "snippet": "sApp) --> <article class=\"cat\" onclick=\"window.location.href='/p1'\"> <h3>Projet personnel / familial"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 777,
+    "line": 780,
     "snippet": "rticle> <article class=\"cat\" onclick=\"window.location.href='/p2'\"> <h3>Projet immobilier & équipem"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 783,
+    "line": 786,
     "snippet": "rticle> <article class=\"cat\" onclick=\"window.location.href='/p3'\"> <h3>Réalisation clé en main</h3"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 789,
+    "line": 792,
     "snippet": "rticle> <article class=\"cat\" onclick=\"window.location.href='/p4'\"> <h3>Investisseur & foncier</h3>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 795,
+    "line": 798,
     "snippet": "rticle> <article class=\"cat\" onclick=\"window.location.href='/p5'\"> <h3>Rapports & expertises</h3>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 801,
+    "line": 804,
     "snippet": "rticle> <article class=\"cat\" onclick=\"window.location.href='/p6'\"> <h3>Entreprise / partenaire</h3"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 835,
+    "line": 838,
     "snippet": "ect> <button type=\"button\" onclick=\"autoOrient()\">Être orienté vers la bonne catégorie</button> </"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 848,
+    "line": 851,
     "snippet": "on class=\"mbtn secondary\" type=\"button\" onclick=\"soon('Démo vidéo sera disponible en lecture interne.')\">Voir</button>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 849,
+    "line": 852,
     "snippet": "tton class=\"mbtn primary\" type=\"button\" onclick=\"scrollToId('medias')\">Aller aux Médias</button> </div>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 862,
+    "line": 865,
     "snippet": "on class=\"mbtn secondary\" type=\"button\" onclick=\"openSubModal('vip')\">VIP</button> <button class=\"mbtn primar"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 863,
+    "line": 866,
     "snippet": "tton class=\"mbtn primary\" type=\"button\" onclick=\"openSubModal('vvip')\">VVIP</button> </div> </div>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 880,
+    "line": 883,
     "snippet": "ppScroller\"> <div class=\"tile\" onclick=\"soon('Détail opportunité: visible dans Médias / VIP selon type.');\">"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 892,
+    "line": 895,
     "snippet": "</div> <div class=\"tile\" onclick=\"soon('Détail opportunité: visible dans Médias / VIP selon type.');\">"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 904,
+    "line": 907,
     "snippet": "</div> <div class=\"tile\" onclick=\"soon('Bientôt.');\"> <div class=\"thumb\"> <div cl"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 955,
+    "line": 958,
     "snippet": "t --> <div class=\"modal\" id=\"subModal\" onclick=\"modalBackdropClose(event,'subModal')\"> <div class=\"modal-card\" role="
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 959,
+    "line": 962,
     "snippet": "pan> <button class=\"modal-close\" onclick=\"closeModal('subModal')\">Retour</button> </div> <div class=\"mo"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 970,
+    "line": 973,
     "snippet": "> <button class=\"mbtn primary\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20je%20"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 971,
+    "line": 974,
     "snippet": "<button class=\"mbtn secondary\" onclick=\"closeModal('subModal')\">Plus tard</button> </div> </div>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 978,
+    "line": 981,
     "snippet": "--> <div class=\"modal\" id=\"leadModal\" onclick=\"modalBackdropClose(event,'leadModal')\"> <div class=\"modal-card\" role"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 982,
+    "line": 985,
     "snippet": "pan> <button class=\"modal-close\" onclick=\"closeModal('leadModal')\">Retour</button> </div> <div class=\"m"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1005,
+    "line": 1008,
     "snippet": "> <button class=\"mbtn primary\" onclick=\"submitLead()\">Envoyer via plateforme</button> <button class=\"m"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1006,
+    "line": 1009,
     "snippet": "<button class=\"mbtn secondary\" onclick=\"closeModal('leadModal')\">Annuler</button> </div> </div>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1016,
+    "line": 1019,
     "snippet": "-> <div class=\"modal\" id=\"submitModal\" onclick=\"modalBackdropClose(event,'submitModal')\"> <div class=\"modal-card\" st"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1020,
+    "line": 1023,
     "snippet": "pan> <button class=\"modal-close\" onclick=\"closeModal('submitModal')\">Retour</button> </div> <div class="
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1058,
+    "line": 1061,
     "snippet": "> <button class=\"mbtn primary\" onclick=\"submitArticle()\" style=\"flex:1;\">Envoyer pour mod&eacute;ration</button"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1059,
+    "line": 1062,
     "snippet": "<button class=\"mbtn secondary\" onclick=\"closeModal('submitModal')\">Annuler</button> </div> <p sty"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
-    "line": 1078,
+    "line": 1081,
     "snippet": "// Minimal global helpers used by onclick=\"...\" in the injected HTML. ensureGlobal(\"openModal\", (id: string)"
   },
   {
