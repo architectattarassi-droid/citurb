@@ -1,0 +1,66 @@
+[
+  {
+    "slug": "architecte",
+    "name": "Architecte",
+    "nameAr": "مهندس معماري",
+    "intent": "architecte",
+    "summary": "Conception architecturale complète, de l'esquisse aux plans d'exécution.",
+    "detail": "Accompagnement architectural de A à Z : analyse du terrain, esquisse, avant-projet sommaire et définitif, plans d'exécution et dossier de consultation des entreprises."
+  },
+  {
+    "slug": "permis-de-construire",
+    "name": "Permis de construire",
+    "nameAr": "رخصة البناء",
+    "intent": "permis de construire",
+    "summary": "Constitution et dépôt du dossier de permis, suivi de l'instruction.",
+    "detail": "Montage complet du dossier réglementaire, dépôt auprès des services de l'urbanisme, suivi de l'instruction et levée des observations jusqu'à l'obtention de l'autorisation."
+  },
+  {
+    "slug": "suivi-de-chantier",
+    "name": "Suivi de chantier",
+    "nameAr": "تتبع الورش",
+    "intent": "suivi de chantier",
+    "summary": "Coordination des intervenants et contrôle de conformité jusqu'à réception.",
+    "detail": "Direction de l'exécution des travaux, coordination des corps d'état, contrôle de la conformité et de la qualité, gestion des réunions de chantier et réception des ouvrages."
+  },
+  {
+    "slug": "plans-de-maison",
+    "name": "Plans de maison",
+    "nameAr": "تصاميم المنازل",
+    "intent": "plans de maison",
+    "summary": "Conception de plans de villas et maisons individuelles optimisés.",
+    "detail": "Conception de plans de villas et maisons individuelles pensés pour le terrain, le budget et le mode de vie, dans le respect du règlement d'urbanisme local."
+  },
+  {
+    "slug": "renovation",
+    "name": "Rénovation & réhabilitation",
+    "nameAr": "ترميم",
+    "intent": "rénovation",
+    "summary": "Réhabilitation, extension et mise aux normes du bâti existant.",
+    "detail": "Diagnostic du bâti existant, conception de la rénovation ou de l'extension, mise aux normes et valorisation du patrimoine immobilier."
+  },
+  {
+    "slug": "etude-de-faisabilite",
+    "name": "Étude de faisabilité",
+    "nameAr": "دراسة الجدوى",
+    "intent": "étude de faisabilité",
+    "summary": "Analyse de la capacité constructible et estimation budgétaire.",
+    "detail": "Analyse de la constructibilité d'un terrain, vérification réglementaire, scénarios d'aménagement et estimation budgétaire avant tout engagement."
+  },
+  {
+    "slug": "urbanisme-lotissement",
+    "name": "Urbanisme & lotissement",
+    "nameAr": "التعمير والتجزئة",
+    "intent": "urbanisme lotissement",
+    "summary": "Études d'aménagement et de lotissement adossées à une expertise doctorale.",
+    "detail": "Études d'aménagement et de lotissement, conseil en urbanisme opérationnel et planification territoriale, appuyés sur une recherche doctorale en géographie urbaine."
+  },
+  {
+    "slug": "batiment-administratif",
+    "name": "Bâtiment administratif & tertiaire",
+    "nameAr": "المباني الإدارية",
+    "intent": "bâtiment administratif tertiaire",
+    "summary": "Conception d'équipements publics, bureaux et bâtiments institutionnels.",
+    "detail": "Conception d'équipements publics, sièges administratifs et immeubles de bureaux : fonctionnalité, image institutionnelle, accessibilité et performance d'usage."
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "_README": "Chaque clé = '{service-slug}__{locality-slug}'. Renseigne ici le contenu LOCAL et VRAI (réglementation de la commune, contexte de quartier, projets réalisés sur place). C'est ce qui rend chaque page unique et utile — donc indexable et durable. Sans override = page NON publiée (cf. garde-fou #1 du brief : pas de doorway pages). Une page sans override n'est PAS écrite sur disque et n'apparaît PAS dans le sitemap : seules les pages personnalisées sont publiées.",
+  "permis-de-construire__kenitra": {
+    "localContext": "À Kénitra, l'instruction des permis relève de l'agence urbaine et des services communaux ; les délais et pièces varient selon la zone du plan d'aménagement. J'accompagne le dépôt et le suivi jusqu'à l'autorisation.",
+    "localProof": "Plusieurs dossiers déposés et obtenus dans les quartiers de [exemples réels]."
+  },
+  "architecte__sale": {
+    "localContext": "À Salé, entre médina, corniche et nouveaux pôles, chaque projet compose avec un tissu urbain contrasté. J'adapte la conception au contexte réglementaire et patrimonial local.",
+    "localProof": "Projets de conception menés à [exemples réels]."
+  }
+}

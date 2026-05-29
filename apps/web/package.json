@@ -3,10 +3,11 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "predev": "node scripts/generate-route-audit.mjs",
+    "predev": "node scripts/generate-route-audit.mjs && node scripts/build-seo.mjs",
     "dev": "vite",
-    "prebuild": "node scripts/generate-route-audit.mjs",
+    "prebuild": "node scripts/generate-route-audit.mjs && node scripts/build-seo.mjs",
     "build": "vite build",
+    "build:seo": "node scripts/build-seo.mjs",
     "lint": "eslint .",
     "test": "vitest run --environment node",
     "test:watch": "vitest --environment node",

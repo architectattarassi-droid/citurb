@@ -1,0 +1,11 @@
+[
+  { "slug": "kenitra",     "name": "Kénitra",      "nameAr": "القنيطرة",   "postalCode": "14000", "lat": "34.2610", "lng": "-6.5802", "primary": true },
+  { "slug": "mehdiya",     "name": "Mehdiya",      "nameAr": "المهدية",    "postalCode": "14200", "lat": "34.2569", "lng": "-6.6783" },
+  { "slug": "sidi-taibi",  "name": "Sidi Taibi",   "nameAr": "سيدي الطيبي","postalCode": "14050", "lat": "34.1500", "lng": "-6.6333" },
+  { "slug": "bir-rami",    "name": "Bir Rami",     "nameAr": "بئر الرامي", "postalCode": "14000", "lat": "34.2333", "lng": "-6.5667" },
+  { "slug": "sale",        "name": "Salé",         "nameAr": "سلا",        "postalCode": "11000", "lat": "34.0531", "lng": "-6.7985" },
+  { "slug": "rabat",       "name": "Rabat",        "nameAr": "الرباط",     "postalCode": "10000", "lat": "34.0209", "lng": "-6.8416" },
+  { "slug": "temara",      "name": "Témara",       "nameAr": "تمارة",      "postalCode": "12000", "lat": "33.9287", "lng": "-6.9067" },
+  { "slug": "sidi-slimane","name": "Sidi Slimane", "nameAr": "سيدي سليمان","postalCode": "14200", "lat": "34.2655", "lng": "-5.9265" },
+  { "slug": "sidi-kacem",  "name": "Sidi Kacem",   "nameAr": "سيدي قاسم",  "postalCode": "16000", "lat": "34.2214", "lng": "-5.7081" }
+]

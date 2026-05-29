@@ -1,0 +1,29 @@
+{
+  "_doc": "Identité NAP du cabinet pour les JSON-LD ProfessionalService et le footer. Compléter [...] avant publication (téléphone, adresse exacte, lien avis Google).",
+  "name": "Cabinet Yassine AT-TARASSI — Architecte",
+  "legalName": "Yassine AT-TARASSI",
+  "founder": "Yassine AT-TARASSI",
+  "founderTitle": "Architecte DENA, Doctorant en géographie urbaine (Univ. Ibn Tofaïl)",
+  "baseUrl": "https://citurbarea.com",
+  "pathPrefix": "/services",
+  "phone": "[+212-XXXXXXXXX]",
+  "email": "architectattarassi@gmail.com",
+  "logo": "https://citurbarea.com/img/logo.png",
+  "image": "https://citurbarea.com/img/cabinet-kenitra.jpg",
+  "priceRange": "$$",
+  "sameAs": [
+    "https://citurbarea.com",
+    "[https://www.facebook.com/...]",
+    "[https://www.instagram.com/...]"
+  ],
+  "reviewLink": "[LIEN_AVIS_GOOGLE]",
+  "hq": {
+    "streetAddress": "[Adresse exacte du cabinet]",
+    "locality": "Kénitra",
+    "region": "Rabat-Salé-Kénitra",
+    "postalCode": "[14000]",
+    "country": "MA",
+    "lat": "34.2610",
+    "lng": "-6.5802"
+  }
+}

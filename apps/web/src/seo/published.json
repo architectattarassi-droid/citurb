@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-05-29",
+  "baseUrl": "https://citurbarea.com",
+  "pathPrefix": "/services",
+  "cells": [
+    {
+      "service": "architecte",
+      "locality": "sale",
+      "url": "/services/architecte-sale.html",
+      "full": "https://citurbarea.com/services/architecte-sale.html"
+    },
+    {
+      "service": "permis-de-construire",
+      "locality": "kenitra",
+      "url": "/services/permis-de-construire-kenitra.html",
+      "full": "https://citurbarea.com/services/permis-de-construire-kenitra.html"
+    }
+  ]
+}

@@ -1,6 +1,31 @@
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { VILLES_SEO, PORTES } from './portes.data';
+import seoPublished from '../../seo/published.json';
+
+/**
+ * Helper anti-cannibalisation : pointe rel=canonical vers la page statique
+ * /services/architecte-{ville}.html quand elle existe (publiée via build:seo).
+ * Sinon la landing React reste canonique d'elle-même.
+ */
+function findCanonical(villeSlug: string | undefined): string | null {
+  if (!villeSlug) return null;
+  const cell = (seoPublished.cells || []).find(
+    (c: any) => c.service === 'architecte' && c.locality === villeSlug,
+  );
+  return cell ? cell.full : null;
+}
+
+function setMetaLink(rel: string, href: string) {
+  let el = document.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement | null;
+  if (!el) {
+    el = document.createElement('link');
+    el.rel = rel;
+    document.head.appendChild(el);
+  }
+  el.href = href;
+  return el;
+}
 
 export default function VilleLanding() {
   const { ville } = useParams<{ ville: string }>();
@@ -10,7 +35,13 @@ export default function VilleLanding() {
   useEffect(() => {
     if (!v) return;
     document.title = `Architecte ${v.name} | CITURBAREA — ${v.region}`;
-  }, [v]);
+    const canonicalHref = findCanonical(ville) || `${window.location.origin}/architecte-${ville}`;
+    const el = setMetaLink('canonical', canonicalHref);
+    return () => {
+      // Pas de removal : un autre composant peut redéfinir.
+      void el;
+    };
+  }, [v, ville]);
 
   const S = {
     root: { background: '#080d14', color: '#e8eaf0', fontFamily: 'system-ui,sans-serif', minHeight: '100vh' } as React.CSSProperties,
