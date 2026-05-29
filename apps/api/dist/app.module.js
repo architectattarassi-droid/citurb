@@ -66,6 +66,8 @@ const avance_tresorerie_module_1 = require("./modules/avance-tresorerie/avance-t
 const mandataires_registry_module_1 = require("./modules/mandataires-registry/mandataires-registry.module");
 const opci_tokenise_module_1 = require("./modules/opci-tokenise/opci-tokenise.module");
 const cps_generator_module_1 = require("./modules/cps-generator/cps-generator.module");
+const object_storage_module_1 = require("./modules/object-storage/object-storage.module");
+const cabinet_module_1 = require("./modules/cabinet/cabinet.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -126,6 +128,8 @@ exports.AppModule = AppModule = __decorate([
             mandataires_registry_module_1.MandatairesRegistryModule,
             opci_tokenise_module_1.OpciTokeniseModule,
             cps_generator_module_1.CpsGeneratorModule,
+            object_storage_module_1.ObjectStorageModule,
+            cabinet_module_1.CabinetModule,
         ],
         controllers: [],
         providers: [],
