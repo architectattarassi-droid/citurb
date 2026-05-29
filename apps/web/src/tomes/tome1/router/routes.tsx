@@ -91,6 +91,7 @@ import DirectMessagesPage   from "../../../features/cercles/DirectMessagesPage";
 // Fiche cabinet d'architecte (ancrée sur ProProfile, cf. memory citurb-cabinet-portfolio-anchor)
 import CabinetPublicPage    from "../../../features/cabinet/CabinetPublicPage";
 import CabinetProjectPage   from "../../../features/cabinet/CabinetProjectPage";
+import CabinetManagePage    from "../../../features/cabinet/CabinetManagePage";
 
 // Admin Vault (Sprint H — app admin ultra-sécurisée)
 import AdminLoginPage           from "../../../features/admin/AdminLoginPage";
@@ -236,6 +237,7 @@ export const router = createBrowserRouter([
   { path: '/cercles/:slug/rooms/:roomSlug',        element: <AdminHostBlock><LiveRoomPage /></AdminHostBlock> },
 
   // Fiche cabinet publique (architecte)
+  { path: '/cabinet/me/manage',                    element: <AdminHostBlock><CabinetManagePage /></AdminHostBlock> },
   { path: '/cabinet/:slug',                        element: <AdminHostBlock><CabinetPublicPage /></AdminHostBlock> },
   { path: '/cabinet/:slug/projet/:projectSlug',    element: <AdminHostBlock><CabinetProjectPage /></AdminHostBlock> },
 
