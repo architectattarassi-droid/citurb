@@ -65,6 +65,7 @@ import { MandatairesRegistryModule } from "./modules/mandataires-registry/mandat
 import { OpciTokeniseModule } from "./modules/opci-tokenise/opci-tokenise.module";
 import { CpsGeneratorModule } from "./modules/cps-generator/cps-generator.module";
 import { ObjectStorageModule } from "./modules/object-storage/object-storage.module";
+import { CabinetModule } from "./modules/cabinet/cabinet.module";
 
 @Module({
   imports: [
@@ -126,6 +127,7 @@ import { ObjectStorageModule } from "./modules/object-storage/object-storage.mod
     OpciTokeniseModule,
     CpsGeneratorModule,
     ObjectStorageModule,
+    CabinetModule,
   ],
   controllers: [],
   providers: [],

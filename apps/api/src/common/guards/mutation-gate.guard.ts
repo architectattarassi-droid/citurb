@@ -62,6 +62,7 @@ export class MutationGateGuard implements CanActivate {
       "/api/opci-tokenise",             // OPCI tokenisé AMMC (souscription parts MRE)
       "/api/cps",                       // Générateur CPS (Tome 2) — génération document lecture seule
       "/uploads",                       // Upload présigné (R2 prod / local dev) — médias fiche cabinet
+      "/api/pro",                       // Fiche cabinet d'architecte (CRUD projets + médias, ancrée sur ProProfile)
       "/p1",
       "/p2",
       "/p3",
