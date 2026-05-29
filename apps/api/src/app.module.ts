@@ -64,6 +64,7 @@ import { AvanceTresorerieModule } from "./modules/avance-tresorerie/avance-treso
 import { MandatairesRegistryModule } from "./modules/mandataires-registry/mandataires-registry.module";
 import { OpciTokeniseModule } from "./modules/opci-tokenise/opci-tokenise.module";
 import { CpsGeneratorModule } from "./modules/cps-generator/cps-generator.module";
+import { ObjectStorageModule } from "./modules/object-storage/object-storage.module";
 
 @Module({
   imports: [
@@ -124,6 +125,7 @@ import { CpsGeneratorModule } from "./modules/cps-generator/cps-generator.module
     MandatairesRegistryModule,
     OpciTokeniseModule,
     CpsGeneratorModule,
+    ObjectStorageModule,
   ],
   controllers: [],
   providers: [],
