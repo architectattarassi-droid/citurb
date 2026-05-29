@@ -88,6 +88,10 @@ import MyOffersPage           from "../../../features/cercles/marketplace/MyOffe
 import MarketplacePhotosPage  from "../../../features/cercles/marketplace/MarketplacePhotosPage";
 import DirectMessagesPage   from "../../../features/cercles/DirectMessagesPage";
 
+// Fiche cabinet d'architecte (ancrée sur ProProfile, cf. memory citurb-cabinet-portfolio-anchor)
+import CabinetPublicPage    from "../../../features/cabinet/CabinetPublicPage";
+import CabinetProjectPage   from "../../../features/cabinet/CabinetProjectPage";
+
 // Admin Vault (Sprint H — app admin ultra-sécurisée)
 import AdminLoginPage           from "../../../features/admin/AdminLoginPage";
 import AdminDashboard           from "../../../features/admin/AdminDashboard";
@@ -230,6 +234,10 @@ export const router = createBrowserRouter([
   { path: '/cercles/:slug/posts/:postId',          element: <AdminHostBlock><PostDetailPage /></AdminHostBlock> },
   { path: '/cercles/:slug/rooms/:roomSlug/live',   element: <AdminHostBlock><LiveRoomPage /></AdminHostBlock> },
   { path: '/cercles/:slug/rooms/:roomSlug',        element: <AdminHostBlock><LiveRoomPage /></AdminHostBlock> },
+
+  // Fiche cabinet publique (architecte)
+  { path: '/cabinet/:slug',                        element: <AdminHostBlock><CabinetPublicPage /></AdminHostBlock> },
+  { path: '/cabinet/:slug/projet/:projectSlug',    element: <AdminHostBlock><CabinetProjectPage /></AdminHostBlock> },
 
   // Public routes
   {
