@@ -1,0 +1,402 @@
+{
+  "clauses": [
+    {
+      "code": "DECENNALE_DOC_769",
+      "categorie": "GARANTIE",
+      "titre": {
+        "fr": "Garantie décennale",
+        "ar": "الضمان العشري",
+        "en": "Ten-year (decennial) warranty"
+      },
+      "corpsMD": {
+        "fr": "Conformément à l'**article 769 du Dahir formant Code des Obligations et Contrats (DOC)**, l'architecte, l'entrepreneur et le bureau d'études techniques sont solidairement responsables pendant **dix (10) ans** à compter de la réception définitive de l'ouvrage, des dommages — même résultant d'un vice du sol — qui compromettent la solidité de l'ouvrage ou de l'un de ses éléments constitutifs ou d'équipement le rendant impropre à sa destination.\n\nCette garantie couvre notamment : effondrement total ou partiel, fissurations structurelles, défauts d'étanchéité affectant la stabilité, désordres rendant l'ouvrage impropre à son usage.\n\nLes constructeurs ne peuvent s'exonérer qu'en prouvant la force majeure, la faute du maître d'ouvrage ou le fait d'un tiers.",
+        "ar": "طبقاً **للفصل 769 من الظهير المكوّن لقانون الالتزامات والعقود (ق.ل.ع)**، يتحمل المهندس المعماري والمقاول ومكتب الدراسات التقنية المسؤولية بالتضامن لمدة **عشر (10) سنوات** ابتداءً من التسلم النهائي للمنشأة، عن الأضرار — ولو نتجت عن عيب في التربة — التي تمس بصلابة المنشأة أو أحد عناصرها الإنشائية أو التجهيزية بشكل يجعلها غير صالحة للغرض المخصصة له.\n\nيشمل هذا الضمان على الخصوص: الانهيار الكلي أو الجزئي، التشققات الإنشائية، عيوب العزل المؤثرة على الاستقرار، والاختلالات التي تجعل المنشأة غير صالحة للاستعمال.\n\nلا يُعفى البناؤون إلا بإثبات القوة القاهرة أو خطأ رب العمل أو فعل الغير.",
+        "en": "Pursuant to **Article 769 of the Dahir on the Code of Obligations and Contracts (DOC)**, the architect, the contractor and the engineering firm are jointly and severally liable for **ten (10) years** from the final acceptance of the works for damage — even resulting from a soil defect — that compromises the soundness of the works or of one of their structural or equipment components rendering them unfit for their purpose.\n\nThis warranty covers in particular: total or partial collapse, structural cracking, waterproofing defects affecting stability, and disorders rendering the works unfit for use.\n\nThe builders may be exonerated only by proving force majeure, the fault of the owner, or the act of a third party."
+      },
+      "fondement": "DOC art. 769",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "DECENNALE_FORCLUSION_DOC_770",
+      "categorie": "GARANTIE",
+      "titre": {
+        "fr": "Délai d'action et forclusion de la garantie décennale",
+        "ar": "أجل الدعوى وسقوط الضمان العشري",
+        "en": "Action period and foreclosure of the decennial warranty"
+      },
+      "corpsMD": {
+        "fr": "Conformément à l'**article 770 du DOC**, l'action en garantie décennale (et en garantie de parfait achèvement) doit être intentée dans un **délai de trente (30) jours** à compter du jour où le maître d'ouvrage a eu connaissance du dommage ou du vice. Passé ce délai, l'action est **forclose**.\n\nLe maître d'ouvrage notifiera donc tout désordre par procès-verbal contradictoire ou lettre recommandée avec accusé de réception **sans délai** dès sa constatation, afin de préserver ses droits. La date de découverte du désordre fait courir le délai de forclusion.",
+        "ar": "طبقاً **للفصل 770 من ق.ل.ع**، يجب رفع دعوى الضمان العشري (ودعوى ضمان حسن الإنجاز) داخل **أجل ثلاثين (30) يوماً** ابتداءً من اليوم الذي علم فيه رب العمل بالضرر أو العيب. وبعد انصرام هذا الأجل، **تسقط الدعوى**.\n\nلذا يُشعر رب العمل بكل خلل بواسطة محضر تواجهي أو رسالة مضمونة مع الإشعار بالتوصل **فوراً** عند معاينته، حفاظاً على حقوقه. ويبدأ سريان أجل السقوط من تاريخ اكتشاف الخلل.",
+        "en": "Pursuant to **Article 770 of the DOC**, the action under the decennial warranty (and the perfect-completion warranty) must be brought within a period of **thirty (30) days** from the day on which the owner became aware of the damage or defect. After this period, the action is **time-barred (forclosed)**.\n\nThe owner shall therefore notify any disorder by contradictory report or registered letter with acknowledgement of receipt **without delay** upon discovery, in order to preserve its rights. The date of discovery of the disorder triggers the foreclosure period."
+      },
+      "fondement": "DOC art. 770 (forclusion 30 jours)",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "PARFAIT_ACHEVEMENT_1_AN",
+      "categorie": "GARANTIE",
+      "titre": {
+        "fr": "Garantie de parfait achèvement (1 an)",
+        "ar": "ضمان حسن الإنجاز (سنة واحدة)",
+        "en": "Perfect-completion warranty (1 year)"
+      },
+      "corpsMD": {
+        "fr": "L'entrepreneur est tenu, pendant un délai d'**un (1) an** à compter de la **réception provisoire**, d'une **garantie de parfait achèvement** au titre de laquelle il reprend à ses frais tous les désordres, défauts et malfaçons signalés soit dans les réserves consignées au procès-verbal de réception, soit par notification écrite du maître d'ouvrage en cours d'année de garantie.\n\nLes travaux de reprise sont exécutés dans les délais fixés par le maître d'œuvre. À défaut, ils peuvent être exécutés aux frais et risques de l'entrepreneur défaillant. La réception définitive n'est prononcée qu'après levée de l'intégralité des réserves.\n\nFondement : CCAG-Travaux et pratique contractuelle marocaine ; articulation avec DOC art. 769-770.",
+        "ar": "يلتزم المقاول، خلال أجل **سنة (1) واحدة** ابتداءً من **التسلم المؤقت**، **بضمان حسن الإنجاز** الذي يعيد بمقتضاه على نفقته إصلاح جميع الاختلالات والعيوب وسوء التنفيذ المُشار إليها سواء في التحفظات المُضمَّنة في محضر التسلم، أو بإشعار كتابي من رب العمل خلال سنة الضمان.\n\nتُنجَز أشغال الإصلاح داخل الآجال التي يحددها صاحب المشروع. وفي حالة التقصير، يمكن إنجازها على نفقة ومسؤولية المقاول المُخلّ. ولا يتم التسلم النهائي إلا بعد رفع جميع التحفظات.\n\nالأساس: دفتر الشروط الإدارية العامة للأشغال والممارسة التعاقدية المغربية؛ بالارتباط مع الفصلين 769 و770 من ق.ل.ع.",
+        "en": "The contractor is bound, for a period of **one (1) year** from **provisional acceptance**, by a **perfect-completion warranty** under which it shall, at its own expense, make good all disorders, defects and faulty workmanship reported either in the reservations recorded in the acceptance report or by written notice from the owner during the warranty year.\n\nRemedial works are carried out within the deadlines set by the project manager. Failing this, they may be carried out at the expense and risk of the defaulting contractor. Final acceptance is pronounced only after the lifting of all reservations.\n\nBasis: CCAG-Works and Moroccan contractual practice; articulated with DOC arts. 769-770."
+      },
+      "fondement": "CCAG-Travaux + pratique contractuelle (1 an) ; DOC art. 769-770",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "BIENNALE_2_ANS_VEFA_44_00",
+      "categorie": "GARANTIE",
+      "titre": {
+        "fr": "Garantie biennale de bon fonctionnement (2 ans)",
+        "ar": "ضمان حسن الاشتغال الثنائي (سنتان)",
+        "en": "Two-year warranty of proper functioning"
+      },
+      "corpsMD": {
+        "fr": "Les **éléments d'équipement dissociables** du corps de l'ouvrage (appareils sanitaires, robinetterie, équipements de chauffage/climatisation amovibles, ascenseurs au titre de leur fonctionnement, menuiseries démontables, etc.) bénéficient d'une **garantie biennale de bon fonctionnement de deux (2) ans** à compter de la réception.\n\nCette garantie est rattachée principalement à la **loi 44-00 relative à la vente d'immeubles en l'état futur d'achèvement (VEFA)** et à la pratique contractuelle ; elle **ne repose pas sur un article autonome du DOC**. L'entrepreneur ou le promoteur remplace ou répare gratuitement tout élément d'équipement qui cesse de fonctionner correctement pendant ce délai.",
+        "ar": "تستفيد **العناصر التجهيزية القابلة للفصل** عن جسم المنشأة (الأجهزة الصحية، الصنابير، معدات التدفئة/التكييف القابلة للنزع، المصاعد من حيث اشتغالها، النجارة القابلة للفك، إلخ) من **ضمان ثنائي لحسن الاشتغال مدته سنتان (2)** ابتداءً من التسلم.\n\nيرتبط هذا الضمان أساساً **بالقانون 44.00 المتعلق ببيع العقارات في طور الإنجاز (VEFA)** وبالممارسة التعاقدية؛ وهو **لا يستند إلى فصل مستقل في ق.ل.ع**. يقوم المقاول أو المنعش العقاري باستبدال أو إصلاح كل عنصر تجهيزي يتوقف عن الاشتغال السليم خلال هذا الأجل مجاناً.",
+        "en": "**Dissociable equipment components** of the works (sanitary fixtures, taps, removable heating/air-conditioning equipment, lifts as regards their operation, demountable joinery, etc.) benefit from a **two-year (2) warranty of proper functioning** from acceptance.\n\nThis warranty is primarily attached to **Law 44-00 on the sale of buildings under future completion (VEFA)** and to contractual practice; it **does not rest on a standalone DOC article**. The contractor or developer shall replace or repair free of charge any equipment component that ceases to function properly during this period."
+      },
+      "fondement": "Loi 44-00 (VEFA) + pratique contractuelle — PAS d'article DOC autonome",
+      "marche": [
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "ASSURANCE_TRC_59_13",
+      "categorie": "ASSURANCE",
+      "titre": {
+        "fr": "Assurance Tous Risques Chantier (TRC) obligatoire",
+        "ar": "تأمين جميع أخطار الورش (TRC) الإجباري",
+        "en": "Mandatory Construction All-Risks (CAR/TRC) insurance"
+      },
+      "corpsMD": {
+        "fr": "La souscription d'une **assurance Tous Risques Chantier (TRC)** est **obligatoire** en application de la **loi 59-13 modifiant et complétant le Code des assurances (loi 17-99)**, entrée en vigueur en 2025 sous la supervision de l'**ACAPS**.\n\nElle est exigée pour tout ouvrage dépassant les seuils réglementaires : **plus de trois (3) étages** OU surface de plancher **supérieure à 800 m²**.\n\nLa TRC couvre les dommages matériels affectant l'ouvrage en cours de construction (effondrement, incendie, dégâts des eaux, événements naturels). **La présentation de l'attestation TRC conditionne la délivrance du permis de construire.** L'attestation, mentionnant le montant des travaux assurés et la période de couverture, est remise au maître d'ouvrage avant ouverture du chantier.",
+        "ar": "يُعدّ اكتتاب **تأمين جميع أخطار الورش (TRC)** **إجبارياً** تطبيقاً **للقانون 59.13 المعدّل والمتمّم لمدونة التأمينات (القانون 17.99)**، الذي دخل حيز التنفيذ سنة 2025 تحت إشراف **هيئة مراقبة التأمينات والاحتياط الاجتماعي (ACAPS)**.\n\nويُشترط لكل منشأة تتجاوز العتبات التنظيمية: **أكثر من ثلاثة (3) طوابق** أو مساحة مغطاة **تفوق 800 متر مربع**.\n\nيغطي هذا التأمين الأضرار المادية التي تصيب المنشأة أثناء البناء (الانهيار، الحريق، أضرار المياه، الأحداث الطبيعية). **ويتوقف تسليم رخصة البناء على الإدلاء بشهادة TRC.** تُسلَّم الشهادة، المتضمنة لمبلغ الأشغال المؤمَّنة وفترة التغطية، إلى رب العمل قبل فتح الورش.",
+        "en": "Subscribing **Construction All-Risks (CAR/TRC) insurance** is **mandatory** under **Law 59-13 amending and supplementing the Insurance Code (Law 17-99)**, which came into force in 2025 under the supervision of **ACAPS**.\n\nIt is required for any works exceeding the regulatory thresholds: **more than three (3) storeys** OR floor area **greater than 800 m²**.\n\nTRC covers material damage to the works during construction (collapse, fire, water damage, natural events). **Presentation of the TRC certificate is a condition for issuance of the building permit.** The certificate, stating the insured works amount and the coverage period, is delivered to the owner before the site is opened."
+      },
+      "fondement": "Loi 59-13 (modif. Code des assurances 17-99), en vigueur 2025, supervision ACAPS — TRC conditionne le permis de construire ; seuils >3 étages ou >800 m²",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "ASSURANCE_RC_DECENNALE_59_13",
+      "categorie": "ASSURANCE",
+      "titre": {
+        "fr": "Assurance Responsabilité Civile Décennale (RCD) obligatoire",
+        "ar": "تأمين المسؤولية المدنية العشرية (RCD) الإجباري",
+        "en": "Mandatory Decennial Civil Liability (DCL) insurance"
+      },
+      "corpsMD": {
+        "fr": "La souscription d'une **assurance Responsabilité Civile Décennale (RCD)** est **obligatoire** en application de la **loi 59-13 modifiant et complétant le Code des assurances (loi 17-99)**, en vigueur en 2025, sous supervision **ACAPS**.\n\nElle couvre la responsabilité décennale des constructeurs (entrepreneur, architecte, BET) au titre de l'article 769 du DOC, pour les mêmes seuils que la TRC (**plus de 3 étages OU > 800 m²**).\n\n**La présentation de l'attestation RCD conditionne la délivrance du permis d'habiter.** Chaque intervenant produit son attestation RCD nominative, en cours de validité, avant la réception, mentionnant l'ouvrage assuré et le montant de garantie.",
+        "ar": "يُعدّ اكتتاب **تأمين المسؤولية المدنية العشرية (RCD)** **إجبارياً** تطبيقاً **للقانون 59.13 المعدّل والمتمّم لمدونة التأمينات (القانون 17.99)**، الساري سنة 2025، تحت إشراف **ACAPS**.\n\nيغطي المسؤولية العشرية للبنائين (المقاول، المهندس المعماري، مكتب الدراسات) بموجب الفصل 769 من ق.ل.ع، لنفس عتبات تأمين TRC (**أكثر من 3 طوابق أو > 800 م²**).\n\n**ويتوقف تسليم رخصة السكن على الإدلاء بشهادة RCD.** يُدلي كل متدخل بشهادته الاسمية السارية المفعول قبل التسلم، متضمنةً المنشأة المؤمَّنة ومبلغ الضمان.",
+        "en": "Subscribing **Decennial Civil Liability (DCL/RCD) insurance** is **mandatory** under **Law 59-13 amending and supplementing the Insurance Code (Law 17-99)**, in force in 2025, under **ACAPS** supervision.\n\nIt covers the decennial liability of builders (contractor, architect, engineering firm) under Article 769 of the DOC, for the same thresholds as TRC (**more than 3 storeys OR > 800 m²**).\n\n**Presentation of the DCL certificate is a condition for issuance of the occupancy permit.** Each party shall produce its valid named DCL certificate, before acceptance, stating the insured works and the guarantee amount."
+      },
+      "fondement": "Loi 59-13 (modif. Code des assurances 17-99), en vigueur 2025, supervision ACAPS — RCD conditionne le permis d'habiter ; seuils >3 étages ou >800 m²",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "RC_PRO_ARCHITECTE_016_89",
+      "categorie": "ASSURANCE",
+      "titre": {
+        "fr": "Responsabilité civile professionnelle de l'architecte",
+        "ar": "المسؤولية المدنية المهنية للمهندس المعماري",
+        "en": "Architect's professional civil liability"
+      },
+      "corpsMD": {
+        "fr": "L'architecte est tenu de souscrire une **assurance de responsabilité civile professionnelle** couvrant les conséquences pécuniaires de sa responsabilité dans l'exercice de sa mission, conformément à l'**article 26 de la loi 016-89 relative à l'exercice de la profession d'architecte et à l'institution de l'Ordre National des Architectes**.\n\nL'attestation RC professionnelle, en cours de validité et au nom de l'architecte signataire des plans, est jointe au dossier de permis et tenue à disposition du maître d'ouvrage durant toute la mission. Cette assurance est distincte et complémentaire de la RC décennale (loi 59-13).",
+        "ar": "يلتزم المهندس المعماري باكتتاب **تأمين المسؤولية المدنية المهنية** الذي يغطي النتائج المالية لمسؤوليته في ممارسة مهامه، طبقاً **للمادة 26 من القانون 016.89 المتعلق بمزاولة مهنة الهندسة المعمارية وإحداث الهيئة الوطنية للمهندسين المعماريين**.\n\nتُرفق شهادة المسؤولية المدنية المهنية، السارية المفعول وباسم المهندس الموقّع على التصاميم، بملف الرخصة وتبقى رهن إشارة رب العمل طيلة المهمة. وهذا التأمين مستقل ومكمّل للمسؤولية المدنية العشرية (القانون 59.13).",
+        "en": "The architect is required to subscribe **professional civil liability insurance** covering the financial consequences of its liability in performing its mission, in accordance with **Article 26 of Law 016-89 on the practice of the architectural profession and the establishment of the National Order of Architects**.\n\nThe professional CL certificate, valid and in the name of the architect signing the drawings, is attached to the permit file and kept available to the owner throughout the mission. This insurance is distinct from and complementary to the decennial CL (Law 59-13)."
+      },
+      "fondement": "Loi 016-89 art. 26 (RC professionnelle architecte)",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "DELAIS_PAIEMENT_32_10",
+      "categorie": "PAIEMENT",
+      "titre": {
+        "fr": "Délais de paiement et intérêts de retard",
+        "ar": "آجال الأداء وفوائد التأخير",
+        "en": "Payment terms and late-payment interest"
+      },
+      "corpsMD": {
+        "fr": "Les délais de paiement sont régis par la **loi 32-10**, complétée par la **loi 49-15** et par la **loi 69-21 sur les délais de paiement**. Le délai de paiement convenu ne peut excéder **soixante (60) jours** à compter de la date de réception de la facture ; il peut être porté contractuellement à **quatre-vingt-dix (90) jours** dans les conditions prévues par la loi.\n\nTout retard de paiement entraîne, de plein droit et sans mise en demeure, l'application d'**intérêts de retard** calculés sur la base du **taux directeur de Bank Al-Maghrib majoré de 0,85 % par mois** de retard, outre une indemnité forfaitaire de recouvrement le cas échéant.\n\nLes situations de travaux sont établies mensuellement, vérifiées par le maître d'œuvre, et payées dans les délais ci-dessus.",
+        "ar": "تخضع آجال الأداء **للقانون 32.10**، المتمَّم **بالقانون 49.15** و**القانون 69.21 المتعلق بآجال الأداء**. لا يمكن أن يتجاوز أجل الأداء المتفق عليه **ستين (60) يوماً** ابتداءً من تاريخ التوصل بالفاتورة؛ ويمكن رفعه تعاقدياً إلى **تسعين (90) يوماً** وفق الشروط المنصوص عليها قانوناً.\n\nيترتب عن كل تأخير في الأداء، بقوة القانون ودون حاجة إلى إنذار، تطبيق **فوائد التأخير** المحتسبة على أساس **السعر المديري لبنك المغرب مضافاً إليه 0,85 % عن كل شهر** تأخير، علاوةً على تعويض جزافي عن التحصيل عند الاقتضاء.\n\nتُعدّ كشوف الأشغال شهرياً، ويتحقق منها صاحب المشروع، وتُؤدّى داخل الآجال أعلاه.",
+        "en": "Payment terms are governed by **Law 32-10**, supplemented by **Law 49-15** and **Law 69-21 on payment terms**. The agreed payment period may not exceed **sixty (60) days** from the date of receipt of the invoice; it may be contractually extended to **ninety (90) days** under the conditions provided by law.\n\nAny late payment automatically and without formal notice triggers **late-payment interest** calculated on the basis of the **Bank Al-Maghrib key rate plus 0.85% per month** of delay, in addition to a flat-rate recovery indemnity where applicable.\n\nWorks statements are drawn up monthly, verified by the project manager, and paid within the above deadlines."
+      },
+      "fondement": "Lois 32-10 + 49-15 + 69-21 (délais 60–90 j ; intérêts = taux directeur BAM + 0,85 %/mois)",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "AVANCE_ACOMPTES_SITUATIONS",
+      "categorie": "PAIEMENT",
+      "titre": {
+        "fr": "Avance, acomptes et situations de travaux",
+        "ar": "التسبيق والدفعات وكشوف الأشغال",
+        "en": "Advance, instalments and works statements"
+      },
+      "corpsMD": {
+        "fr": "Une **avance de démarrage** peut être consentie à l'entrepreneur dans la limite contractuelle (usuellement **≤ 10 % du montant du marché**), garantie par une **caution bancaire de restitution d'avance** et récupérée par déduction proportionnelle sur les acomptes.\n\nLes paiements s'effectuent par **acomptes mensuels** sur la base des **situations de travaux** établies par l'entrepreneur, contradictoirement vérifiées et arrêtées par le maître d'œuvre. Le **décompte général et définitif** est établi après réception et levée des réserves. Les délais et intérêts de retard de la clause « Délais de paiement » s'appliquent à chaque acompte.",
+        "ar": "يمكن منح المقاول **تسبيقاً للانطلاق** في حدود تعاقدية (عادةً **≤ 10 % من مبلغ الصفقة**)، مضموناً **بكفالة بنكية لإرجاع التسبيق** ويُسترجع بالخصم التناسبي من الدفعات.\n\nتتم الأداءات عبر **دفعات شهرية** على أساس **كشوف الأشغال** التي يعدّها المقاول، ويتحقق منها ويوقفها صاحب المشروع بشكل تواجهي. ويُحرَّر **الحساب العام والنهائي** بعد التسلم ورفع التحفظات. وتُطبَّق آجال وفوائد التأخير المنصوص عليها في بند «آجال الأداء» على كل دفعة.",
+        "en": "A **start-up advance** may be granted to the contractor within the contractual limit (usually **≤ 10% of the contract amount**), secured by an **advance-repayment bank guarantee** and recovered by proportional deduction from the instalments.\n\nPayments are made by **monthly instalments** on the basis of **works statements** drawn up by the contractor, verified and settled contradictorily by the project manager. The **general and final account** is established after acceptance and lifting of reservations. The deadlines and late-payment interest of the \"Payment terms\" clause apply to each instalment."
+      },
+      "fondement": "Pratique contractuelle BTP + CCAG-Travaux ; délais Lois 32-10 / 49-15 / 69-21",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "DELAI_EXECUTION_OS",
+      "categorie": "DELAI",
+      "titre": {
+        "fr": "Délai d'exécution et ordres de service",
+        "ar": "أجل التنفيذ وأوامر الخدمة",
+        "en": "Execution period and service orders"
+      },
+      "corpsMD": {
+        "fr": "Le **délai global d'exécution** des travaux est fixé à **{{DELAI_EXECUTION_JOURS}} jours** calendaires, courant à compter de la date de notification de l'**ordre de service (OS) de commencer les travaux**.\n\nLe planning détaillé (chemin critique, jalons, plannings par lot) est soumis au maître d'œuvre dans les **{{DELAI_PLANNING_JOURS}} jours** suivant l'OS. Les prolongations de délai ne peuvent résulter que d'OS écrits, de cas de force majeure dûment constatés, d'intempéries au-delà des seuils contractuels, ou de sujétions imprévues approuvées par le maître d'ouvrage. Toute suspension de chantier fait l'objet d'un OS et d'un constat contradictoire.",
+        "ar": "يُحدَّد **الأجل الإجمالي لتنفيذ** الأشغال في **{{DELAI_EXECUTION_JOURS}} يوماً** كاملاً، يسري ابتداءً من تاريخ تبليغ **أمر الخدمة بالشروع في الأشغال**.\n\nيُقدَّم الجدول الزمني المفصّل (المسار الحرج، المراحل، جداول كل صنف) إلى صاحب المشروع داخل **{{DELAI_PLANNING_JOURS}} يوماً** الموالية لأمر الخدمة. ولا يمكن تمديد الأجل إلا بناءً على أوامر خدمة كتابية، أو حالات قوة قاهرة مُعايَنة، أو تقلبات جوية تتجاوز العتبات التعاقدية، أو إكراهات غير متوقعة يوافق عليها رب العمل. وتخضع كل عملية توقيف للورش لأمر خدمة ومحضر تواجهي.",
+        "en": "The **overall execution period** of the works is set at **{{DELAI_EXECUTION_JOURS}} calendar days**, running from the date of notification of the **service order (SO) to start the works**.\n\nThe detailed schedule (critical path, milestones, per-lot schedules) is submitted to the project manager within **{{DELAI_PLANNING_JOURS}} days** following the SO. Extensions of the period may result only from written SOs, duly recorded force-majeure events, bad weather beyond the contractual thresholds, or unforeseen constraints approved by the owner. Any site suspension is subject to an SO and a contradictory record."
+      },
+      "fondement": "CCAG-Travaux (ordres de service, délais) + pratique contractuelle",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "PENALITES_RETARD_CCAG",
+      "categorie": "PENALITES",
+      "titre": {
+        "fr": "Pénalités de retard",
+        "ar": "غرامات التأخير",
+        "en": "Liquidated damages for delay"
+      },
+      "corpsMD": {
+        "fr": "En cas de dépassement du délai contractuel d'exécution, l'entrepreneur encourt, **sans mise en demeure préalable**, des **pénalités de retard** au taux de **un pour mille (1‰) du montant du marché par jour calendaire de retard**, conformément au CCAG-Travaux.\n\nLe **montant cumulé des pénalités est plafonné** à environ **huit à dix pour cent (8 à 10 %) du montant du marché**. Les pénalités sont déduites d'office des acomptes ou du décompte définitif, ou prélevées sur la retenue de garantie / le cautionnement. L'application des pénalités ne libère pas l'entrepreneur de ses autres obligations contractuelles.",
+        "ar": "في حالة تجاوز الأجل التعاقدي للتنفيذ، يتعرض المقاول، **دون حاجة إلى إنذار مسبق**، **لغرامات تأخير** بنسبة **واحد في الألف (1‰) من مبلغ الصفقة عن كل يوم** تأخير كامل، طبقاً لدفتر الشروط الإدارية العامة للأشغال.\n\nويُحدَّد **سقف المبلغ التراكمي للغرامات** في حوالي **ثمانية إلى عشرة في المائة (8 إلى 10 %) من مبلغ الصفقة**. تُخصم الغرامات تلقائياً من الدفعات أو من الحساب النهائي، أو تُقتطع من الضمانة المحتجزة / الكفالة. ولا يُعفي تطبيق الغرامات المقاول من باقي التزاماته التعاقدية.",
+        "en": "In the event of exceeding the contractual execution period, the contractor incurs, **without prior formal notice**, **liquidated damages for delay** at the rate of **one per thousand (1‰) of the contract amount per calendar day of delay**, in accordance with the CCAG-Works.\n\nThe **cumulative amount of penalties is capped** at approximately **eight to ten per cent (8 to 10%) of the contract amount**. Penalties are automatically deducted from instalments or the final account, or withheld from the retention / guarantee. The application of penalties does not release the contractor from its other contractual obligations."
+      },
+      "fondement": "CCAG-Travaux : pénalités 1‰/jour, plafond ~8-10 %",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "RETENUE_GARANTIE_10_7",
+      "categorie": "RETENUE_GARANTIE",
+      "titre": {
+        "fr": "Retenue de garantie",
+        "ar": "الضمانة المحتجزة",
+        "en": "Retention money"
+      },
+      "corpsMD": {
+        "fr": "Une **retenue de garantie** est opérée sur chaque acompte, au taux de **dix pour cent (10 %)**, dans la limite d'un plafond cumulé de **sept pour cent (7 %) du montant du marché**, destinée à couvrir les réserves et l'obligation de parfait achèvement.\n\nLa retenue de garantie peut être **remplacée, à l'initiative de l'entrepreneur, par une caution bancaire de retenue de garantie** de même montant, émise par un établissement agréé. La retenue (ou la caution) est **libérée après la réception définitive** et la levée de la totalité des réserves.",
+        "ar": "تُقتطع **ضمانة محتجزة** من كل دفعة، بنسبة **عشرة في المائة (10 %)**، في حدود سقف تراكمي قدره **سبعة في المائة (7 %) من مبلغ الصفقة**، تهدف إلى تغطية التحفظات والتزام حسن الإنجاز.\n\nيمكن **تعويض الضمانة المحتجزة، بمبادرة من المقاول، بكفالة بنكية بدل الضمانة المحتجزة** بنفس المبلغ، صادرة عن مؤسسة معتمدة. وتُحرَّر الضمانة (أو الكفالة) **بعد التسلم النهائي** ورفع جميع التحفظات.",
+        "en": "A **retention** is deducted from each instalment at the rate of **ten per cent (10%)**, up to a cumulative cap of **seven per cent (7%) of the contract amount**, intended to cover reservations and the perfect-completion obligation.\n\nThe retention may be **replaced, at the contractor's initiative, by a retention-money bank guarantee** of the same amount, issued by an approved institution. The retention (or guarantee) is **released after final acceptance** and the lifting of all reservations."
+      },
+      "fondement": "CCAG-Travaux : retenue de garantie 10 % plafonnée à 7 %, remplaçable par caution bancaire",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "CAUTIONNEMENT_DEFINITIF",
+      "categorie": "CAUTIONNEMENT",
+      "titre": {
+        "fr": "Cautionnement définitif et garanties bancaires",
+        "ar": "الضمان النهائي والكفالات البنكية",
+        "en": "Performance bond and bank guarantees"
+      },
+      "corpsMD": {
+        "fr": "L'entrepreneur constitue un **cautionnement définitif** d'un montant de **trois pour cent (3 %) du montant du marché**, dans le délai contractuel suivant la notification de l'approbation du marché, sous forme de caution bancaire émise par un établissement agréé par Bank Al-Maghrib.\n\nLe cautionnement définitif garantit la bonne exécution du marché. Il est **restitué après la réception définitive** des travaux, déduction faite des sommes éventuellement dues. Les autres garanties bancaires (restitution d'avance, retenue de garantie) sont régies par leurs clauses propres.",
+        "ar": "يُكوِّن المقاول **ضماناً نهائياً** بمبلغ **ثلاثة في المائة (3 %) من مبلغ الصفقة**، داخل الأجل التعاقدي الموالي لتبليغ المصادقة على الصفقة، في شكل كفالة بنكية صادرة عن مؤسسة معتمدة من بنك المغرب.\n\nيضمن الضمان النهائي حسن تنفيذ الصفقة. ويُرَدّ **بعد التسلم النهائي** للأشغال، بعد خصم المبالغ المستحقة عند الاقتضاء. وتخضع باقي الكفالات البنكية (إرجاع التسبيق، الضمانة المحتجزة) لبنودها الخاصة.",
+        "en": "The contractor provides a **performance bond** of **three per cent (3%) of the contract amount**, within the contractual period following notification of approval of the contract, in the form of a bank guarantee issued by an institution approved by Bank Al-Maghrib.\n\nThe performance bond guarantees the proper performance of the contract. It is **returned after final acceptance** of the works, after deduction of any amounts owed. The other bank guarantees (advance repayment, retention) are governed by their own clauses."
+      },
+      "fondement": "CCAG-Travaux + pratique des marchés (cautionnement définitif 3 %)",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "REVISION_PRIX_INDEX_TP",
+      "categorie": "REVISION_PRIX",
+      "titre": {
+        "fr": "Révision des prix (index BTP/TP)",
+        "ar": "مراجعة الأسعار (مؤشرات البناء والأشغال العمومية)",
+        "en": "Price revision (construction/civil-works index)"
+      },
+      "corpsMD": {
+        "fr": "Lorsque le marché est conclu à **prix révisables**, la révision s'opère par application d'une **formule paramétrique** fondée sur les **index officiels marocains des prix des travaux publics et du bâtiment (index TP/BTP)** publiés par l'administration.\n\nLa formule type est de la forme :\n\n`P = P0 × (a + b × I/I0 + c × A/A0 + …)`\n\noù `P0` est le prix initial, `a` la partie fixe (non révisable), `I`, `A`, … les valeurs des index (matériaux, salaires, énergie) à la date de révision, et `I0`, `A0`, … leurs valeurs à la date de référence du marché. La somme des coefficients (a + b + c + …) est égale à 1. La révision est appliquée à chaque situation selon les index publiés à la date de réalisation des travaux.",
+        "ar": "عندما تُبرَم الصفقة **بأسعار قابلة للمراجعة**، تتم المراجعة بتطبيق **صيغة معاملاتية** مبنية على **المؤشرات الرسمية المغربية لأسعار الأشغال العمومية والبناء (مؤشرات TP/BTP)** التي تنشرها الإدارة.\n\nوالصيغة النموذجية من الشكل:\n\n`P = P0 × (a + b × I/I0 + c × A/A0 + …)`\n\nحيث `P0` السعر الأولي، و`a` الجزء الثابت (غير القابل للمراجعة)، و`I`, `A`… قيم المؤشرات (المواد، الأجور، الطاقة) في تاريخ المراجعة، و`I0`, `A0`… قيمها في تاريخ مرجع الصفقة. ومجموع المعاملات (a + b + c + …) يساوي 1. وتُطبَّق المراجعة على كل كشف وفق المؤشرات المنشورة في تاريخ إنجاز الأشغال.",
+        "en": "Where the contract is concluded at **revisable prices**, revision is carried out by applying a **parametric formula** based on the **official Moroccan public-works and building price indices (TP/BTP indices)** published by the administration.\n\nThe standard formula is of the form:\n\n`P = P0 × (a + b × I/I0 + c × A/A0 + …)`\n\nwhere `P0` is the initial price, `a` the fixed (non-revisable) part, `I`, `A`, … the values of the indices (materials, wages, energy) at the revision date, and `I0`, `A0`, … their values at the contract reference date. The sum of the coefficients (a + b + c + …) equals 1. Revision is applied to each statement according to the indices published at the date of execution of the works."
+      },
+      "fondement": "Révision des prix par formule sur index TP/BTP marocains (réglementation marchés + pratique)",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "RECEPTION_PROVISOIRE_DEFINITIVE",
+      "categorie": "RECEPTION",
+      "titre": {
+        "fr": "Réception provisoire et réception définitive",
+        "ar": "التسلم المؤقت والتسلم النهائي",
+        "en": "Provisional and final acceptance"
+      },
+      "corpsMD": {
+        "fr": "La **réception provisoire** est prononcée par procès-verbal contradictoire après achèvement des travaux et exécution des essais et vérifications. Elle marque le **point de départ des garanties** (parfait achèvement, biennale, décennale) et le transfert de la garde de l'ouvrage. Les réserves éventuelles sont consignées au PV avec un délai de levée.\n\nLa **réception définitive** est prononcée à l'expiration de la **garantie de parfait achèvement (1 an)** et après **levée intégrale des réserves**, par PV contradictoire. Elle conditionne la **libération de la retenue de garantie / du cautionnement définitif**. Aucune réception ne vaut renonciation aux garanties légales (DOC art. 769-770).",
+        "ar": "يُعلَن عن **التسلم المؤقت** بمحضر تواجهي بعد إنهاء الأشغال وإنجاز الاختبارات والتحقّقات. ويُحدِّد **بداية سريان الضمانات** (حسن الإنجاز، الثنائي، العشري) وانتقال حراسة المنشأة. وتُضمَّن التحفظات المحتملة في المحضر مع أجل لرفعها.\n\nيُعلَن عن **التسلم النهائي** عند انقضاء **ضمان حسن الإنجاز (سنة)** وبعد **الرفع الكامل للتحفظات**، بمحضر تواجهي. ويتوقف عليه **تحرير الضمانة المحتجزة / الضمان النهائي**. ولا يُعدّ أي تسلم تنازلاً عن الضمانات القانونية (الفصلان 769 و770 من ق.ل.ع).",
+        "en": "**Provisional acceptance** is pronounced by contradictory report after completion of the works and performance of tests and checks. It marks the **starting point of the warranties** (perfect completion, biennial, decennial) and the transfer of custody of the works. Any reservations are recorded in the report with a lifting deadline.\n\n**Final acceptance** is pronounced upon expiry of the **perfect-completion warranty (1 year)** and after **full lifting of reservations**, by contradictory report. It conditions the **release of the retention / performance bond**. No acceptance constitutes a waiver of the statutory warranties (DOC arts. 769-770)."
+      },
+      "fondement": "CCAG-Travaux + DOC art. 769-770 (point de départ des garanties)",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "RESILIATION_MARCHE",
+      "categorie": "RESILIATION",
+      "titre": {
+        "fr": "Résiliation du marché",
+        "ar": "فسخ الصفقة",
+        "en": "Termination of the contract"
+      },
+      "corpsMD": {
+        "fr": "Le marché peut être **résilié** dans les cas suivants : manquement grave de l'entrepreneur à ses obligations après mise en demeure restée infructueuse, abandon de chantier, défaut de souscription des assurances obligatoires (TRC/RCD), retard excédant le plafond des pénalités, liquidation judiciaire, ou force majeure rendant l'exécution durablement impossible.\n\nLa résiliation est prononcée **après mise en demeure** par lettre recommandée avec AR, assortie d'un délai. Elle donne lieu à un **constat contradictoire** des travaux exécutés, à un décompte de résiliation, et le cas échéant à l'exécution des travaux par un tiers **aux frais et risques** de l'entrepreneur défaillant. La résiliation aux torts de l'entrepreneur entraîne la confiscation des garanties dans les conditions légales.",
+        "ar": "يمكن **فسخ الصفقة** في الحالات التالية: إخلال جسيم من المقاول بالتزاماته بعد إنذار بقي دون جدوى، التخلي عن الورش، عدم اكتتاب التأمينات الإجبارية (TRC/RCD)، تأخير يتجاوز سقف الغرامات، التصفية القضائية، أو قوة قاهرة تجعل التنفيذ مستحيلاً بشكل دائم.\n\nيُعلَن الفسخ **بعد إنذار** برسالة مضمونة مع الإشعار بالتوصل، مقرونٍ بأجل. ويترتب عنه **معاينة تواجهية** للأشغال المنجزة، وحساب للفسخ، وعند الاقتضاء إنجاز الأشغال من قبل الغير **على نفقة ومسؤولية** المقاول المُخلّ. ويترتب عن الفسخ بسبب أخطاء المقاول مصادرة الضمانات وفق الشروط القانونية.",
+        "en": "The contract may be **terminated** in the following cases: serious breach by the contractor of its obligations after unsuccessful formal notice, abandonment of the site, failure to subscribe the mandatory insurances (TRC/RCD), delay exceeding the penalty cap, judicial liquidation, or force majeure rendering performance permanently impossible.\n\nTermination is pronounced **after formal notice** by registered letter with acknowledgement of receipt, accompanied by a deadline. It gives rise to a **contradictory record** of the works executed, a termination account, and, where applicable, execution of the works by a third party **at the expense and risk** of the defaulting contractor. Termination at the contractor's fault entails forfeiture of the guarantees under the statutory conditions."
+      },
+      "fondement": "CCAG-Travaux + DOC (résolution pour inexécution) + pratique contractuelle",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "FORCE_MAJEURE_DOC_268_269",
+      "categorie": "FORCE_MAJEURE",
+      "titre": {
+        "fr": "Force majeure",
+        "ar": "القوة القاهرة",
+        "en": "Force majeure"
+      },
+      "corpsMD": {
+        "fr": "Conformément à l'**article 268 du DOC**, le débiteur est exonéré de toute responsabilité lorsque l'inexécution de l'obligation provient d'une cause qui ne peut lui être imputée, telle que la **force majeure** ou le **cas fortuit**, et qu'il n'a pas pris à sa charge les risques par une clause expresse.\n\nL'**article 269 du DOC** définit la force majeure comme tout fait que l'homme ne peut prévenir, tel que les phénomènes naturels (inondations, séismes, sécheresse), les faits du prince, ou tout événement extérieur, imprévisible et irrésistible.\n\nLa partie affectée notifie l'événement à l'autre partie **sans délai** par écrit, en justifie la réalité et les conséquences. La force majeure suspend les délais d'exécution pour la durée de l'empêchement ; si elle se prolonge au-delà du seuil contractuel, le marché peut être résilié sans pénalité.",
+        "ar": "طبقاً **للفصل 268 من ق.ل.ع**، يُعفى المدين من كل مسؤولية إذا نتج عدم تنفيذ الالتزام عن سبب لا يُنسَب إليه، مثل **القوة القاهرة** أو **الحادث الفجائي**، ولم يكن قد تحمّل المخاطر بمقتضى بند صريح.\n\nويُعرّف **الفصل 269 من ق.ل.ع** القوة القاهرة بأنها كل أمر لا يستطيع الإنسان دفعه، كالظواهر الطبيعية (الفيضانات، الزلازل، الجفاف)، وأفعال السلطة، أو كل حدث خارجي غير متوقع ولا يمكن مقاومته.\n\nيُشعر الطرف المتضرر الطرف الآخر بالحدث **فوراً** كتابةً، ويُثبت واقعيته ونتائجه. وتوقف القوة القاهرة آجال التنفيذ طيلة مدة العائق؛ وإذا امتدت إلى ما بعد العتبة التعاقدية، يمكن فسخ الصفقة دون غرامة.",
+        "en": "Pursuant to **Article 268 of the DOC**, the debtor is exonerated from all liability where the non-performance of the obligation arises from a cause that cannot be attributed to it, such as **force majeure** or **fortuitous event**, and where it has not assumed the risks by an express clause.\n\n**Article 269 of the DOC** defines force majeure as any event that man cannot prevent, such as natural phenomena (floods, earthquakes, drought), acts of authority (fait du prince), or any external, unforeseeable and irresistible event.\n\nThe affected party notifies the other party **without delay** in writing, evidencing its reality and consequences. Force majeure suspends the execution deadlines for the duration of the impediment; if it continues beyond the contractual threshold, the contract may be terminated without penalty."
+      },
+      "fondement": "DOC art. 268 (exonération) + art. 269 (définition de la force majeure)",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "SOUS_TRAITANCE_DOC_2_22_431",
+      "categorie": "SOUS_TRAITANCE",
+      "titre": {
+        "fr": "Sous-traitance",
+        "ar": "المقاولة من الباطن",
+        "en": "Subcontracting"
+      },
+      "corpsMD": {
+        "fr": "La sous-traitance de tout ou partie des travaux est soumise à l'**agrément écrit préalable du maître d'ouvrage / maître d'œuvre**. L'entrepreneur principal demeure **seul et entièrement responsable** vis-à-vis du maître d'ouvrage de l'exécution de l'ensemble des travaux, y compris ceux confiés à ses sous-traitants.\n\nEn droit privé marocain, il n'existe **pas de paiement direct** du sous-traitant par le maître d'ouvrage : le sous-traitant est payé par l'entrepreneur principal. Le sous-traitant agréé doit justifier des qualifications et assurances requises pour les ouvrages qui lui sont confiés.\n\n*Avertissement juridique : il n'existe pas de « loi 32-99 » sur la sous-traitance en droit marocain (confusion fréquente avec la loi française 75-1334). Le régime se rattache au **DOC** et, pour les marchés publics, au **décret n° 2-22-431 relatif aux marchés publics**. Fondement à confirmer par un juriste pour chaque cas d'espèce.*",
+        "ar": "تخضع المقاولة من الباطن لكل الأشغال أو لجزء منها **للموافقة الكتابية المسبقة لرب العمل / صاحب المشروع**. ويبقى المقاول الرئيسي **المسؤول الوحيد والكامل** تجاه رب العمل عن تنفيذ مجموع الأشغال، بما فيها تلك المُسنَدة إلى مقاوليه من الباطن.\n\nوفي القانون الخاص المغربي، **لا يوجد أداء مباشر** للمقاول من الباطن من طرف رب العمل: يُؤدّى للمقاول من الباطن من طرف المقاول الرئيسي. ويجب على المقاول من الباطن المعتمد إثبات المؤهلات والتأمينات المطلوبة للأشغال المُسنَدة إليه.\n\n*تنبيه قانوني: لا يوجد «قانون 32.99» للمقاولة من الباطن في القانون المغربي (خلط شائع مع القانون الفرنسي 75-1334). يرتبط النظام **بق.ل.ع**، وبالنسبة للصفقات العمومية، **بالمرسوم رقم 2.22.431 المتعلق بالصفقات العمومية**. الأساس يبقى رهن تأكيد رجل قانون لكل حالة على حدة.*",
+        "en": "Subcontracting of all or part of the works is subject to the **prior written approval of the owner / project manager**. The main contractor remains **solely and fully responsible** to the owner for the execution of all the works, including those entrusted to its subcontractors.\n\nUnder Moroccan private law, there is **no direct payment** of the subcontractor by the owner: the subcontractor is paid by the main contractor. The approved subcontractor must demonstrate the qualifications and insurances required for the works entrusted to it.\n\n*Legal warning: there is no \"Law 32-99\" on subcontracting in Moroccan law (a frequent confusion with French Law 75-1334). The regime is attached to the **DOC** and, for public procurement, to **Decree No. 2-22-431 on public contracts**. Basis to be confirmed by a lawyer in each specific case.*"
+      },
+      "fondement": "DOC + décret 2-22-431 relatif aux marchés publics (à confirmer juriste) — PAS de « loi 32-99 » en droit marocain ; pas de paiement direct en droit privé",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "DONNEES_PERSONNELLES_09_08",
+      "categorie": "DONNEES",
+      "titre": {
+        "fr": "Protection des données personnelles (CNDP)",
+        "ar": "حماية المعطيات ذات الطابع الشخصي (CNDP)",
+        "en": "Personal data protection (CNDP)"
+      },
+      "corpsMD": {
+        "fr": "Tout traitement de **données à caractère personnel** réalisé dans le cadre du marché (coordonnées des intervenants, données des occupants, vidéosurveillance de chantier, badges, géolocalisation) est soumis à la **loi 09-08 relative à la protection des personnes physiques à l'égard du traitement des données à caractère personnel**, sous le contrôle de la **CNDP**.\n\nLes parties s'engagent à : déclarer/obtenir l'autorisation des traitements concernés, recueillir le consentement requis, limiter la collecte à la finalité, garantir la sécurité et la confidentialité des données, et respecter les droits des personnes concernées (accès, rectification, opposition). **Le non-respect expose à des sanctions pouvant atteindre 300 000 MAD**, sans préjudice des poursuites pénales prévues par la loi.",
+        "ar": "يخضع كل معالجة **للمعطيات ذات الطابع الشخصي** تتم في إطار الصفقة (معطيات المتدخلين، معطيات الساكنة، المراقبة بالفيديو للورش، البطائق، التموقع الجغرافي) **للقانون 09.08 المتعلق بحماية الأشخاص الذاتيين تجاه معالجة المعطيات ذات الطابع الشخصي**، تحت مراقبة **اللجنة الوطنية لمراقبة حماية المعطيات (CNDP)**.\n\nيلتزم الطرفان بـ: التصريح بالمعالجات المعنية أو الحصول على الإذن بشأنها، جمع الموافقة المطلوبة، حصر الجمع في الغاية، ضمان أمن وسرية المعطيات، واحترام حقوق الأشخاص المعنيين (الولوج، التصحيح، التعرض). **ويعرّض عدم الاحترام لعقوبات قد تصل إلى 300.000 درهم**، دون الإخلال بالمتابعات الجنائية المنصوص عليها قانوناً.",
+        "en": "Any processing of **personal data** carried out under the contract (contact details of stakeholders, occupants' data, site video surveillance, badges, geolocation) is subject to **Law 09-08 on the protection of individuals with regard to the processing of personal data**, under the supervision of the **CNDP**.\n\nThe parties undertake to: declare/obtain authorisation for the relevant processing, obtain the required consent, limit collection to the purpose, ensure the security and confidentiality of the data, and respect the rights of data subjects (access, rectification, objection). **Non-compliance is subject to penalties of up to MAD 300,000**, without prejudice to the criminal proceedings provided by law."
+      },
+      "fondement": "Loi 09-08 (CNDP), sanctions jusqu'à 300 000 MAD",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "LITIGES_COMPETENCE_DROIT",
+      "categorie": "LITIGES",
+      "titre": {
+        "fr": "Règlement des litiges et droit applicable",
+        "ar": "تسوية النزاعات والقانون المطبق",
+        "en": "Dispute resolution and applicable law"
+      },
+      "corpsMD": {
+        "fr": "Tout litige né de l'interprétation ou de l'exécution du présent marché fera l'objet d'une **tentative de règlement amiable** préalable entre les parties, le cas échéant avec l'assistance du maître d'œuvre, dans un délai de **{{DELAI_AMIABLE_JOURS}} jours**.\n\nÀ défaut d'accord amiable, le litige est soumis, au choix retenu au marché : soit aux **tribunaux marocains compétents du lieu d'exécution des travaux**, soit à l'**arbitrage** conformément à la loi 95-17 relative à l'arbitrage et à la médiation conventionnelle. Le **droit marocain** est seul applicable au marché, y compris le Dahir formant Code des Obligations et Contrats.",
+        "ar": "يكون كل نزاع ناشئ عن تفسير أو تنفيذ هذه الصفقة موضوع **محاولة تسوية ودية** مسبقة بين الطرفين، عند الاقتضاء بمساعدة صاحب المشروع، داخل أجل **{{DELAI_AMIABLE_JOURS}} يوماً**.\n\nوفي حالة تعذّر التسوية الودية، يُعرَض النزاع، حسب الاختيار المعتمد في الصفقة: إما على **المحاكم المغربية المختصة بمكان تنفيذ الأشغال**، أو على **التحكيم** طبقاً للقانون 95.17 المتعلق بالتحكيم والوساطة الاتفاقية. ويُطبَّق **القانون المغربي** وحده على الصفقة، بما في ذلك الظهير المكوّن لقانون الالتزامات والعقود.",
+        "en": "Any dispute arising from the interpretation or performance of this contract shall first be the subject of an **amicable settlement attempt** between the parties, where applicable with the assistance of the project manager, within **{{DELAI_AMIABLE_JOURS}} days**.\n\nFailing amicable agreement, the dispute is submitted, at the option chosen in the contract: either to the **competent Moroccan courts of the place of execution of the works**, or to **arbitration** in accordance with Law 95-17 on arbitration and conventional mediation. **Moroccan law** alone is applicable to the contract, including the Dahir on the Code of Obligations and Contracts."
+      },
+      "fondement": "DOC + Loi 95-17 (arbitrage et médiation conventionnelle) + compétence territoriale",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    },
+    {
+      "code": "PRIX_FORME_MARCHE",
+      "categorie": "PRIX",
+      "titre": {
+        "fr": "Forme et caractère des prix",
+        "ar": "شكل وطبيعة الأسعار",
+        "en": "Form and nature of prices"
+      },
+      "corpsMD": {
+        "fr": "Le marché est conclu à **prix {{FORME_PRIX}}** (unitaires, forfaitaires ou mixtes). Les prix sont réputés **fermes et non révisables** OU **révisables** selon la mention portée au présent marché.\n\nLes prix comprennent toutes les charges et sujétions d'exécution : main-d'œuvre, fournitures, matériels, transports, installation et repli de chantier, frais généraux, aléas, taxes et marge bénéficiaire de l'entrepreneur. Aucun supplément ne sera dû pour des sujétions que l'entrepreneur, en tant que professionnel, aurait dû prévoir. Les prix s'entendent **hors TVA**, la TVA étant facturée au taux légal en vigueur.",
+        "ar": "تُبرَم الصفقة **بأسعار {{FORME_PRIX}}** (وحدوية أو جزافية أو مختلطة). وتُعتبر الأسعار **قارّة وغير قابلة للمراجعة** أو **قابلة للمراجعة** حسب البيان الوارد في هذه الصفقة.\n\nتشمل الأسعار جميع التكاليف وإكراهات التنفيذ: اليد العاملة، التوريدات، المعدات، النقل، تركيب وسحب الورش، المصاريف العامة، الطوارئ، الرسوم وهامش ربح المقاول. ولا يُستحَق أي زيادة عن إكراهات كان على المقاول، بصفته مهنياً، أن يتوقعها. وتُفهَم الأسعار **بدون احتساب الضريبة على القيمة المضافة**، إذ تُحتسَب هذه الأخيرة بالسعر القانوني الجاري به العمل.",
+        "en": "The contract is concluded at **{{FORME_PRIX}} prices** (unit, lump-sum or mixed). Prices are deemed **firm and non-revisable** OR **revisable** according to the mention made in this contract.\n\nPrices include all charges and constraints of execution: labour, supplies, equipment, transport, site setup and demobilisation, overheads, contingencies, taxes and the contractor's profit margin. No supplement is due for constraints that the contractor, as a professional, should have foreseen. Prices are understood **exclusive of VAT**, VAT being invoiced at the legal rate in force."
+      },
+      "fondement": "CCAG-Travaux + pratique contractuelle (forme et caractère des prix)",
+      "marche": [
+        "PUBLIC",
+        "PRIVE"
+      ]
+    }
+  ]
+}

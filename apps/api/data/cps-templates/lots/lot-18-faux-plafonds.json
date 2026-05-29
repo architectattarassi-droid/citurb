@@ -1,0 +1,245 @@
+{
+  "code": "LOT_18_FAUX_PLAFONDS",
+  "numero": 18,
+  "famille": "SECOND_OEUVRE",
+  "intitule": {
+    "fr": "Faux plafonds et plafonds suspendus",
+    "ar": "الأسقف المستعارة والأسقف المعلقة",
+    "en": "False ceilings and suspended ceilings"
+  },
+  "description": {
+    "fr": "Le présent lot a pour objet la fourniture et la pose des plafonds suspendus du projet : plafonds en dalles minérales démontables sur ossature apparente ou cachée, plafonds continus en plaques de plâtre sur ossature, et plafonds techniques intégrant les terminaux des lots fluides (luminaires, bouches de soufflage et de reprise CVC, détecteurs, sprinklers). Les prestations incluent suspentes, ossatures primaires et secondaires, dalles ou plaques, traitements périphériques et trappes de visite.",
+    "ar": "يهدف هذا القسم إلى توريد وتركيب الأسقف المعلقة للمشروع: أسقف من البلاطات المعدنية القابلة للفك على هيكل ظاهر أو مخفي، أسقف متصلة من ألواح الجبس على هيكل، وأسقف تقنية تدمج أطراف أقسام الموائع (الإنارة، فتحات النفخ والاسترجاع للتهوية، الكواشف، الرشاشات). تشمل الخدمات المعلقات والهياكل الأولية والثانوية والبلاطات أو الألواح والمعالجات المحيطية وأبواب الزيارة.",
+    "en": "This lot covers the supply and installation of the project's suspended ceilings: demountable mineral tile ceilings on exposed or concealed grid, continuous plasterboard ceilings on framing, and technical ceilings integrating the terminals of the fluid lots (luminaires, HVAC supply and return diffusers, detectors, sprinklers). The services include hangers, primary and secondary grids, tiles or boards, perimeter treatments and access hatches."
+  },
+  "normesRefs": [
+    "NF DTU 58.1",
+    "NF DTU 25.41",
+    "NM EN 13964",
+    "NM EN 520",
+    "NM EN 13501-1",
+    "NM EN ISO 354",
+    "NM EN ISO 11654"
+  ],
+  "secteurQualifMA": [
+    "Q5.1 - Cloisons et plafonds en plaques de plâtre",
+    "Q5.3 - Plafonds suspendus en dalles",
+    "B5 - Plâtrerie - staff"
+  ],
+  "competencesRequises": [
+    "Plafonniste / monteur de plafonds suspendus",
+    "Plaquiste qualifié pour plafonds continus",
+    "Encadrement technique avec maîtrise du DTU 58.1"
+  ],
+  "articles": [
+    {
+      "numero": "18.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet, consistance et limites de prestation",
+        "ar": "الموضوع والمحتوى وحدود الخدمة",
+        "en": "Scope, content and service limits"
+      },
+      "corpsMD": {
+        "fr": "Le présent lot définit la fourniture et la pose des plafonds suspendus du projet **{{PROJECT_NAME}}** à **{{COMMUNE}}**.\n\nIl comprend :\n- les plafonds en dalles démontables (locaux tertiaires, circulations, sanitaires) ;\n- les plafonds continus en plaques de plâtre (locaux nobles, retombées, voiles courbes) ;\n- les ossatures, suspentes, profils de rive et trappes de visite ;\n- la réservation et l'habillage des terminaux des lots techniques.\n\n**Limites de prestation** : la fourniture des luminaires, diffuseurs CVC, détecteurs et têtes sprinkler relève des lots techniques respectifs ; le présent lot réalise les découpes, chevêtres et renforts d'ossature nécessaires à leur intégration, selon plans de coordination visés en réunion de synthèse.",
+        "ar": "يحدد هذا القسم توريد وتركيب الأسقف المعلقة لمشروع **{{PROJECT_NAME}}** بـ **{{COMMUNE}}**.\n\nيشمل:\n- الأسقف من البلاطات القابلة للفك (المحلات الخدماتية، الممرات، المرافق الصحية)؛\n- الأسقف المتصلة من ألواح الجبس (المحلات النبيلة، الإسدالات، الجدران المنحنية)؛\n- الهياكل والمعلقات وملامح الحواف وأبواب الزيارة؛\n- التحفظ وتكسية أطراف الأقسام التقنية.\n\n**حدود الخدمة**: توريد الإنارة وموزعات التهوية والكواشف ورؤوس الرشاشات يخص الأقسام التقنية المعنية؛ ينجز هذا القسم القصوص والمساند وتقويات الهيكل اللازمة لإدماجها، حسب مخططات التنسيق المؤشر عليها في اجتماع التركيب.",
+        "en": "This lot defines the supply and installation of the suspended ceilings of project **{{PROJECT_NAME}}** in **{{COMMUNE}}**.\n\nIt includes:\n- demountable tile ceilings (office areas, circulations, sanitary facilities);\n- continuous plasterboard ceilings (prestige rooms, bulkheads, curved shells);\n- grids, hangers, edge profiles and access hatches;\n- the reservation and casing of the technical lot terminals.\n\n**Service limits**: the supply of luminaires, HVAC diffusers, detectors and sprinkler heads falls to the respective technical lots; this lot carries out the cuts, trimmers and grid reinforcements required for their integration, according to coordination drawings approved at the synthesis meeting."
+      }
+    },
+    {
+      "numero": "18.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Documents de référence et performances",
+        "ar": "وثائق المرجع والأداءات",
+        "en": "Reference documents and performances"
+      },
+      "corpsMD": {
+        "fr": "Les ouvrages respectent :\n- **NF DTU 58.1** : plafonds suspendus — règles de mise en œuvre ;\n- **NF DTU 25.41** : ouvrages en plaques de plâtre (plafonds continus) ;\n- **NM EN 13964** : plafonds suspendus — exigences et méthodes d'essai ;\n- **NM EN 13501-1** : classement de réaction au feu ;\n- **NM EN ISO 354 / NM EN ISO 11654** : absorption acoustique (αw) des dalles.\n\nPour chaque local sont précisés : la classe de charge des suspentes, la résistance à l'humidité (locaux humides), la réaction au feu, l'absorption acoustique αw et la trame d'implantation (600×600 ou 600×1200). L'entrepreneur établit les plans de calepinage tenant compte de la coordination avec les terminaux techniques.",
+        "ar": "تحترم الأعمال:\n- **NF DTU 58.1**: الأسقف المعلقة — قواعد التنفيذ؛\n- **NF DTU 25.41**: أعمال ألواح الجبس (الأسقف المتصلة)؛\n- **NM EN 13964**: الأسقف المعلقة — المتطلبات وطرق الاختبار؛\n- **NM EN 13501-1**: تصنيف رد فعل الحريق؛\n- **NM EN ISO 354 / NM EN ISO 11654**: الامتصاص الصوتي (αw) للبلاطات.\n\nلكل محل تحدد: فئة حمولة المعلقات، مقاومة الرطوبة (المحلات الرطبة)، رد فعل الحريق، الامتصاص الصوتي αw وشبكة التوزيع (600×600 أو 600×1200). يعد المقاول مخططات التوزيع مع مراعاة التنسيق مع الأطراف التقنية.",
+        "en": "The works comply with:\n- **NF DTU 58.1**: suspended ceilings — installation rules;\n- **NF DTU 25.41**: plasterboard works (continuous ceilings);\n- **NM EN 13964**: suspended ceilings — requirements and test methods;\n- **NM EN 13501-1**: fire reaction classification;\n- **NM EN ISO 354 / NM EN ISO 11654**: acoustic absorption (αw) of tiles.\n\nFor each room are specified: the load class of the hangers, moisture resistance (wet rooms), reaction to fire, acoustic absorption αw and the layout grid (600×600 or 600×1200). The contractor prepares the setting-out drawings taking into account coordination with the technical terminals."
+      }
+    },
+    {
+      "numero": "18.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Dalles, ossatures et suspentes",
+        "ar": "البلاطات والهياكل والمعلقات",
+        "en": "Tiles, grids and hangers"
+      },
+      "corpsMD": {
+        "fr": "**Dalles minérales** conformes à la **NM EN 13964**, marquage CE, format 600×600 ou 600×1200, bords droits (pose apparente) ou feuillurés (pose cachée), réaction au feu A1/A2, αw selon CCTP, version hygiène/humidité pour locaux humides.\n\n**Ossatures** en acier galvanisé prélaqué : porteurs et entretoises clipsables, profils de rive en L ou en gradin, suspentes réglables à ressort ou à tige filetée, classe de charge conforme à la **NM EN 13964**.\n\n**Plafonds continus** : plaques de plâtre **NM EN 520** (type A, H1 ou F selon local) sur ossature métallique fourrures/suspentes, conformes au **NF DTU 25.41**.\n\n**Trappes de visite** dimensionnées selon l'accessibilité requise des équipements.\n\nL'entrepreneur fournit fiches techniques, classements feu/acoustique et **échantillons de dalles** pour agrément teinte et aspect.",
+        "ar": "**البلاطات المعدنية** مطابقة لـ **NM EN 13964**، علامة CE، مقاس 600×600 أو 600×1200، حواف مستقيمة (وضع ظاهر) أو محززة (وضع مخفي)، رد فعل الحريق A1/A2، αw حسب دفتر الشروط، نسخة صحية/مقاومة للرطوبة للمحلات الرطبة.\n\n**الهياكل** من فولاذ مجلفن مطلي مسبقاً: حوامل وفواصل قابلة للتعشيق، ملامح حواف على شكل L أو مدرج، معلقات قابلة للضبط بنابض أو بقضيب ملولب، فئة حمولة مطابقة لـ **NM EN 13964**.\n\n**الأسقف المتصلة**: ألواح جبس **NM EN 520** (نوع A أو H1 أو F حسب المحل) على هيكل معدني حوامل/معلقات، مطابقة لـ **NF DTU 25.41**.\n\n**أبواب الزيارة** مقاسة حسب الولوج المطلوب للتجهيزات.\n\nيقدم المقاول البطاقات التقنية وتصنيفات الحريق/الصوت و**عينات البلاطات** للموافقة على اللون والمظهر.",
+        "en": "**Mineral tiles** compliant with **NM EN 13964**, CE marking, format 600×600 or 600×1200, square edges (exposed grid) or rebated (concealed grid), fire reaction A1/A2, αw per CCTP, hygiene/moisture version for wet rooms.\n\n**Grids** in pre-painted galvanised steel: clip-in main runners and cross tees, L or stepped edge profiles, adjustable spring or threaded-rod hangers, load class compliant with **NM EN 13964**.\n\n**Continuous ceilings**: plasterboards **NM EN 520** (type A, H1 or F per room) on metal furring/hanger framing, compliant with **NF DTU 25.41**.\n\n**Access hatches** sized according to the required accessibility of the equipment.\n\nThe contractor provides technical sheets, fire/acoustic classifications and **tile samples** for approval of colour and appearance."
+      }
+    },
+    {
+      "numero": "18.4",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Pose des plafonds suspendus et intégration des terminaux",
+        "ar": "تركيب الأسقف المعلقة وإدماج الأطراف",
+        "en": "Installation of suspended ceilings and terminal integration"
+      },
+      "corpsMD": {
+        "fr": "La pose est conforme au **NF DTU 58.1** (dalles) et au **NF DTU 25.41** (plafonds continus).\n\n**Implantation** : traçage du niveau fini au laser, pose des profils de rive, calepinage symétrique évitant les bandes de rive < 1/2 dalle. Suspentes réparties selon la classe de charge, entraxe conforme à la note de calcul (≤ 1,20 m courant), ancrages adaptés au support (béton, bac acier, charpente).\n\n**Intégration des terminaux** : les luminaires et bouches CVC en plafond démontable reposent sur l'ossature ou sont suspendus indépendamment selon leur poids ; chevêtres et renforts pour charges ponctuelles. En plafond continu, chevêtres bois ou métal pour spots et trappes.\n\n**Coordination** : la pose est précédée de la réception des réseaux du plénum (passage du dernier corps d'état avant fermeture).",
+        "ar": "يتم التركيب وفقاً لـ **NF DTU 58.1** (البلاطات) و**NF DTU 25.41** (الأسقف المتصلة).\n\n**التوزيع**: تتبع المستوى المنجز بالليزر، وضع ملامح الحواف، توزيع متماثل يتجنب أشرطة الحواف < نصف بلاطة. المعلقات موزعة حسب فئة الحمولة، تباعد مطابق لمذكرة الحساب (≤ 1,20 م جار)، تثبيتات ملائمة للدعامة (خرسانة، صفيحة فولاذية، هيكل).\n\n**إدماج الأطراف**: الإنارة وفتحات التهوية في السقف القابل للفك ترتكز على الهيكل أو تعلق بشكل مستقل حسب وزنها؛ مساند وتقويات للحمولات النقطية. في السقف المتصل، مساند خشبية أو معدنية للكشافات وأبواب الزيارة.\n\n**التنسيق**: يسبق التركيب تسلم شبكات الفراغ العلوي (مرور آخر قسم قبل الإغلاق).",
+        "en": "Installation complies with **NF DTU 58.1** (tiles) and **NF DTU 25.41** (continuous ceilings).\n\n**Layout**: laser tracing of the finished level, installation of edge profiles, symmetrical setting-out avoiding edge strips < 1/2 tile. Hangers distributed according to the load class, spacing as per the calculation note (≤ 1.20 m standard), anchors suited to the substrate (concrete, steel decking, framework).\n\n**Terminal integration**: luminaires and HVAC diffusers in demountable ceilings rest on the grid or are suspended independently according to their weight; trimmers and reinforcements for point loads. In continuous ceilings, timber or metal trimmers for spotlights and hatches.\n\n**Coordination**: installation is preceded by acceptance of the plenum networks (passage of the last trade before closing)."
+      }
+    },
+    {
+      "numero": "18.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Essais, tolérances et planéité",
+        "ar": "الاختبارات والتفاوتات والاستواء",
+        "en": "Tests, tolerances and flatness"
+      },
+      "corpsMD": {
+        "fr": "**Tolérances de pose** selon **NF DTU 58.1** :\n- planéité ≤ 3 mm sous règle de 2 m ;\n- horizontalité ≤ 5 mm sur la plus grande dimension du local (± 2 mm/m) ;\n- alignement des joints d'ossature ≤ 2 mm.\n\n**Essais et contrôles** :\n- vérification de la résistance des ancrages (essai de traction sur suspentes représentatives) ;\n- contrôle de l'horizontalité au niveau laser ;\n- vérification du jeu fonctionnel des dalles démontables et de l'accessibilité des trappes ;\n- contrôle visuel des arêtes, alignements et coupes de rive.\n\nLes performances acoustiques (αw) et de réaction au feu sont justifiées par les PV d'essai des produits posés. Tout désordre (flèche, désaffleurement, dalle non plane) est repris.",
+        "ar": "**تفاوتات التركيب** وفقاً لـ **NF DTU 58.1**:\n- الاستواء ≤ 3 مم تحت مسطرة 2 م؛\n- الأفقية ≤ 5 مم على أكبر بُعد للمحل (± 2 مم/م)؛\n- محاذاة فواصل الهيكل ≤ 2 مم.\n\n**الاختبارات والمراقبة**:\n- التحقق من مقاومة التثبيتات (اختبار شد على معلقات نموذجية)؛\n- مراقبة الأفقية بمستوى الليزر؛\n- التحقق من الفسحة الوظيفية للبلاطات القابلة للفك وولوج أبواب الزيارة؛\n- المراقبة البصرية للحواف والمحاذاة وقصوص الأطراف.\n\nتبرر الأداءات الصوتية (αw) ورد فعل الحريق بمحاضر اختبار المنتجات الموضوعة. يصحح كل خلل (انحناء، عدم استواء، بلاطة غير مسطحة).",
+        "en": "**Installation tolerances** according to **NF DTU 58.1**:\n- flatness ≤ 3 mm under a 2 m straightedge;\n- horizontality ≤ 5 mm over the largest room dimension (± 2 mm/m);\n- grid joint alignment ≤ 2 mm.\n\n**Tests and controls**:\n- verification of anchor strength (pull-out test on representative hangers);\n- control of horizontality with the laser level;\n- verification of the functional clearance of demountable tiles and access hatch accessibility;\n- visual control of edges, alignments and edge cuts.\n\nAcoustic (αw) and fire reaction performances are justified by the test reports of the installed products. Any defect (deflection, misalignment, non-flat tile) is repaired."
+      }
+    },
+    {
+      "numero": "18.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "HSE, gestion des déchets et garanties",
+        "ar": "الصحة والسلامة وتدبير النفايات والضمانات",
+        "en": "HSE, waste management and warranties"
+      },
+      "corpsMD": {
+        "fr": "**Hygiène et sécurité** : travaux en hauteur sur échafaudages roulants conformes, port des EPI, balisage des zones, protection des sols finis. Manutention des dalles avec gants propres pour éviter les marques.\n\n**Stockage** : dalles et plaques stockées à plat, dans un local sec et tempéré, à l'abri de l'humidité jusqu'à pose ; conditionnement d'origine conservé.\n\n**Déchets** : tri des chutes de dalles minérales, plaques de plâtre et profils métalliques ; évacuation vers filières agréées avec bordereaux de suivi. Pas de stockage prolongé de chutes dans les plénums.\n\n**Garanties** : garantie de parfait achèvement (1 an) sur la planéité, la tenue des suspentes et l'aspect ; les performances feu et acoustique sont garanties conformes aux PV des produits. Remise du dossier des ouvrages exécutés (calepinage, fiches dalles, notes de calcul des suspentes, PV de classement).",
+        "ar": "**الصحة والسلامة**: أعمال في الارتفاع على سقالات متنقلة مطابقة، ارتداء معدات الوقاية، تحديد المناطق، حماية الأرضيات المنجزة. مناولة البلاطات بقفازات نظيفة لتجنب الآثار.\n\n**التخزين**: البلاطات والألواح مخزنة بشكل مسطح في محل جاف ومعتدل، بعيداً عن الرطوبة حتى التركيب؛ مع الحفاظ على التغليف الأصلي.\n\n**النفايات**: فرز بقايا البلاطات المعدنية وألواح الجبس والملامح المعدنية؛ الإجلاء نحو قنوات معتمدة مع وثائق التتبع. لا تخزين مطول للبقايا في الفراغات العلوية.\n\n**الضمانات**: ضمان الإنجاز التام (سنة) على الاستواء وثبات المعلقات والمظهر؛ أداءات الحريق والصوت مضمونة مطابقة لمحاضر المنتجات. تسليم ملف الأعمال المنجزة (التوزيع، بطاقات البلاطات، مذكرات حساب المعلقات، محاضر التصنيف).",
+        "en": "**Health and safety**: work at height on compliant mobile scaffolds, wearing of PPE, zone marking, protection of finished floors. Handling of tiles with clean gloves to avoid marks.\n\n**Storage**: tiles and boards stored flat, in a dry and tempered room, protected from moisture until installation; original packaging retained.\n\n**Waste**: sorting of mineral tile offcuts, plasterboard and metal profiles; removal to approved channels with tracking slips. No prolonged storage of offcuts in plenums.\n\n**Warranties**: warranty of perfect completion (1 year) on flatness, hanger retention and appearance; fire and acoustic performances are guaranteed to comply with the product test reports. Delivery of the as-built file (setting-out, tile sheets, hanger calculation notes, classification reports)."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "18.01",
+      "designation": {
+        "fr": "Plafond suspendu dalles minérales 600×600 démontables sur ossature apparente, αw et réaction au feu selon CCTP",
+        "ar": "سقف معلق ببلاطات معدنية 600×600 قابلة للفك على هيكل ظاهر، αw ورد فعل الحريق حسب دفتر الشروط",
+        "en": "Suspended ceiling 600×600 demountable mineral tiles on exposed grid, αw and fire reaction per CCTP"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réelle de plafond posée, mesurée entre nus intérieurs ; déduction des trémies > 0,50 m².",
+        "ar": "المساحة الفعلية للسقف الموضوع، مقاسة بين الأوجه الداخلية؛ خصم الفتحات > 0,50 م².",
+        "en": "Actual installed ceiling area, measured between internal faces; deducting openings > 0.50 m²."
+      }
+    },
+    {
+      "code": "18.02",
+      "designation": {
+        "fr": "Plafond continu en plaques de plâtre BA13 sur ossature suspendue, joints traités prêts à peindre",
+        "ar": "سقف متصل من ألواح الجبس BA13 على هيكل معلق، فواصل معالجة جاهزة للدهان",
+        "en": "Continuous plasterboard BA13 ceiling on suspended framing, joints treated ready to paint"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface horizontale développée, déduction des trémies > 0,50 m² ; retombées comptées séparément.",
+        "ar": "المساحة الأفقية المنشورة، خصم الفتحات > 0,50 م²؛ الإسدالات تحسب على حدة.",
+        "en": "Developed horizontal area, deducting openings > 0.50 m²; bulkheads counted separately."
+      }
+    },
+    {
+      "code": "18.03",
+      "designation": {
+        "fr": "Retombée verticale en plaques de plâtre sur ossature, hauteur ≤ 0,60 m, arêtes renforcées",
+        "ar": "إسدال عمودي من ألواح الجبس على هيكل، ارتفاع ≤ 0,60 م، حواف مقواة",
+        "en": "Vertical bulkhead in plasterboard on framing, height ≤ 0.60 m, reinforced edges"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Longueur développée de retombée ; la hauteur réelle est précisée au CCTP.",
+        "ar": "الطول المنشور للإسدال؛ الارتفاع الفعلي محدد في دفتر الشروط.",
+        "en": "Developed length of bulkhead; the actual height is specified in the CCTP."
+      }
+    },
+    {
+      "code": "18.04",
+      "designation": {
+        "fr": "Plafond dalles version hygiène/hydrofuge pour locaux humides, ossature inox ou prélaquée",
+        "ar": "سقف بلاطات نسخة صحية/مقاومة للرطوبة للمحلات الرطبة، هيكل ستانلس أو مطلي مسبقاً",
+        "en": "Hygiene/moisture-resistant tile ceiling for wet rooms, stainless or pre-painted grid"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réelle posée, déduction des trémies > 0,50 m².",
+        "ar": "المساحة الفعلية الموضوعة، خصم الفتحات > 0,50 م².",
+        "en": "Actual installed area, deducting openings > 0.50 m²."
+      }
+    },
+    {
+      "code": "18.05",
+      "designation": {
+        "fr": "Trappe de visite dimensionnée pour accès équipements, cadre et abattant assortis au plafond",
+        "ar": "باب زيارة مقاس لولوج التجهيزات، إطار وغطاء متناسقان مع السقف",
+        "en": "Access hatch sized for equipment access, frame and lid matching the ceiling"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité selon dimensions et type, par catégorie d'accessibilité.",
+        "ar": "بالوحدة حسب الأبعاد والنوع، حسب فئة الولوج.",
+        "en": "Per unit according to dimensions and type, by accessibility category."
+      }
+    },
+    {
+      "code": "18.06",
+      "designation": {
+        "fr": "Chevêtre et renfort d'ossature pour intégration de luminaire ou terminal CVC",
+        "ar": "مسند وتقوية هيكل لإدماج إنارة أو طرف تهوية",
+        "en": "Trimmer and grid reinforcement for luminaire or HVAC terminal integration"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité par terminal intégré, selon plan de coordination.",
+        "ar": "بالوحدة لكل طرف مدمج، حسب مخطط التنسيق.",
+        "en": "Per unit per integrated terminal, according to the coordination drawing."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_15_CVC",
+      "type": "COORDINATION",
+      "description": {
+        "fr": "Les gaines, bouches de soufflage et de reprise sont posées et réseaux réceptionnés en plénum avant fermeture du plafond ; chevêtres réalisés par le présent lot.",
+        "ar": "تركب الأقنية وفتحات النفخ والاسترجاع وتسلم الشبكات في الفراغ العلوي قبل إغلاق السقف؛ المساند ينجزها هذا القسم.",
+        "en": "Ducts, supply and return diffusers are installed and networks accepted in the plenum before closing the ceiling; trimmers made by this lot."
+      }
+    },
+    {
+      "lotCible": "LOT_14_ELECTRICITE",
+      "type": "COORDINATION",
+      "description": {
+        "fr": "L'implantation des luminaires et détecteurs est calée sur le calepinage des dalles ; les charges sont suspendues indépendamment selon leur poids.",
+        "ar": "يضبط توزيع الإنارة والكواشف على توزيع البلاطات؛ تعلق الحمولات بشكل مستقل حسب وزنها.",
+        "en": "The layout of luminaires and detectors is aligned with the tile setting-out; loads are suspended independently according to their weight."
+      }
+    },
+    {
+      "lotCible": "LOT_10_CLOISONS_DOUBLAGES",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "La jonction plafond/cloison est traitée selon l'ordre de pose retenu (cloison filante ou plafond filant) défini au calepinage.",
+        "ar": "تعالج وصلة السقف/القاطع حسب ترتيب التركيب المعتمد (قاطع مستمر أو سقف مستمر) المحدد في التوزيع.",
+        "en": "The ceiling/partition junction is treated according to the chosen installation order (continuous partition or continuous ceiling) defined in the setting-out."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "NF DTU 58.1 (CSTB)",
+      "NF DTU 25.41 (CSTB)",
+      "NM EN 13964 / NM EN 520 (IMANOR)",
+      "NM EN ISO 354 / NM EN ISO 11654 (acoustique)"
+    ]
+  }
+}

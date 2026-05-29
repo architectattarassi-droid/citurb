@@ -63,6 +63,7 @@ import { ChefCopiloteModule } from "./modules/chef-copilote/chef-copilote.module
 import { AvanceTresorerieModule } from "./modules/avance-tresorerie/avance-tresorerie.module";
 import { MandatairesRegistryModule } from "./modules/mandataires-registry/mandataires-registry.module";
 import { OpciTokeniseModule } from "./modules/opci-tokenise/opci-tokenise.module";
+import { CpsGeneratorModule } from "./modules/cps-generator/cps-generator.module";
 
 @Module({
   imports: [
@@ -122,6 +123,7 @@ import { OpciTokeniseModule } from "./modules/opci-tokenise/opci-tokenise.module
     AvanceTresorerieModule,
     MandatairesRegistryModule,
     OpciTokeniseModule,
+    CpsGeneratorModule,
   ],
   controllers: [],
   providers: [],

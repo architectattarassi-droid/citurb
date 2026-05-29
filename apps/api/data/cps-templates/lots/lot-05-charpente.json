@@ -1,0 +1,322 @@
+{
+  "code": "LOT_05_CHARPENTE",
+  "numero": 5,
+  "famille": "CLOS_COUVERT",
+  "intitule": {
+    "fr": "Charpente — bois et métallique",
+    "ar": "الهيكل الحامل — خشبي ومعدني",
+    "en": "Roof framing — timber and steel structures"
+  },
+  "description": {
+    "fr": "Fourniture et pose des ouvrages de charpente en bois (fermes, pannes, chevrons, traitement) et en construction métallique (portiques, pannes, contreventements, assemblages, protection anticorrosion), dimensionnés au vent et à la neige selon les Eurocodes NM EN 1995 (bois) et NM EN 1993 (acier) et vérifiés au séisme selon RPS 2011 zone {{ZONE_SISMIQUE}}.",
+    "ar": "توريد وتركيب أشغال الهيكل الحامل الخشبي (الجمالونات، العوارض، الروافد، المعالجة) والبناء المعدني (الأطر، العوارض، التدعيمات ضد الالتواء، الوصلات، الحماية ضد التآكل)، مع التحجيم تحت تأثير الرياح والثلوج وفق المعايير الأوروبية NM EN 1995 (الخشب) و NM EN 1993 (الفولاذ)، والتحقق الزلزالي وفق RPS 2011 المنطقة {{ZONE_SISMIQUE}}.",
+    "en": "Supply and erection of timber framing works (trusses, purlins, rafters, preservative treatment) and structural steelwork (portal frames, purlins, bracing, connections, anti-corrosion protection), designed for wind and snow loading to Eurocodes NM EN 1995 (timber) and NM EN 1993 (steel) and checked for seismic action to RPS 2011 zone {{ZONE_SISMIQUE}}."
+  },
+  "normesRefs": [
+    "NM_EN_1995_1_1_EC5",
+    "NM_EN_1995_1_2_EC5_FEU",
+    "NM_EN_1993_1_1_EC3",
+    "NM_EN_1993_1_8_EC3_ASSEMBLAGES",
+    "NM_EN_1991_1_3_EC1_NEIGE",
+    "NM_EN_1991_1_4_EC1_VENT",
+    "RPS_2011",
+    "DTU_31_1_CHARPENTE_BOIS",
+    "DTU_31_2_OSSATURE_BOIS",
+    "DTU_31_3_FERMETTES",
+    "NM_EN_14081_BOIS_STRUCTURE",
+    "NM_EN_335_DURABILITE_BOIS",
+    "NM_EN_ISO_1461_GALVANISATION",
+    "NM_EN_1090_2_EXECUTION_ACIER"
+  ],
+  "secteurQualifMA": [
+    "A"
+  ],
+  "competencesRequises": [
+    "ENTREPRISE_QUALIFIEE_CHARPENTE_BOIS",
+    "ENTREPRISE_QUALIFIEE_CONSTRUCTION_METALLIQUE",
+    "BET_STRUCTURE_HMONP",
+    "SOUDEUR_CERTIFIE_NM_EN_ISO_9606_1"
+  ],
+  "articles": [
+    {
+      "numero": "5.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet et consistance des travaux",
+        "ar": "موضوع الأشغال ومكوناتها",
+        "en": "Scope and extent of works"
+      },
+      "corpsMD": {
+        "fr": "Le présent lot a pour objet l'étude d'exécution, la fourniture, la préfabrication en atelier et la pose sur le chantier de l'ensemble des ouvrages de **charpente bois** et de **charpente métallique** du projet **{{PROJECT_NAME}}**, commune de **{{COMMUNE}}**, comprenant notamment :\n\n- **Charpente bois** : fermes traditionnelles ou industrialisées (fermettes), pannes, chevrons, liteaux, échantignoles, contreventements, pièces de liaison ;\n- **Charpente métallique** : portiques, poteaux et traverses en profilés laminés ou reconstitués soudés (PRS), pannes Z/C formées à froid, lisses, systèmes de contreventement en croix de Saint-André et poutres au vent, platines et tiges d'ancrage ;\n- tous les **assemblages** (boulonnés, soudés, broches, connecteurs métalliques) ;\n- la **protection** des ouvrages : traitement de préservation du bois et protection anticorrosion / galvanisation de l'acier.\n\nLes ouvrages sont dimensionnés au **vent** (NM EN 1991-1-4) et à la **neige** (NM EN 1991-1-3) et vérifiés sous action sismique **RPS 2011** pour la zone **{{ZONE_SISMIQUE}}**. Le montant des travaux du présent lot est estimé à **{{MONTANT_TRAVAUX_LOT}} MAD HT**.",
+        "ar": "يهدف هذا القسط إلى دراسة التنفيذ والتوريد والتصنيع المسبق في الورشة والتركيب بالموقع لمجموع أشغال **الهيكل الخشبي** و**الهيكل المعدني** لمشروع **{{PROJECT_NAME}}**، جماعة **{{COMMUNE}}**، ويشمل على الخصوص:\n\n- **الهيكل الخشبي**: الجمالونات التقليدية أو الصناعية، العوارض (pannes)، الروافد (chevrons)، اللتو (liteaux)، قطع الربط والتدعيمات ضد الالتواء؛\n- **الهيكل المعدني**: الأطر (portiques)، الأعمدة والعارضات من مقاطع مدلفنة أو ملحومة معاد تركيبها (PRS)، عوارض على شكل Z/C مشكّلة على البارد، التدعيمات على شكل صليب القديس أندري وجوائز مقاومة الرياح، الصفائح وقضبان التثبيت؛\n- جميع **الوصلات** (الملولبة، الملحومة، المسامير، الموصلات المعدنية)؛\n- **حماية** الأشغال: معالجة حفظ الخشب والحماية ضد تآكل الفولاذ والجلفنة.\n\nتُحجّم الأشغال تحت تأثير **الرياح** (NM EN 1991-1-4) و**الثلوج** (NM EN 1991-1-3) ويُتحقق منها تحت التأثير الزلزالي وفق **RPS 2011** للمنطقة **{{ZONE_SISMIQUE}}**. يُقدّر مبلغ أشغال هذا القسط بـ **{{MONTANT_TRAVAUX_LOT}} درهم بدون احتساب الضريبة**.",
+        "en": "This lot covers the detailed design, supply, workshop prefabrication and site erection of all **timber** and **structural steel** framing works for the **{{PROJECT_NAME}}** project, municipality of **{{COMMUNE}}**, including in particular:\n\n- **Timber framing**: traditional or industrialised trusses (trussed rafters), purlins, rafters, battens, sprockets, bracing and connecting members;\n- **Steel framing**: portal frames, columns and rafters in rolled or welded built-up sections (PRS), cold-formed Z/C purlins, side rails, cross (St Andrew's) bracing and wind girders, base plates and anchor bolts;\n- all **connections** (bolted, welded, dowelled, metal connectors);\n- **protection** of works: timber preservation treatment and steel anti-corrosion / galvanizing.\n\nThe works are designed for **wind** (NM EN 1991-1-4) and **snow** (NM EN 1991-1-3) and checked for seismic action under **RPS 2011** for zone **{{ZONE_SISMIQUE}}**. The estimated value of this lot is **{{MONTANT_TRAVAUX_LOT}} MAD excl. tax**."
+      }
+    },
+    {
+      "numero": "5.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Limites de prestation et documents de référence",
+        "ar": "حدود الخدمة ووثائق المرجع",
+        "en": "Limits of supply and reference documents"
+      },
+      "corpsMD": {
+        "fr": "**Limites de prestation** :\n- *Sont inclus* : notes de calcul et plans d'exécution visés par le BET Structure, plans d'atelier, fabrication, transport, levage, pose, réglage, assemblages définitifs, traitement et protection ;\n- *Sont exclus* : les massifs et longrines béton supports (lot Gros œuvre — LOT_02), la couverture et l'étanchéité (LOT_04, LOT_06), les faux-plafonds suspendus (LOT_18).\n\nL'entreprise scellera ses tiges d'ancrage et platines sur les ouvrages béton réalisés au titre du LOT_02 après réception contradictoire des supports (planéité, niveaux, axes ± 5 mm).\n\n**Documents de référence** : NM EN 1995-1-1 (EC5 — bois), NM EN 1993-1-1 et 1993-1-8 (EC3 — acier et assemblages), NM EN 1991-1-3 (neige) et 1991-1-4 (vent), **RPS 2011** (séisme), DTU 31.1 / 31.2 / 31.3 (bois), NM EN 1090-2 (exécution structures acier), NM EN ISO 1461 (galvanisation), le **RTCM** (décret n° 2-13-874) pour la performance thermique et le confort.",
+        "ar": "**حدود الخدمة**:\n- *يشمل*: مذكرات الحساب وتصاميم التنفيذ المؤشر عليها من مكتب الدراسات التقنية للهيكل، تصاميم الورشة، التصنيع، النقل، الرفع، التركيب، الضبط، الوصلات النهائية، المعالجة والحماية؛\n- *يستثنى*: الكتل والعتبات الخرسانية الحاملة (قسط البناء — LOT_02)، التغطية والعزل المائي (LOT_04 و LOT_06)، الأسقف المستعارة المعلقة (LOT_18).\n\nتقوم المقاولة بتثبيت قضبان التثبيت والصفائح على الأشغال الخرسانية المنجزة في إطار LOT_02 بعد التسلّم الحضوري للدعامات (الاستواء، المناسيب، المحاور ± 5 مم).\n\n**وثائق المرجع**: NM EN 1995-1-1 (EC5 — الخشب)، NM EN 1993-1-1 و 1993-1-8 (EC3 — الفولاذ والوصلات)، NM EN 1991-1-3 (الثلوج) و 1991-1-4 (الرياح)، **RPS 2011** (الزلازل)، DTU 31.1 / 31.2 / 31.3 (الخشب)، NM EN 1090-2 (تنفيذ الهياكل الفولاذية)، NM EN ISO 1461 (الجلفنة)، والمدونة الحرارية للبناء بالمغرب **RTCM** (المرسوم رقم 2-13-874).",
+        "en": "**Limits of supply**:\n- *Included*: design calculations and shop/erection drawings approved by the Structural Engineer, fabrication, transport, lifting, erection, alignment, final connections, treatment and protection;\n- *Excluded*: concrete foundation blocks and ground beams (Structural works — LOT_02), roof covering and waterproofing (LOT_04, LOT_06), suspended ceilings (LOT_18).\n\nThe contractor shall fix anchor bolts and base plates onto the concrete works carried out under LOT_02 after joint acceptance of the supports (flatness, levels, axes ± 5 mm).\n\n**Reference documents**: NM EN 1995-1-1 (EC5 — timber), NM EN 1993-1-1 and 1993-1-8 (EC3 — steel and connections), NM EN 1991-1-3 (snow) and 1991-1-4 (wind), **RPS 2011** (seismic), DTU 31.1 / 31.2 / 31.3 (timber), NM EN 1090-2 (execution of steel structures), NM EN ISO 1461 (galvanizing), and the Moroccan Building Thermal Regulation **RTCM** (decree no. 2-13-874)."
+      }
+    },
+    {
+      "numero": "5.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Provenance et origine — bois de structure",
+        "ar": "مصدر ومنشأ الخشب الإنشائي",
+        "en": "Source and origin — structural timber"
+      },
+      "corpsMD": {
+        "fr": "Les **bois de structure** seront du résineux (sapin/épicéa, pin sylvestre ou pin maritime) classé mécaniquement, marquage **CE** selon **NM EN 14081-1**, de classe de résistance minimale **C24** (NM EN 338). Le **bois lamellé-collé** sera de classe **GL24h** minimum (NM EN 14080), colle de classe d'emploi extérieur.\n\n**Humidité** à la livraison : ≤ 18 % pour bois massif (mesure à l'humidimètre), ≤ 15 % pour lamellé-collé.\n\n**Classe d'emploi / durabilité** (NM EN 335) : classe d'emploi **2** (charpente abritée ventilée), classe **3.2** pour pièces exposées à l'humidité. Tout bois ne présentant pas la durabilité naturelle requise sera traité (article 5.5).\n\nProvenance : fournisseurs disposant d'une chaîne de contrôle **PEFC/FSC** ; rejet des bois présentant flaches excessives, fentes traversantes, nœuds groupés ou pourriture.",
+        "ar": "يكون **الخشب الإنشائي** من الصنوبريات (شوح/تنوب، صنوبر) مصنّفًا ميكانيكيًا، بعلامة **CE** وفق **NM EN 14081-1**، من فئة المقاومة الدنيا **C24** (NM EN 338). يكون **الخشب الرقائقي الملصق** من فئة **GL24h** كحد أدنى (NM EN 14080) بصمغ من فئة الاستعمال الخارجي.\n\n**نسبة الرطوبة** عند التسليم: ≤ 18 % للخشب المصمت (قياس بمقياس الرطوبة)، ≤ 15 % للرقائقي الملصق.\n\n**فئة الاستعمال / المتانة** (NM EN 335): فئة الاستعمال **2** (هيكل محمي ومهوّى)، فئة **3.2** للقطع المعرّضة للرطوبة. كل خشب لا يتوفر على المتانة الطبيعية المطلوبة يخضع للمعالجة (المادة 5.5).\n\nالمصدر: موردون يتوفرون على سلسلة مراقبة **PEFC/FSC**؛ يُرفض الخشب ذو الحوافّ المفرطة، الشقوق العابرة، العقد المتجمّعة أو التعفّن.",
+        "en": "**Structural timber** shall be softwood (fir/spruce, pine) strength-graded, **CE** marked to **NM EN 14081-1**, minimum strength class **C24** (NM EN 338). **Glued-laminated timber** shall be minimum class **GL24h** (NM EN 14080) with exterior-use adhesive.\n\n**Moisture content** at delivery: ≤ 18 % for solid timber (moisture-meter reading), ≤ 15 % for glulam.\n\n**Use class / durability** (NM EN 335): use class **2** (sheltered ventilated framing), class **3.2** for members exposed to moisture. Any timber lacking the required natural durability shall be treated (article 5.5).\n\nSource: suppliers holding **PEFC/FSC** chain of custody; rejection of timber with excessive wane, through cracks, knot clusters or rot."
+      }
+    },
+    {
+      "numero": "5.4",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Provenance et origine — aciers de construction et boulonnerie",
+        "ar": "مصدر ومنشأ فولاذ البناء والمسامير",
+        "en": "Source and origin — structural steel and bolting"
+      },
+      "corpsMD": {
+        "fr": "**Aciers de construction** : profilés et plats laminés à chaud de nuance **S235** ou **S275** (NM EN 10025-2), profilés creux **S355** si requis par la note de calcul. Profilés formés à froid (pannes Z/C) en acier **S350GD+Z** prégalvanisé (NM EN 10346). Marquage **CE** au titre de la **NM EN 1090-1**, classe d'exécution **EXC2** minimum (EXC3 pour ouvrages soumis à fatigue ou sismique élevé).\n\n**Boulonnerie** : boulons de classe **8.8** ou **10.9** précontraints HR (NM EN 14399), rondelles et écrous appariés ; tiges d'ancrage en acier **S235** scellées au mortier de calage non-retrait.\n\n**Métal d'apport soudage** : électrodes / fils conformes à la nuance de base, certificat 3.1 (NM EN 10204).\n\nChaque livraison sera accompagnée des **certificats matière 3.1** par coulée et des certificats de conformité CE. L'entreprise fournira les **DoP (Déclarations de Performance)** des produits.",
+        "ar": "**فولاذ البناء**: مقاطع وألواح مدلفنة على الساخن من فئة **S235** أو **S275** (NM EN 10025-2)، مقاطع مجوّفة **S355** عند طلب مذكرة الحساب. المقاطع المشكّلة على البارد (عوارض Z/C) من فولاذ **S350GD+Z** مجلفن مسبقًا (NM EN 10346). علامة **CE** بموجب **NM EN 1090-1**، فئة التنفيذ **EXC2** كحد أدنى (EXC3 للأشغال الخاضعة للكلال أو الزلزالية العالية).\n\n**المسامير**: براغي من فئة **8.8** أو **10.9** مسبقة الإجهاد HR (NM EN 14399)، حلقات وصواميل متوافقة؛ قضبان تثبيت من فولاذ **S235** مثبّتة بملاط حشو عديم الانكماش.\n\n**معدن إضافة اللحام**: أقطاب / أسلاك مطابقة للفئة الأساس، شهادة 3.1 (NM EN 10204).\n\nيُرفق بكل تسليم **شهادات المادة 3.1** حسب الصبّة وشهادات المطابقة CE. تقدّم المقاولة **تصاريح الأداء (DoP)** للمنتجات.",
+        "en": "**Structural steel**: hot-rolled sections and plates grade **S235** or **S275** (NM EN 10025-2), hollow sections **S355** where required by the design calculations. Cold-formed sections (Z/C purlins) in pre-galvanized **S350GD+Z** steel (NM EN 10346). **CE** marking under **NM EN 1090-1**, execution class **EXC2** minimum (EXC3 for fatigue or high-seismic works).\n\n**Bolting**: class **8.8** or **10.9** preloaded HR bolts (NM EN 14399), matched washers and nuts; anchor bolts in **S235** steel set in non-shrink grout.\n\n**Welding consumables**: electrodes / wires matching the base grade, 3.1 certificate (NM EN 10204).\n\nEach delivery shall be accompanied by **3.1 mill certificates** per cast and CE conformity certificates. The contractor shall provide product **Declarations of Performance (DoP)**."
+      }
+    },
+    {
+      "numero": "5.5",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Traitement du bois, protection anticorrosion et échantillons",
+        "ar": "معالجة الخشب، الحماية ضد التآكل والعيّنات",
+        "en": "Timber treatment, anti-corrosion protection and samples"
+      },
+      "corpsMD": {
+        "fr": "**Traitement du bois** : traitement préventif fongicide et insecticide (anti-termites, anti-capricornes) par **trempage** ou **autoclave** selon la classe d'emploi (NM EN 335), produit certifié **CTB-P+**, pénétration et rétention conformes à la classe visée. Toute coupe ou usinage après traitement sera rebadigeonné au pinceau.\n\n**Protection anticorrosion de l'acier** :\n- *Solution de référence* : **galvanisation à chaud** au trempé selon **NM EN ISO 1461**, épaisseur de revêtement de zinc ≥ **70 µm** (≥ 85 µm pour épaisseurs > 6 mm) ;\n- *Variante peinture* : système multicouche selon **NM EN ISO 12944** catégorie de corrosivité **C3** (intérieur) à **C4 / C5-M** (atmosphère marine littorale {{COMMUNE}}), préparation de surface par grenaillage **Sa 2½**.\n\n**Échantillons et agréments** : avant fabrication, l'entreprise soumettra au Maître d'Œuvre : fiches techniques et DoP des produits, échantillons de bois traité, éprouvettes d'assemblage, fiches de soudage **DMOS / QMOS** (NM EN ISO 15614-1), certificats des soudeurs (NM EN ISO 9606-1), plans d'atelier. Aucune fabrication ne démarre sans accord écrit du Maître d'Œuvre.",
+        "ar": "**معالجة الخشب**: معالجة وقائية مضادة للفطريات والحشرات (مضادة للنمل الأبيض والخنافس) عن طريق **الغمر** أو **الأوتوكلاف** حسب فئة الاستعمال (NM EN 335)، منتج معتمد **CTB-P+**، بنفاذية واحتباس مطابقين للفئة المستهدفة. كل قطع أو تشغيل بعد المعالجة يُعاد طلاؤه بالفرشاة.\n\n**الحماية ضد تآكل الفولاذ**:\n- *الحل المرجعي*: **الجلفنة على الساخن** بالغمر وفق **NM EN ISO 1461**، سمك طلاء الزنك ≥ **70 ميكرومتر** (≥ 85 ميكرومتر للسماكات > 6 مم)؛\n- *بديل الطلاء*: نظام متعدد الطبقات وفق **NM EN ISO 12944** فئة التآكلية **C3** (داخلي) إلى **C4 / C5-M** (جو بحري ساحلي {{COMMUNE}})، تحضير السطح بالسفع **Sa 2½**.\n\n**العيّنات والاعتمادات**: قبل التصنيع، تقدّم المقاولة للمهندس المشرف: البطاقات التقنية وتصاريح الأداء DoP، عيّنات خشب معالَج، نماذج وصلات، بطاقات اللحام **DMOS / QMOS** (NM EN ISO 15614-1)، شهادات اللحّامين (NM EN ISO 9606-1)، تصاميم الورشة. لا ينطلق أي تصنيع دون موافقة كتابية من المهندس المشرف.",
+        "en": "**Timber treatment**: preventive fungicidal and insecticidal treatment (anti-termite, anti-borer) by **dipping** or **autoclave (vacuum-pressure)** according to use class (NM EN 335), **CTB-P+** certified product, penetration and retention compliant with the target class. Any cut or machining after treatment shall be brush re-coated.\n\n**Steel anti-corrosion protection**:\n- *Reference solution*: **hot-dip galvanizing** to **NM EN ISO 1461**, zinc coating thickness ≥ **70 µm** (≥ 85 µm for thicknesses > 6 mm);\n- *Paint variant*: multi-coat system to **NM EN ISO 12944**, corrosivity category **C3** (indoor) to **C4 / C5-M** (coastal marine atmosphere {{COMMUNE}}), surface preparation by blast cleaning **Sa 2½**.\n\n**Samples and approvals**: before fabrication the contractor shall submit to the Engineer: product data sheets and DoPs, treated-timber samples, connection test pieces, welding procedure specifications **WPS / WPQR** (NM EN ISO 15614-1), welder qualifications (NM EN ISO 9606-1) and shop drawings. No fabrication shall start without the Engineer's written approval."
+      }
+    },
+    {
+      "numero": "5.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Mise en œuvre, levage et assemblages",
+        "ar": "التنفيذ، الرفع والوصلات",
+        "en": "Erection, lifting and connections"
+      },
+      "corpsMD": {
+        "fr": "**Charpente bois** (DTU 31.1 / 31.3) : assemblages traditionnels (tenon-mortaise, embrèvement) ou par connecteurs métalliques, broches et boulons ; pose des fermes avec entraxes des plans, calage et anti-dévers ; contreventement de versant obligatoire (palées, croix de Saint-André) ; appuis des fermes isolés du béton par bande bitumineuse ou cale, jamais en contact direct avec maçonnerie humide.\n\n**Charpente métallique** (NM EN 1090-2) : montage des portiques par éléments préassemblés en atelier ; les **soudures** sur site limitées au strict nécessaire et exécutées par soudeurs certifiés sous DMOS ; serrage des **boulons HR précontraints** au couple ou à l'angle contrôlé (clé dynamométrique étalonnée), repérage par marquage des boulons serrés ; tolérances de montage selon NM EN 1090-2 tableau B.1.\n\n**Calcul au vent et neige / séisme** : la stabilité d'ensemble (contreventements longitudinaux et transversaux, poutres au vent) est justifiée sous combinaisons NM EN 1990 incluant les charges de vent NM EN 1991-1-4, de neige NM EN 1991-1-3 et l'action sismique **RPS 2011** zone **{{ZONE_SISMIQUE}}** (coefficient de comportement de la note de calcul). Les ancrages en pied sont dimensionnés pour reprendre soulèvement et cisaillement sismiques.\n\n**HSE & déchets** : port des EPP antichute (harnais, lignes de vie) lors du montage en hauteur ; balisage de la zone de levage ; tri sélectif des chutes (bois traité = déchet dangereux à filière dédiée, acier = recyclage ferraille), bordereaux de suivi conformément à la loi **28-00** sur la gestion des déchets.",
+        "ar": "**الهيكل الخشبي** (DTU 31.1 / 31.3): وصلات تقليدية (لسان-تجويف) أو بموصلات معدنية، مسامير وبراغي؛ تركيب الجمالونات وفق المسافات البينية، الإسناد ومنع الميلان؛ التدعيم ضد الالتواء على المنحدر إلزامي (صلبان القديس أندري)؛ مساند الجمالونات معزولة عن الخرسانة بشريط بيتومي أو إسفين، دون تماس مباشر مع البناء الرطب.\n\n**الهيكل المعدني** (NM EN 1090-2): تركيب الأطر بعناصر مُجمّعة مسبقًا في الورشة؛ **اللحامات** بالموقع محدودة في الضروري القصوى وتُنفّذ من طرف لحّامين معتمدين تحت DMOS؛ ربط **البراغي HR مسبقة الإجهاد** بعزم الدوران أو بالزاوية المراقَبة (مفتاح عزم معاير)، تحديد البراغي المربوطة بالعلامات؛ هوامش التركيب وفق NM EN 1090-2 الجدول B.1.\n\n**الحساب تحت الرياح والثلوج / الزلزال**: يُبرَّر الاستقرار الإجمالي (التدعيمات الطولية والعرضية، جوائز مقاومة الرياح) تحت التركيبات NM EN 1990 شاملة أحمال الرياح NM EN 1991-1-4 والثلوج NM EN 1991-1-3 والتأثير الزلزالي **RPS 2011** المنطقة **{{ZONE_SISMIQUE}}**. تُحجّم المثبتات في القاعدة لتحمّل الرفع والقص الزلزاليين.\n\n**السلامة والصحة والبيئة والنفايات**: ارتداء معدات الوقاية من السقوط (الأحزمة، حبال الحياة) أثناء التركيب على العلو؛ تأطير منطقة الرفع؛ الفرز الانتقائي للفضلات (الخشب المعالَج = نفاية خطرة لقطاع مخصص، الفولاذ = إعادة تدوير الخردة)، مع وصولات التتبع وفق القانون **28-00** المتعلق بتدبير النفايات.",
+        "en": "**Timber framing** (DTU 31.1 / 31.3): traditional joints (mortise-and-tenon, notched) or metal connectors, dowels and bolts; trusses erected at design spacing, wedged and prevented from racking; roof-plane bracing mandatory (St Andrew's crosses); truss bearings isolated from concrete by bituminous strip or shim, never in direct contact with damp masonry.\n\n**Steel framing** (NM EN 1090-2): portal frames erected from shop-preassembled elements; **site welding** kept to the strict minimum and carried out by certified welders under WPS; **preloaded HR bolts** tightened by torque or controlled-angle method (calibrated torque wrench), tightened bolts identified by marking; erection tolerances to NM EN 1090-2 table B.1.\n\n**Wind/snow/seismic design**: overall stability (longitudinal and transverse bracing, wind girders) is justified under NM EN 1990 combinations including wind loads NM EN 1991-1-4, snow loads NM EN 1991-1-3 and seismic action **RPS 2011** zone **{{ZONE_SISMIQUE}}** (behaviour factor per calculation note). Base anchorages are sized to resist seismic uplift and shear.\n\n**HSE & waste**: fall-protection PPE (harness, life lines) when working at height; cordoning of the lifting zone; selective sorting of offcuts (treated timber = hazardous waste to a dedicated stream, steel = scrap recycling), tracking slips in accordance with Law **28-00** on waste management."
+      }
+    },
+    {
+      "numero": "5.7",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Essais, contrôles et tolérances de réception",
+        "ar": "الاختبارات، المراقبة وهوامش التسلّم",
+        "en": "Tests, inspections and acceptance tolerances"
+      },
+      "corpsMD": {
+        "fr": "**Contrôles bois** : vérification du classement mécanique et du marquage CE, mesure de l'humidité à réception (≤ 18 %), contrôle visuel des assemblages, vérification de la rétention du produit de traitement.\n\n**Contrôles acier (NM EN 1090-2)** :\n- contrôle dimensionnel des éléments fabriqués ;\n- **contrôle non destructif des soudures** : ressuage ou magnétoscopie 100 % des soudures de catégorie supérieure, radiographie/ultrasons par sondage selon classe d'exécution ;\n- contrôle du couple de serrage des boulons HR sur échantillon (≥ 10 % des boulons) ;\n- mesure de l'épaisseur de galvanisation/peinture sèche à l'appareil magnétique (≥ valeurs de l'article 5.5).\n\n**Tolérances de réception** :\n- aplomb des poteaux : ≤ h/500 (h = hauteur) ;\n- flèche des pannes et traverses sous charge de service : ≤ L/200 ;\n- rectitude des membrures : ≤ L/750 ;\n- position des platines / axes : ± 5 mm.\n\nTout écart hors tolérance entraîne reprise ou renforcement aux frais exclusifs de l'entreprise, après avis du Maître d'Œuvre et du BET Structure.",
+        "ar": "**مراقبة الخشب**: التحقق من التصنيف الميكانيكي وعلامة CE، قياس الرطوبة عند التسلّم (≤ 18 %)، المراقبة البصرية للوصلات، التحقق من احتباس منتج المعالجة.\n\n**مراقبة الفولاذ (NM EN 1090-2)**:\n- المراقبة البُعدية للعناصر المُصنّعة؛\n- **المراقبة غير الإتلافية للحامات**: السائل النافذ أو المغناطيسية 100 % للحامات من الفئة العليا، الأشعة/الموجات فوق الصوتية بالسبر حسب فئة التنفيذ؛\n- مراقبة عزم ربط براغي HR على عيّنة (≥ 10 % من البراغي)؛\n- قياس سمك الجلفنة/الطلاء الجاف بالجهاز المغناطيسي (≥ قيم المادة 5.5).\n\n**هوامش التسلّم**:\n- شاقولية الأعمدة: ≤ h/500 (h = الارتفاع)؛\n- سهم العوارض والعارضات تحت حمل الخدمة: ≤ L/200؛\n- استقامة العناصر: ≤ L/750؛\n- موضع الصفائح / المحاور: ± 5 مم.\n\nكل انحراف خارج الهامش يؤدي إلى إعادة الإنجاز أو التقوية على نفقة المقاولة الحصرية، بعد رأي المهندس المشرف ومكتب الدراسات التقنية.",
+        "en": "**Timber inspections**: verification of strength grading and CE marking, moisture measurement on delivery (≤ 18 %), visual inspection of connections, verification of treatment retention.\n\n**Steel inspections (NM EN 1090-2)**:\n- dimensional check of fabricated elements;\n- **non-destructive testing of welds**: dye-penetrant or magnetic-particle on 100 % of upper-category welds, radiography/ultrasonics by sampling per execution class;\n- HR bolt torque check on a sample (≥ 10 % of bolts);\n- dry galvanizing/paint thickness measurement with magnetic gauge (≥ article 5.5 values).\n\n**Acceptance tolerances**:\n- column plumb: ≤ h/500 (h = height);\n- purlin and rafter deflection under service load: ≤ L/200;\n- member straightness: ≤ L/750;\n- base plate / axis position: ± 5 mm.\n\nAny out-of-tolerance deviation entails rework or strengthening at the contractor's sole cost, after the opinion of the Engineer and the Structural Engineer."
+      }
+    },
+    {
+      "numero": "5.8",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Garanties (DOC art. 769 / 770)",
+        "ar": "الضمانات (ظهير الالتزامات والعقود المادتان 769 / 770)",
+        "en": "Warranties (Code of Obligations art. 769 / 770)"
+      },
+      "corpsMD": {
+        "fr": "Conformément aux **articles 769 et 770 du Dahir formant Code des Obligations et Contrats (DOC)**, l'entreprise est tenue :\n\n- **Garantie de parfait achèvement — 1 an** à compter de la réception provisoire : reprise de tous désordres signalés (jeu d'assemblages, corrosion prématurée, attaque biologique du bois) ;\n- **Garantie biennale — 2 ans** sur les éléments d'équipement dissociables de l'ossature ;\n- **Garantie décennale — 10 ans** sur la solidité de la charpente et sa contribution à la stabilité de l'ouvrage.\n\nL'entreprise présentera, **avant tout démarrage**, son **attestation d'assurance décennale** souscrite auprès d'une compagnie agréée **ACAPS**, montant de garantie ≥ **{{MONTANT_TRAVAUX_LOT}} MAD**, sous peine de résiliation à ses torts exclusifs. Les notes de calcul vent/neige/séisme et plans conformes à l'exécution (DOE) seront remis à la réception.",
+        "ar": "وفقًا **للمادتين 769 و 770 من الظهير المكوّن لقانون الالتزامات والعقود (DOC)**، تكون المقاولة ملزمة بـ:\n\n- **ضمان الإنجاز التام — سنة واحدة** ابتداءً من التسلّم المؤقت: إصلاح كل الخلل المُبلّغ عنه (لعب الوصلات، التآكل المبكّر، الهجوم البيولوجي على الخشب)؛\n- **الضمان الثنائي — سنتان** على عناصر التجهيز المنفصلة عن الهيكل؛\n- **الضمان العشري — عشر سنوات** على متانة الهيكل ومساهمته في استقرار البناء.\n\nتقدّم المقاولة، **قبل أي انطلاق**، **شهادة التأمين العشري** المبرمة لدى شركة معتمدة من **ACAPS**، بمبلغ ضمان ≥ **{{MONTANT_TRAVAUX_LOT}} درهم**، تحت طائلة الفسخ على مسؤوليتها الحصرية. تُسلّم مذكرات حساب الرياح/الثلوج/الزلزال والتصاميم المطابقة للتنفيذ (DOE) عند التسلّم.",
+        "en": "In accordance with **articles 769 and 770 of the Dahir forming the Code of Obligations and Contracts (DOC)**, the contractor is bound by:\n\n- **Defects-liability warranty — 1 year** from provisional acceptance: rectification of all reported defects (connection slack, premature corrosion, biological attack of timber);\n- **Two-year warranty — 2 years** on equipment elements dissociable from the structure;\n- **Ten-year (decennial) warranty — 10 years** on the soundness of the framing and its contribution to the stability of the works.\n\nBefore any start, the contractor shall submit its **decennial insurance certificate** taken out with an **ACAPS**-approved company, guarantee amount ≥ **{{MONTANT_TRAVAUX_LOT}} MAD**, failing which the contract may be terminated at its sole fault. Wind/snow/seismic calculation notes and as-built drawings (DOE) shall be handed over at acceptance."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "5.01",
+      "designation": {
+        "fr": "Charpente bois traditionnelle ou fermettes en résineux classé C24 traité classe d'emploi 2, y compris assemblages, contreventements et pose",
+        "ar": "هيكل خشبي تقليدي أو جمالونات صناعية من خشب صنوبري مصنّف C24 معالَج فئة استعمال 2، شاملة الوصلات والتدعيمات والتركيب",
+        "en": "Traditional timber framing or trussed rafters in C24 graded softwood treated to use class 2, including connections, bracing and erection"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au mètre carré de surface de versant couverte mesurée en projection horizontale entre nus d'appuis, sans déduction des trémies < 1 m².",
+        "ar": "بالمتر المربع من مساحة المنحدر المغطّاة مقيسة بالإسقاط الأفقي بين أوجه المساند، دون خصم الفتحات < 1 م².",
+        "en": "Per square metre of covered roof-slope area measured in horizontal projection between bearing faces, without deduction of openings < 1 m²."
+      }
+    },
+    {
+      "code": "5.02",
+      "designation": {
+        "fr": "Poutre / poteau en bois lamellé-collé GL24h, façonné, traité et posé",
+        "ar": "جائز / عمود من خشب رقائقي ملصق GL24h، مُشكّل ومعالَج ومُركّب",
+        "en": "Glued-laminated GL24h timber beam / column, fabricated, treated and erected"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au mètre cube de bois lamellé-collé mis en œuvre, mesuré sur dimensions nominales finies.",
+        "ar": "بالمتر المكعب من الخشب الرقائقي الملصق المُنفّذ، مقيسًا على الأبعاد الاسمية النهائية.",
+        "en": "Per cubic metre of glulam installed, measured on finished nominal dimensions."
+      }
+    },
+    {
+      "code": "5.03",
+      "designation": {
+        "fr": "Ossature métallique principale (portiques : poteaux + traverses) en profilés S235/S275, galvanisée à chaud",
+        "ar": "هيكل معدني رئيسي (أطر: أعمدة + عارضات) من مقاطع S235/S275، مجلفن على الساخن",
+        "en": "Primary steel frame (portals: columns + rafters) in S235/S275 sections, hot-dip galvanized"
+      },
+      "unite": "kg",
+      "modeMetreMD": {
+        "fr": "Au kilogramme d'acier mis en œuvre selon poids théorique des profilés du plan d'atelier, platines et goussets inclus, boulonnerie et galvanisation comprises sans plus-value.",
+        "ar": "بالكيلوغرام من الفولاذ المُنفّذ حسب الوزن النظري لمقاطع تصميم الورشة، شاملة الصفائح والوصلات والمسامير والجلفنة دون زيادة.",
+        "en": "Per kilogram of steel installed based on theoretical section weight from shop drawings, base plates and gussets included, bolting and galvanizing included with no extra."
+      }
+    },
+    {
+      "code": "5.04",
+      "designation": {
+        "fr": "Pannes et lisses formées à froid en acier S350GD+Z prégalvanisé, y compris fixations et échantignoles",
+        "ar": "عوارض ومساند مشكّلة على البارد من فولاذ S350GD+Z مجلفن مسبقًا، شاملة التثبيتات",
+        "en": "Cold-formed Z/C purlins and side rails in pre-galvanized S350GD+Z steel, including cleats and fixings"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire posé, mesuré entre axes de portiques, recouvrements et fixations inclus.",
+        "ar": "بالمتر الطولي المركّب، مقيسًا بين محاور الأطر، شاملة التراكبات والتثبيتات.",
+        "en": "Per linear metre installed, measured between frame axes, laps and fixings included."
+      }
+    },
+    {
+      "code": "5.05",
+      "designation": {
+        "fr": "Contreventements (croix de Saint-André, poutres au vent) en barres/cornières, y compris tendeurs et goussets",
+        "ar": "تدعيمات ضد الالتواء (صلبان القديس أندري، جوائز مقاومة الرياح) من قضبان/زوايا، شاملة الشدّادات والوصلات",
+        "en": "Bracing (St Andrew's crosses, wind girders) in bars/angles, including turnbuckles and gussets"
+      },
+      "unite": "kg",
+      "modeMetreMD": {
+        "fr": "Au kilogramme, poids théorique des barres et accessoires de contreventement selon plan d'atelier.",
+        "ar": "بالكيلوغرام، الوزن النظري للقضبان وملحقات التدعيم حسب تصميم الورشة.",
+        "en": "Per kilogram, theoretical weight of bracing bars and accessories per shop drawing."
+      }
+    },
+    {
+      "code": "5.06",
+      "designation": {
+        "fr": "Platines d'ancrage avec tiges scellées au mortier non-retrait sur supports béton",
+        "ar": "صفائح تثبيت مع قضبان مثبتة بملاط عديم الانكماش على دعامات خرسانية",
+        "en": "Anchor base plates with bolts set in non-shrink grout on concrete supports"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de platine posée, réglée et scellée, tiges d'ancrage et mortier de calage compris.",
+        "ar": "بالوحدة من الصفيحة المركّبة والمضبوطة والمثبتة، شاملة قضبان التثبيت وملاط الحشو.",
+        "en": "Per unit of base plate erected, aligned and grouted, anchor bolts and bedding grout included."
+      }
+    },
+    {
+      "code": "5.07",
+      "designation": {
+        "fr": "Traitement de préservation du bois (autoclave/trempage) certifié CTB-P+",
+        "ar": "معالجة حفظ الخشب (أوتوكلاف/غمر) معتمدة CTB-P+",
+        "en": "Timber preservation treatment (autoclave/dipping) CTB-P+ certified"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au mètre cube de bois traité, mesuré sur volume mis en œuvre.",
+        "ar": "بالمتر المكعب من الخشب المعالَج، مقيسًا على الحجم المُنفّذ.",
+        "en": "Per cubic metre of treated timber, measured on installed volume."
+      }
+    },
+    {
+      "code": "5.08",
+      "designation": {
+        "fr": "Protection anticorrosion par système peinture NM EN ISO 12944 (variante non galvanisée), 3 couches",
+        "ar": "حماية ضد التآكل بنظام طلاء NM EN ISO 12944 (بديل غير مجلفن)، 3 طبقات",
+        "en": "Anti-corrosion protection by NM EN ISO 12944 paint system (non-galvanized variant), 3 coats"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au mètre carré de surface développée d'acier traité (préparation Sa 2½ incluse), mesuré sur abaques de surface des profilés.",
+        "ar": "بالمتر المربع من السطح المطوَّر للفولاذ المعالَج (شاملة تحضير Sa 2½)، مقيسًا على جداول مساحات المقاطع.",
+        "en": "Per square metre of developed surface area of treated steel (Sa 2½ preparation included), measured from section surface-area tables."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_02_GO_BETON",
+      "type": "SUPPORTS_ANCRAGES",
+      "description": {
+        "fr": "Réception contradictoire des massifs, longrines et chaînages béton support des platines d'ancrage (planéité, niveaux, axes ± 5 mm) avant scellement.",
+        "ar": "التسلّم الحضوري للكتل والعتبات والروابط الخرسانية الحاملة لصفائح التثبيت (الاستواء، المناسيب، المحاور ± 5 مم) قبل التثبيت.",
+        "en": "Joint acceptance of concrete blocks, ground beams and ties supporting the anchor base plates (flatness, levels, axes ± 5 mm) before grouting."
+      }
+    },
+    {
+      "lotCible": "LOT_04_ETANCHEITE",
+      "type": "SUPPORT_COUVERTURE",
+      "description": {
+        "fr": "Coordination des pentes et supports de toiture-terrasse / bac acier ; remise d'un support stable et plan pour la mise en œuvre de l'étanchéité.",
+        "ar": "تنسيق الانحدارات ودعامات السطح-التراس / الصاج الفولاذي؛ تسليم دعامة مستقرة ومستوية لتنفيذ العزل المائي.",
+        "en": "Coordination of falls and roof / steel-deck supports; provision of a stable, plane substrate for waterproofing works."
+      }
+    },
+    {
+      "lotCible": "LOT_06_COUVERTURE",
+      "type": "RECEPTION_SUPPORT",
+      "description": {
+        "fr": "Réception des pannes et chevrons par le lot couverture avant pose des liteaux et tuiles / panneaux de couverture.",
+        "ar": "تسلّم العوارض والروافد من طرف قسط التغطية قبل تركيب اللتو والقرميد / ألواح التغطية.",
+        "en": "Acceptance of purlins and rafters by the roof-covering lot before fixing battens and tiles / roofing panels."
+      }
+    },
+    {
+      "lotCible": "LOT_15_ELECTRICITE",
+      "type": "RESERVATIONS",
+      "description": {
+        "fr": "Coordination des chemins de câbles, points de fixation et mise à la terre des structures métalliques (équipotentialité).",
+        "ar": "تنسيق مسارات الكابلات ونقاط التثبيت والربط الأرضي للهياكل المعدنية (التساوي الجهدي).",
+        "en": "Coordination of cable trays, fixing points and earthing of steel structures (equipotential bonding)."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "auteur": "Équipe ingénierie CITURBAREA + BET partenaire NOVEC",
+    "sources": [
+      "NM EN 1995-1-1 — Eurocode 5 (Calcul des structures en bois) — IMANOR",
+      "NM EN 1993-1-1 et NM EN 1993-1-8 — Eurocode 3 (Acier et assemblages) — IMANOR",
+      "NM EN 1991-1-3 (neige) et NM EN 1991-1-4 (vent) — IMANOR",
+      "RPS 2011 (Ministère de l'Habitat et de la Politique de la Ville)",
+      "DTU 31.1 / 31.2 / 31.3 (charpente et ossature bois)",
+      "NM EN 1090-1 / 1090-2 (exécution des structures en acier)",
+      "NM EN ISO 1461 (galvanisation à chaud) et NM EN ISO 12944 (peinture anticorrosion)",
+      "RTCM — décret n° 2-13-874",
+      "DOC art. 769, 770 ; Loi 28-00 (gestion des déchets)"
+    ]
+  }
+}

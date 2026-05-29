@@ -20,6 +20,7 @@ const jwt_auth_guard_1 = require("../../tome-5/auth/jwt-auth.guard");
 const prisma_service_1 = require("../../tome-at/kernel/prisma/prisma.service");
 const pv_chantier_renderer_1 = require("./pv-chantier.renderer");
 const pv_chantier_service_1 = require("./pv-chantier.service");
+const pv_compliance_service_1 = require("./pv-compliance.service");
 /**
  * Tome 2 — PV de Chantier (Procès-Verbaux).
  *
@@ -37,15 +38,24 @@ let PvChantierController = class PvChantierController {
     service;
     renderer;
     prisma;
-    constructor(service, renderer, prisma) {
+    compliance;
+    constructor(service, renderer, prisma, compliance) {
         this.service = service;
         this.renderer = renderer;
         this.prisma = prisma;
+        this.compliance = compliance;
     }
     // ───────── Listes & lectures (publiques en GET)
     async list(dossierId) {
         const items = await this.service.list(dossierId);
         return { items, total: items.length };
+    }
+    // ───────── Cadence PV obligatoire (1 PV / 15 jours)
+    async complianceStatus(dossierId) {
+        return this.compliance.getStatus(dossierId);
+    }
+    async complianceScan() {
+        return this.compliance.runScanNow();
     }
     async detail(pvId) {
         return this.service.get(pvId);
@@ -119,6 +129,21 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], PvChantierController.prototype, "list", null);
 __decorate([
+    (0, common_1.Get)("compliance/:dossierId"),
+    __param(0, (0, common_1.Param)("dossierId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], PvChantierController.prototype, "complianceStatus", null);
+__decorate([
+    (0, common_1.Post)("compliance/scan"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.HttpCode)(200),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], PvChantierController.prototype, "complianceScan", null);
+__decorate([
     (0, common_1.Get)(":pvId"),
     __param(0, (0, common_1.Param)("pvId")),
     __metadata("design:type", Function),
@@ -186,5 +211,6 @@ exports.PvChantierController = PvChantierController = __decorate([
     (0, common_1.Controller)("api/pv-chantier"),
     __metadata("design:paramtypes", [pv_chantier_service_1.PvChantierService,
         pv_chantier_renderer_1.PvChantierRenderer,
-        prisma_service_1.PrismaService])
+        prisma_service_1.PrismaService,
+        pv_compliance_service_1.PvComplianceService])
 ], PvChantierController);

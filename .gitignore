@@ -1,5 +1,7 @@
 dump_production.sql
 .env.production
+.claude/
+node_modules/
 apps/api/data/dgi-pdfs/
 .env
 .env.*

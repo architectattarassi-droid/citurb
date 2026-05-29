@@ -1,0 +1,316 @@
+{
+  "code": "LOT_14_PLOMBERIE_SANITAIRE",
+  "numero": 14,
+  "famille": "TECHNIQUE_CES",
+  "intitule": {
+    "fr": "Plomberie sanitaire — Alimentation eau froide, évacuations et appareils sanitaires",
+    "ar": "السباكة الصحية — تغذية الماء البارد، التصريف والأجهزة الصحية",
+    "en": "Sanitary Plumbing — Cold Water Supply, Drainage and Sanitary Fixtures"
+  },
+  "description": {
+    "fr": "Le présent lot comprend la fourniture, la pose et la mise en service de l'ensemble des installations de plomberie sanitaire du projet {{PROJECT_NAME}} sis dans la commune de {{COMMUNE}} : réseaux d'alimentation en eau froide à partir du compteur ONEE, distribution intérieure (cuivre, PER, multicouche), réseaux d'évacuation des eaux usées (EU) et eaux vannes (EV) en PVC, ventilation primaire et secondaire des chutes, fourniture et pose des appareils sanitaires et de la robinetterie, protection anti-bélier et calorifuge. Les installations sont réalisées conformément au DTU 60.1, aux règles de calcul DTU 60.11 et aux prescriptions de potabilité de l'ONEE.",
+    "ar": "يشمل هذا القسم توريد وتركيب وتشغيل مجموع منشآت السباكة الصحية لمشروع {{PROJECT_NAME}} الكائن بجماعة {{COMMUNE}}: شبكات تغذية الماء البارد انطلاقاً من عداد المكتب الوطني للكهرباء والماء الصالح للشرب، التوزيع الداخلي (نحاس، بولي إيثيلين متشابك، متعدد الطبقات)، شبكات تصريف المياه المستعملة والمياه السوداء من مادة PVC، التهوية الأولية والثانوية للأعمدة، توريد وتركيب الأجهزة الصحية والصنبورية، الحماية من المطرقة المائية والعزل الحراري. تُنجز المنشآت طبقاً للمعيار DTU 60.1 وقواعد الحساب DTU 60.11 ومقتضيات صلاحية الماء للشرب الصادرة عن المكتب الوطني.",
+    "en": "This lot covers the supply, installation and commissioning of all sanitary plumbing systems for project {{PROJECT_NAME}} located in the commune of {{COMMUNE}}: cold water supply networks from the ONEE meter, interior distribution (copper, PEX, multilayer), wastewater (greywater) and soil-water (blackwater) drainage networks in PVC, primary and secondary stack venting, supply and installation of sanitary fixtures and fittings, water-hammer protection and thermal insulation. Works shall comply with DTU 60.1, the DTU 60.11 sizing rules and ONEE potability requirements."
+  },
+  "normesRefs": [
+    "DTU 60.1",
+    "DTU 60.11",
+    "NM EN ISO 15875",
+    "NM EN ISO 21003",
+    "NM EN 1057",
+    "NM EN 1329-1",
+    "NM EN 12056-2",
+    "NM EN 806",
+    "NM 03.7.001",
+    "NM EN 997"
+  ],
+  "secteurQualifMA": [
+    "Secteur M — Travaux de plomberie sanitaire et fluides",
+    "M.1 Plomberie sanitaire et alimentation en eau",
+    "M.2 Réseaux d'évacuation et assainissement intérieur"
+  ],
+  "competencesRequises": [
+    "Plombier qualifié justifiant d'une qualification secteur M classe adaptée au montant du lot",
+    "Soudeur cuivre (brasure capillaire) certifié",
+    "Opérateur sertissage multicouche/PER agréé fabricant",
+    "Conducteur de travaux fluides expérimenté en réception d'épreuves de pression"
+  ],
+  "articles": [
+    {
+      "numero": "14.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet, consistance et limites de prestation",
+        "ar": "الموضوع، المحتوى وحدود الخدمة",
+        "en": "Scope, Content and Limits of Works"
+      },
+      "corpsMD": {
+        "fr": "## Objet\nLe présent article définit l'objet et la consistance des travaux de plomberie sanitaire pour le projet **{{PROJECT_NAME}}** à **{{COMMUNE}}**.\n\nLa prestation comprend notamment :\n- le réseau d'alimentation en eau froide depuis le **regard compteur ONEE** jusqu'aux points de puisage ;\n- la distribution intérieure encastrée et apparente ;\n- les réseaux d'évacuation **EU/EV** raccordés au regard de branchement (limite avec le lot VRD) ;\n- la ventilation des chutes et la fourniture/pose des appareils sanitaires et robinetteries.\n\n## Limites de prestation\n- **Amont** : le branchement ONEE et le comptage sont à la charge du Maître d'Ouvrage ; le présent lot débute en aval du compteur.\n- **Aval** : le raccordement aux regards d'assainissement extérieurs relève du **lot VRD**.\n- L'alimentation électrique des équipements (ECS) relève du **lot Électricité**.\n\nL'entrepreneur reconnaît avoir pris connaissance des lieux et des plans d'exécution.",
+        "ar": "## الموضوع\nيحدد هذا البند موضوع ومحتوى أشغال السباكة الصحية لمشروع **{{PROJECT_NAME}}** بـ **{{COMMUNE}}**.\n\nتشمل الخدمة على الخصوص:\n- شبكة تغذية الماء البارد انطلاقاً من **حجرة عداد المكتب الوطني** إلى نقاط السحب؛\n- التوزيع الداخلي المدفون والظاهر؛\n- شبكات التصريف **EU/EV** الموصولة بحجرة الربط (الحد الفاصل مع قسم الطرق والشبكات)؛\n- تهوية الأعمدة وتوريد وتركيب الأجهزة الصحية والصنبورية.\n\n## حدود الخدمة\n- **من الأعلى**: ربط المكتب الوطني والعدّاد على عاتق صاحب المشروع؛ يبدأ هذا القسم بعد العدّاد.\n- **من الأسفل**: الربط بحجرات التطهير الخارجية يدخل ضمن **قسم الطرق والشبكات**.\n- التغذية الكهربائية للتجهيزات تدخل ضمن **قسم الكهرباء**.\n\nيقر المقاول بأنه اطلع على عين المكان وعلى تصاميم التنفيذ.",
+        "en": "## Scope\nThis article defines the scope and content of the sanitary plumbing works for project **{{PROJECT_NAME}}** in **{{COMMUNE}}**.\n\nThe works include in particular:\n- the cold water supply network from the **ONEE meter chamber** to the draw-off points;\n- concealed and surface-mounted interior distribution;\n- **wastewater/soil** drainage networks connected to the connection chamber (limit with the VRD lot);\n- stack venting and the supply/installation of sanitary fixtures and fittings.\n\n## Limits of works\n- **Upstream**: the ONEE connection and metering are the Client's responsibility; this lot begins downstream of the meter.\n- **Downstream**: connection to the exterior drainage chambers belongs to the **VRD lot**.\n- Electrical supply to equipment (DHW) belongs to the **Electrical lot**.\n\nThe contractor acknowledges having inspected the site and the execution drawings."
+      }
+    },
+    {
+      "numero": "14.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Documents de référence et normes applicables",
+        "ar": "الوثائق المرجعية والمعايير المطبقة",
+        "en": "Reference Documents and Applicable Standards"
+      },
+      "corpsMD": {
+        "fr": "Les travaux sont exécutés conformément aux documents en vigueur à la date de remise des offres :\n\n| Référence | Objet |\n|-----------|-------|\n| **DTU 60.1** | Plomberie sanitaire pour bâtiments |\n| **DTU 60.11** | Règles de calcul des installations de plomberie sanitaire et d'évacuation des eaux pluviales |\n| **NM EN 806** | Spécifications pour installations d'eau destinée à la consommation humaine |\n| **NM EN 12056-2** | Réseaux d'évacuation gravitaire à l'intérieur des bâtiments |\n| **NM 03.7.001** | Eaux d'alimentation humaine — exigences de potabilité |\n\nLes prescriptions de l'**ONEE** relatives à la potabilité et aux matériaux en contact avec l'eau potable priment en cas de divergence. En cas de contradiction, l'ordre de priorité est : réglementation marocaine > DTU > normes NM/EN > documents particuliers du marché.",
+        "ar": "تُنفَّذ الأشغال طبقاً للوثائق السارية في تاريخ تقديم العروض:\n\n| المرجع | الموضوع |\n|--------|---------|\n| **DTU 60.1** | السباكة الصحية للمباني |\n| **DTU 60.11** | قواعد حساب منشآت السباكة الصحية وتصريف مياه الأمطار |\n| **NM EN 806** | مواصفات منشآت الماء الموجه للاستهلاك البشري |\n| **NM EN 12056-2** | شبكات التصريف الثقالي داخل المباني |\n| **NM 03.7.001** | مياه التغذية البشرية — متطلبات الصلاحية للشرب |\n\nتُرجَّح مقتضيات **المكتب الوطني** المتعلقة بصلاحية الماء والمواد الملامسة للماء الصالح للشرب عند التعارض. عند التناقض يكون ترتيب الأولوية: التنظيم المغربي > DTU > معايير NM/EN > الوثائق الخاصة بالصفقة.",
+        "en": "Works shall be executed in accordance with the documents in force at the bid submission date:\n\n| Reference | Subject |\n|-----------|---------|\n| **DTU 60.1** | Sanitary plumbing for buildings |\n| **DTU 60.11** | Sizing rules for sanitary plumbing and rainwater drainage |\n| **NM EN 806** | Specifications for installations conveying water for human consumption |\n| **NM EN 12056-2** | Gravity drainage systems inside buildings |\n| **NM 03.7.001** | Water for human consumption — potability requirements |\n\nThe **ONEE** requirements on potability and materials in contact with drinking water prevail in case of divergence. In case of contradiction, the priority order is: Moroccan regulation > DTU > NM/EN standards > particular contract documents."
+      }
+    },
+    {
+      "numero": "14.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Provenance, origine et qualité des tuyauteries d'alimentation",
+        "ar": "مصدر، منشأ وجودة أنابيب التغذية",
+        "en": "Provenance, Origin and Quality of Supply Pipework"
+      },
+      "corpsMD": {
+        "fr": "## Tubes cuivre\nTubes en cuivre écroui ou recuit conformes à la **NM EN 1057**, assemblés par brasure capillaire forte (raccords brasés) en distribution apparente et alimentation principale.\n\n## Tubes PER et multicouche\n- **PER** (polyéthylène réticulé) conforme à la **NM EN ISO 15875**, classe d'application 1 ou 2.\n- **Multicouche** (PE-RT/Al/PE-RT) conforme à la **NM EN ISO 21003**, assemblé par sertissage à l'aide de l'outillage agréé du fabricant.\n\n## Conformité eau potable\nTous les matériaux, raccords et joints en contact avec l'eau destinée à la consommation humaine doivent justifier de leur **innocuité sanitaire** (attestation de conformité alimentaire / ACS équivalent) et être conformes aux exigences **ONEE** et à la **NM 03.7.001**.\n\nLes canalisations sont identifiées par couleur conventionnelle (bleu : eau froide).",
+        "ar": "## أنابيب النحاس\nأنابيب من النحاس المقسَّى أو المُلدَّن مطابقة لـ **NM EN 1057**، تُجمَّع باللحام الشعري القوي (وصلات ملحومة) في التوزيع الظاهر والتغذية الرئيسية.\n\n## أنابيب PER والمتعددة الطبقات\n- **PER** (بولي إيثيلين متشابك) مطابق لـ **NM EN ISO 15875**، صنف التطبيق 1 أو 2.\n- **متعدد الطبقات** (PE-RT/Al/PE-RT) مطابق لـ **NM EN ISO 21003**، يُجمَّع بالكبس باستعمال عدة الصانع المعتمدة.\n\n## مطابقة الماء الصالح للشرب\nيجب على جميع المواد والوصلات والمفاصل الملامسة للماء الموجه للاستهلاك البشري إثبات **سلامتها الصحية** (شهادة مطابقة غذائية / ما يعادل ACS) ومطابقتها لمتطلبات **المكتب الوطني** ولـ **NM 03.7.001**.\n\nتُميَّز القنوات بلون اصطلاحي (أزرق: الماء البارد).",
+        "en": "## Copper pipes\nHard-drawn or annealed copper pipes complying with **NM EN 1057**, joined by hard capillary brazing (brazed fittings) in surface-mounted distribution and main supply.\n\n## PEX and multilayer pipes\n- **PEX** (cross-linked polyethylene) complying with **NM EN ISO 15875**, application class 1 or 2.\n- **Multilayer** (PE-RT/Al/PE-RT) complying with **NM EN ISO 21003**, joined by press-fitting using the manufacturer's approved tooling.\n\n## Drinking-water conformity\nAll materials, fittings and seals in contact with water for human consumption must demonstrate their **sanitary safety** (food-grade conformity certificate / equivalent ACS) and comply with **ONEE** requirements and **NM 03.7.001**.\n\nPipework is identified by conventional colour (blue: cold water)."
+      }
+    },
+    {
+      "numero": "14.4",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Canalisations d'évacuation, appareils sanitaires et robinetterie — échantillons et agréments",
+        "ar": "قنوات التصريف، الأجهزة الصحية والصنبورية — العينات والاعتمادات",
+        "en": "Drainage Pipework, Sanitary Fixtures and Fittings — Samples and Approvals"
+      },
+      "corpsMD": {
+        "fr": "## Évacuations\nCanalisations d'évacuation EU/EV en **PVC** conformes à la **NM EN 1329-1** (PVC-U pour évacuation à l'intérieur des bâtiments), assemblage par collage ou joint à lèvre selon diamètre.\n\n## Appareils sanitaires\n- Cuvettes WC en céramique vitrifiée conformes à la **NM EN 997**.\n- Lavabos, éviers, receveurs : céramique de premier choix sans défaut d'émaillage.\n- Robinetterie sanitaire avec classe d'écoulement et économie d'eau (mousseurs, mécanismes double chasse).\n\n## Échantillons et agréments\nAvant toute commande, l'entrepreneur soumet au Maître d'Œuvre, pour **agrément écrit**, les échantillons de chaque appareil et robinet, accompagnés des fiches techniques, certificats de conformité et attestations de potabilité. Aucune commande ne peut être passée avant agrément. Les échantillons agréés constituent la référence de réception.",
+        "ar": "## التصريف\nقنوات تصريف EU/EV من **PVC** مطابقة لـ **NM EN 1329-1** (PVC-U للتصريف داخل المباني)، تُجمَّع باللصق أو بالمفصل الشفوي حسب القطر.\n\n## الأجهزة الصحية\n- مراحيض من الخزف المزجَّج مطابقة لـ **NM EN 997**.\n- مغاسل، أحواض، قواعد استحمام: خزف من الدرجة الأولى دون عيب في التزجيج.\n- صنبورية صحية ذات صنف تدفق واقتصاد في الماء (موزعات هوائية، آليات شطف مزدوج).\n\n## العينات والاعتمادات\nقبل أي طلبية، يقدم المقاول للمهندس المشرف، قصد **الاعتماد الكتابي**، عينات كل جهاز وصنبور مرفقة بالبطاقات التقنية وشهادات المطابقة وشهادات الصلاحية للشرب. لا يمكن إصدار أي طلبية قبل الاعتماد. تشكل العينات المعتمدة مرجع التسلُّم.",
+        "en": "## Drainage\nEU/EV drainage pipework in **PVC** complying with **NM EN 1329-1** (PVC-U for drainage inside buildings), assembled by solvent welding or lip seal depending on diameter.\n\n## Sanitary fixtures\n- WC pans in vitrified ceramic complying with **NM EN 997**.\n- Washbasins, sinks, shower trays: first-grade ceramic free of glazing defects.\n- Sanitary fittings with flow class and water economy (aerators, dual-flush mechanisms).\n\n## Samples and approvals\nBefore any order, the contractor shall submit to the Works Supervisor, for **written approval**, samples of each fixture and tap, together with technical data sheets, conformity certificates and potability attestations. No order may be placed before approval. Approved samples constitute the acceptance reference."
+      }
+    },
+    {
+      "numero": "14.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Pose des réseaux, protection anti-bélier et calorifuge",
+        "ar": "تركيب الشبكات، الحماية من المطرقة المائية والعزل الحراري",
+        "en": "Network Installation, Water-Hammer Protection and Thermal Insulation"
+      },
+      "corpsMD": {
+        "fr": "## Pose des canalisations\nLes canalisations encastrées sont posées sous fourreau continu, avec pentes régulières et sans point bas non purgeable. Les traversées de planchers et de murs sont fourreautées. Les supports et colliers sont espacés selon les prescriptions du fabricant et du **DTU 60.1**, avec interposition d'un matériau résilient pour limiter la transmission des bruits.\n\n## Dilatation\nLes dispositifs de dilatation (lyres, points fixes) sont prévus sur les tronçons rectilignes des matériaux à fort coefficient de dilatation (PER, multicouche).\n\n## Protection anti-bélier\nDes dispositifs **anti-bélier** (antibéliers à membrane ou bouteilles d'air) sont installés sur les antennes alimentant les appareils à fermeture rapide (robinets, électrovannes) afin de limiter les coups de bélier et les surpressions.\n\n## Calorifuge\nLes canalisations exposées au gel ou risquant la condensation reçoivent un **calorifuge** (manchon élastomère ou mousse) d'épaisseur adaptée. Le calorifuge est continu y compris aux supports et traversées.",
+        "ar": "## تركيب القنوات\nتُركَّب القنوات المدفونة داخل غلاف متصل، بميول منتظمة ودون نقطة منخفضة غير قابلة للتفريغ. تُغلَّف عبور البلاطات والجدران. تُباعَد الدعائم والأطواق حسب مقتضيات الصانع و**DTU 60.1**، مع إقحام مادة مرنة للحد من نقل الضجيج.\n\n## التمدد\nتُتوقَّع أجهزة التمدد (الأقواس، النقاط الثابتة) على المقاطع المستقيمة للمواد ذات معامل التمدد العالي (PER، متعدد الطبقات).\n\n## الحماية من المطرقة المائية\nتُركَّب أجهزة **مانعة للمطرقة المائية** (غشائية أو قوارير هواء) على التفرعات المغذية للأجهزة سريعة الإغلاق (الصنابير، الصمامات الكهربائية) للحد من الصدمات المائية وفرط الضغط.\n\n## العزل الحراري\nتتلقى القنوات المعرضة للتجمد أو لخطر التكاثف **عزلاً حرارياً** (غلاف مطاطي أو رغوي) بسماكة ملائمة. يكون العزل متصلاً بما في ذلك عند الدعائم والعبور.",
+        "en": "## Pipe installation\nConcealed pipework is laid within a continuous sleeve, with regular slopes and no non-drainable low point. Floor and wall penetrations are sleeved. Supports and clips are spaced per the manufacturer's instructions and **DTU 60.1**, with a resilient material interposed to limit noise transmission.\n\n## Expansion\nExpansion devices (expansion loops, fixed points) are provided on straight runs of materials with a high expansion coefficient (PEX, multilayer).\n\n## Water-hammer protection\n**Water-hammer arrestors** (diaphragm arrestors or air bottles) are installed on the branches feeding quick-closing appliances (taps, solenoid valves) to limit water hammer and overpressure.\n\n## Thermal insulation\nPipework exposed to frost or at risk of condensation receives **thermal insulation** (elastomeric sleeve or foam) of appropriate thickness. Insulation is continuous including at supports and penetrations."
+      }
+    },
+    {
+      "numero": "14.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Épreuve de pression, essais d'étanchéité et désinfection",
+        "ar": "اختبار الضغط، فحوص الإحكام والتعقيم",
+        "en": "Pressure Test, Tightness Tests and Disinfection"
+      },
+      "corpsMD": {
+        "fr": "## Épreuve de pression — réseaux sous pression\nAvant tout habillage ou rebouchage, les réseaux d'eau froide sont soumis à une **ÉPREUVE DE PRESSION** hydraulique :\n- pression d'épreuve = **1,5 fois la pression de service**, sans être inférieure à **10 bar** ;\n- durée minimale de maintien : **1 heure** sans chute de pression ni suintement ;\n- l'essai est consigné dans un **procès-verbal** contradictoire signé par le Maître d'Œuvre.\n\n## Essais d'évacuation\nLes réseaux d'évacuation EU/EV font l'objet d'un essai d'écoulement et d'étanchéité (essai à l'eau ou à la fumée), avec vérification de l'absence de fuite aux joints et du bon fonctionnement de la ventilation (absence de désamorçage des siphons).\n\n## Désinfection\nAvant mise en service, les réseaux d'eau potable sont **rincés puis désinfectés** conformément aux prescriptions ONEE ; un contrôle de potabilité peut être exigé avant réception.\n\nTout essai non concluant entraîne reprise aux frais de l'entrepreneur et nouvelle épreuve.",
+        "ar": "## اختبار الضغط — الشبكات تحت الضغط\nقبل أي تغطية أو ردم، تخضع شبكات الماء البارد لـ **اختبار ضغط** هيدروليكي:\n- ضغط الاختبار = **1.5 مرة ضغط الخدمة**، على ألا يقل عن **10 بار**؛\n- مدة الإبقاء الدنيا: **ساعة واحدة** دون انخفاض الضغط أو رشح؛\n- يُدوَّن الاختبار في **محضر** حضوري موقَّع من المهندس المشرف.\n\n## فحوص التصريف\nتخضع شبكات التصريف EU/EV لفحص الجريان والإحكام (اختبار بالماء أو بالدخان)، مع التحقق من غياب التسرب عند المفاصل وحسن اشتغال التهوية (عدم إفراغ السيفونات).\n\n## التعقيم\nقبل التشغيل، تُشطَف شبكات الماء الصالح للشرب ثم **تُعقَّم** طبقاً لمقتضيات المكتب الوطني؛ يمكن طلب مراقبة الصلاحية للشرب قبل التسلُّم.\n\nيؤدي كل فحص غير مقنع إلى الإصلاح على نفقة المقاول وإعادة الاختبار.",
+        "en": "## Pressure test — pressurised networks\nBefore any cladding or filling, cold water networks are subjected to a hydraulic **PRESSURE TEST**:\n- test pressure = **1.5 times the service pressure**, not less than **10 bar**;\n- minimum holding time: **1 hour** with no pressure drop or weeping;\n- the test is recorded in an adversarial **acceptance report** signed by the Works Supervisor.\n\n## Drainage tests\nEU/EV drainage networks undergo a flow and tightness test (water or smoke test), verifying the absence of leakage at joints and the proper functioning of venting (no trap siphonage).\n\n## Disinfection\nBefore commissioning, drinking-water networks are **flushed then disinfected** in accordance with ONEE requirements; a potability check may be required before acceptance.\n\nAny inconclusive test leads to rework at the contractor's expense and a new test."
+      }
+    },
+    {
+      "numero": "14.7",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Tolérances, garanties, réception et HSE",
+        "ar": "التفاوتات، الضمانات، التسلُّم والسلامة والصحة والبيئة",
+        "en": "Tolerances, Warranties, Acceptance and HSE"
+      },
+      "corpsMD": {
+        "fr": "## Tolérances\n- Aplomb des descentes et alignement des appareils : tolérance **± 3 mm/m**.\n- Hauteurs de pose des appareils conformes aux plans, tolérance **± 10 mm**.\n- Pentes d'évacuation conformes au DTU 60.1 (généralement **1 à 3 %**).\n\n## Garanties\nL'entrepreneur garantit l'étanchéité et le bon fonctionnement de l'installation au titre de la garantie de parfait achèvement (1 an) ; les équipements bénéficient des garanties constructeur. Toute fuite ou désordre constaté pendant la période de garantie est repris sans frais.\n\n## Réception\nLa réception est prononcée après remise du **dossier des ouvrages exécutés (DOE)** : plans de recolement, PV d'épreuve de pression, fiches techniques, certificats de potabilité et notice d'entretien.\n\n## HSE\nLes travaux respectent les règles d'hygiène et de sécurité du chantier : protection des intervenants, propreté des réseaux d'eau potable (bouchonnage des attentes), gestion des déchets, et signalisation des zones de travaux.",
+        "ar": "## التفاوتات\n- شاقولية النوازل واصطفاف الأجهزة: تفاوت **± 3 مم/م**.\n- ارتفاعات تركيب الأجهزة مطابقة للتصاميم، تفاوت **± 10 مم**.\n- ميول التصريف مطابقة لـ DTU 60.1 (عموماً **1 إلى 3٪**).\n\n## الضمانات\nيضمن المقاول الإحكام وحسن اشتغال المنشأة بموجب ضمان الإنجاز التام (سنة واحدة)؛ تستفيد التجهيزات من ضمانات الصانع. يُصلَح كل تسرب أو خلل يُعايَن خلال مدة الضمان دون مصاريف.\n\n## التسلُّم\nيُعلَن التسلُّم بعد تسليم **ملف الأشغال المنجزة (DOE)**: تصاميم التنفيذ النهائية، محاضر اختبار الضغط، البطاقات التقنية، شهادات الصلاحية للشرب ودليل الصيانة.\n\n## السلامة والصحة والبيئة\nتحترم الأشغال قواعد النظافة والسلامة بالورش: حماية المتدخلين، نظافة شبكات الماء الصالح للشرب (سدّ الانتظارات)، تدبير النفايات، وإشارات مناطق الأشغال.",
+        "en": "## Tolerances\n- Plumb of downpipes and alignment of fixtures: tolerance **± 3 mm/m**.\n- Fixture mounting heights per drawings, tolerance **± 10 mm**.\n- Drainage slopes per DTU 60.1 (generally **1 to 3%**).\n\n## Warranties\nThe contractor warrants the tightness and proper functioning of the installation under the one-year defects liability warranty; equipment benefits from manufacturer warranties. Any leak or defect observed during the warranty period is rectified free of charge.\n\n## Acceptance\nAcceptance is pronounced after delivery of the **as-built record file (DOE)**: as-built drawings, pressure-test reports, technical data sheets, potability certificates and maintenance manual.\n\n## HSE\nWorks comply with site health and safety rules: protection of workers, cleanliness of drinking-water networks (capping of stub-outs), waste management, and signage of work zones."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "14.01",
+      "designation": {
+        "fr": "Réseau d'alimentation eau froide en tube cuivre NM EN 1057, y compris raccords brasés, supports et fourreaux",
+        "ar": "شبكة تغذية الماء البارد بأنبوب نحاس NM EN 1057، شاملة الوصلات الملحومة والدعائم والأغلفة",
+        "en": "Cold water supply network in NM EN 1057 copper pipe, including brazed fittings, supports and sleeves"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de tube posé, mesuré suivant l'axe de la canalisation, raccords et accessoires inclus dans le prix.",
+        "ar": "بالمتر الطولي للأنبوب المركَّب، يُقاس وفق محور القناة، الوصلات والملحقات مدرجة في الثمن.",
+        "en": "Per linear metre of pipe installed, measured along the pipe axis, fittings and accessories included in the price."
+      }
+    },
+    {
+      "code": "14.02",
+      "designation": {
+        "fr": "Distribution intérieure en tube multicouche NM EN ISO 21003 ou PER NM EN ISO 15875, sous fourreau, sertissage compris",
+        "ar": "التوزيع الداخلي بأنبوب متعدد الطبقات NM EN ISO 21003 أو PER NM EN ISO 15875، داخل غلاف، مع الكبس",
+        "en": "Interior distribution in NM EN ISO 21003 multilayer or NM EN ISO 15875 PEX pipe, sleeved, press-fitting included"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire posé par diamètre, fourreau et raccords sertis compris.",
+        "ar": "بالمتر الطولي المركَّب حسب القطر، الغلاف والوصلات المكبوسة مدرجة.",
+        "en": "Per linear metre installed by diameter, including sleeve and pressed fittings."
+      }
+    },
+    {
+      "code": "14.03",
+      "designation": {
+        "fr": "Réseau d'évacuation EU/EV en PVC-U NM EN 1329-1, y compris collage, joints, supports et pentes réglementaires",
+        "ar": "شبكة تصريف EU/EV من PVC-U NM EN 1329-1، شاملة اللصق والمفاصل والدعائم والميول النظامية",
+        "en": "EU/EV drainage network in NM EN 1329-1 PVC-U, including solvent welding, seals, supports and regulatory slopes"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de canalisation d'évacuation posée par diamètre, pièces de raccordement comprises.",
+        "ar": "بالمتر الطولي لقناة التصريف المركَّبة حسب القطر، قطع الربط مدرجة.",
+        "en": "Per linear metre of drainage pipe installed by diameter, connection pieces included."
+      }
+    },
+    {
+      "code": "14.04",
+      "designation": {
+        "fr": "Ventilation primaire/secondaire des chutes, y compris aérateurs et sorties en toiture",
+        "ar": "التهوية الأولية/الثانوية للأعمدة، شاملة الموزعات الهوائية والمخارج بالسطح",
+        "en": "Primary/secondary stack venting, including air admittance devices and roof terminals"
+      },
+      "unite": "ens",
+      "modeMetreMD": {
+        "fr": "À l'ensemble par colonne de chute ventilée, raccordement et sortie en toiture compris.",
+        "ar": "بالمجموع لكل عمود مهوَّى، الربط والمخرج بالسطح مدرجان.",
+        "en": "Per set per vented stack, connection and roof terminal included."
+      }
+    },
+    {
+      "code": "14.05",
+      "designation": {
+        "fr": "Fourniture et pose de cuvette WC céramique NM EN 997 avec réservoir double chasse et mécanisme",
+        "ar": "توريد وتركيب مرحاض خزفي NM EN 997 مع خزان شطف مزدوج وآلية",
+        "en": "Supply and installation of NM EN 997 ceramic WC pan with dual-flush cistern and mechanism"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité d'appareil posé, fixation, raccordement à l'eau et à l'évacuation et essais compris.",
+        "ar": "بالوحدة للجهاز المركَّب، التثبيت والربط بالماء والتصريف والفحوص مدرجة.",
+        "en": "Per unit of fixture installed, including fixing, water and drainage connection and testing."
+      }
+    },
+    {
+      "code": "14.06",
+      "designation": {
+        "fr": "Fourniture et pose de lavabo céramique avec robinetterie mitigeuse économe en eau et siphon",
+        "ar": "توريد وتركيب مغسلة خزفية مع صنبورية خالطة موفِّرة للماء وسيفون",
+        "en": "Supply and installation of ceramic washbasin with water-saving mixer tap and trap"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité posée, robinetterie, siphon et raccordements compris.",
+        "ar": "بالوحدة المركَّبة، الصنبورية والسيفون والوصلات مدرجة.",
+        "en": "Per unit installed, including tap, trap and connections."
+      }
+    },
+    {
+      "code": "14.07",
+      "designation": {
+        "fr": "Dispositif anti-bélier à membrane sur antennes d'appareils à fermeture rapide",
+        "ar": "جهاز مانع للمطرقة المائية غشائي على تفرعات الأجهزة سريعة الإغلاق",
+        "en": "Diaphragm water-hammer arrestor on branches of quick-closing appliances"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité posée et raccordée sur antenne, essais compris.",
+        "ar": "بالوحدة المركَّبة والموصولة على التفرع، الفحوص مدرجة.",
+        "en": "Per unit installed and connected on the branch, testing included."
+      }
+    },
+    {
+      "code": "14.08",
+      "designation": {
+        "fr": "Calorifuge des canalisations (manchon élastomère) y compris finition aux supports et traversées",
+        "ar": "العزل الحراري للقنوات (غلاف مطاطي) شاملاً التشطيب عند الدعائم والعبور",
+        "en": "Pipe thermal insulation (elastomeric sleeve) including finishing at supports and penetrations"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de canalisation calorifugée par diamètre, finitions comprises.",
+        "ar": "بالمتر الطولي للقناة المعزولة حسب القطر، التشطيبات مدرجة.",
+        "en": "Per linear metre of insulated pipe by diameter, finishes included."
+      }
+    },
+    {
+      "code": "14.09",
+      "designation": {
+        "fr": "Épreuve de pression hydraulique, rinçage et désinfection des réseaux d'eau potable, avec PV",
+        "ar": "اختبار الضغط الهيدروليكي، شطف وتعقيم شبكات الماء الصالح للشرب، مع المحضر",
+        "en": "Hydraulic pressure test, flushing and disinfection of drinking-water networks, with report"
+      },
+      "unite": "ff",
+      "modeMetreMD": {
+        "fr": "Au forfait pour l'ensemble des essais, rinçages, désinfection et établissement des procès-verbaux.",
+        "ar": "بالجزاف لمجموع الفحوص والشطف والتعقيم وتحرير المحاضر.",
+        "en": "Lump sum for all tests, flushing, disinfection and preparation of reports."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "VRD",
+      "type": "LIMITE_PRESTATION",
+      "description": {
+        "fr": "Limite avec le lot VRD au regard de branchement d'assainissement : le présent lot s'arrête au premier regard extérieur, le réseau enterré relevant du VRD.",
+        "ar": "الحد مع قسم الطرق والشبكات عند حجرة ربط التطهير: يتوقف هذا القسم عند أول حجرة خارجية، الشبكة المدفونة تابعة لقسم الطرق والشبكات.",
+        "en": "Limit with the VRD lot at the drainage connection chamber: this lot stops at the first exterior chamber, the buried network belonging to the VRD lot."
+      }
+    },
+    {
+      "lotCible": "LOT_17_PLOMBERIE_ECS",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Interface avec le lot ECS : le présent lot fournit l'arrivée d'eau froide jusqu'au piquage du ballon/chauffe-eau ; la production d'eau chaude relève du lot 17.",
+        "ar": "تداخل مع قسم الماء الساخن: يوفر هذا القسم وصول الماء البارد إلى نقطة ربط الخزان/السخان؛ إنتاج الماء الساخن تابع للقسم 17.",
+        "en": "Interface with the DHW lot: this lot supplies cold water up to the tank/heater tapping point; hot water production belongs to lot 17."
+      }
+    },
+    {
+      "lotCible": "ELECTRICITE",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Interface avec le lot Électricité pour l'alimentation et la protection électrique des équipements (pompes, surpresseurs éventuels).",
+        "ar": "تداخل مع قسم الكهرباء لتغذية وحماية التجهيزات الكهربائية (المضخات، أجهزة رفع الضغط عند الاقتضاء).",
+        "en": "Interface with the Electrical lot for the supply and electrical protection of equipment (pumps, any booster sets)."
+      }
+    },
+    {
+      "lotCible": "GROS_OEUVRE",
+      "type": "RESERVATION",
+      "description": {
+        "fr": "Coordination avec le gros œuvre pour les réservations, saignées et fourreaux des traversées de planchers et de voiles.",
+        "ar": "التنسيق مع الأشغال الكبرى للحجوزات والشقوق والأغلفة عند عبور البلاطات والجدران.",
+        "en": "Coordination with structural works for reservations, chases and sleeves at floor and wall penetrations."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "DTU 60.1 — Plomberie sanitaire pour bâtiments",
+      "DTU 60.11 — Règles de calcul des installations de plomberie sanitaire",
+      "NM EN 806 — Installations d'eau pour consommation humaine",
+      "NM EN 12056-2 — Réseaux d'évacuation gravitaire",
+      "NM EN 1329-1 — PVC-U pour évacuation à l'intérieur des bâtiments",
+      "Prescriptions ONEE eau potable / NM 03.7.001"
+    ]
+  }
+}

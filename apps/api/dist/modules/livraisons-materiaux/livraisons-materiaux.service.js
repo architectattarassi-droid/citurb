@@ -79,6 +79,8 @@ let LivraisonsMateriauxService = class LivraisonsMateriauxService {
             throw new common_1.BadRequestException("Au moins une ligne requise");
         }
         const d = await this.loadDossier(input.dossierId);
+        // Cadence PV (T2-R-PV-CADENCE-001) : chantier bloqué si aucun PV depuis 15j.
+        assertChantierNotBlocked(d.payload);
         // Owner = chef chantier (le seul autorisé à créer côté MVP, plus ADMIN/OPS)
         if (d.ownerId !== actor.userId &&
             actor.role !== "ADMIN" &&
@@ -395,4 +397,15 @@ function round2(n) {
 }
 function makeId(prefix) {
     return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+}
+/**
+ * Cadence PV obligatoire (doctrine T2-R-PV-CADENCE-001) : un chantier sans
+ * PV de visite depuis plus de 15 jours est bloqué — commandes suspendues.
+ * Le flag `pvCompliance.blocked` est rafraîchi par le cron PvComplianceService.
+ */
+function assertChantierNotBlocked(payload) {
+    if (payload?.pvCompliance?.blocked === true) {
+        throw new common_1.ForbiddenException("Chantier bloqué : aucun PV de visite depuis plus de 15 jours. " +
+            "Déposez un nouveau PV de chantier pour reprendre les opérations.");
+    }
 }

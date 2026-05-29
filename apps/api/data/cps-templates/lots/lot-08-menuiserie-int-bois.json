@@ -1,0 +1,294 @@
+{
+  "code": "LOT_08_MENUISERIE_INT_BOIS",
+  "numero": 8,
+  "famille": "SECOND_OEUVRE",
+  "intitule": {
+    "fr": "Menuiserie intérieure bois",
+    "ar": "النجارة الداخلية الخشبية",
+    "en": "Interior timber joinery"
+  },
+  "description": {
+    "fr": "Fourniture et pose de l'ensemble des ouvrages de menuiserie intérieure en bois : blocs-portes intérieurs, huisseries et bâtis, placards et rangements, agencements sur mesure, plinthes, habillages et cimaises, y compris quincaillerie, traitement préventif, calfeutrement et finition.",
+    "ar": "توريد وتركيب جميع أشغال النجارة الداخلية الخشبية: كتل الأبواب الداخلية، الحلوق والهياكل، الخزائن والتجهيزات، التأثيث حسب القياس، الأفاريز، التكسيات والإطارات، بما في ذلك الأدوات المعدنية والمعالجة الوقائية والسد والإنهاء.",
+    "en": "Supply and installation of all interior timber joinery works: internal door sets, frames and linings, fitted wardrobes and storage, bespoke joinery, skirtings, panelling and rails, including ironmongery, preventive treatment, sealing and finishing."
+  },
+  "normesRefs": [
+    "NF DTU 36.2",
+    "NF DTU 36.5",
+    "NM 10.1.008",
+    "NM EN 942",
+    "NF EN 14221",
+    "NF EN 1192",
+    "NF EN 12519",
+    "NF EN 350",
+    "NF P23-305",
+    "NF EN 13986"
+  ],
+  "secteurQualifMA": [
+    "Q5 - Menuiserie bois",
+    "Q5.1 - Menuiserie intérieure",
+    "Q5.4 - Agencement et ébénisterie"
+  ],
+  "competencesRequises": [
+    "Menuisier d'agencement qualifié",
+    "Poseur de blocs-portes",
+    "Ébéniste pour ouvrages sur mesure",
+    "Bureau d'études menuiserie pour plans d'atelier"
+  ],
+  "articles": [
+    {
+      "numero": "8.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet et consistance des travaux",
+        "ar": "موضوع الأشغال ومحتواها",
+        "en": "Scope and content of works"
+      },
+      "corpsMD": {
+        "fr": "Le présent lot a pour objet la fourniture, le façonnage en atelier, le transport, le stockage et la pose de tous les ouvrages de menuiserie intérieure bois du projet **{{PROJECT_NAME}}** situé à **{{COMMUNE}}**.\n\nLes prestations comprennent notamment :\n- les **blocs-portes intérieurs** (vantail, huisserie/bâti, quincaillerie) ;\n- les **placards, dressings et rangements** intégrés ;\n- les **agencements sur mesure** (meubles fixes, banques d'accueil) ;\n- les **plinthes, habillages, cimaises et trappes de visite** ;\n- la quincaillerie, les fixations, les calfeutrements et la finition.\n\nL'entrepreneur exécute les ouvrages conformément aux plans architecte, aux **plans d'atelier** qu'il établit et soumet au visa du Maître d'Œuvre, et aux prescriptions du présent CPS.",
+        "ar": "يهدف هذا القسم إلى توريد وتشكيل في الورشة ونقل وتخزين وتركيب جميع أشغال النجارة الداخلية الخشبية لمشروع **{{PROJECT_NAME}}** الكائن بـ **{{COMMUNE}}**.\n\nتشمل الخدمات على الخصوص:\n- **كتل الأبواب الداخلية** (الضلفة، الحلق/الهيكل، الأدوات المعدنية)؛\n- **الخزائن وغرف الملابس وأماكن التخزين** المدمجة؛\n- **التجهيزات حسب القياس** (الأثاث الثابت، مكاتب الاستقبال)؛\n- **الأفاريز والتكسيات والإطارات وفتحات الزيارة**؛\n- الأدوات المعدنية والتثبيتات والسد والإنهاء.\n\nينفذ المقاول الأشغال طبقا لتصاميم المهندس المعماري، و**تصاميم الورشة** التي يعدها ويعرضها على تأشير المهندس المشرف، ولمقتضيات دفتر الشروط هذا.",
+        "en": "The purpose of this lot is the supply, workshop fabrication, transport, storage and installation of all interior timber joinery works for the **{{PROJECT_NAME}}** project located in **{{COMMUNE}}**.\n\nThe works notably include:\n- **internal door sets** (leaf, frame/lining, ironmongery);\n- integrated **wardrobes, dressing rooms and storage units**;\n- **bespoke joinery** (fixed furniture, reception desks);\n- **skirtings, casings, rails and access hatches**;\n- ironmongery, fixings, sealing and finishing.\n\nThe contractor shall execute the works in accordance with the architect's drawings, the **shop drawings** he prepares and submits for the Supervisor's approval, and the requirements of this specification."
+      }
+    },
+    {
+      "numero": "8.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Limites de prestation et documents de référence",
+        "ar": "حدود الخدمة والوثائق المرجعية",
+        "en": "Limits of supply and reference documents"
+      },
+      "corpsMD": {
+        "fr": "**Limites de prestation :**\n- Sont **dus** par le présent lot : la prise de cotes sur site, les plans d'atelier, les réservations non maçonnées, les pattes et taquets de fixation, les calfeutrements périphériques.\n- Sont **exclus** : les réservations dans le gros œuvre (lot Gros Œuvre), les saignées électriques, la peinture des murs adjacents, les sols finis.\n\n**Documents de référence :**\n- **NF DTU 36.2** — Menuiseries intérieures en bois ;\n- **NF DTU 36.5** — Mise en œuvre des fenêtres et portes extérieures (limites communes) ;\n- **NF EN 1192** — Classes de résistance des portes ;\n- **NF EN 14221** — Bois et matériaux dérivés pour fenêtres intérieures ;\n- **NM 10.1.008** — Bois de menuiserie (référentiel marocain).\n\nL'entrepreneur ne commence aucune fabrication avant le **visa des plans d'atelier** et la **validation des prototypes**.",
+        "ar": "**حدود الخدمة:**\n- **المستحقة** ضمن هذا القسم: أخذ القياسات في الموقع، تصاميم الورشة، الفتحات غير المبنية، خطاطيف وأوتاد التثبيت، السد المحيطي.\n- **المستثناة**: الفتحات في البناء الخام (قسم البناء الخام)، الحزوز الكهربائية، طلاء الجدران المجاورة، الأرضيات النهائية.\n\n**الوثائق المرجعية:**\n- **NF DTU 36.2** — النجارة الداخلية الخشبية؛\n- **NF DTU 36.5** — تركيب النوافذ والأبواب الخارجية (الحدود المشتركة)؛\n- **NF EN 1192** — فئات مقاومة الأبواب؛\n- **NF EN 14221** — الخشب والمواد المشتقة للنوافذ الداخلية؛\n- **NM 10.1.008** — خشب النجارة (المرجع المغربي).\n\nلا يبدأ المقاول أي تصنيع قبل **تأشير تصاميم الورشة** و**اعتماد النماذج الأولية**.",
+        "en": "**Limits of supply:**\n- **Included** in this lot: site measurements, shop drawings, non-masonry openings, fixing brackets and cleats, perimeter sealing.\n- **Excluded**: openings in the structural shell (Structural Works lot), electrical chasing, painting of adjacent walls, finished floors.\n\n**Reference documents:**\n- **NF DTU 36.2** — Interior timber joinery;\n- **NF DTU 36.5** — Installation of external windows and doors (common limits);\n- **NF EN 1192** — Door strength classes;\n- **NF EN 14221** — Wood and wood-based materials for interior windows;\n- **NM 10.1.008** — Joinery timber (Moroccan standard).\n\nThe contractor shall not start any fabrication before the **approval of shop drawings** and **validation of prototypes**."
+      }
+    },
+    {
+      "numero": "8.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Provenance, essences et qualité des bois",
+        "ar": "مصدر وأنواع وجودة الأخشاب",
+        "en": "Origin, species and quality of timber"
+      },
+      "corpsMD": {
+        "fr": "Les bois proviennent de scieries agréées et sont **séchés** à un taux d'humidité conforme à la **NF DTU 36.2** : 8 à 12 % en ambiance chauffée, 12 à 15 % sinon.\n\n**Essences admises :**\n- **Hêtre étuvé, chêne, sapelli, samba (ayous)** pour les ouvrages d'agencement ;\n- **Pin sylvestre / red wood** traité classe d'emploi 2 pour bâtis et fonds de placard ;\n- **Panneaux** : MDF hydrofuge (NF EN 622-5), contreplaqué CTBX, panneaux de particules P3 selon **NF EN 312**, placages bois conformes **NF EN 14221**.\n\n**Durabilité :** classe selon **NF EN 350** ; les bois en contact avec maçonnerie reçoivent un traitement classe d'emploi 2 minimum.\n\nLes aspects (parements vus) sont de **classe J2 minimum** selon NF EN 942. Aucun bois bleui, fendu, à nœuds non adhérents ou attaqué n'est admis.",
+        "ar": "تأتي الأخشاب من مناشير معتمدة وتكون **مجففة** بنسبة رطوبة مطابقة لـ **NF DTU 36.2**: 8 إلى 12% في البيئة المدفأة، 12 إلى 15% فيما عدا ذلك.\n\n**الأنواع المقبولة:**\n- **الزان المعالج بالبخار، البلوط، السابيلي، السامبا (أيوس)** لأشغال التأثيث؛\n- **الصنوبر الأحمر** المعالج فئة الاستعمال 2 للهياكل وقيعان الخزائن؛\n- **الألواح**: MDF مقاوم للرطوبة (NF EN 622-5)، خشب رقائقي CTBX، ألواح الجزيئات P3 حسب **NF EN 312**، التقشير الخشبي المطابق لـ **NF EN 14221**.\n\n**الديمومة:** الفئة حسب **NF EN 350**؛ الأخشاب الملامسة للبناء تتلقى معالجة فئة استعمال 2 كحد أدنى.\n\nتكون المظاهر (الواجهات المرئية) من **الفئة J2 كحد أدنى** حسب NF EN 942. لا يقبل أي خشب مزرق أو مشقق أو ذو عقد غير ملتصقة أو متضرر.",
+        "en": "Timber shall come from approved sawmills and be **kiln-dried** to a moisture content compliant with **NF DTU 36.2**: 8 to 12 % in heated environments, 12 to 15 % otherwise.\n\n**Accepted species:**\n- **Steamed beech, oak, sapelli, ayous (samba)** for joinery works;\n- **Scots pine / red wood** treated to use class 2 for frames and wardrobe backs;\n- **Boards**: moisture-resistant MDF (NF EN 622-5), CTBX plywood, P3 particleboard per **NF EN 312**, wood veneers compliant with **NF EN 14221**.\n\n**Durability:** class per **NF EN 350**; timber in contact with masonry shall receive a minimum use class 2 treatment.\n\nExposed faces shall be **class J2 minimum** per NF EN 942. No blued, split, loose-knotted or insect-attacked timber is accepted."
+      }
+    },
+    {
+      "numero": "8.4",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Blocs-portes, quincaillerie et échantillons",
+        "ar": "كتل الأبواب والأدوات المعدنية والعينات",
+        "en": "Door sets, ironmongery and samples"
+      },
+      "corpsMD": {
+        "fr": "**Blocs-portes :** vantaux à âme alvéolaire ou pleine (tubulaire / latté) selon destination, parement stratifié ou bois plaqué, épaisseur ≥ 40 mm. Classement de résistance selon **NF EN 1192**. Portes coupe-feu **EI30/EI60** certifiées PV d'essai pour locaux à risque.\n\n**Quincaillerie :**\n- paumelles ou fiches en acier traité, 3 par vantail (≥ 2,10 m) ;\n- serrures à mortaiser conformes **NF EN 12209**, cylindre européen, organigramme à fournir ;\n- béquillage inox ou laiton, butées, ferme-portes **NF EN 1154** sur portes CF.\n\n**Échantillons & agréments :** avant fabrication en série, l'entrepreneur soumet :\n1. un **prototype de bloc-porte complet** monté avec sa quincaillerie ;\n2. des **échantillons d'essences, placages et finitions** (nuancier) ;\n3. les **fiches techniques et PV/certificats** (CE, classement feu, FDES).\n\nLa fabrication en série n'est lancée qu'après acceptation écrite du prototype.",
+        "ar": "**كتل الأبواب:** ضلفات بنواة خلوية أو مصمتة حسب الاستعمال، واجهة مصفحة أو مكسوة بالخشب، سماكة ≥ 40 مم. تصنيف المقاومة حسب **NF EN 1192**. أبواب مقاومة للحريق **EI30/EI60** معتمدة بمحضر اختبار للمحلات ذات الخطورة.\n\n**الأدوات المعدنية:**\n- مفصلات من فولاذ معالج، 3 لكل ضلفة (≥ 2.10 م)؛\n- أقفال للتعشيق مطابقة لـ **NF EN 12209**، أسطوانة أوروبية، مخطط تنظيمي يقدم؛\n- مقابض من الفولاذ المقاوم للصدأ أو النحاس، صدامات، مغلقات أبواب **NF EN 1154** على الأبواب المقاومة للحريق.\n\n**العينات والاعتمادات:** قبل التصنيع المتسلسل، يقدم المقاول:\n1. **نموذجا أوليا لكتلة باب كاملة** مركبة بأدواتها المعدنية؛\n2. **عينات من الأنواع والتقشير والإنهاءات** (لوحة ألوان)؛\n3. **البطاقات التقنية والمحاضر/الشهادات** (CE، تصنيف الحريق، FDES).\n\nلا يطلق التصنيع المتسلسل إلا بعد القبول الكتابي للنموذج الأولي.",
+        "en": "**Door sets:** leaves with honeycomb or solid core (tubular / laminated) according to use, laminate or veneered face, thickness ≥ 40 mm. Strength rating per **NF EN 1192**. Certified fire-rated **EI30/EI60** doors with test reports for high-risk rooms.\n\n**Ironmongery:**\n- treated-steel butt hinges, 3 per leaf (≥ 2.10 m);\n- mortise locks compliant with **NF EN 12209**, euro cylinder, master-key chart to be provided;\n- stainless-steel or brass lever handles, door stops, door closers **NF EN 1154** on fire doors.\n\n**Samples & approvals:** before series fabrication, the contractor shall submit:\n1. a **complete door set prototype** assembled with its ironmongery;\n2. **samples of species, veneers and finishes** (colour chart);\n3. **technical data sheets and test reports/certificates** (CE, fire rating, EPD).\n\nSeries fabrication shall start only after written acceptance of the prototype."
+      }
+    },
+    {
+      "numero": "8.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Mise en œuvre, pose et tolérances",
+        "ar": "التنفيذ والتركيب والسماحيات",
+        "en": "Installation, fixing and tolerances"
+      },
+      "corpsMD": {
+        "fr": "La pose est réalisée **hors d'eau / hors d'air**, après séchage des enduits et chapes, conformément à la **NF DTU 36.2**.\n\n**Mise en œuvre :**\n- fixation des bâtis par pattes ou vis tamponnées tous les ≤ 60 cm, calage soigné ;\n- aucun contact direct bois/maçonnerie humide : interposition d'une barrière d'étanchéité ;\n- calfeutrement périphérique au mastic acrylique ou mousse PU, recouvert par les couvre-joints ;\n- réglage des jeux de vantaux : jeu latéral 3 à 4 mm, jeu bas selon revêtement (≤ 8 mm).\n\n**Tolérances de réception (NF DTU 36.2) :**\n- aplomb des bâtis : ≤ 2 mm/m ;\n- horizontalité des traverses : ≤ 2 mm ;\n- planéité locale des parements : ≤ 1 mm sous règle de 0,20 m ;\n- alignement des plinthes : ≤ 2 mm/2 m.\n\nLes ouvrages doivent fonctionner sans point dur, sans frottement et avec verrouillage franc.",
+        "ar": "يتم التركيب **بعد الإغلاق ضد الماء والهواء**، بعد جفاف الكسوات والطبقات، طبقا لـ **NF DTU 36.2**.\n\n**التنفيذ:**\n- تثبيت الهياكل بالخطاطيف أو البراغي المثبتة كل ≤ 60 سم، إسناد دقيق؛\n- لا تلامس مباشر للخشب مع البناء الرطب: وضع حاجز عازل؛\n- سد محيطي بمعجون أكريليكي أو رغوة PU، مغطى بفواصل التغطية؛\n- ضبط فجوات الضلفات: فجوة جانبية 3 إلى 4 مم، فجوة سفلية حسب الكسوة (≤ 8 مم).\n\n**سماحيات الاستلام (NF DTU 36.2):**\n- شاقولية الهياكل: ≤ 2 مم/م؛\n- أفقية العوارض: ≤ 2 مم؛\n- استواء الواجهات الموضعي: ≤ 1 مم تحت مسطرة 0.20 م؛\n- محاذاة الأفاريز: ≤ 2 مم/2 م.\n\nيجب أن تعمل الأشغال دون نقطة صلبة، دون احتكاك ومع إغلاق محكم.",
+        "en": "Installation shall be carried out in a **weathertight enclosure**, after drying of renders and screeds, in accordance with **NF DTU 36.2**.\n\n**Installation:**\n- fixing of frames by brackets or plugged screws every ≤ 60 cm, careful shimming;\n- no direct timber/damp-masonry contact: a waterproof barrier shall be interposed;\n- perimeter sealing with acrylic mastic or PU foam, covered by architraves;\n- adjustment of leaf clearances: side gap 3 to 4 mm, bottom gap according to flooring (≤ 8 mm).\n\n**Acceptance tolerances (NF DTU 36.2):**\n- plumb of frames: ≤ 2 mm/m;\n- horizontality of rails: ≤ 2 mm;\n- local flatness of faces: ≤ 1 mm under a 0.20 m straightedge;\n- alignment of skirtings: ≤ 2 mm/2 m.\n\nThe works shall operate without binding, without friction and with positive locking."
+      }
+    },
+    {
+      "numero": "8.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Traitement, finition et essais",
+        "ar": "المعالجة والإنهاء والاختبارات",
+        "en": "Treatment, finishing and testing"
+      },
+      "corpsMD": {
+        "fr": "**Traitement :** tous les bois reçoivent un traitement préventif **insecticide et fongicide** (classe d'emploi selon **NF EN 335**) appliqué avant pose. Les bois en milieu humide (cuisines, sanitaires) sont en classe d'emploi 2 minimum.\n\n**Finition :**\n- vernis polyuréthane ou laque selon nuancier validé, ≥ 2 couches sur apprêt ;\n- égrenage entre couches, parements vus exempts de coulures et de manques ;\n- chants des panneaux plaqués obligatoirement protégés (chant ABS ou placage).\n\n**Essais & contrôles :**\n- contrôle du **taux d'humidité** à réception (humidimètre) ;\n- vérification du **fonctionnement** de 100 % des ouvrants (cycles d'ouverture) ;\n- contrôle visuel des finitions et de la quincaillerie ;\n- pour portes CF : vérification de la conformité au PV d'essai et de la signalétique.\n\nUn **PV de réception** par typologie est établi contradictoirement avec le Maître d'Œuvre.",
+        "ar": "**المعالجة:** تتلقى جميع الأخشاب معالجة وقائية **مبيدة للحشرات والفطريات** (فئة الاستعمال حسب **NF EN 335**) تطبق قبل التركيب. الأخشاب في الوسط الرطب (المطابخ، المرافق الصحية) من فئة الاستعمال 2 كحد أدنى.\n\n**الإنهاء:**\n- ورنيش بولي يوريثان أو طلاء حسب لوحة الألوان المعتمدة، ≥ طبقتان على أساس؛\n- صنفرة بين الطبقات، واجهات مرئية خالية من السيلان والنقص؛\n- حواف الألواح المكسوة محمية إلزاميا (حافة ABS أو تقشير).\n\n**الاختبارات والمراقبة:**\n- مراقبة **نسبة الرطوبة** عند الاستلام (جهاز قياس الرطوبة)؛\n- التحقق من **اشتغال** 100% من الفتحات (دورات الفتح)؛\n- مراقبة بصرية للإنهاءات والأدوات المعدنية؛\n- للأبواب المقاومة للحريق: التحقق من المطابقة لمحضر الاختبار والعلامات.\n\nيحرر **محضر استلام** لكل نمط بشكل حضوري مع المهندس المشرف.",
+        "en": "**Treatment:** all timber shall receive a preventive **insecticide and fungicide** treatment (use class per **NF EN 335**) applied before installation. Timber in damp environments (kitchens, bathrooms) shall be use class 2 minimum.\n\n**Finishing:**\n- polyurethane varnish or lacquer per the approved colour chart, ≥ 2 coats over primer;\n- sanding between coats, exposed faces free of runs and missed areas;\n- edges of veneered boards shall be protected (ABS edging or veneer).\n\n**Testing & inspection:**\n- **moisture content** check on delivery (moisture meter);\n- verification of **operation** of 100 % of opening units (opening cycles);\n- visual inspection of finishes and ironmongery;\n- for fire doors: verification of compliance with the test report and signage.\n\nA **reception report** per typology shall be drawn up jointly with the Supervisor."
+      }
+    },
+    {
+      "numero": "8.7",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Garanties, HSE et gestion des déchets",
+        "ar": "الضمانات والسلامة الصحية والبيئية وتدبير النفايات",
+        "en": "Warranties, HSE and waste management"
+      },
+      "corpsMD": {
+        "fr": "**Garanties :**\n- **garantie de parfait achevement** d'un an (réf. art. 769/770 du DOC) couvrant les désordres signalés à la réception ;\n- garantie de bon fonctionnement de **2 ans** sur la quincaillerie et les éléments d'équipement dissociables ;\n- l'entrepreneur remet le **DOE** (plans conformes d'exécution, fiches produits, notices d'entretien, organigramme de clés).\n\n**HSE :**\n- application stricte du plan particulier de sécurité (PPSPS) ;\n- découpe et ponçage avec **aspiration des poussières de bois** (poussières classées CMR), port d'EPI (masque FFP2, lunettes) ;\n- protection des ouvrages livrés contre chocs et salissures jusqu'à la réception.\n\n**Déchets :**\n- tri sélectif des chutes de bois, panneaux et emballages ;\n- évacuation vers filières agréées, bordereaux de suivi conservés ;\n- interdiction de tout brûlage sur site.",
+        "ar": "**الضمانات:**\n- **ضمان الإنجاز التام** لمدة سنة (مرجع المادتين 769/770 من قانون الالتزامات والعقود) يغطي الأعطاب المبلغ عنها عند الاستلام؛\n- ضمان حسن الاشتغال لمدة **سنتين** على الأدوات المعدنية وعناصر التجهيز القابلة للفصل؛\n- يسلم المقاول **ملف الأشغال المنجزة** (تصاميم مطابقة للتنفيذ، بطاقات المنتجات، دلائل الصيانة، مخطط المفاتيح).\n\n**السلامة الصحية والبيئية:**\n- تطبيق صارم لمخطط السلامة الخاص؛\n- القطع والصنفرة مع **شفط غبار الخشب** (غبار مصنف CMR)، ارتداء معدات الوقاية الفردية (قناع FFP2، نظارات)؛\n- حماية الأشغال المسلمة من الصدمات والاتساخ حتى الاستلام.\n\n**النفايات:**\n- فرز انتقائي لبقايا الخشب والألواح والتغليف؛\n- الإخلاء نحو القنوات المعتمدة، الاحتفاظ بسندات التتبع؛\n- منع أي حرق في الموقع.",
+        "en": "**Warranties:**\n- one-year **warranty of completion** (ref. art. 769/770 of the Code of Obligations and Contracts) covering defects reported at reception;\n- **2-year** sound-functioning warranty on ironmongery and separable equipment;\n- the contractor shall hand over the **as-built file** (as-built drawings, product sheets, maintenance instructions, key chart).\n\n**HSE:**\n- strict application of the specific safety plan;\n- cutting and sanding with **wood-dust extraction** (dust classified CMR), wearing of PPE (FFP2 mask, goggles);\n- protection of delivered works against impacts and soiling until reception.\n\n**Waste:**\n- selective sorting of timber offcuts, boards and packaging;\n- removal to approved channels, tracking slips retained;\n- any on-site burning is prohibited."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "8.01",
+      "designation": {
+        "fr": "Bloc-porte intérieur âme alvéolaire, parement stratifié, vantail + huisserie + quincaillerie, dimensions standard",
+        "ar": "كتلة باب داخلي بنواة خلوية، واجهة مصفحة، ضلفة + حلق + أدوات معدنية، أبعاد قياسية",
+        "en": "Internal honeycomb-core door set, laminate face, leaf + frame + ironmongery, standard dimensions"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité posée et réglée, toutes sujétions de calage, calfeutrement et finition comprises.",
+        "ar": "بالوحدة المركبة والمضبوطة، شاملة جميع لوازم الإسناد والسد والإنهاء.",
+        "en": "Per unit installed and adjusted, including all shimming, sealing and finishing."
+      }
+    },
+    {
+      "code": "8.02",
+      "designation": {
+        "fr": "Bloc-porte coupe-feu EI30 certifié, ferme-porte et quincaillerie CF compris",
+        "ar": "كتلة باب مقاوم للحريق EI30 معتمد، شاملة مغلق الباب والأدوات المعدنية المقاومة للحريق",
+        "en": "Certified EI30 fire-door set, including door closer and fire-rated ironmongery"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité posée, PV d'essai et signalétique fournis, toutes sujétions comprises.",
+        "ar": "بالوحدة المركبة، مع تقديم محضر الاختبار والعلامات، شاملة جميع اللوازم.",
+        "en": "Per unit installed, test report and signage provided, all incidentals included."
+      }
+    },
+    {
+      "code": "8.03",
+      "designation": {
+        "fr": "Placard / dressing intégré toute hauteur, façades + caissons + étagères + tringles",
+        "ar": "خزانة / غرفة ملابس مدمجة بكامل الارتفاع، واجهات + صناديق + رفوف + قضبان",
+        "en": "Full-height integrated wardrobe / dressing, fronts + carcasses + shelves + rails"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au m² de façade vue, mesuré hors-tout, aménagements intérieurs et quincaillerie compris.",
+        "ar": "بالمتر المربع من الواجهة المرئية، يقاس بالكامل، شاملا التجهيزات الداخلية والأدوات المعدنية.",
+        "en": "Per m² of visible front, measured overall, including internal fittings and ironmongery."
+      }
+    },
+    {
+      "code": "8.04",
+      "designation": {
+        "fr": "Agencement sur mesure (meuble fixe, banque d'accueil) en panneaux plaqués bois",
+        "ar": "تأثيث حسب القياس (أثاث ثابت، مكتب استقبال) من ألواح مكسوة بالخشب",
+        "en": "Bespoke joinery (fixed furniture, reception desk) in wood-veneered boards"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire développé, façonnage, finition et fixations compris.",
+        "ar": "بالمتر الطولي المنشور، شاملا التشكيل والإنهاء والتثبيتات.",
+        "en": "Per developed linear metre, including fabrication, finishing and fixings."
+      }
+    },
+    {
+      "code": "8.05",
+      "designation": {
+        "fr": "Plinthe bois massif ou plaqué, hauteur 80–100 mm, y compris angles et raccords",
+        "ar": "أفريز من خشب مصمت أو مكسو، ارتفاع 80–100 مم، شاملا الزوايا والوصلات",
+        "en": "Solid or veneered timber skirting, height 80–100 mm, including corners and joints"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire posé, coupes d'onglet et fixations comprises, déduction des baies > 1 m.",
+        "ar": "بالمتر الطولي المركب، شاملا قطع الميل والتثبيتات، مع خصم الفتحات > 1 م.",
+        "en": "Per linear metre installed, mitre cuts and fixings included, openings > 1 m deducted."
+      }
+    },
+    {
+      "code": "8.06",
+      "designation": {
+        "fr": "Trappe de visite bois pour gaines/combles, cadre + ouvrant + quincaillerie",
+        "ar": "فتحة زيارة خشبية للأنفاق/العلية، إطار + فتحة + أدوات معدنية",
+        "en": "Timber access hatch for ducts/loft, frame + opening + ironmongery"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité posée, dimensions selon plans, toutes sujétions comprises.",
+        "ar": "بالوحدة المركبة، الأبعاد حسب التصاميم، شاملة جميع اللوازم.",
+        "en": "Per unit installed, dimensions per drawings, all incidentals included."
+      }
+    },
+    {
+      "code": "8.07",
+      "designation": {
+        "fr": "Habillage / lambris bois mural, panneaux plaqués sur ossature",
+        "ar": "تكسية / إزار خشبي جداري، ألواح مكسوة على هيكل",
+        "en": "Wall timber panelling / wainscot, veneered panels on framing"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au m² de surface vue, ossature, panneaux et finition compris.",
+        "ar": "بالمتر المربع من السطح المرئي، شاملا الهيكل والألواح والإنهاء.",
+        "en": "Per m² of visible surface, including framing, panels and finishing."
+      }
+    },
+    {
+      "code": "8.08",
+      "designation": {
+        "fr": "Fourniture et pose de quincaillerie de sécurité complémentaire (cylindre organigramme, butée, ferme-porte)",
+        "ar": "توريد وتركيب أدوات معدنية أمنية تكميلية (أسطوانة مخطط، صدام، مغلق باب)",
+        "en": "Supply and installation of supplementary security ironmongery (master-key cylinder, stop, closer)"
+      },
+      "unite": "ens",
+      "modeMetreMD": {
+        "fr": "À l'ensemble par ouvrant, réglage et essais compris.",
+        "ar": "بالمجموعة لكل فتحة، شاملا الضبط والاختبارات.",
+        "en": "Per set per opening unit, including adjustment and testing."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_02_GROS_OEUVRE_BETON",
+      "type": "RESERVATION",
+      "description": {
+        "fr": "Le gros œuvre fournit les réservations d'huisseries aux cotes des plans de menuiserie ; tolérance d'aplomb des tableaux ≤ 5 mm.",
+        "ar": "يوفر البناء الخام فتحات الحلوق بأبعاد تصاميم النجارة؛ سماحية شاقولية الجوانب ≤ 5 مم.",
+        "en": "Structural works provide door-frame openings to the dimensions of the joinery drawings; reveal plumb tolerance ≤ 5 mm."
+      }
+    },
+    {
+      "lotCible": "LOT_10_PEINTURE_REVETEMENTS",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Coordination des finitions : la peinture protège les bois bruts non vernis ; les retouches après pose menuiserie sont au lot Peinture.",
+        "ar": "تنسيق الإنهاءات: يحمي الطلاء الأخشاب الخام غير المورنشة؛ الترميمات بعد تركيب النجارة من قسم الطلاء.",
+        "en": "Finishing coordination: paint protects unvarnished raw timber; touch-ups after joinery installation are under the Painting lot."
+      }
+    },
+    {
+      "lotCible": "LOT_11_ELECTRICITE",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Coordination des passages de câbles et appareillages dans les agencements ; réservations dans les caissons selon plans électriques.",
+        "ar": "تنسيق ممرات الكابلات والأجهزة في التجهيزات؛ الفتحات في الصناديق حسب التصاميم الكهربائية.",
+        "en": "Coordination of cable runs and devices within joinery; openings in carcasses per electrical drawings."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "NF DTU 36.2 — Menuiseries intérieures en bois",
+      "NF DTU 36.5 — Mise en œuvre des fenêtres et portes",
+      "NF EN 942 — Bois dans les menuiseries — Classement général de la qualité du bois",
+      "NF EN 1192 — Portes — Classification des exigences de résistance mécanique",
+      "NF EN 350 — Durabilité du bois et des matériaux à base de bois",
+      "NM 10.1.008 — Bois de menuiserie (référentiel marocain)",
+      "Art. 769/770 du Dahir des Obligations et Contrats (DOC) — garanties"
+    ]
+  }
+}

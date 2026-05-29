@@ -1,0 +1,269 @@
+{
+  "code": "LOT_11_REVETEMENTS_SOLS",
+  "numero": 11,
+  "famille": "SECOND_OEUVRE",
+  "intitule": {
+    "fr": "Revêtements de sols durs et souples",
+    "ar": "تغطية الأرضيات الصلبة واللينة",
+    "en": "Hard and Soft Floor Coverings"
+  },
+  "description": {
+    "fr": "Fourniture et pose de l'ensemble des revêtements de sols du projet {{PROJECT_NAME}} : carrelage en grès cérame, pierre naturelle et marbre, parquets bois, et revêtements de résine de synthèse. Comprend les chapes de pose, les couches d'accrochage, le calepinage, les joints, les plinthes et les profilés de finition.",
+    "ar": "توريد وتركيب جميع تغطيات الأرضيات لمشروع {{PROJECT_NAME}}: بلاط الخزف الحجري (الغريس سيراميك)، الحجر الطبيعي والرخام، الأرضيات الخشبية (الباركيه)، وطلاءات الراتنج الاصطناعي. يشمل طبقات الفرش، طبقات الالتصاق، توزيع البلاط، الفواصل، وألواح القدم والإفريزات النهائية.",
+    "en": "Supply and installation of all floor coverings for the {{PROJECT_NAME}} project: porcelain stoneware tiling, natural stone and marble, timber parquet, and synthetic resin flooring. Includes screed beds, bonding coats, tile setting-out, joints, skirtings and finishing profiles."
+  },
+  "normesRefs": [
+    "NF DTU 52.2",
+    "NF DTU 52.1",
+    "NF DTU 26.2",
+    "NF DTU 51.1",
+    "NF DTU 51.2",
+    "NM EN 14411",
+    "NM EN 14157",
+    "NM EN 12808",
+    "NM EN 13813",
+    "NM ISO 10545",
+    "NM EN 13892"
+  ],
+  "secteurQualifMA": [
+    "Q5.1 Revêtements de sols et murs (carrelage, faïence)",
+    "Q5.4 Revêtements en marbre et pierre",
+    "Q5.5 Parquets et revêtements bois",
+    "Q5.6 Revêtements de sols coulés (résine)"
+  ],
+  "competencesRequises": [
+    "Carreleur qualifié pose collée DTU 52.2",
+    "Marbrier-poseur pierre naturelle",
+    "Parqueteur",
+    "Applicateur résine certifié fabricant"
+  ],
+  "articles": [
+    {
+      "numero": "11.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet, limites de prestation et documents de référence",
+        "ar": "الموضوع، حدود الخدمة والوثائق المرجعية",
+        "en": "Scope, Limits of Works and Reference Documents"
+      },
+      "corpsMD": {
+        "fr": "## Objet\nLe présent lot a pour objet la fourniture et la pose des revêtements de sols durs (grès cérame, marbre, pierre naturelle), des parquets et des revêtements de résine pour l'ensemble du projet **{{PROJECT_NAME}}** sis à **{{COMMUNE}}**.\n\n## Limites de prestation\nSont **inclus** : les chapes et formes de pose, les couches d'accrochage, le calepinage, les joints souples et de fractionnement, les plinthes, seuils et profilés.\n\nSont **exclus** (lot Gros Œuvre) : la dalle support, le ravoirage des réseaux encastrés, l'étanchéité sous chape des locaux humides (coordonner avec lot étanchéité).\n\n## Documents de référence\n- **NF DTU 52.2** — Pose collée des revêtements céramiques\n- **NF DTU 52.1** — Revêtements de sol scellés\n- **NF DTU 26.2 / 13.3** — Chapes et dalles à base de liants hydrauliques\n- **NF DTU 51.1 / 51.2** — Parquets cloués et collés\n- **NM EN 14411** — Carreaux céramiques (certification **NM obligatoire**)\n\nL'entrepreneur remet pour visa le **plan de calepinage** de chaque local avant toute commande.",
+        "ar": "## الموضوع\nيهدف هذا القسم إلى توريد وتركيب تغطيات الأرضيات الصلبة (الخزف الحجري، الرخام، الحجر الطبيعي)، الأرضيات الخشبية وطلاءات الراتنج لكامل مشروع **{{PROJECT_NAME}}** الكائن بـ **{{COMMUNE}}**.\n\n## حدود الخدمة\n**يشمل**: طبقات الفرش والصبات، طبقات الالتصاق، توزيع البلاط، الفواصل المرنة وفواصل التجزئة، ألواح القدم، العتبات والإفريزات.\n\n**يُستثنى** (قسم الأشغال الكبرى): البلاطة الحاملة، تسوية الشبكات المدفونة، العزل المائي تحت الصبة في المحلات الرطبة (التنسيق مع قسم العزل).\n\n## الوثائق المرجعية\n- **NF DTU 52.2** — التركيب باللصق للتغطيات الخزفية\n- **NF DTU 52.1** — تغطيات الأرضيات المثبتة بالملاط\n- **NF DTU 26.2 / 13.3** — الصبات والبلاطات ذات الروابط الهيدروليكية\n- **NF DTU 51.1 / 51.2** — الباركيه المسمر والملصق\n- **NM EN 14411** — البلاط الخزفي (شهادة **NM إلزامية**)\n\nيقدم المقاول للتأشير **مخطط توزيع البلاط** لكل محل قبل أي طلبية.",
+        "en": "## Scope\nThis lot covers the supply and installation of hard floor coverings (porcelain stoneware, marble, natural stone), parquet and resin flooring throughout the **{{PROJECT_NAME}}** project located in **{{COMMUNE}}**.\n\n## Limits of works\n**Included**: screed beds and setting beds, bonding coats, tile setting-out, flexible and movement joints, skirtings, thresholds and profiles.\n\n**Excluded** (Structural Works lot): the supporting slab, levelling of embedded services, under-screed waterproofing of wet rooms (coordinate with the waterproofing lot).\n\n## Reference documents\n- **NF DTU 52.2** — Adhesive-bonded ceramic coverings\n- **NF DTU 52.1** — Sand-cement bedded floor coverings\n- **NF DTU 26.2 / 13.3** — Hydraulic-binder screeds and slabs\n- **NF DTU 51.1 / 51.2** — Nailed and glued parquet\n- **NM EN 14411** — Ceramic tiles (**NM certification mandatory**)\n\nThe contractor shall submit the **setting-out plan** of each room for approval prior to any order."
+      }
+    },
+    {
+      "numero": "11.2",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Provenance, spécifications et classement des carreaux céramiques",
+        "ar": "المنشأ، المواصفات وتصنيف البلاط الخزفي",
+        "en": "Origin, Specifications and Classification of Ceramic Tiles"
+      },
+      "corpsMD": {
+        "fr": "## Provenance et origine\nLes carreaux de grès cérame proviennent de fabricants justifiant du marquage **CE** et de la **certification NM EN 14411** (groupe BIa, pressés à sec, absorption d'eau E ≤ 0,5 %). Provenance soumise au visa du MOE.\n\n## Spécifications techniques\n| Caractéristique | Norme | Exigence |\n|---|---|---|\n| Absorption d'eau | NM ISO 10545-3 | E ≤ 0,5 % (BIa) |\n| Résistance à l'abrasion (PEI) | NM ISO 10545-7 | PEI IV mini (circulation) |\n| Résistance à la glissance | DIN 51130 | R10 mini (R11 locaux humides) |\n| Résistance à la flexion | NM ISO 10545-4 | ≥ 35 N/mm² |\n| Dilatation thermique | NM ISO 10545-8 | conforme |\n\n## Marbre et pierre naturelle\nMarbre et pierre conformes à la **NM EN 12058** (dalles) ; épaisseur ≥ 20 mm, traitement anti-tache hydrofuge oléofuge appliqué.\n\n## Échantillons\nL'entrepreneur soumet **3 échantillons** par type (40×40 cm mini) et fournit les **fiches techniques** et **PV de classement** avant approvisionnement.",
+        "ar": "## المنشأ والأصل\nيأتي بلاط الخزف الحجري من مصنّعين يثبتون وسم **CE** و**شهادة NM EN 14411** (المجموعة BIa، مكبوس على الجاف، امتصاص الماء E ≤ 0,5%). المنشأ خاضع لتأشير مكتب الدراسات.\n\n## المواصفات التقنية\n| الخاصية | المعيار | المتطلب |\n|---|---|---|\n| امتصاص الماء | NM ISO 10545-3 | E ≤ 0,5% (BIa) |\n| مقاومة التآكل (PEI) | NM ISO 10545-7 | PEI IV كحد أدنى |\n| مقاومة الانزلاق | DIN 51130 | R10 كحد أدنى (R11 للمحلات الرطبة) |\n| مقاومة الانحناء | NM ISO 10545-4 | ≥ 35 N/mm² |\n| التمدد الحراري | NM ISO 10545-8 | مطابق |\n\n## الرخام والحجر الطبيعي\nالرخام والحجر مطابقان لـ **NM EN 12058** (الألواح)؛ السمك ≥ 20 ملم، مع معالجة مضادة للبقع طاردة للماء والزيوت.\n\n## العينات\nيقدم المقاول **3 عينات** لكل نوع (40×40 سم كحد أدنى) ويوفر **البطاقات التقنية** و**محاضر التصنيف** قبل التموين.",
+        "en": "## Origin and provenance\nPorcelain stoneware tiles shall come from manufacturers holding **CE** marking and **NM EN 14411 certification** (group BIa, dry-pressed, water absorption E ≤ 0.5%). Origin subject to the Engineer's approval.\n\n## Technical specifications\n| Property | Standard | Requirement |\n|---|---|---|\n| Water absorption | NM ISO 10545-3 | E ≤ 0.5% (BIa) |\n| Abrasion resistance (PEI) | NM ISO 10545-7 | PEI IV min (traffic) |\n| Slip resistance | DIN 51130 | R10 min (R11 wet rooms) |\n| Flexural strength | NM ISO 10545-4 | ≥ 35 N/mm² |\n| Thermal expansion | NM ISO 10545-8 | compliant |\n\n## Marble and natural stone\nMarble and stone to comply with **NM EN 12058** (slabs); thickness ≥ 20 mm, water- and oil-repellent anti-stain treatment applied.\n\n## Samples\nThe contractor shall submit **3 samples** per type (40×40 cm min) and provide **technical data sheets** and **classification test reports** prior to procurement."
+      }
+    },
+    {
+      "numero": "11.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Mortiers-colles, joints et produits de support",
+        "ar": "ملاط اللصق، الفواصل ومواد الإسناد",
+        "en": "Adhesive Mortars, Joints and Substrate Products"
+      },
+      "corpsMD": {
+        "fr": "## Mortiers-colles\nLes mortiers-colles sont conformes à la **NM EN 12004** :\n- **C2 ET** (amélioré, temps ouvert allongé) pour grès cérame grand format\n- **C2 S1/S2** (déformable) pour supports avec déformation (chape sur plancher chauffant)\n- Classe **D2** (dispersion) admise uniquement en mural intérieur\n\n## Mortiers de jointoiement\n- Joints conformes **NM EN 13888** : classe **CG2 WA** (absorption réduite, haute résistance à l'abrasion)\n- Locaux humides et plages : joints **époxy RG** (NM EN 12808)\n- Joints souples périphériques et de fractionnement : mastic **SNJF** classe 25E\n\n## Produits support\n- Chape de pose : mortier **CT-C25-F4** (NM EN 13813)\n- Primaire d'accrochage et ragréage **P3** pour locaux à fort trafic\n- Natte de désolidarisation sous carrelage pour supports fissurés ou planchers chauffants\n\n## Stockage\nProduits stockés à l'abri de l'humidité, dans leur emballage d'origine, dates de péremption respectées.",
+        "ar": "## ملاط اللصق\nملاط اللصق مطابق لـ **NM EN 12004**:\n- **C2 ET** (محسّن، زمن فتح ممدد) للخزف الحجري كبير الحجم\n- **C2 S1/S2** (قابل للتشوه) للأسناد ذات التشوه (صبة فوق أرضية مدفأة)\n- الصنف **D2** (مشتت) مقبول فقط في التركيب الجداري الداخلي\n\n## ملاط الفواصل\n- الفواصل مطابقة لـ **NM EN 13888**: الصنف **CG2 WA** (امتصاص منخفض، مقاومة عالية للتآكل)\n- المحلات الرطبة والمسابح: فواصل **إيبوكسي RG** (NM EN 12808)\n- الفواصل المرنة المحيطية وفواصل التجزئة: معجون **SNJF** صنف 25E\n\n## مواد الإسناد\n- صبة الفرش: ملاط **CT-C25-F4** (NM EN 13813)\n- طبقة أساس للالتصاق ومادة تسوية **P3** للمحلات كثيفة الحركة\n- حصيرة فصل تحت البلاط للأسناد المتشققة أو الأرضيات المدفأة\n\n## التخزين\nتُخزّن المواد بعيداً عن الرطوبة، في تغليفها الأصلي، مع احترام تواريخ الصلاحية.",
+        "en": "## Adhesive mortars\nAdhesive mortars shall comply with **NM EN 12004**:\n- **C2 ET** (improved, extended open time) for large-format porcelain stoneware\n- **C2 S1/S2** (deformable) for substrates subject to movement (screed over underfloor heating)\n- Class **D2** (dispersion) only permitted for internal wall tiling\n\n## Grouting mortars\n- Grouts to **NM EN 13888**: class **CG2 WA** (reduced absorption, high abrasion resistance)\n- Wet rooms and pool decks: **epoxy RG** grouts (NM EN 12808)\n- Perimeter flexible and fractionation joints: **SNJF** sealant class 25E\n\n## Substrate products\n- Setting screed: **CT-C25-F4** mortar (NM EN 13813)\n- Bonding primer and **P3** levelling compound for heavy-traffic areas\n- Uncoupling membrane under tiling for cracked substrates or underfloor heating\n\n## Storage\nProducts stored protected from moisture, in their original packaging, with expiry dates observed."
+      }
+    },
+    {
+      "numero": "11.4",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Mise en œuvre, calepinage et joints",
+        "ar": "التنفيذ، توزيع البلاط والفواصل",
+        "en": "Installation, Setting-out and Joints"
+      },
+      "corpsMD": {
+        "fr": "## Préparation du support\nLe support doit être propre, sec (humidité résiduelle < 3 % pour chape ciment), cohésif et plan. Âge minimal de la chape : **28 jours** (ou conforme essai à la bombe à carbure).\n\n## Pose collée (DTU 52.2)\n- **Double encollage obligatoire** pour les carreaux de surface > 900 cm² et tous locaux extérieurs/humides\n- Taux de transfert de colle : **≥ 80 %** en sol intérieur, **100 %** en extérieur et locaux humides (vérifié par arrachage de carreaux témoins)\n- Peigne adapté à la taille du carreau\n\n## Calepinage et joints\n- Calepinage centré selon plan visé, joints alignés et réguliers\n- Largeur de joint : **≥ 2 mm** (rectifié) à **5 mm** selon format\n- **Joints de fractionnement** tous les **40 m²** en intérieur (**20 m²** en extérieur) et au droit des changements de plan\n- Joints périphériques souples le long des murs et points singuliers\n\n## Marbre et parquet\n- Marbre : pose scellée ou collée, ponçage et lustrage après prise, protection jusqu'à réception\n- Parquet collé (DTU 51.2) : sur support humidité < 3 %, jeu périphérique de dilatation **8 mm**, finition vitrifiée 3 couches",
+        "ar": "## تحضير الإسناد\nيجب أن يكون الإسناد نظيفاً، جافاً (رطوبة متبقية < 3% للصبة الإسمنتية)، متماسكاً ومستوياً. العمر الأدنى للصبة: **28 يوماً** (أو وفق اختبار قنبلة الكربيد).\n\n## التركيب باللصق (DTU 52.2)\n- **اللصق المزدوج إلزامي** للبلاط ذي المساحة > 900 سم² وجميع المحلات الخارجية/الرطبة\n- نسبة نقل الغراء: **≥ 80%** للأرضيات الداخلية، **100%** للخارجية والمحلات الرطبة (تُتحقق بنزع بلاطات شاهدة)\n- مشط مناسب لحجم البلاطة\n\n## توزيع البلاط والفواصل\n- توزيع متمركز وفق المخطط المؤشر، فواصل محاذية ومنتظمة\n- عرض الفاصل: **≥ 2 ملم** (مصحّح) إلى **5 ملم** حسب الحجم\n- **فواصل التجزئة** كل **40 م²** داخلياً (**20 م²** خارجياً) وعند تغيرات المستوى\n- فواصل محيطية مرنة على طول الجدران والنقاط الخاصة\n\n## الرخام والباركيه\n- الرخام: تركيب بالملاط أو باللصق، صنفرة وتلميع بعد الشك، حماية حتى التسلم\n- الباركيه الملصق (DTU 51.2): على إسناد برطوبة < 3%، فراغ تمدد محيطي **8 ملم**، تشطيب مزجج بثلاث طبقات",
+        "en": "## Substrate preparation\nThe substrate must be clean, dry (residual moisture < 3% for cement screed), cohesive and flat. Minimum screed age: **28 days** (or per carbide-bomb test).\n\n## Adhesive bonding (DTU 52.2)\n- **Back-buttering mandatory** for tiles > 900 cm² and all external/wet rooms\n- Adhesive transfer rate: **≥ 80%** internal floors, **100%** external and wet rooms (verified by lifting witness tiles)\n- Trowel notch suited to tile size\n\n## Setting-out and joints\n- Setting-out centred per approved plan, joints aligned and regular\n- Joint width: **≥ 2 mm** (rectified) to **5 mm** depending on format\n- **Fractionation joints** every **40 m²** internally (**20 m²** externally) and at plane changes\n- Flexible perimeter joints along walls and singular points\n\n## Marble and parquet\n- Marble: bedded or bonded installation, grinding and polishing after set, protection until handover\n- Glued parquet (DTU 51.2): on substrate moisture < 3%, **8 mm** perimeter expansion gap, 3-coat varnished finish"
+      }
+    },
+    {
+      "numero": "11.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Essais, contrôles, planéité et adhérence",
+        "ar": "الاختبارات، الفحوصات، الاستواء والالتصاق",
+        "en": "Testing, Inspection, Flatness and Adhesion"
+      },
+      "corpsMD": {
+        "fr": "## Surface témoin\nUne **surface témoin** de minimum **10 m²** par type de revêtement est réalisée et **agréée par le MOE** avant généralisation. Elle sert de référence qualité.\n\n## Tolérances de planéité (DTU 52.2)\n| Critère | Tolérance |\n|---|---|\n| Planéité générale (règle 2 m) | ≤ 3 mm |\n| Planéité locale (règle 0,20 m) | ≤ 1 mm |\n| Désaffleurement entre carreaux | ≤ 1 mm |\n| Alignement des joints | ≤ 2 mm sur 8 m |\n\n## Contrôle d'adhérence\n- Vérification du taux de transfert de colle par **arrachage de carreaux témoins** (≥ 80 % / 100 %)\n- Contrôle du **son creux** par sondage (battage) : aucun carreau sonnant le creux n'est accepté\n- Essai d'adhérence par traction sur résine (NM EN 13892-8) le cas échéant\n\n## Contrôles de réception\n- Absence de carreaux fêlés, ébréchés ou tachés\n- Joints pleins, lisses, sans manque ni ressuage\n- Pentes respectées dans locaux humides (**≥ 1,5 %** vers siphons)\n\n## Garanties\nGarantie de **parfait achèvement (1 an)**, **biennale** (équipements/profilés) et **décennale** pour les revêtements scellés solidaires de l'ouvrage.",
+        "ar": "## السطح الشاهد\nيُنجز **سطح شاهد** بحد أدنى **10 م²** لكل نوع تغطية ويُعتمد من طرف **مكتب الدراسات** قبل التعميم. يُستخدم كمرجع للجودة.\n\n## تفاوتات الاستواء (DTU 52.2)\n| المعيار | التفاوت |\n|---|---|\n| الاستواء العام (مسطرة 2 م) | ≤ 3 ملم |\n| الاستواء الموضعي (مسطرة 0,20 م) | ≤ 1 ملم |\n| فرق المستوى بين البلاطات | ≤ 1 ملم |\n| محاذاة الفواصل | ≤ 2 ملم على 8 م |\n\n## فحص الالتصاق\n- التحقق من نسبة نقل الغراء بـ**نزع بلاطات شاهدة** (≥ 80% / 100%)\n- فحص **الصوت الأجوف** بالطرق: لا تُقبل أي بلاطة ذات صوت أجوف\n- اختبار الالتصاق بالشد على الراتنج (NM EN 13892-8) عند الاقتضاء\n\n## فحوصات التسلم\n- غياب البلاطات المشروخة أو المكسورة أو الملطخة\n- فواصل ممتلئة، ملساء، دون نقص أو نضح\n- احترام الميول في المحلات الرطبة (**≥ 1,5%** نحو المصارف)\n\n## الضمانات\nضمان **الإنجاز التام (سنة)**، **الثنائي** (التجهيزات/الإفريزات) و**العشري** للتغطيات المثبتة المتضامنة مع المنشأ.",
+        "en": "## Witness surface\nA **witness surface** of minimum **10 m²** per covering type shall be executed and **approved by the Engineer** before general application. It serves as the quality reference.\n\n## Flatness tolerances (DTU 52.2)\n| Criterion | Tolerance |\n|---|---|\n| General flatness (2 m straightedge) | ≤ 3 mm |\n| Local flatness (0.20 m straightedge) | ≤ 1 mm |\n| Lippage between tiles | ≤ 1 mm |\n| Joint alignment | ≤ 2 mm over 8 m |\n\n## Adhesion control\n- Verification of adhesive transfer rate by **lifting witness tiles** (≥ 80% / 100%)\n- **Hollow-sound** check by tapping survey: no hollow-sounding tile accepted\n- Pull-off adhesion test on resin (NM EN 13892-8) where applicable\n\n## Acceptance inspections\n- No cracked, chipped or stained tiles\n- Full, smooth joints, without gaps or bleeding\n- Falls maintained in wet rooms (**≥ 1.5%** towards drains)\n\n## Warranties\n**Completion warranty (1 year)**, **two-year** (equipment/profiles) and **ten-year (decennial)** for bedded coverings integral to the structure."
+      }
+    },
+    {
+      "numero": "11.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "HSE, gestion des déchets et protection des ouvrages",
+        "ar": "السلامة والصحة والبيئة، تدبير النفايات وحماية الأشغال",
+        "en": "HSE, Waste Management and Protection of Works"
+      },
+      "corpsMD": {
+        "fr": "## Hygiène, sécurité et environnement\n- Port des **EPI** : gants, lunettes, masque anti-poussière lors de la découpe\n- Découpe à eau (scie à carrelage) pour limiter l'empoussièrement ; aspiration à la source\n- Ventilation des locaux lors de l'application des résines et vernis (COV)\n- Fiches de Données de Sécurité (**FDS**) disponibles sur chantier pour colles, résines et solvants\n\n## Gestion des déchets\n- Tri sélectif : chutes céramiques (inertes), emballages (carton/plastique), résidus de colles (déchets spéciaux)\n- Évacuation vers décharge **agréée** ; bordereaux de suivi conservés\n- Interdiction de rejet de boues de découpe dans les réseaux d'assainissement (décanteur obligatoire)\n\n## Protection des ouvrages\n- Protection des sols finis par film et panneaux jusqu'à la réception\n- Interdiction de circulation pendant la prise (24 h mini avant jointoiement, 7 j avant trafic intense)\n- Nettoyage de fin de chantier sans produits acides agressifs sur marbre et pierre",
+        "ar": "## السلامة والصحة والبيئة\n- ارتداء **معدات الوقاية الفردية**: قفازات، نظارات، كمامة ضد الغبار أثناء القطع\n- القطع بالماء (منشار البلاط) للحد من الغبار؛ الشفط من المصدر\n- تهوية المحلات أثناء تطبيق الراتنجات والورنيش (المركبات العضوية المتطايرة)\n- بطاقات السلامة (**FDS**) متوفرة في الورش للغراء والراتنجات والمذيبات\n\n## تدبير النفايات\n- الفرز الانتقائي: بقايا الخزف (خاملة)، التغليف (كرتون/بلاستيك)، بقايا الغراء (نفايات خاصة)\n- الإخلاء نحو مطرح **معتمد**؛ الاحتفاظ بسندات التتبع\n- يُمنع صرف أوحال القطع في شبكات التطهير (مرسّب إلزامي)\n\n## حماية الأشغال\n- حماية الأرضيات المنجزة بغشاء وألواح حتى التسلم\n- منع الحركة أثناء الشك (24 ساعة على الأقل قبل ملء الفواصل، 7 أيام قبل الحركة الكثيفة)\n- تنظيف نهاية الورش دون مواد حمضية كاشطة على الرخام والحجر",
+        "en": "## Health, safety and environment\n- Wearing of **PPE**: gloves, goggles, dust mask during cutting\n- Wet cutting (tile saw) to limit dust; source extraction\n- Room ventilation during resin and varnish application (VOCs)\n- Safety Data Sheets (**SDS**) available on site for adhesives, resins and solvents\n\n## Waste management\n- Selective sorting: ceramic offcuts (inert), packaging (cardboard/plastic), adhesive residues (special waste)\n- Disposal to **licensed** landfill; tracking slips retained\n- Discharge of cutting slurry into drainage networks prohibited (settling tank mandatory)\n\n## Protection of works\n- Protection of finished floors by film and panels until handover\n- No traffic during setting (24 h min before grouting, 7 days before heavy traffic)\n- End-of-works cleaning without aggressive acidic products on marble and stone"
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "11.01",
+      "designation": {
+        "fr": "Revêtement de sol en grès cérame pleine masse, pose collée double encollage, joints CG2, y compris calepinage et coupes",
+        "ar": "تغطية أرضية بالخزف الحجري الكامل الكتلة، تركيب باللصق المزدوج، فواصل CG2، شاملة التوزيع والقطع",
+        "en": "Full-body porcelain stoneware floor covering, back-buttered adhesive installation, CG2 grouts, including setting-out and cuts"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réellement revêtue en m², mesurée entre nus finis des murs, déduction faite des trémies > 0,50 m². Coupes et chutes incluses dans le prix.",
+        "ar": "المساحة المغطاة فعلياً بالم²، مقاسة بين الأوجه النهائية للجدران، مع خصم الفتحات > 0,50 م². القطع والبقايا مدرجة في الثمن.",
+        "en": "Area actually covered in m², measured between finished wall faces, deducting openings > 0.50 m². Cuts and offcuts included in the price."
+      }
+    },
+    {
+      "code": "11.02",
+      "designation": {
+        "fr": "Dallage en marbre poli épaisseur 20 mm, pose scellée, ponçage et lustrage, traitement hydrofuge oléofuge",
+        "ar": "بلاط رخامي مصقول بسمك 20 ملم، تركيب بالملاط، صنفرة وتلميع، معالجة طاردة للماء والزيوت",
+        "en": "Polished marble paving 20 mm thick, bedded installation, grinding and polishing, water/oil-repellent treatment"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface posée en m², mesurée au nu fini, plinthes comptées séparément. Façonnage des nez de marche inclus.",
+        "ar": "المساحة المركّبة بالم²، مقاسة بالوجه النهائي، ألواح القدم تُحسب منفصلة. تشكيل أنوف الدرج مدرج.",
+        "en": "Installed area in m², measured at finished face, skirtings counted separately. Stair-nosing shaping included."
+      }
+    },
+    {
+      "code": "11.03",
+      "designation": {
+        "fr": "Parquet contrecollé chêne, pose collée sur chape ragréée, finition vitrifiée 3 couches, jeu périphérique",
+        "ar": "باركيه ملصق من خشب البلوط، تركيب باللصق على صبة مسوّاة، تشطيب مزجج بثلاث طبقات، فراغ محيطي",
+        "en": "Engineered oak parquet, glued installation on levelled screed, 3-coat varnished finish, perimeter gap"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface posée en m², mesurée entre nus finis. Plinthes assorties et seuils décomptés séparément.",
+        "ar": "المساحة المركّبة بالم²، مقاسة بين الأوجه النهائية. ألواح القدم المطابقة والعتبات تُحسب منفصلة.",
+        "en": "Installed area in m², measured between finished faces. Matching skirtings and thresholds counted separately."
+      }
+    },
+    {
+      "code": "11.04",
+      "designation": {
+        "fr": "Revêtement de sol coulé en résine époxy autolissante, primaire d'accrochage, finition antidérapante",
+        "ar": "تغطية أرضية مصبوبة من راتنج إيبوكسي ذاتي التسوية، طبقة أساس للالتصاق، تشطيب مضاد للانزلاق",
+        "en": "Self-levelling epoxy resin poured floor covering, bonding primer, anti-slip finish"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface traitée en m² réellement appliquée, relevés en plinthe gorge comptés au ml séparément.",
+        "ar": "المساحة المعالجة بالم² المطبقة فعلياً، الرفعات على شكل إفريز مقعّر تُحسب بالمتر الطولي منفصلة.",
+        "en": "Treated area in m² actually applied, coved skirting upstands counted per linear metre separately."
+      }
+    },
+    {
+      "code": "11.05",
+      "designation": {
+        "fr": "Plinthe en grès cérame assortie hauteur 8 cm, pose collée, joints traités",
+        "ar": "لوح قدم من الخزف الحجري مطابق بارتفاع 8 سم، تركيب باللصق، فواصل معالجة",
+        "en": "Matching porcelain stoneware skirting 8 cm high, adhesive installation, treated joints"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Longueur développée en ml mesurée au nu fini, angles entrants et sortants comptés au développé.",
+        "ar": "الطول المنشور بالمتر الطولي مقاساً بالوجه النهائي، الزوايا الداخلة والخارجة تُحسب بالانتشار.",
+        "en": "Developed length in linear metres measured at finished face, internal and external angles counted developed."
+      }
+    },
+    {
+      "code": "11.06",
+      "designation": {
+        "fr": "Joint de fractionnement / dilatation avec profilé laiton ou inox encastré, garniture souple",
+        "ar": "فاصل تجزئة / تمدد مع إفريز نحاسي أو فولاذ مقاوم للصدأ مدفون، حشوة مرنة",
+        "en": "Fractionation / expansion joint with embedded brass or stainless profile, flexible filler"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Longueur de joint en ml réellement exécutée, fourniture et pose du profilé incluses.",
+        "ar": "طول الفاصل بالمتر الطولي المنجز فعلياً، توريد وتركيب الإفريز مدرجان.",
+        "en": "Joint length in linear metres actually executed, supply and installation of the profile included."
+      }
+    },
+    {
+      "code": "11.07",
+      "designation": {
+        "fr": "Natte de désolidarisation et primaire sous carrelage sur support fissuré ou plancher chauffant",
+        "ar": "حصيرة فصل وطبقة أساس تحت البلاط على إسناد متشقق أو أرضية مدفأة",
+        "en": "Uncoupling membrane and primer under tiling on cracked substrate or underfloor heating"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réellement traitée en m², recouvrements de lés non comptés.",
+        "ar": "المساحة المعالجة فعلياً بالم²، تراكبات الألواح غير محسوبة.",
+        "en": "Area actually treated in m², strip overlaps not counted."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_02_GROS_OEUVRE_BETON",
+      "type": "PREREQUIS",
+      "description": {
+        "fr": "Dalle support livrée plane, dressée et purgée ; réservations et niveaux finis (NGF) transmis avant exécution des chapes.",
+        "ar": "البلاطة الحاملة مُسلّمة مستوية ومسوّاة ومنظّفة؛ الحجوزات والمناسيب النهائية تُرسل قبل تنفيذ الصبات.",
+        "en": "Supporting slab delivered flat, levelled and cleared; reservations and finished levels transmitted prior to screed execution."
+      }
+    },
+    {
+      "lotCible": "LOT_09_ETANCHEITE",
+      "type": "COORDINATION",
+      "description": {
+        "fr": "Système d'étanchéité sous carrelage (SEL/SPEC) des locaux humides réalisé et réceptionné avant pose ; relevés et pentes coordonnés.",
+        "ar": "نظام العزل تحت البلاط للمحلات الرطبة منجز ومُتسلّم قبل التركيب؛ الرفعات والميول منسّقة.",
+        "en": "Under-tile waterproofing system (SEL/SPEC) of wet rooms executed and accepted before tiling; upstands and falls coordinated."
+      }
+    },
+    {
+      "lotCible": "LOT_13_PEINTURE",
+      "type": "SEQUENCE",
+      "description": {
+        "fr": "Pose des sols après finition des peintures murales pour éviter salissures, ou protection renforcée si pose antérieure.",
+        "ar": "تركيب الأرضيات بعد إنهاء الدهانات الجدارية لتجنب الاتساخ، أو حماية معززة إن سبق التركيب.",
+        "en": "Floor laying after wall paint finishing to avoid soiling, or reinforced protection if laid earlier."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "NF DTU 52.2",
+      "NF DTU 52.1",
+      "NF DTU 51.1/51.2",
+      "NM EN 14411",
+      "NM EN 12004",
+      "NM EN 13888",
+      "NM ISO 10545",
+      "Barème qualification BTP Maroc"
+    ]
+  }
+}

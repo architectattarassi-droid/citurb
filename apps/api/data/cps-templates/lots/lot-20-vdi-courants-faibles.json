@@ -1,0 +1,262 @@
+{
+  "code": "LOT_20_VDI_COURANTS_FAIBLES",
+  "numero": 20,
+  "famille": "TECHNIQUE_CES",
+  "intitule": {
+    "fr": "Courants faibles — VDI, téléphonie, TV, sûreté",
+    "ar": "التيارات الضعيفة — الصوت والبيانات والصورة، الهاتف، التلفزة، الأمن",
+    "en": "Low-Current Systems — Structured Cabling, Telephony, TV, Security"
+  },
+  "description": {
+    "fr": "Fourniture, pose, raccordement et certification de l'ensemble des installations de courants faibles du projet {{PROJECT_NAME}} sur la commune de {{COMMUNE}} : précâblage informatique structuré VDI (réseau RJ45 catégorie 6/6A), téléphonie, distribution TV/SAT, contrôle d'accès, vidéosurveillance, baie de brassage et locaux techniques associés. Le câblage cuivre est testé et certifié selon ISO/IEC 11801 et EN 50173, et fait l'objet d'un dossier de certification (link/channel) remis à la réception.",
+    "ar": "توريد وتركيب وربط وإشهاد مجموع تركيبات التيارات الضعيفة لمشروع {{PROJECT_NAME}} بجماعة {{COMMUNE}} : التكبيل المعلوماتي المهيكل VDI (شبكة RJ45 صنف 6/6A)، الهاتف، توزيع التلفزة/الأقمار الصناعية، مراقبة الولوج، المراقبة بالفيديو، خزانة التوزيع والمحلات التقنية المرتبطة. يُختبَر التكبيل النحاسي ويُشهَد وفق ISO/IEC 11801 وEN 50173، ويكون موضوع ملف إشهاد (link/channel) يُسلَّم عند التسلم.",
+    "en": "Supply, installation, connection and certification of all low-current systems for project {{PROJECT_NAME}} in the {{COMMUNE}} municipality: structured VDI cabling (RJ45 category 6/6A network), telephony, TV/SAT distribution, access control, video surveillance, patch rack and associated technical rooms. The copper cabling is tested and certified to ISO/IEC 11801 and EN 50173, and is the subject of a certification file (link/channel) handed over at completion."
+  },
+  "normesRefs": [
+    "ISO/IEC 11801",
+    "EN 50173-1",
+    "EN 50174-2",
+    "TIA/EIA-568 (Cat 6/6A)",
+    "EN 50346 (essais de câblage)",
+    "EN 50132 (vidéosurveillance CCTV)",
+    "EN 50133 / EN 60839 (contrôle d'accès)",
+    "EN 50083 / EN 60728 (réseaux TV)",
+    "EN 50310 (terre et équipotentialité TI)"
+  ],
+  "secteurQualifMA": [
+    "CF",
+    "VDI",
+    "Q6.1"
+  ],
+  "competencesRequises": [
+    "Installateur courants faibles / VDI qualifié",
+    "Technicien certificateur de câblage (testeur de certification homologué)",
+    "Habilitation électrique pour intervention en proximité des courants forts"
+  ],
+  "articles": [
+    {
+      "numero": "20.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet, consistance et limites de prestation",
+        "ar": "الموضوع والمحتوى وحدود الخدمة",
+        "en": "Scope, content and limits of works"
+      },
+      "corpsMD": {
+        "fr": "Le présent lot a pour objet la réalisation complète des installations de **courants faibles** du projet {{PROJECT_NAME}}.\n\n**Consistance des travaux :**\n- **Précâblage VDI** : réseau structuré cuivre **RJ45 catégorie 6 / 6A**, prises terminales, cordons, panneaux de brassage ;\n- **Téléphonie** : distribution intérieure et raccordement au point de terminaison opérateur ;\n- **Distribution TV/SAT** : antenne/parabole, amplification, dérivation vers les prises ;\n- **Contrôle d'accès** : lecteurs, gâches/ventouses, centrale, gestion des droits ;\n- **Vidéosurveillance (CCTV)** : caméras IP, enregistreur, supervision ;\n- **Baie de brassage** et locaux techniques (répartiteurs) équipés.\n\n**Limites de prestation :**\n- L'**alimentation électrique protégée** de la baie et la **GTL** relèvent du **LOT 15** ; le présent lot raccorde ses équipements sur ces attentes ;\n- Les **fourreaux et chemins de câbles courants faibles** sont coordonnés avec les lots techniques et le gros œuvre (**LOT 02**) ;\n- La **séparation physique** d'avec les courants forts est strictement respectée (cheminements distincts).\n\nL'entrepreneur garantit la performance et la **certification** du câblage livré.",
+        "ar": "يهدف هذا اللوط إلى الإنجاز الكامل لتركيبات **التيارات الضعيفة** لمشروع {{PROJECT_NAME}}.\n\n**محتوى الأشغال :**\n- **التكبيل المهيكل VDI** : شبكة نحاسية مهيكلة **RJ45 صنف 6 / 6A**، مآخذ طرفية، أسلاك ربط، لوحات توزيع ؛\n- **الهاتف** : التوزيع الداخلي والربط بنقطة انتهاء المتعهد ؛\n- **توزيع التلفزة/الأقمار** : هوائي/صحن، تضخيم، تفريع نحو المآخذ ؛\n- **مراقبة الولوج** : قارئات، أقفال كهربائية، وحدة مركزية، تدبير الحقوق ؛\n- **المراقبة بالفيديو (CCTV)** : كاميرات IP، مسجِّل، إشراف ؛\n- **خزانة التوزيع** والمحلات التقنية (الموزِّعات) مجهَّزة.\n\n**حدود الخدمة :**\n- **التغذية الكهربائية المحمية** للخزانة والـ **GTL** من اختصاص **اللوط 15** ؛ يربط هذا اللوط معداته على هذه التغذيات ؛\n- تُنسَّق **أغماد ومسارات كوابل التيارات الضعيفة** مع اللوطات التقنية والأعمال الكبرى (**اللوط 02**) ؛\n- يُحترَم **الفصل المادي** عن التيارات القوية بصرامة (مسارات منفصلة).\n\nيضمن المقاول أداء و**إشهاد** التكبيل المسلَّم.",
+        "en": "This lot covers the complete execution of the **low-current** systems for project {{PROJECT_NAME}}.\n\n**Scope of works:**\n- **Structured VDI cabling**: copper structured network **RJ45 category 6 / 6A**, outlet faceplates, patch cords, patch panels;\n- **Telephony**: indoor distribution and connection to the operator's termination point;\n- **TV/SAT distribution**: antenna/dish, amplification, branching to outlets;\n- **Access control**: readers, strikes/maglocks, controller, rights management;\n- **Video surveillance (CCTV)**: IP cameras, recorder, supervision;\n- **Patch rack** and technical rooms (distributors) equipped.\n\n**Limits of works:**\n- The **protected power supply** of the rack and the **GTL** are covered by **LOT 15**; this lot connects its equipment to those provisions;\n- The **low-current ducts and cable trays** are coordinated with the technical lots and the structure (**LOT 02**);\n- **Physical separation** from the power systems is strictly maintained (separate routes).\n\nThe contractor guarantees the performance and **certification** of the delivered cabling."
+      }
+    },
+    {
+      "numero": "20.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Documents de référence et architecture de câblage",
+        "ar": "وثائق المرجع وبنية التكبيل",
+        "en": "Reference documents and cabling architecture"
+      },
+      "corpsMD": {
+        "fr": "Les installations sont conçues selon :\n- **ISO/IEC 11801** et **EN 50173-1** — Systèmes de câblage générique ;\n- **EN 50174-2** — Installation du câblage (planification et pratiques de pose) ;\n- **TIA/EIA-568** — Composants et performances catégorie 6/6A ;\n- **EN 50310** — Mise à la terre et équipotentialité des installations de traitement de l'information.\n\n**Architecture :**\n- Topologie **en étoile** depuis la **baie de brassage** (répartiteur) vers chaque prise terminale (poste de travail à 2 connecteurs RJ45 minimum) ;\n- Longueur de lien permanent **≤ 90 m**, longueur de channel **≤ 100 m** (cordons compris) ;\n- Repérage normalisé des prises, panneaux, câbles et baies selon un **plan d'adressage** ;\n- Séparation et distances de proximité avec les courants forts conformes à EN 50174-2.\n\nLe **plan d'adressage**, le synoptique et le dossier d'architecture sont soumis au visa du maître d'œuvre avant exécution.",
+        "ar": "تُصمَّم التركيبات وفق :\n- **ISO/IEC 11801** و**EN 50173-1** — أنظمة التكبيل العام ؛\n- **EN 50174-2** — تركيب التكبيل (التخطيط وممارسات التركيب) ؛\n- **TIA/EIA-568** — مكونات وأداءات الصنف 6/6A ؛\n- **EN 50310** — التأريض وتعادل الجهد لتركيبات معالجة المعلومات.\n\n**البنية :**\n- طوبولوجيا **نجمية** انطلاقا من **خزانة التوزيع** (الموزِّع) نحو كل مأخذ طرفي (محطة عمل بموصلين RJ45 على الأقل) ؛\n- طول الرابط الدائم **≤ 90 م**، طول القناة **≤ 100 م** (شاملا أسلاك الربط) ؛\n- ترقيم معياري للمآخذ واللوحات والكوابل والخزائن حسب **مخطط العنونة** ؛\n- الفصل ومسافات القرب مع التيارات القوية مطابقة لـ EN 50174-2.\n\nيُعرَض **مخطط العنونة** والمخطط التشغيلي وملف البنية على تأشيرة صاحب المشروع المنتدب قبل التنفيذ.",
+        "en": "The installations are designed according to:\n- **ISO/IEC 11801** and **EN 50173-1** — Generic cabling systems;\n- **EN 50174-2** — Cabling installation (planning and installation practices);\n- **TIA/EIA-568** — Category 6/6A components and performance;\n- **EN 50310** — Earthing and equipotential bonding of information technology installations.\n\n**Architecture:**\n- **Star** topology from the **patch rack** (distributor) to each terminal outlet (workstation with at least 2 RJ45 connectors);\n- Permanent link length **≤ 90 m**, channel length **≤ 100 m** (cords included);\n- Standardised identification of outlets, panels, cables and racks per an **addressing plan**;\n- Separation and proximity distances from power systems compliant with EN 50174-2.\n\nThe **addressing plan**, schematic and architecture file are submitted for the project manager's approval before execution."
+      }
+    },
+    {
+      "numero": "20.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Provenance et spécifications des composants",
+        "ar": "مصدر ومواصفات المكونات",
+        "en": "Source and specifications of components"
+      },
+      "corpsMD": {
+        "fr": "Les composants d'un même lien proviennent de préférence d'un **système constructeur cohérent** garantissant la performance de bout en bout et la **garantie système**.\n\n**Spécifications minimales :**\n- **Câbles cuivre :** **U/UTP ou F/FTP catégorie 6 / 6A**, conducteurs cuivre 23/24 AWG, gaine LSZH (faible émission de fumée, sans halogène) ;\n- **Connectique :** prises et panneaux **RJ45 catégorie 6 / 6A**, raccordement selon code couleur T568A/B homogène ;\n- **Baie de brassage :** baie 19\" équipée de panneaux, bandeaux de brassage, **bandeaux d'alimentation (PDU)**, guide-cordons, ventilation et terre de baie ;\n- **TV/SAT :** câble coaxial classe A, têtes et amplificateurs conformes EN 60728 ;\n- **Contrôle d'accès :** lecteurs et centrale conformes EN 60839, alimentation secourue ;\n- **CCTV :** caméras IP, enregistreur (NVR), conformes EN 50132 ;\n- Câbles à **réaction au feu** conforme au classement Euroclasses exigé pour le bâtiment.\n\nLes **fiches techniques** et **échantillons** (prise, cordon, panneau, caméra) sont soumis à l'agrément du maître d'œuvre avant approvisionnement.",
+        "ar": "تأتي مكونات الرابط الواحد ويُفضَّل من **نظام صانع متجانس** يضمن الأداء من الطرف إلى الطرف و**الضمان النظامي**.\n\n**المواصفات الدنيا :**\n- **الكوابل النحاسية :** **U/UTP أو F/FTP صنف 6 / 6A**، موصلات نحاس 23/24 AWG، غلاف LSZH (انبعاث دخان ضعيف، خالٍ من الهالوجين) ؛\n- **الموصِّلات :** مآخذ ولوحات **RJ45 صنف 6 / 6A**، الربط حسب رمز الألوان T568A/B متجانس ؛\n- **خزانة التوزيع :** خزانة 19 بوصة مجهَّزة باللوحات وأشرطة التوزيع و**أشرطة التغذية (PDU)** وموجِّهات الأسلاك والتهوية وأرض الخزانة ؛\n- **التلفزة/الأقمار :** كابل محوري صنف A، رؤوس ومضخِّمات مطابقة EN 60728 ؛\n- **مراقبة الولوج :** قارئات ووحدة مركزية مطابقة EN 60839، تغذية مؤمَّنة ؛\n- **CCTV :** كاميرات IP، مسجِّل (NVR)، مطابقة EN 50132 ؛\n- كوابل بـ**رد فعل تجاه الحريق** مطابق لتصنيف Euroclasses المطلوب للبناء.\n\nتُعرَض **البطاقات التقنية** و**العينات** (مأخذ، سلك ربط، لوحة، كاميرا) على موافقة صاحب المشروع المنتدب قبل التموين.",
+        "en": "The components of a single link preferably come from a **coherent manufacturer system** guaranteeing end-to-end performance and the **system warranty**.\n\n**Minimum specifications:**\n- **Copper cables:** **U/UTP or F/FTP category 6 / 6A**, 23/24 AWG copper conductors, LSZH sheath (low smoke, zero halogen);\n- **Connectivity:** **RJ45 category 6 / 6A** outlets and panels, terminated to a consistent T568A/B colour code;\n- **Patch rack:** 19\" rack equipped with panels, patch strips, **power distribution units (PDU)**, cable managers, ventilation and rack earthing;\n- **TV/SAT:** class A coaxial cable, heads and amplifiers compliant with EN 60728;\n- **Access control:** readers and controller compliant with EN 60839, backed-up power;\n- **CCTV:** IP cameras, recorder (NVR), compliant with EN 50132;\n- Cables with **reaction to fire** compliant with the Euroclasses rating required for the building.\n\n**Technical data sheets** and **samples** (outlet, cord, panel, camera) are submitted for the project manager's approval before procurement."
+      }
+    },
+    {
+      "numero": "20.4",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Mise en œuvre du câblage, baie de brassage et terminaux",
+        "ar": "تنفيذ التكبيل وخزانة التوزيع والأطراف",
+        "en": "Installation of cabling, patch rack and terminals"
+      },
+      "corpsMD": {
+        "fr": "**Pose du câblage (EN 50174-2) :**\n- Cheminements courants faibles **dédiés et séparés** des courants forts ; respect des rayons de courbure minimaux des câbles ;\n- Détorsadage limité aux connecteurs ; pas de tension excessive ni d'écrasement ; reprise de continuité des écrans pour le F/FTP ;\n- Repérage des deux extrémités de chaque câble conformément au plan d'adressage.\n\n**Baie de brassage :**\n- Baie mise à la terre selon **EN 50310**, panneaux de brassage et organisation des cordons soignée ;\n- Brassage documenté (matrice de brassage), réserve de capacité prévue.\n\n**Terminaux et systèmes :**\n- Prises terminales posées à hauteur normalisée et repérées ;\n- Caméras CCTV et lecteurs de contrôle d'accès implantés selon plan ; réglages des champs de vision et des zones ;\n- Distribution TV/SAT raccordée et niveaux vérifiés.\n\nLe **dossier d'exécution** (plans, matrice de brassage, repérage) est tenu à jour en continu jusqu'au DOE.",
+        "ar": "**تركيب التكبيل (EN 50174-2) :**\n- مسارات تيارات ضعيفة **مخصَّصة ومنفصلة** عن التيارات القوية ؛ احترام أنصاف أقطار الانحناء الدنيا للكوابل ؛\n- فك الفتل محصور عند الموصِّلات ؛ لا شد مفرط ولا سحق ؛ استعادة استمرارية الدروع للـ F/FTP ؛\n- ترقيم طرفَي كل كابل طبقا لمخطط العنونة.\n\n**خزانة التوزيع :**\n- الخزانة مؤرَّضة حسب **EN 50310**، لوحات التوزيع وتنظيم الأسلاك بعناية ؛\n- توزيع موثَّق (مصفوفة التوزيع)، مع احتياطي سعة.\n\n**الأطراف والأنظمة :**\n- المآخذ الطرفية مركَّبة على ارتفاع معياري ومرقَّمة ؛\n- كاميرات CCTV وقارئات مراقبة الولوج مركَّبة حسب المخطط ؛ ضبط مجالات الرؤية والمناطق ؛\n- توزيع التلفزة/الأقمار موصول والمستويات مُتحقَّق منها.\n\nيُحدَّث **ملف التنفيذ** (المخططات، مصفوفة التوزيع، الترقيم) باستمرار إلى غاية ملف المنشآت المنجزة.",
+        "en": "**Cable installation (EN 50174-2):**\n- Low-current routes **dedicated and separate** from power systems; compliance with minimum cable bend radii;\n- Untwisting limited to connectors; no excessive tension or crushing; screen continuity restored for F/FTP;\n- Identification of both ends of each cable in accordance with the addressing plan.\n\n**Patch rack:**\n- Rack earthed per **EN 50310**, patch panels and careful cord management;\n- Documented patching (patching matrix), spare capacity provided.\n\n**Terminals and systems:**\n- Terminal outlets installed at standardised height and identified;\n- CCTV cameras and access-control readers located per plan; fields of view and zones adjusted;\n- TV/SAT distribution connected and levels verified.\n\nThe **execution file** (drawings, patching matrix, identification) is kept continuously up to date through to the as-built file."
+      }
+    },
+    {
+      "numero": "20.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Certification du câblage, essais et garanties",
+        "ar": "إشهاد التكبيل والاختبارات وضمانات",
+        "en": "Cabling certification, tests and guarantees"
+      },
+      "corpsMD": {
+        "fr": "Chaque lien cuivre fait l'objet d'une **certification** au moyen d'un testeur de certification homologué, selon **EN 50346 / ISO/IEC 11801** pour la catégorie installée.\n\n**Paramètres mesurés (link permanent et/ou channel) :**\n- Cartographie/continuité (wiremap), longueur ;\n- Affaiblissement (insertion loss), **NEXT / PSNEXT**, **ACR-F (ELFEXT) / PSACR-F**, **Return Loss**, délai de propagation et écart de propagation (delay skew).\n\n**Restitution :**\n- Chaque lien doit afficher un résultat **PASS** dans la bande de fréquence de la catégorie ; les liens NON conformes sont repris puis re-testés ;\n- Un **dossier de certification** (relevés par lien, type de testeur, version d'étalonnage, normes de référence) est remis au maître d'œuvre.\n\n**Essais des systèmes :**\n- Tests de fonctionnement TV/SAT (niveaux), contrôle d'accès (ouverture/secours) et CCTV (visualisation, enregistrement).\n\n**Garanties / HSE :**\n- **Garantie système constructeur** (link/channel) transmise au maître d'ouvrage lorsque le système le permet ; garantie de parfait achèvement (1 an) ;\n- Remise du **DOE** : plans *as-built*, plan d'adressage, matrice de brassage, **rapports de certification** et notices ; interventions à proximité des courants forts encadrées (habilitation, EPI).",
+        "ar": "يخضع كل رابط نحاسي لـ**إشهاد** بواسطة جهاز إشهاد معتمد، حسب **EN 50346 / ISO/IEC 11801** للصنف المركَّب.\n\n**المعايير المقاسة (الرابط الدائم و/أو القناة) :**\n- خريطة الأسلاك/الاستمرارية (wiremap)، الطول ؛\n- التوهين (insertion loss)، **NEXT / PSNEXT**، **ACR-F (ELFEXT) / PSACR-F**، **Return Loss**، زمن الانتشار وفارق الانتشار (delay skew).\n\n**التسليم :**\n- يجب أن يُظهِر كل رابط نتيجة **PASS** في نطاق تردد الصنف ؛ تُعاد الروابط غير المطابقة ثم تُعاد اختبارها ؛\n- يُسلَّم **ملف إشهاد** (قراءات لكل رابط، نوع الجهاز، نسخة المعايرة، المعايير المرجعية) لصاحب المشروع المنتدب.\n\n**اختبارات الأنظمة :**\n- اختبارات اشتغال التلفزة/الأقمار (المستويات)، مراقبة الولوج (الفتح/الطوارئ) وCCTV (المشاهدة، التسجيل).\n\n**الضمانات / السلامة والصحة :**\n- **ضمان النظام للصانع** (link/channel) يُنقَل إلى صاحب المشروع عندما يسمح النظام بذلك ؛ ضمان الإنجاز التام (سنة واحدة) ؛\n- تسليم **ملف المنشآت المنجزة** : مخططات كما أُنجزت، مخطط العنونة، مصفوفة التوزيع، **تقارير الإشهاد** والدلائل ؛ التدخلات قرب التيارات القوية مؤطَّرة (التأهيل، معدات الوقاية).",
+        "en": "Each copper link is subject to **certification** using an approved certification tester, per **EN 50346 / ISO/IEC 11801** for the installed category.\n\n**Measured parameters (permanent link and/or channel):**\n- Wiremap/continuity, length;\n- Insertion loss, **NEXT / PSNEXT**, **ACR-F (ELFEXT) / PSACR-F**, **Return Loss**, propagation delay and delay skew.\n\n**Deliverables:**\n- Each link must show a **PASS** result within the category's frequency band; non-compliant links are reworked and re-tested;\n- A **certification file** (results per link, tester type, calibration version, reference standards) is handed to the project manager.\n\n**System tests:**\n- Functional tests of TV/SAT (levels), access control (opening/emergency release) and CCTV (viewing, recording).\n\n**Guarantees / HSE:**\n- **Manufacturer system warranty** (link/channel) passed to the client where the system allows; one-year defects liability;\n- Handover of the **as-built file (DOE)**: *as-built* drawings, addressing plan, patching matrix, **certification reports** and manuals; work near power systems governed (authorisation, PPE)."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "20.01",
+      "designation": {
+        "fr": "Lien VDI cuivre catégorie 6/6A (câble + prise RJ45 + panneau), certifié",
+        "ar": "رابط VDI نحاسي صنف 6/6A (كابل + مأخذ RJ45 + لوحة)، مشهَّد",
+        "en": "Category 6/6A copper VDI link (cable + RJ45 outlet + panel), certified"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de lien posé, du panneau de brassage à la prise terminale, certification incluse.",
+        "ar": "بالوحدة للرابط المركَّب، من لوحة التوزيع إلى المأخذ الطرفي، مع الإشهاد.",
+        "en": "Per installed link, from patch panel to terminal outlet, certification included."
+      }
+    },
+    {
+      "code": "20.02",
+      "designation": {
+        "fr": "Baie de brassage 19\" équipée (panneaux, PDU, guide-cordons, terre de baie)",
+        "ar": "خزانة توزيع 19 بوصة مجهَّزة (لوحات، PDU، موجِّهات أسلاك، أرض الخزانة)",
+        "en": "Equipped 19\" patch rack (panels, PDU, cable managers, rack earthing)"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de baie posée, équipée et mise à la terre selon EN 50310.",
+        "ar": "بالوحدة للخزانة المركَّبة والمجهَّزة والمؤرَّضة حسب EN 50310.",
+        "en": "Per rack installed, equipped and earthed per EN 50310."
+      }
+    },
+    {
+      "code": "20.03",
+      "designation": {
+        "fr": "Prise terminale double RJ45 catégorie 6/6A sur poste de travail",
+        "ar": "مأخذ طرفي مزدوج RJ45 صنف 6/6A على محطة عمل",
+        "en": "Double RJ45 category 6/6A terminal outlet at workstation"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de poste posé et repéré, plastron et boîtier compris.",
+        "ar": "بالوحدة للمحطة المركَّبة والمرقَّمة، مع الواجهة والعلبة.",
+        "en": "Per workstation installed and identified, faceplate and box included."
+      }
+    },
+    {
+      "code": "20.04",
+      "designation": {
+        "fr": "Point de distribution TV/SAT (câble coaxial + prise + dérivation)",
+        "ar": "نقطة توزيع التلفزة/الأقمار (كابل محوري + مأخذ + تفريع)",
+        "en": "TV/SAT distribution point (coaxial cable + outlet + tap)"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de prise TV/SAT raccordée et niveau vérifié.",
+        "ar": "بالوحدة لمأخذ التلفزة/الأقمار الموصول والمستوى المُتحقَّق منه.",
+        "en": "Per connected TV/SAT outlet with verified level."
+      }
+    },
+    {
+      "code": "20.05",
+      "designation": {
+        "fr": "Caméra de vidéosurveillance IP posée et raccordée (CCTV)",
+        "ar": "كاميرا مراقبة بالفيديو IP مركَّبة وموصولة (CCTV)",
+        "en": "IP video-surveillance camera installed and connected (CCTV)"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de caméra posée, réglée et raccordée à l'enregistreur (NVR).",
+        "ar": "بالوحدة للكاميرا المركَّبة والمضبوطة والموصولة بالمسجِّل (NVR).",
+        "en": "Per camera installed, adjusted and connected to the recorder (NVR)."
+      }
+    },
+    {
+      "code": "20.06",
+      "designation": {
+        "fr": "Point de contrôle d'accès (lecteur + gâche/ventouse) raccordé à la centrale",
+        "ar": "نقطة مراقبة الولوج (قارئ + قفل كهربائي) موصولة بالوحدة المركزية",
+        "en": "Access-control point (reader + strike/maglock) connected to the controller"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de point d'accès posé, alimentation secourue et asservissement compris.",
+        "ar": "بالوحدة لنقطة الولوج المركَّبة، مع التغذية المؤمَّنة والربط.",
+        "en": "Per access point installed, backed-up power and interlock included."
+      }
+    },
+    {
+      "code": "20.07",
+      "designation": {
+        "fr": "Point de terminaison téléphonique raccordé au réseau opérateur",
+        "ar": "نقطة انتهاء هاتفية موصولة بشبكة المتعهد",
+        "en": "Telephone termination point connected to the operator network"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de point téléphonique raccordé et testé.",
+        "ar": "بالوحدة للنقطة الهاتفية الموصولة والمختبَرة.",
+        "en": "Per telephone point connected and tested."
+      }
+    },
+    {
+      "code": "20.08",
+      "designation": {
+        "fr": "Certification du câblage cuivre et dossier de certification (par lien)",
+        "ar": "إشهاد التكبيل النحاسي وملف الإشهاد (لكل رابط)",
+        "en": "Copper cabling certification and certification file (per link)"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de lien certifié, relevé PASS et rapport consolidé remis à la réception.",
+        "ar": "بالوحدة للرابط المشهَّد، قراءة PASS وتقرير مجمَّع مسلَّم عند التسلم.",
+        "en": "Per certified link, PASS result and consolidated report delivered at handover."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_15_ELECTRICITE",
+      "type": "ALIMENTATION",
+      "description": {
+        "fr": "Réception de la GTL, des fourreaux séparés courants faibles et de l'alimentation électrique protégée de la baie de brassage.",
+        "ar": "استلام الـ GTL والأغماد المنفصلة للتيارات الضعيفة والتغذية الكهربائية المحمية لخزانة التوزيع.",
+        "en": "Receipt of the GTL, separate low-current ducts and protected power supply to the patch rack."
+      }
+    },
+    {
+      "lotCible": "LOT_16_CLIMATISATION",
+      "type": "COORDINATION",
+      "description": {
+        "fr": "Coordination des reports d'alarme et des asservissements de régulation/GTB des équipements CVC.",
+        "ar": "تنسيق تحويل الإنذارات وربط الضبط/التدبير التقني للمبنى لمعدات التكييف.",
+        "en": "Coordination of alarm reporting and control/BMS interlocks of HVAC equipment."
+      }
+    },
+    {
+      "lotCible": "LOT_02_GROS_OEUVRE_BETON",
+      "type": "RESERVATION",
+      "description": {
+        "fr": "Coordination des réservations, fourreaux et chemins de câbles courants faibles, et du local technique de la baie.",
+        "ar": "تنسيق التحفظات والأغماد ومسارات كوابل التيارات الضعيفة والمحل التقني للخزانة.",
+        "en": "Coordination of reservations, ducts and low-current cable trays, and the rack technical room."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "ISO/IEC 11801 — Information technology — Generic cabling for customer premises",
+      "EN 50173-1 — Systèmes de câblage générique",
+      "EN 50174-2 — Installation du câblage — Planification et pratiques de pose",
+      "EN 50346 — Essais des câblages installés",
+      "EN 60839 / EN 50132 — Systèmes d'alarme — contrôle d'accès et vidéosurveillance (CCTV)"
+    ]
+  }
+}

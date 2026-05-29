@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useT } from "../../i18n/i18n";
 
 /**
  * BottomNav — barre de navigation mobile inspirée des apps natives
@@ -19,7 +20,8 @@ import { Link, useLocation } from "react-router-dom";
 
 interface Tab {
   to: string;
-  label: string;
+  /** Clé i18n (nav.bottom.*) — traduite au rendu. */
+  labelKey: string;
   match: (path: string) => boolean;
   icon: React.ReactNode;
   highlight?: boolean;
@@ -112,32 +114,32 @@ const Icon = {
 const TABS: Tab[] = [
   {
     to: "/",
-    label: "Accueil",
+    labelKey: "nav.bottom.home",
     match: (p) => p === "/",
     icon: Icon.Home,
   },
   {
     to: "/portal",
-    label: "Dossiers",
+    labelKey: "nav.bottom.dossiers",
     match: (p) => p.startsWith("/portal") || p.startsWith("/mon-espace"),
     icon: Icon.Folder,
   },
   {
     to: "/creer-compte",
-    label: "Nouveau",
+    labelKey: "nav.bottom.new",
     match: (p) => p === "/creer-compte",
     icon: Icon.Plus,
     highlight: true,
   },
   {
     to: "/cercles",
-    label: "Cercles",
+    labelKey: "nav.bottom.cercles",
     match: (p) => p.startsWith("/cercles"),
     icon: Icon.Network,
   },
   {
     to: "/cercles/me/edit",
-    label: "Profil",
+    labelKey: "nav.bottom.profile",
     match: (p) =>
       p.startsWith("/cercles/me") ||
       p.startsWith("/cercles/profile") ||
@@ -147,6 +149,8 @@ const TABS: Tab[] = [
 ];
 
 // Routes où on cache la nav (full-screen workflows : SIG, admin, login, etc.)
+// On masque aussi les pages qui ont leur propre barre d'action sticky en bas
+// (sinon double barre + conflit de tap sur mobile — cf. audit parité mobile).
 const HIDE_ON_PREFIXES = [
   "/cc",
   "/admin",
@@ -155,6 +159,14 @@ const HIDE_ON_PREFIXES = [
   "/verify-phone",
   "/mot-de-passe-oublie",
   "/payment",
+  "/mon-parcours",
+  "/permis-construire",
+  "/chantier",
+  "/pv-chantier",
+  "/projet",
+  "/foncier",
+  "/metrics",
+  "/notifications",
 ];
 
 const STYLE_ID = "cit-bottomnav-style";
@@ -236,6 +248,7 @@ export interface BottomNavProps {
 export function BottomNav({ hidden }: BottomNavProps = {}) {
   ensureStyle();
   const loc = useLocation();
+  const t = useT();
 
   // Réserve l'espace bas du body pour éviter le contenu caché derrière la nav.
   React.useEffect(() => {
@@ -263,16 +276,17 @@ export function BottomNav({ hidden }: BottomNavProps = {}) {
       {TABS.map((tab) => {
         const active = tab.match(loc.pathname);
         const cls = `cit-bottomnav__tab${tab.highlight ? " cit-bottomnav__tab--fab" : ""}`;
+        const label = t(tab.labelKey);
         return (
           <Link
             key={tab.to}
             to={tab.to}
             className={cls}
             aria-current={active ? "page" : undefined}
-            aria-label={tab.label}
+            aria-label={label}
           >
             <span className="cit-bottomnav__icon">{tab.icon}</span>
-            <span className="cit-bottomnav__label">{tab.label}</span>
+            <span className="cit-bottomnav__label">{label}</span>
           </Link>
         );
       })}

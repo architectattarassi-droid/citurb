@@ -1,0 +1,246 @@
+{
+  "code": "LOT_10_CLOISONS_DOUBLAGES",
+  "numero": 10,
+  "famille": "SECOND_OEUVRE",
+  "intitule": {
+    "fr": "Cloisons, doublages et plâtrerie sèche",
+    "ar": "القواطع والتبطينات والجبس الجاف",
+    "en": "Partitions, dry linings and drywall plastering"
+  },
+  "description": {
+    "fr": "Le présent lot a pour objet la fourniture et la pose de cloisons et contre-cloisons en plaques de plâtre sur ossature métallique, des doublages thermo-acoustiques des murs périphériques, ainsi que des ouvrages de plâtrerie sèche associés (habillages, gaines techniques, retombées). Les ouvrages incluent l'ossature, l'isolation incorporée, le parement en plaques et le traitement des joints prêt à recevoir les finitions du lot peinture.",
+    "ar": "يهدف هذا القسم إلى توريد وتركيب القواطع والقواطع المضادة من ألواح الجبس على هيكل معدني، والتبطينات الحرارية والصوتية للجدران المحيطة، وكذلك أعمال الجبس الجاف المرتبطة بها (التكسيات، الأقنية التقنية، الإسدالات). تشمل الأعمال الهيكل المعدني والعزل المدمج والكسوة بالألواح ومعالجة الفواصل الجاهزة لاستقبال تشطيبات قسم الدهان.",
+    "en": "This lot covers the supply and installation of partitions and lining walls in plasterboard on metal framing, the thermo-acoustic linings of perimeter walls, and the associated dry plastering works (casings, service shafts, bulkheads). The works include the framing, incorporated insulation, plasterboard facing and joint treatment ready to receive the finishes of the painting lot."
+  },
+  "normesRefs": [
+    "NF DTU 25.41",
+    "NF DTU 25.42",
+    "NM EN 520",
+    "NM EN 14195",
+    "NM EN 13162",
+    "NM EN 13963",
+    "NM EN 14496",
+    "NM EN 13501-1"
+  ],
+  "secteurQualifMA": [
+    "Q5.1 - Cloisons et plafonds en plaques de plâtre",
+    "Q5.2 - Doublages et isolation par l'intérieur",
+    "B5 - Plâtrerie - staff"
+  ],
+  "competencesRequises": [
+    "Plaquiste qualifié (pose ossature et parement)",
+    "Jointoyeur / finisseur de joints",
+    "Encadrement technique avec attestation DTU 25.41"
+  ],
+  "articles": [
+    {
+      "numero": "10.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet et consistance des travaux",
+        "ar": "موضوع الأعمال ومحتواها",
+        "en": "Scope and content of the works"
+      },
+      "corpsMD": {
+        "fr": "Le présent article définit la consistance des prestations du lot Cloisons-Doublages pour le projet **{{PROJECT_NAME}}** sis à **{{COMMUNE}}**.\n\nLes prestations comprennent notamment :\n- les cloisons distributives en plaques de plâtre sur ossature métallique simple ou double peau ;\n- les contre-cloisons et doublages thermo-acoustiques des murs en contact avec l'extérieur ou les locaux non chauffés ;\n- les gaines techniques, coffrages, retombées et habillages divers ;\n- le traitement complet des joints (bandes, enduit) en finition prête à peindre.\n\n**Limites de prestation** : les réservations, fourreaux et incorporations des lots techniques (électricité, plomberie, CVC) sont réalisés par les lots concernés ; le présent lot intègre uniquement la découpe et le rebouchage des passages dûment repérés avant fermeture des parements.",
+        "ar": "يحدد هذا البند محتوى خدمات قسم القواطع والتبطينات لمشروع **{{PROJECT_NAME}}** الكائن بـ **{{COMMUNE}}**.\n\nتشمل الخدمات على الخصوص:\n- القواطع التوزيعية من ألواح الجبس على هيكل معدني بطبقة واحدة أو مزدوجة؛\n- القواطع المضادة والتبطينات الحرارية والصوتية للجدران الملامسة للخارج أو للمحلات غير المدفأة؛\n- الأقنية التقنية والقوالب والإسدالات والتكسيات المختلفة؛\n- المعالجة الكاملة للفواصل (الأشرطة، الطلاء) جاهزة للدهان.\n\n**حدود الخدمة**: التحفظات والأكمام والإدماجات الخاصة بالأقسام التقنية (الكهرباء، السباكة، التهوية) تنجزها الأقسام المعنية؛ يتكفل هذا القسم فقط بقص وسد الممرات المحددة قبل إغلاق الكسوات.",
+        "en": "This article defines the content of the Partitions-Linings lot services for project **{{PROJECT_NAME}}** located in **{{COMMUNE}}**.\n\nThe services notably include:\n- distribution partitions in plasterboard on single or double-skin metal framing;\n- lining walls and thermo-acoustic linings of walls in contact with the exterior or unheated premises;\n- service shafts, casings, bulkheads and various claddings;\n- the complete joint treatment (tapes, jointing compound) finished ready for painting.\n\n**Service limits**: the sleeves, ducts and incorporations of the technical lots (electricity, plumbing, HVAC) are carried out by the relevant lots; this lot only covers the cutting and sealing of duly identified passages before closing the facings."
+      }
+    },
+    {
+      "numero": "10.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Documents de référence et classements",
+        "ar": "وثائق المرجع والتصنيفات",
+        "en": "Reference documents and classifications"
+      },
+      "corpsMD": {
+        "fr": "Les ouvrages sont conformes aux documents suivants :\n- **NF DTU 25.41** : ouvrages en plaques de plâtre — plaques à faces cartonnées ;\n- **NF DTU 25.42** : ouvrages de doublage et habillage en complexes et sandwiches plaques-isolant ;\n- **NM EN 520** : plaques de plâtre — définitions, spécifications, méthodes d'essai ;\n- **NM EN 14195** : composants d'ossatures métalliques pour systèmes en plaques de plâtre ;\n- **NM EN 13501-1** : classement au feu des produits de construction.\n\nLes performances exigées (reaction au feu, affaiblissement acoustique Rw, résistance mécanique) sont précisées par local au CCTP et reportées sur les plans de calepinage que l'entrepreneur soumet au visa du maître d'œuvre avant exécution.",
+        "ar": "تطابق الأعمال الوثائق التالية:\n- **NF DTU 25.41**: أعمال ألواح الجبس — الألواح ذات الأوجه الكرتونية؛\n- **NF DTU 25.42**: أعمال التبطين والتكسية بالمركبات وألواح العزل المركبة؛\n- **NM EN 520**: ألواح الجبس — التعاريف والمواصفات وطرق الاختبار؛\n- **NM EN 14195**: مكونات الهياكل المعدنية لأنظمة ألواح الجبس؛\n- **NM EN 13501-1**: تصنيف مواد البناء من حيث مقاومة الحريق.\n\nتحدد الأداءات المطلوبة (رد فعل الحريق، الخفض الصوتي Rw، المقاومة الميكانيكية) لكل محل في دفتر الشروط التقنية وتدرج في مخططات التوزيع التي يقدمها المقاول لتأشيرة صاحب العمل قبل التنفيذ.",
+        "en": "The works comply with the following documents:\n- **NF DTU 25.41**: plasterboard works — paper-faced boards;\n- **NF DTU 25.42**: lining and cladding works in board-insulation composites and sandwiches;\n- **NM EN 520**: plasterboards — definitions, specifications, test methods;\n- **NM EN 14195**: metal framing components for plasterboard systems;\n- **NM EN 13501-1**: fire classification of construction products.\n\nThe required performances (reaction to fire, acoustic reduction Rw, mechanical strength) are specified per room in the technical specification and reported on the setting-out drawings that the contractor submits for the project manager's approval before execution."
+      }
+    },
+    {
+      "numero": "10.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Provenance, plaques et ossatures",
+        "ar": "المصدر والألواح والهياكل",
+        "en": "Origin, boards and framing"
+      },
+      "corpsMD": {
+        "fr": "**Plaques de plâtre** conformes à la **NM EN 520**, marquage CE, épaisseur courante 12,5 mm (BA13) :\n- type A (standard) pour locaux secs ;\n- type H1/H2 (hydrofugée) pour locaux humides (cuisines, salles d'eau) ;\n- type F (haute dureté du noyau, fibrée) pour parois coupe-feu.\n\n**Ossatures métalliques** en acier galvanisé Z140 minimum, conformes à la **NM EN 14195** : montants 48/70/90/100 mm et rails correspondants, entraxe ≤ 0,60 m.\n\n**Isolants** en laine minérale conformes à la **NM EN 13162**, classe de réaction au feu A1, épaisseur et résistance thermique R selon étude.\n\n**Accessoires** : bandes à joints (NM EN 13963), enduits (NM EN 14496), vis autoforeuses, cornières de protection d'angle, mastic acoustique en about de cloison.\n\nL'entrepreneur fournit les fiches techniques et les **échantillons** de chaque composant pour agrément avant approvisionnement.",
+        "ar": "**ألواح الجبس** مطابقة لـ **NM EN 520**، علامة CE، سمك جار 12,5 مم (BA13):\n- نوع A (عادي) للمحلات الجافة؛\n- نوع H1/H2 (مقاوم للرطوبة) للمحلات الرطبة (المطابخ، الحمامات)؛\n- نوع F (نواة عالية الصلابة، ملففة بالألياف) للجدران المقاومة للحريق.\n\n**الهياكل المعدنية** من فولاذ مجلفن Z140 كحد أدنى، مطابقة لـ **NM EN 14195**: قوائم 48/70/90/100 مم والسكك المقابلة، تباعد محوري ≤ 0,60 م.\n\n**العوازل** من الصوف المعدني المطابق لـ **NM EN 13162**، فئة رد فعل الحريق A1، السمك والمقاومة الحرارية R حسب الدراسة.\n\n**اللوازم**: أشرطة الفواصل (NM EN 13963)، الطلاءات (NM EN 14496)، براغي ذاتية الثقب، زوايا حماية الأركان، معجون صوتي في نهاية القاطع.\n\nيقدم المقاول البطاقات التقنية و**العينات** لكل مكون للموافقة قبل التموين.",
+        "en": "**Plasterboards** compliant with **NM EN 520**, CE marking, standard thickness 12.5 mm (BA13):\n- type A (standard) for dry rooms;\n- type H1/H2 (moisture-resistant) for wet rooms (kitchens, bathrooms);\n- type F (high core hardness, fibred) for fire-rated walls.\n\n**Metal framing** in galvanised steel Z140 minimum, compliant with **NM EN 14195**: studs 48/70/90/100 mm and matching tracks, spacing ≤ 0.60 m.\n\n**Insulation** in mineral wool compliant with **NM EN 13162**, fire reaction class A1, thickness and thermal resistance R as per study.\n\n**Accessories**: jointing tapes (NM EN 13963), jointing compounds (NM EN 14496), self-drilling screws, corner protection beads, acoustic sealant at partition ends.\n\nThe contractor provides the technical data sheets and **samples** of each component for approval before procurement."
+      }
+    },
+    {
+      "numero": "10.4",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Pose des ossatures et parements",
+        "ar": "تركيب الهياكل والكسوات",
+        "en": "Installation of framing and facings"
+      },
+      "corpsMD": {
+        "fr": "La pose est conforme au **NF DTU 25.41**.\n\n**Ossatures** : fixation des rails haut et bas avec interposition d'une bande résiliente, entraxe des fixations ≤ 0,60 m ; montants verticaux à entraxe ≤ 0,60 m, désolidarisés des structures par garniture compressible. En about contre les structures, interposition d'un mastic acoustique.\n\n**Parements** : plaques posées à joints décalés (pose verticale ou horizontale selon hauteur), jeu de 10 mm au sol relevé par calage, vissage tous les 0,30 m en partie courante et 0,20 m sur rives, têtes de vis légèrement noyées sans déchirer le carton.\n\n**Isolation** : laine minérale posée jointive et maintenue dans l'épaisseur de l'ossature, sans tassement ni vide.\n\nLes cloisons coupe-feu respectent strictement le procédé sous Avis Technique (nombre de plaques, type, calfeutrements traversées).",
+        "ar": "يتم التركيب وفقاً لـ **NF DTU 25.41**.\n\n**الهياكل**: تثبيت السكك العلوية والسفلية مع إدراج شريط مرن، تباعد التثبيتات ≤ 0,60 م؛ القوائم العمودية بتباعد ≤ 0,60 م، منفصلة عن الهياكل بحشوة قابلة للضغط. عند الأطراف الملامسة للهياكل، يدرج معجون صوتي.\n\n**الكسوات**: ألواح موضوعة بفواصل متباعدة (وضع عمودي أو أفقي حسب الارتفاع)، فسحة 10 مم عن الأرض مرفوعة بإسناد، تبريغ كل 0,30 م في الجزء الجاري و0,20 م على الحواف، رؤوس البراغي مغمورة قليلاً دون تمزيق الكرتون.\n\n**العزل**: صوف معدني موضوع متلاصقاً ومثبتاً في سمك الهيكل، دون انضغاط أو فراغ.\n\nتحترم القواطع المقاومة للحريق بدقة الطريقة الخاضعة للرأي التقني (عدد الألواح، النوع، سد الاختراقات).",
+        "en": "Installation complies with **NF DTU 25.41**.\n\n**Framing**: fixing of top and bottom tracks with a resilient strip interposed, fixing spacing ≤ 0.60 m; vertical studs at spacing ≤ 0.60 m, decoupled from structures by compressible packing. At ends against structures, an acoustic sealant is interposed.\n\n**Facings**: boards laid with staggered joints (vertical or horizontal laying according to height), 10 mm clearance from the floor lifted by shimming, screwing every 0.30 m in the running area and 0.20 m on edges, screw heads slightly recessed without tearing the paper.\n\n**Insulation**: mineral wool laid butt-jointed and held within the framing thickness, without settlement or void.\n\nFire-rated partitions strictly comply with the procedure under Technical Approval (number of boards, type, penetration sealing)."
+      }
+    },
+    {
+      "numero": "10.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Traitement des joints, tolérances et états de surface",
+        "ar": "معالجة الفواصل والتفاوتات وحالات السطح",
+        "en": "Joint treatment, tolerances and surface conditions"
+      },
+      "corpsMD": {
+        "fr": "**Traitement des joints** selon **NF DTU 25.41** et **NM EN 13963** : bande noyée dans l'enduit puis recouverte de deux passes minimum, ponçage entre passes, traitement identique des angles (cornières/bandes armées) et des têtes de vis.\n\n**Niveaux de finition** (du DTU) :\n- niveau Q2 (courant) pour surfaces destinées à peinture mate ;\n- niveau Q3/Q4 pour peintures brillantes ou éclairage rasant, sur prescription du CCTP.\n\n**Tolérances** : planéité générale ≤ 5 mm sous règle de 2 m, planéité locale ≤ 1 mm sous réglet de 0,20 m ; aplomb ≤ 5 mm par étage.\n\n**Essais et contrôles** : vérification de la verticalité, des entraxes par sondage, de l'absence d'épaufrures et de fissuration. Tout désordre est repris avant réception du support par le lot peinture.",
+        "ar": "**معالجة الفواصل** وفقاً لـ **NF DTU 25.41** و**NM EN 13963**: شريط مغمور في الطلاء ثم مغطى بطبقتين كحد أدنى، صنفرة بين الطبقات، معالجة مماثلة للأركان (زوايا/أشرطة مسلحة) ولرؤوس البراغي.\n\n**مستويات التشطيب** (من DTU):\n- مستوى Q2 (عادي) للأسطح المخصصة للدهان غير اللامع؛\n- مستوى Q3/Q4 للدهانات اللامعة أو الإضاءة المماسة، حسب دفتر الشروط.\n\n**التفاوتات**: الاستواء العام ≤ 5 مم تحت مسطرة 2 م، الاستواء المحلي ≤ 1 مم تحت مسطرة 0,20 م؛ الشاقولية ≤ 5 مم لكل طابق.\n\n**الاختبارات والمراقبة**: التحقق من الشاقولية والتباعدات بالسبر وغياب التشظي والتشقق. يصحح كل خلل قبل تسلم الدعامة من طرف قسم الدهان.",
+        "en": "**Joint treatment** according to **NF DTU 25.41** and **NM EN 13963**: tape embedded in the compound then covered with at least two coats, sanding between coats, identical treatment of corners (beads/reinforced tapes) and screw heads.\n\n**Finishing levels** (from the DTU):\n- level Q2 (standard) for surfaces intended for matt paint;\n- level Q3/Q4 for gloss paints or grazing light, on specification of the CCTP.\n\n**Tolerances**: general flatness ≤ 5 mm under a 2 m straightedge, local flatness ≤ 1 mm under a 0.20 m rule; plumb ≤ 5 mm per floor.\n\n**Tests and controls**: checking of verticality, spacing by sounding, absence of chipping and cracking. Any defect is repaired before acceptance of the substrate by the painting lot."
+      }
+    },
+    {
+      "numero": "10.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "HSE, gestion des déchets et garanties",
+        "ar": "الصحة والسلامة وتدبير النفايات والضمانات",
+        "en": "HSE, waste management and warranties"
+      },
+      "corpsMD": {
+        "fr": "**Hygiène et sécurité** : port des EPI (gants, lunettes, masque anti-poussière FFP2 lors de la découpe et du ponçage), utilisation d'outils à aspiration intégrée pour le ponçage, échafaudages conformes pour les travaux en hauteur.\n\n**Stockage** : plaques stockées à plat sur cales, à l'abri de l'humidité et des intempéries ; isolants protégés de l'eau.\n\n**Déchets** : tri sur chantier des chutes de plaques (recyclables plâtre), des emballages et des chutes métalliques ; évacuation vers filière agréée avec bordereaux de suivi. Interdiction de brûler ou d'enfouir sur site.\n\n**Garanties** : les ouvrages relèvent de la garantie de parfait achèvement (1 an) ; les performances coupe-feu et acoustiques sont garanties conformes aux procès-verbaux d'essais des procédés mis en œuvre. L'entrepreneur remet le dossier des ouvrages exécutés (calepinage, fiches produits, PV de classement).",
+        "ar": "**الصحة والسلامة**: ارتداء معدات الوقاية الفردية (قفازات، نظارات، قناع مضاد للغبار FFP2 أثناء القص والصنفرة)، استعمال أدوات بشفط مدمج للصنفرة، سقالات مطابقة للأعمال في الارتفاع.\n\n**التخزين**: الألواح مخزنة بشكل مسطح على دعامات، بعيداً عن الرطوبة والتقلبات الجوية؛ العوازل محمية من الماء.\n\n**النفايات**: فرز في الورش لبقايا الألواح (الجبس القابل للتدوير)، التغليفات والبقايا المعدنية؛ الإجلاء نحو قناة معتمدة مع وثائق التتبع. يمنع الحرق أو الدفن في الموقع.\n\n**الضمانات**: تخضع الأعمال لضمان الإنجاز التام (سنة واحدة)؛ أداءات مقاومة الحريق والصوت مضمونة مطابقة لمحاضر اختبار الطرق المنفذة. يسلم المقاول ملف الأعمال المنجزة (التوزيع، بطاقات المنتجات، محاضر التصنيف).",
+        "en": "**Health and safety**: wearing of PPE (gloves, goggles, FFP2 dust mask during cutting and sanding), use of tools with integrated extraction for sanding, compliant scaffolding for work at height.\n\n**Storage**: boards stored flat on shims, protected from moisture and weather; insulation protected from water.\n\n**Waste**: on-site sorting of board offcuts (recyclable gypsum), packaging and metal offcuts; removal to an approved channel with tracking slips. Burning or burying on site is prohibited.\n\n**Warranties**: the works are covered by the warranty of perfect completion (1 year); the fire and acoustic performances are guaranteed to comply with the test reports of the implemented procedures. The contractor delivers the as-built file (setting-out, product sheets, classification reports)."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "10.01",
+      "designation": {
+        "fr": "Cloison distributive plaques de plâtre 72/48, 1 plaque BA13 par face sur ossature, hauteur étage courant",
+        "ar": "قاطع توزيعي من ألواح الجبس 72/48، لوح BA13 واحد لكل وجه على هيكل، ارتفاع الطابق الجاري",
+        "en": "Distribution partition plasterboard 72/48, 1 BA13 board per face on framing, standard floor height"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réelle posée, déduction faite des baies > 0,50 m² ; mesurée nue sur les deux faces une seule fois.",
+        "ar": "المساحة الفعلية الموضوعة، مع خصم الفتحات > 0,50 م²؛ تقاس مرة واحدة على الوجهين.",
+        "en": "Actual installed area, deducting openings > 0.50 m²; measured once for both faces."
+      }
+    },
+    {
+      "code": "10.02",
+      "designation": {
+        "fr": "Cloison coupe-feu plaques type F, 2 plaques par face, isolant laine minérale, classement EI selon procédé",
+        "ar": "قاطع مقاوم للحريق ألواح نوع F، لوحان لكل وجه، عازل صوف معدني، تصنيف EI حسب الطريقة",
+        "en": "Fire-rated partition type F boards, 2 boards per face, mineral wool insulation, EI classification per procedure"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réelle, déduction des baies > 0,50 m² ; calfeutrements de traversées comptés séparément.",
+        "ar": "المساحة الفعلية، خصم الفتحات > 0,50 م²؛ سد الاختراقات يحسب على حدة.",
+        "en": "Actual area, deducting openings > 0.50 m²; penetration sealing counted separately."
+      }
+    },
+    {
+      "code": "10.03",
+      "designation": {
+        "fr": "Doublage thermo-acoustique mur extérieur : ossature, laine minérale R selon étude, parement BA13",
+        "ar": "تبطين حراري صوتي لجدار خارجي: هيكل، صوف معدني R حسب الدراسة، كسوة BA13",
+        "en": "Thermo-acoustic lining of exterior wall: framing, mineral wool R per study, BA13 facing"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface vue du parement fini, déduction des baies > 0,50 m².",
+        "ar": "المساحة الظاهرة للكسوة المنجزة، خصم الفتحات > 0,50 م².",
+        "en": "Visible area of the finished facing, deducting openings > 0.50 m²."
+      }
+    },
+    {
+      "code": "10.04",
+      "designation": {
+        "fr": "Habillage de gaine technique en plaques hydrofugées H1, ossature et trappe de visite incluses",
+        "ar": "تكسية قناة تقنية بألواح مقاومة للرطوبة H1، شامل الهيكل وباب الزيارة",
+        "en": "Service shaft cladding in moisture-resistant boards H1, framing and access hatch included"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Longueur développée de gaine ; trappe comptée à l'unité au poste dédié.",
+        "ar": "الطول المنشور للقناة؛ باب الزيارة يحسب بالوحدة في البند المخصص.",
+        "en": "Developed length of shaft; hatch counted per unit in the dedicated item."
+      }
+    },
+    {
+      "code": "10.05",
+      "designation": {
+        "fr": "Traitement des joints niveau Q3 prêt à peindre, bandes, enduit et ponçage compris",
+        "ar": "معالجة الفواصل مستوى Q3 جاهزة للدهان، شاملة الأشرطة والطلاء والصنفرة",
+        "en": "Joint treatment level Q3 ready to paint, including tapes, compound and sanding"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface de parement traitée, en plus-value sur le poste de cloison/doublage correspondant.",
+        "ar": "مساحة الكسوة المعالجة، كزيادة قيمة على بند القاطع/التبطين المقابل.",
+        "en": "Treated facing area, as an added value over the corresponding partition/lining item."
+      }
+    },
+    {
+      "code": "10.06",
+      "designation": {
+        "fr": "Cornière de protection d'angle saillant en about, fixée et enduite",
+        "ar": "زاوية حماية ركن بارز، مثبتة ومطلية",
+        "en": "Protruding corner protection bead, fixed and coated"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Longueur réelle d'arête traitée.",
+        "ar": "الطول الفعلي للحافة المعالجة.",
+        "en": "Actual length of treated edge."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_02_GROS_OEUVRE_BETON",
+      "type": "PREREQUIS",
+      "description": {
+        "fr": "Les supports (planchers, voiles) doivent être réceptionnés, secs et conformes aux tolérances avant pose des ossatures.",
+        "ar": "يجب تسلم الدعامات (البلاطات، الجدران) وجفافها ومطابقتها للتفاوتات قبل تركيب الهياكل.",
+        "en": "The substrates (floors, walls) must be accepted, dry and within tolerances before framing installation."
+      }
+    },
+    {
+      "lotCible": "LOT_14_ELECTRICITE",
+      "type": "COORDINATION",
+      "description": {
+        "fr": "Les fourreaux, boîtiers et chemins de câbles sont posés dans l'épaisseur des cloisons avant fermeture du second parement.",
+        "ar": "توضع الأكمام والعلب ومسارات الكابلات في سمك القواطع قبل إغلاق الكسوة الثانية.",
+        "en": "Sleeves, boxes and cable trays are installed within the partition thickness before closing the second facing."
+      }
+    },
+    {
+      "lotCible": "LOT_20_PEINTURE",
+      "type": "SUCCESSION",
+      "description": {
+        "fr": "Le lot peinture réceptionne les supports en niveau de finition prescrit (Q2/Q3) avant application des subjectiles.",
+        "ar": "يتسلم قسم الدهان الدعامات في مستوى التشطيب المحدد (Q2/Q3) قبل تطبيق الطلاء.",
+        "en": "The painting lot accepts the substrates at the prescribed finishing level (Q2/Q3) before applying the coatings."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "NF DTU 25.41 (CSTB)",
+      "NF DTU 25.42 (CSTB)",
+      "NM EN 520 / NM EN 14195 / NM EN 13963 (IMANOR)",
+      "Règlement de qualification et de classification du secteur du bâtiment - Maroc"
+    ]
+  }
+}

@@ -1,0 +1,273 @@
+{
+  "code": "LOT_00_GENERALITES",
+  "numero": 0,
+  "famille": "GENERALITES",
+  "intitule": {
+    "fr": "Généralités et prescriptions communes à tous les lots",
+    "ar": "العموميات والمقتضيات المشتركة لجميع الأقساط",
+    "en": "General provisions common to all lots"
+  },
+  "description": {
+    "fr": "Le présent lot regroupe les prescriptions communes applicables à l'ensemble des corps d'état du projet {{PROJECT_NAME}} situé sur la commune de {{COMMUNE}}, en zone sismique {{ZONE_SISMIQUE}} : installation et repli de chantier, panneau de chantier, plan particulier de sécurité et de protection de la santé (PPSPS) et organisation de la sécurité, planning et phasage des travaux, échantillons, prototypes et cellule témoin, nettoyage et gestion des déchets, dossier des ouvrages exécutés (DOE), levée des réserves et coordination inter-corps d'état. Ces prescriptions priment et complètent celles des lots techniques.",
+    "ar": "يجمع هذا القسط المقتضيات المشتركة المطبقة على جميع أصناف الأشغال لمشروع {{PROJECT_NAME}} الكائن بجماعة {{COMMUNE}}، في المنطقة الزلزالية {{ZONE_SISMIQUE}}: تنظيم وطي الورش، لوحة الورش، المخطط الخاص للسلامة وحماية الصحة وتنظيم السلامة، رزنامة وتقسيم مراحل الأشغال، العينات والنماذج والخلية النموذجية، التنظيف وتدبير النفايات، ملف المنشآت المنفذة، رفع التحفظات وتنسيق أصناف الأشغال. تسود هذه المقتضيات وتكمّل مقتضيات الأقساط التقنية.",
+    "en": "This lot brings together the common provisions applicable to all trades of the {{PROJECT_NAME}} project located in the {{COMMUNE}} municipality, in seismic zone {{ZONE_SISMIQUE}}: site installation and removal, site board, health and safety plan (PPSPS) and safety organisation, works programme and phasing, samples, prototypes and mock-up unit, cleaning and waste management, as-built records file (DOE), clearance of reservations and inter-trade coordination. These provisions prevail over and complement those of the technical lots."
+  },
+  "normesRefs": [
+    "Loi 65-99 (Code du travail)",
+    "Décret 2-09-606 (sécurité chantiers)",
+    "Loi 28-00 (gestion des déchets)",
+    "NM ISO 45001",
+    "RPS 2011 / RPS 2000 (parasismique)",
+    "NM ISO 9001"
+  ],
+  "secteurQualifMA": [
+    "Tous secteurs - prescriptions communes",
+    "Coordination SPS",
+    "Organisation de chantier"
+  ],
+  "competencesRequises": [
+    "Organisation et installation de chantier",
+    "Coordination sécurité et protection de la santé",
+    "Planification et phasage multi-corps d'état",
+    "Constitution du DOE et levée des réserves"
+  ],
+  "articles": [
+    {
+      "numero": "0.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Installation, panneau et repli de chantier",
+        "ar": "تنظيم الورش ولوحته وطيه",
+        "en": "Site installation, board and removal"
+      },
+      "corpsMD": {
+        "fr": "## Installation de chantier\nL'entreprise installe à ses frais : clôture de chantier, base-vie (bureaux, sanitaires, vestiaires), aires de stockage, branchements provisoires eau/électricité, et la signalisation de sécurité, pour le projet **{{PROJECT_NAME}}** à **{{COMMUNE}}**.\n\n## Panneau de chantier\nFourniture et pose d'un **panneau de chantier réglementaire** mentionnant : maître d'ouvrage, maître d'œuvre, BET, entreprises, références du permis de construire, délais et coût, conforme aux exigences communales et au format imposé.\n\n## Repli de chantier\nEn fin de travaux : démontage des installations, remise en état des emprises, évacuation de tous les matériels et déchets, et nettoyage général avant réception.\n\n> Le maintien de l'installation est dû pendant toute la durée du chantier et jusqu'à la levée des réserves.",
+        "ar": "## تنظيم الورش\nتقيم المقاولة على نفقتها: سياج الورش، قاعدة الحياة (مكاتب، مرافق صحية، غرف ملابس)، مناطق التخزين، الربط المؤقت للماء/الكهرباء، وإشارات السلامة، لمشروع **{{PROJECT_NAME}}** بـ **{{COMMUNE}}**.\n\n## لوحة الورش\nتزويد ووضع **لوحة ورش نظامية** تتضمن: صاحب المشروع، صاحب العمل، مكتب الدراسات، المقاولات، مراجع رخصة البناء، الآجال والكلفة، مطابقة لمتطلبات الجماعة وللصيغة المفروضة.\n\n## طي الورش\nعند نهاية الأشغال: تفكيك التجهيزات، إعادة الأماكن إلى حالتها، إخلاء جميع المعدات والنفايات، والتنظيف العام قبل التسلم.\n\n> يُستحق الإبقاء على التجهيزات طيلة مدة الورش وإلى حين رفع التحفظات.",
+        "en": "## Site installation\nThe contractor installs at its own expense: site fencing, welfare facilities (offices, sanitary, changing rooms), storage areas, temporary water/electricity connections, and safety signage, for project **{{PROJECT_NAME}}** in **{{COMMUNE}}**.\n\n## Site board\nSupply and installation of a **regulatory site board** stating: client, project manager, design office, contractors, building permit references, schedule and cost, compliant with municipal requirements and the imposed format.\n\n## Site removal\nAt completion: dismantling of installations, reinstatement of the footprint, removal of all equipment and waste, and general cleaning before acceptance.\n\n> Maintenance of the installation is required for the whole duration of the site and until clearance of reservations."
+      }
+    },
+    {
+      "numero": "0.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Sécurité, PPSPS et protection de la santé",
+        "ar": "السلامة والمخطط الخاص وحماية الصحة",
+        "en": "Safety, PPSPS and health protection"
+      },
+      "corpsMD": {
+        "fr": "## PPSPS\nChaque entreprise établit son **Plan Particulier de Sécurité et de Protection de la Santé (PPSPS)** avant tout démarrage, soumis au coordonnateur SPS et au maître d'œuvre.\n\n## Organisation de la sécurité\n- Équipements de protection individuelle (EPI) obligatoires ;\n- Protections collectives : garde-corps, blindage des fouilles > 1,30 m, balisage ;\n- Plan de circulation engins/piétons et accueil sécurité du personnel.\n\n## Cadre réglementaire\nConformité au **décret 2-09-606**, à la **loi 65-99** (Code du travail) et au référentiel **NM ISO 45001**. En zone sismique **{{ZONE_SISMIQUE}}**, les dispositions provisoires d'étaiement tiennent compte du risque.\n\n## Registre\nTenue d'un registre de sécurité, déclaration des accidents et levée immédiate des situations dangereuses.",
+        "ar": "## المخطط الخاص للسلامة\nتعد كل مقاولة **مخططها الخاص للسلامة وحماية الصحة (PPSPS)** قبل أي انطلاق، يُعرض على منسق السلامة وصاحب العمل.\n\n## تنظيم السلامة\n- معدات الوقاية الفردية إجبارية؛\n- الوقايات الجماعية: حواجز الحماية، تدعيم الحفريات > 1,30 م، التشوير؛\n- مخطط حركة الآليات/الراجلين واستقبال أمني للمستخدمين.\n\n## الإطار التنظيمي\nالمطابقة لـ **المرسوم 2-09-606** و**القانون 65-99** (مدونة الشغل) والمرجع **NM ISO 45001**. في المنطقة الزلزالية **{{ZONE_SISMIQUE}}**، تراعي الترتيبات المؤقتة للدعم الخطر.\n\n## السجل\nمسك سجل للسلامة، التصريح بالحوادث والرفع الفوري للوضعيات الخطيرة.",
+        "en": "## PPSPS\nEach contractor prepares its **Health and Safety Plan (PPSPS)** before any start, submitted to the SPS coordinator and the project manager.\n\n## Safety organisation\n- Personal protective equipment (PPE) mandatory;\n- Collective protections: guardrails, shoring of excavations > 1.30 m, demarcation;\n- Plant/pedestrian traffic plan and safety induction of personnel.\n\n## Regulatory framework\nCompliance with **decree 2-09-606**, **law 65-99** (Labour Code) and the **NM ISO 45001** standard. In seismic zone **{{ZONE_SISMIQUE}}**, temporary propping arrangements account for the hazard.\n\n## Register\nKeeping of a safety register, accident reporting and immediate clearance of dangerous situations."
+      }
+    },
+    {
+      "numero": "0.3",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Planning, phasage et coordination inter-corps d'état",
+        "ar": "الرزنامة والتقسيم المرحلي وتنسيق أصناف الأشغال",
+        "en": "Programme, phasing and inter-trade coordination"
+      },
+      "corpsMD": {
+        "fr": "## Planning\nL'entreprise remet un **planning détaillé** (type Gantt) dans les délais contractuels, indiquant tâches, durées, jalons et chemin critique, mis à jour mensuellement.\n\n## Phasage\nLe phasage tient compte des contraintes du site, des interfaces entre lots et des délais de séchage / durcissement. Aucune tâche ne démarre avant la libération de l'interface amont.\n\n## Coordination inter-corps d'état\n- Réunions de chantier hebdomadaires avec PV diffusé ;\n- Gestion des **réservations, fourreaux et trémies** entre lots ;\n- Calendrier des interventions partagé sur le support de pilotage.\n\n## Pénalités de coordination\nTout retard imputable au non-respect des interfaces engage la responsabilité de l'entreprise défaillante.",
+        "ar": "## الرزنامة\nتسلم المقاولة **رزنامة مفصلة** (نوع غانت) داخل الآجال التعاقدية، تبين المهام والمدد والمعالم والمسار الحرج، تُحدَّث شهرياً.\n\n## التقسيم المرحلي\nيراعي التقسيم المرحلي إكراهات الموقع والواجهات بين الأقساط وآجال الجفاف/التصلب. لا تنطلق أي مهمة قبل تحرير الواجهة السابقة.\n\n## تنسيق أصناف الأشغال\n- اجتماعات ورش أسبوعية مع نشر المحضر؛\n- تدبير **الحجوزات والأكمام والفتحات** بين الأقساط؛\n- رزنامة التدخلات مشتركة على دعامة القيادة.\n\n## غرامات التنسيق\nكل تأخير ناتج عن عدم احترام الواجهات يُحمَّل للمقاولة المقصرة.",
+        "en": "## Programme\nThe contractor submits a **detailed programme** (Gantt type) within the contractual deadlines, showing tasks, durations, milestones and critical path, updated monthly.\n\n## Phasing\nPhasing accounts for site constraints, inter-lot interfaces and drying / curing times. No task starts before the upstream interface is released.\n\n## Inter-trade coordination\n- Weekly site meetings with distributed minutes;\n- Management of **penetrations, sleeves and openings** between lots;\n- Shared intervention schedule on the management platform.\n\n## Coordination penalties\nAny delay attributable to non-compliance with interfaces engages the liability of the defaulting contractor."
+      }
+    },
+    {
+      "numero": "0.4",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Échantillons, prototypes et cellule témoin",
+        "ar": "العينات والنماذج والخلية النموذجية",
+        "en": "Samples, prototypes and mock-up unit"
+      },
+      "corpsMD": {
+        "fr": "## Échantillons\nAvant toute commande, l'entreprise soumet à l'approbation du maître d'œuvre les **échantillons** de tous les matériaux et produits apparents, **sans limitation de nombre**, jusqu'à validation. Les échantillons approuvés sont conservés comme référence.\n\n## Prototypes\nPour les ouvrages répétitifs ou complexes, un **prototype** est réalisé et validé avant lancement de la série.\n\n## Cellule témoin\nUne **cellule témoin** (logement / module représentatif) est réalisée et réceptionnée. Elle fixe le niveau de finition attendu et sert de référence contradictoire pour la réception des autres unités.\n\n## Conséquence\nAucun approvisionnement ni exécution définitive n'est admis avant approbation des échantillons / prototypes correspondants.",
+        "ar": "## العينات\nقبل أي طلبية، تعرض المقاولة على موافقة صاحب العمل **عينات** جميع المواد والمنتجات الظاهرة، **دون تحديد للعدد**، إلى حين المصادقة. تُحفظ العينات المصادق عليها كمرجع.\n\n## النماذج\nبالنسبة للمنشآت المتكررة أو المعقدة، يُنجز **نموذج** ويُصادق عليه قبل إطلاق السلسلة.\n\n## الخلية النموذجية\nتُنجز **خلية نموذجية** (سكن / وحدة تمثيلية) وتُتسلَّم. تحدد مستوى التشطيب المنتظر وتُستعمل كمرجع تناقضي لتسلم باقي الوحدات.\n\n## النتيجة\nلا يُقبل أي تموين أو تنفيذ نهائي قبل المصادقة على العينات/النماذج المقابلة.",
+        "en": "## Samples\nBefore any order, the contractor submits to the project manager's approval the **samples** of all exposed materials and products, **without limit on number**, until validation. Approved samples are kept as a reference.\n\n## Prototypes\nFor repetitive or complex works, a **prototype** is produced and validated before launching the series.\n\n## Mock-up unit\nA **mock-up unit** (representative dwelling / module) is built and accepted. It sets the expected level of finish and serves as a contradictory reference for the acceptance of other units.\n\n## Consequence\nNo procurement or final execution is allowed before approval of the corresponding samples / prototypes."
+      }
+    },
+    {
+      "numero": "0.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Nettoyage et gestion des déchets de chantier",
+        "ar": "التنظيف وتدبير نفايات الورش",
+        "en": "Cleaning and site waste management"
+      },
+      "corpsMD": {
+        "fr": "## Nettoyage\nChaque entreprise maintient ses zones de travail propres au quotidien. Un **nettoyage de mise en service** complet est réalisé avant la réception (sols, vitrages, appareils sanitaires, traces de chantier).\n\n## Gestion des déchets\n- **Tri à la source** : inertes, métaux, bois, plastiques, dangereux ;\n- Évacuation vers des **filières autorisées**, conformément à la **loi 28-00** sur la gestion des déchets ;\n- Tenue d'un **bordereau de suivi des déchets** justifiant l'élimination.\n\n## Propreté hors emprise\nLes voiries publiques empruntées sont maintenues propres ; tout dépôt sauvage est strictement interdit et sanctionné.\n\n## Responsabilité partagée\nEn cas de déchets non identifiables, la charge du nettoyage est répartie entre les corps d'état présents par le maître d'œuvre.",
+        "ar": "## التنظيف\nتحافظ كل مقاولة على نظافة مناطق عملها يومياً. يُنجز **تنظيف شامل للتشغيل** قبل التسلم (الأرضيات، الزجاج، الأجهزة الصحية، آثار الورش).\n\n## تدبير النفايات\n- **الفرز من المصدر**: خاملة، معادن، خشب، بلاستيك، خطيرة؛\n- الإخلاء نحو **قنوات مرخصة**، طبقاً لـ **القانون 28-00** المتعلق بتدبير النفايات؛\n- مسك **سند تتبع النفايات** يبرر الإزالة.\n\n## النظافة خارج المحيط\nتُحافظ الطرق العمومية المستعملة نظيفة؛ كل طرح عشوائي ممنوع منعاً كلياً ويُعاقب عليه.\n\n## المسؤولية المشتركة\nفي حالة نفايات غير محددة المصدر، يوزع صاحب العمل عبء التنظيف بين أصناف الأشغال الحاضرة.",
+        "en": "## Cleaning\nEach contractor keeps its work areas clean daily. A full **commissioning clean** is carried out before acceptance (floors, glazing, sanitary fittings, site marks).\n\n## Waste management\n- **Source segregation**: inert, metals, wood, plastics, hazardous;\n- Disposal to **authorised channels**, in accordance with **law 28-00** on waste management;\n- Keeping of a **waste tracking slip** justifying disposal.\n\n## Cleanliness off-site\nPublic roads used are kept clean; any illegal dumping is strictly prohibited and penalised.\n\n## Shared responsibility\nFor unidentifiable waste, the project manager allocates the cleaning burden among the trades present."
+      }
+    },
+    {
+      "numero": "0.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Dossier des Ouvrages Exécutés (DOE)",
+        "ar": "ملف المنشآت المنفذة",
+        "en": "As-built records file (DOE)"
+      },
+      "corpsMD": {
+        "fr": "## Constitution du DOE\nÀ l'achèvement, chaque entreprise remet son **Dossier des Ouvrages Exécutés** comprenant :\n- Plans de récolement (tels que construits) ;\n- Fiches techniques et PV d'essais / de conformité ;\n- Notices d'utilisation et d'entretien ;\n- Attestations, garanties constructeurs et certificats.\n\n## Format\nDOE remis en **format numérique (PDF + sources DWG)** et en **exemplaires papier** selon le nombre prescrit, indexé par lot.\n\n## Condition de réception\nLa **réception définitive et le paiement du solde** sont conditionnés à la remise d'un DOE complet et conforme.\n\n## Mise à jour\nToute modification ultérieure validée est intégrée au DOE avant clôture.\n\n> Les LOT 26 (récolement réseaux) et LOT 21 (plan d'arrosage) alimentent le DOE.",
+        "ar": "## تكوين ملف المنشآت\nعند الإتمام، تسلم كل مقاولة **ملف المنشآت المنفذة** متضمناً:\n- تصاميم الإنجاز الفعلي (كما بُنيت)؛\n- البطاقات التقنية ومحاضر الاختبارات/المطابقة؛\n- دلائل الاستعمال والصيانة؛\n- الشهادات وضمانات الصانعين.\n\n## الصيغة\nيُسلَّم الملف بـ**صيغة رقمية (PDF + مصادر DWG)** وبـ**نسخ ورقية** حسب العدد المقرر، مفهرس حسب القسط.\n\n## شرط التسلم\nيُشترط لـ**التسلم النهائي وأداء الرصيد** تسليم ملف كامل ومطابق.\n\n## التحيين\nتُدمج كل تعديلات لاحقة مصادق عليها في الملف قبل الإغلاق.\n\n> يغذي القسط 26 (تصاميم إنجاز الشبكات) والقسط 21 (تصميم السقي) ملف المنشآت.",
+        "en": "## DOE compilation\nAt completion, each contractor submits its **As-built records file (DOE)** comprising:\n- As-built drawings (as constructed);\n- Technical data sheets and test / conformity reports;\n- Operation and maintenance manuals;\n- Attestations, manufacturer warranties and certificates.\n\n## Format\nDOE delivered in **digital format (PDF + DWG sources)** and **paper copies** per the prescribed number, indexed by lot.\n\n## Acceptance condition\n**Final acceptance and payment of the balance** are conditional on delivery of a complete and compliant DOE.\n\n## Updating\nAny subsequent approved modification is incorporated into the DOE before closure.\n\n> LOT 26 (network as-builts) and LOT 21 (irrigation drawing) feed the DOE."
+      }
+    },
+    {
+      "numero": "0.7",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Réception, levée des réserves et garanties",
+        "ar": "التسلم ورفع التحفظات والضمانات",
+        "en": "Acceptance, clearance of reservations and guarantees"
+      },
+      "corpsMD": {
+        "fr": "## Réception provisoire\nLa réception est prononcée contradictoirement ; les non-conformités sont consignées sous forme de **réserves** dans le PV de réception.\n\n## Levée des réserves\nL'entreprise lève les réserves dans le **délai imparti** au PV. Un **PV de levée des réserves** est établi après vérification ; à défaut, le maître d'ouvrage peut faire exécuter aux frais de l'entreprise défaillante.\n\n## Garanties\n- **Garantie de parfait achèvement** : 1 an ;\n- **Garantie de bon fonctionnement** : 2 ans (équipements) ;\n- **Garantie décennale** : 10 ans (gros œuvre et solidité), conforme au droit marocain.\n\n## Retenue de garantie\nLa retenue de garantie n'est libérée qu'après levée complète des réserves et remise du DOE.",
+        "ar": "## التسلم المؤقت\nيُعلن التسلم بصفة تناقضية؛ تُدوَّن حالات عدم المطابقة على شكل **تحفظات** في محضر التسلم.\n\n## رفع التحفظات\nترفع المقاولة التحفظات داخل **الأجل المحدد** في المحضر. يُحرَّر **محضر رفع التحفظات** بعد التحقق؛ وإلا أمكن لصاحب المشروع التنفيذ على نفقة المقاولة المقصرة.\n\n## الضمانات\n- **ضمان الإتمام التام**: سنة؛\n- **ضمان حسن الاشتغال**: سنتان (التجهيزات)؛\n- **الضمان العشري**: 10 سنوات (الأشغال الكبرى والمتانة)، طبقاً للقانون المغربي.\n\n## الاقتطاع الضماني\nلا يُحرَّر الاقتطاع الضماني إلا بعد الرفع الكامل للتحفظات وتسليم ملف المنشآت.",
+        "en": "## Provisional acceptance\nAcceptance is granted contradictorily; non-conformities are recorded as **reservations** in the acceptance report.\n\n## Clearance of reservations\nThe contractor clears the reservations within the **allotted time** in the report. A **clearance report** is drawn up after verification; failing this, the client may have the works executed at the defaulting contractor's expense.\n\n## Guarantees\n- **Defects liability (perfect completion)**: 1 year;\n- **Good functioning guarantee**: 2 years (equipment);\n- **Decennial guarantee**: 10 years (structure and solidity), per Moroccan law.\n\n## Retention\nThe retention money is released only after full clearance of reservations and delivery of the DOE."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "00.01",
+      "designation": {
+        "fr": "Installation et repli de chantier (base-vie, clôture, branchements provisoires)",
+        "ar": "تنظيم وطي الورش (قاعدة الحياة، السياج، الربط المؤقت)",
+        "en": "Site installation and removal (welfare, fencing, temporary connections)"
+      },
+      "unite": "ff",
+      "modeMetreMD": {
+        "fr": "Au forfait pour l'ensemble de l'installation, son maintien pendant le chantier et son repli complet en fin de travaux.",
+        "ar": "بالجزاف لمجموع التجهيز وإبقائه طيلة الورش وطيه الكامل عند نهاية الأشغال.",
+        "en": "Lump-sum for the whole installation, its maintenance during the works and its complete removal at the end."
+      }
+    },
+    {
+      "code": "00.02",
+      "designation": {
+        "fr": "Panneau de chantier réglementaire, fourniture et pose",
+        "ar": "لوحة ورش نظامية، تزويد ووضع",
+        "en": "Regulatory site board, supply and installation"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de panneau fourni, posé et maintenu, structure support et impression conformes au format imposé compris.",
+        "ar": "بالوحدة للوحة المزوَّدة والموضوعة والمحافظ عليها، شامل هيكل الدعم والطباعة المطابقة للصيغة المفروضة.",
+        "en": "Per unit of board supplied, installed and maintained, support structure and printing per the imposed format included."
+      }
+    },
+    {
+      "code": "00.03",
+      "designation": {
+        "fr": "PPSPS, protections collectives et organisation de la sécurité",
+        "ar": "المخطط الخاص للسلامة، الوقايات الجماعية وتنظيم السلامة",
+        "en": "PPSPS, collective protections and safety organisation"
+      },
+      "unite": "ff",
+      "modeMetreMD": {
+        "fr": "Au forfait pour l'élaboration du PPSPS, la mise en place et l'entretien des protections collectives et la gestion de la sécurité durant le chantier.",
+        "ar": "بالجزاف لإعداد المخطط الخاص للسلامة ووضع وصيانة الوقايات الجماعية وتدبير السلامة خلال الورش.",
+        "en": "Lump-sum for preparing the PPSPS, installing and maintaining collective protections and managing safety during the works."
+      }
+    },
+    {
+      "code": "00.04",
+      "designation": {
+        "fr": "Cellule témoin / prototype, réalisation et réception",
+        "ar": "الخلية النموذجية / النموذج، الإنجاز والتسلم",
+        "en": "Mock-up unit / prototype, execution and acceptance"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de cellule témoin ou prototype intégralement réalisé et réceptionné, toutes finitions de référence comprises.",
+        "ar": "بالوحدة للخلية النموذجية أو النموذج المنجز بالكامل والمتسلَّم، شامل جميع تشطيبات المرجع.",
+        "en": "Per unit of mock-up or prototype fully executed and accepted, all reference finishes included."
+      }
+    },
+    {
+      "code": "00.05",
+      "designation": {
+        "fr": "Nettoyage de mise en service et gestion / évacuation des déchets",
+        "ar": "تنظيف التشغيل وتدبير / إخلاء النفايات",
+        "en": "Commissioning cleaning and waste management / removal"
+      },
+      "unite": "ff",
+      "modeMetreMD": {
+        "fr": "Au forfait pour le nettoyage final complet et la gestion, le tri et l'évacuation des déchets vers les filières autorisées avec bordereaux de suivi.",
+        "ar": "بالجزاف للتنظيف النهائي الكامل وتدبير وفرز وإخلاء النفايات نحو القنوات المرخصة مع سندات التتبع.",
+        "en": "Lump-sum for the complete final cleaning and the management, sorting and removal of waste to authorised channels with tracking slips."
+      }
+    },
+    {
+      "code": "00.06",
+      "designation": {
+        "fr": "Dossier des Ouvrages Exécutés (DOE), constitution et remise",
+        "ar": "ملف المنشآت المنفذة، التكوين والتسليم",
+        "en": "As-built records file (DOE), compilation and delivery"
+      },
+      "unite": "ens",
+      "modeMetreMD": {
+        "fr": "À l'ensemble du DOE complet (numérique + papier), indexé par lot, condition de réception définitive et de paiement du solde.",
+        "ar": "لمجموع الملف الكامل (رقمي + ورقي)، مفهرس حسب القسط، شرط التسلم النهائي وأداء الرصيد.",
+        "en": "For the complete DOE (digital + paper), indexed by lot, a condition for final acceptance and balance payment."
+      }
+    },
+    {
+      "code": "00.07",
+      "designation": {
+        "fr": "Coordination inter-corps d'état et réunions de chantier",
+        "ar": "تنسيق أصناف الأشغال واجتماعات الورش",
+        "en": "Inter-trade coordination and site meetings"
+      },
+      "unite": "ff",
+      "modeMetreMD": {
+        "fr": "Au forfait pour la participation aux réunions, la tenue du planning et la gestion des interfaces inter-lots pendant toute la durée du chantier.",
+        "ar": "بالجزاف للمشاركة في الاجتماعات ومسك الرزنامة وتدبير الواجهات بين الأقساط طيلة مدة الورش.",
+        "en": "Lump-sum for attending meetings, maintaining the programme and managing inter-lot interfaces throughout the works."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "ALL_LOTS",
+      "type": "PREREQUIS",
+      "description": {
+        "fr": "Les prescriptions communes (sécurité, planning, échantillons, nettoyage, DOE, réserves) s'imposent à tous les lots techniques du projet.",
+        "ar": "تُفرض المقتضيات المشتركة (السلامة، الرزنامة، العينات، التنظيف، ملف المنشآت، التحفظات) على جميع الأقساط التقنية للمشروع.",
+        "en": "The common provisions (safety, programme, samples, cleaning, DOE, reservations) apply to all technical lots of the project."
+      }
+    },
+    {
+      "lotCible": "LOT_26_VRD_VOIRIE",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Sécurité des fouilles, récolement des réseaux et nettoyage des voiries publiques empruntées par le lot VRD.",
+        "ar": "سلامة الحفريات وتصاميم إنجاز الشبكات وتنظيف الطرق العمومية المستعملة من طرف قسط الطرق والشبكات.",
+        "en": "Excavation safety, network as-builts and cleaning of public roads used by the civil works lot."
+      }
+    },
+    {
+      "lotCible": "LOT_21_ESPACES_VERTS",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Garantie de reprise des végétaux et plan d'arrosage à intégrer au DOE selon les prescriptions communes.",
+        "ar": "ضمان استئناف النباتات وتصميم السقي الواجب إدماجه في ملف المنشآت حسب المقتضيات المشتركة.",
+        "en": "Plant establishment guarantee and irrigation drawing to be included in the DOE per the common provisions."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "Loi 65-99 (Code du travail marocain)",
+      "Décret 2-09-606 (sécurité sur les chantiers)",
+      "Loi 28-00 (gestion et élimination des déchets)",
+      "RPS 2011 (règlement parasismique marocain)"
+    ]
+  }
+}

@@ -1,0 +1,316 @@
+{
+  "code": "LOT_17_PLOMBERIE_ECS",
+  "numero": 17,
+  "famille": "TECHNIQUE_CES",
+  "intitule": {
+    "fr": "Plomberie ECS — Production d'eau chaude sanitaire et chauffe-eau solaire thermique",
+    "ar": "السباكة — الماء الساخن الصحي وإنتاجه بالطاقة الشمسية الحرارية",
+    "en": "DHW Plumbing — Domestic Hot Water Production and Solar Thermal Water Heating"
+  },
+  "description": {
+    "fr": "Le présent lot comprend la fourniture, la pose et la mise en service des installations de production et de distribution d'eau chaude sanitaire (ECS) du projet {{PROJECT_NAME}} sis dans la commune de {{COMMUNE}} : production par chauffe-eau solaire thermique (capteurs, ballon de stockage, circuit primaire, appoint), ballons de stockage et d'appoint, organes de sécurité (groupe de sécurité, soupape, mitigeur thermostatique), réseau de distribution ECS et bouclage avec calorifuge, ainsi que la régulation associée. L'installation solaire s'inscrit dans la démarche d'efficacité énergétique promue par l'AMEE et est exécutée conformément aux DTU 65.x et aux règles de sécurité applicables.",
+    "ar": "يشمل هذا القسم توريد وتركيب وتشغيل منشآت إنتاج وتوزيع الماء الساخن الصحي لمشروع {{PROJECT_NAME}} الكائن بجماعة {{COMMUNE}}: الإنتاج بواسطة سخان شمسي حراري (لاقطات، خزان تخزين، الدائرة الأولية، التكميل)، خزانات التخزين والتكميل، أعضاء السلامة (مجموعة الأمان، الصمام، الخالط الحراري)، شبكة توزيع الماء الساخن وحلقة الدوران مع العزل الحراري، وكذا التنظيم المرتبط. تندرج المنشأة الشمسية ضمن مسعى النجاعة الطاقية الذي تشجعه الوكالة المغربية للنجاعة الطاقية، وتُنجز طبقاً للمعايير DTU 65.x وقواعد السلامة المطبقة.",
+    "en": "This lot covers the supply, installation and commissioning of the domestic hot water (DHW) production and distribution systems for project {{PROJECT_NAME}} located in the commune of {{COMMUNE}}: production by solar thermal water heater (collectors, storage tank, primary circuit, backup), storage and backup tanks, safety devices (safety group, relief valve, thermostatic mixing valve), DHW distribution network and recirculation loop with thermal insulation, and the associated control. The solar installation is part of the energy efficiency approach promoted by AMEE and is executed in accordance with DTU 65.x and applicable safety rules."
+  },
+  "normesRefs": [
+    "DTU 65.10",
+    "DTU 65.11",
+    "DTU 60.1",
+    "NM EN 12975",
+    "NM EN 12976",
+    "NM EN 12897",
+    "NM EN 1487",
+    "NM EN 1111",
+    "NM EN ISO 15875"
+  ],
+  "secteurQualifMA": [
+    "Secteur M — Travaux de plomberie sanitaire et fluides",
+    "M.3 Production et distribution d'eau chaude sanitaire",
+    "M.4 Installations solaires thermiques (chauffe-eau solaire)"
+  ],
+  "competencesRequises": [
+    "Installateur qualifié secteur M, classe adaptée au montant du lot",
+    "Technicien solaire thermique formé (capteurs, circuit primaire, régulation)",
+    "Plombier soudeur cuivre certifié",
+    "Personnel habilité pour le réglage des organes de sécurité et la mise en service ECS"
+  ],
+  "articles": [
+    {
+      "numero": "17.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet, consistance et limites de prestation",
+        "ar": "الموضوع، المحتوى وحدود الخدمة",
+        "en": "Scope, Content and Limits of Works"
+      },
+      "corpsMD": {
+        "fr": "## Objet\nLe présent article définit l'objet des travaux de production et de distribution d'eau chaude sanitaire pour le projet **{{PROJECT_NAME}}** à **{{COMMUNE}}**.\n\nLa prestation comprend :\n- la **production solaire thermique** (capteurs, ballon solaire, circuit primaire, station de transfert) ;\n- l'**appoint** (résistance électrique et/ou échangeur) garantissant la continuité de service ;\n- la **distribution ECS** et le **bouclage** maintenant l'eau chaude à température ;\n- les **organes de sécurité** et la régulation.\n\n## Limites de prestation\n- **Amont eau froide** : l'arrivée d'eau froide jusqu'au piquage du ballon relève du **lot 14 Plomberie sanitaire**.\n- **Électricité** : l'alimentation et la protection électrique de l'appoint et de la régulation relèvent du **lot Électricité**.\n- **Support des capteurs** : les ancrages en toiture font l'objet d'une coordination avec le **lot Étanchéité/Couverture**.",
+        "ar": "## الموضوع\nيحدد هذا البند موضوع أشغال إنتاج وتوزيع الماء الساخن الصحي لمشروع **{{PROJECT_NAME}}** بـ **{{COMMUNE}}**.\n\nتشمل الخدمة:\n- **الإنتاج الشمسي الحراري** (اللاقطات، الخزان الشمسي، الدائرة الأولية، محطة النقل)؛\n- **التكميل** (مقاومة كهربائية و/أو مبادل) لضمان استمرارية الخدمة؛\n- **توزيع الماء الساخن** و**حلقة الدوران** للحفاظ على درجة حرارة الماء الساخن؛\n- **أعضاء السلامة** والتنظيم.\n\n## حدود الخدمة\n- **وصول الماء البارد**: وصول الماء البارد إلى نقطة ربط الخزان تابع لـ **القسم 14 السباكة الصحية**.\n- **الكهرباء**: تغذية وحماية التكميل والتنظيم كهربائياً تابعة لـ **قسم الكهرباء**.\n- **حوامل اللاقطات**: تثبيتات السطح تخضع للتنسيق مع **قسم العزل المائي/التسقيف**.",
+        "en": "## Scope\nThis article defines the scope of the DHW production and distribution works for project **{{PROJECT_NAME}}** in **{{COMMUNE}}**.\n\nThe works include:\n- **solar thermal production** (collectors, solar tank, primary circuit, transfer station);\n- the **backup** (electric element and/or heat exchanger) ensuring continuity of service;\n- the **DHW distribution** and the **recirculation loop** maintaining hot water at temperature;\n- the **safety devices** and control.\n\n## Limits of works\n- **Cold water upstream**: the cold water supply up to the tank tapping belongs to **lot 14 Sanitary plumbing**.\n- **Electricity**: the electrical supply and protection of the backup and control belong to the **Electrical lot**.\n- **Collector supports**: roof anchorages are coordinated with the **Waterproofing/Roofing lot**."
+      }
+    },
+    {
+      "numero": "17.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Documents de référence, efficacité énergétique et normes",
+        "ar": "الوثائق المرجعية، النجاعة الطاقية والمعايير",
+        "en": "Reference Documents, Energy Efficiency and Standards"
+      },
+      "corpsMD": {
+        "fr": "Les travaux respectent les documents en vigueur :\n\n| Référence | Objet |\n|-----------|-------|\n| **DTU 65.10 / 65.11** | Canalisations d'eau chaude / sécurité des installations de chauffage et ECS |\n| **NM EN 12975** | Capteurs solaires thermiques |\n| **NM EN 12976** | Installations solaires préfabriquées (systèmes) |\n| **NM EN 12897** | Ballons de stockage d'eau chaude sanitaire (non ventilés) |\n| **NM EN 1487** | Groupe de sécurité hydraulique |\n| **NM EN 1111** | Mitigeurs thermostatiques sanitaires |\n\n## Efficacité énergétique\nL'installation s'inscrit dans le **programme d'efficacité énergétique de l'AMEE** (Agence Marocaine pour l'Efficacité Énergétique) : valorisation de l'énergie solaire pour l'ECS, limitation des pertes par calorifuge renforcé, dimensionnement adapté aux besoins du projet et taux de couverture solaire visé précisé aux pièces particulières.",
+        "ar": "تحترم الأشغال الوثائق السارية:\n\n| المرجع | الموضوع |\n|--------|---------|\n| **DTU 65.10 / 65.11** | قنوات الماء الساخن / سلامة منشآت التدفئة والماء الساخن |\n| **NM EN 12975** | اللاقطات الشمسية الحرارية |\n| **NM EN 12976** | المنشآت الشمسية المُصنَّعة مسبقاً (الأنظمة) |\n| **NM EN 12897** | خزانات تخزين الماء الساخن الصحي (غير المهوَّاة) |\n| **NM EN 1487** | مجموعة الأمان الهيدروليكية |\n| **NM EN 1111** | الخلاطات الحرارية الصحية |\n\n## النجاعة الطاقية\nتندرج المنشأة ضمن **برنامج النجاعة الطاقية للوكالة المغربية للنجاعة الطاقية (AMEE)**: تثمين الطاقة الشمسية للماء الساخن، الحد من الضياعات بعزل حراري معزَّز، تحجيم ملائم لحاجيات المشروع ونسبة التغطية الشمسية المستهدفة المحددة بالوثائق الخاصة.",
+        "en": "Works comply with the documents in force:\n\n| Reference | Subject |\n|-----------|---------|\n| **DTU 65.10 / 65.11** | Hot water pipework / safety of heating and DHW installations |\n| **NM EN 12975** | Solar thermal collectors |\n| **NM EN 12976** | Factory-made solar installations (systems) |\n| **NM EN 12897** | DHW storage tanks (unvented) |\n| **NM EN 1487** | Hydraulic safety group |\n| **NM EN 1111** | Sanitary thermostatic mixing valves |\n\n## Energy efficiency\nThe installation is part of the **AMEE energy efficiency programme** (Moroccan Agency for Energy Efficiency): use of solar energy for DHW, reduction of losses through reinforced insulation, sizing adapted to project needs, and target solar coverage rate specified in the particular documents."
+      }
+    },
+    {
+      "numero": "17.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Capteurs solaires, ballons et provenance des équipements",
+        "ar": "اللاقطات الشمسية، الخزانات ومصدر التجهيزات",
+        "en": "Solar Collectors, Tanks and Equipment Provenance"
+      },
+      "corpsMD": {
+        "fr": "## Capteurs solaires thermiques\nCapteurs plans vitrés ou tubes sous vide conformes à la **NM EN 12975**, avec rendement et certification justifiés. Les systèmes préfabriqués éventuels sont conformes à la **NM EN 12976**.\n\n## Ballons de stockage\nBallons ECS conformes à la **NM EN 12897**, avec cuve protégée contre la corrosion (émaillage + anode), échangeur(s) interne(s) et isolation thermique renforcée. Les ballons en contact avec l'eau potable justifient de leur **innocuité sanitaire** (conformité ONEE).\n\n## Fluide caloporteur et circuit primaire\nFluide caloporteur antigel adapté au climat de **{{COMMUNE}}**, circuit primaire en cuivre ou inox.\n\n## Échantillons et agréments\nL'entrepreneur soumet, avant commande, les fiches techniques et certificats (capteurs, ballons, groupe de sécurité, mitigeur) pour **agrément écrit** du Maître d'Œuvre.",
+        "ar": "## اللاقطات الشمسية الحرارية\nلاقطات مسطحة مزجَّجة أو أنابيب مفرَّغة مطابقة لـ **NM EN 12975**، مع إثبات المردودية والاعتماد. الأنظمة المُصنَّعة مسبقاً عند الاقتضاء مطابقة لـ **NM EN 12976**.\n\n## خزانات التخزين\nخزانات ماء ساخن مطابقة لـ **NM EN 12897**، بوعاء محمي من التآكل (تزجيج + مصعد تضحوي)، مبادل (مبادلات) داخلي وعزل حراري معزَّز. الخزانات الملامسة للماء الصالح للشرب تثبت **سلامتها الصحية** (مطابقة المكتب الوطني).\n\n## السائل الناقل للحرارة والدائرة الأولية\nسائل ناقل للحرارة مضاد للتجمد ملائم لمناخ **{{COMMUNE}}**، الدائرة الأولية من النحاس أو الفولاذ المقاوم للصدأ.\n\n## العينات والاعتمادات\nيقدم المقاول، قبل الطلبية، البطاقات التقنية والشهادات (اللاقطات، الخزانات، مجموعة الأمان، الخالط) قصد **الاعتماد الكتابي** للمهندس المشرف.",
+        "en": "## Solar thermal collectors\nGlazed flat-plate or evacuated-tube collectors complying with **NM EN 12975**, with justified efficiency and certification. Any factory-made systems comply with **NM EN 12976**.\n\n## Storage tanks\nDHW tanks complying with **NM EN 12897**, with a corrosion-protected vessel (enamelling + sacrificial anode), internal heat exchanger(s) and reinforced thermal insulation. Tanks in contact with drinking water demonstrate their **sanitary safety** (ONEE conformity).\n\n## Heat-transfer fluid and primary circuit\nAntifreeze heat-transfer fluid suited to the climate of **{{COMMUNE}}**, primary circuit in copper or stainless steel.\n\n## Samples and approvals\nBefore ordering, the contractor submits the technical data sheets and certificates (collectors, tanks, safety group, mixing valve) for the Works Supervisor's **written approval**."
+      }
+    },
+    {
+      "numero": "17.4",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Organes de sécurité, robinetterie ECS et calorifuge",
+        "ar": "أعضاء السلامة، صنبورية الماء الساخن والعزل الحراري",
+        "en": "Safety Devices, DHW Fittings and Thermal Insulation"
+      },
+      "corpsMD": {
+        "fr": "## Groupe de sécurité\nChaque ballon est équipé d'un **groupe de sécurité** conforme à la **NM EN 1487**, taré à la pression appropriée, avec soupape de sûreté, clapet anti-retour et robinet d'isolement, raccordé à l'évacuation par un entonnoir avec garde d'air.\n\n## Mitigeur thermostatique\nUn **mitigeur thermostatique** conforme à la **NM EN 1111** limite la température de distribution afin de prévenir tout risque de **brûlure** (température de puisage maîtrisée), tout en permettant un stockage à température suffisante pour la maîtrise du risque sanitaire (légionelles).\n\n## Calorifuge\nLes canalisations ECS et de bouclage, les ballons et les organes sont calorifugés (mousse élastomère ou coquille) avec épaisseur conforme aux exigences d'efficacité énergétique ; calorifuge continu y compris aux supports, vannes et traversées.\n\n## Conduites ECS\nConduites en cuivre **NM EN 1057** ou multicouche/PER **NM EN ISO 15875** aptes à l'eau chaude, raccords adaptés à la température de service.",
+        "ar": "## مجموعة الأمان\nيُجهَّز كل خزان بـ **مجموعة أمان** مطابقة لـ **NM EN 1487**، معايَرة على الضغط الملائم، بصمام أمان وصمام عدم رجوع وصنبور عزل، موصولة بالتصريف عبر قمع بفاصل هوائي.\n\n## الخالط الحراري\n**خالط حراري** مطابق لـ **NM EN 1111** يحد من درجة حرارة التوزيع لتفادي خطر **الحروق** (درجة حرارة سحب متحكَّم فيها)، مع السماح بتخزين بدرجة حرارة كافية للتحكم في الخطر الصحي (الليجيونيلا).\n\n## العزل الحراري\nتُعزَل قنوات الماء الساخن وحلقة الدوران والخزانات والأعضاء حرارياً (رغوة مطاطية أو غلاف) بسماكة مطابقة لمتطلبات النجاعة الطاقية؛ عزل متصل بما في ذلك عند الدعائم والصمامات والعبور.\n\n## قنوات الماء الساخن\nقنوات من النحاس **NM EN 1057** أو متعددة الطبقات/PER **NM EN ISO 15875** صالحة للماء الساخن، وصلات ملائمة لدرجة حرارة الخدمة.",
+        "en": "## Safety group\nEach tank is equipped with a **safety group** complying with **NM EN 1487**, set to the appropriate pressure, with relief valve, non-return valve and isolating valve, connected to drainage via a funnel with an air gap.\n\n## Thermostatic mixing valve\nA **thermostatic mixing valve** complying with **NM EN 1111** limits the distribution temperature to prevent any **scalding** risk (controlled draw-off temperature), while allowing storage at a temperature sufficient to control the sanitary risk (legionella).\n\n## Thermal insulation\nDHW and recirculation pipework, tanks and devices are insulated (elastomeric foam or shell) with thickness compliant with energy efficiency requirements; insulation continuous including at supports, valves and penetrations.\n\n## DHW pipework\nPipework in **NM EN 1057** copper or **NM EN ISO 15875** multilayer/PEX rated for hot water, with fittings suited to the service temperature."
+      }
+    },
+    {
+      "numero": "17.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Pose des capteurs, du circuit primaire et de la distribution ECS",
+        "ar": "تركيب اللاقطات، الدائرة الأولية وتوزيع الماء الساخن",
+        "en": "Installation of Collectors, Primary Circuit and DHW Distribution"
+      },
+      "corpsMD": {
+        "fr": "## Pose des capteurs\nLes capteurs sont posés avec **orientation et inclinaison optimisées** (orientation sud, inclinaison adaptée à la latitude de **{{COMMUNE}}**), sur supports dimensionnés au vent, sans ombrage. Les ancrages en toiture sont étanchés en coordination avec le lot étanchéité.\n\n## Circuit primaire\nLe circuit primaire est posé avec pentes permettant la purge d'air, vase d'expansion adapté, station de transfert (circulateur, sécurités) ; il est rincé puis rempli du fluide caloporteur.\n\n## Distribution et bouclage\nLe réseau ECS comporte un **bouclage** maintenant l'eau chaude à température au plus près des points de puisage, équilibré pour limiter les attentes et maîtriser le risque sanitaire. Les pentes et purges sont prévues. Toutes les canalisations chaudes sont calorifugées.\n\n## Régulation\nLa régulation différentielle commande le circulateur primaire selon l'écart de température capteurs/ballon et gère l'appoint en complément du solaire.",
+        "ar": "## تركيب اللاقطات\nتُركَّب اللاقطات بـ **توجيه وميل محسَّنين** (توجيه نحو الجنوب، ميل ملائم لعرض **{{COMMUNE}}**)، على حوامل محسوبة على الرياح، دون تظليل. تُحكَم تثبيتات السطح بالتنسيق مع قسم العزل المائي.\n\n## الدائرة الأولية\nتُركَّب الدائرة الأولية بميول تسمح بتفريغ الهواء، خزان تمدد ملائم، محطة نقل (مضخة دوران، أجهزة أمان)؛ تُشطَف ثم تُملأ بالسائل الناقل للحرارة.\n\n## التوزيع وحلقة الدوران\nتتضمن شبكة الماء الساخن **حلقة دوران** تحافظ على درجة حرارة الماء الساخن قرب نقاط السحب، متوازنة للحد من الانتظار والتحكم في الخطر الصحي. تُتوقَّع الميول والتفريغات. تُعزَل جميع القنوات الساخنة حرارياً.\n\n## التنظيم\nيقود التنظيم التفاضلي مضخة الدائرة الأولية حسب فارق درجة الحرارة بين اللاقطات والخزان ويدبر التكميل تكملةً للطاقة الشمسية.",
+        "en": "## Collector installation\nCollectors are installed with **optimised orientation and tilt** (south-facing, tilt suited to the latitude of **{{COMMUNE}}**), on wind-rated supports, free of shading. Roof anchorages are sealed in coordination with the waterproofing lot.\n\n## Primary circuit\nThe primary circuit is installed with slopes allowing air bleeding, an appropriate expansion vessel, a transfer station (circulator, safety devices); it is flushed then filled with the heat-transfer fluid.\n\n## Distribution and recirculation\nThe DHW network includes a **recirculation loop** keeping hot water at temperature close to the draw-off points, balanced to limit waiting times and control the sanitary risk. Slopes and bleed points are provided. All hot pipework is insulated.\n\n## Control\nThe differential controller drives the primary circulator according to the collector/tank temperature difference and manages the backup as a complement to the solar input."
+      }
+    },
+    {
+      "numero": "17.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Épreuve de pression, essais de sécurité et mise en service",
+        "ar": "اختبار الضغط، فحوص السلامة والتشغيل",
+        "en": "Pressure Test, Safety Tests and Commissioning"
+      },
+      "corpsMD": {
+        "fr": "## Épreuve de pression\nAvant calorifugeage et habillage, les réseaux ECS, de bouclage et le circuit primaire sont soumis à une **ÉPREUVE DE PRESSION** hydraulique :\n- pression d'épreuve = **1,5 fois la pression de service**, sans être inférieure à **10 bar** pour les réseaux sanitaires ;\n- circuit primaire éprouvé à la pression compatible avec le vase d'expansion et les composants ;\n- maintien **1 heure** minimum sans chute de pression, consigné dans un **procès-verbal** contradictoire.\n\n## Essais de sécurité\nVérification du tarage et du fonctionnement du **groupe de sécurité** (décharge effective vers l'évacuation), réglage et contrôle du **mitigeur thermostatique** (température de puisage limitée), contrôle du vase d'expansion et des purges.\n\n## Mise en service\nMise en eau, rinçage et désinfection des réseaux d'eau potable (conformité ONEE), remplissage et purge du circuit primaire, mise en route de la régulation, contrôle des températures de stockage et de distribution, et vérification du **taux de couverture solaire** attendu.",
+        "ar": "## اختبار الضغط\nقبل العزل الحراري والتغطية، تخضع شبكات الماء الساخن وحلقة الدوران والدائرة الأولية لـ **اختبار ضغط** هيدروليكي:\n- ضغط الاختبار = **1.5 مرة ضغط الخدمة**، على ألا يقل عن **10 بار** للشبكات الصحية؛\n- تُختبَر الدائرة الأولية بضغط ملائم لخزان التمدد والمكونات؛\n- الإبقاء **ساعة واحدة** على الأقل دون انخفاض الضغط، يُدوَّن في **محضر** حضوري.\n\n## فحوص السلامة\nالتحقق من معايرة واشتغال **مجموعة الأمان** (تفريغ فعلي نحو التصريف)، ضبط ومراقبة **الخالط الحراري** (درجة حرارة سحب محدودة)، مراقبة خزان التمدد والتفريغات.\n\n## التشغيل\nالملء بالماء، شطف وتعقيم شبكات الماء الصالح للشرب (مطابقة المكتب الوطني)، ملء وتفريغ الدائرة الأولية، تشغيل التنظيم، مراقبة درجات حرارة التخزين والتوزيع، والتحقق من **نسبة التغطية الشمسية** المنتظرة.",
+        "en": "## Pressure test\nBefore insulation and cladding, the DHW, recirculation and primary networks are subjected to a hydraulic **PRESSURE TEST**:\n- test pressure = **1.5 times the service pressure**, not less than **10 bar** for sanitary networks;\n- the primary circuit is tested at a pressure compatible with the expansion vessel and components;\n- held for at least **1 hour** with no pressure drop, recorded in an adversarial **acceptance report**.\n\n## Safety tests\nVerification of the setting and operation of the **safety group** (effective discharge to drainage), adjustment and check of the **thermostatic mixing valve** (limited draw-off temperature), check of the expansion vessel and bleed points.\n\n## Commissioning\nFilling with water, flushing and disinfection of drinking-water networks (ONEE conformity), filling and bleeding of the primary circuit, start-up of the control, checking of storage and distribution temperatures, and verification of the expected **solar coverage rate**."
+      }
+    },
+    {
+      "numero": "17.7",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Tolérances, garanties, réception et HSE",
+        "ar": "التفاوتات، الضمانات، التسلُّم والسلامة والصحة والبيئة",
+        "en": "Tolerances, Warranties, Acceptance and HSE"
+      },
+      "corpsMD": {
+        "fr": "## Tolérances\n- Inclinaison des capteurs : tolérance **± 2°** par rapport à la valeur prescrite.\n- Aplomb et alignement des supports et ballons : **± 3 mm/m**.\n- Température de distribution réglée au mitigeur : conforme à la consigne, tolérance **± 2 °C**.\n\n## Garanties\nGarantie de parfait achèvement (1 an) sur l'étanchéité et le bon fonctionnement ; garanties constructeur sur capteurs, ballons et régulation. Tout désordre (fuite, perte de performance solaire anormale, défaut de sécurité) constaté pendant la garantie est repris sans frais.\n\n## Réception\nLa réception est prononcée après remise du **DOE** : plans de recolement, PV d'épreuve de pression, PV d'essais de sécurité, courbes/feuilles de mise en service, notices d'entretien et garanties constructeur.\n\n## HSE\nTravaux en toiture sécurisés (protection antichute, ancrages), manutention des ballons et capteurs encadrée, prévention du risque de brûlure et de surpression, gestion du fluide caloporteur et des déchets.",
+        "ar": "## التفاوتات\n- ميل اللاقطات: تفاوت **± 2°** بالنسبة للقيمة المحددة.\n- شاقولية واصطفاف الحوامل والخزانات: **± 3 مم/م**.\n- درجة حرارة التوزيع المضبوطة بالخالط: مطابقة للتعيين، تفاوت **± 2 °م**.\n\n## الضمانات\nضمان الإنجاز التام (سنة واحدة) على الإحكام وحسن الاشتغال؛ ضمانات الصانع على اللاقطات والخزانات والتنظيم. يُصلَح كل خلل (تسرب، فقدان غير طبيعي للأداء الشمسي، عيب في السلامة) يُعايَن خلال الضمان دون مصاريف.\n\n## التسلُّم\nيُعلَن التسلُّم بعد تسليم **ملف الأشغال المنجزة (DOE)**: تصاميم التنفيذ النهائية، محاضر اختبار الضغط، محاضر فحوص السلامة، أوراق التشغيل، أدلة الصيانة وضمانات الصانع.\n\n## السلامة والصحة والبيئة\nأشغال مؤمَّنة بالسطح (حماية من السقوط، تثبيتات)، مناولة مؤطَّرة للخزانات واللاقطات، الوقاية من خطر الحروق وفرط الضغط، تدبير السائل الناقل للحرارة والنفايات.",
+        "en": "## Tolerances\n- Collector tilt: tolerance **± 2°** from the prescribed value.\n- Plumb and alignment of supports and tanks: **± 3 mm/m**.\n- Distribution temperature set at the mixing valve: per setpoint, tolerance **± 2 °C**.\n\n## Warranties\nOne-year defects liability warranty on tightness and proper operation; manufacturer warranties on collectors, tanks and control. Any defect (leak, abnormal loss of solar performance, safety fault) observed during the warranty is rectified free of charge.\n\n## Acceptance\nAcceptance is pronounced after delivery of the **DOE**: as-built drawings, pressure-test reports, safety-test reports, commissioning sheets, maintenance manuals and manufacturer warranties.\n\n## HSE\nSecured roof works (fall protection, anchorages), supervised handling of tanks and collectors, prevention of scalding and overpressure risk, management of heat-transfer fluid and waste."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "17.01",
+      "designation": {
+        "fr": "Fourniture et pose de capteur solaire thermique NM EN 12975, sur support orienté/incliné, y compris ancrages",
+        "ar": "توريد وتركيب لاقط شمسي حراري NM EN 12975، على حامل موجَّه/مائل، شاملاً التثبيتات",
+        "en": "Supply and installation of NM EN 12975 solar thermal collector, on oriented/tilted support, including anchorages"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de capteur posé sur support, ancrages et raccordement au circuit primaire compris.",
+        "ar": "بالوحدة للاقط المركَّب على الحامل، التثبيتات والربط بالدائرة الأولية مدرجة.",
+        "en": "Per collector unit installed on its support, anchorages and connection to the primary circuit included."
+      }
+    },
+    {
+      "code": "17.02",
+      "designation": {
+        "fr": "Fourniture et pose de ballon ECS NM EN 12897 avec échangeur, anode et isolation renforcée",
+        "ar": "توريد وتركيب خزان ماء ساخن NM EN 12897 بمبادل ومصعد تضحوي وعزل معزَّز",
+        "en": "Supply and installation of NM EN 12897 DHW tank with heat exchanger, anode and reinforced insulation"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de ballon posé et raccordé (primaire, ECS, eau froide), par capacité.",
+        "ar": "بالوحدة للخزان المركَّب والموصول (الأولي، الماء الساخن، الماء البارد)، حسب السعة.",
+        "en": "Per tank unit installed and connected (primary, DHW, cold water), by capacity."
+      }
+    },
+    {
+      "code": "17.03",
+      "designation": {
+        "fr": "Circuit primaire solaire (tube cuivre/inox, vase d'expansion, station de transfert, fluide caloporteur)",
+        "ar": "الدائرة الأولية الشمسية (أنبوب نحاس/فولاذ، خزان تمدد، محطة نقل، سائل ناقل للحرارة)",
+        "en": "Solar primary circuit (copper/stainless pipe, expansion vessel, transfer station, heat-transfer fluid)"
+      },
+      "unite": "ens",
+      "modeMetreMD": {
+        "fr": "À l'ensemble pour le circuit primaire complet, rinçage et remplissage du fluide compris.",
+        "ar": "بالمجموع للدائرة الأولية الكاملة، الشطف وملء السائل مدرجان.",
+        "en": "Per set for the complete primary circuit, flushing and fluid filling included."
+      }
+    },
+    {
+      "code": "17.04",
+      "designation": {
+        "fr": "Groupe de sécurité NM EN 1487 taré, raccordé à l'évacuation avec entonnoir et garde d'air",
+        "ar": "مجموعة أمان NM EN 1487 معايَرة، موصولة بالتصريف بقمع وفاصل هوائي",
+        "en": "Calibrated NM EN 1487 safety group, connected to drainage with funnel and air gap"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité posée et raccordée par ballon, essais de décharge compris.",
+        "ar": "بالوحدة المركَّبة والموصولة لكل خزان، فحوص التفريغ مدرجة.",
+        "en": "Per unit installed and connected per tank, discharge tests included."
+      }
+    },
+    {
+      "code": "17.05",
+      "designation": {
+        "fr": "Mitigeur thermostatique NM EN 1111 limiteur de température de puisage, réglé et essayé",
+        "ar": "خالط حراري NM EN 1111 محدِّد لدرجة حرارة السحب، مضبوط ومختبَر",
+        "en": "NM EN 1111 thermostatic mixing valve limiting draw-off temperature, set and tested"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité posée, réglée et essayée, raccordements compris.",
+        "ar": "بالوحدة المركَّبة والمضبوطة والمختبَرة، الوصلات مدرجة.",
+        "en": "Per unit installed, set and tested, connections included."
+      }
+    },
+    {
+      "code": "17.06",
+      "designation": {
+        "fr": "Réseau de distribution ECS et bouclage en cuivre/multicouche apte eau chaude, équilibré",
+        "ar": "شبكة توزيع الماء الساخن وحلقة الدوران بالنحاس/متعدد الطبقات صالح للماء الساخن، متوازنة",
+        "en": "DHW distribution and recirculation network in hot-water-rated copper/multilayer, balanced"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de canalisation ECS/bouclage posée par diamètre, raccords compris.",
+        "ar": "بالمتر الطولي لقناة الماء الساخن/الدوران المركَّبة حسب القطر، الوصلات مدرجة.",
+        "en": "Per linear metre of DHW/recirculation pipe installed by diameter, fittings included."
+      }
+    },
+    {
+      "code": "17.07",
+      "designation": {
+        "fr": "Calorifuge des canalisations ECS, bouclage et organes, épaisseur conforme efficacité énergétique",
+        "ar": "عزل حراري لقنوات الماء الساخن والدوران والأعضاء، سماكة مطابقة للنجاعة الطاقية",
+        "en": "Thermal insulation of DHW, recirculation pipework and devices, thickness compliant with energy efficiency"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de canalisation calorifugée par diamètre, finitions comprises.",
+        "ar": "بالمتر الطولي للقناة المعزولة حسب القطر، التشطيبات مدرجة.",
+        "en": "Per linear metre of insulated pipe by diameter, finishes included."
+      }
+    },
+    {
+      "code": "17.08",
+      "designation": {
+        "fr": "Régulation différentielle solaire (sonde capteurs/ballon, circulateur, gestion appoint)",
+        "ar": "تنظيم تفاضلي شمسي (مجس اللاقطات/الخزان، مضخة دوران، تدبير التكميل)",
+        "en": "Solar differential control (collector/tank sensor, circulator, backup management)"
+      },
+      "unite": "ens",
+      "modeMetreMD": {
+        "fr": "À l'ensemble pour la régulation complète, sondes et paramétrage compris.",
+        "ar": "بالمجموع للتنظيم الكامل، المجسات والضبط مدرجان.",
+        "en": "Per set for the complete control system, sensors and parameterisation included."
+      }
+    },
+    {
+      "code": "17.09",
+      "designation": {
+        "fr": "Épreuve de pression, essais de sécurité et mise en service de l'installation ECS solaire, avec PV",
+        "ar": "اختبار الضغط، فحوص السلامة وتشغيل منشأة الماء الساخن الشمسية، مع المحضر",
+        "en": "Pressure test, safety tests and commissioning of the solar DHW installation, with report"
+      },
+      "unite": "ff",
+      "modeMetreMD": {
+        "fr": "Au forfait pour l'ensemble des épreuves, essais de sécurité, mise en service et procès-verbaux.",
+        "ar": "بالجزاف لمجموع الاختبارات وفحوص السلامة والتشغيل والمحاضر.",
+        "en": "Lump sum for all tests, safety tests, commissioning and reports."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_14_PLOMBERIE_SANITAIRE",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Interface avec le lot 14 : l'eau froide est amenée jusqu'au piquage du ballon par le lot 14 ; le présent lot assure la production et la distribution ECS en aval.",
+        "ar": "تداخل مع القسم 14: يُجلَب الماء البارد إلى نقطة ربط الخزان من طرف القسم 14؛ يضمن هذا القسم إنتاج وتوزيع الماء الساخن في الأسفل.",
+        "en": "Interface with lot 14: cold water is brought to the tank tapping by lot 14; this lot ensures DHW production and downstream distribution."
+      }
+    },
+    {
+      "lotCible": "ELECTRICITE",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Interface avec le lot Électricité pour l'alimentation et la protection de l'appoint électrique, du circulateur et de la régulation.",
+        "ar": "تداخل مع قسم الكهرباء لتغذية وحماية التكميل الكهربائي ومضخة الدوران والتنظيم.",
+        "en": "Interface with the Electrical lot for the supply and protection of the electric backup, circulator and control."
+      }
+    },
+    {
+      "lotCible": "ETANCHEITE_COUVERTURE",
+      "type": "RESERVATION",
+      "description": {
+        "fr": "Coordination avec le lot Étanchéité/Couverture pour les ancrages des capteurs en toiture et le maintien de l'étanchéité aux traversées.",
+        "ar": "التنسيق مع قسم العزل المائي/التسقيف لتثبيتات اللاقطات بالسطح والحفاظ على الإحكام عند العبور.",
+        "en": "Coordination with the Waterproofing/Roofing lot for the roof anchorages of the collectors and maintaining tightness at penetrations."
+      }
+    },
+    {
+      "lotCible": "GROS_OEUVRE",
+      "type": "RESERVATION",
+      "description": {
+        "fr": "Coordination avec le gros œuvre pour les réservations, socles des ballons et passages des canalisations primaires.",
+        "ar": "التنسيق مع الأشغال الكبرى للحجوزات وقواعد الخزانات وممرات القنوات الأولية.",
+        "en": "Coordination with structural works for reservations, tank plinths and primary pipework routing."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "DTU 65.10 — Canalisations d'eau chaude sous pression",
+      "DTU 65.11 — Dispositifs de sécurité des installations de chauffage et ECS",
+      "NM EN 12975 — Capteurs solaires thermiques",
+      "NM EN 12976 — Installations solaires préfabriquées",
+      "NM EN 12897 — Ballons de stockage ECS",
+      "NM EN 1487 — Groupe de sécurité / NM EN 1111 — Mitigeurs thermostatiques",
+      "Programme efficacité énergétique AMEE"
+    ]
+  }
+}

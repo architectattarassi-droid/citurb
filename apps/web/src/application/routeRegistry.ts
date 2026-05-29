@@ -83,6 +83,9 @@ export const ROUTES: RouteDef[] = [
   // Dev diagnostics
   { path: "/_dev/routes", label: "DEV — Routes", visibility: "public", nav: false, group: "DEV" },
 
+  // TerriScan Lab — laboratoire doctoral RA-CUE-ULV
+  { path: "/terriscan", label: "TerriScan Lab", visibility: "public", nav: true, group: "DEV" },
+
   // Redirect aliases
   ...REDIRECTS,
 ];

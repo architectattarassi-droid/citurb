@@ -1,0 +1,142 @@
+{
+  "code": "LOTISSEMENT",
+  "label": {
+    "fr": "Lotissement (viabilisation foncière)",
+    "ar": "تجزئة عقارية (تجهيز الأرض)",
+    "en": "Land subdivision (servicing / development)"
+  },
+  "description": {
+    "fr": "Opération de lotissement régie par la loi 25-90 relative aux lotissements, groupes d'habitations et morcellements : division d'une propriété foncière en lots destinés à la construction, avec réalisation des travaux de voirie et réseaux divers (VRD), conformément au cahier des charges de l'agence urbaine. Dominante VRD (voirie, assainissement, eau potable, électricité, télécom) ; pas de travaux de bâti.",
+    "ar": "عملية تجزئة تخضع للقانون 25.90 المتعلق بالتجزئات العقارية والمجموعات السكنية وتقسيم العقارات: تقسيم ملكية عقارية إلى بقع معدّة للبناء، مع إنجاز أشغال الطرق والشبكات المختلفة، طبقاً لدفتر تحملات الوكالة الحضرية. الغالب فيها أشغال الطرق والشبكات (طرق، تطهير، ماء صالح للشرب، كهرباء، اتصالات)؛ دون أشغال بناء.",
+    "en": "Subdivision operation governed by Law 25-90 on subdivisions, housing groups and land splits: division of a land property into building plots, with execution of road and utility infrastructure works (VRD), in accordance with the urban agency's specifications. Predominantly infrastructure works (roads, sewerage, drinking water, electricity, telecom); no building construction."
+  },
+  "famillesActives": [
+    "TERRASSEMENT_VRD",
+    "VOIRIE",
+    "ASSAINISSEMENT",
+    "RESEAUX_HUMIDES",
+    "RESEAUX_SECS",
+    "ESPACES_VERTS"
+  ],
+  "porteScope": [
+    "P2",
+    "P4"
+  ],
+  "defaultZoneSismique": "Z2",
+  "defaultZoneRTCM": "N_A",
+  "lots": [
+    {
+      "code": "LOT_00_GENERALITES",
+      "obligatoire": true,
+      "ordre": 0
+    },
+    {
+      "code": "LOT_01_TERRASSEMENT",
+      "obligatoire": true,
+      "ordre": 1,
+      "condition": "terrassements_generaux_plateforme"
+    },
+    {
+      "code": "LOT_26_VRD",
+      "obligatoire": true,
+      "ordre": 26,
+      "condition": "voirie_+_assainissement_+_eau_potable_+_reseaux_secs"
+    },
+    {
+      "code": "LOT_21_ESPACES_VERTS",
+      "obligatoire": false,
+      "ordre": 21,
+      "condition": "espaces_verts_et_mobilier_urbain_si_prevus"
+    }
+  ],
+  "normesPivots": [
+    "LOI_25_90_LOTISSEMENTS",
+    "CAHIER_CHARGES_AGENCE_URBAINE",
+    "NORMES_ONEE_EAU_ELECTRICITE",
+    "NORMES_LYDEC_REGIE_DISTRIBUTION",
+    "NM_ASSAINISSEMENT_DTU_VRD",
+    "NM_06_3_001_ELECTRICITE"
+  ],
+  "clausesLegalesObligatoires": [
+    "DECENNALE_DOC_769",
+    "DECENNALE_FORCLUSION_DOC_770",
+    "PARFAIT_ACHEVEMENT_1_AN",
+    "ASSURANCE_TRC_59_13",
+    "ASSURANCE_RC_DECENNALE_59_13",
+    "RC_PRO_ARCHITECTE_016_89",
+    "DELAIS_PAIEMENT_32_10",
+    "PENALITES_RETARD_CCAG",
+    "RETENUE_GARANTIE_10_7",
+    "CAUTIONNEMENT_DEFINITIF",
+    "REVISION_PRIX_INDEX_TP",
+    "RECEPTION_PROVISOIRE_DEFINITIVE",
+    "RESILIATION_MARCHE",
+    "FORCE_MAJEURE_DOC_268_269",
+    "SOUS_TRAITANCE_DOC_2_22_431",
+    "DONNEES_PERSONNELLES_09_08",
+    "LITIGES_COMPETENCE_DROIT"
+  ],
+  "assurancesObligatoires": [
+    {
+      "type": "TRC",
+      "souscripteur": "MAITRE_OUVRAGE_LOTISSEUR",
+      "fondement": "Loi 59-13 (Code des assurances 17-99) — selon seuils ; couvre les ouvrages VRD en cours"
+    },
+    {
+      "type": "RC_DECENNALE",
+      "souscripteur": "ENTREPRISE_VRD_ET_BET",
+      "fondement": "Loi 59-13 (Code des assurances 17-99) + DOC art. 769 (ouvrages de voirie et réseaux)"
+    },
+    {
+      "type": "RC_PRO_ARCHITECTE_OU_INGENIEUR",
+      "souscripteur": "CONCEPTEUR",
+      "fondement": "Loi 016-89 art. 26 (architecte) / RC pro ingénieur-conseil VRD"
+    }
+  ],
+  "visasObligatoires": [
+    {
+      "type": "APPROBATION_AGENCE_URBAINE",
+      "phase": "AVANT_AUTORISATION_LOTIR",
+      "delaiLegal": "selon loi 25-90 et instruction agence urbaine"
+    },
+    {
+      "type": "AUTORISATION_DE_LOTIR",
+      "phase": "AVANT_TRAVAUX_VRD",
+      "delaiLegal": "loi 25-90 (président du conseil communal sur avis agence urbaine)"
+    },
+    {
+      "type": "VISA_RESEAUX_ONEE_DISTRIBUTEUR",
+      "phase": "EXE_RESEAUX_SECS_HUMIDES",
+      "delaiLegal": "selon conventions ONEE / régie ou délégataire (Lydec, etc.)"
+    },
+    {
+      "type": "RECEPTION_PROVISOIRE_AGENCE_COMMUNE",
+      "phase": "FIN_TRAVAUX_VRD",
+      "delaiLegal": "loi 25-90 (avant cession des lots / réception des équipements)"
+    }
+  ],
+  "marketTypes": [
+    "PUBLIC",
+    "PRIVE"
+  ],
+  "permisRequis": [
+    "AUTORISATION_DE_LOTIR",
+    "APPROBATION_PLAN_LOTISSEMENT_AGENCE_URBAINE",
+    "RECEPTION_PROVISOIRE_DES_EQUIPEMENTS",
+    "RECEPTION_DEFINITIVE_ET_CERTIFICAT_DE_CONFORMITE"
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "Loi 25-90 relative aux lotissements, groupes d'habitations et morcellements",
+      "Cahier des charges type des agences urbaines",
+      "DOC art. 268, 269, 769, 770",
+      "Loi 59-13 modifiant le Code des assurances 17-99 (ACAPS, 2025)",
+      "Loi 016-89 art. 26 (RC professionnelle architecte)",
+      "Lois 32-10 / 49-15 / 69-21 (délais de paiement)",
+      "Normes techniques ONEE (eau potable, électricité) et régies/délégataires (Lydec, RADEEMA, etc.)",
+      "Décret 2-22-431 relatif aux marchés publics"
+    ]
+  }
+}

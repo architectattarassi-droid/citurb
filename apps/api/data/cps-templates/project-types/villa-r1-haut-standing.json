@@ -6,7 +6,8 @@
   "description": "Villa individuelle ou jumelée, R+1, surface bâtie 200-500 m², standing supérieur avec finitions luxe (zellige, tadelakt, marbre, menuiserie bois noble).",
   "porteScope": ["P1", "P2"],
   "defaultClasseSismique": "II",
-  "defaultZoneRT": "Z2",
+  "defaultZoneSismique": "Z2",
+  "defaultZoneRTCM": "Z2",
   "fourchettePrixMad": { "min": 1500000, "max": 8000000 },
   "delaiTypique": { "etudes": 60, "permis": 90, "chantier": 540, "total": 690 },
   "lots": [
@@ -36,21 +37,32 @@
     "RPS_2011",
     "NM_EN_206_1_2014",
     "NM_EN_1992_EC2",
-    "RT_2024_RESIDENTIEL",
+    "RTCM_2015",
     "NM_10_1_008",
     "NM_03_7_001_INCENDIE"
   ],
   "clausesLegalesObligatoires": [
     "DECENNALE_DOC_769",
-    "BIENNALE_DOC_769_BIS",
+    "DECENNALE_FORCLUSION_DOC_770",
     "PARFAIT_ACHEVEMENT_1_AN",
-    "DELAIS_PAIEMENT_LOI_32_10",
-    "FORCE_MAJEURE_DOC_268"
+    "BIENNALE_2_ANS_VEFA_44_00",
+    "ASSURANCE_TRC_59_13",
+    "ASSURANCE_RC_DECENNALE_59_13",
+    "RC_PRO_ARCHITECTE_016_89",
+    "DELAIS_PAIEMENT_32_10",
+    "PENALITES_RETARD_CCAG",
+    "RETENUE_GARANTIE_10_7",
+    "REVISION_PRIX_INDEX_TP",
+    "RECEPTION_PROVISOIRE_DEFINITIVE",
+    "FORCE_MAJEURE_DOC_268_269",
+    "SOUS_TRAITANCE_DOC_2_22_431",
+    "DONNEES_PERSONNELLES_09_08",
+    "LITIGES_COMPETENCE_DROIT"
   ],
   "assurancesObligatoires": [
-    { "type": "TRC", "souscripteurDefault": "MO", "couvertureMin": "100_pct_montant_travaux" },
-    { "type": "DECENNALE", "souscripteur": "ENTREPRISE_GENERALE", "duree": 10, "fondement": "DOC art. 769" },
-    { "type": "RC_PRO_ARCHITECTE", "souscripteur": "ARCHITECTE", "fondement": "Loi 016-89 art. 24" }
+    { "type": "TRC", "souscripteurDefault": "MO", "couvertureMin": "100_pct_montant_travaux", "fondement": "Loi 59-13 (Code des assurances 17-99) — conditionne le permis de construire" },
+    { "type": "DECENNALE", "souscripteur": "ENTREPRISE_GENERALE", "duree": 10, "fondement": "Loi 59-13 (Code des assurances 17-99) + DOC art. 769 — conditionne le permis d'habiter" },
+    { "type": "RC_PRO_ARCHITECTE", "souscripteur": "ARCHITECTE", "fondement": "Loi 016-89 art. 26" }
   ],
   "visasObligatoires": [
     { "type": "VISA_CROA", "phase": "APD_PRET_DEPOT_PERMIS", "delaiLegal": 15 }

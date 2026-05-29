@@ -1,0 +1,232 @@
+{
+  "code": "IMMEUBLE_COLLECTIF_R_PLUS_N",
+  "label": {
+    "fr": "Immeuble collectif R+n (logements / mixte)",
+    "ar": "عمارة جماعية طابق أرضي + n (سكن / مختلط)",
+    "en": "Multi-storey collective building R+n (housing / mixed-use)"
+  },
+  "description": {
+    "fr": "Immeuble collectif d'habitation ou mixte (logements, commerces en RDC) de plusieurs étages (R+n), soumis au régime de la copropriété (loi 18-00), aux règles parasismiques RPS 2011, à la réglementation thermique RTCM et à la sécurité incendie NM 03.7.001. Comprend tous corps d'état du bâti plus SSI/désenfumage, ascenseur, VDI et faux-plafonds.",
+    "ar": "عمارة جماعية للسكن أو مختلطة (شقق، محلات تجارية بالطابق الأرضي) متعددة الطوابق (طابق أرضي + n)، تخضع لنظام الملكية المشتركة (القانون 18.00)، وللقواعد المضادة للزلازل RPS 2011، وللتنظيم الحراري RTCM، وللسلامة من الحرائق NM 03.7.001. تشمل جميع أصناف البناء إضافة إلى نظام السلامة من الحرائق ونزع الدخان، والمصعد، وشبكة الصوت والصورة والمعطيات، والأسقف المستعارة.",
+    "en": "Multi-storey collective residential or mixed-use building (apartments, ground-floor retail), several storeys (R+n), subject to the co-ownership regime (Law 18-00), seismic rules RPS 2011, thermal regulation RTCM and fire safety NM 03.7.001. Includes all building trades plus fire-safety/smoke-extraction systems, lift, voice-data-image networks and suspended ceilings."
+  },
+  "famillesActives": [
+    "GROS_OEUVRE",
+    "SECOND_OEUVRE",
+    "CORPS_ETAT_TECHNIQUES",
+    "SECURITE_INCENDIE",
+    "TRANSPORT_VERTICAL",
+    "COURANTS_FAIBLES",
+    "VRD"
+  ],
+  "porteScope": [
+    "P2",
+    "P3"
+  ],
+  "defaultZoneSismique": "Z2",
+  "defaultZoneRTCM": "Z2",
+  "lots": [
+    {
+      "code": "LOT_00_GENERALITES",
+      "obligatoire": true,
+      "ordre": 0
+    },
+    {
+      "code": "LOT_01_TERRASSEMENT",
+      "obligatoire": true,
+      "ordre": 1
+    },
+    {
+      "code": "LOT_02_GO_BETON",
+      "obligatoire": true,
+      "ordre": 2
+    },
+    {
+      "code": "LOT_03_MACONNERIE",
+      "obligatoire": true,
+      "ordre": 3
+    },
+    {
+      "code": "LOT_04_ETANCHEITE",
+      "obligatoire": true,
+      "ordre": 4
+    },
+    {
+      "code": "LOT_07_MENUISERIE_EXT_ALU",
+      "obligatoire": true,
+      "ordre": 7
+    },
+    {
+      "code": "LOT_08_MENUISERIE_INT_BOIS",
+      "obligatoire": true,
+      "ordre": 8
+    },
+    {
+      "code": "LOT_09_METALLERIE",
+      "obligatoire": true,
+      "ordre": 9
+    },
+    {
+      "code": "LOT_10_CLOISONS_DOUBLAGES",
+      "obligatoire": true,
+      "ordre": 10
+    },
+    {
+      "code": "LOT_11_REVETEMENTS_SOLS",
+      "obligatoire": true,
+      "ordre": 11
+    },
+    {
+      "code": "LOT_12_REVETEMENTS_MURS",
+      "obligatoire": true,
+      "ordre": 12
+    },
+    {
+      "code": "LOT_13_PEINTURE",
+      "obligatoire": true,
+      "ordre": 13
+    },
+    {
+      "code": "LOT_14_PLOMBERIE_SANITAIRE",
+      "obligatoire": true,
+      "ordre": 14
+    },
+    {
+      "code": "LOT_15_ELECTRICITE",
+      "obligatoire": true,
+      "ordre": 15
+    },
+    {
+      "code": "LOT_16_CLIMATISATION",
+      "obligatoire": false,
+      "ordre": 16,
+      "condition": "logements_standing_ou_bureaux"
+    },
+    {
+      "code": "LOT_17_PLOMBERIE_ECS",
+      "obligatoire": true,
+      "ordre": 17
+    },
+    {
+      "code": "LOT_18_FAUX_PLAFONDS",
+      "obligatoire": true,
+      "ordre": 18
+    },
+    {
+      "code": "LOT_20_VDI",
+      "obligatoire": true,
+      "ordre": 20
+    },
+    {
+      "code": "LOT_21_ESPACES_VERTS",
+      "obligatoire": false,
+      "ordre": 21,
+      "condition": "espaces_communs_amenages"
+    },
+    {
+      "code": "LOT_22_SSI_DESENFUMAGE",
+      "obligatoire": true,
+      "ordre": 22,
+      "condition": "obligatoire_des_que_ERP_ou_R+4_et_plus"
+    },
+    {
+      "code": "LOT_23_ASCENSEUR",
+      "obligatoire": true,
+      "ordre": 23,
+      "condition": "obligatoire_des_que_R+3_et_plus_ou_>11m"
+    },
+    {
+      "code": "LOT_26_VRD",
+      "obligatoire": true,
+      "ordre": 26
+    }
+  ],
+  "normesPivots": [
+    "RPS_2011",
+    "RTCM",
+    "NM_03_7_001_INCENDIE",
+    "NM_EN_206_1_2014",
+    "NM_EN_1992_EC2",
+    "NM_EN_81_ASCENSEURS",
+    "NM_06_3_001_ELECTRICITE"
+  ],
+  "clausesLegalesObligatoires": [
+    "DECENNALE_DOC_769",
+    "DECENNALE_FORCLUSION_DOC_770",
+    "PARFAIT_ACHEVEMENT_1_AN",
+    "BIENNALE_2_ANS_VEFA_44_00",
+    "ASSURANCE_TRC_59_13",
+    "ASSURANCE_RC_DECENNALE_59_13",
+    "RC_PRO_ARCHITECTE_016_89",
+    "DELAIS_PAIEMENT_32_10",
+    "PENALITES_RETARD_CCAG",
+    "RETENUE_GARANTIE_10_7",
+    "REVISION_PRIX_INDEX_TP",
+    "RECEPTION_PROVISOIRE_DEFINITIVE",
+    "FORCE_MAJEURE_DOC_268_269",
+    "SOUS_TRAITANCE_DOC_2_22_431",
+    "DONNEES_PERSONNELLES_09_08",
+    "LITIGES_COMPETENCE_DROIT"
+  ],
+  "assurancesObligatoires": [
+    {
+      "type": "TRC",
+      "souscripteur": "MAITRE_OUVRAGE",
+      "fondement": "Loi 59-13 (Code des assurances 17-99), seuils >3 étages ou >800 m² — conditionne le permis de construire"
+    },
+    {
+      "type": "RC_DECENNALE",
+      "souscripteur": "ENTREPRISE_ET_BET_ET_ARCHITECTE",
+      "fondement": "Loi 59-13 (Code des assurances 17-99) + DOC art. 769 — conditionne le permis d'habiter"
+    },
+    {
+      "type": "RC_PRO_ARCHITECTE",
+      "souscripteur": "ARCHITECTE",
+      "fondement": "Loi 016-89 art. 26"
+    }
+  ],
+  "visasObligatoires": [
+    {
+      "type": "VISA_CROA",
+      "phase": "APD_AVANT_DEPOT_PERMIS",
+      "delaiLegal": "15 jours (pratique CROA)"
+    },
+    {
+      "type": "VISA_PROTECTION_CIVILE",
+      "phase": "AVANT_PERMIS_CONSTRUIRE",
+      "delaiLegal": "selon commission — sécurité incendie NM 03.7.001"
+    },
+    {
+      "type": "VISA_BET_STRUCTURE",
+      "phase": "EXE_AVANT_COULAGE",
+      "delaiLegal": "avant tout coulage structurel (RPS 2011)"
+    }
+  ],
+  "marketTypes": [
+    "PUBLIC",
+    "PRIVE"
+  ],
+  "permisRequis": [
+    "PERMIS_DE_CONSTRUIRE",
+    "AUTORISATION_DE_LOTIR_SI_TERRAIN_NON_VIABILISE",
+    "PERMIS_HABITER_RECEPTION",
+    "ATTESTATION_CONFORMITE"
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "DOC art. 268, 269, 769, 770",
+      "Loi 59-13 modifiant le Code des assurances 17-99 (TRC + RC décennale, ACAPS, 2025)",
+      "Loi 016-89 art. 26 (RC professionnelle architecte)",
+      "Loi 18-00 modifiée par 106-12 (statut de la copropriété)",
+      "Loi 44-00 modifiée par 107-12 (VEFA)",
+      "Lois 32-10 / 49-15 / 69-21 (délais de paiement)",
+      "RPS 2011 (Règles Parasismiques Marocaines)",
+      "RTCM (Réglementation Thermique de Construction au Maroc)",
+      "NM 03.7.001 (sécurité incendie des bâtiments)",
+      "NM EN 81 (ascenseurs)",
+      "Décret 2-22-431 relatif aux marchés publics"
+    ]
+  }
+}

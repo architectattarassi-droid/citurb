@@ -2,7 +2,33 @@
 
 Cahier des Prescriptions Spéciales (CPS) modèles, lot par lot, prêts à
 instancier depuis le wizard P2/P3. Chaque template injecte automatiquement
-les normes marocaines applicables selon zone sismique + zone climatique RT 2024.
+les normes marocaines applicables selon zone sismique (RPS 2011, zones Z1–Z5)
++ zone climatique (RTCM, décret n° 2-13-874 — **et non « RT 2024 »**).
+
+## État (v2.0.0 — 2026-05-29)
+
+Générateur **implémenté et trilingue (FR/AR/EN)** : `CpsGeneratorService`
+(`apps/api/src/modules/cps-generator/`). Le document assemblé contient :
+page de garde → clauses administratives & juridiques (filtrées public/privé)
+→ clauses techniques par lot (structure 3-parties CSI General/Products/Execution,
+groupées par famille) → **bordereau des prix - détail estimatif (BPDE)**.
+
+Schéma **v2** : tout libellé est un objet i18n `{fr,ar,en}` ; chaque lot porte
+`famille`, `secteurQualifMA`, des `articles[].partie` (GENERAL|PRODUITS|EXECUTION)
+et un `bordereau[]`. Une bibliothèque `clauses/clauses-juridiques.json`
+(≈20 clauses trilingues, fondement juridique vérifié : DOC 769/770, loi 59-13
+TRC/RCD ACAPS, loi 016-89 art. 26, lois 32-10/49-15/69-21, DOC 268/269, etc.)
+est référencée par code dans chaque project-type.
+
+Couverture actuelle : **22 lots rédigés** (00,01,03–21,26) + lot-02 (v1) ;
+**3 project-types** (villa R+1, immeuble collectif R+n, lotissement).
+Endpoints : `GET /api/cps/project-types?lang=`, `GET /api/cps/lots?lang=`,
+`POST /api/cps/generate` (body : `{projectTypeCode, projectName, lang, marketType, …}`),
+`POST /api/cps/generate/html`. UI : `/cps`.
+
+> ⚠️ Réserve juridique : la clause « sous-traitance » NE cite PAS de « loi 32-99 »
+> (inexistante en droit marocain — confusion avec la loi française 75-1334) ;
+> rattachée au DOC + décret 2-22-431, **à confirmer par un juriste**.
 
 ## Structure
 

@@ -1,0 +1,317 @@
+{
+  "code": "LOT_04_ETANCHEITE",
+  "numero": 4,
+  "famille": "CLOS_COUVERT",
+  "intitule": {
+    "fr": "Étanchéité des toitures-terrasses et isolation thermique",
+    "ar": "العزل المائي للأسطح-التراس والعزل الحراري",
+    "en": "Flat-roof waterproofing and thermal insulation"
+  },
+  "description": {
+    "fr": "Fourniture et mise en œuvre des complexes d'étanchéité des toitures-terrasses (forme de pente, pare-vapeur, isolation thermique, membranes bitume SBS, relevés et acrotères, protection lourde / dalles sur plots / autoprotégée), conformes DTU 43.1 / 43.3 / 43.5 et NM 10.5.001, avec essai de mise en eau et garantie décennale.",
+    "ar": "توريد وتنفيذ مركّبات العزل المائي للأسطح-التراس (شكل الانحدار، حاجز البخار، العزل الحراري، أغشية البيتومين SBS، الرفعات والأفاريز، الحماية الثقيلة / البلاطات على الدعامات / ذاتية الحماية)، المطابقة لـ DTU 43.1 / 43.3 / 43.5 و NM 10.5.001، مع اختبار ملء بالماء وضمان عشري.",
+    "en": "Supply and installation of flat-roof waterproofing systems (screed-to-falls, vapour barrier, thermal insulation, SBS bitumen membranes, upstands and parapets, heavy/paving-on-pedestals/self-protected finishes), compliant with DTU 43.1 / 43.3 / 43.5 and NM 10.5.001, including water-flood test and decennial warranty."
+  },
+  "normesRefs": [
+    "DTU_43_1_ETANCHEITE_MACONNERIE",
+    "DTU_43_3_ETANCHEITE_TOLE_ACIER",
+    "DTU_43_5_REFECTION_ETANCHEITE",
+    "NM_10_5_001_MEMBRANES_BITUME_SBS",
+    "NM_EN_13707_BITUME_ARME",
+    "NM_EN_13164_ISOLANT_XPS",
+    "NM_EN_13163_ISOLANT_EPS",
+    "RTCM_DECRET_2_13_874",
+    "DTU_20_12_GROS_OEUVRE_SUPPORT",
+    "RPS_2011"
+  ],
+  "secteurQualifMA": [
+    "N"
+  ],
+  "competencesRequises": [
+    "ENTREPRISE_QUALIFIEE_ETANCHEITE_SECTEUR_N",
+    "APPLICATEUR_AGREE_MEMBRANES_SBS",
+    "BET_FLUIDES_THERMIQUE_RTCM"
+  ],
+  "articles": [
+    {
+      "numero": "4.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet et consistance des travaux",
+        "ar": "موضوع الأشغال ومكوناتها",
+        "en": "Scope and extent of works"
+      },
+      "corpsMD": {
+        "fr": "Le présent lot a pour objet la fourniture et la mise en œuvre complète des **complexes d'étanchéité et d'isolation thermique des toitures-terrasses** du projet **{{PROJECT_NAME}}**, commune de **{{COMMUNE}}**, comprenant :\n\n- la **forme de pente** (béton léger ou mortier) donnant la pente minimale réglementaire ;\n- le **pare-vapeur** et son enduit d'imprégnation à froid (EIF) ;\n- l'**isolation thermique** dimensionnée selon le **RTCM (décret n° 2-13-874)** pour la zone climatique du projet ;\n- le **revêtement d'étanchéité** en membranes bitume élastomère **SBS** (bicouche) ;\n- les **relevés** sur acrotères, costières et émergences, avec **équerre de renfort** et bandes solins ;\n- la **protection** : lourde par gravillons roulés, dalles sur plots, ou autoprotégée selon destination de la terrasse (inaccessible, technique, accessible) ;\n- tous les ouvrages annexes : entrées d'eaux pluviales (EP), trop-pleins, joints de dilatation, crapaudines.\n\nLe montant des travaux du présent lot est estimé à **{{MONTANT_TRAVAUX_LOT}} MAD HT**.",
+        "ar": "يهدف هذا القسط إلى توريد وتنفيذ كامل لـ**مركّبات العزل المائي والعزل الحراري للأسطح-التراس** لمشروع **{{PROJECT_NAME}}**، جماعة **{{COMMUNE}}**، ويشمل:\n\n- **شكل الانحدار** (خرسانة خفيفة أو ملاط) المعطي للانحدار الأدنى النظامي؛\n- **حاجز البخار** وطلاء التشريب على البارد (EIF)؛\n- **العزل الحراري** المحجَّم وفق **المدونة الحرارية للبناء RTCM (المرسوم رقم 2-13-874)** للمنطقة المناخية للمشروع؛\n- **طبقة العزل المائي** من أغشية البيتومين المطاطي **SBS** (ثنائية الطبقة)؛\n- **الرفعات** على الأفاريز والحواف والبروزات، مع **زاوية تقوية** وأشرطة الإحكام؛\n- **الحماية**: الثقيلة بالحصى المدوّر، البلاطات على الدعامات، أو ذاتية الحماية حسب وجهة التراس (غير قابل للولوج، تقني، قابل للولوج)؛\n- جميع الأشغال الملحقة: مداخل المياه المطرية، الفائض، فواصل التمدد، المصافي.\n\nيُقدّر مبلغ أشغال هذا القسط بـ **{{MONTANT_TRAVAUX_LOT}} درهم بدون احتساب الضريبة**.",
+        "en": "This lot covers the complete supply and installation of the **flat-roof waterproofing and thermal-insulation systems** for the **{{PROJECT_NAME}}** project, municipality of **{{COMMUNE}}**, comprising:\n\n- the **screed-to-falls** (lightweight concrete or mortar) providing the minimum regulatory slope;\n- the **vapour barrier** and its cold bituminous primer (EIF);\n- the **thermal insulation** sized to the **RTCM (decree no. 2-13-874)** for the project climatic zone;\n- the **waterproofing** in **SBS** elastomeric bitumen membranes (two-layer);\n- the **upstands** at parapets, kerbs and penetrations, with **reinforcing angle** and flashing strips;\n- the **protection**: heavy rounded gravel, paving slabs on pedestals, or self-protected finish according to terrace use (non-accessible, technical, accessible);\n- all ancillary works: rainwater outlets, overflows, expansion joints, leaf guards.\n\nThe estimated value of this lot is **{{MONTANT_TRAVAUX_LOT}} MAD excl. tax**."
+      }
+    },
+    {
+      "numero": "4.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Limites de prestation et documents de référence",
+        "ar": "حدود الخدمة ووثائق المرجع",
+        "en": "Limits of supply and reference documents"
+      },
+      "corpsMD": {
+        "fr": "**Limites de prestation** :\n- *Sont inclus* : forme de pente, pare-vapeur, isolation, étanchéité, relevés, protection, EP et accessoires, essai de mise en eau ;\n- *Sont exclus* : le support béton structurel (dalle / dallage — LOT_02), les costières et acrotères en béton (LOT_02), les descentes d'eaux pluviales en façade (LOT_14), les couvertures en pente tuiles/bac acier (LOT_06).\n\nL'entreprise réceptionnera contradictoirement le **support béton** (propreté, cohésion, siccité, planéité, absence de balèvres, relevés d'acrotères coulés) avant toute application. Aucun complexe ne sera mis en œuvre sur support humide ou non réceptionné.\n\n**Documents de référence** : **DTU 43.1** (étanchéité des toitures-terrasses avec éléments porteurs en maçonnerie), **DTU 43.3** (toitures en tôles d'acier nervurées), **DTU 43.5** (réfection), **NM 10.5.001** (membranes bitume SBS), **NM EN 13707** (feuilles bitumineuses armées), normes isolants **NM EN 13164** (XPS) / **NM EN 13163** (EPS), **RTCM décret n° 2-13-874** (exigences thermiques) et **RPS 2011** pour la tenue des relevés en zone sismique **{{ZONE_SISMIQUE}}**.",
+        "ar": "**حدود الخدمة**:\n- *يشمل*: شكل الانحدار، حاجز البخار، العزل، العزل المائي، الرفعات، الحماية، مداخل المياه والملحقات، اختبار الملء بالماء؛\n- *يستثنى*: الدعامة الخرسانية الإنشائية (البلاطة — LOT_02)، الحواف والأفاريز الخرسانية (LOT_02)، أنابيب تصريف المياه المطرية بالواجهة (LOT_14)، التغطيات المنحدرة قرميد/صاج (LOT_06).\n\nتقوم المقاولة بالتسلّم الحضوري لـ**الدعامة الخرسانية** (النظافة، التماسك، الجفاف، الاستواء، غياب النتوءات، رفعات الأفاريز المصبوبة) قبل أي تطبيق. لا يُنفّذ أي مركّب على دعامة رطبة أو غير مُتسلَّمة.\n\n**وثائق المرجع**: **DTU 43.1** (العزل المائي للأسطح-التراس بعناصر حاملة من البناء)، **DTU 43.3** (الأسطح بصفائح فولاذية مضلّعة)، **DTU 43.5** (الترميم)، **NM 10.5.001** (أغشية البيتومين SBS)، **NM EN 13707** (الصفائح البيتومية المسلّحة)، معايير العوازل **NM EN 13164** (XPS) / **NM EN 13163** (EPS)، **RTCM المرسوم رقم 2-13-874** (المتطلبات الحرارية) و**RPS 2011** لصمود الرفعات في المنطقة الزلزالية **{{ZONE_SISMIQUE}}**.",
+        "en": "**Limits of supply**:\n- *Included*: screed-to-falls, vapour barrier, insulation, waterproofing, upstands, protection, rainwater outlets and accessories, flood test;\n- *Excluded*: the structural concrete substrate (slab — LOT_02), concrete kerbs and parapets (LOT_02), façade rainwater downpipes (LOT_14), pitched tile/steel-deck roofs (LOT_06).\n\nThe contractor shall jointly accept the **concrete substrate** (cleanliness, cohesion, dryness, flatness, absence of fins, cast parapet upstands) before any application. No system shall be installed on a damp or unaccepted substrate.\n\n**Reference documents**: **DTU 43.1** (waterproofing of flat roofs with masonry load-bearing elements), **DTU 43.3** (corrugated steel-deck roofs), **DTU 43.5** (refurbishment), **NM 10.5.001** (SBS bitumen membranes), **NM EN 13707** (reinforced bituminous sheets), insulation standards **NM EN 13164** (XPS) / **NM EN 13163** (EPS), **RTCM decree no. 2-13-874** (thermal requirements) and **RPS 2011** for upstand performance in seismic zone **{{ZONE_SISMIQUE}}**."
+      }
+    },
+    {
+      "numero": "4.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Provenance, origine et spécifications des matériaux",
+        "ar": "مصدر ومنشأ ومواصفات المواد",
+        "en": "Source, origin and specifications of materials"
+      },
+      "corpsMD": {
+        "fr": "**Membranes d'étanchéité** : feuilles bitume élastomère **SBS** armées polyester non-tissé ≥ **180 g/m²**, conformes **NM 10.5.001** et **NM EN 13707**, marquage **CE** :\n- 1ère couche : feuille de **3 mm** soudée en adhérence ou semi-indépendance ;\n- 2ème couche : feuille de **4 mm** soudée, autoprotégée par paillettes d'ardoise pour terrasses inaccessibles autoprotégées.\nSouplesse à froid ≤ **-20 °C**, résistance au pelage et au poinçonnement conformes à la classe FIT.\n\n**Pare-vapeur** : feuille bitumineuse à armature aluminium (type 1 ou 2 DTU 43.1) ou film polyéthylène selon l'étude thermique, posé sur **EIF**.\n\n**Isolation thermique** : panneaux **XPS (NM EN 13164)** ou **EPS (NM EN 13163)**, résistance thermique **R** déterminée par l'étude RTCM (décret n° 2-13-874) selon la zone climatique ; résistance en compression ≥ **300 kPa** sous protection lourde / dalles.\n\n**Provenance** : produits d'usines agréées (membranes : usine marocaine ou import sous DoP), accompagnés de fiches techniques, **DoP** et certificats CE par lot.",
+        "ar": "**أغشية العزل المائي**: صفائح بيتومين مطاطي **SBS** مسلّحة بالبوليستر غير المنسوج ≥ **180 غ/م²**، مطابقة لـ **NM 10.5.001** و **NM EN 13707**، بعلامة **CE**:\n- الطبقة الأولى: صفيحة **3 مم** ملحومة بالالتصاق أو شبه الاستقلالية؛\n- الطبقة الثانية: صفيحة **4 مم** ملحومة، ذاتية الحماية برقائق الأردواز للأسطح غير القابلة للولوج.\nالمرونة على البارد ≤ **-20 °م**، مقاومة التقشير والثقب مطابقتان لفئة FIT.\n\n**حاجز البخار**: صفيحة بيتومية بتسليح ألمنيوم (نوع 1 أو 2 DTU 43.1) أو غشاء بولي إيثيلين حسب الدراسة الحرارية، مركّب على **EIF**.\n\n**العزل الحراري**: ألواح **XPS (NM EN 13164)** أو **EPS (NM EN 13163)**، المقاومة الحرارية **R** محدّدة بدراسة RTCM (المرسوم رقم 2-13-874) حسب المنطقة المناخية؛ مقاومة الانضغاط ≥ **300 كيلوباسكال** تحت الحماية الثقيلة / البلاطات.\n\n**المصدر**: منتجات مصانع معتمدة (الأغشية: مصنع مغربي أو مستورد بتصريح أداء DoP)، مرفقة بالبطاقات التقنية و**DoP** وشهادات CE حسب الدفعة.",
+        "en": "**Waterproofing membranes**: **SBS** elastomeric bitumen sheets reinforced with non-woven polyester ≥ **180 g/m²**, compliant with **NM 10.5.001** and **NM EN 13707**, **CE** marked:\n- 1st layer: **3 mm** sheet torch-bonded in adhesion or semi-independent;\n- 2nd layer: **4 mm** sheet torch-bonded, self-protected with slate flakes for non-accessible self-protected terraces.\nCold flexibility ≤ **-20 °C**, peel and puncture resistance to FIT class.\n\n**Vapour barrier**: bituminous sheet with aluminium reinforcement (type 1 or 2 DTU 43.1) or polyethylene film per the thermal study, laid on **EIF** primer.\n\n**Thermal insulation**: **XPS (NM EN 13164)** or **EPS (NM EN 13163)** boards, thermal resistance **R** determined by the RTCM study (decree no. 2-13-874) per climatic zone; compressive resistance ≥ **300 kPa** under heavy protection / slabs.\n\n**Source**: products from approved plants (membranes: Moroccan plant or import under DoP), supplied with technical sheets, **DoPs** and CE certificates per batch."
+      }
+    },
+    {
+      "numero": "4.4",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Protection, accessoires, échantillons et agréments",
+        "ar": "الحماية، الملحقات، العيّنات والاعتمادات",
+        "en": "Protection, accessories, samples and approvals"
+      },
+      "corpsMD": {
+        "fr": "**Protection** :\n- *Protection lourde meuble* : gravillons roulés lavés 15/25 sur lit de **5 cm**, interposition d'un écran de désolidarisation (non-tissé géotextile ≥ 170 g/m²) ;\n- *Dalles sur plots* : dalles béton ou grès cérame sur plots réglables PVC, pour terrasses accessibles / techniques ;\n- *Autoprotégée* : 2ème couche à paillettes d'ardoise pour terrasses inaccessibles.\n\n**Accessoires** : entrées d'eaux pluviales (EP) à platine soudable + crapaudine (1 EP / **150 m²** max et toujours au point bas), trop-pleins en acrotère, bandes solins, profilés porte-solin, manchons d'émergence, joints de dilatation à soufflet.\n\n**Échantillons et agréments** : avant exécution, l'entreprise soumettra au Maître d'Œuvre : fiches techniques et **DoP** de toutes les feuilles et isolants, note de calcul thermique RTCM, **calepinage des relevés et EP**, échantillons de membranes et de protection, planning d'intervention. Aucune mise en œuvre ne débute sans accord écrit du Maître d'Œuvre.",
+        "ar": "**الحماية**:\n- *الحماية الثقيلة السائبة*: حصى مدوّر مغسول 15/25 على فراش **5 سم**، مع وضع شاشة فصل (غير منسوج جيوتكستيل ≥ 170 غ/م²)؛\n- *البلاطات على الدعامات*: بلاطات خرسانية أو خزفية على دعامات PVC قابلة للضبط، للأسطح القابلة للولوج / التقنية؛\n- *ذاتية الحماية*: الطبقة الثانية برقائق الأردواز للأسطح غير القابلة للولوج.\n\n**الملحقات**: مداخل المياه المطرية بصفيحة قابلة للحام + مصفاة (مدخل واحد / **150 م²** كحد أقصى ودائمًا في النقطة المنخفضة)، فائض في الإفريز، أشرطة الإحكام، مقاطع حامل الإحكام، أكمام البروزات، فواصل التمدد ذات المنفاخ.\n\n**العيّنات والاعتمادات**: قبل التنفيذ، تقدّم المقاولة للمهندس المشرف: البطاقات التقنية و**DoP** لكل الصفائح والعوازل، مذكرة الحساب الحراري RTCM، **مخطط الرفعات ومداخل المياه**، عيّنات الأغشية والحماية، برنامج التدخل. لا ينطلق أي تنفيذ دون موافقة كتابية من المهندس المشرف.",
+        "en": "**Protection**:\n- *Loose heavy protection*: washed rounded gravel 15/25 on a **5 cm** bed, with a separation layer (geotextile non-woven ≥ 170 g/m²);\n- *Slabs on pedestals*: concrete or porcelain stoneware slabs on adjustable PVC pedestals, for accessible / technical terraces;\n- *Self-protected*: slate-flaked 2nd layer for non-accessible terraces.\n\n**Accessories**: rainwater outlets with weldable flange + leaf guard (1 outlet / **150 m²** max, always at the low point), parapet overflows, flashing strips, flashing-retainer profiles, penetration sleeves, bellows expansion joints.\n\n**Samples and approvals**: before execution the contractor shall submit to the Engineer: technical sheets and **DoPs** of all sheets and insulants, RTCM thermal calculation note, **upstand and outlet setting-out**, membrane and protection samples, work programme. No installation shall begin without the Engineer's written approval."
+      }
+    },
+    {
+      "numero": "4.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Mise en œuvre — forme de pente, pare-vapeur, isolation et étanchéité",
+        "ar": "التنفيذ — شكل الانحدار، حاجز البخار، العزل والعزل المائي",
+        "en": "Installation — falls, vapour barrier, insulation and waterproofing"
+      },
+      "corpsMD": {
+        "fr": "**Forme de pente** : pente minimale réglementaire de **1,5 %** pour terrasses inaccessibles et **1 %** sur protection dure / dalles (DTU 43.1), réalisée en béton léger ou mortier dressé à la règle, dirigée vers les EP, sans contre-pente ni flaches.\n\n**Pare-vapeur** : application de l'**EIF** puis pose du pare-vapeur soudé/collé, continu, avec remontées en relevés ; indispensable sur locaux à forte hygrométrie.\n\n**Isolation** : panneaux posés à joints serrés et décalés (croisement des joints), collés ou fixés selon support, sans pont thermique ; épaisseur conforme à la note RTCM.\n\n**Étanchéité bicouche SBS** :\n- soudage au chalumeau (ou EAC) des deux couches, recouvrements **≥ 6 cm** en bord et **≥ 10 cm** en about, joints décalés ;\n- contrôle du fluage de bitume en bourrelet continu aux joints (témoin de bonne soudure) ;\n- **relevés** sur acrotères et émergences : hauteur **≥ 15 cm** au-dessus de la protection (≥ 10 cm sur étanchéité, DTU 43.1), équerre de renfort, becquet ou engravure + bande solin, mastic en partie haute.\n\n**Protection** posée selon article 4.4 après réception de l'étanchéité et essai de mise en eau (article 4.6).\n\n**HSE & déchets** : zone de travail balisée, protection incendie permanente lors du soudage au chalumeau (extincteurs, surveillance post-travaux), tri et évacuation des chutes de membranes et d'isolants vers filière agréée, bordereaux de suivi conformément à la **loi 28-00**.",
+        "ar": "**شكل الانحدار**: انحدار أدنى نظامي **1,5 %** للأسطح غير القابلة للولوج و**1 %** على الحماية الصلبة / البلاطات (DTU 43.1)، مُنجز بخرسانة خفيفة أو ملاط مسوّى بالمسطرة، موجَّه نحو مداخل المياه، دون انحدار عكسي أو تجمّعات.\n\n**حاجز البخار**: تطبيق **EIF** ثم تركيب حاجز البخار ملحومًا/ملصقًا، مستمرًا، مع امتدادات في الرفعات؛ ضروري للمحلات ذات الرطوبة العالية.\n\n**العزل**: ألواح مركّبة بفواصل محكمة ومتباعدة (تقاطع الفواصل)، ملصقة أو مثبتة حسب الدعامة، دون جسر حراري؛ السمك مطابق لمذكرة RTCM.\n\n**العزل المائي ثنائي الطبقة SBS**:\n- لحام الطبقتين بالشعلة (أو EAC)، تراكبات **≥ 6 سم** على الحافة و**≥ 10 سم** في النهاية، فواصل متباعدة؛\n- مراقبة سيلان البيتومين على شكل حدبة مستمرة عند الفواصل (دليل اللحام الجيد)؛\n- **الرفعات** على الأفاريز والبروزات: ارتفاع **≥ 15 سم** فوق الحماية (≥ 10 سم على العزل المائي، DTU 43.1)، زاوية تقوية، حافة أو حزّ + شريط إحكام، معجون في الجزء العلوي.\n\nتُركّب **الحماية** وفق المادة 4.4 بعد تسلّم العزل المائي واختبار الملء بالماء (المادة 4.6).\n\n**السلامة والصحة والبيئة والنفايات**: منطقة عمل مؤطَّرة، حماية دائمة من الحريق أثناء اللحام بالشعلة (طفايات، مراقبة بعد الأشغال)، فرز وإجلاء فضلات الأغشية والعوازل نحو قطاع معتمد، مع وصولات التتبع وفق **القانون 28-00**.",
+        "en": "**Screed-to-falls**: minimum regulatory slope of **1.5 %** for non-accessible terraces and **1 %** under hard protection / slabs (DTU 43.1), formed in lightweight concrete or screeded mortar, directed to the outlets, with no back-fall or ponding.\n\n**Vapour barrier**: apply the **EIF** primer then lay the vapour barrier torch-bonded/glued, continuous, with returns at upstands; essential over high-humidity rooms.\n\n**Insulation**: boards laid tight-jointed and staggered (crossed joints), bonded or fixed per substrate, with no thermal bridge; thickness per the RTCM note.\n\n**Two-layer SBS waterproofing**:\n- torch-welding (or hot bitumen) of both layers, laps **≥ 6 cm** at sides and **≥ 10 cm** at ends, staggered joints;\n- check the continuous bead of bitumen flow at joints (evidence of sound welding);\n- **upstands** at parapets and penetrations: height **≥ 15 cm** above protection (≥ 10 cm above waterproofing, DTU 43.1), reinforcing angle, drip or chase + flashing strip, sealant at the top.\n\n**Protection** installed per article 4.4 after acceptance of the waterproofing and the flood test (article 4.6).\n\n**HSE & waste**: cordoned work zone, permanent fire protection during torch welding (extinguishers, post-work fire watch), sorting and removal of membrane and insulation offcuts to an approved stream, tracking slips in accordance with **Law 28-00**."
+      }
+    },
+    {
+      "numero": "4.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Essai de mise en eau, contrôles et tolérances de réception",
+        "ar": "اختبار الملء بالماء، المراقبة وهوامش التسلّم",
+        "en": "Water-flood test, inspections and acceptance tolerances"
+      },
+      "corpsMD": {
+        "fr": "**Essai de mise en eau (obligatoire)** : avant pose de la protection, mise en eau de la toiture-terrasse par obturation des EP et remplissage jusqu'à **environ 5 cm** (sans dépasser la hauteur des relevés), maintien pendant **24 à 48 heures**. Inspection des sous-faces et locaux situés en dessous : **aucune fuite, suintement ni infiltration** n'est toléré. Tout défaut entraîne reprise complète de la zone et nouvel essai aux frais de l'entreprise. Procès-verbal contradictoire signé Maître d'Œuvre + entreprise.\n\n**Contrôles complémentaires** : contrôle visuel et au crochet des soudures (continuité, bourrelet), mesure des recouvrements, vérification des hauteurs de relevés et de la bonne fixation des bandes solins, contrôle des EP et trop-pleins (écoulement, crapaudines).\n\n**Tolérances de réception** :\n- pente effective ≥ pente nominale (jamais de contre-pente) ;\n- absence totale de flaches résiduelles > 5 mm après ressuyage ;\n- recouvrements ≥ valeurs DTU 43.1 ;\n- relevés ≥ 15 cm / protection.\n\nTout écart entraîne reprise aux frais exclusifs de l'entreprise après avis du Maître d'Œuvre.",
+        "ar": "**اختبار الملء بالماء (إلزامي)**: قبل تركيب الحماية، يُملأ السطح-التراس بالماء عبر سدّ مداخل المياه والتعبئة حتى **حوالي 5 سم** (دون تجاوز ارتفاع الرفعات)، والاحتفاظ به لمدة **24 إلى 48 ساعة**. يُفحص الجزء السفلي والمحلات الواقعة تحته: **لا يُسمح بأي تسرّب أو رشح أو نفاذ**. كل عيب يستوجب إعادة كاملة للمنطقة واختبارًا جديدًا على نفقة المقاولة. محضر حضوري موقّع من المهندس المشرف + المقاولة.\n\n**مراقبات إضافية**: مراقبة بصرية وبالخطّاف للحامات (الاستمرارية، الحدبة)، قياس التراكبات، التحقق من ارتفاعات الرفعات وحسن تثبيت أشرطة الإحكام، مراقبة مداخل المياه والفائض (التصريف، المصافي).\n\n**هوامش التسلّم**:\n- الانحدار الفعلي ≥ الانحدار الاسمي (لا انحدار عكسي مطلقًا)؛\n- غياب تام للتجمّعات المتبقية > 5 مم بعد النشّاف؛\n- التراكبات ≥ قيم DTU 43.1؛\n- الرفعات ≥ 15 سم / الحماية.\n\nكل انحراف يستوجب الإعادة على نفقة المقاولة الحصرية بعد رأي المهندس المشرف.",
+        "en": "**Water-flood test (mandatory)**: before laying the protection, flood the flat roof by plugging the outlets and filling to **about 5 cm** (without exceeding the upstand height), held for **24 to 48 hours**. Inspect the soffits and rooms below: **no leak, weeping or infiltration** is tolerated. Any defect requires complete rework of the area and a new test at the contractor's cost. Joint report signed by the Engineer + contractor.\n\n**Additional inspections**: visual and hook inspection of welds (continuity, bead), measurement of laps, verification of upstand heights and proper fixing of flashing strips, check of outlets and overflows (flow, leaf guards).\n\n**Acceptance tolerances**:\n- effective slope ≥ nominal slope (never a back-fall);\n- complete absence of residual ponding > 5 mm after run-off;\n- laps ≥ DTU 43.1 values;\n- upstands ≥ 15 cm / protection.\n\nAny deviation entails rework at the contractor's sole cost after the Engineer's opinion."
+      }
+    },
+    {
+      "numero": "4.7",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Garanties (DOC art. 769 / 770)",
+        "ar": "الضمانات (ظهير الالتزامات والعقود المادتان 769 / 770)",
+        "en": "Warranties (Code of Obligations art. 769 / 770)"
+      },
+      "corpsMD": {
+        "fr": "Conformément aux **articles 769 et 770 du Dahir formant Code des Obligations et Contrats (DOC)**, l'entreprise est tenue :\n\n- **Garantie de parfait achèvement — 1 an** à compter de la réception provisoire : reprise de tous désordres signalés (infiltrations, décollements, fissures de relevés, stagnations d'eau) ;\n- **Garantie biennale — 2 ans** sur les éléments d'équipement dissociables (crapaudines, dispositifs de relevés démontables) ;\n- **Garantie décennale — 10 ans** sur l'étanchéité, l'imperméabilité du complexe garantissant le clos et le couvert de l'ouvrage.\n\nL'entreprise fournira en outre, lorsqu'il est exigé, un **engagement de garantie spécifique du système d'étanchéité** (10 ans) couvrant la fourniture et la pose. Elle présentera, **avant tout démarrage**, son **attestation d'assurance décennale** souscrite auprès d'une compagnie agréée **ACAPS**, montant ≥ **{{MONTANT_TRAVAUX_LOT}} MAD**, sous peine de résiliation à ses torts exclusifs. Le procès-verbal d'essai de mise en eau et les plans de récolement (DOE) seront remis à la réception.",
+        "ar": "وفقًا **للمادتين 769 و 770 من الظهير المكوّن لقانون الالتزامات والعقود (DOC)**، تكون المقاولة ملزمة بـ:\n\n- **ضمان الإنجاز التام — سنة واحدة** ابتداءً من التسلّم المؤقت: إصلاح كل خلل مُبلّغ عنه (النفاذات، الانفصالات، تشققات الرفعات، ركود الماء)؛\n- **الضمان الثنائي — سنتان** على عناصر التجهيز المنفصلة (المصافي، أجهزة الرفعات القابلة للفك)؛\n- **الضمان العشري — عشر سنوات** على العزل المائي وعدم نفاذ المركّب الضامن لإغلاق وتسقيف البناء.\n\nتقدّم المقاولة كذلك، عند الاقتضاء، **التزام ضمان خاص بنظام العزل المائي** (10 سنوات) يغطي التوريد والتركيب. وتقدّم، **قبل أي انطلاق**، **شهادة التأمين العشري** المبرمة لدى شركة معتمدة من **ACAPS**، بمبلغ ≥ **{{MONTANT_TRAVAUX_LOT}} درهم**، تحت طائلة الفسخ على مسؤوليتها الحصرية. يُسلّم محضر اختبار الملء بالماء وتصاميم الإنجاز الفعلي (DOE) عند التسلّم.",
+        "en": "In accordance with **articles 769 and 770 of the Dahir forming the Code of Obligations and Contracts (DOC)**, the contractor is bound by:\n\n- **Defects-liability warranty — 1 year** from provisional acceptance: rectification of all reported defects (infiltrations, debonding, upstand cracking, water ponding);\n- **Two-year warranty — 2 years** on dissociable equipment elements (leaf guards, removable upstand devices);\n- **Ten-year (decennial) warranty — 10 years** on the waterproofing and watertightness of the system guaranteeing the weather-tight envelope of the works.\n\nThe contractor shall also provide, where required, a **specific waterproofing-system warranty undertaking** (10 years) covering supply and installation. It shall submit, before any start, its **decennial insurance certificate** from an **ACAPS**-approved company, amount ≥ **{{MONTANT_TRAVAUX_LOT}} MAD**, failing which the contract may be terminated at its sole fault. The flood-test report and as-built drawings (DOE) shall be handed over at acceptance."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "4.01",
+      "designation": {
+        "fr": "Forme de pente en béton léger ou mortier, pente min 1,5 %, dressée et talochée",
+        "ar": "شكل انحدار من خرسانة خفيفة أو ملاط، انحدار أدنى 1,5 %، مسوّى ومملّس",
+        "en": "Screed-to-falls in lightweight concrete or mortar, min 1.5 % slope, levelled and floated"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au mètre carré de surface de toiture-terrasse traitée, mesuré en projection horizontale, sans déduction des émergences < 0,5 m².",
+        "ar": "بالمتر المربع من مساحة السطح-التراس المعالَجة، مقيسًا بالإسقاط الأفقي، دون خصم البروزات < 0,5 م².",
+        "en": "Per square metre of treated flat-roof area, measured in horizontal projection, without deduction of penetrations < 0.5 m²."
+      }
+    },
+    {
+      "code": "4.02",
+      "designation": {
+        "fr": "Pare-vapeur sur enduit d'imprégnation à froid (EIF), posé continu y compris remontées",
+        "ar": "حاجز البخار على طلاء التشريب على البارد (EIF)، مركّب مستمرًا شاملة الامتدادات",
+        "en": "Vapour barrier on cold bituminous primer (EIF), laid continuous including returns"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au mètre carré de surface horizontale couverte, recouvrements et remontées non déduits ni comptés en supplément.",
+        "ar": "بالمتر المربع من السطح الأفقي المغطّى، التراكبات والامتدادات لا تُخصم ولا تُحتسب إضافة.",
+        "en": "Per square metre of horizontal covered area, laps and returns neither deducted nor counted as extra."
+      }
+    },
+    {
+      "code": "4.03",
+      "designation": {
+        "fr": "Isolation thermique en panneaux XPS/EPS, épaisseur selon note RTCM, posée à joints décalés",
+        "ar": "عزل حراري بألواح XPS/EPS، السمك حسب مذكرة RTCM، مركّب بفواصل متباعدة",
+        "en": "Thermal insulation in XPS/EPS boards, thickness per RTCM note, laid staggered-jointed"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au mètre carré de surface isolée mesurée en projection horizontale, découpes et chutes incluses dans le prix.",
+        "ar": "بالمتر المربع من السطح المعزول مقيسًا بالإسقاط الأفقي، القصّات والفضلات مدرجة في الثمن.",
+        "en": "Per square metre of insulated area in horizontal projection, cuts and offcuts included in the price."
+      }
+    },
+    {
+      "code": "4.04",
+      "designation": {
+        "fr": "Étanchéité bicouche bitume SBS (3 mm + 4 mm) soudée, y compris recouvrements",
+        "ar": "عزل مائي ثنائي الطبقة من بيتومين SBS (3 مم + 4 مم) ملحوم، شاملة التراكبات",
+        "en": "Two-layer SBS bitumen waterproofing (3 mm + 4 mm) torch-bonded, including laps"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au mètre carré de surface étanchée mesurée en projection horizontale, recouvrements compris sans plus-value.",
+        "ar": "بالمتر المربع من السطح المعزول مقيسًا بالإسقاط الأفقي، التراكبات مدرجة دون زيادة.",
+        "en": "Per square metre of waterproofed area in horizontal projection, laps included with no extra."
+      }
+    },
+    {
+      "code": "4.05",
+      "designation": {
+        "fr": "Relevés d'étanchéité sur acrotères et émergences, h ≥ 15 cm, équerre de renfort + bande solin",
+        "ar": "رفعات العزل المائي على الأفاريز والبروزات، الارتفاع ≥ 15 سم، زاوية تقوية + شريط إحكام",
+        "en": "Waterproofing upstands at parapets and penetrations, h ≥ 15 cm, reinforcing angle + flashing strip"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de relevé exécuté, mesuré au développé en pied de relevé, becquet/engravure compris.",
+        "ar": "بالمتر الطولي للرفعة المُنفّذة، مقيسًا بالمطوَّر عند أسفل الرفعة، الحافة/الحزّ مدرجان.",
+        "en": "Per linear metre of upstand executed, measured along the base of the upstand, drip/chase included."
+      }
+    },
+    {
+      "code": "4.06",
+      "designation": {
+        "fr": "Protection lourde par gravillons roulés lavés 15/25 sur écran géotextile",
+        "ar": "حماية ثقيلة بحصى مدوّر مغسول 15/25 على شاشة جيوتكستيل",
+        "en": "Heavy protection by washed rounded gravel 15/25 on geotextile separation layer"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au mètre carré de surface protégée, lit de gravillons et géotextile compris.",
+        "ar": "بالمتر المربع من السطح المحمي، فراش الحصى والجيوتكستيل مدرجان.",
+        "en": "Per square metre of protected area, gravel bed and geotextile included."
+      }
+    },
+    {
+      "code": "4.07",
+      "designation": {
+        "fr": "Protection par dalles sur plots réglables PVC pour terrasse accessible/technique",
+        "ar": "حماية ببلاطات على دعامات PVC قابلة للضبط لتراس قابل للولوج/تقني",
+        "en": "Protection by slabs on adjustable PVC pedestals for accessible/technical terrace"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au mètre carré de surface dallée posée, plots et dalles compris, réglage de niveau inclus.",
+        "ar": "بالمتر المربع من السطح المبلّط المركّب، الدعامات والبلاطات مدرجة، شاملة ضبط المستوى.",
+        "en": "Per square metre of slabbed area installed, pedestals and slabs included, levelling included."
+      }
+    },
+    {
+      "code": "4.08",
+      "designation": {
+        "fr": "Entrée d'eaux pluviales (EP) à platine soudable avec crapaudine, raccordée à l'étanchéité",
+        "ar": "مدخل مياه مطرية بصفيحة قابلة للحام مع مصفاة، موصول بالعزل المائي",
+        "en": "Rainwater outlet with weldable flange and leaf guard, connected to the waterproofing"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité d'entrée d'eaux pluviales posée et raccordée, platine, crapaudine et renforts d'étanchéité compris.",
+        "ar": "بالوحدة من مدخل المياه المطرية المركّب والموصول، شاملة الصفيحة والمصفاة وتقويات العزل المائي.",
+        "en": "Per unit of rainwater outlet installed and connected, flange, leaf guard and waterproofing reinforcements included."
+      }
+    },
+    {
+      "code": "4.09",
+      "designation": {
+        "fr": "Essai de mise en eau de la toiture-terrasse 24-48 h avec procès-verbal contradictoire",
+        "ar": "اختبار ملء السطح-التراس بالماء 24-48 ساعة مع محضر حضوري",
+        "en": "Water-flood test of the flat roof 24-48 h with joint report"
+      },
+      "unite": "ff",
+      "modeMetreMD": {
+        "fr": "Au forfait par toiture-terrasse, comprenant obturation des EP, mise en eau, surveillance, vidange et établissement du PV.",
+        "ar": "بالجزاف لكل سطح-تراس، شاملًا سدّ مداخل المياه، الملء، المراقبة، التفريغ وتحرير المحضر.",
+        "en": "Lump sum per flat roof, including outlet plugging, flooding, monitoring, draining and report issuance."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_02_GO_BETON",
+      "type": "RECEPTION_SUPPORT",
+      "description": {
+        "fr": "Réception contradictoire du support béton (siccité, planéité, cohésion) et des acrotères/costières coulés avant application de l'étanchéité.",
+        "ar": "التسلّم الحضوري للدعامة الخرسانية (الجفاف، الاستواء، التماسك) والأفاريز/الحواف المصبوبة قبل تطبيق العزل المائي.",
+        "en": "Joint acceptance of the concrete substrate (dryness, flatness, cohesion) and cast parapets/kerbs before waterproofing application."
+      }
+    },
+    {
+      "lotCible": "LOT_05_CHARPENTE",
+      "type": "SUPPORT_BAC_ACIER",
+      "description": {
+        "fr": "Coordination avec la charpente métallique pour l'étanchéité sur support tôle d'acier nervurée (DTU 43.3) : pentes et fixations remises conformes.",
+        "ar": "التنسيق مع الهيكل المعدني للعزل المائي على دعامة صفيحة فولاذية مضلّعة (DTU 43.3): الانحدارات والتثبيتات المسلّمة مطابقة.",
+        "en": "Coordination with the steel framing for waterproofing on corrugated steel-deck substrate (DTU 43.3): falls and fixings handed over compliant."
+      }
+    },
+    {
+      "lotCible": "LOT_14_PLOMBERIE_SANITAIRE",
+      "type": "EVACUATION_EP",
+      "description": {
+        "fr": "Raccordement des entrées d'eaux pluviales et trop-pleins aux descentes EP du lot plomberie ; étanchéité des traversées.",
+        "ar": "ربط مداخل المياه المطرية والفائض بأنابيب التصريف لقسط السباكة؛ إحكام العبورات.",
+        "en": "Connection of rainwater outlets and overflows to the plumbing-lot downpipes; watertightness of penetrations."
+      }
+    },
+    {
+      "lotCible": "LOT_15_ELECTRICITE",
+      "type": "RESERVATIONS",
+      "description": {
+        "fr": "Coordination de l'étanchéité des socles et traversées des équipements techniques en terrasse (climatisation, paratonnerre, panneaux solaires).",
+        "ar": "تنسيق إحكام قواعد وعبورات التجهيزات التقنية في التراس (التكييف، مانعة الصواعق، الألواح الشمسية).",
+        "en": "Coordination of waterproofing of bases and penetrations of technical equipment on the terrace (HVAC, lightning rod, solar panels)."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "auteur": "Équipe ingénierie CITURBAREA + BET partenaire NOVEC",
+    "sources": [
+      "DTU 43.1 (étanchéité des toitures-terrasses — éléments porteurs en maçonnerie)",
+      "DTU 43.3 (toitures avec éléments porteurs en tôles d'acier nervurées)",
+      "DTU 43.5 (réfection des ouvrages d'étanchéité)",
+      "NM 10.5.001 (membranes d'étanchéité bitume modifié SBS) — IMANOR",
+      "NM EN 13707 (feuilles bitumineuses armées pour étanchéité de toiture) — IMANOR",
+      "NM EN 13164 (XPS) / NM EN 13163 (EPS) — IMANOR",
+      "RTCM — décret n° 2-13-874 (Règlement Thermique de Construction au Maroc)",
+      "RPS 2011 (tenue sismique des relevés et ouvrages)",
+      "DOC art. 769, 770 ; Loi 28-00 (gestion des déchets)"
+    ]
+  }
+}

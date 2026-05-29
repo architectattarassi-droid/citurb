@@ -9,6 +9,7 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useT } from "../../i18n/i18n";
 import {
   Commande,
   CommandeStatus,
@@ -22,12 +23,12 @@ import ReceptionLivraisonModal from "./ReceptionLivraisonModal";
 
 type TabKey = "PENDING" | "CONFIRMED" | "WEEK" | "RECEIVED" | "ANOMALIES";
 
-const TABS: Array<{ key: TabKey; label: string }> = [
-  { key: "PENDING", label: "En attente" },
-  { key: "CONFIRMED", label: "Confirmées" },
-  { key: "WEEK", label: "Cette semaine" },
-  { key: "RECEIVED", label: "Reçues" },
-  { key: "ANOMALIES", label: "Anomalies" },
+const TABS: Array<{ key: TabKey; labelKey: string }> = [
+  { key: "PENDING", labelKey: "liv.tab.pending" },
+  { key: "CONFIRMED", labelKey: "liv.tab.confirmed" },
+  { key: "WEEK", labelKey: "liv.tab.week" },
+  { key: "RECEIVED", labelKey: "liv.tab.received" },
+  { key: "ANOMALIES", labelKey: "liv.tab.anomalies" },
 ];
 
 const S = {
@@ -105,6 +106,7 @@ const S = {
 
 export default function LivraisonsPage() {
   const { dossierId } = useParams<{ dossierId: string }>();
+  const t = useT();
   const [tab, setTab] = useState<TabKey>("PENDING");
   const [items, setItems] = useState<Commande[]>([]);
   const [loading, setLoading] = useState(true);
@@ -242,7 +244,7 @@ export default function LivraisonsPage() {
     <div style={S.wrap}>
       <div style={S.header}>
         <div>
-          <h1 style={S.title}>Livraisons matériaux</h1>
+          <h1 style={S.title}>{t("liv.title")}</h1>
           <p style={S.sub}>Dossier {dossierId}</p>
         </div>
         <button
@@ -253,20 +255,20 @@ export default function LivraisonsPage() {
             minHeight: 40,
           }}
         >
-          {refreshing ? "Rafraîchissement…" : "Rafraîchir"}
+          {refreshing ? `${t("liv.refresh")}…` : t("liv.refresh")}
         </button>
       </div>
 
       <div style={S.tabs} role="tablist">
-        {TABS.map((t) => (
+        {TABS.map((tb) => (
           <button
-            key={t.key}
-            style={{ ...S.tab, ...(tab === t.key ? S.tabActive : {}) }}
-            onClick={() => setTab(t.key)}
+            key={tb.key}
+            style={{ ...S.tab, ...(tab === tb.key ? S.tabActive : {}) }}
+            onClick={() => setTab(tb.key)}
             role="tab"
-            aria-selected={tab === t.key}
+            aria-selected={tab === tb.key}
           >
-            {t.label}
+            {t(tb.labelKey)}
           </button>
         ))}
       </div>
@@ -283,7 +285,7 @@ export default function LivraisonsPage() {
 
       {!loading && filtered.length === 0 && (
         <div style={S.empty}>
-          Aucune commande dans cet onglet.
+          {t("liv.empty")}
         </div>
       )}
 
@@ -300,8 +302,8 @@ export default function LivraisonsPage() {
         />
       ))}
 
-      <button style={S.fab} onClick={() => setShowForm(true)} aria-label="Nouvelle commande">
-        + Nouvelle commande
+      <button style={S.fab} onClick={() => setShowForm(true)} aria-label={t("liv.new_command")}>
+        + {t("liv.new_command")}
       </button>
 
       {showForm && dossierId && (

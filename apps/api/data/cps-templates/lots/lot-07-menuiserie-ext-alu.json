@@ -1,0 +1,320 @@
+{
+  "code": "LOT_07_MENUISERIE_EXT_ALU",
+  "numero": 7,
+  "famille": "CLOS_COUVERT",
+  "intitule": {
+    "fr": "Menuiserie extérieure aluminium — Façades & mur-rideau",
+    "ar": "النجارة الخارجية من الألمنيوم — الواجهات والجدار الستائري",
+    "en": "Exterior aluminium joinery — Façades & curtain wall"
+  },
+  "description": {
+    "fr": "Fourniture et pose de menuiseries extérieures en aluminium à rupture de pont thermique, double vitrage, fenêtres, portes-fenêtres, châssis, façades légères et mur-rideau, avec classement AEV et performance thermique Uw conforme RTCM, selon DTU 36.5 et NM EN 14351-1.",
+    "ar": "توريد وتركيب النجارة الخارجية من الألمنيوم ذات القطع الحراري، الزجاج المزدوج، النوافذ، الأبواب النافذة، الإطارات، الواجهات الخفيفة والجدار الستائري، مع تصنيف AEV وأداء حراري Uw مطابق لـ RTCM، طبقاً لـ DTU 36.5 وNM EN 14351-1.",
+    "en": "Supply and installation of thermally-broken exterior aluminium joinery, double glazing, windows, French doors, frames, light façades and curtain wall, with AEV classification and Uw thermal performance compliant with RTCM, per DTU 36.5 and NM EN 14351-1."
+  },
+  "normesRefs": [
+    "DTU_36.5",
+    "NM_EN_14351_1",
+    "NF_EN_12207_AIR",
+    "NF_EN_12208_EAU",
+    "NF_EN_12210_VENT",
+    "NF_EN_1279_VITRAGE_ISOLANT",
+    "NF_EN_ISO_10077_1_Uw",
+    "NF_EN_12600_SECURITE_VITRAGE",
+    "RTCM_DECRET_2_13_874",
+    "RPS_2011"
+  ],
+  "secteurQualifMA": [
+    "QUALIF_6_3_MENUISERIE_ALUMINIUM",
+    "QUALIF_6_4_FACADE_MUR_RIDEAU",
+    "CLASSE_BTP_3_OU_SUPERIEURE"
+  ],
+  "competencesRequises": [
+    "ENTREPRISE_QUALIFIEE_MENUISERIE_ALU",
+    "GAMMISTE_AGREE_SYSTEME",
+    "MIROITIER_VITRIER_CONFIRME",
+    "BET_FACADE_SI_MUR_RIDEAU"
+  ],
+  "articles": [
+    {
+      "numero": "7.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet et limites de prestation",
+        "ar": "الموضوع وحدود الأشغال",
+        "en": "Scope and limits of works"
+      },
+      "corpsMD": {
+        "fr": "Le présent lot a pour objet la fourniture et la pose de l'ensemble des **menuiseries extérieures en aluminium** du projet **{{PROJECT_NAME}}**, sis commune de **{{COMMUNE}}**, zone sismique **{{ZONE_SISMIQUE}}**.\n\n**Sont compris dans la prestation** :\n- Fenêtres, portes-fenêtres, châssis fixes et ouvrants (coulissants, à frappe, oscillo-battants)\n- Ensembles de façade légère et **mur-rideau** (grille, VEC/VEA selon plans)\n- Vitrages isolants (double vitrage) avec intercalaire à bord chaud\n- Quincaillerie, joints, calfeutrements et habillages associés\n- Garde-corps vitrés intégrés le cas échéant\n\n**Limites de prestation (exclusions)** : le gros œuvre des baies (linteaux, appuis, réservations) relève du **LOT_02_GO_BETON** ; les occultations (volets, stores) relèvent d'un lot séparé sauf indication contraire ; l'étanchéité des relevés en pied de mur-rideau est coordonnée avec le lot étanchéité. L'entreprise reconnaît avoir relevé les dimensions réelles des baies sur site avant fabrication."
+      }
+    },
+    {
+      "numero": "7.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Documents de référence et exigences de performance",
+        "ar": "الوثائق المرجعية ومتطلبات الأداء",
+        "en": "Reference documents and performance requirements"
+      },
+      "corpsMD": {
+        "fr": "Les travaux seront exécutés conformément, par ordre de priorité décroissante :\n1. Les plans d'exécution et carnets de détails visés par le Maître d'Œuvre et le BET Façade\n2. **DTU 36.5** « Mise en œuvre des fenêtres et portes extérieures »\n3. **NM EN 14351-1** « Fenêtres et portes — Caractéristiques de performance »\n4. **RTCM** (décret n° 2-13-874) pour la performance thermique\n5. **RPS 2011** pour les fixations et la tenue sismique des ensembles de façade\n\n**Exigences de performance minimales** :\n- **Classement AEV (Air-Eau-Vent)** selon NF EN 12207 / 12208 / 12210, adapté à l'exposition de {{COMMUNE}} (minimum recommandé **A*3 / E*5B / V*A2**, renforcé en site exposé/bord de mer)\n- **Performance thermique** : coefficient **Uw** de la fenêtre conforme au seuil RTCM de la zone climatique du projet (calcul selon **NF EN ISO 10077-1**) ; facteur solaire Sw maîtrisé\n- **Sécurité** : vitrage feuilleté de sécurité (NF EN 12600) en allège, garde-corps et zones de chute"
+      }
+    },
+    {
+      "numero": "7.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Profilés aluminium à rupture de pont thermique et vitrages",
+        "ar": "مقاطع الألمنيوم ذات القطع الحراري والزجاج",
+        "en": "Thermally-broken aluminium profiles and glazing"
+      },
+      "corpsMD": {
+        "fr": "**Profilés aluminium** : alliage 6060 T5 (ou équivalent) conforme **NF EN 12020**, issus d'un **système gammiste agréé** (avis technique en cours de validité). **Rupture de pont thermique** obligatoire par barrettes polyamide armé fibre de verre, largeur adaptée au seuil Uw RTCM.\n\n**Traitement de surface** : laquage poudre polyester **label QUALICOAT** (épaisseur ≥ 60 µm), ou anodisation **label QUALANOD** classe 20 minimum (classe ≥ 20 en bord de mer). Teinte RAL au choix du Maître d'Œuvre.\n\n**Vitrage isolant (double vitrage)** : conforme **NF EN 1279**, composition type **4/16/4** ou supérieure, lame d'argon, **intercalaire à bord chaud (warm-edge)**, face traitée **basse émissivité** ; le coefficient Ug et le facteur solaire g sont choisis pour atteindre le **Uw conforme RTCM**. Vitrage **feuilleté de sécurité** (44.2 minimum) en allège, parties basses et garde-corps.\n\n**Quincaillerie** : marque de système agréée, inox A2 minimum (A4 en bord de mer ≤ 3 km), nombre de points de verrouillage et capacité de charge conformes aux dimensions des ouvrants.\n\n**Joints et calfeutrement** : joints EPDM compatibles, mastics et fonds de joint conformes aux DTU, classés selon **NF EN ISO 11600**."
+      }
+    },
+    {
+      "numero": "7.4",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Cellule témoin, prototype agréé et échantillons",
+        "ar": "النموذج المرجعي والعينة المعتمدة والعينات",
+        "en": "Mock-up cell, approved prototype and samples"
+      },
+      "corpsMD": {
+        "fr": "Avant lancement de la fabrication de série, l'entreprise réalisera et soumettra à l'agrément du Maître d'Œuvre :\n1. Une **cellule témoin (prototype) agréé** représentative d'un type de menuiserie et, pour le mur-rideau, d'un module courant + point singulier (angle, jonction trame)\n2. **Échantillons** de profilés, finition de laquage/anodisation, quincaillerie et intercalaire de vitrage\n3. **Fiches techniques et avis techniques (DTA / ATEC)** du système gammiste\n4. **Procès-verbaux d'essais AEV** (classement Air/Eau/Vent) du système retenu sur banc agréé\n5. **Note de calcul Uw** (NF EN ISO 10077-1) démontrant la conformité RTCM, et note de fixation/résistance au vent validée par le BET Façade\n6. Plans d'atelier, calepinage et carnets de détails de tous les points singuliers\n\n**Aucune fabrication de série ne pourra démarrer avant validation écrite de la cellule témoin** par le Maître d'Œuvre. La cellule agréée sert de référence contractuelle de qualité pour la réception de la série."
+      }
+    },
+    {
+      "numero": "7.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Pose, fixation, calfeutrement et étanchéité",
+        "ar": "التركيب، التثبيت، السد والإحكام",
+        "en": "Installation, fixing, sealing and weatherproofing"
+      },
+      "corpsMD": {
+        "fr": "**Pose** conforme **DTU 36.5** : pose en applique, en tunnel ou en feuillure selon plans ; mise en œuvre d'aplomb, de niveau et hors d'équerre dans les tolérances admises.\n\n**Fixation** : pattes de fixation, équerres et chevilles dimensionnées selon la **note de calcul au vent** et **RPS 2011** ; ancrages dans le gros œuvre béton uniquement (jamais en maçonnerie creuse non chaînée). En mur-rideau, les attaches autorisent la **dilatation différentielle** et reprennent les efforts sismiques sans transmettre les déformations du gros œuvre au vitrage.\n\n**Calfeutrement périphérique** : fond de joint (mousse imprégnée ou cordon) + mastic d'étanchéité élastomère de classe adaptée (NF EN ISO 11600), assurant la **continuité de l'étanchéité air/eau** sur tout le pourtour ; bavette et rejingot pour l'évacuation des eaux d'infiltration vers l'extérieur (principe de la double barrière + drainage).\n\n**Mur-rideau** : drainage et ventilation des feuillures de vitrage (trous de drainage non obturés), pare-vapeur et isolation des allèges conformes RTCM, joints de dilatation respectés.\n\nProtection des menuiseries (film pelable) maintenue jusqu'à la réception ; aucun produit agressif (mortier, projections, acide) ne doit entrer en contact avec l'aluminium laqué."
+      }
+    },
+    {
+      "numero": "7.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Essais, contrôles et tolérances de réception",
+        "ar": "الاختبارات والمراقبة وحدود القبول",
+        "en": "Tests, inspections and acceptance tolerances"
+      },
+      "corpsMD": {
+        "fr": "**Contrôles en cours d'exécution** :\n- Conformité des profilés, vitrages et quincaillerie aux échantillons et à la cellule témoin agréée\n- Vérification de l'aplomb, du niveau et des jeux de fonctionnement des ouvrants\n- Contrôle des fixations et du calfeutrement avant fermeture des habillages\n\n**Essais de réception** :\n- **Essai d'étanchéité à l'eau in situ** par aspersion (méthode type AAMA / arrosage normalisé) sur menuiseries et joints de mur-rideau ; aucune infiltration tolérée\n- Vérification du classement AEV par cohérence avec les PV du système\n- Essai de manœuvre des ouvrants (ouverture/fermeture, verrouillage) sans point dur\n\n**Tolérances de réception** (DTU 36.5) :\n- Aplomb du cadre : ≤ 2 mm/m, max 3 mm sur la hauteur\n- Niveau / horizontalité de la traverse basse : ≤ 2 mm/m\n- Jeu de fonctionnement des ouvrants : conforme aux préconisations du gammiste\n- Planéité du plan de façade (mur-rideau) : ± 3 mm sous règle de 2 m\n\nTout défaut (infiltration, point dur, défaut d'aspect du laquage, écart de teinte) entraîne reprise ou remplacement aux frais exclusifs de l'entreprise."
+      }
+    },
+    {
+      "numero": "7.7",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Garanties, HSE et gestion des déchets",
+        "ar": "الضمانات، الصحة والسلامة وتدبير النفايات",
+        "en": "Warranties, HSE and waste management"
+      },
+      "corpsMD": {
+        "fr": "**Garanties** (conformément aux **articles 769 et 770 du Dahir formant Code des Obligations et Contrats — DOC**) :\n- **Garantie de parfait achèvement** : **1 an** à compter de la réception provisoire\n- **Garantie biennale** (art. 769 bis DOC) : **2 ans** sur la quincaillerie et les éléments d'équipement dissociables\n- **Garantie décennale** : **10 ans** au titre du clos et couvert pour l'étanchéité à l'air et à l'eau des ensembles\n- Garanties fabricant : vitrage isolant (rupture de joint) et finition (laquage/anodisation) selon labels QUALICOAT/QUALANOD\n\nL'entreprise présentera son **attestation d'assurance décennale** auprès d'une compagnie agréée **ACAPS** avant tout démarrage, sous peine de résiliation aux torts exclusifs.\n\n**HSE** : manutention sécurisée des vitrages (ventouses, palonniers), travail en hauteur avec EPI antichute et protection collective, balisage des zones de levage, plan de calepinage des charges sur échafaudage/nacelle.\n\n**Gestion des déchets** : tri sélectif (chutes aluminium recyclables, verre, emballages, joints) ; **valorisation de l'aluminium et du verre** via filières agréées ; évacuation avec bordereaux de suivi ; aucun rejet de mastics ou solvants dans le réseau ou sur site."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "7.01",
+      "designation": {
+        "fr": "Fenêtre aluminium RPT, double vitrage Uw conforme RTCM, ouvrant à frappe",
+        "ar": "نافذة من الألمنيوم بقطع حراري، زجاج مزدوج Uw مطابق لـ RTCM، بفتح مفصلي",
+        "en": "Thermally-broken aluminium window, double glazing Uw per RTCM, side-hung sash"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface tableau (largeur × hauteur de la baie finie), arrondie au dm² supérieur.",
+        "ar": "مساحة الفتحة (العرض × الارتفاع للفتحة المنتهية)، مقرّبة إلى الدسيمتر المربع الأعلى.",
+        "en": "Opening area (finished bay width × height), rounded up to the nearest dm²."
+      }
+    },
+    {
+      "code": "7.02",
+      "designation": {
+        "fr": "Baie coulissante aluminium RPT, double vitrage, 2 à 3 vantaux",
+        "ar": "فتحة منزلقة من الألمنيوم بقطع حراري، زجاج مزدوج، من ضلفتين إلى ثلاث",
+        "en": "Sliding aluminium bay, thermal break, double glazing, 2 to 3 leaves"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface tableau de la baie finie, seuils et habillages compris.",
+        "ar": "مساحة الفتحة المنتهية، مع العتبات والكسوة.",
+        "en": "Finished opening area, including sills and trims."
+      }
+    },
+    {
+      "code": "7.03",
+      "designation": {
+        "fr": "Porte-fenêtre aluminium RPT double vitrage, ouvrant à la française",
+        "ar": "باب نافذة من الألمنيوم بقطع حراري وزجاج مزدوج، بفتح فرنسي",
+        "en": "Thermally-broken aluminium French door, double glazing, hinged"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface tableau, seuil aluminium PMR compris.",
+        "ar": "مساحة الفتحة، مع العتبة من الألمنيوم لذوي الاحتياجات.",
+        "en": "Opening area, including accessibility aluminium threshold."
+      }
+    },
+    {
+      "code": "7.04",
+      "designation": {
+        "fr": "Châssis fixe aluminium RPT, double vitrage",
+        "ar": "إطار ثابت من الألمنيوم بقطع حراري، زجاج مزدوج",
+        "en": "Fixed aluminium frame, thermal break, double glazing"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface tableau du châssis, arrondie au dm² supérieur.",
+        "ar": "مساحة فتحة الإطار، مقرّبة إلى الدسيمتر المربع الأعلى.",
+        "en": "Frame opening area, rounded up to the nearest dm²."
+      }
+    },
+    {
+      "code": "7.05",
+      "designation": {
+        "fr": "Mur-rideau aluminium grille, double vitrage, allèges isolées",
+        "ar": "جدار ستائري من الألمنيوم بشبكة، زجاج مزدوج، صدور معزولة",
+        "en": "Stick-system aluminium curtain wall, double glazing, insulated spandrels"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface développée du plan de façade, mesurée nu extérieur, sans déduction des trames.",
+        "ar": "المساحة المطوّرة لمستوى الواجهة، مقاسة على الوجه الخارجي، دون خصم الشبكات.",
+        "en": "Developed façade-plane area, measured to the external face, no deduction for grids."
+      }
+    },
+    {
+      "code": "7.06",
+      "designation": {
+        "fr": "Cellule témoin / prototype agréé soumis à validation MOE",
+        "ar": "النموذج المرجعي / العينة المعتمدة الخاضعة لمصادقة صاحب المشروع",
+        "en": "Mock-up cell / approved prototype submitted for MOE validation"
+      },
+      "unite": "ens",
+      "modeMetreMD": {
+        "fr": "Forfait à l'ensemble pour réalisation, essais et présentation de la cellule témoin.",
+        "ar": "مبلغ جزافي للمجموعة من أجل إنجاز واختبار وعرض النموذج المرجعي.",
+        "en": "Lump sum per set for fabrication, testing and presentation of the mock-up cell."
+      }
+    },
+    {
+      "code": "7.07",
+      "designation": {
+        "fr": "Quincaillerie complémentaire : oscillo-battant, multipoints, motorisation",
+        "ar": "أدوات تعليق إضافية: فتح مائل-مفصلي، أقفال متعددة النقاط، تحريك آلي",
+        "en": "Additional hardware: tilt-and-turn, multipoint locking, motorisation"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité d'ouvrant équipé, par type de quincaillerie.",
+        "ar": "بالوحدة من الضلفة المجهّزة، حسب نوع الأداة.",
+        "en": "Per equipped sash unit, by hardware type."
+      }
+    },
+    {
+      "code": "7.08",
+      "designation": {
+        "fr": "Calfeutrement périphérique : fond de joint + mastic élastomère",
+        "ar": "سدّ محيطي: قاع وصلة + معجون مرن",
+        "en": "Perimeter sealing: backer rod + elastomeric sealant"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Linéaire de joint exécuté, mesuré sur le pourtour des menuiseries.",
+        "ar": "الطول الخطي للوصلة المنفّذة، مقاس على محيط النجارة.",
+        "en": "Linear metre of executed joint, measured around the joinery perimeter."
+      }
+    },
+    {
+      "code": "7.09",
+      "designation": {
+        "fr": "Garde-corps vitré intégré, vitrage feuilleté de sécurité",
+        "ar": "حاجز زجاجي مدمج، زجاج طبقي للأمان",
+        "en": "Integrated glazed guardrail, laminated safety glass"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Longueur de garde-corps posée, fixations et lisses comprises.",
+        "ar": "طول الحاجز المركّب، مع التثبيتات والعوارض.",
+        "en": "Installed guardrail length, including fixings and rails."
+      }
+    },
+    {
+      "code": "7.10",
+      "designation": {
+        "fr": "Essai d'étanchéité à l'eau in situ par aspersion",
+        "ar": "اختبار الإحكام ضد الماء في الموقع بالرش",
+        "en": "On-site water-tightness test by water spray"
+      },
+      "unite": "ff",
+      "modeMetreMD": {
+        "fr": "Forfait au titre des essais d'étanchéité in situ et de leur procès-verbal.",
+        "ar": "مبلغ جزافي مقابل اختبارات الإحكام في الموقع ومحضرها.",
+        "en": "Lump sum for on-site tightness testing and the associated report."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_02_GO_BETON",
+      "type": "RESERVATIONS",
+      "description": {
+        "fr": "Réservations, linteaux, appuis et tolérances dimensionnelles des baies à respecter par le gros œuvre.",
+        "ar": "الحجوزات، العتبات، المساند والتفاوتات الأبعادية للفتحات الواجب احترامها من قبل البناء الخرساني.",
+        "en": "Reservations, lintels, sills and dimensional tolerances of bays to be respected by the structure."
+      }
+    },
+    {
+      "lotCible": "LOT_05_ETANCHEITE",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Continuité de l'étanchéité en pied de mur-rideau et raccord avec les relevés d'étanchéité.",
+        "ar": "استمرارية العزل عند قاعدة الجدار الستائري والربط مع الرفوعات العازلة.",
+        "en": "Continuity of waterproofing at the curtain-wall base and junction with waterproofing upstands."
+      }
+    },
+    {
+      "lotCible": "LOT_18_FACADE_ITE",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Coordination des épaisseurs d'isolation extérieure et habillages avec le calepinage des menuiseries.",
+        "ar": "تنسيق سماكات العزل الخارجي والكسوة مع تخطيط النجارة.",
+        "en": "Coordination of external insulation thicknesses and cladding with the joinery setting-out."
+      }
+    },
+    {
+      "lotCible": "LOT_15_ELECTRICITE",
+      "type": "RACCORDEMENT",
+      "description": {
+        "fr": "Alimentation des menuiseries motorisées et des occultations électriques le cas échéant.",
+        "ar": "تغذية النجارة الآلية ووسائل الحجب الكهربائية عند الاقتضاء.",
+        "en": "Power supply to motorised joinery and electric shading where applicable."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "auteur": "Équipe ingénierie CITURBAREA + BET partenaire",
+    "sources": [
+      "DTU 36.5 — Mise en œuvre des fenêtres et portes extérieures",
+      "NM EN 14351-1 — Fenêtres et portes : caractéristiques de performance",
+      "NF EN 12207 / 12208 / 12210 — Classement Air / Eau / Vent (AEV)",
+      "NF EN 1279 — Vitrage isolant",
+      "NF EN ISO 10077-1 — Calcul du coefficient Uw",
+      "NF EN 12600 — Sécurité des vitrages",
+      "RTCM — décret n° 2-13-874",
+      "RPS 2011 (Ministère Habitat)",
+      "DOC art. 769, 770"
+    ]
+  }
+}

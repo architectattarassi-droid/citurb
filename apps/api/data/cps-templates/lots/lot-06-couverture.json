@@ -1,0 +1,321 @@
+{
+  "code": "LOT_06_COUVERTURE",
+  "numero": 6,
+  "famille": "CLOS_COUVERT",
+  "intitule": {
+    "fr": "Couverture — Tuiles & bac acier, zinguerie",
+    "ar": "التغطية — قرميد وصفائح فولاذية، أشغال الزنك",
+    "en": "Roofing — Tiles & steel sheeting, flashing works"
+  },
+  "description": {
+    "fr": "Fourniture et pose des couvertures en tuiles (terre cuite/béton) et bacs acier, y compris liteaunage, écran sous-toiture, zinguerie, faîtages, noues, solins et évacuation des eaux pluviales conformes DTU 40.21, DTU 40.24 et RPS 2011.",
+    "ar": "توريد وتركيب أغطية السقوف من القرميد (الطين المشوي/الخرسانة) والصفائح الفولاذية، بما في ذلك العوارض الخشبية، الحاجز تحت السقف، أشغال الزنك، القمم، المزاريب، الوصلات وتصريف مياه الأمطار طبقاً للمواصفات DTU 40.21 وDTU 40.24 وRPS 2011.",
+    "en": "Supply and installation of tile (clay/concrete) and steel-sheet roof coverings, including battens, underlay membrane, flashing works, ridges, valleys, abutments and rainwater drainage in accordance with DTU 40.21, DTU 40.24 and RPS 2011."
+  },
+  "normesRefs": [
+    "DTU_40.21",
+    "DTU_40.24",
+    "DTU_40.5_EVAC_EP",
+    "NF_EN_1304_TUILES_TERRE_CUITE",
+    "NF_EN_490_TUILES_BETON",
+    "NM_EN_14782_BAC_ACIER",
+    "NF_EN_612_GOUTTIERES",
+    "NF_EN_988_ZINC",
+    "RPS_2011",
+    "RTCM_DECRET_2_13_874"
+  ],
+  "secteurQualifMA": [
+    "QUALIF_5_2_COUVERTURE_ZINGUERIE",
+    "QUALIF_5_1_ETANCHEITE",
+    "CLASSE_BTP_3_OU_SUPERIEURE"
+  ],
+  "competencesRequises": [
+    "ENTREPRISE_QUALIFIEE_COUVERTURE",
+    "COUVREUR_ZINGUEUR_CONFIRME",
+    "CHARPENTIER_BOIS_SI_OSSATURE",
+    "BET_STRUCTURE_VALIDATION_CHARGES"
+  ],
+  "articles": [
+    {
+      "numero": "6.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet et limites de prestation",
+        "ar": "الموضوع وحدود الأشغال",
+        "en": "Scope and limits of works"
+      },
+      "corpsMD": {
+        "fr": "Le présent lot a pour objet la fourniture et la pose de l'ensemble des ouvrages de **couverture et de zinguerie** du projet **{{PROJECT_NAME}}**, sis commune de **{{COMMUNE}}**, zone sismique **{{ZONE_SISMIQUE}}**.\n\n**Sont compris dans la prestation** :\n- Liteaunage / contre-liteaunage et écran de sous-toiture HPV (Haute Perméabilité à la Vapeur)\n- Couverture en tuiles (terre cuite ou béton) et/ou bacs acier nervurés\n- Faîtages, arêtiers, rives, noues, raccords et solins\n- Zinguerie complète : gouttières, chéneaux, descentes EP, dauphins fonte\n- Ouvrages accessoires : closoirs ventilés, crochets pare-neige, chatières, sorties de toiture\n\n**Limites de prestation (exclusions)** : la charpente porteuse (bois ou métallique) relève du lot structure/charpente ; l'étanchéité des terrasses accessibles relève du **LOT_05_ETANCHEITE** ; les pénétrations (souches, conduits) sont coordonnées avec les lots techniques. L'entreprise reconnaît avoir pris connaissance des plans d'exécution et du support fourni avant tout démarrage."
+      }
+    },
+    {
+      "numero": "6.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Documents de référence et hypothèses climatiques",
+        "ar": "الوثائق المرجعية والافتراضات المناخية",
+        "en": "Reference documents and climatic assumptions"
+      },
+      "corpsMD": {
+        "fr": "Les travaux seront exécutés conformément aux documents suivants, par ordre de priorité décroissante :\n1. Les plans d'exécution visés par le Maître d'Œuvre et le BET\n2. **DTU 40.21** « Couverture en tuiles de terre cuite à emboîtement ou à glissement à relief »\n3. **DTU 40.24** « Couverture en tuiles béton à glissement et à emboîtement longitudinal »\n4. **DTU 40.5** « Travaux d'évacuation des eaux pluviales »\n5. **RTCM** (Règlement Thermique de Construction au Maroc, **décret n° 2-13-874**) pour la zone climatique du projet\n6. **RPS 2011** pour la tenue de la couverture aux actions sismiques et au soulèvement\n\n**Hypothèses de calcul fixation au vent** : zone de vent et catégorie de rugosité du site de **{{COMMUNE}}** ; pression dynamique de pointe déterminée selon NV 65 modifié / Eurocode 1 transposé, majorée en rives et angles de toiture (zones de dépression accrue)."
+      }
+    },
+    {
+      "numero": "6.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Provenance, origine et spécifications des matériaux",
+        "ar": "مصدر وأصل ومواصفات المواد",
+        "en": "Source, origin and material specifications"
+      },
+      "corpsMD": {
+        "fr": "**Tuiles terre cuite** : usine marocaine ou européenne agréée, conformes **NF EN 1304** ; résistance à la flexion ≥ classe normalisée, imperméabilité (essai d'égouttement) conforme **NF EN 539-1**, gélivité **NF EN 539-2** (catégorie adaptée au gel de l'arrière-pays / {{COMMUNE}}).\n\n**Tuiles béton** : conformes **NF EN 490** / **NF EN 491**, perméabilité et résistance à la flexion certifiées.\n\n**Bacs acier nervurés** : tôle d'acier galvanisée prélaquée conforme **NM EN 14782** / **NF EN 10169**, revêtement Z275 minimum (Z350 en bord de mer ≤ 3 km côte), épaisseur nominale ≥ 0,63 mm, garantie anticorrosion fabricant ≥ 10 ans.\n\n**Écran de sous-toiture** : HPV conforme **NF EN 13859-1**, Sd ≤ 0,1 m, classement au feu et résistance au déchirement certifiés.\n\n**Zinguerie** : zinc-titane conforme **NF EN 988** (épaisseur ≥ 0,65 mm) ou acier galvanisé prélaqué ; descentes et gouttières conformes **NF EN 612**.\n\n**Fixations** : crochets et vis inox A2 minimum (A4 en bord de mer), conformes aux préconisations du fabricant de couverture. Toute provenance est soumise à agrément préalable du Maître d'Œuvre."
+      }
+    },
+    {
+      "numero": "6.4",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Échantillons, fiches techniques et agréments",
+        "ar": "العينات والبطاقات التقنية والاعتمادات",
+        "en": "Samples, technical data sheets and approvals"
+      },
+      "corpsMD": {
+        "fr": "Avant tout approvisionnement de série, l'entreprise soumettra à l'agrément du Maître d'Œuvre :\n1. **Échantillons** physiques de chaque modèle de tuile / bac acier (teinte, profil, accessoires de faîtage et rive)\n2. **Fiches techniques** et **avis techniques (DTA / ATEC)** des produits et systèmes de fixation\n3. **Certificats de conformité** NF / CE / NM par lot livré\n4. **Procès-verbaux d'essais** d'imperméabilité et de gélivité (tuiles), d'anticorrosion (bacs acier et zinguerie)\n5. Calepinage et plans de calepinage des versants, faîtages, noues et points singuliers\n6. **Note de calcul de fixation au vent** établie selon RPS 2011 et NV/EC1, validée par le BET\n\nAucun approvisionnement de série ne pourra démarrer sans accord écrit du Maître d'Œuvre."
+      }
+    },
+    {
+      "numero": "6.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Mise en œuvre — pentes, recouvrements et fixation au vent",
+        "ar": "التنفيذ — الانحدارات، التراكبات والتثبيت ضد الرياح",
+        "en": "Installation — slopes, overlaps and wind fixing"
+      },
+      "corpsMD": {
+        "fr": "**Pentes minimales** (selon DTU 40.21 / 40.24, fonction de la zone climatique et de la longueur de rampant) :\n- Tuiles à emboîtement : pente min. **30 % à 35 %** en zone abritée, majorée jusqu'à **45-50 %** en site exposé / forte pluviométrie\n- Bac acier nervuré : pente min. **5 % à 7 %** avec recouvrement étanché\n\n**Recouvrements** :\n- Tuiles : recouvrement longitudinal et latéral selon abaque DTU (généralement ≥ 7 à 11 cm selon pente et exposition)\n- Bacs acier : recouvrement transversal ≥ 1 nervure + 200 mm en about, complété par bande d'étanchéité\n\n**Liteaunage** : section et entraxe selon charge et type de tuile, calés sur écran HPV et contre-lattes assurant la **lame d'air de ventilation** (≥ 20 mm) en sous-face.\n\n**Fixation au vent** : conformément à la note de calcul, **toutes les tuiles** des rives, faîtages, arêtiers et zones d'angle sont fixées (crochets/vis), avec densité de fixation accrue dans les zones de dépression. En zone sismique **{{ZONE_SISMIQUE}}**, le faîtage est fixé mécaniquement (closoir ventilé + fixation), sans scellement plein au mortier non armé susceptible de chute.\n\n**Évacuation des eaux pluviales** : dimensionnement des chéneaux, gouttières et descentes selon **DTU 40.5** et la surface en plan recueillie ; pente des chéneaux ≥ 5 mm/m ; nombre et section des descentes calculés pour l'intensité pluviométrique de {{COMMUNE}}."
+      }
+    },
+    {
+      "numero": "6.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Essais, contrôles et tolérances de réception",
+        "ar": "الاختبارات والمراقبة وحدود القبول",
+        "en": "Tests, inspections and acceptance tolerances"
+      },
+      "corpsMD": {
+        "fr": "**Contrôles en cours d'exécution** :\n- Vérification du calage de l'écran HPV, de la lame d'air et du liteaunage avant pose des tuiles\n- Contrôle visuel des recouvrements, du calepinage et de l'alignement des rangs\n- Vérification de la densité et de la nature des fixations conformément à la note de vent\n\n**Essais de réception** :\n- **Essai d'étanchéité à l'eau** : arrosage prolongé des versants et points singuliers (noues, solins, pénétrations), aucune infiltration tolérée\n- Contrôle de l'écoulement et du libre passage des EP dans gouttières et descentes\n- Vérification de la fixation par essai d'arrachement ponctuel sur échantillon\n\n**Tolérances de réception** :\n- Planéité des versants : ± 10 mm sous règle de 2 m\n- Alignement des rangs et des rives : ± 5 mm\n- Pente exécutée : conforme à la pente théorique +0 / tolérance DTU\n\nTout désordre (infiltration, défaut d'alignement, fixation insuffisante) entraîne reprise intégrale aux frais exclusifs de l'entreprise."
+      }
+    },
+    {
+      "numero": "6.7",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Garanties, HSE et gestion des déchets",
+        "ar": "الضمانات، الصحة والسلامة وتدبير النفايات",
+        "en": "Warranties, HSE and waste management"
+      },
+      "corpsMD": {
+        "fr": "**Garanties** (conformément aux **articles 769 et 770 du Dahir formant Code des Obligations et Contrats — DOC**) :\n- **Garantie de parfait achèvement** : **1 an** à compter de la réception provisoire\n- **Garantie biennale** (art. 769 bis DOC) : **2 ans** sur les éléments d'équipement dissociables (closoirs, accessoires)\n- **Garantie décennale** : **10 ans** sur le clos et couvert et l'étanchéité de la couverture\n\nL'entreprise présentera son **attestation d'assurance décennale** auprès d'une compagnie agréée **ACAPS** avant tout démarrage, sous peine de résiliation aux torts exclusifs.\n\n**HSE** : travail en hauteur sécurisé (garde-corps périphérique, lignes de vie ancrées, harnais antichute conformes), filets de protection, zone de chargement balisée au sol, port des EPI obligatoire.\n\n**Gestion des déchets** : tri sélectif des chutes (tuiles cassées, chutes métalliques, emballages) ; évacuation vers décharge autorisée avec bordereaux de suivi ; valorisation/recyclage des métaux ferreux et zinc ; aucun brûlage ni enfouissement sauvage sur site."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "6.01",
+      "designation": {
+        "fr": "Écran de sous-toiture HPV posé sur contre-lattes, lame d'air ventilée comprise",
+        "ar": "حاجز تحت السقف عالي النفاذية للبخار مركّب على عوارض مضادة، مع طبقة هواء مهواة",
+        "en": "HPV underlay membrane laid over counter-battens, including ventilated air gap"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface de versant développée, mesurée en projection sur rampant, sans déduction des pénétrations < 0,50 m².",
+        "ar": "مساحة المنحدر المطوّرة، مقاسة على طول الميل، دون خصم الاختراقات < 0.50 م².",
+        "en": "Developed roof-slope area measured along the rafter, no deduction for penetrations < 0.50 m²."
+      }
+    },
+    {
+      "code": "6.02",
+      "designation": {
+        "fr": "Liteaunage bois traité classe d'emploi 2, section et entraxe selon DTU",
+        "ar": "عوارض خشبية معالجة من فئة الاستعمال 2، بمقطع وتباعد حسب DTU",
+        "en": "Treated timber battens (use class 2), section and spacing per DTU"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface de versant traitée, comptée au mètre carré de couverture supportée.",
+        "ar": "مساحة المنحدر المعالجة، محسوبة بالمتر المربع من التغطية المدعومة.",
+        "en": "Treated slope area, counted per square metre of supported roofing."
+      }
+    },
+    {
+      "code": "6.03",
+      "designation": {
+        "fr": "Couverture en tuiles terre cuite à emboîtement, y compris fixations au vent",
+        "ar": "تغطية بالقرميد الطيني المشوي المتشابك، بما في ذلك التثبيت ضد الرياح",
+        "en": "Interlocking clay-tile roof covering, including wind fixings"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réellement couverte mesurée en projection sur rampant ; faîtages et rives comptés séparément.",
+        "ar": "المساحة المغطاة فعلياً مقاسة على طول الميل؛ القمم والحواف تُحسب على حدة.",
+        "en": "Actual covered area measured along the rafter; ridges and verges counted separately."
+      }
+    },
+    {
+      "code": "6.04",
+      "designation": {
+        "fr": "Couverture en bac acier nervuré galvanisé prélaqué Z275, recouvrements étanchés",
+        "ar": "تغطية بصفائح فولاذية مضلّعة مجلفنة ومطلية مسبقاً Z275، مع تراكبات محكمة",
+        "en": "Pre-coated galvanised Z275 profiled steel-sheet covering, sealed overlaps"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface posée mesurée hors recouvrements ; relevés et closoirs comptés séparément.",
+        "ar": "المساحة المركّبة مقاسة دون احتساب التراكبات؛ الرفوعات والسدادات تُحسب على حدة.",
+        "en": "Installed area measured excluding overlaps; upstands and closures counted separately."
+      }
+    },
+    {
+      "code": "6.05",
+      "designation": {
+        "fr": "Faîtage ventilé sur closoir, fixation mécanique (zone sismique)",
+        "ar": "قمة مهواة على سدادة، بتثبيت ميكانيكي (منطقة زلزالية)",
+        "en": "Ventilated ridge on closure strip, mechanical fixing (seismic zone)"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Longueur de faîtage et d'arêtier mesurée en développé, accessoires d'about compris.",
+        "ar": "طول القمة والحرف مقاس بالطول المطوّر، مع ملحقات النهايات.",
+        "en": "Developed length of ridge and hip, including end accessories."
+      }
+    },
+    {
+      "code": "6.06",
+      "designation": {
+        "fr": "Noue zinc à fond plat, façonnée et raccordée",
+        "ar": "مزراب وادي من الزنك بقاع مسطّح، مُشكّل وموصول",
+        "en": "Flat-bottomed zinc valley, formed and connected"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Longueur de noue mesurée en fond, recouvrements et about non décomptés.",
+        "ar": "طول المزراب مقاس عند القاع، دون خصم التراكبات والنهايات.",
+        "en": "Valley length measured at the bottom, overlaps and ends not deducted."
+      }
+    },
+    {
+      "code": "6.07",
+      "designation": {
+        "fr": "Gouttière / chéneau zinc développé ≥ 33 cm, sur crochets",
+        "ar": "مزراب من الزنك بعرض مطوّر ≥ 33 سم، على خطّافات",
+        "en": "Zinc gutter / eaves trough developed width ≥ 33 cm, on brackets"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Longueur d'égout équipée, mesurée en place, angles et naissances compris.",
+        "ar": "طول الإفريز المجهّز، مقاس في مكانه، مع الزوايا والمآخذ.",
+        "en": "Equipped eaves length measured in place, including angles and outlets."
+      }
+    },
+    {
+      "code": "6.08",
+      "designation": {
+        "fr": "Descente EP zinc / acier diam. 80–100 mm, colliers et dauphin fonte compris",
+        "ar": "أنبوب تصريف مياه الأمطار من الزنك/الفولاذ قطر 80–100 مم، مع الأطواق والقاعدة الحديدية",
+        "en": "Zinc/steel rainwater downpipe Ø 80–100 mm, including clamps and cast-iron shoe"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Longueur verticale développée mesurée du chéneau au dauphin, coudes compris.",
+        "ar": "الطول العمودي المطوّر مقاس من المزراب إلى القاعدة، مع الأكواع.",
+        "en": "Developed vertical length measured from gutter to shoe, including bends."
+      }
+    },
+    {
+      "code": "6.09",
+      "designation": {
+        "fr": "Solin / bande de rive zinc en raccord sur souche ou acrotère",
+        "ar": "وصلة/شريط حافة من الزنك في الربط على المدخنة أو الإفريز",
+        "en": "Zinc flashing / verge strip at junction with chimney or parapet"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Longueur de raccord mesurée en place, façonnage et engravure compris.",
+        "ar": "طول الوصلة مقاس في مكانه، مع التشكيل والحزّ.",
+        "en": "Junction length measured in place, including forming and chasing."
+      }
+    },
+    {
+      "code": "6.10",
+      "designation": {
+        "fr": "Accessoires de toiture : chatières, sorties, crochets pare-neige",
+        "ar": "ملحقات السقف: فتحات تهوية، مخارج، خطّافات حاجزة للثلج",
+        "en": "Roof accessories: ventilation tiles, outlets, snow-guard hooks"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité posée et raccordée, par type d'accessoire.",
+        "ar": "بالوحدة المركّبة والموصولة، حسب نوع الملحق.",
+        "en": "Per unit installed and connected, by accessory type."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_05_ETANCHEITE",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Raccordement couverture / étanchéité des terrasses et relevés sur acrotères ; continuité du plan d'eau.",
+        "ar": "ربط التغطية بعزل التراسات والرفوعات على الأفاريز؛ استمرارية مستوى تصريف المياه.",
+        "en": "Roofing/waterproofing interface at terraces and parapet upstands; continuity of the drainage plane."
+      }
+    },
+    {
+      "lotCible": "LOT_04_CHARPENTE",
+      "type": "SUPPORT",
+      "description": {
+        "fr": "Réception du support de couverture (charpente bois/métal) : planéité, entraxe et tenue aux charges validés avant pose.",
+        "ar": "استلام دعامة التغطية (هيكل خشبي/معدني): الاستواء، التباعد وتحمّل الأحمال مصادق عليها قبل التركيب.",
+        "en": "Acceptance of the roof support (timber/steel frame): flatness, spacing and load capacity validated before laying."
+      }
+    },
+    {
+      "lotCible": "LOT_02_GO_BETON",
+      "type": "RESERVATIONS",
+      "description": {
+        "fr": "Coordination des souches, acrotères et réservations EP avec le gros œuvre béton.",
+        "ar": "تنسيق المداخن والأفاريز وحجوزات تصريف الأمطار مع البناء الخرساني.",
+        "en": "Coordination of chimneys, parapets and rainwater reservations with the concrete structure."
+      }
+    },
+    {
+      "lotCible": "LOT_14_PLOMBERIE_SANITAIRE",
+      "type": "RACCORDEMENT",
+      "description": {
+        "fr": "Raccordement des descentes EP au réseau d'évacuation pluvial enterré.",
+        "ar": "ربط أنابيب تصريف مياه الأمطار بشبكة التصريف المدفونة.",
+        "en": "Connection of rainwater downpipes to the buried stormwater drainage network."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "auteur": "Équipe ingénierie CITURBAREA + BET partenaire",
+    "sources": [
+      "DTU 40.21 — Couverture en tuiles de terre cuite à emboîtement",
+      "DTU 40.24 — Couverture en tuiles béton à glissement et emboîtement",
+      "DTU 40.5 — Travaux d'évacuation des eaux pluviales",
+      "NF EN 1304 / NF EN 539-1 / NF EN 539-2 — Tuiles terre cuite",
+      "NF EN 490 / NF EN 491 — Tuiles béton",
+      "NM EN 14782 / NF EN 10169 — Bacs acier prélaqués",
+      "NF EN 612 / NF EN 988 — Gouttières et zinc",
+      "RPS 2011 (Ministère Habitat)",
+      "RTCM — décret n° 2-13-874",
+      "DOC art. 769, 770"
+    ]
+  }
+}

@@ -1,0 +1,54 @@
+/*
+ * TerriScan Design Tokens
+ * Mapping --color-* (claude.ai design system)
+ * → --c-* (CITURBAREA design system)
+ * Généré automatiquement — ne pas éditer manuellement
+ */
+
+:root {
+
+  /* ── Backgrounds ── */
+  --color-background-primary:    var(--c-card);       /* #ffffff   */
+  --color-background-secondary:  var(--c-bg);         /* #f6f5f0   */
+  --color-background-tertiary:   var(--c-bg);         /* #f6f5f0   */
+  --color-background-info:       var(--c-blueSoft);   /* #e8eef8   */
+  --color-background-success:    var(--c-greenSoft);  /* #e2f4eb   */
+  --color-background-warning:    var(--c-goldSoft);   /* #fef3dc   */
+  --color-background-danger:     var(--c-redSoft);    /* #fde8e8   */
+
+  /* ── Text ── */
+  --color-text-primary:          var(--c-ink);        /* #0a0f1e   */
+  --color-text-secondary:        var(--c-muted);      /* #566474   */
+  --color-text-tertiary:         var(--c-muted);      /* #566474   */
+  --color-text-info:             var(--c-blue2);      /* #1450a3   */
+  --color-text-success:          var(--c-green);      /* #0f5c30   */
+  --color-text-warning:          var(--c-gold);       /* #c48b1f   */
+  --color-text-danger:           var(--c-red);        /* #8b1c1c   */
+
+  /* ── Borders ── */
+  --color-border-tertiary:       var(--c-line);       /* #e2e6ec   */
+  --color-border-secondary:      var(--c-line);       /* #e2e6ec   */
+  --color-border-primary:        var(--c-line);       /* #e2e6ec   */
+  --color-border-info:           var(--c-blue2);      /* #1450a3   */
+  --color-border-success:        var(--c-green);      /* #0f5c30   */
+  --color-border-warning:        var(--c-gold);       /* #c48b1f   */
+  --color-border-danger:         var(--c-red);        /* #8b1c1c   */
+
+  /* ── Typography ── */
+  --font-sans:                   var(--font-body);    /* DM Sans   */
+  --font-serif:                  var(--font-display); /* Syne      */
+  --font-mono:                   'DM Mono', 'Courier New', monospace;
+
+  /* ── Radius ── */
+  --border-radius-md:            var(--r-sm);         /* 10px      */
+  --border-radius-lg:            var(--r);            /* 16px      */
+  --border-radius-xl:            20px;
+
+}
+
+/*
+ * NOTE: Les couleurs heatmap CUE (#1D9E75, #5DCAA5, #9FE1CB,
+ * #E1F5EE, #FAECE7, etc.) sont hardcodées dans TerriScanLab.tsx
+ * pour encoder la sémantique des scores — elles NE dépendent PAS
+ * de ces tokens et s'affichent correctement indépendamment.
+ */

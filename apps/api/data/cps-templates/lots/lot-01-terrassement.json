@@ -1,0 +1,278 @@
+{
+  "code": "LOT_01_TERRASSEMENT",
+  "numero": 1,
+  "famille": "GROS_OEUVRE",
+  "intitule": {
+    "fr": "Lot n°01 — Terrassements généraux",
+    "ar": "الصنف رقم 01 — الأشغال الترابية العامة",
+    "en": "Lot No. 01 — General Earthworks"
+  },
+  "description": {
+    "fr": "Travaux de terrassement comprenant le décapage de la terre végétale, les fouilles en pleine masse et en rigole, les remblais compactés, l'évacuation des déblais excédentaires et les soutènements provisoires, exécutés conformément à l'étude géotechnique préalable et au classement de sol selon le RPS 2011.",
+    "ar": "أشغال ترابية تشمل إزالة الطبقة النباتية، والحفريات الكتلية وحفر الخنادق، والردميات المرصوصة، وإجلاء الأتربة الفائضة، والإسناد المؤقت، تُنفَّذ طبقاً للدراسة الجيوتقنية المسبقة وتصنيف التربة وفق النظام الزلزالي المغربي RPS 2011.",
+    "en": "Earthworks comprising topsoil stripping, bulk and trench excavation, compacted backfill, disposal of surplus spoil and temporary shoring, executed in accordance with the prior geotechnical study and the soil classification per the Moroccan seismic code RPS 2011."
+  },
+  "normesRefs": [
+    "FASCICULE_2_TERRASSEMENTS_GENERAUX",
+    "DTU_12",
+    "DTU_13_12",
+    "NF_P_94_500_MISSIONS_GEOTECHNIQUES",
+    "RPS_2011",
+    "NM_EN_206_1_2014"
+  ],
+  "secteurQualifMA": [
+    "C",
+    "A"
+  ],
+  "competencesRequises": [
+    "Entreprise qualifiée secteur C (VRD / terrassements) classe adaptée au volume des terrassements",
+    "Encadrement géotechnique : ingénieur ou laboratoire agréé pour le contrôle de compactage",
+    "Conducteurs d'engins habilités (pelle, chargeuse, compacteur, niveleuse)"
+  ],
+  "articles": [
+    {
+      "numero": "1.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet et consistance des travaux",
+        "ar": "موضوع الأشغال ومحتواها",
+        "en": "Object and scope of works"
+      },
+      "corpsMD": {
+        "fr": "Le présent lot a pour objet l'exécution de l'ensemble des terrassements nécessaires à la réalisation du projet **{{PROJECT_NAME}}** sis dans la commune de **{{COMMUNE}}**, classée en zone sismique **{{ZONE_SISMIQUE}}** au sens du RPS 2011.\n\nLa consistance des travaux comprend notamment :\n- Le **décapage** de la terre végétale sur l'emprise et sa mise en dépôt provisoire pour réemploi en aménagements extérieurs.\n- Les **fouilles en pleine masse** pour sous-sols, vides sanitaires et plateformes.\n- Les **fouilles en rigole et en trou** pour semelles, longrines et canalisations.\n- Les **remblais** d'apport et de réemploi compactés par couches.\n- L'**évacuation** des déblais excédentaires à la décharge publique agréée.\n- Les **soutènements et blindages provisoires** des fouilles et le maintien hors d'eau.",
+        "ar": "يهدف هذا الصنف إلى تنفيذ مجموع الأشغال الترابية اللازمة لإنجاز مشروع **{{PROJECT_NAME}}** الكائن بجماعة **{{COMMUNE}}**، المصنفة ضمن المنطقة الزلزالية **{{ZONE_SISMIQUE}}** حسب النظام RPS 2011.\n\nيشمل محتوى الأشغال على الخصوص :\n- **إزالة** الطبقة النباتية على كامل المساحة وتخزينها مؤقتاً لإعادة استعمالها في التهيئات الخارجية.\n- **الحفريات الكتلية** للطوابق السفلية والفراغات الصحية والمنصات.\n- **حفر الخنادق والحفر النقطية** للأساسات والروابط والقنوات.\n- **الردميات** المجلوبة والمعاد استعمالها المرصوصة على طبقات.\n- **إجلاء** الأتربة الفائضة إلى المطرح العمومي المرخص.\n- **الإسناد والتدعيم المؤقت** للحفريات والحفاظ على جفافها.",
+        "en": "This lot covers all earthworks required for the construction of project **{{PROJECT_NAME}}** located in the municipality of **{{COMMUNE}}**, classified in seismic zone **{{ZONE_SISMIQUE}}** under RPS 2011.\n\nThe scope notably includes:\n- **Topsoil stripping** over the footprint and temporary stockpiling for reuse in landscaping.\n- **Bulk excavation** for basements, crawl spaces and platforms.\n- **Trench and pit excavation** for footings, ground beams and pipework.\n- **Backfill** with imported and reused material, compacted in layers.\n- **Disposal** of surplus spoil to an approved public tip.\n- **Temporary shoring and trench support**, and keeping excavations dewatered."
+      }
+    },
+    {
+      "numero": "1.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Documents de référence et étude géotechnique préalable",
+        "ar": "الوثائق المرجعية والدراسة الجيوتقنية المسبقة",
+        "en": "Reference documents and prior geotechnical study"
+      },
+      "corpsMD": {
+        "fr": "Les travaux sont exécutés conformément aux documents en vigueur, et notamment :\n- Le **Fascicule 2** du CCTG — Terrassements généraux.\n- Le **DTU 12** (terrassements) et le **DTU 13.12** (règles de calcul des fondations superficielles).\n- La norme **NF P 94-500** relative aux missions géotechniques (G1 à G5).\n- Le **RPS 2011** pour le classement du site et du sol.\n\nUne **étude géotechnique préalable** (mission G2 au minimum) est **obligatoire** et doit être fournie avant tout démarrage. Elle précise :\n- La **classe de sol** au sens du RPS 2011 (S1 à S5) et le coefficient de site associé.\n- La **contrainte admissible** du sol et le niveau d'assise des fondations.\n- Le **niveau de la nappe** phréatique et les dispositions de rabattement éventuelles.\n- Les **risques** de gonflement, tassement, liquéfaction ou agressivité chimique.\n\nEn cas de découverte d'un sol non conforme aux hypothèses de l'étude, l'entrepreneur arrête les fouilles et alerte le maître d'œuvre.",
+        "ar": "تُنفَّذ الأشغال طبقاً للوثائق الجاري بها العمل، ولا سيما :\n- **الكراس رقم 2** من دفتر الشروط التقنية العامة — الأشغال الترابية العامة.\n- **DTU 12** (الأشغال الترابية) و**DTU 13.12** (قواعد حساب الأساسات السطحية).\n- المعيار **NF P 94-500** المتعلق بالمهام الجيوتقنية (من G1 إلى G5).\n- النظام **RPS 2011** لتصنيف الموقع والتربة.\n\nتُعدّ **الدراسة الجيوتقنية المسبقة** (مهمة G2 على الأقل) **إلزامية** ويجب تقديمها قبل أي انطلاق. وتحدد :\n- **صنف التربة** حسب RPS 2011 (من S1 إلى S5) ومعامل الموقع المرتبط به.\n- **الإجهاد المقبول** للتربة ومستوى تأسيس الأساسات.\n- **مستوى الفرشة** المائية وتدابير الخفض عند الاقتضاء.\n- **مخاطر** الانتفاخ والهبوط والتسييل أو العدوانية الكيميائية.\n\nعند اكتشاف تربة غير مطابقة لفرضيات الدراسة، يوقف المقاول الحفريات ويُشعر صاحب المشروع المنتدب.",
+        "en": "Works shall comply with the documents in force, notably:\n- **Fascicule 2** of the CCTG — General Earthworks.\n- **DTU 12** (earthworks) and **DTU 13.12** (design rules for shallow foundations).\n- Standard **NF P 94-500** on geotechnical missions (G1 to G5).\n- **RPS 2011** for site and soil classification.\n\nA **prior geotechnical study** (mission G2 minimum) is **mandatory** and must be provided before any start. It specifies:\n- The **soil class** per RPS 2011 (S1 to S5) and the associated site coefficient.\n- The **allowable bearing capacity** and foundation founding level.\n- The **groundwater table** level and any dewatering provisions.\n- **Risks** of swelling, settlement, liquefaction or chemical aggressiveness.\n\nShould soil not matching the study assumptions be encountered, the contractor shall stop excavation and notify the works supervisor."
+      }
+    },
+    {
+      "numero": "1.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Provenance et qualité des matériaux de remblai",
+        "ar": "مصدر وجودة مواد الردم",
+        "en": "Source and quality of backfill materials"
+      },
+      "corpsMD": {
+        "fr": "Les matériaux de remblai proviennent soit du **réemploi** des déblais jugés aptes, soit d'un **apport** de carrière agréée.\n\nLes exigences sont les suivantes :\n- Classement selon le **GTR** (Guide des Terrassements Routiers) ; les sols de classe **A3, A4, F** sont proscrits en remblai porteur.\n- Granularité maximale ≤ **2/3 de l'épaisseur** de la couche compactée et plafonnée à **100 mm**.\n- Teneur en matières organiques ≤ **3 %** ; absence de débris, gravats et racines.\n- Pour les remblais sous dallage et voiries : matériaux **graveleux** type GNF/GNA, indice de plasticité **IP ≤ 12**.\n- Indice **CBR** justifié par essai de laboratoire pour les couches de forme.\n\nLes matériaux d'apport font l'objet d'une **fiche d'identification** et d'un **agrément** du maître d'œuvre avant approvisionnement.",
+        "ar": "تأتي مواد الردم إما من **إعادة استعمال** الأتربة المحفورة الصالحة، أو من **جلب** من مقلع مرخص.\n\nوالمتطلبات هي كالتالي :\n- التصنيف حسب دليل الأشغال الترابية الطرقية **GTR** ؛ تُمنع تربات الأصناف **A3 وA4 وF** في الردم الحامل.\n- المقاس الأقصى للحبيبات ≤ **ثلثي سُمك** الطبقة المرصوصة وبحد أقصى **100 ملم**.\n- نسبة المواد العضوية ≤ **3 %** ؛ خلوّها من الأنقاض والركام والجذور.\n- بالنسبة للردميات تحت البلاطات والطرق : مواد **حصوية** من نوع GNF/GNA، مؤشر اللدونة **IP ≤ 12**.\n- مؤشر **CBR** مبرَّر بتجربة مخبرية لطبقات التسوية.\n\nتخضع مواد الجلب لـ**بطاقة تعريف** و**موافقة** صاحب المشروع المنتدب قبل التموين.",
+        "en": "Backfill materials shall come either from **reuse** of suitable excavated spoil or from **imported** material from an approved quarry.\n\nRequirements are:\n- Classification per the **GTR** (road earthworks guide); class **A3, A4, F** soils are prohibited in load-bearing fill.\n- Maximum grain size ≤ **2/3 of the layer thickness** and capped at **100 mm**.\n- Organic content ≤ **3 %**; free of debris, rubble and roots.\n- For fill under slabs and roads: **granular** material type GNF/GNA, plasticity index **PI ≤ 12**.\n- **CBR** index justified by laboratory testing for capping layers.\n\nImported materials shall be subject to an **identification sheet** and **approval** by the works supervisor before delivery."
+      }
+    },
+    {
+      "numero": "1.4",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Exécution des fouilles et soutènements",
+        "ar": "تنفيذ الحفريات والإسناد",
+        "en": "Execution of excavation and shoring"
+      },
+      "corpsMD": {
+        "fr": "**Décapage** : la terre végétale est décapée sur l'épaisseur reconnue (généralement 20 à 40 cm) et stockée en cordon hors zone de circulation.\n\n**Fouilles** :\n- Les fouilles sont réglées aux cotes, pentes et niveaux des plans, sans surprofondeur. Toute surexcavation est comblée en **gros béton** ou matériau compacté aux frais de l'entrepreneur.\n- Les **talus provisoires** respectent un fruit compatible avec la nature du sol ; au-delà des hauteurs critiques, un **blindage** ou un soutènement est mis en place.\n- Le **fond de fouille** est dressé, purgé des points mous et protégé immédiatement par un béton de propreté.\n\n**Hors d'eau** : maintien des fouilles à sec par pompage et/ou rabattement de nappe ; les eaux ne doivent ni stagner ni déstabiliser les talus.\n\n**Sécurité** : tout travailleur ne descend en fouille de profondeur > 1,30 m que sous protection d'un blindage ou d'un talutage conforme.",
+        "ar": "**الإزالة** : تُزال الطبقة النباتية على السُّمك المعاين (عادة 20 إلى 40 سم) وتُخزَّن في كومة خارج منطقة السير.\n\n**الحفريات** :\n- تُضبط الحفريات على المناسيب والميول والمستويات المبينة بالتصاميم، دون عمق زائد. ويُملأ كل حفر زائد بـ**الخرسانة العادية** أو مادة مرصوصة على نفقة المقاول.\n- تحترم **المنحدرات المؤقتة** ميلاناً يتلاءم مع طبيعة التربة ؛ وعند تجاوز الارتفاعات الحرجة يُنجز **تدعيم** أو إسناد.\n- يُسوّى **قاع الحفر** وتُنقّى منه النقاط الرخوة ويُحمى فوراً بخرسانة النظافة.\n\n**الحفاظ على الجفاف** : إبقاء الحفريات جافة بالضخّ و/أو خفض الفرشة المائية ؛ يجب ألا تركد المياه أو تزعزع استقرار المنحدرات.\n\n**السلامة** : لا ينزل أي عامل إلى حفرة يفوق عمقها 1,30 م إلا تحت حماية تدعيم أو منحدر مطابق.",
+        "en": "**Stripping**: topsoil is stripped to the recorded depth (generally 20 to 40 cm) and windrowed clear of traffic areas.\n\n**Excavation**:\n- Excavations are trimmed to the levels, slopes and grades on the drawings, with no over-depth. Any over-excavation is filled with **mass concrete** or compacted material at the contractor's expense.\n- **Temporary slopes** maintain a batter compatible with the soil; beyond critical heights, **trench support** or shoring is installed.\n- The **excavation bottom** is trimmed, soft spots removed, and protected immediately with a blinding concrete.\n\n**Dewatering**: excavations kept dry by pumping and/or groundwater lowering; water must neither pond nor destabilise the slopes.\n\n**Safety**: no worker enters an excavation deeper than 1.30 m except under protection of compliant shoring or battering."
+      }
+    },
+    {
+      "numero": "1.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Remblais, compactage et contrôles",
+        "ar": "الردميات والرصّ والمراقبة",
+        "en": "Backfill, compaction and controls"
+      },
+      "corpsMD": {
+        "fr": "Les remblais sont mis en œuvre par **couches successives** d'épaisseur compactée ≤ 30 cm, arrosées ou aérées pour atteindre la teneur en eau optimale (OPN).\n\n**Objectifs de compactage** :\n- Remblais courants : ≥ **95 % de l'OPN** (Optimum Proctor Normal).\n- Couches de forme et remblais sous dallage/voirie : ≥ **98 % de l'OPN**.\n\n**Contrôles** (laboratoire agréé, à la charge du marché) :\n- Essais **Proctor** de référence par nature de matériau.\n- Essais de **densité in situ** (gammadensimètre ou densitomètre à membrane) à raison d'un essai par couche et par zone homogène (≈ 1 essai / 200 m² minimum).\n- Essai à la **plaque (EV2)** pour les plateformes recevant des dallages.\n\nTout résultat non conforme entraîne la **reprise** de la couche (scarification, ré-humidification, recompactage) jusqu'à atteinte de l'objectif, sans plus-value.",
+        "ar": "تُنفَّذ الردميات على **طبقات متتالية** سُمكها بعد الرصّ ≤ 30 سم، مع الرشّ أو التهوية لبلوغ نسبة الرطوبة المثلى (OPN).\n\n**أهداف الرصّ** :\n- الردميات العادية : ≥ **95 % من OPN** (الأمثل بروكتور العادي).\n- طبقات التسوية والردميات تحت البلاطات/الطرق : ≥ **98 % من OPN**.\n\n**المراقبة** (مختبر مرخص، على نفقة الصفقة) :\n- تجارب **بروكتور** مرجعية حسب نوع المادة.\n- تجارب **الكثافة في الموقع** (مقياس الكثافة الإشعاعي أو الغشائي) بمعدل تجربة لكل طبقة ومنطقة متجانسة (≈ تجربة واحدة / 200 م² على الأقل).\n- تجربة **الصفيحة (EV2)** للمنصات المستقبلة للبلاطات.\n\nكل نتيجة غير مطابقة تستوجب **إعادة** الطبقة (التخشين، إعادة الترطيب، إعادة الرصّ) إلى حين بلوغ الهدف، دون زيادة في الثمن.",
+        "en": "Backfill is placed in **successive layers** of compacted thickness ≤ 30 cm, watered or aerated to reach the optimum moisture content (OPN).\n\n**Compaction targets**:\n- Ordinary fill: ≥ **95 % of OPN** (Standard Proctor Optimum).\n- Capping layers and fill under slabs/roads: ≥ **98 % of OPN**.\n\n**Controls** (approved laboratory, at the contract's cost):\n- Reference **Proctor** tests per material type.\n- **In-situ density** tests (nuclear gauge or membrane densitometer), one test per layer and homogeneous zone (≈ 1 test / 200 m² minimum).\n- **Plate load test (EV2)** for platforms receiving slabs.\n\nAny non-compliant result triggers **rework** of the layer (scarifying, re-wetting, recompaction) until the target is met, at no extra cost."
+      }
+    },
+    {
+      "numero": "1.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Tolérances de réception et garanties",
+        "ar": "هوامش القبول والضمانات",
+        "en": "Acceptance tolerances and guarantees"
+      },
+      "corpsMD": {
+        "fr": "**Tolérances géométriques** à la réception :\n- Niveaux des fonds de fouille et plateformes : **± 3 cm**.\n- Implantation en plan des fouilles : **± 5 cm**.\n- Planéité de la couche de forme sous la règle de 3 m : **≤ 3 cm**.\n\n**Réception** : elle est prononcée après remise des **procès-verbaux d'essais** de compactage conformes et levée des réserves éventuelles.\n\n**Garanties** : conformément aux articles **769 et 770** du DOC (Dahir des Obligations et Contrats), l'entrepreneur demeure responsable des désordres affectant la solidité de l'ouvrage et des tassements anormaux imputables à un compactage défectueux. Toute reprise rendue nécessaire par un défaut d'exécution des terrassements (tassements, glissements de talus, instabilité des fonds) est à la charge de l'entrepreneur pendant la période de garantie.",
+        "ar": "**الهوامش الهندسية** عند القبول :\n- مناسيب قيعان الحفر والمنصات : **± 3 سم**.\n- التوقيع الأفقي للحفريات : **± 5 سم**.\n- استواء طبقة التسوية تحت قاعدة 3 أمتار : **≤ 3 سم**.\n\n**القبول** : يُعلَن بعد تسليم **محاضر تجارب** الرصّ المطابقة ورفع التحفظات المحتملة.\n\n**الضمانات** : طبقاً للفصلين **769 و770** من قانون الالتزامات والعقود، يبقى المقاول مسؤولاً عن العيوب المؤثرة في متانة المنشأة وعن الهبوطات غير العادية الناتجة عن رصّ معيب. وتقع على عاتقه كل إعادة يفرضها خلل في تنفيذ الأشغال الترابية (الهبوطات، انزلاق المنحدرات، عدم استقرار القيعان) خلال فترة الضمان.",
+        "en": "**Geometric tolerances** at acceptance:\n- Excavation bottom and platform levels: **± 3 cm**.\n- Plan setting-out of excavations: **± 5 cm**.\n- Capping layer flatness under a 3 m straightedge: **≤ 3 cm**.\n\n**Acceptance**: granted after submission of compliant compaction **test reports** and clearance of any reservations.\n\n**Guarantees**: in accordance with articles **769 and 770** of the DOC (Code of Obligations and Contracts), the contractor remains liable for disorders affecting the structure's stability and for abnormal settlement attributable to defective compaction. Any rework required by a defect in the earthworks (settlement, slope failure, bottom instability) is at the contractor's expense during the guarantee period."
+      }
+    },
+    {
+      "numero": "1.7",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Hygiène, sécurité et gestion des déblais",
+        "ar": "النظافة والسلامة وتدبير الأتربة المحفورة",
+        "en": "Health, safety and spoil management"
+      },
+      "corpsMD": {
+        "fr": "**HSE** :\n- Signalisation et clôture du périmètre des fouilles ; garde-corps et barrières aux abords des tranchées ouvertes.\n- Vérification de l'absence de **réseaux enterrés** (DICT) avant tout terrassement à proximité de concessionnaires.\n- Plan de circulation des engins séparant flux piétons et engins.\n\n**Gestion des déblais et déchets** :\n- Tri des déblais : réemploi des matériaux aptes, évacuation des matériaux impropres vers une **décharge agréée** avec bordereau de suivi.\n- Interdiction de tout dépôt sauvage ; les terres polluées éventuelles sont traitées selon la réglementation environnementale en vigueur.\n- Nettoyage et remise en état des emprises et voiries empruntées en fin de chantier.",
+        "ar": "**النظافة والسلامة والبيئة** :\n- وضع علامات وتسييج محيط الحفريات ؛ حواجز ودرابزينات حول الخنادق المفتوحة.\n- التحقق من غياب **الشبكات المدفونة** قبل أي حفر بجوار المتعهدين.\n- مخطط لسير الآليات يفصل بين مسالك الراجلين والآليات.\n\n**تدبير الأتربة المحفورة والنفايات** :\n- فرز الأتربة : إعادة استعمال المواد الصالحة، وإجلاء المواد غير الصالحة نحو **مطرح مرخص** مع وصل تتبع.\n- منع كل إلقاء عشوائي ؛ تُعالَج الأتربة الملوثة عند وجودها وفق التنظيم البيئي الجاري به العمل.\n- تنظيف وإصلاح المساحات والطرق المستعملة عند نهاية الورش.",
+        "en": "**HSE**:\n- Signage and fencing of the excavation perimeter; guardrails and barriers around open trenches.\n- Verification of the absence of **buried utilities** before any earthworks near service operators.\n- Plant traffic plan separating pedestrian and machine flows.\n\n**Spoil and waste management**:\n- Sorting of spoil: reuse of suitable material, removal of unsuitable material to an **approved tip** with a tracking slip.\n- No fly-tipping allowed; any contaminated soil is treated per the environmental regulations in force.\n- Cleaning and reinstatement of the site areas and roads used at the end of works."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "1.01",
+      "designation": {
+        "fr": "Décapage de la terre végétale et mise en dépôt provisoire",
+        "ar": "إزالة الطبقة النباتية وتخزينها مؤقتاً",
+        "en": "Topsoil stripping and temporary stockpiling"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au m² de surface décapée, mesuré sur l'emprise réelle ; épaisseur réputée incluse quelle que soit la profondeur reconnue.",
+        "ar": "بالمتر المربع من السطح المُزال، يُقاس على المساحة الفعلية ؛ يُعتبر السُّمك مشمولاً مهما كان العمق المعاين.",
+        "en": "Per m² of stripped area, measured over the actual footprint; thickness deemed included whatever the recorded depth."
+      }
+    },
+    {
+      "code": "1.02",
+      "designation": {
+        "fr": "Fouilles en pleine masse en terrain de toute nature",
+        "ar": "حفريات كتلية في تربة من أي نوع",
+        "en": "Bulk excavation in ground of any nature"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au m³ de déblai mesuré sur profil théorique entre terrain naturel et fond de fouille, sans foisonnement.",
+        "ar": "بالمتر المكعب من الحفر يُقاس على المقطع النظري بين التربة الطبيعية وقاع الحفر، دون احتساب التمدد.",
+        "en": "Per m³ of excavation measured on the theoretical profile between natural ground and excavation bottom, without bulking."
+      }
+    },
+    {
+      "code": "1.03",
+      "designation": {
+        "fr": "Fouilles en rigole et en trou pour fondations et longrines",
+        "ar": "حفر خنادق وحفر نقطية للأساسات والروابط",
+        "en": "Trench and pit excavation for foundations and ground beams"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au m³ sur dimensions théoriques des plans de fondation ; surlargeurs de blindage non comptées.",
+        "ar": "بالمتر المكعب على الأبعاد النظرية لتصاميم الأساسات ؛ لا تُحتسب زيادات عرض التدعيم.",
+        "en": "Per m³ on theoretical dimensions of the foundation drawings; shoring over-widths not counted."
+      }
+    },
+    {
+      "code": "1.04",
+      "designation": {
+        "fr": "Remblai compacté en matériau d'apport sélectionné",
+        "ar": "ردم مرصوص بمادة مجلوبة منتقاة",
+        "en": "Compacted backfill with selected imported material"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au m³ mesuré en place après compactage ; fourniture, transport, mise en œuvre et arrosage inclus.",
+        "ar": "بالمتر المكعب يُقاس في مكانه بعد الرصّ ؛ يشمل التوريد والنقل والوضع والرشّ.",
+        "en": "Per m³ measured in place after compaction; supply, transport, placing and watering included."
+      }
+    },
+    {
+      "code": "1.05",
+      "designation": {
+        "fr": "Remblai compacté en réemploi de déblais aptes",
+        "ar": "ردم مرصوص بإعادة استعمال الأتربة الصالحة",
+        "en": "Compacted backfill reusing suitable spoil"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au m³ en place après compactage ; reprise, criblage éventuel et mise en œuvre inclus.",
+        "ar": "بالمتر المكعب في مكانه بعد الرصّ ؛ تشمل الاسترجاع والغربلة عند الاقتضاء والوضع.",
+        "en": "Per m³ in place after compaction; recovery, possible screening and placing included."
+      }
+    },
+    {
+      "code": "1.06",
+      "designation": {
+        "fr": "Évacuation des déblais excédentaires à la décharge agréée",
+        "ar": "إجلاء الأتربة الفائضة إلى المطرح المرخص",
+        "en": "Disposal of surplus spoil to an approved tip"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au m³ de déblai évacué mesuré en déblai en place ; chargement, transport et droits de décharge inclus.",
+        "ar": "بالمتر المكعب من الأتربة المُجلاة يُقاس في الحفر بمكانه ؛ يشمل التحميل والنقل وحقوق المطرح.",
+        "en": "Per m³ of spoil removed, measured as excavation in place; loading, transport and tip fees included."
+      }
+    },
+    {
+      "code": "1.07",
+      "designation": {
+        "fr": "Blindage et soutènement provisoire des fouilles",
+        "ar": "تدعيم وإسناد مؤقت للحفريات",
+        "en": "Temporary trench shoring and support"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au m² de paroi soutenue effectivement blindée ; fourniture, pose et dépose inclus.",
+        "ar": "بالمتر المربع من الجدار المُسند المُدعَّم فعلياً ؛ يشمل التوريد والوضع والنزع.",
+        "en": "Per m² of supported wall actually shored; supply, installation and removal included."
+      }
+    },
+    {
+      "code": "1.08",
+      "designation": {
+        "fr": "Épuisement des venues d'eau et maintien hors d'eau des fouilles",
+        "ar": "نزح المياه الواردة والحفاظ على جفاف الحفريات",
+        "en": "Dewatering and keeping excavations dry"
+      },
+      "unite": "ff",
+      "modeMetreMD": {
+        "fr": "Au forfait pour la durée des travaux ; pompage, rabattement éventuel et exutoires inclus.",
+        "ar": "بالجزاف لمدة الأشغال ؛ يشمل الضخّ والخفض المحتمل ومصارف التصريف.",
+        "en": "Lump sum for the works duration; pumping, any lowering and outfalls included."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_02",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Réception du fond de fouille et de la plateforme par le lot Gros Œuvre — Béton avant coulage du béton de propreté et des fondations.",
+        "ar": "تسلُّم قاع الحفر والمنصة من طرف صنف الأشغال الكبرى — الخرسانة قبل صبّ خرسانة النظافة والأساسات.",
+        "en": "Handover of the excavation bottom and platform to the Structural Works — Concrete lot before pouring blinding concrete and foundations."
+      }
+    },
+    {
+      "lotCible": "LOT_VRD",
+      "type": "RESERVATIONS",
+      "description": {
+        "fr": "Coordination des tranchées et fonds de fouille avec le lot VRD pour les réseaux enterrés (assainissement, eau, électricité) afin d'éviter les reprises.",
+        "ar": "تنسيق الخنادق وقيعان الحفر مع صنف التهيئة الخارجية بخصوص الشبكات المدفونة (التطهير، الماء، الكهرباء) لتفادي الإصلاحات.",
+        "en": "Coordination of trenches and excavation bottoms with the External Works lot for buried utilities (drainage, water, electricity) to avoid rework."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "Fascicule 2 du CCTG — Terrassements généraux",
+      "DTU 12 — Terrassements pour le bâtiment",
+      "DTU 13.12 — Règles de calcul des fondations superficielles",
+      "NF P 94-500 — Missions d'ingénierie géotechnique",
+      "RPS 2011 — Règlement de Construction Parasismique (classement de sol S1–S5)",
+      "GTR — Guide des Terrassements Routiers"
+    ]
+  }
+}

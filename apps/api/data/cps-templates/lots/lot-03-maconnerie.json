@@ -1,0 +1,279 @@
+{
+  "code": "LOT_03_MACONNERIE",
+  "numero": 3,
+  "famille": "GROS_OEUVRE",
+  "intitule": {
+    "fr": "Lot n°03 — Maçonnerie et enduits",
+    "ar": "الصنف رقم 03 — البناء والتلبيس",
+    "en": "Lot No. 03 — Masonry and rendering"
+  },
+  "description": {
+    "fr": "Travaux de maçonnerie en agglomérés de béton et briques en terre cuite, chaînages horizontaux et verticaux, et enduits de mortier intérieurs et extérieurs, exécutés conformément aux normes marocaines NM 10.1.009, NM 10.1.042, au DTU 20.1 et au DTU 26.1.",
+    "ar": "أشغال البناء بالآجر الإسمنتي والآجر الطيني المشوي، والروابط الأفقية والعمودية، وتلبيسات الملاط الداخلية والخارجية، تُنفَّذ طبقاً للمعايير المغربية NM 10.1.009 وNM 10.1.042 وللمعيارين DTU 20.1 وDTU 26.1.",
+    "en": "Masonry works in concrete blocks and fired clay bricks, horizontal and vertical tie-beams, and interior and exterior mortar renderings, executed in accordance with Moroccan standards NM 10.1.009, NM 10.1.042, DTU 20.1 and DTU 26.1."
+  },
+  "normesRefs": [
+    "NM_10_1_009",
+    "NM_10_1_042",
+    "DTU_20_1",
+    "DTU_26_1",
+    "NM_EN_206_1_2014",
+    "RPS_2011"
+  ],
+  "secteurQualifMA": [
+    "A"
+  ],
+  "competencesRequises": [
+    "Entreprise qualifiée secteur A (gros œuvre) classe adaptée au volume de maçonnerie",
+    "Maçons qualifiés pour la pose d'agglos, briques et exécution des enduits dressés",
+    "Encadrement pour le contrôle de la planéité et de l'aplomb des ouvrages"
+  ],
+  "articles": [
+    {
+      "numero": "3.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet, consistance et limites de prestation",
+        "ar": "الموضوع والمحتوى وحدود الخدمة",
+        "en": "Object, scope and limits of provision"
+      },
+      "corpsMD": {
+        "fr": "Le présent lot a pour objet l'exécution des ouvrages de maçonnerie et d'enduits du projet **{{PROJECT_NAME}}** à **{{COMMUNE}}** (zone sismique **{{ZONE_SISMIQUE}}**, RPS 2011).\n\nConsistance :\n- Murs en **agglomérés de béton** (creux et pleins) pour murs porteurs, de remplissage et de soubassement.\n- Cloisons et murs en **briques de terre cuite**.\n- **Chaînages** horizontaux (sous-dallage, planchers, acrotères) et **raidisseurs** verticaux.\n- **Enduits** de mortier intérieurs et extérieurs (dégrossi + finition).\n\nLimites de prestation :\n- L'**ossature en béton armé** (poteaux, poutres, planchers) relève du lot Gros Œuvre — Béton (LOT_02).\n- Les **réservations** pour réseaux fluides et électricité sont coordonnées avec les lots techniques ; aucune saignée structurelle non autorisée.",
+        "ar": "يهدف هذا الصنف إلى تنفيذ أشغال البناء والتلبيس لمشروع **{{PROJECT_NAME}}** بـ**{{COMMUNE}}** (المنطقة الزلزالية **{{ZONE_SISMIQUE}}**، RPS 2011).\n\nالمحتوى :\n- جدران بـ**الآجر الإسمنتي** (المجوّف والمصمت) للجدران الحاملة وجدران الملء والأساس.\n- قواطع وجدران بـ**الآجر الطيني المشوي**.\n- **روابط** أفقية (تحت البلاطة، الأسقف، الحواجز العلوية) و**مقوّيات** عمودية.\n- **تلبيسات** الملاط الداخلية والخارجية (تخشين + إنهاء).\n\nحدود الخدمة :\n- يدخل **الهيكل الخرساني المسلح** (الأعمدة، الجسور، الأسقف) ضمن صنف الأشغال الكبرى — الخرسانة (LOT_02).\n- تُنسَّق **الفتحات** المخصصة لشبكات السوائل والكهرباء مع الأصناف التقنية ؛ يُمنع أي شقّ هيكلي غير مرخص.",
+        "en": "This lot covers the masonry and rendering works of project **{{PROJECT_NAME}}** in **{{COMMUNE}}** (seismic zone **{{ZONE_SISMIQUE}}**, RPS 2011).\n\nScope:\n- Walls in **concrete blocks** (hollow and solid) for load-bearing, infill and base walls.\n- Partitions and walls in **fired clay bricks**.\n- Horizontal **tie-beams** (under-slab, floors, parapets) and vertical **stiffeners**.\n- Interior and exterior mortar **renderings** (scratch coat + finish).\n\nLimits of provision:\n- The **reinforced concrete frame** (columns, beams, floors) falls under the Structural Works — Concrete lot (LOT_02).\n- **Reservations** for fluid and electrical networks are coordinated with the services lots; no unauthorised structural chasing."
+      }
+    },
+    {
+      "numero": "3.2",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Blocs de béton, briques et liants — provenance et caractéristiques",
+        "ar": "الآجر الإسمنتي والآجر والمواد الرابطة — المصدر والخصائص",
+        "en": "Concrete blocks, bricks and binders — source and characteristics"
+      },
+      "corpsMD": {
+        "fr": "**Agglomérés de béton** : conformes à la norme **NM 10.1.009**. Les blocs portent l'estampille de conformité ; classe de résistance minimale **B40 (≥ 4 MPa)** pour les blocs creux de remplissage, **B60/B80** pour les blocs porteurs et de soubassement. Dimensions modulaires (20×20×40, 15×20×40, 10×20×40).\n\n**Briques en terre cuite** : conformes à la norme **NM 10.1.042**. Briques saines, sans fissures ni efflorescences, à arêtes vives ; pourcentage de perforation et résistance conformes à l'emploi (cloison / mur).\n\n**Liants et mortiers** :\n- Ciment conforme à la norme **NM 10.1.004** (CPJ 45), stocké à l'abri de l'humidité.\n- Sable propre, exempt d'argile et de matières organiques ; granularité 0/3 à 0/5.\n- Eau de gâchage propre, non agressive (conforme aux exigences de la **NM EN 206-1**).\n- Mortiers dosés selon l'emploi : **300 à 350 kg/m³** pour le montage, **350 à 400 kg/m³** pour les enduits.\n\nChaque fourniture fait l'objet d'**échantillons** et d'un **agrément** préalable du maître d'œuvre ; les blocs et briques non estampillés sont refusés.",
+        "ar": "**الآجر الإسمنتي** : مطابق للمعيار **NM 10.1.009**. تحمل القوالب علامة المطابقة ؛ صنف المقاومة الأدنى **B40 (≥ 4 ميغاباسكال)** للقوالب المجوّفة للملء، و**B60/B80** للقوالب الحاملة وقوالب الأساس. أبعاد نمطية (20×20×40، 15×20×40، 10×20×40).\n\n**الآجر الطيني المشوي** : مطابق للمعيار **NM 10.1.042**. آجر سليم، دون تشققات أو تزهّرات، بحواف حادة ؛ نسبة التثقيب والمقاومة مطابقتان للاستعمال (قاطع / جدار).\n\n**المواد الرابطة والملاط** :\n- إسمنت مطابق للمعيار **NM 10.1.004** (CPJ 45)، مخزَّن بعيداً عن الرطوبة.\n- رمل نظيف خالٍ من الطين والمواد العضوية ؛ تدرّج حبيبي 0/3 إلى 0/5.\n- ماء العجن نظيف غير عدواني (مطابق لمتطلبات **NM EN 206-1**).\n- ملاط بجرعات حسب الاستعمال : **300 إلى 350 كغ/م³** للبناء، و**350 إلى 400 كغ/م³** للتلبيس.\n\nيخضع كل توريد لـ**عينات** و**موافقة** مسبقة من صاحب المشروع المنتدب ؛ تُرفض القوالب والآجر غير الحاملة للعلامة.",
+        "en": "**Concrete blocks**: compliant with standard **NM 10.1.009**. Blocks bear the conformity mark; minimum strength class **B40 (≥ 4 MPa)** for hollow infill blocks, **B60/B80** for load-bearing and base blocks. Modular dimensions (20×20×40, 15×20×40, 10×20×40).\n\n**Fired clay bricks**: compliant with standard **NM 10.1.042**. Sound bricks, free of cracks and efflorescence, with sharp edges; perforation ratio and strength suited to the use (partition / wall).\n\n**Binders and mortars**:\n- Cement compliant with standard **NM 10.1.004** (CPJ 45), stored away from moisture.\n- Clean sand, free of clay and organic matter; grading 0/3 to 0/5.\n- Clean, non-aggressive mixing water (meeting the requirements of **NM EN 206-1**).\n- Mortars dosed by use: **300 to 350 kg/m³** for laying, **350 to 400 kg/m³** for renderings.\n\nEach supply is subject to **samples** and prior **approval** by the works supervisor; unmarked blocks and bricks are rejected."
+      }
+    },
+    {
+      "numero": "3.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Aciers de chaînage et accessoires",
+        "ar": "حديد الروابط والملحقات",
+        "en": "Tie-beam reinforcement and accessories"
+      },
+      "corpsMD": {
+        "fr": "Les **aciers** des chaînages et raidisseurs sont des barres à haute adhérence conformes à la norme **NM 01.4.097** (aciers pour béton armé), nuance Fe E 500.\n\nLe **béton** des chaînages est conforme à la **NM EN 206-1** (classe de résistance minimale C25/30, classe d'exposition adaptée à l'environnement).\n\nAccessoires :\n- **Armatures de joint** (treillis d'about) pour le chaînage des murs longs.\n- **Linteaux** préfabriqués ou coulés en place au-dessus des baies.\n- Produits d'**accrochage** (gobetis) pour l'adhérence des enduits sur supports lisses.\n\nLes échantillons d'aciers et les certificats de conformité sont fournis avant mise en œuvre.",
+        "ar": "**حديد** الروابط والمقوّيات قضبان عالية الالتصاق مطابقة للمعيار **NM 01.4.097** (حديد الخرسانة المسلحة)، من نوع Fe E 500.\n\n**خرسانة** الروابط مطابقة لـ**NM EN 206-1** (صنف مقاومة أدنى C25/30، صنف تعرّض ملائم للبيئة).\n\nالملحقات :\n- **تسليح الفواصل** (شبكات الأطراف) لربط الجدران الطويلة.\n- **العتبات** سابقة الصنع أو المصبوبة في المكان فوق الفتحات.\n- مواد **التعليق** (الرشّة الأولى) لالتصاق التلبيسات على الأسطح الملساء.\n\nتُقدَّم عينات الحديد وشهادات المطابقة قبل التنفيذ.",
+        "en": "The **reinforcement** of tie-beams and stiffeners consists of high-bond bars compliant with standard **NM 01.4.097** (reinforcing steel), grade Fe E 500.\n\nThe tie-beam **concrete** complies with **NM EN 206-1** (minimum strength class C25/30, exposure class suited to the environment).\n\nAccessories:\n- **Joint reinforcement** (end mesh) for tying long walls.\n- Precast or cast-in-place **lintels** above openings.\n- **Bonding** products (spatterdash) for render adhesion on smooth substrates.\n\nSteel samples and conformity certificates are provided before installation."
+      }
+    },
+    {
+      "numero": "3.4",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Montage de la maçonnerie",
+        "ar": "تشييد البناء",
+        "en": "Masonry laying"
+      },
+      "corpsMD": {
+        "fr": "Le montage est exécuté conformément au **DTU 20.1**.\n\n- Les blocs et briques sont **humidifiés** avant pose (sans saturation) pour éviter la dessiccation du mortier.\n- Les joints horizontaux et verticaux ont une épaisseur de **10 à 15 mm**, garnis et remplis ; les joints verticaux sont décalés (harpage) d'au moins **1/4 de bloc**.\n- L'**aplomb**, l'horizontalité des assises et l'alignement sont contrôlés au fil et au niveau à chaque rang.\n- Les **chaînages horizontaux** sont prévus en couronnement des murs, au droit des planchers et acrotères ; les **raidisseurs verticaux** aux angles, croisements et de part et d'autre des baies, conformément aux dispositions parasismiques du **RPS 2011**.\n- Les **linteaux** dépassent les jambages d'au moins 20 cm de part et d'autre.\n- Aucune maçonnerie n'est montée sur plus de **1,50 m de hauteur** par jour pour limiter le fluage du mortier frais.",
+        "ar": "يُنفَّذ التشييد طبقاً للمعيار **DTU 20.1**.\n\n- يُرطَّب الآجر والقوالب قبل الوضع (دون إشباع) لتفادي جفاف الملاط.\n- يبلغ سُمك الفواصل الأفقية والعمودية **10 إلى 15 ملم**، مملوءة ومحشوّة ؛ وتُزاح الفواصل العمودية (التشابك) بما لا يقل عن **ربع قالب**.\n- يُراقَب **الشاقول** وأفقية المداميك والمحاذاة بالخيط والميزان عند كل مدماك.\n- تُنجَز **الروابط الأفقية** عند تتويج الجدران ومحاذاة الأسقف والحواجز العلوية ؛ و**المقوّيات العمودية** عند الزوايا والتقاطعات وعلى جانبي الفتحات، طبقاً للأحكام المضادة للزلازل في **RPS 2011**.\n- تتجاوز **العتبات** القوائم بما لا يقل عن 20 سم من كل جانب.\n- لا يُبنى أي جدار بأكثر من **1,50 م ارتفاعاً** في اليوم للحد من زحف الملاط الطري.",
+        "en": "Laying is carried out in accordance with **DTU 20.1**.\n\n- Blocks and bricks are **wetted** before laying (without saturation) to prevent mortar desiccation.\n- Horizontal and vertical joints are **10 to 15 mm** thick, buttered and filled; vertical joints are staggered (bonding) by at least **1/4 of a block**.\n- **Plumb**, course levelness and alignment are checked with line and level at each course.\n- **Horizontal tie-beams** are provided at wall heads, at floor levels and parapets; **vertical stiffeners** at corners, intersections and on each side of openings, in accordance with the seismic provisions of **RPS 2011**.\n- **Lintels** bear at least 20 cm beyond the jambs on each side.\n- No more than **1.50 m of height** of masonry is built per day to limit creep of the fresh mortar."
+      }
+    },
+    {
+      "numero": "3.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Exécution des enduits",
+        "ar": "تنفيذ التلبيسات",
+        "en": "Execution of renderings"
+      },
+      "corpsMD": {
+        "fr": "Les enduits sont exécutés conformément au **DTU 26.1**.\n\n- **Préparation** du support : nettoyage, dépoussiérage et humidification ; gobetis d'accrochage sur supports lisses.\n- Application en **trois couches** pour les enduits traditionnels : gobetis, corps d'enduit (dégrossi), couche de finition ; épaisseur totale **15 à 20 mm** (intérieur) et **20 à 25 mm** (extérieur).\n- Respect des **délais de durcissement** entre couches (≥ 48 h entre le corps d'enduit et la finition).\n- Mise en place de **cueillies, arêtes et baguettes** d'angle ; joints de fractionnement pour les grandes surfaces extérieures.\n- **Cure** : protection contre la dessiccation rapide (soleil, vent) par humidification les premiers jours.\n- Les enduits extérieurs intègrent les dispositions d'**étanchéité** en pied de mur (interface lot étanchéité).",
+        "ar": "تُنفَّذ التلبيسات طبقاً للمعيار **DTU 26.1**.\n\n- **تحضير** السطح : التنظيف وإزالة الغبار والترطيب ؛ رشّة التعليق على الأسطح الملساء.\n- التطبيق على **ثلاث طبقات** للتلبيسات التقليدية : الرشّة الأولى، جسم التلبيس (التخشين)، طبقة الإنهاء ؛ السُّمك الإجمالي **15 إلى 20 ملم** (داخلي) و**20 إلى 25 ملم** (خارجي).\n- احترام **آجال التصلب** بين الطبقات (≥ 48 ساعة بين جسم التلبيس والإنهاء).\n- وضع **الزوايا والحواف والقضبان** الركنية ؛ فواصل التجزئة للمساحات الخارجية الكبيرة.\n- **المعالجة** : الحماية من الجفاف السريع (الشمس، الريح) بالترطيب في الأيام الأولى.\n- تُدمج التلبيسات الخارجية تدابير **العزل المائي** في أسفل الجدار (واجهة مع صنف العزل).",
+        "en": "Renderings are executed in accordance with **DTU 26.1**.\n\n- **Substrate preparation**: cleaning, dusting and wetting; spatterdash bonding coat on smooth substrates.\n- Application in **three coats** for traditional renders: spatterdash, render body (scratch coat), finish coat; total thickness **15 to 20 mm** (interior) and **20 to 25 mm** (exterior).\n- Compliance with **curing times** between coats (≥ 48 h between render body and finish).\n- Installation of **internal angles, arrises and corner beads**; control joints for large exterior surfaces.\n- **Curing**: protection against rapid drying (sun, wind) by wetting in the first days.\n- Exterior renders incorporate **waterproofing** provisions at the wall base (interface with the waterproofing lot)."
+      }
+    },
+    {
+      "numero": "3.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Essais, contrôles et tolérances de réception",
+        "ar": "التجارب والمراقبة وهوامش القبول",
+        "en": "Tests, controls and acceptance tolerances"
+      },
+      "corpsMD": {
+        "fr": "**Contrôles** :\n- Vérification des **estampilles** et fiches techniques des blocs, briques et ciments.\n- Contrôle du **dosage** des mortiers et, si requis, essais de résistance sur mortier durci.\n- Contrôle de l'**adhérence** des enduits (essai de traction / sondage sonore) en cas de doute.\n\n**Tolérances de réception** :\n- Aplomb des murs : **≤ 5 mm sur 2,50 m** de hauteur, **≤ 1 cm** par étage.\n- Planéité des parements enduits sous la règle de 2 m : **≤ 5 mm** (intérieur), **≤ 7 mm** (extérieur).\n- Horizontalité des assises : **≤ 5 mm sur 2 m**.\n\nTout ouvrage hors tolérance (faux aplomb, enduit décollé, fissuration de retrait excessive) est repris aux frais de l'entrepreneur avant réception.",
+        "ar": "**المراقبة** :\n- التحقق من **علامات المطابقة** والبطاقات التقنية للقوالب والآجر والإسمنت.\n- مراقبة **جرعة** الملاط، وعند الاقتضاء تجارب المقاومة على الملاط المتصلب.\n- مراقبة **التصاق** التلبيسات (تجربة الشدّ / الفحص الصوتي) عند الشك.\n\n**هوامش القبول** :\n- شاقولية الجدران : **≤ 5 ملم على 2,50 م** ارتفاعاً، **≤ 1 سم** لكل طابق.\n- استواء الأوجه المُلبَّسة تحت قاعدة 2 م : **≤ 5 ملم** (داخلي)، **≤ 7 ملم** (خارجي).\n- أفقية المداميك : **≤ 5 ملم على 2 م**.\n\nيُعاد كل بناء خارج الهامش (انحراف الشاقول، تلبيس منفصل، تشقق انكماش مفرط) على نفقة المقاول قبل القبول.",
+        "en": "**Controls**:\n- Verification of **conformity marks** and technical sheets for blocks, bricks and cements.\n- Checking of mortar **dosage** and, where required, strength tests on hardened mortar.\n- Checking of render **adhesion** (pull-off test / sounding) in case of doubt.\n\n**Acceptance tolerances**:\n- Wall plumb: **≤ 5 mm over 2.50 m** of height, **≤ 1 cm** per storey.\n- Flatness of rendered faces under a 2 m straightedge: **≤ 5 mm** (interior), **≤ 7 mm** (exterior).\n- Course levelness: **≤ 5 mm over 2 m**.\n\nAny work outside tolerance (out-of-plumb, debonded render, excessive shrinkage cracking) is reworked at the contractor's expense before acceptance."
+      }
+    },
+    {
+      "numero": "3.7",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Garanties, hygiène, sécurité et gestion des déchets",
+        "ar": "الضمانات والنظافة والسلامة وتدبير النفايات",
+        "en": "Guarantees, health, safety and waste management"
+      },
+      "corpsMD": {
+        "fr": "**Garanties** : conformément aux articles **769 et 770** du DOC, l'entrepreneur garantit la solidité et la tenue des ouvrages de maçonnerie ; les désordres (fissuration anormale, décollement d'enduit, défaut de chaînage) imputables à un défaut d'exécution sont repris à sa charge pendant la période de garantie.\n\n**HSE** :\n- Échafaudages conformes et stabilisés ; protection collective des rives et trémies.\n- Port des **EPI** (casque, gants, lunettes lors du sciage) ; capotage des machines de découpe avec aspiration des poussières (silice).\n- Stockage ordonné des matériaux pour éviter les surcharges sur planchers.\n\n**Gestion des déchets** :\n- Tri des déchets inertes (gravats, chutes de blocs) et évacuation vers décharge agréée avec bordereau de suivi.\n- Récupération et évacuation des emballages (sacs ciment, films) vers les filières adaptées.\n- Nettoyage quotidien des zones de travail et des accès.",
+        "ar": "**الضمانات** : طبقاً للفصلين **769 و770** من قانون الالتزامات والعقود، يضمن المقاول متانة وثبات أشغال البناء ؛ وتُعاد العيوب (التشقق غير العادي، انفصال التلبيس، خلل الربط) الناتجة عن عيب في التنفيذ على نفقته خلال فترة الضمان.\n\n**النظافة والسلامة** :\n- سقالات مطابقة ومُثبَّتة ؛ حماية جماعية للحواف والفتحات.\n- ارتداء **معدات الوقاية الفردية** (خوذة، قفازات، نظارات عند النشر) ؛ تغطية آلات القطع مع شفط الغبار (السيليكا).\n- تخزين منظم للمواد لتفادي الحمولات الزائدة على الأسقف.\n\n**تدبير النفايات** :\n- فرز النفايات الخاملة (الركام، بقايا القوالب) وإجلاؤها إلى مطرح مرخص مع وصل تتبع.\n- استرجاع وإجلاء الأغلفة (أكياس الإسمنت، الأغشية) نحو القنوات الملائمة.\n- التنظيف اليومي لمناطق العمل والمداخل.",
+        "en": "**Guarantees**: in accordance with articles **769 and 770** of the DOC, the contractor guarantees the soundness and durability of the masonry works; disorders (abnormal cracking, render debonding, tie-beam defect) attributable to defective execution are reworked at his expense during the guarantee period.\n\n**HSE**:\n- Compliant and stabilised scaffolding; collective edge and opening protection.\n- Use of **PPE** (helmet, gloves, goggles when cutting); enclosure of cutting machines with dust extraction (silica).\n- Orderly storage of materials to avoid overloading floors.\n\n**Waste management**:\n- Sorting of inert waste (rubble, block offcuts) and removal to an approved tip with a tracking slip.\n- Recovery and removal of packaging (cement bags, films) to suitable channels.\n- Daily cleaning of work areas and accesses."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "3.01",
+      "designation": {
+        "fr": "Maçonnerie de blocs creux en béton de 20 cm",
+        "ar": "بناء بالآجر الإسمنتي المجوّف عيار 20 سم",
+        "en": "Masonry in 20 cm hollow concrete blocks"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au m² de mur fini, déduction faite des baies > 0,50 m² ; fourniture, mortier de pose et échafaudage inclus.",
+        "ar": "بالمتر المربع من الجدار المنجز، مع خصم الفتحات > 0,50 م² ؛ يشمل التوريد وملاط الوضع والسقالة.",
+        "en": "Per m² of finished wall, openings > 0.50 m² deducted; supply, bedding mortar and scaffolding included."
+      }
+    },
+    {
+      "code": "3.02",
+      "designation": {
+        "fr": "Maçonnerie de blocs pleins en béton pour soubassement",
+        "ar": "بناء بالآجر الإسمنتي المصمت للأساس",
+        "en": "Masonry in solid concrete blocks for base course"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au m² de mur de soubassement fini ; fourniture et mortier de pose inclus.",
+        "ar": "بالمتر المربع من جدار الأساس المنجز ؛ يشمل التوريد وملاط الوضع.",
+        "en": "Per m² of finished base wall; supply and bedding mortar included."
+      }
+    },
+    {
+      "code": "3.03",
+      "designation": {
+        "fr": "Cloison en briques creuses de terre cuite",
+        "ar": "قاطع بالآجر الطيني المشوي المجوّف",
+        "en": "Partition in hollow fired clay bricks"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au m² de cloison finie, déduction faite des baies > 0,50 m² ; fourniture et mortier inclus.",
+        "ar": "بالمتر المربع من القاطع المنجز، مع خصم الفتحات > 0,50 م² ؛ يشمل التوريد والملاط.",
+        "en": "Per m² of finished partition, openings > 0.50 m² deducted; supply and mortar included."
+      }
+    },
+    {
+      "code": "3.04",
+      "designation": {
+        "fr": "Chaînage horizontal en béton armé",
+        "ar": "ربط أفقي بالخرسانة المسلحة",
+        "en": "Horizontal reinforced concrete tie-beam"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de chaînage exécuté ; béton, coffrage et aciers inclus selon section type.",
+        "ar": "بالمتر الطولي من الربط المنجز ؛ تشمل الخرسانة والقالب والحديد حسب المقطع النموذجي.",
+        "en": "Per linear metre of tie-beam executed; concrete, formwork and steel included per typical section."
+      }
+    },
+    {
+      "code": "3.05",
+      "designation": {
+        "fr": "Raidisseur vertical en béton armé",
+        "ar": "مقوٍّ عمودي بالخرسانة المسلحة",
+        "en": "Vertical reinforced concrete stiffener"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de raidisseur exécuté ; béton, coffrage et aciers inclus.",
+        "ar": "بالمتر الطولي من المقوّي المنجز ؛ تشمل الخرسانة والقالب والحديد.",
+        "en": "Per linear metre of stiffener executed; concrete, formwork and steel included."
+      }
+    },
+    {
+      "code": "3.06",
+      "designation": {
+        "fr": "Linteau en béton armé au-dessus des baies",
+        "ar": "عتبة بالخرسانة المسلحة فوق الفتحات",
+        "en": "Reinforced concrete lintel above openings"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de linteau, appuis de 20 cm compris de part et d'autre.",
+        "ar": "بالمتر الطولي من العتبة، مع احتساب الارتكاز 20 سم من كل جانب.",
+        "en": "Per linear metre of lintel, including 20 cm bearing on each side."
+      }
+    },
+    {
+      "code": "3.07",
+      "designation": {
+        "fr": "Enduit de mortier intérieur dressé en trois couches",
+        "ar": "تلبيس بالملاط داخلي مُسوّى على ثلاث طبقات",
+        "en": "Interior three-coat float mortar rendering"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au m² de surface enduite, déduction faite des baies > 0,50 m² ; toutes sujétions d'angles et arêtes incluses.",
+        "ar": "بالمتر المربع من السطح المُلبَّس، مع خصم الفتحات > 0,50 م² ؛ تشمل جميع توابع الزوايا والحواف.",
+        "en": "Per m² of rendered area, openings > 0.50 m² deducted; all angle and arris works included."
+      }
+    },
+    {
+      "code": "3.08",
+      "designation": {
+        "fr": "Enduit de mortier extérieur en trois couches avec joints de fractionnement",
+        "ar": "تلبيس بالملاط خارجي على ثلاث طبقات مع فواصل التجزئة",
+        "en": "Exterior three-coat mortar rendering with control joints"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au m² de surface enduite sur façade ; joints de fractionnement, baguettes d'angle et cure inclus.",
+        "ar": "بالمتر المربع من السطح المُلبَّس على الواجهة ؛ تشمل فواصل التجزئة والقضبان الركنية والمعالجة.",
+        "en": "Per m² of rendered façade area; control joints, corner beads and curing included."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_02",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Liaison de la maçonnerie de remplissage à l'ossature béton armé (poteaux, poutres, planchers) du lot Gros Œuvre — Béton : harpage, calfeutrement et continuité des chaînages.",
+        "ar": "ربط بناء الملء بالهيكل الخرساني المسلح (الأعمدة، الجسور، الأسقف) لصنف الأشغال الكبرى — الخرسانة : التشابك والسدّ واستمرارية الروابط.",
+        "en": "Connection of the infill masonry to the reinforced concrete frame (columns, beams, floors) of the Structural Works — Concrete lot: bonding, sealing and continuity of tie-beams."
+      }
+    },
+    {
+      "lotCible": "LOT_TECHNIQUE",
+      "type": "RESERVATIONS",
+      "description": {
+        "fr": "Coordination des réservations, saignées et fourreaux dans les murs et cloisons avec les lots plomberie, CVC et électricité avant exécution des enduits.",
+        "ar": "تنسيق الفتحات والشقوق والأكمام داخل الجدران والقواطع مع أصناف السباكة والتدفئة/التهوية والكهرباء قبل تنفيذ التلبيسات.",
+        "en": "Coordination of reservations, chases and conduits in walls and partitions with the plumbing, HVAC and electrical lots before executing the renderings."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "NM 10.1.009 — Blocs en béton de granulats courants et légers",
+      "NM 10.1.042 — Briques en terre cuite",
+      "NM 10.1.004 — Ciments : composition, spécifications",
+      "NM 01.4.097 — Aciers pour béton armé",
+      "DTU 20.1 — Ouvrages en maçonnerie de petits éléments",
+      "DTU 26.1 — Enduits aux mortiers de ciment, de chaux et de plâtre",
+      "NM EN 206-1 (2014) — Béton : spécification, performances",
+      "RPS 2011 — Règlement de Construction Parasismique (dispositions de chaînage)"
+    ]
+  }
+}

@@ -1,0 +1,278 @@
+{
+  "code": "LOT_26_VRD_VOIRIE",
+  "numero": 26,
+  "famille": "VRD",
+  "intitule": {
+    "fr": "Voirie et Réseaux Divers (VRD)",
+    "ar": "الطرق والشبكات المختلفة",
+    "en": "Roads and Utility Networks (Civil Works)"
+  },
+  "description": {
+    "fr": "Le présent lot a pour objet l'exécution des travaux de voirie et réseaux divers du projet {{PROJECT_NAME}} situé sur la commune de {{COMMUNE}} : terrassements de plateforme, couches de chaussée, bordures et caniveaux, réseaux d'assainissement des eaux usées (EU) et des eaux pluviales (EP), réseau d'alimentation en eau potable (AEP), regards de visite et ouvrages annexes. Les ouvrages sont conformes au fascicule 70 du CCTG, aux prescriptions techniques de l'ONEE branche eau et assainissement, et à la loi 25-90 relative aux lotissements lorsqu'applicable.",
+    "ar": "يهدف هذا القسط إلى تنفيذ أشغال الطرق والشبكات المختلفة لمشروع {{PROJECT_NAME}} الكائن بجماعة {{COMMUNE}}: أشغال الحفر والتسوية، طبقات الطريق، الأرصفة والمجاري، شبكات صرف المياه العادمة والمياه المطرية، شبكة التزويد بالماء الصالح للشرب، آبار الزيارة والمنشآت الملحقة. تُنجز المنشآت طبقاً للكراس 70 من الدفتر العام للشروط التقنية، وللمواصفات التقنية للمكتب الوطني للكهرباء والماء الصالح للشرب فرع الماء والتطهير، وللقانون 25-90 المتعلق بالتجزئات العقارية عند الاقتضاء.",
+    "en": "This lot covers the execution of road and utility network works for the {{PROJECT_NAME}} project located in the {{COMMUNE}} municipality: platform earthworks, pavement courses, kerbs and gutters, foul sewer (EU) and stormwater (EP) drainage networks, potable water supply network (AEP), inspection manholes and ancillary structures. Works comply with Fascicule 70 of the CCTG, the technical specifications of ONEE water and sanitation division, and Law 25-90 on subdivisions where applicable."
+  },
+  "normesRefs": [
+    "Fascicule 70 CCTG",
+    "NM 10.1.008",
+    "NM EN 1916",
+    "NM EN 476",
+    "NM EN 1610",
+    "NM EN 805",
+    "EN 13242",
+    "NF P98-331",
+    "Loi 25-90",
+    "CCTG ONEE eau/assainissement"
+  ],
+  "secteurQualifMA": [
+    "Secteur C - Travaux routiers",
+    "Q2 - Terrassements et voirie",
+    "Q3 - Assainissement et conduites",
+    "Q4 - Adduction d'eau potable"
+  ],
+  "competencesRequises": [
+    "Topographie et implantation de réseaux gravitaires",
+    "Pose de canalisations assainissement et AEP",
+    "Mise en œuvre de couches de chaussée et compactage",
+    "Réalisation d'essais d'étanchéité de réseaux (air/eau)"
+  ],
+  "articles": [
+    {
+      "numero": "26.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet, consistance et documents de référence",
+        "ar": "الموضوع والمحتوى والوثائق المرجعية",
+        "en": "Scope, content and reference documents"
+      },
+      "corpsMD": {
+        "fr": "## Objet\nLe présent article définit la consistance des travaux de VRD à exécuter pour le projet **{{PROJECT_NAME}}** sur la commune de **{{COMMUNE}}**.\n\n## Consistance\n- Terrassements généraux et de réseaux (fouilles en tranchée) ;\n- Réseau d'assainissement EU et EP séparatif ;\n- Réseau AEP raccordé au réseau ONEE/régie ;\n- Voirie : couche de forme, couche de base, couche de roulement ;\n- Bordures, caniveaux et trottoirs.\n\n## Documents de référence\nLes travaux respectent le **fascicule 70** du CCTG, les normes **NM EN 1610** (mise en œuvre et essais), **NM EN 805** (réseaux d'eau), la **loi 25-90** et les prescriptions de l'**ONEE**. En cas de contradiction, l'ordre de priorité est : CPS particulier > plans visés > normes NM > CCTG.",
+        "ar": "## الموضوع\nيحدد هذا الفصل محتوى أشغال الطرق والشبكات المختلفة الواجب تنفيذها لمشروع **{{PROJECT_NAME}}** بجماعة **{{COMMUNE}}**.\n\n## المحتوى\n- الحفريات العامة وحفريات الشبكات (الخنادق)؛\n- شبكة صرف المياه العادمة والمطرية بنظام منفصل؛\n- شبكة الماء الصالح للشرب المربوطة بشبكة المكتب الوطني/الوكالة؛\n- الطريق: طبقة التأسيس، الطبقة القاعدية، طبقة الجريان؛\n- الأرصفة والمجاري والممرات.\n\n## الوثائق المرجعية\nتحترم الأشغال **الكراس 70** والمعايير **NM EN 1610** و**NM EN 805** و**القانون 25-90** ومواصفات **المكتب الوطني**. عند التعارض يكون ترتيب الأولوية: الدفتر الخاص > التصاميم المؤشر عليها > المعايير NM > الدفتر العام.",
+        "en": "## Scope\nThis article defines the content of the civil works to be executed for project **{{PROJECT_NAME}}** in the **{{COMMUNE}}** municipality.\n\n## Content\n- General and network earthworks (trench excavation);\n- Separative foul (EU) and stormwater (EP) drainage networks;\n- AEP network connected to the ONEE/utility network;\n- Roadway: capping layer, base course, wearing course;\n- Kerbs, gutters and footways.\n\n## Reference documents\nWorks comply with **Fascicule 70** of the CCTG, standards **NM EN 1610** (installation and testing), **NM EN 805** (water networks), **Law 25-90** and **ONEE** specifications. In case of conflict, the priority order is: particular specification > stamped drawings > NM standards > CCTG."
+      }
+    },
+    {
+      "numero": "26.2",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Tuyaux, regards et matériaux de remblai",
+        "ar": "الأنابيب والآبار ومواد الردم",
+        "en": "Pipes, manholes and backfill materials"
+      },
+      "corpsMD": {
+        "fr": "## Canalisations d'assainissement\n- **EU/EP** : tuyaux en béton armé conformes à la **NM EN 1916**, ou PVC-U série assainissement **NM EN 13476**, joints à élastomère **NM EN 681-1**.\n- Diamètres minimaux : **Ø 300 mm** en EU, **Ø 400 mm** en EP.\n\n## Conduites AEP\n- Fonte ductile **NM EN 545** ou PEHD PE100 **NM EN 12201**, PN conforme à la pression de service.\n\n## Regards\n- Regards de visite préfabriqués ou coulés en place, tampons en fonte ductile classe **D400** (chaussée) / **C250** (trottoir) selon **NM EN 124**.\n\n## Granulats\n- Matériaux de remblai et couches de chaussée conformes à **EN 13242**, indice de plasticité et granulométrie selon plans. Lit de pose en gravette **0/20**.",
+        "ar": "## أنابيب التطهير\n- **المياه العادمة/المطرية**: أنابيب من الخرسانة المسلحة طبقاً لـ **NM EN 1916**، أو PVC-U صنف التطهير **NM EN 13476**، بوصلات مطاطية **NM EN 681-1**.\n- الأقطار الدنيا: **Ø 300 ملم** للمياه العادمة، **Ø 400 ملم** للمياه المطرية.\n\n## قنوات الماء الصالح للشرب\n- حديد مرن **NM EN 545** أو PEHD PE100 **NM EN 12201**، بضغط مطابق لضغط الاستغلال.\n\n## الآبار\n- آبار الزيارة سابقة الصنع أو مصبوبة في عين المكان، أغطية من الحديد المرن صنف **D400** (الطريق) / **C250** (الرصيف) طبقاً لـ **NM EN 124**.\n\n## الحصى\n- مواد الردم وطبقات الطريق مطابقة لـ **EN 13242**. فراش الوضع من الحصى **0/20**.",
+        "en": "## Drainage pipes\n- **EU/EP**: reinforced concrete pipes per **NM EN 1916**, or PVC-U sewer grade **NM EN 13476**, elastomeric joints **NM EN 681-1**.\n- Minimum diameters: **Ø 300 mm** foul, **Ø 400 mm** stormwater.\n\n## AEP mains\n- Ductile iron **NM EN 545** or HDPE PE100 **NM EN 12201**, PN rating matching service pressure.\n\n## Manholes\n- Precast or cast-in-place inspection manholes, ductile iron covers class **D400** (carriageway) / **C250** (footway) per **NM EN 124**.\n\n## Aggregates\n- Backfill and pavement materials per **EN 13242**, plasticity index and grading per drawings. Bedding in **0/20** gravel."
+      }
+    },
+    {
+      "numero": "26.3",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Tranchées, lit de pose et pentes des réseaux gravitaires",
+        "ar": "الخنادق وفراش الوضع وميول الشبكات الجاذبية",
+        "en": "Trenches, bedding and gradients of gravity networks"
+      },
+      "corpsMD": {
+        "fr": "## Tranchées\nLargeur de tranchée = Ø extérieur + 2 × 0,30 m. Blindage obligatoire au-delà de **1,30 m** de profondeur (sécurité PPSPS — voir LOT 0).\n\n## Lit de pose\nLit de pose en gravette **0/20** d'épaisseur ≥ **10 cm**, dressé à la pente du projet. Enrobage du tuyau jusqu'à **+15 cm** au-dessus de la génératrice supérieure.\n\n## Pentes\n- Pente minimale EU : **0,5 %** (auto-curage à 0,7 m/s) ;\n- Pente minimale EP : **0,3 %** ;\n- Les pentes sont contrôlées au niveau laser entre regards.\n\n## Remblai\nRemblai en matériau d'apport compacté par couches de **0,30 m**, densité ≥ **95 % OPM** sous chaussée. Grillage avertisseur posé à **0,30 m** au-dessus des conduites.",
+        "ar": "## الخنادق\nعرض الخندق = القطر الخارجي + 2 × 0,30 م. التدعيم إجباري لما يتجاوز عمق **1,30 م** (سلامة PPSPS — انظر القسط 0).\n\n## فراش الوضع\nفراش وضع من الحصى **0/20** بسمك ≥ **10 سم** مهيأ حسب ميل المشروع. تغليف الأنبوب حتى **+15 سم** فوق المولد العلوي.\n\n## الميول\n- الميل الأدنى للمياه العادمة: **0,5 %** (تنظيف ذاتي عند 0,7 م/ث)؛\n- الميل الأدنى للمياه المطرية: **0,3 %**؛\n- تُراقب الميول بالليزر بين الآبار.\n\n## الردم\nردم بمادة مجلوبة مدكوكة بطبقات **0,30 م**، كثافة ≥ **95 % OPM** تحت الطريق. شبكة تنبيه على **0,30 م** فوق القنوات.",
+        "en": "## Trenches\nTrench width = external Ø + 2 × 0.30 m. Shoring mandatory beyond **1.30 m** depth (PPSPS safety — see LOT 0).\n\n## Bedding\n**0/20** gravel bedding, thickness ≥ **10 cm**, graded to project gradient. Pipe surround up to **+15 cm** above the pipe crown.\n\n## Gradients\n- Minimum EU gradient: **0.5 %** (self-cleansing at 0.7 m/s);\n- Minimum EP gradient: **0.3 %**;\n- Gradients checked by laser level between manholes.\n\n## Backfill\nImported material backfill compacted in **0.30 m** layers, density ≥ **95 % MPD** under carriageway. Warning mesh laid **0.30 m** above the mains."
+      }
+    },
+    {
+      "numero": "26.4",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Couches de chaussée, bordures et trottoirs",
+        "ar": "طبقات الطريق والأرصفة والممرات",
+        "en": "Pavement courses, kerbs and footways"
+      },
+      "corpsMD": {
+        "fr": "## Couches de chaussée\n1. **Couche de forme** : matériau sélectionné, compacté à ≥ 95 % OPM ;\n2. **Couche de base** : GNB (grave non traitée) **0/31,5** épaisseur selon dimensionnement ;\n3. **Couche de roulement** : enrobé bitumineux à chaud (EB) conforme **NF P98-150**, épaisseur min **5 cm**.\n\n## Bordures et caniveaux\nBordures préfabriquées type **T2/CS2** posées sur fondation béton **C16/20**, joints au mortier ≤ 1 cm. Caniveaux à pente continue vers les avaloirs.\n\n## Trottoirs\nDallage ou pavé autobloquant sur lit de sable et couche de fondation. Pente transversale de **2 %** vers la chaussée.\n\n> Accessibilité PMR : bateaux et abaissés conformes à la réglementation marocaine d'accessibilité.",
+        "ar": "## طبقات الطريق\n1. **طبقة التأسيس**: مادة منتقاة مدكوكة بـ ≥ 95 % OPM؛\n2. **الطبقة القاعدية**: حصى غير معالج **0/31,5** بسمك حسب التصميم؛\n3. **طبقة الجريان**: خرسانة إسفلتية ساخنة طبقاً لـ **NF P98-150**، سمك أدنى **5 سم**.\n\n## الأرصفة والمجاري\nأرصفة سابقة الصنع صنف **T2/CS2** موضوعة على أساس خرساني **C16/20**، فواصل بالملاط ≤ 1 سم. مجاري بميل مستمر نحو البالوعات.\n\n## الممرات\nبلاط أو حجر متشابك على فراش رمل وطبقة أساس. ميل عرضي **2 %** نحو الطريق.\n\n> ولوجية ذوي الاحتياجات الخاصة: منحدرات مطابقة لتنظيم الولوجية المغربي.",
+        "en": "## Pavement courses\n1. **Capping layer**: selected material, compacted to ≥ 95 % MPD;\n2. **Base course**: unbound graded aggregate **0/31.5**, thickness per design;\n3. **Wearing course**: hot mix asphalt (HMA) per **NF P98-150**, min thickness **5 cm**.\n\n## Kerbs and gutters\nPrecast kerbs type **T2/CS2** on **C16/20** concrete foundation, mortar joints ≤ 1 cm. Gutters with continuous fall towards gullies.\n\n## Footways\nPaving slabs or interlocking blocks on sand bed and sub-base. Cross-fall of **2 %** towards the carriageway.\n\n> Accessibility (PRM): dropped kerbs compliant with Moroccan accessibility regulations."
+      }
+    },
+    {
+      "numero": "26.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Essais d'étanchéité et de réception des réseaux",
+        "ar": "اختبارات الإحكام والتسلم للشبكات",
+        "en": "Watertightness and acceptance testing of networks"
+      },
+      "corpsMD": {
+        "fr": "## Essais d'étanchéité assainissement (NM EN 1610)\n- Essai à l'**air (méthode L)** ou à l'**eau (méthode W)** sur chaque tronçon entre regards ;\n- Pression d'épreuve eau : hauteur d'eau ≥ **0,50 m** au-dessus de la génératrice supérieure amont ;\n- Critère : chute de pression ≤ valeur normative sur la durée d'essai.\n\n## Essais réseau AEP (NM EN 805)\n- Épreuve de pression hydraulique à **1,5 × PMS** pendant 30 min minimum, sans chute mesurable significative ;\n- Désinfection et rinçage avant mise en service, analyse bactériologique conforme.\n\n## Inspection télévisée (ITV)\nInspection caméra des collecteurs avant réception ; absence de contre-pentes, déboîtements et infiltrations.\n\n## Épreuve de compactage\nEssais à la plaque / pénétromètre sur remblais de tranchée sous chaussée.\n\n> Tous les PV d'essais sont intégrés au **DOE** (voir LOT 0, art. 0.6).",
+        "ar": "## اختبارات إحكام التطهير (NM EN 1610)\n- اختبار بـ**الهواء (طريقة L)** أو بـ**الماء (طريقة W)** على كل مقطع بين الآبار؛\n- ضغط اختبار الماء: ارتفاع ماء ≥ **0,50 م** فوق المولد العلوي الأعلى؛\n- المعيار: انخفاض الضغط ≤ القيمة المعيارية خلال مدة الاختبار.\n\n## اختبارات شبكة الماء الصالح للشرب (NM EN 805)\n- اختبار ضغط هيدروليكي بـ **1,5 × ضغط الاستغلال الأقصى** لمدة 30 دقيقة على الأقل، دون انخفاض ملحوظ؛\n- التعقيم والشطف قبل التشغيل، وتحليل بكتريولوجي مطابق.\n\n## التفتيش بالكاميرا\nتفتيش المجمعات بالكاميرا قبل التسلم؛ غياب الميول العكسية والانفصالات والتسربات.\n\n## اختبار الدك\nاختبارات بالصفيحة / المخراز على ردم الخنادق تحت الطريق.\n\n> تُدمج جميع محاضر الاختبارات في **ملف المنشآت المنفذة** (انظر القسط 0، الفصل 0.6).",
+        "en": "## Drainage watertightness testing (NM EN 1610)\n- **Air (method L)** or **water (method W)** test on each section between manholes;\n- Water test pressure: water head ≥ **0.50 m** above the upstream crown;\n- Criterion: pressure drop ≤ normative value over the test duration.\n\n## AEP network testing (NM EN 805)\n- Hydraulic pressure test at **1.5 × MWP** for min 30 min, with no significant measurable drop;\n- Disinfection and flushing before commissioning, compliant bacteriological analysis.\n\n## CCTV inspection\nCamera inspection of collectors before acceptance; no counter-falls, joint displacement or infiltration.\n\n## Compaction testing\nPlate / penetrometer tests on trench backfill under carriageway.\n\n> All test reports are included in the **DOE** (see LOT 0, art. 0.6)."
+      }
+    },
+    {
+      "numero": "26.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Implantation, raccordements et plans de récolement",
+        "ar": "التموضع والربط وتصاميم الإنجاز الفعلي",
+        "en": "Setting out, connections and as-built drawings"
+      },
+      "corpsMD": {
+        "fr": "## Implantation\nImplantation contradictoire à partir des bornes et repères de nivellement remis par le maître d'ouvrage. Tolérance altimétrique des fils d'eau : **± 1 cm**.\n\n## Raccordements\n- Raccordement EU/EP au réseau public existant via regard de branchement ;\n- Raccordement AEP au réseau ONEE/régie après accord et comptage ;\n- Les piquages et coupures de réseau existant font l'objet d'autorisations préalables.\n\n## Plans de récolement\nLe titulaire fournit les **plans de récolement géoréférencés** (X,Y,Z) des réseaux posés, avec fils d'eau, diamètres, matériaux et regards, au format DWG + PDF, intégrés au DOE.",
+        "ar": "## التموضع\nتموضع تناقضي انطلاقاً من الأوتاد ومعالم التسوية المسلمة من صاحب المشروع. تسامح علو خطوط الماء: **± 1 سم**.\n\n## الربط\n- ربط المياه العادمة/المطرية بالشبكة العمومية القائمة عبر بئر الربط؛\n- ربط الماء الصالح للشرب بشبكة المكتب الوطني/الوكالة بعد الموافقة والعد؛\n- يخضع وصل وقطع الشبكة القائمة لتراخيص مسبقة.\n\n## تصاميم الإنجاز الفعلي\nيسلم المقاول **تصاميم الإنجاز الفعلي المرجعة جغرافياً** (X,Y,Z) للشبكات الموضوعة مع خطوط الماء والأقطار والمواد والآبار، بصيغة DWG + PDF، مدمجة في ملف المنشآت المنفذة.",
+        "en": "## Setting out\nContradictory setting out from benchmarks and level references supplied by the client. Invert level tolerance: **± 1 cm**.\n\n## Connections\n- EU/EP connection to existing public network via a connection manhole;\n- AEP connection to the ONEE/utility network after approval and metering;\n- Tappings and cut-ins on existing networks require prior authorisations.\n\n## As-built drawings\nThe contractor provides **georeferenced as-built drawings** (X,Y,Z) of installed networks, with invert levels, diameters, materials and manholes, in DWG + PDF format, included in the DOE."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "26.01",
+      "designation": {
+        "fr": "Déblais en tranchée pour réseaux, toutes natures de terrain",
+        "ar": "حفر الخنادق للشبكات، جميع أنواع التربة",
+        "en": "Trench excavation for networks, all ground types"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au mètre cube de volume théorique de tranchée (largeur réglementaire × profondeur réelle × longueur), mesuré entre regards.",
+        "ar": "بالمتر المكعب لحجم الخندق النظري (العرض النظامي × العمق الفعلي × الطول)، مقاساً بين الآبار.",
+        "en": "Per cubic metre of theoretical trench volume (regulatory width × actual depth × length), measured between manholes."
+      }
+    },
+    {
+      "code": "26.02",
+      "designation": {
+        "fr": "Fourniture et pose de canalisation assainissement Ø 300/400 mm, joints élastomère",
+        "ar": "تزويد ووضع قناة تطهير Ø 300/400 ملم، بوصلات مطاطية",
+        "en": "Supply and laying of drainage pipe Ø 300/400 mm, elastomeric joints"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de canalisation posée et essayée, mesuré axe d'un regard à axe du regard suivant, lit de pose et enrobage compris.",
+        "ar": "بالمتر الطولي للقناة الموضوعة والمختبرة، مقاساً من محور بئر إلى محور البئر الموالي، شامل فراش الوضع والتغليف.",
+        "en": "Per linear metre of laid and tested pipe, measured manhole-axis to manhole-axis, bedding and surround included."
+      }
+    },
+    {
+      "code": "26.03",
+      "designation": {
+        "fr": "Fourniture et pose de conduite AEP fonte/PEHD, raccords compris",
+        "ar": "تزويد ووضع قناة الماء الصالح للشرب حديد/PEHD، شامل الوصلات",
+        "en": "Supply and laying of AEP main ductile iron/HDPE, fittings included"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de conduite posée et essayée à la pression, mesuré sur l'axe, pièces de raccord et grillage avertisseur compris.",
+        "ar": "بالمتر الطولي للقناة الموضوعة والمختبرة بالضغط، مقاساً على المحور، شامل قطع الوصل وشبكة التنبيه.",
+        "en": "Per linear metre of laid and pressure-tested main, measured on the axis, fittings and warning mesh included."
+      }
+    },
+    {
+      "code": "26.04",
+      "designation": {
+        "fr": "Regard de visite préfabriqué/coulé en place, tampon fonte D400, profondeur variable",
+        "ar": "بئر زيارة سابق الصنع/مصبوب في عين المكان، غطاء حديد D400، عمق متغير",
+        "en": "Inspection manhole precast/cast-in-place, ductile iron cover D400, variable depth"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de regard complet posé (radier, cunette, échelons, dispositif de fermeture), quelle que soit la profondeur.",
+        "ar": "بالوحدة للبئر الكامل الموضوع (الأرضية، المجرى، السلالم، جهاز الإغلاق)، مهما كان العمق.",
+        "en": "Per unit of complete installed manhole (base, channel, step irons, closure device), regardless of depth."
+      }
+    },
+    {
+      "code": "26.05",
+      "designation": {
+        "fr": "Couche de roulement en enrobé bitumineux à chaud, épaisseur 5 cm",
+        "ar": "طبقة جريان من الخرسانة الإسفلتية الساخنة، سمك 5 سم",
+        "en": "Wearing course in hot mix asphalt, 5 cm thickness"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au mètre carré de surface revêtue, mesuré sur le profil fini, couche d'accrochage comprise.",
+        "ar": "بالمتر المربع للمساحة المغطاة، مقاساً على المقطع المنجز، شامل طبقة الالتصاق.",
+        "en": "Per square metre of surfaced area, measured on the finished profile, tack coat included."
+      }
+    },
+    {
+      "code": "26.06",
+      "designation": {
+        "fr": "Bordure préfabriquée type T2/CS2 sur fondation béton",
+        "ar": "رصيف سابق الصنع صنف T2/CS2 على أساس خرساني",
+        "en": "Precast kerb type T2/CS2 on concrete foundation"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de bordure posée, fondation béton et calage compris, mesuré sur l'axe en plan.",
+        "ar": "بالمتر الطولي للرصيف الموضوع، شامل الأساس الخرساني والتثبيت، مقاساً على المحور.",
+        "en": "Per linear metre of laid kerb, concrete foundation and haunching included, measured on the plan axis."
+      }
+    },
+    {
+      "code": "26.07",
+      "designation": {
+        "fr": "Essai d'étanchéité de réseau (air/eau) et inspection télévisée par tronçon",
+        "ar": "اختبار إحكام الشبكة (هواء/ماء) والتفتيش بالكاميرا حسب المقطع",
+        "en": "Network watertightness test (air/water) and CCTV inspection per section"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de réseau effectivement testé et inspecté, PV d'essai et rapport ITV fournis.",
+        "ar": "بالمتر الطولي للشبكة المختبرة والمفتشة فعلياً، مع تسليم محضر الاختبار وتقرير التفتيش.",
+        "en": "Per linear metre of network actually tested and inspected, test report and CCTV report provided."
+      }
+    },
+    {
+      "code": "26.08",
+      "designation": {
+        "fr": "Remblai de tranchée compacté par couches, matériau d'apport",
+        "ar": "ردم الخندق المدكوك بطبقات، مادة مجلوبة",
+        "en": "Compacted trench backfill in layers, imported material"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au mètre cube de remblai mis en œuvre et compacté, mesuré au volume théorique de tranchée déduction faite des canalisations.",
+        "ar": "بالمتر المكعب للردم المنفذ والمدكوك، مقاساً بالحجم النظري للخندق بعد طرح القنوات.",
+        "en": "Per cubic metre of placed and compacted backfill, measured by theoretical trench volume less the pipes."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_00_GENERALITES",
+      "type": "PREREQUIS",
+      "description": {
+        "fr": "Sécurité des fouilles et blindage selon le PPSPS et le plan d'installation de chantier du LOT 0.",
+        "ar": "سلامة الحفريات والتدعيم حسب PPSPS وتصميم تنظيم الورش للقسط 0.",
+        "en": "Excavation safety and shoring per the PPSPS and site installation plan of LOT 0."
+      }
+    },
+    {
+      "lotCible": "LOT_02_GROS_OEUVRE",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Coordination des traversées de réseaux à travers les ouvrages en béton (réservations, fourreaux) avec le lot gros œuvre.",
+        "ar": "تنسيق عبور الشبكات خلال المنشآت الخرسانية (الحجوزات والأكمام) مع قسط الأشغال الكبرى.",
+        "en": "Coordination of network crossings through concrete structures (penetrations, sleeves) with the structural works lot."
+      }
+    },
+    {
+      "lotCible": "LOT_21_ESPACES_VERTS",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Coordination du réseau d'arrosage automatique et des fourreaux d'attente avec le lot espaces verts avant revêtement définitif.",
+        "ar": "تنسيق شبكة السقي الآلي والأكمام المنتظرة مع قسط المساحات الخضراء قبل التغطية النهائية.",
+        "en": "Coordination of the automatic irrigation network and waiting sleeves with the landscaping lot before final surfacing."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "Fascicule 70 CCTG (assainissement)",
+      "Loi 25-90 relative aux lotissements",
+      "CCTG ONEE branche eau et assainissement",
+      "NM EN 1610 / NM EN 805 / NM EN 1916 / NM EN 124"
+    ]
+  }
+}

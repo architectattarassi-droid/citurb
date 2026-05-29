@@ -1,0 +1,244 @@
+{
+  "code": "LOT_19_STAFF_STUC",
+  "numero": 19,
+  "famille": "SECOND_OEUVRE",
+  "intitule": {
+    "fr": "Staff, stuc et plâtre sculpté traditionnel (Gebs)",
+    "ar": "الستاف والستوك والجبس المنحوت التقليدي (الجبص)",
+    "en": "Staff, stucco and traditional carved plaster (Gebs)"
+  },
+  "description": {
+    "fr": "Le présent lot a pour objet la réalisation des ouvrages décoratifs en plâtre : éléments de staff préfabriqués (corniches, moulures, rosaces), stuc lissé et ciré, et surtout le plâtre sculpté traditionnel marocain (Gebs) — corniches ornementées, rosaces, écoinçons, frises épigraphiques et moucharabieh en plâtre ajouré. Ces ouvrages mobilisent un savoir-faire artisanal (maâlem gebs) et sont réalisés sur modèles et échantillons agréés, avec des exigences de tolérances esthétiques propres aux ouvrages d'art.",
+    "ar": "يهدف هذا القسم إلى إنجاز الأعمال الزخرفية بالجبس: عناصر الستاف الجاهزة (الإفريزات، القوالب، الورديات)، الستوك المصقول والمشمع، وخاصة الجبس المنحوت التقليدي المغربي (الجبص) — إفريزات مزخرفة، ورديات، أركان، أفاريز كتابية ومشربيات من الجبس المخرّم. تتطلب هذه الأعمال مهارة حرفية (معلم الجبص) وتنجز على نماذج وعينات معتمدة، مع متطلبات تفاوتات جمالية خاصة بالأعمال الفنية.",
+    "en": "This lot covers the execution of decorative plaster works: prefabricated staff elements (cornices, mouldings, rosettes), smoothed and waxed stucco, and above all traditional Moroccan carved plaster (Gebs) — ornamented cornices, rosettes, spandrels, epigraphic friezes and openwork plaster mashrabiya. These works mobilise craft know-how (maâlem gebs) and are executed on approved models and samples, with aesthetic tolerance requirements specific to fine art works."
+  },
+  "normesRefs": [
+    "NF DTU 25.51",
+    "NF DTU 25.41",
+    "NM EN 13279-1",
+    "NM EN 13279-2",
+    "NM 10.1.008"
+  ],
+  "secteurQualifMA": [
+    "B5 - Plâtrerie - staff",
+    "B6 - Décoration traditionnelle / arts marocains (Gebs, zellige, bois)",
+    "Q5.4 - Ouvrages décoratifs en plâtre et staff"
+  ],
+  "competencesRequises": [
+    "Maâlem gebs (maître artisan du plâtre sculpté traditionnel)",
+    "Staffeur / mouleur qualifié",
+    "Sculpteur-graveur sur plâtre frais",
+    "Encadrement maîtrisant les arts décoratifs marocains"
+  ],
+  "articles": [
+    {
+      "numero": "19.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet, consistance et savoir-faire requis",
+        "ar": "الموضوع والمحتوى والمهارة المطلوبة",
+        "en": "Scope, content and required know-how"
+      },
+      "corpsMD": {
+        "fr": "Le présent lot définit les ouvrages décoratifs en plâtre du projet **{{PROJECT_NAME}}** à **{{COMMUNE}}**.\n\nIl comprend :\n- le **staff** préfabriqué : corniches, moulures, rosaces, coupoles et caissons coulés en atelier puis scellés ;\n- le **stuc** : enduits décoratifs lissés et cirés (tadelakt de plâtre, stuc poli) ;\n- le **Gebs traditionnel** : sculpture du plâtre frais in situ — corniches ornementées, rosaces, écoinçons, frises épigraphiques (calligraphie), claustras et moucharabieh ajourés.\n\nLes ouvrages de Gebs et de stuc relèvent des **arts décoratifs marocains** et exigent l'intervention de **maâlems** qualifiés. L'entrepreneur justifie de références d'ouvrages similaires (riads, palais, mosquées, hôtellerie de prestige) et présente la composition de son équipe artisanale.",
+        "ar": "يحدد هذا القسم الأعمال الزخرفية بالجبس لمشروع **{{PROJECT_NAME}}** بـ **{{COMMUNE}}**.\n\nيشمل:\n- **الستاف** الجاهز: الإفريزات، القوالب، الورديات، القباب والصناديق المصبوبة في الورشة ثم المثبتة؛\n- **الستوك**: طلاءات زخرفية مصقولة ومشمعة (تادلاكت الجبس، الستوك المصقول)؛\n- **الجبص التقليدي**: نحت الجبس الطري في عين المكان — إفريزات مزخرفة، ورديات، أركان، أفاريز كتابية (خط)، مشبكات ومشربيات مخرّمة.\n\nتندرج أعمال الجبص والستوك ضمن **الفنون الزخرفية المغربية** وتتطلب تدخل **معلمين** مؤهلين. يبرر المقاول مراجع أعمال مماثلة (رياضات، قصور، مساجد، فندقة راقية) ويقدم تركيبة فريقه الحرفي.",
+        "en": "This lot defines the decorative plaster works of project **{{PROJECT_NAME}}** in **{{COMMUNE}}**.\n\nIt includes:\n- **staff** prefabrication: cornices, mouldings, rosettes, domes and coffers cast in workshop then sealed;\n- **stucco**: smoothed and waxed decorative renders (plaster tadelakt, polished stucco);\n- **traditional Gebs**: carving of fresh plaster in situ — ornamented cornices, rosettes, spandrels, epigraphic friezes (calligraphy), openwork claustra and mashrabiya.\n\nThe Gebs and stucco works belong to the **Moroccan decorative arts** and require the intervention of qualified **maâlems**. The contractor justifies references of similar works (riads, palaces, mosques, prestige hospitality) and presents the composition of his craft team."
+      }
+    },
+    {
+      "numero": "19.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Documents de référence, modèles et échantillons",
+        "ar": "وثائق المرجع والنماذج والعينات",
+        "en": "Reference documents, models and samples"
+      },
+      "corpsMD": {
+        "fr": "Les ouvrages s'appuient sur :\n- **NF DTU 25.51** : mise en œuvre des plafonds et ouvrages en staff ;\n- **NF DTU 25.41** : ouvrages en plaques de plâtre (supports) ;\n- **NM EN 13279-1/2** : liants-plâtres et enduits à base de plâtre — définitions, exigences, méthodes d'essai ;\n- les **dessins de détail** et carnets de motifs validés par le maître d'œuvre.\n\n**Modèles et échantillons** : avant tout démarrage, l'entrepreneur réalise des **prototypes grandeur nature** (ouvrage témoin) de chaque motif (corniche, rosace, frise, panneau de moucharabieh) soumis à l'agrément du maître d'œuvre. L'ouvrage témoin agréé sert de **référence contractuelle de qualité** pour la réception ; il est conservé sur chantier.",
+        "ar": "تستند الأعمال على:\n- **NF DTU 25.51**: تنفيذ الأسقف وأعمال الستاف؛\n- **NF DTU 25.41**: أعمال ألواح الجبس (الدعامات)؛\n- **NM EN 13279-1/2**: روابط الجبس والطلاءات الجبسية — التعاريف والمتطلبات وطرق الاختبار؛\n- **رسومات التفصيل** ودفاتر الزخارف المصادق عليها من صاحب العمل.\n\n**النماذج والعينات**: قبل أي انطلاق، ينجز المقاول **نماذج بالحجم الطبيعي** (عمل نموذجي) لكل زخرفة (إفريز، وردية، فريز، لوح مشربية) تخضع لموافقة صاحب العمل. يشكل العمل النموذجي المعتمد **مرجعاً تعاقدياً للجودة** عند التسلم؛ ويحفظ في الورش.",
+        "en": "The works are based on:\n- **NF DTU 25.51**: installation of staff ceilings and works;\n- **NF DTU 25.41**: plasterboard works (substrates);\n- **NM EN 13279-1/2**: gypsum binders and gypsum-based plasters — definitions, requirements, test methods;\n- the **detail drawings** and pattern books validated by the project manager.\n\n**Models and samples**: before any start, the contractor produces **full-scale prototypes** (reference work) of each motif (cornice, rosette, frieze, mashrabiya panel) submitted for the project manager's approval. The approved reference work serves as the **contractual quality reference** for acceptance; it is kept on site."
+      }
+    },
+    {
+      "numero": "19.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Plâtres, armatures et finitions",
+        "ar": "مواد الجبس والتسليح والتشطيبات",
+        "en": "Plasters, reinforcements and finishes"
+      },
+      "corpsMD": {
+        "fr": "**Plâtre** conforme à la **NM EN 13279-1** : plâtre fin de moulage et de sculpture, pureté et finesse adaptées au modelage, exempt d'impuretés. Pour le Gebs traditionnel, plâtre de qualité supérieure permettant la sculpture du frais (temps de prise maîtrisé).\n\n**Armatures** : fibres végétales (filasse) ou trame de fibre de verre noyées dans le staff pour la tenue mécanique des éléments coulés ; armatures métalliques inoxydables ou galvanisées pour les pièces lourdes (coupoles, grandes corniches).\n\n**Scellements** : plâtre de scellement, vis et chevilles inox, suspentes pour éléments suspendus.\n\n**Finitions de stuc** : couche de finition lissée à la truelle, polissage à la pierre, cirage (savon noir/cire) pour le stuc poli.\n\nProvenance et qualité des plâtres justifiées par fiches techniques ; **échantillons** de stuc (teinte, brillance) et de plâtre sculpté agréés avant exécution.",
+        "ar": "**الجبس** مطابق لـ **NM EN 13279-1**: جبس ناعم للقولبة والنحت، نقاوة ونعومة ملائمة للتشكيل، خال من الشوائب. بالنسبة للجبص التقليدي، جبس ذو جودة عالية يسمح بنحت الطري (زمن شك متحكم فيه).\n\n**التسليح**: ألياف نباتية (مشاقة) أو شبكة ألياف زجاجية مغمورة في الستاف لتماسك العناصر المصبوبة؛ تسليح معدني مقاوم للصدأ أو مجلفن للقطع الثقيلة (القباب، الإفريزات الكبيرة).\n\n**التثبيت**: جبس التثبيت، براغي وخوابير ستانلس، معلقات للعناصر المعلقة.\n\n**تشطيبات الستوك**: طبقة تشطيب مصقولة بالمسطرين، صقل بالحجر، تشميع (صابون أسود/شمع) للستوك المصقول.\n\nمصدر وجودة مواد الجبس مبررة ببطاقات تقنية؛ **عينات** الستوك (اللون، اللمعان) والجبس المنحوت معتمدة قبل التنفيذ.",
+        "en": "**Plaster** compliant with **NM EN 13279-1**: fine moulding and carving plaster, purity and fineness suited to modelling, free of impurities. For traditional Gebs, superior-quality plaster allowing carving of the fresh material (controlled setting time).\n\n**Reinforcements**: vegetable fibres (tow) or glass-fibre mesh embedded in the staff for the mechanical strength of cast elements; stainless or galvanised metal reinforcements for heavy pieces (domes, large cornices).\n\n**Sealings**: sealing plaster, stainless screws and plugs, hangers for suspended elements.\n\n**Stucco finishes**: trowel-smoothed finish coat, stone polishing, waxing (black soap/wax) for polished stucco.\n\nOrigin and quality of plasters justified by technical sheets; **samples** of stucco (colour, gloss) and carved plaster approved before execution."
+      }
+    },
+    {
+      "numero": "19.4",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Mise en œuvre du staff et du stuc",
+        "ar": "تنفيذ الستاف والستوك",
+        "en": "Execution of staff and stucco"
+      },
+      "corpsMD": {
+        "fr": "**Staff** selon **NF DTU 25.51** : éléments coulés en atelier dans des moules (plâtre armé filasse), séchés puis transportés ; pose par scellement au plâtre et suspentes pour les éléments lourds ; raccords et joints garnis et repris invisibles ; redressage des moulures filantes au calibre tiré sur place pour les longueurs courantes.\n\n**Stuc** : application en plusieurs couches sur support sain et dégraissé ; serrage et lissage progressif à la truelle, puis polissage à la pierre douce ; finition cirée pour le stuc poli, obtenant un aspect lisse, dense et lustré sans fissuration.\n\n**Supports** : les supports (maçonnerie, plaques, béton) sont reconnus sains, plans et adhérents ; application d'un gobetis ou d'un primaire d'accrochage si nécessaire. La mise en œuvre est protégée des courants d'air et d'un séchage trop rapide.",
+        "ar": "**الستاف** وفقاً لـ **NF DTU 25.51**: عناصر مصبوبة في الورشة في قوالب (جبس مسلح بالمشاقة)، مجففة ثم منقولة؛ تركيب بالتثبيت بالجبس والمعلقات للعناصر الثقيلة؛ وصلات وفواصل مملوءة ومصححة بشكل غير مرئي؛ تقويم القوالب المستمرة بمعيار مسحوب في عين المكان للأطوال الجارية.\n\n**الستوك**: تطبيق بعدة طبقات على دعامة سليمة ومنزوعة الدهون؛ شد وصقل تدريجي بالمسطرين، ثم صقل بالحجر الناعم؛ تشطيب مشمع للستوك المصقول، للحصول على مظهر أملس وكثيف ولامع دون تشقق.\n\n**الدعامات**: تتأكد سلامة الدعامات (بناء، ألواح، خرسانة) واستواؤها والتصاقها؛ تطبيق طبقة تعشيق أو أساس لاصق عند الاقتضاء. يحمى التنفيذ من تيارات الهواء ومن الجفاف السريع.",
+        "en": "**Staff** according to **NF DTU 25.51**: elements cast in workshop in moulds (tow-reinforced plaster), dried then transported; installation by plaster sealing and hangers for heavy elements; joints filled and made invisible; straightening of running mouldings with a profile gauge drawn on site for standard lengths.\n\n**Stucco**: application in several coats on a sound and degreased substrate; progressive tightening and smoothing with the trowel, then polishing with soft stone; waxed finish for polished stucco, achieving a smooth, dense and lustrous appearance without cracking.\n\n**Substrates**: substrates (masonry, boards, concrete) are recognised as sound, flat and adherent; application of a spatterdash or bonding primer if necessary. The execution is protected from draughts and from too-rapid drying."
+      }
+    },
+    {
+      "numero": "19.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Sculpture du Gebs traditionnel et tolérances esthétiques",
+        "ar": "نحت الجبص التقليدي والتفاوتات الجمالية",
+        "en": "Carving of traditional Gebs and aesthetic tolerances"
+      },
+      "corpsMD": {
+        "fr": "**Sculpture du Gebs** : le plâtre est appliqué frais en surépaisseur sur le support, puis le **maâlem** trace le motif (report du carton / poncif) et sculpte en taille directe au ciseau et à la gouge avant prise complète. Les motifs (entrelacs géométriques, arabesques végétales, calligraphie) sont exécutés selon les carnets agréés. Les **moucharabieh et claustras ajourés** sont sculptés puis évidés, ou moulés et ajourés, et scellés en allège ou en imposte.\n\n**Tolérances esthétiques** : s'agissant d'un ouvrage d'art, la réception se fait par comparaison avec l'**ouvrage témoin agréé**. Sont appréciés : la netteté et la régularité du motif, la profondeur et la symétrie de la sculpture, la continuité des frises et la qualité des raccords. Les défauts (motif flou, dissymétrie visible, épaufrure, fissure de retrait) sont repris ou la pièce refaite. La planéité des fonds suit les tolérances du **NF DTU 25.51**.",
+        "ar": "**نحت الجبص**: يطبق الجبس طرياً بزيادة سمك على الدعامة، ثم يخطط **المعلم** الزخرفة (نقل النموذج) وينحت بالقطع المباشر بالإزميل والمحفار قبل الشك الكامل. تنفذ الزخارف (التشابك الهندسي، الأرابيسك النباتي، الخط) حسب الدفاتر المعتمدة. تنحت **المشربيات والمشبكات المخرّمة** ثم تفرّغ، أو تقولب وتخرّم، وتثبت في الكوة أو فوق الباب.\n\n**التفاوتات الجمالية**: باعتباره عملاً فنياً، يتم التسلم بالمقارنة مع **العمل النموذجي المعتمد**. تقدّر: وضوح وانتظام الزخرفة، عمق وتناظر النحت، استمرارية الأفاريز وجودة الوصلات. تصحح العيوب (زخرفة غير واضحة، عدم تناظر ظاهر، تشظي، تشقق انكماش) أو تعاد القطعة. يتبع استواء الأرضيات تفاوتات **NF DTU 25.51**.",
+        "en": "**Gebs carving**: the plaster is applied fresh as an over-thickness on the substrate, then the **maâlem** traces the motif (transfer of the pattern / pounce) and carves in direct cutting with chisel and gouge before complete setting. The motifs (geometric interlacing, vegetal arabesques, calligraphy) are executed according to the approved pattern books. The **mashrabiya and openwork claustra** are carved then hollowed, or moulded and pierced, and sealed in the sill or transom.\n\n**Aesthetic tolerances**: as a fine art work, acceptance is by comparison with the **approved reference work**. Assessed are: the sharpness and regularity of the motif, the depth and symmetry of the carving, the continuity of friezes and the quality of joints. Defects (blurred motif, visible asymmetry, chipping, shrinkage crack) are repaired or the piece remade. The flatness of the backgrounds follows the tolerances of **NF DTU 25.51**."
+      }
+    },
+    {
+      "numero": "19.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "HSE, protection des ouvrages, déchets et garanties",
+        "ar": "الصحة والسلامة وحماية الأعمال والنفايات والضمانات",
+        "en": "HSE, protection of works, waste and warranties"
+      },
+      "corpsMD": {
+        "fr": "**Hygiène et sécurité** : port des EPI (masque anti-poussière FFP2 lors du ponçage et de la sculpture à sec, gants, lunettes), échafaudages stables pour les ouvrages en hauteur (corniches, coupoles), bonne ventilation des ateliers de moulage.\n\n**Protection des ouvrages** : les ouvrages de staff, stuc et Gebs achevés sont **protégés** des chocs, salissures et projections des lots suivants (peinture, sols) par bâches et habillages ; les arêtes vives et reliefs fragiles sont particulièrement protégés jusqu'à la réception.\n\n**Déchets** : tri des chutes de plâtre (recyclables), des emballages de moules et des armatures ; évacuation en filière agréée. Les eaux de gâchage et de nettoyage ne sont pas rejetées dans les réseaux (décantation préalable).\n\n**Garanties** : garantie de parfait achèvement (1 an) sur la tenue des scellements et l'absence de fissuration anormale ; conformité de l'aspect à l'ouvrage témoin. L'entrepreneur remet un dossier (carnets de motifs exécutés, fiches plâtres, photos de l'ouvrage témoin) et des recommandations d'entretien des ouvrages décoratifs.",
+        "ar": "**الصحة والسلامة**: ارتداء معدات الوقاية (قناع مضاد للغبار FFP2 أثناء الصنفرة والنحت الجاف، قفازات، نظارات)، سقالات مستقرة للأعمال في الارتفاع (الإفريزات، القباب)، تهوية جيدة لورشات القولبة.\n\n**حماية الأعمال**: تحمى أعمال الستاف والستوك والجبص المنجزة من الصدمات والأوساخ ورذاذ الأقسام اللاحقة (الدهان، الأرضيات) بأغطية وتكسيات؛ تحمى الحواف الحادة والنتوءات الهشة بشكل خاص حتى التسلم.\n\n**النفايات**: فرز بقايا الجبس (قابلة للتدوير)، تغليفات القوالب والتسليح؛ الإجلاء في قناة معتمدة. لا تصرف مياه العجن والتنظيف في الشبكات (ترسيب مسبق).\n\n**الضمانات**: ضمان الإنجاز التام (سنة) على ثبات التثبيتات وغياب التشقق غير العادي؛ مطابقة المظهر للعمل النموذجي. يسلم المقاول ملفاً (دفاتر الزخارف المنفذة، بطاقات الجبس، صور العمل النموذجي) وتوصيات صيانة الأعمال الزخرفية.",
+        "en": "**Health and safety**: wearing of PPE (FFP2 dust mask during dry sanding and carving, gloves, goggles), stable scaffolding for works at height (cornices, domes), good ventilation of moulding workshops.\n\n**Protection of works**: completed staff, stucco and Gebs works are **protected** from impacts, soiling and splashes from following lots (painting, floors) by sheeting and casings; sharp edges and fragile reliefs are particularly protected until acceptance.\n\n**Waste**: sorting of plaster offcuts (recyclable), mould packaging and reinforcements; removal to an approved channel. Mixing and cleaning water is not discharged into the networks (prior settling).\n\n**Warranties**: warranty of perfect completion (1 year) on the holding of sealings and the absence of abnormal cracking; conformity of appearance to the reference work. The contractor delivers a file (executed pattern books, plaster sheets, photos of the reference work) and maintenance recommendations for the decorative works."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "19.01",
+      "designation": {
+        "fr": "Corniche en staff préfabriqué, développé moyen, scellée et raccords repris invisibles",
+        "ar": "إفريز من الستاف الجاهز، تطور متوسط، مثبت ووصلات مصححة غير مرئية",
+        "en": "Prefabricated staff cornice, medium girth, sealed and joints made invisible"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Longueur réelle posée mesurée au droit de la moulure ; angles comptés au développé réel.",
+        "ar": "الطول الفعلي الموضوع مقاساً عند القالب؛ الزوايا تحسب بالتطور الفعلي.",
+        "en": "Actual installed length measured at the moulding; angles counted at actual girth."
+      }
+    },
+    {
+      "code": "19.02",
+      "designation": {
+        "fr": "Rosace de plafond en staff, diamètre selon plan, scellée et finie",
+        "ar": "وردية سقف من الستاف، قطر حسب المخطط، مثبتة ومنجزة",
+        "en": "Staff ceiling rosette, diameter per drawing, sealed and finished"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité par modèle et par classe de diamètre.",
+        "ar": "بالوحدة حسب النموذج وفئة القطر.",
+        "en": "Per unit by model and diameter class."
+      }
+    },
+    {
+      "code": "19.03",
+      "designation": {
+        "fr": "Corniche ou frise en Gebs sculpté in situ selon motif agréé, sculpture en taille directe",
+        "ar": "إفريز أو فريز من الجبص المنحوت في عين المكان حسب زخرفة معتمدة، نحت بالقطع المباشر",
+        "en": "Cornice or frieze in Gebs carved in situ per approved motif, direct-cut carving"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Longueur réelle sculptée ; la hauteur de bandeau et la complexité du motif sont précisées au CCTP.",
+        "ar": "الطول الفعلي المنحوت؛ ارتفاع الشريط وتعقيد الزخرفة محددان في دفتر الشروط.",
+        "en": "Actual carved length; band height and motif complexity are specified in the CCTP."
+      }
+    },
+    {
+      "code": "19.04",
+      "designation": {
+        "fr": "Panneau de moucharabieh / claustra ajouré en plâtre sculpté, scellé en baie ou imposte",
+        "ar": "لوح مشربية / مشبك مخرّم من الجبس المنحوت، مثبت في فتحة أو فوق الباب",
+        "en": "Openwork mashrabiya / claustra panel in carved plaster, sealed in opening or transom"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface vue du panneau ajouré ; mesurée hors tout du cadre, sans déduction des ajours.",
+        "ar": "المساحة الظاهرة للوح المخرّم؛ مقاسة بالكامل خارج الإطار، دون خصم التخريم.",
+        "en": "Visible area of the openwork panel; measured overall of the frame, without deducting the openings."
+      }
+    },
+    {
+      "code": "19.05",
+      "designation": {
+        "fr": "Stuc poli lissé et ciré sur mur ou colonne, finition lustrée",
+        "ar": "ستوك مصقول مملس ومشمع على جدار أو عمود، تشطيب لامع",
+        "en": "Polished, smoothed and waxed stucco on wall or column, lustrous finish"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réelle traitée, déduction des baies > 0,50 m² ; développé réel des colonnes.",
+        "ar": "المساحة الفعلية المعالجة، خصم الفتحات > 0,50 م²؛ التطور الفعلي للأعمدة.",
+        "en": "Actual treated area, deducting openings > 0.50 m²; actual girth of columns."
+      }
+    },
+    {
+      "code": "19.06",
+      "designation": {
+        "fr": "Réalisation de l'ouvrage témoin (prototype grandeur nature) par motif pour agrément",
+        "ar": "إنجاز العمل النموذجي (نموذج بالحجم الطبيعي) لكل زخرفة للموافقة",
+        "en": "Production of the reference work (full-scale prototype) per motif for approval"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité par motif témoin réalisé et conservé sur chantier jusqu'à réception.",
+        "ar": "بالوحدة لكل زخرفة نموذجية منجزة ومحفوظة في الورش حتى التسلم.",
+        "en": "Per unit per reference motif produced and kept on site until acceptance."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_10_CLOISONS_DOUBLAGES",
+      "type": "PREREQUIS",
+      "description": {
+        "fr": "Les supports plâtre/maçonnerie destinés à recevoir le stuc et le Gebs sont réceptionnés sains, plans et secs avant intervention.",
+        "ar": "تتسلم دعامات الجبس/البناء المخصصة لاستقبال الستوك والجبص سليمة ومستوية وجافة قبل التدخل.",
+        "en": "The plaster/masonry substrates intended to receive the stucco and Gebs are accepted sound, flat and dry before intervention."
+      }
+    },
+    {
+      "lotCible": "LOT_18_FAUX_PLAFONDS",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "La jonction des corniches et rosaces avec les plafonds suspendus est coordonnée (niveaux, raccords) selon les plans de calepinage.",
+        "ar": "تنسق وصلة الإفريزات والورديات مع الأسقف المعلقة (المستويات، الوصلات) حسب مخططات التوزيع.",
+        "en": "The junction of cornices and rosettes with suspended ceilings is coordinated (levels, joints) according to the setting-out drawings."
+      }
+    },
+    {
+      "lotCible": "LOT_14_ELECTRICITE",
+      "type": "COORDINATION",
+      "description": {
+        "fr": "Les passages et points lumineux intégrés aux rosaces et corniches sont repérés et réservés avant sculpture/scellement.",
+        "ar": "تحدد وتحفظ الممرات والنقاط الضوئية المدمجة في الورديات والإفريزات قبل النحت/التثبيت.",
+        "en": "The passages and light points integrated into rosettes and cornices are located and reserved before carving/sealing."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "NF DTU 25.51 (CSTB) - ouvrages en staff",
+      "NF DTU 25.41 (CSTB)",
+      "NM EN 13279-1 / NM EN 13279-2 (IMANOR) - liants-plâtres",
+      "Savoir-faire traditionnel marocain du Gebs (arts décoratifs - maâlems)"
+    ]
+  }
+}

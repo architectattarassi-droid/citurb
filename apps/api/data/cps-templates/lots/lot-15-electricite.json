@@ -1,0 +1,290 @@
+{
+  "code": "LOT_15_ELECTRICITE",
+  "numero": 15,
+  "famille": "TECHNIQUE_CES",
+  "intitule": {
+    "fr": "Électricité — Courants forts (CFO)",
+    "ar": "الكهرباء — التيارات القوية",
+    "en": "Electrical Works — Power (LV)"
+  },
+  "description": {
+    "fr": "Fourniture, pose et raccordement de l'ensemble de l'installation électrique courants forts du projet {{PROJECT_NAME}} sur la commune de {{COMMUNE}} : branchement et comptage ONEE, gaine technique de logement (GTL), tableau général basse tension (TGBT) et tableaux divisionnaires, distribution terminale, appareillage, éclairage, prises de courant, protection différentielle 30 mA, mise à la terre et liaisons équipotentielles. L'installation est exécutée conformément à la norme NF C 15-100 et à la réglementation marocaine, et doit faire l'objet d'une attestation de conformité avant mise sous tension par l'ONEE.",
+    "ar": "توريد وتركيب وربط مجموع التجهيزات الكهربائية للتيارات القوية لمشروع {{PROJECT_NAME}} بجماعة {{COMMUNE}} : الربط والعد لدى المكتب الوطني للكهرباء والماء الصالح للشرب، الغمد التقني للسكن (GTL)، اللوحة العامة للجهد المنخفض واللوحات الفرعية، التوزيع الطرفي، الأجهزة، الإنارة، المآخذ الكهربائية، الحماية التفاضلية 30 ميلي أمبير، التأريض وروابط تعادل الجهد. تُنفَّذ التركيبة طبقا للمعيار NF C 15-100 وللتنظيم المغربي، ويجب أن تكون موضوع شهادة مطابقة قبل وضعها تحت التوتر من طرف المكتب الوطني.",
+    "en": "Supply, installation and connection of the complete low-voltage power electrical installation for project {{PROJECT_NAME}} in the {{COMMUNE}} municipality: ONEE service connection and metering, dwelling technical duct (GTL), main LV switchboard and distribution boards, final distribution, wiring devices, lighting, socket outlets, 30 mA residual-current protection, earthing and equipotential bonding. The installation is carried out in accordance with NF C 15-100 and Moroccan regulations and must be the subject of a certificate of conformity before energisation by ONEE."
+  },
+  "normesRefs": [
+    "NF C 15-100",
+    "NF C 14-100",
+    "NM 07.5.010",
+    "NF C 15-712-1",
+    "IEC 60364",
+    "NF EN 60898-1",
+    "NF EN 61008-1",
+    "NF EN 60439 / NF EN 61439",
+    "UTE C 15-105"
+  ],
+  "secteurQualifMA": [
+    "ELEC",
+    "Q5.1",
+    "Q5.2"
+  ],
+  "competencesRequises": [
+    "Installateur électricien qualifié BT habilité (habilitation électrique B1V/B2V/BR/BC selon NF C 18-510)",
+    "Bureau de contrôle agréé pour vérification initiale et attestation de conformité",
+    "Maîtrise NF C 15-100 et procédures de raccordement ONEE"
+  ],
+  "articles": [
+    {
+      "numero": "15.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet, consistance et limites de prestation",
+        "ar": "الموضوع والمحتوى وحدود الخدمة",
+        "en": "Scope, content and limits of works"
+      },
+      "corpsMD": {
+        "fr": "Le présent lot a pour objet la réalisation complète de l'installation électrique **courants forts** du projet {{PROJECT_NAME}}.\n\n**Consistance des travaux :**\n- Branchement depuis le coffret de comptage ONEE et liaison au tableau de répartition principal (TGBT) ;\n- Mise en place de la **gaine technique de logement (GTL)** regroupant le panneau de contrôle, le tableau de répartition et les arrivées/départs courants forts et faibles ;\n- Distribution principale et divisionnaire, canalisations encastrées et apparentes ;\n- Appareillage, éclairage, prises de courant et circuits spécialisés ;\n- Mise à la terre, liaisons équipotentielles principales et supplémentaires.\n\n**Limites de prestation :**\n- Le comptage et le branchement réseau relèvent de l'ONEE ; le présent lot assure la liaison à partir du point de livraison ;\n- Les courants faibles (VDI, téléphonie, TV, sûreté) font l'objet du **LOT 20** ; le présent lot livre les fourreaux, la GTL et l'alimentation des baies ;\n- Les attentes électriques des équipements CVC sont coordonnées avec le **LOT 16**.\n\nL'entrepreneur reste responsable du dimensionnement et de la conformité de l'ensemble livré sous tension.",
+        "ar": "يهدف هذا اللوط إلى الإنجاز الكامل للتركيبة الكهربائية **للتيارات القوية** لمشروع {{PROJECT_NAME}}.\n\n**محتوى الأشغال :**\n- الربط انطلاقا من علبة العد التابعة للمكتب الوطني والوصلة إلى اللوحة الرئيسية للتوزيع ؛\n- وضع **الغمد التقني للسكن (GTL)** الذي يجمع لوحة المراقبة ولوحة التوزيع ومداخل ومخارج التيارات القوية والضعيفة ؛\n- التوزيع الرئيسي والفرعي، القنوات المدفونة والظاهرة ؛\n- الأجهزة والإنارة والمآخذ والدارات المتخصصة ؛\n- التأريض وروابط تعادل الجهد الرئيسية والإضافية.\n\n**حدود الخدمة :**\n- العد والربط بالشبكة من اختصاص المكتب الوطني ؛ يضمن هذا اللوط الوصلة انطلاقا من نقطة التسليم ؛\n- التيارات الضعيفة (VDI، الهاتف، التلفزة، الأمن) موضوع **اللوط 20** ؛ يسلّم هذا اللوط الأغماد والـ GTL وتغذية الخزائن ؛\n- تنسَّق التغذيات الكهربائية لمعدات التكييف مع **اللوط 16**.\n\nيبقى المقاول مسؤولا عن التحجيم والمطابقة لمجموع ما يُسلَّم تحت التوتر.",
+        "en": "This lot covers the complete execution of the **power (LV)** electrical installation for project {{PROJECT_NAME}}.\n\n**Scope of works:**\n- Service connection from the ONEE metering enclosure and link to the main distribution board (TGBT);\n- Installation of the **dwelling technical duct (GTL)** grouping the control panel, the distribution board and the power and low-current incomers/outgoers;\n- Main and divisional distribution, concealed and surface conduits;\n- Wiring devices, lighting, socket outlets and dedicated circuits;\n- Earthing, main and supplementary equipotential bonding.\n\n**Limits of works:**\n- Metering and grid connection are the responsibility of ONEE; this lot provides the link from the delivery point;\n- Low-current systems (structured cabling, telephony, TV, security) are covered by **LOT 20**; this lot delivers the ducts, the GTL and power supply to the racks;\n- Electrical provisions for HVAC equipment are coordinated with **LOT 16**.\n\nThe contractor remains responsible for the sizing and conformity of the whole installation delivered energised."
+      }
+    },
+    {
+      "numero": "15.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Documents de référence et hypothèses de dimensionnement",
+        "ar": "وثائق المرجع وفرضيات التحجيم",
+        "en": "Reference documents and sizing assumptions"
+      },
+      "corpsMD": {
+        "fr": "L'installation est conçue et exécutée selon :\n- **NF C 15-100** — Installations électriques à basse tension (règle de l'art de référence) ;\n- **NF C 14-100** — Installations de branchement à basse tension ;\n- **NM 07.5.010** — Norme marocaine relative aux installations électriques BT ;\n- Prescriptions techniques et arrêtés de l'**ONEE-Branche Électricité** pour le raccordement ;\n- **UTE C 15-105** — Détermination des sections de conducteurs et choix des dispositifs de protection.\n\n**Hypothèses :**\n- Régime de neutre : **TT** (régime usuel des installations alimentées par le réseau public) ;\n- Tension nominale : 230/400 V — 50 Hz ;\n- Chute de tension admissible : ≤ 3 % éclairage, ≤ 5 % autres usages ;\n- Bilan de puissance et coefficient de simultanéité justifiés par note de calcul.\n\nLa note de calcul des sections, des protections et de la sélectivité est remise au visa du maître d'œuvre avant exécution.",
+        "ar": "تُصمَّم التركيبة وتُنفَّذ وفق :\n- **NF C 15-100** — التركيبات الكهربائية بالجهد المنخفض (قاعدة الفن المرجعية) ؛\n- **NF C 14-100** — تركيبات الربط بالجهد المنخفض ؛\n- **NM 07.5.010** — المعيار المغربي المتعلق بالتركيبات الكهربائية ذات الجهد المنخفض ؛\n- المقتضيات التقنية وقرارات **المكتب الوطني — فرع الكهرباء** الخاصة بالربط ؛\n- **UTE C 15-105** — تحديد مقاطع الموصلات واختيار أجهزة الحماية.\n\n**الفرضيات :**\n- نظام الحياد : **TT** (النظام المعتاد للتركيبات المغذاة من الشبكة العمومية) ؛\n- التوتر الاسمي : 230/400 فولط — 50 هرتز ؛\n- هبوط التوتر المقبول : ≤ 3٪ للإنارة، ≤ 5٪ للاستعمالات الأخرى ؛\n- تُبرَّر حصيلة الاستطاعة ومعامل التزامن بمذكرة حسابية.\n\nتُسلَّم مذكرة حساب المقاطع والحمايات والانتقائية لتأشيرة صاحب المشروع المنتدب قبل التنفيذ.",
+        "en": "The installation is designed and executed according to:\n- **NF C 15-100** — Low-voltage electrical installations (reference code of practice);\n- **NF C 14-100** — Low-voltage service connection installations;\n- **NM 07.5.010** — Moroccan standard for LV electrical installations;\n- Technical requirements and orders of **ONEE-Electricity Branch** for the connection;\n- **UTE C 15-105** — Determination of conductor cross-sections and selection of protective devices.\n\n**Assumptions:**\n- Earthing system: **TT** (usual system for installations supplied by the public grid);\n- Nominal voltage: 230/400 V — 50 Hz;\n- Permissible voltage drop: ≤ 3 % lighting, ≤ 5 % other uses;\n- Power balance and diversity factor justified by a calculation note.\n\nThe calculation note for cross-sections, protections and discrimination is submitted for the project manager's approval before execution."
+      }
+    },
+    {
+      "numero": "15.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Provenance, origine et spécifications des matériels",
+        "ar": "مصدر وأصل ومواصفات المعدات",
+        "en": "Source, origin and specifications of materials"
+      },
+      "corpsMD": {
+        "fr": "Tous les matériels portent le **marquage CE** et, lorsqu'elle existe, la marque **NM** ou **NF-USE**. Les matériels d'origine non normalisée sont refusés.\n\n**Spécifications minimales :**\n- **Câbles et conducteurs :** série U-1000 R2V pour les canalisations fixes, H07V-U/H07V-R pour pose sous conduit ; sections cuivre conformes à la note de calcul (minimum **1,5 mm²** éclairage, **2,5 mm²** prises 16 A, **6 mm²** circuits cuisine/chauffe-eau) ;\n- **Conducteur de protection (PE) :** vert/jaune, section selon NF C 15-100 ;\n- **Disjoncteurs divisionnaires :** courbe C, pouvoir de coupure ≥ 4,5 kA, conformes NF EN 60898-1 ;\n- **Dispositifs différentiels :** interrupteurs/disjoncteurs **30 mA** type AC et type A, conformes NF EN 61008-1 ;\n- **Tableaux :** enveloppes conformes NF EN 61439, IP/IK adaptés au local ;\n- **Conduits :** ICTA pour encastré, IRL/IK07 pour apparent.\n\nLes **échantillons** d'appareillage, de tableaux et de luminaires sont soumis à l'agrément du maître d'œuvre avant approvisionnement.",
+        "ar": "تحمل جميع المعدات **علامة CE** وعند الاقتضاء العلامة **NM** أو **NF-USE**. تُرفض المعدات غير المطابقة للمعايير.\n\n**المواصفات الدنيا :**\n- **الكوابل والموصلات :** سلسلة U-1000 R2V للقنوات الثابتة، H07V-U/H07V-R للتركيب داخل الأغماد ؛ مقاطع النحاس مطابقة لمذكرة الحساب (الأدنى **1,5 مم²** للإنارة، **2,5 مم²** للمآخذ 16 أمبير، **6 مم²** لدارات المطبخ/سخان الماء) ؛\n- **موصل الحماية (PE) :** أخضر/أصفر، مقطع حسب NF C 15-100 ؛\n- **القواطع الفرعية :** منحنى C، قدرة قطع ≥ 4,5 كيلوأمبير، مطابقة NF EN 60898-1 ؛\n- **الأجهزة التفاضلية :** قواطع/فواصل **30 ميلي أمبير** نوع AC ونوع A، مطابقة NF EN 61008-1 ؛\n- **اللوحات :** أغلفة مطابقة NF EN 61439، بدرجة حماية IP/IK ملائمة للمحل ؛\n- **الأغماد :** ICTA للمدفون، IRL/IK07 للظاهر.\n\nتُعرَض **عينات** الأجهزة واللوحات والمصابيح على موافقة صاحب المشروع المنتدب قبل التموين.",
+        "en": "All materials bear the **CE marking** and, where applicable, the **NM** or **NF-USE** mark. Non-standardised materials are rejected.\n\n**Minimum specifications:**\n- **Cables and conductors:** U-1000 R2V series for fixed wiring, H07V-U/H07V-R for installation in conduit; copper cross-sections per the calculation note (minimum **1.5 mm²** lighting, **2.5 mm²** 16 A sockets, **6 mm²** kitchen/water-heater circuits);\n- **Protective conductor (PE):** green/yellow, cross-section per NF C 15-100;\n- **Branch circuit breakers:** curve C, breaking capacity ≥ 4.5 kA, compliant with NF EN 60898-1;\n- **Residual-current devices:** **30 mA** type AC and type A switches/breakers, compliant with NF EN 61008-1;\n- **Boards:** enclosures compliant with NF EN 61439, IP/IK suited to the room;\n- **Conduits:** ICTA for concealed, IRL/IK07 for surface.\n\n**Samples** of wiring devices, boards and luminaires are submitted for the project manager's approval before procurement."
+      }
+    },
+    {
+      "numero": "15.4",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Mise en œuvre des canalisations, GTL et tableaux",
+        "ar": "تنفيذ القنوات والـ GTL واللوحات",
+        "en": "Installation of wiring, GTL and switchboards"
+      },
+      "corpsMD": {
+        "fr": "**Canalisations :**\n- Saignées horizontales et verticales conformes aux règles de l'art ; les conduits encastrés sont posés avant scellement et repérés ;\n- Les boîtes de dérivation restent accessibles ; les conducteurs ne présentent aucune connexion en dehors des boîtes ;\n- Respect des distances de proximité avec les canalisations courants faibles et fluides.\n\n**GTL et tableaux :**\n- La **GTL** est implantée à proximité immédiate de l'entrée, hauteur d'axe des dispositifs de manœuvre comprise entre **0,90 m et 1,80 m** ;\n- Le tableau comporte un **dispositif de protection à courant différentiel-résiduel 30 mA** par groupe de circuits, une réserve minimale de **20 %**, le repérage de chaque circuit et le schéma unifilaire à l'intérieur de la porte ;\n- Séparation physique courants forts / courants faibles dans la GTL.\n\n**Volumes salles d'eau :**\n- Respect strict des **volumes 0, 1, 2** et hors-volume ; appareillage interdit en volume 0 et 1 ; protection 30 mA obligatoire ; liaison équipotentielle supplémentaire (LES) reliant tous les éléments conducteurs et masses des volumes.\n\nLe repérage, l'étiquetage et le dossier des ouvrages exécutés (DOE) sont tenus à jour en continu.",
+        "ar": "**القنوات :**\n- الحفور الأفقية والعمودية مطابقة لقواعد الفن ؛ تُوضَع الأغماد المدفونة قبل السد وتُعلَّم ؛\n- تبقى علب التفريع قابلة للولوج ؛ لا تحمل الموصلات أي وصلة خارج العلب ؛\n- احترام مسافات القرب مع قنوات التيارات الضعيفة والموائع.\n\n**الـ GTL واللوحات :**\n- يُوضَع **الـ GTL** بجوار المدخل مباشرة، ارتفاع محور أجهزة المناورة بين **0,90 م و1,80 م** ؛\n- تتضمن اللوحة **جهاز حماية بالتيار التفاضلي المتبقي 30 ميلي أمبير** لكل مجموعة دارات، احتياطيا أدنى بنسبة **20٪**، وتعليم كل دارة والمخطط أحادي الخط داخل الباب ؛\n- فصل مادي بين التيارات القوية والضعيفة داخل الـ GTL.\n\n**أحجام قاعات الماء :**\n- احترام صارم **للأحجام 0 و1 و2** وخارج الحجم ؛ يُمنع وضع الأجهزة في الحجم 0 و1 ؛ الحماية 30 ميلي أمبير إجبارية ؛ رابطة تعادل جهد إضافية (LES) تربط جميع العناصر الموصلة والكتل في الأحجام.\n\nيُحدَّث التعليم والترقيم وملف المنشآت المنجزة (DOE) باستمرار.",
+        "en": "**Wiring:**\n- Horizontal and vertical chases compliant with good practice; concealed conduits laid before sealing and identified;\n- Junction boxes remain accessible; conductors carry no connection outside the boxes;\n- Compliance with proximity distances from low-current and fluid pipework.\n\n**GTL and boards:**\n- The **GTL** is located immediately near the entrance, operating-device axis height between **0.90 m and 1.80 m**;\n- The board includes a **30 mA residual-current protective device** per group of circuits, a minimum **20 %** spare capacity, identification of each circuit and the single-line diagram inside the door;\n- Physical separation of power and low-current systems within the GTL.\n\n**Wet-room volumes:**\n- Strict compliance with **volumes 0, 1, 2** and out-of-volume; no wiring devices in volumes 0 and 1; 30 mA protection mandatory; supplementary equipotential bonding (LES) connecting all conductive parts and exposed metalwork in the volumes.\n\nIdentification, labelling and the as-built record (DOE) are kept continuously up to date."
+      }
+    },
+    {
+      "numero": "15.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Mise à la terre et liaisons équipotentielles",
+        "ar": "التأريض وروابط تعادل الجهد",
+        "en": "Earthing and equipotential bonding"
+      },
+      "corpsMD": {
+        "fr": "**Prise de terre :**\n- Réalisation d'une prise de terre en **fond de fouille** (ceinturage cuivre nu 25 mm² ou feuillard) ou par piquets, complétée si nécessaire pour atteindre la valeur cible ;\n- **Résistance de prise de terre** mesurée et documentée ; valeur compatible avec le seuil du différentiel : pour un différentiel 30 mA, R ≤ 50/0,03 mais limitée en pratique à **R ≤ 100 Ω** (objectif courant ≤ 30 Ω) ;\n- Barrette de coupure accessible permettant la mesure et la déconnexion.\n\n**Continuité du conducteur de protection (PE) :**\n- Toutes les masses sont reliées au PE ; la **continuité du PE** est vérifiée sur l'ensemble des circuits (mesure d'ohmmétrie) ;\n- Liaison équipotentielle principale (LEP) reliant terre, canalisations métalliques d'eau, gaz, chauffage et structure ;\n- Liaisons équipotentielles supplémentaires (LES) dans les locaux contenant une baignoire ou une douche.\n\nLes valeurs mesurées (résistance de terre, continuité PE, isolement) sont consignées dans le procès-verbal d'essais.",
+        "ar": "**مأخذ الأرض :**\n- إنجاز مأخذ أرض في **قعر الحفر** (تطويق بالنحاس العاري 25 مم² أو شريط) أو بأوتاد، يُكمَّل عند الضرورة لبلوغ القيمة المستهدفة ؛\n- تُقاس **مقاومة مأخذ الأرض** وتُوثَّق ؛ قيمة متوافقة مع عتبة الجهاز التفاضلي : لجهاز 30 ميلي أمبير، R ≤ 50/0,03 لكنها تُحدَّد عمليا بـ **R ≤ 100 أوم** (الهدف العادي ≤ 30 أوم) ؛\n- شريط قطع قابل للولوج يتيح القياس والفصل.\n\n**استمرارية موصل الحماية (PE) :**\n- تُربَط جميع الكتل بموصل الحماية ؛ تُتحقَّق **استمرارية الـ PE** على مجموع الدارات (قياس بالأوميتر) ؛\n- رابطة تعادل جهد رئيسية (LEP) تربط الأرض وقنوات الماء والغاز والتدفئة المعدنية والهيكل ؛\n- روابط تعادل جهد إضافية (LES) في المحلات المتضمنة لحوض استحمام أو دُش.\n\nتُدوَّن القيم المقاسة (مقاومة الأرض، استمرارية الـ PE، العزل) في محضر الاختبارات.",
+        "en": "**Earth electrode:**\n- Provision of an earth electrode in the **bottom of the excavation** (bare 25 mm² copper loop or strip) or by rods, supplemented if necessary to reach the target value;\n- **Earth electrode resistance** measured and documented; value compatible with the RCD threshold: for a 30 mA RCD, R ≤ 50/0.03 but limited in practice to **R ≤ 100 Ω** (usual target ≤ 30 Ω);\n- Accessible disconnecting link allowing measurement and disconnection.\n\n**Continuity of the protective conductor (PE):**\n- All exposed-conductive-parts are connected to the PE; **PE continuity** is verified on all circuits (ohmic measurement);\n- Main equipotential bonding (MEB) connecting earth, metallic water, gas and heating pipework and structure;\n- Supplementary equipotential bonding (SEB) in rooms containing a bath or shower.\n\nMeasured values (earth resistance, PE continuity, insulation) are recorded in the test report."
+      }
+    },
+    {
+      "numero": "15.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Essais, contrôles, attestation de conformité ONEE et garanties",
+        "ar": "الاختبارات والمراقبة وشهادة المطابقة وضمانات",
+        "en": "Tests, checks, ONEE certificate of conformity and guarantees"
+      },
+      "corpsMD": {
+        "fr": "Avant la mise sous tension, l'installation fait l'objet d'une **vérification initiale** par un organisme/bureau de contrôle agréé portant au minimum sur :\n- la **continuité des conducteurs de protection** et des liaisons équipotentielles ;\n- la **mesure de la résistance de la prise de terre** ;\n- la **mesure de la résistance d'isolement** (≥ 0,5 MΩ pour les circuits 230/400 V) ;\n- le **fonctionnement des dispositifs différentiels 30 mA** (essai au bouton test et au testeur, temps et courant de déclenchement) ;\n- la vérification de la **sélectivité** et du calibrage des protections.\n\nL'entrepreneur établit et fournit l'**attestation de conformité** de l'installation, exigée par l'**ONEE** préalablement au raccordement et à la pose du compteur ; aucune mise sous tension définitive n'intervient sans cette attestation et sans levée des réserves éventuelles.\n\n**Garanties / HSE :**\n- Travaux exécutés par du personnel **habilité** (NF C 18-510), consignation/déconsignation tracées, EPI obligatoires ;\n- Garantie de parfait achevement (1 an) ; remise du **DOE**, des notes de calcul, des schémas et des procès-verbaux d'essais.",
+        "ar": "قبل الوضع تحت التوتر، تخضع التركيبة لـ**تحقق أولي** من طرف هيئة/مكتب مراقبة معتمد يشمل على الأقل :\n- **استمرارية موصلات الحماية** وروابط تعادل الجهد ؛\n- **قياس مقاومة مأخذ الأرض** ؛\n- **قياس مقاومة العزل** (≥ 0,5 ميغا أوم للدارات 230/400 فولط) ؛\n- **اشتغال الأجهزة التفاضلية 30 ميلي أمبير** (اختبار بزر الفحص وبالجهاز، زمن وتيار الفصل) ؛\n- التحقق من **الانتقائية** ومعايرة الحمايات.\n\nيُعِدّ المقاول ويسلّم **شهادة مطابقة** التركيبة المطلوبة من طرف **المكتب الوطني** قبل الربط ووضع العداد ؛ لا يقع أي وضع نهائي تحت التوتر دون هذه الشهادة ودون رفع التحفظات المحتملة.\n\n**الضمانات / السلامة والصحة :**\n- تُنجَز الأشغال بطرف مستخدمين **مؤهلين** (NF C 18-510)، مع تتبع الفصل/إعادة الوصل وإلزامية معدات الوقاية الفردية ؛\n- ضمان الإنجاز التام (سنة واحدة) ؛ تسليم **ملف المنشآت المنجزة** ومذكرات الحساب والمخططات ومحاضر الاختبارات.",
+        "en": "Before energisation, the installation is subject to an **initial verification** by an accredited control body/office covering at least:\n- the **continuity of protective conductors** and equipotential bonding;\n- the **measurement of earth electrode resistance**;\n- the **measurement of insulation resistance** (≥ 0.5 MΩ for 230/400 V circuits);\n- the **operation of the 30 mA residual-current devices** (test-button and tester check, tripping time and current);\n- verification of **discrimination** and protection settings.\n\nThe contractor draws up and provides the installation's **certificate of conformity**, required by **ONEE** prior to connection and meter fitting; no permanent energisation occurs without this certificate and without clearance of any reservations.\n\n**Guarantees / HSE:**\n- Works carried out by **authorised** personnel (NF C 18-510), traced lock-out/tag-out, mandatory PPE;\n- One-year defects liability; handover of the **as-built file (DOE)**, calculation notes, diagrams and test reports."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "15.01",
+      "designation": {
+        "fr": "Branchement et liaison du point de livraison ONEE au TGBT, y compris attestation de conformité",
+        "ar": "الربط ووصل نقطة التسليم بالمكتب الوطني إلى اللوحة العامة، بما في ذلك شهادة المطابقة",
+        "en": "Service connection and link from ONEE delivery point to main board, including certificate of conformity"
+      },
+      "unite": "ens",
+      "modeMetreMD": {
+        "fr": "À l'ensemble, comprenant câble de liaison, protections amont, repérage et démarches de raccordement.",
+        "ar": "بالمجموع، شاملا كابل الوصل والحمايات القبلية والتعليم وإجراءات الربط.",
+        "en": "Per unit assembly, including link cable, upstream protections, identification and connection procedures."
+      }
+    },
+    {
+      "code": "15.02",
+      "designation": {
+        "fr": "Gaine technique de logement (GTL) équipée, panneau de contrôle et tableau de répartition",
+        "ar": "الغمد التقني للسكن (GTL) المجهز، لوحة المراقبة ولوحة التوزيع",
+        "en": "Equipped dwelling technical duct (GTL), control panel and distribution board"
+      },
+      "unite": "ens",
+      "modeMetreMD": {
+        "fr": "À l'ensemble par logement/niveau, GTL posée et équipée, schéma unifilaire et réserve 20 % inclus.",
+        "ar": "بالمجموع لكل سكن/مستوى، الـ GTL مركَّب ومجهز، مع المخطط أحادي الخط واحتياطي 20٪.",
+        "en": "Per dwelling/level assembly, GTL installed and equipped, single-line diagram and 20 % spare included."
+      }
+    },
+    {
+      "code": "15.03",
+      "designation": {
+        "fr": "Tableau divisionnaire équipé (disjoncteurs courbe C + différentiels 30 mA type A/AC)",
+        "ar": "لوحة فرعية مجهزة (قواطع منحنى C + تفاضليات 30 ميلي أمبير نوع A/AC)",
+        "en": "Equipped distribution board (curve C breakers + 30 mA type A/AC RCDs)"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de tableau posé et raccordé, appareillage modulaire et repérage des circuits inclus.",
+        "ar": "بالوحدة للوحة مركَّبة وموصولة، مع الأجهزة المعيارية وتعليم الدارات.",
+        "en": "Per board installed and connected, modular devices and circuit identification included."
+      }
+    },
+    {
+      "code": "15.04",
+      "designation": {
+        "fr": "Circuit d'éclairage complet (conduit ICTA, conducteur 1,5 mm², point lumineux et commande)",
+        "ar": "دارة إنارة كاملة (غمد ICTA، موصل 1,5 مم²، نقطة ضوئية وتحكم)",
+        "en": "Complete lighting circuit (ICTA conduit, 1.5 mm² conductor, light point and control)"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de point lumineux raccordé, depuis le tableau jusqu'au point, commande comprise.",
+        "ar": "بالوحدة لكل نقطة ضوئية موصولة، من اللوحة إلى النقطة، مع التحكم.",
+        "en": "Per connected light point, from the board to the point, control included."
+      }
+    },
+    {
+      "code": "15.05",
+      "designation": {
+        "fr": "Circuit prises de courant 16 A 2P+T (conduit, conducteur 2,5 mm², socle)",
+        "ar": "دارة مأخذ تيار 16 أمبير 2P+T (غمد، موصل 2,5 مم²، قاعدة)",
+        "en": "16 A 2P+E socket-outlet circuit (conduit, 2.5 mm² conductor, socket)"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de prise raccordée, conducteur PE et continuité vérifiée inclus.",
+        "ar": "بالوحدة للمأخذ الموصول، مع موصل الحماية والتحقق من الاستمرارية.",
+        "en": "Per connected socket, PE conductor and verified continuity included."
+      }
+    },
+    {
+      "code": "15.06",
+      "designation": {
+        "fr": "Circuit spécialisé 32 A (cuisson) / 20 A (chauffe-eau, lave-linge) conducteur 6/4 mm²",
+        "ar": "دارة متخصصة 32 أمبير (الطبخ) / 20 أمبير (سخان الماء، الغسالة) موصل 6/4 مم²",
+        "en": "Dedicated circuit 32 A (cooking) / 20 A (water heater, washer) 6/4 mm² conductor"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de circuit spécialisé raccordé, protection dédiée au tableau incluse.",
+        "ar": "بالوحدة للدارة المتخصصة الموصولة، مع الحماية المخصصة باللوحة.",
+        "en": "Per connected dedicated circuit, dedicated board protection included."
+      }
+    },
+    {
+      "code": "15.07",
+      "designation": {
+        "fr": "Prise de terre fond de fouille (cuivre nu 25 mm²) avec barrette de mesure",
+        "ar": "مأخذ أرض في قعر الحفر (نحاس عار 25 مم²) مع شريط القياس",
+        "en": "Foundation earth electrode (bare 25 mm² copper) with measuring link"
+      },
+      "unite": "ens",
+      "modeMetreMD": {
+        "fr": "À l'ensemble, ceinturage, conducteur de terre, barrette de coupure et mesure de résistance inclus.",
+        "ar": "بالمجموع، شاملا التطويق وموصل الأرض وشريط القطع وقياس المقاومة.",
+        "en": "Per assembly, including loop, earthing conductor, disconnecting link and resistance measurement."
+      }
+    },
+    {
+      "code": "15.08",
+      "designation": {
+        "fr": "Liaison équipotentielle supplémentaire (LES) de salle d'eau",
+        "ar": "رابطة تعادل جهد إضافية (LES) لقاعة الماء",
+        "en": "Supplementary equipotential bonding (SEB) for wet room"
+      },
+      "unite": "ens",
+      "modeMetreMD": {
+        "fr": "À l'ensemble par local humide, reliant tous éléments conducteurs et masses des volumes.",
+        "ar": "بالمجموع لكل محل رطب، يربط جميع العناصر الموصلة والكتل في الأحجام.",
+        "en": "Per wet room assembly, connecting all conductive parts and metalwork of the volumes."
+      }
+    },
+    {
+      "code": "15.09",
+      "designation": {
+        "fr": "Essais et vérification initiale (continuité PE, isolement, terre, déclenchement 30 mA) avec PV",
+        "ar": "الاختبارات والتحقق الأولي (استمرارية PE، العزل، الأرض، فصل 30 ميلي أمبير) مع المحضر",
+        "en": "Tests and initial verification (PE continuity, insulation, earth, 30 mA tripping) with report"
+      },
+      "unite": "ff",
+      "modeMetreMD": {
+        "fr": "Au forfait, ensemble des mesures et procès-verbaux remis avant mise sous tension.",
+        "ar": "جزافيا، مجموع القياسات والمحاضر المسلَّمة قبل الوضع تحت التوتر.",
+        "en": "Lump sum, all measurements and reports delivered before energisation."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_16_CLIMATISATION",
+      "type": "ALIMENTATION",
+      "description": {
+        "fr": "Fourniture des attentes électriques protégées et coordination des puissances pour les équipements CVC (groupes, VRV, VMC, désenfumage).",
+        "ar": "توفير التغذيات الكهربائية المحمية وتنسيق الاستطاعات لمعدات التكييف (المجموعات، VRV، VMC، إزالة الدخان).",
+        "en": "Provision of protected electrical supplies and power coordination for HVAC equipment (units, VRV, MVHR, smoke extraction)."
+      }
+    },
+    {
+      "lotCible": "LOT_20_VDI_COURANTS_FAIBLES",
+      "type": "COORDINATION",
+      "description": {
+        "fr": "Fourniture de la GTL, des fourreaux séparés courants faibles et de l'alimentation électrique protégée de la baie de brassage.",
+        "ar": "توفير الـ GTL والأغماد المنفصلة للتيارات الضعيفة والتغذية الكهربائية المحمية لخزانة التوزيع.",
+        "en": "Provision of the GTL, separate low-current ducts and protected power supply to the patch rack."
+      }
+    },
+    {
+      "lotCible": "LOT_02_GROS_OEUVRE_BETON",
+      "type": "RESERVATION",
+      "description": {
+        "fr": "Coordination des réservations, saignées, fourreaux en dalle et de la prise de terre en fond de fouille.",
+        "ar": "تنسيق التحفظات والحفور والأغماد في البلاطة ومأخذ الأرض في قعر الحفر.",
+        "en": "Coordination of reservations, chases, slab ducts and the foundation earth electrode."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "NF C 15-100 (2002 + amendements) — Installations électriques à basse tension",
+      "NF C 14-100 — Installations de branchement à basse tension",
+      "NM 07.5.010 — Norme marocaine installations électriques BT",
+      "Prescriptions de raccordement ONEE-Branche Électricité",
+      "NF C 18-510 — Habilitation électrique / opérations sur ouvrages électriques"
+    ]
+  }
+}

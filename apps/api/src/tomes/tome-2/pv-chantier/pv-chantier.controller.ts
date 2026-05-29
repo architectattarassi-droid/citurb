@@ -18,6 +18,7 @@ import { JwtAuthGuard } from "../../tome-5/auth/jwt-auth.guard";
 import { PrismaService } from "../../tome-at/kernel/prisma/prisma.service";
 import { PvChantierRenderer } from "./pv-chantier.renderer";
 import { PvChantierService } from "./pv-chantier.service";
+import { PvComplianceService } from "./pv-compliance.service";
 import {
   PvChantierCreateInput,
   PvChantierPatchInput,
@@ -46,6 +47,7 @@ export class PvChantierController {
     private readonly service: PvChantierService,
     private readonly renderer: PvChantierRenderer,
     private readonly prisma: PrismaService,
+    private readonly compliance: PvComplianceService,
   ) {}
 
   // ───────── Listes & lectures (publiques en GET)
@@ -54,6 +56,20 @@ export class PvChantierController {
   async list(@Param("dossierId") dossierId: string) {
     const items = await this.service.list(dossierId);
     return { items, total: items.length };
+  }
+
+  // ───────── Cadence PV obligatoire (1 PV / 15 jours)
+
+  @Get("compliance/:dossierId")
+  async complianceStatus(@Param("dossierId") dossierId: string) {
+    return this.compliance.getStatus(dossierId);
+  }
+
+  @Post("compliance/scan")
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(200)
+  async complianceScan() {
+    return this.compliance.runScanNow();
   }
 
   @Get(":pvId")

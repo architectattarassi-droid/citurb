@@ -87,11 +87,31 @@ export type PvChantierListItem = {
   severiteMax: PvSeverite | null;
 };
 
+export type PvComplianceStatus = "OK" | "WARNING" | "BLOCKED";
+
+export type PvCompliance = {
+  active: boolean;
+  status: PvComplianceStatus;
+  blocked: boolean;
+  intervalDays: number;
+  chantierStartAt: string;
+  lastPvDate: string | null;
+  lastPvId: string | null;
+  nextPvDueDate: string;
+  daysSinceLastPv: number;
+  daysUntilDue: number;
+  blockedSince: string | null;
+  lastEvaluatedAt: string;
+};
+
 export const pvChantierApi = {
   list(dossierId: string) {
     return apiFetch<{ items: PvChantierListItem[]; total: number }>(
       `/api/pv-chantier/dossier/${dossierId}`,
     );
+  },
+  compliance(dossierId: string) {
+    return apiFetch<PvCompliance>(`/api/pv-chantier/compliance/${dossierId}`);
   },
   get(pvId: string) {
     return apiFetch<PvChantier>(`/api/pv-chantier/${pvId}`);

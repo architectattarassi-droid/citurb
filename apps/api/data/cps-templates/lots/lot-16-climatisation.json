@@ -1,0 +1,277 @@
+{
+  "code": "LOT_16_CLIMATISATION",
+  "numero": 16,
+  "famille": "TECHNIQUE_CES",
+  "intitule": {
+    "fr": "Climatisation, ventilation et désenfumage (CVC)",
+    "ar": "التكييف والتهوية وإزالة الدخان",
+    "en": "Air-Conditioning, Ventilation and Smoke Control (HVAC)"
+  },
+  "description": {
+    "fr": "Fourniture, pose, raccordement et mise en service des installations de chauffage, ventilation et climatisation (CVC) du projet {{PROJECT_NAME}} sur la commune de {{COMMUNE}} : production et distribution de froid/chaud (détente directe split / VRV-VRF), ventilation mécanique contrôlée (VMC), traitement et renouvellement d'air, désenfumage mécanique ou naturel des circulations et locaux concernés, réseaux aérauliques et frigorifiques, régulation et équilibrage. Les installations respectent les DTU série 68, la réglementation thermique de construction au Maroc (RTCM, décret n° 2-13-874) et font l'objet d'un équilibrage et d'une mise en service documentés.",
+    "ar": "توريد وتركيب وربط ووضع قيد الخدمة لتجهيزات التدفئة والتهوية والتكييف لمشروع {{PROJECT_NAME}} بجماعة {{COMMUNE}} : إنتاج وتوزيع البرودة/الحرارة (تمدد مباشر split / VRV-VRF)، التهوية الميكانيكية المراقَبة (VMC)، معالجة وتجديد الهواء، إزالة الدخان الميكانيكية أو الطبيعية للممرات والمحلات المعنية، الشبكات الهوائية والتبريدية، الضبط والموازنة. تحترم التركيبات سلسلة DTU 68 والتنظيم الحراري للبناء بالمغرب (RTCM، المرسوم رقم 2-13-874) وتكون موضوع موازنة ووضع قيد الخدمة موثَّقين.",
+    "en": "Supply, installation, connection and commissioning of the heating, ventilation and air-conditioning (HVAC) systems for project {{PROJECT_NAME}} in the {{COMMUNE}} municipality: cooling/heating generation and distribution (direct-expansion split / VRV-VRF), controlled mechanical ventilation (MVHR), air treatment and renewal, mechanical or natural smoke control of circulations and relevant rooms, air and refrigerant networks, control and balancing. The installations comply with the DTU 68 series, the Moroccan building thermal regulation (RTCM, Decree No. 2-13-874) and are the subject of documented balancing and commissioning."
+  },
+  "normesRefs": [
+    "DTU 68.3 (NF DTU 68.3)",
+    "DTU 68.1 / DTU 68.2",
+    "RTCM — Décret n° 2-13-874",
+    "NF EN 378",
+    "NF EN 12237",
+    "NF EN 1507",
+    "NF EN 12599",
+    "IT 246 / IT 263 (désenfumage)",
+    "NF EN 14511"
+  ],
+  "secteurQualifMA": [
+    "M",
+    "Q4.1",
+    "Q4.2",
+    "FROID-CLIM"
+  ],
+  "competencesRequises": [
+    "Frigoriste qualifié, attestation d'aptitude à la manipulation des fluides frigorigènes",
+    "Installateur CVC qualifié secteur M",
+    "Technicien de mise en service et d'équilibrage aéraulique"
+  ],
+  "articles": [
+    {
+      "numero": "16.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet, consistance et limites de prestation",
+        "ar": "الموضوع والمحتوى وحدود الخدمة",
+        "en": "Scope, content and limits of works"
+      },
+      "corpsMD": {
+        "fr": "Le présent lot a pour objet la réalisation complète des installations **CVC** (chauffage, ventilation, climatisation et désenfumage) du projet {{PROJECT_NAME}}.\n\n**Consistance des travaux :**\n- Production frigorifique/thermique : systèmes à **détente directe split, multi-split ou VRV/VRF** ;\n- Réseaux **frigorifiques** (liaisons cuivre frigorifique, isolation, régime d'huile) et réseaux **aérauliques** (gaines, bouches, diffuseurs) ;\n- **Ventilation mécanique contrôlée (VMC)** simple ou double flux, extraction des locaux humides et cuisines ;\n- **Désenfumage** mécanique et/ou naturel des circulations, escaliers encloisonnés et locaux concernés ;\n- Régulation, gestion technique, **équilibrage** et **mise en service**.\n\n**Limites de prestation :**\n- Les **alimentations électriques de puissance** et leur protection relèvent du **LOT 15** ; le présent lot fournit les schémas de puissance et les besoins (kW, In) ;\n- Les **réservations, socles et fourreaux** en gros œuvre sont coordonnés avec le **LOT 02** ;\n- L'évacuation des **condensats** est raccordée au réseau EU/EP du lot plomberie.\n\nL'entrepreneur est responsable des performances annoncées (puissances, débits, niveaux sonores) jusqu'à la réception.",
+        "ar": "يهدف هذا اللوط إلى الإنجاز الكامل لتجهيزات **التدفئة والتهوية والتكييف وإزالة الدخان** لمشروع {{PROJECT_NAME}}.\n\n**محتوى الأشغال :**\n- الإنتاج التبريدي/الحراري : أنظمة **التمدد المباشر split، multi-split أو VRV/VRF** ؛\n- الشبكات **التبريدية** (وصلات نحاس تبريدي، عزل، نظام الزيت) والشبكات **الهوائية** (أغماد، أفواه، موزعات) ؛\n- **التهوية الميكانيكية المراقَبة (VMC)** أحادية أو ثنائية التدفق، شفط المحلات الرطبة والمطابخ ؛\n- **إزالة الدخان** الميكانيكية و/أو الطبيعية للممرات والأدراج المغلقة والمحلات المعنية ؛\n- الضبط والتدبير التقني و**الموازنة** و**الوضع قيد الخدمة**.\n\n**حدود الخدمة :**\n- **التغذيات الكهربائية للاستطاعة** وحمايتها من اختصاص **اللوط 15** ؛ يقدّم هذا اللوط مخططات الاستطاعة والحاجيات (كيلوواط، التيار الاسمي) ؛\n- تُنسَّق **التحفظات والقواعد والأغماد** في الأعمال الكبرى مع **اللوط 02** ؛\n- يُربَط تصريف **المياه المكثَّفة** بشبكة المياه المستعملة/المطرية للوط السباكة.\n\nيتحمل المقاول مسؤولية الأداءات المعلنة (الاستطاعات، الصبيب، المستويات الصوتية) إلى حين التسلم.",
+        "en": "This lot covers the complete execution of the **HVAC** systems (heating, ventilation, air-conditioning and smoke control) for project {{PROJECT_NAME}}.\n\n**Scope of works:**\n- Cooling/heating generation: **direct-expansion split, multi-split or VRV/VRF** systems;\n- **Refrigerant** networks (copper refrigerant lines, insulation, oil management) and **air** networks (ducts, grilles, diffusers);\n- **Controlled mechanical ventilation (MVHR)** single or double flow, extraction of wet rooms and kitchens;\n- **Smoke control** mechanical and/or natural for circulations, enclosed stairs and relevant rooms;\n- Control, building management, **balancing** and **commissioning**.\n\n**Limits of works:**\n- The **power electrical supplies** and their protection are covered by **LOT 15**; this lot provides the power schedules and requirements (kW, In);\n- **Reservations, plinths and ducts** in the structure are coordinated with **LOT 02**;\n- The **condensate** drainage is connected to the wastewater/rainwater network of the plumbing lot.\n\nThe contractor is responsible for the stated performance (capacities, flow rates, sound levels) up to handover."
+      }
+    },
+    {
+      "numero": "16.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Documents de référence, bases thermiques et RTCM",
+        "ar": "وثائق المرجع والأسس الحرارية والـ RTCM",
+        "en": "Reference documents, thermal bases and RTCM"
+      },
+      "corpsMD": {
+        "fr": "Les installations sont conçues et exécutées selon :\n- **NF DTU 68.3** — Installations de ventilation mécanique ;\n- **NF EN 378** — Systèmes frigorifiques et pompes à chaleur (sécurité et environnement) ;\n- **RTCM — Décret n° 2-13-874** approuvant le Règlement thermique de construction au Maroc, fixant les exigences de performance énergétique des bâtiments par zone climatique ;\n- **NF EN 12599** — Procédures d'essai et méthodes de mesure pour la réception des installations de ventilation et de climatisation ;\n- **NF EN 14511** — Conditions nominales de performance des groupes refroidisseurs et pompes à chaleur.\n\n**Bases de calcul :**\n- Conditions extérieures de base selon la **zone climatique RTCM** de la commune {{COMMUNE}} ;\n- Conditions intérieures : confort d'été et d'hiver selon destination des locaux ;\n- Calcul des **déperditions et apports** (charges thermiques), des **débits d'air neuf** réglementaires et du dimensionnement des réseaux.\n\nLes notes de calcul thermique, aéraulique et frigorifique, ainsi que la vérification RTCM, sont soumises au visa du maître d'œuvre.",
+        "ar": "تُصمَّم التركيبات وتُنفَّذ وفق :\n- **NF DTU 68.3** — تركيبات التهوية الميكانيكية ؛\n- **NF EN 378** — الأنظمة التبريدية ومضخات الحرارة (السلامة والبيئة) ؛\n- **RTCM — المرسوم رقم 2-13-874** المصادق على النظام الحراري للبناء بالمغرب، المحدِّد لمتطلبات الأداء الطاقي للمباني حسب المنطقة المناخية ؛\n- **NF EN 12599** — مساطر الاختبار وطرق القياس لتسلم تركيبات التهوية والتكييف ؛\n- **NF EN 14511** — الشروط الاسمية لأداء مجموعات التبريد ومضخات الحرارة.\n\n**أسس الحساب :**\n- الشروط الخارجية الأساسية حسب **المنطقة المناخية للـ RTCM** لجماعة {{COMMUNE}} ؛\n- الشروط الداخلية : راحة الصيف والشتاء حسب وجهة المحلات ؛\n- حساب **الفواقد والمكاسب** (الأحمال الحرارية) و**صبيب الهواء الجديد** التنظيمي وتحجيم الشبكات.\n\nتُعرَض مذكرات الحساب الحراري والهوائي والتبريدي، وكذا التحقق من الـ RTCM، على تأشيرة صاحب المشروع المنتدب.",
+        "en": "The installations are designed and executed according to:\n- **NF DTU 68.3** — Mechanical ventilation installations;\n- **NF EN 378** — Refrigerating systems and heat pumps (safety and environment);\n- **RTCM — Decree No. 2-13-874** approving the Moroccan Building Thermal Regulation, setting the energy performance requirements of buildings by climate zone;\n- **NF EN 12599** — Test procedures and measuring methods for handing over ventilation and air-conditioning systems;\n- **NF EN 14511** — Rated performance conditions of chillers and heat pumps.\n\n**Calculation bases:**\n- Outdoor design conditions according to the **RTCM climate zone** of the {{COMMUNE}} municipality;\n- Indoor conditions: summer and winter comfort according to room use;\n- Calculation of **heat losses and gains** (thermal loads), regulatory **fresh-air flow rates** and network sizing.\n\nThe thermal, air and refrigerant calculation notes, together with the RTCM verification, are submitted for the project manager's approval."
+      }
+    },
+    {
+      "numero": "16.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Provenance et spécifications des équipements et réseaux",
+        "ar": "مصدر ومواصفات المعدات والشبكات",
+        "en": "Source and specifications of equipment and networks"
+      },
+      "corpsMD": {
+        "fr": "Les équipements portent le **marquage CE** ; les groupes frigorifiques sont déclarés selon **NF EN 14511** (EER/COP) et l'étiquette énergétique correspondante.\n\n**Spécifications minimales :**\n- **Unités de climatisation (split/VRV) :** fluide frigorigène conforme à NF EN 378, EER/COP cohérents avec la RTCM, niveau sonore intérieur déclaré ;\n- **Liaisons frigorifiques :** tube cuivre frigorifique qualité déshydratée, brasé sous azote, **isolation thermique** type élastomère d'épaisseur adaptée, pare-vapeur continu ;\n- **Gaines aérauliques :** acier galvanisé conforme **NF EN 1507** (rectangulaires) / **NF EN 12237** (circulaires), classe d'étanchéité minimale **classe C** ;\n- **VMC :** caissons, bouches autoréglables/hygroréglables, conduits conformes DTU 68.3 ;\n- **Désenfumage :** conduits, volets et exutoires de **degré coupe-feu / pare-flammes** requis, ventilateurs aptes au fonctionnement en température (selon IT 246/263) ;\n- **Isolants et calorifuges :** réaction au feu conforme au classement exigé.\n\nLes **fiches techniques** et **échantillons** (bouches, diffuseurs, isolants) sont soumis à l'agrément du maître d'œuvre avant commande.",
+        "ar": "تحمل المعدات **علامة CE** ؛ تُصرَّح مجموعات التبريد وفق **NF EN 14511** (EER/COP) والملصق الطاقي المطابق.\n\n**المواصفات الدنيا :**\n- **وحدات التكييف (split/VRV) :** مائع تبريدي مطابق لـ NF EN 378، EER/COP منسجمان مع الـ RTCM، مستوى صوتي داخلي مصرَّح ؛\n- **الوصلات التبريدية :** أنبوب نحاس تبريدي بجودة منزوعة الرطوبة، ملحوم تحت الآزوت، **عزل حراري** من نوع الإيلاستومير بسماكة ملائمة، حاجز بخار متصل ؛\n- **الأغماد الهوائية :** فولاذ مغلفن مطابق **NF EN 1507** (مستطيلة) / **NF EN 12237** (دائرية)، درجة إحكام دنيا **صنف C** ؛\n- **VMC :** صناديق، أفواه ذاتية الضبط/رطوبية الضبط، قنوات مطابقة DTU 68.3 ؛\n- **إزالة الدخان :** قنوات وصمامات ومنافذ بـ**درجة مقاومة الحريق** المطلوبة، مراوح قادرة على الاشتغال في الحرارة (حسب IT 246/263) ؛\n- **العوازل والمواد الحرارية :** رد فعل تجاه الحريق مطابق للتصنيف المطلوب.\n\nتُعرَض **البطاقات التقنية** و**العينات** (الأفواه، الموزعات، العوازل) على موافقة صاحب المشروع المنتدب قبل الطلب.",
+        "en": "Equipment bears the **CE marking**; refrigeration units are declared per **NF EN 14511** (EER/COP) and the corresponding energy label.\n\n**Minimum specifications:**\n- **Air-conditioning units (split/VRV):** refrigerant compliant with NF EN 378, EER/COP consistent with the RTCM, declared indoor sound level;\n- **Refrigerant lines:** dehydrated-quality refrigerant copper tube, brazed under nitrogen, **thermal insulation** of elastomer type with suitable thickness, continuous vapour barrier;\n- **Air ducts:** galvanised steel compliant with **NF EN 1507** (rectangular) / **NF EN 12237** (circular), minimum tightness **class C**;\n- **MVHR:** units, self-regulating/humidity-controlled grilles, ducts compliant with DTU 68.3;\n- **Smoke control:** ducts, dampers and vents of the required **fire-resistance rating**, fans able to operate at temperature (per IT 246/263);\n- **Insulation and lagging:** reaction to fire compliant with the required classification.\n\n**Technical data sheets** and **samples** (grilles, diffusers, insulation) are submitted for the project manager's approval before ordering."
+      }
+    },
+    {
+      "numero": "16.4",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Mise en œuvre des réseaux frigorifiques et aérauliques",
+        "ar": "تنفيذ الشبكات التبريدية والهوائية",
+        "en": "Installation of refrigerant and air networks"
+      },
+      "corpsMD": {
+        "fr": "**Réseaux frigorifiques :**\n- Cintrage soigné, brasage **sous balayage d'azote** sec, supportage anti-vibratile ;\n- **Tirage au vide** poussé (deshydratation), contrôle de la tenue au vide, charge en fluide selon longueur réelle de liaison ;\n- **Essai d'étanchéité sous pression** (azote) consigné avant mise en gaz ; aucune fuite tolérée.\n\n**Réseaux aérauliques :**\n- Gaines assemblées et étanchées selon la **classe d'étanchéité** prescrite (NF EN 12237 / 1507) ; supportage et désolidarisation acoustique ;\n- Trappes de visite et de nettoyage aux points requis ; calorifugeage des gaines véhiculant de l'air traité ;\n- Bouches et diffuseurs réglables, registres d'équilibrage en attente de réglage.\n\n**Désenfumage :**\n- Conduits, volets et exutoires installés selon le scénario de désenfumage retenu (IT 246/263) ; asservissements au SSI coordonnés ;\n- Maintien des degrés coupe-feu aux traversées (calfeutrements certifiés).\n\nLa **traçabilité** (PV de brasage, de tirage au vide, d'étanchéité) est tenue à jour pour la réception.",
+        "ar": "**الشبكات التبريدية :**\n- ثني متقن، لحام **تحت تنظيف بالآزوت** الجاف، تدعيم مضاد للاهتزاز ؛\n- **سحب الفراغ** المعمَّق (نزع الرطوبة)، مراقبة صمود الفراغ، الشحن بالمائع حسب الطول الفعلي للوصلة ؛\n- **اختبار الإحكام تحت الضغط** (آزوت) مدوَّن قبل ضخ الغاز ؛ لا يُسمح بأي تسرب.\n\n**الشبكات الهوائية :**\n- أغماد مركَّبة ومحكَمة حسب **درجة الإحكام** المقررة (NF EN 12237 / 1507) ؛ تدعيم وفصل صوتي ؛\n- فتحات للزيارة والتنظيف في النقاط المطلوبة ؛ تغليف حراري للأغماد الناقلة للهواء المعالَج ؛\n- أفواه وموزعات قابلة للضبط، صمامات موازنة بانتظار الضبط.\n\n**إزالة الدخان :**\n- قنوات وصمامات ومنافذ مركَّبة حسب سيناريو إزالة الدخان المعتمد (IT 246/263) ؛ تنسيق الربط بنظام السلامة ضد الحريق ؛\n- الحفاظ على درجات مقاومة الحريق عند العبور (سدّ معتمد).\n\nيُحدَّث **التتبع** (محاضر اللحام وسحب الفراغ والإحكام) للتسلم.",
+        "en": "**Refrigerant networks:**\n- Careful bending, brazing **under dry nitrogen purge**, anti-vibration supports;\n- Deep **vacuum pull-down** (dehydration), vacuum-hold check, refrigerant charge according to the actual line length;\n- **Pressure tightness test** (nitrogen) recorded before gas charging; no leakage tolerated.\n\n**Air networks:**\n- Ducts assembled and sealed to the prescribed **tightness class** (NF EN 12237 / 1507); supports and acoustic decoupling;\n- Inspection and cleaning hatches at the required points; lagging of ducts carrying treated air;\n- Adjustable grilles and diffusers, balancing dampers awaiting setting.\n\n**Smoke control:**\n- Ducts, dampers and vents installed per the adopted smoke-control scenario (IT 246/263); interlocks with the fire safety system coordinated;\n- Maintenance of fire ratings at penetrations (certified fire-stopping).\n\n**Traceability** (brazing, vacuum, tightness reports) is kept up to date for handover."
+      }
+    },
+    {
+      "numero": "16.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Équilibrage, mise en service et essais de réception",
+        "ar": "الموازنة والوضع قيد الخدمة واختبارات التسلم",
+        "en": "Balancing, commissioning and acceptance tests"
+      },
+      "corpsMD": {
+        "fr": "La mise en service est conduite selon **NF EN 12599** et comprend :\n- **Équilibrage aéraulique** : réglage des débits aux bouches, mesure et ajustement, écart toléré généralement **± 15 %** par rapport aux débits de projet ;\n- **Équilibrage hydraulique/frigorifique** : vérification des régimes, des pressions et des températures de fonctionnement ;\n- **Mesures de réception** : débits d'air neuf et d'extraction, températures soufflage/reprise, niveaux sonores, pression des locaux ;\n- **Essais de fonctionnement** des régulations, des asservissements et du **désenfumage** (déclenchement, débits/sur-pression, temps de réponse) ;\n- **Vérification des performances RTCM** annoncées.\n\nUn **rapport de mise en service et d'équilibrage** est établi (relevés, réglages, écarts) et remis au maître d'œuvre. Les réglages définitifs des registres et des régulateurs sont consignés et verrouillés. La formation du personnel d'exploitation est assurée à la réception.",
+        "ar": "يُجرى الوضع قيد الخدمة حسب **NF EN 12599** ويشمل :\n- **الموازنة الهوائية** : ضبط الصبيب عند الأفواه، القياس والتعديل، الفارق المقبول عموما **± 15٪** مقارنة بصبيب المشروع ؛\n- **الموازنة المائية/التبريدية** : التحقق من الأنظمة والضغوط ودرجات حرارة الاشتغال ؛\n- **قياسات التسلم** : صبيب الهواء الجديد والشفط، درجات حرارة النفخ/الاسترجاع، المستويات الصوتية، ضغط المحلات ؛\n- **اختبارات اشتغال** أجهزة الضبط والربط و**إزالة الدخان** (التحفيز، الصبيب/الضغط الزائد، زمن الاستجابة) ؛\n- **التحقق من أداءات الـ RTCM** المعلنة.\n\nيُعَدّ **تقرير الوضع قيد الخدمة والموازنة** (القراءات، الضبط، الفوارق) ويُسلَّم لصاحب المشروع المنتدب. تُدوَّن الضبطيات النهائية للصمامات والمنظِّمات وتُقفَل. يُؤمَّن تكوين مستخدمي الاستغلال عند التسلم.",
+        "en": "Commissioning is carried out per **NF EN 12599** and includes:\n- **Air balancing**: adjustment of grille flow rates, measurement and tuning, tolerance generally **± 15 %** of design flow rates;\n- **Hydraulic/refrigerant balancing**: checking of regimes, pressures and operating temperatures;\n- **Acceptance measurements**: fresh-air and extract flow rates, supply/return temperatures, sound levels, room pressure;\n- **Functional tests** of controls, interlocks and **smoke control** (triggering, flow/over-pressure, response time);\n- **Verification of the stated RTCM performance**.\n\nA **commissioning and balancing report** (readings, settings, deviations) is prepared and handed to the project manager. Final damper and controller settings are recorded and locked. Training of operating staff is provided at handover."
+      }
+    },
+    {
+      "numero": "16.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Fluides frigorigènes, sécurité (HSE) et garanties",
+        "ar": "موائع التبريد والسلامة والصحة وضمانات",
+        "en": "Refrigerants, safety (HSE) and guarantees"
+      },
+      "corpsMD": {
+        "fr": "**Fluides frigorigènes et HSE :**\n- Manipulation des fluides frigorigènes par personnel titulaire de l'**attestation d'aptitude**, dans le respect de la **NF EN 378** (charge admissible selon volume de local, ventilation, classe de sécurité du fluide) ;\n- Récupération obligatoire des fluides ; interdiction de tout rejet à l'atmosphère ; traçabilité des quantités chargées/récupérées ;\n- Travaux en hauteur, brasage et essais sous pression encadrés par les EPI et procédures de sécurité ; permis de feu pour le brasage.\n\n**Garanties :**\n- Garantie de parfait achèvement (1 an) sur l'ensemble des installations ;\n- Garantie constructeur des équipements (groupes, unités) transmise au maître d'ouvrage ;\n- Remise du **DOE** : notes de calcul, plans de réseaux *as-built*, fiches techniques, **rapport de mise en service et d'équilibrage**, attestations de manipulation des fluides, notices d'exploitation et de maintenance.\n\nUne période de **mise au point** et un contrat de maintenance préventive sont proposés pour la première année d'exploitation.",
+        "ar": "**موائع التبريد والسلامة والصحة :**\n- مناولة موائع التبريد من طرف مستخدمين حاملين لـ**شهادة الأهلية**، مع احترام **NF EN 378** (الشحنة المقبولة حسب حجم المحل، التهوية، صنف سلامة المائع) ؛\n- استرجاع الموائع إجباري ؛ يُمنع كل إطلاق في الجو ؛ تتبع الكميات المشحونة/المسترجَعة ؛\n- الأشغال على علو واللحام والاختبارات تحت الضغط مؤطَّرة بمعدات الوقاية الفردية ومساطر السلامة ؛ رخصة نار للحام.\n\n**الضمانات :**\n- ضمان الإنجاز التام (سنة واحدة) على مجموع التركيبات ؛\n- ضمان الصانع للمعدات (المجموعات، الوحدات) يُنقَل إلى صاحب المشروع ؛\n- تسليم **ملف المنشآت المنجزة** : مذكرات الحساب، مخططات الشبكات كما أُنجزت، البطاقات التقنية، **تقرير الوضع قيد الخدمة والموازنة**، شهادات مناولة الموائع، دلائل الاستغلال والصيانة.\n\nتُقترَح فترة **ضبط نهائي** وعقد صيانة وقائية للسنة الأولى من الاستغلال.",
+        "en": "**Refrigerants and HSE:**\n- Handling of refrigerants by personnel holding the **certificate of aptitude**, in compliance with **NF EN 378** (permissible charge according to room volume, ventilation, refrigerant safety class);\n- Mandatory recovery of refrigerants; any release to the atmosphere prohibited; traceability of charged/recovered quantities;\n- Work at height, brazing and pressure tests governed by PPE and safety procedures; hot-work permit for brazing.\n\n**Guarantees:**\n- One-year defects liability on all installations;\n- Manufacturer's warranty of equipment (units) passed on to the client;\n- Handover of the **as-built file (DOE)**: calculation notes, *as-built* network drawings, data sheets, **commissioning and balancing report**, refrigerant-handling certificates, operating and maintenance manuals.\n\nA **fine-tuning** period and a preventive maintenance contract are proposed for the first year of operation."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "16.01",
+      "designation": {
+        "fr": "Unité de climatisation à détente directe (split mural/console) posée et raccordée",
+        "ar": "وحدة تكييف بالتمدد المباشر (split جداري/كونصول) مركَّبة وموصولة",
+        "en": "Direct-expansion air-conditioning unit (wall/console split) installed and connected"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité posée, unités intérieure et extérieure, support et raccordement frigorifique compris.",
+        "ar": "بالوحدة المركَّبة، الوحدتان الداخلية والخارجية والدعامة والربط التبريدي.",
+        "en": "Per installed unit, indoor and outdoor units, support and refrigerant connection included."
+      }
+    },
+    {
+      "code": "16.02",
+      "designation": {
+        "fr": "Système VRV/VRF : groupe extérieur + unités intérieures + commande centralisée",
+        "ar": "نظام VRV/VRF : مجموعة خارجية + وحدات داخلية + تحكم مركزي",
+        "en": "VRV/VRF system: outdoor unit + indoor units + centralised control"
+      },
+      "unite": "ens",
+      "modeMetreMD": {
+        "fr": "À l'ensemble par système, équilibrage frigorifique et mise en service inclus.",
+        "ar": "بالمجموع لكل نظام، مع الموازنة التبريدية والوضع قيد الخدمة.",
+        "en": "Per system assembly, refrigerant balancing and commissioning included."
+      }
+    },
+    {
+      "code": "16.03",
+      "designation": {
+        "fr": "Liaison frigorifique cuivre isolée (tube + calorifuge + supportage)",
+        "ar": "وصلة تبريدية نحاسية معزولة (أنبوب + تغليف حراري + تدعيم)",
+        "en": "Insulated copper refrigerant line (tube + lagging + supports)"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de liaison posée, isolation et brasage sous azote compris.",
+        "ar": "بالمتر الطولي للوصلة المركَّبة، مع العزل واللحام تحت الآزوت.",
+        "en": "Per linear metre of installed line, insulation and nitrogen-purge brazing included."
+      }
+    },
+    {
+      "code": "16.04",
+      "designation": {
+        "fr": "Réseau de gaines aérauliques en acier galvanisé (classe d'étanchéité C)",
+        "ar": "شبكة أغماد هوائية من الفولاذ المغلفن (صنف إحكام C)",
+        "en": "Galvanised-steel air duct network (tightness class C)"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au m² de surface développée de gaine posée, accessoires et supportage compris.",
+        "ar": "بالمتر المربع للسطح المنشور للغمد المركَّب، مع الملحقات والتدعيم.",
+        "en": "Per m² of developed duct surface installed, accessories and supports included."
+      }
+    },
+    {
+      "code": "16.05",
+      "designation": {
+        "fr": "Bouche/diffuseur de soufflage ou d'extraction réglable",
+        "ar": "فوهة/موزع نفخ أو شفط قابل للضبط",
+        "en": "Adjustable supply or extract grille/diffuser"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité posée et réglée lors de l'équilibrage.",
+        "ar": "بالوحدة المركَّبة والمضبوطة أثناء الموازنة.",
+        "en": "Per unit installed and set during balancing."
+      }
+    },
+    {
+      "code": "16.06",
+      "designation": {
+        "fr": "Caisson de VMC (simple/double flux) avec raccordements et silencieux",
+        "ar": "صندوق تهوية ميكانيكية مراقَبة (أحادي/ثنائي التدفق) مع الوصلات وكاتم الصوت",
+        "en": "MVHR unit (single/double flow) with connections and silencers"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité posée et raccordée, plots anti-vibratiles et silencieux compris.",
+        "ar": "بالوحدة المركَّبة والموصولة، مع القواعد المضادة للاهتزاز وكاتم الصوت.",
+        "en": "Per unit installed and connected, anti-vibration mounts and silencers included."
+      }
+    },
+    {
+      "code": "16.07",
+      "designation": {
+        "fr": "Ensemble de désenfumage (conduit + volet/exutoire) coordonné au SSI",
+        "ar": "مجموعة إزالة الدخان (قناة + صمام/منفذ) منسَّقة مع نظام السلامة",
+        "en": "Smoke-control assembly (duct + damper/vent) coordinated with the fire system"
+      },
+      "unite": "ens",
+      "modeMetreMD": {
+        "fr": "À l'ensemble par zone de désenfumage, asservissements et essais inclus.",
+        "ar": "بالمجموع لكل منطقة إزالة دخان، مع الربط والاختبارات.",
+        "en": "Per smoke-control zone assembly, interlocks and tests included."
+      }
+    },
+    {
+      "code": "16.08",
+      "designation": {
+        "fr": "Équilibrage, mise en service et rapport NF EN 12599",
+        "ar": "الموازنة والوضع قيد الخدمة وتقرير NF EN 12599",
+        "en": "Balancing, commissioning and NF EN 12599 report"
+      },
+      "unite": "ff",
+      "modeMetreMD": {
+        "fr": "Au forfait, ensemble des mesures, réglages et rapport documenté remis à la réception.",
+        "ar": "جزافيا، مجموع القياسات والضبطيات والتقرير الموثَّق المسلَّم عند التسلم.",
+        "en": "Lump sum, all measurements, settings and documented report delivered at handover."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_15_ELECTRICITE",
+      "type": "ALIMENTATION",
+      "description": {
+        "fr": "Réception des attentes électriques de puissance protégées et coordination des bilans (kW, In, asservissements désenfumage).",
+        "ar": "استلام التغذيات الكهربائية للاستطاعة المحمية وتنسيق الحصائل (كيلوواط، التيار الاسمي، ربط إزالة الدخان).",
+        "en": "Receipt of protected power electrical supplies and coordination of schedules (kW, In, smoke-control interlocks)."
+      }
+    },
+    {
+      "lotCible": "LOT_02_GROS_OEUVRE_BETON",
+      "type": "RESERVATION",
+      "description": {
+        "fr": "Coordination des réservations, percements, socles d'unités extérieures et trémies de gaines.",
+        "ar": "تنسيق التحفظات والثقوب وقواعد الوحدات الخارجية وفتحات الأغماد.",
+        "en": "Coordination of reservations, openings, outdoor-unit plinths and duct shafts."
+      }
+    },
+    {
+      "lotCible": "LOT_20_VDI_COURANTS_FAIBLES",
+      "type": "COORDINATION",
+      "description": {
+        "fr": "Coordination des asservissements de régulation/GTB et des reports d'alarme avec les courants faibles.",
+        "ar": "تنسيق ربط الضبط/التدبير التقني للمبنى وتحويل الإنذارات مع التيارات الضعيفة.",
+        "en": "Coordination of control/BMS interlocks and alarm reporting with the low-current systems."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "NF DTU 68.3 — Installations de ventilation mécanique",
+      "Décret n° 2-13-874 — Règlement thermique de construction au Maroc (RTCM)",
+      "NF EN 378 — Systèmes frigorifiques et pompes à chaleur — sécurité et environnement",
+      "NF EN 12599 — Réception des installations de ventilation et de climatisation",
+      "NF EN 1507 / NF EN 12237 — Étanchéité et résistance des conduits aérauliques"
+    ]
+  }
+}

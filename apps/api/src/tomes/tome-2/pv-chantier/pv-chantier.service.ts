@@ -10,6 +10,7 @@ import * as fs from "fs/promises";
 import * as path from "path";
 import { PrismaService } from "../../tome-at/kernel/prisma/prisma.service";
 import { ProbativeLogService } from "../../../modules/kernel/services/probative-log.service";
+import { PvComplianceService } from "./pv-compliance.service";
 import {
   PV_PAYLOAD_KEY,
   PV_SEVERITE_ORDER,
@@ -47,6 +48,7 @@ export class PvChantierService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly probative: ProbativeLogService,
+    private readonly compliance: PvComplianceService,
   ) {
     // Cohérence avec les autres modules (apps/api/storage/...)
     this.storageRoot = process.env.PV_STORAGE_ROOT
@@ -253,6 +255,10 @@ export class PvChantierService {
     } catch (e: any) {
       this.logger.warn(`probative append failed: ${e?.message}`);
     }
+
+    // Cadence PV (T2-R-PV-CADENCE-001) : un PV finalisé remet le compteur à
+    // zéro et débloque le chantier si nécessaire.
+    await this.compliance.onPvFinalized(pv.dossierId);
 
     return pv;
   }

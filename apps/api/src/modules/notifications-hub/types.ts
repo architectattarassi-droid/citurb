@@ -38,6 +38,10 @@ export type HubEventType =
   | "PV_CHANTIER_SIGNE"
   | "RETARD_DETECTE"
   | "BLOCAGE_DECLARE"
+  // ── Cadence PV obligatoire (1 PV / 15 jours, doctrine T2-R-PV-CADENCE-001)
+  | "PV_CADENCE_RAPPEL"
+  | "CHANTIER_BLOQUE_PV"
+  | "CHANTIER_DEBLOQUE_PV"
   // ── Réception / livraison
   | "RECEPTION_PROVISOIRE_PROGRAMMEE"
   | "LIVRAISON_PRETE"

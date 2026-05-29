@@ -1,0 +1,265 @@
+{
+  "code": "LOT_21_ESPACES_VERTS",
+  "numero": 21,
+  "famille": "VRD",
+  "intitule": {
+    "fr": "Espaces verts et aménagements extérieurs",
+    "ar": "المساحات الخضراء والتهيئات الخارجية",
+    "en": "Landscaping and external works"
+  },
+  "description": {
+    "fr": "Le présent lot a pour objet la réalisation des espaces verts et aménagements extérieurs du projet {{PROJECT_NAME}} : préparation des sols, plantations d'arbres, arbustes et couvre-sols, engazonnement, réseau d'arrosage automatique enterré, clôtures et portails de clôture, ainsi que le mobilier extérieur. Le titulaire assure la garantie de reprise des végétaux pendant une période d'un (1) an à compter de la réception, incluant arrosage, taille et remplacement des sujets morts.",
+    "ar": "يهدف هذا القسط إلى إنجاز المساحات الخضراء والتهيئات الخارجية لمشروع {{PROJECT_NAME}}: تهيئة التربة، غرس الأشجار والشجيرات والنباتات الغطائية، تعشيب المروج، شبكة السقي الآلي المدفونة، الأسوار وبواباتها، وكذا الأثاث الخارجي. يضمن المقاول استئناف نمو النباتات لمدة سنة واحدة (1) ابتداءً من التسلم، شاملاً السقي والتقليم وتعويض النباتات الميتة.",
+    "en": "This lot covers the execution of landscaping and external works for the {{PROJECT_NAME}} project: soil preparation, planting of trees, shrubs and ground covers, turfing, buried automatic irrigation network, boundary fences and gates, and external furniture. The contractor guarantees plant establishment for a period of one (1) year from acceptance, including watering, pruning and replacement of dead specimens."
+  },
+  "normesRefs": [
+    "NF U44-551",
+    "NF V12-031",
+    "NM 10.1.008",
+    "EN 13476",
+    "NF P90-110",
+    "Fascicule 35 CCTG"
+  ],
+  "secteurQualifMA": [
+    "Secteur C - Aménagements extérieurs",
+    "Espaces verts et plantations",
+    "Réseaux d'arrosage",
+    "Serrurerie / clôtures"
+  ],
+  "competencesRequises": [
+    "Préparation et amendement des sols de plantation",
+    "Plantation et garantie de reprise des végétaux",
+    "Pose de réseaux d'arrosage automatique enterrés",
+    "Pose de clôtures, portails et mobilier extérieur"
+  ],
+  "articles": [
+    {
+      "numero": "21.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet, garantie de reprise et entretien initial",
+        "ar": "الموضوع وضمان الاستئناف والصيانة الأولية",
+        "en": "Scope, establishment guarantee and initial maintenance"
+      },
+      "corpsMD": {
+        "fr": "## Objet\nRéalisation complète des espaces verts et aménagements extérieurs du projet **{{PROJECT_NAME}}** à **{{COMMUNE}}**.\n\n## Garantie de reprise\nLe titulaire garantit la reprise de **100 % des végétaux** plantés pendant **un (1) an** à compter de la réception provisoire. Tout sujet mort, dépérissant ou non conforme est remplacé à l'identique à ses frais, à la saison favorable.\n\n## Entretien initial\nPendant l'année de garantie, le titulaire assure : arrosage, tonte, taille de formation, désherbage, remplacement et fertilisation d'entretien.\n\n## Provenance\nLes végétaux proviennent de pépinières agréées, étiquetés (genre, espèce, variété), conformes à la **NF V12-031**.",
+        "ar": "## الموضوع\nالإنجاز الكامل للمساحات الخضراء والتهيئات الخارجية لمشروع **{{PROJECT_NAME}}** بـ **{{COMMUNE}}**.\n\n## ضمان الاستئناف\nيضمن المقاول استئناف نمو **100 % من النباتات** المغروسة لمدة **سنة واحدة (1)** ابتداءً من التسلم المؤقت. يُعوَّض كل نبات ميت أو متدهور أو غير مطابق بنفس النوع على نفقته في الموسم المناسب.\n\n## الصيانة الأولية\nخلال سنة الضمان، يتولى المقاول: السقي والجز والتقليم التكويني وإزالة الأعشاب والتعويض والتسميد.\n\n## المصدر\nتأتي النباتات من مشاتل معتمدة، معنونة (الجنس والنوع والصنف)، مطابقة لـ **NF V12-031**.",
+        "en": "## Scope\nComplete execution of landscaping and external works for project **{{PROJECT_NAME}}** in **{{COMMUNE}}**.\n\n## Establishment guarantee\nThe contractor guarantees establishment of **100 % of planted vegetation** for **one (1) year** from provisional acceptance. Any dead, declining or non-compliant specimen is replaced like-for-like at the contractor's expense, in the favourable season.\n\n## Initial maintenance\nDuring the guarantee year, the contractor provides: watering, mowing, formative pruning, weeding, replacement and maintenance fertilisation.\n\n## Provenance\nPlants come from approved nurseries, labelled (genus, species, variety), compliant with **NF V12-031**."
+      }
+    },
+    {
+      "numero": "21.2",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Terre végétale, végétaux et matériaux de clôture",
+        "ar": "التربة النباتية والنباتات ومواد السياج",
+        "en": "Topsoil, plants and fencing materials"
+      },
+      "corpsMD": {
+        "fr": "## Terre végétale\nTerre végétale criblée, exempte de cailloux > 30 mm, de racines et de déchets, pH **6,5–7,5**, conforme à la **NF U44-551** pour les supports de culture. Amendements organiques selon analyse de sol.\n\n## Végétaux\n- Arbres tige : circonférence min selon plans (ex. **18/20 cm**), motte ou conteneur ;\n- Arbustes : conteneur ≥ **3 L** ;\n- Gazon : semences certifiées (mélange rustique adapté au climat **{{COMMUNE}}**) ou gazon en plaques.\n\n## Clôtures et portails\n- Clôture : grillage rigide / panneaux soudés galvanisés + thermolaqués, poteaux scellés ;\n- Portails : acier galvanisé thermolaqué, motorisation si prévue aux plans ;\n- Quincaillerie inox/galvanisée.\n\n## Mobilier extérieur\nBancs, corbeilles, bornes : matériaux résistants aux UV et intempéries, fixations antivol.",
+        "ar": "## التربة النباتية\nتربة نباتية مغربلة، خالية من الحصى > 30 ملم والجذور والنفايات، درجة الحموضة **6,5–7,5**، مطابقة لـ **NF U44-551**. إضافات عضوية حسب تحليل التربة.\n\n## النباتات\n- الأشجار ذات الجذع: محيط أدنى حسب التصاميم (مثلاً **18/20 سم**)، بكتلة ترابية أو حاوية؛\n- الشجيرات: حاوية ≥ **3 لتر**؛\n- المرج: بذور معتمدة (خليط قروي ملائم لمناخ **{{COMMUNE}}**) أو مرج بألواح.\n\n## الأسوار والبوابات\n- السياج: شبك صلب / ألواح ملحومة مجلفنة ومطلية حرارياً، أعمدة مثبتة؛\n- البوابات: فولاذ مجلفن مطلي حرارياً، تحريك آلي إن نُص عليه؛\n- خردوات من الفولاذ المقاوم/المجلفن.\n\n## الأثاث الخارجي\nمقاعد وسلال وأعمدة: مواد مقاومة للأشعة فوق البنفسجية والعوامل الجوية، تثبيتات مضادة للسرقة.",
+        "en": "## Topsoil\nScreened topsoil, free of stones > 30 mm, roots and debris, pH **6.5–7.5**, compliant with **NF U44-551** for growing media. Organic amendments per soil analysis.\n\n## Plants\n- Standard trees: min girth per drawings (e.g. **18/20 cm**), rootball or container;\n- Shrubs: container ≥ **3 L**;\n- Grass: certified seed (hardy mix suited to the **{{COMMUNE}}** climate) or turf rolls.\n\n## Fences and gates\n- Fence: rigid mesh / welded galvanised + powder-coated panels, embedded posts;\n- Gates: powder-coated galvanised steel, motorisation if shown on drawings;\n- Stainless/galvanised ironmongery.\n\n## External furniture\nBenches, bins, bollards: UV and weather resistant materials, anti-theft fixings."
+      }
+    },
+    {
+      "numero": "21.3",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Préparation des sols, plantations et engazonnement",
+        "ar": "تهيئة التربة والغرس والتعشيب",
+        "en": "Soil preparation, planting and turfing"
+      },
+      "corpsMD": {
+        "fr": "## Préparation des sols\nDécompactage du fond de fouille, apport et régalage de terre végétale (épaisseur min **0,30 m** en massifs, **0,20 m** en gazon), élimination des pierres et déchets.\n\n## Plantations\n- Trous de plantation aux dimensions ≥ **2 × la motte** ;\n- Tuteurage des arbres, collet au niveau du sol fini ;\n- Cuvette d'arrosage et paillage (mulch) en surface des massifs.\n\n## Engazonnement\n- Semis : préparation fine du lit de semence, dose selon mélange, roulage et premier arrosage ;\n- Gazon en plaques : pose jointive, roulage, arrosage immédiat.\n\n## Calendrier\nLes plantations sont exécutées en **période favorable** (automne / fin d'hiver) ; hors saison, l'arrosage renforcé est à la charge du titulaire.",
+        "ar": "## تهيئة التربة\nفك دك قاع الحفر، جلب وتسوية التربة النباتية (سمك أدنى **0,30 م** في الأحواض، **0,20 م** في المرج)، إزالة الحجارة والنفايات.\n\n## الغرس\n- حُفر الغرس بأبعاد ≥ **2 × الكتلة الترابية**؛\n- تدعيم الأشجار، العنق في مستوى التربة المنجزة؛\n- حوض سقي وتغطية سطحية للأحواض.\n\n## التعشيب\n- البذر: تهيئة دقيقة لفراش البذر، الجرعة حسب الخليط، التدحرج والسقي الأول؛\n- المرج بألواح: وضع متلاصق، تدحرج، سقي فوري.\n\n## الرزنامة\nتُنفذ المغروسات في **الموسم المناسب** (الخريف / آخر الشتاء)؛ خارج الموسم، السقي المكثف على عاتق المقاول.",
+        "en": "## Soil preparation\nLoosening of the formation, supply and spreading of topsoil (min thickness **0.30 m** in beds, **0.20 m** for grass), removal of stones and debris.\n\n## Planting\n- Planting pits sized ≥ **2 × the rootball**;\n- Tree staking, collar at finished ground level;\n- Watering basin and surface mulching of beds.\n\n## Turfing\n- Seeding: fine seedbed preparation, rate per mix, rolling and first watering;\n- Turf rolls: butt-jointed laying, rolling, immediate watering.\n\n## Schedule\nPlanting is carried out in the **favourable season** (autumn / late winter); out of season, reinforced watering is at the contractor's expense."
+      }
+    },
+    {
+      "numero": "21.4",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Réseau d'arrosage automatique",
+        "ar": "شبكة السقي الآلي",
+        "en": "Automatic irrigation network"
+      },
+      "corpsMD": {
+        "fr": "## Réseau\nRéseau enterré en PEHD **NM EN 12201**, tranchées de profondeur ≥ **0,40 m**, raccordé au point d'eau via compteur et clapet anti-retour (protection du réseau AEP — voir LOT 26).\n\n## Distribution\n- **Goutte-à-goutte** pour massifs et arbustes ;\n- **Tuyères / turbines** pour les surfaces engazonnées, recouvrement de portée assuré.\n\n## Programmation\nProgrammateur multi-voies avec électrovannes par secteur, sonde pluie. Plages d'arrosage réglées pour limiter l'évaporation (tôt le matin).\n\n## Essais\nMise en pression et essai de fonctionnement secteur par secteur, contrôle de l'uniformité d'arrosage et de l'absence de fuite avant remblaiement définitif.\n\n> Le plan du réseau d'arrosage est intégré au DOE (voir LOT 0).",
+        "ar": "## الشبكة\nشبكة مدفونة من PEHD **NM EN 12201**، خنادق بعمق ≥ **0,40 م**، مربوطة بنقطة الماء عبر عداد وصمام عدم رجوع (حماية شبكة الماء الصالح للشرب — انظر القسط 26).\n\n## التوزيع\n- **التنقيط** للأحواض والشجيرات؛\n- **الرشاشات / التوربينات** للمساحات المعشبة، مع ضمان تداخل المدى.\n\n## البرمجة\nمبرمج متعدد المسارات بصمامات كهربائية لكل قطاع، ومجس للمطر. أوقات السقي مضبوطة للحد من التبخر (باكراً صباحاً).\n\n## الاختبارات\nالضغط واختبار التشغيل قطاعاً بقطاع، ومراقبة انتظام السقي وغياب التسرب قبل الردم النهائي.\n\n> يُدمج تصميم شبكة السقي في ملف المنشآت المنفذة (انظر القسط 0).",
+        "en": "## Network\nBuried HDPE network **NM EN 12201**, trenches ≥ **0.40 m** deep, connected to the water point via a meter and check valve (AEP network protection — see LOT 26).\n\n## Distribution\n- **Drip** for beds and shrubs;\n- **Spray / rotor** heads for grassed areas, with head-to-head coverage.\n\n## Programming\nMulti-zone controller with solenoid valves per zone and a rain sensor. Watering windows set to limit evaporation (early morning).\n\n## Testing\nPressurisation and operational test zone by zone, check of irrigation uniformity and absence of leaks before final backfilling.\n\n> The irrigation network drawing is included in the DOE (see LOT 0)."
+      }
+    },
+    {
+      "numero": "21.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Clôtures, portails et mobilier extérieur",
+        "ar": "الأسوار والبوابات والأثاث الخارجي",
+        "en": "Fences, gates and external furniture"
+      },
+      "corpsMD": {
+        "fr": "## Clôtures\nPoteaux scellés dans des plots béton **C16/20**, espacement régulier, alignement et aplomb contrôlés. Panneaux fixés par colliers inox. Hauteur conforme aux plans et au règlement d'urbanisme local.\n\n## Portails\nPortails battants ou coulissants en acier galvanisé thermolaqué, gonds réglables, butées et serrures. Motorisation avec sécurité anti-écrasement et commande conformes le cas échéant.\n\n## Mobilier extérieur\nPose de bancs, corbeilles, bornes et signalétique sur massifs de fondation ou platines chevillées, de niveau et solidement fixés.\n\n## Finitions\nReprise des galvanisations endommagées par peinture riche en zinc ; nettoyage final et protection contre les projections de chantier.",
+        "ar": "## الأسوار\nأعمدة مثبتة في كتل خرسانية **C16/20**، بتباعد منتظم، مع مراقبة المحاذاة والاستقامة. الألواح مثبتة بأطواق من الفولاذ المقاوم. الارتفاع مطابق للتصاميم ولنظام التعمير المحلي.\n\n## البوابات\nبوابات مفصلية أو منزلقة من فولاذ مجلفن مطلي حرارياً، مفصلات قابلة للضبط، مصدّات وأقفال. تحريك آلي بأمان ضد السحق وتحكم مطابق عند الاقتضاء.\n\n## الأثاث الخارجي\nوضع المقاعد والسلال والأعمدة واللافتات على كتل أساس أو صفائح مثبتة بالخوابير، مستوية ومثبتة بإحكام.\n\n## التشطيبات\nإصلاح الجلفنة المتضررة بطلاء غني بالزنك؛ التنظيف النهائي والحماية من رشاش الورش.",
+        "en": "## Fences\nPosts embedded in **C16/20** concrete footings, regular spacing, alignment and plumb checked. Panels fixed with stainless clamps. Height per drawings and local planning regulations.\n\n## Gates\nSwing or sliding gates in powder-coated galvanised steel, adjustable hinges, stops and locks. Motorisation with anti-crush safety and compliant control where applicable.\n\n## External furniture\nInstallation of benches, bins, bollards and signage on foundation blocks or dowelled base plates, level and securely fixed.\n\n## Finishes\nTouch-up of damaged galvanising with zinc-rich paint; final cleaning and protection against site splashes."
+      }
+    },
+    {
+      "numero": "21.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Réception, garantie et entretien de parfait achèvement",
+        "ar": "التسلم والضمان وصيانة الإتمام التام",
+        "en": "Acceptance, guarantee and defects maintenance"
+      },
+      "corpsMD": {
+        "fr": "## Réception\nLa réception provisoire est prononcée après constat de conformité des plantations, du gazon levé de façon homogène et du fonctionnement complet de l'arrosage.\n\n## Garantie de reprise (1 an)\nÀ l'issue de l'année de garantie, un **constat contradictoire de reprise** est dressé. Les sujets non repris sont remplacés avant la réception définitive.\n\n## Entretien de parfait achèvement\nLe titulaire fournit un **carnet d'entretien** (fréquences d'arrosage, fertilisation, taille) et forme le gestionnaire à l'usage du programmateur d'arrosage.\n\n> Les fiches des végétaux, le plan d'arrosage et le carnet d'entretien sont remis dans le DOE (voir LOT 0, art. 0.6).",
+        "ar": "## التسلم\nيُعلن التسلم المؤقت بعد معاينة مطابقة المغروسات وانتظام نمو المرج والتشغيل الكامل للسقي.\n\n## ضمان الاستئناف (سنة)\nعند نهاية سنة الضمان، يُحرَّر **محضر تناقضي للاستئناف**. تُعوَّض النباتات غير المستأنفة قبل التسلم النهائي.\n\n## صيانة الإتمام التام\nيسلم المقاول **دفتر صيانة** (وتيرة السقي والتسميد والتقليم) ويكوّن المسير على استعمال مبرمج السقي.\n\n> تُسلَّم بطاقات النباتات وتصميم السقي ودفتر الصيانة في ملف المنشآت المنفذة (انظر القسط 0، الفصل 0.6).",
+        "en": "## Acceptance\nProvisional acceptance is granted after verification of planting conformity, uniformly established grass and full irrigation operation.\n\n## Establishment guarantee (1 year)\nAt the end of the guarantee year, a **contradictory establishment report** is drawn up. Specimens that have not established are replaced before final acceptance.\n\n## Defects maintenance\nThe contractor provides a **maintenance log** (watering frequencies, fertilisation, pruning) and trains the operator in the use of the irrigation controller.\n\n> Plant records, the irrigation drawing and the maintenance log are handed over in the DOE (see LOT 0, art. 0.6)."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "21.01",
+      "designation": {
+        "fr": "Fourniture et mise en œuvre de terre végétale criblée et amendée",
+        "ar": "تزويد ووضع التربة النباتية المغربلة والمحسَّنة",
+        "en": "Supply and placement of screened and amended topsoil"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au mètre cube de terre végétale mise en place et réglée, mesuré au volume théorique (surface × épaisseur prescrite).",
+        "ar": "بالمتر المكعب للتربة النباتية الموضوعة والمسوّاة، مقاساً بالحجم النظري (المساحة × السمك المقرر).",
+        "en": "Per cubic metre of topsoil placed and graded, measured by theoretical volume (area × prescribed thickness)."
+      }
+    },
+    {
+      "code": "21.02",
+      "designation": {
+        "fr": "Fourniture et plantation d'arbre tige, fosse, tuteurage et arrosage compris",
+        "ar": "تزويد وغرس شجرة ذات جذع، شامل الحفرة والتدعيم والسقي",
+        "en": "Supply and planting of standard tree, pit, staking and watering included"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité d'arbre planté et garanti, fosse de plantation, terre d'apport, tuteurage et cuvette compris.",
+        "ar": "بالوحدة للشجرة المغروسة والمضمونة، شامل حفرة الغرس والتربة المجلوبة والتدعيم والحوض.",
+        "en": "Per unit of planted and guaranteed tree, planting pit, imported soil, staking and basin included."
+      }
+    },
+    {
+      "code": "21.03",
+      "designation": {
+        "fr": "Engazonnement par semis ou plaques, première levée comprise",
+        "ar": "تعشيب بالبذر أو بالألواح، شامل النمو الأول",
+        "en": "Turfing by seed or rolls, first establishment included"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au mètre carré de surface engazonnée et levée de façon homogène, préparation du lit de semence et premiers arrosages compris.",
+        "ar": "بالمتر المربع للمساحة المعشبة والنامية بانتظام، شامل تهيئة فراش البذر والسقي الأول.",
+        "en": "Per square metre of grassed area uniformly established, seedbed preparation and first waterings included."
+      }
+    },
+    {
+      "code": "21.04",
+      "designation": {
+        "fr": "Réseau d'arrosage automatique enterré, programmateur et électrovannes compris",
+        "ar": "شبكة سقي آلي مدفونة، شامل المبرمج والصمامات الكهربائية",
+        "en": "Buried automatic irrigation network, controller and solenoid valves included"
+      },
+      "unite": "ens",
+      "modeMetreMD": {
+        "fr": "À l'ensemble forfaitaire du réseau d'arrosage complet, posé, raccordé, programmé et essayé secteur par secteur selon plans.",
+        "ar": "بالمجموع الجزافي لشبكة السقي الكاملة، الموضوعة والمربوطة والمبرمجة والمختبرة قطاعاً بقطاع حسب التصاميم.",
+        "en": "As a lump-sum for the complete irrigation network, laid, connected, programmed and tested zone by zone per drawings."
+      }
+    },
+    {
+      "code": "21.05",
+      "designation": {
+        "fr": "Clôture en panneaux rigides galvanisés thermolaqués, poteaux scellés",
+        "ar": "سياج بألواح صلبة مجلفنة مطلية حرارياً، أعمدة مثبتة",
+        "en": "Fence in rigid galvanised powder-coated panels, embedded posts"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de clôture posée, poteaux, plots béton et quincaillerie compris, mesuré sur l'axe en plan.",
+        "ar": "بالمتر الطولي للسياج الموضوع، شامل الأعمدة والكتل الخرسانية والخردوات، مقاساً على المحور.",
+        "en": "Per linear metre of installed fence, posts, concrete footings and ironmongery included, measured on plan axis."
+      }
+    },
+    {
+      "code": "21.06",
+      "designation": {
+        "fr": "Portail de clôture en acier galvanisé thermolaqué, quincaillerie comprise",
+        "ar": "بوابة السياج من فولاذ مجلفن مطلي حرارياً، شاملة الخردوات",
+        "en": "Boundary gate in powder-coated galvanised steel, ironmongery included"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité de portail posé et réglé, gonds, butées, serrures et le cas échéant motorisation compris.",
+        "ar": "بالوحدة للبوابة الموضوعة والمضبوطة، شامل المفصلات والمصدّات والأقفال والتحريك الآلي عند الاقتضاء.",
+        "en": "Per unit of installed and adjusted gate, hinges, stops, locks and motorisation where applicable included."
+      }
+    },
+    {
+      "code": "21.07",
+      "designation": {
+        "fr": "Mobilier extérieur (banc, corbeille, borne), fourniture et pose",
+        "ar": "أثاث خارجي (مقعد، سلة، عمود)، تزويد ووضع",
+        "en": "External furniture (bench, bin, bollard), supply and installation"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité d'élément de mobilier fourni et posé, massif de fondation ou fixation chevillée compris.",
+        "ar": "بالوحدة لعنصر الأثاث المزوَّد والموضوع، شامل كتلة الأساس أو التثبيت بالخوابير.",
+        "en": "Per unit of furniture element supplied and installed, foundation block or dowelled fixing included."
+      }
+    },
+    {
+      "code": "21.08",
+      "designation": {
+        "fr": "Entretien et garantie de reprise des végétaux pendant un (1) an",
+        "ar": "صيانة وضمان استئناف النباتات لمدة سنة (1)",
+        "en": "Maintenance and plant establishment guarantee for one (1) year"
+      },
+      "unite": "ff",
+      "modeMetreMD": {
+        "fr": "Au forfait pour l'entretien (arrosage, tonte, taille, désherbage) et le remplacement des sujets non repris pendant l'année de garantie.",
+        "ar": "بالجزاف للصيانة (السقي، الجز، التقليم، إزالة الأعشاب) وتعويض النباتات غير المستأنفة خلال سنة الضمان.",
+        "en": "Lump-sum for maintenance (watering, mowing, pruning, weeding) and replacement of non-established specimens during the guarantee year."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_26_VRD_VOIRIE",
+      "type": "PREREQUIS",
+      "description": {
+        "fr": "Raccordement de l'arrosage au point d'eau et coordination des fourreaux d'attente posés sous voirie par le lot VRD.",
+        "ar": "ربط السقي بنقطة الماء وتنسيق الأكمام المنتظرة الموضوعة تحت الطريق من طرف قسط الطرق والشبكات.",
+        "en": "Connection of irrigation to the water point and coordination of waiting sleeves laid under the roadway by the civil works lot."
+      }
+    },
+    {
+      "lotCible": "LOT_00_GENERALITES",
+      "type": "PREREQUIS",
+      "description": {
+        "fr": "Gestion des déchets verts et nettoyage de fin de chantier selon les prescriptions communes du LOT 0.",
+        "ar": "تدبير النفايات الخضراء وتنظيف نهاية الورش حسب المقتضيات المشتركة للقسط 0.",
+        "en": "Green waste management and end-of-works cleaning per the common provisions of LOT 0."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "Fascicule 35 CCTG (espaces verts)",
+      "NF U44-551 (supports de culture)",
+      "NF V12-031 (matériel végétal)",
+      "NM EN 12201 (canalisations PEHD)"
+    ]
+  }
+}

@@ -1,0 +1,295 @@
+{
+  "code": "LOT_09_METALLERIE",
+  "numero": 9,
+  "famille": "SECOND_OEUVRE",
+  "intitule": {
+    "fr": "Métallerie - Serrurerie",
+    "ar": "الأشغال المعدنية - الحدادة",
+    "en": "Metalwork - Locksmithing"
+  },
+  "description": {
+    "fr": "Fourniture et pose de l'ensemble des ouvrages de métallerie et serrurerie : garde-corps, rampes d'escalier, grilles de défense, portails et clôtures métalliques, ouvrages d'acier divers, y compris protection anticorrosion, galvanisation, scellements et finition.",
+    "ar": "توريد وتركيب جميع الأشغال المعدنية والحدادة: الدرابزينات، درابزينات الدرج، شبكات الحماية، البوابات والأسوار المعدنية، الأشغال الفولاذية المختلفة، بما في ذلك الحماية من التآكل والجلفنة والتثبيت والإنهاء.",
+    "en": "Supply and installation of all metalwork and locksmithing: guardrails, stair railings, security grilles, metal gates and fences, miscellaneous steelwork, including anti-corrosion protection, galvanising, anchoring and finishing."
+  },
+  "normesRefs": [
+    "NF DTU 37.1",
+    "NF P01-012",
+    "NF P01-013",
+    "NF EN 1090-1",
+    "NF EN 1090-2",
+    "NF EN ISO 1461",
+    "NF EN ISO 12944",
+    "NF EN 10025",
+    "NF EN 1993-1-1",
+    "NF EN ISO 9606-1"
+  ],
+  "secteurQualifMA": [
+    "Q6 - Métallerie serrurerie",
+    "Q6.1 - Ferronnerie et garde-corps",
+    "Q6.3 - Charpente métallique légère / portails"
+  ],
+  "competencesRequises": [
+    "Métallier serrurier qualifié",
+    "Soudeur certifié NF EN ISO 9606-1",
+    "Applicateur galvanisation / peinture anticorrosion",
+    "Bureau d'études structure pour notes de calcul garde-corps"
+  ],
+  "articles": [
+    {
+      "numero": "9.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet et consistance des travaux",
+        "ar": "موضوع الأشغال ومحتواها",
+        "en": "Scope and content of works"
+      },
+      "corpsMD": {
+        "fr": "Le présent lot a pour objet la fourniture, la fabrication en atelier, le transport et la pose de tous les ouvrages de métallerie et de serrurerie du projet **{{PROJECT_NAME}}** situé à **{{COMMUNE}}**.\n\nLes prestations comprennent notamment :\n- les **garde-corps** de balcons, terrasses, mezzanines et trémies ;\n- les **rampes et mains courantes** d'escaliers ;\n- les **grilles de défense**, barreaudages et protections ;\n- les **portails, portillons et clôtures** métalliques ;\n- les **ouvrages d'acier divers** (supports, échelles à crinoline, châssis).\n\nL'entrepreneur établit les **plans d'atelier et notes de calcul** (notamment garde-corps selon **NF P01-012/013**) qu'il soumet au visa du Maître d'Œuvre avant fabrication.",
+        "ar": "يهدف هذا القسم إلى توريد وتصنيع في الورشة ونقل وتركيب جميع الأشغال المعدنية والحدادة لمشروع **{{PROJECT_NAME}}** الكائن بـ **{{COMMUNE}}**.\n\nتشمل الخدمات على الخصوص:\n- **الدرابزينات** للشرفات والمصاطب والميزانينات والفتحات؛\n- **الدرابزينات والمماسك** للدرج؛\n- **شبكات الحماية** والقضبان والوقايات؛\n- **البوابات والبويبات والأسوار** المعدنية؛\n- **الأشغال الفولاذية المختلفة** (الدعامات، السلالم بالقفص، الهياكل).\n\nيعد المقاول **تصاميم الورشة ومذكرات الحساب** (خاصة الدرابزينات حسب **NF P01-012/013**) التي يعرضها على تأشير المهندس المشرف قبل التصنيع.",
+        "en": "The purpose of this lot is the supply, workshop fabrication, transport and installation of all metalwork and locksmithing works for the **{{PROJECT_NAME}}** project located in **{{COMMUNE}}**.\n\nThe works notably include:\n- **guardrails** for balconies, terraces, mezzanines and openings;\n- **stair railings and handrails**;\n- **security grilles**, bars and protections;\n- metal **gates, wickets and fences**;\n- **miscellaneous steelwork** (supports, cage ladders, frames).\n\nThe contractor shall prepare the **shop drawings and calculation notes** (notably guardrails per **NF P01-012/013**) to be submitted for the Supervisor's approval before fabrication."
+      }
+    },
+    {
+      "numero": "9.2",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Limites de prestation et documents de référence",
+        "ar": "حدود الخدمة والوثائق المرجعية",
+        "en": "Limits of supply and reference documents"
+      },
+      "corpsMD": {
+        "fr": "**Limites de prestation :**\n- Sont **dus** : la prise de cotes, les plans d'atelier, les notes de calcul, les platines, scellements chimiques ou mécaniques, la protection anticorrosion complète.\n- Sont **exclus** : le gros œuvre support (réservations, dés béton — lot Gros Œuvre), l'alimentation électrique des portails motorisés (lot Électricité), la peinture de décoration des murs.\n\n**Documents de référence :**\n- **NF DTU 37.1** — Menuiseries métalliques ;\n- **NF P01-012** — Dimensions des garde-corps (hauteurs, géométrie) ;\n- **NF P01-013** — Essais des garde-corps (charges) ;\n- **NF EN 1090-1/2** — Exécution des structures en acier (marquage CE, classes d'exécution) ;\n- **NF EN ISO 1461** — Galvanisation à chaud ;\n- **NF EN ISO 12944** — Protection par peinture (catégories de corrosivité).\n\nAucune fabrication ne démarre avant **visa des plans d'atelier et des notes de calcul**.",
+        "ar": "**حدود الخدمة:**\n- **المستحقة**: أخذ القياسات، تصاميم الورشة، مذكرات الحساب، الصفائح، التثبيتات الكيميائية أو الميكانيكية، الحماية الكاملة من التآكل.\n- **المستثناة**: البناء الخام الحامل (الفتحات، مكعبات الخرسانة — قسم البناء الخام)، التغذية الكهربائية للبوابات الآلية (قسم الكهرباء)، الطلاء الزخرفي للجدران.\n\n**الوثائق المرجعية:**\n- **NF DTU 37.1** — النجارة المعدنية؛\n- **NF P01-012** — أبعاد الدرابزينات (الارتفاعات، الهندسة)؛\n- **NF P01-013** — اختبارات الدرابزينات (الأحمال)؛\n- **NF EN 1090-1/2** — تنفيذ الهياكل الفولاذية (علامة CE، فئات التنفيذ)؛\n- **NF EN ISO 1461** — الجلفنة بالغمس الساخن؛\n- **NF EN ISO 12944** — الحماية بالطلاء (فئات التآكل).\n\nلا يبدأ أي تصنيع قبل **تأشير تصاميم الورشة ومذكرات الحساب**.",
+        "en": "**Limits of supply:**\n- **Included**: site measurements, shop drawings, calculation notes, base plates, chemical or mechanical anchors, complete anti-corrosion protection.\n- **Excluded**: structural support (openings, concrete blocks — Structural Works lot), power supply to motorised gates (Electrical lot), decorative wall painting.\n\n**Reference documents:**\n- **NF DTU 37.1** — Metal joinery;\n- **NF P01-012** — Guardrail dimensions (heights, geometry);\n- **NF P01-013** — Guardrail testing (loads);\n- **NF EN 1090-1/2** — Execution of steel structures (CE marking, execution classes);\n- **NF EN ISO 1461** — Hot-dip galvanising;\n- **NF EN ISO 12944** — Paint protection (corrosivity categories).\n\nNo fabrication shall start before **approval of shop drawings and calculation notes**."
+      }
+    },
+    {
+      "numero": "9.3",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Provenance, aciers et matériaux",
+        "ar": "المصدر والفولاذ والمواد",
+        "en": "Origin, steels and materials"
+      },
+      "corpsMD": {
+        "fr": "Les aciers sont conformes à la **NF EN 10025** (nuances S235JR / S275JR), livrés avec certificat matière (CCPU / 3.1 selon NF EN 10204).\n\n**Matériaux :**\n- profilés, tubes et plats acier ; aciers inoxydables **AISI 304/316** pour ambiances corrosives ;\n- aluminium anodisé ou thermolaqué pour certains garde-corps selon plans ;\n- visserie et boulonnerie inox ou acier zingué bichromaté ;\n- remplissages : barreaudage, tôle perforée, verre feuilleté de sécurité (lot vitrerie si applicable).\n\n**Conformité :** ouvrages structurels relevant de la **NF EN 1090-1** avec marquage CE et déclaration de performance, classe d'exécution **EXC2** minimum pour garde-corps et ouvrages porteurs.\n\nL'entrepreneur fournit fiches techniques, certificats matière et **PV d'essai garde-corps** (NF P01-013) avant approvisionnement.",
+        "ar": "يكون الفولاذ مطابقا لـ **NF EN 10025** (الدرجات S235JR / S275JR)، يسلم بشهادة المادة (CCPU / 3.1 حسب NF EN 10204).\n\n**المواد:**\n- المقاطع والأنابيب والصفائح الفولاذية؛ الفولاذ المقاوم للصدأ **AISI 304/316** للبيئات المسببة للتآكل؛\n- الألمنيوم المؤكسد أو المطلي حراريا لبعض الدرابزينات حسب التصاميم؛\n- البراغي والصواميل من الفولاذ المقاوم للصدأ أو المغلون؛\n- الحشوات: القضبان، الصفيحة المثقبة، الزجاج الرقائقي الأمني (قسم الزجاج عند الاقتضاء).\n\n**المطابقة:** الأشغال الهيكلية الخاضعة لـ **NF EN 1090-1** مع علامة CE وإعلان الأداء، فئة التنفيذ **EXC2** كحد أدنى للدرابزينات والأشغال الحاملة.\n\nيقدم المقاول البطاقات التقنية وشهادات المادة و**محضر اختبار الدرابزينات** (NF P01-013) قبل التزود.",
+        "en": "Steels shall comply with **NF EN 10025** (grades S235JR / S275JR), delivered with material certificates (inspection certificate / 3.1 per NF EN 10204).\n\n**Materials:**\n- steel sections, tubes and flats; **AISI 304/316** stainless steel for corrosive environments;\n- anodised or powder-coated aluminium for certain guardrails per drawings;\n- stainless or bichromate-zinc-plated screws and bolts;\n- infills: bars, perforated sheet, laminated safety glass (glazing lot if applicable).\n\n**Compliance:** structural works subject to **NF EN 1090-1** with CE marking and declaration of performance, minimum execution class **EXC2** for guardrails and load-bearing works.\n\nThe contractor shall provide technical data sheets, material certificates and **guardrail test reports** (NF P01-013) before procurement."
+      }
+    },
+    {
+      "numero": "9.4",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Garde-corps : géométrie et exigences NF P01-012",
+        "ar": "الدرابزينات: الهندسة والمتطلبات NF P01-012",
+        "en": "Guardrails: geometry and NF P01-012 requirements"
+      },
+      "corpsMD": {
+        "fr": "Les garde-corps sont conçus et dimensionnés selon **NF P01-012** (géométrie) et **NF P01-013** (efforts).\n\n**Exigences géométriques :**\n- **hauteur de protection ≥ 1,00 m** (mesurée depuis la zone de stationnement normal) ; 0,80 m admis si l'épaisseur du garde-corps ≥ 50 cm ;\n- **zone de sécurité basse** (0 à 0,45 m) : remplissage plein ou barreaudage à **vides ≤ 11 cm** (anti-franchissement enfant) ;\n- **barreaudage vertical** : entraxe libre **≤ 11 cm** ; pas de barreaudage horizontal escaladable en partie courante ;\n- mains courantes préhensibles, diamètre 40–50 mm, hauteur 0,90 m sur escaliers.\n\n**Efforts (NF P01-013) :** charge horizontale en main courante de **0,60 à 1,00 kN/ml** selon catégorie d'usage ; la note de calcul justifie la tenue des montants, ancrages et remplissages.\n\nUn **prototype de travée** de garde-corps est présenté pour validation avant série.",
+        "ar": "تصمم الدرابزينات وتحسب أبعادها حسب **NF P01-012** (الهندسة) و**NF P01-013** (الجهود).\n\n**المتطلبات الهندسية:**\n- **ارتفاع الحماية ≥ 1.00 م** (يقاس من منطقة الوقوف العادية)؛ يقبل 0.80 م إذا كانت سماكة الدرابزين ≥ 50 سم؛\n- **منطقة الأمان السفلية** (0 إلى 0.45 م): حشو مصمت أو قضبان بفراغات **≤ 11 سم** (منع تسلق الأطفال)؛\n- **القضبان العمودية**: مسافة حرة **≤ 11 سم**؛ لا قضبان أفقية قابلة للتسلق في الجزء الجاري؛\n- مماسك قابلة للإمساك، قطر 40–50 مم، ارتفاع 0.90 م على الدرج.\n\n**الجهود (NF P01-013):** حمل أفقي على الماسك من **0.60 إلى 1.00 كيلونيوتن/م.ط** حسب فئة الاستعمال؛ تبرر مذكرة الحساب صمود القوائم والتثبيتات والحشوات.\n\nيقدم **نموذج أولي لبحر** من الدرابزين للاعتماد قبل التصنيع المتسلسل.",
+        "en": "Guardrails shall be designed and sized per **NF P01-012** (geometry) and **NF P01-013** (loads).\n\n**Geometric requirements:**\n- **protection height ≥ 1.00 m** (measured from the normal standing area); 0.80 m allowed where the guardrail thickness ≥ 50 cm;\n- **lower safety zone** (0 to 0.45 m): solid infill or bars with **gaps ≤ 11 cm** (child anti-climbing);\n- **vertical bars**: clear spacing **≤ 11 cm**; no climbable horizontal bars in the running section;\n- graspable handrails, diameter 40–50 mm, height 0.90 m on stairs.\n\n**Loads (NF P01-013):** horizontal handrail load of **0.60 to 1.00 kN/lm** according to use category; the calculation note shall justify the resistance of posts, anchors and infills.\n\nA **guardrail bay prototype** shall be presented for validation before series production."
+      }
+    },
+    {
+      "numero": "9.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Fabrication, soudage et scellements",
+        "ar": "التصنيع واللحام والتثبيت",
+        "en": "Fabrication, welding and anchoring"
+      },
+      "corpsMD": {
+        "fr": "**Fabrication :** assemblages soudés exécutés par des **soudeurs qualifiés NF EN ISO 9606-1** ; modes opératoires de soudage (DMOS/QMOS) conformes **NF EN ISO 15614**. Cordons meulés et dressés sur parements vus, sans amorce de fissure.\n\n**Tolérances de fabrication (NF DTU 37.1 / NF EN 1090-2) :**\n- rectitude des montants : ≤ 2 mm/m ;\n- équerrage des cadres : ≤ 2 mm/m ;\n- planéité des remplissages tôle : ≤ 3 mm sous règle de 1 m.\n\n**Scellements et fixations :**\n- scellements **chimiques** (résine epoxy) ou **mécaniques** (chevilles à expansion) dimensionnés par la note de calcul, profondeur d'ancrage justifiée ;\n- platines boulonnées sur dés béton ou sur structure, calage anti-pont thermique si requis ;\n- distance aux bords de béton respectée pour éviter l'éclatement (≥ valeurs fabricant).\n\nAucun scellement dans un béton de résistance ou d'âge insuffisant.",
+        "ar": "**التصنيع:** التجميعات الملحومة تنفذ من طرف **لحامين مؤهلين NF EN ISO 9606-1**؛ طرق اللحام (DMOS/QMOS) مطابقة لـ **NF EN ISO 15614**. اللحامات مجلخة ومسواة على الواجهات المرئية، دون بداية شق.\n\n**سماحيات التصنيع (NF DTU 37.1 / NF EN 1090-2):**\n- استقامة القوائم: ≤ 2 مم/م؛\n- تعامد الإطارات: ≤ 2 مم/م؛\n- استواء حشوات الصفيحة: ≤ 3 مم تحت مسطرة 1 م.\n\n**التثبيتات:**\n- تثبيتات **كيميائية** (راتنج إيبوكسي) أو **ميكانيكية** (مسامير تمدد) محسوبة الأبعاد بمذكرة الحساب، عمق التثبيت مبرر؛\n- صفائح مبرغاة على مكعبات الخرسانة أو على الهيكل، إسناد مانع للجسر الحراري عند الاقتضاء؛\n- احترام المسافة من حواف الخرسانة لتفادي التشظي (≥ قيم الصانع).\n\nلا تثبيت في خرسانة ذات مقاومة أو عمر غير كاف.",
+        "en": "**Fabrication:** welded assemblies shall be executed by **welders qualified to NF EN ISO 9606-1**; welding procedures (WPS/WPQR) compliant with **NF EN ISO 15614**. Weld beads ground and dressed on exposed faces, free of crack initiation.\n\n**Fabrication tolerances (NF DTU 37.1 / NF EN 1090-2):**\n- straightness of posts: ≤ 2 mm/m;\n- squareness of frames: ≤ 2 mm/m;\n- flatness of sheet infills: ≤ 3 mm under a 1 m straightedge.\n\n**Anchoring and fixings:**\n- **chemical** anchors (epoxy resin) or **mechanical** anchors (expansion bolts) sized by the calculation note, justified embedment depth;\n- base plates bolted onto concrete blocks or structure, thermal-bridge-breaking shimming where required;\n- edge distance to concrete respected to avoid spalling (≥ manufacturer values).\n\nNo anchoring into concrete of insufficient strength or age."
+      }
+    },
+    {
+      "numero": "9.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Protection anticorrosion et galvanisation",
+        "ar": "الحماية من التآكل والجلفنة",
+        "en": "Anti-corrosion protection and galvanising"
+      },
+      "corpsMD": {
+        "fr": "La protection anticorrosion est adaptée à la **catégorie de corrosivité** du site selon **NF EN ISO 12944** (généralement C3 en milieu urbain, C4/C5 en bord de mer).\n\n**Galvanisation à chaud (NF EN ISO 1461) :**\n- épaisseur de revêtement de zinc ≥ valeurs normatives (≥ 70–85 µm selon épaisseur acier) ;\n- trous d'évacuation/évent prévus pour les profils creux ;\n- retouches sur soudures de chantier par peinture riche en zinc.\n\n**Systèmes peinture (NF EN ISO 12944-5) :**\n- préparation de surface par grenaillage **Sa 2½** ;\n- primaire époxy + finition polyuréthane, épaisseur totale selon catégorie de durabilité (moyenne/haute) ;\n- pour ouvrages galvanisés peints : système **duplex** (galva + peinture) avec couche d'accrochage.\n\n**Contrôles :** mesure d'épaisseur de revêtement (jauge magnétique), contrôle d'adhérence (quadrillage), exempt de coulures, cloques et zones non couvertes.",
+        "ar": "تتكيف الحماية من التآكل مع **فئة التآكل** للموقع حسب **NF EN ISO 12944** (عادة C3 في الوسط الحضري، C4/C5 بجانب البحر).\n\n**الجلفنة بالغمس الساخن (NF EN ISO 1461):**\n- سماكة طبقة الزنك ≥ القيم المعيارية (≥ 70–85 ميكرومتر حسب سماكة الفولاذ)؛\n- ثقوب التصريف/التهوية مهيأة للمقاطع المجوفة؛\n- الترميمات على لحامات الورش بطلاء غني بالزنك.\n\n**أنظمة الطلاء (NF EN ISO 12944-5):**\n- تحضير السطح بالسفع **Sa 2½**؛\n- أساس إيبوكسي + إنهاء بولي يوريثان، السماكة الإجمالية حسب فئة الديمومة (متوسطة/عالية)؛\n- للأشغال المجلفنة المطلية: نظام **مزدوج** (جلفنة + طلاء) مع طبقة تشبث.\n\n**المراقبة:** قياس سماكة الطبقة (مقياس مغناطيسي)، مراقبة التشبث (تشطيب)، خال من السيلان والفقاعات والمناطق غير المغطاة.",
+        "en": "Anti-corrosion protection shall match the site's **corrosivity category** per **NF EN ISO 12944** (generally C3 in urban areas, C4/C5 at the seaside).\n\n**Hot-dip galvanising (NF EN ISO 1461):**\n- zinc coating thickness ≥ standard values (≥ 70–85 µm depending on steel thickness);\n- drainage/vent holes provided for hollow sections;\n- touch-ups on site welds with zinc-rich paint.\n\n**Paint systems (NF EN ISO 12944-5):**\n- surface preparation by blast-cleaning **Sa 2½**;\n- epoxy primer + polyurethane topcoat, total thickness per durability category (medium/high);\n- for painted galvanised works: **duplex** system (galva + paint) with a tie coat.\n\n**Inspection:** coating thickness measurement (magnetic gauge), adhesion test (cross-cut), free of runs, blisters and uncoated areas."
+      }
+    },
+    {
+      "numero": "9.7",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Essais, réception, garanties, HSE et déchets",
+        "ar": "الاختبارات والاستلام والضمانات والسلامة والنفايات",
+        "en": "Testing, reception, warranties, HSE and waste"
+      },
+      "corpsMD": {
+        "fr": "**Essais & réception :**\n- vérification dimensionnelle et géométrique des garde-corps (hauteurs, vides ≤ 11 cm) ;\n- contrôle des **scellements** (essai de traction/arrachement sur échantillon si exigé) ;\n- contrôle de la protection anticorrosion (épaisseur, adhérence) ;\n- essai de fonctionnement des portails, portillons et organes de manœuvre ;\n- **PV de réception** contradictoire par typologie d'ouvrage.\n\n**Garanties :**\n- **garantie de parfait achèvement** d'un an (réf. art. 769/770 du DOC) ;\n- garantie de bon fonctionnement **2 ans** sur organes mobiles et serrurerie ;\n- remise du **DOE** (plans conformes, notes de calcul, PV galvanisation/peinture, notices d'entretien).\n\n**HSE :**\n- travaux par points chauds (soudage/meulage) sous **permis de feu**, extincteur à proximité, écran pare-étincelles ;\n- protection collective antichute pour pose en hauteur, EPI adaptés ;\n- balisage des zones de pose des garde-corps avant dépose des protections provisoires.\n\n**Déchets :** tri des chutes métalliques (filière ferraille), récupération des fûts de peinture/solvant en déchets dangereux, bordereaux de suivi conservés ; brûlage interdit.",
+        "ar": "**الاختبارات والاستلام:**\n- التحقق البعدي والهندسي للدرابزينات (الارتفاعات، الفراغات ≤ 11 سم)؛\n- مراقبة **التثبيتات** (اختبار الشد/النزع على عينة عند الطلب)؛\n- مراقبة الحماية من التآكل (السماكة، التشبث)؛\n- اختبار اشتغال البوابات والبويبات وأجهزة المناورة؛\n- **محضر استلام** حضوري لكل نمط من الأشغال.\n\n**الضمانات:**\n- **ضمان الإنجاز التام** لمدة سنة (مرجع المادتين 769/770 من قانون الالتزامات والعقود)؛\n- ضمان حسن الاشتغال **سنتين** على الأجزاء المتحركة والحدادة؛\n- تسليم **ملف الأشغال المنجزة** (تصاميم مطابقة، مذكرات الحساب، محاضر الجلفنة/الطلاء، دلائل الصيانة).\n\n**السلامة الصحية والبيئية:**\n- الأشغال بالنقاط الساخنة (اللحام/الجلخ) تحت **رخصة نار**، مطفأة قريبة، حاجز ضد الشرر؛\n- حماية جماعية ضد السقوط للتركيب في الارتفاع، معدات وقاية فردية ملائمة؛\n- تعليم مناطق تركيب الدرابزينات قبل إزالة الوقايات المؤقتة.\n\n**النفايات:** فرز بقايا المعادن (قناة الخردة)، استرجاع براميل الطلاء/المذيب كنفايات خطيرة، الاحتفاظ بسندات التتبع؛ الحرق ممنوع.",
+        "en": "**Testing & reception:**\n- dimensional and geometric verification of guardrails (heights, gaps ≤ 11 cm);\n- check of **anchors** (tensile/pull-out test on sample if required);\n- check of anti-corrosion protection (thickness, adhesion);\n- operation test of gates, wickets and operating mechanisms;\n- joint **reception report** per work typology.\n\n**Warranties:**\n- one-year **warranty of completion** (ref. art. 769/770 of the Code of Obligations and Contracts);\n- **2-year** sound-functioning warranty on moving parts and locksmithing;\n- handover of the **as-built file** (as-built drawings, calculation notes, galvanising/paint reports, maintenance instructions).\n\n**HSE:**\n- hot works (welding/grinding) under a **hot-work permit**, extinguisher nearby, spark screen;\n- collective fall protection for work at height, suitable PPE;\n- marking of guardrail installation zones before removal of temporary protections.\n\n**Waste:** sorting of metal offcuts (scrap channel), recovery of paint/solvent drums as hazardous waste, tracking slips retained; burning prohibited."
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "9.01",
+      "designation": {
+        "fr": "Garde-corps acier hauteur ≥ 1,00 m, montants + lisses + barreaudage vertical (vides ≤ 11 cm), galvanisé",
+        "ar": "درابزين فولاذي ارتفاع ≥ 1.00 م، قوائم + عوارض + قضبان عمودية (فراغات ≤ 11 سم)، مجلفن",
+        "en": "Steel guardrail height ≥ 1.00 m, posts + rails + vertical bars (gaps ≤ 11 cm), galvanised"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire posé, scellements, protection anticorrosion et finition compris.",
+        "ar": "بالمتر الطولي المركب، شاملا التثبيتات والحماية من التآكل والإنهاء.",
+        "en": "Per linear metre installed, including anchors, anti-corrosion protection and finishing."
+      }
+    },
+    {
+      "code": "9.02",
+      "designation": {
+        "fr": "Rampe d'escalier avec main courante préhensible (Ø 40–50 mm), hauteur 0,90 m",
+        "ar": "درابزين درج مع ماسك قابل للإمساك (Ø 40–50 مم)، ارتفاع 0.90 م",
+        "en": "Stair railing with graspable handrail (Ø 40–50 mm), height 0.90 m"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire développé suivant la pente, fixations et finition comprises.",
+        "ar": "بالمتر الطولي المنشور حسب الانحدار، شاملا التثبيتات والإنهاء.",
+        "en": "Per developed linear metre along the slope, including fixings and finishing."
+      }
+    },
+    {
+      "code": "9.03",
+      "designation": {
+        "fr": "Grille de défense / barreaudage de fenêtre en acier, fixation scellée",
+        "ar": "شبكة حماية / قضبان نافذة من الفولاذ، تثبيت مدفون",
+        "en": "Steel security grille / window bars, anchored fixing"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au m² de surface de baie protégée, scellements et protection anticorrosion compris.",
+        "ar": "بالمتر المربع من سطح الفتحة المحمية، شاملا التثبيتات والحماية من التآكل.",
+        "en": "Per m² of protected opening area, including anchors and anti-corrosion protection."
+      }
+    },
+    {
+      "code": "9.04",
+      "designation": {
+        "fr": "Portail métallique 2 vantaux, cadre + remplissage, quincaillerie et serrure",
+        "ar": "بوابة معدنية بضلفتين، إطار + حشو، أدوات معدنية وقفل",
+        "en": "Two-leaf metal gate, frame + infill, ironmongery and lock"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité posée, gonds, butées, serrure et protection anticorrosion compris.",
+        "ar": "بالوحدة المركبة، شاملة المفصلات والصدامات والقفل والحماية من التآكل.",
+        "en": "Per unit installed, including hinges, stops, lock and anti-corrosion protection."
+      }
+    },
+    {
+      "code": "9.05",
+      "designation": {
+        "fr": "Portillon piéton métallique, cadre + remplissage + serrure",
+        "ar": "بويب للراجلين معدني، إطار + حشو + قفل",
+        "en": "Metal pedestrian wicket, frame + infill + lock"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité posée, quincaillerie et finition comprises.",
+        "ar": "بالوحدة المركبة، شاملة الأدوات المعدنية والإنهاء.",
+        "en": "Per unit installed, including ironmongery and finishing."
+      }
+    },
+    {
+      "code": "9.06",
+      "designation": {
+        "fr": "Clôture métallique sur muret, panneaux ou barreaudage galvanisé",
+        "ar": "سور معدني على جدار منخفض، ألواح أو قضبان مجلفنة",
+        "en": "Metal fence on low wall, galvanised panels or bars"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire posé, poteaux, scellements et protection compris.",
+        "ar": "بالمتر الطولي المركب، شاملا الأعمدة والتثبيتات والحماية.",
+        "en": "Per linear metre installed, including posts, anchors and protection."
+      }
+    },
+    {
+      "code": "9.07",
+      "designation": {
+        "fr": "Échelle à crinoline d'accès toiture, acier galvanisé, crinoline de sécurité",
+        "ar": "سلم بقفص للولوج إلى السطح، فولاذ مجلفن، قفص أمان",
+        "en": "Cage access ladder to roof, galvanised steel, safety cage"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Au mètre linéaire de hauteur, crinoline, paliers et scellements compris.",
+        "ar": "بالمتر الطولي من الارتفاع، شاملا القفص والمساطب والتثبيتات.",
+        "en": "Per linear metre of height, including cage, landings and anchors."
+      }
+    },
+    {
+      "code": "9.08",
+      "designation": {
+        "fr": "Ouvrages d'acier divers sur mesure (supports, châssis, platines)",
+        "ar": "أشغال فولاذية مختلفة حسب القياس (دعامات، هياكل، صفائح)",
+        "en": "Miscellaneous bespoke steelwork (supports, frames, base plates)"
+      },
+      "unite": "kg",
+      "modeMetreMD": {
+        "fr": "Au kg d'acier mis en œuvre selon plans, protection anticorrosion comprise.",
+        "ar": "بالكيلوغرام من الفولاذ المنفذ حسب التصاميم، شاملا الحماية من التآكل.",
+        "en": "Per kg of steel installed per drawings, including anti-corrosion protection."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_02_GROS_OEUVRE_BETON",
+      "type": "RESERVATION",
+      "description": {
+        "fr": "Le gros œuvre exécute les dés béton, platines noyées et réservations de scellement aux cotes des plans de métallerie, béton d'âge et de résistance suffisants avant scellement.",
+        "ar": "ينفذ البناء الخام مكعبات الخرسانة والصفائح المغمورة وفتحات التثبيت بأبعاد تصاميم الأشغال المعدنية، بخرسانة ذات عمر ومقاومة كافيين قبل التثبيت.",
+        "en": "Structural works execute concrete blocks, embedded base plates and anchor openings to the dimensions of the metalwork drawings, with concrete of sufficient age and strength before anchoring."
+      }
+    },
+    {
+      "lotCible": "LOT_11_ELECTRICITE",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Pour portails motorisés : la métallerie fournit l'ouvrage et les réservations de passage ; l'alimentation, la motorisation et l'automatisme relèvent du lot Électricité.",
+        "ar": "للبوابات الآلية: توفر الأشغال المعدنية المنشأة وفتحات المرور؛ التغذية والتحريك والأتمتة من قسم الكهرباء.",
+        "en": "For motorised gates: metalwork provides the structure and pass-through openings; power supply, motorisation and automation are under the Electrical lot."
+      }
+    },
+    {
+      "lotCible": "LOT_13_ETANCHEITE",
+      "type": "INTERFACE",
+      "description": {
+        "fr": "Coordination des traversées de garde-corps en terrasse : les platines et fourreaux sont étanchés par le lot Étanchéité après pose des supports métalliques.",
+        "ar": "تنسيق اختراقات الدرابزينات في المصطبة: الصفائح والأكمام تعزل من طرف قسم العزل المائي بعد تركيب الدعامات المعدنية.",
+        "en": "Coordination of terrace guardrail penetrations: base plates and sleeves are waterproofed by the Waterproofing lot after installation of the metal supports."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "NF DTU 37.1 — Menuiseries métalliques",
+      "NF P01-012 — Dimensions des garde-corps — Règles de sécurité",
+      "NF P01-013 — Essais des garde-corps — Méthodes et critères",
+      "NF EN 1090-1/2 — Exécution des structures en acier et en aluminium",
+      "NF EN ISO 1461 — Galvanisation à chaud sur produits finis",
+      "NF EN ISO 12944 — Protection anticorrosion par peinture",
+      "NF EN 10025 — Produits laminés à chaud en aciers de construction",
+      "Art. 769/770 du Dahir des Obligations et Contrats (DOC) — garanties"
+    ]
+  }
+}

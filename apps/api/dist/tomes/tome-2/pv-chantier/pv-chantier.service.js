@@ -17,6 +17,7 @@ const fs = require("fs/promises");
 const path = require("path");
 const prisma_service_1 = require("../../tome-at/kernel/prisma/prisma.service");
 const probative_log_service_1 = require("../../../modules/kernel/services/probative-log.service");
+const pv_compliance_service_1 = require("./pv-compliance.service");
 const pv_chantier_types_1 = require("./pv-chantier.types");
 /**
  * PvChantierService — orchestration des PV de chantier (Tome 2).
@@ -29,11 +30,13 @@ const pv_chantier_types_1 = require("./pv-chantier.types");
 let PvChantierService = PvChantierService_1 = class PvChantierService {
     prisma;
     probative;
+    compliance;
     logger = new common_1.Logger(PvChantierService_1.name);
     storageRoot;
-    constructor(prisma, probative) {
+    constructor(prisma, probative, compliance) {
         this.prisma = prisma;
         this.probative = probative;
+        this.compliance = compliance;
         // Cohérence avec les autres modules (apps/api/storage/...)
         this.storageRoot = process.env.PV_STORAGE_ROOT
             ?? path.resolve(process.cwd(), "apps/api/storage/pv-chantier");
@@ -208,6 +211,9 @@ let PvChantierService = PvChantierService_1 = class PvChantierService {
         catch (e) {
             this.logger.warn(`probative append failed: ${e?.message}`);
         }
+        // Cadence PV (T2-R-PV-CADENCE-001) : un PV finalisé remet le compteur à
+        // zéro et débloque le chantier si nécessaire.
+        await this.compliance.onPvFinalized(pv.dossierId);
         return pv;
     }
     // ───────────────────────────────────────────────────────── Storage helpers
@@ -378,5 +384,6 @@ exports.PvChantierService = PvChantierService;
 exports.PvChantierService = PvChantierService = PvChantierService_1 = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
-        probative_log_service_1.ProbativeLogService])
+        probative_log_service_1.ProbativeLogService,
+        pv_compliance_service_1.PvComplianceService])
 ], PvChantierService);

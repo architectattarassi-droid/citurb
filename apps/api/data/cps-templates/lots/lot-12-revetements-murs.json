@@ -1,0 +1,265 @@
+{
+  "code": "LOT_12_REVETEMENTS_MURS",
+  "numero": 12,
+  "famille": "SECOND_OEUVRE",
+  "intitule": {
+    "fr": "Revêtements muraux et savoir-faire traditionnels marocains",
+    "ar": "تغطية الجدران والمهارات التقليدية المغربية",
+    "en": "Wall Coverings and Moroccan Traditional Crafts"
+  },
+  "description": {
+    "fr": "Fourniture et pose des revêtements muraux du projet {{PROJECT_NAME}} : faïence céramique, zellige marocain traditionnel, tadelakt, bejmat, et enduits décoratifs. Le lot intègre le savoir-faire artisanal marocain (maâlems) pour les techniques traditionnelles ainsi que les techniques de pose normalisées DTU.",
+    "ar": "توريد وتركيب تغطيات الجدران لمشروع {{PROJECT_NAME}}: الخزف (الفايونس)، الزليج المغربي التقليدي، التادلاكت، البجماط، والملاطات الزخرفية. يدمج القسم المهارة الحرفية المغربية (المعلمين) للتقنيات التقليدية إلى جانب تقنيات التركيب المعيارية DTU.",
+    "en": "Supply and installation of wall coverings for the {{PROJECT_NAME}} project: ceramic faience, traditional Moroccan zellige, tadelakt, bejmat, and decorative renders. The lot integrates Moroccan artisan craftsmanship (maâlems) for traditional techniques alongside DTU-standardised installation methods."
+  },
+  "normesRefs": [
+    "NF DTU 52.2",
+    "NF DTU 55",
+    "NF DTU 25.1",
+    "NM EN 14411",
+    "NM EN 12004",
+    "NM EN 13888",
+    "NM EN 998-1",
+    "NM 10.1.008"
+  ],
+  "secteurQualifMA": [
+    "Q5.1 Revêtements de sols et murs (carrelage, faïence)",
+    "Q5.2 Zellige et mosaïque traditionnelle",
+    "Q5.3 Tadelakt et enduits traditionnels",
+    "Q1.4 Enduits décoratifs"
+  ],
+  "competencesRequises": [
+    "Maâlem zelligeur (taillage et pose)",
+    "Maâlem tadelakt (application et polissage au galet)",
+    "Carreleur faïencier DTU 55",
+    "Applicateur enduits décoratifs"
+  ],
+  "articles": [
+    {
+      "numero": "12.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet, limites de prestation et documents de référence",
+        "ar": "الموضوع، حدود الخدمة والوثائق المرجعية",
+        "en": "Scope, Limits of Works and Reference Documents"
+      },
+      "corpsMD": {
+        "fr": "## Objet\nLe présent lot couvre la fourniture et la pose des revêtements muraux du projet **{{PROJECT_NAME}}** à **{{COMMUNE}}** : faïence, **zellige marocain**, **tadelakt**, **bejmat** et enduits décoratifs.\n\n## Limites de prestation\nSont **inclus** : préparation et dressage des supports, gobetis et corps d'enduit nécessaires, fourniture et pose des revêtements, joints, finitions et protections.\n\nSont **exclus** : maçonnerie brute (lot Gros Œuvre), réseaux encastrés (lots techniques), étanchéité des parois de douches (lot étanchéité, à coordonner).\n\n## Savoir-faire traditionnel\nLes ouvrages de **zellige**, **tadelakt** et **bejmat** sont exécutés par des **maâlems qualifiés** justifiant de références d'ouvrages similaires. Le savoir-faire artisanal marocain prime, encadré par les exigences de planéité et durabilité.\n\n## Documents de référence\n- **NF DTU 55** — Revêtements muraux scellés\n- **NF DTU 52.2** — Pose collée céramique murale\n- **NF DTU 25.1** — Enduits intérieurs en plâtre\n- **NM EN 14411** — Carreaux céramiques (certif NM)\n- **NM EN 998-1** — Mortiers d'enduit",
+        "ar": "## الموضوع\nيغطي هذا القسم توريد وتركيب تغطيات الجدران لمشروع **{{PROJECT_NAME}}** بـ **{{COMMUNE}}**: الفايونس، **الزليج المغربي**، **التادلاكت**، **البجماط** والملاطات الزخرفية.\n\n## حدود الخدمة\n**يشمل**: تحضير وتسوية الأسناد، طبقة الرش وجسم الملاط اللازم، توريد وتركيب التغطيات، الفواصل، التشطيبات والحمايات.\n\n**يُستثنى**: البناء الخام (قسم الأشغال الكبرى)، الشبكات المدفونة (الأقسام التقنية)، عزل جدران الدُّش (قسم العزل، للتنسيق).\n\n## المهارة التقليدية\nتُنفَّذ أشغال **الزليج**، **التادلاكت** و**البجماط** من طرف **معلمين مؤهلين** يثبتون مراجع لأشغال مماثلة. تسود المهارة الحرفية المغربية، مؤطّرة بمتطلبات الاستواء والديمومة.\n\n## الوثائق المرجعية\n- **NF DTU 55** — التغطيات الجدارية المثبتة بالملاط\n- **NF DTU 52.2** — التركيب الجداري الخزفي باللصق\n- **NF DTU 25.1** — الملاطات الداخلية بالجبس\n- **NM EN 14411** — البلاط الخزفي (شهادة NM)\n- **NM EN 998-1** — ملاطات التغطية",
+        "en": "## Scope\nThis lot covers the supply and installation of wall coverings for the **{{PROJECT_NAME}}** project in **{{COMMUNE}}**: faience, **Moroccan zellige**, **tadelakt**, **bejmat** and decorative renders.\n\n## Limits of works\n**Included**: substrate preparation and dressing, necessary spatterdash and render coats, supply and installation of coverings, joints, finishes and protection.\n\n**Excluded**: structural masonry (Structural Works lot), embedded services (services lots), shower-wall waterproofing (waterproofing lot, to coordinate).\n\n## Traditional craftsmanship\n**Zellige**, **tadelakt** and **bejmat** works are executed by **qualified maâlems** providing references of similar works. Moroccan artisan craftsmanship prevails, governed by flatness and durability requirements.\n\n## Reference documents\n- **NF DTU 55** — Sand-cement bedded wall coverings\n- **NF DTU 52.2** — Adhesive-bonded wall ceramics\n- **NF DTU 25.1** — Internal plaster renders\n- **NM EN 14411** — Ceramic tiles (NM certification)\n- **NM EN 998-1** — Render mortars"
+      }
+    },
+    {
+      "numero": "12.2",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Faïence, zellige et matériaux traditionnels — provenance et spécifications",
+        "ar": "الفايونس، الزليج والمواد التقليدية — المنشأ والمواصفات",
+        "en": "Faience, Zellige and Traditional Materials — Origin and Specifications"
+      },
+      "corpsMD": {
+        "fr": "## Faïence céramique\nFaïence murale conforme **NM EN 14411** groupe **BIII** (absorption E > 10 %), émaillée, marquage CE et certification NM. Calibre régulier, planéité conforme.\n\n## Zellige marocain\nLe **zellige** est un carreau de terre cuite émaillé, taillé et façonné à la main :\n- Argile de **Fès** ou **Salé**, cuisson traditionnelle au four à bois\n- Émaillage par trempage, cuisson à ~900 °C\n- Découpe à la **menqach** (marteau) par le maâlem selon le format (furmah)\n- Tolérances dimensionnelles artisanales acceptées (irrégularité = caractère authentique)\n\n## Tadelakt\nEnduit de **chaux de Marrakech (NHL)** :\n- Chaux aérienne traditionnelle + poudre de marbre + pigments naturels\n- **Savon noir** (savon mou) pour le traitement hydrofuge final\n- Galet de polissage (zellige poli ou agate)\n\n## Bejmat\nPavé de terre cuite allongé pour murs et sols, posé en arête de poisson ou à joints décalés.\n\n## Échantillons et surfaces témoins\nL'entrepreneur soumet des **panneaux d'échantillons** (1 m² mini par technique) pour le **zellige** (teinte, calepinage) et le **tadelakt** (teinte, brillance) agréés par le MOE avant exécution.",
+        "ar": "## الفايونس الخزفي\nفايونس جداري مطابق لـ **NM EN 14411** المجموعة **BIII** (الامتصاص E > 10%)، مزجج، وسم CE وشهادة NM. عيار منتظم، استواء مطابق.\n\n## الزليج المغربي\n**الزليج** بلاطة من الطين المطبوخ المزجج، مقطوعة ومشكّلة يدوياً:\n- طين من **فاس** أو **سلا**، طبخ تقليدي بفرن الحطب\n- التزجيج بالغمس، الطبخ على ~900 °م\n- القطع بـ**المنقاش** (المطرقة) من طرف المعلم حسب الشكل (الفرمة)\n- التفاوتات الأبعادية الحرفية مقبولة (عدم الانتظام = طابع أصيل)\n\n## التادلاكت\nملاط من **جير مراكش (NHL)**:\n- جير هوائي تقليدي + مسحوق الرخام + أصباغ طبيعية\n- **الصابون الأسود** (الصابون البلدي) للمعالجة المانعة للماء النهائية\n- حصاة التلميع (زليج مصقول أو عقيق)\n\n## البجماط\nآجر من الطين المطبوخ ممدود للجدران والأرضيات، يُركّب على شكل ذنب السمكة أو بفواصل متباعدة.\n\n## العينات والأسطح الشاهدة\nيقدم المقاول **ألواح عينات** (1 م² كحد أدنى لكل تقنية) للـ**زليج** (اللون، التوزيع) و**التادلاكت** (اللون، اللمعان) معتمدة من مكتب الدراسات قبل التنفيذ.",
+        "en": "## Ceramic faience\nWall faience to **NM EN 14411** group **BIII** (absorption E > 10%), glazed, CE marking and NM certification. Regular calibre, compliant flatness.\n\n## Moroccan zellige\n**Zellige** is a glazed terracotta tile, hand-cut and shaped:\n- Clay from **Fez** or **Salé**, traditional wood-fired kiln firing\n- Glazing by dipping, firing at ~900 °C\n- Cutting with the **menqach** (hammer) by the maâlem according to the format (furmah)\n- Artisanal dimensional tolerances accepted (irregularity = authentic character)\n\n## Tadelakt\n**Marrakech lime (NHL)** render:\n- Traditional air lime + marble powder + natural pigments\n- **Black soap** (soft soap) for the final water-repellent treatment\n- Polishing pebble (polished zellige or agate)\n\n## Bejmat\nElongated terracotta paver for walls and floors, laid herringbone or with staggered joints.\n\n## Samples and witness surfaces\nThe contractor shall submit **sample panels** (1 m² min per technique) for **zellige** (shade, setting-out) and **tadelakt** (shade, sheen) approved by the Engineer before execution."
+      }
+    },
+    {
+      "numero": "12.3",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Préparation des supports et pose de la faïence",
+        "ar": "تحضير الأسناد وتركيب الفايونس",
+        "en": "Substrate Preparation and Faience Installation"
+      },
+      "corpsMD": {
+        "fr": "## Préparation des supports\n- Supports propres, dépoussiérés, sans laitance ni partie non adhérente\n- Dressage par enduit (planéité ≤ 5 mm sous règle de 2 m avant pose collée)\n- Humidification ou primaire selon nature du support (béton, brique, plâtre)\n- Imperméabilisation (SPEC) des parois de douches et zones d'eau avant pose\n\n## Pose collée de la faïence (DTU 52.2)\n- Mortier-colle **C2** classe selon support, simple encollage en mural intérieur sec\n- Double encollage pour faïence > 900 cm² ou support déformable\n- Calepinage centré, joints alignés (largeur ≥ 1,5 mm)\n- Coupes soignées aux angles, autour des appareillages et boîtiers\n\n## Pose scellée (DTU 55)\nPour faïence épaisse sur support maçonné : pose au mortier de scellement, contrôle de l'aplomb et de la planéité.\n\n## Jointoiement\n- Joints **CG2 WA** (NM EN 13888), teinte agréée\n- Joints souples (mastic SNJF) aux angles rentrants, jonctions sol/mur et autour des éléments sanitaires",
+        "ar": "## تحضير الأسناد\n- أسناد نظيفة، مزالة الغبار، دون لبن إسمنتي أو أجزاء غير لاصقة\n- التسوية بالملاط (استواء ≤ 5 ملم تحت مسطرة 2 م قبل التركيب باللصق)\n- الترطيب أو طبقة الأساس حسب طبيعة الإسناد (خرسانة، آجر، جبس)\n- العزل المائي (SPEC) لجدران الدُّش ومناطق الماء قبل التركيب\n\n## التركيب باللصق للفايونس (DTU 52.2)\n- ملاط لصق **C2** الصنف حسب الإسناد، لصق بسيط في الجدران الداخلية الجافة\n- لصق مزدوج للفايونس > 900 سم² أو الإسناد القابل للتشوه\n- توزيع متمركز، فواصل محاذية (عرض ≥ 1,5 ملم)\n- قطع متقن في الزوايا، حول التجهيزات والعلب\n\n## التركيب بالملاط (DTU 55)\nللفايونس السميك على إسناد مبني: التركيب بملاط التثبيت، مراقبة الشاقول والاستواء.\n\n## ملء الفواصل\n- فواصل **CG2 WA** (NM EN 13888)، لون معتمد\n- فواصل مرنة (معجون SNJF) في الزوايا الداخلة، وصلات الأرضية/الجدار وحول العناصر الصحية",
+        "en": "## Substrate preparation\n- Clean, dust-free substrates, without laitance or non-adherent parts\n- Dressing by render (flatness ≤ 5 mm under 2 m straightedge before adhesive installation)\n- Dampening or priming depending on substrate type (concrete, brick, plaster)\n- Waterproofing (SPEC) of shower walls and water zones before installation\n\n## Adhesive faience installation (DTU 52.2)\n- **C2** adhesive mortar, class per substrate, single coat for dry internal walls\n- Back-buttering for faience > 900 cm² or deformable substrate\n- Centred setting-out, aligned joints (width ≥ 1.5 mm)\n- Careful cuts at corners, around fittings and boxes\n\n## Bedded installation (DTU 55)\nFor thick faience on masonry substrate: installation in bedding mortar, plumb and flatness control.\n\n## Grouting\n- **CG2 WA** grouts (NM EN 13888), approved shade\n- Flexible joints (SNJF sealant) at internal corners, floor/wall junctions and around sanitary elements"
+      }
+    },
+    {
+      "numero": "12.4",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Exécution du zellige, tadelakt et bejmat (savoir-faire traditionnel)",
+        "ar": "تنفيذ الزليج، التادلاكت والبجماط (المهارة التقليدية)",
+        "en": "Execution of Zellige, Tadelakt and Bejmat (Traditional Craftsmanship)"
+      },
+      "corpsMD": {
+        "fr": "## Pose du zellige\n- Tracé et calepinage du motif (mosaïque) selon plan d'art validé\n- Découpe des **furmat** à la menqach par le maâlem, tri par teinte\n- Pose scellée au mortier de chaux sur support dressé, face émaillée vers le haut sur banc puis retournement, ou pose directe murale\n- **Joints très fins** garnis au plâtre/ciment blanc, essuyage soigné\n- Ponçage et lustrage de la surface (zellige traditionnel)\n\n## Application du tadelakt\n1. Application du corps d'enduit chaux sur support dressé et humidifié\n2. Application de la couche de finition tadelakt (chaux + poudre de marbre + pigment) en 1 à 2 passes serrées\n3. **Serrage et lissage à la truelle** puis polissage au **galet** avant prise\n4. Traitement au **savon noir** dilué, puis cirage final pour l'imperméabilité et le brillant\n5. Aucun joint : surface continue monolithique\n\n## Pose du bejmat\nPose des pavés bejmat en **arête de poisson** ou appareillage défini, joints serrés, calepinage régulier, ponçage et finition selon usage (mur ou sol).\n\n## Conditions d'ambiance\nTempérature 8–30 °C, hors gel, à l'abri du soleil direct et des courants d'air pendant la prise (zellige et tadelakt sensibles au séchage trop rapide).",
+        "ar": "## تركيب الزليج\n- رسم وتوزيع النقش (الفسيفساء) حسب مخطط فني معتمد\n- قطع **الفرمات** بالمنقاش من طرف المعلم، الفرز حسب اللون\n- التركيب بملاط الجير على إسناد مسوّى، الوجه المزجج للأعلى على المنضدة ثم القلب، أو التركيب الجداري المباشر\n- **فواصل دقيقة جداً** تُملأ بالجبس/الإسمنت الأبيض، مع مسح متقن\n- صنفرة وتلميع السطح (الزليج التقليدي)\n\n## تطبيق التادلاكت\n1. تطبيق جسم ملاط الجير على إسناد مسوّى ومرطّب\n2. تطبيق طبقة تشطيب التادلاكت (جير + مسحوق رخام + صباغ) في طبقة إلى طبقتين مشدودتين\n3. **الشد والتنعيم بالمالج** ثم التلميع بـ**الحصاة** قبل الشك\n4. المعالجة بـ**الصابون الأسود** المخفف، ثم التشميع النهائي للعزل المائي واللمعان\n5. دون فواصل: سطح متصل أحادي الكتلة\n\n## تركيب البجماط\nتركيب آجر البجماط على شكل **ذنب السمكة** أو تنضيد محدد، فواصل مشدودة، توزيع منتظم، صنفرة وتشطيب حسب الاستعمال (جدار أو أرضية).\n\n## ظروف الأجواء\nالحرارة 8–30 °م، خارج الصقيع، بعيداً عن الشمس المباشرة والتيارات الهوائية أثناء الشك (الزليج والتادلاكت حساسان للجفاف السريع).",
+        "en": "## Zellige installation\n- Pattern setting-out (mosaic) per approved artwork plan\n- Cutting of **furmat** with the menqach by the maâlem, sorting by shade\n- Bedded installation in lime mortar on dressed substrate, glazed face up on bench then turned, or direct wall installation\n- **Very fine joints** filled with plaster/white cement, careful wiping\n- Grinding and polishing of the surface (traditional zellige)\n\n## Tadelakt application\n1. Application of lime render coat on dressed and dampened substrate\n2. Application of tadelakt finishing coat (lime + marble powder + pigment) in 1 to 2 tight passes\n3. **Tightening and trowel-smoothing** then **pebble** polishing before set\n4. Treatment with diluted **black soap**, then final waxing for waterproofing and sheen\n5. No joints: continuous monolithic surface\n\n## Bejmat installation\nBejmat pavers laid **herringbone** or defined bond, tight joints, regular setting-out, grinding and finishing per use (wall or floor).\n\n## Ambient conditions\nTemperature 8–30 °C, frost-free, sheltered from direct sun and draughts during setting (zellige and tadelakt sensitive to overly rapid drying)."
+      }
+    },
+    {
+      "numero": "12.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Essais, contrôles, tolérances et garanties",
+        "ar": "الاختبارات، الفحوصات، التفاوتات والضمانات",
+        "en": "Testing, Inspection, Tolerances and Warranties"
+      },
+      "corpsMD": {
+        "fr": "## Surfaces témoins agréées\nUne surface témoin par technique (faïence, zellige, tadelakt, bejmat) est réalisée et **agréée par le MOE** : teinte, calepinage, finition et brillance servent de référence contractuelle.\n\n## Tolérances de planéité\n| Critère | Faïence/zellige | Tadelakt |\n|---|---|---|\n| Planéité (règle 2 m) | ≤ 5 mm | ≤ 5 mm |\n| Aplomb (par étage) | ≤ 5 mm | ≤ 5 mm |\n| Désaffleurement | ≤ 1 mm | continu |\n| Alignement joints | ≤ 2 mm | sans objet |\n\n## Contrôles\n- Contrôle du **son creux** (battage) sur faïence : aucun défaut d'adhérence accepté\n- **Tadelakt** : essai à l'eau (perlage) confirmant l'imperméabilité après cirage ; absence de fissuration de retrait\n- **Zellige** : régularité du calepinage, joints garnis et propres, absence d'éclats\n- Contrôle visuel des teintes par rapport aux échantillons agréés (sous éclairage normalisé)\n\n## Garanties\nGarantie de **parfait achèvement (1 an)** sur l'ensemble ; durabilité du tadelakt en zones humides sous réserve d'entretien (savon noir) précisé en notice. Reprise des défauts d'adhérence et fissures de retrait à la charge de l'entrepreneur.",
+        "ar": "## الأسطح الشاهدة المعتمدة\nيُنجز سطح شاهد لكل تقنية (فايونس، زليج، تادلاكت، بجماط) ويُعتمد من **مكتب الدراسات**: اللون، التوزيع، التشطيب واللمعان تُستخدم كمرجع تعاقدي.\n\n## تفاوتات الاستواء\n| المعيار | الفايونس/الزليج | التادلاكت |\n|---|---|---|\n| الاستواء (مسطرة 2 م) | ≤ 5 ملم | ≤ 5 ملم |\n| الشاقول (لكل طابق) | ≤ 5 ملم | ≤ 5 ملم |\n| فرق المستوى | ≤ 1 ملم | متصل |\n| محاذاة الفواصل | ≤ 2 ملم | غير معني |\n\n## الفحوصات\n- فحص **الصوت الأجوف** (الطرق) على الفايونس: لا يُقبل أي عيب التصاق\n- **التادلاكت**: اختبار بالماء (تشكل القطرات) يؤكد العزل بعد التشميع؛ غياب تشقق الانكماش\n- **الزليج**: انتظام التوزيع، فواصل ممتلئة ونظيفة، غياب الشظايا\n- المراقبة البصرية للألوان مقارنة بالعينات المعتمدة (تحت إضاءة معيارية)\n\n## الضمانات\nضمان **الإنجاز التام (سنة)** على المجموع؛ ديمومة التادلاكت في المناطق الرطبة رهينة بالصيانة (الصابون الأسود) المحددة في الدليل. إصلاح عيوب الالتصاق وتشققات الانكماش على عاتق المقاول.",
+        "en": "## Approved witness surfaces\nA witness surface per technique (faience, zellige, tadelakt, bejmat) shall be executed and **approved by the Engineer**: shade, setting-out, finish and sheen serve as the contractual reference.\n\n## Flatness tolerances\n| Criterion | Faience/zellige | Tadelakt |\n|---|---|---|\n| Flatness (2 m straightedge) | ≤ 5 mm | ≤ 5 mm |\n| Plumb (per storey) | ≤ 5 mm | ≤ 5 mm |\n| Lippage | ≤ 1 mm | continuous |\n| Joint alignment | ≤ 2 mm | not applicable |\n\n## Inspections\n- **Hollow-sound** check (tapping) on faience: no adhesion defect accepted\n- **Tadelakt**: water test (beading) confirming impermeability after waxing; absence of shrinkage cracking\n- **Zellige**: regularity of setting-out, filled and clean joints, no chips\n- Visual shade control against approved samples (under standardised lighting)\n\n## Warranties\n**Completion warranty (1 year)** on the whole; durability of tadelakt in wet areas subject to maintenance (black soap) specified in the notice. Repair of adhesion defects and shrinkage cracks at the contractor's expense."
+      }
+    },
+    {
+      "numero": "12.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "HSE, gestion des déchets et protection des ouvrages",
+        "ar": "السلامة والصحة والبيئة، تدبير النفايات وحماية الأشغال",
+        "en": "HSE, Waste Management and Protection of Works"
+      },
+      "corpsMD": {
+        "fr": "## Hygiène, sécurité et environnement\n- Port des **EPI** : gants, lunettes, masque lors de la taille du zellige (poussière de terre cuite) et de la découpe de faïence\n- Manipulation de la **chaux** (tadelakt) avec gants et lunettes (produit caustique) ; rinçage en cas de contact\n- Échafaudages conformes et stables pour les travaux en hauteur\n- FDS disponibles pour colles, joints et adjuvants\n\n## Gestion des déchets\n- Tri : chutes de zellige et faïence (inertes), résidus de chaux et plâtre, emballages\n- Les chutes de zellige peuvent être valorisées (réemploi décoratif) ; évacuation des inertes vers décharge agréée\n- Eaux de lavage des outils chaux décantées avant rejet (pH neutralisé)\n\n## Protection des ouvrages\n- Protection du tadelakt fraîchement ciré contre les projections et chocs\n- Protection des angles et arêtes de zellige (fragiles) jusqu'à réception\n- Pas de nettoyage acide sur le zellige et le tadelakt (altération de l'émail et de la chaux)\n- Notice d'entretien remise au maître d'ouvrage (savon noir pour tadelakt, nettoyants neutres pour zellige)",
+        "ar": "## السلامة والصحة والبيئة\n- ارتداء **معدات الوقاية الفردية**: قفازات، نظارات، كمامة أثناء قطع الزليج (غبار الطين المطبوخ) وقطع الفايونس\n- التعامل مع **الجير** (التادلاكت) بقفازات ونظارات (مادة كاوية)؛ الشطف عند الملامسة\n- سقالات مطابقة ومستقرة للأشغال في الارتفاع\n- بطاقات السلامة متوفرة للغراء والفواصل والإضافات\n\n## تدبير النفايات\n- الفرز: بقايا الزليج والفايونس (خاملة)، بقايا الجير والجبس، التغليف\n- يمكن تثمين بقايا الزليج (إعادة استعمال زخرفي)؛ إخلاء الخاملة نحو مطرح معتمد\n- مياه غسل أدوات الجير تُرسّب قبل الصرف (معادلة pH)\n\n## حماية الأشغال\n- حماية التادلاكت المشمّع حديثاً من الرذاذ والصدمات\n- حماية زوايا وحواف الزليج (الهشة) حتى التسلم\n- لا تنظيف حمضي على الزليج والتادلاكت (إتلاف التزجيج والجير)\n- تسليم دليل الصيانة لصاحب المشروع (الصابون الأسود للتادلاكت، منظفات محايدة للزليج)",
+        "en": "## Health, safety and environment\n- Wearing of **PPE**: gloves, goggles, mask during zellige cutting (terracotta dust) and faience cutting\n- Handling of **lime** (tadelakt) with gloves and goggles (caustic product); rinse on contact\n- Compliant and stable scaffolding for work at height\n- SDS available for adhesives, grouts and admixtures\n\n## Waste management\n- Sorting: zellige and faience offcuts (inert), lime and plaster residues, packaging\n- Zellige offcuts may be recovered (decorative reuse); inert disposal to licensed landfill\n- Lime tool-washing water settled before discharge (pH neutralised)\n\n## Protection of works\n- Protection of freshly waxed tadelakt against splashes and impacts\n- Protection of zellige corners and edges (fragile) until handover\n- No acid cleaning on zellige and tadelakt (damages glaze and lime)\n- Maintenance notice handed to the client (black soap for tadelakt, neutral cleaners for zellige)"
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "12.01",
+      "designation": {
+        "fr": "Revêtement mural en faïence céramique émaillée, pose collée C2, joints CG2, y compris coupes et finitions",
+        "ar": "تغطية جدارية بالفايونس الخزفي المزجج، تركيب باللصق C2، فواصل CG2، شاملة القطع والتشطيبات",
+        "en": "Glazed ceramic faience wall covering, C2 adhesive installation, CG2 grouts, including cuts and finishes"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réellement revêtue en m², mesurée au nu fini, déduction des baies > 0,50 m². Coupes et façonnages inclus.",
+        "ar": "المساحة المغطاة فعلياً بالم²، مقاسة بالوجه النهائي، مع خصم الفتحات > 0,50 م². القطع والتشكيلات مدرجة.",
+        "en": "Area actually covered in m², measured at finished face, deducting openings > 0.50 m². Cuts and shaping included."
+      }
+    },
+    {
+      "code": "12.02",
+      "designation": {
+        "fr": "Revêtement en zellige marocain traditionnel taillé main, pose scellée, joints fins, ponçage et lustrage",
+        "ar": "تغطية بالزليج المغربي التقليدي المقطوع يدوياً، تركيب بالملاط، فواصل دقيقة، صنفرة وتلميع",
+        "en": "Traditional hand-cut Moroccan zellige covering, bedded installation, fine joints, grinding and polishing"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réellement réalisée en m², mesurée au nu fini. Frises et motifs complexes décomptés au ml ou à l'ensemble selon plan d'art.",
+        "ar": "المساحة المنجزة فعلياً بالم²، مقاسة بالوجه النهائي. الأفاريز والنقوش المعقدة تُحسب بالمتر الطولي أو بالمجموعة حسب المخطط الفني.",
+        "en": "Area actually executed in m², measured at finished face. Friezes and complex patterns counted per linear metre or per set as per artwork plan."
+      }
+    },
+    {
+      "code": "12.03",
+      "designation": {
+        "fr": "Tadelakt à la chaux de Marrakech, corps d'enduit + finition pigmentée, polissage au galet et traitement au savon noir",
+        "ar": "تادلاكت بجير مراكش، جسم الملاط + تشطيب مصبوغ، تلميع بالحصاة ومعالجة بالصابون الأسود",
+        "en": "Marrakech-lime tadelakt, render coat + pigmented finish, pebble polishing and black-soap treatment"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réellement traitée en m², mesurée au nu fini, congés et gorges comptés au ml séparément.",
+        "ar": "المساحة المعالجة فعلياً بالم²، مقاسة بالوجه النهائي، الزوايا المقعّرة تُحسب بالمتر الطولي منفصلة.",
+        "en": "Area actually treated in m², measured at finished face, cove fillets counted per linear metre separately."
+      }
+    },
+    {
+      "code": "12.04",
+      "designation": {
+        "fr": "Revêtement en bejmat terre cuite, pose en arête de poisson, joints serrés, ponçage et finition",
+        "ar": "تغطية بالبجماط من الطين المطبوخ، تركيب على شكل ذنب السمكة، فواصل مشدودة، صنفرة وتشطيب",
+        "en": "Terracotta bejmat covering, herringbone laying, tight joints, grinding and finishing"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réellement posée en m², mesurée au nu fini. Coupes de rives incluses.",
+        "ar": "المساحة المركّبة فعلياً بالم²، مقاسة بالوجه النهائي. قطع الأطراف مدرجة.",
+        "en": "Area actually laid in m², measured at finished face. Edge cuts included."
+      }
+    },
+    {
+      "code": "12.05",
+      "designation": {
+        "fr": "Enduit décoratif intérieur (stuc / chaux lissée) en finition, sur support dressé",
+        "ar": "ملاط زخرفي داخلي (ستوك / جير منعّم) كتشطيب، على إسناد مسوّى",
+        "en": "Internal decorative render (stucco / smoothed lime) as finish, on dressed substrate"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réellement appliquée en m², mesurée au nu fini, déduction des baies > 0,50 m².",
+        "ar": "المساحة المطبقة فعلياً بالم²، مقاسة بالوجه النهائي، مع خصم الفتحات > 0,50 م².",
+        "en": "Area actually applied in m², measured at finished face, deducting openings > 0.50 m²."
+      }
+    },
+    {
+      "code": "12.06",
+      "designation": {
+        "fr": "Listel / frise décorative en zellige ou faïence, pose et calepinage soignés",
+        "ar": "إفريز / شريط زخرفي من الزليج أو الفايونس، تركيب وتوزيع متقن",
+        "en": "Decorative listel / frieze in zellige or faience, careful installation and setting-out"
+      },
+      "unite": "ml",
+      "modeMetreMD": {
+        "fr": "Longueur développée en ml réellement posée, angles comptés au développé.",
+        "ar": "الطول المنشور بالمتر الطولي المركّب فعلياً، الزوايا تُحسب بالانتشار.",
+        "en": "Developed length in linear metres actually installed, angles counted developed."
+      }
+    },
+    {
+      "code": "12.07",
+      "designation": {
+        "fr": "Imperméabilisation sous carrelage (SPEC) des parois de douches et zones humides avant pose",
+        "ar": "العزل المائي تحت البلاط (SPEC) لجدران الدُّش والمناطق الرطبة قبل التركيب",
+        "en": "Under-tile waterproofing (SPEC) of shower walls and wet zones before installation"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réellement traitée en m², relevés et angles inclus dans le prix.",
+        "ar": "المساحة المعالجة فعلياً بالم²، الرفعات والزوايا مدرجة في الثمن.",
+        "en": "Area actually treated in m², upstands and angles included in the price."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_02_GROS_OEUVRE_BETON",
+      "type": "PREREQUIS",
+      "description": {
+        "fr": "Maçonneries et cloisons livrées d'aplomb et dressées ; tolérances de support compatibles avec les revêtements muraux.",
+        "ar": "أعمال البناء والقواطع مُسلّمة شاقولية ومسوّاة؛ تفاوتات الإسناد متوافقة مع التغطيات الجدارية.",
+        "en": "Masonry and partitions delivered plumb and dressed; substrate tolerances compatible with wall coverings."
+      }
+    },
+    {
+      "lotCible": "LOT_14_PLOMBERIE_SANITAIRE",
+      "type": "COORDINATION",
+      "description": {
+        "fr": "Réservations, attentes sanitaires et boîtiers posés avant revêtement ; coordination des sorties et axes d'appareillages.",
+        "ar": "الحجوزات، الانتظارات الصحية والعلب مركّبة قبل التغطية؛ تنسيق المخارج ومحاور التجهيزات.",
+        "en": "Reservations, sanitary connections and boxes installed before covering; coordination of outlets and fixture axes."
+      }
+    },
+    {
+      "lotCible": "LOT_11_REVETEMENTS_SOLS",
+      "type": "SEQUENCE",
+      "description": {
+        "fr": "Coordination des niveaux et jonctions mur/sol (plinthes, congés tadelakt) ; ordonnancement mur avant sol selon protection.",
+        "ar": "تنسيق المناسيب ووصلات الجدار/الأرضية (ألواح القدم، زوايا التادلاكت المقعّرة)؛ ترتيب الجدار قبل الأرضية حسب الحماية.",
+        "en": "Coordination of levels and wall/floor junctions (skirtings, tadelakt coves); wall-before-floor sequencing per protection."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "NF DTU 55",
+      "NF DTU 52.2",
+      "NF DTU 25.1",
+      "NM EN 14411",
+      "NM EN 998-1",
+      "Savoir-faire traditionnel marocain (zellige, tadelakt, bejmat)",
+      "Barème qualification BTP Maroc"
+    ]
+  }
+}

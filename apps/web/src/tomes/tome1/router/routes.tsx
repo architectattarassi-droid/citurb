@@ -39,6 +39,10 @@ import NotificationsCenterPage from "../../../features/notifications/Notificatio
 import MreDiasporaLanding from "../../../features/mre-diaspora/MreDiasporaLanding";
 import MetricsDashboardPage from "../../../features/analytics/MetricsDashboardPage";
 import CopiloteChantierPage from "../../../features/chef-copilote/CopiloteChantierPage";
+import ChantierPvPage from "../../../features/pv-chantier/ChantierPvPage";
+import CpsGeneratorPage from "../../../features/cps-generator/CpsGeneratorPage";
+import PvChantierEditor from "../../../features/pv-chantier/PvChantierEditor";
+import PvChantierViewer from "../../../features/pv-chantier/PvChantierViewer";
 import MandataireSearchPage from "../../../features/mandataires-registry/MandataireSearchPage";
 import OpciOfferingsPage from "../../../features/opci-tokenise/OpciOfferingsPage";
 import DiasporaHubPage from "../../../features/cercles-diaspora/DiasporaHubPage";
@@ -267,6 +271,9 @@ export const router = createBrowserRouter([
       // ── Calendrier Projet (Gantt + CPM + Kanban) ──
       { path: '/projet/:dossierId/calendrier', element: <AdminHostBlock><ProjectCalendarPage /></AdminHostBlock> },
 
+      // ── Générateur CPS (Cahier des Prescriptions Spéciales) ──
+      { path: '/cps', element: <AdminHostBlock><CpsGeneratorPage /></AdminHostBlock> },
+
       // ── Phase 5 — parcours complet lead → manage → permit → site → delivery ──
       { path: '/mon-parcours/:dossierId', element: <AdminHostBlock><MonParcoursPage /></AdminHostBlock> },
       { path: '/dossier/:dossierId/documents', element: <AdminHostBlock><DocumentsRepoPage /></AdminHostBlock> },
@@ -276,6 +283,12 @@ export const router = createBrowserRouter([
       { path: '/chantier/:dossierId/sous-traitants', element: <AdminHostBlock><SousTraitantsPage /></AdminHostBlock> },
       { path: '/chantier/:dossierId/incidents', element: <AdminHostBlock><IncidentsChantierPage /></AdminHostBlock> },
       { path: '/chantier/:dossierId/copilote', element: <AdminHostBlock><CopiloteChantierPage /></AdminHostBlock> },
+
+      // ── PV de chantier (Tome 2 — cadence obligatoire 1 PV / 15 jours) ──
+      { path: '/chantier/:dossierId/pv', element: <AdminHostBlock><ChantierPvPage /></AdminHostBlock> },
+      { path: '/pv-chantier/dossier/:dossierId/new', element: <AdminHostBlock><PvChantierEditor mode="new" /></AdminHostBlock> },
+      { path: '/pv-chantier/:pvId/edit', element: <AdminHostBlock><PvChantierEditor mode="edit" /></AdminHostBlock> },
+      { path: '/pv-chantier/:pvId', element: <AdminHostBlock><PvChantierViewer /></AdminHostBlock> },
       { path: '/foncier/estimation', element: <EstimationPage /> },
       { path: '/mre', element: <MreDiasporaLanding /> },
       { path: '/mandataires', element: <MandataireSearchPage /> },

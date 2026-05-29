@@ -6,7 +6,9 @@ import "./styles/citurbarea.css";
 import { registerServiceWorker } from "./sw/register";
 import { startWebVitals } from "./lib/web-vitals";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+const rootEl = document.getElementById("root");
+if (!rootEl) throw new Error("Root element #root introuvable dans index.html");
+ReactDOM.createRoot(rootEl).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>

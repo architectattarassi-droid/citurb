@@ -14,10 +14,13 @@ const auth_module_1 = require("../../tome-5/auth/auth.module");
 const pv_chantier_controller_1 = require("./pv-chantier.controller");
 const pv_chantier_renderer_1 = require("./pv-chantier.renderer");
 const pv_chantier_service_1 = require("./pv-chantier.service");
+const pv_compliance_service_1 = require("./pv-compliance.service");
 /**
  * Tome 2 — Module PV de Chantier.
  *
  * Expose le service pour usage croisé (génération contrat, dashboards, etc.).
+ * PvComplianceService applique la cadence PV obligatoire (1 PV / 15 jours,
+ * doctrine T2-R-PV-CADENCE-001) : cron + blocage chantier + alertes.
  */
 let PvChantierModule = class PvChantierModule {
 };
@@ -26,7 +29,7 @@ exports.PvChantierModule = PvChantierModule = __decorate([
     (0, common_1.Module)({
         imports: [prisma_module_1.PrismaModule, kernel_module_1.KernelModule, auth_module_1.Tome5AuthModule],
         controllers: [pv_chantier_controller_1.PvChantierController],
-        providers: [pv_chantier_service_1.PvChantierService, pv_chantier_renderer_1.PvChantierRenderer],
-        exports: [pv_chantier_service_1.PvChantierService, pv_chantier_renderer_1.PvChantierRenderer],
+        providers: [pv_chantier_service_1.PvChantierService, pv_chantier_renderer_1.PvChantierRenderer, pv_compliance_service_1.PvComplianceService],
+        exports: [pv_chantier_service_1.PvChantierService, pv_chantier_renderer_1.PvChantierRenderer, pv_compliance_service_1.PvComplianceService],
     })
 ], PvChantierModule);

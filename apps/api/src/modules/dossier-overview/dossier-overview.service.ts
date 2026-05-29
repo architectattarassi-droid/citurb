@@ -187,15 +187,27 @@ export class DossierOverviewService {
     const siteDone =
       Boolean(payload.receptionProvisoireAt) || progressPct >= 100;
     const siteActive = !siteDone && permitDone;
+    const pvCompliance = payload.pvCompliance ?? null;
+    const siteBlocked = siteActive && Boolean(pvCompliance?.blocked);
     const siteSummary: PhaseSummary = {
       id: "site",
-      status: siteDone ? "DONE" : siteActive ? "ACTIVE" : "PENDING",
+      status: siteDone ? "DONE" : siteBlocked ? "BLOCKED" : siteActive ? "ACTIVE" : "PENDING",
       completedAt: payload.receptionProvisoireAt ?? null,
       summary: {
         progressPct,
         pvCount: pvList.length,
         lastVisit: lastVisit || null,
         photosRecentCount,
+        pvCompliance: pvCompliance
+          ? {
+              status: pvCompliance.status,
+              blocked: Boolean(pvCompliance.blocked),
+              lastPvDate: pvCompliance.lastPvDate ?? null,
+              nextPvDueDate: pvCompliance.nextPvDueDate ?? null,
+              daysUntilDue: pvCompliance.daysUntilDue ?? null,
+              intervalDays: pvCompliance.intervalDays ?? 15,
+            }
+          : null,
       },
     };
 
@@ -450,6 +462,30 @@ export class DossierOverviewService {
         ctaUrl: `/dossier/${dossier.id}/rokhas`,
         ctaLabel: "Voir les réserves",
         deadline: null,
+        severity: "warning",
+      };
+    }
+
+    // 5bis) Chantier bloqué faute de PV (cadence 15 jours, T2-R-PV-CADENCE-001)
+    const pvc = payload.pvCompliance ?? null;
+    if (pvc?.active && pvc?.blocked) {
+      return {
+        title: "Chantier bloqué — PV requis",
+        description:
+          "Aucun PV de visite depuis plus de 15 jours. Les commandes et l'affectation de sous-traitants sont suspendues jusqu'au dépôt d'un nouveau PV.",
+        ctaUrl: `/chantier/${dossier.id}/pv`,
+        ctaLabel: "Déposer un PV",
+        deadline: null,
+        severity: "urgent",
+      };
+    }
+    if (pvc?.active && pvc?.status === "WARNING") {
+      return {
+        title: "PV de chantier attendu",
+        description: `Prochain PV attendu avant le ${this.formatDate(pvc.nextPvDueDate)} (${Math.max(0, Number(pvc.daysUntilDue) || 0)} j). Sans PV, le chantier sera bloqué.`,
+        ctaUrl: `/chantier/${dossier.id}/pv`,
+        ctaLabel: "Créer un PV",
+        deadline: pvc.nextPvDueDate ?? null,
         severity: "warning",
       };
     }

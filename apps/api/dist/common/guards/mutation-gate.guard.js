@@ -66,6 +66,7 @@ let MutationGateGuard = class MutationGateGuard {
             "/api/avance-tresorerie", // Avance trésorerie sur situation (Brahim)
             "/api/mandataires", // Annuaire mandataires agréés (missions MRE)
             "/api/opci-tokenise", // OPCI tokenisé AMMC (souscription parts MRE)
+            "/api/cps", // Générateur CPS (Tome 2) — génération document lecture seule
             "/p1",
             "/p2",
             "/p3",

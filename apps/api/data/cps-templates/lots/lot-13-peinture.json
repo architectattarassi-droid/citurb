@@ -1,0 +1,265 @@
+{
+  "code": "LOT_13_PEINTURE",
+  "numero": 13,
+  "famille": "SECOND_OEUVRE",
+  "intitule": {
+    "fr": "Peinture, vitrerie et ravalement",
+    "ar": "الدهان، الزجاج والترميم الخارجي",
+    "en": "Painting, Glazing and Façade Rendering"
+  },
+  "description": {
+    "fr": "Fourniture et application des travaux de peinture intérieure et extérieure, de vitrerie et de ravalement de façades du projet {{PROJECT_NAME}} : préparation des subjectiles, impressions, couches d'apprêt et de finition, peintures décoratives, miroiterie et vitrage. Travaux exécutés conformément au DTU 59.1 avec surfaces témoins agréées.",
+    "ar": "توريد وتطبيق أشغال الدهان الداخلي والخارجي، الزجاج وترميم الواجهات لمشروع {{PROJECT_NAME}}: تحضير الأسطح، طبقات الأساس، طبقات التحضير والتشطيب، الدهانات الزخرفية، المرايا والتزجيج. تُنفَّذ الأشغال طبقاً لـ DTU 59.1 مع أسطح شاهدة معتمدة.",
+    "en": "Supply and application of interior and exterior painting, glazing and façade rendering for the {{PROJECT_NAME}} project: substrate preparation, primers, undercoats and finishing coats, decorative paints, mirror work and glazing. Works executed in accordance with DTU 59.1 with approved witness surfaces."
+  },
+  "normesRefs": [
+    "NF DTU 59.1",
+    "NF DTU 59.4",
+    "NF DTU 42.1",
+    "NF DTU 39",
+    "NM EN 13300",
+    "NM EN 1062-1",
+    "NM EN ISO 12944",
+    "NM EN 572"
+  ],
+  "secteurQualifMA": [
+    "Q6.1 Peinture-vitrerie bâtiment",
+    "Q6.2 Peinture décorative et façades",
+    "Q6.3 Ravalement et imperméabilité de façades",
+    "Q6.4 Miroiterie-vitrerie"
+  ],
+  "competencesRequises": [
+    "Peintre applicateur bâtiment",
+    "Façadier-ravaleur",
+    "Miroitier-vitrier",
+    "Applicateur peintures décoratives"
+  ],
+  "articles": [
+    {
+      "numero": "13.1",
+      "partie": "GENERAL",
+      "titre": {
+        "fr": "Objet, limites de prestation et documents de référence",
+        "ar": "الموضوع، حدود الخدمة والوثائق المرجعية",
+        "en": "Scope, Limits of Works and Reference Documents"
+      },
+      "corpsMD": {
+        "fr": "## Objet\nLe présent lot couvre les travaux de **peinture intérieure et extérieure**, de **vitrerie** et de **ravalement de façades** du projet **{{PROJECT_NAME}}** à **{{COMMUNE}}**.\n\n## Limites de prestation\nSont **inclus** : préparation des subjectiles, rebouchage, ponçage, impressions, couches d'apprêt et de finition, peintures de façade, imperméabilité, miroiterie et vitrage.\n\nSont **exclus** : enduits de dressage des supports (lots concernés), menuiseries livrées prépeintes en atelier (lot menuiserie, à coordonner pour les finitions sur site).\n\n## Classement des finitions (DTU 59.1)\nTrois qualités de finition selon exigence du projet :\n- **Finition A** (soignée) : aspect tendu, sans défaut visible\n- **Finition B** (courante) : aspect régulier, légers défauts admis\n- **Finition C** (élémentaire) : aspect d'usage, défauts plus marqués admis\n\nLa qualité requise est précisée par local au CCTP.\n\n## Documents de référence\n- **NF DTU 59.1** — Travaux de peinture des bâtiments\n- **NF DTU 59.4** — Mise en peinture des éléments métalliques\n- **NF DTU 42.1** — Réfection de façades par revêtements (I1 à I4)\n- **NF DTU 39** — Travaux de vitrerie-miroiterie\n- **NM EN 13300** — Classification des peintures intérieures",
+        "ar": "## الموضوع\nيغطي هذا القسم أشغال **الدهان الداخلي والخارجي**، **الزجاج** و**ترميم الواجهات** لمشروع **{{PROJECT_NAME}}** بـ **{{COMMUNE}}**.\n\n## حدود الخدمة\n**يشمل**: تحضير الأسطح، السد، الصنفرة، طبقات الأساس، طبقات التحضير والتشطيب، دهانات الواجهة، العزل المائي، المرايا والتزجيج.\n\n**يُستثنى**: ملاطات تسوية الأسناد (الأقسام المعنية)، النجارة المُسلّمة مدهونة مسبقاً في الورشة (قسم النجارة، للتنسيق بشأن التشطيبات في الموقع).\n\n## تصنيف التشطيبات (DTU 59.1)\nثلاث جودات تشطيب حسب متطلب المشروع:\n- **التشطيب A** (متقن): مظهر مشدود، دون عيب ظاهر\n- **التشطيب B** (عادي): مظهر منتظم، عيوب طفيفة مقبولة\n- **التشطيب C** (أولي): مظهر استعمالي، عيوب أوضح مقبولة\n\nالجودة المطلوبة محددة لكل محل في دفتر الشروط التقنية.\n\n## الوثائق المرجعية\n- **NF DTU 59.1** — أشغال دهان المباني\n- **NF DTU 59.4** — دهان العناصر المعدنية\n- **NF DTU 42.1** — ترميم الواجهات بالتغطيات (I1 إلى I4)\n- **NF DTU 39** — أشغال الزجاج والمرايا\n- **NM EN 13300** — تصنيف الدهانات الداخلية",
+        "en": "## Scope\nThis lot covers **interior and exterior painting**, **glazing** and **façade rendering** works for the **{{PROJECT_NAME}}** project in **{{COMMUNE}}**.\n\n## Limits of works\n**Included**: substrate preparation, filling, sanding, primers, undercoats and finishing coats, façade paints, waterproofing, mirror work and glazing.\n\n**Excluded**: substrate dressing renders (relevant lots), joinery delivered factory-pre-painted (joinery lot, to coordinate for on-site finishes).\n\n## Finish classification (DTU 59.1)\nThree finish qualities according to project requirement:\n- **Finish A** (high quality): taut appearance, no visible defect\n- **Finish B** (standard): regular appearance, slight defects allowed\n- **Finish C** (basic): functional appearance, more marked defects allowed\n\nThe required quality is specified per room in the particular specification.\n\n## Reference documents\n- **NF DTU 59.1** — Building painting works\n- **NF DTU 59.4** — Painting of metal elements\n- **NF DTU 42.1** — Façade refurbishment by coatings (I1 to I4)\n- **NF DTU 39** — Glazing and mirror works\n- **NM EN 13300** — Classification of interior paints"
+      }
+    },
+    {
+      "numero": "13.2",
+      "partie": "PRODUITS",
+      "titre": {
+        "fr": "Provenance, spécifications des peintures et produits de vitrerie",
+        "ar": "المنشأ، مواصفات الدهانات ومواد الزجاج",
+        "en": "Origin, Paint Specifications and Glazing Products"
+      },
+      "corpsMD": {
+        "fr": "## Provenance et origine\nLes peintures proviennent de fabricants reconnus, justifiant de fiches techniques (FT) et de Fiches de Données de Sécurité (FDS). Produits soumis au visa du MOE avant approvisionnement.\n\n## Peintures intérieures (NM EN 13300)\n| Caractéristique | Classement |\n|---|---|\n| Résistance à l'abrasion humide | Classe 1–2 (locaux humides) |\n| Pouvoir couvrant | Classe 1–2 |\n| Brillant | Mat / velours / satin / brillant |\n| Granulométrie | Fine |\n\n- Locaux humides : peinture acrylique lessivable classe 1\n- Plafonds : peinture mate microporeuse\n\n## Peintures de façade (NM EN 1062-1)\n- Revêtement d'imperméabilité **classe I1 à I4** (DTU 42.1) selon fissuration du support\n- Pliolite ou acrylique siloxane pour façades exposées\n- Résistance UV, perméabilité à la vapeur d'eau, faible absorption d'eau (W2/W3)\n\n## Peintures métal et bois (DTU 59.1 / 59.4)\nSystème antirouille (primaire + finition) pour métaux ferreux ; lasures ou peintures microporeuses pour bois.\n\n## Vitrerie (NM EN 572 / DTU 39)\nVerre recuit, trempé ou feuilleté selon exigences de sécurité (allèges, portes, garde-corps). Miroirs argentés qualité bâtiment.\n\n## Échantillons\nNuancier et **échantillons de teintes** sur support représentatif soumis pour agrément avant exécution.",
+        "ar": "## المنشأ والأصل\nتأتي الدهانات من مصنّعين معترف بهم، يثبتون البطاقات التقنية (FT) وبطاقات السلامة (FDS). المنتجات خاضعة لتأشير مكتب الدراسات قبل التموين.\n\n## الدهانات الداخلية (NM EN 13300)\n| الخاصية | التصنيف |\n|---|---|\n| مقاومة التآكل الرطب | الصنف 1–2 (المحلات الرطبة) |\n| قوة التغطية | الصنف 1–2 |\n| اللمعان | مطفأ / مخملي / ساتان / لامع |\n| التحبب | ناعم |\n\n- المحلات الرطبة: دهان أكريليكي قابل للغسل صنف 1\n- الأسقف: دهان مطفأ مسامي دقيق\n\n## دهانات الواجهة (NM EN 1062-1)\n- تغطية عازلة للماء **صنف I1 إلى I4** (DTU 42.1) حسب تشقق الإسناد\n- بليوليت أو أكريليك سيلوكسان للواجهات المعرّضة\n- مقاومة الأشعة فوق البنفسجية، نفاذية بخار الماء، امتصاص ماء منخفض (W2/W3)\n\n## دهانات المعدن والخشب (DTU 59.1 / 59.4)\nنظام مضاد للصدأ (أساس + تشطيب) للمعادن الحديدية؛ ورنيشات أو دهانات مسامية للخشب.\n\n## الزجاج (NM EN 572 / DTU 39)\nزجاج ملدّن، مقسّى أو مصفّح حسب متطلبات السلامة (الجلسات، الأبواب، الدرابزين). مرايا مفضّضة بجودة البناء.\n\n## العينات\nبطاقة الألوان و**عينات الأصباغ** على إسناد ممثل تُقدم للاعتماد قبل التنفيذ.",
+        "en": "## Origin and provenance\nPaints shall come from recognised manufacturers, providing technical data sheets (TDS) and Safety Data Sheets (SDS). Products subject to the Engineer's approval before procurement.\n\n## Interior paints (NM EN 13300)\n| Property | Classification |\n|---|---|\n| Wet scrub resistance | Class 1–2 (wet rooms) |\n| Hiding power | Class 1–2 |\n| Gloss | Matt / velvet / satin / gloss |\n| Grain size | Fine |\n\n- Wet rooms: washable class 1 acrylic paint\n- Ceilings: micro-porous matt paint\n\n## Façade paints (NM EN 1062-1)\n- Waterproofing coating **class I1 to I4** (DTU 42.1) according to substrate cracking\n- Pliolite or siloxane acrylic for exposed façades\n- UV resistance, water-vapour permeability, low water absorption (W2/W3)\n\n## Metal and wood paints (DTU 59.1 / 59.4)\nAnti-rust system (primer + finish) for ferrous metals; stains or micro-porous paints for wood.\n\n## Glazing (NM EN 572 / DTU 39)\nAnnealed, toughened or laminated glass per safety requirements (sills, doors, balustrades). Building-quality silvered mirrors.\n\n## Samples\nColour chart and **shade samples** on a representative substrate submitted for approval before execution."
+      }
+    },
+    {
+      "numero": "13.3",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Préparation des subjectiles et conditions d'application",
+        "ar": "تحضير الأسطح وظروف التطبيق",
+        "en": "Substrate Preparation and Application Conditions"
+      },
+      "corpsMD": {
+        "fr": "## Préparation des subjectiles (DTU 59.1)\nLa préparation est l'opération déterminante de la qualité finale :\n1. **Égrenage / brossage** : élimination des aspérités, poussières, parties non adhérentes\n2. **Rebouchage** des trous et fissures à l'enduit adapté\n3. **Ponçage** et dépoussiérage\n4. **Enduisage** (ratissage) selon qualité de finition exigée (A : enduit non repassé puis pelliculaire)\n5. **Impression / primaire d'accrochage** adapté au subjectile (fixateur sur plâtre, primaire sur métal)\n\n## Conditions hygrométriques et d'ambiance\nL'application est **interdite** :\n- Température < **5 °C** ou > **35 °C**\n- **Humidité relative de l'air > 80 %**\n- Humidité du support > **5 %** (plâtre) ou point de rosée non respecté\n- Sur support gelé, ressuant ou ensoleillé directement (façades)\n\nLes conditions sont relevées et consignées avant chaque phase d'application.\n\n## Subjectiles particuliers\n- **Plâtre / placo** : siccité contrôlée, fixateur de fond\n- **Béton / ciment** : neutralisation de l'alcalinité, âge ≥ 28 j\n- **Métaux ferreux** : décapage, primaire antirouille (DTU 59.4)\n- **Bois** : ponçage fil du bois, traitement des nœuds",
+        "ar": "## تحضير الأسطح (DTU 59.1)\nالتحضير هو العملية الحاسمة للجودة النهائية:\n1. **الكشط / التفريش**: إزالة النتوءات، الغبار، الأجزاء غير اللاصقة\n2. **سد** الثقوب والشقوق بالملاط المناسب\n3. **الصنفرة** وإزالة الغبار\n4. **التمليط** (التسوية) حسب جودة التشطيب المطلوبة (A: ملاط ثم طبقة رقيقة)\n5. **طبقة الأساس / طبقة الالتصاق** المناسبة للسطح (مثبّت على الجبس، أساس على المعدن)\n\n## الظروف الرطوبية والأجوائية\nالتطبيق **ممنوع**:\n- الحرارة < **5 °م** أو > **35 °م**\n- **الرطوبة النسبية للهواء > 80%**\n- رطوبة الإسناد > **5%** (الجبس) أو عدم احترام نقطة الندى\n- على إسناد متجمد، ناضح أو معرّض للشمس مباشرة (الواجهات)\n\nتُرصد الظروف وتُدوّن قبل كل مرحلة تطبيق.\n\n## الأسطح الخاصة\n- **الجبس / البلاكو**: جفاف مراقب، مثبّت أساس\n- **الخرسانة / الإسمنت**: معادلة القلوية، العمر ≥ 28 يوماً\n- **المعادن الحديدية**: التقشير، أساس مضاد للصدأ (DTU 59.4)\n- **الخشب**: صنفرة باتجاه ألياف الخشب، معالجة العقد",
+        "en": "## Substrate preparation (DTU 59.1)\nPreparation is the decisive operation for final quality:\n1. **Rubbing down / brushing**: removal of asperities, dust, non-adherent parts\n2. **Filling** of holes and cracks with suitable filler\n3. **Sanding** and dust removal\n4. **Skim-coating** (scraping) per required finish quality (A: filler then thin skim)\n5. **Primer / bonding primer** suited to the substrate (sealer on plaster, primer on metal)\n\n## Hygrometric and ambient conditions\nApplication is **prohibited**:\n- Temperature < **5 °C** or > **35 °C**\n- **Relative air humidity > 80%**\n- Substrate moisture > **5%** (plaster) or dew point not respected\n- On frozen, sweating or directly sunlit substrate (façades)\n\nConditions are recorded and logged before each application phase.\n\n## Particular substrates\n- **Plaster / plasterboard**: controlled dryness, base sealer\n- **Concrete / cement**: alkalinity neutralisation, age ≥ 28 days\n- **Ferrous metals**: stripping, anti-rust primer (DTU 59.4)\n- **Wood**: sanding with the grain, knot treatment"
+      }
+    },
+    {
+      "numero": "13.4",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Application des peintures, nombre de couches et surfaces témoins",
+        "ar": "تطبيق الدهانات، عدد الطبقات والأسطح الشاهدة",
+        "en": "Paint Application, Number of Coats and Witness Surfaces"
+      },
+      "corpsMD": {
+        "fr": "## Surfaces témoins agréées\nAvant généralisation, l'entrepreneur réalise une **surface témoin** par type de finition et par teinte (mini **10 m²** ou un local complet). Cette surface est **agréée par le MOE** et constitue la **référence contractuelle** de teinte, aspect et brillant.\n\n## Système d'application — nombre de couches\nLe système complet comporte au minimum :\n1. **1 couche d'impression** (primaire/fixateur)\n2. **1 couche intermédiaire** (apprêt / sous-couche)\n3. **1 à 2 couches de finition** selon pouvoir couvrant et teinte\n\nMinimum **3 couches** pour une finition A ; chaque couche est appliquée après séchage complet de la précédente (délai de recouvrement respecté).\n\n## Règles d'application\n- Application croisée puis lissée (rouleau / brosse / pistolet selon support)\n- Respect des **consommations** au m² prescrites par le fabricant\n- Reprises invisibles, raccords dans les angles ou ruptures de plans\n- Protection des ouvrages adjacents (sols, menuiseries, vitrages) par masquage\n\n## Façades et ravalement (DTU 42.1)\n- Réparation préalable des fissures, traitement des reprises\n- Application du système d'imperméabilité (classe I selon support) en couches croisées\n- Travail par pans complets pour éviter les reprises visibles\n\n## Vitrerie (DTU 39)\nPose des vitrages sur calage et garniture d'étanchéité (mastic ou joints), parcloses ; miroirs collés ou fixés mécaniquement.",
+        "ar": "## الأسطح الشاهدة المعتمدة\nقبل التعميم، ينجز المقاول **سطحاً شاهداً** لكل نوع تشطيب ولكل لون (10 م² كحد أدنى أو محل كامل). يُعتمد هذا السطح من **مكتب الدراسات** ويشكّل **المرجع التعاقدي** للون والمظهر واللمعان.\n\n## نظام التطبيق — عدد الطبقات\nيتضمن النظام الكامل كحد أدنى:\n1. **طبقة أساس واحدة** (أساس/مثبّت)\n2. **طبقة وسيطة واحدة** (تحضير / طبقة تحتية)\n3. **طبقة إلى طبقتين تشطيب** حسب قوة التغطية واللون\n\nالحد الأدنى **3 طبقات** للتشطيب A؛ تُطبق كل طبقة بعد الجفاف الكامل للسابقة (احترام مدة إعادة التغطية).\n\n## قواعد التطبيق\n- تطبيق متقاطع ثم منعّم (رول / فرشاة / مسدس حسب الإسناد)\n- احترام **الاستهلاكات** بالم² المحددة من المصنّع\n- إصلاحات غير مرئية، وصلات في الزوايا أو انكسارات المستويات\n- حماية الأشغال المجاورة (الأرضيات، النجارة، الزجاج) بالتغطية\n\n## الواجهات والترميم (DTU 42.1)\n- إصلاح مسبق للشقوق، معالجة الوصلات\n- تطبيق نظام العزل المائي (الصنف I حسب الإسناد) بطبقات متقاطعة\n- العمل بأجزاء كاملة لتجنب الوصلات المرئية\n\n## الزجاج (DTU 39)\nتركيب الزجاج على دعائم وحشوة عازلة (معجون أو فواصل)، البراويز؛ المرايا ملصقة أو مثبتة ميكانيكياً.",
+        "en": "## Approved witness surfaces\nBefore general application, the contractor shall execute a **witness surface** per finish type and shade (min **10 m²** or a complete room). This surface is **approved by the Engineer** and constitutes the **contractual reference** for shade, appearance and gloss.\n\n## Application system — number of coats\nThe complete system comprises at minimum:\n1. **1 priming coat** (primer/sealer)\n2. **1 intermediate coat** (undercoat)\n3. **1 to 2 finishing coats** depending on hiding power and shade\n\nMinimum **3 coats** for a Finish A; each coat applied after complete drying of the previous (recoat interval respected).\n\n## Application rules\n- Cross-application then laid off (roller / brush / spray per substrate)\n- Compliance with manufacturer's prescribed **consumption** per m²\n- Invisible touch-ups, joins at corners or plane breaks\n- Protection of adjacent works (floors, joinery, glazing) by masking\n\n## Façades and rendering (DTU 42.1)\n- Prior crack repair, treatment of joins\n- Application of waterproofing system (class I per substrate) in cross-coats\n- Working in complete bays to avoid visible joins\n\n## Glazing (DTU 39)\nGlass installed on setting blocks and sealing material (mastic or gaskets), beads; mirrors bonded or mechanically fixed."
+      }
+    },
+    {
+      "numero": "13.5",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "Essais, contrôles, réception et garanties",
+        "ar": "الاختبارات، الفحوصات، التسلم والضمانات",
+        "en": "Testing, Inspection, Acceptance and Warranties"
+      },
+      "corpsMD": {
+        "fr": "## Contrôles en cours d'exécution\n- Vérification de la **préparation des subjectiles** avant impression (PV de réception du support)\n- Contrôle des **conditions hygrométriques** (température, HR, humidité support) consignées\n- Contrôle du **nombre de couches** et des consommations (rapprochement quantités livrées / surfaces)\n- Vérification du séchage entre couches\n\n## Contrôles de réception\n- **Conformité à la surface témoin** : teinte, aspect, brillant, opacité\n- Aspect tendu (finition A), absence de coulures, manques, surépaisseurs, traces de reprise\n- Pouvoir couvrant suffisant (subjectile non visible par transparence)\n- Adhérence (essai quadrillage NM EN ISO 2409 si requis)\n- Façades : essai de ruissellement / absence de cloquage, contrôle d'imperméabilité\n- Vitrerie : absence de rayures, calage correct, étanchéité des garnitures\n\n## Réception\nLa réception est prononcée par comparaison avec les surfaces témoins agréées, sous éclairage représentatif. Les défauts sont repris aux frais de l'entrepreneur.\n\n## Garanties\n- Garantie de **parfait achèvement (1 an)** sur l'ensemble des peintures intérieures\n- Garantie **biennale** pour les peintures de façade et systèmes d'imperméabilité (selon DTU 42.1, durabilité I1–I4)\n- Garantie sur la tenue des teintes et l'absence de farinage prématuré en façade",
+        "ar": "## الفحوصات أثناء التنفيذ\n- التحقق من **تحضير الأسطح** قبل طبقة الأساس (محضر تسلم الإسناد)\n- مراقبة **الظروف الرطوبية** (الحرارة، الرطوبة النسبية، رطوبة الإسناد) مدوّنة\n- مراقبة **عدد الطبقات** والاستهلاكات (مقارنة الكميات المسلّمة / المساحات)\n- التحقق من الجفاف بين الطبقات\n\n## فحوصات التسلم\n- **المطابقة للسطح الشاهد**: اللون، المظهر، اللمعان، العتامة\n- مظهر مشدود (التشطيب A)، غياب السيلان، النقص، الزيادات، آثار الوصلات\n- قوة تغطية كافية (الإسناد غير مرئي بالشفافية)\n- الالتصاق (اختبار التشبيك NM EN ISO 2409 عند الطلب)\n- الواجهات: اختبار السيلان / غياب التنفط، مراقبة العزل المائي\n- الزجاج: غياب الخدوش، دعم صحيح، إحكام الحشوات\n\n## التسلم\nيُعلن التسلم بالمقارنة مع الأسطح الشاهدة المعتمدة، تحت إضاءة ممثلة. تُصلح العيوب على نفقة المقاول.\n\n## الضمانات\n- ضمان **الإنجاز التام (سنة)** على مجموع الدهانات الداخلية\n- ضمان **ثنائي** لدهانات الواجهة وأنظمة العزل المائي (حسب DTU 42.1، الديمومة I1–I4)\n- ضمان على ثبات الألوان وغياب التطبشر المبكر في الواجهة",
+        "en": "## In-progress inspections\n- Verification of **substrate preparation** before priming (substrate acceptance report)\n- Control of **hygrometric conditions** (temperature, RH, substrate moisture) logged\n- Control of **number of coats** and consumption (reconciliation of delivered quantities / areas)\n- Verification of drying between coats\n\n## Acceptance inspections\n- **Conformity to the witness surface**: shade, appearance, gloss, opacity\n- Taut appearance (Finish A), no runs, misses, build-up, join marks\n- Sufficient hiding power (substrate not visible by transparency)\n- Adhesion (cross-cut test NM EN ISO 2409 if required)\n- Façades: run-off test / no blistering, waterproofing control\n- Glazing: no scratches, correct setting blocks, sealing tightness\n\n## Acceptance\nAcceptance is pronounced by comparison with the approved witness surfaces, under representative lighting. Defects are made good at the contractor's expense.\n\n## Warranties\n- **Completion warranty (1 year)** on all interior paints\n- **Two-year warranty** for façade paints and waterproofing systems (per DTU 42.1, durability I1–I4)\n- Warranty on shade retention and absence of premature chalking on façades"
+      }
+    },
+    {
+      "numero": "13.6",
+      "partie": "EXECUTION",
+      "titre": {
+        "fr": "HSE, gestion des déchets et protection des ouvrages",
+        "ar": "السلامة والصحة والبيئة، تدبير النفايات وحماية الأشغال",
+        "en": "HSE, Waste Management and Protection of Works"
+      },
+      "corpsMD": {
+        "fr": "## Hygiène, sécurité et environnement\n- Privilégier les peintures en **phase aqueuse** à faible teneur en **COV** (label/conformité)\n- **Ventilation** obligatoire des locaux pendant et après application (solvants)\n- Port des **EPI** : masque à cartouche (peintures solvantées), gants, lunettes\n- Travaux en hauteur (façades) : échafaudages conformes, harnais, balisage\n- FDS de tous les produits disponibles sur chantier ; interdiction de fumer\n\n## Gestion des déchets\n- Tri : pots et emballages (déchets dangereux si solvantés), chiffons souillés, eaux de lavage\n- **Interdiction** de rejeter les eaux de rinçage et fonds de pots dans les réseaux ou le sol\n- Collecte des **déchets dangereux** (DD) par filière agréée ; bordereaux de suivi (BSDD) conservés\n- Récupération des solvants usagés en bidons étanches\n\n## Protection des ouvrages\n- Masquage et bâchage des sols, menuiseries, vitrages, appareillages avant application\n- Protection des surfaces peintes fraîches jusqu'au séchage complet\n- Nettoyage final et dépose des protections sans dégrader les finitions\n- Stockage des produits inflammables dans local ventilé, à l'écart des sources de chaleur",
+        "ar": "## السلامة والصحة والبيئة\n- تفضيل الدهانات ذات **الطور المائي** المنخفضة في **المركبات العضوية المتطايرة** (علامة/مطابقة)\n- **التهوية** إلزامية للمحلات أثناء وبعد التطبيق (المذيبات)\n- ارتداء **معدات الوقاية الفردية**: كمامة بخرطوشة (الدهانات المذيبة)، قفازات، نظارات\n- الأشغال في الارتفاع (الواجهات): سقالات مطابقة، حزام أمان، تحديد المنطقة\n- بطاقات السلامة لجميع المنتجات متوفرة في الورش؛ منع التدخين\n\n## تدبير النفايات\n- الفرز: العلب والتغليف (نفايات خطرة إن كانت مذيبة)، الخرق الملوثة، مياه الغسل\n- **يُمنع** صرف مياه الشطف وبقايا العلب في الشبكات أو التربة\n- جمع **النفايات الخطرة** عبر قناة معتمدة؛ الاحتفاظ بسندات التتبع\n- استرجاع المذيبات المستعملة في أوعية محكمة\n\n## حماية الأشغال\n- تغطية الأرضيات، النجارة، الزجاج، التجهيزات قبل التطبيق\n- حماية الأسطح المدهونة حديثاً حتى الجفاف الكامل\n- التنظيف النهائي ونزع الحمايات دون إتلاف التشطيبات\n- تخزين المنتجات القابلة للاشتعال في محل مهوّى، بعيداً عن مصادر الحرارة",
+        "en": "## Health, safety and environment\n- Prefer **water-based** paints with low **VOC** content (label/compliance)\n- **Ventilation** mandatory during and after application (solvents)\n- Wearing of **PPE**: cartridge mask (solvent paints), gloves, goggles\n- Work at height (façades): compliant scaffolding, harness, signage\n- SDS of all products available on site; smoking prohibited\n\n## Waste management\n- Sorting: tins and packaging (hazardous waste if solvent-based), soiled rags, washing water\n- **Prohibition** of discharging rinse water and tin residues into networks or soil\n- Collection of **hazardous waste** by licensed channel; tracking slips retained\n- Recovery of used solvents in sealed cans\n\n## Protection of works\n- Masking and sheeting of floors, joinery, glazing, fittings before application\n- Protection of freshly painted surfaces until complete drying\n- Final cleaning and removal of protection without damaging finishes\n- Storage of flammable products in a ventilated room, away from heat sources"
+      }
+    }
+  ],
+  "bordereau": [
+    {
+      "code": "13.01",
+      "designation": {
+        "fr": "Peinture intérieure acrylique sur murs et plafonds, finition A, impression + 2 couches, sur subjectile préparé",
+        "ar": "دهان داخلي أكريليكي على الجدران والأسقف، تشطيب A، طبقة أساس + طبقتان، على سطح محضّر",
+        "en": "Interior acrylic paint on walls and ceilings, Finish A, primer + 2 coats, on prepared substrate"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface développée réellement peinte en m², mesurée au nu fini, déduction des baies > 0,50 m². Préparation et couches incluses.",
+        "ar": "المساحة المنشورة المدهونة فعلياً بالم²، مقاسة بالوجه النهائي، مع خصم الفتحات > 0,50 م². التحضير والطبقات مدرجة.",
+        "en": "Developed area actually painted in m², measured at finished face, deducting openings > 0.50 m². Preparation and coats included."
+      }
+    },
+    {
+      "code": "13.02",
+      "designation": {
+        "fr": "Peinture de façade imperméable (classe I selon support), préparation, impression et 2 couches de finition",
+        "ar": "دهان واجهة عازل للماء (صنف I حسب الإسناد)، تحضير، طبقة أساس وطبقتا تشطيب",
+        "en": "Waterproof façade paint (class I per substrate), preparation, primer and 2 finishing coats"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface développée de façade en m², mesurée au nu fini, déduction des baies > 0,50 m². Travail par pans complets.",
+        "ar": "المساحة المنشورة للواجهة بالم²، مقاسة بالوجه النهائي، مع خصم الفتحات > 0,50 م². العمل بأجزاء كاملة.",
+        "en": "Developed façade area in m², measured at finished face, deducting openings > 0.50 m². Work in complete bays."
+      }
+    },
+    {
+      "code": "13.03",
+      "designation": {
+        "fr": "Système de peinture antirouille sur ouvrages métalliques (primaire + finition), DTU 59.4",
+        "ar": "نظام دهان مضاد للصدأ على الأشغال المعدنية (أساس + تشطيب)، DTU 59.4",
+        "en": "Anti-rust paint system on metalwork (primer + finish), DTU 59.4"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface développée traitée en m² (faces vues), ou au ml/u pour profilés et serrurerie selon bordereau. Décapage inclus.",
+        "ar": "المساحة المنشورة المعالجة بالم² (الأوجه الظاهرة)، أو بالمتر الطولي/الوحدة للإفريزات والحدادة حسب الجدول. التقشير مدرج.",
+        "en": "Developed treated area in m² (visible faces), or per linear metre/unit for profiles and metalwork per schedule. Stripping included."
+      }
+    },
+    {
+      "code": "13.04",
+      "designation": {
+        "fr": "Peinture décorative / effet (stuc, patine, sablé) sur surface témoin agréée",
+        "ar": "دهان زخرفي / تأثيري (ستوك، باتينا، مرمّل) على سطح شاهد معتمد",
+        "en": "Decorative / effect paint (stucco, patina, textured) on approved witness surface"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface réellement réalisée en m², mesurée au nu fini. Toutes passes et finitions incluses.",
+        "ar": "المساحة المنجزة فعلياً بالم²، مقاسة بالوجه النهائي. جميع الطبقات والتشطيبات مدرجة.",
+        "en": "Area actually executed in m², measured at finished face. All passes and finishes included."
+      }
+    },
+    {
+      "code": "13.05",
+      "designation": {
+        "fr": "Vitrage clair / feuilleté de sécurité sur menuiseries, calage et étanchéité, DTU 39",
+        "ar": "تزجيج شفاف / مصفّح للسلامة على النجارة، دعم وإحكام، DTU 39",
+        "en": "Clear / laminated safety glazing on joinery, setting blocks and sealing, DTU 39"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Surface de vitrage en m² mesurée hors-tout du vitrage posé ; petites surfaces facturées au m² minimum forfaitaire.",
+        "ar": "مساحة التزجيج بالم² مقاسة بالأبعاد الكلية للزجاج المركّب؛ المساحات الصغيرة تُفوتر بالحد الأدنى الجزافي للم².",
+        "en": "Glazing area in m² measured overall of the installed glass; small areas charged at the minimum flat-rate m²."
+      }
+    },
+    {
+      "code": "13.06",
+      "designation": {
+        "fr": "Miroir argenté qualité bâtiment, fourniture et pose collée ou fixée mécaniquement, chants polis",
+        "ar": "مرآة مفضّضة بجودة البناء، توريد وتركيب باللصق أو التثبيت الميكانيكي، حواف مصقولة",
+        "en": "Building-quality silvered mirror, supply and bonded or mechanically fixed installation, polished edges"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité selon dimensions du CCTP, ou au m² pour grandes surfaces. Fixations et chants polis inclus.",
+        "ar": "بالوحدة حسب أبعاد دفتر الشروط، أو بالم² للمساحات الكبيرة. التثبيتات والحواف المصقولة مدرجة.",
+        "en": "Per unit as per specification dimensions, or per m² for large areas. Fixings and polished edges included."
+      }
+    },
+    {
+      "code": "13.07",
+      "designation": {
+        "fr": "Réalisation de surface témoin agréée par type de finition et teinte",
+        "ar": "إنجاز سطح شاهد معتمد لكل نوع تشطيب ولون",
+        "en": "Execution of approved witness surface per finish type and shade"
+      },
+      "unite": "u",
+      "modeMetreMD": {
+        "fr": "À l'unité par type de finition/teinte (surface mini 10 m² ou un local). Comptée une fois, valant référence contractuelle.",
+        "ar": "بالوحدة لكل نوع تشطيب/لون (مساحة دنيا 10 م² أو محل). تُحسب مرة واحدة، تعتبر مرجعاً تعاقدياً.",
+        "en": "Per unit per finish type/shade (min area 10 m² or one room). Counted once, serving as contractual reference."
+      }
+    }
+  ],
+  "cross_referencesInterlots": [
+    {
+      "lotCible": "LOT_10_PLATRERIE_FAUX_PLAFONDS",
+      "type": "PREREQUIS",
+      "description": {
+        "fr": "Enduits plâtre et faux plafonds livrés secs, dressés et prêts à peindre ; siccité conforme avant impression.",
+        "ar": "ملاطات الجبس والأسقف المستعارة مُسلّمة جافة، مسوّاة وجاهزة للدهان؛ الجفاف مطابق قبل طبقة الأساس.",
+        "en": "Plaster renders and false ceilings delivered dry, dressed and ready to paint; dryness compliant before priming."
+      }
+    },
+    {
+      "lotCible": "LOT_15_MENUISERIE_BOIS_ALU",
+      "type": "COORDINATION",
+      "description": {
+        "fr": "Menuiseries posées avant peinture sur site et vitrerie ; coordination des finitions et reprises sur dormants.",
+        "ar": "النجارة مركّبة قبل الدهان في الموقع والتزجيج؛ تنسيق التشطيبات والإصلاحات على الإطارات.",
+        "en": "Joinery installed before on-site painting and glazing; coordination of finishes and touch-ups on frames."
+      }
+    },
+    {
+      "lotCible": "LOT_16_ELECTRICITE",
+      "type": "SEQUENCE",
+      "description": {
+        "fr": "Appareillages électriques déposés ou protégés avant peinture, reposés après séchage ; coordination des plaques de finition.",
+        "ar": "التجهيزات الكهربائية منزوعة أو محمية قبل الدهان، تُعاد بعد الجفاف؛ تنسيق ألواح التشطيب.",
+        "en": "Electrical fittings removed or protected before painting, refitted after drying; coordination of finishing plates."
+      }
+    }
+  ],
+  "metadata": {
+    "version": "2.0.0",
+    "valideLe": "2026-05-29",
+    "sources": [
+      "NF DTU 59.1",
+      "NF DTU 59.4",
+      "NF DTU 42.1",
+      "NF DTU 39",
+      "NM EN 13300",
+      "NM EN 1062-1",
+      "Barème qualification BTP Maroc"
+    ]
+  }
+}

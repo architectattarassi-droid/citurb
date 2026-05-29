@@ -88,6 +88,15 @@ export class SousTraitantsService {
     }
 
     const dossier = await this.loadDossier(dossierId);
+
+    // Cadence PV (T2-R-PV-CADENCE-001) : chantier bloqué si aucun PV depuis 15j.
+    if ((dossier.payload as any)?.pvCompliance?.blocked === true) {
+      throw new ForbiddenException(
+        "Chantier bloqué : aucun PV de visite depuis plus de 15 jours. " +
+          "Déposez un nouveau PV de chantier pour reprendre les opérations.",
+      );
+    }
+
     const bag = this.readBag(dossier);
 
     // Anti-doublon : un seul sous-traitant actif par lot

@@ -28,7 +28,8 @@ export const DECLARED_ROUTES = [
   "/p1",
   "/p1/packs",
   "/p1/dossier",
-  "/_dev/routes"
+  "/_dev/routes",
+  "/terriscan"
 ] as const;
 export const ROUTE_USAGES = [
   {
@@ -694,72 +695,72 @@ export const ROUTE_USAGES = [
   {
     "route": "/",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 43
+    "line": 44
   },
   {
     "route": "/",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 48
+    "line": 49
   },
   {
     "route": "/portal",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 50
+    "line": 51
   },
   {
     "route": "/login",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 52
+    "line": 53
   },
   {
     "route": "/",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 90
+    "line": 91
   },
   {
     "route": "/",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 199
+    "line": 200
   },
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 110
+    "line": 121
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 116
+    "line": 127
   },
   {
     "route": "/",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 144
+    "line": 155
   },
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 157
+    "line": 168
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 160
+    "line": 171
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 174
+    "line": 185
   },
   {
     "route": "/admin/login",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 190
+    "line": 201
   },
   {
     "route": "/cercles",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 249
+    "line": 260
   },
   {
     "route": "/p2/dossier/",
@@ -1591,42 +1592,42 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/portal",
     "file": "src/tomes/tome1/router/layouts.tsx",
-    "line": 50
+    "line": 51
   },
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 110
+    "line": 121
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 116
+    "line": 127
   },
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 157
+    "line": 168
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 160
+    "line": 171
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 174
+    "line": 185
   },
   {
     "route": "/admin/login",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 190
+    "line": 201
   },
   {
     "route": "/cercles",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 249
+    "line": 260
   },
   {
     "route": "/p2/dossier/",
@@ -2137,176 +2138,177 @@ export const UNUSED_DECLARED_ROUTES = [
   "/p1/packs-personnalise",
   "/p2/form",
   "/p2/result",
-  "/enterprise/api"
+  "/enterprise/api",
+  "/terriscan"
 ] as const;
 export const DEAD_CTA_HINTS = [
   {
     "kind": "href_hash",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 741,
-    "snippet": "')\">VVIP</div> <a class=\"pill\" href=\"#\" onclick=\"soon('Panier activé après tunnel de commande');return false;\">"
+    "snippet": "\">VVIP</div> <a class=\"pill\" href=\"#\" onclick=\"soon('Panier activé après tunnel de commande');return false;\">"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 682,
-    "snippet": "itrine)\"> <button type=\"button\" onclick=\"window.open('https://web.facebook.com/yassineattarassi','_blank')\">f</b"
+    "snippet": "trine)\"> <button type=\"button\" onclick=\"window.open('https://web.facebook.com/yassineattarassi','_blank')\">f</b"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 683,
-    "snippet": "</button> <button type=\"button\" onclick=\"window.open('https://www.instagram.com/arc_bati_architecture','_blank')"
+    "snippet": "/button> <button type=\"button\" onclick=\"window.open('https://www.instagram.com/arc_bati_architecture','_blank')"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 684,
-    "snippet": "</button> <button type=\"button\" onclick=\"soon('LinkedIn — bientôt disponible')\">in</button> <button type"
+    "snippet": "/button> <button type=\"button\" onclick=\"soon('LinkedIn — bientôt disponible')\">in</button> <button typ"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 685,
-    "snippet": "</button> <button type=\"button\" onclick=\"soon('TikTok @arc_bati_architecture — bientôt')\">tt</button> </di"
+    "snippet": "/button> <button type=\"button\" onclick=\"soon('TikTok @arc_bati_architecture — bientôt')\">tt</button> </d"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 688,
-    "snippet": "> </div> <div class=\"chip\" onclick=\"window.location.href='/p1'\">Concevoir</div> <div class=\"chip\" onc"
+    "snippet": "</div> <div class=\"chip\" onclick=\"window.location.href='/p1'\">Concevoir</div> <div class=\"chip\" on"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 689,
-    "snippet": "Concevoir</div> <div class=\"chip\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20cl%C3"
+    "snippet": "oncevoir</div> <div class=\"chip\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20cl%C3"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 690,
-    "snippet": "é en main</div> <div class=\"chip\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20fonci"
+    "snippet": "en main</div> <div class=\"chip\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20fonci"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 707,
-    "snippet": "role=\"menu\"> <a href=\"/p1\" onclick=\"window.location.href='/p1';return false;\"> <strong>Projet"
+    "snippet": "role=\"menu\"> <a href=\"/p1\" onclick=\"window.location.href='/p1';return false;\"> <strong>Proje"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 711,
-    "snippet": "</a> <a href=\"/p2\" onclick=\"window.location.href='/p2';return false;\"> <strong>Projet"
+    "snippet": "</a> <a href=\"/p2\" onclick=\"window.location.href='/p2';return false;\"> <strong>Proje"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 715,
-    "snippet": "</a> <a href=\"/p3\" onclick=\"window.location.href='/p3';return false;\"> <strong>Réalis"
+    "snippet": "</a> <a href=\"/p3\" onclick=\"window.location.href='/p3';return false;\"> <strong>Réali"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 719,
-    "snippet": "</a> <a href=\"/p4\" onclick=\"window.location.href='/p4';return false;\"> <strong>Invest"
+    "snippet": "</a> <a href=\"/p4\" onclick=\"window.location.href='/p4';return false;\"> <strong>Inves"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 723,
-    "snippet": "</a> <a href=\"/p5\" onclick=\"window.location.href='/p5';return false;\"> <strong>Rappor"
+    "snippet": "</a> <a href=\"/p5\" onclick=\"window.location.href='/p5';return false;\"> <strong>Rappo"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 727,
-    "snippet": "</a> <a href=\"/p6\" onclick=\"window.location.href='/p6';return false;\"> <strong>Entrep"
+    "snippet": "</a> <a href=\"/p6\" onclick=\"window.location.href='/p6';return false;\"> <strong>Entre"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 735,
-    "snippet": "<a class=\"pill\" href=\"#medias\" onclick=\"scrollToId('medias');return false;\">Médias</a> <!-- Vente abo"
+    "snippet": "<a class=\"pill\" href=\"#medias\" onclick=\"scrollToId('medias');return false;\">Médias</a> <!-- Vente ab"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 738,
-    "snippet": "vice) --> <div class=\"pill vip\" onclick=\"openSubModal('vip')\">VIP</div> <div class=\"pill vvip\" onclick=\""
+    "snippet": "ice) --> <div class=\"pill vip\" onclick=\"openSubModal('vip')\">VIP</div> <div class=\"pill vvip\" onclick="
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 739,
-    "snippet": "IP</div> <div class=\"pill vvip\" onclick=\"openSubModal('vvip')\">VVIP</div> <a class=\"pill\" href=\"#\" oncl"
+    "snippet": "P</div> <div class=\"pill vvip\" onclick=\"openSubModal('vvip')\">VVIP</div> <a class=\"pill\" href=\"#\" on"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 741,
-    "snippet": "/div> <a class=\"pill\" href=\"#\" onclick=\"soon('Panier activé après tunnel de commande');return false;\">Panier</a"
+    "snippet": "iv> <a class=\"pill\" href=\"#\" onclick=\"soon('Panier activé après tunnel de commande');return false;\">Panier</a"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 745,
-    "snippet": "<button class=\"lang-btn active\" onclick=\"setLang('fr')\">FR</button> <button class=\"lang-btn\" onclick=\""
+    "snippet": "<button class=\"lang-btn active\" onclick=\"setLang('fr')\">FR</button> <button class=\"lang-btn\" onclick="
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 746,
-    "snippet": "ton> <button class=\"lang-btn\" onclick=\"setLang('ar')\">AR</button> <button class=\"lang-btn\" onclick=\""
+    "snippet": "on> <button class=\"lang-btn\" onclick=\"setLang('ar')\">AR</button> <button class=\"lang-btn\" onclick="
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 747,
-    "snippet": "ton> <button class=\"lang-btn\" onclick=\"setLang('en')\">EN</button> </div> <!-- AUTH BUTTONS --"
+    "snippet": "on> <button class=\"lang-btn\" onclick=\"setLang('en')\">EN</button> </div> <!-- AUTH BUTTONS"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 771,
-    "snippet": "tsApp) --> <article class=\"cat\" onclick=\"window.location.href='/p1'\"> <h3>Projet personnel / familial<"
+    "snippet": "sApp) --> <article class=\"cat\" onclick=\"window.location.href='/p1'\"> <h3>Projet personnel / familial"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 777,
-    "snippet": "/article> <article class=\"cat\" onclick=\"window.location.href='/p2'\"> <h3>Projet immobilier & équipeme"
+    "snippet": "rticle> <article class=\"cat\" onclick=\"window.location.href='/p2'\"> <h3>Projet immobilier & équipem"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 783,
-    "snippet": "/article> <article class=\"cat\" onclick=\"window.location.href='/p3'\"> <h3>Réalisation clé en main</h3>"
+    "snippet": "rticle> <article class=\"cat\" onclick=\"window.location.href='/p3'\"> <h3>Réalisation clé en main</h3"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 789,
-    "snippet": "/article> <article class=\"cat\" onclick=\"window.location.href='/p4'\"> <h3>Investisseur & foncier</h3>"
+    "snippet": "rticle> <article class=\"cat\" onclick=\"window.location.href='/p4'\"> <h3>Investisseur & foncier</h3>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 795,
-    "snippet": "/article> <article class=\"cat\" onclick=\"window.location.href='/p5'\"> <h3>Rapports & expertises</h3>"
+    "snippet": "rticle> <article class=\"cat\" onclick=\"window.location.href='/p5'\"> <h3>Rapports & expertises</h3>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 801,
-    "snippet": "/article> <article class=\"cat\" onclick=\"window.location.href='/p6'\"> <h3>Entreprise / partenaire</h3>"
+    "snippet": "rticle> <article class=\"cat\" onclick=\"window.location.href='/p6'\"> <h3>Entreprise / partenaire</h3"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 835,
-    "snippet": "elect> <button type=\"button\" onclick=\"autoOrient()\">Être orienté vers la bonne catégorie</button> </d"
+    "snippet": "ect> <button type=\"button\" onclick=\"autoOrient()\">Être orienté vers la bonne catégorie</button> </"
   },
   {
     "kind": "inline_onclick",
@@ -2318,25 +2320,25 @@ export const DEAD_CTA_HINTS = [
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 849,
-    "snippet": "tton class=\"mbtn primary\" type=\"button\" onclick=\"scrollToId('medias')\">Aller aux Médias</button> </div> </"
+    "snippet": "tton class=\"mbtn primary\" type=\"button\" onclick=\"scrollToId('medias')\">Aller aux Médias</button> </div>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 862,
-    "snippet": "on class=\"mbtn secondary\" type=\"button\" onclick=\"openSubModal('vip')\">VIP</button> <button class=\"mbtn primary"
+    "snippet": "on class=\"mbtn secondary\" type=\"button\" onclick=\"openSubModal('vip')\">VIP</button> <button class=\"mbtn primar"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 863,
-    "snippet": "tton class=\"mbtn primary\" type=\"button\" onclick=\"openSubModal('vvip')\">VVIP</button> </div> </div> </a"
+    "snippet": "tton class=\"mbtn primary\" type=\"button\" onclick=\"openSubModal('vvip')\">VVIP</button> </div> </div>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 880,
-    "snippet": "oppScroller\"> <div class=\"tile\" onclick=\"soon('Détail opportunité: visible dans Médias / VIP selon type.');\">"
+    "snippet": "ppScroller\"> <div class=\"tile\" onclick=\"soon('Détail opportunité: visible dans Médias / VIP selon type.');\">"
   },
   {
     "kind": "inline_onclick",
@@ -2348,85 +2350,85 @@ export const DEAD_CTA_HINTS = [
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 904,
-    "snippet": "</div> <div class=\"tile\" onclick=\"soon('Bientôt.');\"> <div class=\"thumb\"> <div clas"
+    "snippet": "</div> <div class=\"tile\" onclick=\"soon('Bientôt.');\"> <div class=\"thumb\"> <div cl"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 955,
-    "snippet": "nt --> <div class=\"modal\" id=\"subModal\" onclick=\"modalBackdropClose(event,'subModal')\"> <div class=\"modal-card\" role=\""
+    "snippet": "t --> <div class=\"modal\" id=\"subModal\" onclick=\"modalBackdropClose(event,'subModal')\"> <div class=\"modal-card\" role="
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 959,
-    "snippet": "span> <button class=\"modal-close\" onclick=\"closeModal('subModal')\">Retour</button> </div> <div class=\"moda"
+    "snippet": "pan> <button class=\"modal-close\" onclick=\"closeModal('subModal')\">Retour</button> </div> <div class=\"mo"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 970,
-    "snippet": "\"> <button class=\"mbtn primary\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20je%20"
+    "snippet": "> <button class=\"mbtn primary\" onclick=\"window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20je%20"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 971,
-    "snippet": "<button class=\"mbtn secondary\" onclick=\"closeModal('subModal')\">Plus tard</button> </div> </div> </"
+    "snippet": "<button class=\"mbtn secondary\" onclick=\"closeModal('subModal')\">Plus tard</button> </div> </div>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 978,
-    "snippet": ") --> <div class=\"modal\" id=\"leadModal\" onclick=\"modalBackdropClose(event,'leadModal')\"> <div class=\"modal-card\" role="
+    "snippet": "--> <div class=\"modal\" id=\"leadModal\" onclick=\"modalBackdropClose(event,'leadModal')\"> <div class=\"modal-card\" role"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 982,
-    "snippet": "span> <button class=\"modal-close\" onclick=\"closeModal('leadModal')\">Retour</button> </div> <div class=\"mod"
+    "snippet": "pan> <button class=\"modal-close\" onclick=\"closeModal('leadModal')\">Retour</button> </div> <div class=\"m"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 1005,
-    "snippet": "\"> <button class=\"mbtn primary\" onclick=\"submitLead()\">Envoyer via plateforme</button> <button class=\"mb"
+    "snippet": "> <button class=\"mbtn primary\" onclick=\"submitLead()\">Envoyer via plateforme</button> <button class=\"m"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 1006,
-    "snippet": "<button class=\"mbtn secondary\" onclick=\"closeModal('leadModal')\">Annuler</button> </div> </div> </d"
+    "snippet": "<button class=\"mbtn secondary\" onclick=\"closeModal('leadModal')\">Annuler</button> </div> </div>"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 1016,
-    "snippet": "--> <div class=\"modal\" id=\"submitModal\" onclick=\"modalBackdropClose(event,'submitModal')\"> <div class=\"modal-card\" sty"
+    "snippet": "-> <div class=\"modal\" id=\"submitModal\" onclick=\"modalBackdropClose(event,'submitModal')\"> <div class=\"modal-card\" st"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 1020,
-    "snippet": "span> <button class=\"modal-close\" onclick=\"closeModal('submitModal')\">Retour</button> </div> <div class=\"m"
+    "snippet": "pan> <button class=\"modal-close\" onclick=\"closeModal('submitModal')\">Retour</button> </div> <div class="
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 1058,
-    "snippet": "\"> <button class=\"mbtn primary\" onclick=\"submitArticle()\" style=\"flex:1;\">Envoyer pour mod&eacute;ration</button"
+    "snippet": "> <button class=\"mbtn primary\" onclick=\"submitArticle()\" style=\"flex:1;\">Envoyer pour mod&eacute;ration</button"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 1059,
-    "snippet": "<button class=\"mbtn secondary\" onclick=\"closeModal('submitModal')\">Annuler</button> </div> <p style"
+    "snippet": "<button class=\"mbtn secondary\" onclick=\"closeModal('submitModal')\">Annuler</button> </div> <p sty"
   },
   {
     "kind": "inline_onclick",
     "file": "src/ui/landing/LandingV4.tsx",
     "line": 1078,
-    "snippet": "{ // Minimal global helpers used by onclick=\"...\" in the injected HTML. ensureGlobal(\"openModal\", (id: string) ="
+    "snippet": "// Minimal global helpers used by onclick=\"...\" in the injected HTML. ensureGlobal(\"openModal\", (id: string)"
   },
   {
     "kind": "href_hash",
