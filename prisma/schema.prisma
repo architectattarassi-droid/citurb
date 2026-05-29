@@ -45,31 +45,31 @@ model User {
   firm   Firm?   @relation("UserFirm", fields: [firmId], references: [id])
 
   // Cercles professionnels (réseau pro CITURBAREA)
-  cerclesOwned        Cercle[]            @relation("CercleOwner")
-  cercleMemberships   CercleMembership[]  @relation("CercleMemberships")
-  cercleApplications  AssociationMembershipApplication[] @relation("UserApplications")
-  cercleModerations   CercleModerator[]   @relation("CercleModerators")
-  cerclePosts         CerclePost[]        @relation("CerclePostAuthor")
-  postUpvotes         PostUpvote[]        @relation("UserPostUpvotes")
-  cercleMessages      CercleMessage[]     @relation("CercleMessageAuthor")
-  messageReactions    MessageReaction[]   @relation("MessageReactionUser")
-  messageReads        MessageRead[]       @relation("MessageReadUser")
-  cercleInvitations   CercleInvitation[]  @relation("CercleInvitationInviter")
-  liveRoomsHosted     LiveRoom[]          @relation("LiveRoomHost")
-  roomParticipations  RoomParticipation[] @relation("RoomParticipant")
+  cerclesOwned       Cercle[]                           @relation("CercleOwner")
+  cercleMemberships  CercleMembership[]                 @relation("CercleMemberships")
+  cercleApplications AssociationMembershipApplication[] @relation("UserApplications")
+  cercleModerations  CercleModerator[]                  @relation("CercleModerators")
+  cerclePosts        CerclePost[]                       @relation("CerclePostAuthor")
+  postUpvotes        PostUpvote[]                       @relation("UserPostUpvotes")
+  cercleMessages     CercleMessage[]                    @relation("CercleMessageAuthor")
+  messageReactions   MessageReaction[]                  @relation("MessageReactionUser")
+  messageReads       MessageRead[]                      @relation("MessageReadUser")
+  cercleInvitations  CercleInvitation[]                 @relation("CercleInvitationInviter")
+  liveRoomsHosted    LiveRoom[]                         @relation("LiveRoomHost")
+  roomParticipations RoomParticipation[]                @relation("RoomParticipant")
 
   // Annuaire pro (Sprint D1)
-  proProfile          ProProfile?         @relation("UserProProfile")
-  connectionsFrom     Connection[]        @relation("ConnectionFrom")
-  connectionsTo       Connection[]        @relation("ConnectionTo")
-  notifications       Notification[]      @relation("UserNotifications")
+  proProfile      ProProfile?    @relation("UserProProfile")
+  connectionsFrom Connection[]   @relation("ConnectionFrom")
+  connectionsTo   Connection[]   @relation("ConnectionTo")
+  notifications   Notification[] @relation("UserNotifications")
 
   // Messagerie directe 1-to-1 (Sprint L)
   dmThreadParticipations DirectThreadParticipant[] @relation("DTParticipantUser")
   dmMessagesSent         DirectMessage[]           @relation("DMSender")
 
   // Marketplace BTP (Sprint M+) — offres fournisseur sur le référentiel
-  supplierOffers         SupplierOffer[]           @relation("SupplierOffers")
+  supplierOffers SupplierOffer[] @relation("SupplierOffers")
 
   @@index([role])
 }
@@ -1082,7 +1082,7 @@ enum CercleRole {
 enum MembershipStatus {
   PENDING_REQUEST
   PENDING_INVITE
-  PENDING_APPLICATION   // dossier d'adhésion à valider (associations)
+  PENDING_APPLICATION // dossier d'adhésion à valider (associations)
   ACTIVE
   BANNED
   LEFT
@@ -1090,33 +1090,33 @@ enum MembershipStatus {
 
 // Type de flow d'adhésion d'un Cercle
 enum MembershipFlow {
-  SIMPLE       // rejoindre direct ou demande simple (Cercles thématiques)
-  ASSOCIATION  // dossier d'adhésion + validation modo (SNASP, ANJAUM, ordres pro)
+  SIMPLE // rejoindre direct ou demande simple (Cercles thématiques)
+  ASSOCIATION // dossier d'adhésion + validation modo (SNASP, ANJAUM, ordres pro)
 }
 
 // Type de membre dans une association (cas Cercle ASSOCIATION uniquement)
 enum AssociationMemberType {
-  ASPIRANT      // candidature en cours
-  ETUDIANT      // étudiant école d'archi/urba
+  ASPIRANT // candidature en cours
+  ETUDIANT // étudiant école d'archi/urba
   JEUNE_DIPLOME // diplômé récent (< 5 ans)
-  ACTIF         // membre titulaire à jour
-  HONORAIRE     // membre honoraire
-  RETRAITE      // membre retraité
+  ACTIF // membre titulaire à jour
+  HONORAIRE // membre honoraire
+  RETRAITE // membre retraité
 }
 
 // Statut cotisation annuelle
 enum CotisationStatus {
-  NON_REQUISE   // cercle sans cotisation
-  EN_ATTENTE    // membre validé mais cotisation pas reçue
-  A_JOUR        // cotisation payée et valide
-  EXPIRE        // période cotisation expirée
+  NON_REQUISE // cercle sans cotisation
+  EN_ATTENTE // membre validé mais cotisation pas reçue
+  A_JOUR // cotisation payée et valide
+  EXPIRE // période cotisation expirée
 }
 
 enum AssociationApplicationStatus {
-  PENDING       // soumise, en attente d'examen
-  APPROVED      // validée par modo
-  REJECTED      // refusée par modo (avec raison)
-  CANCELLED     // annulée par le candidat
+  PENDING // soumise, en attente d'examen
+  APPROVED // validée par modo
+  REJECTED // refusée par modo (avec raison)
+  CANCELLED // annulée par le candidat
 }
 
 enum RoomStatus {
@@ -1135,7 +1135,7 @@ enum StreamPlatform {
 
 enum RoomProvider {
   LIVEKIT // visio interne CITURBAREA (rooms < 50, contrôle fin)
-  JITSI   // visio publique partageable (8x8.vc JaaS ou meet.jit.si fallback)
+  JITSI // visio publique partageable (8x8.vc JaaS ou meet.jit.si fallback)
 }
 
 enum EgressStatus {
@@ -1158,16 +1158,16 @@ model Cercle {
   themes String[] // tags ["BIM", "VRD lotissements", ...]
 
   // Flow d'adhésion : SIMPLE (rejoindre direct) ou ASSOCIATION (dossier + validation)
-  membershipFlow       MembershipFlow @default(SIMPLE)
+  membershipFlow        MembershipFlow @default(SIMPLE)
   // Schéma JSON des champs requis dans le formulaire d'adhésion (ASSOCIATION only)
   // Format: [{ name, label, type, required, options?, validation? }]
-  formSchema           Json?
+  formSchema            Json?
   // Critères d'éligibilité (display info, pas validation auto): age max, école requise, etc.
-  eligibilityCriteria  Json?
+  eligibilityCriteria   Json?
   // Cotisation annuelle en MAD (null = pas de cotisation)
   cotisationAnnuelleMad Int?
   // Préfixe pour numéro de carte (ex: "ANJAUM-2026" → ANJAUM-2026-0042)
-  cardNumberPrefix     String?
+  cardNumberPrefix      String?
 
   ownerId String
   owner   User   @relation("CercleOwner", fields: [ownerId], references: [id])
@@ -1204,12 +1204,12 @@ model CercleMembership {
   leftAt   DateTime?
 
   // Champs spécifiques aux Cercles ASSOCIATION (SNASP, ANJAUM, ordres pro)
-  memberType        AssociationMemberType?
-  cotisationStatus  CotisationStatus       @default(NON_REQUISE)
+  memberType         AssociationMemberType?
+  cotisationStatus   CotisationStatus                  @default(NON_REQUISE)
   cotisationExpireAt DateTime?
-  cardNumber        String?                @unique // ex: ANJAUM-2026-0042
-  applicationId     String?                @unique // référence à l'application validée
-  application       AssociationMembershipApplication? @relation(fields: [applicationId], references: [id])
+  cardNumber         String?                           @unique // ex: ANJAUM-2026-0042
+  applicationId      String?                           @unique // référence à l'application validée
+  application        AssociationMembershipApplication? @relation(fields: [applicationId], references: [id])
 
   @@unique([cercleId, userId])
   @@index([userId])
@@ -1218,26 +1218,26 @@ model CercleMembership {
 
 // Dossier d'adhésion à une association professionnelle (SNASP, ANJAUM, etc.)
 model AssociationMembershipApplication {
-  id          String                       @id @default(cuid())
-  cercleId    String
-  cercle      Cercle                       @relation(fields: [cercleId], references: [id], onDelete: Cascade)
-  userId      String
-  user        User                         @relation("UserApplications", fields: [userId], references: [id])
+  id       String @id @default(cuid())
+  cercleId String
+  cercle   Cercle @relation(fields: [cercleId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User   @relation("UserApplications", fields: [userId], references: [id])
 
-  status      AssociationApplicationStatus @default(PENDING)
+  status     AssociationApplicationStatus @default(PENDING)
   // Données du formulaire (correspond au formSchema du Cercle)
-  formData    Json
+  formData   Json
   // Type de membre souhaité (étudiant, jeune diplômé, actif)
-  memberType  AssociationMemberType?
+  memberType AssociationMemberType?
 
-  submittedAt   DateTime  @default(now())
-  reviewedAt    DateTime?
-  reviewedBy    String?   // userId du modo qui a validé/rejeté
-  reviewNote    String?   @db.Text
-  rejectionReason String? @db.Text
+  submittedAt     DateTime  @default(now())
+  reviewedAt      DateTime?
+  reviewedBy      String? // userId du modo qui a validé/rejeté
+  reviewNote      String?   @db.Text
+  rejectionReason String?   @db.Text
 
   // Membership lié (créé à l'approbation)
-  membership  CercleMembership?
+  membership CercleMembership?
 
   @@index([cercleId, status])
   @@index([userId])
@@ -1325,9 +1325,9 @@ model LiveRoom {
   description String?
 
   // Provider — cohabitation LiveKit (interne) / Jitsi (public partageable)
-  provider     RoomProvider @default(LIVEKIT)
-  livekitRoomName String   @unique
-  jitsiRoomName   String?  @unique // utilisé seulement si provider = JITSI
+  provider        RoomProvider @default(LIVEKIT)
+  livekitRoomName String       @unique
+  jitsiRoomName   String?      @unique // utilisé seulement si provider = JITSI
 
   scheduledAt DateTime?
   startedAt   DateTime?
@@ -1502,17 +1502,17 @@ model DirectThreadParticipant {
 }
 
 model DirectMessage {
-  id        String   @id @default(cuid())
-  threadId  String
-  thread    DirectThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
-  senderId  String
-  sender    User     @relation("DMSender", fields: [senderId], references: [id])
-  body      String   @db.Text
+  id          String       @id @default(cuid())
+  threadId    String
+  thread      DirectThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  senderId    String
+  sender      User         @relation("DMSender", fields: [senderId], references: [id])
+  body        String       @db.Text
   // Attachements simples (urls images/videos uploadées via /uploads ou liens YouTube)
-  attachments Json?  // [{ type: 'image'|'video'|'file'|'embed', url, filename?, mime?, size? }]
-  createdAt DateTime @default(now())
-  editedAt  DateTime?
-  deletedAt DateTime?
+  attachments Json? // [{ type: 'image'|'video'|'file'|'embed', url, filename?, mime?, size? }]
+  createdAt   DateTime     @default(now())
+  editedAt    DateTime?
+  deletedAt   DateTime?
 
   @@index([threadId, createdAt])
   @@index([senderId])
@@ -1528,8 +1528,8 @@ model DirectMessage {
 model MarketProduct {
   id          String  @id @default(cuid())
   citCode     String? @unique // code CITURBAREA matériau : CIT-GO-001, CIT-PL-012…
-  corpsMetier String  // GROS_OEUVRE, PLOMBERIE, ELECTRICITE, ETANCHEITE…
-  famille     String  // "Liants", "Granulats", "Aciers"…
+  corpsMetier String // GROS_OEUVRE, PLOMBERIE, ELECTRICITE, ETANCHEITE…
+  famille     String // "Liants", "Granulats", "Aciers"…
   name        String
   slug        String  @unique
   description String? @db.Text
@@ -1558,14 +1558,14 @@ model SupplierOffer {
   supplierId      String
   supplier        User          @relation("SupplierOffers", fields: [supplierId], references: [id], onDelete: Cascade)
 
-  priceDH           Float
-  quantityAvailable Int?
-  minOrder          Int?
-  showroomCity      String?
+  priceDH            Float
+  quantityAvailable  Int?
+  minOrder           Int?
+  showroomCity       String?
   deliveryZones      String[]
   deliveryDelayHours Int?
   deliveryCostDH     Float?
-  deliveryIncluded   Boolean @default(false)
+  deliveryIncluded   Boolean  @default(false)
 
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -1605,7 +1605,19 @@ enum ProClasseBTP {
   CL3 // jusqu'à 25 MMAD
   CL4 // jusqu'à 100 MMAD
   CL5 // au-delà de 100 MMAD
-  HC  // hors classe (pas concerné — architectes, fournisseurs)
+  HC // hors classe (pas concerné — architectes, fournisseurs)
+}
+
+enum ProProfileProjectStatus {
+  ETUDE
+  EN_COURS
+  LIVRE
+}
+
+enum ProProfileMediaType {
+  PHOTO
+  VIDEO_FILE
+  VIDEO_URL
 }
 
 model ProProfile {
@@ -1614,41 +1626,45 @@ model ProProfile {
   user   User   @relation("UserProProfile", fields: [userId], references: [id], onDelete: Cascade)
 
   // Identité publique
-  displayName  String
-  title        String? // "Architecte associé", "Directeur technique", etc.
-  bio          String? @db.Text
-  avatarUrl    String?
-  coverUrl     String?
+  displayName String
+  title       String? // "Architecte associé", "Directeur technique", etc.
+  bio         String? @db.Text
+  avatarUrl   String?
+  coverUrl    String?
 
   // Méta-métier
-  metier       ProMetier
-  classeBTP    ProClasseBTP?
-  agrements    String[] // ["CNOA-12345", "ONI-654", "AGREMENT_MEFD_BAT_CL3"]
-  specialites  String[] // tags libres : "BIM", "Béton précontraint", "Terre crue"…
-  cnoaNumero   String? // numéro d'inscription Conseil National (architectes uniquement)
+  metier      ProMetier
+  classeBTP   ProClasseBTP?
+  agrements   String[] // ["CNOA-12345", "ONI-654", "AGREMENT_MEFD_BAT_CL3"]
+  specialites String[] // tags libres : "BIM", "Béton précontraint", "Terre crue"…
+  cnoaNumero  String? // numéro d'inscription Conseil National (architectes uniquement)
 
   // Cabinet / structure
   cabinetName     String? // "Atelier Bensouda", "BET Idrissi"
-  cabinetSize     Int?    // nombre de collaborateurs
+  cabinetSize     Int? // nombre de collaborateurs
   cabinetStatus   String? // "LIBERAL" | "ASSOCIE" | "SALARIE" | "FONCTIONNAIRE" | "INDEPENDANT"
-  yearsExperience Int?    // années d'expérience pro
+  yearsExperience Int? // années d'expérience pro
 
   // Formations & certifications & prix
-  formations      Json?    // [{ ecole, diplome, annee, ville }]
-  certifications  String[] // ["Revit Certified Pro", "BIM Manager", "RT-Maroc Auditeur"]
-  prix            String[] // récompenses ["Prix CNOA Jeune Architecte 2018"]
-  langues         String[] // ["FR", "AR", "EN", "BERBERE", "ES"]
+  formations     Json? // [{ ecole, diplome, annee, ville }]
+  certifications String[] // ["Revit Certified Pro", "BIM Manager", "RT-Maroc Auditeur"]
+  prix           String[] // récompenses ["Prix CNOA Jeune Architecte 2018"]
+  langues        String[] // ["FR", "AR", "EN", "BERBERE", "ES"]
 
   // Projets phares (portfolio)
-  experiencesPhares Json? // [{ titre, description, anneeLivraison, surface, lieu, role, imageUrls[] }]
+  experiencesPhares Json? // [{ titre, description, anneeLivraison, surface, lieu, role, imageUrls[] }] (legacy — conservé)
+
+  // Fiche cabinet publique (SEO) — portfolio normalisé
+  slug              String?             @unique // handle public: /cabinet/:slug
+  portfolioProjects ProProfileProject[]
 
   // Localisation
-  regions      String[] // 12 régions Maroc où le pro intervient
+  regions         String[] // 12 régions Maroc où le pro intervient
   villePrincipale String?
 
   // Tarifs et disponibilité
   tarifsRange       String? // ex "Honoraires 4–6% du coût travaux", "Forfait 30–80k MAD"
-  disponibilite     String? @default("DISPONIBLE") // "DISPONIBLE" | "OCCUPE" | "INDISPONIBLE"
+  disponibilite     String?   @default("DISPONIBLE") // "DISPONIBLE" | "OCCUPE" | "INDISPONIBLE"
   disponibleAPartir DateTime?
 
   // Réseaux + identité publique
@@ -1661,7 +1677,7 @@ model ProProfile {
   emailPublic  String?
 
   // Vérification
-  isVerified   Boolean @default(false) // badge bleu
+  isVerified   Boolean   @default(false) // badge bleu
   verifiedAt   DateTime?
   verifierNote String?
 
@@ -1684,6 +1700,51 @@ model ProProfile {
   @@index([disponibilite])
 }
 
+model ProProfileProject {
+  id           String                  @id @default(cuid())
+  proProfileId String
+  proProfile   ProProfile              @relation(fields: [proProfileId], references: [id], onDelete: Cascade)
+  slug         String
+  title        String
+  type         String // Résidentiel, Administratif, Urbanisme…
+  location     String // ville
+  surface      Int? // m²
+  year         Int?
+  status       ProProfileProjectStatus @default(ETUDE)
+  missions     String[]
+  programme    String?                 @db.Text
+  description  String                  @db.Text
+  materials    String?
+  keywords     String[]
+  published    Boolean                 @default(false)
+  media        ProProfileMedia[]
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
+
+  @@unique([proProfileId, slug])
+  @@index([type])
+  @@index([location])
+}
+
+model ProProfileMedia {
+  id           String              @id @default(cuid())
+  projectId    String
+  project      ProProfileProject   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  kind         ProProfileMediaType
+  url          String // URL CDN (R2) ou lien YouTube/Vimeo
+  thumbnailUrl String? // requis pour VIDEO_* (VideoObject)
+  alt          String? // SEO, généré
+  caption      String?
+  width        Int?
+  height       Int?
+  durationSec  Int?
+  uploadDate   DateTime            @default(now()) // requis pour VideoObject
+  position     Int                 @default(0)
+  createdAt    DateTime            @default(now())
+
+  @@index([projectId])
+}
+
 enum ConnectionStatus {
   PENDING
   ACCEPTED
@@ -1697,28 +1758,28 @@ enum ConnectionStatus {
 // ==============================
 
 enum AdminRole {
-  SUPER_ADMIN     // contrôle total ; un seul autorisé en DB (garde-fou)
-  ADMIN_AUDIT     // lecture + audit log + export RGPD ; pas de kill switch
-  ADMIN_SUPPORT   // lecture + suspendre user/contenu ; pas de DB override
+  SUPER_ADMIN // contrôle total ; un seul autorisé en DB (garde-fou)
+  ADMIN_AUDIT // lecture + audit log + export RGPD ; pas de kill switch
+  ADMIN_SUPPORT // lecture + suspendre user/contenu ; pas de DB override
   ADMIN_READ_ONLY // lecture seule (dashboard + logs uniquement)
 }
 
 enum AdminSessionStep {
-  PASSWORD_OK    // étape 1 : password validé
-  EMAIL_OTP_OK   // étape 2 : OTP email validé
-  SMS_OTP_OK     // étape 3 : OTP SMS validé
-  WEBAUTHN_OK    // étape 4 : WebAuthn / passkey validé
-  FULLY_AUTH     // toutes étapes franchies, session active (JWT émis)
-  REVOKED        // kill-switch, fingerprint diff, suspicion vol token
-  EXPIRED        // TTL atteint
+  PASSWORD_OK // étape 1 : password validé
+  EMAIL_OTP_OK // étape 2 : OTP email validé
+  SMS_OTP_OK // étape 3 : OTP SMS validé
+  WEBAUTHN_OK // étape 4 : WebAuthn / passkey validé
+  FULLY_AUTH // toutes étapes franchies, session active (JWT émis)
+  REVOKED // kill-switch, fingerprint diff, suspicion vol token
+  EXPIRED // TTL atteint
 }
 
 model AdminUser {
-  id              String    @id @default(cuid())
-  email           String    @unique
-  passwordHash    String    // bcrypt cost 14
-  role            AdminRole @default(SUPER_ADMIN)
-  displayName     String
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String // bcrypt cost 14
+  role         AdminRole @default(SUPER_ADMIN)
+  displayName  String
 
   // Contacts pour OTP
   phoneE164       String?
@@ -1731,60 +1792,60 @@ model AdminUser {
   suspendedReason String?
 
   // Sécurité runtime
-  failedAttempts  Int       @default(0)
-  lockedUntil     DateTime?
-  lastLoginAt     DateTime?
-  lastLoginIp     String?
+  failedAttempts       Int       @default(0)
+  lockedUntil          DateTime?
+  lastLoginAt          DateTime?
+  lastLoginIp          String?
   lastLoginFingerprint String?
-  loginCount      Int       @default(0)
+  loginCount           Int       @default(0)
 
   // Création (audit qui-a-créé-qui)
-  createdById     String?   // null pour le SUPER_ADMIN initial (seed)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+  createdById String? // null pour le SUPER_ADMIN initial (seed)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  sessions     AdminSession[]
-  credentials  WebAuthnCredential[]
-  auditLogs    AdminAuditLog[]
-  allowedIps   AdminAllowedIp[]
-  alerts       AdminAlert[]
+  sessions    AdminSession[]
+  credentials WebAuthnCredential[]
+  auditLogs   AdminAuditLog[]
+  allowedIps  AdminAllowedIp[]
+  alerts      AdminAlert[]
 
   @@index([role])
   @@index([isActive])
 }
 
 model AdminSession {
-  id              String           @id @default(cuid())
-  adminUserId     String
-  adminUser       AdminUser        @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+  id          String    @id @default(cuid())
+  adminUserId String
+  adminUser   AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
 
-  step            AdminSessionStep @default(PASSWORD_OK)
-  sessionToken    String           @unique // token éphémère qui débloque l'étape suivante (32 bytes random base64url)
+  step         AdminSessionStep @default(PASSWORD_OK)
+  sessionToken String           @unique // token éphémère qui débloque l'étape suivante (32 bytes random base64url)
 
   // JWT final (généré seulement si step=FULLY_AUTH)
-  jwtJti          String?          @unique // jti du JWT pour révocation
-  jwtIssuedAt     DateTime?
-  jwtExpiresAt    DateTime?        // typiquement +15min
+  jwtJti       String?   @unique // jti du JWT pour révocation
+  jwtIssuedAt  DateTime?
+  jwtExpiresAt DateTime? // typiquement +15min
 
   // Contexte de connexion (immuable)
-  ipAddress       String
-  userAgent       String           @db.Text
-  deviceFingerprint String         // hash SHA-256 (UA + canvas + WebGL + screen)
+  ipAddress         String
+  userAgent         String @db.Text
+  deviceFingerprint String // hash SHA-256 (UA + canvas + WebGL + screen)
 
   // Étapes franchies (timestamp pour audit)
-  passwordOkAt    DateTime?
-  emailOtpOkAt    DateTime?
-  smsOtpOkAt      DateTime?
-  webauthnOkAt    DateTime?
-  fullyAuthAt     DateTime?
+  passwordOkAt DateTime?
+  emailOtpOkAt DateTime?
+  smsOtpOkAt   DateTime?
+  webauthnOkAt DateTime?
+  fullyAuthAt  DateTime?
 
   // Lifecycle
-  expiresAt       DateTime         // TTL global de l'attempt (30min)
-  revokedAt       DateTime?
-  revokedReason   String?
+  expiresAt     DateTime // TTL global de l'attempt (30min)
+  revokedAt     DateTime?
+  revokedReason String?
 
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([adminUserId, step])
   @@index([sessionToken])
@@ -1797,63 +1858,63 @@ model AdminAllowedIp {
   adminUserId String
   adminUser   AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
 
-  cidr        String    // ex "41.140.0.0/16" ou "192.168.1.5/32"
-  label       String    // "Mon PC bureau Casa", "Mobile 4G IAM"
+  cidr  String // ex "41.140.0.0/16" ou "192.168.1.5/32"
+  label String // "Mon PC bureau Casa", "Mobile 4G IAM"
 
-  addedAt     DateTime  @default(now())
-  lastSeenAt  DateTime?
-  revokedAt   DateTime?
+  addedAt    DateTime  @default(now())
+  lastSeenAt DateTime?
+  revokedAt  DateTime?
 
   @@index([adminUserId])
 }
 
 model WebAuthnCredential {
-  id           String    @id @default(cuid())
-  adminUserId  String
-  adminUser    AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+  id          String    @id @default(cuid())
+  adminUserId String
+  adminUser   AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
 
-  credentialId String    @unique // base64url du credentialId WebAuthn
-  publicKey    String    @db.Text // base64 de la clé publique COSE
-  counter      Int       @default(0)
-  deviceType   String?   // "Windows Hello PC bureau", "YubiKey 5C NFC backup"
-  transports   String[]  // ["internal", "usb", "nfc", "ble", "hybrid"]
-  aaguid       String?   // identifiant authenticateur (modèle de YubiKey, etc.)
+  credentialId String   @unique // base64url du credentialId WebAuthn
+  publicKey    String   @db.Text // base64 de la clé publique COSE
+  counter      Int      @default(0)
+  deviceType   String? // "Windows Hello PC bureau", "YubiKey 5C NFC backup"
+  transports   String[] // ["internal", "usb", "nfc", "ble", "hybrid"]
+  aaguid       String? // identifiant authenticateur (modèle de YubiKey, etc.)
 
-  addedAt      DateTime  @default(now())
-  lastUsedAt   DateTime?
-  revokedAt    DateTime?
+  addedAt    DateTime  @default(now())
+  lastUsedAt DateTime?
+  revokedAt  DateTime?
 
   @@index([adminUserId])
 }
 
 model AdminAuditLog {
-  id                String     @id @default(cuid())
-  adminUserId       String?
-  adminUser         AdminUser? @relation(fields: [adminUserId], references: [id])
+  id          String     @id @default(cuid())
+  adminUserId String?
+  adminUser   AdminUser? @relation(fields: [adminUserId], references: [id])
 
   // Hash chain immuable (SHA-256 du log précédent + payload)
-  prevHash          String?
-  hash              String     @unique
+  prevHash String?
+  hash     String  @unique
 
   // Event
-  action            String     // "ADMIN_LOGIN", "USER_SUSPEND", "DOSSIER_OVERRIDE_STATUS", "IMPERSONATE_START"…
-  category          String     // "AUTH", "USER", "CERCLE", "DOSSIER", "PAYMENT", "EXPORT", "SYSTEM"
-  severity          String     // "INFO", "WARN", "CRITICAL"
+  action   String // "ADMIN_LOGIN", "USER_SUSPEND", "DOSSIER_OVERRIDE_STATUS", "IMPERSONATE_START"…
+  category String // "AUTH", "USER", "CERCLE", "DOSSIER", "PAYMENT", "EXPORT", "SYSTEM"
+  severity String // "INFO", "WARN", "CRITICAL"
 
   // Cible (optionnel)
-  targetType        String?    // "User", "Cercle", "Dossier", "Payment", "AdminUser"
-  targetId          String?
+  targetType String? // "User", "Cercle", "Dossier", "Payment", "AdminUser"
+  targetId   String?
 
   // Détails contextuels (jamais de secrets en clair)
-  payload           Json?
+  payload Json?
 
   // Contexte HTTP
   ipAddress         String?
-  userAgent         String?    @db.Text
+  userAgent         String? @db.Text
   deviceFingerprint String?
   sessionId         String?
 
-  createdAt         DateTime   @default(now())
+  createdAt DateTime @default(now())
 
   @@index([adminUserId, createdAt])
   @@index([action])
@@ -1863,26 +1924,26 @@ model AdminAuditLog {
 }
 
 model AdminAlert {
-  id              String    @id @default(cuid())
-  adminUserId     String?
-  adminUser       AdminUser? @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+  id          String     @id @default(cuid())
+  adminUserId String?
+  adminUser   AdminUser? @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
 
-  severity        String    // "INFO", "WARN", "CRITICAL"
-  category        String    // "LOGIN_NEW_IP", "FAILED_ATTEMPTS", "KILL_SWITCH", "EXPORT_RGPD", "WEBAUTHN_ADDED"
-  title           String
-  message         String    @db.Text
+  severity String // "INFO", "WARN", "CRITICAL"
+  category String // "LOGIN_NEW_IP", "FAILED_ATTEMPTS", "KILL_SWITCH", "EXPORT_RGPD", "WEBAUTHN_ADDED"
+  title    String
+  message  String @db.Text
 
   // Canaux de delivery
-  channelEmail    Boolean   @default(false)
-  channelSms      Boolean   @default(false)
+  channelEmail     Boolean   @default(false)
+  channelSms       Boolean   @default(false)
   emailDeliveredAt DateTime?
   smsDeliveredAt   DateTime?
 
   // Lifecycle
-  readAt          DateTime?
-  acknowledgedAt  DateTime?
+  readAt         DateTime?
+  acknowledgedAt DateTime?
 
-  createdAt       DateTime  @default(now())
+  createdAt DateTime @default(now())
 
   @@index([adminUserId, readAt])
   @@index([severity, createdAt])
@@ -1900,15 +1961,15 @@ model AdminRateLimit {
 }
 
 model Connection {
-  id            String           @id @default(cuid())
-  fromUserId    String
-  fromUser      User             @relation("ConnectionFrom", fields: [fromUserId], references: [id])
-  toUserId      String
-  toUser        User             @relation("ConnectionTo",   fields: [toUserId], references: [id])
-  status        ConnectionStatus @default(PENDING)
-  message       String?          // mot accompagnant la demande
-  respondedAt   DateTime?
-  createdAt     DateTime         @default(now())
+  id          String           @id @default(cuid())
+  fromUserId  String
+  fromUser    User             @relation("ConnectionFrom", fields: [fromUserId], references: [id])
+  toUserId    String
+  toUser      User             @relation("ConnectionTo", fields: [toUserId], references: [id])
+  status      ConnectionStatus @default(PENDING)
+  message     String? // mot accompagnant la demande
+  respondedAt DateTime?
+  createdAt   DateTime         @default(now())
 
   @@unique([fromUserId, toUserId])
   @@index([fromUserId])
@@ -1936,7 +1997,7 @@ model Notification {
   // Lien d'action — ouvre cette URL au clic
   actionUrl String?
   // Référence libre vers entité concernée
-  refType   String?          // "cercle" | "post" | "room" | "connection"
+  refType   String? // "cercle" | "post" | "room" | "connection"
   refId     String?
   // Lecture
   readAt    DateTime?
