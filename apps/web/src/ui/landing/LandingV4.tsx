@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 import { listPublished } from "../../features/media/articles/store";
 import { ArticleCard } from "../../features/media/components/ArticleCard";
+import LandingCommunityFeed from "./LandingCommunityFeed";
 
 // Landing keeps the validated HTML/CSS identity, but renders the Articles preview in React.
 // Legacy inline JS media feed is removed to avoid runtime errors and to make content maintainable.
@@ -1247,6 +1248,8 @@ export default function LandingV4() {
           </div>
         </div>
       </section>
+
+      <LandingCommunityFeed />
 
       <div dangerouslySetInnerHTML={{ __html: POST_HTML }} />
     </div>
