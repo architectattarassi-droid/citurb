@@ -318,12 +318,18 @@ let CpsGeneratorService = CpsGeneratorService_1 = class CpsGeneratorService {
         const body = mdToHtml(md);
         const dir = lang === "ar" ? "rtl" : "ltr";
         const title = `CPS — ${escapeHtml(input.projectName)}`;
+        const wm = input.watermark ? escapeHtml(input.watermark) : "";
+        const wmSvg = wm
+            ? "data:image/svg+xml," +
+                encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='480' height='240'><text x='8' y='135' transform='rotate(-28 240 120)' fill='rgba(11,27,58,0.10)' font-size='17' font-weight='bold' font-family='Arial,Helvetica,sans-serif'>${wm}</text></svg>`)
+            : "";
+        const sigBlock = this.renderSignatures(input.signatures, lang);
         return `<!doctype html>
 <html lang="${lang}" dir="${dir}"><head><meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>${title}</title>
 <style>
-  body{font-family:${lang === "ar" ? "'Noto Naskh Arabic',Amiri," : ""}Georgia,'Times New Roman',serif;max-width:840px;margin:0 auto;padding:40px 28px;color:#1a1a2e;line-height:1.7;direction:${dir}}
+  body{font-family:${lang === "ar" ? "'Noto Naskh Arabic',Amiri," : ""}Georgia,'Times New Roman',serif;max-width:840px;margin:0 auto;padding:40px 28px;color:#1a1a2e;line-height:1.7;direction:${dir};-webkit-user-select:none;-moz-user-select:none;user-select:none}
   h1{font-size:24px;border-bottom:3px solid #0B1B3A;padding-bottom:8px;color:#0B1B3A;margin-top:34px}
   h2{font-size:19px;color:#0B1B3A;margin-top:26px;border-bottom:1px solid #ddd;padding-bottom:4px}
   h3{font-size:16px;color:#23314f;margin-top:20px}
@@ -335,11 +341,40 @@ let CpsGeneratorService = CpsGeneratorService_1 = class CpsGeneratorService {
   th{background:#0B1B3A;color:#fff}
   code{background:#f0f0f0;padding:1px 4px;border-radius:3px}
   .cit-foot{margin-top:40px;border-top:1px solid #ccc;padding-top:12px;font-size:11px;color:#888;text-align:center}
-  @media print{body{padding:0}}
-</style></head><body>
+  .cit-sign{margin-top:42px;border-top:2px solid #0B1B3A;padding-top:14px}
+  .cit-sign h2{border:0;margin-top:0}
+  .cit-sign table td{vertical-align:top;height:62px;font-size:12px}
+  .cit-sign .cit-status{font-size:10.5px;font-weight:bold}
+  .cit-wm{position:fixed;inset:0;pointer-events:none;z-index:9999;${wmSvg ? `background:url("${wmSvg}") repeat;` : ""}-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @media print{body{padding:0}.cit-wm{position:fixed}}
+</style></head><body oncontextmenu="return false" ondragstart="return false">
+${wm ? '<div class="cit-wm"></div>' : ""}
 ${body}
-<div class="cit-foot">CITURBAREA — ${escapeHtml(pick(pt.label, lang))} · ${new Date().toLocaleDateString("fr-FR")}</div>
+${sigBlock}
+<div class="cit-foot">CITURBAREA — ${escapeHtml(pick(pt.label, lang))} · ${new Date().toLocaleDateString("fr-FR")}${wm ? " · " + wm : ""}</div>
+<script>["copy","cut","contextmenu"].forEach(function(ev){document.addEventListener(ev,function(e){e.preventDefault();});});</script>
 </body></html>`;
+    }
+    renderSignatures(signatures, lang) {
+        if (!signatures || !signatures.length)
+            return "";
+        const L = {
+            title: { fr: "Signatures des intervenants", ar: "توقيعات المتدخلين", en: "Signatures of parties" },
+            party: { fr: "Partie / Entreprise", ar: "الطرف / المقاولة", en: "Party / Company" },
+            role: { fr: "Qualité", ar: "الصفة", en: "Role" },
+            signer: { fr: "Signataire", ar: "الموقّع", en: "Signatory" },
+            date: { fr: "Date", ar: "التاريخ", en: "Date" },
+            state: { fr: "État", ar: "الحالة", en: "Status" },
+            note: {
+                fr: "Signatures scellées par empreinte SHA-256 (journal probatoire CITURBAREA). Signature qualifiée Barid eSign en attente de convention.",
+                ar: "توقيعات مختومة ببصمة SHA-256 (سجل إثباتي CITURBAREA). التوقيع المؤهل Barid eSign في انتظار الاتفاقية.",
+                en: "Signatures sealed by SHA-256 hash (CITURBAREA probative log). Qualified Barid eSign pending convention.",
+            },
+        };
+        const rows = signatures
+            .map((s) => `<tr><td>${escapeHtml(s.partie || "—")}</td><td>${escapeHtml(s.role || "—")}</td><td>${escapeHtml(s.signataire || "")}</td><td>${escapeHtml(s.signedAt ? new Date(s.signedAt).toLocaleDateString("fr-FR") : "")}</td><td class="cit-status" style="color:${s.status === "SIGNE" ? "#166534" : "#92400e"}">${escapeHtml(s.status || "EN ATTENTE")}</td></tr>`)
+            .join("");
+        return `<div class="cit-sign"><h2>${L.title[lang]}</h2><table><tr><th>${L.party[lang]}</th><th>${L.role[lang]}</th><th>${L.signer[lang]}</th><th>${L.date[lang]}</th><th>${L.state[lang]}</th></tr>${rows}</table><p style="font-size:10.5px;color:#888;margin-top:8px">${L.note[lang]}</p></div>`;
     }
     // ── Helpers ─────────────────────────────────────────────────────
     collectBordereau(loadedLots, lang) {

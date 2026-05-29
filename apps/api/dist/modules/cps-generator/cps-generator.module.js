@@ -9,23 +9,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CpsGeneratorModule = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_module_1 = require("../../tomes/tome-at/kernel/prisma/prisma.module");
+const kernel_module_1 = require("../kernel/kernel.module");
+const auth_module_1 = require("../../tomes/tome-5/auth/auth.module");
 const cps_generator_controller_1 = require("./cps-generator.controller");
 const cps_generator_service_1 = require("./cps-generator.service");
 const cps_marketplace_service_1 = require("./cps-marketplace.service");
+const cps_dossier_controller_1 = require("./cps-dossier.controller");
+const cps_dossier_service_1 = require("./cps-dossier.service");
 /**
- * CpsGeneratorModule — génération de CPS (Tome 2) + pont marketplace.
- * Le générateur lit les gabarits `data/cps-templates/` ; le pont
- * `CpsMarketplaceService` lit le catalogue matériaux + interroge la
- * marketplace Cercles (Prisma) pour produits/prix/commande.
+ * CpsGeneratorModule — génération de CPS (Tome 2) + pont marketplace + CPS dossier.
+ *  - CpsGeneratorService : moteur trilingue (gabarits `data/cps-templates/`)
+ *  - CpsMarketplaceService : pont catalogue/marketplace (prix, commande)
+ *  - CpsDossierService : CPS lié au dossier (paywall, porte, filigrane, signatures Barid)
  */
 let CpsGeneratorModule = class CpsGeneratorModule {
 };
 exports.CpsGeneratorModule = CpsGeneratorModule;
 exports.CpsGeneratorModule = CpsGeneratorModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule],
-        controllers: [cps_generator_controller_1.CpsGeneratorController],
-        providers: [cps_generator_service_1.CpsGeneratorService, cps_marketplace_service_1.CpsMarketplaceService],
-        exports: [cps_generator_service_1.CpsGeneratorService, cps_marketplace_service_1.CpsMarketplaceService],
+        imports: [prisma_module_1.PrismaModule, kernel_module_1.KernelModule, auth_module_1.Tome5AuthModule],
+        controllers: [cps_generator_controller_1.CpsGeneratorController, cps_dossier_controller_1.CpsDossierController],
+        providers: [cps_generator_service_1.CpsGeneratorService, cps_marketplace_service_1.CpsMarketplaceService, cps_dossier_service_1.CpsDossierService],
+        exports: [cps_generator_service_1.CpsGeneratorService, cps_marketplace_service_1.CpsMarketplaceService, cps_dossier_service_1.CpsDossierService],
     })
 ], CpsGeneratorModule);

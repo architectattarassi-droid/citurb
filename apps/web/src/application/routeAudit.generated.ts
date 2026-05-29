@@ -725,42 +725,42 @@ export const ROUTE_USAGES = [
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 121
+    "line": 122
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 127
+    "line": 128
   },
   {
     "route": "/",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 155
+    "line": 156
   },
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 168
+    "line": 169
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 171
+    "line": 172
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 185
+    "line": 186
   },
   {
     "route": "/admin/login",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 201
+    "line": 202
   },
   {
     "route": "/cercles",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 260
+    "line": 261
   },
   {
     "route": "/p2/dossier/",
@@ -1597,37 +1597,37 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 121
+    "line": 122
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 127
+    "line": 128
   },
   {
     "route": "/cc/dashboard",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 168
+    "line": 169
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 171
+    "line": 172
   },
   {
     "route": "/sig",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 185
+    "line": 186
   },
   {
     "route": "/admin/login",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 201
+    "line": 202
   },
   {
     "route": "/cercles",
     "file": "src/tomes/tome1/router/routes.tsx",
-    "line": 260
+    "line": 261
   },
   {
     "route": "/p2/dossier/",

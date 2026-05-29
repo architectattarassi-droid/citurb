@@ -41,6 +41,7 @@ import MetricsDashboardPage from "../../../features/analytics/MetricsDashboardPa
 import CopiloteChantierPage from "../../../features/chef-copilote/CopiloteChantierPage";
 import ChantierPvPage from "../../../features/pv-chantier/ChantierPvPage";
 import CpsGeneratorPage from "../../../features/cps-generator/CpsGeneratorPage";
+import DossierCpsPage from "../../../features/cps-generator/DossierCpsPage";
 import PvChantierEditor from "../../../features/pv-chantier/PvChantierEditor";
 import PvChantierViewer from "../../../features/pv-chantier/PvChantierViewer";
 import MandataireSearchPage from "../../../features/mandataires-registry/MandataireSearchPage";
@@ -279,6 +280,7 @@ export const router = createBrowserRouter([
       { path: '/dossier/:dossierId/documents', element: <AdminHostBlock><DocumentsRepoPage /></AdminHostBlock> },
       { path: '/dossier/:dossierId/rokhas', element: <AdminHostBlock><RokhasTrackerPage /></AdminHostBlock> },
       { path: '/dossier/:dossierId/reception', element: <AdminHostBlock><ReceptionPage /></AdminHostBlock> },
+      { path: '/dossier/:dossierId/cps', element: <AdminHostBlock><DossierCpsPage /></AdminHostBlock> },
       { path: '/permis-construire/:dossierId', element: <AdminHostBlock><PcWizardPage /></AdminHostBlock> },
       { path: '/chantier/:dossierId/sous-traitants', element: <AdminHostBlock><SousTraitantsPage /></AdminHostBlock> },
       { path: '/chantier/:dossierId/incidents', element: <AdminHostBlock><IncidentsChantierPage /></AdminHostBlock> },
