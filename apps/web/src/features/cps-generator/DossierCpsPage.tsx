@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { apiFetch } from "../../tomes/tome4/apiClient";
 
 type ProjectTypeItem = { code: string; label: string; description?: string; porteScope?: string[] };
@@ -85,9 +85,34 @@ export default function DossierCpsPage() {
       <h1 style={{ margin: "4px 0 0", fontSize: 24, fontWeight: 800, color: "#0B1B3A" }}>CPS du dossier</h1>
       <p style={{ fontSize: 13.5, color: "rgba(11,27,58,0.6)", marginTop: 6 }}>Dossier {dossierId} · porte {sig?.porteType ?? "…"} — document filigrané, signé et scellé. Sortie autorisée : impression filigranée depuis la plateforme.</p>
 
-      {gate && (
-        <div style={{ background: "#fffbeb", border: "1px solid #fde68a", color: "#92400e", padding: 16, borderRadius: 12, marginTop: 16, fontWeight: 600 }}>{gate}</div>
-      )}
+      {gate && (() => {
+        const isAuthGate = /unauthor|connect|401|token|session|jwt/i.test(gate);
+        const isPayGate = /402|verrouill|activ|pack/i.test(gate);
+        return (
+          <div style={{ background: "#fffbeb", border: "1px solid #fde68a", padding: 18, borderRadius: 12, marginTop: 16 }}>
+            <div style={{ color: "#92400e", fontWeight: 700, fontSize: 15 }}>{gate}</div>
+            {isAuthGate ? (
+              <div style={{ marginTop: 12 }}>
+                <Link to="/login" style={{ ...cta, background: "#0B1B3A" }}>Se connecter</Link>
+              </div>
+            ) : isPayGate ? (
+              <div style={{ marginTop: 12, display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <Link to="/portal" style={{ ...cta, background: "#0B1B3A" }}>Activer le pack de mon dossier</Link>
+              </div>
+            ) : (
+              <div style={{ marginTop: 12 }}>
+                <p style={{ fontSize: 13.5, color: "#0B1B3A", marginBottom: 10 }}>Vous n'avez pas encore de dossier ? Démarrez votre projet (le CPS sera disponible après activation du pack) :</p>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <Link to="/p1" style={{ ...cta, background: "#0B1B3A" }}>🏠 Particulier (P1)</Link>
+                  <Link to="/p2" style={{ ...cta, background: "#0B1B3A" }}>🏢 Promoteur (P2)</Link>
+                  <Link to="/p3" style={{ ...cta, background: "#0B1B3A" }}>🛠️ MOD délégué (P3)</Link>
+                  <Link to="/portal" style={{ ...cta, background: "#eef2f7", color: "#0B1B3A" }}>📁 Mes dossiers</Link>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })()}
       {err && <div style={{ background: "#fee2e2", color: "#991b1b", padding: 10, borderRadius: 8, marginTop: 12 }}>{err}</div>}
 
       {!gate && (
@@ -184,3 +209,4 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 const inputStyle: React.CSSProperties = { width: "100%", padding: "11px 12px", borderRadius: 9, border: "1px solid #cbd5e1", fontSize: 14, fontFamily: "inherit", boxSizing: "border-box", background: "#fff", color: "#0B1B3A" };
 const btn: React.CSSProperties = { color: "#fff", border: 0, borderRadius: 9, padding: "12px 22px", fontSize: 14.5, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", minHeight: 48 };
 const miniBtn: React.CSSProperties = { border: 0, borderRadius: 7, padding: "7px 12px", fontSize: 12.5, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" };
+const cta: React.CSSProperties = { color: "#fff", textDecoration: "none", borderRadius: 9, padding: "10px 16px", fontSize: 13.5, fontWeight: 700, display: "inline-block" };
