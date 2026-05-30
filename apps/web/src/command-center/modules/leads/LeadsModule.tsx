@@ -18,7 +18,18 @@ import { useIsMobile, BottomSheet } from "../../../components/mobile";
 
 // ─── Types alignés sur backend cc.controller.ts ──────────────
 
-export type LeadStatus = "NEW" | "CONTACTED" | "QUALIFIED" | "WON" | "LOST" | "SPAM";
+export type LeadStatus =
+  | "NEW"
+  | "CONTACTED"
+  | "QUALIFIED"
+  | "WON"
+  | "LOST"
+  | "SPAM"
+  // Stages provenant de LeadFunnelService (capture front public)
+  | "WIZARD_STARTED"
+  | "DOSSIER_OPENED"
+  | "PAID"
+  | "ARCHIVED";
 export type PorteType = "P1" | "P2" | "P3" | "P4" | "P5" | "P6";
 
 export interface LeadNote {
@@ -53,12 +64,16 @@ export interface Lead {
 // ─── Config UI ───────────────────────────────────────────────
 
 const STATUS_CONFIG: Record<LeadStatus, { label: string; color: string; bg: string }> = {
-  NEW:       { label: "Nouveau",   color: "#0088ff", bg: "rgba(0,136,255,0.15)" },
-  CONTACTED: { label: "Contacté",  color: "#f59e0b", bg: "rgba(245,158,11,0.15)" },
-  QUALIFIED: { label: "Qualifié",  color: "#a855f7", bg: "rgba(168,85,247,0.15)" },
-  WON:       { label: "Gagné ✓",   color: "#34d399", bg: "rgba(52,211,153,0.15)" },
-  LOST:      { label: "Perdu",     color: "#6b7280", bg: "rgba(107,114,128,0.15)" },
-  SPAM:      { label: "Spam",      color: "#ef4444", bg: "rgba(239,68,68,0.15)" },
+  NEW:             { label: "Nouveau",         color: "#0088ff", bg: "rgba(0,136,255,0.15)" },
+  CONTACTED:       { label: "Contacté",        color: "#f59e0b", bg: "rgba(245,158,11,0.15)" },
+  QUALIFIED:       { label: "Qualifié",        color: "#a855f7", bg: "rgba(168,85,247,0.15)" },
+  WIZARD_STARTED:  { label: "Wizard démarré",  color: "#06b6d4", bg: "rgba(6,182,212,0.15)" },
+  DOSSIER_OPENED:  { label: "Dossier ouvert",  color: "#22d3ee", bg: "rgba(34,211,238,0.15)" },
+  PAID:            { label: "Payé",            color: "#10b981", bg: "rgba(16,185,129,0.15)" },
+  WON:             { label: "Gagné ✓",         color: "#34d399", bg: "rgba(52,211,153,0.15)" },
+  LOST:            { label: "Perdu",           color: "#6b7280", bg: "rgba(107,114,128,0.15)" },
+  ARCHIVED:        { label: "Archivé",         color: "#475569", bg: "rgba(71,85,105,0.15)" },
+  SPAM:            { label: "Spam",            color: "#ef4444", bg: "rgba(239,68,68,0.15)" },
 };
 
 const PORTE_CONFIG: Record<PorteType, { label: string; color: string }> = {

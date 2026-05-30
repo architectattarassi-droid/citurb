@@ -12,10 +12,11 @@
  * (cf. INTEGRATION.md).
  */
 
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger, Optional } from "@nestjs/common";
 import { join } from "path";
 import { promises as fsp } from "fs";
 import { EmailService } from "../email/email.service";
+import { ProbativeLogService } from "../kernel/services/probative-log.service";
 import { computeLeadScore, rescoreLead, isValidMaPhone } from "./lead-scoring";
 import type {
   FunnelStats,
@@ -36,7 +37,10 @@ export class LeadFunnelService {
   private dirty = false;
   private flushTimer: NodeJS.Timeout | null = null;
 
-  constructor(private readonly email: EmailService) {
+  constructor(
+    private readonly email: EmailService,
+    @Optional() private readonly probative?: ProbativeLogService,
+  ) {
     // Hydratation initiale (best-effort, ne bloque pas le boot)
     this.hydrate().catch((e) =>
       this.log.warn(`[LeadFunnel] hydrate failed: ${e?.message}`),
@@ -313,13 +317,98 @@ export class LeadFunnelService {
 
   // ── Notifications (équipe + lead) ─────────────────────────────────
 
+  /**
+   * Notifie l'équipe interne d'un nouveau lead capturé.
+   *
+   * Stratégie de livraison :
+   *   1. Lit destinataires depuis `LEAD_NOTIFY_TO` (csv) → fallback `OWNER_EMAIL`
+   *      → fallback `architectattarassi@gmail.com`.
+   *   2. Envoie un email à CHAQUE destinataire via `EmailService.send()`
+   *      (cascade interne Resend → SMTP → log dev).
+   *   3. Journalise chaque tentative dans `ProbativeLog` (delivered/failed)
+   *      pour audit traçable des notifications leads.
+   *   4. Logue WARN si aucun provider n'est configuré (aide debug Railway).
+   */
   private async notifyTeamNewLead(lead: Lead): Promise<void> {
-    const to =
+    const rawTo =
       process.env.LEAD_NOTIFY_TO ||
       process.env.OWNER_EMAIL ||
       "architectattarassi@gmail.com";
+    const recipients = rawTo
+      .split(",")
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0 && s.includes("@"));
+
+    if (recipients.length === 0) {
+      this.log.warn(`[LeadFunnel] notifyTeamNewLead: aucun destinataire valide (LEAD_NOTIFY_TO="${rawTo}")`);
+      return;
+    }
+
+    if (!this.email.isConfigured()) {
+      this.log.warn(
+        `[LeadFunnel] notifyTeamNewLead: AUCUN PROVIDER EMAIL CONFIGURÉ ` +
+          `(ni RESEND_API_KEY ni SMTP_HOST/USER/PASS). ` +
+          `Lead ${lead.id} ne sera pas notifié — vérifier env vars Railway.`,
+      );
+      await this.appendProbative({
+        kind: "LEAD_NOTIFY_TEAM",
+        status: "FAILED",
+        reason: "no_provider_configured",
+        leadId: lead.id,
+        recipients,
+      });
+      return;
+    }
+
     const subject = `[Lead ${lead.score}/100] ${lead.nom} — ${lead.projetType || "porte ?"}`;
-    const html = `
+    const html = this.buildOwnerNotifHtml(lead);
+    const text = this.buildOwnerNotifText(lead);
+
+    for (const to of recipients) {
+      try {
+        const r = await this.email.send({ to, subject, html, text });
+        if (r.ok) {
+          this.log.log(`[LeadFunnel] team notif OK to=${to} via=${r.provider} leadId=${lead.id}`);
+          await this.appendProbative({
+            kind: "LEAD_NOTIFY_TEAM",
+            status: "DELIVERED",
+            provider: r.provider,
+            messageId: r.messageId,
+            leadId: lead.id,
+            to,
+            score: lead.score,
+            projetType: lead.projetType,
+          });
+        } else {
+          this.log.error(
+            `[LeadFunnel] team notif FAILED to=${to} err=${r.error} leadId=${lead.id}`,
+          );
+          await this.appendProbative({
+            kind: "LEAD_NOTIFY_TEAM",
+            status: "FAILED",
+            provider: r.provider,
+            error: r.error,
+            leadId: lead.id,
+            to,
+          });
+        }
+      } catch (e: any) {
+        this.log.error(
+          `[LeadFunnel] team notif EXCEPTION to=${to} err=${e?.message} leadId=${lead.id}`,
+        );
+        await this.appendProbative({
+          kind: "LEAD_NOTIFY_TEAM",
+          status: "FAILED",
+          error: e?.message || "exception",
+          leadId: lead.id,
+          to,
+        });
+      }
+    }
+  }
+
+  private buildOwnerNotifHtml(lead: Lead): string {
+    return `
       <h2 style="font-family:sans-serif;">Nouveau lead capturé</h2>
       <table style="font-family:sans-serif;font-size:14px;border-collapse:collapse;">
         <tr><td><b>Nom</b></td><td>${escapeHtml(lead.nom)}</td></tr>
@@ -337,7 +426,37 @@ export class LeadFunnelService {
       </table>
       <p style="font-family:sans-serif;font-size:12px;color:#6b7280;">Lead id: <code>${lead.id}</code></p>
     `;
-    await this.email.send({ to, subject, html });
+  }
+
+  private buildOwnerNotifText(lead: Lead): string {
+    const lines = [
+      `Nouveau lead CITURBAREA — score ${lead.score}/100`,
+      `Nom: ${lead.nom}`,
+      `Téléphone: ${lead.telephone}`,
+      `Email: ${lead.email || "—"}`,
+      `Porte: ${lead.projetType || "—"}`,
+      `Ville: ${lead.ville || "—"}`,
+      `Budget: ${lead.budget ? lead.budget.toLocaleString("fr-MA") + " MAD" : "—"}`,
+      `Délai: ${lead.delaiMois ?? "—"} mois`,
+      `Source: ${lead.source}`,
+      `Page: ${lead.pageContext || "—"}`,
+      `Lead id: ${lead.id}`,
+    ];
+    return lines.join("\n");
+  }
+
+  /** Append best-effort dans ProbativeLog (si le service est dispo). */
+  private async appendProbative(payload: Record<string, any>): Promise<void> {
+    if (!this.probative) return;
+    try {
+      await this.probative.append({
+        scope: "lead-funnel",
+        at: new Date().toISOString(),
+        ...payload,
+      });
+    } catch {
+      /* best-effort, ne jamais bloquer */
+    }
   }
 
   private async sendCaptureAck(lead: Lead): Promise<void> {

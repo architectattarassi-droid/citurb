@@ -5,9 +5,35 @@ import { JwtAuthGuard } from "../tomes/tome-5/auth/jwt-auth.guard";
 import { RolesGuard } from "../tomes/tome-5/auth/roles.guard";
 import { Roles } from "../tomes/tome-5/auth/roles.decorator";
 import { CCSnapshotService } from "./cc-snapshot.service";
+import { LeadFunnelService } from "../modules/lead-funnel/lead-funnel.service";
+import type { Lead as FunnelLead, LeadStage } from "../modules/lead-funnel/lead-funnel.types";
 
-const LEAD_STATUS = ["NEW", "CONTACTED", "QUALIFIED", "WON", "LOST", "SPAM"] as const;
+const LEAD_STATUS = [
+  "NEW",
+  "CONTACTED",
+  "QUALIFIED",
+  "WON",
+  "LOST",
+  "SPAM",
+  // Stages utilisés par LeadFunnelService (mappés depuis LeadStage)
+  "WIZARD_STARTED",
+  "DOSSIER_OPENED",
+  "PAID",
+  "ARCHIVED",
+] as const;
 type LeadStatus = (typeof LEAD_STATUS)[number];
+
+/** Mapping LeadStage (funnel) → LeadStatus (cc UI). Identique 1:1. */
+const FUNNEL_STAGE_TO_STATUS: Record<LeadStage, LeadStatus> = {
+  NEW: "NEW",
+  CONTACTED: "CONTACTED",
+  QUALIFIED: "QUALIFIED",
+  WIZARD_STARTED: "WIZARD_STARTED",
+  DOSSIER_OPENED: "DOSSIER_OPENED",
+  PAID: "PAID",
+  LOST: "LOST",
+  ARCHIVED: "ARCHIVED",
+};
 
 type LeadQualif = {
   status: LeadStatus;
@@ -21,6 +47,7 @@ export class CCController {
   constructor(
     private readonly prisma: PrismaService,
     private readonly snapshotService: CCSnapshotService,
+    private readonly leadFunnel: LeadFunnelService,
   ) {}
 
   @Get("snapshot/current")
@@ -42,7 +69,8 @@ export class CCController {
 
   @Get("leads")
   async leads() {
-    const items = await this.prisma.dossier.findMany({
+    // 1) Leads issus des dossiers (intake P1–P6 + création admin manuelle)
+    const dossiers = await this.prisma.dossier.findMany({
       orderBy: { createdAt: "desc" },
       take: 200,
       select: {
@@ -52,7 +80,34 @@ export class CCController {
         owner: { select: { email: true } },
       },
     });
-    return items.map((d) => extractLeadView(d));
+    const fromDossiers = dossiers.map((d) => extractLeadView(d));
+
+    // 2) Leads issus du funnel public (POST /api/lead-funnel/capture)
+    // Le funnel persiste en mémoire + JSON ; il faut les afficher aussi dans /cc/leads
+    // sinon les leads de la home page (hero, ROI calc, WhatsApp inbound) sont invisibles.
+    let fromFunnel: ReturnType<typeof extractFunnelLeadView>[] = [];
+    try {
+      const funnelLeads = this.leadFunnel.list({ limit: 200 });
+      fromFunnel = funnelLeads.map(extractFunnelLeadView);
+    } catch (e) {
+      // best-effort : ne jamais casser /cc/leads si le funnel n'est pas dispo
+    }
+
+    // 3) Dédupliquer par email (priorité au Dossier qui a plus de contexte)
+    const seenEmails = new Set<string>();
+    for (const l of fromDossiers) {
+      if (l.email) seenEmails.add(l.email.toLowerCase());
+    }
+    const funnelDedup = fromFunnel.filter((l) => {
+      if (!l.email) return true; // sans email on garde (pas de doublon détectable)
+      return !seenEmails.has(l.email.toLowerCase());
+    });
+
+    // 4) Tri global par createdAt DESC
+    const merged = [...fromDossiers, ...funnelDedup].sort(
+      (a, b) => (a.createdAt < b.createdAt ? 1 : -1),
+    );
+    return merged;
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -220,5 +275,54 @@ function extractLeadView(d: any) {
     lastNote: qualif.notes?.length ? qualif.notes[qualif.notes.length - 1] : null,
     notes: qualif.notes || [],
     brief: d.payload?.brief,
+    origin: "DOSSIER" as const,
+  };
+}
+
+/**
+ * Convertit un lead du `LeadFunnelService` (memoire/JSON) vers la même forme
+ * que `extractLeadView` afin que le front /cc/leads puisse les afficher uniformement.
+ *
+ * Différences notables :
+ *  - `id` reste l'id funnel (ex: `lead_xxx`) — pas un Dossier id ;
+ *  - `dossierStatus` non applicable ;
+ *  - `status` est dérivé du `stage` (mapping FUNNEL_STAGE_TO_STATUS) ;
+ *  - `origin = "FUNNEL"` permet au front de distinguer (et de gater les actions
+ *    qui nécessitent un Dossier, ex: ouverture shadow view).
+ */
+function extractFunnelLeadView(l: FunnelLead) {
+  const status: LeadStatus = FUNNEL_STAGE_TO_STATUS[l.stage] || "NEW";
+  // L'extraction des dernieres actions (note libre) depuis events.
+  const notesFromEvents = (l.events || [])
+    .filter((e) => e.kind === "NOTE" || e.kind === "STAGE_CHANGE")
+    .map((e) => ({
+      ts: e.at,
+      author: "system",
+      text:
+        e.kind === "STAGE_CHANGE"
+          ? `Stage: ${(e.payload as any)?.from ?? "?"} → ${(e.payload as any)?.to ?? "?"}`
+          : String((e.payload as any)?.text ?? ""),
+    }));
+  return {
+    id: l.id,
+    createdAt: l.createdAt,
+    updatedAt: l.updatedAt,
+    nom: l.nom,
+    ville: l.ville || "—",
+    type: (l.projetType as any) || "P1",
+    source: l.source || "DIRECT",
+    status,
+    dossierStatus: undefined as string | undefined,
+    interet: l.pageContext,
+    gestionMode: undefined as string | undefined,
+    email: l.email,
+    tel: l.telephone,
+    raisonSociale: undefined as string | undefined,
+    notesCount: notesFromEvents.length,
+    lastContactAt: l.updatedAt,
+    lastNote: notesFromEvents.length ? notesFromEvents[notesFromEvents.length - 1] : null,
+    notes: notesFromEvents,
+    brief: { score: l.score, breakdown: l.scoreBreakdown, utm: l.utm, meta: l.meta },
+    origin: "FUNNEL" as const,
   };
 }

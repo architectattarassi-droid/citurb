@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CCModule = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_module_1 = require("../tomes/tome-at/kernel/prisma/prisma.module");
+const lead_funnel_module_1 = require("../modules/lead-funnel/lead-funnel.module");
 const cc_controller_1 = require("./cc.controller");
 const cc_snapshot_service_1 = require("./cc-snapshot.service");
 let CCModule = class CCModule {
@@ -16,7 +17,9 @@ let CCModule = class CCModule {
 exports.CCModule = CCModule;
 exports.CCModule = CCModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule],
+        // LeadFunnelModule importé pour fusionner les leads /api/lead-funnel/capture
+        // avec les Dossiers leadQualif (sinon désynchro côté /cc/leads).
+        imports: [prisma_module_1.PrismaModule, lead_funnel_module_1.LeadFunnelModule],
         controllers: [cc_controller_1.CCController],
         providers: [cc_snapshot_service_1.CCSnapshotService],
     })

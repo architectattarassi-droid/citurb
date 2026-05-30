@@ -15,11 +15,16 @@
  */
 
 import { Module } from "@nestjs/common";
+import { KernelModule } from "../kernel/kernel.module";
 import { LeadFunnelController } from "./lead-funnel.controller";
 import { LeadFunnelService } from "./lead-funnel.service";
 import { LeadNurtureService } from "./lead-nurture.service";
 
 @Module({
+  // KernelModule importé pour ProbativeLogService (audit traçable des notifs leads).
+  // L'injection se fait via @Optional() côté service donc dégrade gracieusement
+  // si jamais l'ordre d'import change.
+  imports: [KernelModule],
   controllers: [LeadFunnelController],
   providers: [LeadFunnelService, LeadNurtureService],
   exports: [LeadFunnelService, LeadNurtureService],

@@ -23,6 +23,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LeadFunnelModule = void 0;
 const common_1 = require("@nestjs/common");
+const kernel_module_1 = require("../kernel/kernel.module");
 const lead_funnel_controller_1 = require("./lead-funnel.controller");
 const lead_funnel_service_1 = require("./lead-funnel.service");
 const lead_nurture_service_1 = require("./lead-nurture.service");
@@ -31,6 +32,10 @@ let LeadFunnelModule = class LeadFunnelModule {
 exports.LeadFunnelModule = LeadFunnelModule;
 exports.LeadFunnelModule = LeadFunnelModule = __decorate([
     (0, common_1.Module)({
+        // KernelModule importé pour ProbativeLogService (audit traçable des notifs leads).
+        // L'injection se fait via @Optional() côté service donc dégrade gracieusement
+        // si jamais l'ordre d'import change.
+        imports: [kernel_module_1.KernelModule],
         controllers: [lead_funnel_controller_1.LeadFunnelController],
         providers: [lead_funnel_service_1.LeadFunnelService, lead_nurture_service_1.LeadNurtureService],
         exports: [lead_funnel_service_1.LeadFunnelService, lead_nurture_service_1.LeadNurtureService],
