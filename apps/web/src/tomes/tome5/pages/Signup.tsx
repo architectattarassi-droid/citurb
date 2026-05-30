@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiFetch, setToken } from "../../tomes/tome4/apiClient";
+import { useT } from "../../../i18n/i18n";
 
 export default function Signup() {
+  const t = useT();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +31,7 @@ export default function Signup() {
       }));
       navigate("/p1/packs");
     } catch (err: any) {
-      setError(err?.message || "Erreur inscription");
+      setError(err?.message || t("auth.signup.error_default"));
     } finally {
       setLoading(false);
     }
@@ -45,9 +47,9 @@ export default function Signup() {
     }}>
       <div style={{
         width: "100%",
-        maxWidth: "440px",
+        maxWidth: "520px",
         padding: "40px",
-        margin: "0 20px",
+        marginInline: "20px",
         background: "rgba(255,255,255,0.95)",
         border: "1px solid rgba(201,162,39,0.25)",
         borderRadius: "20px",
@@ -55,7 +57,7 @@ export default function Signup() {
       }}>
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
           <Link to="/" style={{ textDecoration: "none", color: "rgba(11,27,58,0.68)", fontSize: "14px", display: "inline-block", marginBottom: "16px" }}>
-            ← Retour à l\'accueil
+            ← {t("auth.back_home")}
           </Link>
           <h1 style={{
             fontFamily: "\"Playfair Display\", serif",
@@ -64,10 +66,10 @@ export default function Signup() {
             color: "#0B1B3A",
             margin: "0 0 8px",
           }}>
-            Créer mon dossier
+            {t("auth.signup.title")}
           </h1>
           <p style={{ fontSize: "15px", color: "rgba(11,27,58,0.68)", margin: 0 }}>
-            Accédez aux packs et démarrez votre projet
+            {t("auth.signup.subtitle")}
           </p>
         </div>
 
@@ -96,13 +98,13 @@ export default function Signup() {
               letterSpacing: "0.03em",
               textTransform: "uppercase",
             }}>
-              NOM D\'UTILISATEUR
+              {t("auth.signup.username_label")}
             </label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Votre nom"
+              placeholder={t("auth.signup.username_placeholder")}
               required
               autoFocus
               style={{
@@ -127,13 +129,13 @@ export default function Signup() {
               letterSpacing: "0.03em",
               textTransform: "uppercase",
             }}>
-              EMAIL
+              {t("auth.signup.email_label")}
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="votre@email.com"
+              placeholder={t("auth.signup.email_placeholder")}
               required
               style={{
                 width: "100%",
@@ -157,13 +159,13 @@ export default function Signup() {
               letterSpacing: "0.03em",
               textTransform: "uppercase",
             }}>
-              MOT DE PASSE
+              {t("auth.signup.password_label")}
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••••••"
+              placeholder={t("auth.signup.password_placeholder")}
               required
               style={{
                 width: "100%",
@@ -192,7 +194,7 @@ export default function Signup() {
               cursor: loading ? "not-allowed" : "pointer",
             }}
           >
-            {loading ? "Création..." : "Créer mon dossier"}
+            {loading ? t("auth.signup.creating") : t("auth.signup.submit")}
           </button>
         </form>
 
@@ -202,7 +204,7 @@ export default function Signup() {
           fontSize: "14px",
           color: "rgba(11,27,58,0.68)",
         }}>
-          Déjà un compte ? <Link to="/auth/login" style={{ color: "#C9A227", fontWeight: 600, textDecoration: "none" }}>Se connecter</Link>
+          {t("auth.signup.have_account")} <Link to="/auth/login" style={{ color: "#C9A227", fontWeight: 600, textDecoration: "none" }}>{t("auth.signup.sign_in")}</Link>
         </div>
       </div>
     </div>

@@ -61,9 +61,9 @@ export default function Login() {
     }}>
       <div style={{
         width: "100%",
-        maxWidth: "440px",
+        maxWidth: "520px",
         padding: "40px",
-        margin: "0 20px",
+        marginInline: "20px",
         background: "rgba(255,255,255,0.95)",
         border: "1px solid rgba(201,162,39,0.25)",
         borderRadius: "20px",
@@ -118,7 +118,7 @@ export default function Login() {
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin_citurbarea"
+              placeholder={t("auth.login.email_placeholder")}
               required
               autoFocus
               style={{
@@ -149,7 +149,7 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••••••"
+              placeholder={t("auth.login.password_placeholder")}
               required
               style={{
                 width: "100%",
@@ -207,11 +207,11 @@ export default function Login() {
             color: 'rgba(11,27,58,0.68)',
             lineHeight: 1.6,
           }}>
-            <strong>🔐 Démo (dev)</strong><br />
-            Identifiants définis dans <code>.env</code> (API).<br />
-            • Email: <code style={{ background: 'rgba(0,0,0,0.05)', padding: '2px 6px', borderRadius: '4px' }}>OWNER_EMAIL</code> ou <code style={{ background: 'rgba(0,0,0,0.05)', padding: '2px 6px', borderRadius: '4px' }}>ADMIN_EMAIL</code><br />
-            • Password: <code style={{ background: 'rgba(0,0,0,0.05)', padding: '2px 6px', borderRadius: '4px' }}>OWNER_PASSWORD</code> / <code style={{ background: 'rgba(0,0,0,0.05)', padding: '2px 6px', borderRadius: '4px' }}>ADMIN_PASSWORD</code><br />
-            <span style={{ display: 'block', marginTop: '8px', opacity: 0.85 }}>Astuce: appelez <code>/auth/dev/ensure-owner</code> une seule fois en dev.</span>
+            <strong>{t("auth.login.dev_title")}</strong><br />
+            {t("auth.login.dev_intro")}<br />
+            • {t("auth.login.dev_email")}: <code style={{ background: 'rgba(0,0,0,0.05)', padding: '2px 6px', borderRadius: '4px' }}>OWNER_EMAIL</code> / <code style={{ background: 'rgba(0,0,0,0.05)', padding: '2px 6px', borderRadius: '4px' }}>ADMIN_EMAIL</code><br />
+            • {t("auth.login.dev_password")}: <code style={{ background: 'rgba(0,0,0,0.05)', padding: '2px 6px', borderRadius: '4px' }}>OWNER_PASSWORD</code> / <code style={{ background: 'rgba(0,0,0,0.05)', padding: '2px 6px', borderRadius: '4px' }}>ADMIN_PASSWORD</code><br />
+            <span style={{ display: 'block', marginTop: '8px', opacity: 0.85 }}>{t("auth.login.dev_tip")}</span>
           </div>
         )}
 
