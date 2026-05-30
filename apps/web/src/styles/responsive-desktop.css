@@ -1,0 +1,56 @@
+/*
+ * responsive-desktop.css — Utilitaires conteneurs & grilles responsives
+ *
+ * Classes globales utilisables sur n'importe quelle page (sans Tailwind).
+ * Mobile-first : tout est en colonne unique par défaut puis se grille à 768px
+ * (tablette) et 1280px (desktop large).
+ *
+ * Helpers RTL : utiliser les propriétés logiques (padding-inline /
+ * margin-inline) pour qu'elles s'inversent automatiquement en arabe.
+ */
+
+.cit-container-wide { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+.cit-container-xl   { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+
+.cit-grid-desktop-2 { display: grid; gap: 24px; grid-template-columns: 1fr; }
+.cit-grid-desktop-3 { display: grid; gap: 24px; grid-template-columns: 1fr; }
+
+@media (min-width: 768px) {
+  .cit-grid-desktop-2,
+  .cit-grid-desktop-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1280px) {
+  .cit-grid-desktop-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+[dir="rtl"] .cit-flip { transform: scaleX(-1); }
+
+/* logical properties helpers pour RTL */
+.cit-pad-inline-md { padding-inline: 16px; }
+.cit-mar-inline-md { margin-inline: 16px; }
+
+/* ─────────────────────────────────────────────────────────────────
+ * P1 Home — responsive desktop overrides
+ * Le breakout 100vw est gardé pour le dégradé hero (fix décoratif).
+ * Sur desktop large on borne la largeur de contenu interne à 1280px,
+ * et on garantit un layout 2 colonnes (wizard | recap) ≥ 1024px.
+ * Mobile: tout reste en colonne unique (fluid).
+ * ────────────────────────────────────────────────────────────────*/
+.cit-p1-home .container-max { max-width: 1280px; }
+
+@media (min-width: 1024px) {
+  /* Layout 2 colonnes : section principale (wizard) + récap inline.
+     S'applique uniquement quand l'auteur ajoute la classe .cit-p1-grid
+     sur un conteneur parent dans la JSX (opt-in, n'altère pas l'existant). */
+  .cit-p1-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+    gap: 32px;
+    align-items: start;
+  }
+}
+
+@media (max-width: 1023px) {
+  .cit-p1-grid { display: block; }
+}

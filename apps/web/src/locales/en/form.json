@@ -1,0 +1,19 @@
+{
+  "form.firstname": "First name",
+  "form.lastname": "Last name",
+  "form.full_name": "Full name",
+  "form.phone": "Phone",
+  "form.email": "Email",
+  "form.address": "Address",
+  "form.commune": "Commune",
+  "form.required": "Required",
+  "form.raison_sociale": "Company name",
+  "form.representant": "Legal representative",
+  "form.rc": "Commercial register",
+  "form.ice": "Tax ID (ICE)",
+  "form.cin": "National ID",
+  "form.titre_foncier": "Land title",
+  "form.surface_terrain": "Land area (m²)",
+  "form.budget": "Estimated budget",
+  "form.optional": "(optional)"
+}

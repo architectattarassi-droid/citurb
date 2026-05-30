@@ -1,0 +1,18 @@
+{
+  "tarif.title": "Tarifs contractuels",
+  "tarif.publie": "Publié",
+  "tarif.brouillon": "Brouillon",
+  "tarif.valide_citurbarea": "Validé CITURBAREA",
+  "tarif.demander": "Demander intervention",
+  "tarif.delai": "Délai d'intervention",
+  "tarif.garantie": "Garantie",
+  "tarif.zone": "Zone d'intervention",
+  "prestataire.tarifs_list_title": "Liste des tarifs contractuels",
+  "prestataire.tarifs_no_results": "Aucun tarif ne correspond à votre filtre.",
+  "prestataire.tarifs_filter_zone": "Filtrer par zone d'intervention",
+  "prestataire.tarifs_validated": "Validé par CITURBAREA",
+  "prestataire.tarifs_warranty": "Garantie {months} mois",
+  "prestataire.tarifs_delay": "Délai d'intervention : {days} jours",
+  "prestataire.request_quote": "Demander un devis",
+  "prestataire.view_profile": "Voir le profil"
+}

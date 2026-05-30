@@ -1,0 +1,19 @@
+{
+  "form.firstname": "الاسم",
+  "form.lastname": "اللقب",
+  "form.full_name": "الاسم الكامل",
+  "form.phone": "الهاتف",
+  "form.email": "البريد الإلكتروني",
+  "form.address": "العنوان",
+  "form.commune": "البلدية",
+  "form.required": "إلزامي",
+  "form.raison_sociale": "اسم الشركة",
+  "form.representant": "الممثل القانوني",
+  "form.rc": "السجل التجاري",
+  "form.ice": "ICE",
+  "form.cin": "بطاقة التعريف الوطنية",
+  "form.titre_foncier": "الرسم العقاري",
+  "form.surface_terrain": "مساحة الأرض (م²)",
+  "form.budget": "الميزانية المقدرة",
+  "form.optional": "(اختياري)"
+}

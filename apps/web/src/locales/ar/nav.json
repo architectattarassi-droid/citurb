@@ -1,0 +1,15 @@
+{
+  "nav.home": "الرئيسية",
+  "nav.login": "تسجيل الدخول",
+  "nav.signup": "إنشاء حساب",
+  "nav.my_space": "فضائي",
+  "nav.my_dossiers": "ملفاتي",
+  "nav.logout": "تسجيل الخروج",
+  "nav.media": "الإعلام",
+  "nav.dashboard": "لوحة التحكم",
+  "nav.bottom.home": "الرئيسية",
+  "nav.bottom.dossiers": "ملفات",
+  "nav.bottom.new": "جديد",
+  "nav.bottom.cercles": "الدوائر",
+  "nav.bottom.profile": "الملف الشخصي"
+}

@@ -1,0 +1,18 @@
+{
+  "tarif.title": "Contractual rates",
+  "tarif.publie": "Published",
+  "tarif.brouillon": "Draft",
+  "tarif.valide_citurbarea": "CITURBAREA validated",
+  "tarif.demander": "Request service",
+  "tarif.delai": "Response time",
+  "tarif.garantie": "Warranty",
+  "tarif.zone": "Service area",
+  "prestataire.tarifs_list_title": "Contractual rates list",
+  "prestataire.tarifs_no_results": "No rates match your filter.",
+  "prestataire.tarifs_filter_zone": "Filter by service area",
+  "prestataire.tarifs_validated": "Validated by CITURBAREA",
+  "prestataire.tarifs_warranty": "{months}-month warranty",
+  "prestataire.tarifs_delay": "Service delay: {days} days",
+  "prestataire.request_quote": "Request a quote",
+  "prestataire.view_profile": "View profile"
+}

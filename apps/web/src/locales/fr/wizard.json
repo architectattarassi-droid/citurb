@@ -1,0 +1,22 @@
+{
+  "wizard.step": "Étape",
+  "wizard.choose_section": "Quel type de projet ?",
+  "wizard.choose_category": "Catégorie de projet",
+  "wizard.dimensions": "Dimensions du projet",
+  "wizard.surface_plancher": "Surface plancher (m²)",
+  "wizard.surface_terrain": "Surface terrain (m²)",
+  "wizard.nb_batiments": "Nombre de bâtiments",
+  "wizard.follow_mode": "Mode de suivi du chantier",
+  "wizard.follow_onsite": "Suivi physique",
+  "wizard.follow_photos": "Suivi par photos",
+  "wizard.compute_quote": "Calculer le devis",
+  "wizard.quote_details": "Devis détaillé",
+  "wizard.continue_id": "Continuer : identité",
+  "wizard.client_id": "Identification client",
+  "wizard.submit": "Soumettre la demande",
+  "wizard.submitting": "Envoi en cours…",
+  "wizard.success": "Demande enregistrée",
+  "wizard.success_msg": "Notre équipe vous recontacte sous 24h.",
+  "wizard.modify": "Modifier",
+  "wizard.return_home": "Retour à l'accueil"
+}

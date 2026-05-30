@@ -1,0 +1,15 @@
+{
+  "nav.home": "Home",
+  "nav.login": "Sign in",
+  "nav.signup": "Sign up",
+  "nav.my_space": "My space",
+  "nav.my_dossiers": "My files",
+  "nav.logout": "Logout",
+  "nav.media": "Media",
+  "nav.dashboard": "Dashboard",
+  "nav.bottom.home": "Home",
+  "nav.bottom.dossiers": "Files",
+  "nav.bottom.new": "New",
+  "nav.bottom.cercles": "Cercles",
+  "nav.bottom.profile": "Profile"
+}

@@ -1,0 +1,18 @@
+{
+  "tarif.title": "أسعار تعاقدية",
+  "tarif.publie": "منشور",
+  "tarif.brouillon": "مسودة",
+  "tarif.valide_citurbarea": "موثق CITURBAREA",
+  "tarif.demander": "طلب التدخل",
+  "tarif.delai": "أجل التدخل",
+  "tarif.garantie": "ضمان",
+  "tarif.zone": "منطقة التدخل",
+  "prestataire.tarifs_list_title": "قائمة الأسعار التعاقدية",
+  "prestataire.tarifs_no_results": "لا توجد تعريفة تطابق معاييرك.",
+  "prestataire.tarifs_filter_zone": "تصفية حسب منطقة التدخل",
+  "prestataire.tarifs_validated": "موثق من طرف CITURBAREA",
+  "prestataire.tarifs_warranty": "ضمان {months} شهرا",
+  "prestataire.tarifs_delay": "أجل التدخل: {days} يوما",
+  "prestataire.request_quote": "طلب عرض سعر",
+  "prestataire.view_profile": "عرض الملف"
+}

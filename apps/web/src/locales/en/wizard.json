@@ -1,0 +1,22 @@
+{
+  "wizard.step": "Step",
+  "wizard.choose_section": "What kind of project?",
+  "wizard.choose_category": "Project category",
+  "wizard.dimensions": "Project dimensions",
+  "wizard.surface_plancher": "Floor area (m²)",
+  "wizard.surface_terrain": "Land area (m²)",
+  "wizard.nb_batiments": "Number of buildings",
+  "wizard.follow_mode": "Site monitoring mode",
+  "wizard.follow_onsite": "On-site monitoring",
+  "wizard.follow_photos": "Photo monitoring",
+  "wizard.compute_quote": "Compute quote",
+  "wizard.quote_details": "Quote details",
+  "wizard.continue_id": "Continue: identity",
+  "wizard.client_id": "Client identification",
+  "wizard.submit": "Submit request",
+  "wizard.submitting": "Submitting…",
+  "wizard.success": "Request received",
+  "wizard.success_msg": "Our team will get back to you within 24h.",
+  "wizard.modify": "Modify",
+  "wizard.return_home": "Back to home"
+}

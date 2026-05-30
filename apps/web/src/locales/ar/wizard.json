@@ -1,0 +1,22 @@
+{
+  "wizard.step": "الخطوة",
+  "wizard.choose_section": "ما نوع المشروع؟",
+  "wizard.choose_category": "فئة المشروع",
+  "wizard.dimensions": "أبعاد المشروع",
+  "wizard.surface_plancher": "المساحة الأرضية (م²)",
+  "wizard.surface_terrain": "مساحة الأرض (م²)",
+  "wizard.nb_batiments": "عدد المباني",
+  "wizard.follow_mode": "وضع متابعة الورش",
+  "wizard.follow_onsite": "متابعة ميدانية",
+  "wizard.follow_photos": "متابعة بالصور",
+  "wizard.compute_quote": "احتساب العرض",
+  "wizard.quote_details": "تفاصيل العرض",
+  "wizard.continue_id": "متابعة: الهوية",
+  "wizard.client_id": "تحديد هوية العميل",
+  "wizard.submit": "إرسال الطلب",
+  "wizard.submitting": "جارٍ الإرسال…",
+  "wizard.success": "تم تسجيل الطلب",
+  "wizard.success_msg": "سيعود إليك فريقنا خلال 24 ساعة.",
+  "wizard.modify": "تعديل",
+  "wizard.return_home": "العودة إلى الرئيسية"
+}

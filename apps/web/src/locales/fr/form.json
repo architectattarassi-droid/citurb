@@ -1,0 +1,19 @@
+{
+  "form.firstname": "Prénom",
+  "form.lastname": "Nom",
+  "form.full_name": "Nom complet",
+  "form.phone": "Téléphone",
+  "form.email": "Email",
+  "form.address": "Adresse",
+  "form.commune": "Commune",
+  "form.required": "Obligatoire",
+  "form.raison_sociale": "Raison sociale",
+  "form.representant": "Représentant légal",
+  "form.rc": "Registre de commerce",
+  "form.ice": "ICE",
+  "form.cin": "CIN",
+  "form.titre_foncier": "Titre foncier",
+  "form.surface_terrain": "Surface terrain (m²)",
+  "form.budget": "Budget estimé",
+  "form.optional": "(optionnel)"
+}
