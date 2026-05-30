@@ -6,14 +6,21 @@ import { readJSON, writeJSON } from "../../../../infrastructure/storage";
 import { STORAGE_KEYS } from "../../../../infrastructure/storage/keys";
 import { resolveUserId } from "../../../../application/p1/startQualification";
 import { createDossier } from "../../../../application/p1/createDossier";
+import { useT, useLang, type Lang } from "../../../../i18n/i18n";
 
 /**
  * P1Landing
  * - Reconstitution fidèle de la landing HTML historique, sans iframe/srcDoc.
  * - Doctrine: UI inchangée, logique isolée et déterministe, scroll contrôlé.
+ * - i18n (2026-05) : les littéraux JSX sont traduits via le namespace
+ *   portes.p1.lp.* (FR / AR / EN). Le bloc useEffect imperatif manipule
+ *   encore des chaînes FR via .textContent (chemin DOM legacy) — à migrer
+ *   dans une itération dédiée (orchestrateur de labels stable côté store).
  */
 export default function P1Landing() {
   const navigate = useNavigate();
+  const t = useT();
+  const { lang, setLang } = useLang();
 
   useEffect(() => {
     // ---------- Helpers DOM ----------
@@ -1580,10 +1587,32 @@ export default function P1Landing() {
 
 
 
-<div className="lang-switcher" style={{ position: "fixed", top: "20px", right: "20px", zIndex: "1000", display: "flex", gap: "8px", background: "white", padding: "8px", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
-  <button className="lang-btn active" data-lang="fr" style={{ padding: "8px 16px", border: "none", background: "linear-gradient(135deg,#C9A227,#E6C75B)", color: "white", borderRadius: "8px", cursor: "pointer", fontSize: "13px", fontWeight: "600" }}>FR</button>
-  <button className="lang-btn" data-lang="ar" style={{ padding: "8px 16px", border: "1px solid rgba(201,162,39,0.3)", background: "white", color: "#0B1B3A", borderRadius: "8px", cursor: "pointer", fontSize: "13px", fontWeight: "600" }}>العربية</button>
-  <button className="lang-btn" data-lang="en" style={{ padding: "8px 16px", border: "1px solid rgba(201,162,39,0.3)", background: "white", color: "#0B1B3A", borderRadius: "8px", cursor: "pointer", fontSize: "13px", fontWeight: "600" }}>EN</button>
+<div className="lang-switcher" style={{ position: "fixed", top: "20px", right: "20px", zIndex: 1000, display: "flex", gap: "8px", background: "white", padding: "8px", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
+  {(["fr", "ar", "en"] as Lang[]).map((code) => {
+    const active = lang === code;
+    const label = code === "ar" ? "العربية" : code.toUpperCase();
+    return (
+      <button
+        key={code}
+        type="button"
+        onClick={() => setLang(code)}
+        className={active ? "lang-btn active" : "lang-btn"}
+        aria-pressed={active}
+        style={{
+          padding: "8px 16px",
+          border: active ? "none" : "1px solid rgba(201,162,39,0.3)",
+          background: active ? "linear-gradient(135deg,#C9A227,#E6C75B)" : "white",
+          color: active ? "white" : "#0B1B3A",
+          borderRadius: "8px",
+          cursor: "pointer",
+          fontSize: "13px",
+          fontWeight: 600,
+        }}
+      >
+        {label}
+      </button>
+    );
+  })}
 </div>
 
   <div id="app" className="min-h-full">
@@ -1592,37 +1621,34 @@ export default function P1Landing() {
     <header className="hero">
       <div className="container-max" style={{ paddingTop: "72px", paddingBottom: "64px" }}>
         <div className="kicker mb-6">
-          <span>Architecture sur mesure</span><span style={{ opacity: ".55" }}>•</span>
-          <span>Autorisation maîtrisée</span><span style={{ opacity: ".55" }}>•</span>
-          <span>Chantier traçable</span>
+          <span>{t("p1.lp.kicker.archi")}</span><span style={{ opacity: ".55" }}>•</span>
+          <span>{t("p1.lp.kicker.auth")}</span><span style={{ opacity: ".55" }}>•</span>
+          <span>{t("p1.lp.kicker.chantier")}</span>
         </div>
 
         <div className="grid-2" style={{ alignItems: "center" }}>
           <div>
-            <h1 className="mb-5">Votre projet résidentiel, piloté comme un dossier d’ingénierie.</h1>
+            <h1 className="mb-5">{t("p1.lp.hero.title")}</h1>
             <p className="text-lg mb-8" style={{ fontSize: "18px", lineHeight: "1.75" }}>
-              Conception personnalisée. <strong>Signature architecte.</strong>
-              Design intérieur sur mesure. Dossier d’autorisation. Suivi chantier probatoire.
-              <br/><span style={{ color: "rgba(11,27,58,0.82)", fontWeight: "800" }}>Process clair — zéro promesse magique.</span>
+              {t("p1.lp.hero.lead")}
+              <br/><span style={{ color: "rgba(11,27,58,0.82)", fontWeight: "800" }}>{t("p1.lp.hero.tagline")}</span>
             </p>
 
             <div className="cta-row mb-8">
-              
-
-<button id="btn_plan_type" data-planmode="type" type="button" className="btn btn-gold">
-                Je veux un plan type (budget)
+              <button id="btn_plan_type" data-planmode="type" type="button" className="btn btn-gold">
+                {t("p1.lp.hero.cta_type")}
               </button>
               <button id="btn_plan_perso" data-planmode="personnalise" type="button" className="btn btn-dark">
-                Je veux un plan personnalisé
+                {t("p1.lp.hero.cta_perso")}
               </button>
-              <button id="btn_start_qual" className="btn btn-ghost" type="button" data-planmode="qualification">Démarrer la qualification</button>
+              <button id="btn_start_qual" className="btn btn-ghost" type="button" data-planmode="qualification">{t("p1.lp.hero.cta_qual")}</button>
             </div>
 
             <div className="mini-note">
-              <strong>Pour particuliers :</strong> villas (bande / jumelées / isolées), R+1/R+2/R+3 (1 façade / traversant / angle),
-              rénovation & réaménagement. <br/>
-              <span style={{ opacity: ".95" }}>Vous comprenez la méthode → vous voyez des exemples → vous choisissez le pack.</span> <br/>
-              <strong>Option budget :</strong> une option <em>Plan Type</em> est accessible après qualification rapide — sans itération majeure.</div>
+              <strong>{t("p1.lp.hero.note_title")}</strong> {t("p1.lp.hero.note_body")} <br/>
+              <span style={{ opacity: ".95" }}>{t("p1.lp.hero.note_sub")}</span> <br/>
+              <strong>{t("p1.lp.hero.note_option")}</strong> {t("p1.lp.hero.note_option_text")}
+            </div>
           </div>
 
           <div>
@@ -1630,33 +1656,33 @@ export default function P1Landing() {
               <div className="gold-divider mb-6"></div>
               <div className="grid-2">
                 <div>
-                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>Méthode structurée</div>
+                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>{t("p1.lp.hero.card.method_t")}</div>
                   <div style={{ color: "rgba(11,18,32,0.72)", fontSize: "13px", lineHeight: "1.6" }}>
-                    Phases + jalons clairs du diagnostic à la réception.
+                    {t("p1.lp.hero.card.method_d")}
                   </div>
                 </div>
                 <div>
-                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>Dossier piloté</div>
+                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>{t("p1.lp.hero.card.dossier_t")}</div>
                   <div style={{ color: "rgba(11,18,32,0.72)", fontSize: "13px", lineHeight: "1.6" }}>
-                    Passage commission + itérations incluses selon pack.
+                    {t("p1.lp.hero.card.dossier_d")}
                   </div>
                 </div>
                 <div>
-                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>Suivi probatoire</div>
+                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>{t("p1.lp.hero.card.suivi_t")}</div>
                   <div style={{ color: "rgba(11,18,32,0.72)", fontSize: "13px", lineHeight: "1.6" }}>
-                    Photos, PV, jalons — traçabilité exploitable.
+                    {t("p1.lp.hero.card.suivi_d")}
                   </div>
                 </div>
                 <div>
-                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>Signature & intérieur</div>
+                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>{t("p1.lp.hero.card.sign_t")}</div>
                   <div style={{ color: "rgba(11,18,32,0.72)", fontSize: "13px", lineHeight: "1.6" }}>
-                    Volumes, lumière, matériaux, menuiserie, ambiance.
+                    {t("p1.lp.hero.card.sign_d")}
                   </div>
                 </div>
               </div>
               <div className="gold-divider mt-6"></div>
               <div style={{ marginTop: "12px", fontSize: "12px", color: "rgba(11,18,32,0.60)" }}>
-                *Les packs sont en fin de page, après compréhension & visualisation (logique de décision).
+                {t("p1.lp.hero.card.foot")}
               </div>
             </div>
           </div>
@@ -1673,62 +1699,50 @@ export default function P1Landing() {
       {/* Backward-compat anchor (anciennes itérations) */}
       <div id="qualification" />
       <div className="container-max">
-        <h2 className="section-title mb-4">Trois piliers structurels</h2>
+        <h2 className="section-title mb-4">{t("p1.lp.pillars.title")}</h2>
         <p className="sub mb-10">
-          Un particulier n’achète pas “un plan”. Il achète une décision sûre : confort, esthétique, réglementation, et exécution sans surprises.
+          {t("p1.lp.pillars.sub")}
         </p>
 
-        
+
       <div id="project_types" className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "32px", margin: "40px auto", maxWidth: "1400px" }}>
-        
+
         <div className="price-card" id="price-card-villa">
-          <div className="lux-title">Projet Villa — Signature Architecte</div>
-          <div className="card-sub">Architecture + design intérieur (bande / jumelée / isolée).</div>
+          <div className="lux-title">{t("p1.lp.card.villa.title")}</div>
+          <div className="card-sub">{t("p1.lp.card.villa.sub")}</div>
           <ul className="card-bullets-premium">
-            <li>Implantation optimisée : orientation, vis‑à‑vis, reculs.</li>
-<li>Volumes signature : circulation fluide, façades, patio/jardin.</li>
-<li>Design cohérent : matériaux, ambiance, 3D si nécessaire.</li>
+            <li>{t("p1.lp.card.villa.b1")}</li>
+            <li>{t("p1.lp.card.villa.b2")}</li>
+            <li>{t("p1.lp.card.villa.b3")}</li>
           </ul>
-          <div className="muted card-micro">Villa pensée pour vivre, valoriser et durer.</div>
-    
-          <button className="btn btn-dark project-type-btn" data-p1type="villa" type="button" style={{ width: "100%", marginTop: "18px" }}>Sélectionner</button>
-        
-        
-        
+          <div className="muted card-micro">{t("p1.lp.card.villa.micro")}</div>
+          <button className="btn btn-dark project-type-btn" data-p1type="villa" type="button" style={{ width: "100%", marginTop: "18px" }}>{t("p1.lp.btn.select")}</button>
         </div>
 
-        
+
         <div className="price-card" id="price-card-imm">
-          <div className="lux-title">Projet Immeuble (R+) — Optimisation foncière</div>
-          <div className="card-sub">Constructibilité maximale & rentabilité (R+1 à R+4).</div>
+          <div className="lux-title">{t("p1.lp.card.imm.title")}</div>
+          <div className="card-sub">{t("p1.lp.card.imm.sub")}</div>
           <ul className="card-bullets-premium">
-            <li>Potentiel réglementaire : gabarit, hauteur, contraintes de lot.</li>
-<li>Rendement : unités, circulations, RDC commercial (si pertinent).</li>
-<li>Sécurisation : conformité, risques commission, sous‑sol/parking.</li>
+            <li>{t("p1.lp.card.imm.b1")}</li>
+            <li>{t("p1.lp.card.imm.b2")}</li>
+            <li>{t("p1.lp.card.imm.b3")}</li>
           </ul>
-          <div className="muted card-micro">Maximiser m² et rendement sans refus.</div>
-    
-          <button className="btn btn-dark project-type-btn" data-p1type="immeuble" type="button" style={{ width: "100%", marginTop: "18px" }}>Sélectionner</button>
-        
-        
-        
+          <div className="muted card-micro">{t("p1.lp.card.imm.micro")}</div>
+          <button className="btn btn-dark project-type-btn" data-p1type="immeuble" type="button" style={{ width: "100%", marginTop: "18px" }}>{t("p1.lp.btn.select")}</button>
         </div>
 
-        
+
         <div className="price-card" id="price-card-reno">
-          <div className="lux-title">Rénovation & Décoration — Transformation maîtrisée</div>
-          <div className="card-sub">Valoriser l’existant (maison / appartement) sans surprise.</div>
+          <div className="lux-title">{t("p1.lp.card.reno.title")}</div>
+          <div className="card-sub">{t("p1.lp.card.reno.sub")}</div>
           <ul className="card-bullets-premium">
-            <li>Conformité : plan autorisé vs existant, régularisation si besoin.</li>
-<li>Scénario clair : modificatif, design 3D, ou combiné.</li>
-<li>Coûts cachés : structure, réseaux, démolition, mises aux normes.</li>
+            <li>{t("p1.lp.card.reno.b1")}</li>
+            <li>{t("p1.lp.card.reno.b2")}</li>
+            <li>{t("p1.lp.card.reno.b3")}</li>
           </ul>
-          <div className="muted card-micro">Transformer proprement, avec budget sous contrôle.</div>
-    
-          <button className="btn btn-dark project-type-btn" data-p1type="renovation" type="button" style={{ width: "100%", marginTop: "18px" }}>Sélectionner</button>
-        
-        
-        
+          <div className="muted card-micro">{t("p1.lp.card.reno.micro")}</div>
+          <button className="btn btn-dark project-type-btn" data-p1type="renovation" type="button" style={{ width: "100%", marginTop: "18px" }}>{t("p1.lp.btn.select")}</button>
         </div>
       </div>
 
@@ -1742,169 +1756,168 @@ export default function P1Landing() {
         {/* Anchor de scroll: affiche le titre "Analysez votre projet" (évite d'arriver directement sur les champs) */}
         <div id="analyser_mon_projet" style={{ scrollMarginTop: "90px" }}></div>
 
-        <h3 className="lux-title" style={{ fontSize: "20px", marginBottom: "8px" }}>Analysez votre projet</h3>
+        <h3 className="lux-title" style={{ fontSize: "20px", marginBottom: "8px" }}>{t("p1.lp.analyse.title")}</h3>
         <p style={{ fontSize: "13px", color: "rgba(11,27,58,0.68)", marginBottom: "18px" }}>
-          Remplissez ce formulaire pour qualifier votre projet.
-          <strong>Les packs ne s'affichent qu'après création de compte.</strong>
+          {t("p1.lp.analyse.sub")} <strong>{t("p1.lp.analyse.sub_bold")}</strong>
         </p>
 
         <div className="gold-divider" style={{ margin: "16px 0" }}></div>
 
-        
-        <div className="pill" style={{ marginBottom: "12px" }}>1) Identité &amp; contact <span className="req">*</span></div>
+
+        <div className="pill" style={{ marginBottom: "12px" }}>{t("p1.lp.sec.identity")} <span className="req">*</span></div>
         <div className="form-grid">
           <div className="field">
-            <label className="label">Nom <span className="req">*</span></label>
-            <input className="control" id="q_lastname" type="text" placeholder="Votre nom"/>
+            <label className="label">{t("p1.lp.f.lastname")} <span className="req">*</span></label>
+            <input className="control" id="q_lastname" type="text" placeholder={t("p1.lp.f.lastname_ph")}/>
           </div>
           <div className="field">
-            <label className="label">Prénom <span className="req">*</span></label>
-            <input className="control" id="q_firstname" type="text" placeholder="Votre prénom"/>
+            <label className="label">{t("p1.lp.f.firstname")} <span className="req">*</span></label>
+            <input className="control" id="q_firstname" type="text" placeholder={t("p1.lp.f.firstname_ph")}/>
           </div>
           <div className="field">
-            <label className="label">Téléphone <span className="req">*</span></label>
-            <input className="control" id="q_phone" type="tel" placeholder="+212 …"/>
+            <label className="label">{t("p1.lp.f.phone")} <span className="req">*</span></label>
+            <input className="control" id="q_phone" type="tel" placeholder={t("p1.lp.f.phone_ph")}/>
           </div>
           <div className="field">
-            <label className="label">Email <span className="req">*</span></label>
-            <input className="control" id="q_email" type="email" placeholder="nom@domaine.com"/>
+            <label className="label">{t("p1.lp.f.email")} <span className="req">*</span></label>
+            <input className="control" id="q_email" type="email" placeholder={t("p1.lp.f.email_ph")}/>
           </div>
           <div className="field">
-            <label className="label">Vous êtes <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.person_type")} <span className="req">*</span></label>
             <select className="control" id="q_person_type">
-              <option value="">— Choisir —</option>
-              <option value="physique">Personne physique</option>
-              <option value="morale">Personne morale</option>
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="physique">{t("p1.lp.f.physical")}</option>
+              <option value="morale">{t("p1.lp.f.moral")}</option>
             </select>
           </div>
           <div className="field">
-            <label className="label">Situation juridique <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.legal_situation")} <span className="req">*</span></label>
             <select className="control" id="q_legal_situation">
-              <option value="">— Choisir —</option>
-              <option value="owner_major">Propriétaire majeur</option>
-              <option value="heir">Héritier</option>
-              <option value="tenant">Locataire</option>
-              <option value="shareholder">Actionnaire</option>
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="owner_major">{t("p1.lp.f.owner_major")}</option>
+              <option value="heir">{t("p1.lp.f.heir")}</option>
+              <option value="tenant">{t("p1.lp.f.tenant")}</option>
+              <option value="shareholder">{t("p1.lp.f.shareholder")}</option>
             </select>
           </div>
 
           {/* Personne physique */}
           <div className="field" id="phys_id_wrap" style={{ display: "none" }}>
-            <label className="label">Pièce d'identité <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.id_type")} <span className="req">*</span></label>
             <select className="control" id="q_phys_id_type">
-              <option value="">— Choisir —</option>
-              <option value="cin">CIN</option>
-              <option value="passport">Passeport</option>
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="cin">{t("p1.lp.f.cin")}</option>
+              <option value="passport">{t("p1.lp.f.passport")}</option>
             </select>
           </div>
           <div className="field" id="phys_id_number_wrap" style={{ display: "none" }}>
-            <label className="label">N° CIN / Passeport <span className="req">*</span></label>
-            <input className="control" id="q_phys_id_number" type="text" placeholder="Ex: AB123456"/>
+            <label className="label">{t("p1.lp.f.id_number")} <span className="req">*</span></label>
+            <input className="control" id="q_phys_id_number" type="text" placeholder={t("p1.lp.f.id_number_ph")}/>
           </div>
 
           {/* Personne morale */}
           <div className="field" id="moral_name_wrap" style={{ display: "none" }}>
-            <label className="label">Nom de la société <span className="req">*</span></label>
-            <input className="control" id="q_company_name" type="text" placeholder="Ex: XYZ SARL"/>
+            <label className="label">{t("p1.lp.f.company_name")} <span className="req">*</span></label>
+            <input className="control" id="q_company_name" type="text" placeholder={t("p1.lp.f.company_name_ph")}/>
           </div>
           <div className="field" id="moral_form_wrap" style={{ display: "none" }}>
-            <label className="label">Forme juridique <span className="req">*</span></label>
-            <input className="control" id="q_company_form" type="text" placeholder="Ex: SARL / SA / SNC"/>
+            <label className="label">{t("p1.lp.f.company_form")} <span className="req">*</span></label>
+            <input className="control" id="q_company_form" type="text" placeholder={t("p1.lp.f.company_form_ph")}/>
           </div>
           <div className="field" id="moral_ice_wrap" style={{ display: "none" }}>
-            <label className="label">ICE <span className="req">*</span></label>
-            <input className="control" id="q_company_ice" type="text" placeholder="Ex: 001234567000089"/>
+            <label className="label">{t("p1.lp.f.ice")} <span className="req">*</span></label>
+            <input className="control" id="q_company_ice" type="text" placeholder={t("p1.lp.f.ice_ph")}/>
           </div>
           <div className="field" id="moral_rc_wrap" style={{ display: "none" }}>
-            <label className="label">RC <span className="req">*</span></label>
-            <input className="control" id="q_company_rc" type="text" placeholder="Ex: 12345"/>
+            <label className="label">{t("p1.lp.f.rc")} <span className="req">*</span></label>
+            <input className="control" id="q_company_rc" type="text" placeholder={t("p1.lp.f.rc_ph")}/>
           </div>
         </div>
 
         <div className="gold-divider" style={{ margin: "18px 0" }}></div>
 
-        
-        <div className="pill" style={{ marginBottom: "12px" }}>2) Localisation <span className="req">*</span></div>
+
+        <div className="pill" style={{ marginBottom: "12px" }}>{t("p1.lp.sec.localisation")} <span className="req">*</span></div>
         <div className="form-grid">
           <div className="field">
-            <label className="label">Région <span className="req">*</span></label>
-            <input className="control" id="q_region" type="text" placeholder="Ex : Rabat-Salé-Kénitra"/>
+            <label className="label">{t("p1.lp.f.region")} <span className="req">*</span></label>
+            <input className="control" id="q_region" type="text" placeholder={t("p1.lp.f.region_ph")}/>
           </div>
           <div className="field">
-            <label className="label">Province / Préfecture <span className="req">*</span></label>
-            <input className="control" id="q_province" type="text" placeholder="Ex : Kénitra"/>
+            <label className="label">{t("p1.lp.f.province")} <span className="req">*</span></label>
+            <input className="control" id="q_province" type="text" placeholder={t("p1.lp.f.province_ph")}/>
           </div>
           <div className="field">
-            <label className="label">Commune <span className="req">*</span></label>
-            <input className="control" id="q_commune" type="text" placeholder="Ex : Kénitra / Mehdia"/>
+            <label className="label">{t("p1.lp.f.commune")} <span className="req">*</span></label>
+            <input className="control" id="q_commune" type="text" placeholder={t("p1.lp.f.commune_ph")}/>
           </div>
         </div>
 
         <div className="gold-divider" style={{ margin: "18px 0" }}></div>
 
-        
-        <div className="pill" style={{ marginBottom: "12px" }}>3) Données foncières <span className="req">*</span></div>
+
+        <div className="pill" style={{ marginBottom: "12px" }}>{t("p1.lp.sec.foncier")} <span className="req">*</span></div>
         <div className="form-grid">
           <div className="field">
-            <label className="label">Surface du terrain (m²) <span className="req">*</span></label>
-            <input className="control" id="q_area" type="number" min="0" placeholder="Ex : 120"/>
+            <label className="label">{t("p1.lp.f.surface")} <span className="req">*</span></label>
+            <input className="control" id="q_area" type="number" min="0" placeholder={t("p1.lp.f.surface_ph")}/>
           </div>
-          
+
           <div className="field">
-            <label className="label">Délai souhaité <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.timeline")} <span className="req">*</span></label>
             <select className="control" id="q_timeline">
-              <option value="">— Choisir —</option>
-              <option value="immediate">Immédiat</option>
-              <option value="lt3m">Moins de 3 mois</option>
-              <option value="3-6m">3 à 6 mois</option>
-              <option value="gt6m">Plus de 6 mois</option>
-              <option value="flexible">Flexible</option>
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="immediate">{t("p1.lp.f.timeline.immediate")}</option>
+              <option value="lt3m">{t("p1.lp.f.timeline.lt3m")}</option>
+              <option value="3-6m">{t("p1.lp.f.timeline.3_6m")}</option>
+              <option value="gt6m">{t("p1.lp.f.timeline.gt6m")}</option>
+              <option value="flexible">{t("p1.lp.f.timeline.flexible")}</option>
             </select>
           </div>
           <div className="field" id="owner_status_wrap" style={{ display: "block" }}>
-            <label className="label">Êtes-vous propriétaire du terrain ? <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.owner_q")} <span className="req">*</span></label>
             <select className="control" id="q_owner_status">
-              <option value="">— Choisir —</option>
-              <option value="yes">Oui</option>
-              <option value="acquiring">En cours d'acquisition</option>
-              <option value="searching">Recherche terrain</option>
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="yes">{t("p1.lp.f.owner.yes")}</option>
+              <option value="acquiring">{t("p1.lp.f.owner.acquiring")}</option>
+              <option value="searching">{t("p1.lp.f.owner.searching")}</option>
             </select>
           </div>
           <div className="field">
-            <label className="label">Titre foncier <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.tf")} <span className="req">*</span></label>
             <select className="control" id="q_tf_status">
-              <option value="">— Choisir —</option>
-              <option value="exists">Existant</option>
-              <option value="pending">En cours</option>
-              <option value="none">Non établi</option>
-              <option value="na">Non applicable (rénovation)</option>
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="exists">{t("p1.lp.f.tf.exists")}</option>
+              <option value="pending">{t("p1.lp.f.tf.pending")}</option>
+              <option value="none">{t("p1.lp.f.tf.none")}</option>
+              <option value="na">{t("p1.lp.f.tf.na")}</option>
             </select>
           </div>
           <div className="field" id="tf_number_wrap" style={{ display: "none" }}>
-  <label className="label">N° Titre foncier <span className="req">*</span></label>
-  <input className="control" id="q_tf_number" type="text" placeholder="Ex: 12345/XX"/>
-</div>
+            <label className="label">{t("p1.lp.f.tf_number")} <span className="req">*</span></label>
+            <input className="control" id="q_tf_number" type="text" placeholder={t("p1.lp.f.tf_number_ph")}/>
+          </div>
           <div className="field">
-            <label className="label">Lotissement <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.lot")} <span className="req">*</span></label>
             <select className="control" id="q_lot_status">
-              <option value="">— Choisir —</option>
-              <option value="yes">Issu d'un lotissement</option>
-              <option value="no">Non issu de lotissement</option>
-              <option value="na">Non applicable (rénovation)</option>
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="yes">{t("p1.lp.f.lot.yes")}</option>
+              <option value="no">{t("p1.lp.f.lot.no")}</option>
+              <option value="na">{t("p1.lp.f.lot.na")}</option>
             </select>
           </div>
           <div className="field" id="lot_name_wrap" style={{ display: "none" }}>
-  <label className="label">Nom du lotissement <span className="req">*</span></label>
-  <input className="control" id="q_lot_name" type="text" placeholder="Ex: Lotissement Al Andalous"/>
-</div>
+            <label className="label">{t("p1.lp.f.lot_name")} <span className="req">*</span></label>
+            <input className="control" id="q_lot_name" type="text" placeholder={t("p1.lp.f.lot_name_ph")}/>
+          </div>
           <div className="field" id="lot_number_wrap" style={{ display: "none" }}>
-  <label className="label">N° du lot <span className="req">*</span></label>
-  <input className="control" id="q_lot_number" type="text" placeholder="Ex: Lot 12"/>
-</div>
+            <label className="label">{t("p1.lp.f.lot_number")} <span className="req">*</span></label>
+            <input className="control" id="q_lot_number" type="text" placeholder={t("p1.lp.f.lot_number_ph")}/>
+          </div>
           <div className="field" id="lot_r_wrap" style={{ display: "none" }}>
-            <label className="label">Type de lot</label>
+            <label className="label">{t("p1.lp.f.lot_type")}</label>
             <select className="control" id="q_lot_r_type">
-              <option value="">Non connu</option>
+              <option value="">{t("p1.lp.f.lot_unknown")}</option>
               <option value="R0">R+0</option><option value="R1">R+1</option>
               <option value="R2">R+2</option><option value="R3">R+3</option><option value="R4">R+4</option>
             </select>
@@ -1913,9 +1926,9 @@ export default function P1Landing() {
 
         <div className="gold-divider" style={{ margin: "18px 0" }}></div>
 
-<div className="pill" style={{ marginBottom: "12px" }}>4) Détails du projet</div>
+<div className="pill" style={{ marginBottom: "12px" }}>{t("p1.lp.sec.details")}</div>
         <p style={{ fontSize: "13px", color: "rgba(11,27,58,0.68)", marginBottom: "14px" }}>
-          Sélectionnez votre type de projet ci-dessus — les champs apparaissent automatiquement.
+          {t("p1.lp.sec.details_sub")}
         </p>
 
         <div id="details_anchor" style={{ scrollMarginTop: "90px" }}></div>
@@ -1924,171 +1937,170 @@ export default function P1Landing() {
             Donc on affiche d'abord le bloc rénovation, puis les typologies villa/immeuble. */}
 
         <div id="bar_reno" style={{ display: "none", marginBottom: "14px" }}>
-          <div className="pill" style={{ marginBottom: "10px" }}>Rénovation &amp; Décoration <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.reno.title")} <span className="req">*</span></div>
 
-          <div className="pill" style={{ marginBottom: "10px" }}>Type de projet <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.reno.type")} <span className="req">*</span></div>
           <div className="bar-row" style={{ marginBottom: "12px" }}>
-            <button className="btn btn-dark" type="button" data-reno-kind="renovation">Rénovation</button>
-            <button className="btn btn-dark" type="button" data-reno-kind="decoration">Décoration</button>
-            <button className="btn btn-dark" type="button" data-reno-kind="transformation">Transformation (plan modificatif)</button>
+            <button className="btn btn-dark" type="button" data-reno-kind="renovation">{t("p1.lp.reno.kind.renovation")}</button>
+            <button className="btn btn-dark" type="button" data-reno-kind="decoration">{t("p1.lp.reno.kind.decoration")}</button>
+            <button className="btn btn-dark" type="button" data-reno-kind="transformation">{t("p1.lp.reno.kind.transformation")}</button>
           </div>
 
-          <div className="pill" style={{ marginBottom: "10px" }}>Support du projet <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.reno.support")} <span className="req">*</span></div>
           <div className="bar-row" style={{ marginBottom: "12px" }}>
-            <button className="btn btn-dark" type="button" data-reno-base="villa">Villa</button>
-            <button className="btn btn-dark" type="button" data-reno-base="immeuble">Immeuble (R+)</button>
+            <button className="btn btn-dark" type="button" data-reno-base="villa">{t("p1.lp.reno.support.villa")}</button>
+            <button className="btn btn-dark" type="button" data-reno-base="immeuble">{t("p1.lp.reno.support.imm")}</button>
           </div>
 
           <div className="form-grid">
             <div className="field">
-              <label className="label">Plan autorisé existant ? <span className="req">*</span></label>
+              <label className="label">{t("p1.lp.reno.plan_q")} <span className="req">*</span></label>
               <select className="control" id="q_reno_authorized_plan">
-                <option value="">Je ne sais pas</option>
-                <option value="yes">Oui</option>
-                <option value="no">Non</option>
-                <option value="na">Non applicable</option>
+                <option value="">{t("p1.lp.reno.plan.unknown")}</option>
+                <option value="yes">{t("p1.lp.reno.plan.yes")}</option>
+                <option value="no">{t("p1.lp.reno.plan.no")}</option>
+                <option value="na">{t("p1.lp.reno.plan.na")}</option>
               </select>
             </div>
             <div className="field">
-              <label className="label">Conforme au plan autorisé ? <span className="req">*</span></label>
+              <label className="label">{t("p1.lp.reno.conform_q")} <span className="req">*</span></label>
               <select className="control" id="q_reno_conform">
-                <option value="">Je ne sais pas</option>
-                <option value="yes">Oui</option>
-                <option value="no">Non</option>
-                <option value="na">Non applicable</option>
+                <option value="">{t("p1.lp.reno.plan.unknown")}</option>
+                <option value="yes">{t("p1.lp.reno.plan.yes")}</option>
+                <option value="no">{t("p1.lp.reno.plan.no")}</option>
+                <option value="na">{t("p1.lp.reno.plan.na")}</option>
               </select>
             </div>
           </div>
 
           <p className="muted" style={{ marginTop: "10px" }}>
-            Astuce : choisissez d’abord le <strong>type</strong> (rénovation / décoration / transformation), puis le <strong>support</strong> (villa ou immeuble).
-            Les typologies s'affichent juste en dessous.
+            {t("p1.lp.reno.tip")}
           </p>
         </div>
 
         <div id="bar_villa" style={{ display: "none", marginBottom: "14px" }}>
-          <div className="pill" style={{ marginBottom: "10px" }}>Typologie Villa <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.villa.title")} <span className="req">*</span></div>
           <div className="bar-row">
-            <button className="btn btn-dark" type="button" data-villa="bande">En bande</button>
-            <button className="btn btn-dark" type="button" data-villa="jumelee">Jumelée</button>
-            <button className="btn btn-dark" type="button" data-villa="isolee">Isolée</button>
-            <button className="btn btn-ghost" type="button" data-villa="inconnu">Je ne sais pas</button>
+            <button className="btn btn-dark" type="button" data-villa="bande">{t("p1.lp.villa.bande")}</button>
+            <button className="btn btn-dark" type="button" data-villa="jumelee">{t("p1.lp.villa.jumelee")}</button>
+            <button className="btn btn-dark" type="button" data-villa="isolee">{t("p1.lp.villa.isolee")}</button>
+            <button className="btn btn-ghost" type="button" data-villa="inconnu">{t("p1.lp.villa.unknown")}</button>
           </div>
-          <p style={{ fontSize: "12px", color: "rgba(11,27,58,0.60)", marginTop: "8px" }}>Villa = usage habitation uniquement. Pas de RDC commercial.</p>
+          <p style={{ fontSize: "12px", color: "rgba(11,27,58,0.60)", marginTop: "8px" }}>{t("p1.lp.villa.usage")}</p>
           <div style={{ marginTop: "12px" }}>
-            <label className="label">Configuration des façades (optionnel)</label>
+            <label className="label">{t("p1.lp.villa.fac_label")}</label>
             <select className="control" id="q_villa_facades" style={{ maxWidth: "320px", marginTop: "6px" }}>
-              <option value="">Je ne sais pas</option>
-              <option value="1">1 façade</option>
-              <option value="angle">Lot d'angle</option>
-              <option value="2op">2 façades opposées</option>
-              <option value="3">3 façades</option>
-              <option value="4">4 façades</option>
+              <option value="">{t("p1.lp.villa.unknown")}</option>
+              <option value="1">{t("p1.lp.villa.fac.1")}</option>
+              <option value="angle">{t("p1.lp.villa.fac.angle")}</option>
+              <option value="2op">{t("p1.lp.villa.fac.2op")}</option>
+              <option value="3">{t("p1.lp.villa.fac.3")}</option>
+              <option value="4">{t("p1.lp.villa.fac.4")}</option>
             </select>
           </div>
         </div>
 
         <div id="bar_immeuble" style={{ display: "none", marginBottom: "14px" }}>
-          <div className="pill" style={{ marginBottom: "10px" }}>Type de lot <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.lot_type")} <span className="req">*</span></div>
           <div className="bar-row" style={{ marginBottom: "12px" }}>
-            <button className="btn btn-dark" type="button" data-imt="economique">Lot économique habitation</button>
-            <button className="btn btn-dark" type="button" data-imt="rdc_commercial">Lot RDC commercial</button>
-            <button className="btn btn-dark" type="button" data-imt="maison_ville">Maison de ville (jardin)</button>
+            <button className="btn btn-dark" type="button" data-imt="economique">{t("p1.lp.imm.lot.eco")}</button>
+            <button className="btn btn-dark" type="button" data-imt="rdc_commercial">{t("p1.lp.imm.lot.rdc")}</button>
+            <button className="btn btn-dark" type="button" data-imt="maison_ville">{t("p1.lp.imm.lot.mdv")}</button>
           </div>
 
           <div id="facades_wrap" style={{ display: "none", marginTop: "12px" }}>
-            <div className="pill" style={{ marginBottom: "10px" }}>Nombre de façades <span className="req">*</span></div>
+            <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.fac_title")} <span className="req">*</span></div>
             <div className="bar-row">
-              <button className="btn btn-dark" type="button" data-fac="1">1 façade</button>
-              <button className="btn btn-dark" type="button" data-fac="2">Lot d'angle (2 façades)</button>
-              <button className="btn btn-dark" type="button" data-fac="3">3 façades</button>
-              <button className="btn btn-dark" type="button" data-fac="4">4 façades</button>
+              <button className="btn btn-dark" type="button" data-fac="1">{t("p1.lp.imm.fac.1")}</button>
+              <button className="btn btn-dark" type="button" data-fac="2">{t("p1.lp.imm.fac.angle2")}</button>
+              <button className="btn btn-dark" type="button" data-fac="3">{t("p1.lp.imm.fac.3")}</button>
+              <button className="btn btn-dark" type="button" data-fac="4">{t("p1.lp.imm.fac.4")}</button>
             </div>
           </div>
 
           <div style={{ marginTop: "14px" }}>
-            <div className="pill" style={{ marginBottom: "10px" }}>Niveau (R+) <span className="req">*</span></div>
+            <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.r_title")} <span className="req">*</span></div>
             <div className="bar-row">
-              <button className="btn btn-dark" type="button" data-r="R1">R+1</button>
-              <button className="btn btn-dark" type="button" data-r="R2">R+2</button>
-              <button className="btn btn-dark" type="button" data-r="R3">R+3</button>
-              <button className="btn btn-dark" type="button" data-r="R4">R+4</button>
-              <button className="btn btn-ghost" type="button" data-r="inconnu">Je ne sais pas</button>
+              <button className="btn btn-dark" type="button" data-r="R1">{t("p1.lp.imm.r1")}</button>
+              <button className="btn btn-dark" type="button" data-r="R2">{t("p1.lp.imm.r2")}</button>
+              <button className="btn btn-dark" type="button" data-r="R3">{t("p1.lp.imm.r3")}</button>
+              <button className="btn btn-dark" type="button" data-r="R4">{t("p1.lp.imm.r4")}</button>
+              <button className="btn btn-ghost" type="button" data-r="inconnu">{t("p1.lp.villa.unknown")}</button>
             </div>
           </div>
 
           <div id="galerie_wrap" style={{ display: "none", marginTop: "14px" }}>
-            <div className="pill" style={{ marginBottom: "10px" }}>RDC commercial — galerie</div>
+            <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.gal_title")}</div>
             <div className="form-grid">
               <div className="field">
-                <label className="label">Recul galerie RDC</label>
+                <label className="label">{t("p1.lp.imm.gal_recul")}</label>
                 <select className="control" id="q_galerie_rdc">
-                  <option value="">Je ne sais pas</option>
-                  <option value="yes">Oui</option>
-                  <option value="no">Non</option>
+                  <option value="">{t("p1.lp.villa.unknown")}</option>
+                  <option value="yes">{t("p1.lp.f.owner.yes")}</option>
+                  <option value="no">{t("p1.lp.reno.plan.no")}</option>
                 </select>
               </div>
             </div>
           </div>
 
           <div id="mdv_fields" style={{ display: "none", marginTop: "14px" }}>
-            <div className="pill" style={{ marginBottom: "10px" }}>Maison de ville — précisions</div>
+            <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.mdv_title")}</div>
             <div className="form-grid">
               <div className="field">
-                <label className="label">RDC</label>
+                <label className="label">{t("p1.lp.imm.mdv_rdc")}</label>
                 <select className="control" id="q_mdv_rdc_use">
-                  <option value="">Choisir…</option>
-                  <option value="habitation">Habitation</option>
-                  <option value="commercial">Commercial</option>
-                  <option value="unknown">Je ne sais pas</option>
+                  <option value="">{t("p1.lp.imm.mdv_choose")}</option>
+                  <option value="habitation">{t("p1.lp.imm.mdv_hab")}</option>
+                  <option value="commercial">{t("p1.lp.imm.mdv_comm")}</option>
+                  <option value="unknown">{t("p1.lp.villa.unknown")}</option>
                 </select>
               </div>
               <div className="field">
-                <label className="label">Recul en jardin</label>
+                <label className="label">{t("p1.lp.imm.mdv_recul")}</label>
                 <select className="control" id="q_mdv_recul_jardin">
-                  <option value="">Choisir…</option>
-                  <option value="yes">Oui</option>
-                  <option value="no">Non</option>
-                  <option value="unknown">Je ne sais pas</option>
+                  <option value="">{t("p1.lp.imm.mdv_choose")}</option>
+                  <option value="yes">{t("p1.lp.f.owner.yes")}</option>
+                  <option value="no">{t("p1.lp.reno.plan.no")}</option>
+                  <option value="unknown">{t("p1.lp.villa.unknown")}</option>
                 </select>
               </div>
             </div>
-            <p className="muted" style={{ marginTop: "10px" }}>Ces paramètres affinent la constructibilité et la conception.</p>
+            <p className="muted" style={{ marginTop: "10px" }}>{t("p1.lp.imm.mdv_note")}</p>
           </div>
 
           <div id="immeuble_common_wrap" style={{ display: "none", marginTop: "14px" }}>
             <div className="form-grid">
               <div className="field" id="rdc_commercial_wrap" style={{ display: "none" }}>
-                <label className="label">RDC commercial ? <span className="req">*</span></label>
+                <label className="label">{t("p1.lp.imm.rdc_q")} <span className="req">*</span></label>
                 <select className="control" id="q_rdc_commercial">
-                  <option value="">Je ne sais pas</option>
-                  <option value="no">Non</option>
-                  <option value="yes">Oui</option>
+                  <option value="">{t("p1.lp.villa.unknown")}</option>
+                  <option value="no">{t("p1.lp.reno.plan.no")}</option>
+                  <option value="yes">{t("p1.lp.f.owner.yes")}</option>
                 </select>
               </div>
               <div className="field">
-                <label className="label">Sous-sol ? <span className="req">*</span></label>
+                <label className="label">{t("p1.lp.imm.basement_q")} <span className="req">*</span></label>
                 <select className="control" id="q_basement">
-                  <option value="">Je ne sais pas</option>
-                  <option value="no">Sans sous-sol</option>
-                  <option value="yes">Avec sous-sol</option>
+                  <option value="">{t("p1.lp.villa.unknown")}</option>
+                  <option value="no">{t("p1.lp.imm.basement.no")}</option>
+                  <option value="yes">{t("p1.lp.imm.basement.yes")}</option>
                 </select>
               </div>
             </div>
 
             <div style={{ marginTop: "10px" }}>
-              <label className="label">Configuration des façades (optionnel)</label>
+              <label className="label">{t("p1.lp.villa.fac_label")}</label>
               <select
                 className="control"
                 id="q_facades"
                 style={{ maxWidth: "320px", marginTop: "6px", position: "relative", zIndex: 5, pointerEvents: "auto" }}
               >
-                <option value="">Je ne sais pas</option>
-                <option value="1">1 façade</option>
-                <option value="2op">2 façades opposées</option>
-                <option value="angle">Lot d'angle</option>
-                <option value="3">3 façades</option>
-                <option value="4">4 façades</option>
+                <option value="">{t("p1.lp.villa.unknown")}</option>
+                <option value="1">{t("p1.lp.villa.fac.1")}</option>
+                <option value="2op">{t("p1.lp.villa.fac.2op")}</option>
+                <option value="angle">{t("p1.lp.villa.fac.angle")}</option>
+                <option value="3">{t("p1.lp.villa.fac.3")}</option>
+                <option value="4">{t("p1.lp.villa.fac.4")}</option>
               </select>
             </div>
           </div>
@@ -2099,33 +2111,33 @@ export default function P1Landing() {
         
         <div className="form-grid" style={{ marginTop: "14px" }}>
           <div className="field" style={{ gridColumn: "1 / -1" }}>
-            <label className="label">Budget estimatif du projet <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.budget")} <span className="req">*</span></label>
             <select className="control" id="q_budget">
-              <option value="">— Choisissez d’abord la typologie du projet —</option>
+              <option value="">{t("p1.lp.f.budget_default")}</option>
             </select>
             <p style={{ marginTop: "6px", fontSize: "12px", color: "rgba(11,27,58,0.62)" }}>
-              Estimation sommaire basée sur les informations fournies. Le budget peut évoluer après étude détaillée (besoins, options, contraintes techniques).
+              {t("p1.lp.f.budget_help")}
             </p>
           </div>
         </div>
 
-<div className="pill" style={{ marginBottom: "10px" }}>5) Analyser &amp; accéder aux offres</div>
+<div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.sec.analyse_step")}</div>
         <p style={{ fontSize: "13px", color: "rgba(11,27,58,0.68)", marginBottom: "18px" }}>
-          Cliquez pour voir votre cadrage préliminaire, puis créez un compte pour accéder aux packs.
+          {t("p1.lp.sec.analyse_step_sub")}
         </p>
 
         <div style={{ textAlign: "center", marginBottom: "18px" }}>
-          <button className="btn btn-gold" id="btn_analyze_project">✦ Analyser mon projet</button>
+          <button className="btn btn-gold" id="btn_analyze_project">{t("p1.lp.analyse.cta")}</button>
         </div>
 
         {/* Récap complet — doit s'afficher ici (section 5) après action "Analyser mon projet" */}
         <div id="recap_inline" style={{ display: "none", margin: "18px 0" }} className="mini-note">
-          <div style={{ fontWeight: 900, marginBottom: "10px" }}>📌 Récapitulatif complet — projet qualifié</div>
+          <div style={{ fontWeight: 900, marginBottom: "10px" }}>{t("p1.lp.recap.title")}</div>
           <div id="recap_inline_content"></div>
         </div>
 
         <div id="analysis_box" style={{ display: "none" }} className="mini-note">
-          <strong>Analyse préliminaire :</strong>
+          <strong>{t("p1.lp.analysis.label")}</strong>
           <div id="analysis_text" style={{ marginTop: "8px", lineHeight: "1.7" }}></div>
         </div>
 
@@ -2133,34 +2145,33 @@ export default function P1Landing() {
 
         <div style={{ textAlign: "center" }}>
           <div className="lux-card" style={{ maxWidth: "760px", margin: "0 auto", padding: "18px" }}>
-            <div className="pill" style={{ marginBottom: "10px" }}>🔐 Commencer mon projet gratuitement</div>
+            <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.create.pill")}</div>
             <p className="muted" style={{ margin: "0 0 14px", lineHeight: "1.7" }}>
-              La création de dossier est gratuite. Elle vous permet de sauvegarder votre qualification, sécuriser vos documents
-              et accéder aux offres adaptées (packs et options) — tout en gardant le contrôle de vos données.
+              {t("p1.lp.create.body")}
             </p>
 
             <div style={{ display: "flex", justifyContent: "center", gap: "10px", flexWrap: "wrap" }}>
-              <button className="btn btn-gold" id="btn_create_account" type="button">Commencer mon projet gratuitement →</button>
-              <a className="btn btn-outline" href="/auth/login" style={{ textDecoration: "none" }}>J’ai déjà un compte</a>
+              <button className="btn btn-gold" id="btn_create_account" type="button">{t("p1.lp.create.cta")}</button>
+              <a className="btn btn-outline" href="/auth/login" style={{ textDecoration: "none" }}>{t("p1.lp.create.have_account")}</a>
             </div>
           </div>
         </div>
 
         <div id="otp_box" className="lux-card hidden" style={{ marginTop: "18px" }}>
-          <div className="pill" style={{ marginBottom: "10px" }}>Vérification du numéro (SMS)</div>
-          <p className="muted" style={{ margin: "0 0 12px" }}>Nous vous envoyons un code à 6 chiffres pour valider votre compte.</p>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.otp.title")}</div>
+          <p className="muted" style={{ margin: "0 0 12px" }}>{t("p1.lp.otp.body")}</p>
 
           <div className="form-grid">
             <div className="control">
-              <label htmlFor="otp_code">Code SMS (6 chiffres)</label>
-              <input id="otp_code" type="text" inputMode="numeric" maxLength={6} placeholder="Ex: 123456" />
+              <label htmlFor="otp_code">{t("p1.lp.otp.label")}</label>
+              <input id="otp_code" type="text" inputMode="numeric" maxLength={6} placeholder={t("p1.lp.otp.ph")} />
               <div className="hint muted" id="otp_hint" style={{ marginTop: "8px" }}></div>
             </div>
           </div>
 
           <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "12px" }}>
-            <button className="btn btn-outline" id="btn_resend_otp" type="button">Renvoyer le code</button>
-            <button className="btn btn-gold" id="btn_verify_otp" type="button">Valider & accéder aux offres</button>
+            <button className="btn btn-outline" id="btn_resend_otp" type="button">{t("p1.lp.otp.resend")}</button>
+            <button className="btn btn-gold" id="btn_verify_otp" type="button">{t("p1.lp.otp.verify")}</button>
           </div>
         </div>
 
@@ -2175,84 +2186,84 @@ export default function P1Landing() {
     <div className="container-max">
 
       <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "7px 14px", borderRadius: "999px", background: "rgba(201,162,39,0.14)", border: "1px solid rgba(201,162,39,0.40)", marginBottom: "20px" }}>
-        <span style={{ fontSize: "11px", fontWeight: "900", letterSpacing: ".10em", textTransform: "uppercase", color: "rgba(11,27,58,0.88)" }}>Offres réservées membres — non publiques</span>
+        <span style={{ fontSize: "11px", fontWeight: "900", letterSpacing: ".10em", textTransform: "uppercase", color: "rgba(11,27,58,0.88)" }}>{t("p1.lp.packs.badge")}</span>
       </div>
 
       <h2 className="section-title lux-title" style={{ marginBottom: "10px" }}>
-        Vos offres — <span id="pack_project_label">projet qualifié</span>
+        {t("p1.lp.packs.title")} <span id="pack_project_label">{t("p1.lp.packs.project_label")}</span>
       </h2>
       <p className="sub" style={{ marginBottom: "40px" }}>
-        Ces packs s'affichent uniquement après qualification. Ils ne sont pas publics.
+        {t("p1.lp.packs.sub")}
       </p>
 
-      
+
       <div id="pack_selected_badge" style={{ display: "none", marginBottom: "24px" }} className="mini-note">
-        <strong>Pack pré-sélectionné :</strong> <span id="pack_selected_label"></span> — vous pouvez changer ci-dessous.
+        <strong>{t("p1.lp.packs.preselect")}</strong> <span id="pack_selected_label"></span> — {t("p1.lp.packs.change")}
       </div>
 
       <div className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "32px", margin: "40px auto", maxWidth: "1400px" }}>
 
-        
+
         <div className="price-card" id="pack_card_type">
-          <div className="badge">Pack Entrée — Budget</div>
-          <div className="lux-title" style={{ marginTop: "12px", fontSize: "19px" }}>Plan type + autorisation + suivi photos</div>
-          <p className="muted" style={{ marginTop: "8px", fontSize: "13px", lineHeight: "1.6" }}>Plan gabarit standard. Dossier autorisation. Commission. Suivi chantier photos selon quota.</p>
+          <div className="badge">{t("p1.lp.pack.type.badge")}</div>
+          <div className="lux-title" style={{ marginTop: "12px", fontSize: "19px" }}>{t("p1.lp.pack.type.title")}</div>
+          <p className="muted" style={{ marginTop: "8px", fontSize: "13px", lineHeight: "1.6" }}>{t("p1.lp.pack.type.sub")}</p>
           <div className="price">
-            <span style={{ fontSize: "13px", fontWeight: "700" }}>À partir de</span>
+            <span style={{ fontSize: "13px", fontWeight: "700" }}>{t("p1.lp.pack.from")}</span>
             <span className="amt" style={{ fontSize: "34px" }}>19 999</span>
-            <span style={{ fontSize: "13px", fontWeight: "700" }}>MAD HT</span>
+            <span style={{ fontSize: "13px", fontWeight: "700" }}>{t("p1.lp.pack.mad_ht")}</span>
           </div>
-          <div className="hint" style={{ marginBottom: "12px" }}>⚠️ Plans types · cadre prédéfini · adaptation limitée</div>
+          <div className="hint" style={{ marginBottom: "12px" }}>{t("p1.lp.pack.type.warn")}</div>
           <ul className="feat" style={{ flex: "1" }}>
-            <li><span className="tick"></span>Esquisse plan type conforme</li>
-            <li><span className="tick"></span>Version autorisation + dépôt</li>
-            <li><span className="tick"></span>Commission (jusqu'à 3 cycles)</li>
-            <li><span className="tick"></span>Suivi chantier photos (quota)</li>
-            <li><span className="tick"></span>Archivage dossier</li>
-            <li style={{ opacity: ".4" }}><span className="tick"></span>Plan sur-mesure ✕</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.type.f1")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.type.f2")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.type.f3")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.type.f4")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.type.f5")}</li>
+            <li style={{ opacity: ".4" }}><span className="tick"></span>{t("p1.lp.pack.type.f6")}</li>
           </ul>
-          <button className="btn btn-dark" id="btn_pack_type" style={{ marginTop: "16px", width: "100%" }}>Choisir ce pack →</button>
+          <button className="btn btn-dark" id="btn_pack_type" style={{ marginTop: "16px", width: "100%" }}>{t("p1.lp.pack.choose")}</button>
         </div>
 
-        
+
         <div className="price-card featured" id="pack_card_custom">
-          <div className="badge">Le plus choisi</div>
-          <div className="lux-title" style={{ marginTop: "12px", fontSize: "19px" }}>Plan personnalisé + autorisation + suivi photos</div>
-          <p className="muted" style={{ marginTop: "8px", fontSize: "13px", lineHeight: "1.6" }}>Plan sur-mesure, révisions C1/C2 incluses, suivi photo renforcé.</p>
+          <div className="badge">{t("p1.lp.pack.custom.badge")}</div>
+          <div className="lux-title" style={{ marginTop: "12px", fontSize: "19px" }}>{t("p1.lp.pack.custom.title")}</div>
+          <p className="muted" style={{ marginTop: "8px", fontSize: "13px", lineHeight: "1.6" }}>{t("p1.lp.pack.custom.sub")}</p>
           <div className="price">
-            <span style={{ fontSize: "13px", fontWeight: "700" }}>À partir de</span>
+            <span style={{ fontSize: "13px", fontWeight: "700" }}>{t("p1.lp.pack.from")}</span>
             <span className="amt" style={{ fontSize: "34px" }}>39 999</span>
-            <span style={{ fontSize: "13px", fontWeight: "700" }}>MAD HT</span>
+            <span style={{ fontSize: "13px", fontWeight: "700" }}>{t("p1.lp.pack.mad_ht")}</span>
           </div>
-          <div className="hint" style={{ marginBottom: "12px" }}>Honoraires classiques = 5 % du montant de réalisation</div>
+          <div className="hint" style={{ marginBottom: "12px" }}>{t("p1.lp.pack.custom.hint")}</div>
           <ul className="feat" style={{ flex: "1" }}>
-            <li><span className="tick"></span>Esquisse personnalisée sur-mesure</li>
-            <li><span className="tick"></span>Révisions C1/C2 incluses</li>
-            <li><span className="tick"></span>Autorisation + commission complète</li>
-            <li><span className="tick"></span>Suivi chantier photos renforcé</li>
-            <li><span className="tick"></span>Archivage dossier</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.custom.f1")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.custom.f2")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.custom.f3")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.custom.f4")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.custom.f5")}</li>
           </ul>
-          <button className="btn btn-gold" id="btn_pack_custom" style={{ marginTop: "16px", width: "100%" }}>Choisir ce pack →</button>
+          <button className="btn btn-gold" id="btn_pack_custom" style={{ marginTop: "16px", width: "100%" }}>{t("p1.lp.pack.choose")}</button>
         </div>
 
-        
+
         <div className="price-card" id="pack_card_premium">
-          <div className="badge">Pack Premium</div>
-          <div className="lux-title" style={{ marginTop: "12px", fontSize: "19px" }}>Plan personnalisé + suivi chantier complet</div>
-          <p className="muted" style={{ marginTop: "8px", fontSize: "13px", lineHeight: "1.6" }}>Plan sur-mesure + suivi chantier structuré : visites, PV, jalons, réception.</p>
+          <div className="badge">{t("p1.lp.pack.premium.badge")}</div>
+          <div className="lux-title" style={{ marginTop: "12px", fontSize: "19px" }}>{t("p1.lp.pack.premium.title")}</div>
+          <p className="muted" style={{ marginTop: "8px", fontSize: "13px", lineHeight: "1.6" }}>{t("p1.lp.pack.premium.sub")}</p>
           <div className="price">
-            <span style={{ fontSize: "18px", fontWeight: "900", color: "var(--royal)" }}>Sur devis</span>
+            <span style={{ fontSize: "18px", fontWeight: "900", color: "var(--royal)" }}>{t("p1.lp.pack.premium.on_quote")}</span>
           </div>
-          <div className="hint" style={{ marginBottom: "12px" }}>Projet complexe · chantier suivi de bout en bout</div>
+          <div className="hint" style={{ marginBottom: "12px" }}>{t("p1.lp.pack.premium.hint")}</div>
           <ul className="feat" style={{ flex: "1" }}>
-            <li><span className="tick"></span>Esquisse + révisions C1/C2</li>
-            <li><span className="tick"></span>Autorisation + commission</li>
-            <li><span className="tick"></span>Jalons chantier + visites + PV</li>
-            <li><span className="tick"></span>Réception provisoire + définitive</li>
-            <li><span className="tick"></span>Permis d'habiter (pilotage)</li>
-            <li><span className="tick"></span>Archivage probatoire complet</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.premium.f1")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.premium.f2")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.premium.f3")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.premium.f4")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.premium.f5")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.premium.f6")}</li>
           </ul>
-          <button className="btn btn-dark" style={{ marginTop: "16px", width: "100%" }}>Demander un devis →</button>
+          <button className="btn btn-dark" style={{ marginTop: "16px", width: "100%" }}>{t("p1.lp.pack.premium.cta")}</button>
         </div>
 
       </div>
@@ -2260,19 +2271,19 @@ export default function P1Landing() {
       <div className="gold-divider" style={{ margin: "48px 0 28px" }}></div>
       <div className="grid-2" style={{ gap: "24px" }}>
         <div className="mini-note">
-          <div style={{ fontWeight: "900", color: "var(--royal)", marginBottom: "8px" }}>🔵 Modèle classique architecte</div>
-          <div>Honoraires = <strong>5 % du montant réel de réalisation</strong></div>
+          <div style={{ fontWeight: "900", color: "var(--royal)", marginBottom: "8px" }}>{t("p1.lp.model.classic.title")}</div>
+          <div>{t("p1.lp.model.classic.body")}</div>
           <ul style={{ margin: "8px 0 0", paddingLeft: "16px", fontSize: "13px", lineHeight: "1.9", color: "rgba(11,18,32,0.72)" }}>
-            <li>40 % — études + autorisation</li>
-            <li>30 % — exécution + CPS</li>
-            <li>30 % — suivi chantier</li>
+            <li>{t("p1.lp.model.classic.l1")}</li>
+            <li>{t("p1.lp.model.classic.l2")}</li>
+            <li>{t("p1.lp.model.classic.l3")}</li>
           </ul>
         </div>
         <div className="mini-note">
-          <div style={{ fontWeight: "900", color: "var(--royal)", marginBottom: "8px" }}>🟡 Modèle packs (standardisés)</div>
-          <div>À partir de <strong>19 999 MAD HT</strong> (plan type)</div>
-          <div style={{ marginTop: "4px" }}>À partir de <strong>39 999 MAD HT</strong> (plan personnalisé)</div>
-          <div style={{ fontSize: "12px", color: "rgba(11,18,32,0.55)", marginTop: "10px" }}>⚠️ Plans types · cadre prédéfini · adaptation limitée</div>
+          <div style={{ fontWeight: "900", color: "var(--royal)", marginBottom: "8px" }}>{t("p1.lp.model.packs.title")}</div>
+          <div>{t("p1.lp.model.packs.l1")}</div>
+          <div style={{ marginTop: "4px" }}>{t("p1.lp.model.packs.l2")}</div>
+          <div style={{ fontSize: "12px", color: "rgba(11,18,32,0.55)", marginTop: "10px" }}>{t("p1.lp.model.packs.warn")}</div>
         </div>
       </div>
 
@@ -2307,32 +2318,32 @@ export default function P1Landing() {
     
     <div style={{ background: "linear-gradient(135deg,#C9A227,#E6C75B)", color: "white", padding: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
       <div>
-        <h3 style={{ margin: "0", fontSize: "18px", fontWeight: "700" }}>Assistant CITURBAREA 🤖</h3>
-        <p style={{ margin: "4px 0 0", fontSize: "13px", opacity: "0.95" }}>Disponible 24/7 pour vous aider</p>
+        <h3 style={{ margin: "0", fontSize: "18px", fontWeight: "700" }}>{t("p1.lp.chat.title")}</h3>
+        <p style={{ margin: "4px 0 0", fontSize: "13px", opacity: "0.95" }}>{t("p1.lp.chat.sub")}</p>
       </div>
-      <button style={{ background: "none", border: "none", color: "white", cursor: "pointer", fontSize: "24px", padding: "0", width: "32px", height: "32px" }}>×</button>
+      <button aria-label="close" style={{ background: "none", border: "none", color: "white", cursor: "pointer", fontSize: "24px", padding: "0", width: "32px", height: "32px" }}>×</button>
     </div>
-    
-    
+
+
     <div id="chat_messages" style={{ height: "380px", overflowY: "auto", padding: "20px", background: "#fafafa" }}>
       <div className="chat-msg-ai">
         <div style={{ background: "white", padding: "12px 16px", borderRadius: "12px 12px 12px 4px", fontSize: "14px", lineHeight: "1.6", boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
-          👋 Bonjour ! Je suis l'assistant CITURBAREA.<br/><br/>
-          <strong>Je peux vous aider avec :</strong><br/>
-          • Qualification de votre projet<br/>
-          • Choix du bon pack<br/>
-          • Questions réglementaires<br/>
-          • Process et délais<br/><br/>
-          Comment puis-je vous aider aujourd'hui ?
+          {t("p1.lp.chat.welcome")}<br/><br/>
+          <strong>{t("p1.lp.chat.help_with")}</strong><br/>
+          • {t("p1.lp.chat.help1")}<br/>
+          • {t("p1.lp.chat.help2")}<br/>
+          • {t("p1.lp.chat.help3")}<br/>
+          • {t("p1.lp.chat.help4")}<br/><br/>
+          {t("p1.lp.chat.howcan")}
         </div>
       </div>
     </div>
-    
-    
+
+
     <div style={{ padding: "16px", borderTop: "1px solid #e5e5e5", background: "white" }}>
       <div style={{ display: "flex", gap: "8px" }}>
-        <input type="text" id="chat_input" placeholder="Tapez votre message..." style={{ flex: "1", padding: "12px", border: "1px solid #ddd", borderRadius: "12px", fontSize: "14px" }} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); } }} />
-        <button id="chat_send_btn" type="button" style={{ padding: "12px 20px", background: "linear-gradient(135deg,#C9A227,#E6C75B)", color: "white", border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "600" }}>
+        <input type="text" id="chat_input" placeholder={t("p1.lp.chat.input_ph")} style={{ flex: "1", padding: "12px", border: "1px solid #ddd", borderRadius: "12px", fontSize: "14px" }} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); } }} />
+        <button id="chat_send_btn" type="button" aria-label="send" style={{ padding: "12px 20px", background: "linear-gradient(135deg,#C9A227,#E6C75B)", color: "white", border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "600" }}>
           ➤
         </button>
       </div>
