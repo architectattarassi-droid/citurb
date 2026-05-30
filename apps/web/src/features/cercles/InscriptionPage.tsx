@@ -17,6 +17,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { CC_THEME, ensureFonts } from "./theme";
 import { invitationsApi, InvitePreview, ProMetier } from "./api";
 import { setToken } from "../../tomes/tome4/apiClient";
+import { useT } from "../../i18n/i18n";
 
 const METIERS: { value: ProMetier; label: string }[] = [
   { value: "ARCHITECTE", label: "Architecte" },
@@ -103,6 +104,7 @@ type Step = 1 | 2 | 3 | 4;
 
 export default function InscriptionPage() {
   useEffect(() => { ensureFonts(); }, []);
+  const t = useT();
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const token = params.get("invite") || "";
@@ -170,16 +172,16 @@ export default function InscriptionPage() {
           setPreview(r.data);
           setEmail(r.data.email);
         }
-        else setLookupErr(r.error || "Invitation invalide");
+        else setLookupErr(r.error || t("cercles.inscription.err_invite_invalid"));
       })
-      .catch((e: any) => setLookupErr(e?.message || "Erreur lookup"))
+      .catch((e: any) => setLookupErr(e?.message || t("cercles.inscription.err_lookup")))
       .finally(() => setLoading(false));
   }, [token, isInvitedMode]);
 
   const onAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
     if (!f) return;
-    if (f.size > 5 * 1024 * 1024) { alert("Photo trop lourde (max 5 Mo)."); return; }
+    if (f.size > 5 * 1024 * 1024) { alert(t("cercles.inscription.avatar_too_heavy")); return; }
     setAvatarFile(f);
     const reader = new FileReader();
     reader.onload = () => setAvatarPreview(reader.result as string);
@@ -193,23 +195,23 @@ export default function InscriptionPage() {
 
   const validateStep = (s: Step): string | null => {
     if (s === 1) {
-      if (!prenom.trim()) return "Prénom requis";
-      if (!nom.trim()) return "Nom requis";
-      if (!email.trim() || !email.includes("@")) return "Email valide requis";
-      if (!phonePrivate.trim() || phonePrivate.replace(/\D/g, "").length < 9) return "Téléphone valide requis (pour OTP & notifications)";
-      if (password.length < 8) return "Mot de passe ≥ 8 caractères requis";
-      if (password !== passwordConfirm) return "Les deux mots de passe ne correspondent pas";
+      if (!prenom.trim()) return t("cercles.inscription.err_prenom");
+      if (!nom.trim()) return t("cercles.inscription.err_nom");
+      if (!email.trim() || !email.includes("@")) return t("cercles.inscription.err_email");
+      if (!phonePrivate.trim() || phonePrivate.replace(/\D/g, "").length < 9) return t("cercles.inscription.err_phone");
+      if (password.length < 8) return t("cercles.inscription.err_password_min");
+      if (password !== passwordConfirm) return t("cercles.inscription.err_password_match");
       return null;
     }
     if (s === 2) {
-      if (!cabinetStatus) return "Statut d'exercice requis";
+      if (!cabinetStatus) return t("cercles.inscription.err_statut");
       if (metier === "ARCHITECTE" && cabinetStatus !== "ETUDIANT" && !cnoaNumero.trim()) {
-        return "N° CNOA requis pour les architectes (sauf étudiants)";
+        return t("cercles.inscription.err_cnoa");
       }
       return null;
     }
     if (s === 4) {
-      if (!acceptCgu) return "Vous devez accepter les CGU pour créer un compte";
+      if (!acceptCgu) return t("cercles.inscription.err_cgu");
       return null;
     }
     return null;
@@ -267,7 +269,7 @@ export default function InscriptionPage() {
 
       if (isInvitedMode && preview) {
         const r = await invitationsApi.signup({ token, ...baseBody });
-        if (!r.ok) throw new Error("Inscription refusée");
+        if (!r.ok) throw new Error(t("cercles.inscription.err_signup_refused"));
         accessToken = r.data.access_token;
         targetSlug = r.data.cercleSlug;
       } else {
@@ -276,7 +278,7 @@ export default function InscriptionPage() {
           cercleSlug: cercleSlugParam || undefined,
           ...baseBody,
         });
-        if (!r.ok) throw new Error("Inscription refusée");
+        if (!r.ok) throw new Error(t("cercles.inscription.err_signup_refused"));
         accessToken = r.data.access_token;
         targetSlug = r.data.cercleSlug;
       }
@@ -290,7 +292,7 @@ export default function InscriptionPage() {
 
       navigate(targetSlug ? `/cercles/${targetSlug}` : "/cercles");
     } catch (e: any) {
-      setSubmitErr(e?.message || "Erreur inscription");
+      setSubmitErr(e?.message || t("cercles.inscription.err_signup_generic"));
     } finally {
       setSubmitting(false);
     }
@@ -301,19 +303,19 @@ export default function InscriptionPage() {
     else setList([...list, val]);
   };
 
-  if (loading) return <div style={S.center}>Chargement de l'invitation…</div>;
+  if (loading) return <div style={S.center}>{t("cercles.inscription.loading")}</div>;
   if (lookupErr) return (
     <div style={S.center}>
       <div style={S.errorBox}>
-        <h2 style={{ fontFamily: CC_THEME.fontDisplay, color: CC_THEME.danger, marginBottom: 12 }}>Invitation invalide</h2>
+        <h2 style={{ fontFamily: CC_THEME.fontDisplay, color: CC_THEME.danger, marginBottom: 12 }}>{t("cercles.inscription.invite_invalid_title")}</h2>
         <p style={{ color: CC_THEME.inkMid, fontSize: 14 }}>{lookupErr}</p>
         <p style={{ color: CC_THEME.inkMid, fontSize: 13, marginTop: 14 }}>
-          Vous pouvez aussi créer un compte sans invitation :
+          {t("cercles.inscription.invite_invalid_hint")}
         </p>
         <button onClick={() => { setLookupErr(null); setLoading(false); }} style={S.btnPrimary}>
-          Créer un compte ouvert →
+          {t("cercles.inscription.invite_open_cta")}
         </button>
-        <div><button onClick={() => navigate("/")} style={S.btnGhost}>← Accueil</button></div>
+        <div><button onClick={() => navigate("/")} style={S.btnGhost}>{t("cercles.inscription.back_home")}</button></div>
       </div>
     </div>
   );
@@ -322,13 +324,13 @@ export default function InscriptionPage() {
     <div style={S.root}>
       <div style={S.card}>
         <header style={S.header}>
-          <div style={S.eyebrow}>CITURBAREA · CERCLES</div>
-          <h1 style={S.title}>{isInvitedMode && preview ? "Vous êtes invité(e)" : "Créer votre compte professionnel"}</h1>
+          <div style={S.eyebrow}>{t("cercles.inscription.eyebrow")}</div>
+          <h1 style={S.title}>{isInvitedMode && preview ? t("cercles.inscription.title_invited") : t("cercles.inscription.title_open")}</h1>
 
           {isInvitedMode && preview && (
             <>
               <p style={S.subtitle}>
-                <strong>{preview.invitedBy.username || preview.invitedBy.email}</strong> vous invite à rejoindre
+                <strong>{preview.invitedBy.username || preview.invitedBy.email}</strong> {t("cercles.inscription.invited_by_suffix")}
               </p>
               <div style={S.cercleBox}>
                 <div style={S.cercleName}>{preview.cercle.name}</div>
@@ -336,7 +338,7 @@ export default function InscriptionPage() {
               </div>
               {preview.message && (
                 <div style={S.msgBox}>
-                  <strong style={{ color: CC_THEME.or, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.10em" }}>Mot de l'invitant</strong>
+                  <strong style={{ color: CC_THEME.or, fontSize: 11, textTransform: "uppercase", letterSpacing: "0.10em" }}>{t("cercles.inscription.host_word_label")}</strong>
                   <div style={{ fontSize: 14, marginTop: 4 }}>{preview.message}</div>
                 </div>
               )}
@@ -345,8 +347,7 @@ export default function InscriptionPage() {
 
           {!isInvitedMode && (
             <p style={S.subtitle}>
-              Rejoignez le réseau privé des professionnels du BTP marocain. Votre inscription
-              est validée manuellement par l'équipe CITURBAREA.
+              {t("cercles.inscription.open_subtitle")}
             </p>
           )}
 
@@ -363,49 +364,49 @@ export default function InscriptionPage() {
             ))}
           </div>
           <div style={S.stepLabels}>
-            <span style={{ color: step === 1 ? CC_THEME.or : CC_THEME.bgSoft }}>1. Identité</span>
-            <span style={{ color: step === 2 ? CC_THEME.or : CC_THEME.bgSoft }}>2. Exercice</span>
-            <span style={{ color: step === 3 ? CC_THEME.or : CC_THEME.bgSoft }}>3. Formation</span>
-            <span style={{ color: step === 4 ? CC_THEME.or : CC_THEME.bgSoft }}>4. Profil & CGU</span>
+            <span style={{ color: step === 1 ? CC_THEME.or : CC_THEME.bgSoft }}>{t("cercles.inscription.step1_label")}</span>
+            <span style={{ color: step === 2 ? CC_THEME.or : CC_THEME.bgSoft }}>{t("cercles.inscription.step2_label")}</span>
+            <span style={{ color: step === 3 ? CC_THEME.or : CC_THEME.bgSoft }}>{t("cercles.inscription.step3_label")}</span>
+            <span style={{ color: step === 4 ? CC_THEME.or : CC_THEME.bgSoft }}>{t("cercles.inscription.step4_label")}</span>
           </div>
         </header>
 
         <div style={S.formBlock}>
           {step === 1 && (
             <>
-              <SectionTitle>Identité & compte</SectionTitle>
+              <SectionTitle>{t("cercles.inscription.section_identite")}</SectionTitle>
 
               <div style={S.avatarRow}>
                 <label style={S.avatarLabel}>
                   {avatarPreview ? <img src={avatarPreview} alt="" style={S.avatarImg} /> : <div style={S.avatarPlaceholder}>📷</div>}
                   <input type="file" accept="image/jpeg,image/png,image/webp" onChange={onAvatarChange} style={{ display: "none" }} />
-                  <span style={S.avatarHint}>{avatarFile ? "Changer la photo" : "Photo de profil (optionnel, max 5 Mo)"}</span>
+                  <span style={S.avatarHint}>{avatarFile ? t("cercles.inscription.avatar_change") : t("cercles.inscription.avatar_hint")}</span>
                 </label>
               </div>
 
               <div style={S.row}>
-                <Field label="Civilité" flex={0.4}>
+                <Field label={t("cercles.inscription.field_civilite")} flex={0.4}>
                   <select style={S.input} value={civilite} onChange={(e) => setCivilite(e.target.value)}>
                     {CIVILITES.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </Field>
-                <Field label="Prénom *">
-                  <input style={S.input} value={prenom} onChange={(e) => setPrenom(e.target.value)} placeholder="Amine" />
+                <Field label={t("cercles.inscription.field_prenom")}>
+                  <input style={S.input} value={prenom} onChange={(e) => setPrenom(e.target.value)} placeholder={t("cercles.inscription.placeholder_prenom")} />
                 </Field>
-                <Field label="Nom *">
-                  <input style={S.input} value={nom} onChange={(e) => setNom(e.target.value)} placeholder="El Fassi" />
+                <Field label={t("cercles.inscription.field_nom")}>
+                  <input style={S.input} value={nom} onChange={(e) => setNom(e.target.value)} placeholder={t("cercles.inscription.placeholder_nom")} />
                 </Field>
               </div>
 
-              <Field label="Email *">
-                <input type="email" style={S.input} value={email} onChange={(e) => setEmail(e.target.value)} disabled={isInvitedMode} placeholder="amine.elfassi@example.ma" />
+              <Field label={t("cercles.inscription.field_email")}>
+                <input type="email" style={S.input} value={email} onChange={(e) => setEmail(e.target.value)} disabled={isInvitedMode} placeholder={t("cercles.inscription.placeholder_email")} />
               </Field>
 
               <div style={S.row}>
-                <Field label="Téléphone privé * (pour OTP / notifications)">
-                  <input style={S.input} value={phonePrivate} onChange={(e) => setPhonePrivate(e.target.value)} placeholder="+212 6 12 34 56 78" />
+                <Field label={t("cercles.inscription.field_phone_private")}>
+                  <input style={S.input} value={phonePrivate} onChange={(e) => setPhonePrivate(e.target.value)} placeholder={t("cercles.inscription.placeholder_phone_private")} />
                 </Field>
-                <Field label="Métier *">
+                <Field label={t("cercles.inscription.field_metier")}>
                   <select style={S.input} value={metier} onChange={(e) => setMetier(e.target.value as ProMetier)}>
                     {METIERS.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
                   </select>
@@ -413,48 +414,48 @@ export default function InscriptionPage() {
               </div>
 
               <div style={S.row}>
-                <Field label="Mot de passe * (≥ 8 caractères)">
-                  <input type="password" style={S.input} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
+                <Field label={t("cercles.inscription.field_password")}>
+                  <input type="password" style={S.input} value={password} onChange={(e) => setPassword(e.target.value)} placeholder={t("cercles.inscription.placeholder_password")} />
                 </Field>
-                <Field label="Confirmer le mot de passe *">
-                  <input type="password" style={S.input} value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} placeholder="••••••••" />
+                <Field label={t("cercles.inscription.field_password_confirm")}>
+                  <input type="password" style={S.input} value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} placeholder={t("cercles.inscription.placeholder_password")} />
                 </Field>
               </div>
 
-              <Field label="Bio courte (optionnel — 500 caractères max)">
-                <textarea style={{ ...S.input, minHeight: 70 }} value={bio} onChange={(e) => setBio(e.target.value)} maxLength={500} placeholder="Quelques lignes sur vous, votre parcours, vos spécialités…" />
+              <Field label={t("cercles.inscription.field_bio")}>
+                <textarea style={{ ...S.input, minHeight: 70 }} value={bio} onChange={(e) => setBio(e.target.value)} maxLength={500} placeholder={t("cercles.inscription.placeholder_bio")} />
               </Field>
             </>
           )}
 
           {step === 2 && (
             <>
-              <SectionTitle>Exercice & société</SectionTitle>
-              <Field label="Statut d'exercice *">
+              <SectionTitle>{t("cercles.inscription.section_exercice")}</SectionTitle>
+              <Field label={t("cercles.inscription.field_statut")}>
                 <select style={S.input} value={cabinetStatus} onChange={(e) => setCabinetStatus(e.target.value)}>
                   {STATUTS_EXERCICE.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
                 </select>
               </Field>
-              <Field label="Nom de la société / cabinet (laisser vide si exercice à titre personnel)">
-                <input style={S.input} value={cabinetName} onChange={(e) => setCabinetName(e.target.value)} placeholder="ex: Atelier El Fassi Architectes" />
+              <Field label={t("cercles.inscription.field_cabinet_name")}>
+                <input style={S.input} value={cabinetName} onChange={(e) => setCabinetName(e.target.value)} placeholder={t("cercles.inscription.placeholder_cabinet")} />
               </Field>
               <div style={S.row}>
-                <Field label="N° ICE (si société)">
-                  <input style={S.input} value={cabinetIce} onChange={(e) => setCabinetIce(e.target.value)} placeholder="002584963000054" />
+                <Field label={t("cercles.inscription.field_ice")}>
+                  <input style={S.input} value={cabinetIce} onChange={(e) => setCabinetIce(e.target.value)} placeholder={t("cercles.inscription.placeholder_ice")} />
                 </Field>
-                <Field label="N° RC (registre commerce)">
-                  <input style={S.input} value={cabinetRc} onChange={(e) => setCabinetRc(e.target.value)} placeholder="123456" />
+                <Field label={t("cercles.inscription.field_rc")}>
+                  <input style={S.input} value={cabinetRc} onChange={(e) => setCabinetRc(e.target.value)} placeholder={t("cercles.inscription.placeholder_rc")} />
                 </Field>
               </div>
-              <Field label="Adresse du cabinet / siège social">
-                <input style={S.input} value={cabinetAdresse} onChange={(e) => setCabinetAdresse(e.target.value)} placeholder="12 rue Tarik Ibn Ziad, Casablanca" />
+              <Field label={t("cercles.inscription.field_adresse")}>
+                <input style={S.input} value={cabinetAdresse} onChange={(e) => setCabinetAdresse(e.target.value)} placeholder={t("cercles.inscription.placeholder_adresse")} />
               </Field>
               <div style={S.row}>
-                <Field label={`N° CNOA${metier === "ARCHITECTE" && cabinetStatus !== "ETUDIANT" ? " *" : " (si applicable)"}`}>
-                  <input style={S.input} value={cnoaNumero} onChange={(e) => setCnoa(e.target.value)} placeholder="ex: CNOA-12345" />
+                <Field label={metier === "ARCHITECTE" && cabinetStatus !== "ETUDIANT" ? t("cercles.inscription.field_cnoa_required") : t("cercles.inscription.field_cnoa_optional")}>
+                  <input style={S.input} value={cnoaNumero} onChange={(e) => setCnoa(e.target.value)} placeholder={t("cercles.inscription.placeholder_cnoa")} />
                 </Field>
-                <Field label="Années d'expérience">
-                  <input type="number" min="0" max="60" style={S.input} value={yearsExperience} onChange={(e) => setYearsExp(e.target.value)} placeholder="14" />
+                <Field label={t("cercles.inscription.field_years_exp")}>
+                  <input type="number" min="0" max="60" style={S.input} value={yearsExperience} onChange={(e) => setYearsExp(e.target.value)} placeholder={t("cercles.inscription.placeholder_years_exp")} />
                 </Field>
               </div>
             </>
@@ -462,25 +463,25 @@ export default function InscriptionPage() {
 
           {step === 3 && (
             <>
-              <SectionTitle>Formation & zones d'intervention</SectionTitle>
-              <Field label="École de formation">
+              <SectionTitle>{t("cercles.inscription.section_formation")}</SectionTitle>
+              <Field label={t("cercles.inscription.field_ecole")}>
                 <select style={S.input} value={ecole} onChange={(e) => setEcole(e.target.value)}>
-                  <option value="">— Sélectionner —</option>
+                  <option value="">{t("cercles.inscription.select_placeholder")}</option>
                   {ECOLES_ARCHI.map(e => <option key={e} value={e}>{e}</option>)}
                 </select>
               </Field>
               <div style={S.row}>
-                <Field label="Diplôme obtenu">
-                  <input style={S.input} value={diplome} onChange={(e) => setDiplome(e.target.value)} placeholder="ex: Diplôme d'État d'Architecte" />
+                <Field label={t("cercles.inscription.field_diplome")}>
+                  <input style={S.input} value={diplome} onChange={(e) => setDiplome(e.target.value)} placeholder={t("cercles.inscription.placeholder_diplome")} />
                 </Field>
-                <Field label="Année du diplôme">
-                  <input type="number" min="1950" max="2030" style={S.input} value={anneeDiplome} onChange={(e) => setAnneeDiplome(e.target.value)} placeholder="2010" />
+                <Field label={t("cercles.inscription.field_annee_diplome")}>
+                  <input type="number" min="1950" max="2030" style={S.input} value={anneeDiplome} onChange={(e) => setAnneeDiplome(e.target.value)} placeholder={t("cercles.inscription.placeholder_annee_diplome")} />
                 </Field>
               </div>
-              <Field label="Ville principale d'exercice">
-                <input style={S.input} value={villePrincipale} onChange={(e) => setVille(e.target.value)} placeholder="Casablanca" />
+              <Field label={t("cercles.inscription.field_ville_principale")}>
+                <input style={S.input} value={villePrincipale} onChange={(e) => setVille(e.target.value)} placeholder={t("cercles.inscription.placeholder_ville")} />
               </Field>
-              <Field label="Régions d'intervention (cochez celles où vous travaillez)">
+              <Field label={t("cercles.inscription.field_regions")}>
                 <div style={S.chipsGroup}>
                   {REGIONS.map(r => (
                     <button key={r} type="button" onClick={() => toggleListVal(regions, setRegions, r)} style={{
@@ -492,10 +493,10 @@ export default function InscriptionPage() {
                   ))}
                 </div>
               </Field>
-              <Field label="Spécialités (séparées par virgule)">
-                <textarea style={{ ...S.input, minHeight: 50 }} value={specialitesText} onChange={(e) => setSpecialitesText(e.target.value)} placeholder="ex: Logements collectifs, BIM, Patrimoine, Tertiaire, Hôpitaux" />
+              <Field label={t("cercles.inscription.field_specialites")}>
+                <textarea style={{ ...S.input, minHeight: 50 }} value={specialitesText} onChange={(e) => setSpecialitesText(e.target.value)} placeholder={t("cercles.inscription.placeholder_specialites")} />
               </Field>
-              <Field label="Langues parlées">
+              <Field label={t("cercles.inscription.field_langues")}>
                 <div style={S.chipsGroup}>
                   {LANGUES.map(l => (
                     <button key={l.value} type="button" onClick={() => toggleListVal(langues, setLangues, l.value)} style={{
@@ -512,33 +513,33 @@ export default function InscriptionPage() {
 
           {step === 4 && (
             <>
-              <SectionTitle>Profil pro & préférences</SectionTitle>
+              <SectionTitle>{t("cercles.inscription.section_profil")}</SectionTitle>
               <div style={S.row}>
-                <Field label="Téléphone public (visible aux autres membres)">
-                  <input style={S.input} value={phonePublic} onChange={(e) => setPhone(e.target.value)} placeholder="+212 522 …" />
+                <Field label={t("cercles.inscription.field_phone_public")}>
+                  <input style={S.input} value={phonePublic} onChange={(e) => setPhone(e.target.value)} placeholder={t("cercles.inscription.placeholder_phone_public")} />
                 </Field>
-                <Field label="Email professionnel public">
-                  <input type="email" style={S.input} value={emailPublic} onChange={(e) => setEmailPublic(e.target.value)} placeholder="contact@cabinet.ma" />
+                <Field label={t("cercles.inscription.field_email_public")}>
+                  <input type="email" style={S.input} value={emailPublic} onChange={(e) => setEmailPublic(e.target.value)} placeholder={t("cercles.inscription.placeholder_email_public")} />
                 </Field>
               </div>
               <div style={S.row}>
-                <Field label="Site web">
-                  <input style={S.input} value={websiteUrl} onChange={(e) => setWeb(e.target.value)} placeholder="https://cabinet.ma" />
+                <Field label={t("cercles.inscription.field_website")}>
+                  <input style={S.input} value={websiteUrl} onChange={(e) => setWeb(e.target.value)} placeholder={t("cercles.inscription.placeholder_website")} />
                 </Field>
-                <Field label="LinkedIn">
-                  <input style={S.input} value={linkedinUrl} onChange={(e) => setLinkedin(e.target.value)} placeholder="https://linkedin.com/in/…" />
+                <Field label={t("cercles.inscription.field_linkedin")}>
+                  <input style={S.input} value={linkedinUrl} onChange={(e) => setLinkedin(e.target.value)} placeholder={t("cercles.inscription.placeholder_linkedin")} />
                 </Field>
               </div>
 
-              <Field label="Adhésion souhaitée (cotisation annuelle CITURBAREA Cercles incluse)">
+              <Field label={t("cercles.inscription.field_adhesion")}>
                 <select style={S.input} value={adhesionSouhaitee} onChange={(e) => setAdhesion(e.target.value)}>
                   {ADHESIONS.map(a => <option key={a.value} value={a.value}>{a.label}</option>)}
                 </select>
               </Field>
 
-              <Field label="Comment avez-vous connu CITURBAREA ?">
+              <Field label={t("cercles.inscription.field_source")}>
                 <select style={S.input} value={sourceConnaissance} onChange={(e) => setSource(e.target.value)}>
-                  <option value="">— Sélectionner —</option>
+                  <option value="">{t("cercles.inscription.select_placeholder")}</option>
                   {SOURCES.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </Field>
@@ -546,14 +547,13 @@ export default function InscriptionPage() {
               <div style={S.checkRow}>
                 <input type="checkbox" id="newsletter" checked={newsletterOptIn} onChange={(e) => setNewsletter(e.target.checked)} style={S.checkbox} />
                 <label htmlFor="newsletter" style={S.checkLabel}>
-                  Je souhaite recevoir les actualités CITURBAREA par email (newsletter mensuelle, événements pros)
+                  {t("cercles.inscription.newsletter_label")}
                 </label>
               </div>
               <div style={S.checkRow}>
                 <input type="checkbox" id="cgu" checked={acceptCgu} onChange={(e) => setAcceptCgu(e.target.checked)} style={S.checkbox} />
                 <label htmlFor="cgu" style={S.checkLabel}>
-                  <strong>J'accepte la doctrine CITURBAREA *</strong> : anti-désintermédiation, données pro
-                  vérifiées, discussions des cercles confidentielles aux membres uniquement.
+                  <strong>{t("cercles.inscription.cgu_label_strong")}</strong>{t("cercles.inscription.cgu_label_rest")}
                 </label>
               </div>
             </>
@@ -563,20 +563,18 @@ export default function InscriptionPage() {
 
           <div style={{ display: "flex", justifyContent: "space-between", gap: 10, marginTop: 18 }}>
             {step > 1 ? (
-              <button onClick={() => { setSubmitErr(null); setStep((step - 1) as Step); }} style={S.btnGhost}>← Précédent</button>
-            ) : <button onClick={() => navigate("/")} style={S.btnGhost}>← Accueil</button>}
+              <button onClick={() => { setSubmitErr(null); setStep((step - 1) as Step); }} style={S.btnGhost}>{t("cercles.inscription.btn_prev")}</button>
+            ) : <button onClick={() => navigate("/")} style={S.btnGhost}>{t("cercles.inscription.back_home")}</button>}
             {step < 4 ? (
-              <button onClick={goNext} style={S.btnPrimary}>Suivant →</button>
+              <button onClick={goNext} style={S.btnPrimary}>{t("cercles.inscription.btn_next")}</button>
             ) : (
               <button onClick={submit} disabled={submitting} style={{ ...S.btnPrimary, opacity: submitting ? 0.6 : 1 }}>
-                {submitting ? "Création…" : "Créer mon compte"}
+                {submitting ? t("cercles.inscription.btn_submit_loading") : t("cercles.inscription.btn_submit")}
               </button>
             )}
           </div>
           <p style={S.legal}>
-            La cotisation associative (1 000 MAD/an pour SNASP/ANJAUM) inclut l'accès annuel
-            CITURBAREA Cercles complet. Vos données sont strictement confidentielles et ne
-            sortent jamais des cercles auxquels vous êtes membre actif.
+            {t("cercles.inscription.legal_note")}
           </p>
         </div>
       </div>
