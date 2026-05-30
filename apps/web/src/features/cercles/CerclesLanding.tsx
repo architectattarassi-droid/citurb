@@ -7,35 +7,41 @@
  * - cibles (architectes, BET, labos, topographes, entreprises…)
  * - principe des cercles (statut pro + critères créateur, privacy membres-only)
  * - CTA : Se connecter / S'inscrire / Découvrir
+ *
+ * i18n : namespace "cercles.landing.*" — voir locales/{fr,ar,en}/cercles.json
+ * Responsive : containers larges (1280 / 1400) via classes globales
+ * .cit-container-wide / .cit-container-xl déjà importées dans main.tsx.
  */
 
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CC_THEME, ensureFonts } from "./theme";
+import { useT } from "../../i18n/i18n";
 
 export default function CerclesLanding() {
   useEffect(() => { ensureFonts(); }, []);
+  const t = useT();
   // Détecte si l'utilisateur est déjà connecté (token présent) → CTAs adaptés
   const isLoggedIn = typeof window !== "undefined" && !!localStorage.getItem("citurbarea.token");
 
   return (
     <div style={S.root}>
       <header style={S.header}>
-        <div style={S.headerInner}>
+        <div className="cit-container-wide" style={S.headerInner}>
           <div style={S.brand}>
             <div style={S.brandSeal}>C</div>
             <div>
-              <div style={S.brandName}>CITURBAREA · CERCLES</div>
-              <div style={S.brandSub}>Le réseau des professionnels du BTP au Maroc</div>
+              <div style={S.brandName}>{t("cercles.landing.brand_name")}</div>
+              <div style={S.brandSub}>{t("cercles.landing.brand_sub")}</div>
             </div>
           </div>
           <nav style={S.nav}>
             {isLoggedIn ? (
-              <Link to="/cercles" style={S.navCta}>Mon fil d'actualité →</Link>
+              <Link to="/cercles" style={S.navCta}>{t("cercles.landing.nav_my_feed")}</Link>
             ) : (
               <>
-                <Link to="/login" style={S.navLink}>Se connecter</Link>
-                <Link to="/inscription" style={S.navCta}>Créer un compte</Link>
+                <Link to="/login" style={S.navLink}>{t("cercles.landing.nav_login")}</Link>
+                <Link to="/inscription" style={S.navCta}>{t("cercles.landing.nav_signup")}</Link>
               </>
             )}
           </nav>
@@ -43,74 +49,67 @@ export default function CerclesLanding() {
       </header>
 
       <section style={S.hero}>
-        <div style={S.heroInner}>
-          <div style={S.eyebrow}>Atelier · Réseau pro fermé</div>
+        <div className="cit-container-wide" style={S.heroInner}>
+          <div style={S.eyebrow}>{t("cercles.landing.hero_eyebrow")}</div>
           <h1 style={S.heroTitle}>
-            Là où les professionnels du BTP <em style={S.heroEm}>se parlent vraiment</em>.
+            {t("cercles.landing.hero_title_pre")} <em style={S.heroEm}>{t("cercles.landing.hero_title_em")}</em>{t("cercles.landing.hero_title_post")}
           </h1>
           <p style={S.heroLead}>
-            Architectes, bureaux d'études, laboratoires, topographes, entreprises BTP,
-            promoteurs, fournisseurs — Cercles est l'espace privé où chaque corps de
-            métier discute, partage et organise des visios entre pairs, sans le bruit
-            des réseaux grand public.
+            {t("cercles.landing.hero_lead")}
           </p>
           <div style={S.heroCtas}>
             {isLoggedIn ? (
-              <Link to="/cercles" style={S.btnPrimary}>Accéder à mon fil d'actualité →</Link>
+              <Link to="/cercles" style={S.btnPrimary}>{t("cercles.landing.hero_cta_my_feed")}</Link>
             ) : (
               <>
-                <Link to="/inscription" style={S.btnPrimary}>Demander à rejoindre</Link>
-                <Link to="/login" style={S.btnGhost}>Se connecter</Link>
+                <Link to="/inscription" style={S.btnPrimary}>{t("cercles.landing.hero_cta_join")}</Link>
+                <Link to="/login" style={S.btnGhost}>{t("cercles.landing.hero_cta_login")}</Link>
               </>
             )}
           </div>
           <div style={S.heroNote}>
-            Accès réservé aux professionnels qualifiés · Validation manuelle par l'équipe CITURBAREA
+            {t("cercles.landing.hero_note")}
           </div>
         </div>
       </section>
 
       <section style={S.section}>
-        <div style={S.sectionInner}>
-          <div style={S.sectionEyebrow}>Partenaires syndicaux & associatifs</div>
-          <h2 style={S.sectionTitle}>Un portail co-construit avec la profession</h2>
+        <div className="cit-container-wide" style={S.sectionInner}>
+          <div style={S.sectionEyebrow}>{t("cercles.landing.partners_eyebrow")}</div>
+          <h2 style={S.sectionTitle}>{t("cercles.landing.partners_title")}</h2>
 
           <div style={S.partnerGrid}>
             <article style={S.partnerCard}>
               <div style={S.partnerBadge}>SNASP</div>
-              <h3 style={S.partnerName}>Syndicat National des Architectes du Secteur Privé</h3>
+              <h3 style={S.partnerName}>{t("cercles.landing.partners_snasp_name")}</h3>
               <p style={S.partnerBody}>
-                Le syndicat fédère les architectes installés en exercice libéral au Maroc.
-                Il défend les conditions d'exercice de la profession, négocie les barèmes
-                avec les pouvoirs publics et organise des actions collectives.
+                {t("cercles.landing.partners_snasp_body")}
               </p>
               <div style={S.partnerFee}>
-                <strong>Cotisation annuelle : 1 000 MAD</strong>
+                <strong>{t("cercles.landing.partners_fee_strong")}</strong>
                 <span style={S.partnerFeeNote}>
-                  inclut l'accès annuel gratuit à CITURBAREA Cercles
+                  {t("cercles.landing.partners_fee_note")}
                 </span>
               </div>
               <Link to="/cercles/snasp-architectes-prive/rejoindre" style={S.partnerCta}>
-                Adhérer au SNASP →
+                {t("cercles.landing.partners_cta_snasp")}
               </Link>
             </article>
 
             <article style={S.partnerCard}>
               <div style={{ ...S.partnerBadge, background: CC_THEME.info }}>ANJAUM</div>
-              <h3 style={S.partnerName}>Association Nationale des Jeunes Architectes & Urbanistes du Maroc</h3>
+              <h3 style={S.partnerName}>{t("cercles.landing.partners_anjaum_name")}</h3>
               <p style={S.partnerBody}>
-                ANJAUM accompagne les jeunes architectes et urbanistes en début de carrière :
-                mentorat, accès aux concours, formation continue, mise en relation avec
-                les agences et institutions publiques.
+                {t("cercles.landing.partners_anjaum_body")}
               </p>
               <div style={S.partnerFee}>
-                <strong>Cotisation annuelle : 1 000 MAD</strong>
+                <strong>{t("cercles.landing.partners_fee_strong")}</strong>
                 <span style={S.partnerFeeNote}>
-                  inclut l'accès annuel gratuit à CITURBAREA Cercles
+                  {t("cercles.landing.partners_fee_note")}
                 </span>
               </div>
               <Link to="/cercles/anjaum-jeunes-architectes/rejoindre" style={S.partnerCta}>
-                Adhérer à l'ANJAUM →
+                {t("cercles.landing.partners_cta_anjaum")}
               </Link>
             </article>
           </div>
@@ -118,87 +117,68 @@ export default function CerclesLanding() {
       </section>
 
       <section style={{ ...S.section, background: CC_THEME.bgRaised }}>
-        <div style={S.sectionInner}>
-          <div style={S.sectionEyebrow}>Pour qui ?</div>
-          <h2 style={S.sectionTitle}>Ouvert à tous les métiers de l'acte de bâtir</h2>
+        <div className="cit-container-wide" style={S.sectionInner}>
+          <div style={S.sectionEyebrow}>{t("cercles.landing.metiers_eyebrow")}</div>
+          <h2 style={S.sectionTitle}>{t("cercles.landing.metiers_title")}</h2>
           <p style={S.sectionLead}>
-            Chaque profil rejoint le ou les cercles qui correspondent à son statut, sa
-            spécialité ou son territoire. Pas de mélange, pas de spam — chaque cercle
-            réunit des pairs qui parlent le même langage.
+            {t("cercles.landing.metiers_lead")}
           </p>
 
           <div style={S.metierGrid}>
-            <MetierCard icon="📐" label="Architectes"          body="Libéraux, salariés, enseignants, étudiants en fin de cycle." />
-            <MetierCard icon="📊" label="Bureaux d'études"     body="Structure, fluides, VRD, thermique, acoustique, économistes." />
-            <MetierCard icon="🧪" label="Laboratoires"          body="Sols, matériaux, contrôle qualité, géotechnique." />
-            <MetierCard icon="🛰" label="Topographes"           body="Géomètres-experts, opérateurs drone, lever 3D." />
-            <MetierCard icon="🏗" label="Entreprises BTP"       body="Gros œuvre, second œuvre, TCE, entreprises générales." />
-            <MetierCard icon="🏢" label="Promoteurs"            body="Immobilier résidentiel, tertiaire, lotisseurs, aménageurs." />
-            <MetierCard icon="🧱" label="Fournisseurs"          body="Matériaux, équipements, négoce, industriels." />
-            <MetierCard icon="🎓" label="Enseignants & étudiants" body="Écoles d'archi, IAV, EHTP, ENA, ISA Chefchaouni…" />
+            <MetierCard icon="📐" label={t("cercles.landing.metier_archi_label")}  body={t("cercles.landing.metier_archi_body")} />
+            <MetierCard icon="📊" label={t("cercles.landing.metier_bet_label")}    body={t("cercles.landing.metier_bet_body")} />
+            <MetierCard icon="🧪" label={t("cercles.landing.metier_labo_label")}   body={t("cercles.landing.metier_labo_body")} />
+            <MetierCard icon="🛰" label={t("cercles.landing.metier_topo_label")}   body={t("cercles.landing.metier_topo_body")} />
+            <MetierCard icon="🏗" label={t("cercles.landing.metier_btp_label")}    body={t("cercles.landing.metier_btp_body")} />
+            <MetierCard icon="🏢" label={t("cercles.landing.metier_promo_label")}  body={t("cercles.landing.metier_promo_body")} />
+            <MetierCard icon="🧱" label={t("cercles.landing.metier_fourn_label")}  body={t("cercles.landing.metier_fourn_body")} />
+            <MetierCard icon="🎓" label={t("cercles.landing.metier_edu_label")}    body={t("cercles.landing.metier_edu_body")} />
           </div>
         </div>
       </section>
 
       <section style={S.section}>
-        <div style={S.sectionInner}>
-          <div style={S.sectionEyebrow}>Comment fonctionnent les cercles</div>
-          <h2 style={S.sectionTitle}>Un cercle = une communauté maîtrisée par son créateur</h2>
+        <div className="cit-container-wide" style={S.sectionInner}>
+          <div style={S.sectionEyebrow}>{t("cercles.landing.how_eyebrow")}</div>
+          <h2 style={S.sectionTitle}>{t("cercles.landing.how_title")}</h2>
 
           <div style={S.howGrid}>
-            <HowCard
-              n="01"
-              title="Tout pro peut créer un cercle"
-              body="Architecte, BET, laboratoire, syndicat, association, entreprise… N'importe quel professionnel inscrit peut ouvrir un cercle thématique, territorial, intra-métier ou inter-métiers."
-            />
-            <HowCard
-              n="02"
-              title="Le créateur fixe les critères d'admission"
-              body="Statut professionnel requis, métier, ville, école d'origine, ancienneté, inscription à l'Ordre, agréments… Chaque créateur définit les règles d'entrée de son cercle."
-            />
-            <HowCard
-              n="03"
-              title="Discussions visibles uniquement aux membres"
-              body="Tout ce qui se dit dans un cercle (posts, commentaires, visios, fichiers partagés) reste confidentiel : invisible pour les non-membres, jamais indexé par Google."
-            />
-            <HowCard
-              n="04"
-              title="Cercles intra-pro encouragés"
-              body="Un cercle BET-structure entre confrères, un cercle topographes du Souss-Massa, un cercle d'anciens d'une promo : Cercles est conçu pour les communautés serrées et de confiance."
-            />
+            <HowCard n="01" title={t("cercles.landing.how_01_title")} body={t("cercles.landing.how_01_body")} />
+            <HowCard n="02" title={t("cercles.landing.how_02_title")} body={t("cercles.landing.how_02_body")} />
+            <HowCard n="03" title={t("cercles.landing.how_03_title")} body={t("cercles.landing.how_03_body")} />
+            <HowCard n="04" title={t("cercles.landing.how_04_title")} body={t("cercles.landing.how_04_body")} />
           </div>
 
           <div style={S.privacyBanner}>
             <span style={S.privacyIcon}>🔒</span>
             <div>
-              <strong style={S.privacyStrong}>Confidentialité par défaut.</strong>{" "}
-              Trois niveaux de visibilité pour chaque cercle :
-              <span style={S.visTag}>🌐 PUBLIC</span> visible par tous les inscrits,
-              <span style={S.visTag}>👥 MEMBRES</span> rejoignable sur demande,
-              <span style={S.visTag}>🔒 PRIVÉ</span> sur invitation uniquement.
-              Dans tous les cas, le contenu des discussions n'est lisible que par les membres ACTIFS.
+              <strong style={S.privacyStrong}>{t("cercles.landing.privacy_strong")}</strong>{" "}
+              {t("cercles.landing.privacy_intro")}
+              <span style={S.visTag}>{t("cercles.landing.privacy_vis_public")}</span> {t("cercles.landing.privacy_vis_public_desc")}
+              <span style={S.visTag}>{t("cercles.landing.privacy_vis_members")}</span> {t("cercles.landing.privacy_vis_members_desc")}
+              <span style={S.visTag}>{t("cercles.landing.privacy_vis_private")}</span> {t("cercles.landing.privacy_vis_private_desc")}
+              {" "}{t("cercles.landing.privacy_outro")}
             </div>
           </div>
         </div>
       </section>
 
       <section style={{ ...S.section, background: CC_THEME.bgDeep, color: CC_THEME.inkOnDark }}>
-        <div style={{ ...S.sectionInner, textAlign: "center", maxWidth: 720 }}>
+        <div style={{ ...S.sectionInner, textAlign: "center", maxWidth: 720, margin: "0 auto" }}>
           <h2 style={{ ...S.sectionTitle, color: CC_THEME.inkOnDark, marginBottom: 14 }}>
-            Prêt à rejoindre la conversation ?
+            {t("cercles.landing.cta_title")}
           </h2>
           <p style={{ ...S.sectionLead, color: "#D4CFC2", maxWidth: 560, margin: "0 auto 28px" }}>
-            Demandez votre accès en quelques minutes. Notre équipe valide manuellement
-            chaque inscription pour garantir la qualité des cercles.
+            {t("cercles.landing.cta_lead")}
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
             {isLoggedIn ? (
-              <Link to="/cercles" style={S.btnPrimary}>Accéder à mon fil d'actualité →</Link>
+              <Link to="/cercles" style={S.btnPrimary}>{t("cercles.landing.hero_cta_my_feed")}</Link>
             ) : (
               <>
-                <Link to="/inscription" style={S.btnPrimary}>Créer mon compte pro</Link>
+                <Link to="/inscription" style={S.btnPrimary}>{t("cercles.landing.cta_create")}</Link>
                 <Link to="/login" style={{ ...S.btnGhost, borderColor: "rgba(250,247,242,0.3)", color: CC_THEME.inkOnDark }}>
-                  J'ai déjà un compte
+                  {t("cercles.landing.cta_have_account")}
                 </Link>
               </>
             )}
@@ -207,12 +187,12 @@ export default function CerclesLanding() {
       </section>
 
       <footer style={S.footer}>
-        <div style={S.footerInner}>
-          <div style={S.footerBrand}>CITURBAREA · Cercles · Maroc · {new Date().getFullYear()}</div>
+        <div className="cit-container-wide" style={S.footerInner}>
+          <div style={S.footerBrand}>{t("cercles.landing.footer_brand", { year: new Date().getFullYear() })}</div>
           <div style={S.footerLinks}>
-            <a href="https://citurbarea.com" style={S.footerLink}>citurbarea.com</a>
-            <Link to="/login" style={S.footerLink}>Se connecter</Link>
-            <Link to="/inscription" style={S.footerLink}>S'inscrire</Link>
+            <a href="https://citurbarea.com" style={S.footerLink}>{t("cercles.landing.footer_site")}</a>
+            <Link to="/login" style={S.footerLink}>{t("cercles.landing.footer_login")}</Link>
+            <Link to="/inscription" style={S.footerLink}>{t("cercles.landing.footer_signup")}</Link>
           </div>
         </div>
       </footer>
@@ -245,7 +225,8 @@ const S: Record<string, React.CSSProperties> = {
   root: { background: CC_THEME.bg, color: CC_THEME.ink, fontFamily: CC_THEME.fontBody, minHeight: "calc(100vh / 1.3)", zoom: 1.3 },
 
   header: { borderBottom: `1px solid ${CC_THEME.border}`, background: CC_THEME.bgRaised, position: "sticky", top: 0, zIndex: 10 },
-  headerInner: { maxWidth: 1180, margin: "0 auto", padding: "16px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 },
+  // .cit-container-wide gère maxWidth 1280 + padding horizontal ; on garde flex inner
+  headerInner: { padding: "16px 0", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 },
   brand: { display: "flex", alignItems: "center", gap: 14 },
   brandSeal: { width: 42, height: 42, borderRadius: 8, background: CC_THEME.bgDeep, color: CC_THEME.or, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: CC_THEME.fontDisplay, fontSize: 24, fontWeight: 700 },
   brandName: { fontSize: 12.5, fontWeight: 700, letterSpacing: "0.20em", color: CC_THEME.ink },
@@ -254,24 +235,28 @@ const S: Record<string, React.CSSProperties> = {
   navLink: { color: CC_THEME.inkMid, textDecoration: "none", fontSize: 13, fontWeight: 500, padding: "8px 12px" },
   navCta: { background: CC_THEME.navy, color: CC_THEME.bg, padding: "9px 18px", borderRadius: 6, textDecoration: "none", fontSize: 13, fontWeight: 600, letterSpacing: "0.02em" },
 
-  hero: { padding: "80px 32px 70px", background: `linear-gradient(180deg, ${CC_THEME.bg} 0%, ${CC_THEME.bgSoft} 100%)` },
-  heroInner: { maxWidth: 880, margin: "0 auto", textAlign: "center" },
+  hero: { padding: "80px 0 70px", background: `linear-gradient(180deg, ${CC_THEME.bg} 0%, ${CC_THEME.bgSoft} 100%)` },
+  // .cit-container-wide (1280) ; on retire l'ancien maxWidth 880 trop étroit
+  heroInner: { textAlign: "center" },
   eyebrow: { fontSize: 11, color: CC_THEME.or, letterSpacing: "0.24em", textTransform: "uppercase", fontWeight: 600 },
-  heroTitle: { margin: "14px auto 22px", fontFamily: CC_THEME.fontDisplay, fontSize: 54, fontWeight: 600, color: CC_THEME.navy, letterSpacing: "-0.02em", lineHeight: 1.08, maxWidth: 820 },
+  // heroTitle conserve une limite de lisibilité interne (≤ 980) pour ne pas exploser sur 1280
+  heroTitle: { margin: "14px auto 22px", fontFamily: CC_THEME.fontDisplay, fontSize: 54, fontWeight: 600, color: CC_THEME.navy, letterSpacing: "-0.02em", lineHeight: 1.08, maxWidth: 980 },
   heroEm: { fontStyle: "italic", color: CC_THEME.or, fontWeight: 500 },
-  heroLead: { color: CC_THEME.inkMid, fontSize: 17, lineHeight: 1.6, maxWidth: 680, margin: "0 auto 32px" },
+  heroLead: { color: CC_THEME.inkMid, fontSize: 17, lineHeight: 1.6, maxWidth: 760, margin: "0 auto 32px" },
   heroCtas: { display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" },
   heroNote: { marginTop: 22, fontSize: 12, color: CC_THEME.inkMuted, fontStyle: "italic" },
 
   btnPrimary: { background: CC_THEME.or, color: CC_THEME.bgDeep, padding: "13px 26px", borderRadius: 6, textDecoration: "none", fontSize: 14, fontWeight: 600, letterSpacing: "0.02em", border: 0, display: "inline-block" },
   btnGhost: { background: "transparent", color: CC_THEME.navy, padding: "12px 26px", borderRadius: 6, textDecoration: "none", fontSize: 14, fontWeight: 500, border: `1px solid ${CC_THEME.navy}`, display: "inline-block" },
 
-  section: { padding: "76px 32px", background: CC_THEME.bg },
-  sectionInner: { maxWidth: 1100, margin: "0 auto" },
+  // .cit-container-wide gère maxWidth ; on retire l'ancien 1100
+  section: { padding: "76px 0", background: CC_THEME.bg },
+  sectionInner: {},
   sectionEyebrow: { fontSize: 11, color: CC_THEME.or, letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 600 },
-  sectionTitle: { margin: "10px 0 26px", fontFamily: CC_THEME.fontDisplay, fontSize: 36, fontWeight: 600, color: CC_THEME.navy, letterSpacing: "-0.015em", lineHeight: 1.15, maxWidth: 720 },
-  sectionLead: { color: CC_THEME.inkMid, fontSize: 15.5, lineHeight: 1.65, maxWidth: 720, marginBottom: 36 },
+  sectionTitle: { margin: "10px 0 26px", fontFamily: CC_THEME.fontDisplay, fontSize: 36, fontWeight: 600, color: CC_THEME.navy, letterSpacing: "-0.015em", lineHeight: 1.15, maxWidth: 820 },
+  sectionLead: { color: CC_THEME.inkMid, fontSize: 15.5, lineHeight: 1.65, maxWidth: 820, marginBottom: 36 },
 
+  // Grilles responsive auto-fit → 2-3 colonnes desktop, 1 mobile
   partnerGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: 22 },
   partnerCard: { background: CC_THEME.bgRaised, border: `1px solid ${CC_THEME.border}`, borderRadius: 12, padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14 },
   partnerBadge: { display: "inline-block", padding: "5px 11px", borderRadius: 4, background: CC_THEME.or, color: CC_THEME.bgDeep, fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", alignSelf: "flex-start" },
@@ -281,7 +266,8 @@ const S: Record<string, React.CSSProperties> = {
   partnerFeeNote: { fontSize: 12, color: CC_THEME.or, fontStyle: "italic" },
   partnerCta: { color: CC_THEME.navy, textDecoration: "none", fontSize: 13.5, fontWeight: 600, marginTop: 4 },
 
-  metierGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: 18, marginTop: 8 },
+  // metier : minmax(280px,1fr) → 4 col @1280, 3 @1024, 2 @768, 1 @360
+  metierGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 18, marginTop: 8 },
   metierCard: { background: CC_THEME.bg, border: `1px solid ${CC_THEME.border}`, padding: "20px 18px", borderRadius: 10 },
   metierIcon: { fontSize: 26, display: "block", marginBottom: 10 },
   metierLabel: { fontFamily: CC_THEME.fontDisplay, fontSize: 16, fontWeight: 600, color: CC_THEME.navy, marginBottom: 6 },
@@ -298,8 +284,8 @@ const S: Record<string, React.CSSProperties> = {
   privacyStrong: { color: CC_THEME.navy },
   visTag: { display: "inline-block", padding: "2px 8px", borderRadius: 4, background: CC_THEME.bgRaised, border: `1px solid ${CC_THEME.border}`, margin: "0 4px", fontSize: 12, fontWeight: 600, color: CC_THEME.navy },
 
-  footer: { borderTop: `1px solid ${CC_THEME.border}`, background: CC_THEME.bgRaised, padding: "24px 32px" },
-  footerInner: { maxWidth: 1180, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14 },
+  footer: { borderTop: `1px solid ${CC_THEME.border}`, background: CC_THEME.bgRaised, padding: "24px 0" },
+  footerInner: { display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14 },
   footerBrand: { fontSize: 12, color: CC_THEME.inkMuted, letterSpacing: "0.08em" },
   footerLinks: { display: "flex", gap: 18 },
   footerLink: { color: CC_THEME.inkMid, textDecoration: "none", fontSize: 12.5 },
