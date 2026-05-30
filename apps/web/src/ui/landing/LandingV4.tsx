@@ -5,9 +5,12 @@ import type { Article } from "../../features/media/articles/types";
 import { ArticleCard } from "../../features/media/components/ArticleCard";
 import { cerclesApi } from "../../features/cercles/api";
 import { cerclePostToArticle } from "./cerclePostToArticle";
+import { useT, useLang } from "../../i18n/i18n";
 
 // Landing keeps the validated HTML/CSS identity, but renders the Articles preview in React.
 // Legacy inline JS media feed is removed to avoid runtime errors and to make content maintainable.
+
+type T = (key: string, vars?: Record<string, string | number>) => string;
 
 const STYLES = `
 :root{
@@ -659,42 +662,54 @@ const STYLES = `
     .modal-grid{ grid-template-columns:1fr; }
   }
 `;
-const PRE_HTML = `
+
+// HTML-attribute escape for placeholders / aria-labels (defense against single quotes).
+function attr(s: string): string {
+  return String(s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+// Inner-text escape (the strings come from JSON we control; this is just defense in depth).
+function esc(s: string): string {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function buildPreHtml(t: T, lang: string): string {
+  return `
 
 
 <header>
-  <div class="ticker" aria-label="Messages importants">
+  <div class="ticker" aria-label="${attr(t("landing.ticker.aria"))}">
     <div class="container" style="overflow:hidden">
       <div class="ticker-inner" id="tickerInner">
-        <div class="ticker-item"><span class="dot"></span>Message important : Opportunités vérifiées (pas de promesses “magiques”).</div>
-        <div class="ticker-item"><span class="dot"></span>Rapports premium : urbanisme, estimation, banque, foncier (décision rapide).</div>
-        <div class="ticker-item"><span class="dot"></span>Clé en main : contrôle qualité, budget, délais — avec méthode.</div>
-        <div class="ticker-item"><span class="dot"></span>Nouveaux médias : analyses + études de marché (VIP/VVIP).</div>
+        <div class="ticker-item"><span class="dot"></span>${esc(t("landing.ticker.1"))}</div>
+        <div class="ticker-item"><span class="dot"></span>${esc(t("landing.ticker.2"))}</div>
+        <div class="ticker-item"><span class="dot"></span>${esc(t("landing.ticker.3"))}</div>
+        <div class="ticker-item"><span class="dot"></span>${esc(t("landing.ticker.4"))}</div>
 
-        <div class="ticker-item"><span class="dot"></span>Message important : Opportunités vérifiées (pas de promesses “magiques”).</div>
-        <div class="ticker-item"><span class="dot"></span>Rapports premium : urbanisme, estimation, banque, foncier (décision rapide).</div>
-        <div class="ticker-item"><span class="dot"></span>Clé en main : contrôle qualité, budget, délais — avec méthode.</div>
-        <div class="ticker-item"><span class="dot"></span>Nouveaux médias : analyses + études de marché (VIP/VVIP).</div>
+        <div class="ticker-item"><span class="dot"></span>${esc(t("landing.ticker.1"))}</div>
+        <div class="ticker-item"><span class="dot"></span>${esc(t("landing.ticker.2"))}</div>
+        <div class="ticker-item"><span class="dot"></span>${esc(t("landing.ticker.3"))}</div>
+        <div class="ticker-item"><span class="dot"></span>${esc(t("landing.ticker.4"))}</div>
       </div>
     </div>
   </div>
 
   <div class="container">
     <div class="header-top">
-      <div class="socials" aria-label="Réseaux (désactivés vitrine)">
+      <div class="socials" aria-label="${attr(t("landing.socials.aria"))}">
         <button type="button" onclick="window.open('https://web.facebook.com/yassineattarassi','_blank')">f</button>
         <button type="button" onclick="window.open('https://www.instagram.com/arc_bati_architecture','_blank')">ig</button>
-        <button type="button" onclick="soon('LinkedIn — bientôt disponible')">in</button>
-        <button type="button" onclick="soon('TikTok @arc_bati_architecture — bientôt')">tt</button>
+        <button type="button" onclick="soon('${attr(t("landing.alert.linkedin_soon"))}')">in</button>
+        <button type="button" onclick="soon('${attr(t("landing.alert.tiktok_soon"))}')">tt</button>
       </div>
 
-      <div class="chip" onclick="window.location.href='/p1'">Concevoir</div>
-      <div class="chip" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20cl%C3%A9%20en%20main.','_blank')">Réaliser clé en main</div>
-      <div class="chip" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20foncier.','_blank')">Investir foncier</div>
+      <div class="chip" onclick="window.location.href='/p1'">${esc(t("landing.chip.design"))}</div>
+      <div class="chip" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20cl%C3%A9%20en%20main.','_blank')">${esc(t("landing.chip.turnkey"))}</div>
+      <div class="chip" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20foncier.','_blank')">${esc(t("landing.chip.invest"))}</div>
 
-      <div class="search" title="Recherche">
+      <div class="search" title="${attr(t("landing.search.title"))}">
         <span style="font-weight:900;color:#0f172a;opacity:.75">⌕</span>
-        <input id="siteSearch" placeholder="Rechercher : villa, autorisation, terrain, rapport banque, prix…" />
+        <input id="siteSearch" placeholder="${attr(t("landing.search.placeholder"))}" />
       </div>
     </div>
 
@@ -702,57 +717,57 @@ const PRE_HTML = `
       <div class="brand">CITURBAREA</div>
 
       <div class="nav">
-        <a class="pill" href="https://wa.me/212700127892?text=Salam%20Yassine%2C%20je%20veux%20un%20diagnostic%20CITURBAREA." target="_blank" rel="noopener">💬 RDV WhatsApp</a>
+        <a class="pill" href="https://wa.me/212700127892?text=Salam%20Yassine%2C%20je%20veux%20un%20diagnostic%20CITURBAREA." target="_blank" rel="noopener">${esc(t("landing.nav.whatsapp_rdv"))}</a>
 
         <div class="dropdown">
-          <div class="pill">Choisir ma catégorie</div>
+          <div class="pill">${esc(t("landing.nav.choose_category"))}</div>
           <div class="dropdown-content" role="menu">
             <a href="/p1" onclick="window.location.href='/p1';return false;">
-              <strong>Projet personnel / familial</strong>
-              <small>Villa, maison, extension : conception + autorisation + dossier conforme.</small>
+              <strong>${esc(t("landing.dropdown.p1.title"))}</strong>
+              <small>${esc(t("landing.dropdown.p1.desc"))}</small>
             </a>
             <a href="/p2" onclick="window.location.href='/p2';return false;">
-              <strong>Projet immobilier & équipements</strong>
-              <small>Immeuble, commerce, école, clinique : études + autorisations + stratégie.</small>
+              <strong>${esc(t("landing.dropdown.p2.title"))}</strong>
+              <small>${esc(t("landing.dropdown.p2.desc"))}</small>
             </a>
             <a href="/p3" onclick="window.location.href='/p3';return false;">
-              <strong>Réalisation clé en main</strong>
-              <small>Pilotage chantier : qualité, budget, délais, entreprises, contrôle.</small>
+              <strong>${esc(t("landing.dropdown.p3.title"))}</strong>
+              <small>${esc(t("landing.dropdown.p3.desc"))}</small>
             </a>
             <a href="/p4" onclick="window.location.href='/p4';return false;">
-              <strong>Investisseur & foncier</strong>
-              <small>Analyse foncière, valorisation, pré-commercialisation, opérations filtrées.</small>
+              <strong>${esc(t("landing.dropdown.p4.title"))}</strong>
+              <small>${esc(t("landing.dropdown.p4.desc"))}</small>
             </a>
             <a href="/p5" onclick="window.location.href='/p5';return false;">
-              <strong>Rapports & expertises</strong>
-              <small>Rapports premium : prix, règles, risques, faisabilité, décision.</small>
+              <strong>${esc(t("landing.dropdown.p5.title"))}</strong>
+              <small>${esc(t("landing.dropdown.p5.desc"))}</small>
             </a>
             <a href="/p6" onclick="window.location.href='/p6';return false;">
-              <strong>Entreprise / partenaire</strong>
-              <small>Rejoindre l’écosystème : dossiers qualifiés, exécution fiable.</small>
+              <strong>${esc(t("landing.dropdown.p6.title"))}</strong>
+              <small>${esc(t("landing.dropdown.p6.desc"))}</small>
             </a>
           </div>
         </div>
 
         <!-- ✅ PATCH: Médias = scroll interne -->
-        <a class="pill" href="#medias" onclick="scrollToId('medias');return false;">Médias</a>
+        <a class="pill" href="#medias" onclick="scrollToId('medias');return false;">${esc(t("landing.nav.media"))}</a>
 
         <!-- Vente abo (service) -->
         <div class="pill vip" onclick="openSubModal('vip')">VIP</div>
         <div class="pill vvip" onclick="openSubModal('vvip')">VVIP</div>
 
-        <a class="pill" href="#" onclick="soon('Panier activé après tunnel de commande');return false;">Panier</a>
+        <a class="pill" href="#" onclick="soon('${attr(t("landing.nav.cart_soon"))}');return false;">${esc(t("landing.nav.cart"))}</a>
 
         <!-- LANG SWITCHER -->
         <div class="lang-switcher" id="langSwitcher">
-          <button class="lang-btn active" onclick="setLang('fr')">FR</button>
-          <button class="lang-btn" onclick="setLang('ar')">AR</button>
-          <button class="lang-btn" onclick="setLang('en')">EN</button>
+          <button class="lang-btn${lang === "fr" ? " active" : ""}" onclick="setLang('fr')">FR</button>
+          <button class="lang-btn${lang === "ar" ? " active" : ""}" onclick="setLang('ar')">AR</button>
+          <button class="lang-btn${lang === "en" ? " active" : ""}" onclick="setLang('en')">EN</button>
         </div>
 
         <!-- AUTH BUTTONS -->
-        <a class="btn-login" href="/login">Se connecter</a>
-        <a class="btn-signup" href="/creer-compte">Créer un compte</a>
+        <a class="btn-login" href="/login">${esc(t("landing.nav.login"))}</a>
+        <a class="btn-signup" href="/creer-compte">${esc(t("landing.nav.signup"))}</a>
       </div>
     </div>
   </div>
@@ -761,157 +776,155 @@ const PRE_HTML = `
 <main class="container hero">
 
   <div class="hero-grid">
-    <section class="card hero-box" aria-label="Présentation de la plateforme">
-      <h1>CITURBAREA – Plateforme d’architecture, d’urbanisme & d’investissement</h1>
+    <section class="card hero-box" aria-label="${attr(t("landing.hero.aria"))}">
+      <h1>${esc(t("landing.hero.h1"))}</h1>
       <p class="lead">
-        CITURBAREA vous aide à <b>concevoir</b>, <b>autoriser</b>, <b>réaliser</b> et <b>valoriser</b> un projet au Maroc,
-        avec une logique simple : <b>un résultat clair, un dossier sérieux, une décision sécurisée</b>.
-        La plateforme s’adresse à 6 grands profils (portes ci-dessous).
+        ${t("landing.hero.lead")}
       </p>
 
-      <div class="categories" aria-label="Catégories principales">
+      <div class="categories" aria-label="${attr(t("landing.categories.aria"))}">
         <!-- P1: funnel interne (évite redirection WhatsApp) -->
         <article class="cat" onclick="window.location.href='/p1'">
-          <h3>Projet personnel / familial</h3>
-          <p>Plan sérieux + dossier conforme pour autorisation + réduction des blocages.</p>
-          <div class="deliver">Résultat : plan + dossier autorisable + orientation chantier.</div>
+          <h3>${esc(t("landing.cat.p1.title"))}</h3>
+          <p>${esc(t("landing.cat.p1.desc"))}</p>
+          <div class="deliver">${esc(t("landing.cat.p1.deliver"))}</div>
         </article>
 
         <article class="cat" onclick="window.location.href='/p2'">
-          <h3>Projet immobilier & équipements</h3>
-          <p>Faisabilité, conception, optimisation, règles, stratégie d’autorisation.</p>
-          <div class="deliver">Résultat : dossier + scénarios + sécurisation réglementaire.</div>
+          <h3>${esc(t("landing.cat.p2.title"))}</h3>
+          <p>${esc(t("landing.cat.p2.desc"))}</p>
+          <div class="deliver">${esc(t("landing.cat.p2.deliver"))}</div>
         </article>
 
         <article class="cat" onclick="window.location.href='/p3'">
-          <h3>Réalisation clé en main</h3>
-          <p>Sélection entreprises, planning, contrôle qualité, suivi financier.</p>
-          <div class="deliver">Résultat : chantier piloté + budget/délais maîtrisés.</div>
+          <h3>${esc(t("landing.cat.p3.title"))}</h3>
+          <p>${esc(t("landing.cat.p3.desc"))}</p>
+          <div class="deliver">${esc(t("landing.cat.p3.deliver"))}</div>
         </article>
 
         <article class="cat" onclick="window.location.href='/p4'">
-          <h3>Investisseur & foncier</h3>
-          <p>Analyse foncière, potentiel réel, risques, stratégie de valorisation.</p>
-          <div class="deliver">Résultat : étude + potentiel + stratégie d’exploitation/vente.</div>
+          <h3>${esc(t("landing.cat.p4.title"))}</h3>
+          <p>${esc(t("landing.cat.p4.desc"))}</p>
+          <div class="deliver">${esc(t("landing.cat.p4.deliver"))}</div>
         </article>
 
         <article class="cat" onclick="window.location.href='/p5'">
-          <h3>Rapports & expertises</h3>
-          <p>Estimation, conformité, risques : document exploitable (banque/décision).</p>
-          <div class="deliver">Résultat : rapport premium exploitable.</div>
+          <h3>${esc(t("landing.cat.p5.title"))}</h3>
+          <p>${esc(t("landing.cat.p5.desc"))}</p>
+          <div class="deliver">${esc(t("landing.cat.p5.deliver"))}</div>
         </article>
 
         <article class="cat" onclick="window.location.href='/p6'">
-          <h3>Entreprise / partenaire</h3>
-          <p>Accès à dossiers qualifiés, collaboration structurée, méthode qualité.</p>
-          <div class="deliver">Résultat : écosystème + dossiers + collaboration.</div>
+          <h3>${esc(t("landing.cat.p6.title"))}</h3>
+          <p>${esc(t("landing.cat.p6.desc"))}</p>
+          <div class="deliver">${esc(t("landing.cat.p6.deliver"))}</div>
         </article>
       </div>
 
-      <div class="form" aria-label="Rejoindre notre écosystème">
-        <h3>Être orienté automatiquement</h3>
-        <p class="hint">Remplissez 4 champs : orientation vers la bonne porte (60 secondes).</p>
+      <div class="form" aria-label="${attr(t("landing.form.aria"))}">
+        <h3>${esc(t("landing.form.title"))}</h3>
+        <p class="hint">${esc(t("landing.form.hint"))}</p>
 
         <div class="form-grid">
-          <input id="fName" placeholder="Nom & Prénom">
-          <input id="fEmail" placeholder="Email">
+          <input id="fName" placeholder="${attr(t("landing.form.name_placeholder"))}">
+          <input id="fEmail" placeholder="${attr(t("landing.form.email_placeholder"))}">
           <select id="fProfile">
-            <option value="">Vous êtes…</option>
-            <option>Particulier / famille</option>
-            <option>Porteur de projet (immobilier / commerce / équipement)</option>
-            <option>Investisseur</option>
-            <option>Propriétaire foncier</option>
-            <option>Banque / notaire / bureau</option>
-            <option>Entreprise / BET / fournisseur</option>
-            <option>Architecte / urbaniste / professionnel</option>
+            <option value="">${esc(t("landing.form.profile_placeholder"))}</option>
+            <option>${esc(t("landing.form.profile.particulier"))}</option>
+            <option>${esc(t("landing.form.profile.porteur"))}</option>
+            <option>${esc(t("landing.form.profile.invest"))}</option>
+            <option>${esc(t("landing.form.profile.foncier"))}</option>
+            <option>${esc(t("landing.form.profile.banque"))}</option>
+            <option>${esc(t("landing.form.profile.entreprise"))}</option>
+            <option>${esc(t("landing.form.profile.archi"))}</option>
           </select>
           <select id="fNeed">
-            <option value="">Votre besoin principal…</option>
-            <option>Conception & plan</option>
-            <option>Autorisation & dossier réglementaire</option>
-            <option>Réalisation clé en main / suivi</option>
-            <option>Analyse foncière / investissement</option>
-            <option>Rapport banque / expertise prix / urbanisme</option>
-            <option>Partenariat / collaboration</option>
+            <option value="">${esc(t("landing.form.need_placeholder"))}</option>
+            <option>${esc(t("landing.form.need.design"))}</option>
+            <option>${esc(t("landing.form.need.autorisation"))}</option>
+            <option>${esc(t("landing.form.need.realisation"))}</option>
+            <option>${esc(t("landing.form.need.foncier"))}</option>
+            <option>${esc(t("landing.form.need.report"))}</option>
+            <option>${esc(t("landing.form.need.partenariat"))}</option>
           </select>
 
-          <button type="button" onclick="autoOrient()">Être orienté vers la bonne catégorie</button>
+          <button type="button" onclick="autoOrient()">${esc(t("landing.form.submit"))}</button>
         </div>
       </div>
     </section>
 
-    <aside class="panel" aria-label="Colonne droite">
+    <aside class="panel" aria-label="${attr(t("landing.aside.aria"))}">
       <div class="card block">
         <div class="block-title">
-          <span>Découvrir la plateforme</span>
-          <small>Parcours (vitrine)</small>
+          <span>${esc(t("landing.aside.discover.title"))}</span>
+          <small>${esc(t("landing.aside.discover.sub"))}</small>
         </div>
-        <div class="mock-video">VIDÉO D’ORIENTATION (upload interne)</div>
+        <div class="mock-video">${esc(t("landing.aside.discover.video"))}</div>
         <div style="margin-top:10px; display:flex; gap:10px;">
-          <button class="mbtn secondary" type="button" onclick="soon('Démo vidéo sera disponible en lecture interne.')">Voir</button>
-          <button class="mbtn primary" type="button" onclick="scrollToId('medias')">Aller aux Médias</button>
+          <button class="mbtn secondary" type="button" onclick="soon('${attr(t("landing.aside.discover.soon"))}')">${esc(t("landing.aside.discover.see"))}</button>
+          <button class="mbtn primary" type="button" onclick="scrollToId('medias')">${esc(t("landing.aside.discover.goto"))}</button>
         </div>
       </div>
 
       <div class="card block">
         <div class="block-title">
-          <span>Briefs & Dossiers (Premium)</span>
-          <small>VIP/VVIP</small>
+          <span>${esc(t("landing.aside.briefs.title"))}</span>
+          <small>${esc(t("landing.aside.briefs.sub"))}</small>
         </div>
         <div class="mock-video" style="background:linear-gradient(135deg,#111827,#0b3c5d)">
-          BRIEFS — DOSSIERS — ÉTUDES
+          ${esc(t("landing.aside.briefs.video"))}
         </div>
         <div style="margin-top:10px; display:flex; gap:10px;">
-          <button class="mbtn secondary" type="button" onclick="openSubModal('vip')">VIP</button>
-          <button class="mbtn primary" type="button" onclick="openSubModal('vvip')">VVIP</button>
+          <button class="mbtn secondary" type="button" onclick="openSubModal('vip')">${esc(t("landing.aside.briefs.vip"))}</button>
+          <button class="mbtn primary" type="button" onclick="openSubModal('vvip')">${esc(t("landing.aside.briefs.vvip"))}</button>
         </div>
       </div>
     </aside>
   </div>
 
   <!-- OPPORTUNITIES (conservé vitrine) -->
-  <section class="card scroll-section" aria-label="Dernières opportunités d’investissement">
+  <section class="card scroll-section" aria-label="${attr(t("landing.opp.aria"))}">
     <div class="scroll-card">
       <div class="scroll-head">
         <div>
-          <div class="scroll-title">Dernières opportunités d’investissement</div>
-          <p class="scroll-sub">Vitrine : les contenus finaux seront publiés dans l’environnement Médias.</p>
+          <div class="scroll-title">${esc(t("landing.opp.title"))}</div>
+          <p class="scroll-sub">${esc(t("landing.opp.sub"))}</p>
         </div>
       </div>
 
       <div class="scroller" id="oppScroller">
-        <div class="tile" onclick="soon('Détail opportunité: visible dans Médias / VIP selon type.');">
+        <div class="tile" onclick="soon('${attr(t("landing.opp.detail_soon"))}');">
           <div class="thumb">
             <div class="ph"></div>
-            <span class="badge">Terrain</span>
-            <span class="play">VIDÉO</span>
+            <span class="badge">${esc(t("landing.opp.tile1.badge"))}</span>
+            <span class="play">${esc(t("landing.opp.video"))}</span>
           </div>
           <div class="tile-body">
-            <p class="tile-title">Terrain – potentiel R+4</p>
-            <p class="tile-meta">Analyse + risques + stratégie (pré-étude).</p>
+            <p class="tile-title">${esc(t("landing.opp.tile1.title"))}</p>
+            <p class="tile-meta">${esc(t("landing.opp.tile1.meta"))}</p>
           </div>
         </div>
 
-        <div class="tile" onclick="soon('Détail opportunité: visible dans Médias / VIP selon type.');">
+        <div class="tile" onclick="soon('${attr(t("landing.opp.detail_soon"))}');">
           <div class="thumb">
             <div class="ph"></div>
-            <span class="badge">Pré-commercialisation</span>
-            <span class="play">VIDÉO</span>
+            <span class="badge">${esc(t("landing.opp.tile2.badge"))}</span>
+            <span class="play">${esc(t("landing.opp.video"))}</span>
           </div>
           <div class="tile-body">
-            <p class="tile-title">Produit – scénario rentabilité</p>
-            <p class="tile-meta">Dossier + vérification + plan de décision.</p>
+            <p class="tile-title">${esc(t("landing.opp.tile2.title"))}</p>
+            <p class="tile-meta">${esc(t("landing.opp.tile2.meta"))}</p>
           </div>
         </div>
 
-        <div class="tile" onclick="soon('Bientôt.');">
+        <div class="tile" onclick="soon('${attr(t("landing.opp.soon"))}');">
           <div class="thumb">
             <div class="ph"></div>
-            <span class="badge">Opération</span>
+            <span class="badge">${esc(t("landing.opp.tile3.badge"))}</span>
           </div>
           <div class="tile-body">
-            <p class="tile-title">Opération urbaine</p>
-            <p class="tile-meta">Faisabilité + optimisation + autorisation.</p>
+            <p class="tile-title">${esc(t("landing.opp.tile3.title"))}</p>
+            <p class="tile-meta">${esc(t("landing.opp.tile3.meta"))}</p>
           </div>
         </div>
       </div>
@@ -919,20 +932,23 @@ const PRE_HTML = `
   </section>
 
   <!-- ✅ MEDIAS SECTION (V2) -->
-  
+
 `;
-const POST_HTML = `
+}
+
+function buildPostHtml(t: T): string {
+  return `
 
 
 </main>
 
 <footer>
   <div class="container">
-    <h3>CITURBAREA — Plateforme</h3>
+    <h3>${esc(t("landing.footer.title"))}</h3>
     <ul>
-      <li>Architecture · Urbanisme · Investissement</li>
-      <li>Portes : Familial · Immobilier · Clé en main · Invest · Rapports · Pro</li>
-      <li>Médias premium : briefs, études, dossiers (VIP/VVIP)</li>
+      <li>${esc(t("landing.footer.li1"))}</li>
+      <li>${esc(t("landing.footer.li2"))}</li>
+      <li>${esc(t("landing.footer.li3"))}</li>
     </ul>
   </div>
 </footer>
@@ -956,22 +972,22 @@ font-size:14px;">
 
 <!-- MODAL: abonnement -->
 <div class="modal" id="subModal" onclick="modalBackdropClose(event,'subModal')">
-  <div class="modal-card" role="dialog" aria-label="Abonnements">
+  <div class="modal-card" role="dialog" aria-label="${attr(t("landing.sub_modal.aria"))}">
     <div class="modal-head">
-      <span id="subTitle">Abonnement</span>
-      <button class="modal-close" onclick="closeModal('subModal')">Retour</button>
+      <span id="subTitle">${esc(t("landing.sub_modal.title"))}</span>
+      <button class="modal-close" onclick="closeModal('subModal')">${esc(t("landing.sub_modal.back"))}</button>
     </div>
     <div class="modal-body">
-      <div style="font-weight:1000; color:#0f172a;">Tu n’achètes pas un blocage. Tu achètes :</div>
+      <div style="font-weight:1000; color:#0f172a;">${esc(t("landing.sub_modal.intro"))}</div>
       <ul style="margin:10px 0 0; color:#475569; font-weight:800; line-height:1.6;">
-        <li>Accès à des études / briefs / dossiers</li>
-        <li>Exploration de profils “grades” avancée (sans contact direct)</li>
-        <li>Demandes d’échange & RDV via plateforme</li>
+        <li>${esc(t("landing.sub_modal.li1"))}</li>
+        <li>${esc(t("landing.sub_modal.li2"))}</li>
+        <li>${esc(t("landing.sub_modal.li3"))}</li>
       </ul>
 
       <div class="modal-actions">
-        <button class="mbtn primary" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20je%20veux%20m%27abonner.','_blank');closeModal('subModal')">Continuer</button>
-        <button class="mbtn secondary" onclick="closeModal('subModal')">Plus tard</button>
+        <button class="mbtn primary" onclick="window.open('https://wa.me/212700127892?text=Salam%20Yassine%2C%20je%20veux%20m%27abonner.','_blank');closeModal('subModal')">${esc(t("landing.sub_modal.continue"))}</button>
+        <button class="mbtn secondary" onclick="closeModal('subModal')">${esc(t("landing.sub_modal.later"))}</button>
       </div>
     </div>
   </div>
@@ -979,34 +995,34 @@ font-size:14px;">
 
 <!-- MODAL: porte-first (demander échange) -->
 <div class="modal" id="leadModal" onclick="modalBackdropClose(event,'leadModal')">
-  <div class="modal-card" role="dialog" aria-label="Demander un échange">
+  <div class="modal-card" role="dialog" aria-label="${attr(t("landing.lead_modal.aria"))}">
     <div class="modal-head">
-      <span>Demander un échange professionnel (via plateforme)</span>
-      <button class="modal-close" onclick="closeModal('leadModal')">Retour</button>
+      <span>${esc(t("landing.lead_modal.title"))}</span>
+      <button class="modal-close" onclick="closeModal('leadModal')">${esc(t("landing.sub_modal.back"))}</button>
     </div>
     <div class="modal-body">
       <div style="font-weight:1000; color:#0b2d97;">
-        Pour garantir la qualité & protéger les parties, l’échange passe par la plateforme (porte-first).
+        ${esc(t("landing.lead_modal.intro"))}
       </div>
 
       <div class="modal-grid">
-        <input id="lmEmail" placeholder="Email (obligatoire)">
+        <input id="lmEmail" placeholder="${attr(t("landing.lead_modal.email"))}">
         <select id="lmDoor">
-          <option value="">Choisir une porte…</option>
-          <option value="personal">P1 — Projet personnel / familial</option>
-          <option value="immo">P2 — Immobilier & équipements</option>
-          <option value="cle">P3 — Clé en main</option>
-          <option value="invest">P4 — Investisseur & foncier</option>
-          <option value="rapports">P5 — Rapports & expertises</option>
-          <option value="pro">P6 — Pro / partenaires</option>
+          <option value="">${esc(t("landing.lead_modal.door_placeholder"))}</option>
+          <option value="personal">${esc(t("landing.lead_modal.door.p1"))}</option>
+          <option value="immo">${esc(t("landing.lead_modal.door.p2"))}</option>
+          <option value="cle">${esc(t("landing.lead_modal.door.p3"))}</option>
+          <option value="invest">${esc(t("landing.lead_modal.door.p4"))}</option>
+          <option value="rapports">${esc(t("landing.lead_modal.door.p5"))}</option>
+          <option value="pro">${esc(t("landing.lead_modal.door.p6"))}</option>
         </select>
       </div>
 
-      <textarea id="lmMsg" placeholder="Votre demande (objectif, contexte, ville, budget, délai)"></textarea>
+      <textarea id="lmMsg" placeholder="${attr(t("landing.lead_modal.message"))}"></textarea>
 
       <div class="modal-actions">
-        <button class="mbtn primary" onclick="submitLead()">Envoyer via plateforme</button>
-        <button class="mbtn secondary" onclick="closeModal('leadModal')">Annuler</button>
+        <button class="mbtn primary" onclick="submitLead()">${esc(t("landing.lead_modal.send"))}</button>
+        <button class="mbtn secondary" onclick="closeModal('leadModal')">${esc(t("landing.lead_modal.cancel"))}</button>
       </div>
     </div>
   </div>
@@ -1019,50 +1035,49 @@ font-size:14px;">
 <div class="modal" id="submitModal" onclick="modalBackdropClose(event,'submitModal')">
   <div class="modal-card" style="max-height:90vh;overflow-y:auto;">
     <div class="modal-head">
-      <span>&#9998; Soumettre un article &agrave; CITURBAREA</span>
-      <button class="modal-close" onclick="closeModal('submitModal')">Retour</button>
+      <span>${esc(t("landing.submit_modal.title"))}</span>
+      <button class="modal-close" onclick="closeModal('submitModal')">${esc(t("landing.submit_modal.back"))}</button>
     </div>
     <div class="modal-body">
       <p style="color:#475569;font-size:13.5px;line-height:1.6;margin:0 0 14px;">
-        Votre article sera examin&eacute; par l&rsquo;&eacute;quipe CITURBAREA avant publication.
-        Les contributions de qualit&eacute; &mdash; analyse, retour terrain, expertise &mdash; sont les bienvenues.
+        ${esc(t("landing.submit_modal.intro"))}
       </p>
       <div class="modal-grid">
-        <input id="smName" placeholder="Nom &amp; Pr&eacute;nom *">
-        <input id="smEmail" placeholder="Email *">
-        <input id="smProfil" placeholder="Votre profil (ex : Architecte, Promoteur, MRE&hellip;)">
+        <input id="smName" placeholder="${attr(t("landing.submit_modal.name"))}">
+        <input id="smEmail" placeholder="${attr(t("landing.submit_modal.email"))}">
+        <input id="smProfil" placeholder="${attr(t("landing.submit_modal.profil"))}">
         <select id="smLang">
-          <option value="">Langue de l&rsquo;article&hellip;</option>
-          <option value="fr">Fran&ccedil;ais</option>
-          <option value="ar">&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;</option>
-          <option value="fr+ar">Bilingue</option>
+          <option value="">${esc(t("landing.submit_modal.lang_placeholder"))}</option>
+          <option value="fr">${esc(t("landing.submit_modal.lang.fr"))}</option>
+          <option value="ar">${esc(t("landing.submit_modal.lang.ar"))}</option>
+          <option value="fr+ar">${esc(t("landing.submit_modal.lang.bi"))}</option>
         </select>
         <select id="smDoor">
-          <option value="">Th&egrave;me principal&hellip;</option>
-          <option value="invest">Investissement &amp; Foncier</option>
-          <option value="personal">Projet r&eacute;sidentiel</option>
-          <option value="cle">Construction &amp; Chantier</option>
-          <option value="rapports">Rapports &amp; Expertise</option>
-          <option value="immo">Immobilier &amp; &Eacute;quipements</option>
-          <option value="pro">Partenariat &amp; Pro</option>
+          <option value="">${esc(t("landing.submit_modal.theme_placeholder"))}</option>
+          <option value="invest">${esc(t("landing.submit_modal.theme.invest"))}</option>
+          <option value="personal">${esc(t("landing.submit_modal.theme.personal"))}</option>
+          <option value="cle">${esc(t("landing.submit_modal.theme.cle"))}</option>
+          <option value="rapports">${esc(t("landing.submit_modal.theme.rapports"))}</option>
+          <option value="immo">${esc(t("landing.submit_modal.theme.immo"))}</option>
+          <option value="pro">${esc(t("landing.submit_modal.theme.pro"))}</option>
         </select>
-        <input id="smBadge" placeholder="Cat&eacute;gorie (ex : Analyse, Guide, Brief&hellip;)">
+        <input id="smBadge" placeholder="${attr(t("landing.submit_modal.badge"))}">
       </div>
-      <input id="smTitle" placeholder="Titre de l&rsquo;article *" style="width:100%;margin-top:10px;padding:12px;border-radius:12px;border:1px solid #cbd5e1;font-size:14px;outline:none;box-sizing:border-box;">
-      <textarea id="smExcerpt" placeholder="R&eacute;sum&eacute; (2-3 phrases) *" style="width:100%;margin-top:10px;padding:12px;border-radius:12px;border:1px solid #cbd5e1;font-size:14px;outline:none;min-height:80px;resize:vertical;box-sizing:border-box;font-family:inherit;"></textarea>
-      <textarea id="smContent" placeholder="Contenu complet de l&rsquo;article *" style="width:100%;margin-top:10px;padding:12px;border-radius:12px;border:1px solid #cbd5e1;font-size:14px;outline:none;min-height:200px;resize:vertical;box-sizing:border-box;font-family:inherit;"></textarea>
+      <input id="smTitle" placeholder="${attr(t("landing.submit_modal.title_placeholder"))}" style="width:100%;margin-top:10px;padding:12px;border-radius:12px;border:1px solid #cbd5e1;font-size:14px;outline:none;box-sizing:border-box;">
+      <textarea id="smExcerpt" placeholder="${attr(t("landing.submit_modal.excerpt"))}" style="width:100%;margin-top:10px;padding:12px;border-radius:12px;border:1px solid #cbd5e1;font-size:14px;outline:none;min-height:80px;resize:vertical;box-sizing:border-box;font-family:inherit;"></textarea>
+      <textarea id="smContent" placeholder="${attr(t("landing.submit_modal.content"))}" style="width:100%;margin-top:10px;padding:12px;border-radius:12px;border:1px solid #cbd5e1;font-size:14px;outline:none;min-height:200px;resize:vertical;box-sizing:border-box;font-family:inherit;"></textarea>
       <div style="margin-top:12px;padding:10px;background:#f8fafc;border-radius:12px;border:1px solid #e7eefc;">
         <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13.5px;font-weight:700;color:#0f172a;">
           <input type="checkbox" id="smPremium" style="width:16px;height:16px;cursor:pointer;">
-          Contenu Premium (VIP/VVIP uniquement &mdash; acc&egrave;s restreint)
+          ${esc(t("landing.submit_modal.premium"))}
         </label>
       </div>
       <div class="modal-actions" style="margin-top:14px;">
-        <button class="mbtn primary" onclick="submitArticle()" style="flex:1;">Envoyer pour mod&eacute;ration</button>
-        <button class="mbtn secondary" onclick="closeModal('submitModal')">Annuler</button>
+        <button class="mbtn primary" onclick="submitArticle()" style="flex:1;">${esc(t("landing.submit_modal.send"))}</button>
+        <button class="mbtn secondary" onclick="closeModal('submitModal')">${esc(t("landing.submit_modal.cancel"))}</button>
       </div>
       <p style="margin:12px 0 0;color:#94a3b8;font-size:12px;text-align:center;">
-        D&eacute;lai de mod&eacute;ration : 24 &agrave; 48h &middot; Publication sous r&eacute;serve de validation &eacute;ditoriale CITURBAREA
+        ${esc(t("landing.submit_modal.footer"))}
       </p>
     </div>
   </div>
@@ -1070,6 +1085,7 @@ font-size:14px;">
 
 
 `;
+}
 
 function ensureGlobal(name: string, fn: (...args: any[]) => any) {
   // @ts-expect-error attach to window
@@ -1077,6 +1093,14 @@ function ensureGlobal(name: string, fn: (...args: any[]) => any) {
 }
 
 export default function LandingV4() {
+  const t = useT();
+  const { lang, setLang } = useLang();
+
+  // PRE_HTML & POST_HTML dépendent de la langue active → recalcul à chaque
+  // changement (Provider i18n) pour rafraîchir le contenu injecté en HTML.
+  const preHtml = useMemo(() => buildPreHtml(t, lang), [t, lang]);
+  const postHtml = useMemo(() => buildPostHtml(t), [t]);
+
   useEffect(() => {
     // Minimal global helpers used by onclick="..." in the injected HTML.
     ensureGlobal("openModal", (id: string) => {
@@ -1095,8 +1119,8 @@ export default function LandingV4() {
     });
 
     // Dead buttons / anchors safety
-    ensureGlobal("soon", () => {
-      alert("Bientôt disponible. Cette section est en cours de finalisation.");
+    ensureGlobal("soon", (msg?: string) => {
+      alert(msg || t("landing.alert.soon"));
     });
     ensureGlobal("scrollToId", (id: string) => {
       const el = document.getElementById(id);
@@ -1144,57 +1168,11 @@ export default function LandingV4() {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     });
 
-    // Lang switcher
-    const I18N: Record<string, Record<string, string>> = {
-      fr: {
-        login: "Se connecter", signup: "Créer un compte",
-        media_title: "Nos médias — Journal premium",
-        media_sub: "Articles vérifiés — immobilier, urbanisme, construction. Accès public + VIP/VVIP.",
-        goto_media: "Aller aux médias", see_all: "Voir tous les articles",
-      },
-      ar: {
-        login: "تسجيل دخول", signup: "إنشاء حساب",
-        media_title: "مقالاتنا — المجلة المتخصصة",
-        media_sub: "مقالات محققة في العقار والتعمير والبناء. وصول مجاني + VIP/VVIP.",
-        goto_media: "ذهاب للمقالات", see_all: "عرض جميع المقالات",
-      },
-      en: {
-        login: "Sign in", signup: "Create account",
-        media_title: "Our Media — Premium Journal",
-        media_sub: "Verified content on Moroccan real estate, urban planning & construction.",
-        goto_media: "Go to Media", see_all: "See all articles",
-      },
+    // Lang switcher : délègue au Provider i18n (useT/useLang). Le DOM est
+    // re-rendu via useMemo(buildPreHtml) — plus de patch DOM ciblé nécessaire.
+    (window as any).setLang = (l: string) => {
+      if (l === "fr" || l === "ar" || l === "en") setLang(l);
     };
-
-    function setLang(lang: string) {
-      document.querySelectorAll(".lang-btn").forEach((el: any) => {
-        el.classList.toggle("active", el.textContent.trim().toLowerCase() === lang);
-      });
-      document.body.dir = lang === "ar" ? "rtl" : "ltr";
-      document.documentElement.lang = lang;
-      document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-      // Persiste pour partage avec i18n React (même clé localStorage)
-      try { localStorage.setItem("citurbarea.lang", lang); } catch { /* ignore */ }
-      const t = (I18N as any)[lang] || I18N.fr;
-      const byId = (id: string) => document.getElementById(id);
-      const ql = (sel: string) => document.querySelector(sel) as HTMLElement | null;
-      if (ql(".btn-login")) ql(".btn-login")!.textContent = t.login;
-      if (ql(".btn-signup")) ql(".btn-signup")!.textContent = t.signup;
-      if (byId("media-title-txt")) byId("media-title-txt")!.textContent = t.media_title;
-      if (byId("media-sub-txt")) byId("media-sub-txt")!.textContent = t.media_sub;
-      if (byId("goto-media-btn")) byId("goto-media-btn")!.textContent = t.goto_media;
-      if (byId("see-all-btn")) byId("see-all-btn")!.textContent = t.see_all;
-    }
-    (window as any).setLang = setLang;
-    // Au chargement, applique la langue depuis localStorage (synchronise avec
-    // l'état choisi sur d'autres pages).
-    try {
-      const saved = localStorage.getItem("citurbarea.lang");
-      if (saved && (saved === "fr" || saved === "ar" || saved === "en")) {
-        // Délai pour laisser le DOM se monter
-        setTimeout(() => setLang(saved), 0);
-      }
-    } catch { /* ignore */ }
 
     // Search redirects to /media (frontend-only).
     ensureGlobal("runSearch", () => {
@@ -1203,7 +1181,7 @@ export default function LandingV4() {
       const url = q ? `/media?q=${encodeURIComponent(q)}` : "/media";
       window.location.href = url;
     });
-  }, []);
+  }, [setLang, t]);
 
   // Publications PUBLIQUES Cercles → mêmes cartes que le journal (ArticleCard).
   const [cercleArticles, setCercleArticles] = useState<Article[]>([]);
@@ -1234,10 +1212,20 @@ export default function LandingV4() {
     return merged.slice(0, 9);
   }, [cercleArticles]);
 
+  const mediaFilters: Array<{ key: string; label: string }> = [
+    { key: "all", label: t("landing.medias.filter.all") },
+    { key: "fr", label: t("landing.medias.filter.fr") },
+    { key: "ar", label: t("landing.medias.filter.ar") },
+    { key: "invest", label: t("landing.medias.filter.invest") },
+    { key: "chantier", label: t("landing.medias.filter.chantier") },
+    { key: "rapports", label: t("landing.medias.filter.rapports") },
+    { key: "premium", label: t("landing.medias.filter.premium") },
+  ];
+
   return (
     <div>
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
-      <div dangerouslySetInnerHTML={{ __html: PRE_HTML }} />
+      <div dangerouslySetInnerHTML={{ __html: preHtml }} />
 
       <section id="medias" style={{ scrollMarginTop: 140, padding: "32px 0 48px" }}>
         <div style={{ maxWidth: 1300, margin: "0 auto", padding: "0 20px" }}>
@@ -1245,40 +1233,40 @@ export default function LandingV4() {
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 20, flexWrap: "wrap", marginBottom: 24 }}>
             <div>
               <h2 id="media-title-txt" style={{ margin: "0 0 8px", fontSize: 22, fontWeight: 900, color: "var(--blue2)" }}>
-                Nos médias — Journal premium
+                {t("landing.medias.title")}
               </h2>
               <p id="media-sub-txt" style={{ margin: 0, color: "#64748b", fontSize: 13, lineHeight: 1.6 }}>
-                Articles de l’équipe CITURBAREA et publications publiques de la communauté Cercles (vidéos incluses).
+                {t("landing.medias.sub")}
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 12 }}>
-                {["Tous", "FR", "AR", "Investissement", "Chantier", "Rapports", "Premium"].map((c, i) => (
-                  <span key={c} style={{ padding: "6px 13px", borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: "pointer", background: i === 0 ? "var(--blue)" : "#e6ebf5", color: i === 0 ? "#fff" : "var(--blue2)", border: i === 0 ? "1px solid var(--blue)" : "1px solid #d7def0" }}>{c}</span>
+                {mediaFilters.map((f, i) => (
+                  <span key={f.key} style={{ padding: "6px 13px", borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: "pointer", background: i === 0 ? "var(--blue)" : "#e6ebf5", color: i === 0 ? "#fff" : "var(--blue2)", border: i === 0 ? "1px solid var(--blue)" : "1px solid #d7def0" }}>{f.label}</span>
                 ))}
               </div>
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", flexShrink: 0 }}>
               <button style={{ padding: "9px 16px", borderRadius: 12, border: "none", background: "#0f172a", color: "#fff", fontWeight: 700, fontSize: 13, cursor: "pointer" }} id="goto-media-btn" onClick={() => (window.location.href = "/media")}>
-                Aller aux médias
+                {t("landing.medias.goto")}
               </button>
             </div>
           </div>
           {/* Article grid */}
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             {articles.length === 0 ? (
-              <div style={{ color: "#64748b", fontSize: 14, gridColumn: "1/-1" }}>Aucun article publié pour le moment.</div>
+              <div style={{ color: "#64748b", fontSize: 14, gridColumn: "1/-1" }}>{t("landing.medias.empty")}</div>
             ) : (
               articles.map((a) => <ArticleCard key={a.id} article={a} mode="landing" />)
             )}
           </div>
           <div style={{ marginTop: 24, textAlign: "center" }}>
             <button style={{ padding: "10px 24px", borderRadius: 12, border: "1px solid #d7def0", background: "#e6ebf5", color: "var(--blue2)", fontWeight: 700, fontSize: 13, cursor: "pointer" }} id="see-all-btn" onClick={() => (window.location.href = "/media")}>
-              Voir tous les articles
+              {t("landing.medias.see_all")}
             </button>
           </div>
         </div>
       </section>
 
-      <div dangerouslySetInnerHTML={{ __html: POST_HTML }} />
+      <div dangerouslySetInnerHTML={{ __html: postHtml }} />
     </div>
   );
 }
