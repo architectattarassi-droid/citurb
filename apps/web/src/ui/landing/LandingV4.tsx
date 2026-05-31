@@ -661,6 +661,16 @@ const STYLES = `
     .post-media,.post-body{ width:100%; }
     .modal-grid{ grid-template-columns:1fr; }
   }
+
+  @media(max-width:768px){
+    .hero-grid { grid-template-columns: 1fr; gap: 16px; }
+    .form-grid { grid-template-columns: 1fr; }
+  }
+  @media(max-width:480px){
+    h1 { font-size: 24px; line-height: 1.2; }
+    .hero-box { padding: 18px; }
+    .container { padding: 0 14px; }
+  }
 `;
 
 // HTML-attribute escape for placeholders / aria-labels (defense against single quotes).
