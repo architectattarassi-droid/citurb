@@ -45,11 +45,16 @@ export default function Signup() {
       justifyContent: "center",
       background: "radial-gradient(1200px 520px at 18% 8%, rgba(201,162,39,0.10), transparent 60%), radial-gradient(900px 420px at 82% 30%, rgba(232,216,166,0.10), transparent 60%), linear-gradient(180deg, rgba(255,255,255,0.90), rgba(255,255,255,0.72))",
     }}>
-      <div style={{
+      <style>{`
+        .cit-auth-card { max-width: 520px; padding: 40px; margin-inline: 20px; }
+        @media(max-width:480px){
+          .cit-auth-card { padding: 24px; margin-inline: 12px; }
+          .cit-auth-heading { font-size: 24px !important; }
+        }
+        .cit-auth-input { padding: 14px 16px; min-height: 44px; font-size: 16px; }
+      `}</style>
+      <div className="cit-auth-card" style={{
         width: "100%",
-        maxWidth: "520px",
-        padding: "40px",
-        marginInline: "20px",
         background: "rgba(255,255,255,0.95)",
         border: "1px solid rgba(201,162,39,0.25)",
         borderRadius: "20px",
@@ -59,7 +64,7 @@ export default function Signup() {
           <Link to="/" style={{ textDecoration: "none", color: "rgba(11,27,58,0.68)", fontSize: "14px", display: "inline-block", marginBottom: "16px" }}>
             ← {t("auth.back_home")}
           </Link>
-          <h1 style={{
+          <h1 className="cit-auth-heading" style={{
             fontFamily: "\"Playfair Display\", serif",
             fontSize: "32px",
             fontWeight: 700,
@@ -107,12 +112,11 @@ export default function Signup() {
               placeholder={t("auth.signup.username_placeholder")}
               required
               autoFocus
+              className="cit-auth-input"
               style={{
                 width: "100%",
-                padding: "14px 16px",
                 border: "1px solid rgba(201,162,39,0.25)",
                 borderRadius: "12px",
-                fontSize: "15px",
                 background: "white",
                 outline: "none",
               }}
@@ -137,12 +141,11 @@ export default function Signup() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t("auth.signup.email_placeholder")}
               required
+              className="cit-auth-input"
               style={{
                 width: "100%",
-                padding: "14px 16px",
                 border: "1px solid rgba(201,162,39,0.25)",
                 borderRadius: "12px",
-                fontSize: "15px",
                 background: "white",
                 outline: "none",
               }}
@@ -167,12 +170,11 @@ export default function Signup() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder={t("auth.signup.password_placeholder")}
               required
+              className="cit-auth-input"
               style={{
                 width: "100%",
-                padding: "14px 16px",
                 border: "1px solid rgba(201,162,39,0.25)",
                 borderRadius: "12px",
-                fontSize: "15px",
                 background: "white",
                 outline: "none",
               }}
