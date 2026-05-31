@@ -133,8 +133,16 @@ export default function CabinetPublicPage() {
 
   return (
     <div style={{ background: "#f8fafc", minHeight: "100vh" }}>
+      <style>{`
+        .cit-cabinet-header { padding: 60px 24px 50px; }
+        @media(max-width:480px){
+          .cit-cabinet-header { padding: 32px 16px 24px !important; }
+          .cit-cabinet-header h1 { font-size: 26px !important; }
+        }
+        .cit-cabinet-projects-grid { display:grid; gap:20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+      `}</style>
       {/* ── Hero ─────────────────────────────────────────────────── */}
-      <header style={{ position: "relative", background: cover ? `linear-gradient(rgba(15,23,42,.55),rgba(15,23,42,.55)),url(${cover}) center/cover` : "linear-gradient(135deg,#0f172a,#1e3a8a)", color: "#fff", padding: "60px 20px 50px" }}>
+      <header className="cit-cabinet-header" style={{ position: "relative", background: cover ? `linear-gradient(rgba(15,23,42,.55),rgba(15,23,42,.55)),url(${cover}) center/cover` : "linear-gradient(135deg,#0f172a,#1e3a8a)", color: "#fff" }}>
         <div className="cit-container-xl" style={{ maxWidth: 1400, margin: "0 auto" }}>
           {data.isVerified && (
             <div style={{ display: "inline-block", background: "#0891b2", color: "#fff", fontWeight: 700, fontSize: 12, padding: "5px 12px", borderRadius: 99, marginBottom: 12 }}>
@@ -166,7 +174,7 @@ export default function CabinetPublicPage() {
             {t("cabinet.public.no_projects")}
           </div>
         ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
+          <div className="cit-cabinet-projects-grid">
             {projects.map((proj) => {
               const cover = proj.media.find((m) => m.kind === "PHOTO") || proj.media[0];
               const coverUrl = cover?.url || cover?.thumbnailUrl;
