@@ -126,7 +126,7 @@ export default function P6Home() {
       if (c.ok) setClasses(c.items);
       if (ca.ok) setCategories(ca.items);
       if (d.ok) setDocsList({ PRESTATAIRE_SERVICE: d.PRESTATAIRE_SERVICE, FOURNISSEUR_MATERIAUX: d.FOURNISSEUR_MATERIAUX });
-    }).catch(() => setError("Erreur chargement référentiels"));
+    }).catch(() => setError(t("portes.p6.err.refload")));
   }, []);
 
   const stepIndex = ["type", "identite", "classement", "docs", "score", "contact"].indexOf(step);
@@ -164,7 +164,7 @@ export default function P6Home() {
         body: JSON.stringify(buildScoringInput()),
       });
       const data = await res.json();
-      if (!data.ok) throw new Error(data.error || "Erreur");
+      if (!data.ok) throw new Error(data.error || t("portes.p6.err.refload"));
       setScore(data);
       setStep("score");
     } catch (e: any) { setError(e.message); setStep("docs"); }
@@ -173,12 +173,12 @@ export default function P6Home() {
   const submit = async () => {
     setError("");
     if (!identite.clientNom || !identite.clientTel || !identite.raisonSociale) {
-      setError("Nom contact, téléphone et raison sociale obligatoires.");
+      setError(t("portes.p6.contact.err_required"));
       return;
     }
     setStep("submitting");
     try {
-      const title = `${type === "PRESTATAIRE_SERVICE" ? "Prestataire" : "Fournisseur"} — ${identite.raisonSociale}`;
+      const title = `${type === "PRESTATAIRE_SERVICE" ? t("portes.p6.title.prestataire") : t("portes.p6.title.fournisseur")} — ${identite.raisonSociale}`;
       const res = await fetch(`${apiBase()}/p2/intake`, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -216,22 +216,22 @@ export default function P6Home() {
     } catch (e: any) { setError(e.message); setStep("contact"); }
   };
 
-  if (step === "submitting") return <div style={S.loader}>⏳ Calcul en cours…</div>;
+  if (step === "submitting") return <div style={S.loader}>{t("portes.p6.loader.computing")}</div>;
 
   if (step === "success") {
     return (
       <div style={S.root}>
         <div style={S.successWrap}>
           <div style={S.successIcon}>✅</div>
-          <div style={S.successTitle}>Candidature reçue</div>
+          <div style={S.successTitle}>{t("portes.p6.success.title")}</div>
           <div style={S.successSub}>
-            Votre fiche <strong>{type === "PRESTATAIRE_SERVICE" ? "prestataire" : "fournisseur"}</strong> a été transmise à l'équipe CITURBAREA.<br/>
-            Score CITURBAREA L7 : <strong style={{ color: TIER_COLORS[score?.tier ?? "BRONZE"] }}>{score?.score}/100 ({score?.tier})</strong><br/><br/>
-            Notre équipe de sourcing valide votre profil sous 5 jours ouvrables.<br/>
-            Une fois validé, vous accéderez à votre tableau de bord prestataire pour compléter vos prix, zones et catalogue.<br/><br/>
-            <span style={{ color: "#6b7280", fontSize: 12 }}>Ref dossier : {dossierId?.slice(0, 12)}…</span>
+            {t("portes.p6.success.fiche_prefix")} <strong>{type === "PRESTATAIRE_SERVICE" ? t("portes.p6.success.role_prestataire") : t("portes.p6.success.role_fournisseur")}</strong> {t("portes.p6.success.fiche_suffix")}<br/>
+            {t("portes.p6.success.score_label")} <strong style={{ color: TIER_COLORS[score?.tier ?? "BRONZE"] }}>{score?.score}/100 ({score?.tier})</strong><br/><br/>
+            {t("portes.p6.success.sla")}<br/>
+            {t("portes.p6.success.next")}<br/><br/>
+            <span style={{ color: "#6b7280", fontSize: 12 }}>{t("portes.p6.success.ref_label")} {dossierId?.slice(0, 12)}…</span>
           </div>
-          <a href="/" style={{ color: "#dc2626", textDecoration: "none", fontSize: 13, fontWeight: 600 }}>← Retour à l'accueil</a>
+          <a href="/" style={{ color: "#dc2626", textDecoration: "none", fontSize: 13, fontWeight: 600 }}>{t("portes.p6.success.back_home")}</a>
         </div>
       </div>
     );
@@ -246,19 +246,19 @@ export default function P6Home() {
     return (
       <div style={S.root}>
         <div style={S.hero}>
-          <div style={S.badge}>PORTE P6 — {t("p6.home_title").toUpperCase()}</div>
+          <div style={S.badge}>{t("portes.p6.badge_prefix")} {t("p6.home_title").toUpperCase()}</div>
           <div style={S.title}>{t("p6.home_title")}</div>
           <div style={S.sub}>{t("p6.home_subtitle")}</div>
         </div>
         <div style={S.grid}>
-          {types.map(t => (
-            <div key={t.code} style={cardStyle(false)} onClick={() => { setType(t.code); setStep("identite"); }}>
-              <div style={S.cardIcon}>{t.code === "PRESTATAIRE_SERVICE" ? "🛠️" : "🏗️"}</div>
-              <div style={S.cardTitle}>{t.label}</div>
-              <div style={S.cardDesc}>{t.desc}</div>
+          {types.map(tp => (
+            <div key={tp.code} style={cardStyle(false)} onClick={() => { setType(tp.code); setStep("identite"); }}>
+              <div style={S.cardIcon}>{tp.code === "PRESTATAIRE_SERVICE" ? "🛠️" : "🏗️"}</div>
+              <div style={S.cardTitle}>{tp.label}</div>
+              <div style={S.cardDesc}>{tp.desc}</div>
             </div>
           ))}
-          {types.length === 0 && <div style={{ color: "#6b7280" }}>Chargement…</div>}
+          {types.length === 0 && <div style={{ color: "#6b7280" }}>{t("portes.p6.loading_ellipsis")}</div>}
         </div>
 
         {/* Accès au réseau professionnel CITURBAREA Cercles */}
@@ -274,20 +274,19 @@ export default function P6Home() {
           }}
         >
           <div style={{ fontSize: 11, letterSpacing: "0.18em", color: "#B08D57", fontWeight: 700 }}>
-            RÉSEAU PROFESSIONNEL & MARKETPLACE BTP
+            {t("portes.p6.cercles.kicker")}
           </div>
           <div style={{ fontSize: 19, fontWeight: 700, margin: "8px 0 4px" }}>
-            CITURBAREA Cercles — l'espace des pros du BTP
+            {t("portes.p6.cercles.title")}
           </div>
           <div style={{ fontSize: 13, color: "#D4CFC2", lineHeight: 1.5 }}>
-            Cercles métiers, messagerie, annuaire pro, visios et la marketplace
-            de matériaux. Réservé aux professionnels et entreprises. →
+            {t("portes.p6.cercles.body")}
           </div>
           <div style={{
             display: "inline-block", marginTop: 14, padding: "10px 22px",
             background: "#B08D57", color: "#0F2A4A", borderRadius: 7, fontWeight: 700, fontSize: 13.5,
           }}>
-            Accéder à cercles.citurbarea.com
+            {t("portes.p6.cercles.cta")}
           </div>
         </a>
       </div>
@@ -299,40 +298,40 @@ export default function P6Home() {
     return (
       <div style={S.root}>
         <div style={S.wrap}>
-          <button style={S.btnBack} onClick={() => setStep("type")}>← Changer de type</button>
+          <button style={S.btnBack} onClick={() => setStep("type")}>{t("portes.p6.identite.back_change_type")}</button>
           <Stepper />
-          <div style={S.formTitle}>Identité société</div>
-          <div style={S.formSub}>Informations administratives & opérationnelles.</div>
+          <div style={S.formTitle}>{t("portes.p6.identite.title")}</div>
+          <div style={S.formSub}>{t("portes.p6.identite.sub")}</div>
 
-          <label style={S.label}>Raison sociale *</label>
-          <input style={S.inp} value={identite.raisonSociale} onChange={e => setIdentite({...identite, raisonSociale: e.target.value})} placeholder="SARL EXEMPLE BTP" />
+          <label style={S.label}>{t("portes.p6.identite.raison_sociale")}</label>
+          <input style={S.inp} value={identite.raisonSociale} onChange={e => setIdentite({...identite, raisonSociale: e.target.value})} placeholder={t("portes.p6.identite.raison_sociale_ph")} />
           <div style={S.row2}>
-            <div><label style={S.label}>RC</label><input style={S.inp} value={identite.rc} onChange={e => setIdentite({...identite, rc: e.target.value})} /></div>
-            <div><label style={S.label}>ICE</label><input style={S.inp} value={identite.ice} onChange={e => setIdentite({...identite, ice: e.target.value})} /></div>
+            <div><label style={S.label}>{t("portes.p6.identite.rc")}</label><input style={S.inp} value={identite.rc} onChange={e => setIdentite({...identite, rc: e.target.value})} /></div>
+            <div><label style={S.label}>{t("portes.p6.identite.ice")}</label><input style={S.inp} value={identite.ice} onChange={e => setIdentite({...identite, ice: e.target.value})} /></div>
           </div>
           <div style={S.row2}>
-            <div><label style={S.label}>Patente</label><input style={S.inp} value={identite.patente} onChange={e => setIdentite({...identite, patente: e.target.value})} /></div>
-            <div><label style={S.label}>Commune principale</label><input style={S.inp} value={identite.commune} onChange={e => setIdentite({...identite, commune: e.target.value})} placeholder="Kénitra" /></div>
+            <div><label style={S.label}>{t("portes.p6.identite.patente")}</label><input style={S.inp} value={identite.patente} onChange={e => setIdentite({...identite, patente: e.target.value})} /></div>
+            <div><label style={S.label}>{t("portes.p6.identite.commune")}</label><input style={S.inp} value={identite.commune} onChange={e => setIdentite({...identite, commune: e.target.value})} placeholder={t("portes.p6.identite.commune_ph")} /></div>
           </div>
-          <label style={S.label}>Représentant légal</label>
+          <label style={S.label}>{t("portes.p6.identite.representant")}</label>
           <input style={S.inp} value={identite.representant} onChange={e => setIdentite({...identite, representant: e.target.value})} />
-          <label style={S.label}>Ancienneté société (années)</label>
+          <label style={S.label}>{t("portes.p6.identite.anciennete")}</label>
           <input type="number" style={S.inp} value={identite.ancienneteAnnees} onChange={e => setIdentite({...identite, ancienneteAnnees: e.target.value})} placeholder="5" />
 
           {type === "PRESTATAIRE_SERVICE" ? (
             <div style={S.row2}>
-              <div><label style={S.label}>Nb références chantiers</label><input type="number" style={S.inp} value={identite.nbReferences} onChange={e => setIdentite({...identite, nbReferences: e.target.value})} placeholder="3" /></div>
-              <div><label style={S.label}>Nb photos chantiers</label><input type="number" style={S.inp} value={identite.nbPhotosChantiers} onChange={e => setIdentite({...identite, nbPhotosChantiers: e.target.value})} placeholder="5" /></div>
+              <div><label style={S.label}>{t("portes.p6.identite.nb_references")}</label><input type="number" style={S.inp} value={identite.nbReferences} onChange={e => setIdentite({...identite, nbReferences: e.target.value})} placeholder="3" /></div>
+              <div><label style={S.label}>{t("portes.p6.identite.nb_photos")}</label><input type="number" style={S.inp} value={identite.nbPhotosChantiers} onChange={e => setIdentite({...identite, nbPhotosChantiers: e.target.value})} placeholder="5" /></div>
             </div>
           ) : (
             <div style={S.row2}>
-              <div><label style={S.label}>Nb matériaux catalogue</label><input type="number" style={S.inp} value={identite.nbMateriauxCatalogue} onChange={e => setIdentite({...identite, nbMateriauxCatalogue: e.target.value})} placeholder="20" /></div>
-              <div><label style={S.label}>Zones fourniture (séparées par ,)</label><input style={S.inp} value={identite.zonesFourniture} onChange={e => setIdentite({...identite, zonesFourniture: e.target.value})} placeholder="Kénitra, Rabat, Salé" /></div>
+              <div><label style={S.label}>{t("portes.p6.identite.nb_materiaux")}</label><input type="number" style={S.inp} value={identite.nbMateriauxCatalogue} onChange={e => setIdentite({...identite, nbMateriauxCatalogue: e.target.value})} placeholder="20" /></div>
+              <div><label style={S.label}>{t("portes.p6.identite.zones")}</label><input style={S.inp} value={identite.zonesFourniture} onChange={e => setIdentite({...identite, zonesFourniture: e.target.value})} placeholder={t("portes.p6.identite.zones_ph")} /></div>
             </div>
           )}
 
           <button style={S.btn} onClick={() => setStep(type === "FOURNISSEUR_MATERIAUX" ? "docs" : "classement")}>
-            Suivant : {type === "FOURNISSEUR_MATERIAUX" ? "documents" : "classement BTP"} →
+            {type === "FOURNISSEUR_MATERIAUX" ? t("portes.p6.identite.next_docs") : t("portes.p6.identite.next_classement")}
           </button>
         </div>
       </div>
@@ -344,12 +343,12 @@ export default function P6Home() {
     return (
       <div style={S.root}>
         <div style={S.wrap}>
-          <button style={S.btnBack} onClick={() => setStep("identite")}>← Retour</button>
+          <button style={S.btnBack} onClick={() => setStep("identite")}>{t("portes.p6.classement.back")}</button>
           <Stepper />
-          <div style={S.formTitle}>Classement & agréments</div>
-          <div style={S.formSub}>Classification BTP (Décret 2-94-223 Maroc) et catégories d'agrément METLE.</div>
+          <div style={S.formTitle}>{t("portes.p6.classement.title")}</div>
+          <div style={S.formSub}>{t("portes.p6.classement.sub")}</div>
 
-          <label style={S.label}>Classe BTP (METLE)</label>
+          <label style={S.label}>{t("portes.p6.classement.classe_label")}</label>
           {classes.map(c => (
             <div key={c.code} style={{ ...S.classRow, ...(classeBTP === c.code ? S.classRowActive : {}) }} onClick={() => setClasseBTP(c.code === classeBTP ? "" : c.code)}>
               <div>
@@ -360,7 +359,7 @@ export default function P6Home() {
             </div>
           ))}
 
-          <label style={{ ...S.label, marginTop: 18 }}>Catégories d'agrément (multi-select)</label>
+          <label style={{ ...S.label, marginTop: 18 }}>{t("portes.p6.classement.categories_label")}</label>
           {categories.map(c => (
             <div key={c.code} style={{ ...S.classRow, ...(categoriesAgrement.has(c.code) ? S.classRowActive : {}) }} onClick={() => toggleCategorie(c.code)}>
               <div style={{ flex: 1 }}>
@@ -372,22 +371,22 @@ export default function P6Home() {
           ))}
 
           <div style={S.row2}>
-            <div><label style={S.label}>N° agrément METLE</label><input style={S.inp} value={agrementMetleNumero} onChange={e => setAgrementMetleNumero(e.target.value)} /></div>
-            <div><label style={S.label}>Validité agrément</label><input type="date" style={S.inp} value={agrementMetleValidite} onChange={e => setAgrementMetleValidite(e.target.value)} /></div>
+            <div><label style={S.label}>{t("portes.p6.classement.n_agrement")}</label><input style={S.inp} value={agrementMetleNumero} onChange={e => setAgrementMetleNumero(e.target.value)} /></div>
+            <div><label style={S.label}>{t("portes.p6.classement.validite")}</label><input type="date" style={S.inp} value={agrementMetleValidite} onChange={e => setAgrementMetleValidite(e.target.value)} /></div>
           </div>
 
           <div style={{ display: "flex", gap: 16, marginTop: 12 }}>
             <label style={{ display: "flex", gap: 8, alignItems: "center" }}>
               <input type="checkbox" checked={decennaleValide} onChange={e => setDecennaleValide(e.target.checked)} />
-              <span>Police décennale en cours valide</span>
+              <span>{t("portes.p6.classement.decennale")}</span>
             </label>
             <label style={{ display: "flex", gap: 8, alignItems: "center" }}>
               <input type="checkbox" checked={rcProValide} onChange={e => setRcProValide(e.target.checked)} />
-              <span>RC professionnelle valide</span>
+              <span>{t("portes.p6.classement.rcpro")}</span>
             </label>
           </div>
 
-          <button style={S.btn} onClick={() => setStep("docs")}>Suivant : documents →</button>
+          <button style={S.btn} onClick={() => setStep("docs")}>{t("portes.p6.classement.next_docs")}</button>
         </div>
       </div>
     );
@@ -399,23 +398,23 @@ export default function P6Home() {
     return (
       <div style={S.root}>
         <div style={S.wrap}>
-          <button style={S.btnBack} onClick={() => setStep(type === "FOURNISSEUR_MATERIAUX" ? "identite" : "classement")}>← Retour</button>
+          <button style={S.btnBack} onClick={() => setStep(type === "FOURNISSEUR_MATERIAUX" ? "identite" : "classement")}>{t("portes.p6.classement.back")}</button>
           <Stepper />
-          <div style={S.formTitle}>Documents administratifs</div>
-          <div style={S.formSub}>Cochez les documents que vous pouvez fournir. Les originaux/scans seront chargés après validation.</div>
+          <div style={S.formTitle}>{t("portes.p6.docs.title")}</div>
+          <div style={S.formSub}>{t("portes.p6.docs.sub")}</div>
 
           {list.map((d) => (
             <label key={d.slug} style={{ ...S.docRow, color: docs[d.slug] ? "#a7f3d0" : "#cbd5e1" }}>
               <input type="checkbox" checked={!!docs[d.slug]} onChange={() => toggleDoc(d.slug)} />
               <span style={{ flex: 1 }}>
                 {d.label}
-                {d.obligatoire && <span style={{ color: "#fcd34d", fontSize: 10, marginLeft: 6 }}>*obligatoire</span>}
+                {d.obligatoire && <span style={{ color: "#fcd34d", fontSize: 10, marginLeft: 6 }}>{t("portes.p6.docs.obligatoire")}</span>}
                 {d.notes && <div style={{ color: "#6b7280", fontSize: 11, marginTop: 2 }}>{d.notes}</div>}
               </span>
             </label>
           ))}
 
-          <button style={S.btn} onClick={computeScore}>Calculer mon score CITURBAREA →</button>
+          <button style={S.btn} onClick={computeScore}>{t("portes.p6.docs.cta")}</button>
         </div>
       </div>
     );
@@ -426,16 +425,16 @@ export default function P6Home() {
     return (
       <div style={S.root}>
         <div style={S.wrap}>
-          <button style={S.btnBack} onClick={() => setStep("docs")}>← Modifier</button>
+          <button style={S.btnBack} onClick={() => setStep("docs")}>{t("portes.p6.score.back_edit")}</button>
           <Stepper />
-          <div style={S.formTitle}>Votre score CITURBAREA L7</div>
-          <div style={S.formSub}>Basé sur classe BTP, agréments, documents, assurances et historique.</div>
+          <div style={S.formTitle}>{t("portes.p6.score.title")}</div>
+          <div style={S.formSub}>{t("portes.p6.score.sub")}</div>
 
           <div style={S.scoreWrap}>
             <div style={S.scoreHead}>
               <div>
-                <div style={{ ...S.scoreSub, color: "#dc2626" }}>Score interne</div>
-                <div style={{ color: "#9ca3af", fontSize: 13, marginTop: 4 }}>Sur une échelle de 0 à 100</div>
+                <div style={{ ...S.scoreSub, color: "#dc2626" }}>{t("portes.p6.score.internal")}</div>
+                <div style={{ color: "#9ca3af", fontSize: 13, marginTop: 4 }}>{t("portes.p6.score.scale")}</div>
               </div>
               <div style={{ textAlign: "right" }}>
                 <div style={{ ...S.scoreVal, color: TIER_COLORS[score.tier] }}>{score.score}</div>
@@ -447,26 +446,26 @@ export default function P6Home() {
               {Object.entries(score.breakdown).map(([k, v]) => (
                 <div key={k} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 13, borderBottom: "1px solid #1a2030" }}>
                   <span style={{ color: "#9ca3af", textTransform: "capitalize" }}>{k}</span>
-                  <span style={{ color: "#e8eaf0", fontWeight: 600, fontFamily: "'DM Mono', monospace" }}>{v} pts</span>
+                  <span style={{ color: "#e8eaf0", fontWeight: 600, fontFamily: "'DM Mono', monospace" }}>{v} {t("portes.p6.score.pts")}</span>
                 </div>
               ))}
             </div>
 
             {score.warnings.length > 0 && (
               <div style={{ background: "#1a0a0a", border: "1px solid #ef444440", borderRadius: 8, padding: 12, marginBottom: 10, fontSize: 12, lineHeight: 1.5, color: "#fca5a5" }}>
-                <strong>⚠ Alertes :</strong>
+                <strong>{t("portes.p6.score.warnings")}</strong>
                 {score.warnings.map((w, i) => <div key={i} style={{ marginTop: 4 }}>• {w}</div>)}
               </div>
             )}
             {score.recommendations.length > 0 && (
               <div style={{ background: "#0a1a14", border: "1px solid #10b98140", borderRadius: 8, padding: 12, fontSize: 12, lineHeight: 1.5, color: "#a7f3d0" }}>
-                <strong>💡 Recommandations :</strong>
+                <strong>{t("portes.p6.score.recommendations")}</strong>
                 {score.recommendations.map((r, i) => <div key={i} style={{ marginTop: 4 }}>• {r}</div>)}
               </div>
             )}
           </div>
 
-          <button style={S.btn} onClick={() => setStep("contact")}>Continuer : contact →</button>
+          <button style={S.btn} onClick={() => setStep("contact")}>{t("portes.p6.score.next_contact")}</button>
         </div>
       </div>
     );
@@ -477,20 +476,20 @@ export default function P6Home() {
     return (
       <div style={S.root}>
         <div style={S.wrap}>
-          <button style={S.btnBack} onClick={() => setStep("score")}>← Retour score</button>
+          <button style={S.btnBack} onClick={() => setStep("score")}>{t("portes.p6.contact.back_score")}</button>
           <Stepper />
-          <div style={S.formTitle}>Contact société</div>
-          <div style={S.formSub}>Nous vous contactons sous 5 jours ouvrables après review de votre fiche.</div>
+          <div style={S.formTitle}>{t("portes.p6.contact.title")}</div>
+          <div style={S.formSub}>{t("portes.p6.contact.sub")}</div>
           {error && <div style={S.err}>⚠ {error}</div>}
 
           <div style={S.row2}>
-            <div><label style={S.label}>Nom contact *</label><input style={S.inp} value={identite.clientNom} onChange={e => setIdentite({...identite, clientNom: e.target.value})} placeholder="Prénom Nom" /></div>
-            <div><label style={S.label}>Téléphone *</label><input style={S.inp} value={identite.clientTel} onChange={e => setIdentite({...identite, clientTel: e.target.value})} placeholder="+212 6XX XXX XXX" /></div>
+            <div><label style={S.label}>{t("portes.p6.contact.name_label")}</label><input style={S.inp} value={identite.clientNom} onChange={e => setIdentite({...identite, clientNom: e.target.value})} placeholder={t("portes.p6.contact.name_ph")} /></div>
+            <div><label style={S.label}>{t("portes.p6.contact.phone_label")}</label><input style={S.inp} value={identite.clientTel} onChange={e => setIdentite({...identite, clientTel: e.target.value})} placeholder={t("portes.p6.contact.phone_ph")} /></div>
           </div>
-          <label style={S.label}>Email</label>
-          <input style={S.inp} value={identite.clientEmail} onChange={e => setIdentite({...identite, clientEmail: e.target.value})} placeholder="contact@société.ma" />
+          <label style={S.label}>{t("portes.p6.contact.email_label")}</label>
+          <input style={S.inp} value={identite.clientEmail} onChange={e => setIdentite({...identite, clientEmail: e.target.value})} placeholder={t("portes.p6.contact.email_ph")} />
 
-          <button style={S.btn} onClick={submit}>Soumettre la candidature →</button>
+          <button style={S.btn} onClick={submit}>{t("portes.p6.contact.submit")}</button>
         </div>
       </div>
     );

@@ -5,6 +5,7 @@ import RokhasPhaseTimeline from "../../../../tomes/tome2/RokhasPhaseTimeline";
 import { loadDossier, deleteDossier, updateDossierApiStatus } from "./dossier.store";
 import { useAuth } from "../../../tome5/AuthProvider";
 import { apiFetch } from "../../../tome4/apiClient";
+import { useT } from "../../../../i18n/i18n";
 
 /**
  * P1Dossier
@@ -14,6 +15,7 @@ import { apiFetch } from "../../../tome4/apiClient";
  * - Si aucun dossier : retourne vers /p1 (tunnel).
  */
 export default function P1Dossier() {
+  const t = useT();
   const auth = useAuth();
   const userId = auth.userId || "anon";
   const dossier = useMemo(() => loadDossier(userId), [userId]);
@@ -52,20 +54,20 @@ export default function P1Dossier() {
     <>
       {(apiStatus || apiPack) && (
         <div style={{ padding: "6px 20px", background: "#f0f9ff", borderBottom: "1px solid #bae6fd", display: "flex", gap: 16, fontSize: 12, color: "#0369a1" }}>
-          {apiStatus && <span><b>Statut DB :</b> {apiStatus}</span>}
-          {apiPack?.packSelected && <span><b>Pack :</b> {apiPack.packSelected}{apiPack.packPriceMAD ? ` — ${apiPack.packPriceMAD.toLocaleString("fr-FR")} MAD` : ""}</span>}
+          {apiStatus && <span><b>{t("portes.p1.dossier.db_status_label")}</b> {apiStatus}</span>}
+          {apiPack?.packSelected && <span><b>{t("portes.p1.dossier.pack_label")}</b> {apiPack.packSelected}{apiPack.packPriceMAD ? ` — ${apiPack.packPriceMAD.toLocaleString("fr-FR")} MAD` : ""}</span>}
         </div>
       )}
       {(apiStatus === 'NEEDS_CHANGES' || apiStatus === 'REJECTED') && opsNote && (
         <div style={{ margin: "12px 20px", padding: '10px 14px', background: '#fef9c3', border: '1px solid #fde047', borderRadius: 8, fontSize: 13, color: '#854d0e' }}>
-          <strong>Message de votre architecte :</strong><br />
+          <strong>{t("portes.p1.dossier.ops_note_title")}</strong><br />
           {opsNote}
         </div>
       )}
       {dossierId && (
         <div style={{ margin: "12px 20px" }}>
           <a href={`/p1/dossier/phases?dossier=${dossierId}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#1d4ed8", color: "#fff", padding: "10px 16px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 600 }}>
-            📁 Voir les documents et phases du projet
+            {t("portes.p1.dossier.view_phases")}
           </a>
         </div>
       )}
