@@ -25,6 +25,14 @@ import {
   FormationEntry, ExperiencePhare,
 } from "./api";
 import { apiBase } from "../../tomes/tome4/apiClient";
+import { useT, useLang } from "../../i18n/i18n";
+
+/** Locale BCP47 par langue UI pour toLocaleDateString. */
+function dateLocale(lang: string): string {
+  if (lang === "ar") return "ar-MA";
+  if (lang === "en") return "en-GB";
+  return "fr-FR";
+}
 
 /** Préfixe avatarUrl si c'est un chemin relatif /uploads/ → URL absolue API */
 function resolveAvatarUrl(url?: string | null): string | undefined {
@@ -34,30 +42,18 @@ function resolveAvatarUrl(url?: string | null): string | undefined {
   return url;
 }
 
-const METIER_LABELS: Record<string, string> = {
-  ARCHITECTE: "Architecte", BET_STRUCTURE: "BET Structure", BET_FLUIDES: "BET Fluides", BET_VRD: "BET VRD",
-  TOPOGRAPHE: "Topographe", GEOMETRE: "Géomètre", CONTROLE_TECHNIQUE: "Contrôle technique", LABORATOIRE: "Laboratoire",
-  ENTREPRISE_GO: "Entreprise GO", ENTREPRISE_SECOND_OEUVRE: "Second œuvre", FOURNISSEUR_MATERIAUX: "Fournisseur",
-  PROMOTEUR: "Promoteur", MOA_PUBLIQUE: "MOA publique", MOA_PRIVEE: "MOA privée", ARTISAN_QUALIFIE: "Artisan",
-};
-
-const CABINET_STATUS_LABELS: Record<string, string> = {
-  LIBERAL: "Libéral", ASSOCIE: "Associé", SALARIE: "Salarié", FONCTIONNAIRE: "Fonctionnaire", INDEPENDANT: "Indépendant",
-};
-
-const LANGUE_LABELS: Record<string, string> = {
-  FR: "Français", AR: "العربية", EN: "English", BERBERE: "Tamaziɣt", ES: "Español", IT: "Italiano", DE: "Deutsch",
-};
-
-const DISPO_BADGE: Record<string, { label: string; color: string; bg: string }> = {
-  DISPONIBLE: { label: "● Disponible", color: CC_THEME.success, bg: CC_THEME.successBg },
-  OCCUPE: { label: "● Occupé", color: CC_THEME.warn, bg: CC_THEME.warnBg },
-  INDISPONIBLE: { label: "● Indisponible", color: CC_THEME.danger, bg: CC_THEME.dangerBg },
+/** Badge color/bg pour la disponibilité (label provient de t()). */
+const DISPO_STYLE: Record<string, { color: string; bg: string }> = {
+  DISPONIBLE: { color: CC_THEME.success, bg: CC_THEME.successBg },
+  OCCUPE: { color: CC_THEME.warn, bg: CC_THEME.warnBg },
+  INDISPONIBLE: { color: CC_THEME.danger, bg: CC_THEME.dangerBg },
 };
 
 type Tab = "apercu" | "cercles" | "posts" | "evenements";
 
 export default function ProfilePage() {
+  const t = useT();
+  const { lang } = useLang();
   const { userIdOrId } = useParams<{ userIdOrId: string }>();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<ProProfile | null>(null);
@@ -97,7 +93,7 @@ export default function ProfilePage() {
     if (!userIdOrId) return;
     cerclesApi.publicProfile(userIdOrId)
       .then((r) => setProfile(r.data))
-      .catch((e) => setErr(e?.message || "Profil introuvable"));
+      .catch((e) => setErr(e?.message || t("cercles.profile.err_not_found")));
     cerclesApi.profileCercles(userIdOrId).then((r) => setUserCercles(r.data)).catch(() => {});
     cerclesApi.profilePosts(userIdOrId).then((r) => setUserPosts(r.data)).catch(() => {});
     cerclesApi.profileRooms(userIdOrId).then((r) => setUserRooms(r.data)).catch(() => {});
@@ -110,14 +106,14 @@ export default function ProfilePage() {
     setConnecting(true);
     try {
       await cerclesApi.sendConnection(profile.userId);
-      alert("Demande de connexion envoyée !");
+      alert(t("cercles.profile.alert_connect_sent"));
     } catch (e: any) {
-      alert("Erreur : " + (e?.message || ""));
+      alert(t("cercles.profile.alert_error_prefix") + (e?.message || ""));
     } finally { setConnecting(false); }
   };
 
   const sendInvitations = async () => {
-    if (!inviteCercleId) { alert("Sélectionne un cercle"); return; }
+    if (!inviteCercleId) { alert(t("cercles.profile.alert_select_cercle")); return; }
     const emails = inviteEmails.split(/[\s,;\n]+/).map(s => s.trim()).filter(s => s.includes("@"));
     if (emails.length === 0) return;
     setInviteBusy(true);
@@ -127,15 +123,20 @@ export default function ProfilePage() {
       setInviteEmails("");
       setInviteMsg("");
     } catch (e: any) {
-      alert("Erreur : " + (e?.message || "inconnue"));
+      alert(t("cercles.profile.alert_error_prefix") + (e?.message || ""));
     } finally { setInviteBusy(false); }
   };
 
   if (err) return <CerclesShell><div style={{ padding: 48, color: CC_THEME.danger }}>{err}</div></CerclesShell>;
-  if (!profile) return <CerclesShell><div style={{ padding: 48, color: CC_THEME.inkMid, fontStyle: "italic" }}>Chargement…</div></CerclesShell>;
+  if (!profile) return <CerclesShell><div style={{ padding: 48, color: CC_THEME.inkMid, fontStyle: "italic" }}>{t("cercles.profile.loading")}</div></CerclesShell>;
 
   const dispo = profile.disponibilite || "DISPONIBLE";
-  const dispoBadge = DISPO_BADGE[dispo] || DISPO_BADGE.DISPONIBLE;
+  const dispoStyle = DISPO_STYLE[dispo] || DISPO_STYLE.DISPONIBLE;
+  const dispoLabel =
+    dispo === "DISPONIBLE" ? t("cercles.edit_profile.disponibilite.disponible")
+    : dispo === "OCCUPE" ? t("cercles.edit_profile.disponibilite.occupe")
+    : dispo === "INDISPONIBLE" ? t("cercles.edit_profile.disponibilite.indisponible")
+    : dispo;
 
   return (
     <CerclesShell>
@@ -161,35 +162,35 @@ export default function ProfilePage() {
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
               <h1 style={S.name}>{profile.displayName}</h1>
-              {profile.isVerified && <span title="Profil vérifié" style={{ color: CC_THEME.success, fontSize: 18 }}>✓</span>}
-              <span style={{ ...S.dispoBadge, color: dispoBadge.color, background: dispoBadge.bg }}>
-                {dispoBadge.label}
+              {profile.isVerified && <span title={t("cercles.profile.verified_title")} style={{ color: CC_THEME.success, fontSize: 18 }}>✓</span>}
+              <span style={{ ...S.dispoBadge, color: dispoStyle.color, background: dispoStyle.bg }}>
+                {dispoLabel}
               </span>
             </div>
             {profile.title && <div style={S.title}>{profile.title}</div>}
             <div style={S.badges}>
-              <span style={S.metierBadge}>{METIER_LABELS[profile.metier] || profile.metier}</span>
-              {profile.classeBTP && <span style={S.classBadge}>Classe {profile.classeBTP}</span>}
-              {profile.cabinetStatus && CABINET_STATUS_LABELS[profile.cabinetStatus] && (
-                <span style={S.statusBadge}>{CABINET_STATUS_LABELS[profile.cabinetStatus]}</span>
+              <span style={S.metierBadge}>{t(`cercles.edit_profile.metier.${profile.metier}`)}</span>
+              {profile.classeBTP && <span style={S.classBadge}>{t("cercles.profile.classe_prefix", { code: profile.classeBTP })}</span>}
+              {profile.cabinetStatus && (
+                <span style={S.statusBadge}>{t(`cercles.edit_profile.statut.${profile.cabinetStatus}`)}</span>
               )}
               {profile.villePrincipale && <span style={S.locTag}>📍 {profile.villePrincipale}</span>}
-              {profile.yearsExperience && <span style={S.locTag}>🎓 {profile.yearsExperience} ans d'exp.</span>}
+              {profile.yearsExperience && <span style={S.locTag}>{t("cercles.profile.years_exp_short", { n: profile.yearsExperience })}</span>}
             </div>
           </div>
           <div style={S.actions}>
             {isMine ? (
               <>
-                <button onClick={() => navigate("/cercles/me/edit")} style={S.btnConnect}>✎ Éditer ma fiche</button>
-                <button onClick={() => { setShowInvite(true); if (myCercles[0]) setInviteCercleId(myCercles[0].id); }} style={S.btnGhostAction}>✉ Inviter</button>
+                <button onClick={() => navigate("/cercles/me/edit")} style={S.btnConnect}>{t("cercles.profile.btn_edit")}</button>
+                <button onClick={() => { setShowInvite(true); if (myCercles[0]) setInviteCercleId(myCercles[0].id); }} style={S.btnGhostAction}>{t("cercles.profile.btn_invite")}</button>
               </>
             ) : (
               <>
                 <button onClick={() => navigate(`/cercles/messages/new/${profile.userId}`)} style={S.btnConnect}>
-                  💬 Message
+                  {t("cercles.profile.btn_message")}
                 </button>
                 <button onClick={sendConnect} disabled={connecting} style={S.btnGhostAction}>
-                  {connecting ? "Envoi…" : "+ Se connecter"}
+                  {connecting ? t("cercles.profile.btn_connecting") : t("cercles.profile.btn_connect")}
                 </button>
               </>
             )}
@@ -198,21 +199,22 @@ export default function ProfilePage() {
 
         {/* Tabs */}
         <nav style={S.tabs}>
-          <TabBtn active={tab === "apercu"} onClick={() => setTab("apercu")}>Aperçu</TabBtn>
+          <TabBtn active={tab === "apercu"} onClick={() => setTab("apercu")}>{t("cercles.profile.tab_apercu")}</TabBtn>
           <TabBtn active={tab === "cercles"} onClick={() => setTab("cercles")}>
-            Cercles ({userCercles.length})
+            {t("cercles.profile.tab_cercles")} ({userCercles.length})
           </TabBtn>
           <TabBtn active={tab === "posts"} onClick={() => setTab("posts")}>
-            Posts ({userPosts.length})
+            {t("cercles.profile.tab_posts")} ({userPosts.length})
           </TabBtn>
           <TabBtn active={tab === "evenements"} onClick={() => setTab("evenements")}>
-            Événements ({userRooms.length})
+            {t("cercles.profile.tab_events")} ({userRooms.length})
           </TabBtn>
         </nav>
 
         {/* Modal invitations */}
         {showInvite && (
           <InviteModal
+            t={t}
             myCercles={myCercles}
             inviteCercleId={inviteCercleId}
             setInviteCercleId={setInviteCercleId}
@@ -229,43 +231,48 @@ export default function ProfilePage() {
 
         {/* Content per tab */}
         <div style={S.layout}>
-          {tab === "apercu" && <ApercuTab profile={profile} />}
-          {tab === "cercles" && <CerclesTab memberships={userCercles} />}
-          {tab === "posts" && <PostsTab posts={userPosts} />}
-          {tab === "evenements" && <RoomsTab rooms={userRooms} />}
+          {tab === "apercu" && <ApercuTab profile={profile} t={t} lang={lang} />}
+          {tab === "cercles" && <CerclesTab memberships={userCercles} t={t} />}
+          {tab === "posts" && <PostsTab posts={userPosts} t={t} lang={lang} />}
+          {tab === "evenements" && <RoomsTab rooms={userRooms} t={t} lang={lang} />}
         </div>
       </div>
     </CerclesShell>
   );
 }
 
+type Tfn = (key: string, vars?: Record<string, string | number>) => string;
+
 // ─── Onglet Aperçu ────────────────────────────────────────────────
 
-function ApercuTab({ profile }: { profile: ProProfile }) {
+function ApercuTab({ profile, t, lang }: { profile: ProProfile; t: Tfn; lang: string }) {
+  const collaboratorWord = profile.cabinetSize && profile.cabinetSize > 1
+    ? t("cercles.profile.collaborator_plural")
+    : t("cercles.profile.collaborator_singular");
   return (
     <div style={S.layoutGrid}>
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {profile.bio && (
-          <Section title="À propos">
+          <Section title={t("cercles.profile.section_about")}>
             <div style={S.bio}>{profile.bio}</div>
           </Section>
         )}
 
         {(profile.cabinetName || profile.cabinetSize) && (
-          <Section title="Cabinet / Structure">
+          <Section title={t("cercles.profile.section_cabinet")}>
             {profile.cabinetName && (
               <div style={S.cabinetCard}>
                 <div style={{ fontFamily: CC_THEME.fontDisplay, fontSize: 18, color: CC_THEME.navy }}>
                   {profile.cabinetName}
                 </div>
                 <div style={{ fontSize: 13, color: CC_THEME.inkMid, marginTop: 4 }}>
-                  {profile.cabinetStatus && CABINET_STATUS_LABELS[profile.cabinetStatus]}
-                  {profile.cabinetSize ? ` · ${profile.cabinetSize} collaborateur${profile.cabinetSize > 1 ? "s" : ""}` : ""}
-                  {profile.yearsExperience ? ` · ${profile.yearsExperience} ans d'expérience` : ""}
+                  {profile.cabinetStatus && t(`cercles.edit_profile.statut.${profile.cabinetStatus}`)}
+                  {profile.cabinetSize ? ` · ${profile.cabinetSize} ${collaboratorWord}` : ""}
+                  {profile.yearsExperience ? ` · ${t("cercles.profile.years_experience", { n: profile.yearsExperience })}` : ""}
                 </div>
                 {profile.cnoaNumero && (
                   <div style={{ fontSize: 12, color: CC_THEME.or, marginTop: 6 }}>
-                    CNOA : {profile.cnoaNumero}
+                    {t("cercles.profile.cnoa_label", { num: profile.cnoaNumero })}
                   </div>
                 )}
               </div>
@@ -274,13 +281,13 @@ function ApercuTab({ profile }: { profile: ProProfile }) {
         )}
 
         {profile.experiencesPhares && profile.experiencesPhares.length > 0 && (
-          <Section title="Projets phares">
+          <Section title={t("cercles.profile.section_projects")}>
             {profile.experiencesPhares.map((p, i) => <ProjectCard key={i} p={p} />)}
           </Section>
         )}
 
         {profile.formations && profile.formations.length > 0 && (
-          <Section title="Formations">
+          <Section title={t("cercles.profile.section_formations")}>
             {profile.formations.map((f, i) => (
               <div key={i} style={S.formationRow}>
                 <div style={{ flex: 1 }}>
@@ -294,7 +301,7 @@ function ApercuTab({ profile }: { profile: ProProfile }) {
         )}
 
         {profile.certifications.length > 0 && (
-          <Section title="Certifications">
+          <Section title={t("cercles.profile.section_certifications")}>
             <ul style={S.agrementList}>
               {profile.certifications.map((c) => <li key={c} style={S.agrementItem}>🎖 {c}</li>)}
             </ul>
@@ -302,7 +309,7 @@ function ApercuTab({ profile }: { profile: ProProfile }) {
         )}
 
         {profile.prix.length > 0 && (
-          <Section title="Prix & distinctions">
+          <Section title={t("cercles.profile.section_awards")}>
             <ul style={S.agrementList}>
               {profile.prix.map((p) => <li key={p} style={S.agrementItem}>🏆 {p}</li>)}
             </ul>
@@ -310,7 +317,7 @@ function ApercuTab({ profile }: { profile: ProProfile }) {
         )}
 
         {profile.specialites.length > 0 && (
-          <Section title="Spécialités">
+          <Section title={t("cercles.profile.section_specialties")}>
             <div style={S.tagList}>
               {profile.specialites.map((s) => <span key={s} style={S.specialiteTag}>{s}</span>)}
             </div>
@@ -318,7 +325,7 @@ function ApercuTab({ profile }: { profile: ProProfile }) {
         )}
 
         {profile.agrements.length > 0 && (
-          <Section title="Agréments officiels">
+          <Section title={t("cercles.profile.section_agrements")}>
             <ul style={S.agrementList}>
               {profile.agrements.map((a) => <li key={a} style={S.agrementItem}>📜 {a}</li>)}
             </ul>
@@ -326,9 +333,9 @@ function ApercuTab({ profile }: { profile: ProProfile }) {
         )}
 
         {profile.regions.length > 0 && (
-          <Section title="Régions d'intervention">
+          <Section title={t("cercles.profile.section_regions")}>
             <div style={S.tagList}>
-              {profile.regions.map((r) => <span key={r} style={S.regionTag}>🗺 {r}</span>)}
+              {profile.regions.map((r) => <span key={r} style={S.regionTag}>🗺 {t(`cercles.edit_profile.region.${r}`)}</span>)}
             </div>
           </Section>
         )}
@@ -336,7 +343,7 @@ function ApercuTab({ profile }: { profile: ProProfile }) {
 
       <aside style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         {(profile.tarifsRange || profile.disponibilite || profile.disponibleAPartir) && (
-          <Section title="Tarifs & Disponibilité">
+          <Section title={t("cercles.profile.section_tarifs")}>
             {profile.tarifsRange && (
               <div style={S.contactRow}>
                 <span style={S.iconBadge}>💰</span>
@@ -347,40 +354,40 @@ function ApercuTab({ profile }: { profile: ProProfile }) {
               <div style={S.contactRow}>
                 <span style={S.iconBadge}>📅</span>
                 <span style={{ fontSize: 13 }}>
-                  Disponible à partir du {new Date(profile.disponibleAPartir).toLocaleDateString("fr-FR")}
+                  {t("cercles.profile.available_from", { date: new Date(profile.disponibleAPartir).toLocaleDateString(dateLocale(lang)) })}
                 </span>
               </div>
             )}
           </Section>
         )}
 
-        <Section title="Contact">
+        <Section title={t("cercles.profile.section_contact")}>
           <div style={S.contactList}>
             {profile.emailPublic && <a href={`mailto:${profile.emailPublic}`} style={S.contactLink}>✉ {profile.emailPublic}</a>}
             {profile.phonePublic && <a href={`tel:${profile.phonePublic}`} style={S.contactLink}>📞 {profile.phonePublic}</a>}
-            {profile.websiteUrl && <a href={profile.websiteUrl} target="_blank" rel="noreferrer" style={S.contactLink}>🌐 Site web</a>}
+            {profile.websiteUrl && <a href={profile.websiteUrl} target="_blank" rel="noreferrer" style={S.contactLink}>{t("cercles.profile.link_website")}</a>}
             {profile.linkedinUrl && <a href={profile.linkedinUrl} target="_blank" rel="noreferrer" style={S.contactLink}>💼 LinkedIn</a>}
             {profile.behanceUrl && <a href={profile.behanceUrl} target="_blank" rel="noreferrer" style={S.contactLink}>🎨 Behance</a>}
             {profile.instagramUrl && <a href={profile.instagramUrl} target="_blank" rel="noreferrer" style={S.contactLink}>📷 Instagram</a>}
             {profile.pinterestUrl && <a href={profile.pinterestUrl} target="_blank" rel="noreferrer" style={S.contactLink}>📌 Pinterest</a>}
             {!profile.emailPublic && !profile.phonePublic && !profile.websiteUrl && !profile.linkedinUrl && !profile.behanceUrl && !profile.instagramUrl && !profile.pinterestUrl && (
-              <div style={{ color: CC_THEME.inkMuted, fontStyle: "italic", fontSize: 12 }}>Aucun contact public.</div>
+              <div style={{ color: CC_THEME.inkMuted, fontStyle: "italic", fontSize: 12 }}>{t("cercles.profile.no_contact")}</div>
             )}
           </div>
         </Section>
 
         {profile.langues.length > 0 && (
-          <Section title="Langues parlées">
+          <Section title={t("cercles.profile.section_languages")}>
             <div style={S.tagList}>
-              {profile.langues.map((l) => <span key={l} style={S.langueTag}>{LANGUE_LABELS[l] || l}</span>)}
+              {profile.langues.map((l) => <span key={l} style={S.langueTag}>{t(`cercles.edit_profile.langue.${l}`)}</span>)}
             </div>
           </Section>
         )}
 
-        <Section title="Statistiques">
-          <div style={S.statRow}><span style={S.statLabel}>Connexions</span><span style={S.statValue}>{profile.connectionsCount}</span></div>
-          <div style={S.statRow}><span style={S.statLabel}>Vues profil</span><span style={S.statValue}>{profile.profileViews}</span></div>
-          <div style={S.statRow}><span style={S.statLabel}>Projets</span><span style={S.statValue}>{profile.projectsCount}</span></div>
+        <Section title={t("cercles.profile.section_stats")}>
+          <div style={S.statRow}><span style={S.statLabel}>{t("cercles.profile.stat_connections")}</span><span style={S.statValue}>{profile.connectionsCount}</span></div>
+          <div style={S.statRow}><span style={S.statLabel}>{t("cercles.profile.stat_views")}</span><span style={S.statValue}>{profile.profileViews}</span></div>
+          <div style={S.statRow}><span style={S.statLabel}>{t("cercles.profile.stat_projects")}</span><span style={S.statValue}>{profile.projectsCount}</span></div>
         </Section>
       </aside>
     </div>
@@ -441,8 +448,8 @@ function TabBtn({ active, onClick, children }: { active: boolean; onClick: () =>
   );
 }
 
-function CerclesTab({ memberships }: { memberships: UserCercleMembership[] }) {
-  if (memberships.length === 0) return <div style={S.emptyTab}>Aucun cercle rejoint.</div>;
+function CerclesTab({ memberships, t }: { memberships: UserCercleMembership[]; t: Tfn }) {
+  if (memberships.length === 0) return <div style={S.emptyTab}>{t("cercles.profile.empty_cercles")}</div>;
   return (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14, padding: "20px 36px 60px" }}>
       {memberships.map((m) => (
@@ -456,7 +463,7 @@ function CerclesTab({ memberships }: { memberships: UserCercleMembership[] }) {
                 {m.cercle.name}
               </div>
               <div style={{ fontSize: 11, color: CC_THEME.inkMuted }}>
-                {m.cercle._count?.members ?? 0} membres · rôle {m.role}
+                {t("cercles.profile.members_role", { n: m.cercle._count?.members ?? 0, role: m.role })}
               </div>
             </div>
           </div>
@@ -471,8 +478,8 @@ function CerclesTab({ memberships }: { memberships: UserCercleMembership[] }) {
   );
 }
 
-function PostsTab({ posts }: { posts: UserPost[] }) {
-  if (posts.length === 0) return <div style={S.emptyTab}>Aucun post publié.</div>;
+function PostsTab({ posts, t, lang }: { posts: UserPost[]; t: Tfn; lang: string }) {
+  if (posts.length === 0) return <div style={S.emptyTab}>{t("cercles.profile.empty_posts")}</div>;
   return (
     <div style={{ padding: "20px 36px 60px", display: "flex", flexDirection: "column", gap: 14 }}>
       {posts.map((p) => (
@@ -482,7 +489,7 @@ function PostsTab({ posts }: { posts: UserPost[] }) {
               {p.cercle.name}
             </div>
             <div style={{ fontSize: 11, color: CC_THEME.inkMuted }}>
-              {new Date(p.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+              {new Date(p.createdAt).toLocaleDateString(dateLocale(lang), { day: "numeric", month: "long", year: "numeric" })}
             </div>
           </div>
           {p.title && <div style={{ fontFamily: CC_THEME.fontDisplay, fontSize: 17, color: CC_THEME.navy, marginBottom: 6, fontWeight: 600 }}>{p.title}</div>}
@@ -492,8 +499,8 @@ function PostsTab({ posts }: { posts: UserPost[] }) {
           <div style={{ display: "flex", gap: 16, marginTop: 10, fontSize: 12, color: CC_THEME.inkMid }}>
             <span>👍 {p.upvotes}</span>
             <span>💬 {p._count.replies}</span>
-            {p.isPinned && <span style={{ color: CC_THEME.or }}>📌 Épinglé</span>}
-            {p.isResolved && <span style={{ color: CC_THEME.success }}>✓ Résolu</span>}
+            {p.isPinned && <span style={{ color: CC_THEME.or }}>{t("cercles.profile.pinned")}</span>}
+            {p.isResolved && <span style={{ color: CC_THEME.success }}>{t("cercles.profile.resolved")}</span>}
           </div>
         </Link>
       ))}
@@ -501,15 +508,15 @@ function PostsTab({ posts }: { posts: UserPost[] }) {
   );
 }
 
-function RoomsTab({ rooms }: { rooms: UserRoom[] }) {
-  if (rooms.length === 0) return <div style={S.emptyTab}>Aucun événement programmé.</div>;
+function RoomsTab({ rooms, t, lang }: { rooms: UserRoom[]; t: Tfn; lang: string }) {
+  if (rooms.length === 0) return <div style={S.emptyTab}>{t("cercles.profile.empty_rooms")}</div>;
   return (
     <div style={{ padding: "20px 36px 60px", display: "flex", flexDirection: "column", gap: 12 }}>
       {rooms.map((r) => (
         <Link key={r.id} to={`/cercles/${r.cercle.slug}/rooms/${r.slug}`} style={S.roomCard}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ ...S.statusPill, color: roomStatusColor(r.status), borderColor: roomStatusColor(r.status) + "60", padding: "3px 10px", borderRadius: 12, fontSize: 10, border: `1px solid` }}>
-              {r.status === "LIVE" ? "● EN DIRECT" : r.status === "SCHEDULED" ? "PROGRAMMÉ" : r.status}
+              {r.status === "LIVE" ? t("cercles.profile.live") : r.status === "SCHEDULED" ? t("cercles.profile.scheduled") : r.status}
             </div>
             <span style={{ fontSize: 11, color: CC_THEME.inkMuted }}>{r.cercle.name}</span>
             {r.provider === "JITSI" && <span style={{ fontSize: 11, color: CC_THEME.or }}>Jitsi</span>}
@@ -520,7 +527,7 @@ function RoomsTab({ rooms }: { rooms: UserRoom[] }) {
           {r.description && <div style={{ fontSize: 13, color: CC_THEME.ink, marginTop: 4 }}>{r.description}</div>}
           {r.scheduledAt && (
             <div style={{ fontSize: 12, color: CC_THEME.inkMid, marginTop: 6 }}>
-              📅 {new Date(r.scheduledAt).toLocaleString("fr-FR", { dateStyle: "long", timeStyle: "short" })}
+              📅 {new Date(r.scheduledAt).toLocaleString(dateLocale(lang), { dateStyle: "long", timeStyle: "short" })}
             </div>
           )}
         </Link>
@@ -534,6 +541,7 @@ function roomStatusColor(status: string): string {
 }
 
 function InviteModal(props: {
+  t: Tfn;
   myCercles: CercleListItem[];
   inviteCercleId: string; setInviteCercleId: (v: string) => void;
   inviteEmails: string; setInviteEmails: (v: string) => void;
@@ -542,25 +550,26 @@ function InviteModal(props: {
   inviteResults: InviteResultItem[] | null;
   onSubmit: () => void; onClose: () => void;
 }) {
+  const { t } = props;
   return (
     <div style={{ ...S.section, margin: "16px 36px 0", padding: 20 }}>
-      <div style={S.sectionEyebrow}>Inviter par email</div>
+      <div style={S.sectionEyebrow}>{t("cercles.profile.invite_eyebrow")}</div>
       {props.myCercles.length === 0 ? (
         <div style={{ color: CC_THEME.inkMid, fontSize: 13, fontStyle: "italic" }}>
-          Tu dois être modérateur d'au moins un cercle pour inviter.
+          {t("cercles.profile.invite_need_moderator")}
         </div>
       ) : (
         <>
-          <label style={S.editLabel}>Cercle d'accueil</label>
+          <label style={S.editLabel}>{t("cercles.profile.invite_host_cercle")}</label>
           <select value={props.inviteCercleId} onChange={(e) => props.setInviteCercleId(e.target.value)} style={S.editInput}>
             {props.myCercles.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
-          <textarea placeholder="Emails (séparés par virgule, espace ou nouvelle ligne)" value={props.inviteEmails} onChange={(e) => props.setInviteEmails(e.target.value)} style={{ ...S.editInput, minHeight: 70 }} />
-          <textarea placeholder="Mot d'accompagnement (optionnel)" value={props.inviteMsg} onChange={(e) => props.setInviteMsg(e.target.value)} style={{ ...S.editInput, minHeight: 50 }} />
+          <textarea placeholder={t("cercles.profile.invite_emails_placeholder")} value={props.inviteEmails} onChange={(e) => props.setInviteEmails(e.target.value)} style={{ ...S.editInput, minHeight: 70 }} />
+          <textarea placeholder={t("cercles.profile.invite_message_placeholder")} value={props.inviteMsg} onChange={(e) => props.setInviteMsg(e.target.value)} style={{ ...S.editInput, minHeight: 50 }} />
           <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
-            <button onClick={props.onClose} style={S.btnGhost}>Fermer</button>
+            <button onClick={props.onClose} style={S.btnGhost}>{t("cercles.profile.btn_close")}</button>
             <button onClick={props.onSubmit} disabled={props.inviteBusy || !props.inviteEmails.trim()} style={S.btnPrimary}>
-              {props.inviteBusy ? "Envoi…" : "Envoyer"}
+              {props.inviteBusy ? t("cercles.profile.btn_sending") : t("cercles.profile.btn_send")}
             </button>
           </div>
           {props.inviteResults && (
@@ -568,12 +577,12 @@ function InviteModal(props: {
               {props.inviteResults.map((r, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 0", fontSize: 13 }}>
                   <span style={{ color: r.status === "sent" ? CC_THEME.success : r.status === "link" ? CC_THEME.or : r.status === "already-member" ? CC_THEME.inkMid : CC_THEME.danger, minWidth: 90, fontSize: 11, fontWeight: 600 }}>
-                    {r.status === "sent" ? "✓ envoyé" : r.status === "link" ? "🔗 lien" : r.status === "already-member" ? "membre" : "✗ échec"}
+                    {r.status === "sent" ? t("cercles.profile.invite_status_sent") : r.status === "link" ? t("cercles.profile.invite_status_link") : r.status === "already-member" ? t("cercles.profile.invite_status_member") : t("cercles.profile.invite_status_failed")}
                   </span>
                   <span style={{ flex: 1 }}>{r.email}</span>
                   {r.link && r.status === "link" && (
-                    <button onClick={() => { navigator.clipboard?.writeText(r.link).catch(() => window.prompt("Copiez :", r.link)); }} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, padding: "3px 10px", borderRadius: 3, fontSize: 11, cursor: "pointer", color: CC_THEME.inkMid }}>
-                      Copier le lien
+                    <button onClick={() => { navigator.clipboard?.writeText(r.link).catch(() => window.prompt(t("cercles.profile.copy_prompt"), r.link)); }} style={{ background: "transparent", border: `1px solid ${CC_THEME.border}`, padding: "3px 10px", borderRadius: 3, fontSize: 11, cursor: "pointer", color: CC_THEME.inkMid }}>
+                      {t("cercles.profile.copy_link")}
                     </button>
                   )}
                 </div>

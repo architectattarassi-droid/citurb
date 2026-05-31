@@ -5,10 +5,12 @@ import { CC_THEME } from "./theme";
 import { cerclesApi, invitationsApi, CercleDetail, CerclePost, LiveRoom, InviteResultItem } from "./api";
 import MediaEmbed, { extractUrls, isEmbeddable } from "./MediaEmbed";
 import InlineComments from "./InlineComments";
+import { useT } from "../../i18n/i18n";
 
 type Tab = "discussions" | "rooms" | "members";
 
 export default function CercleDetailPage() {
+  const t = useT();
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [cercle, setCercle] = useState<CercleDetail | null>(null);
@@ -36,16 +38,16 @@ export default function CercleDetailPage() {
       setPosts(p.data);
       setRooms(rr.data);
     } catch (e: any) {
-      setErr(e?.message || "Erreur chargement cercle");
+      setErr(e?.message || t("cercles.detail.err_load"));
     }
-  }, [slug]);
+  }, [slug, t]);
 
   useEffect(() => { loadAll(); }, [loadAll]);
 
   const submitPost = async () => {
     if (!cercle) return;
     if (!composeBody.trim() && composeFiles.length === 0) {
-      alert("Ajoute du texte ou une pièce jointe."); return;
+      alert(t("cercles.detail.alert_empty_post")); return;
     }
     setPosting(true);
     try {
@@ -68,7 +70,7 @@ export default function CercleDetailPage() {
       setComposing(false);
       await loadAll();
     } catch (e: any) {
-      alert("Erreur publication : " + (e?.message || "inconnue"));
+      alert(t("cercles.detail.alert_post_error") + (e?.message || t("cercles.detail.unknown")));
     } finally {
       setPosting(false);
     }
@@ -93,7 +95,7 @@ export default function CercleDetailPage() {
       setPosts(prev => prev.map(p => p.id === postId ? {
         ...p, liked: !p.liked, upvotes: p.liked ? p.upvotes + 1 : Math.max(0, p.upvotes - 1),
       } : p));
-      alert("Erreur like : " + (e?.message || ""));
+      alert(t("cercles.detail.alert_like_error") + (e?.message || ""));
     }
   };
 
@@ -108,55 +110,55 @@ export default function CercleDetailPage() {
   return (
     <CerclesShell>
       {err && <div style={{ padding: 24, color: CC_THEME.danger }}>{err}</div>}
-      {!cercle && !err && <div style={{ padding: 24, color: CC_THEME.inkMid, fontStyle: "italic" }}>Chargement…</div>}
+      {!cercle && !err && <div style={{ padding: 24, color: CC_THEME.inkMid, fontStyle: "italic" }}>{t("cercles.detail.loading")}</div>}
       {cercle && (
         <div>
           <header style={S.header}>
             <div>
-              <div style={S.eyebrow}>{visLabel(cercle.visibility)} · {cercle.region || "National"}</div>
+              <div style={S.eyebrow}>{visLabel(cercle.visibility, t)} · {cercle.region || t("cercles.detail.national_default")}</div>
               <h1 style={S.title}>{cercle.name}</h1>
               {cercle.description && <p style={S.desc}>{cercle.description}</p>}
               {cercle.themes && cercle.themes.length > 0 && (
                 <div style={S.themes}>
-                  {cercle.themes.map(t => <span key={t} style={S.theme}>#{t}</span>)}
+                  {cercle.themes.map(th => <span key={th} style={S.theme}>#{th}</span>)}
                 </div>
               )}
             </div>
             <div style={S.headerRight}>
-              <Stat label="Membres" value={cercle._count.members} />
-              <Stat label="Posts"   value={cercle._count.posts} accent={CC_THEME.or} />
-              <Stat label="Salles"  value={cercle._count.rooms} accent={CC_THEME.success} />
+              <Stat label={t("cercles.detail.stat_members")} value={cercle._count.members} />
+              <Stat label={t("cercles.detail.stat_posts")}   value={cercle._count.posts} accent={CC_THEME.or} />
+              <Stat label={t("cercles.detail.stat_rooms")}   value={cercle._count.rooms} accent={CC_THEME.success} />
               {cercle.members && cercle.members.length > 0 && cercle.members[0]?.status === "ACTIVE" && (
                 <button onClick={() => navigate(`/cercles/${slug}/chat`)} style={S.chatBtn}>
-                  💬 Chat en direct
+                  {t("cercles.detail.btn_chat_live")}
                 </button>
               )}
               {(cercle.members?.[0]?.role === "OWNER" || cercle.members?.[0]?.role === "MODERATOR") && cercle.membershipFlow === "ASSOCIATION" && (
                 <button onClick={() => navigate(`/cercles/${slug}/applications`)} style={S.chatBtn}>
-                  📋 Gérer adhésions
+                  {t("cercles.detail.btn_manage_applications")}
                 </button>
               )}
               {(!cercle.members || cercle.members.length === 0 || (cercle.members[0]?.status !== "ACTIVE" && cercle.members[0]?.status !== "PENDING_APPLICATION")) && (
                 cercle.membershipFlow === "ASSOCIATION" ? (
                   <button onClick={() => navigate(`/cercles/${slug}/rejoindre`)} style={S.joinBtn}>
-                    📋 Adhérer
+                    {t("cercles.detail.btn_apply")}
                   </button>
                 ) : (
-                  <button onClick={join} style={S.joinBtn}>Rejoindre</button>
+                  <button onClick={join} style={S.joinBtn}>{t("cercles.detail.btn_join")}</button>
                 )
               )}
               {cercle.members?.[0]?.status === "PENDING_APPLICATION" && (
                 <button onClick={() => navigate(`/cercles/${slug}/rejoindre`)} style={{ ...S.joinBtn, background: CC_THEME.info }}>
-                  ⏳ Voir ma demande
+                  {t("cercles.detail.btn_view_application")}
                 </button>
               )}
             </div>
           </header>
 
           <nav style={S.tabs}>
-            <TabBtn active={tab === "discussions"} onClick={() => setTab("discussions")}>💬 Discussions ({cercle._count?.posts ?? 0})</TabBtn>
-            <TabBtn active={tab === "rooms"}       onClick={() => setTab("rooms")}>🎥 Salles vidéo ({cercle._count?.rooms ?? 0})</TabBtn>
-            <TabBtn active={tab === "members"}     onClick={() => setTab("members")}>👥 Membres ({cercle._count?.members ?? 0})</TabBtn>
+            <TabBtn active={tab === "discussions"} onClick={() => setTab("discussions")}>{t("cercles.detail.tab_discussions", { n: cercle._count?.posts ?? 0 })}</TabBtn>
+            <TabBtn active={tab === "rooms"}       onClick={() => setTab("rooms")}>{t("cercles.detail.tab_rooms", { n: cercle._count?.rooms ?? 0 })}</TabBtn>
+            <TabBtn active={tab === "members"}     onClick={() => setTab("members")}>{t("cercles.detail.tab_members", { n: cercle._count?.members ?? 0 })}</TabBtn>
           </nav>
 
           <div style={S.body}>
@@ -164,19 +166,19 @@ export default function CercleDetailPage() {
               <>
                 {!composing ? (
                   <button onClick={() => setComposing(true)} style={S.openComposeBtn}>
-                    + Nouveau post
+                    {t("cercles.detail.btn_new_post")}
                   </button>
                 ) : (
                   <div style={S.composer}>
                     <input
                       style={S.composerTitle}
-                      placeholder="Titre (optionnel)"
+                      placeholder={t("cercles.detail.composer_title_placeholder")}
                       value={composeTitle}
                       onChange={e => setComposeTitle(e.target.value)}
                     />
                     <textarea
                       style={S.composerBody}
-                      placeholder="Partage avec le cercle… Tu peux coller des liens YouTube / Facebook (s'afficheront en vidéo) ou attacher des photos/vidéos."
+                      placeholder={t("cercles.detail.composer_body_placeholder")}
                       value={composeBody}
                       onChange={e => setComposeBody(e.target.value)}
                       rows={5}
@@ -204,15 +206,15 @@ export default function CercleDetailPage() {
                     )}
                     <div style={{ display: "flex", justifyContent: "space-between", gap: 10, marginTop: 12, alignItems: "center" }}>
                       <label style={{ cursor: "pointer", padding: "8px 14px", background: CC_THEME.bgSoft, borderRadius: 4, fontSize: 12, color: CC_THEME.inkMid, border: `1px solid ${CC_THEME.border}` }}>
-                        📎 Joindre photo/vidéo
+                        {t("cercles.detail.composer_attach")}
                         <input type="file" multiple accept="image/*,video/*,audio/*" onChange={(e) => {
                           if (e.target.files) setComposeFiles([...composeFiles, ...Array.from(e.target.files)].slice(0, 6));
                         }} style={{ display: "none" }} />
                       </label>
                       <div style={{ display: "flex", gap: 10 }}>
-                        <button onClick={() => { setComposing(false); setComposeBody(""); setComposeTitle(""); setComposeFiles([]); }} style={S.btnGhost}>Annuler</button>
+                        <button onClick={() => { setComposing(false); setComposeBody(""); setComposeTitle(""); setComposeFiles([]); }} style={S.btnGhost}>{t("cercles.detail.btn_cancel")}</button>
                         <button onClick={submitPost} disabled={posting || (!composeBody.trim() && composeFiles.length === 0)} style={S.btnPrimary}>
-                          {posting ? (composeUploadPct !== null && composeUploadPct < 100 ? `Upload ${composeUploadPct}%` : "Publication…") : "Publier"}
+                          {posting ? (composeUploadPct !== null && composeUploadPct < 100 ? t("cercles.detail.btn_uploading", { pct: composeUploadPct }) : t("cercles.detail.btn_publishing")) : t("cercles.detail.btn_publish")}
                         </button>
                       </div>
                     </div>
@@ -221,8 +223,8 @@ export default function CercleDetailPage() {
 
                 {posts.length === 0 && (
                   <div style={S.emptyBox}>
-                    <div style={{ fontFamily: CC_THEME.fontDisplay, fontSize: 18, color: CC_THEME.navy, marginBottom: 6 }}>Pas encore de discussion</div>
-                    <div style={{ fontSize: 13, color: CC_THEME.inkMid, fontStyle: "italic" }}>Lance le premier post.</div>
+                    <div style={{ fontFamily: CC_THEME.fontDisplay, fontSize: 18, color: CC_THEME.navy, marginBottom: 6 }}>{t("cercles.detail.empty_posts_title")}</div>
+                    <div style={{ fontSize: 13, color: CC_THEME.inkMid, fontStyle: "italic" }}>{t("cercles.detail.empty_posts_body")}</div>
                   </div>
                 )}
 
@@ -277,13 +279,15 @@ function TabBtn({ active, onClick, children }: { active: boolean; onClick: () =>
 }
 
 function PostCard({ post, cercleSlug, cercleName, onUpvote, onOpen }: { post: CerclePost; cercleSlug: string; cercleName: string; onUpvote: () => void; onOpen: () => void }) {
+  const t = useT();
   const [shareToast, setShareToast] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [commentCount, setCommentCount] = useState<number>(post.replyCount ?? 0);
   const sharePost = async () => {
     const url = `${window.location.origin}/cercles/${cercleSlug}/posts/${post.id}`;
-    const title = post.title || `Post de ${post.author.username || post.author.email}`;
-    const text = `${title} — ${cercleName} sur CITURBAREA Cercles`;
+    const authorName = post.author.username || post.author.email;
+    const title = post.title || t("cercles.detail.post_of_fallback", { name: authorName });
+    const text = t("cercles.detail.share_text", { title, cercle: cercleName });
     try {
       if ((navigator as any).share) {
         await (navigator as any).share({ title, text, url });
@@ -295,14 +299,14 @@ function PostCard({ post, cercleSlug, cercleName, onUpvote, onOpen }: { post: Ce
       setShareToast(true);
       setTimeout(() => setShareToast(false), 2000);
     } catch {
-      window.prompt("Copiez le lien ci-dessous :", url);
+      window.prompt(t("cercles.detail.copy_link_prompt"), url);
     }
   };
 
   return (
     <article style={S.postCard}>
       <div style={S.postHead}>
-        <Link to={`/cercles/profile/${post.author.id || post.authorId}`} style={{ ...S.postAvatar, textDecoration: "none", cursor: "pointer" }} title={`Voir le profil de ${post.author.username || post.author.email}`}>
+        <Link to={`/cercles/profile/${post.author.id || post.authorId}`} style={{ ...S.postAvatar, textDecoration: "none", cursor: "pointer" }} title={t("cercles.detail.view_profile_title", { name: post.author.username || post.author.email })}>
           {(post.author.username || post.author.email || "?").slice(0, 1).toUpperCase()}
         </Link>
         <div>
@@ -311,8 +315,8 @@ function PostCard({ post, cercleSlug, cercleName, onUpvote, onOpen }: { post: Ce
           </Link>
           <div style={S.postDate}>{new Date(post.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}</div>
         </div>
-        {post.isPinned && <span style={S.pinBadge}>📌 Épinglé</span>}
-        {post.isResolved && <span style={S.resolveBadge}>✓ Résolu</span>}
+        {post.isPinned && <span style={S.pinBadge}>{t("cercles.detail.pinned_badge")}</span>}
+        {post.isResolved && <span style={S.resolveBadge}>{t("cercles.detail.resolved_badge")}</span>}
       </div>
       {post.title && <h3 style={S.postTitle} onClick={onOpen}>{post.title}</h3>}
       <div style={S.postBody}>{truncate(post.body, 320)}</div>
@@ -343,21 +347,21 @@ function PostCard({ post, cercleSlug, cercleName, onUpvote, onOpen }: { post: Ce
             border: post.liked ? `1px solid ${CC_THEME.or}` : `1px solid transparent`,
             transition: "all 0.15s",
           }}
-          title={post.liked ? "Tu as aimé — clique pour retirer" : "Aimer ce post"}
+          title={post.liked ? t("cercles.detail.like_remove_title") : t("cercles.detail.like_title")}
         >
-          {post.liked ? "👍" : "🤍"} {post.upvotes} {post.liked ? "Tu aimes" : "J'aime"}
+          {post.liked ? "👍" : "🤍"} {post.upvotes} {post.liked ? t("cercles.detail.liked_label") : t("cercles.detail.like_label")}
         </button>
         <button
           onClick={() => setShowComments(v => !v)}
           style={{ ...S.action, color: showComments ? CC_THEME.or : CC_THEME.inkMid, fontWeight: showComments ? 700 : 500 }}
-          title="Commenter sans quitter la page"
+          title={t("cercles.detail.comment_inline_title")}
         >
-          💬 {commentCount} Commenter {showComments ? "▲" : "▼"}
+          💬 {commentCount} {t("cercles.detail.btn_comment")} {showComments ? "▲" : "▼"}
         </button>
-        <button onClick={sharePost} style={{ ...S.action, background: shareToast ? CC_THEME.successBg : "transparent", color: shareToast ? CC_THEME.success : CC_THEME.inkMid, fontWeight: shareToast ? 700 : 500 }} title="Partager le lien du post (photos/vidéos incluses)">
-          🔗 {shareToast ? "Lien copié ✓" : "Partager"}
+        <button onClick={sharePost} style={{ ...S.action, background: shareToast ? CC_THEME.successBg : "transparent", color: shareToast ? CC_THEME.success : CC_THEME.inkMid, fontWeight: shareToast ? 700 : 500 }} title={t("cercles.detail.share_title")}>
+          🔗 {shareToast ? t("cercles.detail.share_copied") : t("cercles.detail.btn_share")}
         </button>
-        <button onClick={onOpen} style={{ ...S.action, marginLeft: "auto", color: CC_THEME.or, fontWeight: 600 }}>Voir le post →</button>
+        <button onClick={onOpen} style={{ ...S.action, marginLeft: "auto", color: CC_THEME.or, fontWeight: 600 }}>{t("cercles.detail.btn_open_post")}</button>
       </div>
       {showComments && (
         <InlineComments
@@ -371,6 +375,7 @@ function PostCard({ post, cercleSlug, cercleName, onUpvote, onOpen }: { post: Ce
 }
 
 function RoomsTab({ cercle, rooms, onChange }: { cercle: CercleDetail; rooms: LiveRoom[]; onChange: () => void }) {
+  const t = useT();
   const navigate = useNavigate();
   const [creating, setCreating] = useState(false);
   const [title, setTitle] = useState("");
@@ -400,34 +405,34 @@ function RoomsTab({ cercle, rooms, onChange }: { cercle: CercleDetail; rooms: Li
   return (
     <div>
       {isMod && !creating && (
-        <button onClick={() => setCreating(true)} style={S.openComposeBtn}>+ Programmer une salle</button>
+        <button onClick={() => setCreating(true)} style={S.openComposeBtn}>{t("cercles.detail.btn_schedule_room")}</button>
       )}
       {creating && (
         <div style={S.composer}>
-          <input style={S.composerTitle} placeholder="Titre de la salle" value={title} onChange={e => setTitle(e.target.value)} />
+          <input style={S.composerTitle} placeholder={t("cercles.detail.room_title_placeholder")} value={title} onChange={e => setTitle(e.target.value)} />
           <input type="datetime-local" style={{ ...S.composerTitle, marginTop: 8 }} value={scheduledAt} onChange={e => setScheduledAt(e.target.value)} />
           <div style={{ marginTop: 10, display: "flex", gap: 10, alignItems: "center", fontSize: 12 }}>
-            <strong style={{ color: CC_THEME.inkMid }}>Plateforme :</strong>
+            <strong style={{ color: CC_THEME.inkMid }}>{t("cercles.detail.provider_label")}</strong>
             <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer" }}>
               <input type="radio" name="provider" checked={provider === "JITSI"} onChange={() => setProvider("JITSI")} />
-              Jitsi <span style={{ color: CC_THEME.inkMuted }}>(public, marche immédiatement)</span>
+              {t("cercles.detail.provider_jitsi")} <span style={{ color: CC_THEME.inkMuted }}>{t("cercles.detail.provider_jitsi_hint")}</span>
             </label>
             <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer" }}>
               <input type="radio" name="provider" checked={provider === "LIVEKIT"} onChange={() => setProvider("LIVEKIT")} />
-              LiveKit <span style={{ color: CC_THEME.inkMuted }}>(interne, à provisionner)</span>
+              {t("cercles.detail.provider_livekit")} <span style={{ color: CC_THEME.inkMuted }}>{t("cercles.detail.provider_livekit_hint")}</span>
             </label>
           </div>
           <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 10 }}>
-            <button onClick={() => setCreating(false)} style={S.btnGhost}>Annuler</button>
-            <button onClick={create} disabled={busy || !title.trim()} style={S.btnPrimary}>{busy ? "Création…" : "Programmer"}</button>
+            <button onClick={() => setCreating(false)} style={S.btnGhost}>{t("cercles.detail.btn_cancel")}</button>
+            <button onClick={create} disabled={busy || !title.trim()} style={S.btnPrimary}>{busy ? t("cercles.detail.btn_creating") : t("cercles.detail.btn_schedule")}</button>
           </div>
         </div>
       )}
 
       {rooms.length === 0 && (
         <div style={S.emptyBox}>
-          <div style={{ fontFamily: CC_THEME.fontDisplay, fontSize: 18, color: CC_THEME.navy, marginBottom: 6 }}>Aucune salle</div>
-          <div style={{ fontSize: 13, color: CC_THEME.inkMid, fontStyle: "italic" }}>Programme une visioconférence pour le cercle.</div>
+          <div style={{ fontFamily: CC_THEME.fontDisplay, fontSize: 18, color: CC_THEME.navy, marginBottom: 6 }}>{t("cercles.detail.empty_rooms_title")}</div>
+          <div style={{ fontSize: 13, color: CC_THEME.inkMid, fontStyle: "italic" }}>{t("cercles.detail.empty_rooms_body")}</div>
         </div>
       )}
 
@@ -438,18 +443,18 @@ function RoomsTab({ cercle, rooms, onChange }: { cercle: CercleDetail; rooms: Li
             <div style={S.roomHead}>
               <h3 style={S.roomTitle}>{r.title}</h3>
               <span style={{ ...S.roomStatus, color: statusColor, borderColor: statusColor + "40" }}>
-                {r.status === "LIVE" ? "● EN DIRECT" : r.status}
+                {r.status === "LIVE" ? t("cercles.detail.room_status_live") : r.status}
               </span>
             </div>
             <div style={S.roomMeta}>
               {r.scheduledAt && <span>{new Date(r.scheduledAt).toLocaleString("fr-FR")}</span>}
-              <span>· hôte {r.host.username || r.host.email}</span>
-              <span>· max {r.maxParticipants} pers.</span>
+              <span>· {t("cercles.detail.room_host", { name: r.host.username || r.host.email })}</span>
+              <span>· {t("cercles.detail.room_max", { n: r.maxParticipants })}</span>
             </div>
             <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-              {r.status === "SCHEDULED" && isMod && <button onClick={() => start(r)} style={S.btnPrimary}>▶ Démarrer</button>}
-              {r.status === "LIVE" && <button onClick={() => navigate(`/cercles/${cercle.slug}/rooms/${r.slug}/live`)} style={S.btnPrimary}>📹 Rejoindre</button>}
-              <button onClick={() => navigate(`/cercles/${cercle.slug}/rooms/${r.slug}`)} style={S.btnGhost}>Détails</button>
+              {r.status === "SCHEDULED" && isMod && <button onClick={() => start(r)} style={S.btnPrimary}>{t("cercles.detail.btn_start_room")}</button>}
+              {r.status === "LIVE" && <button onClick={() => navigate(`/cercles/${cercle.slug}/rooms/${r.slug}/live`)} style={S.btnPrimary}>{t("cercles.detail.btn_join_room")}</button>}
+              <button onClick={() => navigate(`/cercles/${cercle.slug}/rooms/${r.slug}`)} style={S.btnGhost}>{t("cercles.detail.btn_details")}</button>
             </div>
           </div>
         );
@@ -459,6 +464,7 @@ function RoomsTab({ cercle, rooms, onChange }: { cercle: CercleDetail; rooms: Li
 }
 
 function MembersTab({ cercleId, isMod }: { cercleId: string; isMod: boolean }) {
+  const t = useT();
   const [members, setMembers] = useState<any[]>([]);
   const [err, setErr] = useState<string | null>(null);
   const [showInvite, setShowInvite] = useState(false);
@@ -470,8 +476,8 @@ function MembersTab({ cercleId, isMod }: { cercleId: string; isMod: boolean }) {
   useEffect(() => {
     cerclesApi.members(cercleId)
       .then((r: any) => setMembers(r.data))
-      .catch(e => setErr(e?.message || "Erreur"));
-  }, [cercleId]);
+      .catch(e => setErr(e?.message || t("cercles.detail.err_generic")));
+  }, [cercleId, t]);
 
   const sendInvites = async () => {
     const emails = emailsInput
@@ -486,7 +492,7 @@ function MembersTab({ cercleId, isMod }: { cercleId: string; isMod: boolean }) {
       setEmailsInput("");
       setInviteMessage("");
     } catch (e: any) {
-      alert("Erreur invitations : " + (e?.message || "inconnue"));
+      alert(t("cercles.detail.alert_invite_error") + (e?.message || t("cercles.detail.unknown")));
     } finally {
       setBusy(false);
     }
@@ -495,7 +501,7 @@ function MembersTab({ cercleId, isMod }: { cercleId: string; isMod: boolean }) {
   const copyLink = (link: string) => {
     navigator.clipboard.writeText(link).then(
       () => { /* toast passé pour brièveté */ },
-      () => window.prompt("Copiez le lien :", link),
+      () => window.prompt(t("cercles.detail.copy_link_prompt2"), link),
     );
   };
 
@@ -505,15 +511,15 @@ function MembersTab({ cercleId, isMod }: { cercleId: string; isMod: boolean }) {
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 0 14px", borderBottom: `1px solid ${CC_THEME.borderSoft}`, marginBottom: 14 }}>
         <div style={{ fontFamily: CC_THEME.fontDisplay, fontSize: 17, color: CC_THEME.navy, fontWeight: 600 }}>
-          👥 {members.length} membre{members.length > 1 ? "s" : ""} dans ce cercle
+          {t("cercles.detail.members_count_header", { n: members.length })}
         </div>
         <div style={{ fontSize: 12, color: CC_THEME.inkMid, fontStyle: "italic" }}>
-          Clique sur un membre pour voir son profil complet
+          {t("cercles.detail.members_hint")}
         </div>
       </div>
       {isMod && !showInvite && (
         <button onClick={() => setShowInvite(true)} style={S.openComposeBtn}>
-          ✉ Inviter par email
+          {t("cercles.detail.btn_invite_email")}
         </button>
       )}
 
@@ -521,40 +527,42 @@ function MembersTab({ cercleId, isMod }: { cercleId: string; isMod: boolean }) {
         <div style={S.composer}>
           <textarea
             style={{ ...S.composerBody, minHeight: 80 }}
-            placeholder="Emails séparés par virgule, espace ou nouvelle ligne&#10;ex: archi1@cabinet.ma, archi2@cabinet.ma"
+            placeholder={t("cercles.detail.invite_emails_placeholder")}
             value={emailsInput}
             onChange={e => setEmailsInput(e.target.value)}
           />
           <textarea
             style={{ ...S.composerBody, marginTop: 8, minHeight: 60 }}
-            placeholder="Mot d'accompagnement (optionnel)"
+            placeholder={t("cercles.detail.invite_message_placeholder")}
             value={inviteMessage}
             onChange={e => setInviteMessage(e.target.value)}
           />
           <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 10 }}>
-            <button onClick={() => { setShowInvite(false); setResults(null); }} style={S.btnGhost}>Fermer</button>
+            <button onClick={() => { setShowInvite(false); setResults(null); }} style={S.btnGhost}>{t("cercles.detail.btn_close")}</button>
             <button onClick={sendInvites} disabled={busy || !emailsInput.trim()} style={S.btnPrimary}>
-              {busy ? "Envoi…" : "Envoyer les invitations"}
+              {busy ? t("cercles.detail.btn_sending") : t("cercles.detail.btn_send_invitations")}
             </button>
           </div>
 
           {results && (
             <div style={{ marginTop: 14, borderTop: `1px solid ${CC_THEME.border}`, paddingTop: 12 }}>
               <div style={{ fontSize: 12, color: CC_THEME.inkMid, marginBottom: 8, fontWeight: 600 }}>
-                {results.filter(r => r.status === "sent").length} envoyé(s) ·{" "}
-                {results.filter(r => r.status === "link").length} lien(s) à copier ·{" "}
-                {results.filter(r => r.status === "already-member").length} déjà membre(s) ·{" "}
-                {results.filter(r => r.status === "failed").length} échec(s)
+                {t("cercles.detail.invite_results_summary", {
+                  sent: results.filter(r => r.status === "sent").length,
+                  link: results.filter(r => r.status === "link").length,
+                  member: results.filter(r => r.status === "already-member").length,
+                  failed: results.filter(r => r.status === "failed").length,
+                })}
               </div>
               {results.map((r, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0", borderBottom: `1px solid ${CC_THEME.borderSoft}` }}>
                   <span style={{ fontSize: 11, color: statusColor(r.status), fontWeight: 600, minWidth: 80 }}>
-                    {statusLabel(r.status)}
+                    {statusLabel(r.status, t)}
                   </span>
                   <span style={{ flex: 1, fontSize: 13 }}>{r.email}</span>
                   {r.link && r.status === "link" && (
                     <button onClick={() => copyLink(r.link)} style={{ ...S.btnGhost, fontSize: 11, padding: "4px 10px" }}>
-                      Copier le lien
+                      {t("cercles.detail.btn_copy_link")}
                     </button>
                   )}
                 </div>
@@ -566,7 +574,7 @@ function MembersTab({ cercleId, isMod }: { cercleId: string; isMod: boolean }) {
 
       {members.map((m, i) => {
         const pp = m.user?.proProfile;
-        const displayName = pp?.displayName || m.user?.username || m.user?.email || "Membre";
+        const displayName = pp?.displayName || m.user?.username || m.user?.email || t("cercles.detail.member_fallback");
         const apiUrl = (import.meta as any).env?.VITE_API_URL || "http://localhost:4000";
         const avatarUrl = pp?.avatarUrl
           ? (pp.avatarUrl.startsWith("http") ? pp.avatarUrl : `${apiUrl}${pp.avatarUrl}`)
@@ -583,14 +591,14 @@ function MembersTab({ cercleId, isMod }: { cercleId: string; isMod: boolean }) {
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ ...S.postAuthor, display: "flex", alignItems: "center", gap: 8 }}>
                 {displayName}
-                {m.role === "OWNER" && <span style={{ fontSize: 10, color: CC_THEME.or, background: CC_THEME.orSoft, padding: "1px 6px", borderRadius: 8, fontWeight: 600, letterSpacing: "0.04em" }}>OWNER</span>}
-                {m.role === "MODERATOR" && <span style={{ fontSize: 10, color: CC_THEME.info, background: CC_THEME.infoBg, padding: "1px 6px", borderRadius: 8, fontWeight: 600 }}>MODO</span>}
+                {m.role === "OWNER" && <span style={{ fontSize: 10, color: CC_THEME.or, background: CC_THEME.orSoft, padding: "1px 6px", borderRadius: 8, fontWeight: 600, letterSpacing: "0.04em" }}>{t("cercles.detail.role_owner")}</span>}
+                {m.role === "MODERATOR" && <span style={{ fontSize: 10, color: CC_THEME.info, background: CC_THEME.infoBg, padding: "1px 6px", borderRadius: 8, fontWeight: 600 }}>{t("cercles.detail.role_modo")}</span>}
               </div>
               {pp?.title && <div style={{ fontSize: 12, color: CC_THEME.inkMid, fontStyle: "italic", marginTop: 2 }}>{pp.title}</div>}
               <div style={S.roomMeta}>
                 {pp?.metier && <span style={{ color: CC_THEME.or, fontWeight: 500 }}>{pp.metier}</span>}
                 {pp?.villePrincipale && <> · 📍 {pp.villePrincipale}</>}
-                {" · "}membre depuis {new Date(m.joinedAt).toLocaleDateString("fr-FR")}
+                {" · "}{t("cercles.detail.member_since", { date: new Date(m.joinedAt).toLocaleDateString("fr-FR") })}
               </div>
             </div>
             <span style={{ color: CC_THEME.or, fontSize: 18 }}>→</span>
@@ -601,15 +609,20 @@ function MembersTab({ cercleId, isMod }: { cercleId: string; isMod: boolean }) {
   );
 }
 
-function statusLabel(s: string): string {
-  return s === "sent" ? "✓ envoyé" : s === "link" ? "🔗 lien" : s === "already-member" ? "membre" : "✗ échec";
+function statusLabel(s: string, t: (k: string, vars?: Record<string, string | number>) => string): string {
+  return s === "sent" ? t("cercles.detail.status_sent")
+       : s === "link" ? t("cercles.detail.status_link")
+       : s === "already-member" ? t("cercles.detail.status_member")
+       : t("cercles.detail.status_failed");
 }
 function statusColor(s: string): string {
   return s === "sent" ? CC_THEME.success : s === "link" ? CC_THEME.or : s === "already-member" ? CC_THEME.inkMid : CC_THEME.danger;
 }
 
-function visLabel(v: string): string {
-  return v === "PUBLIC" ? "Public" : v === "MEMBERS_ONLY" ? "Membres seuls" : "Privé";
+function visLabel(v: string, t: (k: string, vars?: Record<string, string | number>) => string): string {
+  return v === "PUBLIC" ? t("cercles.detail.vis_public")
+       : v === "MEMBERS_ONLY" ? t("cercles.detail.vis_members_only")
+       : t("cercles.detail.vis_private");
 }
 
 function truncate(s: string, n: number): string {

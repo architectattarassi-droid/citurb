@@ -26,6 +26,7 @@ function extractEmbeddableUrls(text: string): string[] {
 }
 import CerclesShell from "./CerclesShell";
 import { CC_THEME } from "./theme";
+import { useT } from "../../i18n/i18n";
 import {
   cerclesApi,
   messagesApi,
@@ -40,6 +41,7 @@ const TYPING_DEBOUNCE_MS = 1500;
 type TypingPing = { userId: string; displayName: string; at: number };
 
 export default function CercleChatPage() {
+  const t = useT();
   const { slug } = useParams<{ slug: string }>();
   const [cercle, setCercle] = useState<CercleDetail | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -80,9 +82,9 @@ export default function CercleChatPage() {
       const r = await cerclesApi.detail(slug);
       setCercle(r.data);
     } catch (e: any) {
-      setErr(e?.message || "Erreur chargement cercle");
+      setErr(e?.message || t("cercles.chat.err_load_cercle"));
     }
-  }, [slug]);
+  }, [slug, t]);
 
   const loadInitial = useCallback(async (cercleId: string) => {
     setLoading(true);
@@ -98,11 +100,11 @@ export default function CercleChatPage() {
         messagesApi.markRead(cercleId, last.id).catch(() => {});
       }
     } catch (e: any) {
-      setErr(e?.message || "Erreur chargement messages");
+      setErr(e?.message || t("cercles.chat.err_load_messages"));
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     loadCercle();
@@ -277,7 +279,7 @@ export default function CercleChatPage() {
       setUploadPct(null);
       messagesApi.typing(cercle.id, false).catch(() => {});
     } catch (e: any) {
-      alert("Erreur envoi : " + (e?.message || "inconnue"));
+      alert(t("cercles.chat.err_send_prefix") + (e?.message || t("cercles.chat.err_unknown")));
     } finally {
       setSending(false);
     }
@@ -304,17 +306,17 @@ export default function CercleChatPage() {
       setEditing(null);
       setEditBody("");
     } catch (e: any) {
-      alert("Erreur édition : " + (e?.message || "inconnue"));
+      alert(t("cercles.chat.err_edit_prefix") + (e?.message || t("cercles.chat.err_unknown")));
     }
   };
 
   const deleteMsg = async (m: ChatMessage) => {
     if (!cercle) return;
-    if (!confirm("Supprimer ce message ?")) return;
+    if (!confirm(t("cercles.chat.confirm_delete"))) return;
     try {
       await messagesApi.remove(cercle.id, m.id);
     } catch (e: any) {
-      alert("Erreur suppression : " + (e?.message || "inconnue"));
+      alert(t("cercles.chat.err_delete_prefix") + (e?.message || t("cercles.chat.err_unknown")));
     }
   };
 
@@ -353,26 +355,26 @@ export default function CercleChatPage() {
   return (
     <CerclesShell>
       {!cercle && err && <div style={{ padding: 24, color: CC_THEME.danger }}>{err}</div>}
-      {!cercle && !err && <div style={S.loading}>Chargement…</div>}
+      {!cercle && !err && <div style={S.loading}>{t("cercles.chat.loading")}</div>}
       {cercle && (
         <div style={S.root}>
           <header style={S.header}>
-            <Link to={`/cercles/${cercle.slug}`} style={S.backLink}>← Retour</Link>
+            <Link to={`/cercles/${cercle.slug}`} style={S.backLink}>{t("cercles.chat.back")}</Link>
             <div style={{ flex: 1 }}>
               <div style={S.headerTitle}>{cercle.name}</div>
               <div style={S.headerSub}>
-                {cercle._count.members} membre(s)
+                {t("cercles.chat.members_count", { n: cercle._count.members })}
                 {typers.length > 0 && (
                   <span style={S.typing}>
                     {" · "}
-                    {typers.map((t) => t.displayName).join(", ")} {typers.length === 1 ? "écrit" : "écrivent"}…
+                    {typers.map((tp) => tp.displayName).join(", ")} {typers.length === 1 ? t("cercles.chat.typing_singular") : t("cercles.chat.typing_plural")}
                   </span>
                 )}
               </div>
             </div>
             <input
               style={S.searchInput}
-              placeholder="Rechercher dans la discussion…"
+              placeholder={t("cercles.chat.search_placeholder")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && runSearch()}
@@ -385,7 +387,7 @@ export default function CercleChatPage() {
           {searchResults ? (
             <div style={S.flow}>
               <div style={S.searchHeader}>
-                {searchResults.length} résultat(s) pour « {search} »
+                {t("cercles.chat.search_results_for", { n: searchResults.length, q: search })}
               </div>
               {searchResults.map((m) => (
                 <MessageBubble
@@ -407,7 +409,7 @@ export default function CercleChatPage() {
               {hasMore && (
                 <div style={S.loadOlder}>
                   <button onClick={loadOlder} disabled={loading} style={S.loadOlderBtn}>
-                    {loading ? "Chargement…" : "↑ Charger les messages plus anciens"}
+                    {loading ? t("cercles.chat.loading") : t("cercles.chat.load_older")}
                   </button>
                 </div>
               )}
@@ -415,17 +417,17 @@ export default function CercleChatPage() {
               {messages.length === 0 && !loading && (
                 <div style={S.emptyBox}>
                   <div style={{ fontFamily: CC_THEME.fontDisplay, fontSize: 18, color: CC_THEME.navy, marginBottom: 6 }}>
-                    Aucun message
+                    {t("cercles.chat.empty_title")}
                   </div>
                   <div style={{ fontSize: 13, color: CC_THEME.inkMid, fontStyle: "italic" }}>
-                    Lance la conversation 👋
+                    {t("cercles.chat.empty_body")}
                   </div>
                 </div>
               )}
 
               {groupedDays.map(({ day, items }) => (
                 <React.Fragment key={day}>
-                  <div style={S.daySep}><span style={S.dayChip}>{formatDay(day)}</span></div>
+                  <div style={S.daySep}><span style={S.dayChip}>{formatDay(day, t)}</span></div>
                   {items.map((m) => (
                     <MessageBubble
                       key={m.id}
@@ -449,8 +451,8 @@ export default function CercleChatPage() {
             {replyTo && (
               <div style={S.replyChip}>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={S.replyTitle}>Réponse à {replyTo.author.username || replyTo.author.email}</div>
-                  <div style={S.replyBody}>{replyTo.body.slice(0, 120) || "(pièce jointe)"}</div>
+                  <div style={S.replyTitle}>{t("cercles.chat.reply_to", { name: replyTo.author.username || replyTo.author.email })}</div>
+                  <div style={S.replyBody}>{replyTo.body.slice(0, 120) || t("cercles.chat.attachment_fallback")}</div>
                 </div>
                 <button onClick={() => setReplyTo(null)} style={S.replyClose}>×</button>
               </div>
@@ -482,7 +484,7 @@ export default function CercleChatPage() {
             )}
 
             <div style={S.composer}>
-              <label style={S.attachBtn} title="Joindre des fichiers">
+              <label style={S.attachBtn} title={t("cercles.chat.attach_title")}>
                 📎
                 <input
                   type="file"
@@ -494,7 +496,7 @@ export default function CercleChatPage() {
               </label>
               <textarea
                 style={S.textarea}
-                placeholder="Écrire un message…   (Entrée = envoyer · Maj+Entrée = saut de ligne)"
+                placeholder={t("cercles.chat.composer_placeholder")}
                 value={composing}
                 onChange={(e) => handleTyping(e.target.value)}
                 onKeyDown={onKeyDown}
@@ -505,7 +507,7 @@ export default function CercleChatPage() {
                 disabled={sending || (!composing.trim() && pendingFiles.length === 0)}
                 style={S.sendBtn}
               >
-                {sending ? "…" : "Envoyer"}
+                {sending ? "…" : t("cercles.chat.send")}
               </button>
             </div>
           </div>
@@ -514,7 +516,7 @@ export default function CercleChatPage() {
           {editing && (
             <div style={S.modalOverlay} onClick={() => setEditing(null)}>
               <div style={S.modal} onClick={(e) => e.stopPropagation()}>
-                <div style={S.modalTitle}>Modifier le message</div>
+                <div style={S.modalTitle}>{t("cercles.chat.edit_modal_title")}</div>
                 <textarea
                   style={S.editArea}
                   value={editBody}
@@ -522,8 +524,8 @@ export default function CercleChatPage() {
                   rows={4}
                 />
                 <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 12 }}>
-                  <button onClick={() => setEditing(null)} style={S.btnGhost}>Annuler</button>
-                  <button onClick={saveEdit} style={S.btnPrimary} disabled={!editBody.trim()}>Enregistrer</button>
+                  <button onClick={() => setEditing(null)} style={S.btnGhost}>{t("cercles.chat.cancel")}</button>
+                  <button onClick={saveEdit} style={S.btnPrimary} disabled={!editBody.trim()}>{t("cercles.chat.save")}</button>
                 </div>
               </div>
             </div>
@@ -541,7 +543,7 @@ export default function CercleChatPage() {
                 <div style={S.fileBoxBig}>
                   <div style={{ fontSize: 48 }}>📄</div>
                   <div style={{ marginTop: 12 }}>{lightbox.filename}</div>
-                  <a href={messagesApi.fileUrl(lightbox.fileKey)} target="_blank" rel="noreferrer" style={S.btnPrimary}>Télécharger</a>
+                  <a href={messagesApi.fileUrl(lightbox.fileKey)} target="_blank" rel="noreferrer" style={S.btnPrimary}>{t("cercles.chat.download")}</a>
                 </div>
               )}
             </div>
@@ -575,10 +577,11 @@ function MessageBubble({
   onOpenAttachment: (a: MessageAttachment) => void;
   compact?: boolean;
 }) {
+  const t = useT();
   const [showActions, setShowActions] = useState(false);
   const [showReactions, setShowReactions] = useState(false);
   const isDeleted = !!msg.deletedAt;
-  const author = msg.author?.username || msg.author?.email || "Membre";
+  const author = msg.author?.username || msg.author?.email || t("cercles.chat.member_fallback");
   const reactionGroups = useMemo(() => groupReactions(msg.reactions), [msg.reactions]);
   const readByOthers = useMemo(
     () => msg.reads.filter((r) => r.userId !== meId && r.userId !== msg.authorId),
@@ -595,7 +598,7 @@ function MessageBubble({
       onMouseLeave={() => { setShowActions(false); setShowReactions(false); }}
     >
       {!isMine && (
-        <Link to={`/cercles/profile/${msg.author?.id || msg.authorId}`} style={{ ...S.avatar, textDecoration: "none", cursor: "pointer" }} title={`Voir le profil de ${author}`}>
+        <Link to={`/cercles/profile/${msg.author?.id || msg.authorId}`} style={{ ...S.avatar, textDecoration: "none", cursor: "pointer" }} title={t("cercles.chat.view_profile_of", { name: author })}>
           {author.slice(0, 1).toUpperCase()}
         </Link>
       )}
@@ -609,7 +612,7 @@ function MessageBubble({
         {msg.replyTo && !msg.replyTo.deletedAt && (
           <div style={{ ...S.replyQuote, ...(isMine ? { marginLeft: "auto" } : {}) }}>
             <div style={S.replyQuoteAuthor}>↪ {msg.replyTo.author?.username || msg.replyTo.author?.email}</div>
-            <div style={S.replyQuoteBody}>{msg.replyTo.body.slice(0, 160) || "(pièce jointe)"}</div>
+            <div style={S.replyQuoteBody}>{msg.replyTo.body.slice(0, 160) || t("cercles.chat.attachment_fallback")}</div>
           </div>
         )}
 
@@ -621,7 +624,7 @@ function MessageBubble({
           }}
         >
           {isDeleted ? (
-            <em style={{ color: isMine ? CC_THEME.bgSoft : CC_THEME.inkMuted }}>Message supprimé</em>
+            <em style={{ color: isMine ? CC_THEME.bgSoft : CC_THEME.inkMuted }}>{t("cercles.chat.message_deleted")}</em>
           ) : (
             <>
               {msg.attachments.length > 0 && (
@@ -641,9 +644,9 @@ function MessageBubble({
               )}
               <div style={{ ...S.bubbleMeta, color: isMine ? "rgba(255,255,255,0.65)" : CC_THEME.inkMuted }}>
                 {new Date(msg.createdAt).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
-                {msg.editedAt && <span style={{ marginLeft: 6, fontStyle: "italic" }}>· modifié</span>}
+                {msg.editedAt && <span style={{ marginLeft: 6, fontStyle: "italic" }}>{t("cercles.chat.edited_suffix")}</span>}
                 {isMine && (
-                  <span style={{ marginLeft: 6 }} title={readByOthers.length > 0 ? `Lu par ${readByOthers.length} personne(s)` : "Envoyé"}>
+                  <span style={{ marginLeft: 6 }} title={readByOthers.length > 0 ? t("cercles.chat.read_by_n", { n: readByOthers.length }) : t("cercles.chat.sent")}>
                     {readByOthers.length > 0 ? "✓✓" : "✓"}
                   </span>
                 )}
@@ -676,11 +679,11 @@ function MessageBubble({
                 ))}
               </div>
             )}
-            <button onClick={onReply} style={S.actionBtn} title="Répondre">↩</button>
+            <button onClick={onReply} style={S.actionBtn} title={t("cercles.chat.reply")}>↩</button>
             {isMine && (
               <>
-                <button onClick={onEdit} style={S.actionBtn} title="Modifier">✏️</button>
-                <button onClick={onDelete} style={S.actionBtn} title="Supprimer">🗑️</button>
+                <button onClick={onEdit} style={S.actionBtn} title={t("cercles.chat.edit")}>✏️</button>
+                <button onClick={onDelete} style={S.actionBtn} title={t("cercles.chat.delete")}>🗑️</button>
               </>
             )}
           </div>
@@ -737,13 +740,13 @@ function groupByDay(messages: ChatMessage[]) {
   return Array.from(map.entries()).map(([day, items]) => ({ day, items }));
 }
 
-function formatDay(iso: string): string {
+function formatDay(iso: string, t?: (k: string, vars?: Record<string, string | number>) => string): string {
   const d = new Date(iso + "T00:00:00");
   const today = new Date();
   const y = today.toDateString() === d.toDateString();
-  if (y) return "Aujourd'hui";
+  if (y) return t ? t("cercles.chat.day_today") : "Aujourd'hui";
   const yest = new Date(today.getTime() - 24 * 3600 * 1000);
-  if (yest.toDateString() === d.toDateString()) return "Hier";
+  if (yest.toDateString() === d.toDateString()) return t ? t("cercles.chat.day_yesterday") : "Hier";
   return d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
 }
 
