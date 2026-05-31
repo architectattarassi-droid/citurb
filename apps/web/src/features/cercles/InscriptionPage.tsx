@@ -321,8 +321,15 @@ export default function InscriptionPage() {
   );
 
   return (
-    <div style={S.root}>
-      <div style={S.card}>
+    <div style={S.root} className="cit-cercles-root">
+      <style>{`
+        .cit-cercles-root { zoom: 1.3; min-height: calc(100vh / 1.3); padding: 32px 16px; }
+        @media(max-width:480px){ .cit-cercles-root { zoom: 1; min-height: 100vh; padding: 16px 12px; } }
+        .cit-cercles-card { padding: 32px; max-width: 700px; margin: 0 auto; }
+        @media(max-width:480px){ .cit-cercles-card { padding: 20px 16px; } }
+        .cit-cercles-input { padding: 12px 14px; min-height: 44px; font-size: 16px; }
+      `}</style>
+      <div style={S.card} className="cit-cercles-card">
         <header style={S.header}>
           <div style={S.eyebrow}>{t("cercles.inscription.eyebrow")}</div>
           <h1 style={S.title}>{isInvitedMode && preview ? t("cercles.inscription.title_invited") : t("cercles.inscription.title_open")}</h1>
@@ -386,28 +393,28 @@ export default function InscriptionPage() {
 
               <div style={S.row}>
                 <Field label={t("cercles.inscription.field_civilite")} flex={0.4}>
-                  <select style={S.input} value={civilite} onChange={(e) => setCivilite(e.target.value)}>
+                  <select className="cit-cercles-input" style={S.input} value={civilite} onChange={(e) => setCivilite(e.target.value)}>
                     {CIVILITES.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </Field>
                 <Field label={t("cercles.inscription.field_prenom")}>
-                  <input style={S.input} value={prenom} onChange={(e) => setPrenom(e.target.value)} placeholder={t("cercles.inscription.placeholder_prenom")} />
+                  <input className="cit-cercles-input" style={S.input} value={prenom} onChange={(e) => setPrenom(e.target.value)} placeholder={t("cercles.inscription.placeholder_prenom")} />
                 </Field>
                 <Field label={t("cercles.inscription.field_nom")}>
-                  <input style={S.input} value={nom} onChange={(e) => setNom(e.target.value)} placeholder={t("cercles.inscription.placeholder_nom")} />
+                  <input className="cit-cercles-input" style={S.input} value={nom} onChange={(e) => setNom(e.target.value)} placeholder={t("cercles.inscription.placeholder_nom")} />
                 </Field>
               </div>
 
               <Field label={t("cercles.inscription.field_email")}>
-                <input type="email" style={S.input} value={email} onChange={(e) => setEmail(e.target.value)} disabled={isInvitedMode} placeholder={t("cercles.inscription.placeholder_email")} />
+                <input type="email" className="cit-cercles-input" style={S.input} value={email} onChange={(e) => setEmail(e.target.value)} disabled={isInvitedMode} placeholder={t("cercles.inscription.placeholder_email")} />
               </Field>
 
               <div style={S.row}>
                 <Field label={t("cercles.inscription.field_phone_private")}>
-                  <input style={S.input} value={phonePrivate} onChange={(e) => setPhonePrivate(e.target.value)} placeholder={t("cercles.inscription.placeholder_phone_private")} />
+                  <input className="cit-cercles-input" style={S.input} value={phonePrivate} onChange={(e) => setPhonePrivate(e.target.value)} placeholder={t("cercles.inscription.placeholder_phone_private")} />
                 </Field>
                 <Field label={t("cercles.inscription.field_metier")}>
-                  <select style={S.input} value={metier} onChange={(e) => setMetier(e.target.value as ProMetier)}>
+                  <select className="cit-cercles-input" style={S.input} value={metier} onChange={(e) => setMetier(e.target.value as ProMetier)}>
                     {METIERS.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
                   </select>
                 </Field>
@@ -415,15 +422,15 @@ export default function InscriptionPage() {
 
               <div style={S.row}>
                 <Field label={t("cercles.inscription.field_password")}>
-                  <input type="password" style={S.input} value={password} onChange={(e) => setPassword(e.target.value)} placeholder={t("cercles.inscription.placeholder_password")} />
+                  <input type="password" className="cit-cercles-input" style={S.input} value={password} onChange={(e) => setPassword(e.target.value)} placeholder={t("cercles.inscription.placeholder_password")} />
                 </Field>
                 <Field label={t("cercles.inscription.field_password_confirm")}>
-                  <input type="password" style={S.input} value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} placeholder={t("cercles.inscription.placeholder_password")} />
+                  <input type="password" className="cit-cercles-input" style={S.input} value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} placeholder={t("cercles.inscription.placeholder_password")} />
                 </Field>
               </div>
 
               <Field label={t("cercles.inscription.field_bio")}>
-                <textarea style={{ ...S.input, minHeight: 70 }} value={bio} onChange={(e) => setBio(e.target.value)} maxLength={500} placeholder={t("cercles.inscription.placeholder_bio")} />
+                <textarea className="cit-cercles-input" style={{ ...S.input, minHeight: 70 }} value={bio} onChange={(e) => setBio(e.target.value)} maxLength={500} placeholder={t("cercles.inscription.placeholder_bio")} />
               </Field>
             </>
           )}
@@ -432,30 +439,30 @@ export default function InscriptionPage() {
             <>
               <SectionTitle>{t("cercles.inscription.section_exercice")}</SectionTitle>
               <Field label={t("cercles.inscription.field_statut")}>
-                <select style={S.input} value={cabinetStatus} onChange={(e) => setCabinetStatus(e.target.value)}>
+                <select className="cit-cercles-input" style={S.input} value={cabinetStatus} onChange={(e) => setCabinetStatus(e.target.value)}>
                   {STATUTS_EXERCICE.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
                 </select>
               </Field>
               <Field label={t("cercles.inscription.field_cabinet_name")}>
-                <input style={S.input} value={cabinetName} onChange={(e) => setCabinetName(e.target.value)} placeholder={t("cercles.inscription.placeholder_cabinet")} />
+                <input className="cit-cercles-input" style={S.input} value={cabinetName} onChange={(e) => setCabinetName(e.target.value)} placeholder={t("cercles.inscription.placeholder_cabinet")} />
               </Field>
               <div style={S.row}>
                 <Field label={t("cercles.inscription.field_ice")}>
-                  <input style={S.input} value={cabinetIce} onChange={(e) => setCabinetIce(e.target.value)} placeholder={t("cercles.inscription.placeholder_ice")} />
+                  <input className="cit-cercles-input" style={S.input} value={cabinetIce} onChange={(e) => setCabinetIce(e.target.value)} placeholder={t("cercles.inscription.placeholder_ice")} />
                 </Field>
                 <Field label={t("cercles.inscription.field_rc")}>
-                  <input style={S.input} value={cabinetRc} onChange={(e) => setCabinetRc(e.target.value)} placeholder={t("cercles.inscription.placeholder_rc")} />
+                  <input className="cit-cercles-input" style={S.input} value={cabinetRc} onChange={(e) => setCabinetRc(e.target.value)} placeholder={t("cercles.inscription.placeholder_rc")} />
                 </Field>
               </div>
               <Field label={t("cercles.inscription.field_adresse")}>
-                <input style={S.input} value={cabinetAdresse} onChange={(e) => setCabinetAdresse(e.target.value)} placeholder={t("cercles.inscription.placeholder_adresse")} />
+                <input className="cit-cercles-input" style={S.input} value={cabinetAdresse} onChange={(e) => setCabinetAdresse(e.target.value)} placeholder={t("cercles.inscription.placeholder_adresse")} />
               </Field>
               <div style={S.row}>
                 <Field label={metier === "ARCHITECTE" && cabinetStatus !== "ETUDIANT" ? t("cercles.inscription.field_cnoa_required") : t("cercles.inscription.field_cnoa_optional")}>
-                  <input style={S.input} value={cnoaNumero} onChange={(e) => setCnoa(e.target.value)} placeholder={t("cercles.inscription.placeholder_cnoa")} />
+                  <input className="cit-cercles-input" style={S.input} value={cnoaNumero} onChange={(e) => setCnoa(e.target.value)} placeholder={t("cercles.inscription.placeholder_cnoa")} />
                 </Field>
                 <Field label={t("cercles.inscription.field_years_exp")}>
-                  <input type="number" min="0" max="60" style={S.input} value={yearsExperience} onChange={(e) => setYearsExp(e.target.value)} placeholder={t("cercles.inscription.placeholder_years_exp")} />
+                  <input type="number" min="0" max="60" className="cit-cercles-input" style={S.input} value={yearsExperience} onChange={(e) => setYearsExp(e.target.value)} placeholder={t("cercles.inscription.placeholder_years_exp")} />
                 </Field>
               </div>
             </>
@@ -465,21 +472,21 @@ export default function InscriptionPage() {
             <>
               <SectionTitle>{t("cercles.inscription.section_formation")}</SectionTitle>
               <Field label={t("cercles.inscription.field_ecole")}>
-                <select style={S.input} value={ecole} onChange={(e) => setEcole(e.target.value)}>
+                <select className="cit-cercles-input" style={S.input} value={ecole} onChange={(e) => setEcole(e.target.value)}>
                   <option value="">{t("cercles.inscription.select_placeholder")}</option>
                   {ECOLES_ARCHI.map(e => <option key={e} value={e}>{e}</option>)}
                 </select>
               </Field>
               <div style={S.row}>
                 <Field label={t("cercles.inscription.field_diplome")}>
-                  <input style={S.input} value={diplome} onChange={(e) => setDiplome(e.target.value)} placeholder={t("cercles.inscription.placeholder_diplome")} />
+                  <input className="cit-cercles-input" style={S.input} value={diplome} onChange={(e) => setDiplome(e.target.value)} placeholder={t("cercles.inscription.placeholder_diplome")} />
                 </Field>
                 <Field label={t("cercles.inscription.field_annee_diplome")}>
-                  <input type="number" min="1950" max="2030" style={S.input} value={anneeDiplome} onChange={(e) => setAnneeDiplome(e.target.value)} placeholder={t("cercles.inscription.placeholder_annee_diplome")} />
+                  <input type="number" min="1950" max="2030" className="cit-cercles-input" style={S.input} value={anneeDiplome} onChange={(e) => setAnneeDiplome(e.target.value)} placeholder={t("cercles.inscription.placeholder_annee_diplome")} />
                 </Field>
               </div>
               <Field label={t("cercles.inscription.field_ville_principale")}>
-                <input style={S.input} value={villePrincipale} onChange={(e) => setVille(e.target.value)} placeholder={t("cercles.inscription.placeholder_ville")} />
+                <input className="cit-cercles-input" style={S.input} value={villePrincipale} onChange={(e) => setVille(e.target.value)} placeholder={t("cercles.inscription.placeholder_ville")} />
               </Field>
               <Field label={t("cercles.inscription.field_regions")}>
                 <div style={S.chipsGroup}>
@@ -494,7 +501,7 @@ export default function InscriptionPage() {
                 </div>
               </Field>
               <Field label={t("cercles.inscription.field_specialites")}>
-                <textarea style={{ ...S.input, minHeight: 50 }} value={specialitesText} onChange={(e) => setSpecialitesText(e.target.value)} placeholder={t("cercles.inscription.placeholder_specialites")} />
+                <textarea className="cit-cercles-input" style={{ ...S.input, minHeight: 50 }} value={specialitesText} onChange={(e) => setSpecialitesText(e.target.value)} placeholder={t("cercles.inscription.placeholder_specialites")} />
               </Field>
               <Field label={t("cercles.inscription.field_langues")}>
                 <div style={S.chipsGroup}>
@@ -516,29 +523,29 @@ export default function InscriptionPage() {
               <SectionTitle>{t("cercles.inscription.section_profil")}</SectionTitle>
               <div style={S.row}>
                 <Field label={t("cercles.inscription.field_phone_public")}>
-                  <input style={S.input} value={phonePublic} onChange={(e) => setPhone(e.target.value)} placeholder={t("cercles.inscription.placeholder_phone_public")} />
+                  <input className="cit-cercles-input" style={S.input} value={phonePublic} onChange={(e) => setPhone(e.target.value)} placeholder={t("cercles.inscription.placeholder_phone_public")} />
                 </Field>
                 <Field label={t("cercles.inscription.field_email_public")}>
-                  <input type="email" style={S.input} value={emailPublic} onChange={(e) => setEmailPublic(e.target.value)} placeholder={t("cercles.inscription.placeholder_email_public")} />
+                  <input type="email" className="cit-cercles-input" style={S.input} value={emailPublic} onChange={(e) => setEmailPublic(e.target.value)} placeholder={t("cercles.inscription.placeholder_email_public")} />
                 </Field>
               </div>
               <div style={S.row}>
                 <Field label={t("cercles.inscription.field_website")}>
-                  <input style={S.input} value={websiteUrl} onChange={(e) => setWeb(e.target.value)} placeholder={t("cercles.inscription.placeholder_website")} />
+                  <input className="cit-cercles-input" style={S.input} value={websiteUrl} onChange={(e) => setWeb(e.target.value)} placeholder={t("cercles.inscription.placeholder_website")} />
                 </Field>
                 <Field label={t("cercles.inscription.field_linkedin")}>
-                  <input style={S.input} value={linkedinUrl} onChange={(e) => setLinkedin(e.target.value)} placeholder={t("cercles.inscription.placeholder_linkedin")} />
+                  <input className="cit-cercles-input" style={S.input} value={linkedinUrl} onChange={(e) => setLinkedin(e.target.value)} placeholder={t("cercles.inscription.placeholder_linkedin")} />
                 </Field>
               </div>
 
               <Field label={t("cercles.inscription.field_adhesion")}>
-                <select style={S.input} value={adhesionSouhaitee} onChange={(e) => setAdhesion(e.target.value)}>
+                <select className="cit-cercles-input" style={S.input} value={adhesionSouhaitee} onChange={(e) => setAdhesion(e.target.value)}>
                   {ADHESIONS.map(a => <option key={a.value} value={a.value}>{a.label}</option>)}
                 </select>
               </Field>
 
               <Field label={t("cercles.inscription.field_source")}>
-                <select style={S.input} value={sourceConnaissance} onChange={(e) => setSource(e.target.value)}>
+                <select className="cit-cercles-input" style={S.input} value={sourceConnaissance} onChange={(e) => setSource(e.target.value)}>
                   <option value="">{t("cercles.inscription.select_placeholder")}</option>
                   {SOURCES.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>

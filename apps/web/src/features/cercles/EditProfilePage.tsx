@@ -200,7 +200,14 @@ export default function EditProfilePage() {
 
   return (
     <CerclesShell>
-      <div style={S.root}>
+      <style>{`
+        .cit-cercles-root { zoom: 1.3; min-height: calc(100vh / 1.3); padding: 32px 16px; }
+        @media(max-width:480px){ .cit-cercles-root { zoom: 1; min-height: 100vh; padding: 16px 12px; } }
+        .cit-cercles-card { padding: 32px; max-width: 700px; margin: 0 auto; }
+        @media(max-width:480px){ .cit-cercles-card { padding: 20px 16px; } }
+        .cit-cercles-input { padding: 12px 14px; min-height: 44px; font-size: 16px; }
+      `}</style>
+      <div style={S.root} className="cit-cercles-root">
         <header style={S.header}>
           <div style={S.eyebrow}>{t("cercles.edit_profile.eyebrow")}</div>
           <h1 style={S.h1}>{t("cercles.edit_profile.title")}</h1>
@@ -213,22 +220,22 @@ export default function EditProfilePage() {
           {/* ── Identité ── */}
           <Section title={t("cercles.edit_profile.section.identite")}>
             <Field label={t("cercles.edit_profile.field.display_name")}>
-              <input style={S.input} value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.display_name")} />
+              <input className="cit-cercles-input" style={S.input} value={displayName} onChange={(e) => setDisplayName(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.display_name")} />
             </Field>
             <Field label={t("cercles.edit_profile.field.title")}>
-              <input style={S.input} value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.title")} />
+              <input className="cit-cercles-input" style={S.input} value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.title")} />
             </Field>
             <Field label={t("cercles.edit_profile.field.bio")}>
-              <textarea style={{ ...S.input, minHeight: 90 }} value={bio} onChange={(e) => setBio(e.target.value)} maxLength={500} />
+              <textarea className="cit-cercles-input" style={{ ...S.input, minHeight: 90 }} value={bio} onChange={(e) => setBio(e.target.value)} maxLength={500} />
             </Field>
             <Row>
               <Field label={t("cercles.edit_profile.field.metier")}>
-                <select style={S.input} value={metier} onChange={(e) => setMetier(e.target.value as ProMetier)}>
+                <select className="cit-cercles-input" style={S.input} value={metier} onChange={(e) => setMetier(e.target.value as ProMetier)}>
                   {METIER_CODES.map(code => <option key={code} value={code}>{t(`cercles.edit_profile.metier.${code}`)}</option>)}
                 </select>
               </Field>
               <Field label={t("cercles.edit_profile.field.classe_btp")}>
-                <select style={S.input} value={classeBTP} onChange={(e) => setClasseBTP(e.target.value as any)}>
+                <select className="cit-cercles-input" style={S.input} value={classeBTP} onChange={(e) => setClasseBTP(e.target.value as any)}>
                   {CLASSE_BTP_CODES.map(code => (
                     <option key={code || "none"} value={code}>
                       {code === "" ? t("cercles.edit_profile.classe.none") : t(`cercles.edit_profile.classe.${code}`)}
@@ -238,18 +245,18 @@ export default function EditProfilePage() {
               </Field>
             </Row>
             <Field label={t("cercles.edit_profile.field.cnoa")}>
-              <input style={S.input} value={cnoaNumero} onChange={(e) => setCnoa(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.cnoa")} />
+              <input className="cit-cercles-input" style={S.input} value={cnoaNumero} onChange={(e) => setCnoa(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.cnoa")} />
             </Field>
           </Section>
 
           {/* ── Cabinet ── */}
           <Section title={t("cercles.edit_profile.section.cabinet")}>
             <Field label={t("cercles.edit_profile.field.cabinet_name")}>
-              <input style={S.input} value={cabinetName} onChange={(e) => setCabinetName(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.cabinet_name")} />
+              <input className="cit-cercles-input" style={S.input} value={cabinetName} onChange={(e) => setCabinetName(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.cabinet_name")} />
             </Field>
             <Row>
               <Field label={t("cercles.edit_profile.field.cabinet_status")}>
-                <select style={S.input} value={cabinetStatus} onChange={(e) => setCabinetStatus(e.target.value)}>
+                <select className="cit-cercles-input" style={S.input} value={cabinetStatus} onChange={(e) => setCabinetStatus(e.target.value)}>
                   {CABINET_STATUT_CODES.map(code => (
                     <option key={code || "none"} value={code}>
                       {code === "" ? t("cercles.edit_profile.statut.none") : t(`cercles.edit_profile.statut.${code}`)}
@@ -258,10 +265,10 @@ export default function EditProfilePage() {
                 </select>
               </Field>
               <Field label={t("cercles.edit_profile.field.cabinet_size")}>
-                <input style={S.input} type="number" min="1" value={cabinetSize} onChange={(e) => setCabinetSize(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.cabinet_size")} />
+                <input className="cit-cercles-input" style={S.input} type="number" min="1" value={cabinetSize} onChange={(e) => setCabinetSize(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.cabinet_size")} />
               </Field>
               <Field label={t("cercles.edit_profile.field.years_exp")}>
-                <input style={S.input} type="number" min="0" max="60" value={yearsExperience} onChange={(e) => setYearsExp(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.years_exp")} />
+                <input className="cit-cercles-input" style={S.input} type="number" min="0" max="60" value={yearsExperience} onChange={(e) => setYearsExp(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.years_exp")} />
               </Field>
             </Row>
           </Section>
@@ -272,18 +279,18 @@ export default function EditProfilePage() {
               <div key={i} style={S.itemCard}>
                 <Row>
                   <Field label={t("cercles.edit_profile.field.ecole")}>
-                    <input style={S.input} value={f.ecole} onChange={(e) => updateFormation(formations, setFormations, i, "ecole", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.ecole")} />
+                    <input className="cit-cercles-input" style={S.input} value={f.ecole} onChange={(e) => updateFormation(formations, setFormations, i, "ecole", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.ecole")} />
                   </Field>
                   <Field label={t("cercles.edit_profile.field.diplome")}>
-                    <input style={S.input} value={f.diplome} onChange={(e) => updateFormation(formations, setFormations, i, "diplome", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.diplome")} />
+                    <input className="cit-cercles-input" style={S.input} value={f.diplome} onChange={(e) => updateFormation(formations, setFormations, i, "diplome", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.diplome")} />
                   </Field>
                 </Row>
                 <Row>
                   <Field label={t("cercles.edit_profile.field.ville")}>
-                    <input style={S.input} value={f.ville || ""} onChange={(e) => updateFormation(formations, setFormations, i, "ville", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.ville_formation")} />
+                    <input className="cit-cercles-input" style={S.input} value={f.ville || ""} onChange={(e) => updateFormation(formations, setFormations, i, "ville", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.ville_formation")} />
                   </Field>
                   <Field label={t("cercles.edit_profile.field.annee")}>
-                    <input style={S.input} type="number" min="1950" max="2030" value={f.annee || ""} onChange={(e) => updateFormation(formations, setFormations, i, "annee", e.target.value ? Number(e.target.value) : undefined)} placeholder={t("cercles.edit_profile.placeholder.annee_formation")} />
+                    <input className="cit-cercles-input" style={S.input} type="number" min="1950" max="2030" value={f.annee || ""} onChange={(e) => updateFormation(formations, setFormations, i, "annee", e.target.value ? Number(e.target.value) : undefined)} placeholder={t("cercles.edit_profile.placeholder.annee_formation")} />
                   </Field>
                   <button onClick={() => setFormations(formations.filter((_, idx) => idx !== i))} style={S.btnRemove}>{t("cercles.edit_profile.btn.remove")}</button>
                 </Row>
@@ -295,13 +302,13 @@ export default function EditProfilePage() {
           {/* ── Certifications / Prix ── */}
           <Section title={t("cercles.edit_profile.section.certifications")}>
             <Field label={t("cercles.edit_profile.field.certifications")}>
-              <textarea style={{ ...S.input, minHeight: 60 }} value={certifications} onChange={(e) => setCertifications(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.certifications")} />
+              <textarea className="cit-cercles-input" style={{ ...S.input, minHeight: 60 }} value={certifications} onChange={(e) => setCertifications(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.certifications")} />
             </Field>
             <Field label={t("cercles.edit_profile.field.prix")}>
-              <textarea style={{ ...S.input, minHeight: 60 }} value={prix} onChange={(e) => setPrix(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.prix")} />
+              <textarea className="cit-cercles-input" style={{ ...S.input, minHeight: 60 }} value={prix} onChange={(e) => setPrix(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.prix")} />
             </Field>
             <Field label={t("cercles.edit_profile.field.agrements")}>
-              <textarea style={{ ...S.input, minHeight: 60 }} value={agrements} onChange={(e) => setAgrements(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.agrements")} />
+              <textarea className="cit-cercles-input" style={{ ...S.input, minHeight: 60 }} value={agrements} onChange={(e) => setAgrements(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.agrements")} />
             </Field>
           </Section>
 
@@ -310,25 +317,25 @@ export default function EditProfilePage() {
             {projets.map((p, i) => (
               <div key={i} style={S.itemCard}>
                 <Field label={t("cercles.edit_profile.field.projet_titre")}>
-                  <input style={S.input} value={p.titre} onChange={(e) => updateProjet(projets, setProjets, i, "titre", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.projet_titre")} />
+                  <input className="cit-cercles-input" style={S.input} value={p.titre} onChange={(e) => updateProjet(projets, setProjets, i, "titre", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.projet_titre")} />
                 </Field>
                 <Field label={t("cercles.edit_profile.field.projet_description")}>
-                  <textarea style={{ ...S.input, minHeight: 60 }} value={p.description || ""} onChange={(e) => updateProjet(projets, setProjets, i, "description", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.projet_description")} />
+                  <textarea className="cit-cercles-input" style={{ ...S.input, minHeight: 60 }} value={p.description || ""} onChange={(e) => updateProjet(projets, setProjets, i, "description", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.projet_description")} />
                 </Field>
                 <Row>
                   <Field label={t("cercles.edit_profile.field.projet_lieu")}>
-                    <input style={S.input} value={p.lieu || ""} onChange={(e) => updateProjet(projets, setProjets, i, "lieu", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.projet_lieu")} />
+                    <input className="cit-cercles-input" style={S.input} value={p.lieu || ""} onChange={(e) => updateProjet(projets, setProjets, i, "lieu", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.projet_lieu")} />
                   </Field>
                   <Field label={t("cercles.edit_profile.field.projet_annee_livraison")}>
-                    <input style={S.input} type="number" min="1990" max="2040" value={p.anneeLivraison || ""} onChange={(e) => updateProjet(projets, setProjets, i, "anneeLivraison", e.target.value ? Number(e.target.value) : undefined)} placeholder={t("cercles.edit_profile.placeholder.projet_annee_livraison")} />
+                    <input className="cit-cercles-input" style={S.input} type="number" min="1990" max="2040" value={p.anneeLivraison || ""} onChange={(e) => updateProjet(projets, setProjets, i, "anneeLivraison", e.target.value ? Number(e.target.value) : undefined)} placeholder={t("cercles.edit_profile.placeholder.projet_annee_livraison")} />
                   </Field>
                   <Field label={t("cercles.edit_profile.field.projet_surface")}>
-                    <input style={S.input} value={p.surface || ""} onChange={(e) => updateProjet(projets, setProjets, i, "surface", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.projet_surface")} />
+                    <input className="cit-cercles-input" style={S.input} value={p.surface || ""} onChange={(e) => updateProjet(projets, setProjets, i, "surface", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.projet_surface")} />
                   </Field>
                 </Row>
                 <Row>
                   <Field label={t("cercles.edit_profile.field.projet_role")}>
-                    <input style={S.input} value={p.role || ""} onChange={(e) => updateProjet(projets, setProjets, i, "role", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.projet_role")} />
+                    <input className="cit-cercles-input" style={S.input} value={p.role || ""} onChange={(e) => updateProjet(projets, setProjets, i, "role", e.target.value)} placeholder={t("cercles.edit_profile.placeholder.projet_role")} />
                   </Field>
                   <Field label={t("cercles.edit_profile.field.projet_photos")}>
                     <ProjectPhotos
@@ -346,7 +353,7 @@ export default function EditProfilePage() {
           {/* ── Spécialités / Régions / Langues ── */}
           <Section title={t("cercles.edit_profile.section.competences")}>
             <Field label={t("cercles.edit_profile.field.specialites")}>
-              <textarea style={{ ...S.input, minHeight: 50 }} value={specialites} onChange={(e) => setSpecialites(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.specialites")} />
+              <textarea className="cit-cercles-input" style={{ ...S.input, minHeight: 50 }} value={specialites} onChange={(e) => setSpecialites(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.specialites")} />
             </Field>
             <Field label={t("cercles.edit_profile.field.regions")}>
               <div style={S.chipsGroup}>
@@ -361,7 +368,7 @@ export default function EditProfilePage() {
               </div>
             </Field>
             <Field label={t("cercles.edit_profile.field.ville_principale")}>
-              <input style={S.input} value={villePrincipale} onChange={(e) => setVille(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.ville_principale")} />
+              <input className="cit-cercles-input" style={S.input} value={villePrincipale} onChange={(e) => setVille(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.ville_principale")} />
             </Field>
             <Field label={t("cercles.edit_profile.field.langues")}>
               <div style={S.chipsGroup}>
@@ -380,18 +387,18 @@ export default function EditProfilePage() {
           {/* ── Tarifs / Disponibilité ── */}
           <Section title={t("cercles.edit_profile.section.tarifs")}>
             <Field label={t("cercles.edit_profile.field.tarifs_range")}>
-              <input style={S.input} value={tarifsRange} onChange={(e) => setTarifs(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.tarifs_range")} />
+              <input className="cit-cercles-input" style={S.input} value={tarifsRange} onChange={(e) => setTarifs(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.tarifs_range")} />
             </Field>
             <Row>
               <Field label={t("cercles.edit_profile.field.disponibilite")}>
-                <select style={S.input} value={disponibilite} onChange={(e) => setDispo(e.target.value)}>
+                <select className="cit-cercles-input" style={S.input} value={disponibilite} onChange={(e) => setDispo(e.target.value)}>
                   <option value="DISPONIBLE">{t("cercles.edit_profile.disponibilite.disponible")}</option>
                   <option value="OCCUPE">{t("cercles.edit_profile.disponibilite.occupe")}</option>
                   <option value="INDISPONIBLE">{t("cercles.edit_profile.disponibilite.indisponible")}</option>
                 </select>
               </Field>
               <Field label={t("cercles.edit_profile.field.dispo_date")}>
-                <input style={S.input} type="date" value={disponibleAPartir} onChange={(e) => setDispoDate(e.target.value)} />
+                <input className="cit-cercles-input" style={S.input} type="date" value={disponibleAPartir} onChange={(e) => setDispoDate(e.target.value)} />
               </Field>
             </Row>
           </Section>
@@ -400,29 +407,29 @@ export default function EditProfilePage() {
           <Section title={t("cercles.edit_profile.section.contact")}>
             <Row>
               <Field label={t("cercles.edit_profile.field.email_public")}>
-                <input style={S.input} value={emailPublic} onChange={(e) => setEmail(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.email_public")} />
+                <input className="cit-cercles-input" style={S.input} value={emailPublic} onChange={(e) => setEmail(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.email_public")} />
               </Field>
               <Field label={t("cercles.edit_profile.field.phone_public")}>
-                <input style={S.input} value={phonePublic} onChange={(e) => setPhone(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.phone_public")} />
+                <input className="cit-cercles-input" style={S.input} value={phonePublic} onChange={(e) => setPhone(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.phone_public")} />
               </Field>
             </Row>
             <Row>
               <Field label={t("cercles.edit_profile.field.website")}>
-                <input style={S.input} value={websiteUrl} onChange={(e) => setWeb(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.website")} />
+                <input className="cit-cercles-input" style={S.input} value={websiteUrl} onChange={(e) => setWeb(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.website")} />
               </Field>
               <Field label={t("cercles.edit_profile.field.linkedin")}>
-                <input style={S.input} value={linkedinUrl} onChange={(e) => setLinkedin(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.linkedin")} />
+                <input className="cit-cercles-input" style={S.input} value={linkedinUrl} onChange={(e) => setLinkedin(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.linkedin")} />
               </Field>
             </Row>
             <Row>
               <Field label={t("cercles.edit_profile.field.behance")}>
-                <input style={S.input} value={behanceUrl} onChange={(e) => setBehance(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.behance")} />
+                <input className="cit-cercles-input" style={S.input} value={behanceUrl} onChange={(e) => setBehance(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.behance")} />
               </Field>
               <Field label={t("cercles.edit_profile.field.instagram")}>
-                <input style={S.input} value={instagramUrl} onChange={(e) => setInsta(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.instagram")} />
+                <input className="cit-cercles-input" style={S.input} value={instagramUrl} onChange={(e) => setInsta(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.instagram")} />
               </Field>
               <Field label={t("cercles.edit_profile.field.pinterest")}>
-                <input style={S.input} value={pinterestUrl} onChange={(e) => setPinterest(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.pinterest")} />
+                <input className="cit-cercles-input" style={S.input} value={pinterestUrl} onChange={(e) => setPinterest(e.target.value)} placeholder={t("cercles.edit_profile.placeholder.pinterest")} />
               </Field>
             </Row>
           </Section>
