@@ -27,65 +27,7 @@ type FollowMode = "ON_SITE" | "PHOTOS";
 // Séquence stricte (alignée P1) : on identifie d'abord le client,
 // puis son projet, puis on crée le compte → le devis n'est livré
 // qu'avec un vrai dossier identifié.
-type Phase = "identity" | "section" | "category" | "measures" | "follow";
-
-const SECTIONS: { id: P2Section; label: string; title: string; sub: string; bullets: string[]; micro: string }[] = [
-  {
-    id: "IMM", label: "Immeuble",
-    title: "Immeuble — Construction neuve",
-    sub: "Immeuble collectif ou de bureaux, R+2 et plus.",
-    bullets: [
-      "Constructibilité : gabarit, hauteur, COS — optimisation du foncier.",
-      "Conception : logements, circulations, RDC commercial, parkings.",
-      "Honoraires au barème officiel CNOA 2021 selon le coût de construction.",
-    ],
-    micro: "Tarification transparente, phases A / B / C détaillées.",
-  },
-  {
-    id: "GR", label: "Groupement résidentiel",
-    title: "Groupement résidentiel — Plusieurs immeubles",
-    sub: "Résidence ou complexe : plusieurs bâtiments sur un même projet.",
-    bullets: [
-      "Plan masse : implantation, voiries, espaces communs, VRD.",
-      "Cohérence architecturale sur l'ensemble des bâtiments.",
-      "Devis par bâtiment × nombre — barème CNOA 2021.",
-    ],
-    micro: "Pensé pour les promoteurs et les opérations groupées.",
-  },
-  {
-    id: "LOT", label: "Lotissement / morcellement",
-    title: "Lotissement / morcellement — Foncier",
-    sub: "Découpage et viabilisation de terrains (loi 25-90).",
-    bullets: [
-      "Plan de lotissement : îlots, voirie, réseaux, espaces verts.",
-      "Conformité réglementaire et passage en commission.",
-      "Devis personnalisé selon la surface du terrain.",
-    ],
-    micro: "Grille tarifaire dédiée — devis sous 24h.",
-  },
-  {
-    id: "EPIG", label: "Équipement privé",
-    title: "Équipement privé — Intérêt général",
-    sub: "Hôtel, clinique, école, mosquée, hangar, usine — y compris villa changée d'affectation.",
-    bullets: [
-      "Programme fonctionnel adapté à l'usage de l'équipement.",
-      "Normes spécifiques : sécurité, accessibilité, ERP.",
-      "Honoraires au barème CNOA 2021 selon la catégorie.",
-    ],
-    micro: "Inclut la transformation d'une villa en école, clinique, etc.",
-  },
-  {
-    id: "AMG", label: "Aménagement",
-    title: "Aménagement — Transformation d'un local",
-    sub: "Commerce, agence, show-room — local existant.",
-    bullets: [
-      "Réagencement intérieur et mise en valeur de l'espace.",
-      "Mise aux normes et conformité du local existant.",
-      "Devis au barème CNOA selon la surface aménagée.",
-    ],
-    micro: "Transformer proprement un local existant.",
-  },
-];
+type Phase = "identity" | "section" | "category" | "measures" | "follow" | "quote";
 
 type Category = { code: string; label: string; costPerM2: number; photoOptionAvailable: boolean; notes?: string };
 type Quote = {
@@ -364,12 +306,7 @@ const fullBleed: React.CSSProperties = {
   display: "flex", flexDirection: "column",
 };
 
-const HERO_POINTS = [
-  { t: "Barème officiel", d: "Honoraires calculés sur le barème CNOA 2021." },
-  { t: "Phases détaillées", d: "Esquisse, DCE, suivi — phases A / B / C transparentes." },
-  { t: "Devis immédiat", d: "Estimation chiffrée avant tout engagement." },
-  { t: "Contrat unifié", d: "Contrat type CNOA + visa CROA en ligne." },
-];
+const HERO_POINT_IDS = ["bareme", "phases", "devis", "contract"] as const;
 
 function P2HomeInner() {
   const t = useT();
@@ -377,6 +314,28 @@ function P2HomeInner() {
   const navigate = useNavigate();
   const [screen, setScreen] = useState<"flow" | "success">("flow");
   const [phase, setPhase] = useState<Phase>("identity");
+
+  // Sections du barème CNOA — construites depuis l'i18n pour assurer FR/AR/EN.
+  const SECTIONS: { id: P2Section; label: string; title: string; sub: string; bullets: string[]; micro: string }[] = [
+    "IMM", "GR", "LOT", "EPIG", "AMG",
+  ].map(id => ({
+    id: id as P2Section,
+    label: t(`portes.p2.sections.${id}.label`),
+    title: t(`portes.p2.sections.${id}.title`),
+    sub: t(`portes.p2.sections.${id}.sub`),
+    bullets: [
+      t(`portes.p2.sections.${id}.b1`),
+      t(`portes.p2.sections.${id}.b2`),
+      t(`portes.p2.sections.${id}.b3`),
+    ],
+    micro: t(`portes.p2.sections.${id}.micro`),
+  }));
+
+  // Points du hero (barème / phases / devis / contrat) — i18n.
+  const HERO_POINTS: { t: string; d: string }[] = HERO_POINT_IDS.map(id => ({
+    t: t(`portes.p2.hero.point.${id}.t`),
+    d: t(`portes.p2.hero.point.${id}.d`),
+  }));
   const [busy, setBusy] = useState(false);
 
   const [section, setSection] = useState<P2Section | null>(null);
@@ -467,7 +426,7 @@ function P2HomeInner() {
         );
         setCategories(items);
       })
-      .catch(() => setError("Erreur chargement catégories"));
+      .catch(() => setError(t("portes.p2.category.loading")));
   }, [section]);
 
   // Défilement doux vers le bloc qui vient de se révéler.
@@ -496,21 +455,21 @@ function P2HomeInner() {
   const measuresContinue = () => {
     setError("");
     if (isLOT) {
-      if (!surfaceTerrainHa || +surfaceTerrainHa <= 0) { setError("Surface terrain en hectares requise."); return; }
+      if (!surfaceTerrainHa || +surfaceTerrainHa <= 0) { setError(t("portes.p2.measures.err_lot")); return; }
       // LOT n'a pas de phase « mode de suivi » → on enchaîne directement
       // sur la création de compte + dossier ; le devis est livré ensuite.
       submitIntake();
       return;
     }
     if (isAMG) {
-      if (!surfacePlancher || +surfacePlancher <= 0) { setError("Surface du local à aménager requise."); return; }
+      if (!surfacePlancher || +surfacePlancher <= 0) { setError(t("portes.p2.measures.err_amg")); return; }
       setPhase("follow");
       return;
     }
     // IMM / GR / EPIG — plancher calculé à partir des caractéristiques
-    if (!terrainM2 || +terrainM2 <= 0) { setError("Surface du terrain requise."); return; }
-    if (computedSPPerBuilding == null) { setError("Renseignez le niveau (R+), la configuration des façades et le sous-sol."); return; }
-    if (section === "GR" && (!nbBatiments || +nbBatiments < 1)) { setError("Nombre de bâtiments requis."); return; }
+    if (!terrainM2 || +terrainM2 <= 0) { setError(t("portes.p2.measures.err_terrain")); return; }
+    if (computedSPPerBuilding == null) { setError(t("portes.p2.measures.err_rich")); return; }
+    if (section === "GR" && (!nbBatiments || +nbBatiments < 1)) { setError(t("portes.p2.measures.err_nb")); return; }
     setPhase("follow");
   };
 
@@ -533,7 +492,7 @@ function P2HomeInner() {
         body: JSON.stringify(body),
       });
       const data = await res.json();
-      if (!data.ok) throw new Error(data.error || "Erreur de calcul");
+      if (!data.ok) throw new Error(data.error || t("portes.p2.identity.err_calc"));
       setQuote(data);
       setPhase("quote");
     } catch (e: any) {
@@ -546,7 +505,7 @@ function P2HomeInner() {
   // Construit le payload /p2/intake à partir de l'état actuel.
   // Réutilisé par le submit direct ET par la branche signup (stockée puis rejouée).
   const buildIntakePayload = (clientEmailOverride?: string) => {
-    const sectionLabel = SECTIONS.find(s => s.id === section)?.label;
+    const sectionLabel = section ? t(`portes.p2.sections.${section}.label`) : "";
     const title = `${sectionLabel} — ${selectedCategory?.label || ""} — ${identity.commune}`.replace(/—\s+—/g, "—").trim();
     return {
       porteType: "P2" as const,
@@ -639,22 +598,22 @@ function P2HomeInner() {
 
   // Validation de la phase identité (étape 1 — qui êtes-vous).
   const validateIdentity = (): string | null => {
-    if (!identity.clientNom || !identity.clientTel) return "Nom et téléphone obligatoires.";
-    if (!identity.region || !identity.province || !identity.commune) return "Région, province et commune obligatoires.";
+    if (!identity.clientNom || !identity.clientTel) return t("portes.p2.identity.err_name_phone");
+    if (!identity.region || !identity.province || !identity.commune) return t("portes.p2.identity.err_loc");
     if (moaType === "morale" && (!identity.raisonSociale || !identity.representant)) {
-      return "Raison sociale et représentant légal obligatoires pour une personne morale.";
+      return t("portes.p2.identity.err_moral");
     }
-    if (!natureCode) return "Choisissez la nature du projet dans la liste.";
+    if (!natureCode) return t("portes.p2.identity.err_nature");
     if (natureCode === "autre" && !natureAutre.trim()) {
-      return "Précisez votre type de projet (champ « Autre »).";
+      return t("portes.p2.identity.err_autre");
     }
     // Sous-champs contextuels (n'apparaissent que pour certaines familles).
-    if (askRLevel && !rLevel) return "Indiquez le niveau d'étages (R, R+1, …).";
-    if (askNbBatiments && (!nbBatiments || +nbBatiments < 1)) return "Indiquez le nombre de bâtiments.";
-    if (askTerrainHa && (!surfaceTerrainHa || +surfaceTerrainHa <= 0)) return "Surface du terrain (hectares) obligatoire.";
-    if (askPlancher && (!surfacePlancher || +surfacePlancher <= 0)) return "Surface plancher / du local obligatoire.";
-    if (!ownerStatus) return "Indiquez le statut du terrain.";
-    if (!timeline) return "Indiquez le délai souhaité.";
+    if (askRLevel && !rLevel) return t("portes.p2.identity.err_rlevel");
+    if (askNbBatiments && (!nbBatiments || +nbBatiments < 1)) return t("portes.p2.identity.err_nb_bat");
+    if (askTerrainHa && (!surfaceTerrainHa || +surfaceTerrainHa <= 0)) return t("portes.p2.identity.err_ha");
+    if (askPlancher && (!surfacePlancher || +surfacePlancher <= 0)) return t("portes.p2.identity.err_plancher");
+    if (!ownerStatus) return t("portes.p2.identity.err_owner");
+    if (!timeline) return t("portes.p2.identity.err_timeline");
     return null;
   };
 
@@ -711,7 +670,7 @@ function P2HomeInner() {
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      if (!data.ok) throw new Error(data.message || "Erreur soumission");
+      if (!data.ok) throw new Error(data.message || t("portes.p2.identity.err_calc"));
       if (data.access_token) {
         try { localStorage.setItem("citurbarea.token", data.access_token); } catch {}
       }
@@ -742,29 +701,20 @@ function P2HomeInner() {
         <section className="section">
           <div className="container-max" style={{ maxWidth: 820 }}>
             <div className="lux-card" style={{ textAlign: "center", marginBottom: 18 }}>
-              <div style={{ fontSize: 52, marginBottom: 14 }}>{isExpertise ? "📋" : "✅"}</div>
+              <div style={{ fontSize: 52, marginBottom: 14 }}>{isExpertise ? t("portes.p2.recap.expertise_emoji") : t("portes.p2.recap.ok_emoji")}</div>
               <h2 style={{ fontSize: 26, margin: "0 0 12px" }}>
-                {isExpertise ? "Dossier d'expertise créé" : "Dossier créé · devis livré"}
+                {isExpertise ? t("portes.p2.recap.expertise_title") : t("portes.p2.recap.ok_title")}
               </h2>
-              <p className="muted" style={{ fontSize: 14.5, lineHeight: 1.7, margin: "0 0 18px" }}>
-                {isExpertise ? (
-                  <>
-                    Votre <strong style={{ color: "#0B1B3A" }}>mission d'expertise &amp; qualification</strong> est
-                    enregistrée. L'équipe vous contacte sous 24h pour la facturation du rapport
-                    (forfait expertise selon la complexité du projet) puis lance la qualification :
-                    programme, gabarit, faisabilité réglementaire. Le rapport livré, vous pourrez
-                    enchaîner directement sur une mission d'architecture standard si vous le souhaitez.
-                  </>
-                ) : (
-                  <>
-                    Votre projet <strong style={{ color: "#0B1B3A" }}>{SECTIONS.find(s => s.id === section)?.label}</strong> est
-                    désormais rattaché à votre compte et à un dossier identifié dans votre espace
-                    CITURBAREA. L'équipe vous recontacte sous 24h avec le contrat type unifié et le visa CROA.
-                  </>
-                )}
-                <br />
-                <span style={{ fontSize: 12 }}>Réf. dossier : {dossierId?.slice(0, 12)}…</span>
-              </p>
+              <p
+                className="muted"
+                style={{ fontSize: 14.5, lineHeight: 1.7, margin: "0 0 18px" }}
+                dangerouslySetInnerHTML={{
+                  __html: (isExpertise
+                    ? t("portes.p2.recap.expertise_body")
+                    : t("portes.p2.recap.ok_body", { section: SECTIONS.find(s => s.id === section)?.label ?? "" })
+                  ) + `<br/><span style="font-size:12px">${t("portes.p2.recap.ref")} ${(dossierId ?? "").slice(0, 12)}…</span>`,
+                }}
+              />
             </div>
 
             {/* Devis officiel — livré uniquement avec un dossier identifié.
@@ -774,44 +724,44 @@ function P2HomeInner() {
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 18, flexWrap: "wrap" }}>
                   <div>
                     <div style={{ color: "rgba(201,162,39,0.95)", fontSize: 13, fontWeight: 800 }}>{quote.meta.sectionLabel}</div>
-                    <div className="muted" style={{ fontSize: 13.5, marginTop: 4 }}>{quote.meta.categoryLabel || "Tarification spécifique"}</div>
+                    <div className="muted" style={{ fontSize: 13.5, marginTop: 4 }}>{quote.meta.categoryLabel || t("portes.p2.recap.specific_pricing")}</div>
                   </div>
                   <div style={{ background: "rgba(201,162,39,0.10)", border: "1px solid rgba(201,162,39,0.32)", borderRadius: 14, padding: "14px 20px", textAlign: "right" }}>
                     {quote.honoraires.totalTTC != null && (
-                      <div className="muted" style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>Devis dossier</div>
+                      <div className="muted" style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>{t("portes.p2.recap.dossier_devis")}</div>
                     )}
                     <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 32, fontWeight: 800, color: "#0B1B3A", lineHeight: 1, marginTop: 3 }}>
-                      {quote.honoraires.totalTTC != null ? fmtMAD(quote.honoraires.totalTTC) : "À devis"}
+                      {quote.honoraires.totalTTC != null ? fmtMAD(quote.honoraires.totalTTC) : t("portes.p2.recap.to_quote")}
                     </div>
-                    <div className="muted" style={{ fontSize: 11.5, marginTop: 5 }}>TTC · honoraires architecte</div>
+                    <div className="muted" style={{ fontSize: 11.5, marginTop: 5 }}>{t("portes.p2.recap.ttc_label")}</div>
                   </div>
                 </div>
                 <div className="gold-divider" style={{ margin: "18px 0 6px" }} />
                 {quote.base.coutTravauxEstime != null && (
-                  <div className="qrow"><span className="k">Coût travaux estimé</span><span className="v">{fmtMAD(quote.base.coutTravauxEstime)}</span></div>
+                  <div className="qrow"><span className="k">{t("portes.p2.recap.coast_estim")}</span><span className="v">{fmtMAD(quote.base.coutTravauxEstime)}</span></div>
                 )}
                 {quote.honoraires.totalHT != null && (
                   <>
-                    <div className="qrow"><span className="k">Honoraires HT (5 %)</span><span className="v">{fmtMAD(quote.honoraires.totalHT)}</span></div>
-                    <div className="qrow"><span className="k">TVA 20 %</span><span className="v">{fmtMAD(quote.honoraires.tva)}</span></div>
+                    <div className="qrow"><span className="k">{t("portes.p2.recap.honoraires_5")}</span><span className="v">{fmtMAD(quote.honoraires.totalHT)}</span></div>
+                    <div className="qrow"><span className="k">{t("portes.p2.recap.tva_20")}</span><span className="v">{fmtMAD(quote.honoraires.tva)}</span></div>
                   </>
                 )}
                 {quote.honoraires.breakdown.phaseA_esquisseAutorisation != null && (
                   <>
-                    <div className="qrow" style={{ marginTop: 8 }}><span className="k">Phase A — Esquisse + Autorisation (40 %)</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseA_esquisseAutorisation)}</span></div>
-                    <div className="qrow"><span className="k">Phase B — DCE + CPS (30 %)</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseB_dceCps)}</span></div>
-                    <div className="qrow"><span className="k">Phase C — Suivi ({quote.meta.followMode === "PHOTOS" ? "10 % photos" : "30 % physique"})</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseC_suivi)}</span></div>
+                    <div className="qrow" style={{ marginTop: 8 }}><span className="k">{t("portes.p2.recap.phaseA")}</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseA_esquisseAutorisation)}</span></div>
+                    <div className="qrow"><span className="k">{t("portes.p2.recap.phaseB")}</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseB_dceCps)}</span></div>
+                    <div className="qrow"><span className="k">{quote.meta.followMode === "PHOTOS" ? t("portes.p2.recap.phaseC_photos") : t("portes.p2.recap.phaseC_phys")}</span><span className="v">{fmtMAD(quote.honoraires.breakdown.phaseC_suivi)}</span></div>
                   </>
                 )}
-                <div className="mini-note" style={{ marginTop: 16 }}><strong>Visa CROA :</strong> {quote.visaCroa.note}</div>
-                <div className="mini-note" style={{ marginTop: 10 }}><strong>Décennale :</strong> {quote.decennale.note}</div>
+                <div className="mini-note" style={{ marginTop: 16 }}><strong>{t("portes.p2.recap.visa_label")}</strong> {quote.visaCroa.note}</div>
+                <div className="mini-note" style={{ marginTop: 10 }}><strong>{t("portes.p2.recap.decennale_label")}</strong> {quote.decennale.note}</div>
               </div>
             )}
 
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <a className="btn btn-gold" href={`/payment/start?dossier=${dossierId}`}>💳 Payer maintenant</a>
-              <a className="btn btn-dark" href="/portal">📁 Mes dossiers</a>
-              <a className="btn" href="/" style={{ background: "transparent", border: "1px solid rgba(11,27,58,0.18)", color: "#0B1B3A" }}>← Accueil</a>
+              <a className="btn btn-gold" href={`/payment/start?dossier=${dossierId}`}>{t("portes.p2.recap.pay_now")}</a>
+              <a className="btn btn-dark" href="/portal">{t("portes.p2.recap.my_dossiers")}</a>
+              <a className="btn" href="/" style={{ background: "transparent", border: "1px solid rgba(11,27,58,0.18)", color: "#0B1B3A" }}>{t("portes.p2.recap.home")}</a>
             </div>
           </div>
         </section>
@@ -828,9 +778,9 @@ function P2HomeInner() {
       <header className="hero" style={{ order: -2 }}>
         <div className="container-max" style={{ paddingTop: 72, paddingBottom: 60 }}>
           <div className="kicker">
-            <span>Promotion immobilière</span><span style={{ opacity: 0.5 }}>•</span>
-            <span>Barème CNOA 2021</span><span style={{ opacity: 0.5 }}>•</span>
-            <span>Devis transparent</span>
+            <span>{t("portes.p2.hero.kicker.promo")}</span><span style={{ opacity: 0.5 }}>•</span>
+            <span>{t("portes.p2.hero.kicker.bareme")}</span><span style={{ opacity: 0.5 }}>•</span>
+            <span>{t("portes.p2.hero.kicker.devis")}</span>
           </div>
           <div className="grid-2" style={{ alignItems: "center" }}>
             <div>
@@ -842,7 +792,7 @@ function P2HomeInner() {
                 const el = document.getElementById("p2-identity");
                 if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
               }}>
-                {t("p5.start_qualification")} →
+                {t("portes.p2.hero.cta")} →
               </button>
             </div>
             <div>
@@ -858,7 +808,7 @@ function P2HomeInner() {
                 </div>
                 <div className="gold-divider" style={{ marginTop: 18 }} />
                 <div style={{ marginTop: 12, fontSize: 12, color: "rgba(11,18,32,0.60)" }}>
-                  Le devis est révisé sur le coût réel des travaux après adjudication (art. 5 du contrat type).
+                  {t("portes.p2.hero.foot")}
                 </div>
               </div>
             </div>
@@ -870,11 +820,10 @@ function P2HomeInner() {
       {reached("section") && (
       <section className="section" id="p2-section" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
         <div className="container-max">
-          <div className="eyebrow">Étape 2</div>
+          <div className="eyebrow">{t("portes.p2.section.step")}</div>
           <h2 className="section-title">{t("wizard.choose_section")}</h2>
           <p className="sub" style={{ marginBottom: 34 }}>
-            Sélectionnez la nature de votre projet. Le périmètre choisi détermine les catégories
-            et le mode de tarification appliqués.
+            {t("portes.p2.section.sub")}
           </p>
           <div className="grid-3">
             {SECTIONS.map(s => (
@@ -886,7 +835,7 @@ function P2HomeInner() {
                 </ul>
                 <div className="muted card-micro">{s.micro}</div>
                 <div className="btn btn-dark" style={{ width: "100%", marginTop: 18 }}>
-                  {section === s.id ? "✓ Sélectionné" : "Sélectionner →"}
+                  {section === s.id ? t("portes.p2.section.selected") : t("portes.p2.section.select")}
                 </div>
               </div>
             ))}
@@ -899,34 +848,38 @@ function P2HomeInner() {
       {reached("category") && !isLOT && (
         <section className="section" id="p2-category" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
           <div className="container-max">
-            <div className="eyebrow">Étape 2</div>
+            <div className="eyebrow">{t("portes.p2.category.step")}</div>
             <h2 className="section-title">{t("wizard.choose_category")}</h2>
-            <p className="sub" style={{ marginBottom: 34 }}>
-              Section : <strong style={{ color: "#0B1B3A" }}>{SECTIONS.find(s => s.id === section)?.label}</strong>. Le coût de
-              construction au m² est issu du barème officiel CNOA 2021 ; les honoraires sont révisés en cas de constatation
-              d'un standing supérieur.
-            </p>
+            <p
+              className="sub"
+              style={{ marginBottom: 34 }}
+              dangerouslySetInnerHTML={{
+                __html: t("portes.p2.category.sub", {
+                  section: `<strong style="color:#0B1B3A">${SECTIONS.find(s => s.id === section)?.label ?? ""}</strong>`,
+                }),
+              }}
+            />
             <div className="grid-3">
               {categories.map(c => (
                 <div key={c.code} className={"price-card" + (categoryCode === c.code ? " sel" : "")} onClick={() => pickCategory(c.code)}>
                   <div className="lux-title" style={{ fontSize: 17 }}>{c.label}</div>
                   <div style={{ margin: "14px 0 4px" }}>
-                    <div className="muted" style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>À partir de</div>
+                    <div className="muted" style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>{t("portes.p2.category.from")}</div>
                     <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 3 }}>
                       <span style={{ fontSize: 28, fontWeight: 900, color: "#0B1B3A" }}>{fmtMAD(c.costPerM2)}</span>
-                      <span className="muted" style={{ fontWeight: 800, fontSize: 13 }}>/ m²</span>
+                      <span className="muted" style={{ fontWeight: 800, fontSize: 13 }}>{t("portes.p2.category.per_m2")}</span>
                     </div>
                   </div>
                   <div style={{ flex: 1 }}>
                     {c.notes && <div className="muted" style={{ fontSize: 12.5, marginTop: 8 }}>⚠ {c.notes}</div>}
-                    {!c.photoOptionAvailable && <div className="muted" style={{ fontSize: 12.5, marginTop: 6 }}>📍 Suivi physique obligatoire</div>}
+                    {!c.photoOptionAvailable && <div className="muted" style={{ fontSize: 12.5, marginTop: 6 }}>{t("portes.p2.category.warn_physical")}</div>}
                   </div>
                   <div className="btn btn-dark" style={{ width: "100%", marginTop: 18 }}>
-                    {categoryCode === c.code ? "✓ Sélectionné" : "Sélectionner →"}
+                    {categoryCode === c.code ? t("portes.p2.section.selected") : t("portes.p2.section.select")}
                   </div>
                 </div>
               ))}
-              {categories.length === 0 && <div className="muted">Chargement des catégories…</div>}
+              {categories.length === 0 && <div className="muted">{t("portes.p2.category.loading")}</div>}
             </div>
           </div>
         </section>
@@ -936,50 +889,49 @@ function P2HomeInner() {
       {reached("measures") && (
         <section className="section" id="p2-measures" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
           <div className="container-max">
-            <div className="eyebrow">Étape {isLOT ? 2 : 3}</div>
+            <div className="eyebrow">{isLOT ? t("portes.p2.measures.step_lot") : t("portes.p2.measures.step_norm")}</div>
             <h2 className="section-title">{t("wizard.dimensions")}</h2>
             <p className="sub" style={{ marginBottom: 30 }}>
               {isLOT
-                ? "Surface du terrain à lotir / morceler, en hectares (1 ha = 10 000 m²)."
+                ? t("portes.p2.measures.sub_lot")
                 : isAMG
-                ? "Surface utile du local existant à transformer."
-                : "Caractéristiques du projet — le plancher est estimé automatiquement à partir du terrain, du niveau (R+) et de la configuration des façades. Vous n'avez pas à le deviner."}
+                ? t("portes.p2.measures.sub_amg")
+                : t("portes.p2.measures.sub_rich")}
             </p>
             {isLOT ? (
               <div style={{ maxWidth: 760 }}>
                 <div className="field" style={{ marginBottom: 16 }}>
-                  <label className="label">Surface terrain (hectares)</label>
+                  <label className="label">{t("portes.p2.measures.lot_label")}</label>
                   <input className="control" type="number" step="0.1" value={surfaceTerrainHa}
                     onChange={e => setSurfaceTerrainHa(e.target.value)} placeholder="2.5" />
                 </div>
                 <div className="mini-note">
-                  ℹ La grille tarifaire des honoraires de lotissement est en cours de finalisation par CITURBAREA.
-                  Vous recevrez sous 24h un devis personnalisé après soumission de votre demande.
+                  {t("portes.p2.measures.lot_note")}
                 </div>
               </div>
             ) : isAMG ? (
               <div style={{ maxWidth: 760 }}>
                 <div className="field" style={{ marginBottom: 10 }}>
-                  <label className="label">Surface du local à aménager (m²)</label>
+                  <label className="label">{t("portes.p2.measures.amg_label")}</label>
                   <input className="control" type="number" value={surfacePlancher}
                     onChange={e => setSurfacePlancher(e.target.value)} placeholder="120" />
                 </div>
                 <div className="muted" style={{ fontSize: 12.5, lineHeight: 1.55 }}>
-                  Surface utile du local existant à transformer.
+                  {t("portes.p2.measures.amg_help")}
                 </div>
               </div>
             ) : (
               <>
                 <div className="form-grid">
                   <div className="field">
-                    <label className="label">Surface du terrain (m²)</label>
+                    <label className="label">{t("portes.p2.measures.terrain_label")}</label>
                     <input className="control" type="number" value={terrainM2}
                       onChange={e => setTerrainM2(e.target.value)} placeholder="800" />
                   </div>
                   <div className="field">
-                    <label className="label">Niveau (R+)</label>
+                    <label className="label">{t("portes.p2.measures.rlevel_label")}</label>
                     <select className="control" value={rLevel} onChange={e => setRLevel(e.target.value)}>
-                      <option value="R0">R+0 (RDC seul)</option>
+                      <option value="R0">{t("portes.p2.measures.r0")}</option>
                       <option value="R1">R+1</option>
                       <option value="R2">R+2</option>
                       <option value="R3">R+3</option>
@@ -991,35 +943,35 @@ function P2HomeInner() {
                     </select>
                   </div>
                   <div className="field">
-                    <label className="label">Configuration façades</label>
+                    <label className="label">{t("portes.p2.measures.facades_label")}</label>
                     <select className="control" value={facades} onChange={e => setFacades(e.target.value)}>
-                      <option value="1">1 façade (mitoyenne)</option>
-                      <option value="2">Lot d'angle (2 façades)</option>
-                      <option value="3">3 façades</option>
-                      <option value="4">4 façades (isolé)</option>
+                      <option value="1">{t("portes.p2.measures.fac.1")}</option>
+                      <option value="2">{t("portes.p2.measures.fac.2")}</option>
+                      <option value="3">{t("portes.p2.measures.fac.3")}</option>
+                      <option value="4">{t("portes.p2.measures.fac.4")}</option>
                     </select>
                   </div>
                   <div className="field">
-                    <label className="label">Sous-sol</label>
+                    <label className="label">{t("portes.p2.measures.basement_label")}</label>
                     <select className="control" value={basement ? "yes" : "no"}
                       onChange={e => setBasement(e.target.value === "yes")}>
-                      <option value="no">Sans sous-sol</option>
-                      <option value="yes">Avec sous-sol (parking / cave)</option>
+                      <option value="no">{t("portes.p2.measures.basement_no")}</option>
+                      <option value="yes">{t("portes.p2.measures.basement_yes")}</option>
                     </select>
                   </div>
                   {section === "IMM" && (
                     <div className="field">
-                      <label className="label">Variante</label>
+                      <label className="label">{t("portes.p2.measures.variant_label")}</label>
                       <select className="control" value={immVariant} onChange={e => setImmVariant(e.target.value)}>
-                        <option value="standard">Immeuble standard (collectif / bureaux)</option>
-                        <option value="maison_ville">Maison de ville</option>
-                        <option value="rdc_commercial">RDC commercial dominant</option>
+                        <option value="standard">{t("portes.p2.measures.variant_std")}</option>
+                        <option value="maison_ville">{t("portes.p2.measures.variant_mdv")}</option>
+                        <option value="rdc_commercial">{t("portes.p2.measures.variant_rdc")}</option>
                       </select>
                     </div>
                   )}
                   {section === "GR" && (
                     <div className="field">
-                      <label className="label">Nombre de bâtiments</label>
+                      <label className="label">{t("portes.p2.measures.nb_label")}</label>
                       <input className="control" type="number" min={1} value={nbBatiments}
                         onChange={e => setNbBatiments(e.target.value)} placeholder="3" />
                     </div>
@@ -1028,16 +980,16 @@ function P2HomeInner() {
                 {computedSPPerBuilding != null && (
                   <div className="mini-note" style={{ marginTop: 22, background: "rgba(201,162,39,0.10)", borderColor: "rgba(201,162,39,0.40)" }}>
                     <div>
-                      <strong style={{ color: "#0B1B3A" }}>Plancher estimé :</strong>{" "}
+                      <strong style={{ color: "#0B1B3A" }}>{t("portes.p2.measures.plancher_label")}</strong>{" "}
                       <span style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 22, fontWeight: 800, color: "#0B1B3A" }}>
                         {fmtInt(computedSPPerBuilding)} m²
                       </span>
                       {section === "GR" && computedSPTotal != null && computedSPTotal !== computedSPPerBuilding && (
-                        <> par bâtiment · <strong>Total :</strong> {fmtInt(computedSPTotal)} m²</>
+                        <> {t("portes.p2.measures.per_building")} · <strong>{t("portes.p2.measures.total")}</strong> {fmtInt(computedSPTotal)} m²</>
                       )}
                     </div>
                     <div style={{ marginTop: 6, fontSize: 12, color: "rgba(11,27,58,0.65)", fontStyle: "italic" }}>
-                      Estimation indicative sous réserve de l'étude d'esquisse du projet. Le devis sera révisé sur le coût réel des travaux après adjudication.
+                      {t("portes.p2.measures.estim_note")}
                     </div>
                   </div>
                 )}
@@ -1047,10 +999,10 @@ function P2HomeInner() {
             <div style={{ marginTop: 26 }}>
               <button className="btn btn-gold" disabled={busy} onClick={measuresContinue}>
                 {busy
-                  ? "Envoi…"
+                  ? t("portes.p2.btn.sending")
                   : isLOT
-                    ? (auth.isAuthed ? "Créer mon dossier et obtenir le devis →" : "Créer mon compte + dossier → recevoir le devis")
-                    : "Continuer →"}
+                    ? (auth.isAuthed ? t("portes.p2.btn.create_lot_auth") : t("portes.p2.btn.create_lot_anon"))
+                    : t("portes.p2.btn.continue")}
               </button>
             </div>
           </div>
@@ -1061,19 +1013,19 @@ function P2HomeInner() {
       {reached("follow") && !isLOT && (
         <section className="section" id="p2-follow" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
           <div className="container-max">
-            <div className="eyebrow">Étape 5</div>
+            <div className="eyebrow">{t("portes.p2.follow.step")}</div>
             <h2 className="section-title">{t("wizard.follow_mode")}</h2>
             <p className="sub" style={{ marginBottom: 30 }}>
-              Phase C des honoraires (suivi des travaux). Source : contrat type unifié Construction CNOA, article 7.
+              {t("portes.p2.follow.sub")}
             </p>
             <div className="grid-2" style={{ maxWidth: 820 }}>
               <div className={"price-card" + (followMode === "ON_SITE" ? " sel" : "")} onClick={() => setFollowMode("ON_SITE")}>
                 <div style={{ fontSize: 30, marginBottom: 10 }}>📍</div>
-                <div className="lux-title" style={{ fontSize: 17 }}>Suivi physique</div>
+                <div className="lux-title" style={{ fontSize: 17 }}>{t("portes.p2.follow.physique")}</div>
                 <div className="muted" style={{ fontSize: 13, lineHeight: 1.6, margin: "8px 0 12px", flex: 1 }}>
-                  Visites sur site, PV in situ, attestations de conformité.
+                  {t("portes.p2.follow.physique_d")}
                 </div>
-                <div style={{ fontWeight: 900, color: "#0B1B3A" }}>30 % des honoraires</div>
+                <div style={{ fontWeight: 900, color: "#0B1B3A" }}>{t("portes.p2.follow.physique_pct")}</div>
               </div>
               {(() => {
                 const photoAvail = selectedCategory?.photoOptionAvailable !== false;
@@ -1081,12 +1033,12 @@ function P2HomeInner() {
                   <div className={"price-card" + (followMode === "PHOTOS" ? " sel" : "") + (photoAvail ? "" : " disabled")}
                     onClick={() => photoAvail && setFollowMode("PHOTOS")}>
                     <div style={{ fontSize: 30, marginBottom: 10 }}>📷</div>
-                    <div className="lux-title" style={{ fontSize: 17 }}>Suivi par photos</div>
+                    <div className="lux-title" style={{ fontSize: 17 }}>{t("portes.p2.follow.photos")}</div>
                     <div className="muted" style={{ fontSize: 13, lineHeight: 1.6, margin: "8px 0 12px", flex: 1 }}>
-                      1 photo par réception (gros œuvre par élément de structure + second œuvre par étage).
+                      {t("portes.p2.follow.photos_d")}
                     </div>
-                    <div style={{ fontWeight: 900, color: photoAvail ? "#0B1B3A" : "rgba(11,27,58,0.5)" }}>10 % des honoraires</div>
-                    {!photoAvail && <div style={{ color: "#b91c1c", fontSize: 11.5, marginTop: 8 }}>Non disponible pour cette catégorie</div>}
+                    <div style={{ fontWeight: 900, color: photoAvail ? "#0B1B3A" : "rgba(11,27,58,0.5)" }}>{t("portes.p2.follow.photos_pct")}</div>
+                    {!photoAvail && <div style={{ color: "#b91c1c", fontSize: 11.5, marginTop: 8 }}>{t("portes.p2.follow.photos_na")}</div>}
                   </div>
                 );
               })()}
@@ -1094,12 +1046,11 @@ function P2HomeInner() {
             {error && phase === "follow" && <div className="err">⚠ {error}</div>}
             <div style={{ marginTop: 26 }}>
               <button className="btn btn-gold" disabled={busy} onClick={submitIntake}>
-                {busy ? "Envoi…" : (auth.isAuthed ? "Créer mon dossier et obtenir le devis →" : "Créer mon compte + dossier → recevoir le devis")}
+                {busy ? t("portes.p2.btn.sending") : (auth.isAuthed ? t("portes.p2.btn.create_lot_auth") : t("portes.p2.btn.create_lot_anon"))}
               </button>
             </div>
             <div className="muted" style={{ marginTop: 14, fontSize: 12.5, maxWidth: 720, lineHeight: 1.6 }}>
-              Votre devis personnalisé (barème CNOA 2021) est calculé après la création
-              du dossier — un dossier identifié, rattaché à votre compte client.
+              {t("portes.p2.follow.foot")}
             </div>
           </div>
         </section>
@@ -1109,20 +1060,18 @@ function P2HomeInner() {
       {reached("identity") && (
         <section className="section" id="p2-identity" style={{ order: -1 }}>
           <div className="container-max">
-            <div className="eyebrow">Étape 1</div>
+            <div className="eyebrow">{t("portes.p2.identity.step")}</div>
             <h2 className="section-title">{t("p5.who_are_you")}</h2>
             <p className="sub" style={{ marginBottom: 24 }}>
-              On commence par vous identifier : statut, contact, localisation et caractéristiques
-              du projet — ces données alimentent votre dossier et conditionnent le calcul du devis
-              (article 2 du contrat type unifié Construction CNOA).
+              {t("portes.p2.identity.sub")}
             </p>
 
             {/* 1) Type de maître d'ouvrage — comme P1 */}
-            <div className="pill" style={{ marginBottom: 14 }}>1) Type de maître d'ouvrage <span className="req">*</span></div>
+            <div className="pill" style={{ marginBottom: 14 }}>{t("portes.p2.identity.moa_title")} <span className="req">*</span></div>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 22 }}>
               {[
-                { id: "physique", label: "Personne physique", sub: "Particulier — Nom + CIN" },
-                { id: "morale",   label: "Personne morale",   sub: "Société — Raison sociale + RC/ICE" },
+                { id: "physique", label: t("portes.p2.identity.moa_phys"),  sub: t("portes.p2.identity.moa_phys_sub") },
+                { id: "morale",   label: t("portes.p2.identity.moa_moral"), sub: t("portes.p2.identity.moa_moral_sub") },
               ].map(o => (
                 <button
                   key={o.id}
@@ -1142,41 +1091,41 @@ function P2HomeInner() {
             </div>
 
             {/* 2) Contact (toujours) */}
-            <div className="pill" style={{ marginBottom: 14 }}>2) Contact <span className="req">*</span></div>
+            <div className="pill" style={{ marginBottom: 14 }}>{t("portes.p2.identity.contact")} <span className="req">*</span></div>
             <div className="form-grid">
               <div className="field">
-                <label className="label">Nom complet <span className="req">*</span></label>
-                <input className="control" value={identity.clientNom} onChange={f("clientNom")} placeholder="Prénom Nom" />
+                <label className="label">{t("portes.p2.identity.fullname")} <span className="req">*</span></label>
+                <input className="control" value={identity.clientNom} onChange={f("clientNom")} placeholder={t("portes.p2.identity.fullname_ph")} />
               </div>
               <div className="field">
-                <label className="label">Téléphone <span className="req">*</span></label>
-                <input className="control" value={identity.clientTel} onChange={f("clientTel")} placeholder="+212 6XX XXX XXX" />
+                <label className="label">{t("portes.p2.identity.phone")} <span className="req">*</span></label>
+                <input className="control" value={identity.clientTel} onChange={f("clientTel")} placeholder={t("portes.p2.identity.phone_ph")} />
               </div>
               <div className="field">
-                <label className="label">Email</label>
-                <input className="control" value={identity.clientEmail} onChange={f("clientEmail")} placeholder="contact@exemple.ma" />
+                <label className="label">{t("portes.p2.identity.email")}</label>
+                <input className="control" value={identity.clientEmail} onChange={f("clientEmail")} placeholder={t("portes.p2.identity.email_ph")} />
               </div>
             </div>
 
             {/* 3) Société — visible UNIQUEMENT si personne morale */}
             {moaType === "morale" && (
               <>
-                <div className="blk-title">3) Société</div>
+                <div className="blk-title">3) {t("portes.p2.identity.company")}</div>
                 <div className="form-grid">
                   <div className="field">
-                    <label className="label">Raison sociale <span className="req">*</span></label>
-                    <input className="control" value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder="SARL / SA / SNC…" />
+                    <label className="label">{t("portes.p2.identity.raison")} <span className="req">*</span></label>
+                    <input className="control" value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder={t("portes.p2.identity.raison_ph")} />
                   </div>
                   <div className="field">
-                    <label className="label">Représentant légal <span className="req">*</span></label>
-                    <input className="control" value={identity.representant} onChange={f("representant")} placeholder="Gérant / DG" />
+                    <label className="label">{t("portes.p2.identity.repr")} <span className="req">*</span></label>
+                    <input className="control" value={identity.representant} onChange={f("representant")} placeholder={t("portes.p2.identity.repr_ph")} />
                   </div>
                   <div className="field">
-                    <label className="label">RC</label>
+                    <label className="label">{t("portes.p2.identity.rc")}</label>
                     <input className="control" value={identity.rc} onChange={f("rc")} placeholder="12345" />
                   </div>
                   <div className="field">
-                    <label className="label">ICE</label>
+                    <label className="label">{t("portes.p2.identity.ice")}</label>
                     <input className="control" value={identity.ice} onChange={f("ice")} placeholder="000000000000000" />
                   </div>
                 </div>
@@ -1184,21 +1133,26 @@ function P2HomeInner() {
             )}
 
             {/* 4) Localisation — sélection officielle HCP (14 régions / 77 prov / 1505 communes) */}
-            <div className="blk-title">{moaType === "morale" ? "4" : "3"}) Localisation du projet</div>
+            <div className="blk-title">{moaType === "morale" ? "4" : "3"}) {t("portes.p2.identity.location")}</div>
             <div className="muted" style={{ fontSize: 12.5, marginBottom: 10, maxWidth: 720 }}>
-              Sélection officielle issue du découpage HCP — 14 régions / 77 provinces / 1 505 communes.
+              {t("portes.p2.identity.location_sub")}
             </div>
             <AdminLocationSelect
               required
               value={{ region: identity.region, province: identity.province, commune: identity.commune }}
               onChange={({ region, province, commune }) => {
-                setIdentity(prev => ({ ...prev, region, province, commune }));
+                setIdentity(prev => ({
+                  ...prev,
+                  region: region ?? "",
+                  province: province ?? "",
+                  commune: commune ?? "",
+                }));
               }}
             />
             <div className="form-grid" style={{ marginTop: 14 }}>
               {/* Nature du projet — cartes premium par famille (style P1) */}
               <div className="field" style={{ gridColumn: "1 / -1" }}>
-                <label className="label" style={{ marginBottom: 8 }}>Nature du projet <span className="req">*</span></label>
+                <label className="label" style={{ marginBottom: 8 }}>{t("portes.p2.identity.nature")} <span className="req">*</span></label>
                 <div style={{
                   background: "rgba(201,162,39,0.07)",
                   border: "1px solid rgba(201,162,39,0.22)",
@@ -1206,8 +1160,8 @@ function P2HomeInner() {
                   fontSize: 12.5, color: "rgba(11,27,58,0.8)",
                   lineHeight: 1.6, marginBottom: 14,
                 }}>
-                  <strong>Promotion immobilière (Porte 2) :</strong> à partir de 2 logements (bi-familial et plus).
-                  {" "}Une seule maison individuelle ? <a href="/p1" style={{ color: "#C9A227", fontWeight: 600, textDecoration: "underline" }}>Passez par la Porte 1 →</a>
+                  <strong>{t("portes.p2.identity.nature_note")}</strong>
+                  {" "}<a href="/p1" style={{ color: "#C9A227", fontWeight: 600, textDecoration: "underline" }}>{t("portes.p2.identity.nature_p1")}</a>
                 </div>
                 <div style={{
                   display: "grid",
@@ -1287,16 +1241,12 @@ function P2HomeInner() {
                     borderRadius: 12, padding: "16px 20px",
                   }}>
                     <div style={{ fontWeight: 700, color: "#0B1B3A", fontSize: 14.5, marginBottom: 6 }}>
-                      Mission d'expertise &amp; qualification — facturable
+                      {t("portes.p2.identity.expertise_title")}
                     </div>
-                    <div style={{ fontSize: 13, color: "rgba(11,27,58,0.78)", lineHeight: 1.6 }}>
-                      Pas besoin de connaître la typologie exacte : nos architectes qualifient votre
-                      projet (programme, gabarit, faisabilité réglementaire, opportunités de
-                      constructibilité) et vous remettent un <strong>rapport d'expertise</strong>.
-                      Un dossier est créé à votre nom et la mission est facturée séparément avant
-                      remise du rapport — vous gardez la main pour enchaîner ensuite sur une mission
-                      d'architecture standard si vous le souhaitez.
-                    </div>
+                    <div
+                      style={{ fontSize: 13, color: "rgba(11,27,58,0.78)", lineHeight: 1.6 }}
+                      dangerouslySetInnerHTML={{ __html: t("portes.p2.identity.expertise_body") }}
+                    />
                   </div>
                 )}
                 {natureFamily && natureFamily !== "autre" && natureFamily !== "expertise" && (() => {
@@ -1304,7 +1254,7 @@ function P2HomeInner() {
                   if (!grp) return null;
                   return (
                     <div style={{ marginTop: 4 }}>
-                      <label className="label" style={{ marginBottom: 8 }}>Précisez le sous-type <span className="req">*</span></label>
+                      <label className="label" style={{ marginBottom: 8 }}>{t("portes.p2.identity.precise_subtype")} <span className="req">*</span></label>
                       <select
                         className="control"
                         value={natureCode}
@@ -1325,7 +1275,7 @@ function P2HomeInner() {
               </div>
               {natureCode === "autre" && (
                 <div className="field" style={{ gridColumn: "1 / -1" }}>
-                  <label className="label">Précisez votre type de projet <span className="req">*</span></label>
+                  <label className="label">{t("portes.p2.identity.precise_autre")} <span className="req">*</span></label>
                   <input
                     className="control"
                     value={natureAutre}
@@ -1334,7 +1284,7 @@ function P2HomeInner() {
                       setNatureAutre(v);
                       setIdentity(prev => ({ ...prev, natureProjet: v ? `Autre : ${v}` : "" }));
                     }}
-                    placeholder="Décrivez précisément la nature de votre projet…"
+                    placeholder={t("portes.p2.identity.precise_autre_ph")}
                   />
                 </div>
               )}
@@ -1342,10 +1292,10 @@ function P2HomeInner() {
               {/* Sous-champs contextuels — apparaissent selon le type de projet choisi */}
               {askRLevel && (
                 <div className="field">
-                  <label className="label">Niveau d'étages <span className="req">*</span></label>
+                  <label className="label">{t("portes.p2.identity.r_level")} <span className="req">*</span></label>
                   <select className="control" value={rLevel} onChange={(e) => setRLevel(e.target.value)}>
-                    <option value="">— Sélectionner —</option>
-                    <option value="R0">RDC (de plain-pied)</option>
+                    <option value="">{t("portes.p2.identity.r_select")}</option>
+                    <option value="R0">{t("portes.p2.identity.r_rdc")}</option>
                     <option value="R1">R+1</option>
                     <option value="R2">R+2</option>
                     <option value="R3">R+3</option>
@@ -1353,80 +1303,80 @@ function P2HomeInner() {
                     <option value="R5">R+5</option>
                     <option value="R6">R+6</option>
                     <option value="R7">R+7</option>
-                    <option value="R8">R+8 et plus</option>
+                    <option value="R8">{t("portes.p2.identity.r_r8plus")}</option>
                   </select>
                 </div>
               )}
               {askNbBatiments && (
                 <div className="field">
-                  <label className="label">Nombre de bâtiments <span className="req">*</span></label>
+                  <label className="label">{t("portes.p2.identity.nb_bat")} <span className="req">*</span></label>
                   <input className="control" type="number" min={1} step={1}
                     value={nbBatiments} onChange={(e) => setNbBatiments(e.target.value)}
-                    placeholder="ex. 4" />
+                    placeholder={t("portes.p2.identity.nb_bat_ph")} />
                 </div>
               )}
               {askTerrainM2 && (
                 <div className="field">
-                  <label className="label">Surface du terrain (m²)</label>
+                  <label className="label">{t("portes.p2.measures.terrain_label")}</label>
                   <input className="control" type="number" min={0} step={1}
                     value={terrainM2} onChange={(e) => setTerrainM2(e.target.value)}
-                    placeholder="ex. 1500" />
+                    placeholder={t("portes.p2.identity.terrain_m2_ph")} />
                 </div>
               )}
               {askTerrainHa && (
                 <div className="field">
-                  <label className="label">Surface du terrain (hectares) <span className="req">*</span></label>
+                  <label className="label">{t("portes.p2.identity.terrain_ha")} <span className="req">*</span></label>
                   <input className="control" type="number" min={0} step="0.01"
                     value={surfaceTerrainHa} onChange={(e) => setSurfaceTerrainHa(e.target.value)}
-                    placeholder="ex. 3.5" />
+                    placeholder={t("portes.p2.identity.terrain_ha_ph")} />
                 </div>
               )}
               {askPlancher && (
                 <div className="field">
-                  <label className="label">Surface plancher / du local (m²) <span className="req">*</span></label>
+                  <label className="label">{t("portes.p2.identity.plancher")} <span className="req">*</span></label>
                   <input className="control" type="number" min={0} step={1}
                     value={surfacePlancher} onChange={(e) => setSurfacePlancher(e.target.value)}
-                    placeholder="ex. 240" />
+                    placeholder={t("portes.p2.identity.plancher_ph")} />
                 </div>
               )}
               {natureCode && natureCode !== "autre" && (askRLevel || askNbBatiments || askTerrainM2 || askTerrainHa || askPlancher) && (
                 <div className="muted" style={{ gridColumn: "1 / -1", fontSize: 11.5, fontStyle: "italic", marginTop: 6 }}>
-                  Ces caractéristiques alimentent automatiquement le calcul du devis (vous pourrez les ajuster aux étapes suivantes).
+                  {t("portes.p2.identity.auto_calc")}
                 </div>
               )}
             </div>
 
             {/* 5) Caractéristiques projet — standing, propriétaire, délai (cf. P1) */}
-            <div className="blk-title">{moaType === "morale" ? "5" : "4"}) Caractéristiques du projet</div>
+            <div className="blk-title">{moaType === "morale" ? "5" : "4"}) {t("portes.p2.identity.proj_char")}</div>
             <div className="form-grid">
               <div className="field">
-                <label className="label">Niveau de standing <span className="req">*</span></label>
+                <label className="label">{t("portes.p2.identity.standing")} <span className="req">*</span></label>
                 <select className="control" value={standing} onChange={(e) => setStanding(e.target.value as any)}>
-                  <option value="economique">Économique — env. 3 250 DH/m² (logement social conventionné)</option>
-                  <option value="moyen">Moyen standing — env. 4 500 DH/m² (carrelage, PVC, peinture standard)</option>
-                  <option value="haut">Haut standing — env. 7 500 DH/m² (marbre, alu, domotique basique)</option>
-                  <option value="luxe">Luxe — env. 13 000 DH/m² (sur mesure, bois noble, domotique intégrale)</option>
+                  <option value="economique">{t("portes.p2.identity.standing.eco")}</option>
+                  <option value="moyen">{t("portes.p2.identity.standing.moy")}</option>
+                  <option value="haut">{t("portes.p2.identity.standing.haut")}</option>
+                  <option value="luxe">{t("portes.p2.identity.standing.luxe")}</option>
                 </select>
               </div>
               <div className="field">
-                <label className="label">Statut du terrain <span className="req">*</span></label>
+                <label className="label">{t("portes.p2.identity.owner")} <span className="req">*</span></label>
                 <select className="control" value={ownerStatus} onChange={(e) => setOwnerStatus(e.target.value)}>
-                  <option value="">— Sélectionner —</option>
-                  <option value="proprietaire">Propriétaire (titre foncier au nom du MOA)</option>
-                  <option value="indivision">En indivision</option>
-                  <option value="promesse">Promesse / compromis de vente</option>
-                  <option value="leasing">Leasing / location longue durée</option>
-                  <option value="autre">Autre / à préciser</option>
+                  <option value="">{t("portes.p2.identity.r_select")}</option>
+                  <option value="proprietaire">{t("portes.p2.identity.owner.prop")}</option>
+                  <option value="indivision">{t("portes.p2.identity.owner.indiv")}</option>
+                  <option value="promesse">{t("portes.p2.identity.owner.promesse")}</option>
+                  <option value="leasing">{t("portes.p2.identity.owner.leasing")}</option>
+                  <option value="autre">{t("portes.p2.identity.owner.autre")}</option>
                 </select>
               </div>
               <div className="field">
-                <label className="label">Délai souhaité <span className="req">*</span></label>
+                <label className="label">{t("portes.p2.identity.timeline")} <span className="req">*</span></label>
                 <select className="control" value={timeline} onChange={(e) => setTimeline(e.target.value)}>
-                  <option value="">— Sélectionner —</option>
-                  <option value="0-6m">Démarrage sous 6 mois</option>
-                  <option value="6-12m">6 à 12 mois</option>
-                  <option value="12-24m">12 à 24 mois</option>
-                  <option value="24m+">Plus de 24 mois / à étudier</option>
+                  <option value="">{t("portes.p2.identity.r_select")}</option>
+                  <option value="0-6m">{t("portes.p2.identity.timeline.0_6m")}</option>
+                  <option value="6-12m">{t("portes.p2.identity.timeline.6_12m")}</option>
+                  <option value="12-24m">{t("portes.p2.identity.timeline.12_24m")}</option>
+                  <option value="24m+">{t("portes.p2.identity.timeline.24m_plus")}</option>
                 </select>
               </div>
             </div>
@@ -1435,10 +1385,10 @@ function P2HomeInner() {
             <div style={{ marginTop: 28 }}>
               <button className="btn btn-gold" disabled={busy} onClick={identityContinue}>
                 {busy
-                  ? "Envoi…"
+                  ? t("portes.p2.btn.sending")
                   : isExpertise
-                    ? (auth.isAuthed ? "Créer mon dossier d'expertise →" : "Créer mon compte + dossier d'expertise →")
-                    : "Continuer : décrire mon projet →"}
+                    ? (auth.isAuthed ? t("portes.p2.identity.cta_expertise_auth") : t("portes.p2.identity.cta_expertise_anon"))
+                    : t("portes.p2.identity.cta_continue")}
               </button>
             </div>
           </div>

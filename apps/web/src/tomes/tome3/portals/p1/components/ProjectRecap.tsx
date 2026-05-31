@@ -1,6 +1,7 @@
 // apps/web/src/tomes/tome3/portals/p1/components/ProjectRecap.tsx
 
 import React from 'react';
+import { useT } from '../../../../../i18n/i18n';
 
 interface Props {
   projectData: any;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function ProjectRecap({ projectData, recommendedPack }: Props) {
+  const t = useT();
   return (
     <div style={{
       background: 'white',
@@ -27,7 +29,7 @@ export default function ProjectRecap({ projectData, recommendedPack }: Props) {
         color: '#0B1B3A',
         margin: '0 0 24px',
       }}>
-        📊 Récapitulatif de votre projet
+        {t('portes.p1.recap.proj.title')}
       </h2>
 
       <div style={{
@@ -37,7 +39,7 @@ export default function ProjectRecap({ projectData, recommendedPack }: Props) {
         marginBottom: '32px',
       }}>
         <div>
-          <strong style={{ color: 'rgba(11,27,58,0.82)', fontSize: '13px' }}>👤 CONTACT</strong>
+          <strong style={{ color: 'rgba(11,27,58,0.82)', fontSize: '13px' }}>{t('portes.p1.recap.proj.contact')}</strong>
           <div style={{ fontSize: '15px', color: '#0B1B3A', marginTop: '6px' }}>
             {projectData.firstname} {projectData.lastname}<br />
             {projectData.email}<br />
@@ -46,7 +48,7 @@ export default function ProjectRecap({ projectData, recommendedPack }: Props) {
         </div>
 
         <div>
-          <strong style={{ color: 'rgba(11,27,58,0.82)', fontSize: '13px' }}>📍 LOCALISATION</strong>
+          <strong style={{ color: 'rgba(11,27,58,0.82)', fontSize: '13px' }}>{t('portes.p1.recap.proj.location')}</strong>
           <div style={{ fontSize: '15px', color: '#0B1B3A', marginTop: '6px' }}>
             {projectData.region}<br />
             {projectData.province}, {projectData.commune}
@@ -54,7 +56,7 @@ export default function ProjectRecap({ projectData, recommendedPack }: Props) {
         </div>
 
         <div>
-          <strong style={{ color: 'rgba(11,27,58,0.82)', fontSize: '13px' }}>🏗️ TYPE PROJET</strong>
+          <strong style={{ color: 'rgba(11,27,58,0.82)', fontSize: '13px' }}>{t('portes.p1.recap.proj.type')}</strong>
           <div style={{ fontSize: '15px', color: '#0B1B3A', marginTop: '6px' }}>
             {projectData.type}
             {projectData.villaType && ` (${projectData.villaType})`}
@@ -64,7 +66,7 @@ export default function ProjectRecap({ projectData, recommendedPack }: Props) {
 
         {projectData.area && (
           <div>
-            <strong style={{ color: 'rgba(11,27,58,0.82)', fontSize: '13px' }}>📏 SURFACE</strong>
+            <strong style={{ color: 'rgba(11,27,58,0.82)', fontSize: '13px' }}>{t('portes.p1.recap.proj.surface')}</strong>
             <div style={{ fontSize: '15px', color: '#0B1B3A', marginTop: '6px' }}>
               {projectData.area} m²
             </div>
@@ -73,7 +75,7 @@ export default function ProjectRecap({ projectData, recommendedPack }: Props) {
 
         {projectData.budget && (
           <div>
-            <strong style={{ color: 'rgba(11,27,58,0.82)', fontSize: '13px' }}>💰 BUDGET</strong>
+            <strong style={{ color: 'rgba(11,27,58,0.82)', fontSize: '13px' }}>{t('portes.p1.recap.proj.budget')}</strong>
             <div style={{ fontSize: '15px', color: '#0B1B3A', marginTop: '6px' }}>
               {projectData.budget} MAD
             </div>
@@ -82,7 +84,7 @@ export default function ProjectRecap({ projectData, recommendedPack }: Props) {
 
         {projectData.timeline && (
           <div>
-            <strong style={{ color: 'rgba(11,27,58,0.82)', fontSize: '13px' }}>⏱️ DÉLAI</strong>
+            <strong style={{ color: 'rgba(11,27,58,0.82)', fontSize: '13px' }}>{t('portes.p1.recap.proj.timeline')}</strong>
             <div style={{ fontSize: '15px', color: '#0B1B3A', marginTop: '6px' }}>
               {projectData.timeline}
             </div>
@@ -109,9 +111,9 @@ export default function ProjectRecap({ projectData, recommendedPack }: Props) {
               color: '#0B1B3A',
               margin: '0 0 12px',
             }}>
-              ⭐ Pack recommandé pour votre projet
+              {t('portes.p1.recap.proj.recommended')}
             </h3>
-            
+
             <div style={{
               fontSize: '24px',
               fontWeight: 700,
@@ -120,21 +122,21 @@ export default function ProjectRecap({ projectData, recommendedPack }: Props) {
             }}>
               {recommendedPack.name}
             </div>
-            
+
             <div style={{
               fontSize: '32px',
               fontWeight: 700,
               color: '#0B1B3A',
             }}>
-              {recommendedPack.price.toLocaleString()} MAD <span style={{ fontSize: '16px', fontWeight: 600 }}>HT</span>
+              {recommendedPack.price.toLocaleString()} MAD <span style={{ fontSize: '16px', fontWeight: 600 }}>{t('portes.p1.recap.proj.ht')}</span>
             </div>
-            
+
             <div style={{
               fontSize: '14px',
               color: 'rgba(11,27,58,0.68)',
               marginTop: '12px',
             }}>
-              Prix calculé automatiquement selon vos critères
+              {t('portes.p1.recap.proj.calc_note')}
             </div>
           </div>
         </>

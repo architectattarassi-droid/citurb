@@ -755,59 +755,59 @@ export default function P1Landing() {
         const lines: Array<[string, string]> = [];
 
         // 0) Récap — Demandeur (même logique que la collecte)
-        lines.push(["👤 Données du demandeur", "__section__"]);
+        lines.push([t("portes.p1.recap.section.requester"), "__section__"]);
         const fullName = [v("q_lastname"), v("q_firstname")].filter(Boolean).join(" ");
-        if (fullName) lines.push(["Nom & prénom", fullName]);
-        if (v("q_phone")) lines.push(["Téléphone", v("q_phone")]);
-        if (v("q_email")) lines.push(["Email", v("q_email")]);
-        if (label("q_person_type")) lines.push(["Vous êtes", label("q_person_type")]);
-        if (label("q_legal_situation")) lines.push(["Situation juridique", label("q_legal_situation")]);
+        if (fullName) lines.push([t("portes.p1.recap.f.fullname"), fullName]);
+        if (v("q_phone")) lines.push([t("portes.p1.recap.f.phone"), v("q_phone")]);
+        if (v("q_email")) lines.push([t("portes.p1.recap.f.email"), v("q_email")]);
+        if (label("q_person_type")) lines.push([t("portes.p1.recap.f.person"), label("q_person_type")]);
+        if (label("q_legal_situation")) lines.push([t("portes.p1.recap.f.legal"), label("q_legal_situation")]);
 
-        if (label("q_phys_id_type")) lines.push(["Pièce d'identité", label("q_phys_id_type")]);
-        if (v("q_phys_id_number")) lines.push(["N° identité", v("q_phys_id_number")]);
+        if (label("q_phys_id_type")) lines.push([t("portes.p1.recap.f.id_type"), label("q_phys_id_type")]);
+        if (v("q_phys_id_number")) lines.push([t("portes.p1.recap.f.id_number"), v("q_phys_id_number")]);
 
-        if (v("q_company_name")) lines.push(["Société", v("q_company_name")]);
-        if (v("q_company_form")) lines.push(["Forme juridique", v("q_company_form")]);
-        if (v("q_company_ice")) lines.push(["ICE", v("q_company_ice")]);
-        if (v("q_company_rc")) lines.push(["RC", v("q_company_rc")]);
+        if (v("q_company_name")) lines.push([t("portes.p1.recap.f.company"), v("q_company_name")]);
+        if (v("q_company_form")) lines.push([t("portes.p1.recap.f.company_form"), v("q_company_form")]);
+        if (v("q_company_ice")) lines.push([t("portes.p1.recap.f.ice"), v("q_company_ice")]);
+        if (v("q_company_rc")) lines.push([t("portes.p1.recap.f.rc"), v("q_company_rc")]);
 
         // 1) Récap — Projet
-        lines.push(["🏗️ Données du projet", "__section__"]);
-        lines.push(["Service demandé", draft.planMode === "type" ? "Plan type (budget)" : draft.planMode === "personnalise" ? "Plan personnalisé" : "Démarrer la qualification"]);
-        lines.push(["Catégorie", draft.type === "renovation" ? "Rénovation & Décoration" : draft.type === "villa" ? "Villa" : draft.type === "immeuble" ? "Immeuble (R+)" : "—"]);
+        lines.push([t("portes.p1.recap.section.project"), "__section__"]);
+        lines.push([t("portes.p1.recap.f.service"), draft.planMode === "type" ? t("portes.p1.recap.val.plan_type") : draft.planMode === "personnalise" ? t("portes.p1.recap.val.plan_custom") : t("portes.p1.recap.val.start_qual")]);
+        lines.push([t("portes.p1.recap.f.category"), draft.type === "renovation" ? t("portes.p1.recap.val.cat.reno") : draft.type === "villa" ? t("portes.p1.recap.val.cat.villa") : draft.type === "immeuble" ? t("portes.p1.recap.val.cat.imm") : t("portes.p1.recap.val.cat.dash")]);
 
         if (draft.type === "renovation") {
-          const k = draft.renoKind === "decoration" ? "Décoration" : draft.renoKind === "transformation" ? "Transformation (plan modificatif)" : "Rénovation";
-          lines.push(["Type rénovation", k]);
-          lines.push(["Support", draft.renoBaseType === "immeuble" ? "Immeuble (R+)" : draft.renoBaseType === "villa" ? "Villa" : "—"]);
+          const k = draft.renoKind === "decoration" ? t("portes.p1.recap.val.reno.decoration") : draft.renoKind === "transformation" ? t("portes.p1.recap.val.reno.transformation") : t("portes.p1.recap.val.reno.renovation");
+          lines.push([t("portes.p1.recap.f.reno_type"), k]);
+          lines.push([t("portes.p1.recap.f.support"), draft.renoBaseType === "immeuble" ? t("portes.p1.recap.val.cat.imm") : draft.renoBaseType === "villa" ? t("portes.p1.recap.val.cat.villa") : t("portes.p1.recap.val.cat.dash")]);
         }
 
         if (effectiveType === "villa") {
-          const vt = draft.villaType || "—";
-          lines.push(["Typologie villa", vt]);
-          lines.push(["Façades", label("q_villa_facades") || (draft.villaFacadesChoice || "") || (draft.facades ? String(draft.facades) : "—")]);
+          const vt = draft.villaType || t("portes.p1.recap.val.cat.dash");
+          lines.push([t("portes.p1.recap.f.villa_type"), vt]);
+          lines.push([t("portes.p1.recap.f.facades"), label("q_villa_facades") || (draft.villaFacadesChoice || "") || (draft.facades ? String(draft.facades) : t("portes.p1.recap.val.cat.dash"))]);
         }
 
         if (effectiveType === "immeuble") {
-          lines.push(["Type immeuble", draft.immeubleType || "—"]);
-          lines.push(["Niveau (R+)", draft.rLevel ? draft.rLevel.replace("R", "R+") : "—"]);
-          lines.push(["Façades", label("q_facades") || (draft.facadesChoice || "") || "—"]);
-          lines.push(["Sous-sol", label("q_basement") || "—"]);
-          if (draft.immeubleType === "rdc_commercial") lines.push(["RDC commercial", label("q_rdc_commercial") || "—"]);
+          lines.push([t("portes.p1.recap.f.imm_type"), draft.immeubleType || t("portes.p1.recap.val.cat.dash")]);
+          lines.push([t("portes.p1.recap.f.r_level"), draft.rLevel ? draft.rLevel.replace("R", "R+") : t("portes.p1.recap.val.cat.dash")]);
+          lines.push([t("portes.p1.recap.f.facades"), label("q_facades") || (draft.facadesChoice || "") || t("portes.p1.recap.val.cat.dash")]);
+          lines.push([t("portes.p1.recap.f.basement"), label("q_basement") || t("portes.p1.recap.val.cat.dash")]);
+          if (draft.immeubleType === "rdc_commercial") lines.push([t("portes.p1.recap.f.rdc_comm"), label("q_rdc_commercial") || t("portes.p1.recap.val.cat.dash")]);
         }
 
         // Données générales / foncier (si remplies)
-        if (v("q_region")) lines.push(["Région", v("q_region")]);
-        if (v("q_province")) lines.push(["Province / Préfecture", v("q_province")]);
-        if (v("q_commune")) lines.push(["Commune", v("q_commune")]);
-        if (label("q_timeline")) lines.push(["Délai souhaité", label("q_timeline")]);
-        if (label("q_budget")) lines.push(["Budget estimatif", label("q_budget")]);
-        if (label("q_owner_status")) lines.push(["Propriétaire du terrain", label("q_owner_status")]);
-        if (label("q_tf_status")) lines.push(["Titre foncier", label("q_tf_status")]);
-        if (v("q_tf_number")) lines.push(["N° TF", v("q_tf_number")]);
-        if (label("q_lot_status")) lines.push(["Lotissement", label("q_lot_status")]);
-        if (v("q_lot_name")) lines.push(["Nom lotissement", v("q_lot_name")]);
-        if (v("q_lot_number")) lines.push(["N° lot", v("q_lot_number")]);
+        if (v("q_region")) lines.push([t("portes.p1.recap.f.region"), v("q_region")]);
+        if (v("q_province")) lines.push([t("portes.p1.recap.f.province"), v("q_province")]);
+        if (v("q_commune")) lines.push([t("portes.p1.recap.f.commune"), v("q_commune")]);
+        if (label("q_timeline")) lines.push([t("portes.p1.recap.f.timeline"), label("q_timeline")]);
+        if (label("q_budget")) lines.push([t("portes.p1.recap.f.budget"), label("q_budget")]);
+        if (label("q_owner_status")) lines.push([t("portes.p1.recap.f.owner"), label("q_owner_status")]);
+        if (label("q_tf_status")) lines.push([t("portes.p1.recap.f.tf_status"), label("q_tf_status")]);
+        if (v("q_tf_number")) lines.push([t("portes.p1.recap.f.tf_number"), v("q_tf_number")]);
+        if (label("q_lot_status")) lines.push([t("portes.p1.recap.f.lot_status"), label("q_lot_status")]);
+        if (v("q_lot_name")) lines.push([t("portes.p1.recap.f.lot_name"), v("q_lot_name")]);
+        if (v("q_lot_number")) lines.push([t("portes.p1.recap.f.lot_number"), v("q_lot_number")]);
 
 
         // Rendu type "fiche projet" : grands titres, sections, et paires clé/valeur.
@@ -815,8 +815,8 @@ export default function P1Landing() {
         const html = `
           <div style="border:1px solid rgba(201,162,39,0.25);border-radius:18px;background:rgba(255,255,255,0.92);box-shadow:0 10px 30px rgba(11,27,58,0.06);overflow:hidden">
             <div style="padding:14px 16px;border-bottom:1px solid rgba(201,162,39,0.18);display:flex;gap:10px;align-items:center;justify-content:space-between">
-              <div style="font-weight:950;color:#0B1B3A">Fiche projet — récapitulatif</div>
-              <div style="font-size:12px;color:rgba(11,27,58,0.62)">Généré depuis vos choix</div>
+              <div style="font-weight:950;color:#0B1B3A">${t("portes.p1.recap.card.title")}</div>
+              <div style="font-size:12px;color:rgba(11,27,58,0.62)">${t("portes.p1.recap.card.sub")}</div>
             </div>
             <div style="padding:14px 16px">
               <div style="display:grid;grid-template-columns:220px 1fr;gap:10px 18px;align-items:start">
@@ -836,7 +836,7 @@ export default function P1Landing() {
         if (recapInline && recapInlineContent) {
           // IMPORTANT: Le récap doit s'afficher dans la section 5 sans provoquer un saut/scroll automatique.
           recapInline.style.display = "block";
-          recapInlineContent.innerHTML = html || "<div>Complétez les champs requis pour afficher le récapitulatif.</div>";
+          recapInlineContent.innerHTML = html || `<div>${t("portes.p1.recap.empty")}</div>`;
           focusNoScroll(recapInline);
         }
       });
@@ -1096,7 +1096,7 @@ export default function P1Landing() {
     /* GRID */
     .grid-3{ display:grid; gap:18px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .grid-2{ display:grid; gap:18px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    @media(max-width:900px){ .grid-3{ grid-template-columns:1fr; } .grid-2{ grid-template-columns:1fr; } }
+    @media(max-width:768px){ .grid-3{ grid-template-columns:1fr; } .grid-2{ grid-template-columns:1fr; } }
 
     /* PILIERS icons */
     .icon-dot{
@@ -1581,6 +1581,12 @@ export default function P1Landing() {
       transform: translateY(-4px);
       box-shadow: 0 12px 40px rgba(11,27,58,0.15);
       border-color: rgba(201,162,39,0.5);
+    }
+
+    @media(max-width:480px){
+      .hero h1 { font-size: 28px; line-height: 1.18; }
+      .section { padding: 40px 0; }
+      .container-max { padding: 0 14px; }
     }
       `}
       </style>

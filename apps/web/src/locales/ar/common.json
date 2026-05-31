@@ -60,5 +60,18 @@
   "footer.terms": "شروط الاستخدام",
   "footer.privacy": "الخصوصية",
   "footer.made_in_morocco": "صُمم بالمغرب",
-  "footer.version": "النسخة"
+  "footer.version": "النسخة",
+
+  "common.payment.aria": "تركيب الأداءات",
+  "common.payment.title": "الأداءات",
+  "common.payment.pct_label": "{pct}٪ مُسدَّد",
+  "common.payment.kpi_total": "الإجمالي",
+  "common.payment.kpi_paid": "المؤدى",
+  "common.payment.kpi_due": "المتبقي",
+  "common.payment.schedule_title": "جدول الاستحقاقات",
+  "common.payment.due_prefix": "تاريخ الاستحقاق:",
+  "common.payment.status_paid": "مؤدى",
+  "common.payment.status_due": "مستحق",
+  "common.payment.currency": "درهم",
+  "common.payment.no_date": "—"
 }

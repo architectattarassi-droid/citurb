@@ -16,12 +16,7 @@ import { getStoredLang, useT } from "../../../../i18n/i18n";
 
 type P3Section = "IMM" | "GR" | "EPIG" | "AMG";
 
-const SECTIONS: { id: P3Section; label: string; icon: string; desc: string }[] = [
-  { id: "IMM", label: "Immeuble", icon: "🏢", desc: "Construction d'un immeuble (R+2 et plus)" },
-  { id: "GR",  label: "Groupement résidentiel", icon: "🏘️", desc: "Plusieurs immeubles sur un même projet" },
-  { id: "EPIG", label: "Équipement privé", icon: "🏛️", desc: "Hôtel, clinique, école, hangar, usine…" },
-  { id: "AMG", label: "Aménagement", icon: "🏪", desc: "Transformation d'un local existant" },
-];
+const SECTION_IDS: P3Section[] = ["IMM", "GR", "EPIG", "AMG"];
 
 type Category = { code: string; label: string; costPerM2: number; photoOptionAvailable: boolean; notes?: string };
 type CorpsMetier = { slug: string; label: string; groupe: string; lotNumero?: string; obligatoireQualification?: boolean; notes?: string };
@@ -116,12 +111,13 @@ export default function P3Home() {
 
   const stepIndex = ["section", "category", "measures", "corps", "quote", "identity"].indexOf(step);
   const selectedCategory = categories.find(c => c.code === categoryCode);
+  const sectionLabel = section ? t(`portes.p3.section.${section}.label`) : "";
 
   useEffect(() => {
     fetch(`${apiBase()}/p3/corps-metiers`).then(r => r.json())
       .then(d => { if (d.ok) setCorpsGroupes(d.groupes); })
-      .catch(() => setError("Erreur chargement corps de métiers"));
-  }, []);
+      .catch(() => setError(t("portes.p3.err.load_corps")));
+  }, [t]);
 
   useEffect(() => {
     if (!section) return;
@@ -140,7 +136,7 @@ export default function P3Home() {
 
   const computeQuote = async () => {
     setError("");
-    if (!surfacePlancher || +surfacePlancher <= 0) { setError("Surface plancher requise."); return; }
+    if (!surfacePlancher || +surfacePlancher <= 0) { setError(t("portes.p3.err.surface_required")); return; }
     setStep("submitting");
     try {
       const res = await fetch(`${apiBase()}/p3/quote`, {
@@ -153,7 +149,7 @@ export default function P3Home() {
         }),
       });
       const data = await res.json();
-      if (!data.ok) throw new Error(data.error || "Erreur");
+      if (!data.ok) throw new Error(data.error || t("portes.p3.err.generic"));
       setQuote(data);
       setStep("quote");
     } catch (e: any) { setError(e.message); setStep("corps"); }
@@ -161,11 +157,15 @@ export default function P3Home() {
 
   const submit = async () => {
     setError("");
-    if (!identity.clientNom || !identity.clientTel) { setError("Nom et téléphone obligatoires."); return; }
-    if (!identity.commune) { setError("Commune obligatoire."); return; }
+    if (!identity.clientNom || !identity.clientTel) { setError(t("portes.p3.err.name_phone")); return; }
+    if (!identity.commune) { setError(t("portes.p3.err.commune")); return; }
     setStep("submitting");
     try {
-      const title = `MOD ${SECTIONS.find(s => s.id === section)?.label} — ${selectedCategory?.label} — ${identity.commune}`;
+      const title = t("portes.p3.recap.title_label", {
+        section: sectionLabel,
+        category: selectedCategory?.label ?? "",
+        commune: identity.commune,
+      });
       const res = await fetch(`${apiBase()}/p2/intake`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -191,31 +191,30 @@ export default function P3Home() {
         }),
       });
       const data = await res.json();
-      if (!data.ok) throw new Error(data.message || "Erreur soumission");
+      if (!data.ok) throw new Error(data.message || t("portes.p3.err.submit"));
       if (data.access_token) { try { localStorage.setItem("citurbarea.token", data.access_token); } catch {} }
       setDossierId(data.dossierId);
       setStep("success");
     } catch (e: any) { setError(e.message); setStep("identity"); }
   };
 
-  if (step === "submitting") return <div style={S.loader}>⏳ Calcul en cours…</div>;
+  if (step === "submitting") return <div style={S.loader}>{t("portes.p3.loader.calc")}</div>;
 
   if (step === "success") {
     return (
       <div style={S.root}>
         <div style={S.successWrap}>
           <div style={S.successIcon}>✅</div>
-          <div style={S.successTitle}>Demande MOD enregistrée</div>
+          <div style={S.successTitle}>{t("portes.p3.recap.success_title")}</div>
           <div style={S.successSub}>
-            Pack <strong>P3 — Maîtrise d'Ouvrage Déléguée</strong>.<br/>
-            Vous recevez sous 24h le contrat MOD à signer + lien de paiement de l'acompte démarrage.<br/>
-            Notre équipe convoque ensuite les intervenants ({selectedCorps.size} corps de métier sélectionnés).<br/><br/>
-            <span style={{ color: "#6b7280", fontSize: 12 }}>Ref dossier : {dossierId?.slice(0, 12)}…</span>
+            <span dangerouslySetInnerHTML={{ __html: t("portes.p3.recap.success_body", { n: selectedCorps.size }) }} />
+            <br/><br/>
+            <span style={{ color: "#6b7280", fontSize: 12 }}>{t("portes.p3.recap.ref_dossier")} {dossierId?.slice(0, 12)}…</span>
           </div>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href={`/payment/start?dossier=${dossierId}`} style={{ background: "#dc2626", color: "#fff", padding: "12px 24px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>💳 Payer l'acompte</a>
-            <a href="/portal" style={{ background: "#1d4ed8", color: "#fff", padding: "12px 24px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>📁 Mes dossiers</a>
-            <a href="/" style={{ color: "#9ca3af", textDecoration: "none", fontSize: 13, fontWeight: 600, padding: "12px 16px" }}>← Accueil</a>
+            <a href={`/payment/start?dossier=${dossierId}`} style={{ background: "#dc2626", color: "#fff", padding: "12px 24px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>{t("portes.p3.recap.pay_acompte")}</a>
+            <a href="/portal" style={{ background: "#1d4ed8", color: "#fff", padding: "12px 24px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>{t("portes.p3.recap.my_dossiers")}</a>
+            <a href="/" style={{ color: "#9ca3af", textDecoration: "none", fontSize: 13, fontWeight: 600, padding: "12px 16px" }}>{t("portes.p3.recap.home")}</a>
           </div>
         </div>
       </div>
@@ -230,16 +229,16 @@ export default function P3Home() {
     return (
       <div style={S.root}>
         <div style={S.hero}>
-          <div style={S.badge}>PORTE P3 — {t("p3.home_title").toUpperCase()}</div>
+          <div style={S.badge}>{t("portes.p3.title_prefix")} — {t("p3.home_title").toUpperCase()}</div>
           <div style={S.title}>{t("p3.home_title")}</div>
           <div style={S.sub}>{t("p3.home_subtitle")}</div>
         </div>
         <div style={S.grid}>
-          {SECTIONS.map(s => (
-            <div key={s.id} style={cardStyle(false)} onClick={() => { setSection(s.id); setStep("category"); }}>
-              <div style={S.cardIcon}>{s.icon}</div>
-              <div style={S.cardTitle}>{s.label}</div>
-              <div style={S.cardDesc}>{s.desc}</div>
+          {SECTION_IDS.map(id => (
+            <div key={id} style={cardStyle(false)} onClick={() => { setSection(id); setStep("category"); }}>
+              <div style={S.cardIcon}>{t(`portes.p3.section.${id}.icon`)}</div>
+              <div style={S.cardTitle}>{t(`portes.p3.section.${id}.label`)}</div>
+              <div style={S.cardDesc}>{t(`portes.p3.section.${id}.desc`)}</div>
             </div>
           ))}
         </div>
@@ -251,10 +250,10 @@ export default function P3Home() {
     return (
       <div style={S.root}>
         <div style={S.wrap}>
-          <button style={S.btnBack} onClick={() => setStep("section")}>← Changer de section</button>
+          <button style={S.btnBack} onClick={() => setStep("section")}>{t("portes.p3.change_section")}</button>
           <Stepper />
-          <div style={S.formTitle}>Catégorie de projet</div>
-          <div style={S.formSub}>Section : <strong>{SECTIONS.find(s => s.id === section)?.label}</strong>. Le coût de construction provient du barème CNOA 2021.</div>
+          <div style={S.formTitle}>{t("portes.p3.category.title")}</div>
+          <div style={S.formSub} dangerouslySetInnerHTML={{ __html: t("portes.p3.category.sub", { section: `<strong>${sectionLabel}</strong>` }) }} />
           {categories.map(c => (
             <div key={c.code} style={{ ...S.catRow, ...(categoryCode === c.code ? S.catRowActive : {}) }} onClick={() => { setCategoryCode(c.code); setStep("measures"); }}>
               <div style={{ flex: 1 }}>
@@ -273,28 +272,28 @@ export default function P3Home() {
     return (
       <div style={S.root}>
         <div style={S.wrap}>
-          <button style={S.btnBack} onClick={() => setStep("category")}>← Retour</button>
+          <button style={S.btnBack} onClick={() => setStep("category")}>{t("portes.p3.back")}</button>
           <Stepper />
-          <div style={S.formTitle}>Dimensions du projet</div>
+          <div style={S.formTitle}>{t("portes.p3.measures.title")}</div>
           <div style={S.formSub}>{selectedCategory?.label}</div>
           {section === "GR" ? (
             <div style={S.row2}>
               <div>
-                <label style={S.label}>Surface plancher / bâtiment (m²)</label>
-                <input type="number" style={S.inp} value={surfacePlancher} onChange={e => setSurfacePlancher(e.target.value)} placeholder="800" />
+                <label style={S.label}>{t("portes.p3.measures.surface_per_bldg")}</label>
+                <input type="number" style={S.inp} value={surfacePlancher} onChange={e => setSurfacePlancher(e.target.value)} placeholder={t("portes.p3.measures.surface_per_bldg_ph")} />
               </div>
               <div>
-                <label style={S.label}>Nombre de bâtiments</label>
-                <input type="number" min={1} style={S.inp} value={nbBatiments} onChange={e => setNbBatiments(e.target.value)} placeholder="3" />
+                <label style={S.label}>{t("portes.p3.measures.nb_bldg")}</label>
+                <input type="number" min={1} style={S.inp} value={nbBatiments} onChange={e => setNbBatiments(e.target.value)} placeholder={t("portes.p3.measures.nb_bldg_ph")} />
               </div>
             </div>
           ) : (
             <>
-              <label style={S.label}>Surface plancher totale (m²)</label>
-              <input type="number" style={S.inp} value={surfacePlancher} onChange={e => setSurfacePlancher(e.target.value)} placeholder="350" />
+              <label style={S.label}>{t("portes.p3.measures.surface_total")}</label>
+              <input type="number" style={S.inp} value={surfacePlancher} onChange={e => setSurfacePlancher(e.target.value)} placeholder={t("portes.p3.measures.surface_ph")} />
             </>
           )}
-          <button style={S.btn} onClick={() => setStep("corps")}>Suivant : corps de métiers →</button>
+          <button style={S.btn} onClick={() => setStep("corps")}>{t("portes.p3.measures.next_corps")}</button>
         </div>
       </div>
     );
@@ -305,10 +304,10 @@ export default function P3Home() {
     return (
       <div style={S.root}>
         <div style={S.wrap}>
-          <button style={S.btnBack} onClick={() => setStep("measures")}>← Retour</button>
+          <button style={S.btnBack} onClick={() => setStep("measures")}>{t("portes.p3.back_measures")}</button>
           <Stepper />
-          <div style={S.formTitle}>{t("p3.corps_metiers_title")}</div>
-          <div style={S.formSub}>{t("p3.corps_metiers_sub")} <strong>{selectedCorps.size} / {totalCorps}</strong></div>
+          <div style={S.formTitle}>{t("portes.p3.corps.title")}</div>
+          <div style={S.formSub} dangerouslySetInnerHTML={{ __html: t("portes.p3.corps.progress", { n: `<strong>${selectedCorps.size}</strong>`, total: `<strong>${totalCorps}</strong>` }) }} />
           {error && <div style={S.err}>⚠ {error}</div>}
 
           {corpsGroupes.map(g => (
@@ -320,14 +319,14 @@ export default function P3Home() {
                   <span style={{ flex: 1 }}>
                     {c.lotNumero && <span style={{ color: "#6b7280", marginRight: 6 }}>[{c.lotNumero}]</span>}
                     {c.label}
-                    {c.obligatoireQualification && <span style={{ color: "#fcd34d", fontSize: 10, marginLeft: 6 }}>⚠ qualif. requise</span>}
+                    {c.obligatoireQualification && <span style={{ color: "#fcd34d", fontSize: 10, marginLeft: 6 }}>{t("portes.p3.corps.qualif_required")}</span>}
                   </span>
                 </label>
               ))}
             </div>
           ))}
 
-          <button style={S.btn} onClick={computeQuote}>{t("wizard.compute_quote")} →</button>
+          <button style={S.btn} onClick={computeQuote}>{t("portes.p3.corps.compute_btn")}</button>
         </div>
       </div>
     );
@@ -337,10 +336,10 @@ export default function P3Home() {
     return (
       <div style={S.root}>
         <div style={S.wrap}>
-          <button style={S.btnBack} onClick={() => setStep("corps")}>← Modifier</button>
+          <button style={S.btnBack} onClick={() => setStep("corps")}>{t("portes.p3.modify")}</button>
           <Stepper />
-          <div style={S.formTitle}>Devis MOD</div>
-          <div style={S.formSub}>10% du coût de réalisation hors honoraires architecte et autres frais externes.</div>
+          <div style={S.formTitle}>{t("portes.p3.quote.title")}</div>
+          <div style={S.formSub}>{t("portes.p3.quote.sub")}</div>
 
           <div style={S.quoteWrap}>
             <div style={S.quoteHead}>
@@ -352,23 +351,23 @@ export default function P3Home() {
               </div>
               <div style={{ textAlign: "right" }}>
                 <div style={S.quoteAmount}>{fmtMAD(quote.honoraires.totalTTC)}</div>
-                <div style={S.quoteAmountSub}>TTC honoraires P3</div>
+                <div style={S.quoteAmountSub}>{t("portes.p3.quote.ttc")}</div>
               </div>
             </div>
 
-            <div style={S.quoteRow}><span style={S.quoteRowKey}>Coût de réalisation estimé</span><span style={S.quoteRowVal}>{fmtMAD(quote.base.coutRealisation)}</span></div>
-            <div style={S.quoteRow}><span style={S.quoteRowKey}>Honoraires HT (10%)</span><span style={S.quoteRowVal}>{fmtMAD(quote.honoraires.totalHT)}</span></div>
-            <div style={S.quoteRow}><span style={S.quoteRowKey}>TVA 20%</span><span style={S.quoteRowVal}>{fmtMAD(quote.honoraires.tva)}</span></div>
+            <div style={S.quoteRow}><span style={S.quoteRowKey}>{t("portes.p3.quote.cost_realisation")}</span><span style={S.quoteRowVal}>{fmtMAD(quote.base.coutRealisation)}</span></div>
+            <div style={S.quoteRow}><span style={S.quoteRowKey}>{t("portes.p3.quote.honoraires_10")}</span><span style={S.quoteRowVal}>{fmtMAD(quote.honoraires.totalHT)}</span></div>
+            <div style={S.quoteRow}><span style={S.quoteRowKey}>{t("portes.p3.quote.tva_20")}</span><span style={S.quoteRowVal}>{fmtMAD(quote.honoraires.tva)}</span></div>
 
             <div style={{ marginTop: 18 }}>
-              <div style={{ ...S.quoteRowKey, fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Services inclus</div>
+              <div style={{ ...S.quoteRowKey, fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>{t("portes.p3.quote.services_included")}</div>
               {quote.services.map((s, i) => (
                 <div key={i} style={{ color: "#cbd5e1", fontSize: 13, padding: "4px 0" }}>✓ {s}</div>
               ))}
             </div>
 
             <div style={S.noteBox}>
-              <strong>🔒 {t("p3.escrow_notice")} :</strong> {quote.escrow.notice}
+              <strong>{t("portes.p3.quote.escrow_label")}</strong> {quote.escrow.notice}
             </div>
 
             <div style={{ marginTop: 14, color: "#6b7280", fontSize: 11, lineHeight: 1.6 }}>
@@ -376,11 +375,11 @@ export default function P3Home() {
             </div>
 
             <div style={{ marginTop: 14, color: "#9ca3af", fontSize: 12 }}>
-              <strong>{selectedCorps.size}</strong> corps de métier sélectionnés pour coordination.
+              {t("portes.p3.quote.coordination_count", { n: selectedCorps.size })}
             </div>
           </div>
 
-          <button style={S.btn} onClick={() => setStep("identity")}>Continuer : identité MO →</button>
+          <button style={S.btn} onClick={() => setStep("identity")}>{t("portes.p3.quote.continue_identity")}</button>
         </div>
       </div>
     );
@@ -392,32 +391,32 @@ export default function P3Home() {
     return (
       <div style={S.root}>
         <div style={S.wrap}>
-          <button style={S.btnBack} onClick={() => setStep("quote")}>← Retour devis</button>
+          <button style={S.btnBack} onClick={() => setStep("quote")}>{t("portes.p3.back_quote")}</button>
           <Stepper />
-          <div style={S.formTitle}>Identité Maître d'Ouvrage</div>
-          <div style={S.formSub}>Le contrat MOD sera établi à votre nom.</div>
+          <div style={S.formTitle}>{t("portes.p3.identity.title")}</div>
+          <div style={S.formSub}>{t("portes.p3.identity.sub")}</div>
           {error && <div style={S.err}>⚠ {error}</div>}
 
           <div style={S.row2}>
-            <div><label style={S.label}>Nom complet *</label><input style={S.inp} value={identity.clientNom} onChange={f("clientNom")} placeholder="Prénom Nom" /></div>
-            <div><label style={S.label}>Téléphone *</label><input style={S.inp} value={identity.clientTel} onChange={f("clientTel")} placeholder="+212 6XX XXX XXX" /></div>
+            <div><label style={S.label}>{t("portes.p3.identity.fullname")}</label><input style={S.inp} value={identity.clientNom} onChange={f("clientNom")} placeholder={t("portes.p3.identity.fullname_ph")} /></div>
+            <div><label style={S.label}>{t("portes.p3.identity.phone")}</label><input style={S.inp} value={identity.clientTel} onChange={f("clientTel")} placeholder={t("portes.p3.identity.phone_ph")} /></div>
           </div>
-          <label style={S.label}>Email</label>
-          <input style={S.inp} value={identity.clientEmail} onChange={f("clientEmail")} placeholder="vous@exemple.ma" />
+          <label style={S.label}>{t("portes.p3.identity.email")}</label>
+          <input style={S.inp} value={identity.clientEmail} onChange={f("clientEmail")} placeholder={t("portes.p3.identity.email_ph")} />
           <div style={S.row2}>
-            <div><label style={S.label}>Raison sociale</label><input style={S.inp} value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder="—" /></div>
-            <div><label style={S.label}>Représentant légal</label><input style={S.inp} value={identity.representant} onChange={f("representant")} placeholder="—" /></div>
+            <div><label style={S.label}>{t("portes.p3.identity.raison")}</label><input style={S.inp} value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
+            <div><label style={S.label}>{t("portes.p3.identity.representant")}</label><input style={S.inp} value={identity.representant} onChange={f("representant")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
           </div>
           <div style={S.row2}>
-            <div><label style={S.label}>RC</label><input style={S.inp} value={identity.rc} onChange={f("rc")} placeholder="—" /></div>
-            <div><label style={S.label}>ICE</label><input style={S.inp} value={identity.ice} onChange={f("ice")} placeholder="—" /></div>
+            <div><label style={S.label}>{t("portes.p3.identity.rc")}</label><input style={S.inp} value={identity.rc} onChange={f("rc")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
+            <div><label style={S.label}>{t("portes.p3.identity.ice")}</label><input style={S.inp} value={identity.ice} onChange={f("ice")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
           </div>
-          <label style={S.label}>Commune *</label>
-          <input style={S.inp} value={identity.commune} onChange={e => setIdentity({...identity, commune: e.target.value})} placeholder="Kénitra" />
-          <label style={S.label}>Nature du projet</label>
-          <input style={S.inp} value={identity.natureProjet} onChange={e => setIdentity({...identity, natureProjet: e.target.value})} placeholder="Construction neuve / extension…" />
+          <label style={S.label}>{t("portes.p3.identity.commune")}</label>
+          <input style={S.inp} value={identity.commune} onChange={e => setIdentity({...identity, commune: e.target.value})} placeholder={t("portes.p3.identity.commune_ph")} />
+          <label style={S.label}>{t("portes.p3.identity.nature")}</label>
+          <input style={S.inp} value={identity.natureProjet} onChange={e => setIdentity({...identity, natureProjet: e.target.value})} placeholder={t("portes.p3.identity.nature_ph")} />
 
-          <button style={S.btn} onClick={submit}>{t("wizard.submit")} →</button>
+          <button style={S.btn} onClick={submit}>{t("portes.p3.identity.submit")}</button>
         </div>
       </div>
     );

@@ -10,6 +10,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { apiFetch } from "../../tomes/tome4/apiClient";
+import { useT } from "../../i18n/i18n";
 
 type ProjectTypeItem = { code: string; label: string; description?: string; lotsCount: number };
 type CpsLotResult = { code: string; numero: number | null; intitule: string; obligatoire: boolean; present: boolean; articlesCount: number };
@@ -24,6 +25,7 @@ type CartItem = { key: string; materialCode: string; materialLabel: string; unit
 const fmt = (n: number) => new Intl.NumberFormat("fr-MA").format(Math.round(n));
 
 export default function CpsGeneratorPage() {
+  const t = useT();
   const [types, setTypes] = useState<ProjectTypeItem[]>([]);
   const [code, setCode] = useState("");
   const [projectName, setProjectName] = useState("");
@@ -51,19 +53,19 @@ export default function CpsGeneratorPage() {
   useEffect(() => {
     apiFetch<{ items: ProjectTypeItem[] }>(`/api/cps/project-types?lang=${lang}`)
       .then((r) => { setTypes(r.items); if (r.items[0] && !code) setCode(r.items[0].code); })
-      .catch((e: any) => setErr(e?.message || "Erreur de chargement"));
+      .catch((e: any) => setErr(e?.message || t("portes.cps.err.load")));
   }, [lang]);
 
-  const selected = useMemo(() => types.find((t) => t.code === code) || null, [types, code]);
+  const selected = useMemo(() => types.find((ti) => ti.code === code) || null, [types, code]);
   const genBody = () => ({ projectTypeCode: code, projectName: projectName.trim(), projectAddress: address.trim() || undefined, zoneSismique: zone.trim() || undefined, lang, marketType });
 
   async function generate() {
-    if (!code || !projectName.trim()) { setErr("Type de projet et nom du projet requis."); return; }
+    if (!code || !projectName.trim()) { setErr(t("portes.cps.err.required")); return; }
     setErr(null); setLoading(true); setPriced(null); setPosteMatches({}); setOpenPoste(null);
     try {
       const r = await apiFetch<CpsDocument>("/api/cps/generate", { method: "POST", body: genBody() });
       setDoc(r);
-    } catch (e: any) { setErr(e?.message || "Échec de la génération"); }
+    } catch (e: any) { setErr(e?.message || t("portes.cps.err.generate")); }
     finally { setLoading(false); }
   }
 
@@ -73,7 +75,7 @@ export default function CpsGeneratorPage() {
     try {
       const r = await apiFetch<{ bordereau: PricedRow[] }>("/api/cps/bordereau-chiffre", { method: "POST", body: genBody() });
       setPriced(r.bordereau);
-    } catch (e: any) { setErr(e?.message || "Échec du chiffrage"); }
+    } catch (e: any) { setErr(e?.message || t("portes.cps.err.pricing")); }
     finally { setPricing(false); }
   }
 
@@ -110,8 +112,8 @@ export default function CpsGeneratorPage() {
   const orderable = cart.filter((i) => i.supplierUserId);
 
   async function passerCommande() {
-    if (!dossierId.trim()) { setOrderMsg("Renseignez un identifiant de dossier pour commander."); return; }
-    if (!orderable.length) { setOrderMsg("Aucun article commandable (offre fournisseur sous contrat) dans le devis."); return; }
+    if (!dossierId.trim()) { setOrderMsg(t("portes.cps.recap.order_no_dossier")); return; }
+    if (!orderable.length) { setOrderMsg(t("portes.cps.recap.order_none")); return; }
     setOrdering(true); setOrderMsg(null);
     try {
       // Une commande par fournisseur
@@ -129,9 +131,9 @@ export default function CpsGeneratorPage() {
         });
         n++;
       }
-      setOrderMsg(`✅ ${n} commande(s) créée(s) sur le dossier ${dossierId.trim()}.`);
+      setOrderMsg(t("portes.cps.recap.order_success", { n, ref: dossierId.trim() }));
       setCart((c) => c.filter((i) => !i.supplierUserId));
-    } catch (e: any) { setOrderMsg(e?.message || "Échec de la commande"); }
+    } catch (e: any) { setOrderMsg(e?.message || t("portes.cps.recap.order_failed")); }
     finally { setOrdering(false); }
   }
 
@@ -148,40 +150,38 @@ export default function CpsGeneratorPage() {
 
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto", padding: "24px 16px" }}>
-      <div style={{ fontSize: 12, color: "#C9A227", letterSpacing: "0.18em", textTransform: "uppercase" }}>CITURBAREA · CPS</div>
-      <h1 style={{ margin: "4px 0 0", fontSize: 26, fontWeight: 800, color: "#0B1B3A" }}>Générateur de CPS + Marketplace</h1>
+      <div style={{ fontSize: 12, color: "#C9A227", letterSpacing: "0.18em", textTransform: "uppercase" }}>{t("portes.cps.eyebrow")}</div>
+      <h1 style={{ margin: "4px 0 0", fontSize: 26, fontWeight: 800, color: "#0B1B3A" }}>{t("portes.cps.title")}</h1>
       <p style={{ fontSize: 14, color: "rgba(11,27,58,0.6)", marginTop: 6, maxWidth: 680 }}>
-        CPS pré-codé trilingue (RPS 2011 / RTCM, clauses légales DOC, assurances loi 59-13). Depuis chaque poste
-        du bordereau : recherchez des matériaux existants dans la marketplace, voyez les prix « suivant CPS »,
-        constituez un devis et passez commande.
+        {t("portes.cps.subtitle")}
       </p>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12, marginTop: 20 }}>
-        <Field label="Type de projet"><select value={code} onChange={(e) => setCode(e.target.value)} style={inputStyle}>{types.map((t) => (<option key={t.code} value={t.code}>{t.label}</option>))}</select></Field>
-        <Field label="Nom du projet"><input value={projectName} onChange={(e) => setProjectName(e.target.value)} placeholder="Villa M. Alaoui" style={inputStyle} /></Field>
-        <Field label="Adresse / commune"><input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Casablanca" style={inputStyle} /></Field>
-        <Field label="Zone sismique (RPS)"><input value={zone} onChange={(e) => setZone(e.target.value)} placeholder="Z2" style={inputStyle} /></Field>
-        <Field label="Langue / اللغة / Language"><select value={lang} onChange={(e) => setLang(e.target.value as any)} style={inputStyle}><option value="fr">Français</option><option value="ar">العربية</option><option value="en">English</option></select></Field>
-        <Field label="Type de marché"><select value={marketType} onChange={(e) => setMarketType(e.target.value as any)} style={inputStyle}><option value="PRIVE">Privé</option><option value="PUBLIC">Public (CCAG-T)</option></select></Field>
+        <Field label={t("portes.cps.field.project_type")}><select value={code} onChange={(e) => setCode(e.target.value)} style={inputStyle}>{types.map((ti) => (<option key={ti.code} value={ti.code}>{ti.label}</option>))}</select></Field>
+        <Field label={t("portes.cps.field.project_name")}><input value={projectName} onChange={(e) => setProjectName(e.target.value)} placeholder={t("portes.cps.field.project_name_ph")} style={inputStyle} /></Field>
+        <Field label={t("portes.cps.field.address")}><input value={address} onChange={(e) => setAddress(e.target.value)} placeholder={t("portes.cps.field.address_ph")} style={inputStyle} /></Field>
+        <Field label={t("portes.cps.field.zone")}><input value={zone} onChange={(e) => setZone(e.target.value)} placeholder={t("portes.cps.field.zone_ph")} style={inputStyle} /></Field>
+        <Field label={t("portes.cps.field.lang")}><select value={lang} onChange={(e) => setLang(e.target.value as any)} style={inputStyle}><option value="fr">{t("portes.cps.field.lang.fr")}</option><option value="ar">{t("portes.cps.field.lang.ar")}</option><option value="en">{t("portes.cps.field.lang.en")}</option></select></Field>
+        <Field label={t("portes.cps.field.market")}><select value={marketType} onChange={(e) => setMarketType(e.target.value as any)} style={inputStyle}><option value="PRIVE">{t("portes.cps.field.market.prive")}</option><option value="PUBLIC">{t("portes.cps.field.market.public")}</option></select></Field>
       </div>
 
       {selected?.description && <p style={{ fontSize: 13, color: "rgba(11,27,58,0.55)", marginTop: 10 }}>{selected.description}</p>}
       {err && <div style={{ background: "#fee2e2", color: "#991b1b", padding: 10, borderRadius: 8, marginTop: 12 }}>{err}</div>}
 
       <div style={{ display: "flex", gap: 10, marginTop: 16, flexWrap: "wrap" }}>
-        <button onClick={generate} disabled={loading} style={{ ...btnStyle, background: "#0B1B3A", opacity: loading ? 0.6 : 1 }}>{loading ? "Génération…" : "Générer le CPS"}</button>
-        {doc && <button onClick={chiffrer} disabled={pricing} style={{ ...btnStyle, background: "#16a34a", opacity: pricing ? 0.6 : 1 }}>{pricing ? "Chiffrage…" : "Chiffrer le bordereau"}</button>}
-        {doc && <button onClick={printDoc} style={{ ...btnStyle, background: "#C9A227" }}>Imprimer / PDF</button>}
+        <button onClick={generate} disabled={loading} style={{ ...btnStyle, background: "#0B1B3A", opacity: loading ? 0.6 : 1 }}>{loading ? t("portes.cps.btn.generating") : t("portes.cps.btn.generate")}</button>
+        {doc && <button onClick={chiffrer} disabled={pricing} style={{ ...btnStyle, background: "#16a34a", opacity: pricing ? 0.6 : 1 }}>{pricing ? t("portes.cps.btn.pricing") : t("portes.cps.btn.price")}</button>}
+        {doc && <button onClick={printDoc} style={{ ...btnStyle, background: "#C9A227" }}>{t("portes.cps.btn.print")}</button>}
       </div>
 
       {doc && (
         <div style={{ marginTop: 24 }}>
           <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 12, padding: 16, marginBottom: 16 }}>
-            <div style={{ fontWeight: 800, color: "#0B1B3A", fontSize: 15 }}>{doc.lots.length} lots · {presentCount} détaillés · {doc.bordereau.length} postes au bordereau</div>
+            <div style={{ fontWeight: 800, color: "#0B1B3A", fontSize: 15 }}>{t("portes.cps.recap.summary", { lots: doc.lots.length, present: presentCount, postes: doc.bordereau.length })}</div>
           </div>
 
           {/* Bordereau interactif */}
-          <h2 style={{ fontSize: 18, fontWeight: 800, color: "#0B1B3A" }}>Bordereau → Marketplace</h2>
+          <h2 style={{ fontSize: 18, fontWeight: 800, color: "#0B1B3A" }}>{t("portes.cps.recap.bordereau_title")}</h2>
           <div style={{ border: "1px solid #e2e8f0", borderRadius: 12, overflow: "hidden", marginTop: 8 }}>
             <div style={{ maxHeight: 520, overflowY: "auto" }}>
               {rows.map((r) => (
@@ -197,8 +197,8 @@ export default function CpsGeneratorPage() {
                   </div>
                   {openPoste === r.code && (
                     <div style={{ padding: "0 12px 12px 56px", background: "#fbfdff" }}>
-                      {matchLoading === r.code && <div style={{ fontSize: 12.5, color: "#64748b", padding: 8 }}>Recherche…</div>}
-                      {posteMatches[r.code] && posteMatches[r.code].length === 0 && <div style={{ fontSize: 12.5, color: "#94a3b8", padding: 8 }}>Aucun matériau similaire trouvé.</div>}
+                      {matchLoading === r.code && <div style={{ fontSize: 12.5, color: "#64748b", padding: 8 }}>{t("portes.cps.recap.searching")}</div>}
+                      {posteMatches[r.code] && posteMatches[r.code].length === 0 && <div style={{ fontSize: 12.5, color: "#94a3b8", padding: 8 }}>{t("portes.cps.recap.no_matches")}</div>}
                       {(posteMatches[r.code] ?? []).map((m, i) => (
                         <div key={m.code + i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "7px 0", borderTop: i ? "1px dashed #e2e8f0" : 0, flexWrap: "wrap" }}>
                           <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 7px", borderRadius: 999, background: m.source === "MARKETPLACE" ? "#dbeafe" : "#f1f5f9", color: m.source === "MARKETPLACE" ? "#1e40af" : "#475569" }}>{m.source === "MARKETPLACE" ? "Marketplace" : "Catalogue"}</span>

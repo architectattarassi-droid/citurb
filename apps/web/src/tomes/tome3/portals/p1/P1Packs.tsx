@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../../tome5/AuthProvider";
+import { useT } from "../../../../i18n/i18n";
 import { createDossier, type Qualification } from "./dossier.store";
 import type { ProjectType } from "../../../../domain/p1/types";
 import { readP1Draft } from "../../../../application/p1/startQualification";
@@ -29,6 +30,7 @@ import { quoteLocal } from "../../../../domain/p1/quote.engine";
 type P1Data = any;
 
 export default function P1Packs() {
+  const t = useT();
   const auth = useAuth();
   const [params] = useSearchParams();
   const [truthOk, setTruthOk] = React.useState(false);
@@ -140,7 +142,7 @@ export default function P1Packs() {
           qA = quoteLocal(mkInput("AVANCE", addRemoteFollow));
           qC = quoteLocal(mkInput("COMPLET", false));
         } catch (e2: any) {
-          if (!cancelled) { setQuoteMap(null); setQuoteErr(e2?.message || "Erreur de calcul."); }
+          if (!cancelled) { setQuoteMap(null); setQuoteErr(e2?.message || t("portes.p1.packs.sim.calc_error")); }
           return;
         }
       }
@@ -179,17 +181,17 @@ export default function P1Packs() {
     const phone = (phoneForCode || "").trim();
     if (unlockChannel === "email") {
 			if (!email || !email.includes("@")) {
-				setUnlockMsg("Veuillez renseigner un email valide pour recevoir le code.");
+				setUnlockMsg(t("portes.p1.packs.unlock.msg.email_invalid"));
 				return;
 			}
     } else {
       if (!phone || phone.length < 8) {
-        setUnlockMsg("Veuillez renseigner un numéro valide (format international recommandé, ex: +212...).");
+        setUnlockMsg(t("portes.p1.packs.unlock.msg.phone_invalid"));
         return;
       }
     }
     setBusy(true);
-    setUnlockMsg(unlockChannel === "email" ? "Envoi du code de confirmation par email..." : "Envoi du code de confirmation par SMS...");
+    setUnlockMsg(unlockChannel === "email" ? t("portes.p1.packs.unlock.msg.sending_email") : t("portes.p1.packs.unlock.msg.sending_sms"));
     setDevCode(null);
     try {
       const ts = Date.now();
@@ -212,7 +214,7 @@ export default function P1Packs() {
           },
           pricing: {
             pack,
-            packLabel: pack === "ESSENTIEL" ? "Pack Essentiel" : pack === "AVANCE" ? "Pack Avancé" : "Pack Complet",
+            packLabel: pack === "ESSENTIEL" ? t("portes.p1.packs.card.essentiel.badge") : pack === "AVANCE" ? t("portes.p1.packs.card.avance.badge") : t("portes.p1.packs.card.complet.badge"),
             packMAD: q?.amounts?.packMAD ?? null,
             remoteFollowMAD: q?.amounts?.remoteFollowMAD ?? null,
             betMAD: q?.amounts?.betMAD ?? null,
@@ -235,19 +237,19 @@ export default function P1Packs() {
 			}) : await requestP1PacksSmsCode({ caseId, phone });
 
 			if (!res?.ok) {
-				setUnlockMsg(res?.message || "Action impossible.");
+				setUnlockMsg(res?.message || t("portes.p1.packs.unlock.msg.action_impossible"));
 				return;
 			}
 
       setCodeRequested(true);
       setUnlockMsg(
         unlockChannel === "email"
-          ? `Code envoyé. Vérifiez votre email puis saisissez le code (valable ~${Math.round(res.expiresInSec / 60)} min).`
-          : `Code envoyé. Vérifiez vos SMS puis saisissez le code (valable ~${Math.round(res.expiresInSec / 60)} min).`
+          ? t("portes.p1.packs.unlock.msg.sent_email", { min: Math.round(res.expiresInSec / 60) })
+          : t("portes.p1.packs.unlock.msg.sent_sms", { min: Math.round(res.expiresInSec / 60) })
       );
 			if (res.devCode) setDevCode(res.devCode);
     } catch (e: any) {
-      setUnlockMsg(e?.message ? `Erreur: ${e.message}` : "Erreur lors de l'envoi du code.");
+      setUnlockMsg(e?.message ? `${t("portes.p1.packs.unlock.msg.error_prefix")} ${e.message}` : t("portes.p1.packs.unlock.msg.send_error"));
     } finally {
       setBusy(false);
     }
@@ -258,24 +260,24 @@ export default function P1Packs() {
 		if (!auth.userId && !caseId) return;
     const code = (emailCode || "").trim();
     if (code.length < 4) {
-      setUnlockMsg("Code invalide.");
+      setUnlockMsg(t("portes.p1.packs.unlock.msg.code_invalid"));
       return;
     }
     setBusy(true);
-    setUnlockMsg("Vérification du code...");
+    setUnlockMsg(t("portes.p1.packs.unlock.msg.verifying"));
     try {
 			const r: any = unlockChannel === "email"
 				? await verifyP1PacksEmailCode(code, caseId)
 				: await verifyP1PacksSmsCode(code, caseId);
 			if (!r?.ok) {
-				setUnlockMsg(r?.message || "Code incorrect ou expiré.");
+				setUnlockMsg(r?.message || t("portes.p1.packs.unlock.msg.code_wrong"));
 				return;
 			}
 			unlockPacks(auth.userId || `case:${caseId}`, Date.now());
-      setUnlockMsg("Confirmation validée. Les packs sont maintenant disponibles.");
+      setUnlockMsg(t("portes.p1.packs.unlock.msg.validated"));
       setTimeout(() => packsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
     } catch (e: any) {
-      setUnlockMsg(e?.message ? `Erreur: ${e.message}` : "Code incorrect ou expiré.");
+      setUnlockMsg(e?.message ? `${t("portes.p1.packs.unlock.msg.error_prefix")} ${e.message}` : t("portes.p1.packs.unlock.msg.code_wrong"));
     } finally {
       setBusy(false);
     }
@@ -320,10 +322,10 @@ export default function P1Packs() {
     };
 
     const offerTitle = pack === "type"
-      ? "Pack Entrée — Plan type"
+      ? t("portes.p1.packs.offer.type")
       : pack === "custom"
-        ? "Pack Le plus choisi — Plan personnalisé"
-        : "Pack Premium — Sur devis";
+        ? t("portes.p1.packs.offer.custom")
+        : t("portes.p1.packs.offer.premium");
 
     // Case (append-only)
     const caseId = params.get("case") || createCase(userId, data as any).caseId;
@@ -391,11 +393,11 @@ export default function P1Packs() {
 
 
   const projectLabel = (() => {
-    if (!data?.type) return "projet qualifié";
-    if (data.type === "villa") return "Villa — Signature Architecte";
-    if (data.type === "immeuble") return `Immeuble (R+) ${data.rLevel ? `— ${data.rLevel}` : ""}`.trim();
-    if (data.type === "renovation") return "Rénovation & Décoration";
-    return "projet qualifié";
+    if (!data?.type) return t("portes.p1.packs.project.qualified");
+    if (data.type === "villa") return t("portes.p1.packs.project.villa");
+    if (data.type === "immeuble") return t("portes.p1.packs.project.immeuble", { level: data.rLevel ? `— ${data.rLevel}` : "" }).trim();
+    if (data.type === "renovation") return t("portes.p1.packs.project.renovation");
+    return t("portes.p1.packs.project.qualified");
   })();
 
   return (
@@ -503,15 +505,20 @@ export default function P1Packs() {
       <div className="p1-wrap">
         <div className="topRow">
           <div>
-            <div className="badge">Offres réservées membres — non publiques</div>
+            <div className="badge">{t("portes.p1.packs.badge.members")}</div>
             <div style={{ marginTop: 14 }} className="title">
-              Vos offres — {projectLabel}
+              {t("portes.p1.packs.title", { project: projectLabel })}
             </div>
             <div className="sub">
               {isMember ? (
-                <>Bienvenue{displayNameSafe ? <> <b>{displayNameSafe}</b></> : ""}. Voici vos packs disponibles selon votre qualification.</>
+                displayNameSafe
+                  ? (() => {
+                      const parts = t("portes.p1.packs.welcome.member", { name: "__NAME__" }).split("__NAME__");
+                      return <>{parts[0]}<b>{displayNameSafe}</b>{parts[1]}</>;
+                    })()
+                  : <>{t("portes.p1.packs.welcome.member_anon")}</>
               ) : (
-                <>Ces offres s’affichent uniquement après qualification.</>
+                <>{t("portes.p1.packs.welcome.guest")}</>
               )}
             </div>
           </div>
@@ -519,27 +526,27 @@ export default function P1Packs() {
 
         {/* Fiche qualification (compact) */}
         <div style={{ marginTop: 18 }} className="card">
-          <div className="lux" style={{ fontSize: 18, marginBottom: 12 }}>Fiche projet (qualification)</div>
+          <div className="lux" style={{ fontSize: 18, marginBottom: 12 }}>{t("portes.p1.packs.qual.title")}</div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 14 }}>
             <div className="muted" style={{ fontSize: 13, lineHeight: 1.7 }}>
-              <div><b>Demandeur :</b> {displayNameSafe || "—"}</div>
-              <div><b>Personne :</b> {String((data as any)?.personType || "—")}</div>
-              <div><b>Situation juridique :</b> {String((data as any)?.legalSituation || "—")}</div>
+              <div><b>{t("portes.p1.packs.qual.requester")} :</b> {displayNameSafe || t("portes.p1.packs.qual.dash")}</div>
+              <div><b>{t("portes.p1.packs.qual.person")} :</b> {String((data as any)?.personType || t("portes.p1.packs.qual.dash"))}</div>
+              <div><b>{t("portes.p1.packs.qual.legal")} :</b> {String((data as any)?.legalSituation || t("portes.p1.packs.qual.dash"))}</div>
             </div>
 
             <div className="muted" style={{ fontSize: 13, lineHeight: 1.7 }}>
-              <div><b>Projet :</b> {(data as any)?.type || (data as any)?.projectType || "—"}</div>
-              <div><b>Mode :</b> {(data as any)?.planMode || "—"}</div>
-              <div><b>Ville :</b> {(data as any)?.city || (data as any)?.commune || (data as any)?.province || "—"}</div>
-              <div><b>Surface :</b> {derived.surfaceM2 ?? "—"} m²</div>
-              <div><b>Niveau :</b> {constructionLevel}</div>
+              <div><b>{t("portes.p1.packs.qual.project")} :</b> {(data as any)?.type || (data as any)?.projectType || t("portes.p1.packs.qual.dash")}</div>
+              <div><b>{t("portes.p1.packs.qual.mode")} :</b> {(data as any)?.planMode || t("portes.p1.packs.qual.dash")}</div>
+              <div><b>{t("portes.p1.packs.qual.city")} :</b> {(data as any)?.city || (data as any)?.commune || (data as any)?.province || t("portes.p1.packs.qual.dash")}</div>
+              <div><b>{t("portes.p1.packs.qual.surface")} :</b> {derived.surfaceM2 ?? t("portes.p1.packs.qual.dash")} m²</div>
+              <div><b>{t("portes.p1.packs.qual.level")} :</b> {constructionLevel}</div>
             </div>
           </div>
 
           <div style={{ marginTop: 14, padding: 14, borderRadius: 14, background: "rgba(201,162,39,0.10)", border: "1px solid rgba(201,162,39,0.25)" }}>
             <div className="lux" style={{ fontSize: 14 }}>
-              Pack recommandé : <b>{rec.recommended === "custom" ? "Le plus choisi (personnalisé)" : rec.recommended === "premium" ? "Premium" : "Entrée (plan type)"}</b>
+              {t("portes.p1.packs.rec.prefix")} <b>{rec.recommended === "custom" ? t("portes.p1.packs.rec.custom") : rec.recommended === "premium" ? t("portes.p1.packs.rec.premium") : t("portes.p1.packs.rec.type")}</b>
             </div>
             <ul style={{ margin: "8px 0 0", paddingLeft: 18, fontSize: 12, color: "rgba(11,18,32,0.72)" }}>
               {rec.reasons.slice(0, 3).map((r, i) => <li key={i}>{r}</li>)}
@@ -549,52 +556,51 @@ export default function P1Packs() {
 
         <div className="divider" />
 
-	        {!packsVisible && (<> 
+	        {!packsVisible && (<>
           <div className="card" style={{ marginTop: 18 }}>
-            <div className="lux" style={{ fontSize: 18, marginBottom: 10 }}>Avant d’afficher les packs</div>
+            <div className="lux" style={{ fontSize: 18, marginBottom: 10 }}>{t("portes.p1.packs.unlock.title")}</div>
             <div className="muted" style={{ fontSize: 13, lineHeight: 1.7 }}>
-              Estimation sommaire. Le budget peut évoluer après étude détaillée (besoins, contraintes techniques, options).
-              Cette page ne constitue pas un devis d’architecte et ne peut faire foi contractuellement.
+              {t("portes.p1.packs.unlock.intro")}
             </div>
             <div style={{ marginTop: 14, display: "grid", gap: 10 }}>
               <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
                 <input type="checkbox" checked={truthOk} onChange={(e) => setTruthOk(e.target.checked)} style={{ marginTop: 3 }} />
-                Je confirme la véracité des données fournies.
+                {t("portes.p1.packs.unlock.truth")}
               </label>
               <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
                 <input type="checkbox" checked={termsOk} onChange={(e) => setTermsOk(e.target.checked)} style={{ marginTop: 3 }} />
-                J’accepte les conditions d’utilisation de la plateforme.
+                {t("portes.p1.packs.unlock.terms")}
               </label>
 	              <div style={{ display: "grid", gap: 6 }}>
-	                <div className="muted" style={{ fontSize: 12 }}>Canal de confirmation</div>
+	                <div className="muted" style={{ fontSize: 12 }}>{t("portes.p1.packs.unlock.channel")}</div>
                   <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                     <label style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
                       <input type="radio" checked={unlockChannel === "email"} onChange={() => setUnlockChannel("email")} />
-                      Email
+                      {t("portes.p1.packs.unlock.email_label")}
                     </label>
                     <label style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
                       <input type="radio" checked={unlockChannel === "sms"} onChange={() => setUnlockChannel("sms")} />
-                      SMS
+                      {t("portes.p1.packs.unlock.sms_label")}
                     </label>
                   </div>
 	              </div>
 	              {unlockChannel === "email" ? (
 	                <div style={{ display: "grid", gap: 6 }}>
-	                  <div className="muted" style={{ fontSize: 12 }}>Email de confirmation (réception du code)</div>
+	                  <div className="muted" style={{ fontSize: 12 }}>{t("portes.p1.packs.unlock.email_field")}</div>
 	                  <input
 	                    value={emailForCode}
 	                    onChange={(e) => setEmailForCode(e.target.value)}
-	                    placeholder="ex: nom@domaine.com"
+	                    placeholder={t("portes.p1.packs.unlock.email_placeholder")}
 	                    style={{ padding: "10px 12px", borderRadius: 12, border: "1px solid rgba(15,23,42,0.18)", fontSize: 14 }}
 	                  />
 	                </div>
 	              ) : (
 	                <div style={{ display: "grid", gap: 6 }}>
-	                  <div className="muted" style={{ fontSize: 12 }}>Téléphone (réception du code)</div>
+	                  <div className="muted" style={{ fontSize: 12 }}>{t("portes.p1.packs.unlock.phone_field")}</div>
 	                  <input
 	                    value={phoneForCode}
 	                    onChange={(e) => setPhoneForCode(e.target.value)}
-	                    placeholder="ex: +212700127892"
+	                    placeholder={t("portes.p1.packs.unlock.phone_placeholder")}
 	                    style={{ padding: "10px 12px", borderRadius: 12, border: "1px solid rgba(15,23,42,0.18)", fontSize: 14 }}
 	                  />
 	                </div>
@@ -610,26 +616,26 @@ export default function P1Packs() {
                 disabled={!truthOk || !termsOk}
                 style={{ opacity: (!truthOk || !termsOk) ? 0.55 : 1.0 }}
               >
-                {busy ? "..." : (unlockChannel === "email" ? "Recevoir le code email" : "Recevoir le code SMS")}
+                {busy ? t("portes.p1.packs.unlock.cta_busy") : (unlockChannel === "email" ? t("portes.p1.packs.unlock.cta_email") : t("portes.p1.packs.unlock.cta_sms"))}
               </button>
-              <Link className="link" to="/p1" style={{ alignSelf: "center" }}>Modifier mes informations</Link>
+              <Link className="link" to="/p1" style={{ alignSelf: "center" }}>{t("portes.p1.packs.unlock.edit_info")}</Link>
             </div>
 
             {codeRequested && (
               <div style={{ marginTop: 14, display: "grid", gap: 10 }}>
                 <div className="muted" style={{ fontSize: 13, lineHeight: 1.6 }}>
-                  Saisissez le code reçu par {unlockChannel === "email" ? "email" : "SMS"}.
+                  {unlockChannel === "email" ? t("portes.p1.packs.unlock.code_prompt_email") : t("portes.p1.packs.unlock.code_prompt_sms")}
                   {devCode ? (
                     <>
                       <br />
-                      <span style={{ fontWeight: 900 }}>DEV:</span> code = <span style={{ fontWeight: 900 }}>{devCode}</span>
+                      <span style={{ fontWeight: 900 }}>{t("portes.p1.packs.unlock.code_dev")}</span> <span style={{ fontWeight: 900 }}>{devCode}</span>
                     </>
                   ) : null}
                 </div>
                 <input
                   value={emailCode}
                   onChange={(e) => setEmailCode(e.target.value)}
-                  placeholder="Code (ex: 482913)"
+                  placeholder={t("portes.p1.packs.unlock.code_placeholder")}
                   style={{
                     padding: "12px 14px",
                     borderRadius: 12,
@@ -640,7 +646,7 @@ export default function P1Packs() {
                   }}
                 />
                 <button className="btn btn-gold" type="button" onClick={doVerifyCode} disabled={busy}>
-                  {busy ? "..." : "Valider le code & afficher les packs"}
+                  {busy ? t("portes.p1.packs.unlock.cta_busy") : t("portes.p1.packs.unlock.verify_cta")}
                 </button>
 		          </div>
 		        )}
@@ -651,28 +657,28 @@ export default function P1Packs() {
         {packsVisible && (
           <>
             <div ref={packsRef} className="card" style={{ marginTop: 18 }}>
-              <div className="lux" style={{ fontSize: 18, marginBottom: 10 }}>Simulation (comparaison instantanée)</div>
+              <div className="lux" style={{ fontSize: 18, marginBottom: 10 }}>{t("portes.p1.packs.sim.title")}</div>
               <div className="muted" style={{ fontSize: 13, lineHeight: 1.7 }}>
-                Vous cochez / décochez les services — le prix s’ajuste immédiatement. La plateforme n’affiche pas la méthode de calcul, uniquement les montants.
+                {t("portes.p1.packs.sim.intro")}
               </div>
 
               <div style={{ marginTop: 14, display: "grid", gap: 12, gridTemplateColumns: "repeat(2, minmax(0, 1fr))" }}>
                 <label style={{ display: "grid", gap: 6, fontSize: 13, fontWeight: 800, color: "rgba(11,18,32,0.78)" }}>
-                  Niveau de construction
+                  {t("portes.p1.packs.sim.level")}
                   <select value={constructionLevel} onChange={(e) => setConstructionLevel(e.target.value as any)} style={{ padding: "10px 12px", borderRadius: 12, border: "1px solid rgba(11,18,32,0.16)" }}>
-                    <option value="ECONOMIQUE">Économique</option>
-                    <option value="STANDING">Standing</option>
-                    <option value="HAUT_STANDING">Haut standing</option>
-                    <option value="PREMIUM">Premium</option>
-                    <option value="BLACK">Black</option>
+                    <option value="ECONOMIQUE">{t("portes.p1.packs.sim.level.economique")}</option>
+                    <option value="STANDING">{t("portes.p1.packs.sim.level.standing")}</option>
+                    <option value="HAUT_STANDING">{t("portes.p1.packs.sim.level.haut_standing")}</option>
+                    <option value="PREMIUM">{t("portes.p1.packs.sim.level.premium")}</option>
+                    <option value="BLACK">{t("portes.p1.packs.sim.level.black")}</option>
                   </select>
                 </label>
 
                 <label style={{ display: "grid", gap: 6, fontSize: 13, fontWeight: 800, color: "rgba(11,18,32,0.78)" }}>
-                  BET
+                  {t("portes.p1.packs.sim.bet")}
                   <select value={betMode} onChange={(e) => setBetMode(e.target.value as any)} style={{ padding: "10px 12px", borderRadius: 12, border: "1px solid rgba(11,18,32,0.16)" }}>
-                    <option value="PLATFORM">BET via la plateforme</option>
-                    <option value="EXTERNAL">J’ai déjà mon BET</option>
+                    <option value="PLATFORM">{t("portes.p1.packs.sim.bet.platform")}</option>
+                    <option value="EXTERNAL">{t("portes.p1.packs.sim.bet.external")}</option>
                   </select>
                 </label>
               </div>
@@ -681,23 +687,23 @@ export default function P1Packs() {
                 {isVilla && (
                   <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
                     <input type="checkbox" checked={hasBasement} onChange={(e) => setHasBasement(e.target.checked)} style={{ marginTop: 3 }} />
-                    Sous-sol (impacte le budget estimatif et donc le prix des packs pour villas)
+                    {t("portes.p1.packs.sim.basement")}
                   </label>
                 )}
 
                 <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
                   <input type="checkbox" checked={addRemoteFollow} onChange={(e) => setAddRemoteFollow(e.target.checked)} style={{ marginTop: 3 }} disabled={pack === "COMPLET"} />
-                  Suivi à distance (photos/rapports) — option disponible pour Plan type / Plan personnalisé.
+                  {t("portes.p1.packs.sim.remote_follow")}
                 </label>
 
                 <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
                   <input type="checkbox" checked={decoEnabled} onChange={(e) => setDecoEnabled(e.target.checked)} style={{ marginTop: 3 }} />
-                  Décoration intérieure (service séparé)
+                  {t("portes.p1.packs.sim.deco")}
                 </label>
 
                 <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
                   <input type="checkbox" checked={modEnabled} onChange={(e) => setModEnabled(e.target.checked)} style={{ marginTop: 3 }} />
-                  Maîtrise d’ouvrage déléguée (MOD) — validation des paiements via rapports (architecte/BET + photos)
+                  {t("portes.p1.packs.sim.mod")}
                 </label>
 
                 <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13, opacity: ((quoteMap as any)?.[pack]?.meta?.mandateEntrepriseAllowed) ? 1 : 0.55 }}>
@@ -708,7 +714,7 @@ export default function P1Packs() {
                     style={{ marginTop: 3 }}
                     disabled={!((quoteMap as any)?.[pack]?.meta?.mandateEntrepriseAllowed)}
                   />
-                  Mandater une entreprise via la plateforme (nécessite dossier d’exécution + CPS et BET plateforme)
+                  {t("portes.p1.packs.sim.mandate")}
                 </label>
               </div>
 
@@ -720,7 +726,7 @@ export default function P1Packs() {
 
               {!!(quoteMap as any)?.[pack]?.notes?.length && (
                 <div style={{ marginTop: 12, padding: 12, borderRadius: 14, border: "1px solid rgba(11,18,32,0.14)", background: "rgba(11,18,32,0.03)", fontSize: 12 }}>
-                  <div style={{ fontWeight: 900, marginBottom: 6 }}>Notes</div>
+                  <div style={{ fontWeight: 900, marginBottom: 6 }}>{t("portes.p1.packs.sim.notes")}</div>
                   <ul style={{ margin: 0, paddingLeft: 18 }}>
                     {(quoteMap as any)[pack].notes.slice(0, 4).map((n: string, i: number) => <li key={i}>{n}</li>)}
                   </ul>
@@ -730,62 +736,62 @@ export default function P1Packs() {
 
             <div className="grid3" style={{ marginTop: 18 }}>
               <div className={`card ${pack === "ESSENTIEL" ? "featured" : ""}`}>
-                <div className="badge">Pack Essentiel</div>
-                <div className="lux" style={{ marginTop: 12, fontSize: 19 }}>Plan type + autorisation</div>
+                <div className="badge">{t("portes.p1.packs.card.essentiel.badge")}</div>
+                <div className="lux" style={{ marginTop: 12, fontSize: 19 }}>{t("portes.p1.packs.card.essentiel.lux")}</div>
                 <div className="muted" style={{ marginTop: 8, fontSize: 13, lineHeight: 1.6 }}>
-                  Offre standardisée. Cadre prédéfini (pas d’itérations majeures).
+                  {t("portes.p1.packs.card.essentiel.desc")}
                 </div>
                 <div className="priceRow">
-                  <span style={{ fontSize: 13, fontWeight: 800 }}>Total</span>
+                  <span style={{ fontSize: 13, fontWeight: 800 }}>{t("portes.p1.packs.card.total")}</span>
                   <span className="amt">{formatMAD((quoteMap as any)?.ESSENTIEL?.amounts?.totalMADRounded)}</span>
-                  <span style={{ fontSize: 13, fontWeight: 800 }}>MAD</span>
+                  <span style={{ fontSize: 13, fontWeight: 800 }}>{t("portes.p1.packs.card.currency")}</span>
                 </div>
-                <button className="btn btn-dark" type="button" onClick={() => setPack("ESSENTIEL")}>Comparer ce pack →</button>
+                <button className="btn btn-dark" type="button" onClick={() => setPack("ESSENTIEL")}>{t("portes.p1.packs.card.compare")}</button>
               </div>
 
               <div className={`card ${pack === "AVANCE" ? "featured" : ""}`}>
-                <div className="badge">Le plus choisi</div>
-                <div className="lux" style={{ marginTop: 12, fontSize: 19 }}>Plan personnalisé + autorisation</div>
+                <div className="badge">{t("portes.p1.packs.card.avance.badge")}</div>
+                <div className="lux" style={{ marginTop: 12, fontSize: 19 }}>{t("portes.p1.packs.card.avance.lux")}</div>
                 <div className="muted" style={{ marginTop: 8, fontSize: 13, lineHeight: 1.6 }}>
-                  Plan sur‑mesure. Révisions cadrées. Prépare la suite (exécution + chantier).
+                  {t("portes.p1.packs.card.avance.desc")}
                 </div>
                 <div className="priceRow">
-                  <span style={{ fontSize: 13, fontWeight: 800 }}>Total</span>
+                  <span style={{ fontSize: 13, fontWeight: 800 }}>{t("portes.p1.packs.card.total")}</span>
                   <span className="amt">{formatMAD((quoteMap as any)?.AVANCE?.amounts?.totalMADRounded)}</span>
-                  <span style={{ fontSize: 13, fontWeight: 800 }}>MAD</span>
+                  <span style={{ fontSize: 13, fontWeight: 800 }}>{t("portes.p1.packs.card.currency")}</span>
                 </div>
-                <button className="btn btn-gold" type="button" onClick={() => setPack("AVANCE")}>Comparer ce pack →</button>
+                <button className="btn btn-gold" type="button" onClick={() => setPack("AVANCE")}>{t("portes.p1.packs.card.compare")}</button>
               </div>
 
               <div className={`card ${pack === "COMPLET" ? "featured" : ""}`}>
-                <div className="badge">Pack Complet</div>
-                <div className="lux" style={{ marginTop: 12, fontSize: 19 }}>Plan personnalisé + chantier + exécution/CPS</div>
+                <div className="badge">{t("portes.p1.packs.card.complet.badge")}</div>
+                <div className="lux" style={{ marginTop: 12, fontSize: 19 }}>{t("portes.p1.packs.card.complet.lux")}</div>
                 <div className="muted" style={{ marginTop: 8, fontSize: 13, lineHeight: 1.6 }}>
-                  Suivi réel sur chantier + dossier d’exécution + CPS. Option BET plateforme et modules chantier.
+                  {t("portes.p1.packs.card.complet.desc")}
                 </div>
                 <div className="priceRow">
-                  <span style={{ fontSize: 13, fontWeight: 800 }}>Total</span>
+                  <span style={{ fontSize: 13, fontWeight: 800 }}>{t("portes.p1.packs.card.total")}</span>
                   <span className="amt">{formatMAD((quoteMap as any)?.COMPLET?.amounts?.totalMADRounded)}</span>
-                  <span style={{ fontSize: 13, fontWeight: 800 }}>MAD</span>
+                  <span style={{ fontSize: 13, fontWeight: 800 }}>{t("portes.p1.packs.card.currency")}</span>
                 </div>
-                <button className="btn btn-dark" type="button" onClick={() => setPack("COMPLET")}>Comparer ce pack →</button>
+                <button className="btn btn-dark" type="button" onClick={() => setPack("COMPLET")}>{t("portes.p1.packs.card.compare")}</button>
               </div>
             </div>
 
             <div className="card" style={{ marginTop: 18 }}>
-              <div className="lux" style={{ fontSize: 16, marginBottom: 10 }}>Détail des montants (pack sélectionné)</div>
+              <div className="lux" style={{ fontSize: 16, marginBottom: 10 }}>{t("portes.p1.packs.detail.title")}</div>
               <div style={{ display: "grid", gap: 10, fontSize: 13, lineHeight: 1.7, color: "rgba(11,18,32,0.75)" }}>
-                <div><b>Pack :</b> {formatMAD((quoteMap as any)?.[pack]?.amounts?.packMAD)} MAD</div>
-                <div><b>Suivi à distance :</b> {formatMAD((quoteMap as any)?.[pack]?.amounts?.remoteFollowMAD)} MAD</div>
-                <div><b>BET :</b> {formatMAD((quoteMap as any)?.[pack]?.amounts?.betMAD)} MAD</div>
-                <div><b>MOD :</b> {formatMAD((quoteMap as any)?.[pack]?.amounts?.modMAD)} MAD</div>
-                <div><b>Décoration :</b> {formatMAD((quoteMap as any)?.[pack]?.amounts?.decoMAD)} MAD</div>
+                <div><b>{t("portes.p1.packs.detail.pack")}</b> {formatMAD((quoteMap as any)?.[pack]?.amounts?.packMAD)} {t("portes.p1.packs.card.currency")}</div>
+                <div><b>{t("portes.p1.packs.detail.remote_follow")}</b> {formatMAD((quoteMap as any)?.[pack]?.amounts?.remoteFollowMAD)} {t("portes.p1.packs.card.currency")}</div>
+                <div><b>{t("portes.p1.packs.detail.bet")}</b> {formatMAD((quoteMap as any)?.[pack]?.amounts?.betMAD)} {t("portes.p1.packs.card.currency")}</div>
+                <div><b>{t("portes.p1.packs.detail.mod")}</b> {formatMAD((quoteMap as any)?.[pack]?.amounts?.modMAD)} {t("portes.p1.packs.card.currency")}</div>
+                <div><b>{t("portes.p1.packs.detail.deco")}</b> {formatMAD((quoteMap as any)?.[pack]?.amounts?.decoMAD)} {t("portes.p1.packs.card.currency")}</div>
                 <div style={{ paddingTop: 6, borderTop: "1px solid rgba(11,18,32,0.10)" }}>
-                  <b>Total :</b> {formatMAD((quoteMap as any)?.[pack]?.amounts?.totalMADRounded)} MAD
+                  <b>{t("portes.p1.packs.detail.total")}</b> {formatMAD((quoteMap as any)?.[pack]?.amounts?.totalMADRounded)} {t("portes.p1.packs.card.currency")}
                 </div>
               </div>
               <div className="muted" style={{ fontSize: 12, marginTop: 10 }}>
-                Après confirmation email, vous pourrez sélectionner le pack et générer votre dossier.
+                {t("portes.p1.packs.detail.note")}
               </div>
               <div style={{ marginTop: 14, display: "flex", gap: 12, flexWrap: "wrap" }}>
                 <button
@@ -793,7 +799,7 @@ export default function P1Packs() {
                   type="button"
                   onClick={() => choose(pack === "ESSENTIEL" ? "type" : pack === "AVANCE" ? "custom" : "premium")}
                 >
-                  Continuer avec ce pack →
+                  {t("portes.p1.packs.detail.continue")}
                 </button>
               </div>
             </div>
@@ -802,25 +808,23 @@ export default function P1Packs() {
 
         <div className="divider" />
 
-        <div className="lux" style={{ fontSize: 18, marginBottom: 12 }}>FAQ — Transparence & périmètre</div>
+        <div className="lux" style={{ fontSize: 18, marginBottom: 12 }}>{t("portes.p1.packs.faq.title")}</div>
 
         <div style={{ display: "grid", gap: 24, gridTemplateColumns: "repeat(2, minmax(0, 1fr))" }}>
           <div style={{ border: "1px solid var(--line)", borderRadius: 16, padding: "14px 16px", background: "rgba(255,255,255,0.78)" }}>
-            <div style={{ fontWeight: 900, color: "var(--royal)", marginBottom: 8 }}>🔵 Pourquoi le prix bouge quand je coche ?</div>
+            <div style={{ fontWeight: 900, color: "var(--royal)", marginBottom: 8 }}>{t("portes.p1.packs.faq.q1")}</div>
             <div style={{ fontSize: 13, lineHeight: 1.8, color: "rgba(11,18,32,0.72)" }}>
-              Parce que chaque option ajoute un périmètre réel (technique, suivi, validation, production documentaire).
-              Vous voyez uniquement les montants, pas les paramètres internes.
+              {t("portes.p1.packs.faq.a1")}
             </div>
           </div>
 
           <div style={{ border: "1px solid var(--line)", borderRadius: 16, padding: "14px 16px", background: "rgba(255,255,255,0.78)" }}>
-            <div style={{ fontWeight: 900, color: "var(--royal)", marginBottom: 8 }}>🟡 BET / MOD / Entreprise</div>
+            <div style={{ fontWeight: 900, color: "var(--royal)", marginBottom: 8 }}>{t("portes.p1.packs.faq.q2")}</div>
             <div style={{ fontSize: 13, lineHeight: 1.8, color: "rgba(11,18,32,0.72)" }}>
-              Le BET peut être fourni par la plateforme ou par vous.
-              La MOD et le mandat entreprise activent un flux chantier plus structuré (rapports, validation des paiements, traçabilité).
+              {t("portes.p1.packs.faq.a2")}
             </div>
             <div style={{ fontSize: 12, color: "rgba(11,18,32,0.55)", marginTop: 10 }}>
-              Paiements via plateforme: frais de gestion 5% sur chaque situation.
+              {t("portes.p1.packs.faq.fees")}
             </div>
           </div>
         </div>

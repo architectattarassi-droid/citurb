@@ -60,5 +60,18 @@
   "footer.terms": "Terms of use",
   "footer.privacy": "Privacy",
   "footer.made_in_morocco": "Made in Morocco",
-  "footer.version": "Version"
+  "footer.version": "Version",
+
+  "common.payment.aria": "Payments summary",
+  "common.payment.title": "Payments",
+  "common.payment.pct_label": "{pct}% settled",
+  "common.payment.kpi_total": "Total",
+  "common.payment.kpi_paid": "Paid",
+  "common.payment.kpi_due": "Outstanding",
+  "common.payment.schedule_title": "Schedule",
+  "common.payment.due_prefix": "Due:",
+  "common.payment.status_paid": "Paid",
+  "common.payment.status_due": "Due",
+  "common.payment.currency": "MAD",
+  "common.payment.no_date": "—"
 }

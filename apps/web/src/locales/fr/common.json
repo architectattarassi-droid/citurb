@@ -60,5 +60,18 @@
   "footer.terms": "Conditions d'utilisation",
   "footer.privacy": "Confidentialité",
   "footer.made_in_morocco": "Conçu au Maroc",
-  "footer.version": "Version"
+  "footer.version": "Version",
+
+  "common.payment.aria": "Synthèse paiements",
+  "common.payment.title": "Paiements",
+  "common.payment.pct_label": "{pct}% réglé",
+  "common.payment.kpi_total": "Total",
+  "common.payment.kpi_paid": "Versé",
+  "common.payment.kpi_due": "À régler",
+  "common.payment.schedule_title": "Échéancier",
+  "common.payment.due_prefix": "Échéance :",
+  "common.payment.status_paid": "Payé",
+  "common.payment.status_due": "Dû",
+  "common.payment.currency": "MAD",
+  "common.payment.no_date": "—"
 }

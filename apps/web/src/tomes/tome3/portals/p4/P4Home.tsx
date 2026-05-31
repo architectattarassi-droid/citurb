@@ -117,8 +117,8 @@ export default function P4Home() {
   useEffect(() => {
     fetch(`${apiBase()}/p4/packs`).then(r => r.json())
       .then(d => { if (d.ok) setPacks(d.items); })
-      .catch(() => setError("Erreur chargement"));
-  }, []);
+      .catch(() => setError(t("portes.p4.err.load")));
+  }, [t]);
 
   const stepIndex = ["pack", "foncier", "quote", "identity"].indexOf(step);
   const selectedPack = packs.find(p => p.code === pack);
@@ -126,7 +126,7 @@ export default function P4Home() {
   const compute = async () => {
     setError("");
     if (!foncier.prixVenteFoncierDH || +foncier.prixVenteFoncierDH <= 0) {
-      setError("Prix de vente du foncier requis (en DH).");
+      setError(t("portes.p4.err.prix_required"));
       return;
     }
     setStep("submitting");
@@ -137,7 +137,7 @@ export default function P4Home() {
         body: JSON.stringify({ pack, prixVenteFoncierDH: +foncier.prixVenteFoncierDH }),
       });
       const data = await res.json();
-      if (!data.ok) throw new Error(data.error || "Erreur");
+      if (!data.ok) throw new Error(data.error || t("portes.p4.err.generic"));
       setQuote(data);
       setStep("quote");
     } catch (e: any) {
@@ -149,12 +149,15 @@ export default function P4Home() {
   const submit = async () => {
     setError("");
     if (!identity.clientNom || !identity.clientTel) {
-      setError("Nom et téléphone obligatoires.");
+      setError(t("portes.p4.err.name_phone"));
       return;
     }
     setStep("submitting");
     try {
-      const title = `Analyse foncière ${selectedPack?.label} — ${foncier.commune || "—"}`;
+      const title = t("portes.p4.recap.title_label", {
+        label: selectedPack?.label ?? "",
+        commune: foncier.commune || "—",
+      });
       const res = await fetch(`${apiBase()}/p2/intake`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -183,7 +186,7 @@ export default function P4Home() {
         }),
       });
       const data = await res.json();
-      if (!data.ok) throw new Error(data.message || "Erreur soumission");
+      if (!data.ok) throw new Error(data.message || t("portes.p4.err.submit"));
       if (data.access_token) { try { localStorage.setItem("citurbarea.token", data.access_token); } catch {} }
       setDossierId(data.dossierId);
       setStep("success");
@@ -193,25 +196,28 @@ export default function P4Home() {
     }
   };
 
-  if (step === "submitting") return <div style={S.loader}>⏳ Calcul en cours…</div>;
+  if (step === "submitting") return <div style={S.loader}>{t("portes.p4.loader.calc")}</div>;
 
   if (step === "success") {
     return (
       <div style={S.root}>
         <div style={S.successWrap}>
           <div style={S.successIcon}>✅</div>
-          <div style={S.successTitle}>Demande d'analyse foncière enregistrée</div>
+          <div style={S.successTitle}>{t("portes.p4.recap.success_title")}</div>
           <div style={S.successSub}>
-            Pack <strong>{selectedPack?.label}</strong> — {fmtMAD(quote?.amounts.totalTTC)} TTC.<br/>
-            Vous recevez sous 24h le lien de paiement sécurisé.<br/>
-            Le rapport vous sera livré sous {quote?.meta.deliveryDays} jours ouvrables après paiement.<br/><br/>
-            <span style={{ color: "#fcd34d", fontSize: 12 }}>📄 Le rapport sera téléchargeable en PDF watermarké après confirmation du paiement.</span><br/>
-            <span style={{ color: "#6b7280", fontSize: 12 }}>Ref dossier : {dossierId?.slice(0, 12)}…</span>
+            <span dangerouslySetInnerHTML={{ __html: t("portes.p4.recap.success_body", {
+              label: selectedPack?.label ?? "",
+              amount: fmtMAD(quote?.amounts.totalTTC),
+              days: quote?.meta.deliveryDays ?? 0,
+            }) }} />
+            <br/><br/>
+            <span style={{ color: "#fcd34d", fontSize: 12 }}>{t("portes.p4.recap.watermark")}</span><br/>
+            <span style={{ color: "#6b7280", fontSize: 12 }}>{t("portes.p4.recap.ref_dossier")} {dossierId?.slice(0, 12)}…</span>
           </div>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href={`/payment/start?dossier=${dossierId}`} style={{ background: "#dc2626", color: "#fff", padding: "12px 24px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>💳 Payer maintenant</a>
-            <a href="/portal" style={{ background: "#1d4ed8", color: "#fff", padding: "12px 24px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>📁 Mes dossiers</a>
-            <a href="/" style={{ color: "#9ca3af", textDecoration: "none", fontSize: 13, fontWeight: 600, padding: "12px 16px" }}>← Accueil</a>
+            <a href={`/payment/start?dossier=${dossierId}`} style={{ background: "#dc2626", color: "#fff", padding: "12px 24px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>{t("portes.p4.recap.pay_now")}</a>
+            <a href="/portal" style={{ background: "#1d4ed8", color: "#fff", padding: "12px 24px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>{t("portes.p4.recap.my_dossiers")}</a>
+            <a href="/" style={{ color: "#9ca3af", textDecoration: "none", fontSize: 13, fontWeight: 600, padding: "12px 16px" }}>{t("portes.p4.recap.home")}</a>
           </div>
         </div>
       </div>
@@ -227,7 +233,7 @@ export default function P4Home() {
     return (
       <div style={S.root}>
         <div style={S.hero}>
-          <div style={S.badge}>PORTE P4 — {t("p4.home_title").toUpperCase()}</div>
+          <div style={S.badge}>{t("portes.p4.title_prefix")} — {t("p4.home_title").toUpperCase()}</div>
           <div style={S.title}>{t("p4.home_title")}</div>
           <div style={S.sub}>{t("p4.home_subtitle")}</div>
         </div>
@@ -238,14 +244,14 @@ export default function P4Home() {
               <div style={S.cardTitle}>{p.label}</div>
               <div style={S.cardDesc}>{p.shortDesc}</div>
               <div style={{ ...S.cardRate, color: COLORS[p.code], fontSize: 22 }}>{p.ratePct}</div>
-              <div style={{ color: "#6b7280", fontSize: 11 }}>du prix vente foncier · livraison {p.deliveryDays} j</div>
+              <div style={{ color: "#6b7280", fontSize: 11 }}>{t("portes.p4.from", { n: p.deliveryDays })}</div>
               <div style={{ marginTop: 10, fontSize: 11, color: "#cbd5e1" }}>
                 {p.deliverables.slice(0, 3).map((d, i) => <div key={i}>✓ {d}</div>)}
-                {p.deliverables.length > 3 && <div style={{ color: "#6b7280" }}>… +{p.deliverables.length - 3} livrables</div>}
+                {p.deliverables.length > 3 && <div style={{ color: "#6b7280" }}>{t("portes.p4.more_deliverables", { n: p.deliverables.length - 3 })}</div>}
               </div>
             </div>
           ))}
-          {packs.length === 0 && <div style={{ color: "#6b7280" }}>Chargement…</div>}
+          {packs.length === 0 && <div style={{ color: "#6b7280" }}>{t("portes.p4.loading_packs")}</div>}
         </div>
       </div>
     );
@@ -256,35 +262,35 @@ export default function P4Home() {
     return (
       <div style={S.root}>
         <div style={S.wrap}>
-          <button style={S.btnBack} onClick={() => setStep("pack")}>← Changer de pack</button>
+          <button style={S.btnBack} onClick={() => setStep("pack")}>{t("portes.p4.change_pack")}</button>
           <Stepper />
-          <div style={S.formTitle}>Informations sur le foncier</div>
-          <div style={S.formSub}>Pack sélectionné : <strong>{selectedPack?.label}</strong> ({selectedPack?.ratePct} du prix vente).</div>
+          <div style={S.formTitle}>{t("portes.p4.foncier.title")}</div>
+          <div style={S.formSub} dangerouslySetInnerHTML={{ __html: t("portes.p4.foncier.sub", { label: selectedPack?.label ?? "", rate: selectedPack?.ratePct ?? "" }) }} />
           {error && <div style={S.err}>⚠ {error}</div>}
 
           <div style={S.row2}>
             <div>
-              <label style={S.label}>Titre foncier (n°)</label>
-              <input style={S.inp} value={foncier.titreFoncierNum} onChange={e => setFoncier({...foncier, titreFoncierNum: e.target.value})} placeholder="12345/68" />
+              <label style={S.label}>{t("portes.p4.foncier.tf")}</label>
+              <input style={S.inp} value={foncier.titreFoncierNum} onChange={e => setFoncier({...foncier, titreFoncierNum: e.target.value})} placeholder={t("portes.p4.foncier.tf_ph")} />
             </div>
             <div>
-              <label style={S.label}>Surface terrain (m²)</label>
-              <input type="number" style={S.inp} value={foncier.surfaceTerrainM2} onChange={e => setFoncier({...foncier, surfaceTerrainM2: e.target.value})} placeholder="500" />
+              <label style={S.label}>{t("portes.p4.foncier.surface")}</label>
+              <input type="number" style={S.inp} value={foncier.surfaceTerrainM2} onChange={e => setFoncier({...foncier, surfaceTerrainM2: e.target.value})} placeholder={t("portes.p4.foncier.surface_ph")} />
             </div>
           </div>
-          <label style={S.label}>Commune *</label>
-          <input style={S.inp} value={foncier.commune} onChange={e => setFoncier({...foncier, commune: e.target.value})} placeholder="Kénitra" />
-          <label style={S.label}>Adresse précise / lieu-dit</label>
-          <input style={S.inp} value={foncier.adresse} onChange={e => setFoncier({...foncier, adresse: e.target.value})} placeholder="Quartier, bd, …" />
-          <label style={S.label}>Prix de vente / acquisition cible (DH) *</label>
-          <input type="number" style={S.inp} value={foncier.prixVenteFoncierDH} onChange={e => setFoncier({...foncier, prixVenteFoncierDH: e.target.value})} placeholder="2 500 000" />
+          <label style={S.label}>{t("portes.p4.foncier.commune")}</label>
+          <input style={S.inp} value={foncier.commune} onChange={e => setFoncier({...foncier, commune: e.target.value})} placeholder={t("portes.p4.foncier.commune_ph")} />
+          <label style={S.label}>{t("portes.p4.foncier.adresse")}</label>
+          <input style={S.inp} value={foncier.adresse} onChange={e => setFoncier({...foncier, adresse: e.target.value})} placeholder={t("portes.p4.foncier.adresse_ph")} />
+          <label style={S.label}>{t("portes.p4.foncier.prix")}</label>
+          <input type="number" style={S.inp} value={foncier.prixVenteFoncierDH} onChange={e => setFoncier({...foncier, prixVenteFoncierDH: e.target.value})} placeholder={t("portes.p4.foncier.prix_ph")} />
           <div style={{ color: "#6b7280", fontSize: 11, marginTop: -8, marginBottom: 14 }}>
-            Assiette de calcul des honoraires P4 : {selectedPack?.ratePct} de ce montant (plancher 3 000 DH HT).
+            {t("portes.p4.foncier.prix_help", { rate: selectedPack?.ratePct ?? "" })}
           </div>
-          <label style={S.label}>Nature d'usage prévue (si pack RENTABILITÉ)</label>
-          <input style={S.inp} value={foncier.natureUsagePrevu} onChange={e => setFoncier({...foncier, natureUsagePrevu: e.target.value})} placeholder="Résidentiel R+4, équipement, lotissement…" />
+          <label style={S.label}>{t("portes.p4.foncier.nature_usage")}</label>
+          <input style={S.inp} value={foncier.natureUsagePrevu} onChange={e => setFoncier({...foncier, natureUsagePrevu: e.target.value})} placeholder={t("portes.p4.foncier.nature_usage_ph")} />
 
-          <button style={S.btn} onClick={compute}>{t("wizard.compute_quote")} →</button>
+          <button style={S.btn} onClick={compute}>{t("portes.p4.foncier.compute_btn")}</button>
         </div>
       </div>
     );
@@ -295,40 +301,40 @@ export default function P4Home() {
     return (
       <div style={S.root}>
         <div style={S.wrap}>
-          <button style={S.btnBack} onClick={() => setStep("foncier")}>← Modifier</button>
+          <button style={S.btnBack} onClick={() => setStep("foncier")}>{t("portes.p4.modify")}</button>
           <Stepper />
-          <div style={S.formTitle}>Devis analyse foncière</div>
-          <div style={S.formSub}>Honoraires forfaitaires en pourcentage du prix de vente / acquisition du foncier.</div>
+          <div style={S.formTitle}>{t("portes.p4.quote.title")}</div>
+          <div style={S.formSub}>{t("portes.p4.quote.sub")}</div>
 
           <div style={S.quoteWrap}>
             <div style={S.quoteHead}>
               <div>
                 <div style={S.quoteCat}>{quote.meta.packLabel}</div>
                 <div style={{ color: "#9ca3af", fontSize: 13, marginTop: 4 }}>
-                  {quote.meta.ratePct} de {fmtMAD(quote.base.prixVenteFoncierDH)} foncier · livraison {quote.meta.deliveryDays} j
+                  {t("portes.p4.quote.delivery", { rate: quote.meta.ratePct, price: fmtMAD(quote.base.prixVenteFoncierDH), n: quote.meta.deliveryDays })}
                 </div>
               </div>
               <div style={{ textAlign: "right" }}>
                 <div style={S.quoteAmount}>{fmtMAD(quote.amounts.totalTTC)}</div>
-                <div style={S.quoteAmountSub}>TTC honoraires P4</div>
+                <div style={S.quoteAmountSub}>{t("portes.p4.quote.ttc")}</div>
               </div>
             </div>
 
-            <div style={S.quoteRow}><span style={S.quoteRowKey}>Calcul brut ({quote.meta.ratePct})</span><span style={S.quoteRowVal}>{fmtMAD(quote.amounts.computedHT)}</span></div>
-            {quote.base.flooredApplied && <div style={S.quoteRow}><span style={S.quoteRowKey}>Plancher tarifaire</span><span style={S.quoteRowVal}>{fmtMAD(quote.base.floorHT)}</span></div>}
-            <div style={S.quoteRow}><span style={S.quoteRowKey}>Honoraires HT retenus</span><span style={S.quoteRowVal}>{fmtMAD(quote.amounts.totalHT)}</span></div>
-            <div style={S.quoteRow}><span style={S.quoteRowKey}>TVA 20%</span><span style={S.quoteRowVal}>{fmtMAD(quote.amounts.tva)}</span></div>
+            <div style={S.quoteRow}><span style={S.quoteRowKey}>{t("portes.p4.quote.calc_brut", { rate: quote.meta.ratePct })}</span><span style={S.quoteRowVal}>{fmtMAD(quote.amounts.computedHT)}</span></div>
+            {quote.base.flooredApplied && <div style={S.quoteRow}><span style={S.quoteRowKey}>{t("portes.p4.quote.floor")}</span><span style={S.quoteRowVal}>{fmtMAD(quote.base.floorHT)}</span></div>}
+            <div style={S.quoteRow}><span style={S.quoteRowKey}>{t("portes.p4.quote.honoraires_ht")}</span><span style={S.quoteRowVal}>{fmtMAD(quote.amounts.totalHT)}</span></div>
+            <div style={S.quoteRow}><span style={S.quoteRowKey}>{t("portes.p4.quote.tva_20")}</span><span style={S.quoteRowVal}>{fmtMAD(quote.amounts.tva)}</span></div>
 
             <div style={{ marginTop: 18 }}>
-              <div style={{ ...S.quoteRowKey, fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Livrables</div>
+              <div style={{ ...S.quoteRowKey, fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>{t("portes.p4.quote.deliverables")}</div>
               {quote.deliverables.map((d, i) => (
                 <div key={i} style={{ color: "#cbd5e1", fontSize: 13, padding: "4px 0" }}>{d}</div>
               ))}
             </div>
 
             <div style={S.noteBox}>
-              <strong>Modalités de paiement :</strong> {quote.payment.modalities}<br/><br/>
-              <strong>📄 Téléchargement & utilisation :</strong> {quote.payment.download}
+              <strong>{t("portes.p4.quote.modalities")}</strong> {quote.payment.modalities}<br/><br/>
+              <strong>{t("portes.p4.quote.download")}</strong> {quote.payment.download}
             </div>
 
             <div style={{ marginTop: 14, color: "#6b7280", fontSize: 11, lineHeight: 1.6 }}>
@@ -336,7 +342,7 @@ export default function P4Home() {
             </div>
           </div>
 
-          <button style={S.btn} onClick={() => setStep("identity")}>Continuer : identité →</button>
+          <button style={S.btn} onClick={() => setStep("identity")}>{t("portes.p4.quote.continue_identity")}</button>
         </div>
       </div>
     );
@@ -349,28 +355,28 @@ export default function P4Home() {
     return (
       <div style={S.root}>
         <div style={S.wrap}>
-          <button style={S.btnBack} onClick={() => setStep("quote")}>← Retour devis</button>
+          <button style={S.btnBack} onClick={() => setStep("quote")}>{t("portes.p4.back_quote")}</button>
           <Stepper />
-          <div style={S.formTitle}>Vos coordonnées</div>
-          <div style={S.formSub}>Pour vous transmettre le lien de paiement et le rapport.</div>
+          <div style={S.formTitle}>{t("portes.p4.identity.title")}</div>
+          <div style={S.formSub}>{t("portes.p4.identity.sub")}</div>
           {error && <div style={S.err}>⚠ {error}</div>}
 
           <div style={S.row2}>
             <div>
-              <label style={S.label}>Nom complet *</label>
-              <input style={S.inp} value={identity.clientNom} onChange={f("clientNom")} placeholder="Prénom Nom" />
+              <label style={S.label}>{t("portes.p4.identity.fullname")}</label>
+              <input style={S.inp} value={identity.clientNom} onChange={f("clientNom")} placeholder={t("portes.p4.identity.fullname_ph")} />
             </div>
             <div>
-              <label style={S.label}>Téléphone *</label>
-              <input style={S.inp} value={identity.clientTel} onChange={f("clientTel")} placeholder="+212 6XX XXX XXX" />
+              <label style={S.label}>{t("portes.p4.identity.phone")}</label>
+              <input style={S.inp} value={identity.clientTel} onChange={f("clientTel")} placeholder={t("portes.p4.identity.phone_ph")} />
             </div>
           </div>
-          <label style={S.label}>Email</label>
-          <input style={S.inp} value={identity.clientEmail} onChange={f("clientEmail")} placeholder="vous@exemple.ma" />
-          <label style={S.label}>Raison sociale (si entreprise)</label>
-          <input style={S.inp} value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder="—" />
+          <label style={S.label}>{t("portes.p4.identity.email")}</label>
+          <input style={S.inp} value={identity.clientEmail} onChange={f("clientEmail")} placeholder={t("portes.p4.identity.email_ph")} />
+          <label style={S.label}>{t("portes.p4.identity.raison")}</label>
+          <input style={S.inp} value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder={t("portes.p4.identity.raison_ph")} />
 
-          <button style={S.btn} onClick={submit}>{t("wizard.submit")} →</button>
+          <button style={S.btn} onClick={submit}>{t("portes.p4.identity.submit")}</button>
         </div>
       </div>
     );

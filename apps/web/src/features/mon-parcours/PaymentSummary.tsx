@@ -6,31 +6,35 @@
 
 import React from "react";
 import { PaymentsBlock } from "./mon-parcours.api";
+import { useT } from "../../i18n/i18n";
 
 interface Props {
   payments: PaymentsBlock;
 }
 
-function money(v: number): string {
-  return `${Number(v ?? 0).toLocaleString("fr-FR", {
-    maximumFractionDigits: 0,
-  })} MAD`;
-}
-
-function fmtDate(iso: string | null): string {
-  if (!iso) return "—";
-  try {
-    return new Date(iso).toLocaleDateString("fr-FR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  } catch {
-    return iso;
-  }
-}
-
 const PaymentSummary: React.FC<Props> = ({ payments }) => {
+  const t = useT();
+
+  const money = (v: number): string => {
+    const formatted = Number(v ?? 0).toLocaleString("fr-FR", {
+      maximumFractionDigits: 0,
+    });
+    return `${formatted} ${t("common.payment.currency")}`;
+  };
+
+  const fmtDate = (iso: string | null): string => {
+    if (!iso) return t("common.payment.no_date");
+    try {
+      return new Date(iso).toLocaleDateString("fr-FR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      });
+    } catch {
+      return iso;
+    }
+  };
+
   const total = Math.max(0, payments.totalContractMAD);
   const paid = Math.max(0, payments.paidMAD);
   const due = Math.max(0, payments.dueMAD);
@@ -38,22 +42,22 @@ const PaymentSummary: React.FC<Props> = ({ payments }) => {
 
   return (
     <section
-      aria-label="Synthèse paiements"
+      aria-label={t("common.payment.aria")}
       className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5"
     >
       <header className="mb-3 flex items-center justify-between">
         <h3 className="text-base font-semibold text-slate-900 sm:text-lg">
-          Paiements
+          {t("common.payment.title")}
         </h3>
         <span className="text-xs font-medium text-slate-500">
-          {pct}% réglé
+          {t("common.payment.pct_label", { pct })}
         </span>
       </header>
 
       <div className="grid grid-cols-3 gap-2 sm:gap-4">
-        <Kpi label="Total" value={money(total)} tone="navy" />
-        <Kpi label="Versé" value={money(paid)} tone="emerald" />
-        <Kpi label="À régler" value={money(due)} tone={due > 0 ? "amber" : "slate"} />
+        <Kpi label={t("common.payment.kpi_total")} value={money(total)} tone="navy" />
+        <Kpi label={t("common.payment.kpi_paid")} value={money(paid)} tone="emerald" />
+        <Kpi label={t("common.payment.kpi_due")} value={money(due)} tone={due > 0 ? "amber" : "slate"} />
       </div>
 
       <div className="mt-3 h-3 w-full overflow-hidden rounded-full bg-slate-100">
@@ -70,7 +74,7 @@ const PaymentSummary: React.FC<Props> = ({ payments }) => {
       {payments.schedule.length > 0 && (
         <div className="mt-4">
           <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
-            Échéancier
+            {t("common.payment.schedule_title")}
           </h4>
           <ul className="divide-y divide-slate-100">
             {payments.schedule.map((s, i) => (
@@ -83,7 +87,7 @@ const PaymentSummary: React.FC<Props> = ({ payments }) => {
                     {s.jalon}
                   </p>
                   <p className="text-xs text-slate-500">
-                    Échéance : {fmtDate(s.dueDate)}
+                    {t("common.payment.due_prefix")} {fmtDate(s.dueDate)}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -92,11 +96,11 @@ const PaymentSummary: React.FC<Props> = ({ payments }) => {
                   </span>
                   {s.paid ? (
                     <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
-                      Payé
+                      {t("common.payment.status_paid")}
                     </span>
                   ) : (
                     <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-900">
-                      Dû
+                      {t("common.payment.status_due")}
                     </span>
                   )}
                 </div>

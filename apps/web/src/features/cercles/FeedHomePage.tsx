@@ -18,17 +18,26 @@ import MediaEmbed, { extractUrls, isEmbeddable } from "./MediaEmbed";
 import InlineComments from "./InlineComments";
 import { SharePost } from "./SharePost";
 import { PostAttachments } from "./PostAttachments";
-import { useT } from "../../i18n/i18n";
+import { useT, useLang, type Lang } from "../../i18n/i18n";
 
-const METIER_LABELS: Record<string, string> = {
-  ARCHITECTE: "Architecte", BET_STRUCTURE: "BET Structure", BET_FLUIDES: "BET Fluides", BET_VRD: "BET VRD",
-  TOPOGRAPHE: "Topographe", GEOMETRE: "Géomètre", CONTROLE_TECHNIQUE: "Contrôle technique", LABORATOIRE: "Laboratoire",
-  ENTREPRISE_GO: "Entreprise GO", ENTREPRISE_SECOND_OEUVRE: "Second œuvre", FOURNISSEUR_MATERIAUX: "Fournisseur",
-  PROMOTEUR: "Promoteur", MOA_PUBLIQUE: "MOA publique", MOA_PRIVEE: "MOA privée", ARTISAN_QUALIFIE: "Artisan",
-};
+/** Traduit un code métier via les clés existantes cercles.edit_profile.metier.*. */
+function useMetierLabel() {
+  const t = useT();
+  return (code: string | null | undefined): string => {
+    if (!code) return "";
+    const key = `cercles.edit_profile.metier.${code}`;
+    const label = t(key);
+    // useT() renvoie la clé elle-même si la traduction est absente → fallback code brut.
+    return label === key ? code : label;
+  };
+}
+
+/** Map Lang → BCP-47 utilisé par Intl pour le format de date. */
+const LANG_TO_LOCALE: Record<Lang, string> = { fr: "fr-FR", ar: "ar-MA", en: "en-US" };
 
 export default function FeedHomePage() {
   const t = useT();
+  const metierLabel = useMetierLabel();
   const navigate = useNavigate();
   const auth = useAuth();
   const [feed, setFeed] = useState<FeedResponse | null>(null);
@@ -52,7 +61,8 @@ export default function FeedHomePage() {
       loadGeneral(),
       cerclesApi.discovery().then(r => setDiscovery(r.data)).catch(() => setDiscovery([])),
       cerclesApi.annuaireSuggestions().then(r => setSuggestions(r.data)).catch(() => setSuggestions([])),
-    ]).catch(e => setErr(e?.message || "Erreur"));
+    ]).catch(e => setErr(e?.message || t("cercles.feed.err_generic")));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onPickFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +81,7 @@ export default function FeedHomePage() {
       });
     } catch (err: any) {
       console.error("[cercles] upload ÉCHEC :", err);
-      setErr(err?.message || "Échec du téléversement (voir console)");
+      setErr(err?.message || t("cercles.feed.err_upload"));
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -100,7 +110,7 @@ export default function FeedHomePage() {
       setComposerAttachments([]);
       await loadGeneral();
     } catch (e: any) {
-      setErr(e?.message || "Échec de la publication");
+      setErr(e?.message || t("cercles.feed.err_publish"));
     } finally {
       setPosting(false);
     }
@@ -123,15 +133,15 @@ export default function FeedHomePage() {
       <div style={S.layout}>
         <main style={S.main}>
           <header style={S.header}>
-            <div style={S.eyebrow}>Atelier · Réseau pro BTP</div>
-            <h1 style={S.title}>Fil d'actualité</h1>
-            <p style={S.lead}>L'activité des cercles que tu suis et des pros que tu connectes.</p>
+            <div style={S.eyebrow}>{t("cercles.feed.eyebrow")}</div>
+            <h1 style={S.title}>{t("cercles.feed.title")}</h1>
+            <p style={S.lead}>{t("cercles.feed.lead")}</p>
           </header>
 
           {feed && feed.liveRooms.length > 0 && (
             <section style={S.liveBar}>
               <div style={S.liveDot} />
-              <span style={S.liveLabel}>EN DIRECT</span>
+              <span style={S.liveLabel}>{t("cercles.feed.live_label")}</span>
               {feed.liveRooms.slice(0, 3).map(r => (
                 <button key={r.id} onClick={() => navigate(`/cercles/${(r as any).cercle?.slug}/rooms/${r.slug}/live`)} style={S.liveRoomChip}>
                   📹 {r.title}
@@ -145,7 +155,7 @@ export default function FeedHomePage() {
             <input
               value={composerTitle}
               onChange={e => setComposerTitle(e.target.value)}
-              placeholder={t("common.optional")}
+              placeholder={t("cercles.feed.composer_title_placeholder")}
               style={S.composerTitle}
             />
             <textarea
@@ -161,10 +171,10 @@ export default function FeedHomePage() {
             )}
             <div style={S.composerFoot}>
               <span style={S.composerHint}>
-                🌐 Post public — visible et partageable par tous
-                {uploading && <> · <span style={{ color: CC_THEME.or, fontWeight: 600 }}>⏳ Téléversement en cours…</span></>}
+                {t("cercles.feed.composer_hint_public")}
+                {uploading && <> · <span style={{ color: CC_THEME.or, fontWeight: 600 }}>{t("cercles.feed.composer_uploading")}</span></>}
                 {!uploading && composerAttachments.length > 0 && (
-                  <> · <span style={{ color: CC_THEME.success, fontWeight: 600 }}>📎 {composerAttachments.length} pièce(s) jointe(s)</span></>
+                  <> · <span style={{ color: CC_THEME.success, fontWeight: 600 }}>{t("cercles.feed.composer_attached_count", { n: composerAttachments.length })}</span></>
                 )}
               </span>
               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
@@ -181,17 +191,17 @@ export default function FeedHomePage() {
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading || posting}
                   style={S.composerAttachBtn}
-                  title="Joindre un PDF, une image, une vidéo ou un audio"
+                  title={t("cercles.feed.composer_attach_title")}
                 >
-                  {uploading ? "Envoi…" : "📎 Joindre"}
+                  {uploading ? t("cercles.feed.composer_attach_btn_sending") : t("cercles.feed.composer_attach_btn")}
                 </button>
                 <button
                   onClick={submitGeneralPost}
                   disabled={posting || uploading || !composerBody.trim()}
                   style={{ ...S.composerBtn, opacity: posting || uploading || !composerBody.trim() ? 0.5 : 1 }}
-                  title={uploading ? "Patientez — pièce jointe en cours d'envoi" : ""}
+                  title={uploading ? t("cercles.feed.composer_publish_btn_wait_title") : ""}
                 >
-                  {posting ? "Publication…" : uploading ? "Envoi du fichier…" : "Publier"}
+                  {posting ? t("cercles.feed.composer_publish_btn_loading") : uploading ? t("cercles.feed.composer_publish_btn_sending") : t("cercles.feed.composer_publish_btn")}
                 </button>
               </div>
             </div>
@@ -205,7 +215,7 @@ export default function FeedHomePage() {
                       type="button"
                       onClick={() => removeAttachment(a.fileKey)}
                       style={S.composerAttachRm}
-                      title="Retirer"
+                      title={t("cercles.feed.composer_attach_remove_title")}
                     >×</button>
                   </span>
                 ))}
@@ -215,10 +225,11 @@ export default function FeedHomePage() {
 
           {mergedPosts.length === 0 && (
             <div style={S.emptyHero}>
-              <h2 style={S.emptyTitle}>Pas encore de fil</h2>
+              <h2 style={S.emptyTitle}>{t("cercles.feed.empty_title")}</h2>
               <p style={S.emptyBody}>
-                Publie le premier post public ci-dessus, ou rejoins un cercle.
-                Explore l'<Link to="/cercles/annuaire" style={{ color: CC_THEME.or, fontWeight: 600 }}>annuaire pro</Link>.
+                {t("cercles.feed.empty_body_pre")}
+                <Link to="/cercles/annuaire" style={{ color: CC_THEME.or, fontWeight: 600 }}>{t("cercles.feed.empty_body_link")}</Link>
+                {t("cercles.feed.empty_body_post")}
               </p>
             </div>
           )}
@@ -237,7 +248,7 @@ export default function FeedHomePage() {
               }}
               onDelete={async () => {
                 console.log("[cercles] delete: clic — post", p.id, "general=", p._general);
-                if (!confirm("Supprimer ce post ? Cette action est irréversible.")) return;
+                if (!confirm(t("cercles.feed.confirm_delete"))) return;
                 console.log("[cercles] delete: confirmé, appel API…");
                 try {
                   if (p._general) await cerclesApi.deleteGeneralPost(p.id);
@@ -248,7 +259,7 @@ export default function FeedHomePage() {
                   console.log("[cercles] delete: fil rafraîchi");
                 } catch (e: any) {
                   console.error("[cercles] delete: ÉCHEC API", e);
-                  setErr(e?.message || "Échec de la suppression");
+                  setErr(e?.message || t("cercles.feed.err_delete"));
                 }
               }}
             />
@@ -257,25 +268,25 @@ export default function FeedHomePage() {
 
         <aside style={S.sidebar}>
           <div style={S.card}>
-            <div style={S.cardEyebrow}>À découvrir</div>
-            <div style={S.cardTitle}>Cercles publics</div>
+            <div style={S.cardEyebrow}>{t("cercles.feed.sidebar_discover_eyebrow")}</div>
+            <div style={S.cardTitle}>{t("cercles.feed.sidebar_discover_title")}</div>
             <div style={S.discoveryList}>
               {discovery.slice(0, 5).map(c => (
                 <Link key={c.id} to={`/cercles/${c.slug}`} style={S.discoveryRow}>
                   <div style={S.cAvatar}>{c.name.slice(0, 1).toUpperCase()}</div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={S.cName}>{c.name}</div>
-                    <div style={S.cMeta}>{c._count?.members || 0} membres · {c._count?.posts || 0} posts</div>
+                    <div style={S.cMeta}>{t("cercles.feed.sidebar_cercle_meta", { members: c._count?.members || 0, posts: c._count?.posts || 0 })}</div>
                   </div>
                 </Link>
               ))}
-              {discovery.length === 0 && <div style={S.cMeta}>Aucun cercle public à suggérer.</div>}
+              {discovery.length === 0 && <div style={S.cMeta}>{t("cercles.feed.sidebar_discover_empty")}</div>}
             </div>
           </div>
 
           <div style={S.card}>
-            <div style={S.cardEyebrow}>Pros recommandés</div>
-            <div style={S.cardTitle}>À connecter</div>
+            <div style={S.cardEyebrow}>{t("cercles.feed.sidebar_pros_eyebrow")}</div>
+            <div style={S.cardTitle}>{t("cercles.feed.sidebar_pros_title")}</div>
             <div style={S.discoveryList}>
               {suggestions.slice(0, 5).map(p => (
                 <Link key={p.id} to={`/cercles/profile/${p.userId}`} style={S.discoveryRow}>
@@ -284,13 +295,13 @@ export default function FeedHomePage() {
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={S.cName}>{p.displayName} {p.isVerified && <span style={{ color: CC_THEME.success }}>✓</span>}</div>
-                    <div style={S.cMeta}>{METIER_LABELS[p.metier] || p.metier}{p.classeBTP ? ` · ${p.classeBTP}` : ""}</div>
+                    <div style={S.cMeta}>{metierLabel(p.metier)}{p.classeBTP ? ` · ${p.classeBTP}` : ""}</div>
                   </div>
                 </Link>
               ))}
-              {suggestions.length === 0 && <div style={S.cMeta}>Aucune suggestion pour l'instant.</div>}
+              {suggestions.length === 0 && <div style={S.cMeta}>{t("cercles.feed.sidebar_pros_empty")}</div>}
             </div>
-            <Link to="/cercles/annuaire" style={S.annuaireLink}>Voir tout l'annuaire →</Link>
+            <Link to="/cercles/annuaire" style={S.annuaireLink}>{t("cercles.feed.sidebar_annuaire_link")}</Link>
           </div>
         </aside>
       </div>
@@ -306,9 +317,12 @@ function FeedPostCard({ post, onUpvote, onOpen, onDelete, viewerId, viewerRole }
   viewerId?: string;
   viewerRole?: string;
 }) {
+  const t = useT();
+  const { lang } = useLang();
+  const metierLabel = useMetierLabel();
   const author = post.author;
   const proProfile = author?.proProfile;
-  const displayName = proProfile?.displayName || author?.username || author?.email || "Membre";
+  const displayName = proProfile?.displayName || author?.username || author?.email || t("cercles.feed.member_fallback");
   const avatar = (displayName).slice(0, 1).toUpperCase();
   const [showComments, setShowComments] = React.useState(false);
   const [showShare, setShowShare] = React.useState(false);
@@ -332,8 +346,8 @@ function FeedPostCard({ post, onUpvote, onOpen, onDelete, viewerId, viewerRole }
         <div style={{ flex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <span style={S.postAuthor}>{displayName}</span>
-            {proProfile?.isVerified && <span title="Vérifié" style={{ color: CC_THEME.success, fontSize: 12 }}>✓</span>}
-            {proProfile?.metier && <span style={S.metierTag}>{METIER_LABELS[proProfile.metier] || proProfile.metier}</span>}
+            {proProfile?.isVerified && <span title={t("cercles.feed.verified_title")} style={{ color: CC_THEME.success, fontSize: 12 }}>✓</span>}
+            {proProfile?.metier && <span style={S.metierTag}>{metierLabel(proProfile.metier)}</span>}
           </div>
           <div style={S.postSub}>
             {post.cercle ? (
@@ -341,9 +355,9 @@ function FeedPostCard({ post, onUpvote, onOpen, onDelete, viewerId, viewerRole }
                 🔒 {post.cercle.name}
               </Link>
             ) : (
-              <span style={{ color: CC_THEME.success, fontWeight: 600 }}>🌐 Public</span>
+              <span style={{ color: CC_THEME.success, fontWeight: 600 }}>{t("cercles.feed.public_badge")}</span>
             )}
-            <span> · {new Date(post.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}</span>
+            <span> · {new Date(post.createdAt).toLocaleDateString(LANG_TO_LOCALE[lang], { day: "numeric", month: "long" })}</span>
             {post.isPinned && <span style={S.pin}>📌</span>}
           </div>
         </div>
@@ -369,21 +383,21 @@ function FeedPostCard({ post, onUpvote, onOpen, onDelete, viewerId, viewerRole }
           <button
             onClick={() => setShowShare(v => !v)}
             style={{ ...S.action, ...(showShare ? { color: CC_THEME.or, fontWeight: 600 } : {}) }}
-            title="Partager hors plateforme (WhatsApp, Facebook…)"
+            title={t("cercles.feed.share_title")}
           >
-            🔗 Partager {showShare ? "▲" : "▼"}
+            🔗 {t("cercles.feed.share_btn")} {showShare ? "▲" : "▼"}
           </button>
         )}
         {canDelete && (
           <button
             onClick={() => onDelete?.()}
             style={{ ...S.action, color: CC_THEME.danger }}
-            title="Supprimer ce post"
+            title={t("cercles.feed.delete_title")}
           >
-            🗑 Supprimer
+            {t("cercles.feed.delete_btn")}
           </button>
         )}
-        <button onClick={onOpen}  style={{ ...S.action, marginLeft: "auto", color: CC_THEME.or }}>Voir le post →</button>
+        <button onClick={onOpen}  style={{ ...S.action, marginLeft: "auto", color: CC_THEME.or }}>{t("cercles.feed.open_btn")}</button>
       </footer>
       {showShare && isPublic && publicUrl && (
         <div style={{ marginTop: 10, padding: 12, background: CC_THEME.bgSoft, borderRadius: 8 }}>

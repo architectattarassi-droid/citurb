@@ -72,77 +72,79 @@ type Quote = {
   notes: string[];
 };
 
-const REPORT_CARDS: { code: ReportType; category: string; title: string; sub: string; tagline: string; bullets: string[]; targets: string; accessible?: boolean }[] = [
+type ReportCardDef = { code: ReportType; categoryKey: string; titleKey: string; subKey: string; taglineKey: string; bulletKeys: string[]; targetsKey: string; accessible?: boolean };
+const REPORT_CARDS: ReportCardDef[] = [
   {
     code: "ESTIMATION_EXPRESS",
-    category: "ESTIMATION EXPRESS",
-    title: "Estimation Express",
-    sub: "Avis de valeur rapide, sans visite, livré sous 48h.",
-    tagline: "Forfait fixe 990 DH HT · accessible à tous",
-    bullets: [
-      "Valeur estimée + fourchette ±10 %",
-      "3 à 5 comparables ventes récentes du quartier",
-      "Méthodologie comparables (sans déplacement)",
-      "PDF synthétique 4-6 pages",
-      "Idéal succession / partage / négociation",
+    categoryKey: "portes.p5.cards.estimation.category",
+    titleKey: "portes.p5.cards.estimation.title",
+    subKey: "portes.p5.cards.estimation.sub",
+    taglineKey: "portes.p5.cards.estimation.tagline",
+    bulletKeys: [
+      "portes.p5.cards.estimation.b1",
+      "portes.p5.cards.estimation.b2",
+      "portes.p5.cards.estimation.b3",
+      "portes.p5.cards.estimation.b4",
+      "portes.p5.cards.estimation.b5",
     ],
-    targets: "Particuliers · Successions · Décisions personnelles · Premier prix",
+    targetsKey: "portes.p5.cards.estimation.targets",
     accessible: true,
   },
   {
     code: "EXPERTISE_PRIX",
-    category: "EXPERTISE PRIX",
-    title: "Rapport Expertise Prix",
-    sub: "Valeur vénale fondée + visite terrain + comparables.",
-    tagline: "Tranches dégressives 0,5 → 0,2 % · min 1 500 DH HT",
-    bullets: [
-      "Visite terrain + relevé du bien",
-      "Étude comparée ≥ 3 références ventes",
-      "Méthodologie documentée et opposable",
-      "Fourchette + valeur centrale",
-      "PDF signé numériquement (12-20 p)",
-      "✓ Opposable bancairement",
+    categoryKey: "portes.p5.cards.prix.category",
+    titleKey: "portes.p5.cards.prix.title",
+    subKey: "portes.p5.cards.prix.sub",
+    taglineKey: "portes.p5.cards.prix.tagline",
+    bulletKeys: [
+      "portes.p5.cards.prix.b1",
+      "portes.p5.cards.prix.b2",
+      "portes.p5.cards.prix.b3",
+      "portes.p5.cards.prix.b4",
+      "portes.p5.cards.prix.b5",
+      "portes.p5.cards.prix.b6",
     ],
-    targets: "Vendeurs / acquéreurs · Banques (garantie hypothécaire) · Successions",
+    targetsKey: "portes.p5.cards.prix.targets",
   },
   {
     code: "EXPERTISE_URBA",
-    category: "EXPERTISE URBANISTIQUE",
-    title: "Rapport Expertise Urbanistique",
-    sub: "Note RU + COS/CES/gabarit + scénarios de constructibilité.",
-    tagline: "Tranches dégressives 0,5 → 0,2 % · min 2 500 DH HT",
-    bullets: [
-      "Note de renseignement urbanistique actualisée",
-      "Analyse PA / PADD / SDAU",
-      "COS / CES / hauteur / recul / façades",
-      "Scénarios constructibilité (mini / médian / max)",
-      "Recommandations & risques réglementaires",
+    categoryKey: "portes.p5.cards.urba.category",
+    titleKey: "portes.p5.cards.urba.title",
+    subKey: "portes.p5.cards.urba.sub",
+    taglineKey: "portes.p5.cards.urba.tagline",
+    bulletKeys: [
+      "portes.p5.cards.urba.b1",
+      "portes.p5.cards.urba.b2",
+      "portes.p5.cards.urba.b3",
+      "portes.p5.cards.urba.b4",
+      "portes.p5.cards.urba.b5",
     ],
-    targets: "Promoteurs en due-diligence · Acquéreurs fonciers · Architectes",
+    targetsKey: "portes.p5.cards.urba.targets",
   },
   {
     code: "READY_TO_INVEST",
-    category: "READY-TO-INVEST · BP BANKABLE",
-    title: "Rapport Complet Premium",
-    sub: "Business Plan complet pour banques, fonds et family offices.",
-    tagline: "Tranches dégressives 0,5 → 0,15 % · min 15 000 DH HT",
-    bullets: [
-      "Synthèse exécutive — recommandation investissement",
-      "Foncier · Urba · Programme architectural",
-      "Coût études CNOA + coût réalisation par standing",
-      "Prix de vente projeté · Budget total",
-      "ROI · TRI · VAN · payback · sensibilité",
-      "Plan de financement · ratios LTV / LTC",
-      "PDF premium 40-60 p co-signé (architecte + expert)",
+    categoryKey: "portes.p5.cards.premium.category",
+    titleKey: "portes.p5.cards.premium.title",
+    subKey: "portes.p5.cards.premium.sub",
+    taglineKey: "portes.p5.cards.premium.tagline",
+    bulletKeys: [
+      "portes.p5.cards.premium.b1",
+      "portes.p5.cards.premium.b2",
+      "portes.p5.cards.premium.b3",
+      "portes.p5.cards.premium.b4",
+      "portes.p5.cards.premium.b5",
+      "portes.p5.cards.premium.b6",
+      "portes.p5.cards.premium.b7",
     ],
-    targets: "Banques · Fonds d'investissement · Family offices · Business angels",
+    targetsKey: "portes.p5.cards.premium.targets",
   },
 ];
 
-const DELAY_CARDS: { code: DelayMode; title: string; sub: string; pct: string; tone: "express" | "standard" | "eco" }[] = [
-  { code: "EXPRESS",    title: "Express",    sub: "5 jours ouvrables",          pct: "+40 %",        tone: "express" },
-  { code: "STANDARD",   title: "Standard",   sub: "Délai recommandé",           pct: "Tarif de base", tone: "standard" },
-  { code: "ECONOMIQUE", title: "Économique", sub: "30 jours ouvrables",         pct: "-10 %",        tone: "eco" },
+type DelayCardDef = { code: DelayMode; titleKey: string; subKey: string; pctKey: string; tone: "express" | "standard" | "eco" };
+const DELAY_CARDS: DelayCardDef[] = [
+  { code: "EXPRESS",    titleKey: "portes.p5.delay.express_title",  subKey: "portes.p5.delay.express_sub",  pctKey: "portes.p5.delay.express_pct",  tone: "express" },
+  { code: "STANDARD",   titleKey: "portes.p5.delay.standard_title", subKey: "portes.p5.delay.standard_sub", pctKey: "portes.p5.delay.standard_pct", tone: "standard" },
+  { code: "ECONOMIQUE", titleKey: "portes.p5.delay.eco_title",      subKey: "portes.p5.delay.eco_sub",      pctKey: "portes.p5.delay.eco_pct",      tone: "eco" },
 ];
 
 const fmtMAD = (n: number | null | undefined) => {
@@ -480,7 +482,8 @@ function P5HomeInner() {
 
   // ── Construction du payload intake ─────────────────────────────────
   const buildIntakePayload = (clientEmailOverride?: string) => {
-    const title = `Rapport ${selectedReport?.label || ""} — ${identity.commune || identity.adresseBien || "—"}`.trim();
+    const selectedReportLabel = selectedReport ? t(selectedReport.titleKey) : "";
+    const title = `Rapport ${selectedReportLabel} — ${identity.commune || identity.adresseBien || "—"}`.trim();
     return {
       porteType: "P5" as const,
       gestionMode: "AUTONOME",
@@ -492,13 +495,13 @@ function P5HomeInner() {
       clientNom: identity.clientNom,
       clientTel: identity.clientTel,
       clientEmail: clientEmailOverride || identity.clientEmail || undefined,
-      natureProjet: selectedReport?.label,
+      natureProjet: selectedReportLabel,
       title,
       lang: getStoredLang(),
       source: "P5_WIZARD",
       brief: {
         reportType,
-        reportLabel: selectedReport?.label,
+        reportLabel: selectedReportLabel,
         delayMode,
         // Inputs descriptifs (toujours envoyés)
         bienFamily,
@@ -587,7 +590,7 @@ function P5HomeInner() {
               <div style={{ fontSize: 52, marginBottom: 14 }}>📋</div>
               <h2 style={{ fontSize: 26, margin: "0 0 12px" }}>Dossier créé · devis du rapport livré</h2>
               <p className="muted" style={{ fontSize: 14.5, lineHeight: 1.7, margin: "0 0 18px" }}>
-                Votre demande de <strong style={{ color: "#0B1B3A" }}>{selectedReport?.label}</strong> est désormais
+                Votre demande de <strong style={{ color: "#0B1B3A" }}>{selectedReport ? t(selectedReport.titleKey) : ""}</strong> est désormais
                 rattachée à votre compte et à un dossier identifié dans votre espace CITURBAREA. L'équipe vous
                 recontacte sous 24h pour confirmer le devis et lancer la mission à réception du paiement.
                 <br />
@@ -965,20 +968,20 @@ function P5HomeInner() {
                       }}>✓</div>
                     )}
                     <div style={{ fontSize: 11.5, fontWeight: 800, color: "#C9A227", letterSpacing: "0.06em", marginBottom: 10 }}>
-                      {r.category}
+                      {t(r.categoryKey)}
                     </div>
                     <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 21, fontWeight: 700, color: "#0B1B3A", margin: "0 0 8px" }}>
-                      {r.title}
+                      {t(r.titleKey)}
                     </div>
-                    <div className="muted" style={{ fontSize: 13, marginBottom: 12, lineHeight: 1.55 }}>{r.sub}</div>
+                    <div className="muted" style={{ fontSize: 13, marginBottom: 12, lineHeight: 1.55 }}>{t(r.subKey)}</div>
                     <div style={{ background: "rgba(201,162,39,0.10)", border: "1px solid rgba(201,162,39,0.30)", borderRadius: 10, padding: "8px 12px", fontSize: 12, fontWeight: 700, color: "#0B1B3A", marginBottom: 14 }}>
-                      {r.tagline}
+                      {t(r.taglineKey)}
                     </div>
                     <ul className="card-bullets-premium">
-                      {r.bullets.map((b, i) => <li key={i}>{b}</li>)}
+                      {r.bulletKeys.map((bk, i) => <li key={i}>{t(bk)}</li>)}
                     </ul>
                     <div className="muted card-micro" style={{ marginTop: 14, fontStyle: "italic" }}>
-                      Cible : {r.targets}
+                      {t("portes.p5.report.targets_prefix")} {t(r.targetsKey)}
                     </div>
                   </button>
                 );
@@ -1156,9 +1159,9 @@ function P5HomeInner() {
                     {sel && (
                       <div style={{ position: "absolute", top: 12, right: 12, width: 28, height: 28, borderRadius: "50%", background: "linear-gradient(135deg, #C9A227, #E6C75B)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 15 }}>✓</div>
                     )}
-                    <div style={{ fontWeight: 800, color: "#0B1B3A", fontSize: 17, marginBottom: 6 }}>{d.title}</div>
-                    <div className="muted" style={{ fontSize: 13, marginBottom: 12 }}>{d.sub}</div>
-                    <div style={{ display: "inline-block", padding: "5px 10px", borderRadius: 8, background: `${accent}15`, color: accent, fontWeight: 700, fontSize: 13 }}>{d.pct}</div>
+                    <div style={{ fontWeight: 800, color: "#0B1B3A", fontSize: 17, marginBottom: 6 }}>{t(d.titleKey)}</div>
+                    <div className="muted" style={{ fontSize: 13, marginBottom: 12 }}>{t(d.subKey)}</div>
+                    <div style={{ display: "inline-block", padding: "5px 10px", borderRadius: 8, background: `${accent}15`, color: accent, fontWeight: 700, fontSize: 13 }}>{t(d.pctKey)}</div>
                   </button>
                 );
               })}
