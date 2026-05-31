@@ -8,16 +8,16 @@
  * Doctrine respectée : aucune logique métier ici (slug/alt/keywords/JSON-LD = côté API).
  * Ce composant n'orchestre que des appels et l'UX.
  */
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   cabinetApi,
   CabinetProject,
   isAuthed,
-  MediaKind,
   ProjectStatus,
   youtubeThumb,
 } from "./api";
+import { useT } from "../../i18n/i18n";
 
 const STATUSES: ProjectStatus[] = ["ETUDE", "EN_COURS", "LIVRE"];
 
@@ -37,6 +37,7 @@ const empty = (): Partial<CabinetProject> => ({
 });
 
 export default function CabinetManagePage() {
+  const t = useT();
   const nav = useNavigate();
   const [slug, setSlug] = useState<string | null>(null);
   const [projects, setProjects] = useState<CabinetProject[]>([]);
@@ -59,7 +60,7 @@ export default function CabinetManagePage() {
         const p = await cabinetApi.listMyProjects();
         if (alive) setProjects(p.data || []);
       } catch (e: any) {
-        if (alive) setErr(e?.message || "Erreur de chargement");
+        if (alive) setErr(e?.message || t("cabinet.manage.load_error_default"));
       } finally {
         if (alive) setLoading(false);
       }
@@ -67,7 +68,7 @@ export default function CabinetManagePage() {
     return () => {
       alive = false;
     };
-  }, [nav]);
+  }, [nav, t]);
 
   async function refresh() {
     const p = await cabinetApi.listMyProjects();
@@ -108,7 +109,7 @@ export default function CabinetManagePage() {
       cancelEdit();
       await refresh();
     } catch (e: any) {
-      alert(e?.message || "Erreur de sauvegarde");
+      alert(e?.message || t("cabinet.manage.form.save_error_default"));
     }
   }
 
@@ -117,28 +118,28 @@ export default function CabinetManagePage() {
       await cabinetApi.publishProject(p.id, !p.published);
       await refresh();
     } catch (e: any) {
-      alert(e?.message || "Erreur publish");
+      alert(e?.message || t("cabinet.manage.card.publish_error_default"));
     }
   }
 
   async function deleteProject(p: CabinetProject) {
-    if (!confirm(`Supprimer « ${p.title} » ? (médias inclus, irréversible)`)) return;
+    if (!confirm(t("cabinet.manage.card.delete_confirm", { title: p.title }))) return;
     try {
       await cabinetApi.deleteProject(p.id);
       await refresh();
     } catch (e: any) {
-      alert(e?.message || "Erreur suppression");
+      alert(e?.message || t("cabinet.manage.card.delete_error_default"));
     }
   }
 
-  if (loading) return <div style={{ padding: 40, textAlign: "center", color: "#64748b" }}>Chargement…</div>;
+  if (loading) return <div style={{ padding: 40, textAlign: "center", color: "#64748b" }}>{t("cabinet.manage.loading")}</div>;
   if (err)
     return (
       <div style={{ maxWidth: 720, margin: "60px auto", padding: 24, textAlign: "center" }}>
-        <h1 style={{ fontSize: 22, color: "#0f172a" }}>Erreur</h1>
+        <h1 style={{ fontSize: 22, color: "#0f172a" }}>{t("cabinet.manage.error_title")}</h1>
         <p style={{ color: "#64748b" }}>{err}</p>
         <p style={{ color: "#64748b", fontSize: 13 }}>
-          Vérifie que tu as bien créé ton profil professionnel (via <Link to="/cercles/me/edit">l'édition de profil</Link>).
+          {t("cabinet.manage.error_hint")} <Link to="/cercles/me/edit">{t("cabinet.manage.error_hint_link")}</Link>{t("cabinet.manage.error_hint_after")}
         </p>
       </div>
     );
@@ -148,9 +149,9 @@ export default function CabinetManagePage() {
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "30px 20px 80px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 24 }}>
           <div>
-            <h1 style={{ fontSize: 26, fontWeight: 900, color: "#0f172a", margin: 0 }}>Mon cabinet</h1>
+            <h1 style={{ fontSize: 26, fontWeight: 900, color: "#0f172a", margin: 0 }}>{t("cabinet.manage.title")}</h1>
             <div style={{ fontSize: 13, color: "#64748b", marginTop: 4 }}>
-              Fiche publique :{" "}
+              {t("cabinet.manage.public_label")}{" "}
               {slug ? (
                 <Link to={`/cabinet/${slug}`} style={{ color: "#1e3a8a", fontWeight: 700, textDecoration: "none" }}>
                   /cabinet/{slug}
@@ -160,7 +161,7 @@ export default function CabinetManagePage() {
               )}
             </div>
           </div>
-          <button onClick={() => startEdit()} style={btnPrimary}>+ Nouveau projet</button>
+          <button onClick={() => startEdit()} style={btnPrimary}>{t("cabinet.manage.new_project")}</button>
         </div>
 
         {editingId && (
@@ -170,7 +171,7 @@ export default function CabinetManagePage() {
         <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 16 }}>
           {projects.length === 0 && !editingId && (
             <div style={{ padding: 30, background: "#fff", border: "1px solid #e2e8f0", borderRadius: 12, color: "#64748b", textAlign: "center" }}>
-              Aucun projet pour le moment. Crée ton premier projet pour commencer ta fiche.
+              {t("cabinet.manage.empty_state")}
             </div>
           )}
           {projects.map((p) => (
@@ -204,44 +205,45 @@ function ProjectForm({
   onCancel: () => void;
   isNew: boolean;
 }) {
+  const t = useT();
   const set = (k: keyof CabinetProject) => (e: any) => setDraft((d) => ({ ...d, [k]: e.target.value }));
   return (
     <div style={cardStyle}>
-      <h2 style={{ fontSize: 16, fontWeight: 800, color: "#0f172a", marginTop: 0 }}>{isNew ? "Nouveau projet" : "Éditer le projet"}</h2>
+      <h2 style={{ fontSize: 16, fontWeight: 800, color: "#0f172a", marginTop: 0 }}>{isNew ? t("cabinet.manage.form.new_title") : t("cabinet.manage.form.edit_title")}</h2>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 10 }}>
-        <Field label="Titre *"><input value={draft.title || ""} onChange={set("title")} style={inp} /></Field>
-        <Field label="Type *"><input value={draft.type || ""} onChange={set("type")} style={inp} placeholder="Résidentiel, Administratif…" /></Field>
-        <Field label="Ville *"><input value={draft.location || ""} onChange={set("location")} style={inp} /></Field>
-        <Field label="Surface (m²)"><input type="number" value={draft.surface ?? ""} onChange={set("surface")} style={inp} /></Field>
-        <Field label="Année"><input type="number" value={draft.year ?? ""} onChange={set("year")} style={inp} /></Field>
-        <Field label="Statut">
+        <Field label={t("cabinet.manage.form.label_title")}><input value={draft.title || ""} onChange={set("title")} style={inp} /></Field>
+        <Field label={t("cabinet.manage.form.label_type")}><input value={draft.type || ""} onChange={set("type")} style={inp} placeholder={t("cabinet.manage.form.placeholder_type")} /></Field>
+        <Field label={t("cabinet.manage.form.label_city")}><input value={draft.location || ""} onChange={set("location")} style={inp} /></Field>
+        <Field label={t("cabinet.manage.form.label_surface")}><input type="number" value={draft.surface ?? ""} onChange={set("surface")} style={inp} /></Field>
+        <Field label={t("cabinet.manage.form.label_year")}><input type="number" value={draft.year ?? ""} onChange={set("year")} style={inp} /></Field>
+        <Field label={t("cabinet.manage.form.label_status")}>
           <select value={draft.status || "ETUDE"} onChange={set("status")} style={inp}>
             {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
           </select>
         </Field>
       </div>
       <div style={{ marginTop: 10 }}>
-        <Field label="Programme (optionnel)"><textarea value={draft.programme || ""} onChange={set("programme")} style={{ ...inp, minHeight: 60 }} /></Field>
+        <Field label={t("cabinet.manage.form.label_programme")}><textarea value={draft.programme || ""} onChange={set("programme")} style={{ ...inp, minHeight: 60 }} /></Field>
       </div>
       <div style={{ marginTop: 10 }}>
-        <Field label="Description *"><textarea value={draft.description || ""} onChange={set("description")} style={{ ...inp, minHeight: 100 }} /></Field>
+        <Field label={t("cabinet.manage.form.label_description")}><textarea value={draft.description || ""} onChange={set("description")} style={{ ...inp, minHeight: 100 }} /></Field>
       </div>
       <div style={{ marginTop: 10 }}>
-        <Field label="Matériaux (optionnel)"><input value={draft.materials || ""} onChange={set("materials")} style={inp} /></Field>
+        <Field label={t("cabinet.manage.form.label_materials")}><input value={draft.materials || ""} onChange={set("materials")} style={inp} /></Field>
       </div>
       <div style={{ marginTop: 10 }}>
-        <Field label="Mots-clés (séparés par virgule)">
+        <Field label={t("cabinet.manage.form.label_keywords")}>
           <input
             value={(draft.keywords || []).join(", ")}
             onChange={(e) => setDraft((d) => ({ ...d, keywords: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) }))}
             style={inp}
-            placeholder="ex: bioclimatique, R+4, patio"
+            placeholder={t("cabinet.manage.form.placeholder_keywords")}
           />
         </Field>
       </div>
       <div style={{ marginTop: 16, display: "flex", gap: 10 }}>
-        <button onClick={onSave} style={btnPrimary}>{isNew ? "Créer" : "Enregistrer"}</button>
-        <button onClick={onCancel} style={btnGhost}>Annuler</button>
+        <button onClick={onSave} style={btnPrimary}>{isNew ? t("cabinet.manage.form.btn_create") : t("cabinet.manage.form.btn_save")}</button>
+        <button onClick={onCancel} style={btnGhost}>{t("cabinet.manage.form.btn_cancel")}</button>
       </div>
     </div>
   );
@@ -263,21 +265,22 @@ function ProjectCard({
   onTogglePublish: () => void;
   onMediaChanged: () => Promise<void>;
 }) {
+  const t = useT();
   return (
     <div style={cardStyle}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
         <div>
           <h3 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: "#0f172a" }}>
-            {project.title} {project.published && <span style={{ background: "#15803d", color: "#fff", fontSize: 10, padding: "2px 8px", borderRadius: 99, marginLeft: 6, verticalAlign: "middle" }}>PUBLIÉ</span>}
+            {project.title} {project.published && <span style={{ background: "#15803d", color: "#fff", fontSize: 10, padding: "2px 8px", borderRadius: 99, marginLeft: 6, verticalAlign: "middle" }}>{t("cabinet.manage.card.published_badge")}</span>}
           </h3>
           <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>
             {project.type} · {project.location}{project.year ? ` · ${project.year}` : ""} · {project.status}
           </div>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
-          <button onClick={onTogglePublish} style={btnGhost}>{project.published ? "Dépublier" : "Publier"}</button>
-          <button onClick={onEdit} style={btnGhost} disabled={isEditing}>Éditer</button>
-          <button onClick={onDelete} style={{ ...btnGhost, color: "#b91c1c", borderColor: "#fecaca" }}>Supprimer</button>
+          <button onClick={onTogglePublish} style={btnGhost}>{project.published ? t("cabinet.manage.card.btn_unpublish") : t("cabinet.manage.card.btn_publish")}</button>
+          <button onClick={onEdit} style={btnGhost} disabled={isEditing}>{t("cabinet.manage.card.btn_edit")}</button>
+          <button onClick={onDelete} style={{ ...btnGhost, color: "#b91c1c", borderColor: "#fecaca" }}>{t("cabinet.manage.card.btn_delete")}</button>
         </div>
       </div>
       <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.6, marginTop: 10, marginBottom: 12 }}>{project.description}</p>
@@ -288,6 +291,7 @@ function ProjectCard({
 
 /* ──────────────────────────── MediaPanel ──────────────────────────── */
 function MediaPanel({ project, onChanged }: { project: CabinetProject; onChanged: () => Promise<void> }) {
+  const t = useT();
   const [uploading, setUploading] = useState<{ name: string; pct: number } | null>(null);
   const [ytUrl, setYtUrl] = useState("");
 
@@ -299,7 +303,7 @@ function MediaPanel({ project, onChanged }: { project: CabinetProject; onChanged
         const { publicUrl } = await cabinetApi.uploadFile(file, "photo", (p) => setUploading({ name: file.name, pct: p }));
         await cabinetApi.addMedia(project.id, { kind: "PHOTO", url: publicUrl, width: null, height: null });
       } catch (e: any) {
-        alert(`${file.name}: ${e?.message || "échec upload"}`);
+        alert(`${file.name}: ${e?.message || t("cabinet.manage.media.upload_fail_default")}`);
       } finally {
         setUploading(null);
       }
@@ -310,7 +314,7 @@ function MediaPanel({ project, onChanged }: { project: CabinetProject; onChanged
   async function uploadVideoFile(file: File | null, thumb: File | null) {
     if (!file) return;
     if (!thumb) {
-      alert("Choisis aussi une image miniature (thumbnail) — requise par le schéma VideoObject.");
+      alert(t("cabinet.manage.media.thumbnail_required"));
       return;
     }
     try {
@@ -321,7 +325,7 @@ function MediaPanel({ project, onChanged }: { project: CabinetProject; onChanged
       ]);
       await cabinetApi.addMedia(project.id, { kind: "VIDEO_FILE", url: videoUrl, thumbnailUrl: thumbUrl });
     } catch (e: any) {
-      alert(e?.message || "échec upload vidéo");
+      alert(e?.message || t("cabinet.manage.media.upload_video_fail_default"));
     } finally {
       setUploading(null);
       await onChanged();
@@ -332,7 +336,7 @@ function MediaPanel({ project, onChanged }: { project: CabinetProject; onChanged
     if (!ytUrl) return;
     const thumb = youtubeThumb(ytUrl);
     if (!thumb) {
-      alert("URL YouTube non reconnue (formats acceptés : youtube.com/watch?v=…, youtu.be/…)");
+      alert(t("cabinet.manage.media.youtube_invalid"));
       return;
     }
     try {
@@ -340,24 +344,24 @@ function MediaPanel({ project, onChanged }: { project: CabinetProject; onChanged
       setYtUrl("");
       await onChanged();
     } catch (e: any) {
-      alert(e?.message || "échec ajout vidéo");
+      alert(e?.message || t("cabinet.manage.media.add_video_fail_default"));
     }
   }
 
   async function delMedia(mid: string) {
-    if (!confirm("Supprimer ce média ?")) return;
+    if (!confirm(t("cabinet.manage.media.delete_confirm"))) return;
     try {
       await cabinetApi.deleteMedia(project.id, mid);
       await onChanged();
     } catch (e: any) {
-      alert(e?.message || "échec suppression");
+      alert(e?.message || t("cabinet.manage.media.delete_fail_default"));
     }
   }
 
   return (
     <div style={{ marginTop: 8, paddingTop: 14, borderTop: "1px solid #f1f5f9" }}>
       <div style={{ fontSize: 12, fontWeight: 700, color: "#64748b", textTransform: "uppercase", letterSpacing: ".04em", marginBottom: 10 }}>
-        Médias <span style={{ color: "#94a3b8", fontWeight: 500 }}>({project.media.length})</span>
+        {t("cabinet.manage.media.title")} <span style={{ color: "#94a3b8", fontWeight: 500 }}>({project.media.length})</span>
       </div>
       {project.media.length > 0 && (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 10, marginBottom: 14 }}>
@@ -373,20 +377,20 @@ function MediaPanel({ project, onChanged }: { project: CabinetProject; onChanged
         </div>
       )}
       <div style={{ display: "flex", gap: 16, flexWrap: "wrap", alignItems: "flex-end" }}>
-        <Field label="Ajouter des photos">
+        <Field label={t("cabinet.manage.media.add_photos")}>
           <input type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => uploadPhoto(e.target.files)} />
         </Field>
         <VideoFileUpload onUpload={uploadVideoFile} />
-        <Field label="Ajouter une vidéo YouTube">
+        <Field label={t("cabinet.manage.media.add_youtube")}>
           <div style={{ display: "flex", gap: 6 }}>
-            <input value={ytUrl} onChange={(e) => setYtUrl(e.target.value)} placeholder="https://youtu.be/…" style={inp} />
-            <button onClick={addYoutube} style={btnPrimary}>Ajouter</button>
+            <input value={ytUrl} onChange={(e) => setYtUrl(e.target.value)} placeholder={t("cabinet.manage.media.youtube_placeholder")} style={inp} />
+            <button onClick={addYoutube} style={btnPrimary}>{t("cabinet.manage.media.btn_add")}</button>
           </div>
         </Field>
       </div>
       {uploading && (
         <div style={{ marginTop: 10, fontSize: 12, color: "#1e3a8a" }}>
-          📤 {uploading.name} — {uploading.pct}%
+          {t("cabinet.manage.media.uploading_progress", { name: uploading.name, pct: uploading.pct })}
         </div>
       )}
     </div>
@@ -394,14 +398,15 @@ function MediaPanel({ project, onChanged }: { project: CabinetProject; onChanged
 }
 
 function VideoFileUpload({ onUpload }: { onUpload: (file: File | null, thumb: File | null) => void }) {
+  const t = useT();
   const [file, setFile] = useState<File | null>(null);
   const [thumb, setThumb] = useState<File | null>(null);
   return (
-    <Field label="Ajouter une vidéo (fichier + thumbnail)">
+    <Field label={t("cabinet.manage.media.add_video_file")}>
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
         <input type="file" accept="video/mp4,video/quicktime,video/webm" onChange={(e) => setFile(e.target.files?.[0] || null)} />
         <input type="file" accept="image/jpeg,image/png,image/webp" onChange={(e) => setThumb(e.target.files?.[0] || null)} />
-        <button onClick={() => { onUpload(file, thumb); setFile(null); setThumb(null); }} disabled={!file || !thumb} style={btnPrimary}>Envoyer</button>
+        <button onClick={() => { onUpload(file, thumb); setFile(null); setThumb(null); }} disabled={!file || !thumb} style={btnPrimary}>{t("cabinet.manage.media.btn_send")}</button>
       </div>
     </Field>
   );
