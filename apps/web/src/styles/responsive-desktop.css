@@ -54,3 +54,27 @@
 @media (max-width: 1023px) {
   .cit-p1-grid { display: block; }
 }
+
+/* ─── Mobile-first overrides — Vague 1.5 ─── */
+@media (max-width: 640px) {
+  .cit-container-wide,
+  .cit-container-xl { padding: 0 16px; }
+}
+@media (max-width: 480px) {
+  .cit-container-wide,
+  .cit-container-xl { padding: 0 12px; }
+}
+
+/* ─── Utilitaires mobile reutilisables ─── */
+.cit-mobile-stack { display: flex; flex-direction: column; }
+@media (min-width: 768px) { .cit-mobile-stack { flex-direction: row; } }
+
+.cit-touch-target { min-height: 44px; min-width: 44px; }
+
+/* Pattern grid responsive sans overflow horizontal (clamp 280px max sur petit ecran) */
+.cit-grid-safe { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+
+/* Reduit le zoom CSS hack utilise par certaines pages cercles sur mobile */
+@media (max-width: 480px) {
+  .cit-mobile-no-zoom { zoom: 1 !important; min-height: 100vh !important; }
+}
