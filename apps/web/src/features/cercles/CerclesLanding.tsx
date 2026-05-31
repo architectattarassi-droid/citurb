@@ -25,7 +25,14 @@ export default function CerclesLanding() {
   const isLoggedIn = typeof window !== "undefined" && !!localStorage.getItem("citurbarea.token");
 
   return (
-    <div style={S.root}>
+    <div style={S.root} className="cit-cercles-root">
+      <style>{`
+        .cit-cercles-root { zoom: 1.3; }
+        @media (max-width: 480px) { .cit-cercles-root { zoom: 1; } }
+        .cit-cercles-partner-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+        .cit-cercles-metier-grid  { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+        .cit-cercles-how-grid     { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+      `}</style>
       <header style={S.header}>
         <div className="cit-container-wide" style={S.headerInner}>
           <div style={S.brand}>
@@ -78,7 +85,7 @@ export default function CerclesLanding() {
           <div style={S.sectionEyebrow}>{t("cercles.landing.partners_eyebrow")}</div>
           <h2 style={S.sectionTitle}>{t("cercles.landing.partners_title")}</h2>
 
-          <div style={S.partnerGrid}>
+          <div style={S.partnerGrid} className="cit-cercles-partner-grid">
             <article style={S.partnerCard}>
               <div style={S.partnerBadge}>SNASP</div>
               <h3 style={S.partnerName}>{t("cercles.landing.partners_snasp_name")}</h3>
@@ -124,7 +131,7 @@ export default function CerclesLanding() {
             {t("cercles.landing.metiers_lead")}
           </p>
 
-          <div style={S.metierGrid}>
+          <div style={S.metierGrid} className="cit-cercles-metier-grid">
             <MetierCard icon="📐" label={t("cercles.landing.metier_archi_label")}  body={t("cercles.landing.metier_archi_body")} />
             <MetierCard icon="📊" label={t("cercles.landing.metier_bet_label")}    body={t("cercles.landing.metier_bet_body")} />
             <MetierCard icon="🧪" label={t("cercles.landing.metier_labo_label")}   body={t("cercles.landing.metier_labo_body")} />
@@ -142,7 +149,7 @@ export default function CerclesLanding() {
           <div style={S.sectionEyebrow}>{t("cercles.landing.how_eyebrow")}</div>
           <h2 style={S.sectionTitle}>{t("cercles.landing.how_title")}</h2>
 
-          <div style={S.howGrid}>
+          <div style={S.howGrid} className="cit-cercles-how-grid">
             <HowCard n="01" title={t("cercles.landing.how_01_title")} body={t("cercles.landing.how_01_body")} />
             <HowCard n="02" title={t("cercles.landing.how_02_title")} body={t("cercles.landing.how_02_body")} />
             <HowCard n="03" title={t("cercles.landing.how_03_title")} body={t("cercles.landing.how_03_body")} />
