@@ -32,6 +32,10 @@ import frCal from "./fr/cal.json";
 import frPv from "./fr/pv.json";
 import frLiv from "./fr/liv.json";
 import frDocs from "./fr/docs.json";
+import frChantier from "./fr/chantier.json";
+import frDocuments from "./fr/documents.json";
+import frPermis from "./fr/permis.json";
+import frRokhas from "./fr/rokhas.json";
 
 // ── AR ──────────────────────────────────────────────────────────────────
 import arCommon from "./ar/common.json";
@@ -50,6 +54,10 @@ import arCal from "./ar/cal.json";
 import arPv from "./ar/pv.json";
 import arLiv from "./ar/liv.json";
 import arDocs from "./ar/docs.json";
+import arChantier from "./ar/chantier.json";
+import arDocuments from "./ar/documents.json";
+import arPermis from "./ar/permis.json";
+import arRokhas from "./ar/rokhas.json";
 
 // ── EN ──────────────────────────────────────────────────────────────────
 import enCommon from "./en/common.json";
@@ -68,6 +76,10 @@ import enCal from "./en/cal.json";
 import enPv from "./en/pv.json";
 import enLiv from "./en/liv.json";
 import enDocs from "./en/docs.json";
+import enChantier from "./en/chantier.json";
+import enDocuments from "./en/documents.json";
+import enPermis from "./en/permis.json";
+import enRokhas from "./en/rokhas.json";
 
 export type Lang = "fr" | "ar" | "en";
 
@@ -90,6 +102,10 @@ const FR: FlatNs = {
   ...frPv,
   ...frLiv,
   ...frDocs,
+  ...frChantier,
+  ...frDocuments,
+  ...frPermis,
+  ...frRokhas,
 };
 
 const AR: FlatNs = {
@@ -109,6 +125,10 @@ const AR: FlatNs = {
   ...arPv,
   ...arLiv,
   ...arDocs,
+  ...arChantier,
+  ...arDocuments,
+  ...arPermis,
+  ...arRokhas,
 };
 
 const EN: FlatNs = {
@@ -128,6 +148,10 @@ const EN: FlatNs = {
   ...enPv,
   ...enLiv,
   ...enDocs,
+  ...enChantier,
+  ...enDocuments,
+  ...enPermis,
+  ...enRokhas,
 };
 
 /**

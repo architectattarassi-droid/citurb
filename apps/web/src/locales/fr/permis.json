@@ -1,0 +1,17 @@
+{
+  "permis.wizard.loading": "Chargement du brouillon PC…",
+  "permis.wizard.error.title": "Erreur",
+  "permis.wizard.error.retry": "Réessayer",
+  "permis.wizard.error.load": "Erreur de chargement",
+  "permis.wizard.error.save": "Échec sauvegarde",
+  "permis.wizard.btn.prev": "← Précédent",
+  "permis.wizard.btn.next": "Suivant →",
+  "permis.wizard.btn.submit": "Soumettre",
+  "permis.wizard.step.counter": "Étape {current} / {total}",
+  "permis.wizard.step.identification": "Identité",
+  "permis.wizard.step.pieces": "Pièces",
+  "permis.wizard.step.formulaires": "Projet",
+  "permis.wizard.step.review": "Récapitulatif",
+  "permis.wizard.step.soumission": "Soumission",
+  "permis.wizard.step.terrain": "Terrain"
+}

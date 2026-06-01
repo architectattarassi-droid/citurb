@@ -1,0 +1,17 @@
+{
+  "permis.wizard.loading": "Loading Construction permit draft…",
+  "permis.wizard.error.title": "Error",
+  "permis.wizard.error.retry": "Retry",
+  "permis.wizard.error.load": "Loading error",
+  "permis.wizard.error.save": "Save failed",
+  "permis.wizard.btn.prev": "← Previous",
+  "permis.wizard.btn.next": "Next →",
+  "permis.wizard.btn.submit": "Submit",
+  "permis.wizard.step.counter": "Step {current} / {total}",
+  "permis.wizard.step.identification": "Identity",
+  "permis.wizard.step.pieces": "Documents",
+  "permis.wizard.step.formulaires": "Project",
+  "permis.wizard.step.review": "Summary",
+  "permis.wizard.step.soumission": "Submission",
+  "permis.wizard.step.terrain": "Land"
+}

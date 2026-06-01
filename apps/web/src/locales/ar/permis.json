@@ -1,0 +1,17 @@
+{
+  "permis.wizard.loading": "جارٍ تحميل مسودة رخصة البناء…",
+  "permis.wizard.error.title": "خطأ",
+  "permis.wizard.error.retry": "إعادة المحاولة",
+  "permis.wizard.error.load": "خطأ في التحميل",
+  "permis.wizard.error.save": "فشل الحفظ",
+  "permis.wizard.btn.prev": "→ السابق",
+  "permis.wizard.btn.next": "التالي ←",
+  "permis.wizard.btn.submit": "إرسال",
+  "permis.wizard.step.counter": "الخطوة {current} / {total}",
+  "permis.wizard.step.identification": "هوية المالك",
+  "permis.wizard.step.pieces": "الوثائق",
+  "permis.wizard.step.formulaires": "المشروع",
+  "permis.wizard.step.review": "الملخص",
+  "permis.wizard.step.soumission": "الإيداع",
+  "permis.wizard.step.terrain": "الأرض"
+}
