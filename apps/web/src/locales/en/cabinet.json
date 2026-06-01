@@ -48,7 +48,7 @@
   "cabinet.manage.form.edit_title": "Edit project",
   "cabinet.manage.form.label_title": "Title *",
   "cabinet.manage.form.label_type": "Type *",
-  "cabinet.manage.form.placeholder_type": "Residential, Administrative…",
+  "cabinet.manage.form.placeholder_type": "Residential, commercial, administrative…",
   "cabinet.manage.form.label_city": "City *",
   "cabinet.manage.form.label_surface": "Surface (m²)",
   "cabinet.manage.form.label_year": "Year",
