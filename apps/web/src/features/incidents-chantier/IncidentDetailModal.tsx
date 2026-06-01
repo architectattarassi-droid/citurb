@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useState } from "react";
+import { useT, useLang } from "../../i18n/i18n";
 import {
   IncidentAction,
   IncidentActionType,
@@ -18,24 +19,24 @@ type Props = {
   onClose: () => void;
 };
 
-const ACTION_LABEL: Partial<Record<IncidentActionType, string>> = {
-  DECLARED: "Déclaré",
-  PHOTO_ADDED: "Photo ajoutée",
-  SOS_TRIGGERED: "SOS DÉCLENCHÉ",
-  FAMILY_NOTIFIED: "Famille notifiée",
-  LAWYER_NOTIFIED: "Avocat notifié",
-  OPS_NOTIFIED: "OPS CITURBAREA notifié",
-  INSURANCE_CONTACTED: "Assurance contactée",
-  CNSS_DECLARED: "CNSS déclaré",
-  POLICE_REPORT_FILED: "Plainte déposée",
-  EXPERTISE_REQUESTED: "Expertise demandée",
-  REPAIR_STARTED: "Réparation lancée",
-  CHANTIER_SUSPENDED: "Chantier suspendu",
-  CHANTIER_RESUMED: "Chantier repris",
-  STATUS_CHANGED: "Statut modifié",
-  NOTE: "Note",
-  RESOLVED: "Résolu",
-};
+const ACTION_TYPES: IncidentActionType[] = [
+  "DECLARED",
+  "PHOTO_ADDED",
+  "SOS_TRIGGERED",
+  "FAMILY_NOTIFIED",
+  "LAWYER_NOTIFIED",
+  "OPS_NOTIFIED",
+  "INSURANCE_CONTACTED",
+  "CNSS_DECLARED",
+  "POLICE_REPORT_FILED",
+  "EXPERTISE_REQUESTED",
+  "REPAIR_STARTED",
+  "CHANTIER_SUSPENDED",
+  "CHANTIER_RESUMED",
+  "STATUS_CHANGED",
+  "NOTE",
+  "RESOLVED",
+];
 
 const QUICK_ACTIONS: IncidentActionType[] = [
   "INSURANCE_CONTACTED",
@@ -46,6 +47,15 @@ const QUICK_ACTIONS: IncidentActionType[] = [
 ];
 
 export default function IncidentDetailModal({ incidentId, onClose }: Props) {
+  const t = useT();
+  const { lang } = useLang();
+  const dateLocale = lang === "ar" ? "ar-MA" : lang === "en" ? "en-US" : "fr-FR";
+  const actionLabel = (type: IncidentActionType): string => {
+    if (ACTION_TYPES.includes(type)) {
+      return t(`chantier.incident_detail.action.${type}`);
+    }
+    return type;
+  };
   const [incident, setIncident] = useState<IncidentChantier | null>(null);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
@@ -90,7 +100,7 @@ export default function IncidentDetailModal({ incidentId, onClose }: Props) {
   };
 
   const resolve = async () => {
-    const lecon = window.prompt("Leçon apprise (facultatif) :");
+    const lecon = window.prompt(t("chantier.incident_detail.resolve_prompt"));
     setAdding(true);
     try {
       const r = await incidentsChantierApi.resolve(incidentId, {
@@ -105,12 +115,16 @@ export default function IncidentDetailModal({ incidentId, onClose }: Props) {
   return (
     <div style={S.overlay} role="dialog" aria-modal>
       <div style={S.panel}>
-        <button onClick={onClose} style={S.closeBtn} aria-label="Fermer">
+        <button
+          onClick={onClose}
+          style={S.closeBtn}
+          aria-label={t("chantier.incident_detail.close")}
+        >
           ×
         </button>
         {loading || !incident ? (
           <div style={{ padding: 60, textAlign: "center", color: "#64748b" }}>
-            Chargement…
+            {t("chantier.incident_detail.loading")}
           </div>
         ) : (
           <>
@@ -155,14 +169,14 @@ export default function IncidentDetailModal({ incidentId, onClose }: Props) {
                       color: "#fff",
                     }}
                   >
-                    SOS DÉCLENCHÉ
+                    {t("chantier.incident_detail.sos_triggered")}
                   </span>
                 )}
               </div>
             </div>
 
             <section style={S.section}>
-              <h3 style={S.h3}>Description</h3>
+              <h3 style={S.h3}>{t("chantier.incident_detail.section_description")}</h3>
               <p style={{ margin: 0, color: "#334155", fontSize: 14 }}>
                 {incident.description}
               </p>
@@ -171,20 +185,28 @@ export default function IncidentDetailModal({ incidentId, onClose }: Props) {
             {(incident.blessesNb != null ||
               incident.montantDommageEstimeMad != null) && (
               <section style={S.section}>
-                <h3 style={S.h3}>Impact</h3>
+                <h3 style={S.h3}>{t("chantier.incident_detail.section_impact")}</h3>
                 {incident.blessesNb != null && (
                   <p style={{ margin: "4px 0", fontSize: 13 }}>
-                    Blessés : <b>{incident.blessesNb}</b>
+                    {t("chantier.incident_detail.impact_blesses")} <b>{incident.blessesNb}</b>
                   </p>
                 )}
                 {incident.montantDommageEstimeMad != null && (
                   <p style={{ margin: "4px 0", fontSize: 13 }}>
-                    Dommage estimé : <b>{incident.montantDommageEstimeMad} MAD</b>
+                    {t("chantier.incident_detail.impact_dommage")}{" "}
+                    <b>
+                      {incident.montantDommageEstimeMad}{" "}
+                      {t("chantier.incident_detail.currency_mad")}
+                    </b>
                   </p>
                 )}
                 {incident.montantIndemniseMad != null && (
                   <p style={{ margin: "4px 0", fontSize: 13 }}>
-                    Indemnisation : <b>{incident.montantIndemniseMad} MAD</b>
+                    {t("chantier.incident_detail.impact_indemnisation")}{" "}
+                    <b>
+                      {incident.montantIndemniseMad}{" "}
+                      {t("chantier.incident_detail.currency_mad")}
+                    </b>
                   </p>
                 )}
               </section>
@@ -192,7 +214,11 @@ export default function IncidentDetailModal({ incidentId, onClose }: Props) {
 
             {incident.photos.length > 0 && (
               <section style={S.section}>
-                <h3 style={S.h3}>Photos ({incident.photos.length})</h3>
+                <h3 style={S.h3}>
+                  {t("chantier.incident_detail.section_photos", {
+                    count: incident.photos.length,
+                  })}
+                </h3>
                 <div
                   style={{
                     display: "grid",
@@ -204,7 +230,7 @@ export default function IncidentDetailModal({ incidentId, onClose }: Props) {
                     <img
                       key={i}
                       src={p.url}
-                      alt={`photo ${i}`}
+                      alt={t("chantier.incident_detail.photo_alt", { index: i })}
                       style={{
                         width: "100%",
                         aspectRatio: "1/1",
@@ -219,7 +245,7 @@ export default function IncidentDetailModal({ incidentId, onClose }: Props) {
 
             {incident.geoloc && (
               <section style={S.section}>
-                <h3 style={S.h3}>Localisation</h3>
+                <h3 style={S.h3}>{t("chantier.incident_detail.section_localisation")}</h3>
                 <a
                   href={`https://maps.google.com/?q=${incident.geoloc.lat},${incident.geoloc.lng}`}
                   target="_blank"
@@ -234,7 +260,9 @@ export default function IncidentDetailModal({ incidentId, onClose }: Props) {
 
             {incident.status !== "RESOLVED" && (
               <section style={S.section}>
-                <h3 style={S.h3}>Actions rapides</h3>
+                <h3 style={S.h3}>
+                  {t("chantier.incident_detail.section_quick_actions")}
+                </h3>
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                   {QUICK_ACTIONS.map((a) => (
                     <button
@@ -243,13 +271,13 @@ export default function IncidentDetailModal({ incidentId, onClose }: Props) {
                       disabled={adding}
                       style={S.quickBtn}
                     >
-                      {ACTION_LABEL[a]}
+                      {actionLabel(a)}
                     </button>
                   ))}
                 </div>
                 <div style={{ marginTop: 12 }}>
                   <textarea
-                    placeholder="Ajouter une note…"
+                    placeholder={t("chantier.incident_detail.note_placeholder")}
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
                     style={{
@@ -267,14 +295,18 @@ export default function IncidentDetailModal({ incidentId, onClose }: Props) {
                     disabled={adding || !note.trim()}
                     style={{ ...S.quickBtn, marginTop: 6, width: "100%" }}
                   >
-                    Ajouter la note
+                    {t("chantier.incident_detail.note_add")}
                   </button>
                 </div>
               </section>
             )}
 
             <section style={S.section}>
-              <h3 style={S.h3}>Timeline ({incident.actions.length})</h3>
+              <h3 style={S.h3}>
+                {t("chantier.incident_detail.section_timeline", {
+                  count: incident.actions.length,
+                })}
+              </h3>
               <ol
                 style={{
                   margin: 0,
@@ -308,10 +340,10 @@ export default function IncidentDetailModal({ incidentId, onClose }: Props) {
                         }}
                       />
                       <div style={{ fontSize: 13, fontWeight: 700 }}>
-                        {ACTION_LABEL[a.type] || a.type}
+                        {actionLabel(a.type)}
                       </div>
                       <div style={{ fontSize: 11, color: "#64748b" }}>
-                        {new Date(a.ts).toLocaleString("fr-FR")}
+                        {new Date(a.ts).toLocaleString(dateLocale)}
                         {a.actorRole ? ` · ${a.actorRole}` : ""}
                       </div>
                       {a.payload && a.payload.text ? (
@@ -326,7 +358,7 @@ export default function IncidentDetailModal({ incidentId, onClose }: Props) {
 
             {incident.status !== "RESOLVED" && (
               <button onClick={resolve} disabled={adding} style={S.resolveBtn}>
-                Marquer résolu
+                {t("chantier.incident_detail.resolve_btn")}
               </button>
             )}
           </>

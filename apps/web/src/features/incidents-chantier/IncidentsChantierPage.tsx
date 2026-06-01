@@ -16,6 +16,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 
+import { useT, useLang } from "../../i18n/i18n";
 import {
   IncidentChantier,
   SEVERITE_COLOR,
@@ -34,6 +35,9 @@ import IncidentDetailModal from "./IncidentDetailModal";
 type Tab = "ACTIFS" | "RESOLUS";
 
 export default function IncidentsChantierPage() {
+  const t = useT();
+  const { lang } = useLang();
+  const dateLocale = lang === "ar" ? "ar-MA" : lang === "en" ? "en-US" : "fr-FR";
   const params = useParams<{ dossierId: string }>();
   const dossierId = params.dossierId || "";
 
@@ -100,13 +104,13 @@ export default function IncidentsChantierPage() {
         const r = await incidentsChantierApi.declare(dossierId, {
           type: "AUTRE",
           severite: "CRITICAL",
-          description: "Déclenchement SOS sans incident préalable — urgence terrain",
+          description: t("chantier.incidents.sos_default_description"),
           geoloc,
           dateConstatation: new Date().toISOString(),
         });
         targetId = r.incident.id;
       } catch (e: any) {
-        return { ok: false as const, message: e?.message || "Erreur création" };
+        return { ok: false as const, message: e?.message || t("chantier.incidents.sos_err_create") };
       }
     }
     try {
@@ -114,7 +118,7 @@ export default function IncidentsChantierPage() {
       reload();
       return { ok: true as const };
     } catch (e: any) {
-      return { ok: false as const, message: e?.message || "Erreur SOS" };
+      return { ok: false as const, message: e?.message || t("chantier.incidents.sos_err_trigger") };
     }
   };
 
@@ -123,11 +127,11 @@ export default function IncidentsChantierPage() {
   return (
     <div style={S.wrap}>
       <header style={S.header}>
-        <h1 style={S.title}>Incidents chantier</h1>
-        <p style={S.sub}>Dossier #{dossierId}</p>
+        <h1 style={S.title}>{t("chantier.incidents.title")}</h1>
+        <p style={S.sub}>{t("chantier.incidents.sub_dossier", { id: dossierId })}</p>
         {queueCount > 0 && (
           <div style={S.queueWarn}>
-            {queueCount} déclaration(s) en attente — sera envoyé au retour réseau
+            {t("chantier.incidents.queue_warn", { count: queueCount })}
           </div>
         )}
       </header>
@@ -141,20 +145,20 @@ export default function IncidentsChantierPage() {
           style={S.tab(tab === "ACTIFS")}
           onClick={() => setTab("ACTIFS")}
         >
-          Actifs ({actifs.length})
+          {t("chantier.incidents.tab_actifs", { count: actifs.length })}
         </button>
         <button
           style={S.tab(tab === "RESOLUS")}
           onClick={() => setTab("RESOLUS")}
         >
-          Résolus ({resolus.length})
+          {t("chantier.incidents.tab_resolus", { count: resolus.length })}
         </button>
       </nav>
 
       <section style={{ paddingBottom: 100 }}>
         {loading ? (
           <p style={{ color: "#64748b", textAlign: "center", padding: 30 }}>
-            Chargement…
+            {t("chantier.incidents.loading")}
           </p>
         ) : list.length === 0 ? (
           <p
@@ -166,8 +170,8 @@ export default function IncidentsChantierPage() {
             }}
           >
             {tab === "ACTIFS"
-              ? "Aucun incident actif. Bon chantier !"
-              : "Aucun incident résolu."}
+              ? t("chantier.incidents.empty_actifs")
+              : t("chantier.incidents.empty_resolus")}
           </p>
         ) : (
           <div style={S.grid}>
@@ -209,11 +213,11 @@ export default function IncidentsChantierPage() {
                         color: "#fff",
                       }}
                     >
-                      SOS
+                      {t("chantier.incidents.sos_pill")}
                     </span>
                   )}
                   <span style={S.date}>
-                    {new Date(i.createdAt).toLocaleDateString("fr-FR")}
+                    {new Date(i.createdAt).toLocaleDateString(dateLocale)}
                   </span>
                 </div>
               </button>
@@ -224,7 +228,7 @@ export default function IncidentsChantierPage() {
 
       {/* Bouton déclarer sticky bottom */}
       <button onClick={() => setShowForm(true)} style={S.declareBtn}>
-        + Déclarer un incident
+        {t("chantier.incidents.declare_btn")}
       </button>
 
       {/* FAB SOS toujours visible */}
