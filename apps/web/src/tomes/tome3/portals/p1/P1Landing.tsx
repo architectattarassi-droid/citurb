@@ -6,7 +6,7 @@ import { readJSON, writeJSON } from "../../../../infrastructure/storage";
 import { STORAGE_KEYS } from "../../../../infrastructure/storage/keys";
 import { resolveUserId } from "../../../../application/p1/startQualification";
 import { createDossier } from "../../../../application/p1/createDossier";
-import { useT, useLang, type Lang } from "../../../../i18n/i18n";
+import { useT, useLang, tVanilla, getStoredLang, LANG_CHANGE_EVENT, type Lang } from "../../../../i18n/i18n";
 
 /**
  * P1Landing
@@ -23,6 +23,16 @@ export default function P1Landing() {
   const { lang, setLang } = useLang();
 
   useEffect(() => {
+    // ---------- i18n vanilla (lang-aware sans render React) ----------
+    // tt() lit la langue courante à chaque appel (via localStorage), de sorte
+    // qu'un changement de langue + ré-execution des syncs (cf. LANG_CHANGE_EVENT
+    // listener plus bas) suffit à mettre à jour les labels manipulés en DOM
+    // imperatif (b.textContent = ...).
+    const tt = (key: string, vars?: Record<string, string | number>) =>
+      tVanilla(key, vars, getStoredLang());
+    const localeFor = (l: string): string =>
+      l === "ar" ? "ar-MA" : l === "en" ? "en-US" : "fr-FR";
+
     // ---------- Helpers DOM ----------
     const byId = (id: string) => document.getElementById(id);
     const qs = (sel: string) => document.querySelector(sel) as HTMLElement | null;
@@ -98,9 +108,9 @@ export default function P1Landing() {
     };
 
     const getProjectTypeCtaLabel = (mode: Draft['planMode']) => {
-      if (mode === 'type') return 'Sélectionner — Plan type';
-      if (mode === 'personnalise') return 'Sélectionner — Plan personnalisé';
-      return 'Démarrer le projet';
+      if (mode === 'type') return tt('p1.lp.imperative.cta_type');
+      if (mode === 'personnalise') return tt('p1.lp.imperative.cta_perso');
+      return tt('p1.lp.imperative.cta_start');
     };
 
     const syncProjectTypeCtas = () => {
@@ -262,10 +272,10 @@ export default function P1Landing() {
 
       // Si le DOM contient des boutons façades, on les met à jour visuellement.
       const map: Record<number, string> = {
-        1: "1 façade",
-        2: "Lot d'angle (2 façades)",
-        3: "3 façades",
-        4: "4 façades",
+        1: tt('p1.lp.imperative.facade_1'),
+        2: tt('p1.lp.imperative.facade_2'),
+        3: tt('p1.lp.imperative.facade_3'),
+        4: tt('p1.lp.imperative.facade_4'),
       };
       const label = map[n];
       if (!label) return;
@@ -440,8 +450,8 @@ export default function P1Landing() {
       const opt0 = document.createElement('option');
       opt0.value = '';
       opt0.textContent = sp
-        ? '— Choisir votre budget estimatif —'
-        : '— Choisissez d’abord la typologie du projet —';
+        ? tt('p1.lp.imperative.budget_choose')
+        : tt('p1.lp.imperative.budget_need_typology');
       sel.appendChild(opt0);
 
       if (!sp) {
@@ -460,7 +470,11 @@ export default function P1Landing() {
         const maxMAD = roundMAD(sp * max);
         const o = document.createElement('option');
         o.value = `${min}-${max}`;
-        o.textContent = `${minMAD.toLocaleString('fr-FR')} – ${maxMAD.toLocaleString('fr-FR')} MAD`;
+        const loc = localeFor(getStoredLang());
+        o.textContent = tt('p1.lp.imperative.budget_range', {
+          min: minMAD.toLocaleString(loc),
+          max: maxMAD.toLocaleString(loc),
+        });
         o.setAttribute('data-minmad', String(minMAD));
         o.setAttribute('data-maxmad', String(maxMAD));
         sel.appendChild(o);
@@ -874,19 +888,19 @@ export default function P1Landing() {
     const verifyOtp = () => {
       const code = (otpInput?.value || "").trim();
       if (!/^\d{6}$/.test(code)) {
-        setOtpHint("Veuillez saisir un code à 6 chiffres.");
+        setOtpHint(tt('p1.lp.imperative.otp_err_6'));
         return;
       }
       // Mock rule: any 6 digits accepted (future: SMS provider)
       writeJSON(OTP_OK_KEY, true);
-      setOtpHint("Code validé ✅", true);
+      setOtpHint(tt('p1.lp.imperative.otp_ok'), true);
       // Create dossier append-only and route to packs
       const { caseId } = createDossier(userId);
       navigate(`/p1/packs?case=${encodeURIComponent(caseId)}`);
     };
 
     if (btnVerify) btnVerify.addEventListener("click", (e) => { e.preventDefault(); verifyOtp(); });
-    if (btnResend) btnResend.addEventListener("click", (e) => { e.preventDefault(); setOtpHint("Nouveau code envoyé (mock).", true); focusNoScroll(otpInput); });
+    if (btnResend) btnResend.addEventListener("click", (e) => { e.preventDefault(); setOtpHint(tt('p1.lp.imperative.otp_resent'), true); focusNoScroll(otpInput); });
     if (otpInput) otpInput.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); verifyOtp(); } });
 
     
@@ -969,15 +983,31 @@ export default function P1Landing() {
       chatInput.value = "";
       // IA placeholder (doctrine: AI + humain ensuite)
       window.setTimeout(() => {
-        appendChat("ai", "Reçu ✅ — je vous réponds ici (IA) et vous pouvez aussi prendre RDV WhatsApp si vous êtes déjà qualifié.");
+        appendChat("ai", tt('p1.lp.imperative.chat_ai_default'));
       }, 250);
     };
 
     if (chatSend) chatSend.addEventListener("click", (e) => { e.preventDefault(); sendChat(); });
     if (chatInput) chatInput.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendChat(); } });
+
+    // ─── Lang-change listener — ré-applique les labels DOM imperatifs ───
+    // Quand l'utilisateur switch FR/AR/EN, le re-render React ne touche pas
+    // les .textContent posés via le code impératif ci-dessus. On les ré-évalue
+    // au signal LANG_CHANGE_EVENT dispatché par I18nProvider.setLang.
+    const onLangChange = () => {
+      try {
+        syncProjectTypeCtas();
+        refreshBudgetOptions();
+        // Façade label : ré-applique si une façade était choisie.
+        if (typeof draft.facades === "number") setFacadeAuto(draft.facades);
+      } catch { /* best-effort */ }
+    };
+    window.addEventListener(LANG_CHANGE_EVENT, onLangChange);
+
     // Cleanup listeners: (best-effort)
     return () => {
       document.removeEventListener('change', onSelectChange);
+      window.removeEventListener(LANG_CHANGE_EVENT, onLangChange);
     };
   }, [navigate]);
 

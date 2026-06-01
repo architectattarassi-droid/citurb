@@ -1456,5 +1456,19 @@
   "portes.p1.dossier.db_status_label": "DB status:",
   "portes.p1.dossier.pack_label": "Pack:",
   "portes.p1.dossier.ops_note_title": "Message from your architect:",
-  "portes.p1.dossier.view_phases": "📁 View project documents and phases"
+  "portes.p1.dossier.view_phases": "📁 View project documents and phases",
+  "p1.lp.imperative.cta_type": "Select — Standard plan",
+  "p1.lp.imperative.cta_perso": "Select — Custom plan",
+  "p1.lp.imperative.cta_start": "Start the project",
+  "p1.lp.imperative.budget_choose": "— Choose your estimated budget —",
+  "p1.lp.imperative.budget_need_typology": "— Choose the project typology first —",
+  "p1.lp.imperative.budget_range": "{min} – {max} MAD",
+  "p1.lp.imperative.otp_err_6": "Please enter a 6-digit code.",
+  "p1.lp.imperative.otp_ok": "Code verified ✅",
+  "p1.lp.imperative.otp_resent": "New code sent (mock).",
+  "p1.lp.imperative.chat_ai_default": "Received ✅ — I'll reply here (AI) and you can also book a WhatsApp appointment if you're already qualified.",
+  "p1.lp.imperative.facade_1": "1 façade",
+  "p1.lp.imperative.facade_2": "Corner lot (2 façades)",
+  "p1.lp.imperative.facade_3": "3 façades",
+  "p1.lp.imperative.facade_4": "4 façades"
 }

@@ -1682,5 +1682,20 @@
   "portes.p1.dossier.db_status_label": "حالة قاعدة البيانات:",
   "portes.p1.dossier.pack_label": "الباقة:",
   "portes.p1.dossier.ops_note_title": "رسالة من مهندسكم المعماري:",
-  "portes.p1.dossier.view_phases": "📁 مشاهدة وثائق ومراحل المشروع"
+  "portes.p1.dossier.view_phases": "📁 مشاهدة وثائق ومراحل المشروع",
+
+  "p1.lp.imperative.cta_type": "اختيار — مخطط نموذجي",
+  "p1.lp.imperative.cta_perso": "اختيار — مخطط مخصص",
+  "p1.lp.imperative.cta_start": "بدء المشروع",
+  "p1.lp.imperative.budget_choose": "— اختر ميزانيتك التقديرية —",
+  "p1.lp.imperative.budget_need_typology": "— اختر أولاً نوع المشروع —",
+  "p1.lp.imperative.budget_range": "{min} – {max} درهم",
+  "p1.lp.imperative.otp_err_6": "يرجى إدخال رمز مكون من 6 أرقام.",
+  "p1.lp.imperative.otp_ok": "تم التحقق من الرمز ✅",
+  "p1.lp.imperative.otp_resent": "تم إرسال رمز جديد (محاكاة).",
+  "p1.lp.imperative.chat_ai_default": "تم الاستلام ✅ — أرد عليك هنا (الذكاء الاصطناعي) ويمكنك أيضًا حجز موعد عبر واتساب إذا كنت مؤهلاً بالفعل.",
+  "p1.lp.imperative.facade_1": "واجهة واحدة",
+  "p1.lp.imperative.facade_2": "قطعة زاوية (واجهتان)",
+  "p1.lp.imperative.facade_3": "ثلاث واجهات",
+  "p1.lp.imperative.facade_4": "أربع واجهات"
 }

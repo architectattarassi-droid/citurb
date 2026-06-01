@@ -1682,5 +1682,20 @@
   "portes.p1.dossier.db_status_label": "Statut DB :",
   "portes.p1.dossier.pack_label": "Pack :",
   "portes.p1.dossier.ops_note_title": "Message de votre architecte :",
-  "portes.p1.dossier.view_phases": "📁 Voir les documents et phases du projet"
+  "portes.p1.dossier.view_phases": "📁 Voir les documents et phases du projet",
+
+  "p1.lp.imperative.cta_type": "Sélectionner — Plan type",
+  "p1.lp.imperative.cta_perso": "Sélectionner — Plan personnalisé",
+  "p1.lp.imperative.cta_start": "Démarrer le projet",
+  "p1.lp.imperative.budget_choose": "— Choisir votre budget estimatif —",
+  "p1.lp.imperative.budget_need_typology": "— Choisissez d'abord la typologie du projet —",
+  "p1.lp.imperative.budget_range": "{min} – {max} MAD",
+  "p1.lp.imperative.otp_err_6": "Veuillez saisir un code à 6 chiffres.",
+  "p1.lp.imperative.otp_ok": "Code validé ✅",
+  "p1.lp.imperative.otp_resent": "Nouveau code envoyé (mock).",
+  "p1.lp.imperative.chat_ai_default": "Reçu ✅ — je vous réponds ici (IA) et vous pouvez aussi prendre RDV WhatsApp si vous êtes déjà qualifié.",
+  "p1.lp.imperative.facade_1": "1 façade",
+  "p1.lp.imperative.facade_2": "Lot d'angle (2 façades)",
+  "p1.lp.imperative.facade_3": "3 façades",
+  "p1.lp.imperative.facade_4": "4 façades"
 }
