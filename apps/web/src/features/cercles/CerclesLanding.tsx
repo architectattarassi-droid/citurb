@@ -27,11 +27,14 @@ export default function CerclesLanding() {
   return (
     <div style={S.root} className="cit-cercles-root">
       <style>{`
-        .cit-cercles-root { zoom: 1.3; }
-        @media (max-width: 480px) { .cit-cercles-root { zoom: 1; } }
-        .cit-cercles-partner-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
-        .cit-cercles-metier-grid  { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
-        .cit-cercles-how-grid     { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+        .cit-cercles-root { zoom: 1.3; min-height: calc(100vh / 1.3); }
+        @media (max-width: 480px) { .cit-cercles-root { zoom: 1; min-height: 100vh; } }
+        .cit-cercles-partner-grid { display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
+        .cit-cercles-metier-grid  { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+        .cit-cercles-how-grid     { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+        @media (max-width: 480px) {
+          .cit-cercles-partner-grid, .cit-cercles-metier-grid, .cit-cercles-how-grid { gap: 14px; }
+        }
       `}</style>
       <header style={S.header}>
         <div className="cit-container-wide" style={S.headerInner}>
@@ -228,8 +231,8 @@ function HowCard({ n, title, body }: { n: string; title: string; body: string })
 }
 
 const S: Record<string, React.CSSProperties> = {
-  // zoom 1.3 = +30% taille (accessibilité lecture) ; minHeight compensée
-  root: { background: CC_THEME.bg, color: CC_THEME.ink, fontFamily: CC_THEME.fontBody, minHeight: "calc(100vh / 1.3)", zoom: 1.3 },
+  // zoom 1.3 et minHeight gérés par .cit-cercles-root (CSS) pour permettre @media override
+  root: { background: CC_THEME.bg, color: CC_THEME.ink, fontFamily: CC_THEME.fontBody },
 
   header: { borderBottom: `1px solid ${CC_THEME.border}`, background: CC_THEME.bgRaised, position: "sticky", top: 0, zIndex: 10 },
   // .cit-container-wide gère maxWidth 1280 + padding horizontal ; on garde flex inner
@@ -263,8 +266,9 @@ const S: Record<string, React.CSSProperties> = {
   sectionTitle: { margin: "10px 0 26px", fontFamily: CC_THEME.fontDisplay, fontSize: 36, fontWeight: 600, color: CC_THEME.navy, letterSpacing: "-0.015em", lineHeight: 1.15, maxWidth: 820 },
   sectionLead: { color: CC_THEME.inkMid, fontSize: 15.5, lineHeight: 1.65, maxWidth: 820, marginBottom: 36 },
 
-  // Grilles responsive auto-fit → 2-3 colonnes desktop, 1 mobile
-  partnerGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))", gap: 22 },
+  // Grilles responsive : display/gridTemplateColumns/gap gérés par .cit-cercles-partner-grid (CSS)
+  // pour permettre minmax(min(100%, 320px), 1fr) qui ne déborde pas sur mobile
+  partnerGrid: { marginTop: 0 },
   partnerCard: { background: CC_THEME.bgRaised, border: `1px solid ${CC_THEME.border}`, borderRadius: 12, padding: "30px 28px", display: "flex", flexDirection: "column", gap: 14 },
   partnerBadge: { display: "inline-block", padding: "5px 11px", borderRadius: 4, background: CC_THEME.or, color: CC_THEME.bgDeep, fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", alignSelf: "flex-start" },
   partnerName: { fontFamily: CC_THEME.fontDisplay, fontSize: 20, fontWeight: 600, color: CC_THEME.navy, margin: 0, lineHeight: 1.25 },
@@ -273,14 +277,16 @@ const S: Record<string, React.CSSProperties> = {
   partnerFeeNote: { fontSize: 12, color: CC_THEME.or, fontStyle: "italic" },
   partnerCta: { color: CC_THEME.navy, textDecoration: "none", fontSize: 13.5, fontWeight: 600, marginTop: 4 },
 
-  // metier : minmax(280px,1fr) → 4 col @1280, 3 @1024, 2 @768, 1 @360
-  metierGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 18, marginTop: 8 },
+  // metier : display/gridTemplateColumns/gap gérés par .cit-cercles-metier-grid (CSS)
+  // pour éviter overflow sur mobile (minmax avec min(100%, 240px))
+  metierGrid: { marginTop: 8 },
   metierCard: { background: CC_THEME.bg, border: `1px solid ${CC_THEME.border}`, padding: "20px 18px", borderRadius: 10 },
   metierIcon: { fontSize: 26, display: "block", marginBottom: 10 },
   metierLabel: { fontFamily: CC_THEME.fontDisplay, fontSize: 16, fontWeight: 600, color: CC_THEME.navy, marginBottom: 6 },
   metierBody: { fontSize: 12.5, color: CC_THEME.inkMid, lineHeight: 1.55 },
 
-  howGrid: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20, marginBottom: 32 },
+  // howGrid : display/gridTemplateColumns/gap gérés par .cit-cercles-how-grid (CSS)
+  howGrid: { marginBottom: 32 },
   howCard: { background: CC_THEME.bgRaised, border: `1px solid ${CC_THEME.border}`, padding: "24px 22px", borderRadius: 10 },
   howNum: { fontFamily: CC_THEME.fontDisplay, fontSize: 28, fontWeight: 600, color: CC_THEME.or, marginBottom: 8, letterSpacing: "0.02em" },
   howTitle: { fontFamily: CC_THEME.fontDisplay, fontSize: 18, fontWeight: 600, color: CC_THEME.navy, marginBottom: 8, lineHeight: 1.25 },

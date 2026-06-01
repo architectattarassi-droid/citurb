@@ -201,11 +201,10 @@ export default function EditProfilePage() {
   return (
     <CerclesShell>
       <style>{`
-        .cit-cercles-root { zoom: 1.3; min-height: calc(100vh / 1.3); padding: 32px 16px; }
-        @media(max-width:480px){ .cit-cercles-root { zoom: 1; min-height: 100vh; padding: 16px 12px; } }
-        .cit-cercles-card { padding: 32px; max-width: 700px; margin: 0 auto; }
-        @media(max-width:480px){ .cit-cercles-card { padding: 20px 16px; } }
+        .cit-cercles-root { zoom: 1.3; min-height: calc(100vh / 1.3); padding: 32px 24px 80px; }
+        @media(max-width:480px){ .cit-cercles-root { zoom: 1; min-height: 100vh; padding: 20px 12px 60px; } }
         .cit-cercles-input { padding: 12px 14px; min-height: 44px; font-size: 16px; }
+        @media(max-width:480px){ .cit-cercles-input { font-size: 16px; } }
       `}</style>
       <div style={S.root} className="cit-cercles-root">
         <header style={S.header}>
@@ -524,7 +523,8 @@ function ProjectPhotos({ urls, onChange }: { urls: string[]; onChange: (u: strin
 }
 
 const S: Record<string, React.CSSProperties> = {
-  root: { maxWidth: 880, margin: "0 auto", padding: "32px 24px 80px", fontFamily: CC_THEME.fontBody, color: CC_THEME.ink },
+  // padding + zoom gérés par .cit-cercles-root (CSS) pour permettre @media override
+  root: { maxWidth: 880, margin: "0 auto", fontFamily: CC_THEME.fontBody, color: CC_THEME.ink },
   header: { marginBottom: 24 },
   eyebrow: { fontSize: 11, letterSpacing: "0.22em", color: CC_THEME.or, fontWeight: 600, textTransform: "uppercase" as const },
   h1: { fontFamily: CC_THEME.fontDisplay, fontSize: 30, color: CC_THEME.navy, fontWeight: 600, margin: "10px 0 6px", letterSpacing: "-0.01em" },
@@ -536,7 +536,8 @@ const S: Record<string, React.CSSProperties> = {
   sectionEyebrow: { fontSize: 10, color: CC_THEME.or, letterSpacing: "0.22em", textTransform: "uppercase" as const, fontWeight: 600, marginBottom: 14, paddingBottom: 8, borderBottom: `1px dotted ${CC_THEME.border}` },
 
   label: { display: "block", fontSize: 11, color: CC_THEME.inkMid, marginBottom: 4, fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase" as const },
-  input: { width: "100%", padding: "10px 12px", border: `1px solid ${CC_THEME.border}`, borderRadius: 4, fontSize: 14, fontFamily: "inherit", background: CC_THEME.bgRaised, boxSizing: "border-box" as const, outline: "none", resize: "vertical" as const },
+  // padding + fontSize gérés par .cit-cercles-input (CSS) pour iOS no-zoom (16px) + min-height 44px touch
+  input: { width: "100%", border: `1px solid ${CC_THEME.border}`, borderRadius: 4, fontFamily: "inherit", background: CC_THEME.bgRaised, boxSizing: "border-box" as const, outline: "none", resize: "vertical" as const },
 
   itemCard: { padding: 14, background: CC_THEME.bgSoft, borderRadius: 6, marginBottom: 12, borderLeft: `3px solid ${CC_THEME.or}` },
   btnAdd: { background: "transparent", border: `1px dashed ${CC_THEME.border}`, color: CC_THEME.or, padding: "8px 14px", borderRadius: 4, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", fontSize: 12 },

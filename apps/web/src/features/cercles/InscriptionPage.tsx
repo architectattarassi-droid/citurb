@@ -324,9 +324,8 @@ export default function InscriptionPage() {
     <div style={S.root} className="cit-cercles-root">
       <style>{`
         .cit-cercles-root { zoom: 1.3; min-height: calc(100vh / 1.3); padding: 32px 16px; }
-        @media(max-width:480px){ .cit-cercles-root { zoom: 1; min-height: 100vh; padding: 16px 12px; } }
-        .cit-cercles-card { padding: 32px; max-width: 700px; margin: 0 auto; }
-        @media(max-width:480px){ .cit-cercles-card { padding: 20px 16px; } }
+        @media(max-width:480px){ .cit-cercles-root { zoom: 1; min-height: 100vh; padding: 16px 8px; } }
+        .cit-cercles-card { max-width: 700px; margin: 0 auto; }
         .cit-cercles-input { padding: 12px 14px; min-height: 44px; font-size: 16px; }
       `}</style>
       <div style={S.card} className="cit-cercles-card">
@@ -603,9 +602,10 @@ function Field({ label, children, flex }: { label: string; children: React.React
 }
 
 const S: Record<string, React.CSSProperties> = {
-  // zoom 1.3 = +30% taille (accessibilité lecture) ; minHeight compensée
-  root: { minHeight: "calc(100vh / 1.3)", zoom: 1.3, background: CC_THEME.bg, fontFamily: CC_THEME.fontBody, color: CC_THEME.ink, padding: "32px 16px" },
-  card: { maxWidth: 700, margin: "0 auto", background: CC_THEME.bgRaised, borderRadius: 8, overflow: "hidden", boxShadow: CC_THEME.shadowRaise },
+  // zoom 1.3, padding, minHeight gérés par .cit-cercles-root (CSS) pour permettre @media override
+  root: { background: CC_THEME.bg, fontFamily: CC_THEME.fontBody, color: CC_THEME.ink },
+  // padding et maxWidth gérés par .cit-cercles-card (CSS) — n'est utilisé que pour l'identité visuelle (bg, radius, shadow)
+  card: { margin: "0 auto", background: CC_THEME.bgRaised, borderRadius: 8, overflow: "hidden", boxShadow: CC_THEME.shadowRaise },
   header: { padding: "28px 32px 22px", borderBottom: `1px solid ${CC_THEME.border}`, background: CC_THEME.bgDeep, color: CC_THEME.bgSoft },
   eyebrow: { fontSize: 11, letterSpacing: "0.20em", color: CC_THEME.or, fontWeight: 600 },
   title: { margin: "10px 0 4px", fontFamily: CC_THEME.fontDisplay, fontSize: 26, fontWeight: 600, color: CC_THEME.bgSoft },
@@ -632,7 +632,8 @@ const S: Record<string, React.CSSProperties> = {
   avatarHint: { fontSize: 11.5, color: CC_THEME.inkMid, fontStyle: "italic" },
 
   label: { display: "block", fontSize: 11, fontWeight: 600, color: CC_THEME.inkMid, letterSpacing: "0.04em", textTransform: "uppercase" as const, marginBottom: 4 },
-  input: { width: "100%", padding: "9px 12px", border: `1px solid ${CC_THEME.border}`, borderRadius: 4, fontSize: 14, fontFamily: "inherit", outline: "none", background: CC_THEME.bgRaised, boxSizing: "border-box" as const, resize: "vertical" as const },
+  // padding + fontSize gérés par .cit-cercles-input (CSS) pour iOS no-zoom (16px) + touch-target 44px
+  input: { width: "100%", border: `1px solid ${CC_THEME.border}`, borderRadius: 4, fontFamily: "inherit", outline: "none", background: CC_THEME.bgRaised, boxSizing: "border-box" as const, resize: "vertical" as const },
   formErr: { background: CC_THEME.dangerBg, color: CC_THEME.danger, padding: "8px 12px", borderRadius: 4, fontSize: 13, marginTop: 10 },
   btnPrimary: { background: CC_THEME.navy, color: CC_THEME.bg, border: 0, padding: "12px 24px", borderRadius: 4, fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", letterSpacing: "0.04em" },
   btnGhost: { background: "transparent", border: `1px solid ${CC_THEME.border}`, padding: "12px 22px", borderRadius: 4, color: CC_THEME.inkMid, cursor: "pointer", fontFamily: "inherit", fontSize: 14 },
