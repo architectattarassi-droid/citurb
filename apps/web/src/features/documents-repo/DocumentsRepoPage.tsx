@@ -22,6 +22,7 @@ import DocumentCard from "./DocumentCard";
 import DocumentUploader from "./DocumentUploader";
 import DocumentPreview from "./DocumentPreview";
 import SignatureModal from "./SignatureModal";
+import { useT } from "../../i18n/i18n";
 
 type Props = {
   dossierId: string;
@@ -31,12 +32,12 @@ type Props = {
 
 type StatusFilter = "ALL" | "DRAFT" | "PENDING" | "SIGNED" | "ARCHIVED";
 
-const STATUS_TABS: { key: StatusFilter; label: string }[] = [
-  { key: "ALL", label: "Tous" },
-  { key: "DRAFT", label: "Brouillons" },
-  { key: "PENDING", label: "À signer" },
-  { key: "SIGNED", label: "Signés" },
-  { key: "ARCHIVED", label: "Archivés" },
+const STATUS_TAB_KEYS: { key: StatusFilter; tKey: string }[] = [
+  { key: "ALL", tKey: "documents.repo.tabs.all" },
+  { key: "DRAFT", tKey: "documents.repo.tabs.draft" },
+  { key: "PENDING", tKey: "documents.repo.tabs.pending" },
+  { key: "SIGNED", tKey: "documents.repo.tabs.signed" },
+  { key: "ARCHIVED", tKey: "documents.repo.tabs.archived" },
 ];
 
 const CATEGORIES = Object.keys(CATEGORY_LABEL) as DocCategory[];
@@ -161,6 +162,7 @@ const S = {
 
 /** Page principale du dépôt documentaire d'un dossier. */
 export default function DocumentsRepoPage({ dossierId, readOnly = false }: Props) {
+  const t = useT();
   const [items, setItems] = useState<DocumentListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -172,13 +174,19 @@ export default function DocumentsRepoPage({ dossierId, readOnly = false }: Props
   const [signDoc, setSignDoc] = useState<Document | null>(null);
   const [toast, setToast] = useState<{ kind: "ok" | "err"; msg: string } | null>(null);
 
+  const catLabel = (c: DocCategory): string => {
+    const key = `documents.repo.cat.${c}`;
+    const v = t(key);
+    return v === key ? CATEGORY_LABEL[c] : v;
+  };
+
   const reload = async () => {
     setLoading(true);
     try {
       const r = await documentsRepoApi.list(dossierId);
       setItems(r.items);
     } catch (e: any) {
-      setToast({ kind: "err", msg: e?.message ?? "Erreur de chargement" });
+      setToast({ kind: "err", msg: e?.message ?? t("documents.repo.error.load") });
     } finally {
       setLoading(false);
     }
@@ -229,7 +237,7 @@ export default function DocumentsRepoPage({ dossierId, readOnly = false }: Props
       const full = await documentsRepoApi.get(it.id);
       setPreviewDoc(full);
     } catch (e: any) {
-      setToast({ kind: "err", msg: e?.message ?? "Aperçu indisponible" });
+      setToast({ kind: "err", msg: e?.message ?? t("documents.repo.error.preview") });
     }
   };
 
@@ -238,7 +246,7 @@ export default function DocumentsRepoPage({ dossierId, readOnly = false }: Props
       const full = await documentsRepoApi.get(it.id);
       setSignDoc(full);
     } catch (e: any) {
-      setToast({ kind: "err", msg: e?.message ?? "Signature indisponible" });
+      setToast({ kind: "err", msg: e?.message ?? t("documents.repo.error.sign") });
     }
   };
 
@@ -253,7 +261,7 @@ export default function DocumentsRepoPage({ dossierId, readOnly = false }: Props
     if (!signDoc) return;
     await documentsRepoApi.sign(signDoc.id, payload);
     setSignDoc(null);
-    setToast({ kind: "ok", msg: "Signature enregistrée" });
+    setToast({ kind: "ok", msg: t("documents.repo.toast.signed") });
     await reload();
   };
 
@@ -265,21 +273,21 @@ export default function DocumentsRepoPage({ dossierId, readOnly = false }: Props
         await navigator.share({ title: full.title, url });
       } else if (navigator.clipboard) {
         await navigator.clipboard.writeText(url);
-        setToast({ kind: "ok", msg: "Lien de vérification copié" });
+        setToast({ kind: "ok", msg: t("documents.repo.toast.shareCopied") });
       }
     } catch (e: any) {
-      setToast({ kind: "err", msg: e?.message ?? "Partage indisponible" });
+      setToast({ kind: "err", msg: e?.message ?? t("documents.repo.error.share") });
     }
   };
 
   const handleDelete = async (it: DocumentListItem) => {
-    if (!window.confirm(`Archiver « ${it.title} » ?`)) return;
+    if (!window.confirm(t("documents.repo.confirm.archive", { title: it.title }))) return;
     try {
       await documentsRepoApi.remove(it.id);
-      setToast({ kind: "ok", msg: "Document archivé" });
+      setToast({ kind: "ok", msg: t("documents.repo.toast.archived") });
       await reload();
     } catch (e: any) {
-      setToast({ kind: "err", msg: e?.message ?? "Suppression refusée" });
+      setToast({ kind: "err", msg: e?.message ?? t("documents.repo.error.delete") });
     }
   };
 
@@ -287,42 +295,39 @@ export default function DocumentsRepoPage({ dossierId, readOnly = false }: Props
 
   return (
     <div style={S.page}>
-      <h1 style={S.h1}>Documents du dossier</h1>
-      <p style={S.sub}>
-        Contrats, plans, PV, factures, attestations — signature électronique
-        intégrée avec empreinte SHA-256 vérifiable.
-      </p>
+      <h1 style={S.h1}>{t("documents.repo.title")}</h1>
+      <p style={S.sub}>{t("documents.repo.subtitle")}</p>
 
       <div style={S.controls}>
         <input
           type="search"
           style={S.search}
-          placeholder="Rechercher un document…"
+          placeholder={t("documents.repo.search.placeholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          aria-label="Rechercher"
+          aria-label={t("documents.repo.search.aria")}
         />
-        <div style={S.tabs} role="tablist" aria-label="Filtre statut">
-          {STATUS_TABS.map((t) => (
+        <div style={S.tabs} role="tablist" aria-label={t("documents.repo.tabs.aria")}>
+          {STATUS_TAB_KEYS.map((tab) => (
             <button
-              key={t.key}
+              key={tab.key}
               type="button"
               role="tab"
-              aria-selected={statusFilter === t.key}
-              style={S.tab(statusFilter === t.key)}
-              onClick={() => setStatusFilter(t.key)}
+              aria-selected={statusFilter === tab.key}
+              style={S.tab(statusFilter === tab.key)}
+              onClick={() => setStatusFilter(tab.key)}
             >
-              {t.label}
+              {t(tab.tKey)}
             </button>
           ))}
         </div>
-        <div style={S.chips} role="tablist" aria-label="Filtre catégorie">
+        <div style={S.chips} role="tablist" aria-label={t("documents.repo.chips.aria")}>
           <button
             type="button"
             style={S.tab(catFilter === "ALL")}
             onClick={() => setCatFilter("ALL")}
           >
-            Toutes catégories
+            {t("documents.repo.chips.all")}
           </button>
           {CATEGORIES.map((c) => (
             <button
@@ -331,26 +336,26 @@ export default function DocumentsRepoPage({ dossierId, readOnly = false }: Props
               style={S.tab(catFilter === c)}
               onClick={() => setCatFilter(c)}
             >
-              {CATEGORY_LABEL[c]}
+              {catLabel(c)}
             </button>
           ))}
         </div>
       </div>
 
       {loading ? (
-        <div style={S.empty}>Chargement…</div>
+        <div style={S.empty}>{t("documents.repo.loading")}</div>
       ) : filtered.length === 0 ? (
         <div style={S.empty}>
           {items.length === 0
-            ? "Aucun document pour ce dossier — téléversez votre premier fichier."
-            : "Aucun document ne correspond aux filtres."}
+            ? t("documents.repo.empty.none")
+            : t("documents.repo.empty.filtered")}
         </div>
       ) : (
         visibleCategories.map((cat) => {
           const docs = grouped.get(cat) ?? [];
           return (
             <section key={cat} style={S.catSection}>
-              <h2 style={S.catTitle}>{CATEGORY_LABEL[cat]} ({docs.length})</h2>
+              <h2 style={S.catTitle}>{catLabel(cat)} ({docs.length})</h2>
               <div style={S.grid}>
                 {docs.map((d) => (
                   <DocumentCard
@@ -371,7 +376,7 @@ export default function DocumentsRepoPage({ dossierId, readOnly = false }: Props
 
       {!readOnly ? (
         <button type="button" style={S.fab} onClick={() => setShowUploader(true)}>
-          + Téléverser
+          {t("documents.repo.fab.upload")}
         </button>
       ) : null}
 
@@ -379,14 +384,14 @@ export default function DocumentsRepoPage({ dossierId, readOnly = false }: Props
         <div style={S.sheet} onClick={(e) => e.target === e.currentTarget && setShowUploader(false)}>
           <div style={S.sheetInner}>
             <div style={S.sheetHead}>
-              <strong>Téléverser des documents</strong>
-              <button type="button" style={{ background: "transparent", border: 0, fontSize: 22, cursor: "pointer" }} onClick={() => setShowUploader(false)} aria-label="Fermer">×</button>
+              <strong>{t("documents.repo.sheet.title")}</strong>
+              <button type="button" style={{ background: "transparent", border: 0, fontSize: 22, cursor: "pointer" }} onClick={() => setShowUploader(false)} aria-label={t("documents.repo.sheet.close")}>×</button>
             </div>
             <DocumentUploader
               dossierId={dossierId}
               onUploaded={() => {
                 void reload();
-                setToast({ kind: "ok", msg: "Documents téléversés" });
+                setToast({ kind: "ok", msg: t("documents.repo.toast.uploaded") });
               }}
             />
           </div>
