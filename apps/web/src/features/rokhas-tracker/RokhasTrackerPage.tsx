@@ -26,6 +26,7 @@ import RokhasTimeline from "./RokhasTimeline";
 import RokhasDeadlineCountdown from "./RokhasDeadlineCountdown";
 import ReservesTracker from "./ReservesTracker";
 import RokhasStatusBadge from "./RokhasStatusBadge";
+import { useT, useLang } from "../../i18n/i18n";
 
 const C = {
   bg: "#f7f8fa",
@@ -68,6 +69,9 @@ const S: Record<string, React.CSSProperties> = {
 };
 
 export default function RokhasTrackerPage() {
+  const t = useT();
+  const { lang } = useLang();
+  const dateLocale = lang === "ar" ? "ar-MA" : lang === "en" ? "en-GB" : "fr-FR";
   const { dossierId = "" } = useParams<{ dossierId: string }>();
   const [instance, setInstance] = useState<RokhasInstanceView | null>(null);
   const [loading, setLoading] = useState(true);
@@ -81,11 +85,11 @@ export default function RokhasTrackerPage() {
       const r = await getInstance(dossierId);
       setInstance(r.instance);
     } catch (e: any) {
-      setError(e?.message || "Erreur de chargement");
+      setError(e?.message || t("rokhas.tracker.error.load"));
     } finally {
       setLoading(false);
     }
-  }, [dossierId]);
+  }, [dossierId, t]);
 
   useEffect(() => { reload(); }, [reload]);
 
@@ -99,7 +103,7 @@ export default function RokhasTrackerPage() {
   if (loading && !instance) {
     return (
       <div style={S.page}><div style={S.container}>
-        <div style={S.empty}>Chargement…</div>
+        <div style={S.empty}>{t("rokhas.tracker.loading")}</div>
       </div></div>
     );
   }
@@ -116,8 +120,8 @@ export default function RokhasTrackerPage() {
   if (!instance) {
     return (
       <div style={S.page}><div style={S.container}>
-        <h1 style={S.h1}>Suivi Rokhas</h1>
-        <p style={S.sub}>Dossier {dossierId.slice(0, 12)}…</p>
+        <h1 style={S.h1}>{t("rokhas.tracker.title.setup")}</h1>
+        <p style={S.sub}>{t("rokhas.tracker.dossier.ref", { id: dossierId.slice(0, 12) })}</p>
         <SetupBlock dossierId={dossierId} onCreated={(inst) => setInstance(inst)} />
       </div></div>
     );
@@ -126,25 +130,25 @@ export default function RokhasTrackerPage() {
   return (
     <div style={S.page}>
       <div style={S.container}>
-        <Link to={`/portal`} style={S.back}>← Mon espace</Link>
-        <h1 style={S.h1}>Suivi de votre permis</h1>
+        <Link to={`/portal`} style={S.back}>{t("rokhas.tracker.back")}</Link>
+        <h1 style={S.h1}>{t("rokhas.tracker.title.tracking")}</h1>
         <div style={S.sub}>
           {instance.refRokhasCommune
-            ? <>Réf. commune <strong>{instance.refRokhasCommune}</strong> · </>
+            ? <>{t("rokhas.tracker.ref.commune")} <strong>{instance.refRokhasCommune}</strong> · </>
             : null}
-          Catégorie {instance.projectCategory} · {percentLabel(instance.progressPct)}
+          {t("rokhas.tracker.category", { category: instance.projectCategory })} · {t("rokhas.tracker.progress", { pct: instance.progressPct })}
           <div style={S.progressBar}>
             <div style={{ ...S.progressFill, width: `${instance.progressPct}%` }} />
           </div>
         </div>
 
-        <DecisionBlock instance={instance} />
+        <DecisionBlock instance={instance} dateLocale={dateLocale} />
 
         {/* Deadline principale (compte à rebours sticky) */}
         {instance.decisionDeadline && (
           <div style={{ marginBottom: 14 }}>
             <RokhasDeadlineCountdown
-              label="Décision attendue dans"
+              label={t("rokhas.tracker.deadline.label")}
               deadline={instance.decisionDeadline.deadline}
               joursRestants={instance.decisionDeadline.joursRestants}
               severity={instance.decisionDeadline.severity}
@@ -155,14 +159,14 @@ export default function RokhasTrackerPage() {
 
         {/* Timeline */}
         <div style={S.card}>
-          <div style={S.cardTitle}>Étapes d'instruction</div>
+          <div style={S.cardTitle}>{t("rokhas.tracker.steps.title")}</div>
           <RokhasTimeline instance={instance} />
         </div>
 
         {/* Réserves */}
         {instance.reserves.length > 0 && (
           <div style={S.card}>
-            <div style={S.cardTitle}>Réserves à lever</div>
+            <div style={S.cardTitle}>{t("rokhas.tracker.reserves.title")}</div>
             <ReservesTracker
               instance={instance}
               onChange={(next) => setInstance(next)}
@@ -173,10 +177,9 @@ export default function RokhasTrackerPage() {
         {/* Mode ajourné */}
         {instance.decision?.type === "AJOURNE" && (
           <div style={S.card}>
-            <div style={S.cardTitle}>Examen ajourné</div>
+            <div style={S.cardTitle}>{t("rokhas.tracker.ajourne.title")}</div>
             <p style={{ fontSize: 14, color: C.inkMid, marginTop: 0 }}>
-              La commission a ajourné l'examen. Une relance automatique est
-              programmée à J+30 (sans action de votre part).
+              {t("rokhas.tracker.ajourne.desc")}
             </p>
           </div>
         )}
@@ -184,13 +187,13 @@ export default function RokhasTrackerPage() {
         {/* Mode défavorable */}
         {instance.decision?.type === "DEFAVORABLE" && (
           <div style={S.card}>
-            <div style={S.cardTitle}>Décision défavorable</div>
+            <div style={S.cardTitle}>{t("rokhas.tracker.defavorable.title")}</div>
             {(instance.decision.motifsRefus || []).map((m, i) => (
               <div key={i} style={S.motif}>
-                <div style={S.motifTitle}>{m.titre || `Motif n°${i + 1}`}</div>
+                <div style={S.motifTitle}>{m.titre || t("rokhas.tracker.motif.default", { n: i + 1 })}</div>
                 {m.articleLoi && (
                   <div style={{ fontSize: 12, color: C.danger, fontWeight: 600, marginTop: 4 }}>
-                    Article : {m.articleLoi}
+                    {t("rokhas.tracker.motif.article", { article: m.articleLoi })}
                   </div>
                 )}
                 {m.description && <div style={S.motifDesc}>{m.description}</div>}
@@ -198,9 +201,9 @@ export default function RokhasTrackerPage() {
             ))}
             <button
               style={S.btnPrimary}
-              onClick={() => alert("Module recours en préparation. Un opérateur va vous contacter.")}
+              onClick={() => alert(t("rokhas.tracker.recours.alert"))}
             >
-              Composer un recours
+              {t("rokhas.tracker.recours.btn")}
             </button>
           </div>
         )}
@@ -212,12 +215,12 @@ export default function RokhasTrackerPage() {
               <RokhasStatusBadge kind="DELIVRE" />
             </div>
             <div style={{ fontSize: 14, fontWeight: 600, color: C.success }}>
-              Autorisation délivrée le {new Date(instance.delivranceDate).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+              {t("rokhas.tracker.delivrance.label", { date: new Date(instance.delivranceDate).toLocaleDateString(dateLocale, { day: "numeric", month: "long", year: "numeric" }) })}
             </div>
             {instance.attestationPdfUrl && (
               <a href={instance.attestationPdfUrl} target="_blank" rel="noreferrer"
                  style={{ display: "inline-block", marginTop: 10, color: C.primary, fontWeight: 600 }}>
-                Télécharger l'autorisation (PDF)
+                {t("rokhas.tracker.delivrance.download")}
               </a>
             )}
           </div>
@@ -227,13 +230,14 @@ export default function RokhasTrackerPage() {
   );
 }
 
-function DecisionBlock({ instance }: { instance: RokhasInstanceView }) {
+function DecisionBlock({ instance, dateLocale }: { instance: RokhasInstanceView; dateLocale: string }) {
+  const t = useT();
   if (!instance.decision) {
     return (
       <div style={{ ...S.card, display: "flex", alignItems: "center", gap: 10 }}>
         <RokhasStatusBadge kind="EN_INSTRUCTION" />
         <div style={{ fontSize: 13, color: C.inkMid }}>
-          Votre dossier est en cours d'instruction.
+          {t("rokhas.tracker.decision.in_progress")}
         </div>
       </div>
     );
@@ -242,17 +246,14 @@ function DecisionBlock({ instance }: { instance: RokhasInstanceView }) {
     <div style={{ ...S.card, display: "flex", alignItems: "center", gap: 10 }}>
       <RokhasStatusBadge kind={instance.decision.type} />
       <div style={{ fontSize: 13, color: C.inkMid }}>
-        Décision rendue le {new Date(instance.decision.date).toLocaleDateString("fr-FR")}
+        {t("rokhas.tracker.decision.rendered", { date: new Date(instance.decision.date).toLocaleDateString(dateLocale) })}
       </div>
     </div>
   );
 }
 
-function percentLabel(pct: number): string {
-  return `${pct}% d'avancement`;
-}
-
 function SetupBlock({ dossierId, onCreated }: { dossierId: string; onCreated: (inst: RokhasInstanceView) => void }) {
+  const t = useT();
   const [category, setCategory] = useState<ProjectCategory>(1);
   const [ref, setRef] = useState("");
   const [date, setDate] = useState<string>("");
@@ -269,7 +270,7 @@ function SetupBlock({ dossierId, onCreated }: { dossierId: string; onCreated: (i
       });
       onCreated(r.instance);
     } catch (e: any) {
-      setErr(e?.message || "Erreur");
+      setErr(e?.message || t("rokhas.tracker.error.generic"));
     } finally {
       setBusy(false);
     }
@@ -278,31 +279,30 @@ function SetupBlock({ dossierId, onCreated }: { dossierId: string; onCreated: (i
   return (
     <div style={S.setupBox}>
       <p style={{ fontSize: 14, color: C.inkMid, marginTop: 0 }}>
-        Aucun dépôt enregistré. Saisissez les informations du dépôt en commune
-        pour activer le suivi temps réel.
+        {t("rokhas.tracker.setup.intro")}
       </p>
       {err && <div style={S.error}>{err}</div>}
       <div style={S.field}>
-        <label style={S.label} htmlFor="cat">Catégorie de projet</label>
+        <label style={S.label} htmlFor="cat">{t("rokhas.tracker.setup.category.label")}</label>
         <select
           id="cat" value={category} onChange={(e) => setCategory(Number(e.target.value) as ProjectCategory)}
           style={S.input}
         >
-          <option value={1}>Catégorie 1 — Constructions courantes (décision 30j)</option>
-          <option value={2}>Catégorie 2 — ERP, R+5 et plus (décision 60j)</option>
-          <option value={3}>Catégorie 3 — Grands projets / dérogation (décision 90j)</option>
+          <option value={1}>{t("rokhas.tracker.setup.category.opt1")}</option>
+          <option value={2}>{t("rokhas.tracker.setup.category.opt2")}</option>
+          <option value={3}>{t("rokhas.tracker.setup.category.opt3")}</option>
         </select>
       </div>
       <div style={S.field}>
-        <label style={S.label} htmlFor="ref">Référence Rokhas / commune (optionnel)</label>
-        <input id="ref" value={ref} onChange={(e) => setRef(e.target.value)} style={S.input} placeholder="RKH-2026-12345" />
+        <label style={S.label} htmlFor="ref">{t("rokhas.tracker.setup.ref.label")}</label>
+        <input id="ref" value={ref} onChange={(e) => setRef(e.target.value)} style={S.input} placeholder={t("rokhas.tracker.setup.ref.placeholder")} />
       </div>
       <div style={S.field}>
-        <label style={S.label} htmlFor="date">Date du dépôt (laisser vide = aujourd'hui)</label>
+        <label style={S.label} htmlFor="date">{t("rokhas.tracker.setup.date.label")}</label>
         <input id="date" type="date" value={date} onChange={(e) => setDate(e.target.value)} style={S.input} />
       </div>
       <button onClick={submit} disabled={busy} style={{ ...S.btnPrimary, opacity: busy ? 0.5 : 1 }}>
-        {busy ? "Création…" : "Activer le suivi"}
+        {busy ? t("rokhas.tracker.setup.submit.busy") : t("rokhas.tracker.setup.submit")}
       </button>
     </div>
   );
