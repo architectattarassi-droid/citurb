@@ -1,0 +1,44 @@
+/* ════════════ MOBILE OVERRIDES — FILET DE SECURITE ════════════
+ * Ces regles utilisent !important pour surcharger les styles inline
+ * React qui ne peuvent pas etre overrides par les media queries normales.
+ * Ne pas confondre avec responsive-desktop.css (utilitaires opt-in).
+ */
+
+/* Tout container avec maxWidth fixe doit s adapter en mobile */
+@media (max-width: 768px) {
+  /* Hero cards, form panels, etc. */
+  div[style*="maxWidth: 520"], div[style*="max-width: 520"],
+  div[style*="maxWidth:520"], div[style*="max-width:520"],
+  div[style*="maxWidth: 700"], div[style*="max-width: 700"],
+  div[style*="maxWidth: 720"], div[style*="max-width: 720"],
+  div[style*="maxWidth: 760"], div[style*="max-width: 760"],
+  div[style*="maxWidth: 820"], div[style*="max-width: 820"],
+  div[style*="maxWidth: 880"], div[style*="max-width: 880"],
+  div[style*="maxWidth: 900"], div[style*="max-width: 900"] {
+    max-width: 100% !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+@media (max-width: 480px) {
+  /* Heading too big */
+  h1 { font-size: clamp(20px, 6vw, 28px) !important; line-height: 1.18 !important; }
+  h2 { font-size: clamp(18px, 5vw, 22px) !important; }
+  /* Padding pano hero */
+  header[style*="padding: 60px"],
+  div[style*="padding: 40px"],
+  div[style*="padding: 60px"] {
+    padding: 24px 16px !important;
+  }
+  /* Grid 2-col foces a 1-col */
+  div[style*="gridTemplateColumns: \"1fr 1fr\""],
+  div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+  /* Zoom CSS hack */
+  div[style*="zoom: 1.3"], div[style*="zoom:1.3"] {
+    zoom: 1 !important;
+  }
+}

@@ -4,6 +4,7 @@ import App from "./app/App";
 import "./styles/tailwind.css";
 import "./styles/citurbarea.css";
 import "./styles/responsive-desktop.css";
+import "./styles/mobile-overrides.css";
 import { registerServiceWorker } from "./sw/register";
 import { startWebVitals } from "./lib/web-vitals";
 
