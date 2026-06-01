@@ -12,6 +12,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { PvCompliance, pvChantierApi } from "./pv-chantier.api";
+import { useT, useLang } from "../../i18n/i18n";
 
 type Props = {
   dossierId: string;
@@ -21,10 +22,11 @@ type Props = {
   showOk?: boolean;
 };
 
-function fmt(iso: string | null): string {
+function fmt(iso: string | null, lang: string): string {
   if (!iso) return "—";
+  const localeMap: Record<string, string> = { fr: "fr-MA", ar: "ar-MA", en: "en-GB" };
   try {
-    return new Date(iso).toLocaleDateString("fr-MA", { day: "2-digit", month: "short", year: "numeric" });
+    return new Date(iso).toLocaleDateString(localeMap[lang] || "fr-MA", { day: "2-digit", month: "short", year: "numeric" });
   } catch {
     return iso;
   }
@@ -32,6 +34,8 @@ function fmt(iso: string | null): string {
 
 export default function PvComplianceBanner({ dossierId, data, showOk = false }: Props) {
   const [state, setState] = useState<PvCompliance | null>(data ?? null);
+  const t = useT();
+  const { lang } = useLang();
 
   useEffect(() => {
     if (data) {
@@ -54,19 +58,18 @@ export default function PvComplianceBanner({ dossierId, data, showOk = false }: 
   const newPvLink = `/pv-chantier/dossier/${dossierId}/new`;
 
   if (state.status === "BLOCKED") {
+    const lastFragment = state.lastPvDate ? t("pv.compliance.blocked_last", { date: fmt(state.lastPvDate, lang) }) : "";
     return (
       <div style={{ ...S.box, background: "#fef2f2", borderColor: "#fecaca" }}>
         <div style={{ ...S.icon, background: "#ef4444" }}>⛔</div>
         <div style={S.body}>
-          <div style={{ ...S.title, color: "#991b1b" }}>Chantier bloqué — PV obligatoire</div>
+          <div style={{ ...S.title, color: "#991b1b" }}>{t("pv.compliance.blocked_title")}</div>
           <div style={S.text}>
-            Aucun PV de visite depuis plus de {state.intervalDays} jours
-            {state.lastPvDate ? ` (dernier : ${fmt(state.lastPvDate)})` : ""}. Les commandes
-            matériaux et l'affectation de sous-traitants sont suspendues jusqu'au dépôt d'un nouveau PV.
+            {t("pv.compliance.blocked_text", { days: state.intervalDays, last: lastFragment })}
           </div>
         </div>
         <Link to={newPvLink} style={{ ...S.cta, background: "#ef4444" }}>
-          Déposer un PV
+          {t("pv.compliance.blocked_cta")}
         </Link>
       </div>
     );
@@ -77,15 +80,16 @@ export default function PvComplianceBanner({ dossierId, data, showOk = false }: 
     <div style={{ ...S.box, background: "#fffbeb", borderColor: "#fde68a" }}>
       <div style={{ ...S.icon, background: "#f59e0b" }}>⏳</div>
       <div style={S.body}>
-        <div style={{ ...S.title, color: "#92400e" }}>PV de chantier attendu</div>
+        <div style={{ ...S.title, color: "#92400e" }}>{t("pv.compliance.warning_title")}</div>
         <div style={S.text}>
-          Prochain PV attendu avant le <strong>{fmt(state.nextPvDueDate)}</strong> (
-          {Math.max(0, state.daysUntilDue)} jour{state.daysUntilDue > 1 ? "s" : ""}). Sans PV, le
-          chantier sera automatiquement bloqué.
+          {t("pv.compliance.warning_text", {
+            date: fmt(state.nextPvDueDate, lang),
+            days: Math.max(0, state.daysUntilDue),
+          })}
         </div>
       </div>
       <Link to={newPvLink} style={{ ...S.cta, background: "#f59e0b" }}>
-        Créer un PV
+        {t("pv.compliance.warning_cta")}
       </Link>
     </div>
   );

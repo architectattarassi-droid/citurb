@@ -13,6 +13,7 @@ import {
   TYPE_VISITE_LABEL,
   pvChantierApi,
 } from "./pv-chantier.api";
+import { useT, useLang } from "../../i18n/i18n";
 
 type Props = {
   dossierId: string;
@@ -107,6 +108,8 @@ export default function PvChantierList({ dossierId, baseRoute = "/pv-chantier" }
   const [items, setItems] = useState<PvChantierListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
+  const t = useT();
+  const { lang } = useLang();
 
   useEffect(() => {
     let alive = true;
@@ -118,22 +121,22 @@ export default function PvChantierList({ dossierId, baseRoute = "/pv-chantier" }
         setItems(r.items);
         setErr(null);
       })
-      .catch((e: any) => alive && setErr(e?.message || "Erreur"))
+      .catch((e: any) => alive && setErr(e?.message || t("pv.chantier.error")))
       .finally(() => alive && setLoading(false));
     return () => {
       alive = false;
     };
-  }, [dossierId]);
+  }, [dossierId, t]);
 
   return (
     <div style={S.wrap}>
       <header style={S.header}>
         <div>
-          <h1 style={S.title}>PV de chantier</h1>
-          <p style={S.sub}>{items.length} PV pour ce dossier</p>
+          <h1 style={S.title}>{t("pv.chantier.title")}</h1>
+          <p style={S.sub}>{t("pv.chantier.sub_count", { count: items.length })}</p>
         </div>
         <Link to={`${baseRoute}/dossier/${dossierId}/new`} style={S.cta}>
-          + Nouveau PV
+          + {t("pv.chantier.new")}
         </Link>
       </header>
 
@@ -152,14 +155,14 @@ export default function PvChantierList({ dossierId, baseRoute = "/pv-chantier" }
       )}
 
       {loading ? (
-        <div style={S.empty}>Chargement…</div>
+        <div style={S.empty}>{t("pv.chantier.loading")}</div>
       ) : items.length === 0 ? (
         <div style={S.empty}>
           <p style={{ margin: 0, fontWeight: 700, color: "#0f172a" }}>
-            Aucun PV pour ce dossier.
+            {t("pv.chantier.empty_title")}
           </p>
           <p style={{ margin: "6px 0 0", fontSize: 13 }}>
-            Créez le premier PV de visite pour commencer.
+            {t("pv.chantier.empty_sub")}
           </p>
         </div>
       ) : (
@@ -168,6 +171,7 @@ export default function PvChantierList({ dossierId, baseRoute = "/pv-chantier" }
             const sev = it.severiteMax;
             const status = STATUS_COLOR[it.status];
             const borderColor = sev ? SEVERITE_BORDER[sev] : "#cbd5e1";
+            const obsKey = it.observationsCount > 1 ? "pv.chantier.observation_count_plural" : "pv.chantier.observation_count";
             return (
               <Link
                 key={it.id}
@@ -176,8 +180,8 @@ export default function PvChantierList({ dossierId, baseRoute = "/pv-chantier" }
               >
                 <div style={S.cardTop}>
                   <div>
-                    <div style={S.numero}>N° {it.numero}</div>
-                    <div style={S.date}>{formatDate(it.date)}</div>
+                    <div style={S.numero}>{t("pv.chantier.numero", { numero: it.numero })}</div>
+                    <div style={S.date}>{formatDate(it.date, lang)}</div>
                     <div style={S.type}>{TYPE_VISITE_LABEL[it.typeVisite]}</div>
                   </div>
                   <span
@@ -192,8 +196,7 @@ export default function PvChantierList({ dossierId, baseRoute = "/pv-chantier" }
                 </div>
                 <div style={S.rowMeta}>
                   <span style={S.obsCount}>
-                    {it.observationsCount} observation
-                    {it.observationsCount > 1 ? "s" : ""}
+                    {t(obsKey, { count: it.observationsCount })}
                   </span>
                   {sev && (
                     <span
@@ -203,7 +206,7 @@ export default function PvChantierList({ dossierId, baseRoute = "/pv-chantier" }
                         color: SEVERITE_COLOR[sev].fg,
                       }}
                     >
-                      Max : {SEVERITE_COLOR[sev].label}
+                      {t("pv.chantier.severite_max", { label: SEVERITE_COLOR[sev].label })}
                     </span>
                   )}
                 </div>
@@ -216,9 +219,10 @@ export default function PvChantierList({ dossierId, baseRoute = "/pv-chantier" }
   );
 }
 
-function formatDate(iso: string): string {
+function formatDate(iso: string, lang: string): string {
+  const localeMap: Record<string, string> = { fr: "fr-MA", ar: "ar-MA", en: "en-GB" };
   try {
-    return new Date(iso).toLocaleDateString("fr-MA", {
+    return new Date(iso).toLocaleDateString(localeMap[lang] || "fr-MA", {
       day: "2-digit",
       month: "short",
       year: "numeric",

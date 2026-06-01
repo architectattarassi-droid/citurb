@@ -36,5 +36,21 @@
   "pv.weather_sunny": "مشمس",
   "pv.weather_cloudy": "غائم",
   "pv.weather_rainy": "ممطر",
-  "pv.weather_windy": "عاصف"
+  "pv.weather_windy": "عاصف",
+  "pv.chantier.sub_count": "{count} محضر لهذا الملف",
+  "pv.chantier.empty_title": "لا يوجد محضر لهذا الملف.",
+  "pv.chantier.empty_sub": "أنشئ أول محضر زيارة للبدء.",
+  "pv.chantier.loading": "جاري التحميل…",
+  "pv.chantier.error": "خطأ",
+  "pv.chantier.observation_count": "{count} ملاحظة",
+  "pv.chantier.observation_count_plural": "{count} ملاحظات",
+  "pv.chantier.severite_max": "الأقصى : {label}",
+  "pv.chantier.numero": "رقم {numero}",
+  "pv.compliance.blocked_title": "الورش متوقف — المحضر إلزامي",
+  "pv.compliance.blocked_text": "لا يوجد محضر زيارة منذ أكثر من {days} يوماً{last}. تم تعليق طلبات المواد وتعيين المقاولين من الباطن إلى حين إيداع محضر جديد.",
+  "pv.compliance.blocked_last": " (آخر محضر : {date})",
+  "pv.compliance.blocked_cta": "إيداع محضر",
+  "pv.compliance.warning_title": "محضر ورش مطلوب",
+  "pv.compliance.warning_text": "المحضر القادم مطلوب قبل {date} ({days} يوم/أيام). بدون محضر، سيتم تعليق الورش تلقائياً.",
+  "pv.compliance.warning_cta": "إنشاء محضر"
 }

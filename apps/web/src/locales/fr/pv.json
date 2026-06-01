@@ -36,5 +36,21 @@
   "pv.weather_sunny": "Ensoleillé",
   "pv.weather_cloudy": "Nuageux",
   "pv.weather_rainy": "Pluvieux",
-  "pv.weather_windy": "Venteux"
+  "pv.weather_windy": "Venteux",
+  "pv.chantier.sub_count": "{count} PV pour ce dossier",
+  "pv.chantier.empty_title": "Aucun PV pour ce dossier.",
+  "pv.chantier.empty_sub": "Créez le premier PV de visite pour commencer.",
+  "pv.chantier.loading": "Chargement…",
+  "pv.chantier.error": "Erreur",
+  "pv.chantier.observation_count": "{count} observation",
+  "pv.chantier.observation_count_plural": "{count} observations",
+  "pv.chantier.severite_max": "Max : {label}",
+  "pv.chantier.numero": "N° {numero}",
+  "pv.compliance.blocked_title": "Chantier bloqué — PV obligatoire",
+  "pv.compliance.blocked_text": "Aucun PV de visite depuis plus de {days} jours{last}. Les commandes matériaux et l'affectation de sous-traitants sont suspendues jusqu'au dépôt d'un nouveau PV.",
+  "pv.compliance.blocked_last": " (dernier : {date})",
+  "pv.compliance.blocked_cta": "Déposer un PV",
+  "pv.compliance.warning_title": "PV de chantier attendu",
+  "pv.compliance.warning_text": "Prochain PV attendu avant le {date} ({days} jour(s)). Sans PV, le chantier sera automatiquement bloqué.",
+  "pv.compliance.warning_cta": "Créer un PV"
 }

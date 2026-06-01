@@ -36,5 +36,21 @@
   "pv.weather_sunny": "Sunny",
   "pv.weather_cloudy": "Cloudy",
   "pv.weather_rainy": "Rainy",
-  "pv.weather_windy": "Windy"
+  "pv.weather_windy": "Windy",
+  "pv.chantier.sub_count": "{count} site report(s) for this dossier",
+  "pv.chantier.empty_title": "No site report for this dossier.",
+  "pv.chantier.empty_sub": "Create the first visit report to get started.",
+  "pv.chantier.loading": "Loading…",
+  "pv.chantier.error": "Error",
+  "pv.chantier.observation_count": "{count} observation",
+  "pv.chantier.observation_count_plural": "{count} observations",
+  "pv.chantier.severite_max": "Max: {label}",
+  "pv.chantier.numero": "No. {numero}",
+  "pv.compliance.blocked_title": "Site blocked — site report required",
+  "pv.compliance.blocked_text": "No visit report for more than {days} days{last}. Material orders and subcontractor assignments are suspended until a new report is filed.",
+  "pv.compliance.blocked_last": " (last: {date})",
+  "pv.compliance.blocked_cta": "File a report",
+  "pv.compliance.warning_title": "Site report expected",
+  "pv.compliance.warning_text": "Next report expected before {date} ({days} day(s)). Without a report, the site will be automatically blocked.",
+  "pv.compliance.warning_cta": "Create a report"
 }
