@@ -135,9 +135,12 @@ export default function CabinetPublicPage() {
     <div style={{ background: "#f8fafc", minHeight: "100vh" }}>
       <style>{`
         .cit-cabinet-header { padding: 60px 24px 50px; }
+        .cit-cabinet-header h1 { font-size: 36px; margin: 0 0 6px; font-weight: 900; letter-spacing: -0.02em; }
+        .cit-cabinet-bio { font-size: 15px; line-height: 1.7; margin-top: 18px; max-width: 920px; opacity: 0.95; }
         @media(max-width:480px){
-          .cit-cabinet-header { padding: 32px 16px 24px !important; }
-          .cit-cabinet-header h1 { font-size: 26px !important; }
+          .cit-cabinet-header { padding: 32px 16px 24px; }
+          .cit-cabinet-header h1 { font-size: 26px; }
+          .cit-cabinet-bio { font-size: 14px; max-width: 100%; }
         }
         .cit-cabinet-projects-grid { display:grid; gap:20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
       `}</style>
@@ -149,10 +152,10 @@ export default function CabinetPublicPage() {
               {t("cabinet.public.verified_badge")}
             </div>
           )}
-          <h1 style={{ fontSize: 36, margin: "0 0 6px", fontWeight: 900, letterSpacing: "-0.02em" }}>{name}</h1>
+          <h1>{name}</h1>
           {data.title && <div style={{ fontSize: 16, opacity: 0.9, marginBottom: 10 }}>{data.title}</div>}
           {data.villePrincipale && <div style={{ fontSize: 14, opacity: 0.8 }}>📍 {data.villePrincipale}{data.regions?.length ? ` · ${data.regions.slice(0, 3).join(" · ")}` : ""}</div>}
-          {data.bio && <p style={{ fontSize: 15, lineHeight: 1.7, marginTop: 18, maxWidth: 920, opacity: 0.95 }}>{data.bio}</p>}
+          {data.bio && <p className="cit-cabinet-bio">{data.bio}</p>}
           <div style={{ display: "flex", gap: 12, marginTop: 18, flexWrap: "wrap" }}>
             {data.websiteUrl && <a href={data.websiteUrl} target="_blank" rel="noreferrer" style={chipStyle}>{t("cabinet.public.link_website")}</a>}
             {data.linkedinUrl && <a href={data.linkedinUrl} target="_blank" rel="noreferrer" style={chipStyle}>{t("cabinet.public.link_linkedin")}</a>}
