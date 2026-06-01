@@ -12,6 +12,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useT } from "../../i18n/i18n";
 import {
   getPc,
   initPc,
@@ -36,6 +37,7 @@ const ORDER: StepId[] = [
 ];
 
 export default function PcWizardPage() {
+  const t = useT();
   const { dossierId } = useParams<{ dossierId: string }>();
   const [resp, setResp] = useState<PcDraftResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -53,7 +55,7 @@ export default function PcWizardPage() {
       setResp(r);
       setStep(r.draft.step ?? "identification");
     } catch (e: any) {
-      setError(e?.message ?? "Erreur de chargement");
+      setError(e?.message ?? t("permis.wizard.error.load"));
     } finally {
       setLoading(false);
     }
@@ -99,7 +101,7 @@ export default function PcWizardPage() {
           }
           setResp(r);
         } catch (e: any) {
-          setError(e?.message ?? "Échec sauvegarde");
+          setError(e?.message ?? t("permis.wizard.error.save"));
         } finally {
           setSaving(false);
         }
@@ -143,15 +145,15 @@ export default function PcWizardPage() {
   }, [resp]);
 
   if (loading) {
-    return <div style={{ padding: 24, textAlign: "center" }}>Chargement du brouillon PC…</div>;
+    return <div style={{ padding: 24, textAlign: "center" }}>{t("permis.wizard.loading")}</div>;
   }
 
   if (error && !resp) {
     return (
       <div style={{ padding: 24 }}>
-        <h2>Erreur</h2>
+        <h2>{t("permis.wizard.error.title")}</h2>
         <p style={{ color: "#991b1b" }}>{error}</p>
-        <button onClick={reload}>Réessayer</button>
+        <button onClick={reload}>{t("permis.wizard.error.retry")}</button>
       </div>
     );
   }
@@ -253,10 +255,10 @@ export default function PcWizardPage() {
             cursor: idx === 0 ? "not-allowed" : "pointer",
           }}
         >
-          ← Précédent
+          {t("permis.wizard.btn.prev")}
         </button>
         <div style={{ fontSize: 11, color: "#6b7280", alignSelf: "center" }}>
-          Étape {idx + 1} / {ORDER.length}
+          {t("permis.wizard.step.counter", { current: idx + 1, total: ORDER.length })}
         </div>
         <button
           type="button"
@@ -274,7 +276,7 @@ export default function PcWizardPage() {
                 : "pointer",
           }}
         >
-          Suivant →
+          {t("permis.wizard.btn.next")}
         </button>
       </div>
     </div>
