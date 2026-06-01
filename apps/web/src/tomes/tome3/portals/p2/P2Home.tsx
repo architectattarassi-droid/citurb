@@ -168,6 +168,16 @@ const P1_CSS = `
 .p2page .qrow { display:flex; justify-content:space-between; gap:16px; padding:11px 0; border-bottom:1px solid rgba(11,27,58,0.08); font-size:14px; }
 .p2page .qrow .k { color:rgba(11,27,58,0.66); }
 .p2page .qrow .v { color:#0B1B3A; font-weight:800; white-space:nowrap; }
+
+/* FIX-4 — responsive: caps fluides au lieu des maxWidth fixes inline */
+.p2page .cit-porte-p2-narrow { max-width:820px; width:100%; }
+.p2page .cit-porte-p2-mid    { max-width:760px; width:100%; }
+.p2page .cit-porte-p2-help   { max-width:720px; width:100%; }
+@media(max-width:760px){
+  .p2page .cit-porte-p2-narrow,
+  .p2page .cit-porte-p2-mid,
+  .p2page .cit-porte-p2-help { max-width:100%; }
+}
 `;
 
 const PAGE_BG =
@@ -699,7 +709,7 @@ function P2HomeInner() {
       <div className="p2page" style={fullBleed}>
         <style>{P1_CSS}</style>
         <section className="section">
-          <div className="container-max" style={{ maxWidth: 820 }}>
+          <div className="container-max cit-porte-p2-narrow">
             <div className="lux-card" style={{ textAlign: "center", marginBottom: 18 }}>
               <div style={{ fontSize: 52, marginBottom: 14 }}>{isExpertise ? t("portes.p2.recap.expertise_emoji") : t("portes.p2.recap.ok_emoji")}</div>
               <h2 style={{ fontSize: 26, margin: "0 0 12px" }}>
@@ -899,7 +909,7 @@ function P2HomeInner() {
                 : t("portes.p2.measures.sub_rich")}
             </p>
             {isLOT ? (
-              <div style={{ maxWidth: 760 }}>
+              <div className="cit-porte-p2-mid">
                 <div className="field" style={{ marginBottom: 16 }}>
                   <label className="label">{t("portes.p2.measures.lot_label")}</label>
                   <input className="control" type="number" step="0.1" value={surfaceTerrainHa}
@@ -910,7 +920,7 @@ function P2HomeInner() {
                 </div>
               </div>
             ) : isAMG ? (
-              <div style={{ maxWidth: 760 }}>
+              <div className="cit-porte-p2-mid">
                 <div className="field" style={{ marginBottom: 10 }}>
                   <label className="label">{t("portes.p2.measures.amg_label")}</label>
                   <input className="control" type="number" value={surfacePlancher}
@@ -1018,7 +1028,7 @@ function P2HomeInner() {
             <p className="sub" style={{ marginBottom: 30 }}>
               {t("portes.p2.follow.sub")}
             </p>
-            <div className="grid-2" style={{ maxWidth: 820 }}>
+            <div className="grid-2 cit-porte-p2-narrow">
               <div className={"price-card" + (followMode === "ON_SITE" ? " sel" : "")} onClick={() => setFollowMode("ON_SITE")}>
                 <div style={{ fontSize: 30, marginBottom: 10 }}>📍</div>
                 <div className="lux-title" style={{ fontSize: 17 }}>{t("portes.p2.follow.physique")}</div>
@@ -1049,7 +1059,7 @@ function P2HomeInner() {
                 {busy ? t("portes.p2.btn.sending") : (auth.isAuthed ? t("portes.p2.btn.create_lot_auth") : t("portes.p2.btn.create_lot_anon"))}
               </button>
             </div>
-            <div className="muted" style={{ marginTop: 14, fontSize: 12.5, maxWidth: 720, lineHeight: 1.6 }}>
+            <div className="muted cit-porte-p2-help" style={{ marginTop: 14, fontSize: 12.5, lineHeight: 1.6 }}>
               {t("portes.p2.follow.foot")}
             </div>
           </div>
@@ -1134,7 +1144,7 @@ function P2HomeInner() {
 
             {/* 4) Localisation — sélection officielle HCP (14 régions / 77 prov / 1505 communes) */}
             <div className="blk-title">{moaType === "morale" ? "4" : "3"}) {t("portes.p2.identity.location")}</div>
-            <div className="muted" style={{ fontSize: 12.5, marginBottom: 10, maxWidth: 720 }}>
+            <div className="muted cit-porte-p2-help" style={{ fontSize: 12.5, marginBottom: 10 }}>
               {t("portes.p2.identity.location_sub")}
             </div>
             <AdminLocationSelect

@@ -45,6 +45,20 @@ const stepStyle = (active: boolean, done: boolean): React.CSSProperties => ({
   background: done ? "#10b981" : active ? "#047857" : "#1e2330",
 });
 
+// FIX-4 — responsive: CSS injecté pour caps fluides + row2 mobile-friendly
+const P3_RESPONSIVE_CSS = `
+.cit-porte-p3-wrap   { max-width:1280px; width:100%; margin:0 auto; padding:20px 24px 60px; }
+.cit-porte-p3-grid   { max-width:1280px; width:100%; margin:0 auto; padding:0 24px 60px; }
+.cit-porte-p3-narrow { max-width:760px; width:100%; margin:80px auto; padding:40px 32px; }
+.cit-porte-p3-row2   { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:760px){
+  .cit-porte-p3-wrap   { padding:16px 16px 40px; max-width:100%; }
+  .cit-porte-p3-grid   { padding:0 16px 40px; max-width:100%; }
+  .cit-porte-p3-narrow { margin:32px 16px; padding:24px 18px; max-width:calc(100% - 32px); }
+  .cit-porte-p3-row2   { grid-template-columns:1fr; }
+}
+`;
+
 const S: Record<string, React.CSSProperties> = {
   root: { minHeight: "100vh", background: "#080d14", color: "#e8eaf0", fontFamily: "system-ui,sans-serif" },
   hero: { background: "linear-gradient(135deg,#0a1a14 0%,#080d14 100%)", padding: "60px 24px 40px", textAlign: "center" },
@@ -52,8 +66,8 @@ const S: Record<string, React.CSSProperties> = {
   title: { fontSize: 32, fontWeight: 800, marginBottom: 8 },
   sub: { color: "#6b7280", fontSize: 16, marginBottom: 32 },
   stepper: { display: "flex", justifyContent: "center", gap: 4, marginBottom: 24 },
-  wrap: { maxWidth: 760, margin: "0 auto", padding: "20px 24px 60px" },
-  grid: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 16, padding: "0 24px 60px", maxWidth: 900, margin: "0 auto" },
+  wrap: {},
+  grid: { display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 16 },
   cardIcon: { fontSize: 32, marginBottom: 10 },
   cardTitle: { fontWeight: 700, fontSize: 15, marginBottom: 4 },
   cardDesc: { color: "#6b7280", fontSize: 12 },
@@ -65,7 +79,7 @@ const S: Record<string, React.CSSProperties> = {
   formSub: { color: "#6b7280", fontSize: 14, marginBottom: 24 },
   label: { display: "block", fontSize: 11, color: "#9ca3af", fontWeight: 600, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 },
   inp: { background: "#0a0f1a", border: "1px solid #1e2330", borderRadius: 6, color: "#e8eaf0", padding: "12px 14px", fontSize: 14, width: "100%", boxSizing: "border-box", marginBottom: 14 },
-  row2: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 },
+  row2: {},
   btn: { background: "#047857", color: "#fff", border: "none", borderRadius: 8, padding: "14px 28px", fontSize: 15, fontWeight: 700, cursor: "pointer", width: "100%", marginTop: 12 },
   btnBack: { background: "none", border: "none", color: "#6b7280", cursor: "pointer", marginBottom: 16, fontSize: 13 },
   err: { color: "#f87171", fontSize: 13, marginBottom: 12, background: "#1a0a0a", padding: "10px 14px", borderRadius: 6 },
@@ -82,7 +96,7 @@ const S: Record<string, React.CSSProperties> = {
   quoteRowKey: { color: "#9ca3af" },
   quoteRowVal: { color: "#e8eaf0", fontWeight: 600, fontFamily: "'DM Mono', monospace" },
   noteBox: { background: "#0a1a14", border: "1px solid #10b98140", borderRadius: 8, padding: 14, marginTop: 14, fontSize: 12, lineHeight: 1.6, color: "#a7f3d0" },
-  successWrap: { maxWidth: 560, margin: "80px auto", padding: "40px 32px", background: "#0d1a0d", border: "1.5px solid #166534", borderRadius: 16, textAlign: "center" },
+  successWrap: { background: "#0d1a0d", border: "1.5px solid #166534", borderRadius: 16, textAlign: "center" },
   successIcon: { fontSize: 56, marginBottom: 16 },
   successTitle: { fontSize: 22, fontWeight: 800, color: "#4ade80", marginBottom: 8 },
   successSub: { color: "#9ca3af", fontSize: 14, lineHeight: 1.7, marginBottom: 24 },
@@ -203,7 +217,8 @@ export default function P3Home() {
   if (step === "success") {
     return (
       <div style={S.root}>
-        <div style={S.successWrap}>
+        <style>{P3_RESPONSIVE_CSS}</style>
+        <div className="cit-porte-p3-narrow" style={S.successWrap}>
           <div style={S.successIcon}>✅</div>
           <div style={S.successTitle}>{t("portes.p3.recap.success_title")}</div>
           <div style={S.successSub}>
@@ -228,12 +243,13 @@ export default function P3Home() {
   if (step === "section") {
     return (
       <div style={S.root}>
+        <style>{P3_RESPONSIVE_CSS}</style>
         <div style={S.hero}>
           <div style={S.badge}>{t("portes.p3.title_prefix")} — {t("p3.home_title").toUpperCase()}</div>
           <div style={S.title}>{t("p3.home_title")}</div>
           <div style={S.sub}>{t("p3.home_subtitle")}</div>
         </div>
-        <div style={S.grid}>
+        <div className="cit-porte-p3-grid" style={S.grid}>
           {SECTION_IDS.map(id => (
             <div key={id} style={cardStyle(false)} onClick={() => { setSection(id); setStep("category"); }}>
               <div style={S.cardIcon}>{t(`portes.p3.section.${id}.icon`)}</div>
@@ -249,7 +265,8 @@ export default function P3Home() {
   if (step === "category") {
     return (
       <div style={S.root}>
-        <div style={S.wrap}>
+        <style>{P3_RESPONSIVE_CSS}</style>
+        <div className="cit-porte-p3-wrap">
           <button style={S.btnBack} onClick={() => setStep("section")}>{t("portes.p3.change_section")}</button>
           <Stepper />
           <div style={S.formTitle}>{t("portes.p3.category.title")}</div>
@@ -271,13 +288,14 @@ export default function P3Home() {
   if (step === "measures") {
     return (
       <div style={S.root}>
-        <div style={S.wrap}>
+        <style>{P3_RESPONSIVE_CSS}</style>
+        <div className="cit-porte-p3-wrap">
           <button style={S.btnBack} onClick={() => setStep("category")}>{t("portes.p3.back")}</button>
           <Stepper />
           <div style={S.formTitle}>{t("portes.p3.measures.title")}</div>
           <div style={S.formSub}>{selectedCategory?.label}</div>
           {section === "GR" ? (
-            <div style={S.row2}>
+            <div className="cit-porte-p3-row2">
               <div>
                 <label style={S.label}>{t("portes.p3.measures.surface_per_bldg")}</label>
                 <input type="number" style={S.inp} value={surfacePlancher} onChange={e => setSurfacePlancher(e.target.value)} placeholder={t("portes.p3.measures.surface_per_bldg_ph")} />
@@ -303,7 +321,8 @@ export default function P3Home() {
     const totalCorps = corpsGroupes.reduce((a, g) => a + g.items.length, 0);
     return (
       <div style={S.root}>
-        <div style={S.wrap}>
+        <style>{P3_RESPONSIVE_CSS}</style>
+        <div className="cit-porte-p3-wrap">
           <button style={S.btnBack} onClick={() => setStep("measures")}>{t("portes.p3.back_measures")}</button>
           <Stepper />
           <div style={S.formTitle}>{t("portes.p3.corps.title")}</div>
@@ -335,7 +354,8 @@ export default function P3Home() {
   if (step === "quote" && quote) {
     return (
       <div style={S.root}>
-        <div style={S.wrap}>
+        <style>{P3_RESPONSIVE_CSS}</style>
+        <div className="cit-porte-p3-wrap">
           <button style={S.btnBack} onClick={() => setStep("corps")}>{t("portes.p3.modify")}</button>
           <Stepper />
           <div style={S.formTitle}>{t("portes.p3.quote.title")}</div>
@@ -390,24 +410,25 @@ export default function P3Home() {
       setIdentity(prev => ({ ...prev, [k]: e.target.value }));
     return (
       <div style={S.root}>
-        <div style={S.wrap}>
+        <style>{P3_RESPONSIVE_CSS}</style>
+        <div className="cit-porte-p3-wrap">
           <button style={S.btnBack} onClick={() => setStep("quote")}>{t("portes.p3.back_quote")}</button>
           <Stepper />
           <div style={S.formTitle}>{t("portes.p3.identity.title")}</div>
           <div style={S.formSub}>{t("portes.p3.identity.sub")}</div>
           {error && <div style={S.err}>⚠ {error}</div>}
 
-          <div style={S.row2}>
+          <div className="cit-porte-p3-row2">
             <div><label style={S.label}>{t("portes.p3.identity.fullname")}</label><input style={S.inp} value={identity.clientNom} onChange={f("clientNom")} placeholder={t("portes.p3.identity.fullname_ph")} /></div>
             <div><label style={S.label}>{t("portes.p3.identity.phone")}</label><input style={S.inp} value={identity.clientTel} onChange={f("clientTel")} placeholder={t("portes.p3.identity.phone_ph")} /></div>
           </div>
           <label style={S.label}>{t("portes.p3.identity.email")}</label>
           <input style={S.inp} value={identity.clientEmail} onChange={f("clientEmail")} placeholder={t("portes.p3.identity.email_ph")} />
-          <div style={S.row2}>
+          <div className="cit-porte-p3-row2">
             <div><label style={S.label}>{t("portes.p3.identity.raison")}</label><input style={S.inp} value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
             <div><label style={S.label}>{t("portes.p3.identity.representant")}</label><input style={S.inp} value={identity.representant} onChange={f("representant")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
           </div>
-          <div style={S.row2}>
+          <div className="cit-porte-p3-row2">
             <div><label style={S.label}>{t("portes.p3.identity.rc")}</label><input style={S.inp} value={identity.rc} onChange={f("rc")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
             <div><label style={S.label}>{t("portes.p3.identity.ice")}</label><input style={S.inp} value={identity.ice} onChange={f("ice")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
           </div>
