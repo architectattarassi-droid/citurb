@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
 import { getStoredLang, useT } from "../../../../i18n/i18n";
+import FichesPrestations from "../../../../components/fiches-prestations/FichesPrestations";
 
 /**
  * P3Home — Wizard MOD (Maîtrise d'Ouvrage Déléguée)
@@ -249,6 +250,11 @@ export default function P3Home() {
           <div style={S.title}>{t("p3.home_title")}</div>
           <div style={S.sub}>{t("p3.home_subtitle")}</div>
         </div>
+        <section className="cit-porte-p3-wrap" style={{ background: "#f8fafc", color: "#1a2540", borderRadius: 12, marginBottom: 24 }}>
+          <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6, color: "#1e3a5f" }}>{t("portes.p3.fiches.section_title")}</h2>
+          <p style={{ color: "#4a5568", fontSize: 14, marginBottom: 18, lineHeight: 1.6 }}>{t("portes.p3.fiches.section_sub")}</p>
+          <FichesPrestations porte="P3" />
+        </section>
         <div className="cit-porte-p3-grid" style={S.grid}>
           {SECTION_IDS.map(id => (
             <div key={id} style={cardStyle(false)} onClick={() => { setSection(id); setStep("category"); }}>
