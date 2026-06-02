@@ -48,7 +48,8 @@
  * ("Architectu" au lieu de "Architecture") et des descriptions
  * coupees a droite ("dossier conforme pour autoris"). Cause :
  * conteneurs sans width:100% effectif + h1/p sans overflow-wrap.
- * Ces regles forcent le wrap correct sur tous les ecrans <= 768px.
+ * Note CRITIQUE : sans white-space:normal, un h1 avec white-space:nowrap
+ * sur un selector parent reste cut. Force white-space:normal.
  */
 @media (max-width: 768px) {
   body h1, body h2, body h3, body h4, body p,
@@ -56,12 +57,36 @@
     overflow-wrap: anywhere !important;
     word-break: break-word !important;
     max-width: 100% !important;
+    white-space: normal !important;
   }
   /* Cards et conteneurs ne doivent jamais deborder */
   body .cat, body .card, body article, body section > div {
     max-width: 100% !important;
     box-sizing: border-box !important;
+    overflow-x: hidden !important;
   }
+  /* body lui-même : forcer scroll-x ABSENT */
+  body, html { overflow-x: hidden !important; max-width: 100vw !important; }
+}
+
+/* ════════════ LANDING : simplifier UI sur mobile ════════════
+ * Le user veut "le meme style UI que les portes" pour la landing.
+ * En mobile, on cache les elements qui surchargent visuellement (ticker
+ * scrollant, dropdown VIP/VVIP cards, sections trop denses) pour
+ * approcher la sobriete des landings de portes.
+ */
+@media (max-width: 768px) {
+  /* Ticker scrollant : déborde toujours, peu utile en mobile. */
+  body .ticker { display: none !important; }
+  /* VIP / VVIP CTA buttons en doublon (déjà dans .nav). */
+  body .pill.vip, body .pill.vvip { display: none !important; }
+  /* Hero-grid 2fr 1fr → empilé propre déjà géré, force gap. */
+  body .hero-grid { gap: 16px !important; }
+  /* Cards categories : padding plus contenu. */
+  body .cat { padding: 14px !important; }
+  /* Form-grid 2-col en 1-col. */
+  body .form-grid { grid-template-columns: 1fr !important; }
+  body .form button { grid-column: 1 !important; }
 }
 
 /* ════════════ BOTTOM NAV PADDING ════════════
