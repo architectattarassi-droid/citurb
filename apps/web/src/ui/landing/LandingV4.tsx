@@ -6,6 +6,7 @@ import { ArticleCard } from "../../features/media/components/ArticleCard";
 import { cerclesApi } from "../../features/cercles/api";
 import { cerclePostToArticle } from "./cerclePostToArticle";
 import { useT, useLang } from "../../i18n/i18n";
+import { BottomNav } from "../../components/bottom-nav/BottomNav";
 
 // Landing keeps the validated HTML/CSS identity, but renders the Articles preview in React.
 // Legacy inline JS media feed is removed to avoid runtime errors and to make content maintainable.
@@ -1289,6 +1290,7 @@ export default function LandingV4() {
       </section>
 
       <div dangerouslySetInnerHTML={{ __html: postHtml }} />
+      <BottomNav />
     </div>
   );
 }

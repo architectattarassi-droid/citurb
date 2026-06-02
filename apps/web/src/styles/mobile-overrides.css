@@ -42,3 +42,49 @@
     zoom: 1 !important;
   }
 }
+
+/* ════════════ AGGRESSIVE TEXT-WRAP — anti tronqué ════════════
+ * Sur les screenshots mobile reels, on voit des titres tronques
+ * ("Architectu" au lieu de "Architecture") et des descriptions
+ * coupees a droite ("dossier conforme pour autoris"). Cause :
+ * conteneurs sans width:100% effectif + h1/p sans overflow-wrap.
+ * Ces regles forcent le wrap correct sur tous les ecrans <= 768px.
+ */
+@media (max-width: 768px) {
+  body h1, body h2, body h3, body h4, body p,
+  body li, body span, body a, body .lead, body .cat p, body .cat h3 {
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    max-width: 100% !important;
+  }
+  /* Cards et conteneurs ne doivent jamais deborder */
+  body .cat, body .card, body article, body section > div {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* ════════════ BOTTOM NAV PADDING ════════════
+ * La BottomNav globale (mobile) flotte fixed bottom 0. Le contenu
+ * des pages doit reserver de l'espace pour ne pas etre cache.
+ * S'applique uniquement sur mobile (BottomNav est mobile-only).
+ */
+@media (max-width: 900px) {
+  body { padding-bottom: 72px !important; }
+}
+
+/* ════════════ P1 LANDING BREATHING ════════════
+ * Le hero P1 (.kicker juste sous le header, h1 directement apres)
+ * manque de respiration en mobile. On ajoute marge entre kicker,
+ * h1 et lead pour aerer l'entree de page.
+ */
+@media (max-width: 768px) {
+  .p1-landing-root .hero .container-max,
+  .p1-landing-root header.hero .container-max {
+    padding-top: 36px !important;
+    padding-bottom: 36px !important;
+  }
+  .p1-landing-root .kicker { margin-bottom: 20px !important; gap: 8px !important; }
+  .p1-landing-root .hero h1 { margin-bottom: 14px !important; }
+  .p1-landing-root .lead, .p1-landing-root .hero p { margin-bottom: 16px !important; }
+}
