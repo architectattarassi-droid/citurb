@@ -7,6 +7,7 @@ import { STORAGE_KEYS } from "../../../../infrastructure/storage/keys";
 import { resolveUserId } from "../../../../application/p1/startQualification";
 import { createDossier } from "../../../../application/p1/createDossier";
 import { useT, useLang, tVanilla, getStoredLang, LANG_CHANGE_EVENT, type Lang } from "../../../../i18n/i18n";
+import FichesPrestations from "../../../../components/fiches-prestations/FichesPrestations";
 
 /**
  * P1Landing
@@ -2191,6 +2192,16 @@ export default function P1Landing() {
 
       </div>
       </div>
+  </section>
+
+
+  <section id="p1-fiches-prestations" style={{ padding: "72px 0", background: "rgba(11,27,58,0.02)" }}>
+    <div className="container-max">
+      <h2 className="section-title lux-title" style={{ textAlign: "center", marginBottom: "32px" }}>
+        {t("prestations.section_title")}
+      </h2>
+      <FichesPrestations porte="P1" />
+    </div>
   </section>
 
 
