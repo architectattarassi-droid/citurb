@@ -1125,6 +1125,8 @@
   "portes.p3.err.generic": "Error",
   "portes.p3.err.submit": "Submission error",
   "portes.p3.title_prefix": "GATE P3",
+  "portes.p3.fiches.section_title": "What does the DPM service cover?",
+  "portes.p3.fiches.section_sub": "Under delegated project management, CITURBAREA coordinates the architect, surveyor and engineering office on your behalf. Below is the full breakdown of phases, tasks and lots included in your DPM package.",
   "portes.p3.recap.success_title": "DPM request registered",
   "portes.p3.recap.success_body": "Pack <strong>P3 — Delegated Project Management</strong>.<br/>You will receive within 24h the DPM contract to sign + payment link for the startup down payment.<br/>Our team will then convene the participants ({n} trades selected).",
   "portes.p3.recap.ref_dossier": "File ref:",
@@ -1470,5 +1472,8 @@
   "p1.lp.imperative.facade_1": "1 façade",
   "p1.lp.imperative.facade_2": "Corner lot (2 façades)",
   "p1.lp.imperative.facade_3": "3 façades",
-  "p1.lp.imperative.facade_4": "4 façades"
+  "p1.lp.imperative.facade_4": "4 façades",
+  "portes.p2.fiches.eyebrow": "Deliverables detail",
+  "portes.p2.fiches.title": "What does the service include?",
+  "portes.p2.fiches.sub": "Phase-by-phase breakdown of architect, surveyor and engineering deliverables — complements the CNOA fee breakdown (Phases A / B / C)."
 }

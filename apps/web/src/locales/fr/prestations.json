@@ -1,0 +1,79 @@
+{
+  "prestations.section_title": "Nos prestations détaillées",
+  "prestations.tabs.architecte": "Architecte",
+  "prestations.tabs.topographe": "Topographe",
+  "prestations.tabs.be": "Bureau d'études",
+
+  "prestations.note_porte_p1": "Pour un projet personnel ou familial, l'architecte pilote les 7 phases ci-dessous. Le topographe intervient au bornage et au métré final. Le bureau d'études n'est sollicité que pour les structures en béton armé.",
+  "prestations.note_porte_p2": "Pour un projet immobilier ou un équipement privé, les 3 métiers travaillent en coordination dès l'APS. La phase exécution (DCE) et le suivi chantier sont systématiquement délégués à un bureau d'études et à un topographe.",
+  "prestations.note_porte_p3": "En maîtrise d'ouvrage déléguée, vous bénéficiez des 7 phases architecte + les 3 tâches topographiques + les 3 lots de bureau d'études, pilotés et contractualisés par CITURBAREA.",
+
+  "prestations.archi.title_general": "Mission complète architecte — 7 phases",
+
+  "prestations.archi.phase_1.title": "Esquisse",
+  "prestations.archi.phase_1.deliv_1": "Croquis volumétrique et plans de masse préliminaires",
+  "prestations.archi.phase_1.deliv_2": "Validation du parti architectural avec le maître d'ouvrage",
+
+  "prestations.archi.phase_2.title": "Avant-projet sommaire (APS)",
+  "prestations.archi.phase_2.deliv_1": "Plans niveaux + façades + coupes au 1/200",
+  "prestations.archi.phase_2.deliv_2": "Note descriptive et estimation budgétaire préliminaire",
+
+  "prestations.archi.phase_3.title": "Avant-projet détaillé (APD)",
+  "prestations.archi.phase_3.deliv_1": "Plans définitifs au 1/100 (niveaux, façades, coupes)",
+  "prestations.archi.phase_3.deliv_2": "Pré-dimensionnement structure pour validation de la conception béton armé",
+  "prestations.archi.phase_3.note": "L'APD est le jalon critique qui sert de base au plan béton armé. Il doit intégrer les contraintes structurelles avant tout engagement vers le permis.",
+
+  "prestations.archi.phase_4.title": "Plans autorisés / Permis de construire",
+  "prestations.archi.phase_4.deliv_1": "Dossier réglementaire complet (plans, notice, formulaires)",
+  "prestations.archi.phase_4.deliv_2": "Dépôt au guichet unique + suivi instruction jusqu'à délivrance du permis",
+
+  "prestations.archi.phase_5.title": "Dossier de consultation des entreprises (DCE)",
+  "prestations.archi.phase_5.deliv_1": "Plans d'exécution lots techniques (gros œuvre, fluides, électricité) en coordination avec le BE",
+  "prestations.archi.phase_5.deliv_2": "Plans d'exécution lots secondaires (revêtements, menuiserie alu/bois, faux-plafond, peinture)",
+  "prestations.archi.phase_5.deliv_3": "Détails techniques d'exécution (escaliers, fenêtres, raccords)",
+  "prestations.archi.phase_5.note": "Le DCE exige un dossier géotechnique préalable réalisé à la pelle avec au minimum 3 essais : sol mécanique, hydraulique, et niveau de la nappe phréatique.",
+
+  "prestations.archi.phase_6.title": "Cahier des prescriptions spéciales (CPS)",
+  "prestations.archi.phase_6.deliv_1": "Descriptif technique détaillé par lot",
+  "prestations.archi.phase_6.deliv_2": "Métré quantitatif servant de base à l'appel d'offres",
+  "prestations.archi.phase_6.note": "Le CPS est élaboré conjointement avec le bureau d'études pour les lots techniques.",
+
+  "prestations.archi.phase_7.title": "Suivi de chantier",
+  "prestations.archi.phase_7.deliv_1": "Visites hebdomadaires de coordination",
+  "prestations.archi.phase_7.deliv_2": "Validation des choix techniques et arbitrages en cours de réalisation",
+  "prestations.archi.phase_7.pv.title": "PV de cadence détaillée",
+  "prestations.archi.phase_7.pv.plancher": "1 PV par réception de plancher et fondations",
+  "prestations.archi.phase_7.pv.maconnerie": "1 PV de réception maçonnerie par étage",
+  "prestations.archi.phase_7.pv.plomberie": "1 PV de réception pré-installation plomberie",
+  "prestations.archi.phase_7.pv.elec": "1 PV de réception électricité",
+  "prestations.archi.phase_7.pv.clim": "1 PV de réception climatisation centralisée",
+  "prestations.archi.phase_7.pv.isolation": "1 PV de réception isolation thermique et acoustique par étage",
+  "prestations.archi.phase_7.pv.echantillon": "1 PV de validation échantillon par lot secondaire (menuiserie bois / alu, revêtement sol, carrelage, faux-plafond, peinture)",
+  "prestations.archi.phase_7.pv.reception_secondaires": "1 PV de réception des lots secondaires post-réalisation",
+  "prestations.archi.phase_7.pv.metre": "1 PV de métré et relevé topographique post-travaux (recommandé pour le dossier d'enregistrement)",
+
+  "prestations.topo.task_1.title": "Bornage à l'ouverture de chantier",
+  "prestations.topo.task_1.deliv_1": "Délimitation contradictoire du terrain et matérialisation des bornes",
+  "prestations.topo.task_1.deliv_2": "Procès-verbal de bornage signé et archivé",
+
+  "prestations.topo.task_2.title": "Réception des axes de structure",
+  "prestations.topo.task_2.deliv_1": "Contrôle des implantations (axes porteurs, poteaux, voiles)",
+  "prestations.topo.task_2.deliv_2": "Vérification de la profondeur de sous-sol (recommandé)",
+
+  "prestations.topo.task_3.title": "Métré post-travaux",
+  "prestations.topo.task_3.deliv_1": "Relevé topographique final de l'ouvrage réalisé",
+  "prestations.topo.task_3.deliv_2": "Document opposable pour le dossier d'enregistrement et de conformité",
+
+  "prestations.be.lot_1.title": "Plan béton armé et ferraillage",
+  "prestations.be.lot_1.deliv_1": "Calcul de structure sur la base du dossier géotechnique",
+  "prestations.be.lot_1.deliv_2": "Plans de coffrage et plans de ferraillage détaillés",
+  "prestations.be.lot_1.deliv_3": "Note de calcul et hypothèses structurelles",
+
+  "prestations.be.lot_2.title": "Plan fluides",
+  "prestations.be.lot_2.deliv_1": "Réseau sous dallage (alimentation, évacuation, assainissement)",
+  "prestations.be.lot_2.deliv_2": "Drainage périphérique et gestion des eaux pluviales",
+
+  "prestations.be.lot_3.title": "Plan électricité TGBT et courants faibles",
+  "prestations.be.lot_3.deliv_1": "Tableau général basse tension (TGBT), distribution générale et tableaux divisionnaires",
+  "prestations.be.lot_3.deliv_2": "Courants faibles (réseau informatique, vidéosurveillance, contrôle d'accès) coordonnés avec le plan architecte"
+}

@@ -1,0 +1,79 @@
+{
+  "prestations.section_title": "خدماتنا التفصيلية",
+  "prestations.tabs.architecte": "المهندس المعماري",
+  "prestations.tabs.topographe": "المساح الطبوغرافي",
+  "prestations.tabs.be": "مكتب الدراسات التقنية",
+
+  "prestations.note_porte_p1": "بالنسبة للمشروع الشخصي أو العائلي، يدير المهندس المعماري المراحل السبع التالية. ويتدخل المساح الطبوغرافي عند التحديد وعند المسح النهائي. ولا يتم اللجوء إلى مكتب الدراسات إلا للهياكل الخرسانية المسلحة.",
+  "prestations.note_porte_p2": "بالنسبة للمشروع العقاري أو التجهيز الخاص، تعمل المهن الثلاث بتنسيق منذ مرحلة المخطط الأولي. تُسند مرحلة التنفيذ ومتابعة الورش بشكل منهجي إلى مكتب الدراسات والمساح الطبوغرافي.",
+  "prestations.note_porte_p3": "ضمن صيغة المساعدة المنتدبة لصاحب المشروع، تستفيدون من المراحل السبع للمهندس المعماري + المهام الثلاث للمساح الطبوغرافي + اللوطات الثلاث لمكتب الدراسات، تحت إشراف وتعاقد CITURBAREA.",
+
+  "prestations.archi.title_general": "المهمة الكاملة للمهندس المعماري — 7 مراحل",
+
+  "prestations.archi.phase_1.title": "التصور الأولي (Esquisse)",
+  "prestations.archi.phase_1.deliv_1": "رسوم تخطيطية حجمية ومخططات كتلية أولية",
+  "prestations.archi.phase_1.deliv_2": "المصادقة على الخيار المعماري مع صاحب المشروع",
+
+  "prestations.archi.phase_2.title": "المخطط الأولي (APS)",
+  "prestations.archi.phase_2.deliv_1": "مخططات المستويات والواجهات والمقاطع بمقياس 1/200",
+  "prestations.archi.phase_2.deliv_2": "مذكرة وصفية وتقدير ميزانية أولي",
+
+  "prestations.archi.phase_3.title": "المخطط التفصيلي (APD)",
+  "prestations.archi.phase_3.deliv_1": "مخططات نهائية بمقياس 1/100 (مستويات، واجهات، مقاطع)",
+  "prestations.archi.phase_3.deliv_2": "أبعاد أولية للهيكل للتحقق من تصميم الخرسانة المسلحة",
+  "prestations.archi.phase_3.note": "يُعد المخطط التفصيلي محطة حاسمة تُشكل الأساس لمخطط الخرسانة المسلحة. ويجب أن يأخذ في الاعتبار الإكراهات الهيكلية قبل أي شروع في رخصة البناء.",
+
+  "prestations.archi.phase_4.title": "المخططات المرخصة / رخصة البناء",
+  "prestations.archi.phase_4.deliv_1": "ملف تنظيمي كامل (مخططات، مذكرة، استمارات)",
+  "prestations.archi.phase_4.deliv_2": "الإيداع لدى الشباك الموحد ومتابعة الدراسة حتى تسليم الرخصة",
+
+  "prestations.archi.phase_5.title": "ملف استشارة المقاولات (DCE)",
+  "prestations.archi.phase_5.deliv_1": "مخططات التنفيذ للوطات التقنية (الأشغال الكبرى، التجهيزات السائلة، الكهرباء) بالتنسيق مع مكتب الدراسات",
+  "prestations.archi.phase_5.deliv_2": "مخططات التنفيذ للوطات الثانوية (التغليفات، النجارة الألمنيوم/الخشب، السقف المعلق، الصباغة)",
+  "prestations.archi.phase_5.deliv_3": "التفاصيل التقنية للتنفيذ (الأدراج، النوافذ، الوصلات)",
+  "prestations.archi.phase_5.note": "يتطلب ملف استشارة المقاولات ملفاً جيوتقنياً مسبقاً يُنجز بالحفّار مع إجراء 3 اختبارات على الأقل: ميكانيكا التربة، الهيدروليكا، ومنسوب الفرشة المائية.",
+
+  "prestations.archi.phase_6.title": "دفتر التحملات الخاصة (CPS)",
+  "prestations.archi.phase_6.deliv_1": "وصف تقني مفصل لكل لوط",
+  "prestations.archi.phase_6.deliv_2": "كشف الكميات الذي يُعتمد أساساً لطلب العروض",
+  "prestations.archi.phase_6.note": "يُعد دفتر التحملات الخاصة بالتعاون مع مكتب الدراسات بالنسبة للوطات التقنية.",
+
+  "prestations.archi.phase_7.title": "متابعة الورش",
+  "prestations.archi.phase_7.deliv_1": "زيارات أسبوعية للتنسيق",
+  "prestations.archi.phase_7.deliv_2": "المصادقة على الخيارات التقنية والتحكيم خلال الإنجاز",
+  "prestations.archi.phase_7.pv.title": "محاضر الاستلام المفصلة",
+  "prestations.archi.phase_7.pv.plancher": "محضر استلام لكل بلاطة وللأساسات",
+  "prestations.archi.phase_7.pv.maconnerie": "محضر استلام البناء لكل طابق",
+  "prestations.archi.phase_7.pv.plomberie": "محضر استلام التركيب المسبق للسباكة",
+  "prestations.archi.phase_7.pv.elec": "محضر استلام الكهرباء",
+  "prestations.archi.phase_7.pv.clim": "محضر استلام التكييف المركزي",
+  "prestations.archi.phase_7.pv.isolation": "محضر استلام العزل الحراري والصوتي لكل طابق",
+  "prestations.archi.phase_7.pv.echantillon": "محضر مصادقة على العينة لكل لوط ثانوي (نجارة خشبية/ألمنيوم، تغليف الأرضية، البلاط، السقف المعلق، الصباغة)",
+  "prestations.archi.phase_7.pv.reception_secondaires": "محضر استلام اللوطات الثانوية بعد الإنجاز",
+  "prestations.archi.phase_7.pv.metre": "محضر القياس والرفع الطبوغرافي بعد انتهاء الأشغال (يوصى به لملف التسجيل)",
+
+  "prestations.topo.task_1.title": "التحديد عند فتح الورش",
+  "prestations.topo.task_1.deliv_1": "تحديد حدود الأرض بشكل تواجهي وتثبيت العلامات",
+  "prestations.topo.task_1.deliv_2": "محضر تحديد موقع، موقع ومحفوظ",
+
+  "prestations.topo.task_2.title": "استلام محاور الهيكل",
+  "prestations.topo.task_2.deliv_1": "مراقبة التمركز (المحاور الحاملة، الأعمدة، الجدران)",
+  "prestations.topo.task_2.deliv_2": "التحقق من عمق القبو (موصى به)",
+
+  "prestations.topo.task_3.title": "القياس بعد انتهاء الأشغال",
+  "prestations.topo.task_3.deliv_1": "رفع طبوغرافي نهائي للمنشأة المنجزة",
+  "prestations.topo.task_3.deliv_2": "وثيقة معتمدة لملف التسجيل ومطابقة البناء",
+
+  "prestations.be.lot_1.title": "مخطط الخرسانة المسلحة والتسليح",
+  "prestations.be.lot_1.deliv_1": "حساب الهيكل على أساس الملف الجيوتقني",
+  "prestations.be.lot_1.deliv_2": "مخططات القوالب ومخططات التسليح المفصلة",
+  "prestations.be.lot_1.deliv_3": "مذكرة الحساب والفرضيات الهيكلية",
+
+  "prestations.be.lot_2.title": "مخطط التجهيزات السائلة",
+  "prestations.be.lot_2.deliv_1": "الشبكة تحت البلاطة (التزويد، الصرف الصحي، التطهير)",
+  "prestations.be.lot_2.deliv_2": "تصريف محيطي وتدبير مياه الأمطار",
+
+  "prestations.be.lot_3.title": "مخطط الكهرباء — اللوحة الكهربائية العامة والتيارات الضعيفة",
+  "prestations.be.lot_3.deliv_1": "اللوحة الكهربائية العامة منخفضة الجهد (TGBT)، التوزيع العام واللوحات الفرعية",
+  "prestations.be.lot_3.deliv_2": "التيارات الضعيفة (الشبكة المعلوماتية، المراقبة بالفيديو، التحكم في الولوج) منسقة مع مخطط المهندس المعماري"
+}

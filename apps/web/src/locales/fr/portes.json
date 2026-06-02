@@ -1290,6 +1290,8 @@
   "portes.p3.err.generic": "Erreur",
   "portes.p3.err.submit": "Erreur soumission",
   "portes.p3.title_prefix": "PORTE P3",
+  "portes.p3.fiches.section_title": "Que comprend la prestation MOD ?",
+  "portes.p3.fiches.section_sub": "En maîtrise d'ouvrage déléguée, CITURBAREA coordonne pour vous l'architecte, le topographe et le bureau d'études. Voici le détail des phases, tâches et lots couverts par votre forfait MOD.",
   "portes.p3.recap.success_title": "Demande MOD enregistrée",
   "portes.p3.recap.success_body": "Pack <strong>P3 — Maîtrise d'Ouvrage Déléguée</strong>.<br/>Vous recevez sous 24h le contrat MOD à signer + lien de paiement de l'acompte démarrage.<br/>Notre équipe convoque ensuite les intervenants ({n} corps de métier sélectionnés).",
   "portes.p3.recap.ref_dossier": "Ref dossier :",
@@ -1697,5 +1699,8 @@
   "p1.lp.imperative.facade_1": "1 façade",
   "p1.lp.imperative.facade_2": "Lot d'angle (2 façades)",
   "p1.lp.imperative.facade_3": "3 façades",
-  "p1.lp.imperative.facade_4": "4 façades"
+  "p1.lp.imperative.facade_4": "4 façades",
+  "portes.p2.fiches.eyebrow": "Détail des livrables",
+  "portes.p2.fiches.title": "Que comprend la prestation ?",
+  "portes.p2.fiches.sub": "Décomposition phase par phase des livrables architecte, topographe et bureau d'études — complète la ventilation honoraires CNOA (Phases A / B / C)."
 }

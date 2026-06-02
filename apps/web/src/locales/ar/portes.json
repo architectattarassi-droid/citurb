@@ -1290,6 +1290,8 @@
   "portes.p3.err.generic": "خطأ",
   "portes.p3.err.submit": "خطأ في الإرسال",
   "portes.p3.title_prefix": "الباب P3",
+  "portes.p3.fiches.section_title": "ما الذي تشمله خدمة المساعدة المنتدبة (MOD)؟",
+  "portes.p3.fiches.section_sub": "ضمن صيغة المساعدة المنتدبة لصاحب المشروع، تتولى CITURBAREA تنسيق المهندس المعماري والمساح الطبوغرافي ومكتب الدراسات نيابةً عنكم. فيما يلي تفصيل المراحل والمهام واللوطات التي يغطيها باقتكم MOD.",
   "portes.p3.recap.success_title": "تم تسجيل طلب MOD",
   "portes.p3.recap.success_body": "باقة <strong>P3 — إدارة المشروع المفوضة</strong>.<br/>ستتوصلون خلال 24 ساعة بعقد MOD للتوقيع + رابط أداء تسبيق الانطلاق.<br/>سيستدعي فريقنا بعد ذلك المتدخلين ({n} حرف مختارة).",
   "portes.p3.recap.ref_dossier": "مرجع الملف:",
@@ -1697,5 +1699,8 @@
   "p1.lp.imperative.facade_1": "واجهة واحدة",
   "p1.lp.imperative.facade_2": "قطعة زاوية (واجهتان)",
   "p1.lp.imperative.facade_3": "ثلاث واجهات",
-  "p1.lp.imperative.facade_4": "أربع واجهات"
+  "p1.lp.imperative.facade_4": "أربع واجهات",
+  "portes.p2.fiches.eyebrow": "تفاصيل المخرجات",
+  "portes.p2.fiches.title": "ماذا تتضمن الخدمة؟",
+  "portes.p2.fiches.sub": "تفصيل مرحلة بمرحلة لمخرجات المهندس المعماري والمساح ومكتب الدراسات — يكمل توزيع أتعاب CNOA (المراحل أ / ب / ج)."
 }

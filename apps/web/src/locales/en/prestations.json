@@ -1,0 +1,79 @@
+{
+  "prestations.section_title": "Our detailed services",
+  "prestations.tabs.architecte": "Architect",
+  "prestations.tabs.topographe": "Surveyor",
+  "prestations.tabs.be": "Engineering office",
+
+  "prestations.note_porte_p1": "For a personal or family project, the architect leads the 7 phases below. The surveyor steps in at site staking and final as-built survey. The engineering office is only required for reinforced concrete structures.",
+  "prestations.note_porte_p2": "For a real-estate development or private facility, the three trades coordinate from the schematic design phase onwards. Construction documents (DCE) and site supervision are systematically delegated to an engineering office and a surveyor.",
+  "prestations.note_porte_p3": "Under delegated project management, you benefit from the architect's 7 phases + the surveyor's 3 tasks + the engineer's 3 technical lots, all coordinated and contracted by CITURBAREA.",
+
+  "prestations.archi.title_general": "Full architect mission — 7 phases",
+
+  "prestations.archi.phase_1.title": "Schematic sketch (Esquisse)",
+  "prestations.archi.phase_1.deliv_1": "Volumetric sketches and preliminary site plans",
+  "prestations.archi.phase_1.deliv_2": "Validation of the architectural concept with the client",
+
+  "prestations.archi.phase_2.title": "Schematic Design (APS)",
+  "prestations.archi.phase_2.deliv_1": "Floor plans, elevations and sections at 1/200 scale",
+  "prestations.archi.phase_2.deliv_2": "Descriptive note and preliminary budget estimate",
+
+  "prestations.archi.phase_3.title": "Design Development (APD)",
+  "prestations.archi.phase_3.deliv_1": "Final plans at 1/100 (floors, elevations, sections)",
+  "prestations.archi.phase_3.deliv_2": "Structural pre-sizing to validate the reinforced concrete design",
+  "prestations.archi.phase_3.note": "The APD is the critical milestone that grounds the reinforced concrete plan. Structural constraints must be integrated before any building permit commitment.",
+
+  "prestations.archi.phase_4.title": "Permit drawings / Building permit",
+  "prestations.archi.phase_4.deliv_1": "Complete regulatory filing (drawings, design statement, forms)",
+  "prestations.archi.phase_4.deliv_2": "One-stop-shop submission and review follow-up until permit issuance",
+
+  "prestations.archi.phase_5.title": "Construction Documents (DCE)",
+  "prestations.archi.phase_5.deliv_1": "Construction drawings for technical packages (structure, MEP, electrical) in coordination with the engineering office",
+  "prestations.archi.phase_5.deliv_2": "Construction drawings for secondary packages (finishes, aluminum/wood joinery, suspended ceiling, paint)",
+  "prestations.archi.phase_5.deliv_3": "Technical execution details (stairs, windows, junctions)",
+  "prestations.archi.phase_5.note": "Construction documents require a prior geotechnical report carried out by excavator with at least 3 tests: mechanical soil, hydraulic, and groundwater level.",
+
+  "prestations.archi.phase_6.title": "Special Specifications Book (CPS)",
+  "prestations.archi.phase_6.deliv_1": "Detailed technical specification by trade package",
+  "prestations.archi.phase_6.deliv_2": "Quantity take-off serving as the tender basis",
+  "prestations.archi.phase_6.note": "The CPS is jointly drafted with the engineering office for the technical packages.",
+
+  "prestations.archi.phase_7.title": "Construction supervision",
+  "prestations.archi.phase_7.deliv_1": "Weekly coordination site visits",
+  "prestations.archi.phase_7.deliv_2": "Validation of technical choices and trade-offs during construction",
+  "prestations.archi.phase_7.pv.title": "Detailed acceptance minutes (PV cadence)",
+  "prestations.archi.phase_7.pv.plancher": "One acceptance minute per slab and foundation acceptance",
+  "prestations.archi.phase_7.pv.maconnerie": "One masonry acceptance minute per floor",
+  "prestations.archi.phase_7.pv.plomberie": "One pre-installation plumbing acceptance minute",
+  "prestations.archi.phase_7.pv.elec": "One electrical acceptance minute",
+  "prestations.archi.phase_7.pv.clim": "One central HVAC acceptance minute",
+  "prestations.archi.phase_7.pv.isolation": "One thermal and acoustic insulation acceptance minute per floor",
+  "prestations.archi.phase_7.pv.echantillon": "One sample validation minute per secondary package (wood/aluminum joinery, flooring, tiling, suspended ceiling, paint)",
+  "prestations.archi.phase_7.pv.reception_secondaires": "One acceptance minute for secondary packages post-completion",
+  "prestations.archi.phase_7.pv.metre": "One as-built survey and quantity minute post-works (recommended for the registration file)",
+
+  "prestations.topo.task_1.title": "Site staking at project start",
+  "prestations.topo.task_1.deliv_1": "Adversarial site boundary marking and benchmark installation",
+  "prestations.topo.task_1.deliv_2": "Signed and archived staking minute",
+
+  "prestations.topo.task_2.title": "Structural axes acceptance",
+  "prestations.topo.task_2.deliv_1": "Layout control (load-bearing axes, columns, walls)",
+  "prestations.topo.task_2.deliv_2": "Basement depth verification (recommended)",
+
+  "prestations.topo.task_3.title": "As-built survey after works",
+  "prestations.topo.task_3.deliv_1": "Final topographic survey of the completed structure",
+  "prestations.topo.task_3.deliv_2": "Enforceable document for the registration and compliance file",
+
+  "prestations.be.lot_1.title": "Reinforced concrete and rebar plans",
+  "prestations.be.lot_1.deliv_1": "Structural calculations based on the geotechnical report",
+  "prestations.be.lot_1.deliv_2": "Detailed formwork and reinforcement drawings",
+  "prestations.be.lot_1.deliv_3": "Calculation note and structural assumptions",
+
+  "prestations.be.lot_2.title": "MEP plumbing plans",
+  "prestations.be.lot_2.deliv_1": "Under-slab network (supply, drainage, sanitation)",
+  "prestations.be.lot_2.deliv_2": "Perimeter drainage and stormwater management",
+
+  "prestations.be.lot_3.title": "Electrical plans — main LV switchboard and low-voltage systems",
+  "prestations.be.lot_3.deliv_1": "Main low-voltage switchboard (TGBT), main distribution and sub-panels",
+  "prestations.be.lot_3.deliv_2": "Low-voltage systems (data network, CCTV, access control) coordinated with the architect's plans"
+}
