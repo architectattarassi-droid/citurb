@@ -4,6 +4,7 @@ import { apiBase } from "../../../tome4/apiClient";
 import { useAuth } from "../../../tome5/AuthProvider";
 import { getStoredLang, useT } from "../../../../i18n/i18n";
 import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
+import FichesPrestations from "../../../../components/fiches-prestations/FichesPrestations";
 
 const P2_PENDING_KEY = "citurbarea:p2:pending_intake:v1";
 
@@ -1065,6 +1066,18 @@ function P2HomeInner() {
           </div>
         </section>
       )}
+
+      {/* DÉTAIL LIVRABLES — fiches prestations (complète la décomposition honoraires Phase A/B/C) */}
+      <section className="section" id="p2-fiches-prestations" style={{ order: -1, borderTop: "1px solid rgba(201,162,39,0.22)" }}>
+        <div className="container-max">
+          <div className="eyebrow">{t("portes.p2.fiches.eyebrow")}</div>
+          <h2 className="section-title">{t("portes.p2.fiches.title")}</h2>
+          <p className="sub" style={{ marginBottom: 24 }}>
+            {t("portes.p2.fiches.sub")}
+          </p>
+          <FichesPrestations porte="P2" />
+        </div>
+      </section>
 
       {/* BLOC 1 IDENTITÉ — première étape (« qui êtes-vous »), avant le projet */}
       {reached("identity") && (
