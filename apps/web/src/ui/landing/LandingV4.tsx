@@ -665,11 +665,23 @@ const STYLES = `
   @media(max-width:768px){
     .hero-grid { grid-template-columns: 1fr; gap: 16px; }
     .form-grid { grid-template-columns: 1fr; }
+    /* Header surchargé sur mobile : on ne garde que les pills essentiels
+     * (lang-switcher + 2 boutons auth) ; les pills secondaires (WhatsApp,
+     * Choose my category, Media, Cart, etc.) sont masqués pour éviter
+     * débordement et empilement. */
+    .nav .pill:not(.btn-login):not(.btn-signup) { display: none; }
+    .nav .lang-switcher { display: flex; }
+    .nav { gap: 6px; }
+    .header-top, .header-bottom { padding: 8px 0; }
+    .search { display: none; }
   }
   @media(max-width:480px){
-    h1 { font-size: 24px; line-height: 1.2; }
+    h1 { font-size: 24px; line-height: 1.2; overflow-wrap: anywhere; word-break: break-word; hyphens: auto; }
     .hero-box { padding: 18px; }
-    .container { padding: 0 14px; }
+    .container { padding: 0 12px; }
+    /* Titres en general */
+    h2, h3 { overflow-wrap: anywhere; word-break: break-word; }
+    .cat h3 { font-size: 14px; }
   }
 `;
 

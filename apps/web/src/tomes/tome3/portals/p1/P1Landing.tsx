@@ -1623,33 +1623,9 @@ export default function P1Landing() {
 
 
 
-<div className="lang-switcher" style={{ position: "fixed", top: "20px", right: "20px", zIndex: 1000, display: "flex", gap: "8px", background: "white", padding: "8px", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
-  {(["fr", "ar", "en"] as Lang[]).map((code) => {
-    const active = lang === code;
-    const label = code === "ar" ? "العربية" : code.toUpperCase();
-    return (
-      <button
-        key={code}
-        type="button"
-        onClick={() => setLang(code)}
-        className={active ? "lang-btn active" : "lang-btn"}
-        aria-pressed={active}
-        style={{
-          padding: "8px 16px",
-          border: active ? "none" : "1px solid rgba(201,162,39,0.3)",
-          background: active ? "linear-gradient(135deg,#C9A227,#E6C75B)" : "white",
-          color: active ? "white" : "#0B1B3A",
-          borderRadius: "8px",
-          cursor: "pointer",
-          fontSize: "13px",
-          fontWeight: 600,
-        }}
-      >
-        {label}
-      </button>
-    );
-  })}
-</div>
+  {/* LangSwitcher floating supprimé : le PublicLayout (tomes/tome1/router/layouts.tsx)
+      gère déjà un LangSwitcher sticky-top. Le doublon position:fixed couvrait
+      le header et flottait par-dessus le contenu sur mobile. */}
 
   <div id="app" className="min-h-full">
 
