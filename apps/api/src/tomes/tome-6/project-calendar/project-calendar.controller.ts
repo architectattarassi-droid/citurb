@@ -41,6 +41,23 @@ export class ProjectCalendarController {
     return { ok: true, tasks };
   }
 
+  /**
+   * GET /api/project-calendar/:dossierId/unified-timeline
+   *
+   * Retourne le flux fusionné consommable par l'UI calendrier :
+   *   - tasks ProjectCalendar (avec startAt/endAt résolus par le CPM)
+   *   - PV chantier déjà déclarés (source PV_PAST)
+   *   - prochaine échéance PV cadence 15j (source PV_DUE, si chantier actif)
+   *
+   * Réponse : `{ ok, dossierId, generatedAt, counts, events: [...] }`.
+   * Événements triés chronologiquement (ascendant).
+   */
+  @Get("unified-timeline")
+  async unifiedTimeline(@Param("dossierId") dossierId: string) {
+    const timeline = await this.svc.getUnifiedTimeline(dossierId);
+    return { ok: true, ...timeline };
+  }
+
   @Post("tasks")
   async createTask(@Param("dossierId") dossierId: string, @Body() body: CreateTaskDto) {
     const task = await this.svc.createTask(dossierId, body);
@@ -54,6 +71,22 @@ export class ProjectCalendarController {
     @Body() body: { resetExisting?: boolean; projectStart?: string } = {},
   ) {
     return this.svc.initFromTemplate(dossierId, porte, body);
+  }
+
+  /**
+   * Seed le calendar à partir du référentiel `prestations-referential.ts`
+   * (mirror de `apps/web/src/data/prestations.ts`) :
+   *   - 7 phases architecte FS
+   *   - 3 tâches topo (bornage T0 / axes / métré post-travaux)
+   *   - 3 lots BE (béton armé sur APD, fluides + élec sur DCE)
+   *   - 9 jalons PV cadence chantier (phase EXEC, isMilestone=true)
+   */
+  @Post("init-from-prestations")
+  async initFromPrestations(
+    @Param("dossierId") dossierId: string,
+    @Body() body: { resetExisting?: boolean; projectStart?: string; pvCadenceDays?: number } = {},
+  ) {
+    return this.svc.initFromPrestations(dossierId, body);
   }
 
   @Patch("tasks/:id")
