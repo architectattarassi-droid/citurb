@@ -41,12 +41,38 @@ let ProjectCalendarController = class ProjectCalendarController {
         const tasks = await this.svc.listTasks(dossierId);
         return { ok: true, tasks };
     }
+    /**
+     * GET /api/project-calendar/:dossierId/unified-timeline
+     *
+     * Retourne le flux fusionné consommable par l'UI calendrier :
+     *   - tasks ProjectCalendar (avec startAt/endAt résolus par le CPM)
+     *   - PV chantier déjà déclarés (source PV_PAST)
+     *   - prochaine échéance PV cadence 15j (source PV_DUE, si chantier actif)
+     *
+     * Réponse : `{ ok, dossierId, generatedAt, counts, events: [...] }`.
+     * Événements triés chronologiquement (ascendant).
+     */
+    async unifiedTimeline(dossierId) {
+        const timeline = await this.svc.getUnifiedTimeline(dossierId);
+        return { ok: true, ...timeline };
+    }
     async createTask(dossierId, body) {
         const task = await this.svc.createTask(dossierId, body);
         return { ok: true, task };
     }
     async initFromTemplate(dossierId, porte, body = {}) {
         return this.svc.initFromTemplate(dossierId, porte, body);
+    }
+    /**
+     * Seed le calendar à partir du référentiel `prestations-referential.ts`
+     * (mirror de `apps/web/src/data/prestations.ts`) :
+     *   - 7 phases architecte FS
+     *   - 3 tâches topo (bornage T0 / axes / métré post-travaux)
+     *   - 3 lots BE (béton armé sur APD, fluides + élec sur DCE)
+     *   - 9 jalons PV cadence chantier (phase EXEC, isMilestone=true)
+     */
+    async initFromPrestations(dossierId, body = {}) {
+        return this.svc.initFromPrestations(dossierId, body);
     }
     async patchTask(dossierId, id, body) {
         const task = await this.svc.patchTask(dossierId, id, body);
@@ -77,6 +103,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProjectCalendarController.prototype, "listTasks", null);
 __decorate([
+    (0, common_1.Get)("unified-timeline"),
+    __param(0, (0, common_1.Param)("dossierId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ProjectCalendarController.prototype, "unifiedTimeline", null);
+__decorate([
     (0, common_1.Post)("tasks"),
     __param(0, (0, common_1.Param)("dossierId")),
     __param(1, (0, common_1.Body)()),
@@ -93,6 +126,14 @@ __decorate([
     __metadata("design:paramtypes", [String, String, Object]),
     __metadata("design:returntype", Promise)
 ], ProjectCalendarController.prototype, "initFromTemplate", null);
+__decorate([
+    (0, common_1.Post)("init-from-prestations"),
+    __param(0, (0, common_1.Param)("dossierId")),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], ProjectCalendarController.prototype, "initFromPrestations", null);
 __decorate([
     (0, common_1.Patch)("tasks/:id"),
     __param(0, (0, common_1.Param)("dossierId")),

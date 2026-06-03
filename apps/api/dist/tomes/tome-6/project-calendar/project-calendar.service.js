@@ -15,7 +15,10 @@ const common_1 = require("@nestjs/common");
 const fs = require("fs");
 const path = require("path");
 const prisma_service_1 = require("../../tome-at/kernel/prisma/prisma.service");
+const pv_chantier_service_1 = require("../../tome-2/pv-chantier/pv-chantier.service");
+const pv_compliance_service_1 = require("../../tome-2/pv-chantier/pv-compliance.service");
 const project_calendar_cpm_1 = require("./project-calendar.cpm");
+const prestations_referential_1 = require("./prestations-referential");
 /**
  * ProjectCalendarService — gestion des tâches projet par dossier.
  *
@@ -28,9 +31,154 @@ const project_calendar_cpm_1 = require("./project-calendar.cpm");
  */
 let ProjectCalendarService = ProjectCalendarService_1 = class ProjectCalendarService {
     prisma;
+    pvChantier;
+    pvCompliance;
     logger = new common_1.Logger(ProjectCalendarService_1.name);
-    constructor(prisma) {
+    constructor(prisma, pvChantier, pvCompliance) {
         this.prisma = prisma;
+        this.pvChantier = pvChantier;
+        this.pvCompliance = pvCompliance;
+    }
+    // ─────────────────────────────────────────────────────────────────────
+    // Timeline unifiée — fusion tasks ProjectCalendar + PV chantier + cadence
+    // ─────────────────────────────────────────────────────────────────────
+    /**
+     * getUnifiedTimeline — agrège les sources de calendrier pour un dossier.
+     *
+     *   1. Tasks ProjectCalendar (existant : phases, jalons, lots BE, topo…)
+     *   2. PV chantier passés (déclarés) — finalisés et brouillons
+     *   3. Prochaine échéance PV (cadence 15j calculée par PvComplianceService) —
+     *      ajoutée uniquement si le dossier a un chantier actif et un PV est
+     *      attendu (statut WARNING ou BLOCKED, ou chantier sans aucun PV
+     *      finalisé encore).
+     *
+     * Les événements sont triés chronologiquement (ascendant). Le payload
+     * source est conservé sous `payload` pour drill-down UI.
+     */
+    async getUnifiedTimeline(dossierId) {
+        const events = [];
+        // ── 1) Tasks ProjectCalendar ────────────────────────────────────
+        const state = await this.getState(dossierId);
+        for (const t of state.tasks) {
+            const start = t.startAt ?? null;
+            if (!start)
+                continue; // une tâche sans date ne va pas dans la timeline
+            events.push({
+                id: `task:${t.id}`,
+                source: "TASK",
+                dossierId,
+                title: t.numero ? `${t.numero} ${t.titre}` : t.titre,
+                dateAt: start,
+                endAt: t.endAt ?? null,
+                status: t.status,
+                phase: t.phase,
+                isMilestone: t.isMilestone,
+                isCritical: t.isCritical,
+                severity: null,
+                payload: {
+                    taskId: t.id,
+                    parentId: t.parentId,
+                    durationDays: t.durationDays,
+                    progressPct: t.progressPct,
+                    predecessors: t.predecessors,
+                    resourceUserIds: t.resourceUserIds,
+                    resourceSupplierIds: t.resourceSupplierIds,
+                    blockers: t.blockers,
+                },
+            });
+        }
+        const taskCount = events.length;
+        // ── 2) PV chantier passés (déclarés) ────────────────────────────
+        let pvPastCount = 0;
+        try {
+            const pvList = await this.pvChantier.list(dossierId);
+            for (const pv of pvList) {
+                const dateAt = pv.date || pv.finalizedAt || pv.createdAt;
+                if (!dateAt)
+                    continue;
+                events.push({
+                    id: `pv:${pv.id}`,
+                    source: "PV_PAST",
+                    dossierId,
+                    title: `PV ${pv.numero} — ${pv.typeVisite}`,
+                    dateAt,
+                    endAt: null,
+                    status: pv.status,
+                    phase: "EXEC",
+                    isMilestone: true,
+                    isCritical: false,
+                    severity: pv.severiteMax === "BLOQUANT" ? "BLOCKED"
+                        : pv.severiteMax === "RESERVE" ? "WARNING"
+                            : pv.severiteMax === "AVIS" ? "WARNING"
+                                : "INFO",
+                    payload: {
+                        pvId: pv.id,
+                        numero: pv.numero,
+                        typeVisite: pv.typeVisite,
+                        observationsCount: pv.observationsCount,
+                        severiteMax: pv.severiteMax,
+                        finalizedAt: pv.finalizedAt,
+                    },
+                });
+                pvPastCount += 1;
+            }
+        }
+        catch (e) {
+            this.logger.warn(`[unified-timeline] PV list failed for ${dossierId}: ${e?.message}`);
+        }
+        // ── 3) Prochaine échéance PV (cadence 15j) ──────────────────────
+        let pvDueCount = 0;
+        try {
+            const compliance = await this.pvCompliance.getStatus(dossierId);
+            if (compliance.active && compliance.nextPvDueDate) {
+                const severity = compliance.status === "BLOCKED" ? "BLOCKED"
+                    : compliance.status === "WARNING" ? "WARNING"
+                        : "INFO";
+                const title = compliance.status === "BLOCKED"
+                    ? `PV en retard (chantier bloqué — ${compliance.daysSinceLastPv}j sans PV)`
+                    : compliance.status === "WARNING"
+                        ? `PV attendu sous ${Math.max(0, compliance.daysUntilDue)}j`
+                        : "Prochain PV de cadence";
+                events.push({
+                    id: `pv-due:${dossierId}`,
+                    source: "PV_DUE",
+                    dossierId,
+                    title,
+                    dateAt: compliance.nextPvDueDate,
+                    endAt: null,
+                    status: compliance.status,
+                    phase: "EXEC",
+                    isMilestone: true,
+                    isCritical: compliance.status !== "OK",
+                    severity,
+                    payload: {
+                        intervalDays: compliance.intervalDays,
+                        lastPvDate: compliance.lastPvDate,
+                        lastPvId: compliance.lastPvId,
+                        daysSinceLastPv: compliance.daysSinceLastPv,
+                        daysUntilDue: compliance.daysUntilDue,
+                        blocked: compliance.blocked,
+                        blockedSince: compliance.blockedSince,
+                    },
+                });
+                pvDueCount = 1;
+            }
+        }
+        catch (e) {
+            this.logger.warn(`[unified-timeline] compliance failed for ${dossierId}: ${e?.message}`);
+        }
+        events.sort((a, b) => (a.dateAt || "").localeCompare(b.dateAt || ""));
+        return {
+            dossierId,
+            generatedAt: new Date().toISOString(),
+            counts: {
+                tasks: taskCount,
+                pvPast: pvPastCount,
+                pvDue: pvDueCount,
+                total: events.length,
+            },
+            events,
+        };
     }
     // ─────────────────────────────────────────────────────────────────────
     // Lectures
@@ -230,6 +378,173 @@ let ProjectCalendarService = ProjectCalendarService_1 = class ProjectCalendarSer
         return { ok: true, createdCount: tasks.length, tasks };
     }
     // ─────────────────────────────────────────────────────────────────────
+    // Initialisation depuis le référentiel prestations (front mirror)
+    // ─────────────────────────────────────────────────────────────────────
+    /**
+     * initFromPrestations — seed un planning complet depuis le référentiel
+     * `prestations-referential.ts` (miroir serveur de `apps/web/src/data/prestations.ts`).
+     *
+     * Structure générée :
+     *   - 7 phases architecte en cascade (FS strict)
+     *   - 3 tâches topographe (bornage en T0, axes avant fondations, métré post-chantier)
+     *   - 3 lots BE en parallèle (lot_1 sur APD, lot_2 + lot_3 sur DCE)
+     *   - 9 jalons PV cadence pendant le suivi chantier (phase EXEC), répartis
+     *     régulièrement (cadence par défaut ~20j entre milestones)
+     *
+     * Toutes les tâches sont ensuite ordonnancées par le CPM standard
+     * (cf. persist()).
+     */
+    async initFromPrestations(dossierId, options = {}) {
+        const state = await this.getState(dossierId);
+        if (state.tasks.length > 0 && !options.resetExisting) {
+            throw new common_1.BadRequestException("Planning déjà initialisé (passer resetExisting=true)");
+        }
+        const tasks = [];
+        const now = () => new Date().toISOString();
+        // ── 1) Phases architecte — en cascade FS ──────────────────────────
+        const archiIds = {};
+        let prevArchiId = null;
+        let topIdx = 0;
+        for (const ph of prestations_referential_1.ARCHI_PHASES) {
+            topIdx += 1;
+            const id = this.genId();
+            archiIds[ph.id] = id;
+            tasks.push({
+                id,
+                dossierId,
+                parentId: null,
+                numero: `${topIdx}`,
+                titre: ph.titre,
+                description: ph.description ?? null,
+                phase: ph.phase,
+                durationDays: ph.durationDays,
+                startAt: null,
+                endAt: null,
+                progressPct: 0,
+                isMilestone: !!ph.isMilestone,
+                isCritical: false,
+                predecessors: prevArchiId ? [prevArchiId] : [],
+                resourceUserIds: [],
+                resourceSupplierIds: [],
+                status: "PENDING",
+                blockers: [],
+                createdAt: now(),
+                updatedAt: now(),
+            });
+            prevArchiId = id;
+        }
+        // ── 2) Topographe ────────────────────────────────────────────────
+        // task_1 (bornage)         : aucun prédécesseur → T0, en parallèle de l'esquisse
+        // task_2 (axes implant.)   : après phase 6 (CPS), avant phase 7 (chantier)
+        // task_3 (métré post)      : après phase 7 (chantier)
+        const topoIds = {};
+        const topoMap = [
+            { ref: prestations_referential_1.TOPO_TASKS[0], preds: [], numero: `${++topIdx}` },
+            { ref: prestations_referential_1.TOPO_TASKS[1], preds: archiIds["archi.phase_6"] ? [archiIds["archi.phase_6"]] : [], numero: `${++topIdx}` },
+            { ref: prestations_referential_1.TOPO_TASKS[2], preds: archiIds["archi.phase_7"] ? [archiIds["archi.phase_7"]] : [], numero: `${++topIdx}` },
+        ];
+        for (const { ref, preds, numero } of topoMap) {
+            const id = this.genId();
+            topoIds[ref.id] = id;
+            tasks.push({
+                id,
+                dossierId,
+                parentId: null,
+                numero,
+                titre: ref.titre,
+                description: ref.description ?? null,
+                phase: ref.phase,
+                durationDays: ref.durationDays,
+                startAt: null,
+                endAt: null,
+                progressPct: 0,
+                isMilestone: !!ref.isMilestone,
+                isCritical: false,
+                predecessors: preds,
+                resourceUserIds: [],
+                resourceSupplierIds: [],
+                status: "PENDING",
+                blockers: [],
+                createdAt: now(),
+                updatedAt: now(),
+            });
+        }
+        // ── 3) BE — en parallèle APD (lot_1) et DCE (lot_2 + lot_3) ─────
+        const beIds = {};
+        const beMap = [
+            { ref: prestations_referential_1.BE_LOTS[0], preds: archiIds["archi.phase_3"] ? [archiIds["archi.phase_3"]] : [], numero: `${++topIdx}` },
+            { ref: prestations_referential_1.BE_LOTS[1], preds: archiIds["archi.phase_5"] ? [archiIds["archi.phase_5"]] : [], numero: `${++topIdx}` },
+            { ref: prestations_referential_1.BE_LOTS[2], preds: archiIds["archi.phase_5"] ? [archiIds["archi.phase_5"]] : [], numero: `${++topIdx}` },
+        ];
+        for (const { ref, preds, numero } of beMap) {
+            const id = this.genId();
+            beIds[ref.id] = id;
+            tasks.push({
+                id,
+                dossierId,
+                parentId: null,
+                numero,
+                titre: ref.titre,
+                description: ref.description ?? null,
+                phase: ref.phase,
+                durationDays: ref.durationDays,
+                startAt: null,
+                endAt: null,
+                progressPct: 0,
+                isMilestone: !!ref.isMilestone,
+                isCritical: false,
+                predecessors: preds,
+                resourceUserIds: [],
+                resourceSupplierIds: [],
+                status: "PENDING",
+                blockers: [],
+                createdAt: now(),
+                updatedAt: now(),
+            });
+        }
+        // ── 4) PV cadence — 9 jalons EXEC en parent du suivi chantier ───
+        // On rattache chaque PV à la phase 7 (chantier) comme parent + 1er PV
+        // suit la phase 7, les suivants chainent FS entre eux (séquence régulière).
+        const chantierId = archiIds["archi.phase_7"] ?? null;
+        let prevPvId = null;
+        let pvIdx = 0;
+        for (const pv of prestations_referential_1.PV_CADENCE_MILESTONES) {
+            pvIdx += 1;
+            const id = this.genId();
+            const preds = prevPvId ? [prevPvId] : chantierId ? [chantierId] : [];
+            tasks.push({
+                id,
+                dossierId,
+                parentId: chantierId,
+                numero: chantierId ? `7.${pvIdx}` : `${++topIdx}`,
+                titre: pv.titre,
+                description: pv.description ?? null,
+                phase: pv.phase,
+                durationDays: pv.durationDays,
+                startAt: null,
+                endAt: null,
+                progressPct: 0,
+                isMilestone: true,
+                isCritical: false,
+                predecessors: preds,
+                resourceUserIds: [],
+                resourceSupplierIds: [],
+                status: "PENDING",
+                blockers: [{ type: "PV_CADENCE_SLOT", since: now(), payload: { pvId: pv.id, slotIndex: pvIdx } }],
+                createdAt: now(),
+                updatedAt: now(),
+            });
+            prevPvId = id;
+        }
+        const next = {
+            ...state,
+            tasks,
+            projectStart: options.projectStart ?? state.projectStart ?? new Date().toISOString().slice(0, 10),
+        };
+        await this.persist(dossierId, next);
+        return { ok: true, createdCount: tasks.length, tasks };
+    }
+    // ─────────────────────────────────────────────────────────────────────
     // Helpers
     // ─────────────────────────────────────────────────────────────────────
     async persist(dossierId, state) {
@@ -362,5 +677,7 @@ let ProjectCalendarService = ProjectCalendarService_1 = class ProjectCalendarSer
 exports.ProjectCalendarService = ProjectCalendarService;
 exports.ProjectCalendarService = ProjectCalendarService = ProjectCalendarService_1 = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        pv_chantier_service_1.PvChantierService,
+        pv_compliance_service_1.PvComplianceService])
 ], ProjectCalendarService);

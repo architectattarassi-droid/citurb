@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProjectCalendarModule = void 0;
 const common_1 = require("@nestjs/common");
+const pv_chantier_module_1 = require("../../tome-2/pv-chantier/pv-chantier.module");
 const project_calendar_controller_1 = require("./project-calendar.controller");
 const project_calendar_service_1 = require("./project-calendar.service");
 /**
@@ -16,12 +17,17 @@ const project_calendar_service_1 = require("./project-calendar.service");
  * Tome 6 — workflows dossiers.
  * PrismaService est exposé en global via PrismaModule (@Global) chargé au
  * niveau du kernel : aucune import explicite nécessaire ici.
+ *
+ * Import PvChantierModule (tome 2) pour fusionner les PV chantier + cadence
+ * dans la timeline unifiée (`getUnifiedTimeline`). Direction descendante
+ * (tome 6 → tome 2) conforme à `npm run tome:check`.
  */
 let ProjectCalendarModule = class ProjectCalendarModule {
 };
 exports.ProjectCalendarModule = ProjectCalendarModule;
 exports.ProjectCalendarModule = ProjectCalendarModule = __decorate([
     (0, common_1.Module)({
+        imports: [pv_chantier_module_1.PvChantierModule],
         controllers: [project_calendar_controller_1.ProjectCalendarController],
         providers: [project_calendar_service_1.ProjectCalendarService],
         exports: [project_calendar_service_1.ProjectCalendarService],
