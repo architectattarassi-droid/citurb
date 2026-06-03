@@ -1702,5 +1702,8 @@
   "p1.lp.imperative.facade_4": "4 façades",
   "portes.p2.fiches.eyebrow": "Détail des livrables",
   "portes.p2.fiches.title": "Que comprend la prestation ?",
-  "portes.p2.fiches.sub": "Décomposition phase par phase des livrables architecte, topographe et bureau d'études — complète la ventilation honoraires CNOA (Phases A / B / C)."
+  "portes.p2.fiches.sub": "Décomposition phase par phase des livrables architecte, topographe et bureau d'études — complète la ventilation honoraires CNOA (Phases A / B / C).",
+  "portes.calendar.access_btn": "📅 Calendrier du projet",
+  "portes.calendar.seed_btn": "Auto-créer depuis le référentiel CITURBAREA",
+  "portes.calendar.empty_intro": "Aucune tâche planifiée. Lance le seed pour générer automatiquement les 13 phases archi/topo/BE + PV cadence."
 }

@@ -79,6 +79,20 @@ export const projectCalendarApi = {
       { method: "POST", body: opts },
     ),
 
+  /**
+   * Seed automatique depuis le référentiel CITURBAREA (B1 / A1) :
+   *  - 7 phases architecte FS (ESQ → GPA)
+   *  - 3 tâches topo (bornage T0 / axes / métré post-travaux)
+   *  - 3 lots BE (béton armé sur APD, fluides + élec sur DCE)
+   *  - 9 jalons PV cadence (phase EXEC, isMilestone=true)
+   * Total ≈ 22 tâches.
+   */
+  initFromPrestations: (dossierId: string, opts: { resetExisting?: boolean; projectStart?: string; pvCadenceDays?: number } = {}) =>
+    apiFetch<{ ok: true; createdCount: number; tasks: ProjectTask[] }>(
+      `${base(dossierId)}/init-from-prestations`,
+      { method: "POST", body: opts },
+    ),
+
   criticalPath: (dossierId: string) =>
     apiFetch<{ ok: true } & CpmResult>(`${base(dossierId)}/critical-path`),
 

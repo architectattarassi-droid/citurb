@@ -17,6 +17,7 @@ import KanbanView from "./KanbanView";
 import CalendarMonthView from "./CalendarMonthView";
 import TaskEditor from "./TaskEditor";
 import CriticalPathBanner from "./CriticalPathBanner";
+import { useT } from "../../i18n/i18n";
 
 type TabId = "gantt" | "kanban" | "calendar" | "list";
 
@@ -30,6 +31,7 @@ const TABS: { id: TabId; label: string }[] = [
 export default function ProjectCalendarPage() {
   const params = useParams<{ dossierId: string }>();
   const dossierId = params.dossierId ?? "";
+  const t = useT();
 
   const [tab, setTab] = useState<TabId>("gantt");
   const [tasks, setTasks] = useState<ProjectTask[]>([]);
@@ -37,6 +39,7 @@ export default function ProjectCalendarPage() {
   const [gantt, setGantt] = useState<GanttPayload | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [seeding, setSeeding] = useState(false);
   const [editor, setEditor] = useState<{ mode: "create" | "edit"; task?: ProjectTask } | null>(null);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
@@ -87,6 +90,19 @@ export default function ProjectCalendarPage() {
     if (tasks.length > 0 && !confirm(`Le planning existe déjà (${tasks.length} tâches). Le remplacer par le template ${porte} ?`)) return;
     await projectCalendarApi.initFromTemplate(dossierId, porte, { resetExisting: true });
     await load();
+  };
+
+  const initFromPrestations = async () => {
+    if (!dossierId || seeding) return;
+    setSeeding(true);
+    try {
+      await projectCalendarApi.initFromPrestations(dossierId, { resetExisting: false, pvCadenceDays: 15 });
+      await load();
+    } catch (e: any) {
+      setError(e?.message || "Erreur lors du seed depuis le référentiel CITURBAREA");
+    } finally {
+      setSeeding(false);
+    }
   };
 
   const openEditByClick = (taskId: string) => {
@@ -175,8 +191,26 @@ export default function ProjectCalendarPage() {
 
           {tasks.length === 0 ? (
             <div style={{ padding: 48, textAlign: "center", background: "#f9fafb", borderRadius: 12, color: "#6b7280" }}>
-              <div style={{ fontSize: 18, marginBottom: 8 }}>Aucune tâche dans le planning</div>
-              <div style={{ fontSize: 13 }}>Initialise le planning depuis un template porte (P2, P3, P4, P5) ou crée une tâche manuellement.</div>
+              <div style={{ fontSize: 18, marginBottom: 8, color: "#111827", fontWeight: 700 }}>Aucune tâche dans le planning</div>
+              <div style={{ fontSize: 13, marginBottom: 20, maxWidth: 520, margin: "0 auto 20px" }}>
+                {t("portes.calendar.empty_intro")}
+              </div>
+              <button
+                onClick={initFromPrestations}
+                disabled={seeding}
+                style={{
+                  padding: "12px 22px",
+                  background: seeding ? "#94a3b8" : "linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)",
+                  color: "#fff", border: "none", borderRadius: 10,
+                  fontSize: 14, fontWeight: 700, cursor: seeding ? "wait" : "pointer",
+                  boxShadow: "0 4px 14px rgba(99,102,241,0.25)",
+                }}
+              >
+                {seeding ? "…" : t("portes.calendar.seed_btn")}
+              </button>
+              <div style={{ fontSize: 11, marginTop: 14, color: "#94a3b8" }}>
+                Ou initialise depuis un template porte (boutons en haut) / crée une tâche manuellement.
+              </div>
             </div>
           ) : (
             <>

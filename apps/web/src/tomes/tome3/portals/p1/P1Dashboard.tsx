@@ -560,6 +560,23 @@ export default function P1Dashboard({ dossier: initial, onReset, dossierId }: { 
       {/* Timeline */}
       <TimelineBar dossier={dossier} />
 
+      {/* Accès calendrier projet — gros bouton visible dès qu'on a un dossierId */}
+      {dossierId && (
+        <a
+          href={`/dossier/${dossierId}/calendrier`}
+          style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            gap: 12, padding: "16px 20px", marginBottom: 16,
+            background: "linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)",
+            color: "#fff", borderRadius: 14, textDecoration: "none",
+            boxShadow: "0 4px 14px rgba(99,102,241,0.25)", fontWeight: 800,
+          }}
+        >
+          <span style={{ fontSize: 15 }}>{t("portes.calendar.access_btn")}</span>
+          <span style={{ fontSize: 18, opacity: 0.9 }}>→</span>
+        </a>
+      )}
+
       {/* Canal qualifié : IA (déblocage) + WhatsApp (RDV) */}
       <div style={{ ...S.card, marginTop: 18 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>

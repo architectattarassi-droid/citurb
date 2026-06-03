@@ -1475,5 +1475,8 @@
   "p1.lp.imperative.facade_4": "4 façades",
   "portes.p2.fiches.eyebrow": "Deliverables detail",
   "portes.p2.fiches.title": "What does the service include?",
-  "portes.p2.fiches.sub": "Phase-by-phase breakdown of architect, surveyor and engineering deliverables — complements the CNOA fee breakdown (Phases A / B / C)."
+  "portes.p2.fiches.sub": "Phase-by-phase breakdown of architect, surveyor and engineering deliverables — complements the CNOA fee breakdown (Phases A / B / C).",
+  "portes.calendar.access_btn": "📅 Project schedule",
+  "portes.calendar.seed_btn": "Auto-create from CITURBAREA reference",
+  "portes.calendar.empty_intro": "No tasks scheduled. Run the seed to auto-generate the 13 architect/surveyor/engineering phases + site PV cadence."
 }

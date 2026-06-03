@@ -281,6 +281,8 @@ export const router = createBrowserRouter([
 
       // ── Calendrier Projet (Gantt + CPM + Kanban) ──
       { path: '/projet/:dossierId/calendrier', element: <AdminHostBlock><ProjectCalendarPage /></AdminHostBlock> },
+      // Alias plus court (cohérent avec /dossier/:dossierId/{documents,rokhas,reception,cps})
+      { path: '/dossier/:dossierId/calendrier', element: <AdminHostBlock><ProjectCalendarPage /></AdminHostBlock> },
 
       // ── Générateur CPS (Cahier des Prescriptions Spéciales) ──
       { path: '/cps', element: <AdminHostBlock><CpsGeneratorPage /></AdminHostBlock> },
