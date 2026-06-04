@@ -22,6 +22,7 @@ const admin_auth_controller_1 = require("./controllers/admin-auth.controller");
 const admin_dashboard_controller_1 = require("./controllers/admin-dashboard.controller");
 const admin_actions_controller_1 = require("./controllers/admin-actions.controller");
 const admin_bridge_controller_1 = require("./controllers/admin-bridge.controller");
+const admin_founder_bootstrap_controller_1 = require("./controllers/admin-founder-bootstrap.controller");
 /**
  * AdminModule — Sprint H.
  *
@@ -57,6 +58,7 @@ exports.AdminModule = AdminModule = __decorate([
             admin_dashboard_controller_1.AdminDashboardController,
             admin_actions_controller_1.AdminActionsController,
             admin_bridge_controller_1.AdminBridgeController,
+            admin_founder_bootstrap_controller_1.AdminFounderBootstrapController,
         ],
         providers: [
             admin_audit_service_1.AdminAuditService,

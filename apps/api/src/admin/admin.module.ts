@@ -13,6 +13,7 @@ import { AdminAuthController } from "./controllers/admin-auth.controller";
 import { AdminDashboardController } from "./controllers/admin-dashboard.controller";
 import { AdminActionsController } from "./controllers/admin-actions.controller";
 import { AdminBridgeController } from "./controllers/admin-bridge.controller";
+import { AdminFounderBootstrapController } from "./controllers/admin-founder-bootstrap.controller";
 
 /**
  * AdminModule — Sprint H.
@@ -46,6 +47,7 @@ import { AdminBridgeController } from "./controllers/admin-bridge.controller";
     AdminDashboardController,
     AdminActionsController,
     AdminBridgeController,
+    AdminFounderBootstrapController,
   ],
   providers: [
     AdminAuditService,
