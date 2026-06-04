@@ -12,6 +12,10 @@ COPY packages/ ./packages/
 COPY apps/api/package.json ./apps/api/package.json
 COPY apps/api/dist/ ./apps/api/dist/
 COPY apps/api/data/ ./apps/api/data/
+# Scripts ops (seed-admin, reset-admin-password, bootstrap-founder) — lancés
+# ponctuellement via Railway shell. ts-node + bcryptjs sont dispos au runtime
+# (devDeps inclus, npm install sans --production).
+COPY apps/api/scripts/ ./apps/api/scripts/
 COPY prisma/ ./prisma/
 
 RUN npm install --legacy-peer-deps
