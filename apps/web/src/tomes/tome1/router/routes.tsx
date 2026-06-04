@@ -123,8 +123,18 @@ const LandingRoute = () => {
   if (auth.loading) return <div style={{ padding: 24 }}>Chargement…</div>;
   const h = currentHost();
   if (h === HOST_CERCLES) return <CerclesLanding />;
-  // admin.citurbarea.com → backoffice CITURBAREA Command Center (leads Cercles + leads des portes).
-  if (h === HOST_ADMIN)   return <Navigate to="/cc/dashboard" replace />;
+  // admin.citurbarea.com → vault admin (AdminUser SUPER_ADMIN, MFA 4 étapes).
+  // Le pont vers /cc/dashboard depuis l'AdminDashboard exige un User JWT
+  // classique (role ADMIN/OWNER/OPS), différent de la session vault — un user
+  // qui n'a qu'un AdminUser tombait sur 401 en arrivant direct sur /cc/*.
+  // Si déjà loggué en User classique avec role autorisé, on respecte le path
+  // initial. Sinon, on entre par le vault.
+  if (h === HOST_ADMIN) {
+    if (auth.isAuthed && ["ADMIN", "OWNER", "OPS"].includes((auth as any).role || "")) {
+      return <Navigate to="/cc/dashboard" replace />;
+    }
+    return <Navigate to="/admin/login" replace />;
+  }
   // sig.citurbarea.com → explorateur SIG (gated par auth + au moins 1 dossier).
   // Si pas connecté → /login. Si connecté sans dossier → /portal pour en créer un.
   // Si connecté avec dossier → /sig directement.
