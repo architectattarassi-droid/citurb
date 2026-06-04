@@ -26,9 +26,10 @@ import {
   BadRequestException,
   Body,
   Controller,
+  ForbiddenException,
   Headers,
+  Logger,
   Post,
-  ServiceUnavailableException,
   UnauthorizedException,
 } from "@nestjs/common";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -60,6 +61,8 @@ function safeEqual(a: string, b: string): boolean {
 @Tome("tome9")
 @Controller("api/admin/founder-bootstrap")
 export class AdminFounderBootstrapController {
+  private readonly log = new Logger(AdminFounderBootstrapController.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly authService: AuthService,
@@ -71,13 +74,19 @@ export class AdminFounderBootstrapController {
     @Body() body: BootstrapBody,
   ) {
     const envSecret = process.env.FOUNDER_BOOTSTRAP_SECRET;
+    // On utilise des 4xx (BadRequest/Forbidden) plutôt que 503 pour ne PAS
+    // passer dans le bucket "T@-INTERNAL-5XX" du GlobalExceptionFilter qui
+    // redacte les messages à "Erreur interne". Côté ops, ces messages doivent
+    // rester lisibles pour pouvoir débugger l'activation.
     if (!envSecret) {
-      throw new ServiceUnavailableException(
-        "Endpoint désactivé. Poser FOUNDER_BOOTSTRAP_SECRET sur Railway pour l'activer.",
+      throw new BadRequestException(
+        "Endpoint désactivé : poser FOUNDER_BOOTSTRAP_SECRET sur Railway (variable d'env du service citurb) puis cliquer Deploy.",
       );
     }
     if (!providedSecret || !safeEqual(providedSecret, envSecret)) {
-      throw new UnauthorizedException("Secret invalide");
+      throw new ForbiddenException(
+        "Header X-Founder-Bootstrap-Secret manquant ou non-égal à FOUNDER_BOOTSTRAP_SECRET en env.",
+      );
     }
 
     const email = (body?.email || "").trim().toLowerCase();
@@ -87,10 +96,19 @@ export class AdminFounderBootstrapController {
     const pwErr = validatePassword(password);
     if (pwErr) throw new BadRequestException(`Mot de passe : ${pwErr}`);
 
-    const passwordHash = await bcrypt.hash(password, 12);
+    this.log.log(`[founder-bootstrap] secret OK, processing email=${email}`);
+
+    let passwordHash: string;
+    try {
+      passwordHash = await bcrypt.hash(password, 12);
+    } catch (e: any) {
+      this.log.error(`[founder-bootstrap] bcrypt.hash failed: ${e?.message}`);
+      throw new BadRequestException(`bcrypt.hash a échoué: ${e?.message}`);
+    }
 
     // Récupère AdminUser pour copier displayName/phone si dispo.
     const adminUser = await this.prisma.adminUser.findUnique({ where: { email } });
+    this.log.log(`[founder-bootstrap] adminUser lookup: ${adminUser ? "found" : "not found"} (continue quand même)`);
 
     const existing = await this.prisma.user.findUnique({ where: { email } });
     const user = existing
@@ -115,7 +133,16 @@ export class AdminFounderBootstrapController {
           },
         });
 
-    const issued = await this.authService.issueTokenForUser(user.id);
+    this.log.log(`[founder-bootstrap] user ${existing ? "updated" : "created"} : ${user.id}`);
+
+    let issued;
+    try {
+      issued = await this.authService.issueTokenForUser(user.id);
+    } catch (e: any) {
+      this.log.error(`[founder-bootstrap] issueTokenForUser failed: ${e?.message}`);
+      throw new BadRequestException(`issueTokenForUser a échoué: ${e?.message}`);
+    }
+    this.log.log(`[founder-bootstrap] User JWT issued for ${user.email}`);
 
     return {
       ok: true,

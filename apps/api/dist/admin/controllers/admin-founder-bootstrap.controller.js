@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var AdminFounderBootstrapController_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminFounderBootstrapController = void 0;
 /**
@@ -62,20 +63,25 @@ function safeEqual(a, b) {
         r |= a.charCodeAt(i) ^ b.charCodeAt(i);
     return r === 0;
 }
-let AdminFounderBootstrapController = class AdminFounderBootstrapController {
+let AdminFounderBootstrapController = AdminFounderBootstrapController_1 = class AdminFounderBootstrapController {
     prisma;
     authService;
+    log = new common_1.Logger(AdminFounderBootstrapController_1.name);
     constructor(prisma, authService) {
         this.prisma = prisma;
         this.authService = authService;
     }
     async bootstrap(providedSecret, body) {
         const envSecret = process.env.FOUNDER_BOOTSTRAP_SECRET;
+        // On utilise des 4xx (BadRequest/Forbidden) plutôt que 503 pour ne PAS
+        // passer dans le bucket "T@-INTERNAL-5XX" du GlobalExceptionFilter qui
+        // redacte les messages à "Erreur interne". Côté ops, ces messages doivent
+        // rester lisibles pour pouvoir débugger l'activation.
         if (!envSecret) {
-            throw new common_1.ServiceUnavailableException("Endpoint désactivé. Poser FOUNDER_BOOTSTRAP_SECRET sur Railway pour l'activer.");
+            throw new common_1.BadRequestException("Endpoint désactivé : poser FOUNDER_BOOTSTRAP_SECRET sur Railway (variable d'env du service citurb) puis cliquer Deploy.");
         }
         if (!providedSecret || !safeEqual(providedSecret, envSecret)) {
-            throw new common_1.UnauthorizedException("Secret invalide");
+            throw new common_1.ForbiddenException("Header X-Founder-Bootstrap-Secret manquant ou non-égal à FOUNDER_BOOTSTRAP_SECRET en env.");
         }
         const email = (body?.email || "").trim().toLowerCase();
         const password = body?.password || "";
@@ -84,9 +90,18 @@ let AdminFounderBootstrapController = class AdminFounderBootstrapController {
         const pwErr = validatePassword(password);
         if (pwErr)
             throw new common_1.BadRequestException(`Mot de passe : ${pwErr}`);
-        const passwordHash = await bcrypt.hash(password, 12);
+        this.log.log(`[founder-bootstrap] secret OK, processing email=${email}`);
+        let passwordHash;
+        try {
+            passwordHash = await bcrypt.hash(password, 12);
+        }
+        catch (e) {
+            this.log.error(`[founder-bootstrap] bcrypt.hash failed: ${e?.message}`);
+            throw new common_1.BadRequestException(`bcrypt.hash a échoué: ${e?.message}`);
+        }
         // Récupère AdminUser pour copier displayName/phone si dispo.
         const adminUser = await this.prisma.adminUser.findUnique({ where: { email } });
+        this.log.log(`[founder-bootstrap] adminUser lookup: ${adminUser ? "found" : "not found"} (continue quand même)`);
         const existing = await this.prisma.user.findUnique({ where: { email } });
         const user = existing
             ? await this.prisma.user.update({
@@ -109,7 +124,16 @@ let AdminFounderBootstrapController = class AdminFounderBootstrapController {
                     emailVerifiedAt: new Date(),
                 },
             });
-        const issued = await this.authService.issueTokenForUser(user.id);
+        this.log.log(`[founder-bootstrap] user ${existing ? "updated" : "created"} : ${user.id}`);
+        let issued;
+        try {
+            issued = await this.authService.issueTokenForUser(user.id);
+        }
+        catch (e) {
+            this.log.error(`[founder-bootstrap] issueTokenForUser failed: ${e?.message}`);
+            throw new common_1.BadRequestException(`issueTokenForUser a échoué: ${e?.message}`);
+        }
+        this.log.log(`[founder-bootstrap] User JWT issued for ${user.email}`);
         return {
             ok: true,
             access_token: issued.access_token,
@@ -127,7 +151,7 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], AdminFounderBootstrapController.prototype, "bootstrap", null);
-exports.AdminFounderBootstrapController = AdminFounderBootstrapController = __decorate([
+exports.AdminFounderBootstrapController = AdminFounderBootstrapController = AdminFounderBootstrapController_1 = __decorate([
     (0, tome_at_1.Tome)("tome9"),
     (0, common_1.Controller)("api/admin/founder-bootstrap"),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
