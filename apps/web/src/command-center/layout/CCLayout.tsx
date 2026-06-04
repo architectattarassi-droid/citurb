@@ -11,7 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CCKpiBar from "./CCKpiBar";
 import { CC } from "../theme/tokens";
 import { apiBase, getToken, setToken } from "../../tomes/tome4/apiClient";
-import { getSessionToken } from "../../features/admin/adminApi";
+import { getSessionToken, getAdminJwt } from "../../features/admin/adminApi";
 
 // ─── Types ───────────────────────────────────────────────────
 
@@ -82,14 +82,16 @@ export default function CCLayout({ children }: { children: React.ReactNode }) {
   // backend). Idempotent : si déjà un userToken, on ne fait rien.
   useEffect(() => {
     if (getToken()) return;
-    const adminSession = getSessionToken();
-    if (!adminSession) return;
+    // Priorité au JWT admin (post-FULLY_AUTH). Fallback sur sessionToken si
+    // l'utilisateur est en cours de login multi-étape.
+    const adminToken = getAdminJwt() || getSessionToken();
+    if (!adminToken) return;
     let cancelled = false;
     (async () => {
       try {
         const r = await fetch(`${apiBase()}/api/admin/bridge/to-user`, {
           method: "POST",
-          headers: { Authorization: `Bearer ${adminSession}` },
+          headers: { Authorization: `Bearer ${adminToken}` },
         });
         const j = await r.json();
         if (!cancelled && r.ok && j?.access_token) {

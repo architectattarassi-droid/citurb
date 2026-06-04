@@ -17,6 +17,7 @@
  * → débloque /cc/*.
  */
 import { Controller, Post, Req, UnauthorizedException } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 import { randomBytes } from "node:crypto";
 import { Tome } from "../../tomes/tome-at";
 import { PrismaService } from "../../tomes/tome-at/kernel/prisma/prisma.service";
@@ -28,21 +29,40 @@ export class AdminBridgeController {
   constructor(
     private readonly prisma: PrismaService,
     private readonly authService: AuthService,
+    private readonly jwt: JwtService,
   ) {}
 
   @Post("to-user")
   async toUser(@Req() req: any) {
     const auth = (req.headers?.authorization || "") as string;
     const token = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
-    if (!token) throw new UnauthorizedException("Session token manquant");
+    if (!token) throw new UnauthorizedException("Token manquant");
 
-    // Validation manuelle session admin (équivalent loadSession privé).
-    const session = await this.prisma.adminSession.findUnique({ where: { sessionToken: token } });
-    if (!session) throw new UnauthorizedException("Session introuvable");
-    if (session.revokedAt) throw new UnauthorizedException("Session révoquée");
-    if (session.expiresAt.getTime() < Date.now()) throw new UnauthorizedException("Session expirée");
+    // Le front peut envoyer soit :
+    //   (a) le JWT admin émis après FULLY_AUTH (15 min, signé ADMIN_JWT_SECRET,
+    //       payload { sub: adminUserId, role, email })
+    //   (b) le sessionToken intermédiaire de l'AdminSession (pendant le multi-step
+    //       login, ou si conservé après FULLY_AUTH).
+    // On essaie (a) d'abord (cas normal post-login), fallback (b).
+    let adminUserId: string | null = null;
+    try {
+      const payload: any = await this.jwt.verifyAsync(token, {
+        secret: process.env.ADMIN_JWT_SECRET || process.env.JWT_SECRET || "dev-secret",
+        audience: "admin",
+        issuer: "citurbarea-admin",
+      });
+      if (payload?.sub) adminUserId = payload.sub as string;
+    } catch {
+      // Fallback : validation comme sessionToken AdminSession.
+      const session = await this.prisma.adminSession.findUnique({ where: { sessionToken: token } });
+      if (!session) throw new UnauthorizedException("Token invalide (ni JWT admin ni session vault)");
+      if (session.revokedAt) throw new UnauthorizedException("Session révoquée");
+      if (session.expiresAt.getTime() < Date.now()) throw new UnauthorizedException("Session expirée");
+      adminUserId = session.adminUserId;
+    }
+    if (!adminUserId) throw new UnauthorizedException("AdminUser ID introuvable");
 
-    const adminUser = await this.prisma.adminUser.findUnique({ where: { id: session.adminUserId } });
+    const adminUser = await this.prisma.adminUser.findUnique({ where: { id: adminUserId } });
     if (!adminUser) throw new UnauthorizedException("AdminUser introuvable");
     if (!adminUser.isActive) throw new UnauthorizedException("AdminUser désactivé");
 
