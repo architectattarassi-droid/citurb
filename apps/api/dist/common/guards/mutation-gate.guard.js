@@ -40,6 +40,7 @@ let MutationGateGuard = class MutationGateGuard {
             "/api/feed", // fil général public — posts généraux (Sprint M)
             "/api/marketplace", // marketplace BTP — vitrine fournisseurs (Sprint M+)
             "/admin", // app admin ultra-sécurisée Sprint H (silos étanche, garde dédié)
+            "/api/admin", // bridge vault ↔ User JWT + endpoints admin sous /api/*
             "/api/payment", // Stripe checkout session creation (auth user)
             "/api/pv-chantier", // PV de chantier (Tome 2) — mutations JWT-gated
             "/api/pv-commission", // PV commission Rokhas (Tome 2) — upload + workflow réserves

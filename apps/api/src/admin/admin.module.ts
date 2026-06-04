@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PrismaModule } from "../tomes/tome-at";
+import { Tome5AuthModule } from "../tomes/tome-5/auth/auth.module";
 import { AdminAuditService } from "./services/admin-audit.service";
 import { AdminRateLimitService } from "./services/admin-rate-limit.service";
 import { AdminNotifyService } from "./services/admin-notify.service";
@@ -11,6 +12,7 @@ import { IpAllowlistGuard } from "./guards/ip-allowlist.guard";
 import { AdminAuthController } from "./controllers/admin-auth.controller";
 import { AdminDashboardController } from "./controllers/admin-dashboard.controller";
 import { AdminActionsController } from "./controllers/admin-actions.controller";
+import { AdminBridgeController } from "./controllers/admin-bridge.controller";
 
 /**
  * AdminModule — Sprint H.
@@ -33,6 +35,7 @@ import { AdminActionsController } from "./controllers/admin-actions.controller";
 @Module({
   imports: [
     PrismaModule,
+    Tome5AuthModule, // pour AuthService.issueTokenForUser dans le bridge
     JwtModule.register({
       secret: process.env.ADMIN_JWT_SECRET || process.env.JWT_SECRET || "dev-secret",
       signOptions: { expiresIn: "15m", audience: "admin", issuer: "citurbarea-admin" },
@@ -42,6 +45,7 @@ import { AdminActionsController } from "./controllers/admin-actions.controller";
     AdminAuthController,
     AdminDashboardController,
     AdminActionsController,
+    AdminBridgeController,
   ],
   providers: [
     AdminAuditService,

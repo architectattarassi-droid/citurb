@@ -10,6 +10,8 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CCKpiBar from "./CCKpiBar";
 import { CC } from "../theme/tokens";
+import { apiBase, getToken, setToken } from "../../tomes/tome4/apiClient";
+import { getSessionToken } from "../../features/admin/adminApi";
 
 // ─── Types ───────────────────────────────────────────────────
 
@@ -70,6 +72,36 @@ export default function CCLayout({ children }: { children: React.ReactNode }) {
     link.rel = "stylesheet";
     link.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap";
     document.head.appendChild(link);
+  }, []);
+
+  // ── Bridge vault → User JWT ─────────────────────────────────
+  // Si l'utilisateur arrive sur /cc/* via le vault admin (AdminUser SUPER_ADMIN)
+  // mais n'a pas de User JWT classique, les endpoints /api/cc/* renvoient 401
+  // (RolesGuard exige User.role ∈ ADMIN/OWNER/OPS). On échange ici une session
+  // vault valide contre un User JWT temporaire (User shadow créé/upserté côté
+  // backend). Idempotent : si déjà un userToken, on ne fait rien.
+  useEffect(() => {
+    if (getToken()) return;
+    const adminSession = getSessionToken();
+    if (!adminSession) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const r = await fetch(`${apiBase()}/api/admin/bridge/to-user`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${adminSession}` },
+        });
+        const j = await r.json();
+        if (!cancelled && r.ok && j?.access_token) {
+          setToken(j.access_token);
+          // Recharge la page pour que les modules /cc/* refetch avec le nouveau token.
+          window.location.reload();
+        }
+      } catch {
+        /* silencieux : l'écran restera en 401 sur /cc/*, le user verra le bouton login */
+      }
+    })();
+    return () => { cancelled = true; };
   }, []);
 
   const active = ALL_ITEMS.find(n => location.pathname.startsWith(n.path)) ?? ALL_ITEMS[0];

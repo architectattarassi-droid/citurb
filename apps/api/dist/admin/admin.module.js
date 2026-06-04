@@ -10,6 +10,7 @@ exports.AdminModule = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const tome_at_1 = require("../tomes/tome-at");
+const auth_module_1 = require("../tomes/tome-5/auth/auth.module");
 const admin_audit_service_1 = require("./services/admin-audit.service");
 const admin_rate_limit_service_1 = require("./services/admin-rate-limit.service");
 const admin_notify_service_1 = require("./services/admin-notify.service");
@@ -20,6 +21,7 @@ const ip_allowlist_guard_1 = require("./guards/ip-allowlist.guard");
 const admin_auth_controller_1 = require("./controllers/admin-auth.controller");
 const admin_dashboard_controller_1 = require("./controllers/admin-dashboard.controller");
 const admin_actions_controller_1 = require("./controllers/admin-actions.controller");
+const admin_bridge_controller_1 = require("./controllers/admin-bridge.controller");
 /**
  * AdminModule — Sprint H.
  *
@@ -44,6 +46,7 @@ exports.AdminModule = AdminModule = __decorate([
     (0, common_1.Module)({
         imports: [
             tome_at_1.PrismaModule,
+            auth_module_1.Tome5AuthModule, // pour AuthService.issueTokenForUser dans le bridge
             jwt_1.JwtModule.register({
                 secret: process.env.ADMIN_JWT_SECRET || process.env.JWT_SECRET || "dev-secret",
                 signOptions: { expiresIn: "15m", audience: "admin", issuer: "citurbarea-admin" },
@@ -53,6 +56,7 @@ exports.AdminModule = AdminModule = __decorate([
             admin_auth_controller_1.AdminAuthController,
             admin_dashboard_controller_1.AdminDashboardController,
             admin_actions_controller_1.AdminActionsController,
+            admin_bridge_controller_1.AdminBridgeController,
         ],
         providers: [
             admin_audit_service_1.AdminAuditService,
