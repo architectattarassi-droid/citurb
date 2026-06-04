@@ -16,7 +16,9 @@
  *  - Idempotent : on peut le relancer N fois sans casser quoi que ce soit
  */
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+// Le repo utilise bcryptjs (pure JS, pas la version native), cf. seed-admin.ts.
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const bcrypt = require("bcryptjs");
 
 const prisma = new PrismaClient();
 
