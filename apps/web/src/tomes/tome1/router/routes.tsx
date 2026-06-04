@@ -123,18 +123,13 @@ const LandingRoute = () => {
   if (auth.loading) return <div style={{ padding: 24 }}>Chargement…</div>;
   const h = currentHost();
   if (h === HOST_CERCLES) return <CerclesLanding />;
-  // admin.citurbarea.com → vault admin (AdminUser SUPER_ADMIN, MFA 4 étapes).
-  // Le pont vers /cc/dashboard depuis l'AdminDashboard exige un User JWT
-  // classique (role ADMIN/OWNER/OPS), différent de la session vault — un user
-  // qui n'a qu'un AdminUser tombait sur 401 en arrivant direct sur /cc/*.
-  // Si déjà loggué en User classique avec role autorisé, on respecte le path
-  // initial. Sinon, on entre par le vault.
-  if (h === HOST_ADMIN) {
-    if (auth.isAuthed && ["ADMIN", "OWNER", "OPS"].includes((auth as any).role || "")) {
-      return <Navigate to="/cc/dashboard" replace />;
-    }
-    return <Navigate to="/admin/login" replace />;
-  }
+  // admin.citurbarea.com → backoffice CC. Le bridge vault↔User JWT (cf.
+  // CCLayout useEffect) prend le relais si l'utilisateur est connecté en
+  // vault SUPER_ADMIN mais pas encore en User JWT classique : il appelle
+  // /api/admin/bridge/to-user → User JWT 7j → débloque /cc/*.
+  // L'utilisateur peut toujours accéder explicitement à /admin/login s'il
+  // veut entrer par le vault MFA.
+  if (h === HOST_ADMIN) return <Navigate to="/cc/dashboard" replace />;
   // sig.citurbarea.com → explorateur SIG (gated par auth + au moins 1 dossier).
   // Si pas connecté → /login. Si connecté sans dossier → /portal pour en créer un.
   // Si connecté avec dossier → /sig directement.
