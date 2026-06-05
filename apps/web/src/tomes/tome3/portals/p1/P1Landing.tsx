@@ -1634,33 +1634,33 @@ export default function P1Landing() {
     <header className="hero">
       <div className="container-max" style={{ paddingTop: "72px", paddingBottom: "64px" }}>
         <div className="kicker mb-6">
-          <span>{tt("p1.lp.kicker.archi")}</span><span style={{ opacity: ".55" }}>•</span>
-          <span>{tt("p1.lp.kicker.auth")}</span><span style={{ opacity: ".55" }}>•</span>
-          <span>{tt("p1.lp.kicker.chantier")}</span>
+          <span>{t("p1.lp.kicker.archi")}</span><span style={{ opacity: ".55" }}>•</span>
+          <span>{t("p1.lp.kicker.auth")}</span><span style={{ opacity: ".55" }}>•</span>
+          <span>{t("p1.lp.kicker.chantier")}</span>
         </div>
 
         <div className="grid-2" style={{ alignItems: "center" }}>
           <div>
-            <h1 className="mb-5">{tt("p1.lp.hero.title")}</h1>
+            <h1 className="mb-5">{t("p1.lp.hero.title")}</h1>
             <p className="text-lg mb-8" style={{ fontSize: "18px", lineHeight: "1.75" }}>
-              {tt("p1.lp.hero.lead")}
-              <br/><span style={{ color: "rgba(11,27,58,0.82)", fontWeight: "800" }}>{tt("p1.lp.hero.tagline")}</span>
+              {t("p1.lp.hero.lead")}
+              <br/><span style={{ color: "rgba(11,27,58,0.82)", fontWeight: "800" }}>{t("p1.lp.hero.tagline")}</span>
             </p>
 
             <div className="cta-row mb-8">
               <button id="btn_plan_type" data-planmode="type" type="button" className="btn btn-gold">
-                {tt("p1.lp.hero.cta_type")}
+                {t("p1.lp.hero.cta_type")}
               </button>
               <button id="btn_plan_perso" data-planmode="personnalise" type="button" className="btn btn-dark">
-                {tt("p1.lp.hero.cta_perso")}
+                {t("p1.lp.hero.cta_perso")}
               </button>
-              <button id="btn_start_qual" className="btn btn-ghost" type="button" data-planmode="qualification">{tt("p1.lp.hero.cta_qual")}</button>
+              <button id="btn_start_qual" className="btn btn-ghost" type="button" data-planmode="qualification">{t("p1.lp.hero.cta_qual")}</button>
             </div>
 
             <div className="mini-note">
-              <strong>{tt("p1.lp.hero.note_title")}</strong> {tt("p1.lp.hero.note_body")} <br/>
-              <span style={{ opacity: ".95" }}>{tt("p1.lp.hero.note_sub")}</span> <br/>
-              <strong>{tt("p1.lp.hero.note_option")}</strong> {tt("p1.lp.hero.note_option_text")}
+              <strong>{t("p1.lp.hero.note_title")}</strong> {t("p1.lp.hero.note_body")} <br/>
+              <span style={{ opacity: ".95" }}>{t("p1.lp.hero.note_sub")}</span> <br/>
+              <strong>{t("p1.lp.hero.note_option")}</strong> {t("p1.lp.hero.note_option_text")}
             </div>
           </div>
 
@@ -1669,33 +1669,33 @@ export default function P1Landing() {
               <div className="gold-divider mb-6"></div>
               <div className="grid-2">
                 <div>
-                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>{tt("p1.lp.hero.card.method_t")}</div>
+                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>{t("p1.lp.hero.card.method_t")}</div>
                   <div style={{ color: "rgba(11,18,32,0.72)", fontSize: "13px", lineHeight: "1.6" }}>
-                    {tt("p1.lp.hero.card.method_d")}
+                    {t("p1.lp.hero.card.method_d")}
                   </div>
                 </div>
                 <div>
-                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>{tt("p1.lp.hero.card.dossier_t")}</div>
+                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>{t("p1.lp.hero.card.dossier_t")}</div>
                   <div style={{ color: "rgba(11,18,32,0.72)", fontSize: "13px", lineHeight: "1.6" }}>
-                    {tt("p1.lp.hero.card.dossier_d")}
+                    {t("p1.lp.hero.card.dossier_d")}
                   </div>
                 </div>
                 <div>
-                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>{tt("p1.lp.hero.card.suivi_t")}</div>
+                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>{t("p1.lp.hero.card.suivi_t")}</div>
                   <div style={{ color: "rgba(11,18,32,0.72)", fontSize: "13px", lineHeight: "1.6" }}>
-                    {tt("p1.lp.hero.card.suivi_d")}
+                    {t("p1.lp.hero.card.suivi_d")}
                   </div>
                 </div>
                 <div>
-                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>{tt("p1.lp.hero.card.sign_t")}</div>
+                  <div style={{ fontWeight: "900", color: "rgba(11,27,58,0.92)", marginBottom: "6px" }}>{t("p1.lp.hero.card.sign_t")}</div>
                   <div style={{ color: "rgba(11,18,32,0.72)", fontSize: "13px", lineHeight: "1.6" }}>
-                    {tt("p1.lp.hero.card.sign_d")}
+                    {t("p1.lp.hero.card.sign_d")}
                   </div>
                 </div>
               </div>
               <div className="gold-divider mt-6"></div>
               <div style={{ marginTop: "12px", fontSize: "12px", color: "rgba(11,18,32,0.60)" }}>
-                {tt("p1.lp.hero.card.foot")}
+                {t("p1.lp.hero.card.foot")}
               </div>
             </div>
           </div>
@@ -1712,50 +1712,50 @@ export default function P1Landing() {
       {/* Backward-compat anchor (anciennes itérations) */}
       <div id="qualification" />
       <div className="container-max">
-        <h2 className="section-title mb-4">{tt("p1.lp.pillars.title")}</h2>
+        <h2 className="section-title mb-4">{t("p1.lp.pillars.title")}</h2>
         <p className="sub mb-10">
-          {tt("p1.lp.pillars.sub")}
+          {t("p1.lp.pillars.sub")}
         </p>
 
 
       <div id="project_types" className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "32px", margin: "40px auto", maxWidth: "1400px" }}>
 
         <div className="price-card" id="price-card-villa">
-          <div className="lux-title">{tt("p1.lp.card.villa.title")}</div>
-          <div className="card-sub">{tt("p1.lp.card.villa.sub")}</div>
+          <div className="lux-title">{t("p1.lp.card.villa.title")}</div>
+          <div className="card-sub">{t("p1.lp.card.villa.sub")}</div>
           <ul className="card-bullets-premium">
-            <li>{tt("p1.lp.card.villa.b1")}</li>
-            <li>{tt("p1.lp.card.villa.b2")}</li>
-            <li>{tt("p1.lp.card.villa.b3")}</li>
+            <li>{t("p1.lp.card.villa.b1")}</li>
+            <li>{t("p1.lp.card.villa.b2")}</li>
+            <li>{t("p1.lp.card.villa.b3")}</li>
           </ul>
-          <div className="muted card-micro">{tt("p1.lp.card.villa.micro")}</div>
-          <button className="btn btn-dark project-type-btn" data-p1type="villa" type="button" style={{ width: "100%", marginTop: "18px" }}>{tt("p1.lp.btn.select")}</button>
+          <div className="muted card-micro">{t("p1.lp.card.villa.micro")}</div>
+          <button className="btn btn-dark project-type-btn" data-p1type="villa" type="button" style={{ width: "100%", marginTop: "18px" }}>{t("p1.lp.btn.select")}</button>
         </div>
 
 
         <div className="price-card" id="price-card-imm">
-          <div className="lux-title">{tt("p1.lp.card.imm.title")}</div>
-          <div className="card-sub">{tt("p1.lp.card.imm.sub")}</div>
+          <div className="lux-title">{t("p1.lp.card.imm.title")}</div>
+          <div className="card-sub">{t("p1.lp.card.imm.sub")}</div>
           <ul className="card-bullets-premium">
-            <li>{tt("p1.lp.card.imm.b1")}</li>
-            <li>{tt("p1.lp.card.imm.b2")}</li>
-            <li>{tt("p1.lp.card.imm.b3")}</li>
+            <li>{t("p1.lp.card.imm.b1")}</li>
+            <li>{t("p1.lp.card.imm.b2")}</li>
+            <li>{t("p1.lp.card.imm.b3")}</li>
           </ul>
-          <div className="muted card-micro">{tt("p1.lp.card.imm.micro")}</div>
-          <button className="btn btn-dark project-type-btn" data-p1type="immeuble" type="button" style={{ width: "100%", marginTop: "18px" }}>{tt("p1.lp.btn.select")}</button>
+          <div className="muted card-micro">{t("p1.lp.card.imm.micro")}</div>
+          <button className="btn btn-dark project-type-btn" data-p1type="immeuble" type="button" style={{ width: "100%", marginTop: "18px" }}>{t("p1.lp.btn.select")}</button>
         </div>
 
 
         <div className="price-card" id="price-card-reno">
-          <div className="lux-title">{tt("p1.lp.card.reno.title")}</div>
-          <div className="card-sub">{tt("p1.lp.card.reno.sub")}</div>
+          <div className="lux-title">{t("p1.lp.card.reno.title")}</div>
+          <div className="card-sub">{t("p1.lp.card.reno.sub")}</div>
           <ul className="card-bullets-premium">
-            <li>{tt("p1.lp.card.reno.b1")}</li>
-            <li>{tt("p1.lp.card.reno.b2")}</li>
-            <li>{tt("p1.lp.card.reno.b3")}</li>
+            <li>{t("p1.lp.card.reno.b1")}</li>
+            <li>{t("p1.lp.card.reno.b2")}</li>
+            <li>{t("p1.lp.card.reno.b3")}</li>
           </ul>
-          <div className="muted card-micro">{tt("p1.lp.card.reno.micro")}</div>
-          <button className="btn btn-dark project-type-btn" data-p1type="renovation" type="button" style={{ width: "100%", marginTop: "18px" }}>{tt("p1.lp.btn.select")}</button>
+          <div className="muted card-micro">{t("p1.lp.card.reno.micro")}</div>
+          <button className="btn btn-dark project-type-btn" data-p1type="renovation" type="button" style={{ width: "100%", marginTop: "18px" }}>{t("p1.lp.btn.select")}</button>
         </div>
       </div>
 
@@ -1769,168 +1769,168 @@ export default function P1Landing() {
         {/* Anchor de scroll: affiche le titre "Analysez votre projet" (évite d'arriver directement sur les champs) */}
         <div id="analyser_mon_projet" style={{ scrollMarginTop: "90px" }}></div>
 
-        <h3 className="lux-title" style={{ fontSize: "20px", marginBottom: "8px" }}>{tt("p1.lp.analyse.title")}</h3>
+        <h3 className="lux-title" style={{ fontSize: "20px", marginBottom: "8px" }}>{t("p1.lp.analyse.title")}</h3>
         <p style={{ fontSize: "13px", color: "rgba(11,27,58,0.68)", marginBottom: "18px" }}>
-          {tt("p1.lp.analyse.sub")} <strong>{tt("p1.lp.analyse.sub_bold")}</strong>
+          {t("p1.lp.analyse.sub")} <strong>{t("p1.lp.analyse.sub_bold")}</strong>
         </p>
 
         <div className="gold-divider" style={{ margin: "16px 0" }}></div>
 
 
-        <div className="pill" style={{ marginBottom: "12px" }}>{tt("p1.lp.sec.identity")} <span className="req">*</span></div>
+        <div className="pill" style={{ marginBottom: "12px" }}>{t("p1.lp.sec.identity")} <span className="req">*</span></div>
         <div className="form-grid">
           <div className="field">
-            <label className="label">{tt("p1.lp.f.lastname")} <span className="req">*</span></label>
-            <input className="control" id="q_lastname" type="text" placeholder={tt("p1.lp.f.lastname_ph")}/>
+            <label className="label">{t("p1.lp.f.lastname")} <span className="req">*</span></label>
+            <input className="control" id="q_lastname" type="text" placeholder={t("p1.lp.f.lastname_ph")}/>
           </div>
           <div className="field">
-            <label className="label">{tt("p1.lp.f.firstname")} <span className="req">*</span></label>
-            <input className="control" id="q_firstname" type="text" placeholder={tt("p1.lp.f.firstname_ph")}/>
+            <label className="label">{t("p1.lp.f.firstname")} <span className="req">*</span></label>
+            <input className="control" id="q_firstname" type="text" placeholder={t("p1.lp.f.firstname_ph")}/>
           </div>
           <div className="field">
-            <label className="label">{tt("p1.lp.f.phone")} <span className="req">*</span></label>
-            <input className="control" id="q_phone" type="tel" placeholder={tt("p1.lp.f.phone_ph")}/>
+            <label className="label">{t("p1.lp.f.phone")} <span className="req">*</span></label>
+            <input className="control" id="q_phone" type="tel" placeholder={t("p1.lp.f.phone_ph")}/>
           </div>
           <div className="field">
-            <label className="label">{tt("p1.lp.f.email")} <span className="req">*</span></label>
-            <input className="control" id="q_email" type="email" placeholder={tt("p1.lp.f.email_ph")}/>
+            <label className="label">{t("p1.lp.f.email")} <span className="req">*</span></label>
+            <input className="control" id="q_email" type="email" placeholder={t("p1.lp.f.email_ph")}/>
           </div>
           <div className="field">
-            <label className="label">{tt("p1.lp.f.person_type")} <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.person_type")} <span className="req">*</span></label>
             <select className="control" id="q_person_type">
-              <option value="">{tt("p1.lp.f.choose")}</option>
-              <option value="physique">{tt("p1.lp.f.physical")}</option>
-              <option value="morale">{tt("p1.lp.f.moral")}</option>
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="physique">{t("p1.lp.f.physical")}</option>
+              <option value="morale">{t("p1.lp.f.moral")}</option>
             </select>
           </div>
           <div className="field">
-            <label className="label">{tt("p1.lp.f.legal_situation")} <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.legal_situation")} <span className="req">*</span></label>
             <select className="control" id="q_legal_situation">
-              <option value="">{tt("p1.lp.f.choose")}</option>
-              <option value="owner_major">{tt("p1.lp.f.owner_major")}</option>
-              <option value="heir">{tt("p1.lp.f.heir")}</option>
-              <option value="tenant">{tt("p1.lp.f.tenant")}</option>
-              <option value="shareholder">{tt("p1.lp.f.shareholder")}</option>
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="owner_major">{t("p1.lp.f.owner_major")}</option>
+              <option value="heir">{t("p1.lp.f.heir")}</option>
+              <option value="tenant">{t("p1.lp.f.tenant")}</option>
+              <option value="shareholder">{t("p1.lp.f.shareholder")}</option>
             </select>
           </div>
 
           {/* Personne physique */}
           <div className="field" id="phys_id_wrap" style={{ display: "none" }}>
-            <label className="label">{tt("p1.lp.f.id_type")} <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.id_type")} <span className="req">*</span></label>
             <select className="control" id="q_phys_id_type">
-              <option value="">{tt("p1.lp.f.choose")}</option>
-              <option value="cin">{tt("p1.lp.f.cin")}</option>
-              <option value="passport">{tt("p1.lp.f.passport")}</option>
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="cin">{t("p1.lp.f.cin")}</option>
+              <option value="passport">{t("p1.lp.f.passport")}</option>
             </select>
           </div>
           <div className="field" id="phys_id_number_wrap" style={{ display: "none" }}>
-            <label className="label">{tt("p1.lp.f.id_number")} <span className="req">*</span></label>
-            <input className="control" id="q_phys_id_number" type="text" placeholder={tt("p1.lp.f.id_number_ph")}/>
+            <label className="label">{t("p1.lp.f.id_number")} <span className="req">*</span></label>
+            <input className="control" id="q_phys_id_number" type="text" placeholder={t("p1.lp.f.id_number_ph")}/>
           </div>
 
           {/* Personne morale */}
           <div className="field" id="moral_name_wrap" style={{ display: "none" }}>
-            <label className="label">{tt("p1.lp.f.company_name")} <span className="req">*</span></label>
-            <input className="control" id="q_company_name" type="text" placeholder={tt("p1.lp.f.company_name_ph")}/>
+            <label className="label">{t("p1.lp.f.company_name")} <span className="req">*</span></label>
+            <input className="control" id="q_company_name" type="text" placeholder={t("p1.lp.f.company_name_ph")}/>
           </div>
           <div className="field" id="moral_form_wrap" style={{ display: "none" }}>
-            <label className="label">{tt("p1.lp.f.company_form")} <span className="req">*</span></label>
-            <input className="control" id="q_company_form" type="text" placeholder={tt("p1.lp.f.company_form_ph")}/>
+            <label className="label">{t("p1.lp.f.company_form")} <span className="req">*</span></label>
+            <input className="control" id="q_company_form" type="text" placeholder={t("p1.lp.f.company_form_ph")}/>
           </div>
           <div className="field" id="moral_ice_wrap" style={{ display: "none" }}>
-            <label className="label">{tt("p1.lp.f.ice")} <span className="req">*</span></label>
-            <input className="control" id="q_company_ice" type="text" placeholder={tt("p1.lp.f.ice_ph")}/>
+            <label className="label">{t("p1.lp.f.ice")} <span className="req">*</span></label>
+            <input className="control" id="q_company_ice" type="text" placeholder={t("p1.lp.f.ice_ph")}/>
           </div>
           <div className="field" id="moral_rc_wrap" style={{ display: "none" }}>
-            <label className="label">{tt("p1.lp.f.rc")} <span className="req">*</span></label>
-            <input className="control" id="q_company_rc" type="text" placeholder={tt("p1.lp.f.rc_ph")}/>
+            <label className="label">{t("p1.lp.f.rc")} <span className="req">*</span></label>
+            <input className="control" id="q_company_rc" type="text" placeholder={t("p1.lp.f.rc_ph")}/>
           </div>
         </div>
 
         <div className="gold-divider" style={{ margin: "18px 0" }}></div>
 
 
-        <div className="pill" style={{ marginBottom: "12px" }}>{tt("p1.lp.sec.localisation")} <span className="req">*</span></div>
+        <div className="pill" style={{ marginBottom: "12px" }}>{t("p1.lp.sec.localisation")} <span className="req">*</span></div>
         <div className="form-grid">
           <div className="field">
-            <label className="label">{tt("p1.lp.f.region")} <span className="req">*</span></label>
-            <input className="control" id="q_region" type="text" placeholder={tt("p1.lp.f.region_ph")}/>
+            <label className="label">{t("p1.lp.f.region")} <span className="req">*</span></label>
+            <input className="control" id="q_region" type="text" placeholder={t("p1.lp.f.region_ph")}/>
           </div>
           <div className="field">
-            <label className="label">{tt("p1.lp.f.province")} <span className="req">*</span></label>
-            <input className="control" id="q_province" type="text" placeholder={tt("p1.lp.f.province_ph")}/>
+            <label className="label">{t("p1.lp.f.province")} <span className="req">*</span></label>
+            <input className="control" id="q_province" type="text" placeholder={t("p1.lp.f.province_ph")}/>
           </div>
           <div className="field">
-            <label className="label">{tt("p1.lp.f.commune")} <span className="req">*</span></label>
-            <input className="control" id="q_commune" type="text" placeholder={tt("p1.lp.f.commune_ph")}/>
+            <label className="label">{t("p1.lp.f.commune")} <span className="req">*</span></label>
+            <input className="control" id="q_commune" type="text" placeholder={t("p1.lp.f.commune_ph")}/>
           </div>
         </div>
 
         <div className="gold-divider" style={{ margin: "18px 0" }}></div>
 
 
-        <div className="pill" style={{ marginBottom: "12px" }}>{tt("p1.lp.sec.foncier")} <span className="req">*</span></div>
+        <div className="pill" style={{ marginBottom: "12px" }}>{t("p1.lp.sec.foncier")} <span className="req">*</span></div>
         <div className="form-grid">
           <div className="field">
-            <label className="label">{tt("p1.lp.f.surface")} <span className="req">*</span></label>
-            <input className="control" id="q_area" type="number" min="0" placeholder={tt("p1.lp.f.surface_ph")}/>
+            <label className="label">{t("p1.lp.f.surface")} <span className="req">*</span></label>
+            <input className="control" id="q_area" type="number" min="0" placeholder={t("p1.lp.f.surface_ph")}/>
           </div>
 
           <div className="field">
-            <label className="label">{tt("p1.lp.f.timeline")} <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.timeline")} <span className="req">*</span></label>
             <select className="control" id="q_timeline">
-              <option value="">{tt("p1.lp.f.choose")}</option>
-              <option value="immediate">{tt("p1.lp.f.timeline.immediate")}</option>
-              <option value="lt3m">{tt("p1.lp.f.timeline.lt3m")}</option>
-              <option value="3-6m">{tt("p1.lp.f.timeline.3_6m")}</option>
-              <option value="gt6m">{tt("p1.lp.f.timeline.gt6m")}</option>
-              <option value="flexible">{tt("p1.lp.f.timeline.flexible")}</option>
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="immediate">{t("p1.lp.f.timeline.immediate")}</option>
+              <option value="lt3m">{t("p1.lp.f.timeline.lt3m")}</option>
+              <option value="3-6m">{t("p1.lp.f.timeline.3_6m")}</option>
+              <option value="gt6m">{t("p1.lp.f.timeline.gt6m")}</option>
+              <option value="flexible">{t("p1.lp.f.timeline.flexible")}</option>
             </select>
           </div>
           <div className="field" id="owner_status_wrap" style={{ display: "block" }}>
-            <label className="label">{tt("p1.lp.f.owner_q")} <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.owner_q")} <span className="req">*</span></label>
             <select className="control" id="q_owner_status">
-              <option value="">{tt("p1.lp.f.choose")}</option>
-              <option value="yes">{tt("p1.lp.f.owner.yes")}</option>
-              <option value="acquiring">{tt("p1.lp.f.owner.acquiring")}</option>
-              <option value="searching">{tt("p1.lp.f.owner.searching")}</option>
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="yes">{t("p1.lp.f.owner.yes")}</option>
+              <option value="acquiring">{t("p1.lp.f.owner.acquiring")}</option>
+              <option value="searching">{t("p1.lp.f.owner.searching")}</option>
             </select>
           </div>
           <div className="field">
-            <label className="label">{tt("p1.lp.f.tf")} <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.tf")} <span className="req">*</span></label>
             <select className="control" id="q_tf_status">
-              <option value="">{tt("p1.lp.f.choose")}</option>
-              <option value="exists">{tt("p1.lp.f.tf.exists")}</option>
-              <option value="pending">{tt("p1.lp.f.tf.pending")}</option>
-              <option value="none">{tt("p1.lp.f.tf.none")}</option>
-              <option value="na">{tt("p1.lp.f.tf.na")}</option>
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="exists">{t("p1.lp.f.tf.exists")}</option>
+              <option value="pending">{t("p1.lp.f.tf.pending")}</option>
+              <option value="none">{t("p1.lp.f.tf.none")}</option>
+              <option value="na">{t("p1.lp.f.tf.na")}</option>
             </select>
           </div>
           <div className="field" id="tf_number_wrap" style={{ display: "none" }}>
-            <label className="label">{tt("p1.lp.f.tf_number")} <span className="req">*</span></label>
-            <input className="control" id="q_tf_number" type="text" placeholder={tt("p1.lp.f.tf_number_ph")}/>
+            <label className="label">{t("p1.lp.f.tf_number")} <span className="req">*</span></label>
+            <input className="control" id="q_tf_number" type="text" placeholder={t("p1.lp.f.tf_number_ph")}/>
           </div>
           <div className="field">
-            <label className="label">{tt("p1.lp.f.lot")} <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.lot")} <span className="req">*</span></label>
             <select className="control" id="q_lot_status">
-              <option value="">{tt("p1.lp.f.choose")}</option>
-              <option value="yes">{tt("p1.lp.f.lot.yes")}</option>
-              <option value="no">{tt("p1.lp.f.lot.no")}</option>
-              <option value="na">{tt("p1.lp.f.lot.na")}</option>
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="yes">{t("p1.lp.f.lot.yes")}</option>
+              <option value="no">{t("p1.lp.f.lot.no")}</option>
+              <option value="na">{t("p1.lp.f.lot.na")}</option>
             </select>
           </div>
           <div className="field" id="lot_name_wrap" style={{ display: "none" }}>
-            <label className="label">{tt("p1.lp.f.lot_name")} <span className="req">*</span></label>
-            <input className="control" id="q_lot_name" type="text" placeholder={tt("p1.lp.f.lot_name_ph")}/>
+            <label className="label">{t("p1.lp.f.lot_name")} <span className="req">*</span></label>
+            <input className="control" id="q_lot_name" type="text" placeholder={t("p1.lp.f.lot_name_ph")}/>
           </div>
           <div className="field" id="lot_number_wrap" style={{ display: "none" }}>
-            <label className="label">{tt("p1.lp.f.lot_number")} <span className="req">*</span></label>
-            <input className="control" id="q_lot_number" type="text" placeholder={tt("p1.lp.f.lot_number_ph")}/>
+            <label className="label">{t("p1.lp.f.lot_number")} <span className="req">*</span></label>
+            <input className="control" id="q_lot_number" type="text" placeholder={t("p1.lp.f.lot_number_ph")}/>
           </div>
           <div className="field" id="lot_r_wrap" style={{ display: "none" }}>
-            <label className="label">{tt("p1.lp.f.lot_type")}</label>
+            <label className="label">{t("p1.lp.f.lot_type")}</label>
             <select className="control" id="q_lot_r_type">
-              <option value="">{tt("p1.lp.f.lot_unknown")}</option>
+              <option value="">{t("p1.lp.f.lot_unknown")}</option>
               <option value="R0">R+0</option><option value="R1">R+1</option>
               <option value="R2">R+2</option><option value="R3">R+3</option><option value="R4">R+4</option>
             </select>
@@ -1939,9 +1939,9 @@ export default function P1Landing() {
 
         <div className="gold-divider" style={{ margin: "18px 0" }}></div>
 
-<div className="pill" style={{ marginBottom: "12px" }}>{tt("p1.lp.sec.details")}</div>
+<div className="pill" style={{ marginBottom: "12px" }}>{t("p1.lp.sec.details")}</div>
         <p style={{ fontSize: "13px", color: "rgba(11,27,58,0.68)", marginBottom: "14px" }}>
-          {tt("p1.lp.sec.details_sub")}
+          {t("p1.lp.sec.details_sub")}
         </p>
 
         <div id="details_anchor" style={{ scrollMarginTop: "90px" }}></div>
@@ -1950,170 +1950,170 @@ export default function P1Landing() {
             Donc on affiche d'abord le bloc rénovation, puis les typologies villa/immeuble. */}
 
         <div id="bar_reno" style={{ display: "none", marginBottom: "14px" }}>
-          <div className="pill" style={{ marginBottom: "10px" }}>{tt("p1.lp.reno.title")} <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.reno.title")} <span className="req">*</span></div>
 
-          <div className="pill" style={{ marginBottom: "10px" }}>{tt("p1.lp.reno.type")} <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.reno.type")} <span className="req">*</span></div>
           <div className="bar-row" style={{ marginBottom: "12px" }}>
-            <button className="btn btn-dark" type="button" data-reno-kind="renovation">{tt("p1.lp.reno.kind.renovation")}</button>
-            <button className="btn btn-dark" type="button" data-reno-kind="decoration">{tt("p1.lp.reno.kind.decoration")}</button>
-            <button className="btn btn-dark" type="button" data-reno-kind="transformation">{tt("p1.lp.reno.kind.transformation")}</button>
+            <button className="btn btn-dark" type="button" data-reno-kind="renovation">{t("p1.lp.reno.kind.renovation")}</button>
+            <button className="btn btn-dark" type="button" data-reno-kind="decoration">{t("p1.lp.reno.kind.decoration")}</button>
+            <button className="btn btn-dark" type="button" data-reno-kind="transformation">{t("p1.lp.reno.kind.transformation")}</button>
           </div>
 
-          <div className="pill" style={{ marginBottom: "10px" }}>{tt("p1.lp.reno.support")} <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.reno.support")} <span className="req">*</span></div>
           <div className="bar-row" style={{ marginBottom: "12px" }}>
-            <button className="btn btn-dark" type="button" data-reno-base="villa">{tt("p1.lp.reno.support.villa")}</button>
-            <button className="btn btn-dark" type="button" data-reno-base="immeuble">{tt("p1.lp.reno.support.imm")}</button>
+            <button className="btn btn-dark" type="button" data-reno-base="villa">{t("p1.lp.reno.support.villa")}</button>
+            <button className="btn btn-dark" type="button" data-reno-base="immeuble">{t("p1.lp.reno.support.imm")}</button>
           </div>
 
           <div className="form-grid">
             <div className="field">
-              <label className="label">{tt("p1.lp.reno.plan_q")} <span className="req">*</span></label>
+              <label className="label">{t("p1.lp.reno.plan_q")} <span className="req">*</span></label>
               <select className="control" id="q_reno_authorized_plan">
-                <option value="">{tt("p1.lp.reno.plan.unknown")}</option>
-                <option value="yes">{tt("p1.lp.reno.plan.yes")}</option>
-                <option value="no">{tt("p1.lp.reno.plan.no")}</option>
-                <option value="na">{tt("p1.lp.reno.plan.na")}</option>
+                <option value="">{t("p1.lp.reno.plan.unknown")}</option>
+                <option value="yes">{t("p1.lp.reno.plan.yes")}</option>
+                <option value="no">{t("p1.lp.reno.plan.no")}</option>
+                <option value="na">{t("p1.lp.reno.plan.na")}</option>
               </select>
             </div>
             <div className="field">
-              <label className="label">{tt("p1.lp.reno.conform_q")} <span className="req">*</span></label>
+              <label className="label">{t("p1.lp.reno.conform_q")} <span className="req">*</span></label>
               <select className="control" id="q_reno_conform">
-                <option value="">{tt("p1.lp.reno.plan.unknown")}</option>
-                <option value="yes">{tt("p1.lp.reno.plan.yes")}</option>
-                <option value="no">{tt("p1.lp.reno.plan.no")}</option>
-                <option value="na">{tt("p1.lp.reno.plan.na")}</option>
+                <option value="">{t("p1.lp.reno.plan.unknown")}</option>
+                <option value="yes">{t("p1.lp.reno.plan.yes")}</option>
+                <option value="no">{t("p1.lp.reno.plan.no")}</option>
+                <option value="na">{t("p1.lp.reno.plan.na")}</option>
               </select>
             </div>
           </div>
 
           <p className="muted" style={{ marginTop: "10px" }}>
-            {tt("p1.lp.reno.tip")}
+            {t("p1.lp.reno.tip")}
           </p>
         </div>
 
         <div id="bar_villa" style={{ display: "none", marginBottom: "14px" }}>
-          <div className="pill" style={{ marginBottom: "10px" }}>{tt("p1.lp.villa.title")} <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.villa.title")} <span className="req">*</span></div>
           <div className="bar-row">
-            <button className="btn btn-dark" type="button" data-villa="bande">{tt("p1.lp.villa.bande")}</button>
-            <button className="btn btn-dark" type="button" data-villa="jumelee">{tt("p1.lp.villa.jumelee")}</button>
-            <button className="btn btn-dark" type="button" data-villa="isolee">{tt("p1.lp.villa.isolee")}</button>
-            <button className="btn btn-ghost" type="button" data-villa="inconnu">{tt("p1.lp.villa.unknown")}</button>
+            <button className="btn btn-dark" type="button" data-villa="bande">{t("p1.lp.villa.bande")}</button>
+            <button className="btn btn-dark" type="button" data-villa="jumelee">{t("p1.lp.villa.jumelee")}</button>
+            <button className="btn btn-dark" type="button" data-villa="isolee">{t("p1.lp.villa.isolee")}</button>
+            <button className="btn btn-ghost" type="button" data-villa="inconnu">{t("p1.lp.villa.unknown")}</button>
           </div>
-          <p style={{ fontSize: "12px", color: "rgba(11,27,58,0.60)", marginTop: "8px" }}>{tt("p1.lp.villa.usage")}</p>
+          <p style={{ fontSize: "12px", color: "rgba(11,27,58,0.60)", marginTop: "8px" }}>{t("p1.lp.villa.usage")}</p>
           <div style={{ marginTop: "12px" }}>
-            <label className="label">{tt("p1.lp.villa.fac_label")}</label>
+            <label className="label">{t("p1.lp.villa.fac_label")}</label>
             <select className="control" id="q_villa_facades" style={{ maxWidth: "320px", marginTop: "6px" }}>
-              <option value="">{tt("p1.lp.villa.unknown")}</option>
-              <option value="1">{tt("p1.lp.villa.fac.1")}</option>
-              <option value="angle">{tt("p1.lp.villa.fac.angle")}</option>
-              <option value="2op">{tt("p1.lp.villa.fac.2op")}</option>
-              <option value="3">{tt("p1.lp.villa.fac.3")}</option>
-              <option value="4">{tt("p1.lp.villa.fac.4")}</option>
+              <option value="">{t("p1.lp.villa.unknown")}</option>
+              <option value="1">{t("p1.lp.villa.fac.1")}</option>
+              <option value="angle">{t("p1.lp.villa.fac.angle")}</option>
+              <option value="2op">{t("p1.lp.villa.fac.2op")}</option>
+              <option value="3">{t("p1.lp.villa.fac.3")}</option>
+              <option value="4">{t("p1.lp.villa.fac.4")}</option>
             </select>
           </div>
         </div>
 
         <div id="bar_immeuble" style={{ display: "none", marginBottom: "14px" }}>
-          <div className="pill" style={{ marginBottom: "10px" }}>{tt("p1.lp.imm.lot_type")} <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.lot_type")} <span className="req">*</span></div>
           <div className="bar-row" style={{ marginBottom: "12px" }}>
-            <button className="btn btn-dark" type="button" data-imt="economique">{tt("p1.lp.imm.lot.eco")}</button>
-            <button className="btn btn-dark" type="button" data-imt="rdc_commercial">{tt("p1.lp.imm.lot.rdc")}</button>
-            <button className="btn btn-dark" type="button" data-imt="maison_ville">{tt("p1.lp.imm.lot.mdv")}</button>
+            <button className="btn btn-dark" type="button" data-imt="economique">{t("p1.lp.imm.lot.eco")}</button>
+            <button className="btn btn-dark" type="button" data-imt="rdc_commercial">{t("p1.lp.imm.lot.rdc")}</button>
+            <button className="btn btn-dark" type="button" data-imt="maison_ville">{t("p1.lp.imm.lot.mdv")}</button>
           </div>
 
           <div id="facades_wrap" style={{ display: "none", marginTop: "12px" }}>
-            <div className="pill" style={{ marginBottom: "10px" }}>{tt("p1.lp.imm.fac_title")} <span className="req">*</span></div>
+            <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.fac_title")} <span className="req">*</span></div>
             <div className="bar-row">
-              <button className="btn btn-dark" type="button" data-fac="1">{tt("p1.lp.imm.fac.1")}</button>
-              <button className="btn btn-dark" type="button" data-fac="2">{tt("p1.lp.imm.fac.angle2")}</button>
-              <button className="btn btn-dark" type="button" data-fac="3">{tt("p1.lp.imm.fac.3")}</button>
-              <button className="btn btn-dark" type="button" data-fac="4">{tt("p1.lp.imm.fac.4")}</button>
+              <button className="btn btn-dark" type="button" data-fac="1">{t("p1.lp.imm.fac.1")}</button>
+              <button className="btn btn-dark" type="button" data-fac="2">{t("p1.lp.imm.fac.angle2")}</button>
+              <button className="btn btn-dark" type="button" data-fac="3">{t("p1.lp.imm.fac.3")}</button>
+              <button className="btn btn-dark" type="button" data-fac="4">{t("p1.lp.imm.fac.4")}</button>
             </div>
           </div>
 
           <div style={{ marginTop: "14px" }}>
-            <div className="pill" style={{ marginBottom: "10px" }}>{tt("p1.lp.imm.r_title")} <span className="req">*</span></div>
+            <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.r_title")} <span className="req">*</span></div>
             <div className="bar-row">
-              <button className="btn btn-dark" type="button" data-r="R1">{tt("p1.lp.imm.r1")}</button>
-              <button className="btn btn-dark" type="button" data-r="R2">{tt("p1.lp.imm.r2")}</button>
-              <button className="btn btn-dark" type="button" data-r="R3">{tt("p1.lp.imm.r3")}</button>
-              <button className="btn btn-dark" type="button" data-r="R4">{tt("p1.lp.imm.r4")}</button>
-              <button className="btn btn-ghost" type="button" data-r="inconnu">{tt("p1.lp.villa.unknown")}</button>
+              <button className="btn btn-dark" type="button" data-r="R1">{t("p1.lp.imm.r1")}</button>
+              <button className="btn btn-dark" type="button" data-r="R2">{t("p1.lp.imm.r2")}</button>
+              <button className="btn btn-dark" type="button" data-r="R3">{t("p1.lp.imm.r3")}</button>
+              <button className="btn btn-dark" type="button" data-r="R4">{t("p1.lp.imm.r4")}</button>
+              <button className="btn btn-ghost" type="button" data-r="inconnu">{t("p1.lp.villa.unknown")}</button>
             </div>
           </div>
 
           <div id="galerie_wrap" style={{ display: "none", marginTop: "14px" }}>
-            <div className="pill" style={{ marginBottom: "10px" }}>{tt("p1.lp.imm.gal_title")}</div>
+            <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.gal_title")}</div>
             <div className="form-grid">
               <div className="field">
-                <label className="label">{tt("p1.lp.imm.gal_recul")}</label>
+                <label className="label">{t("p1.lp.imm.gal_recul")}</label>
                 <select className="control" id="q_galerie_rdc">
-                  <option value="">{tt("p1.lp.villa.unknown")}</option>
-                  <option value="yes">{tt("p1.lp.f.owner.yes")}</option>
-                  <option value="no">{tt("p1.lp.reno.plan.no")}</option>
+                  <option value="">{t("p1.lp.villa.unknown")}</option>
+                  <option value="yes">{t("p1.lp.f.owner.yes")}</option>
+                  <option value="no">{t("p1.lp.reno.plan.no")}</option>
                 </select>
               </div>
             </div>
           </div>
 
           <div id="mdv_fields" style={{ display: "none", marginTop: "14px" }}>
-            <div className="pill" style={{ marginBottom: "10px" }}>{tt("p1.lp.imm.mdv_title")}</div>
+            <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.mdv_title")}</div>
             <div className="form-grid">
               <div className="field">
-                <label className="label">{tt("p1.lp.imm.mdv_rdc")}</label>
+                <label className="label">{t("p1.lp.imm.mdv_rdc")}</label>
                 <select className="control" id="q_mdv_rdc_use">
-                  <option value="">{tt("p1.lp.imm.mdv_choose")}</option>
-                  <option value="habitation">{tt("p1.lp.imm.mdv_hab")}</option>
-                  <option value="commercial">{tt("p1.lp.imm.mdv_comm")}</option>
-                  <option value="unknown">{tt("p1.lp.villa.unknown")}</option>
+                  <option value="">{t("p1.lp.imm.mdv_choose")}</option>
+                  <option value="habitation">{t("p1.lp.imm.mdv_hab")}</option>
+                  <option value="commercial">{t("p1.lp.imm.mdv_comm")}</option>
+                  <option value="unknown">{t("p1.lp.villa.unknown")}</option>
                 </select>
               </div>
               <div className="field">
-                <label className="label">{tt("p1.lp.imm.mdv_recul")}</label>
+                <label className="label">{t("p1.lp.imm.mdv_recul")}</label>
                 <select className="control" id="q_mdv_recul_jardin">
-                  <option value="">{tt("p1.lp.imm.mdv_choose")}</option>
-                  <option value="yes">{tt("p1.lp.f.owner.yes")}</option>
-                  <option value="no">{tt("p1.lp.reno.plan.no")}</option>
-                  <option value="unknown">{tt("p1.lp.villa.unknown")}</option>
+                  <option value="">{t("p1.lp.imm.mdv_choose")}</option>
+                  <option value="yes">{t("p1.lp.f.owner.yes")}</option>
+                  <option value="no">{t("p1.lp.reno.plan.no")}</option>
+                  <option value="unknown">{t("p1.lp.villa.unknown")}</option>
                 </select>
               </div>
             </div>
-            <p className="muted" style={{ marginTop: "10px" }}>{tt("p1.lp.imm.mdv_note")}</p>
+            <p className="muted" style={{ marginTop: "10px" }}>{t("p1.lp.imm.mdv_note")}</p>
           </div>
 
           <div id="immeuble_common_wrap" style={{ display: "none", marginTop: "14px" }}>
             <div className="form-grid">
               <div className="field" id="rdc_commercial_wrap" style={{ display: "none" }}>
-                <label className="label">{tt("p1.lp.imm.rdc_q")} <span className="req">*</span></label>
+                <label className="label">{t("p1.lp.imm.rdc_q")} <span className="req">*</span></label>
                 <select className="control" id="q_rdc_commercial">
-                  <option value="">{tt("p1.lp.villa.unknown")}</option>
-                  <option value="no">{tt("p1.lp.reno.plan.no")}</option>
-                  <option value="yes">{tt("p1.lp.f.owner.yes")}</option>
+                  <option value="">{t("p1.lp.villa.unknown")}</option>
+                  <option value="no">{t("p1.lp.reno.plan.no")}</option>
+                  <option value="yes">{t("p1.lp.f.owner.yes")}</option>
                 </select>
               </div>
               <div className="field">
-                <label className="label">{tt("p1.lp.imm.basement_q")} <span className="req">*</span></label>
+                <label className="label">{t("p1.lp.imm.basement_q")} <span className="req">*</span></label>
                 <select className="control" id="q_basement">
-                  <option value="">{tt("p1.lp.villa.unknown")}</option>
-                  <option value="no">{tt("p1.lp.imm.basement.no")}</option>
-                  <option value="yes">{tt("p1.lp.imm.basement.yes")}</option>
+                  <option value="">{t("p1.lp.villa.unknown")}</option>
+                  <option value="no">{t("p1.lp.imm.basement.no")}</option>
+                  <option value="yes">{t("p1.lp.imm.basement.yes")}</option>
                 </select>
               </div>
             </div>
 
             <div style={{ marginTop: "10px" }}>
-              <label className="label">{tt("p1.lp.villa.fac_label")}</label>
+              <label className="label">{t("p1.lp.villa.fac_label")}</label>
               <select
                 className="control"
                 id="q_facades"
                 style={{ maxWidth: "320px", marginTop: "6px", position: "relative", zIndex: 5, pointerEvents: "auto" }}
               >
-                <option value="">{tt("p1.lp.villa.unknown")}</option>
-                <option value="1">{tt("p1.lp.villa.fac.1")}</option>
-                <option value="2op">{tt("p1.lp.villa.fac.2op")}</option>
-                <option value="angle">{tt("p1.lp.villa.fac.angle")}</option>
-                <option value="3">{tt("p1.lp.villa.fac.3")}</option>
-                <option value="4">{tt("p1.lp.villa.fac.4")}</option>
+                <option value="">{t("p1.lp.villa.unknown")}</option>
+                <option value="1">{t("p1.lp.villa.fac.1")}</option>
+                <option value="2op">{t("p1.lp.villa.fac.2op")}</option>
+                <option value="angle">{t("p1.lp.villa.fac.angle")}</option>
+                <option value="3">{t("p1.lp.villa.fac.3")}</option>
+                <option value="4">{t("p1.lp.villa.fac.4")}</option>
               </select>
             </div>
           </div>
@@ -2124,33 +2124,33 @@ export default function P1Landing() {
         
         <div className="form-grid" style={{ marginTop: "14px" }}>
           <div className="field" style={{ gridColumn: "1 / -1" }}>
-            <label className="label">{tt("p1.lp.f.budget")} <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.budget")} <span className="req">*</span></label>
             <select className="control" id="q_budget">
-              <option value="">{tt("p1.lp.f.budget_default")}</option>
+              <option value="">{t("p1.lp.f.budget_default")}</option>
             </select>
             <p style={{ marginTop: "6px", fontSize: "12px", color: "rgba(11,27,58,0.62)" }}>
-              {tt("p1.lp.f.budget_help")}
+              {t("p1.lp.f.budget_help")}
             </p>
           </div>
         </div>
 
-<div className="pill" style={{ marginBottom: "10px" }}>{tt("p1.lp.sec.analyse_step")}</div>
+<div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.sec.analyse_step")}</div>
         <p style={{ fontSize: "13px", color: "rgba(11,27,58,0.68)", marginBottom: "18px" }}>
-          {tt("p1.lp.sec.analyse_step_sub")}
+          {t("p1.lp.sec.analyse_step_sub")}
         </p>
 
         <div style={{ textAlign: "center", marginBottom: "18px" }}>
-          <button className="btn btn-gold" id="btn_analyze_project">{tt("p1.lp.analyse.cta")}</button>
+          <button className="btn btn-gold" id="btn_analyze_project">{t("p1.lp.analyse.cta")}</button>
         </div>
 
         {/* Récap complet — doit s'afficher ici (section 5) après action "Analyser mon projet" */}
         <div id="recap_inline" style={{ display: "none", margin: "18px 0" }} className="mini-note">
-          <div style={{ fontWeight: 900, marginBottom: "10px" }}>{tt("p1.lp.recap.title")}</div>
+          <div style={{ fontWeight: 900, marginBottom: "10px" }}>{t("p1.lp.recap.title")}</div>
           <div id="recap_inline_content"></div>
         </div>
 
         <div id="analysis_box" style={{ display: "none" }} className="mini-note">
-          <strong>{tt("p1.lp.analysis.label")}</strong>
+          <strong>{t("p1.lp.analysis.label")}</strong>
           <div id="analysis_text" style={{ marginTop: "8px", lineHeight: "1.7" }}></div>
         </div>
 
@@ -2158,33 +2158,33 @@ export default function P1Landing() {
 
         <div style={{ textAlign: "center" }}>
           <div className="lux-card" style={{ maxWidth: "760px", margin: "0 auto", padding: "18px" }}>
-            <div className="pill" style={{ marginBottom: "10px" }}>{tt("p1.lp.create.pill")}</div>
+            <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.create.pill")}</div>
             <p className="muted" style={{ margin: "0 0 14px", lineHeight: "1.7" }}>
-              {tt("p1.lp.create.body")}
+              {t("p1.lp.create.body")}
             </p>
 
             <div style={{ display: "flex", justifyContent: "center", gap: "10px", flexWrap: "wrap" }}>
-              <button className="btn btn-gold" id="btn_create_account" type="button">{tt("p1.lp.create.cta")}</button>
-              <a className="btn btn-outline" href="/auth/login" style={{ textDecoration: "none" }}>{tt("p1.lp.create.have_account")}</a>
+              <button className="btn btn-gold" id="btn_create_account" type="button">{t("p1.lp.create.cta")}</button>
+              <a className="btn btn-outline" href="/auth/login" style={{ textDecoration: "none" }}>{t("p1.lp.create.have_account")}</a>
             </div>
           </div>
         </div>
 
         <div id="otp_box" className="lux-card hidden" style={{ marginTop: "18px" }}>
-          <div className="pill" style={{ marginBottom: "10px" }}>{tt("p1.lp.otp.title")}</div>
-          <p className="muted" style={{ margin: "0 0 12px" }}>{tt("p1.lp.otp.body")}</p>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.otp.title")}</div>
+          <p className="muted" style={{ margin: "0 0 12px" }}>{t("p1.lp.otp.body")}</p>
 
           <div className="form-grid">
             <div className="control">
-              <label htmlFor="otp_code">{tt("p1.lp.otp.label")}</label>
-              <input id="otp_code" type="text" inputMode="numeric" maxLength={6} placeholder={tt("p1.lp.otp.ph")} />
+              <label htmlFor="otp_code">{t("p1.lp.otp.label")}</label>
+              <input id="otp_code" type="text" inputMode="numeric" maxLength={6} placeholder={t("p1.lp.otp.ph")} />
               <div className="hint muted" id="otp_hint" style={{ marginTop: "8px" }}></div>
             </div>
           </div>
 
           <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "12px" }}>
-            <button className="btn btn-outline" id="btn_resend_otp" type="button">{tt("p1.lp.otp.resend")}</button>
-            <button className="btn btn-gold" id="btn_verify_otp" type="button">{tt("p1.lp.otp.verify")}</button>
+            <button className="btn btn-outline" id="btn_resend_otp" type="button">{t("p1.lp.otp.resend")}</button>
+            <button className="btn btn-gold" id="btn_verify_otp" type="button">{t("p1.lp.otp.verify")}</button>
           </div>
         </div>
 
@@ -2209,84 +2209,84 @@ export default function P1Landing() {
     <div className="container-max">
 
       <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "7px 14px", borderRadius: "999px", background: "rgba(201,162,39,0.14)", border: "1px solid rgba(201,162,39,0.40)", marginBottom: "20px" }}>
-        <span style={{ fontSize: "11px", fontWeight: "900", letterSpacing: ".10em", textTransform: "uppercase", color: "rgba(11,27,58,0.88)" }}>{tt("p1.lp.packs.badge")}</span>
+        <span style={{ fontSize: "11px", fontWeight: "900", letterSpacing: ".10em", textTransform: "uppercase", color: "rgba(11,27,58,0.88)" }}>{t("p1.lp.packs.badge")}</span>
       </div>
 
       <h2 className="section-title lux-title" style={{ marginBottom: "10px" }}>
-        {tt("p1.lp.packs.title")} <span id="pack_project_label">{tt("p1.lp.packs.project_label")}</span>
+        {t("p1.lp.packs.title")} <span id="pack_project_label">{t("p1.lp.packs.project_label")}</span>
       </h2>
       <p className="sub" style={{ marginBottom: "40px" }}>
-        {tt("p1.lp.packs.sub")}
+        {t("p1.lp.packs.sub")}
       </p>
 
 
       <div id="pack_selected_badge" style={{ display: "none", marginBottom: "24px" }} className="mini-note">
-        <strong>{tt("p1.lp.packs.preselect")}</strong> <span id="pack_selected_label"></span> — {tt("p1.lp.packs.change")}
+        <strong>{t("p1.lp.packs.preselect")}</strong> <span id="pack_selected_label"></span> — {t("p1.lp.packs.change")}
       </div>
 
       <div className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "32px", margin: "40px auto", maxWidth: "1400px" }}>
 
 
         <div className="price-card" id="pack_card_type">
-          <div className="badge">{tt("p1.lp.pack.type.badge")}</div>
-          <div className="lux-title" style={{ marginTop: "12px", fontSize: "19px" }}>{tt("p1.lp.pack.type.title")}</div>
-          <p className="muted" style={{ marginTop: "8px", fontSize: "13px", lineHeight: "1.6" }}>{tt("p1.lp.pack.type.sub")}</p>
+          <div className="badge">{t("p1.lp.pack.type.badge")}</div>
+          <div className="lux-title" style={{ marginTop: "12px", fontSize: "19px" }}>{t("p1.lp.pack.type.title")}</div>
+          <p className="muted" style={{ marginTop: "8px", fontSize: "13px", lineHeight: "1.6" }}>{t("p1.lp.pack.type.sub")}</p>
           <div className="price">
-            <span style={{ fontSize: "13px", fontWeight: "700" }}>{tt("p1.lp.pack.from")}</span>
+            <span style={{ fontSize: "13px", fontWeight: "700" }}>{t("p1.lp.pack.from")}</span>
             <span className="amt" style={{ fontSize: "34px" }}>19 999</span>
-            <span style={{ fontSize: "13px", fontWeight: "700" }}>{tt("p1.lp.pack.mad_ht")}</span>
+            <span style={{ fontSize: "13px", fontWeight: "700" }}>{t("p1.lp.pack.mad_ht")}</span>
           </div>
-          <div className="hint" style={{ marginBottom: "12px" }}>{tt("p1.lp.pack.type.warn")}</div>
+          <div className="hint" style={{ marginBottom: "12px" }}>{t("p1.lp.pack.type.warn")}</div>
           <ul className="feat" style={{ flex: "1" }}>
-            <li><span className="tick"></span>{tt("p1.lp.pack.type.f1")}</li>
-            <li><span className="tick"></span>{tt("p1.lp.pack.type.f2")}</li>
-            <li><span className="tick"></span>{tt("p1.lp.pack.type.f3")}</li>
-            <li><span className="tick"></span>{tt("p1.lp.pack.type.f4")}</li>
-            <li><span className="tick"></span>{tt("p1.lp.pack.type.f5")}</li>
-            <li style={{ opacity: ".4" }}><span className="tick"></span>{tt("p1.lp.pack.type.f6")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.type.f1")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.type.f2")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.type.f3")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.type.f4")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.type.f5")}</li>
+            <li style={{ opacity: ".4" }}><span className="tick"></span>{t("p1.lp.pack.type.f6")}</li>
           </ul>
-          <button className="btn btn-dark" id="btn_pack_type" style={{ marginTop: "16px", width: "100%" }}>{tt("p1.lp.pack.choose")}</button>
+          <button className="btn btn-dark" id="btn_pack_type" style={{ marginTop: "16px", width: "100%" }}>{t("p1.lp.pack.choose")}</button>
         </div>
 
 
         <div className="price-card featured" id="pack_card_custom">
-          <div className="badge">{tt("p1.lp.pack.custom.badge")}</div>
-          <div className="lux-title" style={{ marginTop: "12px", fontSize: "19px" }}>{tt("p1.lp.pack.custom.title")}</div>
-          <p className="muted" style={{ marginTop: "8px", fontSize: "13px", lineHeight: "1.6" }}>{tt("p1.lp.pack.custom.sub")}</p>
+          <div className="badge">{t("p1.lp.pack.custom.badge")}</div>
+          <div className="lux-title" style={{ marginTop: "12px", fontSize: "19px" }}>{t("p1.lp.pack.custom.title")}</div>
+          <p className="muted" style={{ marginTop: "8px", fontSize: "13px", lineHeight: "1.6" }}>{t("p1.lp.pack.custom.sub")}</p>
           <div className="price">
-            <span style={{ fontSize: "13px", fontWeight: "700" }}>{tt("p1.lp.pack.from")}</span>
+            <span style={{ fontSize: "13px", fontWeight: "700" }}>{t("p1.lp.pack.from")}</span>
             <span className="amt" style={{ fontSize: "34px" }}>39 999</span>
-            <span style={{ fontSize: "13px", fontWeight: "700" }}>{tt("p1.lp.pack.mad_ht")}</span>
+            <span style={{ fontSize: "13px", fontWeight: "700" }}>{t("p1.lp.pack.mad_ht")}</span>
           </div>
-          <div className="hint" style={{ marginBottom: "12px" }}>{tt("p1.lp.pack.custom.hint")}</div>
+          <div className="hint" style={{ marginBottom: "12px" }}>{t("p1.lp.pack.custom.hint")}</div>
           <ul className="feat" style={{ flex: "1" }}>
-            <li><span className="tick"></span>{tt("p1.lp.pack.custom.f1")}</li>
-            <li><span className="tick"></span>{tt("p1.lp.pack.custom.f2")}</li>
-            <li><span className="tick"></span>{tt("p1.lp.pack.custom.f3")}</li>
-            <li><span className="tick"></span>{tt("p1.lp.pack.custom.f4")}</li>
-            <li><span className="tick"></span>{tt("p1.lp.pack.custom.f5")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.custom.f1")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.custom.f2")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.custom.f3")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.custom.f4")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.custom.f5")}</li>
           </ul>
-          <button className="btn btn-gold" id="btn_pack_custom" style={{ marginTop: "16px", width: "100%" }}>{tt("p1.lp.pack.choose")}</button>
+          <button className="btn btn-gold" id="btn_pack_custom" style={{ marginTop: "16px", width: "100%" }}>{t("p1.lp.pack.choose")}</button>
         </div>
 
 
         <div className="price-card" id="pack_card_premium">
-          <div className="badge">{tt("p1.lp.pack.premium.badge")}</div>
-          <div className="lux-title" style={{ marginTop: "12px", fontSize: "19px" }}>{tt("p1.lp.pack.premium.title")}</div>
-          <p className="muted" style={{ marginTop: "8px", fontSize: "13px", lineHeight: "1.6" }}>{tt("p1.lp.pack.premium.sub")}</p>
+          <div className="badge">{t("p1.lp.pack.premium.badge")}</div>
+          <div className="lux-title" style={{ marginTop: "12px", fontSize: "19px" }}>{t("p1.lp.pack.premium.title")}</div>
+          <p className="muted" style={{ marginTop: "8px", fontSize: "13px", lineHeight: "1.6" }}>{t("p1.lp.pack.premium.sub")}</p>
           <div className="price">
-            <span style={{ fontSize: "18px", fontWeight: "900", color: "var(--royal)" }}>{tt("p1.lp.pack.premium.on_quote")}</span>
+            <span style={{ fontSize: "18px", fontWeight: "900", color: "var(--royal)" }}>{t("p1.lp.pack.premium.on_quote")}</span>
           </div>
-          <div className="hint" style={{ marginBottom: "12px" }}>{tt("p1.lp.pack.premium.hint")}</div>
+          <div className="hint" style={{ marginBottom: "12px" }}>{t("p1.lp.pack.premium.hint")}</div>
           <ul className="feat" style={{ flex: "1" }}>
-            <li><span className="tick"></span>{tt("p1.lp.pack.premium.f1")}</li>
-            <li><span className="tick"></span>{tt("p1.lp.pack.premium.f2")}</li>
-            <li><span className="tick"></span>{tt("p1.lp.pack.premium.f3")}</li>
-            <li><span className="tick"></span>{tt("p1.lp.pack.premium.f4")}</li>
-            <li><span className="tick"></span>{tt("p1.lp.pack.premium.f5")}</li>
-            <li><span className="tick"></span>{tt("p1.lp.pack.premium.f6")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.premium.f1")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.premium.f2")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.premium.f3")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.premium.f4")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.premium.f5")}</li>
+            <li><span className="tick"></span>{t("p1.lp.pack.premium.f6")}</li>
           </ul>
-          <button className="btn btn-dark" style={{ marginTop: "16px", width: "100%" }}>{tt("p1.lp.pack.premium.cta")}</button>
+          <button className="btn btn-dark" style={{ marginTop: "16px", width: "100%" }}>{t("p1.lp.pack.premium.cta")}</button>
         </div>
 
       </div>
@@ -2294,19 +2294,19 @@ export default function P1Landing() {
       <div className="gold-divider" style={{ margin: "48px 0 28px" }}></div>
       <div className="grid-2" style={{ gap: "24px" }}>
         <div className="mini-note">
-          <div style={{ fontWeight: "900", color: "var(--royal)", marginBottom: "8px" }}>{tt("p1.lp.model.classic.title")}</div>
-          <div>{tt("p1.lp.model.classic.body")}</div>
+          <div style={{ fontWeight: "900", color: "var(--royal)", marginBottom: "8px" }}>{t("p1.lp.model.classic.title")}</div>
+          <div>{t("p1.lp.model.classic.body")}</div>
           <ul style={{ margin: "8px 0 0", paddingLeft: "16px", fontSize: "13px", lineHeight: "1.9", color: "rgba(11,18,32,0.72)" }}>
-            <li>{tt("p1.lp.model.classic.l1")}</li>
-            <li>{tt("p1.lp.model.classic.l2")}</li>
-            <li>{tt("p1.lp.model.classic.l3")}</li>
+            <li>{t("p1.lp.model.classic.l1")}</li>
+            <li>{t("p1.lp.model.classic.l2")}</li>
+            <li>{t("p1.lp.model.classic.l3")}</li>
           </ul>
         </div>
         <div className="mini-note">
-          <div style={{ fontWeight: "900", color: "var(--royal)", marginBottom: "8px" }}>{tt("p1.lp.model.packs.title")}</div>
-          <div>{tt("p1.lp.model.packs.l1")}</div>
-          <div style={{ marginTop: "4px" }}>{tt("p1.lp.model.packs.l2")}</div>
-          <div style={{ fontSize: "12px", color: "rgba(11,18,32,0.55)", marginTop: "10px" }}>{tt("p1.lp.model.packs.warn")}</div>
+          <div style={{ fontWeight: "900", color: "var(--royal)", marginBottom: "8px" }}>{t("p1.lp.model.packs.title")}</div>
+          <div>{t("p1.lp.model.packs.l1")}</div>
+          <div style={{ marginTop: "4px" }}>{t("p1.lp.model.packs.l2")}</div>
+          <div style={{ fontSize: "12px", color: "rgba(11,18,32,0.55)", marginTop: "10px" }}>{t("p1.lp.model.packs.warn")}</div>
         </div>
       </div>
 
@@ -2341,8 +2341,8 @@ export default function P1Landing() {
     
     <div style={{ background: "linear-gradient(135deg,#C9A227,#E6C75B)", color: "white", padding: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
       <div>
-        <h3 style={{ margin: "0", fontSize: "18px", fontWeight: "700" }}>{tt("p1.lp.chat.title")}</h3>
-        <p style={{ margin: "4px 0 0", fontSize: "13px", opacity: "0.95" }}>{tt("p1.lp.chat.sub")}</p>
+        <h3 style={{ margin: "0", fontSize: "18px", fontWeight: "700" }}>{t("p1.lp.chat.title")}</h3>
+        <p style={{ margin: "4px 0 0", fontSize: "13px", opacity: "0.95" }}>{t("p1.lp.chat.sub")}</p>
       </div>
       <button aria-label="close" style={{ background: "none", border: "none", color: "white", cursor: "pointer", fontSize: "24px", padding: "0", width: "32px", height: "32px" }}>×</button>
     </div>
@@ -2351,13 +2351,13 @@ export default function P1Landing() {
     <div id="chat_messages" style={{ height: "380px", overflowY: "auto", padding: "20px", background: "#fafafa" }}>
       <div className="chat-msg-ai">
         <div style={{ background: "white", padding: "12px 16px", borderRadius: "12px 12px 12px 4px", fontSize: "14px", lineHeight: "1.6", boxShadow: "0 2px 8px rgba(0,0,0,0.08)" }}>
-          {tt("p1.lp.chat.welcome")}<br/><br/>
-          <strong>{tt("p1.lp.chat.help_with")}</strong><br/>
-          • {tt("p1.lp.chat.help1")}<br/>
-          • {tt("p1.lp.chat.help2")}<br/>
-          • {tt("p1.lp.chat.help3")}<br/>
-          • {tt("p1.lp.chat.help4")}<br/><br/>
-          {tt("p1.lp.chat.howcan")}
+          {t("p1.lp.chat.welcome")}<br/><br/>
+          <strong>{t("p1.lp.chat.help_with")}</strong><br/>
+          • {t("p1.lp.chat.help1")}<br/>
+          • {t("p1.lp.chat.help2")}<br/>
+          • {t("p1.lp.chat.help3")}<br/>
+          • {t("p1.lp.chat.help4")}<br/><br/>
+          {t("p1.lp.chat.howcan")}
         </div>
       </div>
     </div>
@@ -2365,7 +2365,7 @@ export default function P1Landing() {
 
     <div style={{ padding: "16px", borderTop: "1px solid #e5e5e5", background: "white" }}>
       <div style={{ display: "flex", gap: "8px" }}>
-        <input type="text" id="chat_input" placeholder={tt("p1.lp.chat.input_ph")} style={{ flex: "1", padding: "12px", border: "1px solid #ddd", borderRadius: "12px", fontSize: "14px" }} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); } }} />
+        <input type="text" id="chat_input" placeholder={t("p1.lp.chat.input_ph")} style={{ flex: "1", padding: "12px", border: "1px solid #ddd", borderRadius: "12px", fontSize: "14px" }} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); } }} />
         <button id="chat_send_btn" type="button" aria-label="send" style={{ padding: "12px 20px", background: "linear-gradient(135deg,#C9A227,#E6C75B)", color: "white", border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "600" }}>
           ➤
         </button>
