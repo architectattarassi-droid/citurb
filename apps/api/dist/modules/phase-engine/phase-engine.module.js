@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PhaseEngineModule = void 0;
 const common_1 = require("@nestjs/common");
 const phase_engine_service_1 = require("./phase-engine.service");
+const phase_engine_controller_1 = require("./phase-engine.controller");
 const storage_module_1 = require("../storage/storage.module");
 let PhaseEngineModule = class PhaseEngineModule {
 };
@@ -16,6 +17,7 @@ exports.PhaseEngineModule = PhaseEngineModule;
 exports.PhaseEngineModule = PhaseEngineModule = __decorate([
     (0, common_1.Module)({
         imports: [storage_module_1.StorageModule],
+        controllers: [phase_engine_controller_1.PhaseEngineController],
         providers: [phase_engine_service_1.PhaseEngineService],
         exports: [phase_engine_service_1.PhaseEngineService],
     })

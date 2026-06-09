@@ -472,7 +472,7 @@ model Dossier {
   // Sprint S0 — nouveaux champs
   porteType       String    @default("P1")
   gestionMode     String    @default("AUTONOME")
-  phase           String    @default("PHASE_01_ESQUISSE")
+  phase           String    @default("00_BRIEF")
   refInterne      String?
   mandatSigne     Boolean   @default(false)
   mandatSigneAt   DateTime?
@@ -501,6 +501,11 @@ model Dossier {
   budgetEstime    Float?
   adresseTerrain  String?
   arrondissement  String?
+
+  // V7 phase catalog inputs (DossierShape) — additif vague 1 migration phase-engine
+  nbSousSols           Int?
+  nbEtagesHorsSol      Int?
+  typeOperationFoncier String?
 
   // Sprint S0 — nouvelles relations
   phaseRecords    DossierPhaseRecord[]
