@@ -5,4 +5,32 @@ Disallow: /cc/
 Disallow: /admin/
 Disallow: /share-target
 
+# Moteurs IA / réponses génératives — autorisés explicitement
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 Sitemap: https://citurbarea.com/sitemap.xml
+Sitemap: https://citurbarea.com/sitemap-lead.xml
+Sitemap: https://citurbarea.com/sitemap-services.xml
+Sitemap: https://citurbarea.com/api/pro/sitemap.xml

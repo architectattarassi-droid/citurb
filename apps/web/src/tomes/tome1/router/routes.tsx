@@ -27,6 +27,10 @@ import LivraisonsPage from "../../../features/livraisons-materiaux/LivraisonsPag
 
 // ── Phase 5 (parcours complet lead → manage → permit → site → delivery) ──
 import MonParcoursPage from "../../../features/mon-parcours/MonParcoursPage";
+// Vague 3 (migration v7) — page générique des phases DAG en lecture seule.
+// Additif strict : aucune route legacy modifiée.
+import DossierPhasesPage from "../../../features/dossier-phases/DossierPhasesPage";
+import DossierPhaseDetailPage from "../../../features/dossier-phases/DossierPhaseDetailPage";
 import DocumentsRepoPage from "../../../features/documents-repo/DocumentsRepoPage";
 import PcWizardPage from "../../../features/permis-construire/PcWizardPage";
 import RokhasTrackerPage from "../../../features/rokhas-tracker/RokhasTrackerPage";
@@ -296,6 +300,10 @@ export const router = createBrowserRouter([
       { path: '/mon-parcours/:dossierId', element: <AdminHostBlock><MonParcoursPage /></AdminHostBlock> },
       { path: '/dossier/:dossierId/documents', element: <AdminHostBlock><DocumentsRepoPage /></AdminHostBlock> },
       { path: '/dossier/:dossierId/rokhas', element: <AdminHostBlock><RokhasTrackerPage /></AdminHostBlock> },
+      // Vague 3 — page générique des phases v7. Pluriel `/dossiers/:id` selon spec migration.
+      // Routes additives : ne remplacent ni /dossier/:dossierId/* ni /cc/dossiers/:id/phases (PhaseWorkspace).
+      { path: '/dossiers/:id/phases', element: <AdminHostBlock><DossierPhasesPage /></AdminHostBlock> },
+      { path: '/dossiers/:id/phases/:phaseSlug', element: <AdminHostBlock><DossierPhaseDetailPage /></AdminHostBlock> },
       { path: '/dossier/:dossierId/reception', element: <AdminHostBlock><ReceptionPage /></AdminHostBlock> },
       { path: '/dossier/:dossierId/cps', element: <AdminHostBlock><DossierCpsPage /></AdminHostBlock> },
       { path: '/permis-construire/:dossierId', element: <AdminHostBlock><PcWizardPage /></AdminHostBlock> },

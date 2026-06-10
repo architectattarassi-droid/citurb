@@ -52,8 +52,11 @@ let DossierService = class DossierService {
                 constructionLevel: input?.constructionLevel ?? null,
                 caseId: input?.caseId ?? null,
                 firmId: owner?.firmId ?? null,
-                // Phase d'amorce — BRIEF tant que le pack n'est pas validé par l'admin
-                phase: 'PHASE_00_BRIEF',
+                // Phase d'amorce — BRIEF tant que le pack n'est pas validé par l'admin.
+                // Cleanup pré-bascule : on écrit toujours en code v7 ('00_BRIEF'), aligné
+                // sur @default("00_BRIEF") du schema (vague C). Les chemins legacy lisent
+                // via phaseVariants/toV7 — pas de régression flag=false.
+                phase: '00_BRIEF',
                 // P2 / multi-porte fields
                 porteType: input?.porteType ?? 'P1',
                 gestionMode: input?.gestionMode ?? 'AUTONOME',
@@ -162,10 +165,10 @@ let DossierService = class DossierService {
             return this.prisma.dossierPhaseRecord.updateMany({ where: { dossierId, phase, statut: 'EN_ATTENTE' }, data: { statut: 'EN_COURS', dateDebut: new Date() } });
         }
         if (action === 'VALIDER') {
-            const next = this.phaseEngine.getNextPhase(phase);
-            if (!next)
-                throw new common_1.BadRequestException('Aucune phase suivante');
-            return this.phaseEngine.advancePhase(dossierId, phase, next, acteurId, note);
+            // Vague B.2 : délégation au moteur. `validatePhase` encapsule la branche
+            // USE_V7_PHASES (legacy hardcodé OU DAG v7 multi-successeurs avec choix
+            // déterministe + log). Même contrat de signature pour le caller UI.
+            return this.phaseEngine.validatePhase(dossierId, phase, acteurId, note);
         }
         throw new common_1.BadRequestException(`Action inconnue : ${action}`);
     }
@@ -308,7 +311,10 @@ let DossierService = class DossierService {
     }
     async advanceDossierPhase(dossierId, toPhase, acteurId, note) {
         const dossier = await this.prisma.dossier.findUniqueOrThrow({ where: { id: dossierId }, select: { phase: true } });
-        const fromPhase = dossier.phase ?? 'PHASE_01_ESQUISSE';
+        // Vague B.3 : fallback aligné sur @default("00_BRIEF") du schema (vague C).
+        // L'ancien fallback 'PHASE_01_ESQUISSE' héritait du default obsolète et risquait
+        // de poser une fausse phase de départ sur les dossiers où phase serait null.
+        const fromPhase = dossier.phase ?? '00_BRIEF';
         return this.phaseEngine.advancePhase(dossierId, fromPhase, toPhase, acteurId, note);
     }
 };

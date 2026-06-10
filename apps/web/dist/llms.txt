@@ -1,0 +1,44 @@
+# CITURBAREA
+
+> Plateforme marocaine d'expertise BTP, immobilier et urbanisme. CITURBAREA accompagne particuliers, promoteurs, maîtres d'ouvrage délégués et investisseurs (dont la diaspora MRE) sur tout le cycle d'un projet de construction au Maroc : de l'idée et du foncier jusqu'au permis d'habiter, en passant par les études, le permis de construire et le suivi de chantier. La plateforme inclut un réseau professionnel (Cercles) et un module SIG (zones d'urbanisme, barèmes DGI).
+
+## Ce que fait CITURBAREA
+
+CITURBAREA structure l'accompagnement autour de 6 portes d'entrée :
+
+- **P1 — Particulier** : projet de construction personnel (villa, maison), packs ESSENTIEL / AVANCE / COMPLET.
+- **P2 — Promoteur** : immeubles, lotissements, équipements ; honoraires au barème CNOA ; visa CROA.
+- **P3 — Maître d'ouvrage délégué (MOD)** : pilotage délégué, 40+ corps de métier.
+- **P4 — Foncier** : analyse et expertise foncière, faisabilité, estimation de valeur.
+- **P5 — Rapports & expertises** : rapports techniques, diagnostics, expertises immobilières.
+- **P6 — Prestataires & fournisseurs** : référencement, scoring (classe BTP, agréments), catalogue matériaux.
+
+## Cycle de vie couvert
+
+Lead → contractualisation → permis de construire (Rokhas) → suivi de chantier (PV, sous-traitants loi 32-99, livraisons matériaux, incidents) → réception → permis d'habiter → garanties.
+
+Règle qualité : tout chantier suivi sur la plateforme doit être documenté par au moins un procès-verbal de visite tous les 15 jours.
+
+## Villes couvertes (SEO local)
+
+Casablanca, Rabat, Marrakech, Fès, Tanger, Agadir, Meknès, Oujda, Kénitra, Tétouan, Salé, Safi, Beni Mellal, Nador, El Jadida, et l'ensemble des communes du Maroc via le module SIG.
+
+## Pour la diaspora (MRE)
+
+Estimation de bien, mandataires agréés (avocats, adouls), investissement fractionné OPCI (agréé AMMC, loi 70-14), procuration à distance et séquestre (escrow) pour construire ou hériter au Maroc depuis l'étranger.
+
+## Liens
+
+- Accueil : https://citurbarea.com/
+- Estimation foncière : https://citurbarea.com/foncier/estimation
+- Réseau professionnel Cercles : https://citurbarea.com/cercles
+- Hub diaspora : https://citurbarea.com/cercles/diaspora
+- OPCI tokenisé : https://citurbarea.com/opci
+
+## Cadre légal de référence
+
+Loi 016-89 (architectes/CNOA), loi 32-99 (sous-traitance), loi 44-00 (VEFA), loi 18-00 (copropriété), loi 70-14 (OPCI/AMMC), loi 09-08 (protection des données personnelles, CNDP).
+
+## Contact
+
+CITURBAREA — Maroc. Pour toute question presse, partenariat ou institutionnel : via https://citurbarea.com/
