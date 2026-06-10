@@ -70,6 +70,47 @@ export class SignupVerificationService {
     return code;
   }
 
+  /**
+   * Variante SMS via Twilio Verify : le code est généré et stocké par Twilio,
+   * pas côté CITURBAREA. On ne crée qu'un challenge "shell" en DB pour :
+   *   - tracer la demande (cooldown, expiresAt, maxAttempts, status),
+   *   - retrouver la destination depuis le contextKey au moment du confirm.
+   *
+   * Avantage : pas besoin de TWILIO_FROM (Verify gère son propre pool de
+   * numéros émetteurs), anti-fraude built-in côté Twilio.
+   *
+   * codeHash = "TWILIO_VERIFY" (sentinel — la vérification réelle se fait via
+   * twilio.checkVerification au confirm, pas par comparaison de hash local).
+   */
+  private async issueSmsChallengeViaVerify(contextKey: string, phone: string): Promise<{ ok: boolean; error?: string }> {
+    await this.prisma.otpChallenge.updateMany({
+      where: { contextKey, status: "PENDING" },
+      data: { status: "EXPIRED" },
+    });
+    const r = await this.twilio.sendVerification(phone, "sms");
+    if (!r.ok) {
+      this.log.warn(`[signup] twilio.sendVerification échoué pour ${phone} : ${r.error}`);
+      return { ok: false, error: r.error };
+    }
+    this.log.log(`[signup] Twilio Verify SMS envoyé à ${phone}`);
+    await this.prisma.otpChallenge.create({
+      data: {
+        channel: "SMS",
+        status: "PENDING",
+        contextKey,
+        destination: phone,
+        salt: "verify-external",
+        codeHash: "TWILIO_VERIFY", // sentinel : indique que la vérif passe par Twilio Verify, pas par hash local
+        expiresAt: new Date(Date.now() + this.ttlMs),
+        maxAttempts: this.maxAttempts,
+        attempts: 0,
+        lastSentAt: new Date(),
+        meta: { provider: "twilio-verify" },
+      },
+    });
+    return { ok: true };
+  }
+
   /** Étape 1 — envoie un code par email ET un code par SMS. */
   async request(
     rawEmail: string,
@@ -95,10 +136,10 @@ export class SignupVerificationService {
       throw new BadRequestException("Veuillez patienter une minute avant de redemander des codes.");
     }
 
-    const emailCode = await this.issueChallenge("EMAIL", emailCtx, email);
-    const phoneCode = await this.issueChallenge("SMS", phoneCtx, phone);
+    const isProd = process.env.NODE_ENV === "production";
 
-    // Canal 1 — email (Resend)
+    // ── Canal 1 — email (challenge local hashé + envoi Resend) ────────────────
+    const emailCode = await this.issueChallenge("EMAIL", emailCtx, email);
     let devEmailCode: string | undefined;
     const er = await this.email.send({
       to: email,
@@ -108,18 +149,23 @@ export class SignupVerificationService {
     });
     if (!er.ok) {
       this.log.warn(`[signup] envoi email échoué pour ${email} : ${er.error}`);
-      devEmailCode = emailCode;
+      // Le code en clair n'est exposé qu'en DEV (sinon : fuite de sécurité —
+      // un attaquant qui force un échec email pourrait récupérer le code).
+      if (!isProd) devEmailCode = emailCode;
     }
 
-    // Canal 2 — SMS (Twilio)
-    let devPhoneCode: string | undefined;
-    const sr = await this.twilio.sendSms(
-      phone,
-      `CITURBAREA : votre code de confirmation est ${phoneCode}. Valable 10 min.`,
-    );
+    // ── Canal 2 — SMS via Twilio Verify (pas besoin de TWILIO_FROM) ──────────
+    // Le code est généré et envoyé par Twilio. Côté CITURBAREA on ne stocke
+    // qu'un challenge "shell" (pas de hash car la vérif passe par checkVerification).
+    const sr = await this.issueSmsChallengeViaVerify(phoneCtx, phone);
     if (!sr.ok) {
-      this.log.warn(`[signup] envoi SMS échoué pour ${phone} : ${sr.error}`);
-      devPhoneCode = phoneCode;
+      this.log.warn(`[signup] Twilio Verify échoué pour ${phone} : ${sr.error}`);
+      // En PROD : faire échouer l'inscription (sinon le user n'a aucun moyen
+      // de recevoir le code SMS et reste bloqué silencieusement).
+      // En DEV : laisser passer mais signaler par devPhoneCode placeholder.
+      if (isProd) {
+        throw new BadRequestException("Envoi du code SMS impossible. Réessayez plus tard.");
+      }
     }
 
     return {
@@ -127,7 +173,9 @@ export class SignupVerificationService {
       maskedEmail: this.maskEmail(email),
       maskedPhone: this.maskPhone(phone),
       devEmailCode,
-      devPhoneCode,
+      // devPhoneCode : Twilio Verify ne nous communique pas le code (généré chez
+      // eux). Pas de fuite possible côté API. Toujours undefined.
+      devPhoneCode: undefined,
     };
   }
 
@@ -166,11 +214,57 @@ export class SignupVerificationService {
     });
   }
 
+  /**
+   * Vérification SMS via Twilio Verify : on appelle checkVerification côté
+   * Twilio plutôt que de comparer un hash local. Le challenge en DB sert
+   * uniquement à tracer cooldown / maxAttempts / expiresAt.
+   */
+  private async verifyOneViaTwilioVerify(contextKey: string, rawCode: string, label: string): Promise<void> {
+    const code = (rawCode || "").trim();
+    if (!code) throw new BadRequestException(`Code ${label} requis.`);
+
+    const challenge = await this.prisma.otpChallenge.findFirst({
+      where: { contextKey, status: "PENDING" },
+      orderBy: { createdAt: "desc" },
+    });
+    if (!challenge) throw new BadRequestException(`Code ${label} incorrect ou expiré.`);
+
+    const now = new Date();
+    if (now.getTime() > new Date(challenge.expiresAt).getTime()) {
+      await this.prisma.otpChallenge.update({ where: { id: challenge.id }, data: { status: "EXPIRED" } });
+      throw new BadRequestException(`Code ${label} expiré. Redemandez de nouveaux codes.`);
+    }
+    if (challenge.attempts >= challenge.maxAttempts) {
+      await this.prisma.otpChallenge.update({
+        where: { id: challenge.id },
+        data: { status: "LOCKED", lockedAt: now },
+      });
+      throw new BadRequestException(`Trop de tentatives sur le code ${label}. Redemandez de nouveaux codes.`);
+    }
+
+    const r = await this.twilio.checkVerification(challenge.destination, code);
+    if (!r.ok || !r.approved) {
+      await this.prisma.otpChallenge.update({
+        where: { id: challenge.id },
+        data: { attempts: { increment: 1 } },
+      });
+      const left = challenge.maxAttempts - challenge.attempts - 1;
+      throw new BadRequestException(`Code ${label} incorrect.${left > 0 ? ` ${left} tentative(s) restante(s).` : ""}`);
+    }
+
+    await this.prisma.otpChallenge.update({
+      where: { id: challenge.id },
+      data: { status: "VERIFIED", verifiedAt: now },
+    });
+  }
+
   /** Étape 2 — vérifie les DEUX codes ; les deux doivent être valides. */
   async confirm(rawEmail: string, emailCode: string, phoneCode: string): Promise<{ ok: true }> {
     const email = (rawEmail || "").trim().toLowerCase();
+    // Email : challenge local, comparaison hash sha256.
     await this.verifyOne(`signup-email:${email}`, emailCode, "email");
-    await this.verifyOne(`signup-phone:${email}`, phoneCode, "SMS");
+    // SMS : challenge externalisé Twilio Verify, comparaison côté Twilio.
+    await this.verifyOneViaTwilioVerify(`signup-phone:${email}`, phoneCode, "SMS");
     return { ok: true };
   }
 }
