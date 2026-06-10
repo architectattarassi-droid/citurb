@@ -261,6 +261,7 @@
   "p1.lp.f.budget": "Estimated project budget",
   "p1.lp.f.budget_default": "— Choose project typology first —",
   "p1.lp.f.budget_help": "Indicative estimate based on the information provided. The budget may evolve after detailed study (needs, options, technical constraints).",
+  "p1.lp.f.sp_revision_flag": "Provisional floor area — subject to detailed study.",
   "p1.lp.reno.title": "Renovation & Decoration",
   "p1.lp.reno.type": "Project type",
   "p1.lp.reno.kind.renovation": "Renovation",

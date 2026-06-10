@@ -373,12 +373,25 @@ export default function P1Landing() {
 
     // ── Budget Engine (Mode A) ─────────────────────────────────────────────
     // Doctrine UI: on affiche uniquement des budgets globaux en MAD.
-    // La logique m² reste interne (paliers 2500→7000).
-    const BANDS: Array<{ min: number; max: number }> = (() => {
-      const out: Array<{ min: number; max: number }> = [];
-      for (let v = 2500; v <= 6500; v += 500) out.push({ min: v, max: v + 500 });
-      return out;
-    })();
+    // Plage élargie 2026-06 : 1 500 → 25 000 DH/m² pour couvrir tous les budgets
+    // (logement basique → ultra-luxe). Granularité fine en bas, paliers larges
+    // en haut où la sensibilité au prix est moindre.
+    const BANDS: Array<{ min: number; max: number }> = [
+      { min: 1500,  max: 2000  },  // Très économique (basique)
+      { min: 2000,  max: 2500  },  // Très économique +
+      { min: 2500,  max: 3000  },  // Économique (logement social)
+      { min: 3000,  max: 3500  },
+      { min: 3500,  max: 4000  },  // Standing entrée
+      { min: 4000,  max: 4500  },
+      { min: 4500,  max: 5000  },  // Standing
+      { min: 5000,  max: 5500  },
+      { min: 5500,  max: 6500  },  // Haut standing
+      { min: 6500,  max: 8000  },  // Premium
+      { min: 8000,  max: 10000 },  // Premium +
+      { min: 10000, max: 13000 },  // Luxe
+      { min: 13000, max: 18000 },  // Ultra-luxe
+      { min: 18000, max: 25000 },  // Top of market
+    ];
 
     const roundMAD = (n: number) => {
       // arrondi propre pour affichage (10 000 MAD)
@@ -408,14 +421,18 @@ export default function P1Landing() {
       // n'a pas encore choisi: défaut = "non".
       const hasBasement = basementVal === 'yes' ? 1 : 0;
 
+      // Forfait fixe ajouté à toute SP : cage d'escalier + buanderie + terrasse
+      // (24 m² total — règle métier 2026-06).
+      const FORFAIT_ADDONS_M2 = 24;
+
       const effectiveType = draft.type === 'renovation' ? (draft.renoBaseType || undefined) : draft.type;
       if (effectiveType === 'villa') {
         const vt = (draft.villaType || '').toLowerCase();
         if (!vt) return null;
         const coef = vt.includes('bande') ? 0.5 : vt.includes('jume') ? 0.4 : vt.includes('isol') ? 0.3 : 0.4;
         const floors = 1; // villa par défaut (R+1) dans le tunnel P1 actuel
-        // villa: ST × coef × (RDC + 1,1×étage + sous-sol)
-        return st * coef * (1 + (1.1 * floors) + hasBasement);
+        // villa: ST × coef × (RDC + 1,1×étage + sous-sol) + forfait
+        return st * coef * (1 + (1.1 * floors) + hasBasement) + FORFAIT_ADDONS_M2;
       }
 
       if (effectiveType === 'immeuble') {
@@ -431,9 +448,9 @@ export default function P1Landing() {
         // - 1 façade: ST × (RDC + sous-sol + étages)
         // - ≥2 façades: ST × (RDC + sous-sol + 1,1×étages)
         if (fac === 1) {
-          return st * baseCoef * (1 + hasBasement + e);
+          return st * baseCoef * (1 + hasBasement + e) + FORFAIT_ADDONS_M2;
         }
-        return st * baseCoef * (1 + hasBasement + (1.1 * e));
+        return st * baseCoef * (1 + hasBasement + (1.1 * e)) + FORFAIT_ADDONS_M2;
       }
 
       return null;
@@ -2130,6 +2147,9 @@ export default function P1Landing() {
             </select>
             <p style={{ marginTop: "6px", fontSize: "12px", color: "rgba(11,27,58,0.62)" }}>
               {t("p1.lp.f.budget_help")}
+            </p>
+            <p style={{ marginTop: "4px", fontSize: "11px", color: "rgba(159,124,52,0.95)", fontStyle: "italic" }}>
+              ⚠ {t("p1.lp.f.sp_revision_flag")}
             </p>
           </div>
         </div>

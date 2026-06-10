@@ -69,18 +69,20 @@ class P1PacksQuoteService {
     }
     costPerM2(level, blackBudgetMAD, surface) {
         // Internal baselines (not exposed)
+        // Grille élargie 2026-06 : couvrir budgets du basique au luxe.
+        // BLACK reste la voie "saisie libre" pour tout ce qui dépasse PREMIUM.
         if (level === "ECONOMIQUE")
-            return 3000;
+            return 2500; // basique accessible
         if (level === "STANDING")
             return 4000;
         if (level === "HAUT_STANDING")
-            return 5000;
+            return 6000; // était 5000
         if (level === "PREMIUM")
-            return 6000;
-        // BLACK: if explicit budget is provided, derive an implicit m2 cost; else use a conservative baseline.
+            return 9000; // était 6000 — vrai premium
+        // BLACK: if explicit budget is provided, derive an implicit m2 cost; else use a luxury baseline.
         if (blackBudgetMAD && blackBudgetMAD > 0 && surface > 0)
-            return Math.max(6500, Math.round(blackBudgetMAD / surface));
-        return 7000;
+            return Math.max(9000, Math.round(blackBudgetMAD / surface));
+        return 13000; // était 7000 — baseline luxe sans saisie explicite
     }
     roundMoney(n) {
         // Keep line items stable (nearest 10 MAD)

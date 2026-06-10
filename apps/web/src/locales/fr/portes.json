@@ -261,6 +261,7 @@
   "p1.lp.f.budget": "Budget estimatif du projet",
   "p1.lp.f.budget_default": "— Choisissez d'abord la typologie du projet —",
   "p1.lp.f.budget_help": "Estimation sommaire basée sur les informations fournies. Le budget peut évoluer après étude détaillée (besoins, options, contraintes techniques).",
+  "p1.lp.f.sp_revision_flag": "Plancher provisoire — sous réserve de l'étude détaillée.",
   "p1.lp.reno.title": "Rénovation & Décoration",
   "p1.lp.reno.type": "Type de projet",
   "p1.lp.reno.kind.renovation": "Rénovation",
