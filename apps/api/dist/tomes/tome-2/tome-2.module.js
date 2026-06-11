@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tome2Module = void 0;
 const common_1 = require("@nestjs/common");
+const p1_module_1 = require("./p1/p1.module");
 const p2_module_1 = require("./p2/p2.module");
 const pv_chantier_module_1 = require("./pv-chantier/pv-chantier.module");
 const pv_commission_module_1 = require("./pv-commission-rokhas/pv-commission.module");
@@ -23,9 +24,9 @@ let Tome2Module = class Tome2Module {
 exports.Tome2Module = Tome2Module;
 exports.Tome2Module = Tome2Module = __decorate([
     (0, common_1.Module)({
-        imports: [p2_module_1.P2Module, pv_chantier_module_1.PvChantierModule, pv_commission_module_1.PvCommissionModule, tome_at_1.PrismaModule, kernel_module_1.KernelModule, owner_notify_module_1.OwnerNotifyModule, auth_module_1.Tome5AuthModule],
+        imports: [p1_module_1.P1Module, p2_module_1.P2Module, pv_chantier_module_1.PvChantierModule, pv_commission_module_1.PvCommissionModule, tome_at_1.PrismaModule, kernel_module_1.KernelModule, owner_notify_module_1.OwnerNotifyModule, auth_module_1.Tome5AuthModule],
         controllers: [anti_desint_controller_1.AntiDesintController],
         providers: [tome_2_service_1.Tome2Service, anti_desint_service_1.AntiDesintService],
-        exports: [tome_2_service_1.Tome2Service, p2_module_1.P2Module, pv_chantier_module_1.PvChantierModule, pv_commission_module_1.PvCommissionModule, anti_desint_service_1.AntiDesintService],
+        exports: [tome_2_service_1.Tome2Service, p1_module_1.P1Module, p2_module_1.P2Module, pv_chantier_module_1.PvChantierModule, pv_commission_module_1.PvCommissionModule, anti_desint_service_1.AntiDesintService],
     })
 ], Tome2Module);
