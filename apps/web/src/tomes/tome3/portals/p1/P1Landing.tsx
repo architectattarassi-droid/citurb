@@ -79,7 +79,7 @@ export default function P1Landing() {
     const KEY = STORAGE_KEYS.p1Draft(userId);
     const OTP_OK_KEY = `citurbarea:p1:otp_ok:${userId}:v1`;
     type Draft = {
-      type?: "villa" | "immeuble" | "renovation";
+      type?: "villa" | "immeuble" | "renovation" | "ferme_urbaine";
       // Typologies
       villaType?: string;
       immeubleType?: string;
@@ -95,6 +95,22 @@ export default function P1Landing() {
 
       // piloté par les 3 boutons du hero
       planMode?: 'type' | 'personnalise' | 'qualification';
+
+      // ── Champs SP v2 (2026-06) — utilisés par computeSP ────────────────
+      /** Largeur de la voie devant le projet (m). ≥12m → coef étage 1.1 */
+      voieLargeur?: number;
+      /** Pour immeuble 1 façade : 'with_cour' | 'without_cour' | 'unknown' */
+      rdcCourMode?: 'with_cour' | 'without_cour' | 'unknown';
+      /** Surface de la cour saisie (m²) si rdcCourMode='with_cour' */
+      courSurface?: number;
+      /** Galerie pour RDC commercial : 'yes' (CES 0.7) ou 'no' (CES 1.0) */
+      galerieRdc?: 'yes' | 'no';
+      /** Mode ferme urbaine : 'rapide' (2% terrain) ou 'libre' (surface saisie) */
+      fermeMode?: 'rapide' | 'libre';
+      /** Surface bâtie en mode libre ferme urbaine (m²) */
+      fermeSurface?: number;
+      /** Surface terrain en hectares pour ferme urbaine */
+      fermeHectares?: number;
 
       // extensible sans casser l’UI
       [k: string]: any;
@@ -410,6 +426,21 @@ export default function P1Landing() {
       return Number.isFinite(n) ? n : undefined;
     }
 
+    // Forfait fixe ajouté à toute SP : cage d'escalier + buanderie + terrasse
+    // (24 m² total — règle métier 2026-06).
+    const FORFAIT_ADDONS_M2 = 24;
+
+    /**
+     * Cour minimum réglementaire au Maroc selon le nombre d'étages.
+     * Utilisée quand l'user déclare "RDC AVEC cour" mais ne précise pas (ou < min).
+     */
+    function courMinReglementaire(eFloors: number): number {
+      if (eFloors <= 1) return 9;    // R+1
+      if (eFloors === 2) return 16;  // R+2
+      if (eFloors === 3) return 20;  // R+3
+      return 24;                     // R+4+ : "fond de cour" placeholder, à étudier (flag UI)
+    }
+
     function computeSP(): number | null {
       const areaEl = byId('q_area') as HTMLInputElement | null;
       const st = areaEl ? Number(areaEl.value || NaN) : NaN;
@@ -421,20 +452,37 @@ export default function P1Landing() {
       // n'a pas encore choisi: défaut = "non".
       const hasBasement = basementVal === 'yes' ? 1 : 0;
 
-      // Forfait fixe ajouté à toute SP : cage d'escalier + buanderie + terrasse
-      // (24 m² total — règle métier 2026-06).
-      const FORFAIT_ADDONS_M2 = 24;
+      // Largeur de voie : ≥12 m → coef étage 1.1 (porte-à-faux autorisé), sinon 1.0.
+      const voieLargeur = Number(draft.voieLargeur || NaN);
+      const coefEtage = Number.isFinite(voieLargeur) && voieLargeur >= 12 ? 1.1 : 1.0;
 
       const effectiveType = draft.type === 'renovation' ? (draft.renoBaseType || undefined) : draft.type;
+
+      // ── FERME URBAINE ─────────────────────────────────────────────────
+      // Mode rapide : 2% × surface_terrain (en m² ou converti depuis hectares)
+      // Mode libre  : surface saisie par l'user (à valider à l'étude)
+      if (draft.type === 'ferme_urbaine') {
+        if (draft.fermeMode === 'libre') {
+          const surf = Number(draft.fermeSurface || NaN);
+          return Number.isFinite(surf) && surf > 0 ? surf + FORFAIT_ADDONS_M2 : null;
+        }
+        // Rapide : 2% du terrain. Si saisie en hectares, convertir d'abord.
+        const ha = Number(draft.fermeHectares || NaN);
+        const stEffectif = Number.isFinite(ha) && ha > 0 ? ha * 10000 : st;
+        return stEffectif * 0.02 + FORFAIT_ADDONS_M2;
+      }
+
+      // ── VILLA ─────────────────────────────────────────────────────────
+      // R+ libre désormais (parseRLevel sur draft.rLevel, défaut R+1).
       if (effectiveType === 'villa') {
         const vt = (draft.villaType || '').toLowerCase();
         if (!vt) return null;
         const coef = vt.includes('bande') ? 0.5 : vt.includes('jume') ? 0.4 : vt.includes('isol') ? 0.3 : 0.4;
-        const floors = 1; // villa par défaut (R+1) dans le tunnel P1 actuel
-        // villa: ST × coef × (RDC + 1,1×étage + sous-sol) + forfait
-        return st * coef * (1 + (1.1 * floors) + hasBasement) + FORFAIT_ADDONS_M2;
+        const floors = parseRLevel(draft.rLevel) ?? 1; // R+1 par défaut si non saisi
+        return st * coef * (1 + (coefEtage * floors) + hasBasement) + FORFAIT_ADDONS_M2;
       }
 
+      // ── IMMEUBLE ──────────────────────────────────────────────────────
       if (effectiveType === 'immeuble') {
         if (!draft.immeubleType) return null;
         const e = parseRLevel(draft.rLevel);
@@ -442,15 +490,56 @@ export default function P1Landing() {
         const fac = Number(draft.facades || NaN);
         if (!Number.isFinite(fac) || fac <= 0) return null;
 
-        const baseCoef = (draft.immeubleType === 'maison_ville' || draft.immeubleType === 'rdc_commercial') ? 0.7 : 1.0;
-
-        // Règles fournies:
-        // - 1 façade: ST × (RDC + sous-sol + étages)
-        // - ≥2 façades: ST × (RDC + sous-sol + 1,1×étages)
-        if (fac === 1) {
-          return st * baseCoef * (1 + hasBasement + e) + FORFAIT_ADDONS_M2;
+        // CES (Coefficient d'Emprise au Sol) :
+        // - maison de ville : 0.7 (recul jardin obligatoire)
+        // - RDC commercial AVEC galerie : 0.7 (recul galerie)
+        // - RDC commercial SANS galerie : 1.0 (occupe tout le lot)
+        // - immeuble standard : 1.0
+        let CES: number;
+        if (draft.immeubleType === 'maison_ville') {
+          CES = 0.7;
+        } else if (draft.immeubleType === 'rdc_commercial') {
+          CES = draft.galerieRdc === 'no' ? 1.0 : 0.7; // par défaut "yes" (recul galerie)
+        } else {
+          CES = 1.0;
         }
-        return st * baseCoef * (1 + hasBasement + (1.1 * e)) + FORFAIT_ADDONS_M2;
+
+        const RDC_plein = st * CES;
+
+        // ≥2 façades : formule standard, coef étage appliqué (porte-à-faux possible).
+        if (fac >= 2) {
+          return RDC_plein * (1 + hasBasement + (coefEtage * e)) + FORFAIT_ADDONS_M2;
+        }
+
+        // 1 façade (mitoyen 2 côtés) : règles cour spécifiques selon RDC mode.
+        const rdcMode = draft.rdcCourMode || 'unknown';
+
+        if (rdcMode === 'unknown') {
+          // Plancher MAX : aucune soustraction de cour, hypothèse haute (à valider à l'étude).
+          // étages SANS coef 1.1 (1 façade = pas de débordement latéral même si voie large).
+          return RDC_plein * (1 + hasBasement + e) + FORFAIT_ADDONS_M2;
+        }
+
+        if (rdcMode === 'with_cour') {
+          // Cour appliquée au RDC, étages héritent verticalement.
+          const courSaisie = Number(draft.courSurface || 0);
+          const cour = Math.max(courSaisie, courMinReglementaire(e));
+          const RDC_net = Math.max(0, RDC_plein - cour);
+          return RDC_net * (1 + hasBasement + e) + FORFAIT_ADDONS_M2;
+        }
+
+        // rdcMode === 'without_cour' : RDC plein, cour de jour 9 m² à chaque étage.
+        // R+3 dernier niveau : cour 16 m² (réglementaire renforcée).
+        // R+4 dernier niveau : "fond de cour" placeholder 20 m² + flag (UI).
+        let etagesTotal = 0;
+        for (let i = 1; i <= e; i++) {
+          let cour_etage = 9;
+          if (e === 3 && i === 3) cour_etage = 16;
+          else if (e >= 4 && i === e) cour_etage = 20;
+          etagesTotal += Math.max(0, RDC_plein - cour_etage);
+        }
+        const sousSol_m2 = hasBasement * RDC_plein;
+        return RDC_plein + sousSol_m2 + etagesTotal + FORFAIT_ADDONS_M2;
       }
 
       return null;
