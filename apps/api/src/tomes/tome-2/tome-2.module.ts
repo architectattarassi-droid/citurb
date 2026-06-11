@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { P1Module } from "./p1/p1.module";
 import { P2Module } from "./p2/p2.module";
 import { PvChantierModule } from "./pv-chantier/pv-chantier.module";
 import { PvCommissionModule } from "./pv-commission-rokhas/pv-commission.module";
@@ -11,9 +12,9 @@ import { OwnerNotifyModule } from "../../modules/owner-notify/owner-notify.modul
 import { Tome5AuthModule } from "../tome-5/auth/auth.module";
 
 @Module({
-  imports: [P2Module, PvChantierModule, PvCommissionModule, PrismaModule, KernelModule, OwnerNotifyModule, Tome5AuthModule],
+  imports: [P1Module, P2Module, PvChantierModule, PvCommissionModule, PrismaModule, KernelModule, OwnerNotifyModule, Tome5AuthModule],
   controllers: [AntiDesintController],
   providers: [Tome2Service, AntiDesintService],
-  exports: [Tome2Service, P2Module, PvChantierModule, PvCommissionModule, AntiDesintService],
+  exports: [Tome2Service, P1Module, P2Module, PvChantierModule, PvCommissionModule, AntiDesintService],
 })
 export class Tome2Module {}

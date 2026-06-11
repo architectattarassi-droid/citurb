@@ -35,5 +35,6 @@ exports.P2Module = P2Module = __decorate([
         imports: [tome_at_1.PrismaModule, owner_notify_module_1.OwnerNotifyModule, client_notify_module_1.ClientNotifyModule, storage_module_1.StorageModule, phase_engine_module_1.PhaseEngineModule, messagerie_module_1.MessagerieModule, auth_module_1.Tome5AuthModule],
         controllers: [p2_controller_1.P2Controller, area_controller_1.AreaController, intake_controller_1.IntakeController, admin_dossier_controller_1.AdminDossierController, quote_controller_1.QuoteController, contract_controller_1.ContractController, visa_croa_controller_1.VisaCroaController],
         providers: [dossier_service_1.DossierService, area_service_1.AreaService, reminder_service_1.ReminderService, pricing_service_1.P2PricingService, contract_service_1.P2ContractService],
+        exports: [contract_service_1.P2ContractService], // P1ContractService réutilise le rendu HTML du contrat type unifié CNOA
     })
 ], P2Module);

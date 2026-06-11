@@ -23,5 +23,6 @@ import { Tome5AuthModule } from "../../tome-5/auth/auth.module";
   imports: [PrismaModule, OwnerNotifyModule, ClientNotifyModule, StorageModule, PhaseEngineModule, MessagerieModule, Tome5AuthModule],
   controllers: [P2Controller, AreaController, IntakeController, AdminDossierController, QuoteController, ContractController, VisaCroaController],
   providers: [DossierService, AreaService, ReminderService, P2PricingService, P2ContractService],
+  exports: [P2ContractService], // P1ContractService réutilise le rendu HTML du contrat type unifié CNOA
 })
 export class P2Module {}
