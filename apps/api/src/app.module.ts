@@ -5,6 +5,7 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { HealthModule } from "./modules/health/health.module";
 import { KernelModule } from "./modules/kernel/kernel.module";
 import { ArchiveModule } from "./modules/archive/archive.module";
+import { ArticlesModule } from "./modules/articles/articles.module";
 import { CerclesModule } from "./modules/cercles/cercles.module";
 import { AdminModule } from "./admin/admin.module";
 import { TwilioModule } from "./modules/twilio/twilio.module";
@@ -78,6 +79,7 @@ import { CabinetModule } from "./modules/cabinet/cabinet.module";
     NotificationsHubModule, // global — dispatch multi-canal centralisé (email/sms/wa/push/in-app)
     CCModule,
     ArchiveModule,
+    ArticlesModule,
     CerclesModule,
     AdminModule,
 

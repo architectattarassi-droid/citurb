@@ -27,6 +27,8 @@ import LivraisonsPage from "../../../features/livraisons-materiaux/LivraisonsPag
 
 // ── Phase 5 (parcours complet lead → manage → permit → site → delivery) ──
 import MonParcoursPage from "../../../features/mon-parcours/MonParcoursPage";
+// ── Sprint Articles 2026-06 : page article + middleware OG backend pour vignettes par article ──
+import ArticleDetailPage from "../../../features/media/ArticleDetailPage";
 // Vague 3 (migration v7) — page générique des phases DAG en lecture seule.
 // Additif strict : aucune route legacy modifiée.
 import DossierPhasesPage from "../../../features/dossier-phases/DossierPhasesPage";
@@ -276,6 +278,9 @@ export const router = createBrowserRouter([
 
       // Module SIG (post-login client) — explorateur des Plans d'Aménagement
       { path: '/sig', element: <AdminHostBlock><SigExplorer mode="client" /></AdminHostBlock> },
+
+      // Article public — vignette Open Graph dynamique servie par le middleware backend pour les bots sociaux (FB/WhatsApp/LinkedIn/Twitter)
+      { path: '/media/article/:slug', element: <AdminHostBlock><ArticleDetailPage /></AdminHostBlock> },
       // Porte 6 = réseau pro Cercles : /p6 redirige vers l'espace Cercles
       { path: '/p6', element: <Redirect to="/cercles" /> },
       { path: '/p6/dashboard', element: <AdminHostBlock><P6Dashboard /></AdminHostBlock> },

@@ -13,6 +13,7 @@ const schedule_1 = require("@nestjs/schedule");
 const health_module_1 = require("./modules/health/health.module");
 const kernel_module_1 = require("./modules/kernel/kernel.module");
 const archive_module_1 = require("./modules/archive/archive.module");
+const articles_module_1 = require("./modules/articles/articles.module");
 const cercles_module_1 = require("./modules/cercles/cercles.module");
 const admin_module_1 = require("./admin/admin.module");
 const twilio_module_1 = require("./modules/twilio/twilio.module");
@@ -83,6 +84,7 @@ exports.AppModule = AppModule = __decorate([
             notifications_hub_module_1.NotificationsHubModule, // global — dispatch multi-canal centralisé (email/sms/wa/push/in-app)
             cc_module_1.CCModule,
             archive_module_1.ArchiveModule,
+            articles_module_1.ArticlesModule,
             cercles_module_1.CerclesModule,
             admin_module_1.AdminModule,
             // ── Tomes (@ → 0 → 1 → … → 10)
