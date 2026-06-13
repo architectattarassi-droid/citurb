@@ -22,13 +22,19 @@
     <!-- Canonical -->
     <link rel="canonical" href="https://citurbarea.com/" />
 
-    <!-- Open Graph -->
+    <!-- Open Graph (Facebook, WhatsApp, LinkedIn, Telegram) -->
+    <!-- og:image : pour les pages d'articles, le middleware OG du backend (apps/api/src/modules/articles/og-prerender.middleware.ts) intercepte les bots et sert le cover de l'article spécifique. Cette image par défaut sert pour les pages génériques (home, etc.) -->
     <meta property="og:title" content="CITURBAREA — Expertise BTP & Immobilier Maroc" />
     <meta property="og:description" content="Permis, expertise foncière, marchés BTP, réseau pro Cercles." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://citurbarea.com/" />
     <meta property="og:site_name" content="CITURBAREA" />
-    <meta property="og:image" content="https://citurbarea.com/icons/icon.svg" />
+    <meta property="og:image" content="https://citurbarea.com/og-default.png" />
+    <meta property="og:image:secure_url" content="https://citurbarea.com/og-default.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="CITURBAREA — Plateforme d'orchestration architecturale" />
     <meta property="og:locale" content="fr_MA" />
     <meta property="og:locale:alternate" content="ar_MA" />
     <meta property="og:locale:alternate" content="en_US" />
@@ -37,7 +43,8 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="CITURBAREA — Expertise BTP & Immobilier Maroc" />
     <meta name="twitter:description" content="Permis, expertise foncière, marchés BTP, réseau pro Cercles." />
-    <meta name="twitter:image" content="https://citurbarea.com/icons/icon.svg" />
+    <meta name="twitter:image" content="https://citurbarea.com/og-default.png" />
+    <meta name="twitter:image:alt" content="CITURBAREA — Plateforme d'orchestration architecturale" />
 
     <!-- Structured data : Organization (servi dès le HTML initial, pas en JS) -->
     <script type="application/ld+json">
