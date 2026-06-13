@@ -206,7 +206,7 @@ function OfferForm({ offer, onCancel, onSaved }: { offer: MyOffer | null; onCanc
         )}
 
         <div style={{ ...S.sectionTitle, marginTop: 18 }}>Prix & stock</div>
-        <div style={S.row}>
+        <div style={S.formRow}>
           <Field label="Prix unitaire (DH) *">
             <input type="number" style={S.input} value={priceDH} onChange={e => setPriceDH(e.target.value)} placeholder="ex: 75" />
           </Field>
@@ -234,7 +234,7 @@ function OfferForm({ offer, onCancel, onSaved }: { offer: MyOffer | null; onCanc
             ))}
           </div>
         </Field>
-        <div style={S.row}>
+        <div style={S.formRow}>
           <Field label="Délai de livraison (h)">
             <input type="number" style={S.input} value={delay} onChange={e => setDelay(e.target.value)} placeholder="ex: 48" />
           </Field>
@@ -301,7 +301,7 @@ const S: Record<string, React.CSSProperties> = {
   sectionTitle: { fontSize: 10.5, color: CC_THEME.or, letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 600, marginBottom: 10, paddingBottom: 6, borderBottom: `1px solid ${CC_THEME.border}` },
   label: { display: "block", fontSize: 11, fontWeight: 600, color: CC_THEME.inkMid, letterSpacing: "0.04em", textTransform: "uppercase" as const, marginBottom: 4 },
   input: { width: "100%", padding: "9px 12px", border: `1px solid ${CC_THEME.border}`, borderRadius: 5, fontSize: 13.5, fontFamily: "inherit", outline: "none", background: CC_THEME.bg, boxSizing: "border-box" as const },
-  row: { display: "flex", gap: 12, flexWrap: "wrap" },
+  formRow: { display: "flex", gap: 12, flexWrap: "wrap" },
   picked: { display: "flex", alignItems: "center", gap: 10, background: CC_THEME.successBg, color: CC_THEME.success, padding: "10px 14px", borderRadius: 6, fontSize: 13, fontWeight: 600 },
   changeBtn: { background: "transparent", border: 0, color: CC_THEME.inkMid, fontSize: 11, cursor: "pointer", textDecoration: "underline", fontFamily: "inherit" },
   hits: { display: "flex", flexDirection: "column", gap: 2, marginTop: 6, maxHeight: 240, overflowY: "auto", border: `1px solid ${CC_THEME.border}`, borderRadius: 6 },
