@@ -196,6 +196,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // ── Hydratation depuis le token seul ────────────────────────────────────
+  //    Certains flux de connexion (backoffice /cc via CCLogin) ne posent que le
+  //    token, sans `citurbarea_user`. Résultat : sur le site public, l'init
+  //    ci-dessus voyait un token mais pas d'utilisateur → isAuthed=false (et donc
+  //    pas de bouton « Modifier » sur un article qu'on possède, etc.).
+  //    Ici, si un token existe mais qu'on n'est pas authentifié, on résout
+  //    l'utilisateur via /auth/me puis on persiste `citurbarea_user`.
+  useEffect(() => {
+    if (state.isAuthed) return;
+    if (typeof window === "undefined") return;
+    const token = getToken();
+    if (!token) return;
+    if (localStorage.getItem("citurbarea_user")) return; // déjà tenté par l'init
+    let cancelled = false;
+    fetchMe()
+      .then((resp) => {
+        if (cancelled) return;
+        const u = {
+          userId: resp.user.userId,
+          email: resp.user.email,
+          role: resp.user.role as AuthState["role"],
+        };
+        localStorage.setItem("citurbarea_user", JSON.stringify(u));
+        setState((s) => ({ ...s, isAuthed: true, ...u, token, loading: false }));
+      })
+      .catch(() => {
+        // Token invalide/expiré → on reste déconnecté (pas de purge agressive ici).
+      });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.isAuthed]);
+
   const api = useMemo<AuthApi>(
     () => ({ ...state, loginWithPassword, signup, startPhoneVerification, verifyPhoneOtp, logout }),
     [state]
