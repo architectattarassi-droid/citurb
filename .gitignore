@@ -6,3 +6,15 @@ apps/api/data/dgi-pdfs/
 .env
 .env.*
 !.env.example
+
+# Build artifacts (régénérables)
+apps/desktop/dist/
+apps/api/dist/web/
+*.bak
+*.bak_avant_*
+
+# Backups & données runtime
+backups/
+exports/
+data/
+storage/
