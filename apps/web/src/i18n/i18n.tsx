@@ -57,6 +57,13 @@ const detectInitialLang = (): Lang => {
  */
 export const getStoredLang = (): Lang => detectInitialLang();
 
+/**
+ * Nom de l'event broadcast à chaque changement de langue. Les composants
+ * impératifs (useEffect manipulant .textContent) doivent s'y abonner pour
+ * resynchroniser leurs labels sans attendre un re-render React.
+ */
+export const LANG_CHANGE_EVENT = "citurbarea:lang-change";
+
 // ─────────────────────────────────────────────────────────────────
 // DICTIONNAIRE — externalisé dans ../locales/{fr,ar,en}/*.json
 // L'aplatissement préserve la signature historique
@@ -91,6 +98,13 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   const setLang = useCallback((l: Lang) => {
     setLangState(l);
     applyLang(l);
+    // Notifie les consommateurs impératifs (useEffect manipulant le DOM en
+    // mode .textContent) qui ne peuvent pas réagir au re-render React.
+    try {
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent(LANG_CHANGE_EVENT, { detail: { lang: l } }));
+      }
+    } catch { /* ignore */ }
   }, [applyLang]);
 
   const t = useCallback((key: string, vars?: Record<string, string | number>): string => {
@@ -140,4 +154,32 @@ export function getCurrentLang(): Lang {
     if (saved === "fr" || saved === "ar" || saved === "en") return saved;
   } catch { /* ignore */ }
   return "fr";
+}
+
+/**
+ * tVanilla — équivalent vanilla de useT(), utilisable hors render React.
+ *
+ * À privilégier dans les useEffect impératifs qui mutent .textContent /
+ * .innerHTML : useT() est lié au cycle de rendu et ne se met pas à jour
+ * dans un closure capturé par addEventListener.
+ *
+ * @param key   Clé du dictionnaire (préfixée par son namespace, ex: "p1.lp.…")
+ * @param vars  Variables à interpoler ({name} → value)
+ * @param lang  Langue à utiliser. Omis = lit le localStorage (getStoredLang()).
+ */
+export function tVanilla(
+  key: string,
+  vars?: Record<string, string | number>,
+  lang?: Lang,
+): string {
+  const l: Lang = lang ?? getStoredLang();
+  const entry = DICT[key];
+  if (!entry) return key;
+  let str = entry[l] || entry.fr || key;
+  if (vars) {
+    for (const [k, v] of Object.entries(vars)) {
+      str = str.replace(new RegExp(`\\{${k}\\}`, "g"), String(v));
+    }
+  }
+  return str;
 }

@@ -213,6 +213,17 @@ const MonParcoursPage: React.FC = () => {
       </header>
 
       <div className="mx-auto w-full max-w-5xl space-y-5 px-3 py-4 sm:px-6 sm:py-6">
+        {/* Accès direct au Calendrier projet (Gantt + CPM + Kanban) */}
+        <a
+          href={`/dossier/${dossierId}/calendrier`}
+          className="flex items-center justify-between gap-3 rounded-2xl bg-gradient-to-r from-indigo-500 to-indigo-600 px-5 py-4 text-white shadow-md transition hover:from-indigo-600 hover:to-indigo-700 active:scale-[0.99]"
+        >
+          <span className="text-sm font-bold sm:text-base">
+            📅 Calendrier du projet
+          </span>
+          <span className="text-lg opacity-90">→</span>
+        </a>
+
         {/* Section 1 — Next action */}
         <NextActionPanel action={data.nextAction} />
 
