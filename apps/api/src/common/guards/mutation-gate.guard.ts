@@ -32,6 +32,7 @@ export class MutationGateGuard implements CanActivate {
       "/api/cercles",                   // réseau pro CITURBAREA (chat, votes, pétitions, visios)
       "/api/dm",                        // messagerie directe 1-to-1 entre pros (Sprint L)
       "/api/feed",                      // fil général public — posts généraux (Sprint M)
+      "/api/articles",                  // Articles Media/Blog — CRUD admin + édition par l'auteur
       "/api/marketplace",               // marketplace BTP — vitrine fournisseurs (Sprint M+)
       "/admin",                         // app admin ultra-sécurisée Sprint H (silos étanche, garde dédié)
       "/api/admin",                     // bridge vault ↔ User JWT + endpoints admin sous /api/*

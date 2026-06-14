@@ -72,6 +72,16 @@ let ArticlesController = class ArticlesController {
             throw new common_1.BadRequestException("body manquant");
         return this.svc.update(id, body);
     }
+    /**
+     * Édition par l'AUTEUR du post (ou un admin) — n'importe quel user authentifié,
+     * le contrôle de propriété est fait dans le service. Garde l'URL (slug) et le
+     * statut de publication ; ne modifie que le contenu (texte/image/vidéo).
+     */
+    async updateMine(id, body, req) {
+        if (!body)
+            throw new common_1.BadRequestException("body manquant");
+        return this.svc.updateOwned(id, { userId: req.user?.userId ?? req.user?.id, role: req.user?.role }, body);
+    }
     async delete(id) {
         return this.svc.delete(id);
     }
@@ -139,6 +149,16 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], ArticlesController.prototype, "update", null);
+__decorate([
+    (0, common_1.Patch)("mine/:id"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", Promise)
+], ArticlesController.prototype, "updateMine", null);
 __decorate([
     (0, common_1.Delete)("admin/:id"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),

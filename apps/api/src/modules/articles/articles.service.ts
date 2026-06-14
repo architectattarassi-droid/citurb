@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { PrismaService } from "../../tomes/tome-at/kernel/prisma/prisma.service";
 
 export type ArticleStatus = "DRAFT" | "PUBLISHED" | "REJECTED";
@@ -100,10 +100,13 @@ export class ArticlesService {
           ? null
           : existing.publishedAt;
 
-    // Régénérer le slug si le titre change ET le slug n'est pas explicitement fourni
-    let slug = input.slug ?? existing.slug;
-    if (input.title && input.title !== existing.title && !input.slug) {
-      slug = await this.generateUniqueSlug(input.title, input.lang || existing.lang, id);
+    // URL STABLE : le slug ne change JAMAIS automatiquement quand on édite (titre,
+    // texte, image, vidéo…). Il n'est modifié que si un nouveau slug est fourni
+    // EXPLICITEMENT — et dans ce cas on garantit son unicité. Sans ça, partager un
+    // article puis l'éditer casserait le lien déjà diffusé (WhatsApp, LinkedIn…).
+    let slug = existing.slug;
+    if (input.slug && input.slug.trim() && input.slug.trim() !== existing.slug) {
+      slug = await this.generateUniqueSlug(input.slug.trim(), input.lang || existing.lang, id);
     }
 
     return this.prisma.article.update({
@@ -123,6 +126,49 @@ export class ArticlesService {
         publishedAt,
         authorId: input.authorId ?? existing.authorId,
         authorName: input.authorName ?? existing.authorName,
+      },
+    });
+  }
+
+  /**
+   * Édition par le PROPRIÉTAIRE du post (son auteur) ou un admin.
+   *
+   * Contraintes :
+   *  - Garde l'URL : le slug n'est jamais modifié ici.
+   *  - Garde le statut/publishedAt : on n'édite que le contenu (texte/image/vidéo),
+   *    pas le cycle de publication.
+   *  - Seuls les champs de contenu sont modifiables (titre, chapeau, contenu,
+   *    cover, tags, catégorie, langue). authorId/authorName ne bougent pas.
+   *
+   * @throws ForbiddenException si l'utilisateur n'est ni l'auteur ni un admin.
+   */
+  async updateOwned(
+    id: string,
+    user: { userId?: string; role?: string },
+    input: ArticleUpdateInput,
+  ) {
+    const existing = await this.prisma.article.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundException("Article introuvable");
+
+    const isAdmin = ["ADMIN", "OWNER", "OPS"].includes((user.role || "").toUpperCase());
+    const isAuthor = !!existing.authorId && existing.authorId === user.userId;
+    if (!isAdmin && !isAuthor) {
+      throw new ForbiddenException("Seul l'auteur du post peut le modifier");
+    }
+
+    return this.prisma.article.update({
+      where: { id },
+      data: {
+        // slug, status, publishedAt, authorId, authorName : INCHANGÉS (URL stable)
+        title: input.title?.trim() || existing.title,
+        lang: input.lang ?? existing.lang,
+        category: input.category?.trim() || existing.category,
+        tags: input.tags ?? existing.tags,
+        excerpt: input.excerpt?.trim() || existing.excerpt,
+        content: input.content ?? existing.content,
+        cover: input.cover !== undefined ? input.cover : existing.cover,
+        coverWidth: input.coverWidth ?? existing.coverWidth,
+        coverHeight: input.coverHeight ?? existing.coverHeight,
       },
     });
   }

@@ -92,6 +92,18 @@ export class ArticlesController {
     return this.svc.update(id, body);
   }
 
+  /**
+   * Édition par l'AUTEUR du post (ou un admin) — n'importe quel user authentifié,
+   * le contrôle de propriété est fait dans le service. Garde l'URL (slug) et le
+   * statut de publication ; ne modifie que le contenu (texte/image/vidéo).
+   */
+  @Patch("mine/:id")
+  @UseGuards(JwtAuthGuard)
+  async updateMine(@Param("id") id: string, @Body() body: ArticleUpdateInput, @Req() req: any) {
+    if (!body) throw new BadRequestException("body manquant");
+    return this.svc.updateOwned(id, { userId: req.user?.userId ?? req.user?.id, role: req.user?.role }, body);
+  }
+
   @Delete("admin/:id")
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles("ADMIN", "OWNER", "OPS")
