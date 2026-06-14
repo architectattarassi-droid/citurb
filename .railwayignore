@@ -1,0 +1,16 @@
+.claude/
+/apps/desktop/
+/apps/backoffice-desktop/
+/apps/web/dist/
+/apps/api/uploads/
+/apps/api/storage/
+/storage/
+/data/
+/docs/
+**/node_modules/
+**/*.log
+*.zip
+*.7z
+*.rar
+.git/
+**/dist-electron/

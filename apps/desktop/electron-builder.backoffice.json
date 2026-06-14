@@ -1,0 +1,24 @@
+{
+  "appId": "com.citurbarea.backoffice",
+  "productName": "CITURBAREA Backoffice",
+  "asar": true,
+  "directories": {
+    "output": "dist/backoffice"
+  },
+  "files": [
+    "main.js",
+    "offline.html",
+    "package.json"
+  ],
+  "win": {
+    "target": [
+      { "target": "dir", "arch": ["x64"] }
+    ],
+    "signAndEditExecutable": false
+  },
+  "extraMetadata": {
+    "name": "citurbarea-backoffice",
+    "main": "main.js",
+    "citVariant": "backoffice"
+  }
+}

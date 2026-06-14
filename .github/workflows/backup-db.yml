@@ -1,0 +1,162 @@
+# ──────────────────────────────────────────────────────────────────────────
+# CITURBAREA — Backup pg_dump binaire quotidien
+# ──────────────────────────────────────────────────────────────────────────
+# Complémentaire au workflow backup.yml (snapshot JSON applicatif).
+# Ici : dump Postgres binaire restorable via pg_restore (recovery complet).
+#
+# Stockage : artifact GitHub Actions, rétention 90 jours.
+# Phase 2 (commentée plus bas) : push optionnel vers bucket externe.
+#
+# Prérequis manuel à effectuer UNE FOIS dans Settings → Secrets → Actions :
+#   PROD_DATABASE_URL = postgresql://...    (URL PUBLIQUE Railway, PAS .railway.internal)
+#
+# Pour vérifier après création : Actions → "Backup DB (pg_dump)" → Run workflow.
+# ──────────────────────────────────────────────────────────────────────────
+
+name: Backup DB (pg_dump)
+
+on:
+  schedule:
+    # 02:00 UTC = 03:00 Maroc (UTC+1, pas de DST au Maroc — fixé +01:00 toute l'année).
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Raison du backup manuel"
+        required: false
+        default: "Manual trigger"
+
+jobs:
+  pgdump:
+    name: pg_dump backup
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Install PostgreSQL 16 client (pg_dump v16)
+        run: |
+          # La version par défaut d'Ubuntu LTS peut être < 16. On installe via PGDG.
+          sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - >/dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends postgresql-client-16
+          pg_dump --version
+
+      - name: Compute backup filename
+        id: meta
+        run: |
+          # Format : citurb_prod_YYYYMMDD_HHMMSS.dump (UTC)
+          TS=$(date -u +%Y%m%d_%H%M%S)
+          DATE=$(date -u +%Y-%m-%d)
+          echo "ts=$TS" >> "$GITHUB_OUTPUT"
+          echo "date=$DATE" >> "$GITHUB_OUTPUT"
+          echo "filename=citurb_prod_${TS}.dump" >> "$GITHUB_OUTPUT"
+
+      - name: Run pg_dump
+        env:
+          # ⚠️ JAMAIS d'echo de cette variable. Le secret est passé en env, pas en argv.
+          PROD_DATABASE_URL: ${{ secrets.PROD_DATABASE_URL }}
+        run: |
+          set -e
+          if [ -z "$PROD_DATABASE_URL" ]; then
+            echo "::error::Secret PROD_DATABASE_URL non configuré. Aller dans Settings → Secrets → Actions."
+            exit 1
+          fi
+          # -F c : format custom compressé (gzipped, restorable via pg_restore).
+          # --no-owner --no-privileges : restauration facilitée sur une autre instance.
+          # --verbose : log de progression sans révéler de données.
+          pg_dump "$PROD_DATABASE_URL" \
+            --no-owner \
+            --no-privileges \
+            --format=custom \
+            --verbose \
+            --file="${{ steps.meta.outputs.filename }}" \
+            2>&1 | grep -vE '^pg_dump: (last built-in OID|reading|finding|saving)' || true
+          echo "pg_dump completed."
+
+      - name: Verify dump size (garde-fou — un backup vide est pire que pas de backup)
+        run: |
+          set -e
+          FILE="${{ steps.meta.outputs.filename }}"
+          if [ ! -f "$FILE" ]; then
+            echo "::error::Le fichier $FILE n'existe pas — pg_dump a échoué silencieusement."
+            exit 1
+          fi
+          SIZE=$(stat -c%s "$FILE")
+          # 1 KB minimum : un dump vide format custom fait ~50 octets (juste le header).
+          # On exige > 1024 bytes pour s'assurer qu'au moins quelques tables ont été dumpées.
+          if [ "$SIZE" -lt 1024 ]; then
+            echo "::error::Dump suspectement petit ($SIZE octets) — possiblement vide ou corrompu."
+            exit 1
+          fi
+          # Format humain pour le log
+          HSIZE=$(numfmt --to=iec --suffix=B "$SIZE" 2>/dev/null || echo "${SIZE} bytes")
+          echo "✅ Dump créé : $FILE ($HSIZE)"
+          echo "DUMP_SIZE=$HSIZE" >> "$GITHUB_ENV"
+
+      - name: Sanity check — pg_restore --list peut lire l'en-tête
+        run: |
+          # Valide que le fichier est bien un dump format custom lisible.
+          # Si corrompu, pg_restore --list throw avant tout upload.
+          pg_restore --list "${{ steps.meta.outputs.filename }}" > /tmp/dump_toc.txt
+          TOC_LINES=$(wc -l < /tmp/dump_toc.txt)
+          if [ "$TOC_LINES" -lt 10 ]; then
+            echo "::error::Table of contents du dump suspectement courte ($TOC_LINES lignes) — schéma incomplet ?"
+            exit 1
+          fi
+          echo "✅ TOC pg_restore lisible : $TOC_LINES entrées."
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: citurb-db-backup-${{ steps.meta.outputs.date }}
+          path: ${{ steps.meta.outputs.filename }}
+          retention-days: 90
+          if-no-files-found: error
+          compression-level: 0  # le dump est déjà compressé (format custom)
+
+      - name: Summary
+        run: |
+          {
+            echo "### ✅ Backup DB CITURBAREA"
+            echo ""
+            echo "- **Date** : ${{ steps.meta.outputs.date }} (UTC)"
+            echo "- **Fichier** : \`${{ steps.meta.outputs.filename }}\`"
+            echo "- **Taille** : $DUMP_SIZE"
+            echo "- **Trigger** : ${{ github.event_name }}"
+            echo ""
+            echo "🔗 Artifact accessible 90 jours sous l'onglet Artifacts de ce run."
+            echo ""
+            echo "📖 Pour restaurer : voir \`.github/workflows/README_BACKUP.md\`."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+# ──────────────────────────────────────────────────────────────────────────
+# PHASE 2 — Push optionnel vers bucket externe (DÉSACTIVÉ — à activer plus tard)
+# ──────────────────────────────────────────────────────────────────────────
+# Quand on voudra une copie hors GitHub (R2 Cloudflare, S3, ou rclone vers Drive),
+# ajouter UNE des deux options ci-dessous au workflow, ET créer les secrets associés.
+#
+# Option A — Cloudflare R2 (compatible S3, gratuit jusqu'à 10 Go) :
+#
+#   - name: Upload to Cloudflare R2
+#     env:
+#       AWS_ACCESS_KEY_ID:     ${{ secrets.R2_ACCESS_KEY_ID }}
+#       AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+#     run: |
+#       aws --endpoint-url ${{ secrets.R2_ENDPOINT }} \
+#           s3 cp "${{ steps.meta.outputs.filename }}" \
+#                  s3://${{ secrets.R2_BUCKET }}/db-backups/${{ steps.meta.outputs.date }}/
+#
+#   Secrets à créer : R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_ENDPOINT, R2_BUCKET.
+#
+# Option B — rclone vers Google Drive (gratuit jusqu'à 15 Go) :
+#
+#   - name: Setup rclone
+#     uses: AnimMouse/setup-rclone@v1
+#     with:
+#       rclone_config: ${{ secrets.RCLONE_CONFIG }}
+#   - name: Push to Drive
+#     run: rclone copy "${{ steps.meta.outputs.filename }}" gdrive:citurb-backups/
+#
+#   Secret à créer : RCLONE_CONFIG (contenu du fichier rclone.conf après `rclone authorize drive`).
+# ──────────────────────────────────────────────────────────────────────────
