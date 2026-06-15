@@ -815,12 +815,12 @@ export const ROUTE_USAGES = [
   {
     "route": "/media",
     "file": "src/features/media/ArticleDetailPage.tsx",
-    "line": 103
+    "line": 207
   },
   {
     "route": "/media",
     "file": "src/features/media/ArticleDetailPage.tsx",
-    "line": 122
+    "line": 227
   },
   {
     "route": "/login",
@@ -1175,32 +1175,32 @@ export const ROUTE_USAGES = [
   {
     "route": "/",
     "file": "src/features/cercles/PublicPostPage.tsx",
-    "line": 50
+    "line": 124
   },
   {
     "route": "/login",
     "file": "src/features/cercles/PublicPostPage.tsx",
-    "line": 58
+    "line": 132
   },
   {
     "route": "/inscription",
     "file": "src/features/cercles/PublicPostPage.tsx",
-    "line": 59
+    "line": 133
   },
   {
     "route": "/inscription",
-    "file": "src/features/cercles/PublicPostPage.tsx",
-    "line": 72
-  },
-  {
-    "route": "/inscription",
-    "file": "src/features/cercles/PublicPostPage.tsx",
-    "line": 145
-  },
-  {
-    "route": "/login",
     "file": "src/features/cercles/PublicPostPage.tsx",
     "line": 146
+  },
+  {
+    "route": "/inscription",
+    "file": "src/features/cercles/PublicPostPage.tsx",
+    "line": 297
+  },
+  {
+    "route": "/login",
+    "file": "src/features/cercles/PublicPostPage.tsx",
+    "line": 298
   },
   {
     "route": "/cercles/marketplace/photos",
@@ -2002,17 +2002,17 @@ export const UNKNOWN_ROUTE_USAGES = [
   {
     "route": "/inscription",
     "file": "src/features/cercles/PublicPostPage.tsx",
-    "line": 59
+    "line": 133
   },
   {
     "route": "/inscription",
     "file": "src/features/cercles/PublicPostPage.tsx",
-    "line": 72
+    "line": 146
   },
   {
     "route": "/inscription",
     "file": "src/features/cercles/PublicPostPage.tsx",
-    "line": 145
+    "line": 297
   },
   {
     "route": "/cercles/marketplace/photos",

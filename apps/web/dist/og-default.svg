@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B1B3A"/>
+      <stop offset="100%" stop-color="#1a3052"/>
+    </linearGradient>
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(159,124,52,0.08)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Fond -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Liseré or -->
+  <rect x="40" y="40" width="1120" height="550" fill="none" stroke="#9F7C34" stroke-width="2" opacity="0.5"/>
+
+  <!-- Marque -->
+  <text x="600" y="280" text-anchor="middle"
+        font-family="Georgia, 'Playfair Display', serif"
+        font-size="92" font-weight="700" fill="#FCFAF6"
+        letter-spacing="6">
+    CITURBAREA
+  </text>
+
+  <!-- Trait or sous la marque -->
+  <line x1="450" y1="320" x2="750" y2="320" stroke="#9F7C34" stroke-width="3"/>
+
+  <!-- Tagline -->
+  <text x="600" y="380" text-anchor="middle"
+        font-family="system-ui, -apple-system, 'Segoe UI', sans-serif"
+        font-size="28" font-weight="400" fill="#D4B96E"
+        letter-spacing="3">
+    Plateforme d'orchestration architecturale
+  </text>
+
+  <!-- Sous-tagline -->
+  <text x="600" y="430" text-anchor="middle"
+        font-family="system-ui, -apple-system, 'Segoe UI', sans-serif"
+        font-size="20" font-weight="300" fill="rgba(252,250,246,0.7)"
+        letter-spacing="1">
+    Expertise BTP · Immobilier · Urbanisme · Maroc
+  </text>
+
+  <!-- Pictogrammes architecture stylisés (bas) -->
+  <g transform="translate(560, 510)" stroke="#9F7C34" stroke-width="2" fill="none" opacity="0.8">
+    <!-- Compas + équerre simplifiés -->
+    <path d="M 0 50 L 30 0 L 60 50 Z"/>
+    <line x1="0" y1="50" x2="60" y2="50"/>
+    <line x1="80" y1="0" x2="80" y2="50"/>
+    <line x1="80" y1="50" x2="130" y2="50"/>
+  </g>
+
+  <!-- URL en bas -->
+  <text x="600" y="600" text-anchor="middle"
+        font-family="system-ui, monospace"
+        font-size="16" fill="rgba(252,250,246,0.45)"
+        letter-spacing="2">
+    citurbarea.com
+  </text>
+</svg>

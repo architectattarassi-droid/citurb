@@ -66,6 +66,7 @@ import LandingPage from "../../../ui/landing/LandingPage";
 import { useAuth } from "../../tome5/AuthProvider";
 import DevRoutesPage from "../../../ui/dev/DevRoutesPage";
 import SimulatorPage from "../../../ui/simulateur/SimulatorPage";
+import SimulateurCoutPage from "../../../ui/simulateur/SimulateurCoutPage";
 import TerriScanLab from "../../../features/terriscan/TerriScanLab";
 
 import { CANON, REDIRECTS } from "../../../application/routeRegistry";
@@ -339,6 +340,8 @@ export const router = createBrowserRouter([
       { path: '/payment/cancel', element: <AdminHostBlock><PaymentCancelPage /></AdminHostBlock> },
       { path: CANON.DEV_ROUTES, element: <DevRoutesPage /> },
       { path: '/simulateur', element: <AdminHostBlock><SimulatorPage /></AdminHostBlock> },
+      // Simulateur public coût construction (qualif → fourchette → capture → ventilation). Page SEO crawlable.
+      { path: '/simulateur-cout-construction', element: <SimulateurCoutPage /> },
 
       // ── TerriScan Lab — laboratoire doctoral RA-CUE-ULV (thèse Y. AT-TARASSI) ──
       { path: '/terriscan', element: <AdminHostBlock><TerriScanLab /></AdminHostBlock> },

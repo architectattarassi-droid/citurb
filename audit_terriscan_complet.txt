@@ -1,0 +1,516 @@
+================================================================================
+AUDIT TERRISCAN COMPLET — Lecture seule
+Generated : 2026-05-24
+Fichier audite : C:\Users\HP\Desktop\PHD RA-CUE-ULV 2026\_TerriScan_App\index.html
+Taille : 1,506,177 bytes (1.51 MB)
+Version : v16 (post-cleanup architectural 2026-05-10)
+Framework : RA-CUE-ULV v2.0 (migration close 2026-05-12)
+================================================================================
+
+NOTE PRELIMINAIRE
+-----------------
+La mission demandait C:\citurb\index_v4.html mais ce fichier N'EXISTE PAS.
+C:\citurb\ contient un autre projet (CitUrbarea — monorepo Node/Prisma avec
+apps/api, apps/web, apps/desktop, prisma/, dump_production.sql 2.6 MB).
+Le projet TerriScan reel se trouve dans :
+  C:\Users\HP\Desktop\PHD RA-CUE-ULV 2026\_TerriScan_App\index.html
+L'audit ci-dessous a ete realise sur ce vrai fichier TerriScan.
+
+
+================================================================================
+ETAPE 1 — INVENTAIRE C:\citurb\
+================================================================================
+
+FICHIERS RACINE (43 fichiers, sans node_modules) :
+  - 28 fichiers .md (README, GUIDE, CHECKLIST, ETAT_PROJET, CLAUDE)
+  - 6 fichiers .sql (dump_production 2.6 MB, init-db, migrations sprint2/v2, purge)
+  - 4 fichiers .json (package.json, package-lock 565 KB, tsconfig.base, ag.json)
+  - Dockerfile, .dockerignore, .env, .env.example, .gitignore, .npmrc
+  - start.ps1, .railwayignore, railway.toml, docker-compose.dev.yml
+
+SOUS-DOSSIERS (15 directories) :
+  .claude, .github, apps, backups, data, docs, exports, infrastructure,
+  node_modules, packages, prisma, scripts, storage, uploads, _sprints_reference
+
+CONSTAT : projet CitUrbarea complet (backend Prisma + frontend desktop/web/ops).
+AUCUN index_v4.html present. Les seuls index*.html sont des stubs Vite minimes
+(<400 bytes) dans apps/web, apps/ops, apps/web/dist.
+
+
+================================================================================
+ETAPE 2 — CARTOGRAPHIE ONGLETS TerriScan
+================================================================================
+
+Source : C:\Users\HP\Desktop\PHD RA-CUE-ULV 2026\_TerriScan_App\index.html
+
+23 ONGLETS DECLARES (boutons .tab data-p="..." lignes 1197-1219) :
+21 PAGES ACCESSIBLES (20 statiques + 1 injectee dynamiquement)
+
+--------------------------------------------------------------------------------
+ONGLET : Fichiers                       | data-p=fichiers
+ID PAGE : p-fichiers (ligne 1276)       | JS : main.js + inline
+CONTENU : <div id="p-fichiers" style="padding:0;overflow:hidden;display:none;flex-direction:row">
+          Browser fichiers du projet (sidebar + viewer integre)
+ROLE    : Utilitaire essentiel — gestion arborescence projet
+
+ONGLET : Articles                       | data-p=articles
+ID PAGE : p-articles (ligne 1298)       | JS : publications_strategy.js (91 KB)
+CONTENU : <div id="articles-root">Chargement des 6 articles A1...</div>
+          Inclut bloc "Bibliographie commune" (lignes 1303-1313)
+ROLE    : Landing page des 6 articles A1 + acces EndNote
+
+ONGLET : Publications A1                | data-p=publications
+ID PAGE : p-publications (ligne 1317)   | JS : publications_strategy.js (MEME JS)
+CONTENU : <div id="pub-root">Chargement strategie publication...</div>
+ROLE    : Pilotage strategique des 6 articles (MEME source JS que Articles)
+ALERTE  : DOUBLON SOURCE — meme publications_strategy.js que onglet Articles
+
+ONGLET : These                          | data-p=these
+ID PAGE : p-these (ligne 1324)          | JS : thesis_inline.js (47 KB) + these_structure.js (55 KB)
+CONTENU : <div id="thesis-root">Chargement de la these...</div>
+ROLE    : Pilotage doctorat — chapitres, jalons, soutenance
+
+ONGLET : Livrables                      | data-p=livrables
+ID PAGE : p-livrables (ligne 1331)      | JS : livrables_dashboard.js (21 KB)
+CONTENU : <div id="livrables-root">Chargement du cockpit livrables...</div>
+ROLE    : Cockpit central livrables (DELIVERY_xx, sprints)
+
+ONGLET : Data Lab                       | data-p=datalab
+ID PAGE : p-datalab (ligne 1338)        | JS : data_lab.js (79 KB)
+CONTENU : <div id="datalab-root">Chargement de la mine d'or...</div>
+ROLE    : Mine d'or donnees RA-CUE-ULV — exploration
+
+ONGLET : Collecte assistee              | data-p=collecte
+ID PAGE : p-collecte (ligne 1345)       | JS : strategie_collecte.js (19 KB) + collecte_ui.js (18 KB)
+CONTENU : <div id="collecte-root">Chargement de la collecte assistee...</div>
+ROLE    : Plan 5 vagues + dashboard progression
+
+ONGLET : Cadre theorique                | data-p=cadre
+ID PAGE : p-cadre (ligne 1369)          | JS : inline (statique, ~500 lignes HTML)
+CONTENU : Sommaire lateral "Note de cadrage" + Resume + 12 sections theoriques
+ROLE    : Cadre conceptuel doctorat (centralite urbaine emergente)
+
+ONGLET : Redaction                      | data-p=redaction
+ID PAGE : p-redaction (ligne 2225)      | JS : inline
+CONTENU : Creer nouveau Word/PPT/Excel + Fichiers critiques Article 1 + Ouvrir VS Code/EndNote/QGIS
+ROLE    : Atelier redaction — creation/ouverture docs externes
+
+ONGLET : Collecte donnees               | data-p=donnees
+ID PAGE : p-donnees (ligne 2260)        | JS : inline
+CONTENU : Bandeau "Module legacy — saisie simplifiee 9 cas x 15 indicateurs"
+          (cf etape 5E pour copie exacte)
+ROLE    : LEGACY AUTO-DECLARE — redirige vers onglet Validation scientifique
+
+ONGLET : Indicateurs                    | data-p=indicateurs
+ID PAGE : p-indicateurs (ligne 2274)    | JS : indicators_db.js (93 KB) + indicators_enriched.js (1.4 MB) + indicator_dossier.js + indicator_fiche_detaillee.js + subgroup_fiche_detaillee.js + indicators_db_i18n.js + indicators_sens.js
+CONTENU : Base 142 indicateurs + fiches detaillees + 70 sources canoniques APA-7
+ROLE    : Referentiel statique RA-CUE-ULV (le coeur scientifique)
+
+ONGLET : Ponderation & Scores           | data-p=ponderation
+ID PAGE : p-ponderation (ligne 1352)    | JS : ponderation_empirique.js (12 KB) + ponderation_ui.js (39 KB) + ponderation_page.js (16 KB) + ponderation_hierarchique.js + triangulation_ahp.js + robustesse_bootstrap.js + imputation_knn.js
+CONTENU : <div id="ponderation-root">Initialisation ponderation empirique...</div>
+          + bouton "PROTOCOLE PONDERATION COMPLET" → modal Q1 60 references
+ROLE    : Calcul live 4 methodes data-driven (Equal, Entropy, CRITIC, Variance) + Borda
+
+ONGLET : Methodo. ponderation           | data-p=methodoponderation
+ID PAGE : p-methodoponderation (1362)   | JS : methodologie_ponderation.js (67 KB)
+CONTENU : <div id="methodoponderation-root">Chargement methodologie ponderation...</div>
+ROLE    : Section A1-METHODO methodologie AHP-Saaty (texte methodo)
+
+ONGLET : Validation scientifique        | data-p=validation
+ID PAGE : p-validation (ligne 2308)     | JS : validation_scientifique.js (14 KB) + audit_indicateurs.js (39 KB)
+CONTENU : "Cycle de validation scientifique RA-CUE-ULV" — 142 ind x 14 cas
+          Progression bar + AHP Saaty RC=0.02
+ROLE    : Workflow tracking statut (valide / en cours / todo) par indicateur
+
+ONGLET : Centralites                    | data-p=centralites
+ID PAGE : p-centralites (ligne 2347)    | JS : panel_benchmark.js (24 KB) + selection_centralites.js (21 KB)
+CONTENU : Grille 14 fiches centralites + legende N1-N5
+          "Niveaux a attribuer une fois le cycle de validation 142 ind complete"
+ROLE    : Fiches comparatives panel n=14
+
+ONGLET : Protocole Centralites          | data-p=protocole-centralites
+ID PAGE : INJECTEE DYNAMIQUEMENT        | JS : protocole_centralites_view.js (27 KB)
+CONTENU : Page creee au load par injectPage() — <div id="proto-cent-root">
+          Render via window.openProtocoleSelectionCentralites(container)
+          Document Q1 15 sections + 40 references peer-reviewed
+ROLE    : Document Q1 supplementary materials Habitat Int / Cities / Urban Studies
+NOTE    : AVANT-DERNIER AUDIT INCORRECT — la page existe via JS dynamique
+
+ONGLET : Atlas RA-CUE-ULV               | data-p=benchmark
+ID PAGE : p-benchmark (ligne 1870)      | JS : gis_module.js (45 KB) + cartography_atlas.js (20 KB) + indicator_cartography.js (55 KB) + cartography_batch_export.js (35 KB) + leaflet-draw.js (68 KB)
+CONTENU : Leaflet 14 basemaps + 3 couches admin + export PNG + draw tools
+ROLE    : Vue cartographique principale — 14 entites stratifiees
+
+ONGLET : Cas d'etude Kenitra            | data-p=kenitra
+ID PAGE : p-kenitra (ligne 2152)        | JS : inline + main.js (helpers PHD/path/shell QGIS)
+CONTENU : Integration QGIS AL MAZID native + scan auto C:\Users\HP\Desktop\AL MAZID\
+          + couches BUILDINGS, roads, quartiers, poles + projet .qgz
+ROLE    : Cas d'etude central — KMST (Kenitra + Mehdiya + Sidi Taibi)
+
+ONGLET : Code                           | data-p=code
+ID PAGE : p-code (ligne 2357)           | JS : inline
+CONTENU : Inspecteur de code (sources internes)
+ROLE    : Utilitaire dev/debug
+
+ONGLET : Assistant IA                   | data-p=ia
+ID PAGE : p-ia (ligne 2384)             | JS : inline
+CONTENU : Prompts IA preformatres + bibliotheque de prompts
+ROLE    : Generation contextuelle (referenced par d'autres onglets via setIAPrompt)
+
+ONGLET : Methodes Validation            | data-p=bca
+ID PAGE : p-bca (ligne 2409)            | JS : inline + iframe bca_module.html (63 KB)
+CONTENU : Cockpit refondu 2026-05-24 — 15 methodes documentees en 5 categories :
+          (1) Coherence interne : Cronbach a, a27 robust, CVR Lawshe
+          (2) Bootstrap & CI : BCa primary, Percentile, Sensitivity Envelope
+          (3) Correlation : Spearman r, Bartlett, KMO, PCA
+          (4) Ponderation : Equal, Entropy, CRITIC, Variance, Borda, AHP-Saaty
+          (5) Imputation : k-NN, Multiple Imputation Rubin, Axis-Mean, Min-Max
+          + 8 KPI bar + 6 liens rapides + iframe BCa 780px (Plein ecran/Reset/Focus)
+ROLE    : Hub central referentiel methodologique du manuscrit A1 v5.2
+
+ONGLET : Bibliotheque                   | data-p=biblio
+ID PAGE : p-biblio (ligne 2404)         | JS : bibliotheque_panel.js (18 KB)
+CONTENU : Archive bibliographique (panel rendu dynamiquement)
+ROLE    : EndNote + sources canoniques (38 KB sources_canoniques.js)
+
+ONGLET : Config                         | data-p=config
+ID PAGE : p-config (ligne 2638)         | JS : inline + auth_login.js (11 KB) + cloud_sync.js (13 KB) + i18n.js (31 KB)
+CONTENU : Settings — tokens citurbarea.token, login, DB, API port, langue FR/AR/EN
+ROLE    : Configuration globale + sync cloud + auth
+
+
+================================================================================
+ETAPE 3 — INVENTAIRE FICHIERS JS (70 fichiers a la racine, sans .bak)
+================================================================================
+
+CATEGORIE 1 — DONNEES VAGUES (15 fichiers, 651 KB cumules)
+  data_vague1_verifiee.js                  54184 bytes — Panel n=14 (4 KMST + 3 MAR + 3 ASIA + 4 SUD)
+  data_vague2_verifiee.js                  52779 bytes
+  data_vague3_verifiee.js                  54190 bytes
+  data_vague4_verifiee.js                  37102 bytes
+  data_vague5_verifiee.js                  59363 bytes
+  data_vague6_verifiee.js                  45081 bytes
+  data_vague7_verifiee.js                  36567 bytes
+  data_vague8_verifiee.js                  21224 bytes
+  data_vague9_verifiee.js                  13205 bytes
+  data_vague10_verifiee.js                 21272 bytes
+  data_vague11_verifiee.js                  9378 bytes
+  data_vague12_panel_n8_2026.js            22323 bytes — Panel n=9 actuel manuscrit
+  data_vague13_panel_n8_2026.js            28560 bytes
+  data_vague14_panel_n8_2026.js            31556 bytes
+  data_vague15_panel_n8_2026.js            32264 bytes
+  data_vague16_panel_n8_2026.js            32984 bytes
+  ALERTE : 11 vagues "verifiee" + 5 vagues "panel_n8_2026" coexistent
+
+CATEGORIE 2 — REFERENTIEL INDICATEURS (8 fichiers, 1.85 MB cumules)
+  indicators_db.js                         93042 bytes — Base 142 ind canonique
+  indicators_db_i18n.js                    13622 bytes
+  indicators_enriched.js                 1414736 bytes — 142 ind enrichies (1.4 MB)
+  indicators_sens.js                        6240 bytes — Sens benefit/cost
+  indicator_dossier.js                     46008 bytes
+  indicator_fiche_detaillee.js             71325 bytes
+  subgroup_fiche_detaillee.js              37099 bytes
+  audit_indicateurs.js                     39228 bytes
+
+CATEGORIE 3 — PUBLICATIONS/THESE (14 fichiers, 1.04 MB cumules)
+  publications_strategy.js                 91288 bytes — Source Articles + Publications
+  these_structure.js                       55306 bytes
+  thesis_inline.js                         47077 bytes
+  livrables_dashboard.js                   20849 bytes
+  article_a1_full.js                      180809 bytes — Manuscrit A1 EN integral
+  article_a1_reviewer.js                   78964 bytes — Reponses reviewers
+  article_a2_full.js                      157499 bytes
+  article_a3_full.js                      122212 bytes
+  article_a4_full.js                      126124 bytes
+  article_a5_full.js                      107790 bytes
+  article_editor.js                        72742 bytes
+  article_bilingual_loader.js               4734 bytes
+  chapitres_export.js                      43390 bytes
+  + 6 stubs *.fr.js (742 bytes chacun, redirection FR)
+
+CATEGORIE 4 — CARTOGRAPHIE/GIS (5 fichiers, 220 KB cumules)
+  leaflet-draw.js                          67485 bytes
+  gis_module.js                            45065 bytes
+  cartography_atlas.js                     20377 bytes
+  indicator_cartography.js                 54677 bytes
+  cartography_batch_export.js              35176 bytes
+
+CATEGORIE 5 — PONDERATION/VALIDATION (10 fichiers, 188 KB cumules)
+  ponderation_empirique.js                 12379 bytes
+  ponderation_hierarchique.js               8399 bytes
+  ponderation_page.js                      15811 bytes
+  ponderation_ui.js                        39122 bytes
+  methodologie_ponderation.js              66828 bytes — Onglet Methodo. ponderation
+  methodologie_fiches.js                   93761 bytes — Reference par protocole_centralites_view
+  triangulation_ahp.js                      9540 bytes
+  robustesse_bootstrap.js                   6262 bytes
+  validation_scientifique.js               13712 bytes
+  imputation_knn.js                         7738 bytes
+
+CATEGORIE 6 — CENTRALITES/PANEL (4 fichiers, 95 KB cumules)
+  panel_benchmark.js                       23615 bytes
+  selection_centralites.js                 20838 bytes
+  protocole_centralites_view.js            26649 bytes — Injection page dynamique
+  notes_canoniques.js                       5015 bytes
+
+CATEGORIE 7 — INFRASTRUCTURE/UI (8 fichiers, 174 KB cumules)
+  main.js                                   9710 bytes — Process Electron principal
+  i18n.js                                  31403 bytes — Trad FR/AR/EN
+  auth_login.js                            11340 bytes
+  cloud_sync.js                            13312 bytes
+  collecte_ui.js                           17867 bytes
+  strategie_collecte.js                    19267 bytes
+  data_lab.js                              79218 bytes
+  bibliotheque_panel.js                    17782 bytes
+  sources_canoniques.js                    38371 bytes
+
+TOTAL : ~4.2 MB de code JS source (hors .bak et node_modules)
+
+
+================================================================================
+ETAPE 4 — DONNEES REELLES PAR ONGLET
+================================================================================
+
+ONGLET             | TYPE CONTENU                 | DONNEES REELLES
+-------------------|------------------------------|--------------------------------
+Fichiers           | Dynamique (filesystem)       | NON — navigation seule
+Articles           | Genere JS                    | OUI — 6 articles A1, scores, refs
+Publications A1    | Genere JS                    | OUI — strategie, jalons, IF cibles
+These              | Genere JS                    | OUI — structure these, jalons
+Livrables          | Genere JS                    | OUI — DELIVERY 1-12, status
+Data Lab           | Genere JS                    | OUI — donnees panel 14/9 cas
+Collecte assistee  | Genere JS                    | OUI — progression vagues 1-16
+Cadre theorique    | Statique inline              | OUI — texte note de cadrage redige
+Redaction          | Statique inline              | NON — boutons d'ouverture externes
+Collecte donnees   | Statique + scoring legacy    | OUI mais LEGACY (9x15 simplifie)
+Indicateurs        | Genere JS                    | OUI — 142 ind + enriched (1.4 MB)
+Ponderation        | Genere JS interactif         | OUI — calculs live + Borda
+Methodo. ponder.   | Genere JS                    | OUI — texte methodo redige
+Validation scient. | Genere JS workflow           | OUI — tracking statut 142 ind
+Centralites        | Genere JS                    | OUI — 14 fiches, scores futurs
+Protocole Central. | Genere JS dynamique          | OUI — document Q1 15 sections 40 refs
+Atlas              | Leaflet interactif           | OUI — basemaps, polygones admin
+Cas Kenitra        | Statique + scan QGIS         | OUI — couches QGIS reelles
+Code               | Statique                     | NON — inspecteur seul
+Assistant IA       | Statique + i18n              | OUI — prompts preformatres
+Methodes Valid.    | Statique + iframe            | OUI — 15 methodes documentees + KPI
+Bibliotheque       | Genere JS                    | OUI — refs bibliographiques
+Config             | Statique + i18n + auth       | OUI — tokens, settings persistants
+
+
+================================================================================
+ETAPE 5 — CHEVAUCHEMENTS REELS
+================================================================================
+
+A) ONGLETS PARTAGEANT LA MEME SOURCE JS :
+
+   Articles + Publications A1 → publications_strategy.js (91 KB)
+   --> Les deux onglets consomment EXACTEMENT le meme fichier source.
+       Articles affiche "Chargement des 6 articles A1..." (root #articles-root)
+       Publications affiche "Chargement strategie publication..." (root #pub-root)
+       Le JS gere 2 vues distinctes mais derivees des memes donnees.
+
+   These + Livrables → these_structure.js + thesis_inline.js + livrables_dashboard.js
+   --> Couplage fort. Livrables = sous-vue thematique de These (DELIVERY tracking).
+
+   Ponderation + Methodo. ponderation
+   --> Calcul live (ponderation_empirique.js) vs texte methodologique
+       (methodologie_ponderation.js). Pas le meme JS mais sujet identique.
+
+   Ponderation + Validation scientifique + Methodes Validation
+   --> 3 onglets sur le pilier methodologique. Methodes Validation (nouveau cockpit)
+       referenc EXPLICITEMENT les 2 autres dans ses "Liens rapides".
+
+B) ONGLETS QUASI-IDENTIQUES EN HTML :
+
+   AUCUN duplicat HTML strict. Les onglets a placeholder ressemblant
+   (#articles-root, #pub-root, #thesis-root, #livrables-root, #datalab-root,
+   #collecte-root, #ponderation-root, #methodoponderation-root) utilisent
+   le meme pattern "Chargement..." mais avec roots distincts.
+
+C) REFERENCES INTERNES CROISEES :
+
+   Articles → Bibliotheque : bouton "Ouvrir bibliotheque" (navToFile)
+   Articles → Assistant IA : bouton "Actualiser references" (setIAPrompt + click ia)
+   Collecte donnees → Validation : bandeau redirige vers onglet Validation scient.
+   Ponderation → Methodes Validation : bouton "PROTOCOLE PONDERATION COMPLET"
+   Methodes Validation → 6 onglets : Ponderation, Methodo.ponder, Validation,
+                                     Indicateurs, Centralites, manuscrit PDF
+   Methodes Validation → BCa module : iframe bca_module.html (62.6 KB standalone)
+
+D) ONGLET protocole-centralites :
+
+   PAGE EXISTE — injectee dynamiquement par protocole_centralites_view.js (L.18-29)
+   au chargement via injectPage() qui cree <div id="p-protocole-centralites">
+   et l'attache a .fb-content.
+   Render via window.openProtocoleSelectionCentralites(container) qui appelle
+   methodologie_fiches.js (94 KB) pour rendre document Q1 15 sections.
+   --> PAS DE BUG. L'audit precedent (verbal) etait incorrect.
+
+E) BANDEAU LEGACY EXACT (onglet "Collecte donnees" p-donnees ligne 2261-2268) :
+
+   "Module legacy — saisie simplifiee 9 cas x 15 indicateurs
+
+   Cet onglet pilote un moteur de scoring illustratif anterieur (panel
+   historique 9 quartiers x 15 indicateurs RA/CUE/ULV simplifies). Pour le
+   travail scientifique de these, utiliser le Cycle de validation 142
+   indicateurs x 14 cas (onglet [Validation scientifique]) qui pilote la base
+   canonique INDICATORS_DB + INDICATORS_ENRICHED avec ponderation AHP Saaty
+   (RC=0.02)."
+
+   Formule legacy affichee : S = 0.30 x S_RA + 0.40 x S_CUE + 0.30 x S_ULV
+                            RC=0.02 - moteur legacy
+   --> L'onglet S'AUTO-DECLARE OBSOLETE et redirige explicitement vers
+       l'onglet Validation scientifique.
+
+
+================================================================================
+ETAPE 6 — TABLEAU DE SYNTHESE FINAL
+================================================================================
+
+| # | Onglet               | Page ID                   | Source JS                          | Donnees ? | Redondant ?      | Dependances                                   |
+|---|----------------------|---------------------------|------------------------------------|-----------|------------------|-----------------------------------------------|
+| 1 | Fichiers             | p-fichiers                | main.js + inline                   | Nav only  | Non              | Filesystem du projet                          |
+| 2 | Articles             | p-articles                | publications_strategy.js           | Oui       | Doublon JS avec  | Biblio + IA                                   |
+|   |                      |                           |                                    |           | (3) Publications |                                               |
+| 3 | Publications A1      | p-publications            | publications_strategy.js           | Oui       | Doublon de (2)   | Articles                                      |
+| 4 | These                | p-these                   | thesis_inline + these_structure    | Oui       | Couplage (5)     | Livrables                                     |
+| 5 | Livrables            | p-livrables               | livrables_dashboard.js             | Oui       | Sous-vue de (4)  | These                                         |
+| 6 | Data Lab             | p-datalab                 | data_lab.js                        | Oui       | Non              | Donnees vagues                                |
+| 7 | Collecte assistee    | p-collecte                | strategie_collecte + collecte_ui   | Oui       | Non              | Data vagues 1-16                              |
+| 8 | Cadre theorique      | p-cadre                   | inline statique 500 lignes         | Oui       | Non              | -                                             |
+| 9 | Redaction            | p-redaction               | inline                             | Non       | Non              | Folders externes (Word/PPT/Excel/VS Code)     |
+|10 | Collecte donnees     | p-donnees                 | inline + legacy 9x15               | Legacy    | AUTO-DECLARE     | Redirige vers (14)                            |
+|11 | Indicateurs          | p-indicateurs             | indicators_db + enriched (1.5 MB)  | Oui       | Non              | sources_canoniques                            |
+|12 | Ponderation          | p-ponderation             | ponderation_empirique + ui + page  | Oui       | Couplage (13)(21)| triangulation_ahp + bootstrap + imputation    |
+|13 | Methodo. ponder.     | p-methodoponderation      | methodologie_ponderation.js        | Oui       | Couplage (12)(21)| -                                             |
+|14 | Validation scient.   | p-validation              | validation_scientifique.js         | Oui       | Couplage (21)    | audit_indicateurs                             |
+|15 | Centralites          | p-centralites             | panel_benchmark + selection        | Oui       | Couplage (16)    | -                                             |
+|16 | Protocole Central.   | p-protocole-centralites * | protocole_centralites_view.js      | Oui       | Sous-vue de (15) | methodologie_fiches (94 KB)                   |
+|17 | Atlas RA-CUE-ULV     | p-benchmark               | gis_module + cartography + leaflet | Oui       | Non              | indicator_cartography                         |
+|18 | Cas Kenitra          | p-kenitra                 | inline + main.js QGIS              | Oui       | Non              | C:\Users\HP\Desktop\AL MAZID\                 |
+|19 | Code                 | p-code                    | inline                             | Non       | Non              | -                                             |
+|20 | Assistant IA         | p-ia                      | inline + i18n                      | Oui       | Non              | Reference par Articles                        |
+|21 | Methodes Validation  | p-bca                     | inline + iframe bca_module.html    | Oui       | Hub (12)(13)(14) | 5 sous-onglets internes                       |
+|22 | Bibliotheque         | p-biblio                  | bibliotheque_panel.js              | Oui       | Couplage (2)     | sources_canoniques + Articles bloc biblio     |
+|23 | Config               | p-config                  | inline + auth + cloud_sync + i18n  | Oui       | Non              | LocalStorage citurbarea.token                 |
+
+* Page injectee dynamiquement par JS au chargement.
+
+
+================================================================================
+DONNEES A PRESERVER ABSOLUMENT
+================================================================================
+
+CRITICITE 1 — IRREMPLACABLE (perte = arret these)
+  - indicators_enriched.js (1.4 MB) — 142 indicateurs enrichis 22 groupes maitres
+  - indicators_db.js (93 KB) — Base canonique 142 ind
+  - sources_canoniques.js (38 KB) — 70 sources APA-7
+  - article_a1_full.js (181 KB) — Manuscrit A1 EN integral
+  - article_a1_reviewer.js (79 KB) — Reponses reviewers Habitat Int.
+  - article_a2-a5_full.js (513 KB cumules) — Articles A2-A5
+  - publications_strategy.js (91 KB) — Strategie 6 articles + jalons
+  - these_structure.js (55 KB) + thesis_inline.js (47 KB) — Structure these
+  - methodologie_ponderation.js (67 KB) — Section methodo A1
+  - methodologie_fiches.js (94 KB) — Document Q1 protocole centralites
+  - panel_benchmark.js (24 KB) — Panel canonique 14 entites
+  - selection_centralites.js (21 KB) — Audit Q1 #128 chantier ouvert
+
+CRITICITE 2 — DONNEES TERRAIN (perte = re-collecte cout temps)
+  - data_vague1-11_verifiee.js (404 KB) — Panel n=14 verifie
+  - data_vague12-16_panel_n8_2026.js (148 KB) — Panel n=9 manuscrit actuel
+  - notes_canoniques.js (5 KB) — Notes editoriales
+  - audit_indicateurs.js (39 KB) — Resultats audits Q1 142 ind
+
+CRITICITE 3 — INFRASTRUCTURE METHODO (calculs verifies)
+  - ponderation_empirique.js (12 KB) — 4 methodes data-driven
+  - ponderation_hierarchique.js (8 KB) — AHP Saaty CR<0.10
+  - triangulation_ahp.js (10 KB) — Borda+AHP triangulation
+  - robustesse_bootstrap.js (6 KB) — BCa + percentile bootstrap
+  - imputation_knn.js (8 KB) — k-NN Troyanskaya 2001
+  - validation_scientifique.js (14 KB) — Workflow tracking
+  - protocole_centralites_view.js (27 KB) — View Q1 audit
+
+CRITICITE 4 — CONFIG (perte = ressaisie credentials)
+  - LocalStorage : citurbarea.token, langue UI, niveau zoom
+  - .env / Settings : login citurbarea@gmail.com, DB postgres, API port 4000
+
+
+================================================================================
+STRUCTURE PROPOSEE (regroupement visuel sans suppression)
+================================================================================
+
+PRINCIPE : Aucun JS, aucune page, aucun onglet n'est supprime. La proposition
+consiste UNIQUEMENT a regrouper les onglets en menus de niveau 2 (sous-menus
+deroulants ou tabs internes) pour reduire la surface visible de 23 a 8 zones
+principales tout en conservant l'integralite du contenu accessible.
+
+ZONE 1 — "Pilotage" (4 sous-onglets — actuellement 4 onglets)
+  > Articles (publications_strategy.js — vue cartes 6 articles)
+  > Publications A1 (publications_strategy.js — vue strategie)
+  > These (thesis_inline + these_structure)
+  > Livrables (livrables_dashboard)
+  --> 4 onglets actuels regroupes sous le menu "Pilotage" via tabs internes
+  --> Conservation 100% des fonctionnalites
+
+ZONE 2 — "Collecte & Donnees" (3 sous-onglets)
+  > Data Lab (data_lab.js)
+  > Collecte assistee (strategie_collecte + collecte_ui)
+  > Collecte donnees [BADGE : LEGACY] (module 9x15 conserve mais signale)
+  --> Maintien explicite du module legacy avec badge visuel "legacy"
+  --> Pas de suppression — la redirection automatique vers Validation scient.
+      existe deja dans le bandeau
+
+ZONE 3 — "Indicateurs & Methodes" (5 sous-onglets — point neuralgique scientifique)
+  > Indicateurs (referentiel 142)
+  > Ponderation & Scores (calcul live)
+  > Methodologie ponderation (texte methodo)
+  > Validation scientifique (tracking)
+  > Methodes Validation [HUB] (cockpit refondu)
+  --> Methodes Validation devient l'entree par defaut de la zone
+  --> Les 4 autres restent accessibles en sous-menu
+
+ZONE 4 — "Centralites & Atlas" (3 sous-onglets — vue spatiale)
+  > Centralites (panel n=14)
+  > Protocole Centralites (document Q1)
+  > Atlas RA-CUE-ULV (Leaflet)
+  --> Cas d'etude Kenitra (QGIS) reste un onglet de 1er niveau (criticite KMST)
+
+ZONE 5 — "Cas Kenitra" (1 onglet de 1er niveau, conservation)
+  > Cas d'etude Kenitra (integration QGIS AL MAZID native)
+  --> Reste accessible directement vu son importance dans la these
+
+ZONE 6 — "Redaction & Cadre" (2 sous-onglets)
+  > Cadre theorique (note de cadrage 12 sections)
+  > Redaction (creation Word/PPT/Excel)
+
+ZONE 7 — "Documentation & IA" (3 sous-onglets)
+  > Assistant IA (prompts preformatres)
+  > Bibliotheque (bibliotheque_panel)
+  > Code (inspecteur)
+
+ZONE 8 — "Systeme" (2 sous-onglets)
+  > Fichiers (browser)
+  > Config (settings + auth + sync)
+
+
+GAINS DE LA STRUCTURE PROPOSEE
+------------------------------
+- 23 onglets visibles → 8 zones de 1er niveau (-65% de surface visuelle)
+- 100% des contenus restent accessibles (aucune suppression)
+- Le module legacy "Collecte donnees" est CONSERVE mais signale via badge
+- Les onglets a fort couplage JS (Articles+Publications, These+Livrables,
+  Ponderation+Methodo+Validation+MethodesValid) sont regroupes physiquement
+- Les zones "Pilotage" et "Indicateurs & Methodes" deviennent les points
+  d'entree principaux pour la production scientifique
+- Mecanisme d'implementation suggere : structure HTML imbriquee
+  <div class="tab-zone"><div class="tab-subgroup">...</div></div>
+  avec routing JavaScript intercepte sur les data-p existants
+
+
+================================================================================
+FIN DU RAPPORT — Audit exhaustif TerriScan v16 (2026-05-24)
+Rapport sauvegarde dans : C:\citurb\audit_terriscan_complet.txt
+Aucune modification effectuee sur les sources TerriScan.
+================================================================================

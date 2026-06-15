@@ -48,6 +48,7 @@ export class MutationGateGuard implements CanActivate {
       "/api/telemetry",                 // Web Vitals + client error reporter (silent fail)
       "/api/notifications-hub",         // Notifications hub centralisé (Tome 0) — dispatch + prefs + push subs
       "/api/lead-funnel",               // Lead capture + scoring + nurture (Phase 5)
+      "/api/simulateur",                // Simulateur public coût construction + capture lead (consentement)
       "/api/documents-repo",            // Documents repository + e-signature multi-parties
       "/api/permis-construire",         // PC wizard 5 étapes + génération formulaires
       "/api/rokhas-tracker",            // Tracker visuel instruction permis

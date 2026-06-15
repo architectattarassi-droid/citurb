@@ -69,6 +69,7 @@ import { CpsGeneratorModule } from "./modules/cps-generator/cps-generator.module
 import { ObjectStorageModule } from "./modules/object-storage/object-storage.module";
 import { CabinetModule } from "./modules/cabinet/cabinet.module";
 import { MonitoringModule } from "./modules/monitoring/monitoring.module";
+import { SimulateurModule } from "./modules/simulateur/simulateur.module";
 
 @Module({
   imports: [
@@ -134,6 +135,7 @@ import { MonitoringModule } from "./modules/monitoring/monitoring.module";
     ObjectStorageModule,
     CabinetModule,
     MonitoringModule,
+    SimulateurModule, // Simulateur public coût construction + capture lead + nurturing
   ],
   controllers: [],
   providers: [],

@@ -243,3 +243,81 @@ export type P1PacksQuoteResponse = {
 export function quoteP1Packs(input: P1PacksQuoteInput) {
   return apiFetch<P1PacksQuoteResponse>("/p1/packs/quote", { method: "POST", body: { input } });
 }
+
+// ──────────────────────────────────────────────────────────────────────
+// Simulateur public coût de construction (anonyme) + capture lead
+// ──────────────────────────────────────────────────────────────────────
+export type SimTypeProjet = "PARTICULIER" | "PROMOTEUR";
+export type SimFinition = "ECO" | "STANDARD" | "HAUT_DE_GAMME";
+
+export type SimEstimationInput = {
+  typeProjet: SimTypeProjet;
+  finition: SimFinition;
+  ville: string;
+  // PARTICULIER
+  surface?: number;
+  niveaux?: number;
+  sousSols?: number;
+  // PROMOTEUR
+  surfacePlancher?: number;
+  nbLogements?: number;
+};
+
+export type SimOptions = {
+  ok: true;
+  types: { value: SimTypeProjet; name: string; porte: string }[];
+  finitions: { value: SimFinition; name: string; hint: string }[];
+  villes: { slug: string; name: string }[];
+  champs: Record<SimTypeProjet, string[]>;
+};
+
+export type SimSommaire = {
+  ok: true;
+  currency: "MAD";
+  typeProjet: SimTypeProjet;
+  finition: SimFinition;
+  ville: string;
+  villeName: string;
+  surfacePlancherTotaleM2: number;
+  coutM2: number;
+  estimationCentrale: number;
+  fourchetteMin: number;
+  fourchetteMax: number;
+  hypotheses: string[];
+  disclaimer: string;
+};
+
+export type SimVentilationPoste = { poste: string; montant: number; ratio: number };
+
+export type SimDetaillee = SimSommaire & {
+  ventilation: SimVentilationPoste[];
+  totalTravaux: number;
+  honoraires: number;
+  totalAvecHonoraires: number;
+  leadId: string;
+};
+
+export type SimLeadInput = {
+  nom: string;
+  telephone: string;
+  email: string;
+  consentement: boolean;
+  typeProjet?: string;
+  ville?: string;
+  source?: string;
+};
+
+export function getSimulateurOptions() {
+  return apiFetch<SimOptions>("/api/simulateur/options", { method: "GET" });
+}
+
+export function estimateSommaire(input: SimEstimationInput) {
+  return apiFetch<SimSommaire>("/api/simulateur/estimate-sommaire", { method: "POST", body: input });
+}
+
+export function estimateDetaille(lead: SimLeadInput, params: SimEstimationInput) {
+  return apiFetch<SimDetaillee>("/api/simulateur/estimate-detaille", {
+    method: "POST",
+    body: { lead, params },
+  });
+}

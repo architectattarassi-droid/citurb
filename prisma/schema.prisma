@@ -2097,3 +2097,59 @@ model Article {
   @@index([lang, status])
   @@index([authorId])
 }
+
+// ==============================================================
+// SIMULATEUR COÛT CONSTRUCTION — Lead capture + nurturing
+// (Sprint feat/simulateur-qualif-nurturing)
+// Capture conforme RGPD/CNDP : consentement explicite obligatoire
+// avant toute relance. Désinscription = arrêt immédiat tous canaux.
+// ==============================================================
+
+enum NurtureStatus {
+  ACTIVE     // séquence en cours
+  STOPPED    // séquence terminée (post-étape finale) ou interrompue
+  CONVERTED  // le lead a créé un dossier → relances stoppées
+}
+
+model Lead {
+  id String @id @default(cuid())
+
+  // Contact
+  nom         String
+  telephone   String
+  email       String
+
+  // Consentement explicite (jamais de relance sans consentement = true)
+  consentement Boolean @default(false)
+
+  // Qualification projet (cf. EstimationPubliqueService)
+  typeProjet   String // "PARTICULIER" | "PROMOTEUR" (mappé sur portes P1/P2)
+  ville        String // slug ville (kenitra, sale, rabat, temara, harhoura, mehdiya, sidi-taibi)
+  paramsProjet Json   // { finition, surface, niveaux, sousSols, nbLogements, surfacePlancher, ... }
+
+  // Estimation livrée au moment de la capture (fourchette globale MAD)
+  estimationMin Float?
+  estimationMax Float?
+
+  // Provenance
+  source String @default("SIMULATEUR_COUT_CONSTRUCTION")
+
+  // Conversion dossier (bridge flux existant machine à états)
+  dossierCree Boolean @default(false)
+  dossierId   String?
+
+  // Nurturing (séquence finie multi-canal — mail actif, WhatsApp désactivé)
+  nurtureStep   Int           @default(0) // dernière étape envoyée (0 = aucune)
+  nurtureStatus NurtureStatus @default(ACTIVE)
+  unsubscribed  Boolean       @default(false)
+  // Token opaque pour le lien de désinscription (1 clic, sans auth)
+  unsubscribeToken String @unique @default(cuid())
+
+  lastContactedAt DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([nurtureStatus, unsubscribed, consentement])
+  @@index([email])
+  @@index([createdAt])
+}

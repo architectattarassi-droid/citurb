@@ -22,13 +22,19 @@
     <!-- Canonical -->
     <link rel="canonical" href="https://citurbarea.com/" />
 
-    <!-- Open Graph -->
+    <!-- Open Graph (Facebook, WhatsApp, LinkedIn, Telegram) -->
+    <!-- og:image : pour les pages d'articles, le middleware OG du backend (apps/api/src/modules/articles/og-prerender.middleware.ts) intercepte les bots et sert le cover de l'article spécifique. Cette image par défaut sert pour les pages génériques (home, etc.) -->
     <meta property="og:title" content="CITURBAREA — Expertise BTP & Immobilier Maroc" />
     <meta property="og:description" content="Permis, expertise foncière, marchés BTP, réseau pro Cercles." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://citurbarea.com/" />
     <meta property="og:site_name" content="CITURBAREA" />
-    <meta property="og:image" content="https://citurbarea.com/icons/icon.svg" />
+    <meta property="og:image" content="https://citurbarea.com/og-default.png" />
+    <meta property="og:image:secure_url" content="https://citurbarea.com/og-default.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="CITURBAREA — Plateforme d'orchestration architecturale" />
     <meta property="og:locale" content="fr_MA" />
     <meta property="og:locale:alternate" content="ar_MA" />
     <meta property="og:locale:alternate" content="en_US" />
@@ -37,7 +43,8 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="CITURBAREA — Expertise BTP & Immobilier Maroc" />
     <meta name="twitter:description" content="Permis, expertise foncière, marchés BTP, réseau pro Cercles." />
-    <meta name="twitter:image" content="https://citurbarea.com/icons/icon.svg" />
+    <meta name="twitter:image" content="https://citurbarea.com/og-default.png" />
+    <meta name="twitter:image:alt" content="CITURBAREA — Plateforme d'orchestration architecturale" />
 
     <!-- Structured data : Organization (servi dès le HTML initial, pas en JS) -->
     <script type="application/ld+json">
@@ -49,7 +56,26 @@
       "logo": "https://citurbarea.com/icons/icon.svg",
       "description": "Plateforme marocaine d'expertise BTP, immobilier et urbanisme : permis de construire, expertise foncière, marchés de travaux, réseau professionnel Cercles.",
       "areaServed": { "@type": "Country", "name": "Maroc" },
+      "founder": { "@type": "Person", "name": "Yassine AT-TARASSI", "jobTitle": "Architecte DENA, Doctorant en géographie urbaine" },
+      "email": "architectattarassi@gmail.com",
       "sameAs": []
+    }
+    </script>
+
+    <!-- Structured data : WebSite + SearchAction (GEO / captation IA, servi dès le HTML initial) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "CITURBAREA",
+      "url": "https://citurbarea.com",
+      "inLanguage": ["fr-MA", "ar-MA"],
+      "publisher": { "@type": "Organization", "name": "CITURBAREA", "url": "https://citurbarea.com" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": { "@type": "EntryPoint", "urlTemplate": "https://citurbarea.com/cercles/annuaire?q={search_term_string}" },
+        "query-input": "required name=search_term_string"
+      }
     }
     </script>
 
@@ -57,16 +83,74 @@
     <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin />
     <link rel="dns-prefetch" href="https://services3.arcgis.com" />
 
+    <!-- Umami analytics (auto-hébergé, sans cookies → aucun bandeau RGPD).
+         Chargé seulement si VITE_UMAMI_* sont renseignés au build ; le garde
+         évite tout <script> cassé (404) quand les placeholders ne sont pas remplacés. -->
+    <script>
+      (function () {
+        var src = "%VITE_UMAMI_SCRIPT_URL%";
+        var id = "%VITE_UMAMI_WEBSITE_ID%";
+        if (!src || src.indexOf("%") !== -1 || !id || id.indexOf("%") !== -1) return;
+        var s = document.createElement("script");
+        s.defer = true;
+        s.src = src;
+        s.setAttribute("data-website-id", id);
+        document.head.appendChild(s);
+      })();
+    </script>
+
     <title>CITURBAREA — Expertise BTP & Immobilier Maroc</title>
-    <script type="module" crossorigin src="/assets/index-B1J9XtES.js"></script>
+    <script type="module" crossorigin src="/assets/index-yCY9Huea.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-Ds7V8M70.css">
   </head>
   <body>
-    <div id="root"></div>
+    <!--
+      Contenu pré-rendu SEO/GEO : ce HTML est dans #root dès la réponse serveur,
+      donc visible par Googlebot ET les bots IA (GPTBot, ClaudeBot, PerplexityBot…)
+      qui n'exécutent pas le JS. React (createRoot, mode "replace") remplace
+      intégralement ce bloc au montage — pas de double-render persistant.
+    -->
+    <div id="root">
+      <div data-seo-prerender style="background:#080d14;color:#e8eaf0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh">
+        <header style="padding:16px 24px;border-bottom:1px solid #1a2234;font-weight:900;letter-spacing:-.5px">CITURBAREA</header>
+        <main style="max-width:860px;margin:0 auto;padding:40px 24px 64px;line-height:1.6">
+          <h1 style="font-size:32px;font-weight:900;line-height:1.2;margin:0 0 14px">CITURBAREA — Plateforme nationale d'expertise architecturale, BTP &amp; immobilier au Maroc</h1>
+          <p style="font-size:17px;color:#9aa6bd;margin:0 0 28px">
+            CITURBAREA orchestre vos projets de construction, immobilier et urbanisme au Maroc :
+            permis de construire, expertise foncière, suivi de chantier, marchés de travaux et réseau
+            professionnel du BTP. Zone prioritaire : corridor Rabat–Salé–Kénitra et Casablanca,
+            intervention nationale.
+          </p>
+
+          <h2 style="font-size:20px;font-weight:800;margin:0 0 14px">Nos 6 portes d'accompagnement</h2>
+          <ul style="list-style:none;padding:0;margin:0 0 28px;display:grid;gap:10px">
+            <li><a href="/fr/porte-01-projet-personnel" style="color:#60a5fa;font-weight:700;text-decoration:none">Porte 1 — Projet personnel &amp; familial</a> : villa, maison, rénovation, extension partout au Maroc.</li>
+            <li><a href="/fr/porte-02-projet-immobilier-equipements" style="color:#60a5fa;font-weight:700;text-decoration:none">Porte 2 — Projet immobilier &amp; équipements</a> : immeubles R+2 à R+6, résidences, lotissements, cliniques, commerces.</li>
+            <li><a href="/fr/porte-03-realisation-cle-en-main" style="color:#60a5fa;font-weight:700;text-decoration:none">Porte 3 — Réalisation clé en main</a> : conception, coordination et livraison de A à Z.</li>
+            <li><a href="/fr/porte-04-investisseur-foncier" style="color:#60a5fa;font-weight:700;text-decoration:none">Porte 4 — Investisseur &amp; foncier</a> : analyse de rentabilité, faisabilité, valorisation avant cession.</li>
+            <li><a href="/fr/porte-05-rapports-expertises" style="color:#60a5fa;font-weight:700;text-decoration:none">Porte 5 — Rapports &amp; expertises</a> : état des lieux, diagnostic, contre-expertise, rapport de conformité.</li>
+            <li><a href="/fr/porte-06-entreprises-partenaires" style="color:#60a5fa;font-weight:700;text-decoration:none">Porte 6 — Entreprises &amp; structures partenaires</a> : marketplace BTP, architectes, BET, topographes, laboratoires.</li>
+          </ul>
+
+          <h2 style="font-size:20px;font-weight:800;margin:0 0 14px">Outils &amp; ressources</h2>
+          <ul style="margin:0 0 28px;padding-left:20px">
+            <li><a href="/simulateur" style="color:#60a5fa;text-decoration:none">Simulateur de coût de construction</a></li>
+            <li><a href="/foncier/estimation" style="color:#60a5fa;text-decoration:none">Estimation foncière</a></li>
+            <li><a href="/cercles" style="color:#60a5fa;text-decoration:none">Cercles — réseau professionnel BTP</a></li>
+          </ul>
+
+          <p style="color:#6b7a93;font-size:14px;margin:0 0 8px">
+            Cabinet fondateur : Yassine AT-TARASSI, Architecte DENA — Kénitra, Maroc · architectattarassi@gmail.com
+          </p>
+          <p style="color:#3d4f6a;font-size:13px;margin:24px 0 0">Chargement de l'application…</p>
+        </main>
+      </div>
+    </div>
     <noscript>
-      <div style="padding:40px;font-family:system-ui;text-align:center">
-        <h1>CITURBAREA nécessite JavaScript</h1>
-        <p>Veuillez activer JavaScript pour utiliser la plateforme.</p>
+      <div style="padding:24px;font-family:system-ui;max-width:860px;margin:0 auto">
+        <p><strong>CITURBAREA</strong> — plateforme nationale d'expertise architecturale, BTP et immobilier au Maroc.
+        Pour le parcours interactif (devis, simulateur, espace dossier), veuillez activer JavaScript.
+        Le contenu et les liens ci-dessus restent accessibles.</p>
       </div>
     </noscript>
   </body>

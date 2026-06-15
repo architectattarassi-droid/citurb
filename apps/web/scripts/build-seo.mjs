@@ -453,6 +453,168 @@ ${portePublished
 `;
 fs.writeFileSync(path.join(PUBLIC_DIR, "sitemap-portes.xml"), sitemapPortes);
 
+// ════════════════════════════════════════════════════════════════════
+// PAGE SIMULATEUR COÛT DE CONSTRUCTION — coquille pré-rendue crawlable
+// ════════════════════════════════════════════════════════════════════
+// Texte + fourchettes par ville lisibles SANS JS ; React hydrate par-dessus
+// sur la route /simulateur-cout-construction. JSON-LD WebApplication + FAQPage.
+//
+// Les valeurs ci-dessous MIRROIR du barème réutilisé côté API
+// (apps/api/src/modules/simulateur/barometre.config.ts) : coût travaux/m²
+// par cas représentatif × coefficient régional, + 5 % honoraires, ±12 %.
+// On ne publie que des fourchettes indicatives ; le calcul fin reste côté API.
+const SIM_VILLES = [
+  { slug: "kenitra", name: "Kénitra", coef: 1.0 },
+  { slug: "sale", name: "Salé", coef: 1.02 },
+  { slug: "rabat", name: "Rabat", coef: 1.1 },
+  { slug: "temara", name: "Témara", coef: 1.05 },
+  { slug: "harhoura", name: "Harhoura", coef: 1.08 },
+  { slug: "mehdiya", name: "Mehdiya", coef: 1.0 },
+  { slug: "sidi-taibi", name: "Sidi Taibi", coef: 0.98 },
+];
+const SIM_HONORAIRES = 0.05;
+const SIM_SPREAD = 0.12;
+// Cas représentatifs : villa standard 400 m² plancher (4000 MAD/m²),
+// immeuble standard 1200 m² plancher (3700 MAD/m²).
+const SIM_CASES = [
+  { label: "Villa standard (≈400 m² plancher)", m2: 400, coutM2: 4000 },
+  { label: "Immeuble standard (≈1200 m² plancher)", m2: 1200, coutM2: 3700 },
+];
+const fmtMad = (n) => Math.round(n).toLocaleString("fr-FR").replace(/ |,/g, " ");
+function simRange(m2, coutM2, coef) {
+  const central = m2 * coutM2 * coef * (1 + SIM_HONORAIRES);
+  return { min: fmtMad(central * (1 - SIM_SPREAD)), max: fmtMad(central * (1 + SIM_SPREAD)) };
+}
+function simRows() {
+  return SIM_VILLES.map((v) => {
+    const cells = SIM_CASES.map((c) => {
+      const r = simRange(c.m2, c.coutM2, v.coef);
+      return `<td>${r.min} – ${r.max} MAD</td>`;
+    }).join("");
+    return `<tr><th scope="row">${esc(v.name)}</th>${cells}</tr>`;
+  }).join("");
+}
+const SIM_FAQ = [
+  ["Combien coûte la construction d'une villa au Maroc ?", "Pour une villa de finition standard, comptez en moyenne 4 000 MAD/m² de surface plancher (hors terrain), auxquels s'ajoutent environ 5 % d'honoraires d'architecte. Le coût varie selon la finition (économique, standard, haut de gamme), la ville et le programme."],
+  ["Le simulateur est-il gratuit ?", "Oui. L'estimation d'une fourchette globale est gratuite et anonyme. La ventilation détaillée (gros œuvre, second œuvre, finitions, honoraires) et le PDF sont accessibles après avoir renseigné vos coordonnées."],
+  ["Sur quoi repose l'estimation ?", "Sur le barème CNOA 2021 (coût de construction au m² par catégorie) et des observations marché CITURBAREA, ajustés par un coefficient régional. C'est une indication, pas un devis contractuel."],
+  ["Comment obtenir un devis précis ?", "Depuis le résultat détaillé, vous pouvez demander un devis d'architecte : vous êtes orienté vers le parcours adapté à votre projet (particulier ou promoteur) pour une étude personnalisée."],
+];
+function simFaqSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: SIM_FAQ.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+  };
+}
+function simWebAppSchema(url) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Simulateur du coût de construction au Maroc — CITURBAREA",
+    url,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "MAD" },
+    inLanguage: "fr-MA",
+    provider: { "@type": "Organization", name: "CITURBAREA", url: business.baseUrl },
+    areaServed: SIM_VILLES.map((v) => ({ "@type": "City", name: v.name })),
+  };
+}
+function simPageHtml() {
+  const url = `${business.baseUrl}/simulateur-cout-construction`;
+  const title = "Simulateur du coût de construction au Maroc | CITURBAREA";
+  const desc = "Estimez gratuitement le budget de construction de votre villa ou immeuble (Rabat, Kénitra, Salé, Témara…). Fourchettes par ville, ventilation détaillée et devis d'architecte.";
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(desc)}">
+<link rel="canonical" href="${url}">
+<link rel="alternate" hreflang="fr" href="${url}">
+<link rel="alternate" hreflang="x-default" href="${url}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(desc)}">
+<meta property="og:url" content="${url}">
+<meta property="og:locale" content="fr_MA">
+<script type="application/ld+json">${JSON.stringify(simWebAppSchema(url))}</script>
+<script type="application/ld+json">${JSON.stringify(simFaqSchema())}</script>
+<style>
+  *{box-sizing:border-box}
+  body{font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#1A1F2E;background:#FAF7F2;margin:0}
+  main{max-width:880px;margin:0 auto;padding:32px 20px 64px}
+  nav[aria-label="fil"]{font-size:13px;color:#8B91A1;margin-bottom:18px}
+  nav[aria-label="fil"] a{color:#0F2A4A;text-decoration:none}
+  h1{font-size:32px;font-weight:900;letter-spacing:-.02em;color:#0F2A4A;margin:0 0 10px}
+  .lead{font-size:17px;color:#5C6373;margin:0 0 24px}
+  h2{font-size:20px;font-weight:800;margin:30px 0 12px;color:#1A1F2E}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #E8E2D5;border-radius:8px;overflow:hidden;font-size:14px}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #F0EBE0}
+  thead th{background:#0F2A4A;color:#FAF7F2;font-weight:700}
+  tbody th{font-weight:700;color:#0F2A4A}
+  .cta{display:inline-block;background:#0F2A4A;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700;margin:18px 0}
+  details{background:#fff;border:1px solid #E8E2D5;border-radius:8px;padding:12px 16px;margin-bottom:8px}
+  details summary{cursor:pointer;font-weight:700;color:#0F2A4A}
+  details p{color:#5C6373;margin:8px 0 0}
+  ul{padding-left:20px;color:#5C6373}
+  a{color:#0F2A4A}
+  .note{color:#8B91A1;font-size:12px;margin-top:10px}
+</style>
+${umamiTag}
+</head>
+<body>
+<main>
+  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › Simulateur coût de construction</nav>
+  <h1>Simulateur du coût de construction au Maroc</h1>
+  <p class="lead">Estimez en quelques secondes le budget de votre projet de construction dans le corridor Rabat–Kénitra. Estimation indicative gratuite, basée sur le barème CNOA 2021 et nos observations marché.</p>
+
+  <p><a class="cta" href="/simulateur-cout-construction#simulateur">Démarrer mon estimation →</a></p>
+
+  <h2>Fourchettes de budget indicatives par ville</h2>
+  <p>Budget construction estimé (travaux + honoraires d'architecte, hors terrain), pour deux cas types de finition standard :</p>
+  <table>
+    <thead><tr><th scope="col">Ville</th>${SIM_CASES.map((c) => `<th scope="col">${esc(c.label)}</th>`).join("")}</tr></thead>
+    <tbody>${simRows()}</tbody>
+  </table>
+  <p class="note">Valeurs indicatives (±12 %). Le coût réel dépend du terrain, du programme, des choix techniques et du marché. Utilisez le simulateur ci-dessus pour une estimation adaptée à votre projet (surface, niveaux, sous-sols, finition).</p>
+
+  <h2>Comment est calculée l'estimation ?</h2>
+  <ul>
+    <li>Coût de construction au m² issu du barème CNOA 2021 (par catégorie de projet et niveau de finition).</li>
+    <li>Coefficient régional appliqué selon la ville du corridor Rabat–Kénitra.</li>
+    <li>Ventilation en gros œuvre (≈45 %), second œuvre (≈30 %) et finitions (≈25 %).</li>
+    <li>Honoraires d'architecte estimés à 5 % du coût des travaux.</li>
+  </ul>
+
+  <h2>Questions fréquentes</h2>
+  ${SIM_FAQ.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("")}
+
+  <h2>Aller plus loin</h2>
+  <ul>
+    <li><a href="/fr/porte-01-projet-personnel">Projet personnel & familial (villa, maison)</a></li>
+    <li><a href="/fr/porte-02-projet-immobilier-equipements">Projet immobilier & équipements (promoteur)</a></li>
+    <li><a href="/foncier/estimation">Estimation foncière (prix du terrain)</a></li>
+  </ul>
+</main>
+</body>
+</html>`;
+}
+fs.writeFileSync(path.join(PUBLIC_DIR, "simulateur-cout-construction.html"), simPageHtml());
+const sitemapSim = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${business.baseUrl}/simulateur-cout-construction</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+</urlset>
+`;
+fs.writeFileSync(path.join(PUBLIC_DIR, "sitemap-simulateur.xml"), sitemapSim);
+
 // ─────────────────────────── rapport console ───────────────────────
 const total = services.length * localities.length;
 console.log("\n  CITURBAREA — build:seo  ────────────────────────────────");
