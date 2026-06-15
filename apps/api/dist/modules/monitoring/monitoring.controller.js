@@ -18,6 +18,7 @@ const tome_at_1 = require("../../tomes/tome-at");
 const roles_decorator_1 = require("../../tomes/tome-5/auth/roles.decorator");
 const roles_guard_1 = require("../../tomes/tome-5/auth/roles.guard");
 const analytics_service_1 = require("./analytics.service");
+const reports_service_1 = require("./reports.service");
 const date_windows_1 = require("./date-windows");
 /**
  * MonitoringController — endpoints internes (OPS/OWNER/ADMIN) de supervision.
@@ -28,8 +29,10 @@ const date_windows_1 = require("./date-windows");
  */
 let MonitoringController = class MonitoringController {
     analytics;
-    constructor(analytics) {
+    reports;
+    constructor(analytics, reports) {
         this.analytics = analytics;
+        this.reports = reports;
     }
     /**
      * GET /api/monitoring/analytics?from&to
@@ -84,6 +87,14 @@ let MonitoringController = class MonitoringController {
             throw e;
         }
     }
+    /**
+     * POST /api/monitoring/reports/daily/run
+     * Déclenche manuellement le rapport quotidien (visites de la veille) et l'envoie
+     * sur Email + Telegram. Utile pour tester sans attendre le cron.
+     */
+    async runDailyReport() {
+        return this.reports.runDaily();
+    }
 };
 exports.MonitoringController = MonitoringController;
 __decorate([
@@ -94,10 +105,18 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], MonitoringController.prototype, "getAnalytics", null);
+__decorate([
+    (0, common_1.Post)("reports/daily/run"),
+    (0, common_1.HttpCode)(200),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], MonitoringController.prototype, "runDailyReport", null);
 exports.MonitoringController = MonitoringController = __decorate([
     (0, tome_at_1.Tome)("tome9"),
     (0, common_1.Controller)("api/monitoring"),
     (0, common_1.UseGuards)(tome_at_1.JwtAuthGuard, roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)("OPS", "OWNER", "ADMIN"),
-    __metadata("design:paramtypes", [analytics_service_1.AnalyticsService])
+    __metadata("design:paramtypes", [analytics_service_1.AnalyticsService,
+        reports_service_1.ReportsService])
 ], MonitoringController);

@@ -1,8 +1,9 @@
-import { BadRequestException, Controller, Get, Query, UseGuards } from "@nestjs/common";
+import { BadRequestException, Controller, Get, HttpCode, Post, Query, UseGuards } from "@nestjs/common";
 import { JwtAuthGuard, Tome } from "../../tomes/tome-at";
 import { Roles } from "../../tomes/tome-5/auth/roles.decorator";
 import { RolesGuard } from "../../tomes/tome-5/auth/roles.guard";
 import { AnalyticsService, UmamiError } from "./analytics.service";
+import { ReportsService } from "./reports.service";
 import { lastNDaysWindow, parseBoundMs } from "./date-windows";
 
 /**
@@ -17,7 +18,10 @@ import { lastNDaysWindow, parseBoundMs } from "./date-windows";
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles("OPS", "OWNER", "ADMIN")
 export class MonitoringController {
-  constructor(private readonly analytics: AnalyticsService) {}
+  constructor(
+    private readonly analytics: AnalyticsService,
+    private readonly reports: ReportsService,
+  ) {}
 
   /**
    * GET /api/monitoring/analytics?from&to
@@ -71,5 +75,16 @@ export class MonitoringController {
       }
       throw e;
     }
+  }
+
+  /**
+   * POST /api/monitoring/reports/daily/run
+   * Déclenche manuellement le rapport quotidien (visites de la veille) et l'envoie
+   * sur Email + Telegram. Utile pour tester sans attendre le cron.
+   */
+  @Post("reports/daily/run")
+  @HttpCode(200)
+  async runDailyReport() {
+    return this.reports.runDaily();
   }
 }

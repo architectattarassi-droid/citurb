@@ -11,6 +11,7 @@ const common_1 = require("@nestjs/common");
 const analytics_service_1 = require("./analytics.service");
 const telegram_service_1 = require("./telegram.service");
 const notifications_service_1 = require("./notifications.service");
+const reports_service_1 = require("./reports.service");
 const monitoring_controller_1 = require("./monitoring.controller");
 /**
  * MonitoringModule — supervision & rapports (Sprint monitoring-notifications).
@@ -18,11 +19,12 @@ const monitoring_controller_1 = require("./monitoring.controller");
  * B1 : analytics visites via Umami (AnalyticsService + endpoint lecture OPS).
  * B2 : notifications instantanées dossier (TelegramService + NotificationsService,
  *      listener event-driven `owner.DOSSIER_CREATED`).
- * B3..B4 (à venir) : rapport quotidien visites, rapport hebdo SEO/GEO.
+ * B3 : rapport QUOTIDIEN visites (ReportsService, cron + endpoint test).
+ * B4 (à venir) : rapport hebdo SEO/GEO.
  *
  * Module transverse (non-tome), enregistré dans app.module.ts. EmailModule est
- * global (EmailService injectable directement). EventEmitterModule.forRoot() est
- * enregistré dans app.module.ts → EventEmitter2 / @OnEvent disponibles ici.
+ * global (EmailService injectable directement). EventEmitterModule.forRoot() et
+ * ScheduleModule.forRoot() sont enregistrés dans app.module.ts → @OnEvent / @Cron OK.
  */
 let MonitoringModule = class MonitoringModule {
 };
@@ -30,7 +32,7 @@ exports.MonitoringModule = MonitoringModule;
 exports.MonitoringModule = MonitoringModule = __decorate([
     (0, common_1.Module)({
         controllers: [monitoring_controller_1.MonitoringController],
-        providers: [analytics_service_1.AnalyticsService, telegram_service_1.TelegramService, notifications_service_1.NotificationsService],
+        providers: [analytics_service_1.AnalyticsService, telegram_service_1.TelegramService, notifications_service_1.NotificationsService, reports_service_1.ReportsService],
         exports: [analytics_service_1.AnalyticsService, telegram_service_1.TelegramService],
     })
 ], MonitoringModule);
