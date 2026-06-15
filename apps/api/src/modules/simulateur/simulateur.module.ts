@@ -1,6 +1,5 @@
 import { Module } from "@nestjs/common";
 import { PrismaModule } from "../../tomes/tome-at";
-import { MonitoringModule } from "../monitoring/monitoring.module";
 import { EstimationPubliqueService } from "./estimation-publique.service";
 import { LeadService } from "./lead.service";
 import { LeadNotifyListener } from "./lead-notify.listener";
@@ -12,7 +11,7 @@ import { SimulateurController } from "./simulateur.controller";
  *
  * Réutilise :
  *  - BAREME_CNOA_2021 (tome-2/p2) via EstimationPubliqueService — moteur de coût.
- *  - EmailService (module global) + TelegramService (MonitoringModule) — notif owner.
+ *  - EmailService (module global) + Telegram inline (mêmes env que monitoring) — notif owner.
  *  - EventEmitterModule (app.module) — event `lead.created`.
  *  - PrismaService — persistance du modèle Lead.
  *
@@ -23,7 +22,7 @@ import { SimulateurController } from "./simulateur.controller";
  * seconde vague (après validation), conformément au plan du sprint.
  */
 @Module({
-  imports: [PrismaModule, MonitoringModule],
+  imports: [PrismaModule],
   controllers: [SimulateurController],
   providers: [EstimationPubliqueService, LeadService, LeadNotifyListener],
   exports: [EstimationPubliqueService, LeadService],

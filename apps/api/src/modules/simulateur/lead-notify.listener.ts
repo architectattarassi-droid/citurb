@@ -1,7 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
 import { EmailService } from "../email/email.service";
-import { TelegramService } from "../monitoring/telegram.service";
 import type { LeadCreatedEvent } from "./lead.service";
 
 /**
@@ -9,8 +8,10 @@ import type { LeadCreatedEvent } from "./lead.service";
  * simulateur, sur deux canaux : Telegram + email.
  *
  * Réutilise l'infrastructure existante :
- *  - TelegramService (module monitoring) — envoi Bot Telegram, env-gated.
  *  - EmailService (module global) — cascade Resend → SMTP → log.
+ *  - Mêmes variables d'env que le module monitoring pour Telegram
+ *    (TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID) — envoi inline, env-gated, sans
+ *    couplage dur à un module en cours (skip propre si non configuré).
  *
  * Event-driven (`lead.created`) : totalement découplé de la capture. Chaque
  * canal est isolé (un échec n'empêche pas l'autre) et jamais bloquant.
@@ -20,10 +21,7 @@ import type { LeadCreatedEvent } from "./lead.service";
 export class LeadNotifyListener {
   private readonly log = new Logger("LeadNotifyListener");
 
-  constructor(
-    private readonly email: EmailService,
-    private readonly telegram: TelegramService,
-  ) {}
+  constructor(private readonly email: EmailService) {}
 
   private flag(name: string): boolean {
     const v = (process.env[name] ?? "").trim().toLowerCase();
@@ -42,8 +40,14 @@ export class LeadNotifyListener {
 
   private async notifyTelegram(e: LeadCreatedEvent) {
     if (!this.flag("NOTIFY_TELEGRAM_ENABLED")) return;
+    const token = process.env.TELEGRAM_BOT_TOKEN;
+    const chatId = process.env.TELEGRAM_CHAT_ID || process.env.TELEGRAM_ADMIN_CHAT_ID;
+    if (!token || !chatId) {
+      this.log.warn("[LeadNotify] Telegram non configuré (TELEGRAM_BOT_TOKEN/CHAT_ID) — skip");
+      return;
+    }
     try {
-      const lines = [
+      const text = [
         "🎯 <b>Nouveau lead — Simulateur coût</b>",
         "",
         `<b>Contact :</b> ${esc(e.nom)} — ${esc(e.telephone)} — ${esc(e.email)}`,
@@ -51,9 +55,21 @@ export class LeadNotifyListener {
         `<b>Ville :</b> ${esc(e.ville)}`,
         `<b>Estimation :</b> ${esc(this.fourchette(e))}`,
         `<b>Paramètres :</b> <code>${esc(JSON.stringify(e.paramsProjet))}</code>`,
-      ];
-      const r = await this.telegram.sendMessage(lines.join("\n"), "HTML");
-      if (!r.ok && !r.skipped) this.log.warn(`[LeadNotify] Telegram échec: ${r.error}`);
+      ].join("\n");
+      const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text,
+          parse_mode: "HTML",
+          disable_web_page_preview: true,
+        }),
+      });
+      if (!res.ok) {
+        const body = await res.text().catch(() => "");
+        this.log.warn(`[LeadNotify] Telegram ${res.status}: ${body.slice(0, 160)}`);
+      }
     } catch (err: any) {
       this.log.error(`[LeadNotify] Telegram exception: ${err?.message}`);
     }
@@ -107,7 +123,7 @@ export class LeadNotifyListener {
 }
 
 function fmt(n: number): string {
-  return Math.round(n).toLocaleString("fr-MA").replace(/ /g, " ");
+  return Math.round(n).toLocaleString("fr-MA").replace(/ /g, " ");
 }
 
 function esc(s: string): string {
