@@ -416,11 +416,20 @@ function portePageHtml(p, allPortes) {
 
 const PORTES = await loadPortes();
 const portesDir = path.join(PUBLIC_DIR, "fr");
+fs.mkdirSync(portesDir, { recursive: true });
+// Nettoyage : on supprime les anciennes pages portes (fichiers .html plats ET
+// anciens dossiers <slug>/index.html) pour ne laisser aucun obsolète.
+for (const f of fs.readdirSync(portesDir)) {
+  const full = path.join(portesDir, f);
+  if (f.endsWith(".html")) fs.unlinkSync(full);
+  else if (fs.statSync(full).isDirectory()) fs.rmSync(full, { recursive: true, force: true });
+}
+// URLs propres SANS slash final ni redirection : fichiers plats public/fr/<slug>.html
+// servis par nginx via `try_files $uri $uri.html`. L'URL servie (200) == canonical
+// == route React → aucune redirection 301, aucun port:8080 qui fuite.
 const portePublished = [];
 for (const p of PORTES) {
-  const dir = path.join(portesDir, p.slugFr);
-  fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, "index.html"), portePageHtml(p, PORTES));
+  fs.writeFileSync(path.join(portesDir, `${p.slugFr}.html`), portePageHtml(p, PORTES));
   portePublished.push({ full: `${business.baseUrl}/fr/${p.slugFr}`, ar: `${business.baseUrl}/ar/${p.slugAr}`, title: p.titleFr });
 }
 
@@ -452,5 +461,5 @@ console.log(`  Pages publiées         : ${published.length} (avec override rée
 console.log(`  Cellules sans override : ${skipped.length} (non publiées — garde-fou #1)`);
 console.log(`  Sortie                 : apps/web/public/services/*.html + sitemap-services.xml`);
 console.log(`                           + apps/web/src/seo/published.json (manifest anti-cannibal.)`);
-console.log(`  Pages portes (FR)      : ${portePublished.length} → public/fr/<slug>/index.html + sitemap-portes.xml`);
+console.log(`  Pages portes (FR)      : ${portePublished.length} → public/fr/<slug>.html (clean URL) + sitemap-portes.xml`);
 console.log("  ────────────────────────────────────────────────────────\n");
