@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://citurbarea.com/fr/porte-01-projet-personnel</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://citurbarea.com/fr/porte-01-projet-personnel"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/bab-01-mashrou-shakhsi-wa-usari"/>
+  </url>
+  <url>
+    <loc>https://citurbarea.com/fr/porte-02-projet-immobilier-equipements</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://citurbarea.com/fr/porte-02-projet-immobilier-equipements"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/bab-02-mashrou-aqari-wa-tajhizat"/>
+  </url>
+  <url>
+    <loc>https://citurbarea.com/fr/porte-03-realisation-cle-en-main</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://citurbarea.com/fr/porte-03-realisation-cle-en-main"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/bab-03-injaz-miftah-fi-yad"/>
+  </url>
+  <url>
+    <loc>https://citurbarea.com/fr/porte-04-investisseur-foncier</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://citurbarea.com/fr/porte-04-investisseur-foncier"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/bab-04-mostathmir-aqari-wa-aard"/>
+  </url>
+  <url>
+    <loc>https://citurbarea.com/fr/porte-05-rapports-expertises</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://citurbarea.com/fr/porte-05-rapports-expertises"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/bab-05-taqarir-wa-khibra"/>
+  </url>
+  <url>
+    <loc>https://citurbarea.com/fr/porte-06-entreprises-partenaires</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://citurbarea.com/fr/porte-06-entreprises-partenaires"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://citurbarea.com/ar/bab-06-sharikat-wa-shoraka"/>
+  </url>
+</urlset>

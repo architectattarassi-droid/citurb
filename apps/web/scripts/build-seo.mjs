@@ -19,6 +19,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { transform } from "esbuild";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = path.resolve(__dirname, "..");
@@ -253,6 +254,196 @@ fs.writeFileSync(
   ),
 );
 
+// ════════════════════════════════════════════════════════════════════
+// PAGES PORTES P1–P6 (FR) — prérender au build des landings éditoriales
+// ════════════════════════════════════════════════════════════════════
+// Source unique : apps/web/src/ui/seo/portes.data.ts (consommé aussi par le
+// composant React PorteLanding). On transpile le TS en mémoire via esbuild
+// pour éviter toute duplication/dérive de contenu.
+// Sortie : public/fr/<slugFr>/index.html → servi tel quel par nginx
+// (try_files $uri/) AVANT le fallback SPA. EN/AR différés tant que le
+// contenu n'est pas traduit (garde-fou anti-thin/duplicate content).
+const AREA_SERVED = ["Kénitra", "Mehdiya", "Sidi Taibi", "Salé", "Rabat", "Témara", "Harhoura"];
+
+async function loadPortes() {
+  const tsPath = path.join(WEB_ROOT, "src", "ui", "seo", "portes.data.ts");
+  const ts = fs.readFileSync(tsPath, "utf8");
+  const { code } = await transform(ts, { loader: "ts", format: "esm" });
+  const mod = await import("data:text/javascript;base64," + Buffer.from(code, "utf8").toString("base64"));
+  return mod.PORTES || [];
+}
+
+function porteServiceSchema(p, url) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name: `${p.titleFr} — CITURBAREA`,
+    serviceType: p.titleFr,
+    description: p.subtitleFr,
+    url,
+    provider: {
+      "@type": "Organization",
+      name: "CITURBAREA",
+      url: business.baseUrl,
+      founder: { "@type": "Person", name: business.founder, jobTitle: business.founderTitle },
+    },
+    areaServed: [
+      { "@type": "Country", name: "Maroc" },
+      ...AREA_SERVED.map((c) => ({ "@type": "City", name: c })),
+    ],
+    inLanguage: "fr-MA",
+  };
+}
+
+function porteFaqSchema(p) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: (p.faqs || []).map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+}
+
+function porteBreadcrumbSchema(p, url) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Accueil", item: business.baseUrl },
+      { "@type": "ListItem", position: 2, name: p.titleFr, item: url },
+    ],
+  };
+}
+
+function portePageHtml(p, allPortes) {
+  const url = `${business.baseUrl}/fr/${p.slugFr}`;
+  const title = `${p.titleFr} | CITURBAREA — Architecte & expertise BTP Maroc`;
+  const desc = esc(String(p.subtitleFr).slice(0, 158));
+  const otherPortes = allPortes
+    .filter((o) => o.num !== p.num)
+    .map((o) => `<li><a href="/fr/${o.slugFr}">${o.icon} ${esc(o.titleFr)}</a></li>`)
+    .join("");
+
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${esc(title)}</title>
+<meta name="description" content="${desc}">
+<link rel="canonical" href="${url}">
+<link rel="alternate" hreflang="fr" href="${url}">
+<link rel="alternate" hreflang="ar" href="${business.baseUrl}/ar/${p.slugAr}">
+<link rel="alternate" hreflang="en" href="${business.baseUrl}/en/${p.slugEn}">
+<link rel="alternate" hreflang="x-default" href="${url}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="${esc(p.titleFr)} — CITURBAREA">
+<meta property="og:description" content="${desc}">
+<meta property="og:url" content="${url}">
+<meta property="og:site_name" content="CITURBAREA">
+<meta property="og:locale" content="fr_MA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${esc(p.titleFr)} — CITURBAREA">
+<meta name="twitter:description" content="${desc}">
+<script type="application/ld+json">${JSON.stringify(porteServiceSchema(p, url))}</script>
+<script type="application/ld+json">${JSON.stringify(porteFaqSchema(p))}</script>
+<script type="application/ld+json">${JSON.stringify(porteBreadcrumbSchema(p, url))}</script>
+<style>
+  *{box-sizing:border-box}
+  body{font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#e8eaf0;background:#080d14;margin:0}
+  a{color:#60a5fa;text-decoration:none}
+  main{max-width:880px;margin:0 auto;padding:32px 22px 64px}
+  nav[aria-label="fil"]{font-size:13px;color:#4a5568;margin-bottom:18px}
+  .badge{display:inline-block;background:#1a2a4a;color:#60a5fa;border-radius:6px;padding:4px 12px;font-size:13px;font-weight:700;margin-bottom:14px}
+  h1{font-size:32px;font-weight:900;letter-spacing:-.02em;line-height:1.2;margin:0 0 12px}
+  .lead{font-size:17px;color:#9aa6bd;margin:0 0 26px}
+  h2{font-size:20px;font-weight:800;margin:34px 0 14px}
+  .cta{display:inline-block;background:#1d4ed8;color:#fff;padding:13px 26px;border-radius:9px;font-weight:700;margin:8px 0 4px}
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+  .card{background:#111827;border:1px solid #1e2330;border-radius:10px;padding:16px}
+  .card h3{font-size:15px;font-weight:700;margin:0 0 6px}
+  .card p{font-size:13px;color:#8892a4;margin:0}
+  .etape{display:flex;gap:14px;margin-bottom:16px}
+  .num{background:#1d4ed8;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+  ul.plain{list-style:none;padding:0}
+  ul.plain li{background:#111827;border:1px solid #1e2330;border-radius:8px;padding:11px 14px;margin-bottom:8px}
+  details{background:#111827;border:1px solid #1e2330;border-radius:8px;padding:12px 16px;margin-bottom:8px}
+  details summary{cursor:pointer;font-weight:600}
+  details p{color:#9aa6bd;font-size:14px;margin:8px 0 0}
+  footer{border-top:1px solid #1a2234;margin-top:48px;padding-top:24px;color:#3d4f6a;font-size:13px}
+</style>
+</head>
+<body>
+<main>
+  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › ${esc(p.titleFr)}</nav>
+  <div class="badge">${p.icon} PORTE ${p.num}</div>
+  <h1>${esc(p.heroFr)}</h1>
+  <p class="lead">${esc(p.subtitleFr)}</p>
+  <p><a class="cta" href="${p.appPath}">Démarrer mon projet →</a></p>
+
+  <h2>${esc(p.titleFr)}</h2>
+  <div class="grid">
+    ${(p.sousTypes || []).map((st) => `<div class="card"><h3>${st.icon} ${esc(st.title)}</h3><p>${esc(st.desc)}</p></div>`).join("")}
+  </div>
+
+  <h2>Cette porte est faite pour vous si…</h2>
+  <ul class="plain">${(p.pourQui || []).map((q) => `<li>✓ ${esc(q)}</li>`).join("")}</ul>
+
+  <h2>Comment ça se passe, étape par étape</h2>
+  ${(p.etapes || []).map((e) => `<div class="etape"><div class="num">${e.num}</div><div><strong>${esc(e.title)}</strong><br><span style="color:#8892a4;font-size:14px">${esc(e.desc)}</span></div></div>`).join("")}
+
+  <h2>Questions fréquentes</h2>
+  ${(p.faqs || []).map((f) => `<details><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join("")}
+
+  <h2>Les 6 portes CITURBAREA</h2>
+  <ul class="plain">${otherPortes}</ul>
+
+  <p><a class="cta" href="${p.appPath}">Démarrer ${p.icon} →</a></p>
+
+  <footer>
+    <strong style="color:#e8eaf0">CITURBAREA</strong> — Plateforme nationale de gestion de projets architecturaux et immobiliers au Maroc.<br>
+    Cabinet fondateur : ${esc(business.founder)}, ${esc(business.founderTitle)} — Kénitra, Maroc.<br>
+    © 2026 CITURBAREA · <a href="${business.baseUrl}">citurbarea.com</a>
+  </footer>
+</main>
+</body>
+</html>`;
+}
+
+const PORTES = await loadPortes();
+const portesDir = path.join(PUBLIC_DIR, "fr");
+const portePublished = [];
+for (const p of PORTES) {
+  const dir = path.join(portesDir, p.slugFr);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, "index.html"), portePageHtml(p, PORTES));
+  portePublished.push({ full: `${business.baseUrl}/fr/${p.slugFr}`, ar: `${business.baseUrl}/ar/${p.slugAr}`, title: p.titleFr });
+}
+
+// sitemap-portes.xml (à déclarer dans robots.txt — étape SEO technique)
+const sitemapPortes = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${portePublished
+  .map(
+    (p) => `  <url>
+    <loc>${p.full}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fr" href="${p.full}"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="${p.ar}"/>
+  </url>`,
+  )
+  .join("\n")}
+</urlset>
+`;
+fs.writeFileSync(path.join(PUBLIC_DIR, "sitemap-portes.xml"), sitemapPortes);
+
 // ─────────────────────────── rapport console ───────────────────────
 const total = services.length * localities.length;
 console.log("\n  CITURBAREA — build:seo  ────────────────────────────────");
@@ -261,4 +452,5 @@ console.log(`  Pages publiées         : ${published.length} (avec override rée
 console.log(`  Cellules sans override : ${skipped.length} (non publiées — garde-fou #1)`);
 console.log(`  Sortie                 : apps/web/public/services/*.html + sitemap-services.xml`);
 console.log(`                           + apps/web/src/seo/published.json (manifest anti-cannibal.)`);
+console.log(`  Pages portes (FR)      : ${portePublished.length} → public/fr/<slug>/index.html + sitemap-portes.xml`);
 console.log("  ────────────────────────────────────────────────────────\n");
