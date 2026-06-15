@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { CC_THEME, ensureFonts } from "./theme";
 import { cerclesApi, CerclePost } from "./api";
+import { useAuth } from "../../tomes/tome5/AuthProvider";
 import { apiBase } from "../../tomes/tome4/apiClient";
 import MediaEmbed, { extractUrls, isEmbeddable } from "./MediaEmbed";
 import { SharePost } from "./SharePost";
@@ -28,9 +29,17 @@ const METIER_LABELS: Record<string, string> = {
 export default function PublicPostPage() {
   useEffect(() => { ensureFonts(); }, []);
   const { id } = useParams<{ id: string }>();
+  const auth = useAuth();
   const [post, setPost] = useState<CerclePost | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // ── Édition par l'auteur du post ──────────────────────────────────────
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveErr, setSaveErr] = useState<string | null>(null);
+  const [draftTitle, setDraftTitle] = useState("");
+  const [draftBody, setDraftBody] = useState("");
 
   useEffect(() => {
     if (!id) return;
@@ -39,6 +48,34 @@ export default function PublicPostPage() {
       .catch((e: any) => setErr(e?.message || "Post introuvable"))
       .finally(() => setLoading(false));
   }, [id]);
+
+  // L'auteur du post peut le modifier (le backend autorise auteur OU modérateur).
+  const canEdit = !!auth.isAuthed && !!post && post.authorId === auth.userId;
+
+  const startEdit = () => {
+    if (!post) return;
+    setDraftTitle(post.title || "");
+    setDraftBody(post.body || "");
+    setSaveErr(null);
+    setEditing(true);
+  };
+
+  const saveEdit = async () => {
+    if (!post) return;
+    if (!draftBody.trim()) { setSaveErr("Le texte ne peut pas être vide."); return; }
+    setSaving(true);
+    setSaveErr(null);
+    try {
+      // PATCH /api/feed/posts/:id — l'URL /post/:id (basée sur l'id) reste identique.
+      const r = await cerclesApi.editPost(post.id, { title: draftTitle, body: draftBody });
+      setPost((prev) => (prev ? { ...prev, ...r.data } : r.data));
+      setEditing(false);
+    } catch (e: any) {
+      setSaveErr(e?.message || "Échec de l'enregistrement");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const author: any = post?.author;
   const proProfile = author?.proProfile;
@@ -90,16 +127,57 @@ export default function PublicPostPage() {
                   </div>
                 </div>
                 <span style={S.publicBadge}>🌐 Post public</span>
+                {canEdit && !editing && (
+                  <button onClick={startEdit} style={S.editBtn}>✏️ Modifier</button>
+                )}
               </div>
 
-              {post.title && <h1 style={S.postTitle}>{post.title}</h1>}
-              <div style={S.postBody}>{post.body}</div>
+              {editing ? (
+                <div style={S.editForm}>
+                  <p style={S.editHint}>
+                    ✏️ Vous modifiez votre post. <strong>Le lien reste identique</strong> — tout ce qui a été
+                    partagé continue de fonctionner. Pour une vidéo, collez un lien YouTube dans le texte :
+                    il s'affichera automatiquement.
+                  </p>
 
-              {extractUrls(post.body || "").filter(isEmbeddable).slice(0, 3).map((u, i) => (
-                <MediaEmbed key={i} url={u} maxWidth={620} />
-              ))}
+                  <label style={S.label}>Titre (optionnel)</label>
+                  <input
+                    style={S.input}
+                    value={draftTitle}
+                    onChange={(e) => setDraftTitle(e.target.value)}
+                    placeholder="Titre du post"
+                  />
 
-              <PostAttachments attachments={post.attachments || []} />
+                  <label style={S.label}>Texte</label>
+                  <textarea
+                    style={{ ...S.input, minHeight: 200, resize: "vertical", lineHeight: 1.6 }}
+                    value={draftBody}
+                    onChange={(e) => setDraftBody(e.target.value)}
+                  />
+
+                  {saveErr && <p style={S.saveErr}>{saveErr}</p>}
+
+                  <div style={S.editActions}>
+                    <button style={S.saveBtn} onClick={saveEdit} disabled={saving}>
+                      {saving ? "Enregistrement…" : "💾 Enregistrer"}
+                    </button>
+                    <button style={S.cancelBtn} onClick={() => { setEditing(false); setSaveErr(null); }} disabled={saving}>
+                      Annuler
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {post.title && <h1 style={S.postTitle}>{post.title}</h1>}
+                  <div style={S.postBody}>{post.body}</div>
+
+                  {extractUrls(post.body || "").filter(isEmbeddable).slice(0, 3).map((u, i) => (
+                    <MediaEmbed key={i} url={u} maxWidth={620} />
+                  ))}
+
+                  <PostAttachments attachments={post.attachments || []} />
+                </>
+              )}
 
               <div style={S.postStats}>
                 👍 {post.upvotes} · 💬 {(post as any)._count?.replies ?? post.replyCount ?? 0} commentaire(s)
@@ -181,6 +259,15 @@ const S: Record<string, React.CSSProperties> = {
   authorName: { fontSize: 15, fontWeight: 600, color: CC_THEME.navy },
   authorMeta: { fontSize: 12, color: CC_THEME.inkMuted, marginTop: 2 },
   publicBadge: { marginLeft: "auto", fontSize: 11, color: CC_THEME.success, fontWeight: 600, background: CC_THEME.successBg, padding: "4px 10px", borderRadius: 5 },
+  editBtn: { fontSize: 12.5, fontWeight: 600, color: CC_THEME.bg, background: CC_THEME.navy, border: "none", padding: "6px 14px", borderRadius: 6, cursor: "pointer" },
+  editForm: { display: "flex", flexDirection: "column", margin: "6px 0 4px" },
+  editHint: { background: CC_THEME.orSoft, color: CC_THEME.bgDeep, borderRadius: 8, padding: "10px 14px", fontSize: 12.5, lineHeight: 1.5, margin: "0 0 16px" },
+  label: { fontSize: 12, fontWeight: 700, color: CC_THEME.navy, margin: "10px 0 6px" },
+  input: { width: "100%", boxSizing: "border-box", border: `1px solid ${CC_THEME.border}`, borderRadius: 8, padding: "10px 12px", fontSize: 14.5, color: CC_THEME.ink, background: CC_THEME.bg, fontFamily: CC_THEME.fontBody, outline: "none" },
+  editActions: { display: "flex", gap: 10, flexWrap: "wrap", marginTop: 16 },
+  saveBtn: { background: CC_THEME.or, color: CC_THEME.bgDeep, border: "none", padding: "11px 22px", borderRadius: 6, fontSize: 14, fontWeight: 700, cursor: "pointer" },
+  cancelBtn: { background: "transparent", color: CC_THEME.inkMid, border: `1px solid ${CC_THEME.border}`, padding: "10px 18px", borderRadius: 6, fontSize: 14, fontWeight: 500, cursor: "pointer" },
+  saveErr: { color: "#b91c1c", fontSize: 13.5, margin: "10px 0 0" },
   postTitle: { fontFamily: CC_THEME.fontDisplay, fontSize: 26, fontWeight: 600, color: CC_THEME.navy, margin: "8px 0 14px", lineHeight: 1.2 },
   postBody: { fontSize: 15, color: CC_THEME.ink, lineHeight: 1.7, whiteSpace: "pre-wrap" },
   attachments: { display: "flex", flexWrap: "wrap", gap: 10, marginTop: 14 },

@@ -59,6 +59,13 @@ let GeneralFeedController = class GeneralFeedController {
     async reply(req, id, body) {
         return { ok: true, data: await this.posts.reply(id, this.uid(req), body?.body) };
     }
+    /**
+     * Édition d'un post / commentaire par son AUTEUR (ou un modérateur de cercle).
+     * Ne change que titre + texte → l'URL /post/:id (basée sur l'id) reste identique.
+     */
+    async edit(req, id, body) {
+        return { ok: true, data: await this.posts.edit(id, this.uid(req), body) };
+    }
     /** Suppression d'un post / commentaire (auteur OU admin/owner). */
     async delete(req, id) {
         return this.posts.softDelete(id, this.uid(req), req?.user?.role);
@@ -118,6 +125,16 @@ __decorate([
     __metadata("design:paramtypes", [Object, String, Object]),
     __metadata("design:returntype", Promise)
 ], GeneralFeedController.prototype, "reply", null);
+__decorate([
+    (0, common_1.Patch)("posts/:id"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)("id")),
+    __param(2, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String, Object]),
+    __metadata("design:returntype", Promise)
+], GeneralFeedController.prototype, "edit", null);
 __decorate([
     (0, common_1.Delete)("posts/:id"),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, pro_access_guard_1.ProAccessGuard),

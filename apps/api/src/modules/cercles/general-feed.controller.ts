@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
 import { Tome } from "../../tomes/tome-at";
 import { JwtAuthGuard } from "../../tomes/tome-5/auth/jwt-auth.guard";
 import { ProAccessGuard } from "./pro-access.guard";
@@ -60,6 +60,16 @@ export class GeneralFeedController {
   @UseGuards(JwtAuthGuard, ProAccessGuard)
   async reply(@Req() req: any, @Param("id") id: string, @Body() body: { body: string }) {
     return { ok: true, data: await this.posts.reply(id, this.uid(req), body?.body) };
+  }
+
+  /**
+   * Édition d'un post / commentaire par son AUTEUR (ou un modérateur de cercle).
+   * Ne change que titre + texte → l'URL /post/:id (basée sur l'id) reste identique.
+   */
+  @Patch("posts/:id")
+  @UseGuards(JwtAuthGuard, ProAccessGuard)
+  async edit(@Req() req: any, @Param("id") id: string, @Body() body: { title?: string; body?: string }) {
+    return { ok: true, data: await this.posts.edit(id, this.uid(req), body) };
   }
 
   /** Suppression d'un post / commentaire (auteur OU admin/owner). */
