@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const schedule_1 = require("@nestjs/schedule");
+const event_emitter_1 = require("@nestjs/event-emitter");
 // Kernel
 const health_module_1 = require("./modules/health/health.module");
 const kernel_module_1 = require("./modules/kernel/kernel.module");
@@ -77,6 +78,7 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             schedule_1.ScheduleModule.forRoot(),
+            event_emitter_1.EventEmitterModule.forRoot(), // bus d'events découplé (notifications, monitoring)
             health_module_1.HealthModule,
             kernel_module_1.KernelModule, // doit venir tôt: enregistre GlobalExceptionFilter via APP_FILTER + IncidentsService/ProbativeLogService
             prisma_dossiers_module_1.PrismaDossiersModule,

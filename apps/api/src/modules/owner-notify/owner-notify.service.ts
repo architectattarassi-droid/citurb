@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import * as nodemailer from 'nodemailer';
 
 export type OwnerEvent =
@@ -16,9 +17,18 @@ export type OwnerEvent =
 export class OwnerNotifyService {
   private readonly logger = new Logger(OwnerNotifyService.name);
 
+  constructor(private readonly events: EventEmitter2) {}
+
   async notify(event: OwnerEvent, meta: Record<string, any> = {}) {
     const msg = this.buildMessage(event, meta);
     this.logger.log(`[OwnerNotify] ${event} → ${msg}`);
+    // Bus d'events : on ré-émet l'event pour les listeners découplés
+    // (ex. NotificationsService → Telegram/Email). Jamais bloquant pour l'owner-notify.
+    try {
+      this.events.emit(`owner.${event}`, meta);
+    } catch (e: any) {
+      this.logger.warn(`[OwnerNotify] event emit failed: ${e?.message}`);
+    }
     await Promise.allSettled([
       this.sendSms(msg),
       this.sendEmail(event, msg, meta),

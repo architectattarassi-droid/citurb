@@ -1,5 +1,6 @@
 import { Module } from "@nestjs/common";
 import { ScheduleModule } from "@nestjs/schedule";
+import { EventEmitterModule } from "@nestjs/event-emitter";
 
 // Kernel
 import { HealthModule } from "./modules/health/health.module";
@@ -72,6 +73,7 @@ import { MonitoringModule } from "./modules/monitoring/monitoring.module";
 @Module({
   imports: [
     ScheduleModule.forRoot(),
+    EventEmitterModule.forRoot(), // bus d'events découplé (notifications, monitoring)
     HealthModule,
     KernelModule, // doit venir tôt: enregistre GlobalExceptionFilter via APP_FILTER + IncidentsService/ProbativeLogService
     PrismaDossiersModule,
