@@ -83,6 +83,22 @@
     <link rel="preconnect" href="https://tile.openstreetmap.org" crossorigin />
     <link rel="dns-prefetch" href="https://services3.arcgis.com" />
 
+    <!-- Umami analytics (auto-hébergé, sans cookies → aucun bandeau RGPD).
+         Chargé seulement si VITE_UMAMI_* sont renseignés au build ; le garde
+         évite tout <script> cassé (404) quand les placeholders ne sont pas remplacés. -->
+    <script>
+      (function () {
+        var src = "%VITE_UMAMI_SCRIPT_URL%";
+        var id = "%VITE_UMAMI_WEBSITE_ID%";
+        if (!src || src.indexOf("%") !== -1 || !id || id.indexOf("%") !== -1) return;
+        var s = document.createElement("script");
+        s.defer = true;
+        s.src = src;
+        s.setAttribute("data-website-id", id);
+        document.head.appendChild(s);
+      })();
+    </script>
+
     <title>CITURBAREA — Expertise BTP & Immobilier Maroc</title>
   </head>
   <body>

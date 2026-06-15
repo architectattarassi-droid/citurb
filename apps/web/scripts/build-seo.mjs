@@ -115,6 +115,13 @@ function relatedLinks(svc, loc) {
   return { otherSvcPersonalized, otherLocPersonalized };
 }
 
+// Tag Umami injecté dans les pages statiques (sans cookies). Vide si non configuré
+// au build (UMAMI_SCRIPT_URL + UMAMI_WEBSITE_ID) → aucune balise cassée.
+const umamiTag =
+  process.env.UMAMI_SCRIPT_URL && process.env.UMAMI_WEBSITE_ID
+    ? `<script defer src="${process.env.UMAMI_SCRIPT_URL}" data-website-id="${process.env.UMAMI_WEBSITE_ID}"></script>`
+    : "";
+
 // ─────────────────────────── template HTML ───────────────────────────
 function pageHtml(svc, loc, ov) {
   const title = `${svc.name} à ${loc.name} | ${business.founder} — Architecte`;
@@ -156,6 +163,7 @@ function pageHtml(svc, loc, ov) {
   a{color:#1e3a8a}
   .react-cta{display:inline-block;margin-top:10px;padding:8px 14px;background:#fff;border:1px solid #cbd5e1;border-radius:8px;text-decoration:none;color:#1e3a8a;font-weight:600;font-size:14px}
 </style>
+${umamiTag}
 </head>
 <body>
 <main>
@@ -376,6 +384,7 @@ function portePageHtml(p, allPortes) {
   details p{color:#9aa6bd;font-size:14px;margin:8px 0 0}
   footer{border-top:1px solid #1a2234;margin-top:48px;padding-top:24px;color:#3d4f6a;font-size:13px}
 </style>
+${umamiTag}
 </head>
 <body>
 <main>

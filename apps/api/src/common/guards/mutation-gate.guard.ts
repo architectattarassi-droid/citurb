@@ -65,6 +65,7 @@ export class MutationGateGuard implements CanActivate {
       "/api/cps",                       // Générateur CPS (Tome 2) — génération document lecture seule
       "/uploads",                       // Upload présigné (R2 prod / local dev) — médias fiche cabinet
       "/api/pro",                       // Fiche cabinet d'architecte (CRUD projets + médias, ancrée sur ProProfile)
+      "/api/monitoring",                // Supervision OPS — déclencheurs manuels rapports (B3/B4)
       "/p1",
       "/p2",
       "/p3",
