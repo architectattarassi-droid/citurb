@@ -40,6 +40,12 @@ export default function PublicPostPage() {
   const [saveErr, setSaveErr] = useState<string | null>(null);
   const [draftTitle, setDraftTitle] = useState("");
   const [draftBody, setDraftBody] = useState("");
+  // Pièces jointes : ids existants à retirer + nouvelles PJ uploadées.
+  const [removeIds, setRemoveIds] = useState<string[]>([]);
+  const [newAttachments, setNewAttachments] = useState<
+    Array<{ fileKey: string; filename: string; mimeType: string; sizeBytes: number; url: string }>
+  >([]);
+  const [uploadingImg, setUploadingImg] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -56,18 +62,49 @@ export default function PublicPostPage() {
     if (!post) return;
     setDraftTitle(post.title || "");
     setDraftBody(post.body || "");
+    setRemoveIds([]);
+    setNewAttachments([]);
     setSaveErr(null);
     setEditing(true);
   };
 
+  // Pièces jointes existantes encore visibles (non marquées pour suppression).
+  const keptAttachments = (post?.attachments || []).filter((a) => !removeIds.includes(a.id));
+  const remainingCount = keptAttachments.length + newAttachments.length;
+
+  const addImages = async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    setUploadingImg(true);
+    setSaveErr(null);
+    try {
+      // Même flux que le composer du fil : upload via cercleId placeholder "_misc".
+      const uploaded = await cerclesApi.uploadPostMedia("_misc", Array.from(files));
+      setNewAttachments((prev) => [...prev, ...uploaded]);
+    } catch (e: any) {
+      setSaveErr(e?.message || "Échec de l'upload");
+    } finally {
+      setUploadingImg(false);
+    }
+  };
+
   const saveEdit = async () => {
     if (!post) return;
-    if (!draftBody.trim()) { setSaveErr("Le texte ne peut pas être vide."); return; }
+    if (!draftBody.trim() && remainingCount === 0) {
+      setSaveErr("Ajoutez du texte ou au moins une image.");
+      return;
+    }
     setSaving(true);
     setSaveErr(null);
     try {
       // PATCH /api/feed/posts/:id — l'URL /post/:id (basée sur l'id) reste identique.
-      const r = await cerclesApi.editPost(post.id, { title: draftTitle, body: draftBody });
+      const r = await cerclesApi.editPost(post.id, {
+        title: draftTitle,
+        body: draftBody,
+        addAttachments: newAttachments.map(({ fileKey, filename, mimeType, sizeBytes }) => ({
+          fileKey, filename, mimeType, sizeBytes,
+        })),
+        removeAttachmentIds: removeIds,
+      });
       setPost((prev) => (prev ? { ...prev, ...r.data } : r.data));
       setEditing(false);
     } catch (e: any) {
@@ -154,6 +191,43 @@ export default function PublicPostPage() {
                     value={draftBody}
                     onChange={(e) => setDraftBody(e.target.value)}
                   />
+
+                  <label style={S.label}>Images / vidéos jointes</label>
+                  {(keptAttachments.length > 0 || newAttachments.length > 0) && (
+                    <div style={S.thumbGrid}>
+                      {keptAttachments.map((a) => (
+                        <div key={a.id} style={S.thumbWrap}>
+                          {/^image\//.test(a.mimeType) ? (
+                            <img src={`${apiBase()}/uploads/${a.fileKey}`} alt={a.filename} style={S.thumb} />
+                          ) : (
+                            <div style={S.thumbFile}>📎 {a.filename}</div>
+                          )}
+                          <button type="button" title="Retirer" style={S.thumbDel}
+                            onClick={() => setRemoveIds((ids) => [...ids, a.id])}>×</button>
+                        </div>
+                      ))}
+                      {newAttachments.map((a, i) => (
+                        <div key={`new-${i}`} style={S.thumbWrap}>
+                          {/^image\//.test(a.mimeType) ? (
+                            <img src={a.url.startsWith("http") ? a.url : `${apiBase()}${a.url}`} alt={a.filename} style={S.thumb} />
+                          ) : (
+                            <div style={S.thumbFile}>📎 {a.filename}</div>
+                          )}
+                          <span style={S.thumbNew}>nouveau</span>
+                          <button type="button" title="Retirer" style={S.thumbDel}
+                            onClick={() => setNewAttachments((arr) => arr.filter((_, j) => j !== i))}>×</button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div style={S.editActions}>
+                    <label style={{ ...S.cancelBtn, cursor: uploadingImg ? "wait" : "pointer" }}>
+                      {uploadingImg ? "Envoi…" : "📷 Ajouter une image / vidéo"}
+                      <input type="file" accept="image/*,video/*" multiple style={{ display: "none" }}
+                        disabled={uploadingImg}
+                        onChange={(e) => { addImages(e.target.files); e.currentTarget.value = ""; }} />
+                    </label>
+                  </div>
 
                   {saveErr && <p style={S.saveErr}>{saveErr}</p>}
 
@@ -268,6 +342,12 @@ const S: Record<string, React.CSSProperties> = {
   saveBtn: { background: CC_THEME.or, color: CC_THEME.bgDeep, border: "none", padding: "11px 22px", borderRadius: 6, fontSize: 14, fontWeight: 700, cursor: "pointer" },
   cancelBtn: { background: "transparent", color: CC_THEME.inkMid, border: `1px solid ${CC_THEME.border}`, padding: "10px 18px", borderRadius: 6, fontSize: 14, fontWeight: 500, cursor: "pointer" },
   saveErr: { color: "#b91c1c", fontSize: 13.5, margin: "10px 0 0" },
+  thumbGrid: { display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 6 },
+  thumbWrap: { position: "relative", width: 96, height: 96 },
+  thumb: { width: 96, height: 96, objectFit: "cover", borderRadius: 8, border: `1px solid ${CC_THEME.border}` },
+  thumbFile: { width: 96, height: 96, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontSize: 11, padding: 6, borderRadius: 8, border: `1px solid ${CC_THEME.border}`, background: CC_THEME.bgSoft, color: CC_THEME.inkMid, overflow: "hidden" },
+  thumbDel: { position: "absolute", top: -8, right: -8, width: 22, height: 22, borderRadius: "50%", border: "none", background: "#b91c1c", color: "#fff", fontSize: 15, lineHeight: "20px", cursor: "pointer", fontWeight: 700 },
+  thumbNew: { position: "absolute", bottom: 4, left: 4, fontSize: 9, fontWeight: 700, background: CC_THEME.or, color: CC_THEME.bgDeep, padding: "1px 5px", borderRadius: 4 },
   postTitle: { fontFamily: CC_THEME.fontDisplay, fontSize: 26, fontWeight: 600, color: CC_THEME.navy, margin: "8px 0 14px", lineHeight: 1.2 },
   postBody: { fontSize: 15, color: CC_THEME.ink, lineHeight: 1.7, whiteSpace: "pre-wrap" },
   attachments: { display: "flex", flexWrap: "wrap", gap: 10, marginTop: 14 },

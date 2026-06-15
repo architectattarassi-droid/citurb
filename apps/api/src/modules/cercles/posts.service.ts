@@ -129,19 +129,58 @@ export class PostsService {
     return post;
   }
 
-  async edit(postId: string, userId: string, input: { title?: string; body?: string }) {
-    const post = await this.prisma.cerclePost.findUniqueOrThrow({ where: { id: postId } });
+  async edit(postId: string, userId: string, input: {
+    title?: string;
+    body?: string;
+    /** Nouvelles pièces jointes à créer (déjà uploadées via /posts/upload). */
+    addAttachments?: Array<{ fileKey: string; filename: string; mimeType: string; sizeBytes: number }>;
+    /** Ids de PostAttachment existants à retirer. */
+    removeAttachmentIds?: string[];
+  }) {
+    const post = await this.prisma.cerclePost.findUniqueOrThrow({
+      where: { id: postId },
+      include: { attachments: { select: { id: true } } },
+    });
     if (post.deletedAt) throw new BadRequestException("Post supprimé");
     const isAuthor = post.authorId === userId;
     const isMod = post.cercleId ? await this.cercles.isModerator(post.cercleId, userId) : false;
     if (!isAuthor && !isMod) throw new ForbiddenException("Auteur ou modérateur requis");
+
+    const removeIds = (input.removeAttachmentIds || []).filter((id) =>
+      post.attachments.some((a) => a.id === id), // ne supprime que des PJ de CE post
+    );
+    const adds = input.addAttachments || [];
+    const remainingCount = post.attachments.length - removeIds.length + adds.length;
+
     const data: any = {};
     if (input.title !== undefined) data.title = input.title?.trim() || null;
     if (input.body !== undefined) {
-      if (!input.body.trim()) throw new BadRequestException("Body vide");
-      data.body = this.sanitize(input.body.trim());
+      const cleanBody = input.body.trim();
+      // Un post peut être image-seule : on n'exige du texte que s'il ne reste
+      // aucune pièce jointe après l'édition.
+      if (!cleanBody && remainingCount === 0) {
+        throw new BadRequestException("Post vide (texte ou pièce jointe requis)");
+      }
+      data.body = this.sanitize(cleanBody);
     }
-    return this.prisma.cerclePost.update({ where: { id: postId }, data });
+
+    const attachmentOps: any = {};
+    if (removeIds.length) attachmentOps.deleteMany = { id: { in: removeIds } };
+    if (adds.length) {
+      attachmentOps.create = adds.map((a) => ({
+        fileKey: a.fileKey, filename: a.filename, mimeType: a.mimeType, sizeBytes: a.sizeBytes,
+      }));
+    }
+    if (Object.keys(attachmentOps).length) data.attachments = attachmentOps;
+
+    return this.prisma.cerclePost.update({
+      where: { id: postId },
+      data,
+      include: {
+        author: { select: { id: true, email: true, username: true } },
+        attachments: true,
+      },
+    });
   }
 
   async softDelete(postId: string, userId: string, viewerRole?: string) {

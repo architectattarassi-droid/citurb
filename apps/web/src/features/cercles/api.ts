@@ -306,7 +306,15 @@ export const cerclesApi = {
   publicPost: (postId: string) =>
     apiFetch<{ ok: boolean; data: CerclePost }>(`/api/feed/public/${postId}`),
   /** Édition d'un post par son auteur (ou modérateur). URL /post/:id inchangée. */
-  editPost: (postId: string, input: { title?: string; body?: string }) =>
+  editPost: (
+    postId: string,
+    input: {
+      title?: string;
+      body?: string;
+      addAttachments?: Array<{ fileKey: string; filename: string; mimeType: string; sizeBytes: number }>;
+      removeAttachmentIds?: string[];
+    },
+  ) =>
     apiFetch<{ ok: boolean; data: CerclePost }>(`/api/feed/posts/${postId}`, { method: "PATCH", body: input }),
 
   // Rooms

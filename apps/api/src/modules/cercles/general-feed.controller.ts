@@ -68,7 +68,16 @@ export class GeneralFeedController {
    */
   @Patch("posts/:id")
   @UseGuards(JwtAuthGuard, ProAccessGuard)
-  async edit(@Req() req: any, @Param("id") id: string, @Body() body: { title?: string; body?: string }) {
+  async edit(
+    @Req() req: any,
+    @Param("id") id: string,
+    @Body() body: {
+      title?: string;
+      body?: string;
+      addAttachments?: Array<{ fileKey: string; filename: string; mimeType: string; sizeBytes: number }>;
+      removeAttachmentIds?: string[];
+    },
+  ) {
     return { ok: true, data: await this.posts.edit(id, this.uid(req), body) };
   }
 
