@@ -95,6 +95,14 @@ let MonitoringController = class MonitoringController {
     async runDailyReport() {
         return this.reports.runDaily();
     }
+    /**
+     * POST /api/monitoring/reports/weekly/run
+     * Déclenche manuellement le rapport hebdo SEO/GEO (visites S vs S-1, santé
+     * crawlabilité, Search Console si activé) et l'envoie sur Email + Telegram.
+     */
+    async runWeeklyReport() {
+        return this.reports.runWeekly();
+    }
 };
 exports.MonitoringController = MonitoringController;
 __decorate([
@@ -112,6 +120,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], MonitoringController.prototype, "runDailyReport", null);
+__decorate([
+    (0, common_1.Post)("reports/weekly/run"),
+    (0, common_1.HttpCode)(200),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], MonitoringController.prototype, "runWeeklyReport", null);
 exports.MonitoringController = MonitoringController = __decorate([
     (0, tome_at_1.Tome)("tome9"),
     (0, common_1.Controller)("api/monitoring"),

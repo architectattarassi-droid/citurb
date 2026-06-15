@@ -12,6 +12,8 @@ const analytics_service_1 = require("./analytics.service");
 const telegram_service_1 = require("./telegram.service");
 const notifications_service_1 = require("./notifications.service");
 const reports_service_1 = require("./reports.service");
+const crawl_health_service_1 = require("./crawl-health.service");
+const search_console_service_1 = require("./search-console.service");
 const monitoring_controller_1 = require("./monitoring.controller");
 /**
  * MonitoringModule — supervision & rapports (Sprint monitoring-notifications).
@@ -20,7 +22,7 @@ const monitoring_controller_1 = require("./monitoring.controller");
  * B2 : notifications instantanées dossier (TelegramService + NotificationsService,
  *      listener event-driven `owner.DOSSIER_CREATED`).
  * B3 : rapport QUOTIDIEN visites (ReportsService, cron + endpoint test).
- * B4 (à venir) : rapport hebdo SEO/GEO.
+ * B4 : rapport HEBDO SEO/GEO (visites S vs S-1, crawlabilité, GSC optionnel).
  *
  * Module transverse (non-tome), enregistré dans app.module.ts. EmailModule est
  * global (EmailService injectable directement). EventEmitterModule.forRoot() et
@@ -32,7 +34,14 @@ exports.MonitoringModule = MonitoringModule;
 exports.MonitoringModule = MonitoringModule = __decorate([
     (0, common_1.Module)({
         controllers: [monitoring_controller_1.MonitoringController],
-        providers: [analytics_service_1.AnalyticsService, telegram_service_1.TelegramService, notifications_service_1.NotificationsService, reports_service_1.ReportsService],
+        providers: [
+            analytics_service_1.AnalyticsService,
+            telegram_service_1.TelegramService,
+            notifications_service_1.NotificationsService,
+            reports_service_1.ReportsService,
+            crawl_health_service_1.CrawlHealthService,
+            search_console_service_1.SearchConsoleService,
+        ],
         exports: [analytics_service_1.AnalyticsService, telegram_service_1.TelegramService],
     })
 ], MonitoringModule);

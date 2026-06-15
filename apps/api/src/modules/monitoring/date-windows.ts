@@ -66,6 +66,23 @@ export function lastNDaysWindow(ref: Date, n: number): MsWindow {
 }
 
 /**
+ * Deux fenêtres de 7 jours pleins pour comparaison hebdo :
+ *  - current  : J-7 → J-1 (semaine écoulée)
+ *  - previous : J-14 → J-8 (semaine d'avant)
+ */
+export function weekWindows(ref: Date): { current: MsWindow; previous: MsWindow } {
+  const current = {
+    startMs: casablancaDayWindow(ref, -7).startMs,
+    endMs: casablancaDayWindow(ref, -1).endMs,
+  };
+  const previous = {
+    startMs: casablancaDayWindow(ref, -14).startMs,
+    endMs: casablancaDayWindow(ref, -8).endMs,
+  };
+  return { current, previous };
+}
+
+/**
  * Parse une borne fournie par l'utilisateur (ISO date `YYYY-MM-DD`, ISO datetime,
  * ou epoch ms). `endOfDay` étend une date nue à la fin de journée Casablanca.
  * Retourne null si non parsable.

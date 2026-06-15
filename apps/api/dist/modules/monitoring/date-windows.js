@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.casablancaDayWindow = casablancaDayWindow;
 exports.lastNDaysWindow = lastNDaysWindow;
+exports.weekWindows = weekWindows;
 exports.parseBoundMs = parseBoundMs;
 const analytics_service_1 = require("./analytics.service");
 /**
@@ -56,6 +57,22 @@ function lastNDaysWindow(ref, n) {
     const end = casablancaDayWindow(ref, -1).endMs; // fin de la veille
     const start = casablancaDayWindow(ref, -n).startMs; // début il y a n jours
     return { startMs: start, endMs: end };
+}
+/**
+ * Deux fenêtres de 7 jours pleins pour comparaison hebdo :
+ *  - current  : J-7 → J-1 (semaine écoulée)
+ *  - previous : J-14 → J-8 (semaine d'avant)
+ */
+function weekWindows(ref) {
+    const current = {
+        startMs: casablancaDayWindow(ref, -7).startMs,
+        endMs: casablancaDayWindow(ref, -1).endMs,
+    };
+    const previous = {
+        startMs: casablancaDayWindow(ref, -14).startMs,
+        endMs: casablancaDayWindow(ref, -8).endMs,
+    };
+    return { current, previous };
 }
 /**
  * Parse une borne fournie par l'utilisateur (ISO date `YYYY-MM-DD`, ISO datetime,

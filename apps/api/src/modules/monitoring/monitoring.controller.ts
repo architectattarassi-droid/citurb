@@ -87,4 +87,15 @@ export class MonitoringController {
   async runDailyReport() {
     return this.reports.runDaily();
   }
+
+  /**
+   * POST /api/monitoring/reports/weekly/run
+   * Déclenche manuellement le rapport hebdo SEO/GEO (visites S vs S-1, santé
+   * crawlabilité, Search Console si activé) et l'envoie sur Email + Telegram.
+   */
+  @Post("reports/weekly/run")
+  @HttpCode(200)
+  async runWeeklyReport() {
+    return this.reports.runWeekly();
+  }
 }

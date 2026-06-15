@@ -3,6 +3,8 @@ import { AnalyticsService } from "./analytics.service";
 import { TelegramService } from "./telegram.service";
 import { NotificationsService } from "./notifications.service";
 import { ReportsService } from "./reports.service";
+import { CrawlHealthService } from "./crawl-health.service";
+import { SearchConsoleService } from "./search-console.service";
 import { MonitoringController } from "./monitoring.controller";
 
 /**
@@ -12,7 +14,7 @@ import { MonitoringController } from "./monitoring.controller";
  * B2 : notifications instantanées dossier (TelegramService + NotificationsService,
  *      listener event-driven `owner.DOSSIER_CREATED`).
  * B3 : rapport QUOTIDIEN visites (ReportsService, cron + endpoint test).
- * B4 (à venir) : rapport hebdo SEO/GEO.
+ * B4 : rapport HEBDO SEO/GEO (visites S vs S-1, crawlabilité, GSC optionnel).
  *
  * Module transverse (non-tome), enregistré dans app.module.ts. EmailModule est
  * global (EmailService injectable directement). EventEmitterModule.forRoot() et
@@ -20,7 +22,14 @@ import { MonitoringController } from "./monitoring.controller";
  */
 @Module({
   controllers: [MonitoringController],
-  providers: [AnalyticsService, TelegramService, NotificationsService, ReportsService],
+  providers: [
+    AnalyticsService,
+    TelegramService,
+    NotificationsService,
+    ReportsService,
+    CrawlHealthService,
+    SearchConsoleService,
+  ],
   exports: [AnalyticsService, TelegramService],
 })
 export class MonitoringModule {}
