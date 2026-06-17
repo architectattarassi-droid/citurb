@@ -164,6 +164,8 @@ export type ProProfile = {
   tarifsRange: string | null;
   disponibilite: "DISPONIBLE" | "OCCUPE" | "INDISPONIBLE" | null;
   disponibleAPartir: string | null;
+  // opt-in: le pro accepte d'être sollicité pour des dossiers (distinct de 'disponibilite')
+  disponiblePourDossiers: boolean;
   // Réseaux
   websiteUrl: string | null;
   linkedinUrl: string | null;

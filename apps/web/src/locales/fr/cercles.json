@@ -219,6 +219,8 @@
   "cercles.edit_profile.disponibilite.occupe": "● Occupé (carnet plein)",
   "cercles.edit_profile.disponibilite.indisponible": "● Indisponible",
   "cercles.edit_profile.field.dispo_date": "Disponible à partir du",
+  "cercles.edit_profile.field.dispo_dossiers": "Je souhaite recevoir des dossiers via la plateforme",
+  "cercles.edit_profile.hint.dispo_dossiers": "Distinct de votre statut de charge ci-dessus : ceci autorise CITURBAREA à vous solliciter pour des dossiers.",
 
   "cercles.edit_profile.field.email_public": "Email public",
   "cercles.edit_profile.placeholder.email_public": "contact@cabinet.ma",

@@ -219,6 +219,8 @@
   "cercles.edit_profile.disponibilite.occupe": "● Busy (book full)",
   "cercles.edit_profile.disponibilite.indisponible": "● Unavailable",
   "cercles.edit_profile.field.dispo_date": "Available from",
+  "cercles.edit_profile.field.dispo_dossiers": "I want to receive project files through the platform",
+  "cercles.edit_profile.hint.dispo_dossiers": "Distinct from your workload status above: this lets CITURBAREA reach out to you for project files.",
 
   "cercles.edit_profile.field.email_public": "Public email",
   "cercles.edit_profile.placeholder.email_public": "contact@cabinet.ma",

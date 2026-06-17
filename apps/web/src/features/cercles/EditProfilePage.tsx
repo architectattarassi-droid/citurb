@@ -94,6 +94,8 @@ export default function EditProfilePage() {
   const [tarifsRange, setTarifs] = useState("");
   const [disponibilite, setDispo] = useState("DISPONIBLE");
   const [disponibleAPartir, setDispoDate] = useState("");
+  // opt-in: le pro accepte d'être sollicité pour des dossiers (distinct de disponibilite)
+  const [disponiblePourDossiers, setDispoDossiers] = useState(false);
 
   // Réseaux
   const [websiteUrl, setWeb] = useState("");
@@ -132,6 +134,7 @@ export default function EditProfilePage() {
         setTarifs(p.tarifsRange || "");
         setDispo(p.disponibilite || "DISPONIBLE");
         setDispoDate(p.disponibleAPartir ? p.disponibleAPartir.slice(0, 10) : "");
+        setDispoDossiers(p.disponiblePourDossiers ?? false);
         setWeb(p.websiteUrl || "");
         setLinkedin(p.linkedinUrl || "");
         setBehance(p.behanceUrl || "");
@@ -173,6 +176,7 @@ export default function EditProfilePage() {
         tarifsRange: tarifsRange.trim() || undefined,
         disponibilite,
         disponibleAPartir: disponibleAPartir || undefined,
+        disponiblePourDossiers,
         websiteUrl: websiteUrl.trim() || undefined,
         linkedinUrl: linkedinUrl.trim() || undefined,
         behanceUrl: behanceUrl.trim() || undefined,
@@ -400,6 +404,18 @@ export default function EditProfilePage() {
                 <input className="cit-cercles-input" style={S.input} type="date" value={disponibleAPartir} onChange={(e) => setDispoDate(e.target.value)} />
               </Field>
             </Row>
+            <label style={S.toggleRow}>
+              <input
+                type="checkbox"
+                checked={disponiblePourDossiers}
+                onChange={(e) => setDispoDossiers(e.target.checked)}
+                style={S.toggleCheckbox}
+              />
+              <span>
+                <span style={S.toggleLabel}>{t("cercles.edit_profile.field.dispo_dossiers")}</span>
+                <span style={S.toggleHint}>{t("cercles.edit_profile.hint.dispo_dossiers")}</span>
+              </span>
+            </label>
           </Section>
 
           {/* ── Contact / Réseaux ── */}
@@ -542,6 +558,11 @@ const S: Record<string, React.CSSProperties> = {
   itemCard: { padding: 14, background: CC_THEME.bgSoft, borderRadius: 6, marginBottom: 12, borderLeft: `3px solid ${CC_THEME.or}` },
   btnAdd: { background: "transparent", border: `1px dashed ${CC_THEME.border}`, color: CC_THEME.or, padding: "8px 14px", borderRadius: 4, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", fontSize: 12 },
   btnRemove: { background: "transparent", border: `1px solid ${CC_THEME.dangerBg}`, color: CC_THEME.danger, padding: "5px 10px", borderRadius: 3, cursor: "pointer", fontSize: 11, marginTop: 8, fontFamily: "inherit" },
+
+  toggleRow: { display: "flex", gap: 12, alignItems: "flex-start", marginTop: 14, padding: 14, background: CC_THEME.bgSoft, borderRadius: 6, borderLeft: `3px solid ${CC_THEME.or}`, cursor: "pointer" },
+  toggleCheckbox: { width: 20, height: 20, marginTop: 2, accentColor: CC_THEME.navy, cursor: "pointer", flexShrink: 0 },
+  toggleLabel: { display: "block", fontSize: 14, color: CC_THEME.navy, fontWeight: 600 },
+  toggleHint: { display: "block", fontSize: 12, color: CC_THEME.inkMid, marginTop: 3, fontStyle: "italic" as const },
 
   chipsGroup: { display: "flex", flexWrap: "wrap" as const, gap: 6 },
   chip: { border: `1px solid ${CC_THEME.border}`, padding: "5px 12px", borderRadius: 14, fontSize: 12, cursor: "pointer", fontFamily: "inherit" },

@@ -219,6 +219,8 @@
   "cercles.edit_profile.disponibilite.occupe": "● مشغول (جدول الأعمال ممتلئ)",
   "cercles.edit_profile.disponibilite.indisponible": "● غير متوفر",
   "cercles.edit_profile.field.dispo_date": "متوفر ابتداء من",
+  "cercles.edit_profile.field.dispo_dossiers": "أرغب في استقبال الملفات عبر المنصة",
+  "cercles.edit_profile.hint.dispo_dossiers": "يختلف عن حالة انشغالك أعلاه: هذا يسمح لـ CITURBAREA بالتواصل معك بخصوص الملفات.",
 
   "cercles.edit_profile.field.email_public": "البريد الإلكتروني العمومي",
   "cercles.edit_profile.placeholder.email_public": "contact@cabinet.ma",

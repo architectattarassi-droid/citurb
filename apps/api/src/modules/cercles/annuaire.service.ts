@@ -63,6 +63,9 @@ export type ProProfileInput = {
   tarifsRange?: string;
   disponibilite?: "DISPONIBLE" | "OCCUPE" | "INDISPONIBLE";
   disponibleAPartir?: string;
+  // opt-in: le pro accepte d'être sollicité pour des dossiers (distinct de
+  // 'disponibilite' qui est son statut de charge actuel)
+  disponiblePourDossiers?: boolean;
   // Réseaux
   websiteUrl?: string;
   linkedinUrl?: string;
@@ -106,6 +109,7 @@ export class AnnuaireService {
       tarifsRange: input.tarifsRange ?? null,
       disponibilite: input.disponibilite ?? "DISPONIBLE",
       disponibleAPartir: input.disponibleAPartir ? new Date(input.disponibleAPartir) : null,
+      disponiblePourDossiers: input.disponiblePourDossiers ?? false,
       websiteUrl: input.websiteUrl ?? null,
       linkedinUrl: input.linkedinUrl ?? null,
       behanceUrl: input.behanceUrl ?? null,

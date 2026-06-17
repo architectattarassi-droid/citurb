@@ -1674,6 +1674,9 @@ model ProProfile {
   tarifsRange       String? // ex "Honoraires 4–6% du coût travaux", "Forfait 30–80k MAD"
   disponibilite     String?   @default("DISPONIBLE") // "DISPONIBLE" | "OCCUPE" | "INDISPONIBLE"
   disponibleAPartir DateTime?
+  // opt-in: le pro accepte d'être sollicité pour des dossiers (distinct de
+  // 'disponibilite' qui est son statut de charge actuel)
+  disponiblePourDossiers Boolean @default(false)
 
   // Réseaux + identité publique
   websiteUrl   String?
