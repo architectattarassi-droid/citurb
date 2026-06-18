@@ -235,4 +235,24 @@ export class P2Controller {
   async phaseAction(@Param("id") id: string, @Param("phase") phase: string, @Body() body: any, @Req() req: any) {
     return this.dossiers.handlePhaseAction(id, phase, body.action, req.user.userId, body.note);
   }
+
+  // ── Pont Cercles→Dossier : affectation d'intervenants (admin only) ────────
+
+  @RequireCaps("dossier:read")
+  @Post("dossier/:id/intervenants")
+  async assignIntervenant(@Param("id") id: string, @Body() body: { userId: string; metier?: string; role?: string }, @Req() req: any) {
+    if (!["OWNER", "ADMIN", "OPS"].includes(req.user?.role)) {
+      throw new ForbiddenException("Accès réservé aux rôles OPS/ADMIN/OWNER");
+    }
+    return { ok: true, intervenant: await this.dossiers.assignIntervenant(id, body) };
+  }
+
+  @RequireCaps("dossier:read")
+  @Get("dossier/:id/intervenants")
+  async listIntervenants(@Param("id") id: string, @Req() req: any) {
+    if (!["OWNER", "ADMIN", "OPS"].includes(req.user?.role)) {
+      throw new ForbiddenException("Accès réservé aux rôles OPS/ADMIN/OWNER");
+    }
+    return { ok: true, intervenants: await this.dossiers.listIntervenants(id) };
+  }
 }

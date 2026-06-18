@@ -15,6 +15,7 @@ export type AnnuaireSearchInput = {
   region?: string;
   specialite?: string;
   isVerified?: boolean;
+  disponiblePourDossiers?: boolean;
   page?: number;
   pageSize?: number;
 };
@@ -219,6 +220,7 @@ export class AnnuaireService {
     if (input.metier) where.metier = input.metier;
     if (input.classeBTP) where.classeBTP = input.classeBTP;
     if (input.isVerified !== undefined) where.isVerified = input.isVerified;
+    if (input.disponiblePourDossiers) where.disponiblePourDossiers = true;
     if (input.region) where.regions = { has: input.region };
     if (input.specialite) where.specialites = { has: input.specialite };
     if (input.q?.trim()) {

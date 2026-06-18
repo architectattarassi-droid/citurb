@@ -324,4 +324,53 @@ export class DossierService {
     const fromPhase = dossier.phase ?? '00_BRIEF';
     return this.phaseEngine.advancePhase(dossierId, fromPhase, toPhase, acteurId, note);
   }
+
+  // ── Pont Cercles→Dossier : affectation d'un pro à un dossier ──────────────
+
+  /**
+   * Affecte un compte pro (User + ProProfile éventuel) à un dossier comme
+   * intervenant. Réutilise la table orpheline DossierIntervenant (les champs
+   * texte nom/tel/email sont remplis depuis le profil pour rétrocompat).
+   * Refuse un doublon (même userId déjà affecté au même dossier).
+   */
+  async assignIntervenant(dossierId: string, input: { userId: string; metier?: string; role?: string }) {
+    if (!input?.userId) throw new BadRequestException('userId requis');
+    await this.prisma.dossier.findUniqueOrThrow({ where: { id: dossierId } });
+    const user = await this.prisma.user.findUnique({
+      where: { id: input.userId },
+      select: {
+        id: true, username: true, email: true, phone: true,
+        proProfile: { select: { id: true, displayName: true, metier: true } },
+      },
+    });
+    if (!user) throw new BadRequestException('Utilisateur introuvable');
+
+    const existing = await this.prisma.dossierIntervenant.findFirst({ where: { dossierId, userId: input.userId } });
+    if (existing) throw new BadRequestException('Ce pro est déjà affecté à ce dossier');
+
+    const pro = user.proProfile;
+    const metier = (input.metier ?? pro?.metier ?? null) as any;
+    const nom = pro?.displayName || user.username || user.email || 'Intervenant';
+    return this.prisma.dossierIntervenant.create({
+      data: {
+        dossierId,
+        userId: user.id,
+        proProfileId: pro?.id ?? null,
+        metier,
+        role: input.role ?? (metier ? String(metier) : 'INTERVENANT'),
+        nom,
+        email: user.email ?? null,
+        tel: user.phone ?? null,
+      },
+    });
+  }
+
+  /** Liste les intervenants affectés à un dossier (profil pro lié si présent). */
+  async listIntervenants(dossierId: string) {
+    return this.prisma.dossierIntervenant.findMany({
+      where: { dossierId },
+      orderBy: { createdAt: 'asc' },
+      include: { proProfile: { select: { id: true, displayName: true, metier: true, userId: true } } },
+    });
+  }
 }

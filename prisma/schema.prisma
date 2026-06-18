@@ -40,6 +40,9 @@ model User {
   // Opposite side for Dossier.owner (required by Prisma)
   ownedDossiers Dossier[] @relation("DossierOwner")
 
+  // Pont Cercles→Dossier : affectations de ce compte comme intervenant
+  dossierIntervenants DossierIntervenant[] @relation("UserDossierIntervenant")
+
   // S-FIRM-LINK
   firmId String?
   firm   Firm?   @relation("UserFirm", fields: [firmId], references: [id])
@@ -834,7 +837,16 @@ model DossierIntervenant {
   mandatSigne   Boolean   @default(false)
   mandatSigneAt DateTime?
   dossier       Dossier   @relation(fields: [dossierId], references: [id])
+  // Pont Cercles→Dossier : rattache un compte/profil pro à un dossier comme
+  // intervenant affecté (les champs texte ci-dessus restent pour rétrocompat).
+  userId        String?
+  proProfileId  String?
+  metier        ProMetier?
+  user          User?        @relation("UserDossierIntervenant", fields: [userId], references: [id], onDelete: SetNull)
+  proProfile    ProProfile?  @relation("ProProfileDossierIntervenant", fields: [proProfileId], references: [id], onDelete: SetNull)
   createdAt     DateTime  @default(now())
+
+  @@index([dossierId, userId])
 }
 
 model DossierGeoHistory {
@@ -1665,6 +1677,9 @@ model ProProfile {
   // Fiche cabinet publique (SEO) — portfolio normalisé
   slug              String?             @unique // handle public: /cabinet/:slug
   portfolioProjects ProProfileProject[]
+
+  // Pont Cercles→Dossier : affectations de ce profil comme intervenant
+  dossierIntervenants DossierIntervenant[] @relation("ProProfileDossierIntervenant")
 
   // Localisation
   regions         String[] // 12 régions Maroc où le pro intervient

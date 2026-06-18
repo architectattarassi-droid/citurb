@@ -73,6 +73,7 @@ export class CerclesController {
       region: q.region || undefined,
       specialite: q.specialite || undefined,
       isVerified: q.verified === "true" ? true : q.verified === "false" ? false : undefined,
+      disponiblePourDossiers: q.disponiblePourDossiers === "true" ? true : undefined,
       page: q.page ? Number(q.page) : undefined,
       pageSize: q.pageSize ? Number(q.pageSize) : undefined,
     };
