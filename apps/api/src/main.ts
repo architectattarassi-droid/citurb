@@ -1,4 +1,6 @@
-import * as dotenv from "dotenv";
+// DOIT rester la toute première ligne : charge le .env racine AVANT que l'import
+// d'AppModule n'évalue les consommateurs import-time (JwtModule.register, etc.).
+import "./load-env";
 import { NestFactory, Reflector } from "@nestjs/core";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 import { join } from "path";
@@ -8,10 +10,6 @@ import { MutationGateGuard } from "./common/guards/mutation-gate.guard";
 import { validateEnvOrThrow } from "./modules/kernel";
 
 async function bootstrap() {
-  // Charge le .env racine du monorepo (cwd runtime = apps/api ; Prisma ne le
-  // trouve pas seul). Path absolu via __dirname → robuste quel que soit le cwd.
-  // N'écrase pas les variables déjà présentes (sûr en prod : Railway les fournit).
-  dotenv.config({ path: join(__dirname, "../../../.env") });
   validateEnvOrThrow();
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
