@@ -142,19 +142,51 @@ let QuoteInvoiceService = class QuoteInvoiceService {
             banque: process.env.ATELIER_BANQUE || "—",
         };
         const emisLe = devis.dateEmission ?? new Date();
+        // Devis autonome : pas de dossier → coordonnées client depuis clientInfo
+        // (mêmes clés que les champs Dossier lus par shell()).
+        const client = devis.dossier ?? (devis.clientInfo ?? {});
         return this.shell({
             type: "QUOTE",
             numero: devis.numero,
             emisLe,
             echeance: devis.dateValidite ?? this.defaultEcheance(emisLe, "QUOTE"),
             atelier,
-            dossier: devis.dossier,
+            dossier: client,
             lignes,
             totalHT: devis.montantHT,
             tva: devis.montantTTC - devis.montantHT,
             tvaPct: devis.tva,
             totalTTC: devis.montantTTC,
         });
+    }
+    /**
+     * Passe B — crée un devis AUTONOME (sans dossier). Coordonnées client portées
+     * par clientInfo. Numérotation dédiée DEV-LIBRE-NNNN.
+     */
+    async createDevisLibre(emetteurId, input) {
+        const lignes = Array.isArray(input.lignes) ? input.lignes : [];
+        const ht = lignes.reduce((s, l) => s + (Number(l?.quantite) || 0) * (Number(l?.prixUnitaire) || 0), 0);
+        const tva = input.tva ?? 20;
+        const count = await this.prisma.devis.count({ where: { dossierId: null } });
+        const numero = `DEV-LIBRE-${String(count + 1).padStart(4, "0")}`;
+        return this.prisma.devis.create({
+            data: {
+                dossierId: null,
+                clientInfo: input.clientInfo ?? null,
+                numero,
+                titre: input.titre,
+                lignes,
+                montantHT: ht,
+                tva,
+                montantTTC: ht * (1 + tva / 100),
+                conditions: input.conditions ?? null,
+                emetteurId,
+            },
+        });
+    }
+    /** Liste les devis autonomes (sans dossier). */
+    async listDevisLibre() {
+        return this.prisma.devis.findMany({ where: { dossierId: null }, orderBy: { createdAt: "desc" } });
     }
     // ─────────────────────────────────────────────────────────────
     //  Construction des lignes selon la porte

@@ -1009,7 +1009,10 @@ model PhaseReunion {
 
 model Devis {
   id              String    @id @default(cuid())
-  dossierId       String
+  dossierId       String?
+  // Devis autonome (sans dossier) : coordonnées client portées par le devis.
+  // { clientNom, raisonSociale, ice, rc, address, commune, clientTel, clientEmail, representant }
+  clientInfo      Json?
   phaseRef        String?
   numero          String    @unique
   titre           String
@@ -1030,7 +1033,7 @@ model Devis {
   filePath        String?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-  dossier         Dossier   @relation(fields: [dossierId], references: [id], onDelete: Cascade)
+  dossier         Dossier?  @relation(fields: [dossierId], references: [id], onDelete: Cascade)
 
   @@index([dossierId])
 }

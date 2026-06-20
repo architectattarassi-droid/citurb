@@ -43,6 +43,14 @@ let QuoteInvoiceController = class QuoteInvoiceController {
         const html = await this.service.renderHtml(dossierId, { type: "QUOTE", notes });
         res.send(html);
     }
+    // ── Devis autonome (sans dossier, passe B) ──
+    async listDevisLibre() {
+        return { ok: true, devis: await this.service.listDevisLibre() };
+    }
+    async createDevisLibre(body, req) {
+        const emetteurId = req.user?.userId ?? req.user?.sub ?? "";
+        return { ok: true, devis: await this.service.createDevisLibre(emetteurId, body) };
+    }
     // ── Devis persisté (model Devis, passe 2) ──
     async devisRowHtml(devisId, res) {
         const html = await this.service.renderDevisRowHtml(devisId);
@@ -82,6 +90,20 @@ __decorate([
     __metadata("design:paramtypes", [String, Object, Object]),
     __metadata("design:returntype", Promise)
 ], QuoteInvoiceController.prototype, "quoteHtml", null);
+__decorate([
+    (0, common_1.Get)("devis"),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], QuoteInvoiceController.prototype, "listDevisLibre", null);
+__decorate([
+    (0, common_1.Post)("devis"),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], QuoteInvoiceController.prototype, "createDevisLibre", null);
 __decorate([
     (0, common_1.Get)("devis/:devisId/html"),
     (0, common_1.Header)("Content-Type", "text/html; charset=utf-8"),

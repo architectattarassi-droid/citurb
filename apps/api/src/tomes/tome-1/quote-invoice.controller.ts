@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Header, Param, Post, Query, Res, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Header, Param, Post, Query, Req, Res, UseGuards } from "@nestjs/common";
 import type { Response } from "express";
 import { Tome } from "../tome-at";
 import { JwtAuthGuard } from "../tome-5/auth/jwt-auth.guard";
@@ -40,6 +40,21 @@ export class QuoteInvoiceController {
   ) {
     const html = await this.service.renderHtml(dossierId, { type: "QUOTE", notes });
     res.send(html);
+  }
+
+  // ── Devis autonome (sans dossier, passe B) ──
+  @Get("devis")
+  async listDevisLibre() {
+    return { ok: true, devis: await this.service.listDevisLibre() };
+  }
+
+  @Post("devis")
+  async createDevisLibre(
+    @Body() body: { titre: string; lignes: any[]; clientInfo?: any; tva?: number; conditions?: string },
+    @Req() req: any,
+  ) {
+    const emetteurId = req.user?.userId ?? req.user?.sub ?? "";
+    return { ok: true, devis: await this.service.createDevisLibre(emetteurId, body) };
   }
 
   // ── Devis persisté (model Devis, passe 2) ──

@@ -196,6 +196,12 @@ export default function DossiersModule() {
           >
             ＋ Nouveau dossier
           </button>
+          <button
+            onClick={() => navigate("/cc/devis")}
+            style={{ background: "rgba(176,141,87,0.22)", color: "#B08D57", border: 0, padding: "8px 16px", borderRadius: 6, fontSize: 12, fontWeight: 600, letterSpacing: "0.04em", cursor: "pointer" }}
+          >
+            ✎ Devis libre (sans dossier)
+          </button>
           <button onClick={fetchDossiers} style={btnStyle("#1e2330", "#8892a4")} disabled={loading}>
             {loading ? "…" : "↺ Rafraîchir"}
           </button>
