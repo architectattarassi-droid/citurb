@@ -47,6 +47,7 @@ let AnnuaireService = class AnnuaireService {
             tarifsRange: input.tarifsRange ?? null,
             disponibilite: input.disponibilite ?? "DISPONIBLE",
             disponibleAPartir: input.disponibleAPartir ? new Date(input.disponibleAPartir) : null,
+            disponiblePourDossiers: input.disponiblePourDossiers ?? false,
             websiteUrl: input.websiteUrl ?? null,
             linkedinUrl: input.linkedinUrl ?? null,
             behanceUrl: input.behanceUrl ?? null,
@@ -151,6 +152,8 @@ let AnnuaireService = class AnnuaireService {
             where.classeBTP = input.classeBTP;
         if (input.isVerified !== undefined)
             where.isVerified = input.isVerified;
+        if (input.disponiblePourDossiers)
+            where.disponiblePourDossiers = true;
         if (input.region)
             where.regions = { has: input.region };
         if (input.specialite)

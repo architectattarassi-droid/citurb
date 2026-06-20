@@ -150,6 +150,19 @@ let P2Controller = class P2Controller {
     async phaseAction(id, phase, body, req) {
         return this.dossiers.handlePhaseAction(id, phase, body.action, req.user.userId, body.note);
     }
+    // ── Pont Cercles→Dossier : affectation d'intervenants (admin only) ────────
+    async assignIntervenant(id, body, req) {
+        if (!["OWNER", "ADMIN", "OPS"].includes(req.user?.role)) {
+            throw new common_1.ForbiddenException("Accès réservé aux rôles OPS/ADMIN/OWNER");
+        }
+        return { ok: true, intervenant: await this.dossiers.assignIntervenant(id, body) };
+    }
+    async listIntervenants(id, req) {
+        if (!["OWNER", "ADMIN", "OPS"].includes(req.user?.role)) {
+            throw new common_1.ForbiddenException("Accès réservé aux rôles OPS/ADMIN/OWNER");
+        }
+        return { ok: true, intervenants: await this.dossiers.listIntervenants(id) };
+    }
 };
 exports.P2Controller = P2Controller;
 __decorate([
@@ -399,6 +412,25 @@ __decorate([
     __metadata("design:paramtypes", [String, String, Object, Object]),
     __metadata("design:returntype", Promise)
 ], P2Controller.prototype, "phaseAction", null);
+__decorate([
+    (0, tome_at_3.RequireCaps)("dossier:read"),
+    (0, common_1.Post)("dossier/:id/intervenants"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", Promise)
+], P2Controller.prototype, "assignIntervenant", null);
+__decorate([
+    (0, tome_at_3.RequireCaps)("dossier:read"),
+    (0, common_1.Get)("dossier/:id/intervenants"),
+    __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], P2Controller.prototype, "listIntervenants", null);
 exports.P2Controller = P2Controller = __decorate([
     (0, common_1.UseGuards)(tome_at_1.JwtAuthGuard, tome_at_2.CapsGuard),
     (0, tome_at_1.Tome)('tome2'),

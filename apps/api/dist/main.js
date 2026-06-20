@@ -1,5 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+// DOIT rester la toute première ligne : charge le .env racine AVANT que l'import
+// d'AppModule n'évalue les consommateurs import-time (JwtModule.register, etc.).
+require("./load-env");
 const core_1 = require("@nestjs/core");
 const path_1 = require("path");
 const app_module_1 = require("./app.module");

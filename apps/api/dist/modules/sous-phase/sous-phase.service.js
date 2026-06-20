@@ -222,7 +222,7 @@ let SousPhaseService = class SousPhaseService {
         const count = await this.db.devis.count({ where: { dossierId } });
         const numero = `DEV-${dossierId.slice(-6).toUpperCase()}-${String(count + 1).padStart(3, '0')}`;
         const dv = await this.db.devis.create({
-            data: { dossierId, phaseRef, numero, titre, lignes, montantHT: ht, tva, montantTTC: ht * (1 + tva / 100), emetteurId },
+            data: { dossierId, phaseRef: phaseRef ?? null, numero, titre, lignes, montantHT: ht, tva, montantTTC: ht * (1 + tva / 100), emetteurId },
         });
         await this.log(dossierId, phaseRef, 'DEVIS_CREE', emetteurId, undefined, undefined, { numero, montantTTC: dv.montantTTC });
         return dv;
@@ -261,7 +261,7 @@ let SousPhaseService = class SousPhaseService {
         return this.db.phaseHistorique.findMany({ where: { dossierId, ...(phaseRef ? { phaseRef } : {}) }, orderBy: { createdAt: 'desc' } });
     }
     async log(dossierId, phaseRef, action, acteurId, acteurRole, acteurNom, details) {
-        return this.db.phaseHistorique.create({ data: { dossierId, phaseRef, action, acteurId, acteurRole, acteurNom, details } });
+        return this.db.phaseHistorique.create({ data: { dossierId, phaseRef: phaseRef ?? null, action, acteurId, acteurRole, acteurNom, details } });
     }
 };
 exports.SousPhaseService = SousPhaseService;
