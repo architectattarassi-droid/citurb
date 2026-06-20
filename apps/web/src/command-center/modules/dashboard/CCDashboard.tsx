@@ -55,7 +55,7 @@ export default function CCDashboard() {
             cours, jour après jour.
           </p>
         </div>
-        <a href="/simulateur" style={S.cta}>Ouvrir le simulateur</a>
+        <a href="/cc/simulateur" style={S.cta}>Ouvrir le simulateur</a>
       </header>
 
       {/* Aujourd'hui — priorités */}
