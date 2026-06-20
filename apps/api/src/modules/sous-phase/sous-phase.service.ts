@@ -218,13 +218,13 @@ export class SousPhaseService {
     return this.db.phaseReunion.update({ where: { id }, data });
   }
 
-  async createDevis(dossierId: string, phaseRef: string, emetteurId: string, titre: string, lignes: any[], opts?: any) {
+  async createDevis(dossierId: string, phaseRef: string | null | undefined, emetteurId: string, titre: string, lignes: any[], opts?: any) {
     const ht = lignes.reduce((s: number, l: any) => s + l.quantite * l.prixUnitaire, 0);
     const tva = opts?.tva ?? 20;
     const count = await this.db.devis.count({ where: { dossierId } });
     const numero = `DEV-${dossierId.slice(-6).toUpperCase()}-${String(count + 1).padStart(3, '0')}`;
     const dv = await this.db.devis.create({
-      data: { dossierId, phaseRef, numero, titre, lignes, montantHT: ht, tva, montantTTC: ht * (1 + tva / 100), emetteurId },
+      data: { dossierId, phaseRef: phaseRef ?? null, numero, titre, lignes, montantHT: ht, tva, montantTTC: ht * (1 + tva / 100), emetteurId },
     });
     await this.log(dossierId, phaseRef, 'DEVIS_CREE', emetteurId, undefined, undefined, { numero, montantTTC: dv.montantTTC });
     return dv;
@@ -269,7 +269,7 @@ export class SousPhaseService {
     return this.db.phaseHistorique.findMany({ where: { dossierId, ...(phaseRef ? { phaseRef } : {}) }, orderBy: { createdAt: 'desc' } });
   }
 
-  async log(dossierId: string, phaseRef: string, action: string, acteurId?: string, acteurRole?: string, acteurNom?: string, details?: any) {
-    return this.db.phaseHistorique.create({ data: { dossierId, phaseRef, action, acteurId, acteurRole, acteurNom, details } });
+  async log(dossierId: string, phaseRef: string | null | undefined, action: string, acteurId?: string, acteurRole?: string, acteurNom?: string, details?: any) {
+    return this.db.phaseHistorique.create({ data: { dossierId, phaseRef: phaseRef ?? null, action, acteurId, acteurRole, acteurNom, details } });
   }
 }

@@ -1010,7 +1010,7 @@ model PhaseReunion {
 model Devis {
   id              String    @id @default(cuid())
   dossierId       String
-  phaseRef        String
+  phaseRef        String?
   numero          String    @unique
   titre           String
   statut          String    @default("BROUILLON")
@@ -1066,7 +1066,7 @@ model Facture {
 model PhaseHistorique {
   id         String   @id @default(cuid())
   dossierId  String
-  phaseRef   String
+  phaseRef   String?
   action     String
   acteurId   String?
   acteurRole String?
