@@ -22,6 +22,7 @@ import DossiersModule from './modules/dossiers/DossiersModule';
 import DossierDetail from './modules/dossiers/DossierDetail';
 import PhaseWorkspace from './modules/dossiers/PhaseWorkspace';
 import DossierShadowView from './modules/dossiers/DossierShadowView';
+import DevisEditor from './modules/dossiers/DevisEditor';
 import ValidationsModule from './modules/validations/ValidationsModule';
 import ArchiveModule from './modules/archive/ArchiveModule';
 import ArchiveDossierView from './modules/archive/ArchiveDossierView';
@@ -64,6 +65,7 @@ export default function CommandCenterApp() {
               <Route path="dossiers" element={<DossiersModule />} />
               <Route path="dossiers/:id" element={<PhaseWorkspace />} />
               <Route path="dossiers/:id/shadow" element={<DossierShadowView />} />
+              <Route path="dossiers/:id/devis" element={<DevisEditor />} />
               <Route path="validations" element={<ValidationsModule />} />
               <Route path="archive" element={<ArchiveModule />} />
               <Route path="archive/:id" element={<ArchiveDossierView />} />

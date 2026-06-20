@@ -43,6 +43,11 @@ let QuoteInvoiceController = class QuoteInvoiceController {
         const html = await this.service.renderHtml(dossierId, { type: "QUOTE", notes });
         res.send(html);
     }
+    // ── Devis persisté (model Devis, passe 2) ──
+    async devisRowHtml(devisId, res) {
+        const html = await this.service.renderDevisRowHtml(devisId);
+        res.send(html);
+    }
     // ── Facture ──
     async assignInvoice(dossierId) {
         const numero = await this.service.getOrAssignNumero(dossierId, "INVOICE");
@@ -77,6 +82,15 @@ __decorate([
     __metadata("design:paramtypes", [String, Object, Object]),
     __metadata("design:returntype", Promise)
 ], QuoteInvoiceController.prototype, "quoteHtml", null);
+__decorate([
+    (0, common_1.Get)("devis/:devisId/html"),
+    (0, common_1.Header)("Content-Type", "text/html; charset=utf-8"),
+    __param(0, (0, common_1.Param)("devisId")),
+    __param(1, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], QuoteInvoiceController.prototype, "devisRowHtml", null);
 __decorate([
     (0, common_1.Post)("invoice/:dossierId"),
     __param(0, (0, common_1.Param)("dossierId")),

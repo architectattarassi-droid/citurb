@@ -42,6 +42,14 @@ export class QuoteInvoiceController {
     res.send(html);
   }
 
+  // ── Devis persisté (model Devis, passe 2) ──
+  @Get("devis/:devisId/html")
+  @Header("Content-Type", "text/html; charset=utf-8")
+  async devisRowHtml(@Param("devisId") devisId: string, @Res() res: Response) {
+    const html = await this.service.renderDevisRowHtml(devisId);
+    res.send(html);
+  }
+
   // ── Facture ──
   @Post("invoice/:dossierId")
   async assignInvoice(@Param("dossierId") dossierId: string) {

@@ -147,6 +147,60 @@ export class QuoteInvoiceService {
     });
   }
 
+  /**
+   * Passe 2 — Rend en HTML imprimable une row Devis PERSISTÉE (model Devis),
+   * par opposition à renderHtml() qui rend depuis payload.quoteSnapshot.
+   * Réutilise le même template premium (shell). Lignes = devis.lignes JSON.
+   */
+  async renderDevisRowHtml(devisId: string): Promise<string> {
+    const devis = await this.prisma.devis.findUniqueOrThrow({
+      where: { id: devisId },
+      include: { dossier: true },
+    });
+    const rawLignes: any[] = Array.isArray(devis.lignes) ? (devis.lignes as any[]) : [];
+    const lignes = rawLignes.map((l) => {
+      const quantite = Number(l?.quantite ?? 1);
+      const prixUnitaire = Number(l?.prixUnitaire ?? 0);
+      return {
+        designation: String(l?.designation ?? "Prestation"),
+        quantite,
+        unite: String(l?.unite ?? "U"),
+        prixUnitaire,
+        totalHT: quantite * prixUnitaire,
+      };
+    });
+
+    const atelier: AtelierIdentity = {
+      nom: process.env.ATELIER_NOM || "CITURBAREA",
+      raisonSociale: process.env.ATELIER_RAISON_SOCIALE || "Atelier d'architecture CITURBAREA",
+      ice: process.env.ATELIER_ICE || "—",
+      rc: process.env.ATELIER_RC || "—",
+      if: process.env.ATELIER_IF || "—",
+      patente: process.env.ATELIER_PATENTE || "—",
+      cnss: process.env.ATELIER_CNSS || "—",
+      adresse: process.env.ATELIER_ADRESSE || "Maroc",
+      tel: process.env.ATELIER_TEL || "—",
+      email: process.env.ATELIER_EMAIL || "contact@citurbarea.ma",
+      iban: process.env.ATELIER_IBAN || "—",
+      banque: process.env.ATELIER_BANQUE || "—",
+    };
+
+    const emisLe = devis.dateEmission ?? new Date();
+    return this.shell({
+      type: "QUOTE",
+      numero: devis.numero,
+      emisLe,
+      echeance: devis.dateValidite ?? this.defaultEcheance(emisLe, "QUOTE"),
+      atelier,
+      dossier: devis.dossier,
+      lignes,
+      totalHT: devis.montantHT,
+      tva: devis.montantTTC - devis.montantHT,
+      tvaPct: devis.tva,
+      totalTTC: devis.montantTTC,
+    });
+  }
+
   // ─────────────────────────────────────────────────────────────
   //  Construction des lignes selon la porte
   // ─────────────────────────────────────────────────────────────

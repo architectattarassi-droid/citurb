@@ -246,6 +246,9 @@ export default function DossiersModule() {
                   <button onClick={() => openHtmlInTab(`/api/cc/quote/${d.id}/html`)} style={{ ...btnStyle("rgba(176,141,87,0.15)", "#B08D57"), fontSize: 13, minHeight: 44, padding: "8px 14px" }}>
                     📄 Devis
                   </button>
+                  <button onClick={() => navigate(`/cc/dossiers/${d.id}/devis`)} style={{ ...btnStyle("rgba(176,141,87,0.22)", "#B08D57"), fontSize: 13, minHeight: 44, padding: "8px 14px" }}>
+                    ✎ Devis (éditer)
+                  </button>
                   <button onClick={() => inviteClient(d.id, d.owner?.email)} style={{ ...btnStyle("rgba(107,127,92,0.15)", "#6B7F5C"), fontSize: 13, minHeight: 44, padding: "8px 14px" }}>
                     ✉ Inviter
                   </button>
