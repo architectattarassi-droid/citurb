@@ -29,6 +29,14 @@ export default function Login() {
         navigate(redirectFromQuery);
         return;
       }
+      // Rôles backoffice → Command Center directement (même s'ils ont un ProProfile).
+      try {
+        const u = JSON.parse(localStorage.getItem("citurbarea_user") || "{}");
+        if (["ADMIN", "OWNER", "OPS"].includes(u?.role)) {
+          navigate("/cc/dashboard");
+          return;
+        }
+      } catch { /* fallthrough */ }
       try {
         const apiBase = (import.meta as any).env?.VITE_API_URL || "http://localhost:4000";
         const tok = localStorage.getItem("citurbarea.token") || "";
