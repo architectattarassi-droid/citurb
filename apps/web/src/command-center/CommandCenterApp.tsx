@@ -31,7 +31,7 @@ import OwnerLive from './pages/OwnerLive';
 import FirmsModule from './modules/firms/FirmsModule';
 import CCLogin from './pages/CCLogin';
 import SigExplorer from '../features/geo/SigExplorer';
-import SimulatorPage from '../ui/simulateur/SimulatorPage';
+import CCSimulateur from './modules/dossiers/CCSimulateur';
 import { getToken } from '../tomes/tome4/apiClient';
 
 export type CCModule =
@@ -66,7 +66,7 @@ export default function CommandCenterApp() {
               <Route path="business/*" element={<BusinessModule />} />
               <Route path="dossiers" element={<DossiersModule />} />
               <Route path="devis" element={<DevisLibre />} />
-              <Route path="simulateur" element={<SimulatorPage />} />
+              <Route path="simulateur" element={<CCSimulateur />} />
               <Route path="dossiers/:id" element={<PhaseWorkspace />} />
               <Route path="dossiers/:id/shadow" element={<DossierShadowView />} />
               <Route path="dossiers/:id/devis" element={<DevisEditor />} />
