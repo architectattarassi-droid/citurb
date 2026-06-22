@@ -160,19 +160,43 @@ let QuoteInvoiceService = class QuoteInvoiceService {
         });
     }
     /**
-     * Passe B — crée un devis AUTONOME (sans dossier). Coordonnées client portées
-     * par clientInfo. Numérotation dédiée DEV-LIBRE-NNNN.
+     * Chaque devis "libre" crée un DOSSIER BROUILLON en phase 0 « devis »
+     * (status DRAFT, phase '00_DEVIS'), puis y attache le devis. Le dossier porte
+     * les coordonnées client (clientInfo) ; il apparaît dans la liste dossiers
+     * comme brouillon et pourra être promu en vrai dossier ensuite.
      */
     async createDevisLibre(emetteurId, input) {
         const lignes = Array.isArray(input.lignes) ? input.lignes : [];
         const ht = lignes.reduce((s, l) => s + (Number(l?.quantite) || 0) * (Number(l?.prixUnitaire) || 0), 0);
         const tva = input.tva ?? 20;
-        const count = await this.prisma.devis.count({ where: { dossierId: null } });
-        const numero = `DEV-LIBRE-${String(count + 1).padStart(4, "0")}`;
-        return this.prisma.devis.create({
+        const ci = input.clientInfo ?? {};
+        // 1. Dossier brouillon — phase 0 « devis »
+        const dossier = await this.prisma.dossier.create({
             data: {
-                dossierId: null,
+                ownerId: emetteurId,
+                title: input.titre || `Devis — ${ci.raisonSociale || ci.clientNom || "client"}`,
+                status: "DRAFT",
+                phase: "00_DEVIS",
+                porteType: input.porteType || "P1",
+                raisonSociale: ci.raisonSociale ?? null,
+                clientNom: ci.clientNom ?? null,
+                representant: ci.representant ?? null,
+                ice: ci.ice ?? null,
+                rc: ci.rc ?? null,
+                clientTel: ci.clientTel ?? null,
+                clientEmail: ci.clientEmail ?? null,
+                commune: ci.commune ?? null,
+                address: ci.address ?? null,
+                payload: { devisDraft: true },
+            },
+        });
+        // 2. Devis attaché au dossier brouillon
+        const numero = `DEV-${dossier.id.slice(-6).toUpperCase()}-001`;
+        const devis = await this.prisma.devis.create({
+            data: {
+                dossierId: dossier.id,
                 clientInfo: input.clientInfo ?? null,
+                phaseRef: "00_DEVIS",
                 numero,
                 titre: input.titre,
                 lignes,
@@ -183,10 +207,15 @@ let QuoteInvoiceService = class QuoteInvoiceService {
                 emetteurId,
             },
         });
+        return { ...devis, dossier };
     }
-    /** Liste les devis autonomes (sans dossier). */
+    /** Liste les devis "libres" = ceux dont le dossier est un brouillon phase 0 devis. */
     async listDevisLibre() {
-        return this.prisma.devis.findMany({ where: { dossierId: null }, orderBy: { createdAt: "desc" } });
+        return this.prisma.devis.findMany({
+            where: { dossier: { phase: "00_DEVIS" } },
+            orderBy: { createdAt: "desc" },
+            include: { dossier: { select: { id: true, status: true, phase: true } } },
+        });
     }
     // ─────────────────────────────────────────────────────────────
     //  Construction des lignes selon la porte

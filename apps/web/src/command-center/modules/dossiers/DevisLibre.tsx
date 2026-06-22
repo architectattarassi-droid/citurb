@@ -40,6 +40,7 @@ export default function DevisLibre() {
   const [client, setClient] = useState<ClientInfo>({});
   const [titre, setTitre] = useState("Devis prestations");
   const [tva, setTva] = useState(20);
+  const [porteType, setPorteType] = useState<"P1" | "P2">("P2");
   const [lignes, setLignes] = useState<Ligne[]>([emptyLine()]);
   const [existants, setExistants] = useState<Devis[]>([]);
   const [loading, setLoading] = useState(true);
@@ -74,8 +75,8 @@ export default function DevisLibre() {
     if (cleanLignes.length === 0) { setErr("Ajoute au moins une ligne (désignation + quantité)"); return; }
     setSaving(true);
     try {
-      await apiFetch(`/api/cc/devis`, { method: "POST", body: { titre: titre.trim(), lignes: cleanLignes, tva, clientInfo: client } });
-      setOk("Devis libre enregistré.");
+      await apiFetch(`/api/cc/devis`, { method: "POST", body: { titre: titre.trim(), lignes: cleanLignes, tva, clientInfo: client, porteType } });
+      setOk("Devis enregistré — un dossier brouillon (phase devis) a été créé.");
       setLignes([emptyLine()]); setTitre("Devis prestations"); setClient({});
       await reload();
     } catch (e: any) { setErr(e?.message || "Enregistrement échoué"); }
@@ -86,7 +87,7 @@ export default function DevisLibre() {
     <div style={S.root}>
       <div style={S.headerRow}>
         <button onClick={() => navigate("/cc/dossiers")} style={S.btnGhost}>← Dossiers</button>
-        <h1 style={S.h1}>Devis libre <span style={S.sub}>(sans dossier)</span></h1>
+        <h1 style={S.h1}>Nouveau devis <span style={S.sub}>(crée un dossier brouillon · phase devis)</span></h1>
       </div>
 
       <section style={S.card}>
@@ -105,7 +106,7 @@ export default function DevisLibre() {
 
       <section style={S.card}>
         <div style={S.eyebrow}>Devis</div>
-        <CostEngine onApply={(ls, info) => { setLignes(ls); if (info.titre) setTitre(info.titre); if (info.tva) setTva(info.tva); }} />
+        <CostEngine onApply={(ls, info) => { setLignes(ls); if (info.titre) setTitre(info.titre); if (info.tva) setTva(info.tva); if (info.porte) setPorteType(info.porte); }} />
         <Field label="Titre"><input style={S.input} value={titre} onChange={(e) => setTitre(e.target.value)} /></Field>
 
         <table style={S.table}>

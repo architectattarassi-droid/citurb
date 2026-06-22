@@ -70,7 +70,7 @@ function SurfaceHelper({ value, onChange }: { value: number; onChange: (m2: numb
   );
 }
 
-export default function CostEngine({ onApply }: { onApply?: (lignes: CalcLigne[], info: { titre?: string; tva?: number }) => void }) {
+export default function CostEngine({ onApply }: { onApply?: (lignes: CalcLigne[], info: { titre?: string; tva?: number; porte?: "P1" | "P2" }) => void }) {
   const [porte, setPorte] = useState<"P1" | "P2">("P2");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -191,7 +191,7 @@ export default function CostEngine({ onApply }: { onApply?: (lignes: CalcLigne[]
           {preview.detail.map((d, i) => (
             <div key={i} style={S.previewRow}><span>{d.l}</span><b>{fmtMAD(d.v)}</b></div>
           ))}
-          {onApply && <button onClick={() => onApply(preview.lignes, { titre: preview.titre, tva: 20 })} style={S.btnApply}>↧ Appliquer ces lignes au devis</button>}
+          {onApply && <button onClick={() => onApply(preview.lignes, { titre: preview.titre, tva: 20, porte })} style={S.btnApply}>↧ Appliquer ces lignes au devis</button>}
         </div>
       )}
     </div>
