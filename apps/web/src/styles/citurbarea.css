@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap');
 
 :root {
+  /* App en thème clair : empêche le dark-mode mobile de blanchir le texte des
+     champs (fond clair + texte clair = invisible sur inscription/portes). */
+  color-scheme: light;
   --c-ink:       #0a0f1e;
   --c-ink2:      #1a2438;
   --c-muted:     #566474;
