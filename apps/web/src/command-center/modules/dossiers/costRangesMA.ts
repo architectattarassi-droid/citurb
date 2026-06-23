@@ -8,7 +8,7 @@
  */
 
 export type Standing = "ULTRA_ECO" | "ECONOMIQUE" | "STANDARD" | "STANDING" | "PREMIUM";
-export type TypeProjet = "HMB" | "VIL" | "IMM" | "MIX";
+export type TypeProjet = "HMB" | "VIL" | "IMM" | "MIX" | "BUR" | "AME";
 
 export const STANDING_LABELS: Record<Standing, string> = {
   ULTRA_ECO: "Ultra-économique",
@@ -23,6 +23,8 @@ export const TYPE_LABELS: Record<TypeProjet, string> = {
   VIL: "Villa (isolée / jumelée)",
   IMM: "Immeuble résidentiel (R+2 à R+5)",
   MIX: "Immeuble mixte (RDC commerce + logements)",
+  BUR: "Bureaux / plateaux professionnels",
+  AME: "Aménagement intérieur / local commercial",
 };
 
 /** Codes de lot → libellés, groupés gros œuvre → second œuvre → finitions. */
@@ -43,11 +45,20 @@ export const LOT_LABELS: Record<string, string> = {
   PLA: "Plâtre / faux-plafonds",
   FER: "Ferronnerie",
   SEC: "Sécurité / parties communes",
+  TEC: "Lots techniques (CVC, courant faible, sécurité)",
 };
 
-export const LOT_ORDER = ["INS", "TER", "FON", "STR", "MAC", "ETA", "FAC", "ALU", "BOI", "ELE", "PLO", "REV", "PEI", "PLA", "FER", "SEC"];
+export const LOT_ORDER = ["INS", "TER", "FON", "STR", "MAC", "ETA", "FAC", "ALU", "BOI", "ELE", "PLO", "REV", "PEI", "PLA", "FER", "SEC", "TEC"];
 
-type TypeConfig = { label: string; ranges: Partial<Record<Standing, [number, number]>>; lots: Record<string, number> };
+type TypeConfig = {
+  label: string;
+  /** Garde-fou d'affichage spécifique au type (en sus du disclaimer général). */
+  note?: string;
+  ranges: Partial<Record<Standing, [number, number]>>;
+  lots: Record<string, number>;
+  /** Libellés de lot spécifiques au type (override de LOT_LABELS). */
+  lotLabels?: Record<string, string>;
+};
 
 export const COST_RANGES_MA: Record<TypeProjet, TypeConfig> = {
   HMB: {
@@ -69,6 +80,30 @@ export const COST_RANGES_MA: Record<TypeProjet, TypeConfig> = {
     label: TYPE_LABELS.MIX,
     ranges: { ULTRA_ECO: [3000, 3800], ECONOMIQUE: [4000, 5200], STANDARD: [5500, 7200], STANDING: [7500, 10000], PREMIUM: [11000, 14500] },
     lots: { INS: 0.02, TER: 0.03, FON: 0.1, STR: 0.24, MAC: 0.08, ETA: 0.04, FAC: 0.08, ALU: 0.08, BOI: 0.03, ELE: 0.09, PLO: 0.07, REV: 0.08, PEI: 0.03, PLA: 0.02, FER: 0.02, SEC: 0.01 },
+  },
+  BUR: {
+    label: TYPE_LABELS.BUR,
+    note: "Les bureaux nécessitent souvent un budget technique plus élevé : électricité, courant faible, climatisation, faux-plafonds, sécurité et cloisonnement.",
+    ranges: { ECONOMIQUE: [4000, 5200], STANDARD: [5500, 7000], STANDING: [8000, 10000], PREMIUM: [11000, 15000] },
+    lots: { INS: 0.02, TER: 0.03, FON: 0.08, STR: 0.2, MAC: 0.07, ETA: 0.04, FAC: 0.08, ALU: 0.1, BOI: 0.03, ELE: 0.11, PLO: 0.05, REV: 0.07, PEI: 0.03, PLA: 0.05, FER: 0.01, TEC: 0.03 },
+  },
+  AME: {
+    label: TYPE_LABELS.AME,
+    note: "L'aménagement intérieur ne correspond pas à une construction neuve complète : il concerne un local, plateau ou espace existant à aménager.",
+    ranges: { ULTRA_ECO: [1500, 2500], ECONOMIQUE: [2500, 4000], STANDARD: [4000, 6000], STANDING: [6000, 9000], PREMIUM: [9000, 14000] },
+    lots: { DEM: 0.05, CLO: 0.1, ELE: 0.18, PLO: 0.08, CLM: 0.12, PLA: 0.1, REV: 0.15, PEI: 0.08, BOI: 0.08, ENS: 0.06 },
+    lotLabels: {
+      DEM: "Démolition / préparation",
+      CLO: "Cloisons",
+      ELE: "Électricité / courant faible",
+      PLO: "Plomberie",
+      CLM: "Climatisation / ventilation",
+      PLA: "Faux-plafonds",
+      REV: "Revêtements",
+      PEI: "Peinture / finitions",
+      BOI: "Menuiserie / mobilier fixe",
+      ENS: "Enseigne / façade commerciale",
+    },
   },
 };
 
@@ -93,11 +128,13 @@ export function estimateLots(type: TypeProjet, standing: Standing, surfaceM2: nu
   const rangeM2 = cfg.ranges[standing];
   if (!rangeM2 || !surfaceM2 || surfaceM2 <= 0) return null;
   const sumW = Object.values(cfg.lots).reduce((a, b) => a + b, 0);
-  const lots: LotEstimate[] = LOT_ORDER.filter((c) => cfg.lots[c] != null).map((code) => {
+  // Itère sur les lots du type (ordre d'insertion → gère les codes spécifiques
+  // AME : DEM/CLO/CLM/ENS). Poids normalisés (÷ somme) → lots = total exact.
+  const lots: LotEstimate[] = Object.keys(cfg.lots).map((code) => {
     const w = cfg.lots[code] / sumW;
     return {
       code,
-      label: LOT_LABELS[code] ?? code,
+      label: cfg.lotLabels?.[code] ?? LOT_LABELS[code] ?? code,
       pct: cfg.lots[code],
       min: Math.round(rangeM2[0] * w * surfaceM2),
       max: Math.round(rangeM2[1] * w * surfaceM2),

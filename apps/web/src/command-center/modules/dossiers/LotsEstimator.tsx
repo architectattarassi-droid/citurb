@@ -89,10 +89,14 @@ export default function LotsEstimator({ onApply }: { onApply?: (lignes: CalcLign
             </tbody>
           </table>
 
+          {COST_RANGES_MA[type].note && <div style={S.note}>ℹ {COST_RANGES_MA[type].note}</div>}
           <div style={S.disclaimer}>{DISCLAIMER_LOTS}</div>
 
           {onApply && (
-            <button onClick={apply} style={S.btnApply}>↧ Appliquer au devis (valeur médiane par lot)</button>
+            <div style={S.applyRow}>
+              <button onClick={apply} style={S.btnApply}>↧ Appliquer au devis</button>
+              <span style={S.badge}>Prix appliqué : médiane de la fourchette estimative</span>
+            </div>
           )}
         </>
       )}
@@ -117,5 +121,8 @@ const S: Record<string, React.CSSProperties> = {
   td: { padding: "7px 8px", borderBottom: `1px solid ${CC.color.border}`, fontSize: 13 },
   num: { textAlign: "right", fontVariantNumeric: "tabular-nums" },
   disclaimer: { marginTop: 12, fontSize: 11, color: CC.color.inkMid, fontStyle: "italic", lineHeight: 1.6, padding: "10px 12px", background: CC.color.bgRaised, borderRadius: 6, border: `1px solid ${CC.color.border}` },
-  btnApply: { marginTop: 12, background: CC.color.navy, color: CC.color.inkOnDark, border: 0, padding: "9px 18px", borderRadius: 6, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", fontSize: 12 },
+  note: { marginTop: 12, fontSize: 12, color: CC.color.navy, lineHeight: 1.6, padding: "10px 12px", background: CC.color.orSoft, borderRadius: 6, borderLeft: `3px solid ${CC.color.or}` },
+  applyRow: { marginTop: 12, display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" },
+  btnApply: { background: CC.color.navy, color: CC.color.inkOnDark, border: 0, padding: "9px 18px", borderRadius: 6, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", fontSize: 12 },
+  badge: { fontSize: 11, color: CC.color.inkMid, background: CC.color.bgRaised, border: `1px solid ${CC.color.border}`, padding: "5px 10px", borderRadius: 12, fontStyle: "italic" },
 };
