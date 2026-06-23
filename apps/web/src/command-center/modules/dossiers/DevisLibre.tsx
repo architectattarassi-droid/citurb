@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { apiFetch, apiBase, getToken } from "../../../tomes/tome4/apiClient";
 import { CC } from "../../theme/tokens";
 import CostEngine from "./CostEngine";
+import LotsEstimator from "./LotsEstimator";
 
 type Ligne = { designation: string; quantite: number; unite: string; prixUnitaire: number };
 type ClientInfo = {
@@ -106,6 +107,7 @@ export default function DevisLibre() {
 
       <section style={S.card}>
         <div style={S.eyebrow}>Devis</div>
+        <LotsEstimator onApply={(ls, info) => { setLignes(ls); if (info.titre) setTitre(info.titre); if (info.tva) setTva(info.tva); }} />
         <CostEngine onApply={(ls, info) => { setLignes(ls); if (info.titre) setTitre(info.titre); if (info.tva) setTva(info.tva); if (info.porte) setPorteType(info.porte); }} />
         <Field label="Titre"><input style={S.input} value={titre} onChange={(e) => setTitre(e.target.value)} /></Field>
 
