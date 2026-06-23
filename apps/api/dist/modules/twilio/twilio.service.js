@@ -19,8 +19,27 @@ let TwilioService = class TwilioService {
     hasVerify() {
         return this.isConfigured() && !!process.env.TWILIO_VERIFY_SID;
     }
+    /**
+     * Normalise un numéro en E.164 (défaut Maroc). Twilio rejette les formats
+     * locaux type "0666293811" (code 60200). Ex : 0666293811 → +212666293811.
+     */
+    toE164(raw) {
+        const s = String(raw ?? "").replace(/[\s\-().]/g, "");
+        if (!s)
+            return s;
+        if (s.startsWith("+"))
+            return s;
+        if (s.startsWith("00"))
+            return "+" + s.slice(2);
+        if (s.startsWith("212"))
+            return "+" + s;
+        if (s.startsWith("0"))
+            return "+212" + s.slice(1);
+        return "+212" + s;
+    }
     // ── Programmable Messaging (envoi SMS générique) ───────────────
-    async sendSms(toE164, body) {
+    async sendSms(rawTo, body) {
+        const toE164 = this.toE164(rawTo);
         if (!this.hasMessaging()) {
             this.log.warn(`[Twilio] Pas configuré pour Messaging — SMS à ${toE164} non envoyé (body: ${body.slice(0, 60)}…)`);
             return { ok: false, error: "Twilio non configuré" };
@@ -51,7 +70,8 @@ let TwilioService = class TwilioService {
         }
     }
     // ── Twilio Verify (anti-fraude built-in, code géré par Twilio) ─
-    async sendVerification(toE164, channel = "sms") {
+    async sendVerification(rawTo, channel = "sms") {
+        const toE164 = this.toE164(rawTo);
         if (!this.hasVerify()) {
             // Fallback dev : génère un code local et le log
             const devCode = String(Math.floor(100000 + Math.random() * 900000));
@@ -82,7 +102,8 @@ let TwilioService = class TwilioService {
             return { ok: false, error: e?.message };
         }
     }
-    async checkVerification(toE164, code) {
+    async checkVerification(rawTo, code) {
+        const toE164 = this.toE164(rawTo);
         if (!this.hasVerify()) {
             return { ok: false, approved: false, error: "Twilio Verify non configuré" };
         }

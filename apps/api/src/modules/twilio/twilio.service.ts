@@ -33,9 +33,24 @@ export class TwilioService {
     return this.isConfigured() && !!process.env.TWILIO_VERIFY_SID;
   }
 
+  /**
+   * Normalise un numéro en E.164 (défaut Maroc). Twilio rejette les formats
+   * locaux type "0666293811" (code 60200). Ex : 0666293811 → +212666293811.
+   */
+  toE164(raw: string): string {
+    const s = String(raw ?? "").replace(/[\s\-().]/g, "");
+    if (!s) return s;
+    if (s.startsWith("+")) return s;
+    if (s.startsWith("00")) return "+" + s.slice(2);
+    if (s.startsWith("212")) return "+" + s;
+    if (s.startsWith("0")) return "+212" + s.slice(1);
+    return "+212" + s;
+  }
+
   // ── Programmable Messaging (envoi SMS générique) ───────────────
 
-  async sendSms(toE164: string, body: string): Promise<SmsResult> {
+  async sendSms(rawTo: string, body: string): Promise<SmsResult> {
+    const toE164 = this.toE164(rawTo);
     if (!this.hasMessaging()) {
       this.log.warn(`[Twilio] Pas configuré pour Messaging — SMS à ${toE164} non envoyé (body: ${body.slice(0, 60)}…)`);
       return { ok: false, error: "Twilio non configuré" };
@@ -67,7 +82,8 @@ export class TwilioService {
 
   // ── Twilio Verify (anti-fraude built-in, code géré par Twilio) ─
 
-  async sendVerification(toE164: string, channel: "sms" | "call" | "email" = "sms"): Promise<SmsResult> {
+  async sendVerification(rawTo: string, channel: "sms" | "call" | "email" = "sms"): Promise<SmsResult> {
+    const toE164 = this.toE164(rawTo);
     if (!this.hasVerify()) {
       // Fallback dev : génère un code local et le log
       const devCode = String(Math.floor(100000 + Math.random() * 900000));
@@ -98,7 +114,8 @@ export class TwilioService {
     }
   }
 
-  async checkVerification(toE164: string, code: string): Promise<{ ok: boolean; approved: boolean; error?: string }> {
+  async checkVerification(rawTo: string, code: string): Promise<{ ok: boolean; approved: boolean; error?: string }> {
+    const toE164 = this.toE164(rawTo);
     if (!this.hasVerify()) {
       return { ok: false, approved: false, error: "Twilio Verify non configuré" };
     }
