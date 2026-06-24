@@ -163,19 +163,22 @@ let SignupVerificationService = class SignupVerificationService {
         // Le code est généré et envoyé par Twilio. Côté CITURBAREA on ne stocke
         // qu'un challenge "shell" (pas de hash car la vérif passe par checkVerification).
         const sr = await this.issueSmsChallengeViaVerify(phoneCtx, phone);
-        if (!sr.ok) {
+        const smsSent = sr.ok;
+        if (!smsSent)
             this.log.warn(`[signup] Twilio Verify échoué pour ${phone} : ${sr.error}`);
-            // En PROD : faire échouer l'inscription (sinon le user n'a aucun moyen
-            // de recevoir le code SMS et reste bloqué silencieusement).
-            // En DEV : laisser passer mais signaler par devPhoneCode placeholder.
-            if (isProd) {
-                throw new common_1.BadRequestException("Envoi du code SMS impossible. Réessayez plus tard.");
-            }
+        const emailSent = er.ok;
+        // Repli : on ne bloque PLUS si le SMS échoue tant qu'un code est parti par
+        // un autre canal. Blocage réel uniquement si AUCUN canal n'a pu envoyer.
+        if (isProd && !emailSent && !smsSent) {
+            throw new common_1.BadRequestException("Impossible d'envoyer un code de confirmation (email et SMS indisponibles). Réessayez plus tard.");
         }
         return {
             ok: true,
             maskedEmail: this.maskEmail(email),
             maskedPhone: this.maskPhone(phone),
+            // Indique au front quels canaux ont reçu un code (pour n'afficher que les
+            // champs pertinents). Un seul code suffit à confirmer (cf. confirm()).
+            channels: { email: emailSent, sms: smsSent },
             devEmailCode,
             // devPhoneCode : Twilio Verify ne nous communique pas le code (généré chez
             // eux). Pas de fuite possible côté API. Toujours undefined.
@@ -257,13 +260,40 @@ let SignupVerificationService = class SignupVerificationService {
             data: { status: "VERIFIED", verifiedAt: now },
         });
     }
-    /** Étape 2 — vérifie les DEUX codes ; les deux doivent être valides. */
+    /**
+     * Étape 2 — un SEUL code valide suffit (email OU SMS). Repli : si le SMS
+     * n'arrive pas (filtrage opérateur Maroc fréquent), le code email confirme le
+     * compte, et inversement. On exige au moins un canal vérifié.
+     */
     async confirm(rawEmail, emailCode, phoneCode) {
         const email = (rawEmail || "").trim().toLowerCase();
-        // Email : challenge local, comparaison hash sha256.
-        await this.verifyOne(`signup-email:${email}`, emailCode, "email");
-        // SMS : challenge externalisé Twilio Verify, comparaison côté Twilio.
-        await this.verifyOneViaTwilioVerify(`signup-phone:${email}`, phoneCode, "SMS");
+        const hasEmail = !!(emailCode || "").trim();
+        const hasPhone = !!(phoneCode || "").trim();
+        if (!hasEmail && !hasPhone) {
+            throw new common_1.BadRequestException("Saisissez le code reçu par email ou par SMS.");
+        }
+        let verified = false;
+        let lastErr;
+        if (hasEmail) {
+            try {
+                await this.verifyOne(`signup-email:${email}`, emailCode, "email");
+                verified = true;
+            }
+            catch (e) {
+                lastErr = e;
+            }
+        }
+        if (!verified && hasPhone) {
+            try {
+                await this.verifyOneViaTwilioVerify(`signup-phone:${email}`, phoneCode, "SMS");
+                verified = true;
+            }
+            catch (e) {
+                lastErr = e;
+            }
+        }
+        if (!verified)
+            throw lastErr ?? new common_1.BadRequestException("Code incorrect ou expiré.");
         return { ok: true };
     }
 };

@@ -81,8 +81,9 @@ export default function ClientSignup() {
   const confirmSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (emailCode.trim().length < 4 || phoneCode.trim().length < 4) {
-      setError(t("auth.error_codes_required"));
+    // Un seul code suffit (repli email ↔ SMS) : on exige AU MOINS un code.
+    if (emailCode.trim().length < 4 && phoneCode.trim().length < 4) {
+      setError("Saisissez le code reçu par email OU par SMS (un seul suffit).");
       return;
     }
     setLoading(true);
@@ -182,19 +183,23 @@ export default function ClientSignup() {
               </div>
             )}
 
+            <div style={S.devHint}>
+              ✓ Un seul code suffit : saisissez celui reçu <b>par email</b> OU <b>par SMS</b>. Si le SMS n'arrive pas, utilisez le code email.
+            </div>
+
             <form onSubmit={confirmSignup}>
               <div style={S.field}>
                 <label style={S.label}>{t("auth.email_code")}</label>
                 <input type="text" inputMode="numeric" value={emailCode}
                   onChange={(e) => setEmailCode(e.target.value)} placeholder="6 chiffres"
-                  maxLength={6} required autoFocus style={{ ...S.input, ...S.codeInput }} />
+                  maxLength={6} autoFocus style={{ ...S.input, ...S.codeInput }} />
               </div>
 
               <div style={{ ...S.field, marginBottom: 28 }}>
                 <label style={S.label}>{t("auth.sms_code")}</label>
                 <input type="text" inputMode="numeric" value={phoneCode}
                   onChange={(e) => setPhoneCode(e.target.value)} placeholder="6 chiffres"
-                  maxLength={6} required style={{ ...S.input, ...S.codeInput }} />
+                  maxLength={6} style={{ ...S.input, ...S.codeInput }} />
               </div>
 
               <button type="submit" disabled={loading} style={{ ...S.submit, ...(loading ? S.submitOff : {}) }}>
