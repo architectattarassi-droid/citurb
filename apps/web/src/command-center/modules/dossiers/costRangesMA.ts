@@ -151,5 +151,20 @@ export function estimateLots(type: TypeProjet, standing: Standing, surfaceM2: nu
   };
 }
 
+/**
+ * Honoraires des intervenants, en % du COÛT DE CONSTRUCTION estimé.
+ * ARCH (5%) et BET (2%) reprennent le moteur P1/P2 déjà déployé ; les autres
+ * sont des taux indicatifs marché Maroc, éditables dans l'UI.
+ */
+export type Intervenant = { code: string; label: string; rate: number };
+export const INTERVENANTS_DEFAULT: Intervenant[] = [
+  { code: "ARCH", label: "Architecte (conception + suivi)", rate: 0.05 },
+  { code: "BET", label: "BET structure & fluides", rate: 0.02 },
+  { code: "GEO", label: "Géotechnicien (étude de sol)", rate: 0.005 },
+  { code: "TOPO", label: "Topographe (relevé / implantation)", rate: 0.003 },
+  { code: "CTRL", label: "Bureau de contrôle technique", rate: 0.01 },
+  { code: "LABO", label: "Laboratoire (essais béton / sols)", rate: 0.005 },
+];
+
 export const DISCLAIMER_LOTS =
   "Estimation indicative (fourchette min–max). Le niveau ultra-économique correspond à une construction très simple : sans sous-sol, sans ascenseur, sans prestations de standing, finitions minimales. Hors terrain, honoraires, taxes, raccordements officiels, cuisine équipée, mobilier, VRD lourds et imprévus.";

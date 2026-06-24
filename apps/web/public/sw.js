@@ -13,7 +13,7 @@
  *  - JAMAIS de cache pour /auth, /webhooks, /uploads (passthrough).
  *  - skipWaiting + clients.claim pour un déploiement rapide.
  */
-const SW_VERSION = "citurbarea-sw-v1";
+const SW_VERSION = "citurbarea-sw-v2";
 const PRECACHE = `${SW_VERSION}-precache`;
 const RUNTIME = `${SW_VERSION}-runtime`;
 const API_CACHE = `${SW_VERSION}-api`;
@@ -138,7 +138,9 @@ async function cacheFirst(request, cacheName) {
 
 async function navigationFallback(request) {
   try {
-    const fresh = await fetch(request);
+    // no-store : ne JAMAIS resservir un index.html du cache HTTP navigateur,
+    // sinon l'app reste sur un ancien bundle après déploiement.
+    const fresh = await fetch(request, { cache: "no-store" });
     return fresh;
   } catch {
     const cache = await caches.open(PRECACHE);
