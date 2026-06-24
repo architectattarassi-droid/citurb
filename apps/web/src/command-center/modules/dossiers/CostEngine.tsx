@@ -13,9 +13,10 @@
  *          surface terrain (LOT), mode de suivi → POST /p2/quote.
  */
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { apiFetch } from "../../../tomes/tome4/apiClient";
 import { CC } from "../../theme/tokens";
+import SurfaceHelper from "./SurfaceHelper";
 
 export type CalcLigne = { designation: string; quantite: number; unite: string; prixUnitaire: number };
 
@@ -40,35 +41,6 @@ const SECTIONS = [
   { v: "AMG", l: "Aménagement" },
   { v: "LOT", l: "Lotissement (devis personnalisé)" },
 ];
-
-/** Aide surface : emprise RDC × (RDC + étages + sous-sol). */
-function SurfaceHelper({ value, onChange }: { value: number; onChange: (m2: number, hasBasement: boolean) => void }) {
-  const [mode, setMode] = useState<"direct" | "auto">("direct");
-  const [emprise, setEmprise] = useState(120);
-  const [etages, setEtages] = useState(1); // R+N → N étages au-dessus du RDC
-  const [sousSol, setSousSol] = useState(false);
-  const auto = useMemo(() => Math.round(emprise * (1 + Math.max(0, etages) + (sousSol ? 1 : 0))), [emprise, etages, sousSol]);
-  useEffect(() => { if (mode === "auto") onChange(auto, sousSol); }, [mode, auto, sousSol]);
-  return (
-    <div style={{ gridColumn: "1 / -1" }}>
-      <label style={S.lab}>Surface plancher (m²)</label>
-      <div style={{ display: "flex", gap: 8, marginBottom: 6 }}>
-        <button type="button" onClick={() => setMode("direct")} style={{ ...S.modeBtn, ...(mode === "direct" ? S.modeOn : {}) }}>Saisie directe</button>
-        <button type="button" onClick={() => setMode("auto")} style={{ ...S.modeBtn, ...(mode === "auto" ? S.modeOn : {}) }}>Calcul RDC + étages</button>
-      </div>
-      {mode === "direct" ? (
-        <input type="number" min="0" style={S.in} value={value} onChange={(e) => onChange(Number(e.target.value), false)} />
-      ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr auto", gap: 8, alignItems: "end" }}>
-          <div><span style={S.miniLab}>Emprise RDC (m²)</span><input type="number" min="0" style={S.in} value={emprise} onChange={(e) => setEmprise(Number(e.target.value))} /></div>
-          <div><span style={S.miniLab}>Étages (R+N)</span><input type="number" min="0" style={S.in} value={etages} onChange={(e) => setEtages(Number(e.target.value))} /></div>
-          <label style={{ ...S.chk, paddingBottom: 8 }}><input type="checkbox" checked={sousSol} onChange={(e) => setSousSol(e.target.checked)} /> Sous-sol</label>
-          <div style={{ gridColumn: "1 / -1", fontSize: 12, color: CC.color.inkMid }}>→ Surface plancher totale : <b style={{ color: CC.color.navy }}>{auto} m²</b></div>
-        </div>
-      )}
-    </div>
-  );
-}
 
 export default function CostEngine({ onApply }: { onApply?: (lignes: CalcLigne[], info: { titre?: string; tva?: number; porte?: "P1" | "P2" }) => void }) {
   const [porte, setPorte] = useState<"P1" | "P2">("P2");

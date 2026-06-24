@@ -8,6 +8,7 @@
 
 import React, { useMemo, useState } from "react";
 import { CC } from "../../theme/tokens";
+import SurfaceHelper from "./SurfaceHelper";
 import {
   COST_RANGES_MA, STANDING_LABELS, TYPE_LABELS, DISCLAIMER_LOTS,
   estimateLots, type Standing, type TypeProjet,
@@ -57,9 +58,7 @@ export default function LotsEstimator({ onApply }: { onApply?: (lignes: CalcLign
             {standings.map((s) => <option key={s} value={s}>{STANDING_LABELS[s]}</option>)}
           </select>
         </F>
-        <F l="Surface plancher (m²)">
-          <input type="number" min="0" style={S.in} value={surface} onChange={(e) => setSurface(Number(e.target.value))} />
-        </F>
+        <SurfaceHelper value={surface} onChange={(m2) => setSurface(m2)} />
       </div>
 
       {res && (
@@ -111,7 +110,7 @@ function F({ l, children }: { l: string; children: React.ReactNode }) {
 const S: Record<string, React.CSSProperties> = {
   box: { background: CC.color.bgSoft, border: `1px solid ${CC.color.border}`, borderRadius: 8, padding: "16px 18px", marginBottom: 18 },
   eyebrow: { fontSize: 10, color: CC.color.or, letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 600, marginBottom: 12 },
-  grid: { display: "grid", gridTemplateColumns: "2fr 1.4fr 1fr", gap: "10px 16px" },
+  grid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 16px" },
   lab: { display: "block", fontSize: 10, color: CC.color.inkMid, marginBottom: 3, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em" },
   in: { width: "100%", padding: "8px 10px", border: `1px solid ${CC.color.border}`, borderRadius: 4, fontFamily: "inherit", fontSize: 13, boxSizing: "border-box", background: CC.color.bgRaised, color: CC.color.ink },
   totalBar: { display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 16, padding: "10px 14px", background: CC.color.navy, color: CC.color.inkOnDark, borderRadius: 6, fontSize: 14 },
