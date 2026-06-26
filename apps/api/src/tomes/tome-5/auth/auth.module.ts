@@ -8,6 +8,7 @@ import { JwtStrategy } from "./jwt.strategy";
 import { OtpService } from "../../../modules/otp/otp.service";
 import { PasswordResetService } from "./password-reset.service";
 import { SignupVerificationService } from "./signup-verification.service";
+import { EmailSignupService } from "./email-signup.service";
 import { OwnerNotifyModule } from "../../../modules/owner-notify/owner-notify.module";
 
 /**
@@ -26,7 +27,7 @@ import { OwnerNotifyModule } from "../../../modules/owner-notify/owner-notify.mo
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, OtpService, PasswordResetService, SignupVerificationService],
+  providers: [AuthService, JwtStrategy, OtpService, PasswordResetService, SignupVerificationService, EmailSignupService],
   exports: [AuthService],
 })
 export class Tome5AuthModule {}

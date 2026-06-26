@@ -58,6 +58,7 @@ import DocsPage from "../../../ui/docs/DocsPage";
 
 import Login from "../../tome5/pages/Login";
 import VerifyPhone from "../../tome5/pages/VerifyPhone";
+import ConfirmEmail from "../../tome5/pages/ConfirmEmail";
 import ForgotPassword from "../../tome5/pages/ForgotPassword";
 import AccountTypeChooser from "../../tome5/pages/AccountTypeChooser";
 import ClientSignup from "../../tome5/pages/ClientSignup";
@@ -259,6 +260,7 @@ export const router = createBrowserRouter([
       // Canon — login reste accessible partout (admin login passe par /admin/login)
       { path: CANON.LOGIN, element: <Login /> },
       { path: "/verify-phone", element: <VerifyPhone /> },
+      { path: "/confirmer-email", element: <ConfirmEmail /> },
       { path: "/mot-de-passe-oublie", element: <ForgotPassword /> },
       // Portails publics P1-P6 → bloqués sur admin.citurbarea.com
       { path: CANON.P1, element: <AdminHostBlock><P1Home /></AdminHostBlock> },

@@ -11,6 +11,7 @@ import {
 import { AuthService } from "./auth.service";
 import { PasswordResetService } from "./password-reset.service";
 import { SignupVerificationService } from "./signup-verification.service";
+import { EmailSignupService } from "./email-signup.service";
 import { JwtAuthGuard } from "./jwt-auth.guard";
 import { Tome } from '../../tome-at';
 import { Rule } from "../../tome-at/kernel/tome.decorators";
@@ -22,6 +23,7 @@ export class AuthController {
     private readonly auth: AuthService,
     private readonly passwordReset: PasswordResetService,
     private readonly signupVerification: SignupVerificationService,
+    private readonly emailSignup: EmailSignupService,
   ) {}
 
   @Post("login")
@@ -131,6 +133,23 @@ export class AuthController {
   ) {
     await this.signupVerification.confirm(body.email, body.emailCode, body.phoneCode);
     return this.auth.register(body.email, body.password, body.username, body.phone);
+  }
+
+  /**
+   * Inscription par LIEN email (magic link, sans SMS — Twilio en instance).
+   * Crée le compte (non vérifié) et envoie un email de confirmation.
+   */
+  @Post('email-signup')
+  @Rule('T5-AUTH-EMAIL-SIGNUP')
+  async emailSignupRequest(@Body() body: { email: string; password: string; username?: string; phone?: string }) {
+    return this.emailSignup.requestLink(body.email, body.password, body.username, body.phone);
+  }
+
+  /** Confirmation du lien email → vérifie le compte et connecte l'utilisateur. */
+  @Post('email-signup/confirm')
+  @Rule('T5-AUTH-EMAIL-CONFIRM')
+  async emailSignupConfirm(@Body() body: { email: string; token: string }) {
+    return this.emailSignup.confirmLink(body.email, body.token);
   }
 
   /**

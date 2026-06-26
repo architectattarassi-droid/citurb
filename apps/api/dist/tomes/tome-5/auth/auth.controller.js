@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const password_reset_service_1 = require("./password-reset.service");
 const signup_verification_service_1 = require("./signup-verification.service");
+const email_signup_service_1 = require("./email-signup.service");
 const jwt_auth_guard_1 = require("./jwt-auth.guard");
 const tome_at_1 = require("../../tome-at");
 const tome_decorators_1 = require("../../tome-at/kernel/tome.decorators");
@@ -24,10 +25,12 @@ let AuthController = class AuthController {
     auth;
     passwordReset;
     signupVerification;
-    constructor(auth, passwordReset, signupVerification) {
+    emailSignup;
+    constructor(auth, passwordReset, signupVerification, emailSignup) {
         this.auth = auth;
         this.passwordReset = passwordReset;
         this.signupVerification = signupVerification;
+        this.emailSignup = emailSignup;
     }
     async login(body) {
         return this.auth.login(body.email, body.password);
@@ -108,6 +111,17 @@ let AuthController = class AuthController {
         return this.auth.register(body.email, body.password, body.username, body.phone);
     }
     /**
+     * Inscription par LIEN email (magic link, sans SMS — Twilio en instance).
+     * Crée le compte (non vérifié) et envoie un email de confirmation.
+     */
+    async emailSignupRequest(body) {
+        return this.emailSignup.requestLink(body.email, body.password, body.username, body.phone);
+    }
+    /** Confirmation du lien email → vérifie le compte et connecte l'utilisateur. */
+    async emailSignupConfirm(body) {
+        return this.emailSignup.confirmLink(body.email, body.token);
+    }
+    /**
      * Mot de passe oublié — étape 1 : envoi du code par email + SMS.
      * Anti-énumération : réponse identique que l'email existe ou non.
      */
@@ -183,6 +197,22 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "clientSignupConfirm", null);
 __decorate([
+    (0, common_1.Post)('email-signup'),
+    (0, tome_decorators_1.Rule)('T5-AUTH-EMAIL-SIGNUP'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "emailSignupRequest", null);
+__decorate([
+    (0, common_1.Post)('email-signup/confirm'),
+    (0, tome_decorators_1.Rule)('T5-AUTH-EMAIL-CONFIRM'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "emailSignupConfirm", null);
+__decorate([
     (0, common_1.Post)('password-reset/request'),
     (0, tome_decorators_1.Rule)('T5-AUTH-PWRESET-REQUEST'),
     __param(0, (0, common_1.Body)()),
@@ -221,5 +251,6 @@ exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)("auth"),
     __metadata("design:paramtypes", [auth_service_1.AuthService,
         password_reset_service_1.PasswordResetService,
-        signup_verification_service_1.SignupVerificationService])
+        signup_verification_service_1.SignupVerificationService,
+        email_signup_service_1.EmailSignupService])
 ], AuthController);

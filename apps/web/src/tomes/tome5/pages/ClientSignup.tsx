@@ -22,7 +22,8 @@ export default function ClientSignup() {
   const { loginWithPassword } = useAuth();
   const redirect = params.get("redirect") || params.get("next") || "/p1";
 
-  const [step, setStep] = useState<"form" | "verify">("form");
+  const [step, setStep] = useState<"form" | "sent">("form");
+  const [devLink, setDevLink] = useState<string | undefined>(undefined);
 
   // Préremplissage depuis les query params (ex. arrivée depuis la qualification P2)
   const initialName = (params.get("name") || "").trim();
@@ -49,13 +50,14 @@ export default function ClientSignup() {
   const validateForm = (): string | null => {
     if (!prenom.trim() || !nom.trim()) return t("auth.error_required_firstlast");
     if (!cleanEmail.includes("@") || cleanEmail.length < 5) return t("auth.error_invalid_email");
-    if (phone.replace(/[^0-9+]/g, "").length < 8) return t("auth.error_invalid_phone");
+    // Téléphone facultatif (validation par email uniquement — Twilio en instance).
+    if (phone.trim() && phone.replace(/[^0-9+]/g, "").length < 8) return t("auth.error_invalid_phone");
     if (password.length < 8) return t("auth.error_password_min");
     if (password !== confirm) return t("auth.error_password_mismatch");
     return null;
   };
 
-  // Étape 1 → envoie les deux codes (email + SMS).
+  // Inscription par lien email (magic link, sans SMS — Twilio en instance).
   const requestCodes = async (e?: React.FormEvent) => {
     e?.preventDefault();
     setError("");
@@ -63,15 +65,15 @@ export default function ClientSignup() {
     if (v) { setError(v); return; }
     setLoading(true);
     try {
-      const r: any = await apiFetch("/auth/client-signup/request", {
+      const r: any = await apiFetch("/auth/email-signup", {
         method: "POST",
-        body: { email: cleanEmail, phone: phone.trim() },
+        body: { email: cleanEmail, password, username: `${prenom.trim()} ${nom.trim()}`, phone: phone.trim() || undefined },
       });
-      setMasked({ email: r?.maskedEmail || cleanEmail, phone: r?.maskedPhone || phone.trim() });
-      setDevCodes({ email: r?.devEmailCode, phone: r?.devPhoneCode });
-      setStep("verify");
+      setMasked({ email: r?.maskedEmail || cleanEmail, phone: phone.trim() });
+      setDevLink(r?.devLink);
+      setStep("sent");
     } catch (err: any) {
-      setError(err?.message || "Erreur lors de l'envoi des codes.");
+      setError(err?.message || "Erreur lors de l'inscription.");
     } finally {
       setLoading(false);
     }
@@ -170,46 +172,22 @@ export default function ClientSignup() {
               <button type="button" onClick={() => { setStep("form"); setError(""); }} style={S.linkBtn}>
                 ← {t("auth.modify_info")}
               </button>
-              <h1 style={S.title}>{t("auth.verification_title")}</h1>
+              <h1 style={S.title}>Vérifiez votre email</h1>
               <p style={S.sub}>
-                {t("auth.verification_sub", { email: masked.email, phone: masked.phone })}
+                Un email de confirmation a été envoyé à <b>{masked.email}</b>. Cliquez sur le lien dans cet email pour activer votre compte — vous serez connecté automatiquement.
               </p>
             </div>
 
             {error && <div style={S.error}>{error}</div>}
-            {(devCodes.email || devCodes.phone) && (
+            {devLink && (
               <div style={S.devHint}>
-                Mode test — code email : <b>{devCodes.email || "envoyé"}</b> · code SMS : <b>{devCodes.phone || "envoyé"}</b>
+                Mode test — lien de confirmation : <a href={devLink} style={{ wordBreak: "break-all", color: "#B08D57" }}>{devLink}</a>
               </div>
             )}
 
-            <div style={S.devHint}>
-              ✓ Un seul code suffit : saisissez celui reçu <b>par email</b> OU <b>par SMS</b>. Si le SMS n'arrive pas, utilisez le code email.
-            </div>
-
-            <form onSubmit={confirmSignup}>
-              <div style={S.field}>
-                <label style={S.label}>{t("auth.email_code")}</label>
-                <input type="text" inputMode="numeric" value={emailCode}
-                  onChange={(e) => setEmailCode(e.target.value)} placeholder="6 chiffres"
-                  maxLength={6} autoFocus style={{ ...S.input, ...S.codeInput }} />
-              </div>
-
-              <div style={{ ...S.field, marginBottom: 28 }}>
-                <label style={S.label}>{t("auth.sms_code")}</label>
-                <input type="text" inputMode="numeric" value={phoneCode}
-                  onChange={(e) => setPhoneCode(e.target.value)} placeholder="6 chiffres"
-                  maxLength={6} style={{ ...S.input, ...S.codeInput }} />
-              </div>
-
-              <button type="submit" disabled={loading} style={{ ...S.submit, ...(loading ? S.submitOff : {}) }}>
-                {loading ? t("auth.verifying") : t("auth.verify_create")}
-              </button>
-            </form>
-
             <div style={S.footer}>
-              {t("auth.codes_not_received")}{" "}
-              <button type="button" onClick={() => requestCodes()} style={S.footerLinkBtn}>{t("auth.otp_resend")}</button>
+              Email non reçu ?{" "}
+              <button type="button" onClick={() => requestCodes()} style={S.footerLinkBtn}>Renvoyer le lien</button>
             </div>
           </>
         )}
