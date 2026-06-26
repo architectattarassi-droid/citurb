@@ -578,10 +578,7 @@ export default function P1Packs() {
                       <input type="radio" checked={unlockChannel === "email"} onChange={() => setUnlockChannel("email")} />
                       {t("portes.p1.packs.unlock.email_label")}
                     </label>
-                    <label style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
-                      <input type="radio" checked={unlockChannel === "sms"} onChange={() => setUnlockChannel("sms")} />
-                      {t("portes.p1.packs.unlock.sms_label")}
-                    </label>
+                    {/* SMS désactivé (Twilio en instance) — validation par email uniquement. */}
                   </div>
 	              </div>
 	              {unlockChannel === "email" ? (

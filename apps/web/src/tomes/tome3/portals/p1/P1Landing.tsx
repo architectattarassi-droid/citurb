@@ -968,14 +968,13 @@ export default function P1Landing() {
     if (btnCreate) {
       btnCreate.addEventListener("click", (e) => {
         e.preventDefault();
-        // B5: OTP/email mock, sans changer l'UI (le markup contient déjà otp_box).
+        // Twilio en instance : on ne montre plus l'étape SMS (mock). On crée le
+        // dossier local et on va aux packs ; l'activation réelle du compte se
+        // fait par email (lien de confirmation) à l'étape suivante.
         save(draft);
-        const otpBox = byId("otp_box");
-        if (otpBox) {
-          otpBox.classList.remove("hidden");
-          (otpBox as HTMLElement).style.display = "block";
-        }
-        focusNoScroll(byId("otp_code"));
+        writeJSON(OTP_OK_KEY, true);
+        const { caseId } = createDossier(userId);
+        navigate(`/p1/packs?case=${encodeURIComponent(caseId)}`);
       });
     }
 
