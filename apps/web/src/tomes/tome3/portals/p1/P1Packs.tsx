@@ -33,8 +33,9 @@ export default function P1Packs() {
   const t = useT();
   const auth = useAuth();
   const [params] = useSearchParams();
-  const [truthOk, setTruthOk] = React.useState(false);
-  const [termsOk, setTermsOk] = React.useState(false);
+  // Consentement implicite à l'action (« Recevoir le code ») — plus de cases à cocher.
+  const [truthOk] = React.useState(true);
+  const [termsOk] = React.useState(true);
   const [unlockMsg, setUnlockMsg] = React.useState<string | null>(null);
   const [busy, setBusy] = React.useState(false);
   const [codeRequested, setCodeRequested] = React.useState(false);
@@ -563,14 +564,10 @@ export default function P1Packs() {
               {t("portes.p1.packs.unlock.intro")}
             </div>
             <div style={{ marginTop: 14, display: "grid", gap: 10 }}>
-              <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
-                <input type="checkbox" checked={truthOk} onChange={(e) => setTruthOk(e.target.checked)} style={{ marginTop: 3 }} />
-                {t("portes.p1.packs.unlock.truth")}
-              </label>
-              <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
-                <input type="checkbox" checked={termsOk} onChange={(e) => setTermsOk(e.target.checked)} style={{ marginTop: 3 }} />
-                {t("portes.p1.packs.unlock.terms")}
-              </label>
+              {/* Consentement implicite à l'action (les cases pré-cochées rendaient le client méfiant). */}
+              <div className="muted" style={{ fontSize: 12, lineHeight: 1.6 }}>
+                En recevant votre code de confirmation, vous certifiez l'exactitude des informations saisies et acceptez les conditions d'utilisation de la plateforme.
+              </div>
 	              <div style={{ display: "grid", gap: 6 }}>
 	                <div className="muted" style={{ fontSize: 12 }}>{t("portes.p1.packs.unlock.channel")}</div>
                   <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>

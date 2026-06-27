@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.P1PacksEmailService = void 0;
 const crypto = require("crypto");
-const nodemailer = require("nodemailer");
 /**
  * P1 Packs Email confirmation (V1)
  * - Stores codes in-memory with TTL (sufficient for local/dev & V1).
@@ -17,29 +16,31 @@ class P1PacksEmailService {
         this.store.set(key, { code, expiresAt, orderSnapshot });
         const subject = "CITURBAREA — Code de confirmation (P1 Packs)";
         const text = this.buildText(code, orderSnapshot);
-        const smtpHost = process.env.SMTP_HOST;
-        const smtpPort = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined;
-        const smtpUser = process.env.SMTP_USER;
-        const smtpPass = process.env.SMTP_PASS;
-        const from = process.env.SMTP_FROM || "no-reply@citurbarea.local";
-        if (smtpHost && smtpPort && smtpUser && smtpPass) {
-            const secure = String(process.env.SMTP_SECURE || "") === "true" ? true : smtpPort === 465;
-            const transporter = nodemailer.createTransport({
-                host: smtpHost,
-                port: smtpPort,
-                secure,
-                auth: { user: smtpUser, pass: smtpPass },
-            });
-            await transporter.sendMail({ from, to: email, subject, text });
-            if (process.env.NODE_ENV !== "production") {
+        // Envoi via Resend (HTTPS) — le SMTP sortant est bloqué par Railway. Utilise
+        // le domaine d'envoi vérifié (RESEND_FROM = no-reply@send.citurbarea.com).
+        const resendKey = process.env.RESEND_API_KEY;
+        const from = process.env.RESEND_FROM || "CITURBAREA <no-reply@send.citurbarea.com>";
+        if (resendKey) {
+            try {
+                const res = await fetch("https://api.resend.com/emails", {
+                    method: "POST",
+                    headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json" },
+                    body: JSON.stringify({ from, to: [email], subject, text }),
+                });
+                if (!res.ok) {
+                    const t = await res.text().catch(() => "");
+                    // eslint-disable-next-line no-console
+                    console.warn(`[P1PacksEmail] Resend ${res.status}: ${t.slice(0, 160)}`);
+                }
+            }
+            catch (e) {
                 // eslint-disable-next-line no-console
-                console.log("[DEV][EMAIL] sent via SMTP", { to: email, host: smtpHost, port: smtpPort, secure });
+                console.warn(`[P1PacksEmail] Resend network: ${e?.message}`);
             }
         }
         else {
             // eslint-disable-next-line no-console
-            console.log("\n[CITURBAREA EMAIL FALLBACK] SMTP not configured. Email content below:\n" +
-                `TO: ${email}\nSUBJECT: ${subject}\n\n${text}\n`);
+            console.log(`\n[CITURBAREA EMAIL FALLBACK] RESEND_API_KEY absent. Code pour ${email}: ${code}\n`);
         }
         return { code, expiresInSec: Math.round(this.ttlMs / 1000) };
     }
