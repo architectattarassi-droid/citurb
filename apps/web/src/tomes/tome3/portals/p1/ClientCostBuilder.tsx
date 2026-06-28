@@ -12,11 +12,11 @@
  */
 
 import React, { useMemo, useState } from "react";
+import { useT } from "../../../../i18n/i18n";
 import {
-  COST_RANGES_MA, TYPE_LABELS, DISCLAIMER_LOTS, standingLabel,
-  estimateLots, type Standing, type TypeProjet,
+  COST_RANGES_MA, estimateLots, type Standing, type TypeProjet,
 } from "../../../../command-center/modules/dossiers/costRangesMA";
-import { FINITIONS, TIER_LABELS, defaultFinition } from "./finitionsCatalog";
+import { FINITIONS, defaultFinition } from "./finitionsCatalog";
 
 const NAVY = "#0B1B3A";
 const GOLD = "#C9A227";
@@ -52,6 +52,10 @@ export default function ClientCostBuilder({
   onApply?: (r: CostResult) => void;
   appliedTotal?: number | null;
 }) {
+  const t = useT();
+  // Libellé de standing : la villa a des libellés spécifiques (Très éco / Moyen standing…).
+  const stLabel = (ty: TypeProjet, st: Standing) =>
+    ty === "VIL" ? t(`portes.p1.cost.standingVil.${st}`) : t(`portes.p1.cost.standing.${st}`);
   const defaultType = TYPE_FROM_P1[String(projectTypeHint || "").toLowerCase()] || "VIL";
   const [type, setType] = useState<TypeProjet>(defaultType);
   const [surface, setSurface] = useState<number>(surfaceM2 && surfaceM2 > 0 ? Math.round(surfaceM2) : 150);
@@ -107,24 +111,24 @@ export default function ClientCostBuilder({
     <div style={S.card}>
       <div style={S.head}>
         <div>
-          <div style={S.kicker}>Étape budget</div>
-          <div style={S.title}>Définissez votre budget de construction</div>
-          <div style={S.sub}>Choisissez un standing global, ou composez votre projet lot par lot avec les finitions.</div>
+          <div style={S.kicker}>{t("portes.p1.cost.kicker")}</div>
+          <div style={S.title}>{t("portes.p1.cost.title")}</div>
+          <div style={S.sub}>{t("portes.p1.cost.sub")}</div>
         </div>
       </div>
 
       {/* Type + surface */}
       <div style={S.row}>
         <label style={S.field}>
-          <span style={S.lbl}>Type de projet</span>
+          <span style={S.lbl}>{t("portes.p1.cost.type_label")}</span>
           <select value={type} onChange={(e) => setType(e.target.value as TypeProjet)} style={S.input}>
             {(Object.keys(COST_RANGES_MA) as TypeProjet[]).map((k) => (
-              <option key={k} value={k}>{TYPE_LABELS[k]}</option>
+              <option key={k} value={k}>{t(`portes.p1.cost.type.${k}`)}</option>
             ))}
           </select>
         </label>
         <label style={S.field}>
-          <span style={S.lbl}>Surface plancher (m²)</span>
+          <span style={S.lbl}>{t("portes.p1.cost.surface_label")}</span>
           <input type="number" min={1} value={surface} onChange={(e) => setSurface(Math.max(0, Number(e.target.value) || 0))} style={S.input} />
         </label>
       </div>
@@ -138,11 +142,11 @@ export default function ClientCostBuilder({
               checked={basementOn}
               onChange={(e) => { setBasementOn(e.target.checked); if (e.target.checked && !basementM2) setBasementM2(Math.round(surface * 0.35)); }}
             />
-            Ajouter un sous-sol
+            {t("portes.p1.cost.basement_add")}
           </label>
           {basementOn && (
             <label style={{ ...S.field, flex: 1 }}>
-              <span style={S.lbl}>Surface sous-sol (m²) — s'ajoute à la surface</span>
+              <span style={S.lbl}>{t("portes.p1.cost.basement_m2")}</span>
               <input type="number" min={0} value={basementM2} onChange={(e) => setBasementM2(Math.max(0, Number(e.target.value) || 0))} style={S.input} />
             </label>
           )}
@@ -152,10 +156,10 @@ export default function ClientCostBuilder({
       {/* Mode tabs */}
       <div style={S.tabs}>
         <button type="button" onClick={() => setMode("STANDING")} style={{ ...S.tab, ...(mode === "STANDING" ? S.tabOn : {}) }}>
-          Choisir un standing
+          {t("portes.p1.cost.mode_standing")}
         </button>
         <button type="button" onClick={() => setMode("COMPOSE")} style={{ ...S.tab, ...(mode === "COMPOSE" ? S.tabOn : {}) }}>
-          Composer mon projet
+          {t("portes.p1.cost.mode_compose")}
         </button>
       </div>
 
@@ -167,10 +171,10 @@ export default function ClientCostBuilder({
             const on = st === effStanding;
             return (
               <button key={st} type="button" onClick={() => setStanding(st)} style={{ ...S.stCard, ...(on ? S.stCardOn : {}) }}>
-                <div style={S.stName}>{standingLabel(type, st)}</div>
+                <div style={S.stName}>{stLabel(type, st)}</div>
                 <div style={S.stRange}>{r ? `${(r.rangeM2[0]).toLocaleString("fr-MA")}–${(r.rangeM2[1]).toLocaleString("fr-MA")} DH/m²` : "—"}</div>
                 <div style={S.stTotal}>{fmt(med)}</div>
-                {on && <div style={S.stPick}>✓ Sélectionné</div>}
+                {on && <div style={S.stPick}>✓ {t("portes.p1.cost.selected")}</div>}
               </button>
             );
           })}
@@ -179,14 +183,14 @@ export default function ClientCostBuilder({
         <div>
           <div style={{ ...S.row, marginBottom: 6 }}>
             <label style={S.field}>
-              <span style={S.lbl}>Niveau de base (gros œuvre)</span>
+              <span style={S.lbl}>{t("portes.p1.cost.base_level")}</span>
               <select value={baseStanding} onChange={(e) => setBaseStanding(e.target.value as Standing)} style={S.input}>
-                {standings.map((st) => <option key={st} value={st}>{standingLabel(type, st)}</option>)}
+                {standings.map((st) => <option key={st} value={st}>{stLabel(type, st)}</option>)}
               </select>
             </label>
             <div style={{ ...S.field, justifyContent: "flex-end" }}>
               <span style={S.lbl}>&nbsp;</span>
-              <div style={S.hint}>Les lots de finition se personnalisent ci-dessous ; les autres suivent le niveau de base.</div>
+              <div style={S.hint}>{t("portes.p1.cost.compose_hint")}</div>
             </div>
           </div>
 
@@ -196,7 +200,7 @@ export default function ClientCostBuilder({
               return (
                 <div key={l.code} style={S.lotRow}>
                   <div style={S.lotHead}>
-                    <div style={S.lotName}>{l.label}</div>
+                    <div style={S.lotName}>{t(`portes.p1.cost.lot.${l.code}`)}</div>
                     <div style={S.lotPrice}>{fmt(l.price)}</div>
                   </div>
                   {opts && opts.length > 0 && (
@@ -206,8 +210,8 @@ export default function ClientCostBuilder({
                         return (
                           <button key={o.id} type="button" onClick={() => setFinSel((m) => ({ ...m, [l.code]: o.id }))} style={{ ...S.finCard, ...(on ? S.finCardOn : {}) }}>
                             <div style={{ ...S.finSwatch, background: o.img ? `center/cover url(${o.img})` : o.swatch }} />
-                            <div style={S.finLabel}>{o.label}</div>
-                            <div style={S.finTier}>{TIER_LABELS[o.tier]}</div>
+                            <div style={S.finLabel}>{t(`portes.p1.fin.${o.id}.label`)}</div>
+                            <div style={S.finTier}>{t(`portes.p1.fin.tier.${o.tier}`)}</div>
                             <div style={S.finPrice}>{fmt(median(l) * o.factor)}</div>
                             {on && <div style={S.finPick}>✓</div>}
                           </button>
@@ -225,18 +229,18 @@ export default function ClientCostBuilder({
       {/* Total + apply */}
       <div style={S.totalBar}>
         <div>
-          <div style={S.totalLbl}>Coût de construction estimé</div>
+          <div style={S.totalLbl}>{t("portes.p1.cost.total_label")}</div>
           <div style={S.totalVal}>{fmt(currentTotal)}</div>
           <div style={S.totalSub}>
-            ≈ {effSurface > 0 ? fmt(currentTotal / effSurface).replace(" DH", " DH/m²") : "—"} · {effSurface} m²{basementOn && basementM2 > 0 ? ` (dont ${basementM2} m² sous-sol)` : ""} · hors honoraires, terrain & taxes
+            ≈ {effSurface > 0 ? fmt(currentTotal / effSurface).replace(" DH", " DH/m²") : "—"} · {effSurface} m²{basementOn && basementM2 > 0 ? ` ${t("portes.p1.cost.incl_basement", { m2: basementM2 })}` : ""} · {t("portes.p1.cost.total_excl")}
           </div>
         </div>
         <button type="button" onClick={apply} disabled={!currentTotal} style={{ ...S.applyBtn, ...(currentTotal ? {} : S.applyOff) }}>
-          {appliedTotal && Math.round(appliedTotal) === Math.round(currentTotal) ? "✓ Budget défini" : "Définir comme mon budget"}
+          {appliedTotal && Math.round(appliedTotal) === Math.round(currentTotal) ? `✓ ${t("portes.p1.cost.budget_set")}` : t("portes.p1.cost.budget_apply")}
         </button>
       </div>
 
-      <div style={S.disclaimer}>{DISCLAIMER_LOTS}</div>
+      <div style={S.disclaimer}>{t("portes.p1.cost.disclaimer")}</div>
     </div>
   );
 }

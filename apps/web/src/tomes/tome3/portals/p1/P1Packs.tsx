@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../../tome5/AuthProvider";
-import { useT } from "../../../../i18n/i18n";
+import { useT, useLang } from "../../../../i18n/i18n";
 import { createDossier, type Qualification } from "./dossier.store";
 import type { ProjectType } from "../../../../domain/p1/types";
 import { readP1Draft, writeP1Draft } from "../../../../application/p1/startQualification";
@@ -33,6 +33,7 @@ type P1Data = any;
 
 export default function P1Packs() {
   const t = useT();
+  const { lang } = useLang();
   const auth = useAuth();
   const [params] = useSearchParams();
   // Consentement implicite à l'action (« Recevoir le code ») — plus de cases à cocher.
@@ -437,50 +438,52 @@ export default function P1Packs() {
       }
       return "";
     };
-    const yn = (v: any) => (v ? "Oui" : "Non");
     const budget =
       val("budgetLabel") ||
       (d.budgetMinMAD && d.budgetMaxMAD ? `${formatMAD(d.budgetMinMAD)} – ${formatMAD(d.budgetMaxMAD)} MAD` : "") ||
       (d.budget ? `${formatMAD(d.budget)} MAD` : "");
 
+    const yes = t("portes.p1.fiche.yes");
+    const no = t("portes.p1.fiche.no");
+    const yn2 = (v: any) => (v ? yes : no);
     const groups: Array<{ title: string; rows: Array<[string, string]> }> = [
       {
-        title: "Demandeur",
+        title: t("portes.p1.fiche.sec_requester"),
         rows: [
-          ["Nom complet", displayNameSafe || ""],
-          ["Téléphone", val("phone")],
-          ["Email", val("email") || emailForCode],
-          ["Type de personne", val("personType")],
-          ["Situation juridique", val("legalSituation")],
-          ["Pièce d'identité", [val("physIdType"), val("physIdNumber")].filter(Boolean).join(" — ")],
-          ["Société", val("companyName")],
-          ["Forme juridique", val("companyForm")],
+          [t("portes.p1.fiche.fullname"), displayNameSafe || ""],
+          [t("portes.p1.fiche.phone"), val("phone")],
+          [t("portes.p1.fiche.email"), val("email") || emailForCode],
+          [t("portes.p1.fiche.person"), val("personType")],
+          [t("portes.p1.fiche.legal"), val("legalSituation")],
+          [t("portes.p1.fiche.id"), [val("physIdType"), val("physIdNumber")].filter(Boolean).join(" — ")],
+          [t("portes.p1.fiche.company"), val("companyName")],
+          [t("portes.p1.fiche.company_form"), val("companyForm")],
           ["ICE", val("companyICE")],
           ["RC", val("companyRC")],
         ],
       },
       {
-        title: "Projet",
+        title: t("portes.p1.fiche.sec_project"),
         rows: [
-          ["Typologie", val("type", "projectType")],
-          ["Mode", val("planMode")],
-          ["Niveau de construction", constructionLevel],
-          ["Surface plancher", derived.surfaceM2 ? `${formatMAD(derived.surfaceM2)} m²` : ""],
-          ["Sous-sol", isVilla ? yn(hasBasement) : ""],
-          ["Budget indicatif", budget],
-          ["Délai souhaité", val("horizon", "delai", "echeance")],
+          [t("portes.p1.fiche.typology"), val("type", "projectType")],
+          [t("portes.p1.fiche.mode"), val("planMode")],
+          [t("portes.p1.fiche.level"), constructionLevel],
+          [t("portes.p1.fiche.surface"), derived.surfaceM2 ? `${formatMAD(derived.surfaceM2)} m²` : ""],
+          [t("portes.p1.fiche.basement"), isVilla ? yn2(hasBasement) : ""],
+          [t("portes.p1.fiche.budget"), budget],
+          [t("portes.p1.fiche.delay"), val("horizon", "delai", "echeance")],
         ],
       },
       {
-        title: "Terrain",
+        title: t("portes.p1.fiche.sec_land"),
         rows: [
-          ["Région", val("region")],
-          ["Province", val("province")],
-          ["Commune / Ville", val("commune", "city")],
-          ["Titre foncier", val("titreFoncier", "tf")],
-          ["Lotissement", d.hasLotissement !== undefined ? yn(d.hasLotissement) : ""],
-          ["Nom du lotissement", val("lotissementRef", "nomLotissement")],
-          ["N° de lot", val("numeroLot", "lotNumber")],
+          [t("portes.p1.fiche.region"), val("region")],
+          [t("portes.p1.fiche.province"), val("province")],
+          [t("portes.p1.fiche.commune"), val("commune", "city")],
+          [t("portes.p1.fiche.titre_foncier"), val("titreFoncier", "tf")],
+          [t("portes.p1.fiche.lotissement"), d.hasLotissement !== undefined ? yn2(d.hasLotissement) : ""],
+          [t("portes.p1.fiche.lot_name"), val("lotissementRef", "nomLotissement")],
+          [t("portes.p1.fiche.lot_num"), val("numeroLot", "lotNumber")],
         ],
       },
     ];
@@ -495,8 +498,10 @@ export default function P1Packs() {
       })
       .join("");
 
-    const stamp = new Date().toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" });
-    const html = `<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Fiche projet — CITURBAREA</title>
+    const dateLocale = lang === "ar" ? "ar-MA" : lang === "en" ? "en-GB" : "fr-FR";
+    const dir = lang === "ar" ? "rtl" : "ltr";
+    const stamp = new Date().toLocaleDateString(dateLocale, { day: "2-digit", month: "long", year: "numeric" });
+    const html = `<!doctype html><html lang="${lang}" dir="${dir}"><head><meta charset="utf-8"><title>${esc(t("portes.p1.fiche.doc_title"))} — CITURBAREA</title>
 <style>
 @page { margin: 16mm; }
 * { box-sizing: border-box; }
@@ -517,18 +522,18 @@ td { padding:5px 0; }
 </style></head>
 <body>
 <div class="hd">
-  <div class="brand">CITURBAREA<small>Architecture · Urbanisme · BTP</small></div>
-  <div class="meta">Fiche projet<br>${esc(stamp)}</div>
+  <div class="brand">CITURBAREA<small>${esc(t("portes.p1.fiche.brand_sub"))}</small></div>
+  <div class="meta">${esc(t("portes.p1.fiche.doc_title"))}<br>${esc(stamp)}</div>
 </div>
-<h1>Fiche projet — ${esc(displayNameSafe || "Client")}</h1>
+<h1>${esc(t("portes.p1.fiche.doc_title"))} — ${esc(displayNameSafe || t("portes.p1.fiche.client"))}</h1>
 ${sections}
-<div class="foot">Document récapitulatif établi par le client sur citurbarea.com. Informations déclaratives ; montants indicatifs, hors taxes, non contractuels.</div>
-<div class="bar noprint"><button onclick="window.print()" style="padding:10px 18px;background:#C9A227;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">Imprimer / Enregistrer en PDF</button></div>
+<div class="foot">${esc(t("portes.p1.fiche.foot"))}</div>
+<div class="bar noprint"><button onclick="window.print()" style="padding:10px 18px;background:#C9A227;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">${esc(t("portes.p1.fiche.print_pdf"))}</button></div>
 </body></html>`;
 
     const w = window.open("", "_blank", "width=860,height=920");
     if (!w) {
-      alert("Veuillez autoriser les fenêtres pop-up pour imprimer votre fiche projet.");
+      alert(t("portes.p1.fiche.popup_block"));
       return;
     }
     w.document.open();
@@ -670,7 +675,7 @@ ${sections}
               onClick={printFiche}
               style={{ padding: "8px 14px", borderRadius: 10, border: "1px solid rgba(201,162,39,0.5)", background: "rgba(201,162,39,0.10)", color: "var(--royal)", fontWeight: 800, fontSize: 13, cursor: "pointer", whiteSpace: "nowrap" }}
             >
-              🖨️ Imprimer ma fiche projet
+              🖨️ {t("portes.p1.fiche.print_btn")}
             </button>
           </div>
 
@@ -837,7 +842,7 @@ ${sections}
               <div style={{ marginTop: 12, display: "grid", gap: 10 }}>
                 {isVilla && hasBasement && (
                   <div className="muted" style={{ fontSize: 12.5, lineHeight: 1.55, padding: "10px 12px", borderRadius: 12, background: "rgba(201,162,39,0.08)", border: "1px solid rgba(201,162,39,0.22)" }}>
-                    <b>Sous-sol déclaré</b> — déjà inclus dans la surface plancher ({formatMAD(derived.surfaceM2)} m²) et donc dans le calcul ci-dessous. Pour le modifier, revenez à la <Link className="link" to="/p1">qualification</Link>.
+                    <b>{t("portes.p1.packs.basement_note_b")}</b> {t("portes.p1.packs.basement_note", { m2: formatMAD(derived.surfaceM2) })} <Link className="link" to="/p1">{t("portes.p1.packs.basement_note_link")}</Link>.
                   </div>
                 )}
 

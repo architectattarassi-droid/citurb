@@ -1,16 +1,18 @@
 /**
  * PermitTaxesPanel — taxes & frais d'autorisation présentés au client, à côté
  * du coût de construction. Inclut le rappel TNB (terrain non bâti) à régler en
- * amont, et le détail des taxes communales.
+ * amont, et le détail des taxes communales. Entièrement traduit (FR/AR/EN).
  *
  * Barèmes indicatifs Maroc (éditables car ils varient par commune) :
- *  - Taxe sur opérations de construction : surface plancher × 20/30/40 DH/m² (selon commune)
+ *  - Taxe sur opérations de construction : surface plancher × 20/30/40 DH/m²
  *  - Participation Agence Urbaine : surface plancher × 3,6 DH/m²
- *  - Occupation du domaine public (chantier) : façade (ml) × 3 m × nb trimestres × tarif
+ *  - Occupation du domaine public : façade (ml) × 3 m × nb trimestres × tarif
+ *  - Sapeurs-pompiers (protection civile) : forfait (~1000 DH villa)
  *  - Topographe / implantation : forfait
  */
 
 import React, { useState } from "react";
+import { useT } from "../../../../i18n/i18n";
 
 const NAVY = "#0B1B3A";
 const GOLD = "#C9A227";
@@ -20,33 +22,43 @@ type PlancherRate = 20 | 30 | 40;
 type Trimestres = 2 | 3 | 4;
 
 export default function PermitTaxesPanel({ surfaceM2 }: { surfaceM2: number | null }) {
+  const t = useT();
   const surface = surfaceM2 && surfaceM2 > 0 ? Math.round(surfaceM2) : 0;
 
   const [plancherRate, setPlancherRate] = useState<PlancherRate>(30);
   const [facadeML, setFacadeML] = useState<number>(0);
   const [odpTrimestres, setOdpTrimestres] = useState<Trimestres>(4);
   const [odpTarif, setOdpTarif] = useState<number>(20); // DH / m² / trimestre (varie par commune)
+  const [pompiers, setPompiers] = useState<number>(1000);
   const [topoForfait, setTopoForfait] = useState<number>(2500);
 
   const taxePlancher = surface * plancherRate;
   const agenceUrbaine = surface * 3.6;
-  const odpQuantite = facadeML * 3 * odpTrimestres; // m²·trimestre
-  const odp = odpQuantite * odpTarif;
+  const odp = facadeML * 3 * odpTrimestres * odpTarif;
   const totalTaxes = taxePlancher + agenceUrbaine + odp;
-  const totalFrais = totalTaxes + topoForfait;
+  const totalFrais = totalTaxes + pompiers + topoForfait;
 
   return (
     <div style={S.card}>
-      <div style={S.kicker}>Autorisation de construire</div>
-      <div style={S.title}>Taxes & frais d'autorisation</div>
+      <div style={S.kicker}>{t("portes.p1.taxes.kicker")}</div>
+      <div style={S.title}>{t("portes.p1.taxes.title")}</div>
 
       {/* Bandeau d'alerte TNB */}
       <div style={S.banner}>
         <span style={S.bannerIcon}>⚠️</span>
         <div>
-          <b>Pensez à régler votre taxe sur le terrain non bâti (TNB) en amont.</b> Un arriéré de TNB
-          peut <b>bloquer l'obtention de l'autorisation de construire</b>. Mettez-vous à jour auprès de votre
-          commune avant le dépôt du dossier.
+          <b>{t("portes.p1.taxes.banner_title")}</b> {t("portes.p1.taxes.banner_body")}
+        </div>
+      </div>
+
+      {/* Sapeurs-pompiers / protection civile */}
+      <div style={S.line}>
+        <div style={S.lineHead}>
+          <div>
+            <div style={S.lineName}>{t("portes.p1.taxes.pompiers")}</div>
+            <div style={S.lineDesc}>{t("portes.p1.taxes.pompiers_desc")}</div>
+          </div>
+          <input type="number" min={0} value={pompiers} onChange={(e) => setPompiers(Math.max(0, Number(e.target.value) || 0))} style={S.amtInput} />
         </div>
       </div>
 
@@ -54,8 +66,8 @@ export default function PermitTaxesPanel({ surfaceM2 }: { surfaceM2: number | nu
       <div style={S.line}>
         <div style={S.lineHead}>
           <div>
-            <div style={S.lineName}>Topographe / implantation</div>
-            <div style={S.lineDesc}>Levé + implantation de l'ouvrage (forfait, éditable).</div>
+            <div style={S.lineName}>{t("portes.p1.taxes.topo")}</div>
+            <div style={S.lineDesc}>{t("portes.p1.taxes.topo_desc")}</div>
           </div>
           <input type="number" min={0} value={topoForfait} onChange={(e) => setTopoForfait(Math.max(0, Number(e.target.value) || 0))} style={S.amtInput} />
         </div>
@@ -65,8 +77,8 @@ export default function PermitTaxesPanel({ surfaceM2 }: { surfaceM2: number | nu
       <div style={S.line}>
         <div style={S.lineHead}>
           <div>
-            <div style={S.lineName}>Taxe sur opérations de construction</div>
-            <div style={S.lineDesc}>{surface} m² × {plancherRate} DH/m² (taux selon commune)</div>
+            <div style={S.lineName}>{t("portes.p1.taxes.plancher")}</div>
+            <div style={S.lineDesc}>{t("portes.p1.taxes.plancher_desc", { surface, rate: plancherRate })}</div>
           </div>
           <div style={S.lineRight}>
             <select value={plancherRate} onChange={(e) => setPlancherRate(Number(e.target.value) as PlancherRate)} style={S.sel}>
@@ -83,8 +95,8 @@ export default function PermitTaxesPanel({ surfaceM2 }: { surfaceM2: number | nu
       <div style={S.line}>
         <div style={S.lineHead}>
           <div>
-            <div style={S.lineName}>Participation Agence Urbaine</div>
-            <div style={S.lineDesc}>{surface} m² × 3,6 DH/m²</div>
+            <div style={S.lineName}>{t("portes.p1.taxes.agence")}</div>
+            <div style={S.lineDesc}>{t("portes.p1.taxes.agence_desc", { surface })}</div>
           </div>
           <div style={S.amt}>{fmt(agenceUrbaine)}</div>
         </div>
@@ -94,39 +106,36 @@ export default function PermitTaxesPanel({ surfaceM2 }: { surfaceM2: number | nu
       <div style={S.line}>
         <div style={S.lineHead}>
           <div>
-            <div style={S.lineName}>Occupation du domaine public (chantier)</div>
-            <div style={S.lineDesc}>façade × 3 m × {odpTrimestres} trimestre(s) × {odpTarif} DH/m²/trim.</div>
+            <div style={S.lineName}>{t("portes.p1.taxes.odp")}</div>
+            <div style={S.lineDesc}>{t("portes.p1.taxes.odp_desc", { trim: odpTrimestres, tarif: odpTarif })}</div>
           </div>
           <div style={S.amt}>{fmt(odp)}</div>
         </div>
         <div style={S.odpRow}>
-          <label style={S.miniField}><span style={S.miniLbl}>Façade (ml)</span>
+          <label style={S.miniField}><span style={S.miniLbl}>{t("portes.p1.taxes.facade")}</span>
             <input type="number" min={0} value={facadeML} onChange={(e) => setFacadeML(Math.max(0, Number(e.target.value) || 0))} style={S.miniInput} />
           </label>
-          <label style={S.miniField}><span style={S.miniLbl}>Trimestres</span>
+          <label style={S.miniField}><span style={S.miniLbl}>{t("portes.p1.taxes.trimestres")}</span>
             <select value={odpTrimestres} onChange={(e) => setOdpTrimestres(Number(e.target.value) as Trimestres)} style={S.miniInput}>
               <option value={4}>4</option>
               <option value={3}>3</option>
               <option value={2}>2</option>
             </select>
           </label>
-          <label style={S.miniField}><span style={S.miniLbl}>Tarif (DH/m²/trim.)</span>
+          <label style={S.miniField}><span style={S.miniLbl}>{t("portes.p1.taxes.tarif")}</span>
             <input type="number" min={0} value={odpTarif} onChange={(e) => setOdpTarif(Math.max(0, Number(e.target.value) || 0))} style={S.miniInput} />
           </label>
         </div>
-        <div style={S.note}>Certaines communes acceptent un règlement en 2 ou 3 trimestres plutôt que 4.</div>
+        <div style={S.note}>{t("portes.p1.taxes.odp_note")}</div>
       </div>
 
       {/* Totaux */}
       <div style={S.totals}>
-        <div style={S.totalRow}><span>Sous-total taxes</span><b>{fmt(totalTaxes)}</b></div>
-        <div style={{ ...S.totalRow, ...S.totalMain }}><span>Total taxes & frais d'autorisation</span><b>{fmt(totalFrais)}</b></div>
+        <div style={S.totalRow}><span>{t("portes.p1.taxes.subtotal")}</span><b>{fmt(totalTaxes)}</b></div>
+        <div style={{ ...S.totalRow, ...S.totalMain }}><span>{t("portes.p1.taxes.total")}</span><b>{fmt(totalFrais)}</b></div>
       </div>
 
-      <div style={S.disclaimer}>
-        Montants indicatifs : les taux et modalités varient selon la commune et l'agence urbaine.
-        À confirmer auprès des services concernés. Hors TNB, raccordements et droits divers.
-      </div>
+      <div style={S.disclaimer}>{t("portes.p1.taxes.disclaimer")}</div>
     </div>
   );
 }
