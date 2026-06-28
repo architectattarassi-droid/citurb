@@ -211,6 +211,25 @@ export class OtpService {
       "— CITURBAREA",
     ].join("\n");
 
+    // 1) Resend (HTTPS) prioritaire — le SMTP sortant est bloqué par Railway.
+    //    Domaine d'envoi vérifié (RESEND_FROM = no-reply@send.citurbarea.com).
+    const resendKey = process.env.RESEND_API_KEY;
+    if (resendKey) {
+      const resendFrom = process.env.RESEND_FROM || "CITURBAREA <no-reply@send.citurbarea.com>";
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ from: resendFrom, to: [to], subject, text }),
+      });
+      if (!res.ok) {
+        const t = await res.text().catch(() => "");
+        throw new Error(`Resend ${res.status}: ${t.slice(0, 160)}`);
+      }
+      if (!this.isProd()) this.log.log(`[OTP] email Resend OK to=${to}`);
+      return;
+    }
+
+    // 2) SMTP fallback (rarement disponible sur Railway).
     const smtpHost = process.env.SMTP_HOST;
     const smtpPort = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined;
     const smtpUser = process.env.SMTP_USER;
