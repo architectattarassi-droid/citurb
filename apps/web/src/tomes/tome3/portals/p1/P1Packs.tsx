@@ -5,7 +5,8 @@ import { useAuth } from "../../../tome5/AuthProvider";
 import { useT } from "../../../../i18n/i18n";
 import { createDossier, type Qualification } from "./dossier.store";
 import type { ProjectType } from "../../../../domain/p1/types";
-import { readP1Draft } from "../../../../application/p1/startQualification";
+import { readP1Draft, writeP1Draft } from "../../../../application/p1/startQualification";
+import ClientCostBuilder, { type CostResult } from "./ClientCostBuilder";
 import { createDossier as createCase } from "../../../../application/p1/createDossier";
 import { selectPack } from "../../../../application/p1/selectPack";
 import { canAccessPacksPage, canShowPacks, unlockPacks } from "../../../../application/p1/enterPacks";
@@ -74,6 +75,25 @@ export default function P1Packs() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [auth.email, (data as any)?.email]);
   const navigate = useNavigate();
+
+  // Budget de construction défini par le client (standing global ou composition par lot).
+  const [constructionBudget, setConstructionBudget] = React.useState<number | null>(
+    Number((data as any)?.constructionBudgetMAD) > 0 ? Number((data as any)?.constructionBudgetMAD) : null
+  );
+  const applyConstructionBudget = (r: CostResult) => {
+    setConstructionBudget(r.totalMAD);
+    try {
+      const uid = auth.userId || "anon";
+      const cur = readP1Draft(auth.userId || null) as any;
+      writeP1Draft(auth.userId || null, {
+        ...cur,
+        constructionBudgetMAD: r.totalMAD,
+        constructionBudgetMeta: { type: r.type, mode: r.mode, standing: r.standing, surfaceM2: r.surfaceM2, finitions: r.finitions },
+        budget: String(r.totalMAD),
+      });
+      void uid;
+    } catch { /* persistance best-effort */ }
+  };
 
   const formatMAD = (n: number | null | undefined) => {
     if (!Number.isFinite(Number(n))) return "—";
@@ -678,6 +698,16 @@ ${sections}
             </ul>
           </div>
         </div>
+
+        {/* Étape budget — le client définit son coût de construction
+            (standing global OU composition par lot avec finitions en images)
+            avant de passer aux plans type/personnalisé et aux honoraires. */}
+        <ClientCostBuilder
+          surfaceM2={derived.surfaceM2}
+          projectTypeHint={String((data as any)?.type || (data as any)?.projectType || "")}
+          onApply={applyConstructionBudget}
+          appliedTotal={constructionBudget}
+        />
 
         <div className="divider" />
 
