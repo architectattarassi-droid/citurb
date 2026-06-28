@@ -401,6 +401,118 @@ export default function P1Packs() {
     return t("portes.p1.packs.project.qualified");
   })();
 
+  // Fiche projet imprimable — le client a déjà préparé sa fiche en qualification ;
+  // il doit pouvoir la conserver et l'imprimer (document A4 autonome, brandé).
+  const printFiche = () => {
+    const d: any = data || {};
+    const esc = (s: any) => String(s ?? "").replace(/[&<>]/g, (c) => (({ "&": "&amp;", "<": "&lt;", ">": "&gt;" } as any)[c]));
+    const val = (...keys: string[]) => {
+      for (const k of keys) {
+        const v = d[k];
+        if (v !== undefined && v !== null && String(v).trim() !== "") return String(v).trim();
+      }
+      return "";
+    };
+    const yn = (v: any) => (v ? "Oui" : "Non");
+    const budget =
+      val("budgetLabel") ||
+      (d.budgetMinMAD && d.budgetMaxMAD ? `${formatMAD(d.budgetMinMAD)} – ${formatMAD(d.budgetMaxMAD)} MAD` : "") ||
+      (d.budget ? `${formatMAD(d.budget)} MAD` : "");
+
+    const groups: Array<{ title: string; rows: Array<[string, string]> }> = [
+      {
+        title: "Demandeur",
+        rows: [
+          ["Nom complet", displayNameSafe || ""],
+          ["Téléphone", val("phone")],
+          ["Email", val("email") || emailForCode],
+          ["Type de personne", val("personType")],
+          ["Situation juridique", val("legalSituation")],
+          ["Pièce d'identité", [val("physIdType"), val("physIdNumber")].filter(Boolean).join(" — ")],
+          ["Société", val("companyName")],
+          ["Forme juridique", val("companyForm")],
+          ["ICE", val("companyICE")],
+          ["RC", val("companyRC")],
+        ],
+      },
+      {
+        title: "Projet",
+        rows: [
+          ["Typologie", val("type", "projectType")],
+          ["Mode", val("planMode")],
+          ["Niveau de construction", constructionLevel],
+          ["Surface plancher", derived.surfaceM2 ? `${formatMAD(derived.surfaceM2)} m²` : ""],
+          ["Sous-sol", isVilla ? yn(hasBasement) : ""],
+          ["Budget indicatif", budget],
+          ["Délai souhaité", val("horizon", "delai", "echeance")],
+        ],
+      },
+      {
+        title: "Terrain",
+        rows: [
+          ["Région", val("region")],
+          ["Province", val("province")],
+          ["Commune / Ville", val("commune", "city")],
+          ["Titre foncier", val("titreFoncier", "tf")],
+          ["Lotissement", d.hasLotissement !== undefined ? yn(d.hasLotissement) : ""],
+          ["Nom du lotissement", val("lotissementRef", "nomLotissement")],
+          ["N° de lot", val("numeroLot", "lotNumber")],
+        ],
+      },
+    ];
+
+    const sections = groups
+      .map((g) => {
+        const rows = g.rows.filter(([, v]) => v && v.trim());
+        if (!rows.length) return "";
+        return `<section><h2>${esc(g.title)}</h2><table>${rows
+          .map(([k, v]) => `<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`)
+          .join("")}</table></section>`;
+      })
+      .join("");
+
+    const stamp = new Date().toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" });
+    const html = `<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Fiche projet — CITURBAREA</title>
+<style>
+@page { margin: 16mm; }
+* { box-sizing: border-box; }
+body { font-family: Georgia, "Times New Roman", serif; color:#0B1B3A; margin:0; padding:28px; }
+.hd { display:flex; justify-content:space-between; align-items:flex-start; border-bottom:2px solid #C9A227; padding-bottom:14px; margin-bottom:22px; }
+.brand { font-size:22px; font-weight:700; letter-spacing:.04em; }
+.brand small { display:block; font-size:10px; font-weight:400; color:#6b7280; letter-spacing:.18em; text-transform:uppercase; margin-top:4px; }
+.meta { text-align:right; font-size:12px; color:#6b7280; }
+h1 { font-size:18px; margin:0 0 18px; }
+section { margin-bottom:16px; page-break-inside:avoid; }
+h2 { font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:#C9A227; border-bottom:1px solid rgba(201,162,39,.3); padding-bottom:6px; margin:0 0 8px; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { text-align:left; width:40%; font-weight:600; color:#475569; padding:5px 8px 5px 0; vertical-align:top; }
+td { padding:5px 0; }
+.foot { margin-top:26px; font-size:10.5px; color:#94a3b8; border-top:1px solid #e5e7eb; padding-top:10px; }
+.bar { margin-top:18px; }
+@media print { .noprint { display:none; } body { padding:0; } }
+</style></head>
+<body>
+<div class="hd">
+  <div class="brand">CITURBAREA<small>Architecture · Urbanisme · BTP</small></div>
+  <div class="meta">Fiche projet<br>${esc(stamp)}</div>
+</div>
+<h1>Fiche projet — ${esc(displayNameSafe || "Client")}</h1>
+${sections}
+<div class="foot">Document récapitulatif établi par le client sur citurbarea.com. Informations déclaratives ; montants indicatifs, hors taxes, non contractuels.</div>
+<div class="bar noprint"><button onclick="window.print()" style="padding:10px 18px;background:#C9A227;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">Imprimer / Enregistrer en PDF</button></div>
+</body></html>`;
+
+    const w = window.open("", "_blank", "width=860,height=920");
+    if (!w) {
+      alert("Veuillez autoriser les fenêtres pop-up pour imprimer votre fiche projet.");
+      return;
+    }
+    w.document.open();
+    w.document.write(html);
+    w.document.close();
+    w.focus();
+  };
+
   return (
     <div style={{ padding: "28px 0 90px" }}>
       {/* Inline style for fidelity with HTML landing */}
@@ -527,7 +639,16 @@ export default function P1Packs() {
 
         {/* Fiche qualification (compact) */}
         <div style={{ marginTop: 18 }} className="card">
-          <div className="lux" style={{ fontSize: 18, marginBottom: 12 }}>{t("portes.p1.packs.qual.title")}</div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
+            <div className="lux" style={{ fontSize: 18 }}>{t("portes.p1.packs.qual.title")}</div>
+            <button
+              type="button"
+              onClick={printFiche}
+              style={{ padding: "8px 14px", borderRadius: 10, border: "1px solid rgba(201,162,39,0.5)", background: "rgba(201,162,39,0.10)", color: "var(--royal)", fontWeight: 800, fontSize: 13, cursor: "pointer", whiteSpace: "nowrap" }}
+            >
+              🖨️ Imprimer ma fiche projet
+            </button>
+          </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 14 }}>
             <div className="muted" style={{ fontSize: 13, lineHeight: 1.7 }}>
