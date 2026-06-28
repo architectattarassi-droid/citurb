@@ -82,15 +82,17 @@ export default function P1Packs() {
 
   const derived = useMemo(() => {
     const d: any = data || {};
-    const surfaceM2 =
-      (typeof d.surface === "number" && d.surface) ||
-      (typeof d.terrainArea === "number" && d.terrainArea) ||
-      (typeof d.area === "number" && d.area) ||
-      (d.terrainArea ? Number(d.terrainArea) : d.surface ? Number(d.surface) : d.area ? Number(d.area) : null);
-
-    return {
-      surfaceM2: Number.isFinite(Number(surfaceM2)) ? Number(surfaceM2) : null,
+    const pick = (...vals: any[]) => {
+      for (const v of vals) {
+        const n = Number(v);
+        if (Number.isFinite(n) && n > 0) return n;
+      }
+      return null;
     };
+    // Priorité à la surface plancher calculée en qualification (inclut sous-sol/CES/cour/étages),
+    // sinon repli sur la surface de terrain saisie.
+    const surfaceM2 = pick(d.surfacePlancher, d.surface, d.terrainArea, d.area);
+    return { surfaceM2 };
   }, [data]);
 
   // V162D+ — Packs engine: selections drive quote (no engine disclosure)
@@ -111,9 +113,10 @@ export default function P1Packs() {
   const isMember = hasCaseParam || (auth.isAuthed && canAccessPacksPage(auth.userId || null));
   const packsVisible = hasCaseParam || (auth.isAuthed && canShowPacks(auth.userId || null));
 
-  // Villa-only option: basement impacts pricing (via effective project cost)
+  // Villa-only : le sous-sol déclaré en qualification est DÉJÀ intégré à la surface plancher
+  // (computeSP) — donc déjà reflété dans le devis. Dérivé du draft, plus de toggle (redondant).
   const isVilla = String((data as any)?.type || (data as any)?.projectType || "").toLowerCase().includes("villa");
-  const [hasBasement, setHasBasement] = React.useState<boolean>(Boolean((data as any)?.hasBasement || (data as any)?.basement));
+  const hasBasement = (data as any)?.basement === "yes" || (data as any)?.hasBasement === true;
 
   useEffect(() => {
     if (!packsVisible) return;
@@ -799,11 +802,10 @@ ${sections}
               </div>
 
               <div style={{ marginTop: 12, display: "grid", gap: 10 }}>
-                {isVilla && (
-                  <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
-                    <input type="checkbox" checked={hasBasement} onChange={(e) => setHasBasement(e.target.checked)} style={{ marginTop: 3 }} />
-                    {t("portes.p1.packs.sim.basement")}
-                  </label>
+                {isVilla && hasBasement && (
+                  <div className="muted" style={{ fontSize: 12.5, lineHeight: 1.55, padding: "10px 12px", borderRadius: 12, background: "rgba(201,162,39,0.08)", border: "1px solid rgba(201,162,39,0.22)" }}>
+                    <b>Sous-sol déclaré</b> — déjà inclus dans la surface plancher ({formatMAD(derived.surfaceM2)} m²) et donc dans le calcul ci-dessous. Pour le modifier, revenez à la <Link className="link" to="/p1">qualification</Link>.
+                  </div>
                 )}
 
                 <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>

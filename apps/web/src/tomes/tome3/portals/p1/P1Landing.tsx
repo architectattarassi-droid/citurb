@@ -552,6 +552,15 @@ export default function P1Landing() {
       const sp = computeSP();
       const prev = sel.value;
 
+      // Persiste la surface plancher calculée (inclut sous-sol/CES/cour/étages) afin que
+      // la page Packs facture sur la VRAIE surface plancher — et non sur la surface de terrain.
+      if (sp) {
+        (draft as any).surfacePlancher = Math.round(sp);
+        save(draft);
+      } else {
+        delete (draft as any).surfacePlancher;
+      }
+
       // Reset
       sel.innerHTML = '';
       const opt0 = document.createElement('option');
