@@ -55,6 +55,10 @@ export default function ClientCostBuilder({
   const defaultType = TYPE_FROM_P1[String(projectTypeHint || "").toLowerCase()] || "VIL";
   const [type, setType] = useState<TypeProjet>(defaultType);
   const [surface, setSurface] = useState<number>(surfaceM2 && surfaceM2 > 0 ? Math.round(surfaceM2) : 150);
+  // Sous-sol : surface additionnelle facturée au même coût/m² (excavation/structure incluses).
+  const [basementOn, setBasementOn] = useState<boolean>(false);
+  const [basementM2, setBasementM2] = useState<number>(0);
+  const effSurface = surface + (basementOn ? Math.max(0, basementM2) : 0);
   const [mode, setMode] = useState<Mode>("STANDING");
 
   const standings = Object.keys(COST_RANGES_MA[type].ranges) as Standing[];
@@ -70,8 +74,8 @@ export default function ClientCostBuilder({
     return init;
   });
 
-  const resStanding = useMemo(() => estimateLots(type, effStanding, surface), [type, effStanding, surface]);
-  const resBase = useMemo(() => estimateLots(type, effBase, surface), [type, effBase, surface]);
+  const resStanding = useMemo(() => estimateLots(type, effStanding, effSurface), [type, effStanding, effSurface]);
+  const resBase = useMemo(() => estimateLots(type, effBase, effSurface), [type, effBase, effSurface]);
 
   // Coût en mode COMPOSE : lot médian, finition = médiane × facteur.
   const composeLots = useMemo(() => {
@@ -93,7 +97,7 @@ export default function ClientCostBuilder({
   const apply = () => {
     if (!currentTotal || !onApply) return;
     onApply({
-      type, mode, surfaceM2: surface, totalMAD: currentTotal,
+      type, mode, surfaceM2: effSurface, totalMAD: currentTotal,
       standing: mode === "STANDING" ? effStanding : effBase,
       finitions: mode === "COMPOSE" ? finSel : undefined,
     });
@@ -125,6 +129,26 @@ export default function ClientCostBuilder({
         </label>
       </div>
 
+      {/* Sous-sol (option) — s'ajoute à la surface plancher facturée */}
+      {type !== "AME" && (
+        <div style={S.basementBox}>
+          <label style={S.basementToggle}>
+            <input
+              type="checkbox"
+              checked={basementOn}
+              onChange={(e) => { setBasementOn(e.target.checked); if (e.target.checked && !basementM2) setBasementM2(Math.round(surface * 0.35)); }}
+            />
+            Ajouter un sous-sol
+          </label>
+          {basementOn && (
+            <label style={{ ...S.field, flex: 1 }}>
+              <span style={S.lbl}>Surface sous-sol (m²) — s'ajoute à la surface</span>
+              <input type="number" min={0} value={basementM2} onChange={(e) => setBasementM2(Math.max(0, Number(e.target.value) || 0))} style={S.input} />
+            </label>
+          )}
+        </div>
+      )}
+
       {/* Mode tabs */}
       <div style={S.tabs}>
         <button type="button" onClick={() => setMode("STANDING")} style={{ ...S.tab, ...(mode === "STANDING" ? S.tabOn : {}) }}>
@@ -138,7 +162,7 @@ export default function ClientCostBuilder({
       {mode === "STANDING" ? (
         <div style={S.standingGrid}>
           {standings.map((st) => {
-            const r = estimateLots(type, st, surface);
+            const r = estimateLots(type, st, effSurface);
             const med = r ? r.lots.reduce((s, l) => s + median(l), 0) : 0;
             const on = st === effStanding;
             return (
@@ -203,7 +227,9 @@ export default function ClientCostBuilder({
         <div>
           <div style={S.totalLbl}>Coût de construction estimé</div>
           <div style={S.totalVal}>{fmt(currentTotal)}</div>
-          <div style={S.totalSub}>≈ {surface > 0 ? fmt(currentTotal / surface).replace(" DH", " DH/m²") : "—"} · hors honoraires, terrain & taxes</div>
+          <div style={S.totalSub}>
+            ≈ {effSurface > 0 ? fmt(currentTotal / effSurface).replace(" DH", " DH/m²") : "—"} · {effSurface} m²{basementOn && basementM2 > 0 ? ` (dont ${basementM2} m² sous-sol)` : ""} · hors honoraires, terrain & taxes
+          </div>
         </div>
         <button type="button" onClick={apply} disabled={!currentTotal} style={{ ...S.applyBtn, ...(currentTotal ? {} : S.applyOff) }}>
           {appliedTotal && Math.round(appliedTotal) === Math.round(currentTotal) ? "✓ Budget défini" : "Définir comme mon budget"}
@@ -226,6 +252,8 @@ const S: Record<string, React.CSSProperties> = {
   lbl: { fontSize: 12, fontWeight: 800, color: "rgba(11,27,58,0.7)", letterSpacing: "0.02em" },
   hint: { fontSize: 12, color: "rgba(11,27,58,0.55)", lineHeight: 1.45 },
   input: { padding: "11px 13px", borderRadius: 12, border: "1px solid rgba(11,27,58,0.18)", fontSize: 14, background: "#fff", color: NAVY, outline: "none" },
+  basementBox: { display: "flex", gap: 14, alignItems: "flex-end", flexWrap: "wrap", padding: "12px 14px", borderRadius: 12, background: "rgba(11,27,58,0.03)", border: "1px solid rgba(11,27,58,0.10)", marginBottom: 14 },
+  basementToggle: { display: "flex", alignItems: "center", gap: 8, fontSize: 13.5, fontWeight: 800, color: NAVY, cursor: "pointer" },
   tabs: { display: "flex", gap: 8, margin: "6px 0 16px", background: "rgba(11,27,58,0.05)", padding: 5, borderRadius: 14 },
   tab: { flex: 1, padding: "11px 12px", borderRadius: 10, border: "none", background: "transparent", color: "rgba(11,27,58,0.6)", fontWeight: 800, fontSize: 13.5, cursor: "pointer" },
   tabOn: { background: "#fff", color: NAVY, boxShadow: "0 2px 8px rgba(11,27,58,0.10)" },

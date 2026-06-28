@@ -7,6 +7,7 @@ import { createDossier, type Qualification } from "./dossier.store";
 import type { ProjectType } from "../../../../domain/p1/types";
 import { readP1Draft, writeP1Draft } from "../../../../application/p1/startQualification";
 import ClientCostBuilder, { type CostResult } from "./ClientCostBuilder";
+import PermitTaxesPanel from "./PermitTaxesPanel";
 import { createDossier as createCase } from "../../../../application/p1/createDossier";
 import { selectPack } from "../../../../application/p1/selectPack";
 import { canAccessPacksPage, canShowPacks, unlockPacks } from "../../../../application/p1/enterPacks";
@@ -708,6 +709,8 @@ ${sections}
           onApply={applyConstructionBudget}
           appliedTotal={constructionBudget}
         />
+
+        <PermitTaxesPanel surfaceM2={derived.surfaceM2} />
 
         <div className="divider" />
 
