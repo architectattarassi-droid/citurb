@@ -58,6 +58,8 @@ type TypeConfig = {
   lots: Record<string, number>;
   /** Libellés de lot spécifiques au type (override de LOT_LABELS). */
   lotLabels?: Record<string, string>;
+  /** Libellés de standing spécifiques au type (override de STANDING_LABELS). */
+  standingLabels?: Partial<Record<Standing, string>>;
 };
 
 export const COST_RANGES_MA: Record<TypeProjet, TypeConfig> = {
@@ -73,7 +75,10 @@ export const COST_RANGES_MA: Record<TypeProjet, TypeConfig> = {
   },
   VIL: {
     label: TYPE_LABELS.VIL,
-    ranges: { ECONOMIQUE: [4000, 5200], STANDARD: [5500, 7000], STANDING: [7500, 9500], PREMIUM: [10000, 14000] },
+    // Palier "très économique" (moy. 3000 DH/m²) ajouté en bas de gamme, puis
+    // décomposition du standing : Moyen standing / Standing / Haut standing / Luxe.
+    ranges: { ULTRA_ECO: [2500, 3500], ECONOMIQUE: [4000, 5200], STANDARD: [5500, 7000], STANDING: [7500, 9500], PREMIUM: [10000, 14000] },
+    standingLabels: { ULTRA_ECO: "Très économique", ECONOMIQUE: "Moyen standing", STANDARD: "Standing", STANDING: "Haut standing", PREMIUM: "Luxe / Premium" },
     lots: { INS: 0.02, TER: 0.03, FON: 0.08, STR: 0.18, MAC: 0.08, ETA: 0.04, FAC: 0.08, ALU: 0.09, BOI: 0.06, ELE: 0.07, PLO: 0.07, REV: 0.11, PEI: 0.03, PLA: 0.04, FER: 0.02 },
   },
   MIX: {
@@ -106,6 +111,11 @@ export const COST_RANGES_MA: Record<TypeProjet, TypeConfig> = {
     },
   },
 };
+
+/** Libellé d'un standing, en tenant compte des overrides par type (ex. villa). */
+export function standingLabel(type: TypeProjet, standing: Standing): string {
+  return COST_RANGES_MA[type]?.standingLabels?.[standing] ?? STANDING_LABELS[standing];
+}
 
 export type LotEstimate = { code: string; label: string; pct: number; min: number; max: number };
 export type LotsResult = {

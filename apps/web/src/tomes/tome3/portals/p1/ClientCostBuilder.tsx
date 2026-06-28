@@ -13,7 +13,7 @@
 
 import React, { useMemo, useState } from "react";
 import {
-  COST_RANGES_MA, STANDING_LABELS, TYPE_LABELS, DISCLAIMER_LOTS,
+  COST_RANGES_MA, TYPE_LABELS, DISCLAIMER_LOTS, standingLabel,
   estimateLots, type Standing, type TypeProjet,
 } from "../../../../command-center/modules/dossiers/costRangesMA";
 import { FINITIONS, TIER_LABELS, defaultFinition } from "./finitionsCatalog";
@@ -143,7 +143,7 @@ export default function ClientCostBuilder({
             const on = st === effStanding;
             return (
               <button key={st} type="button" onClick={() => setStanding(st)} style={{ ...S.stCard, ...(on ? S.stCardOn : {}) }}>
-                <div style={S.stName}>{STANDING_LABELS[st]}</div>
+                <div style={S.stName}>{standingLabel(type, st)}</div>
                 <div style={S.stRange}>{r ? `${(r.rangeM2[0]).toLocaleString("fr-MA")}–${(r.rangeM2[1]).toLocaleString("fr-MA")} DH/m²` : "—"}</div>
                 <div style={S.stTotal}>{fmt(med)}</div>
                 {on && <div style={S.stPick}>✓ Sélectionné</div>}
@@ -157,7 +157,7 @@ export default function ClientCostBuilder({
             <label style={S.field}>
               <span style={S.lbl}>Niveau de base (gros œuvre)</span>
               <select value={baseStanding} onChange={(e) => setBaseStanding(e.target.value as Standing)} style={S.input}>
-                {standings.map((st) => <option key={st} value={st}>{STANDING_LABELS[st]}</option>)}
+                {standings.map((st) => <option key={st} value={st}>{standingLabel(type, st)}</option>)}
               </select>
             </label>
             <div style={{ ...S.field, justifyContent: "flex-end" }}>

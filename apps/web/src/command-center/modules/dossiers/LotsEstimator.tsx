@@ -10,7 +10,7 @@ import React, { useMemo, useState } from "react";
 import { CC } from "../../theme/tokens";
 import SurfaceHelper from "./SurfaceHelper";
 import {
-  COST_RANGES_MA, STANDING_LABELS, TYPE_LABELS, DISCLAIMER_LOTS, INTERVENANTS_DEFAULT,
+  COST_RANGES_MA, standingLabel, TYPE_LABELS, DISCLAIMER_LOTS, INTERVENANTS_DEFAULT,
   estimateLots, type Standing, type TypeProjet, type Intervenant,
 } from "./costRangesMA";
 
@@ -59,7 +59,7 @@ export default function LotsEstimator({ onApply }: { onApply?: (lignes: CalcLign
       designation: l.label, quantite: 1, unite: "Forfait", prixUnitaire: appliedPrice(l),
     }));
     onApply(lignes, {
-      titre: `Estimatif construction (${PRICE_MODE_LABELS[priceMode]}) — ${TYPE_LABELS[type]} · ${STANDING_LABELS[effStanding]} · ${surface} m²`,
+      titre: `Estimatif construction (${PRICE_MODE_LABELS[priceMode]}) — ${TYPE_LABELS[type]} · ${standingLabel(type, effStanding)} · ${surface} m²`,
       tva: 20,
     });
   };
@@ -84,7 +84,7 @@ export default function LotsEstimator({ onApply }: { onApply?: (lignes: CalcLign
         </F>
         <F l="Standing">
           <select style={S.in} value={effStanding} onChange={(e) => setStanding(e.target.value as Standing)}>
-            {standings.map((s) => <option key={s} value={s}>{STANDING_LABELS[s]}</option>)}
+            {standings.map((s) => <option key={s} value={s}>{standingLabel(type, s)}</option>)}
           </select>
         </F>
         <SurfaceHelper value={surface} onChange={(m2) => setSurface(m2)} />
@@ -93,7 +93,7 @@ export default function LotsEstimator({ onApply }: { onApply?: (lignes: CalcLign
       {res && (
         <>
           <div style={S.totalBar}>
-            <span>Coût travaux estimé ({STANDING_LABELS[effStanding]})</span>
+            <span>Coût travaux estimé ({standingLabel(type, effStanding)})</span>
             <b>{fmt(res.totalMin)} – {fmt(res.totalMax)}</b>
           </div>
           <div style={S.totalSub}>soit {res.rangeM2[0].toLocaleString("fr-MA")} – {res.rangeM2[1].toLocaleString("fr-MA")} DH/m²</div>
