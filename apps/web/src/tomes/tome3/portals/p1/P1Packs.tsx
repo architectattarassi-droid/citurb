@@ -124,6 +124,16 @@ export default function P1Packs() {
   const [pack, setPack] = React.useState<"ESSENTIEL" | "AVANCE" | "COMPLET">("AVANCE");
   const [betMode, setBetMode] = React.useState<"PLATFORM" | "EXTERNAL">("PLATFORM");
   const [addRemoteFollow, setAddRemoteFollow] = React.useState(false);
+  // Configurateur orienté services : le pack est DÉDUIT des choix du client.
+  //  - executionEnabled → dossier d'exécution (≥ AVANCE)
+  //  - suiviLevel: AUCUN / DISTANCE (suivi par images) / SUR_PLACE (= COMPLET, direction chantier)
+  const [executionEnabled, setExecutionEnabled] = React.useState(true);
+  const [suiviLevel, setSuiviLevel] = React.useState<"AUCUN" | "DISTANCE" | "SUR_PLACE">("DISTANCE");
+  React.useEffect(() => {
+    const p = suiviLevel === "SUR_PLACE" ? "COMPLET" : executionEnabled ? "AVANCE" : "ESSENTIEL";
+    setPack(p);
+    setAddRemoteFollow(suiviLevel === "DISTANCE");
+  }, [suiviLevel, executionEnabled]);
   const [mandateEntreprise, setMandateEntreprise] = React.useState(false);
   const [modEnabled, setModEnabled] = React.useState(false);
   const [decoEnabled, setDecoEnabled] = React.useState(false);
@@ -642,6 +652,17 @@ ${sections}
         .topRow{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; }
         .link{ font-weight:800; color:var(--royal); text-decoration:none; }
         .divider{ height:1px; background:linear-gradient(90deg, transparent, rgba(201,162,39,0.55), transparent); margin:34px 0; }
+        .cfgBox{ padding:16px; border-radius:16px; background:rgba(11,27,58,0.025); border:1px solid rgba(11,27,58,0.10); display:grid; gap:12px; }
+        .cfgTitle{ font-weight:900; font-size:15px; color:var(--royal); }
+        .cfgSub{ font-size:12.5px; color:rgba(11,18,32,0.6); line-height:1.5; }
+        .cfgBase{ font-size:12.5px; font-weight:800; color:#1a7a4a; }
+        .cfgCheck,.cfgRadio{ display:flex; gap:10px; align-items:flex-start; font-size:13px; color:rgba(11,18,32,0.82); padding:11px 12px; border-radius:12px; border:1px solid rgba(11,27,58,0.12); background:#fff; cursor:pointer; }
+        .cfgRadioOn{ border-color:var(--gold); box-shadow:0 4px 14px rgba(201,162,39,0.18); }
+        .cfgHint{ font-size:11.5px; color:rgba(11,18,32,0.55); font-weight:500; }
+        .cfgSuiviLabel{ font-weight:800; font-size:12.5px; color:rgba(11,18,32,0.7); margin-top:2px; }
+        .packAdapte{ margin-top:18px; padding:14px 16px; border-radius:14px; background:linear-gradient(135deg, rgba(201,162,39,0.14), rgba(201,162,39,0.06)); border:1px solid rgba(201,162,39,0.4); display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+        .packFeat{ margin:10px 0 0; padding:0; list-style:none; display:grid; gap:5px; font-size:12.5px; color:rgba(11,18,32,0.72); }
+        .packFeat li:before{ content:"✓ "; color:var(--gold); font-weight:900; }
       `}</style>
 
       <div className="p1-wrap">
@@ -846,10 +867,28 @@ ${sections}
                   </div>
                 )}
 
-                <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
-                  <input type="checkbox" checked={addRemoteFollow} onChange={(e) => setAddRemoteFollow(e.target.checked)} style={{ marginTop: 3 }} disabled={pack === "COMPLET"} />
-                  {t("portes.p1.packs.sim.remote_follow")}
-                </label>
+                {/* Configurateur orienté services → le pack est déduit des choix */}
+                <div className="cfgBox">
+                  <div className="cfgTitle">{t("portes.p1.config.title")}</div>
+                  <div className="cfgSub">{t("portes.p1.config.sub")}</div>
+                  <div className="cfgBase">✓ {t("portes.p1.config.base")}</div>
+
+                  <label className="cfgCheck">
+                    <input type="checkbox" checked={executionEnabled} onChange={(e) => setExecutionEnabled(e.target.checked)} style={{ marginTop: 3 }} />
+                    <span><b>{t("portes.p1.config.execution")}</b><br /><span className="cfgHint">{t("portes.p1.config.execution_hint")}</span></span>
+                  </label>
+
+                  <div className="cfgSuiviLabel">{t("portes.p1.config.suivi_label")}</div>
+                  {(["AUCUN", "DISTANCE", "SUR_PLACE"] as const).map((lv) => {
+                    const sfx = lv === "SUR_PLACE" ? "surplace" : lv.toLowerCase();
+                    return (
+                      <label key={lv} className={`cfgRadio ${suiviLevel === lv ? "cfgRadioOn" : ""}`}>
+                        <input type="radio" name="suivi" checked={suiviLevel === lv} onChange={() => setSuiviLevel(lv)} style={{ marginTop: 3 }} />
+                        <span><b>{t(`portes.p1.config.suivi_${sfx}`)}</b><br /><span className="cfgHint">{t(`portes.p1.config.suivi_${sfx}_hint`)}</span></span>
+                      </label>
+                    );
+                  })}
+                </div>
 
                 <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
                   <input type="checkbox" checked={decoEnabled} onChange={(e) => setDecoEnabled(e.target.checked)} style={{ marginTop: 3 }} />
@@ -889,6 +928,19 @@ ${sections}
               )}
             </div>
 
+            {/* Pack déduit des services cochés */}
+            <div className="packAdapte">
+              <div>
+                <div style={{ fontWeight: 900, color: "var(--royal)", fontSize: 15 }}>
+                  {t("portes.p1.config.result_pack")} : {t(`portes.p1.packs.card.${pack.toLowerCase()}.lux`)}
+                </div>
+                <div className="cfgHint">{t("portes.p1.config.result_hint")}</div>
+              </div>
+              <div className="amt" style={{ fontSize: 22 }}>
+                {formatMAD((quoteMap as any)?.[pack]?.amounts?.totalMADRounded)} {t("portes.p1.packs.card.currency")}
+              </div>
+            </div>
+
             <div className="grid3" style={{ marginTop: 18 }}>
               <div className={`card ${pack === "ESSENTIEL" ? "featured" : ""}`}>
                 <div className="badge">{t("portes.p1.packs.card.essentiel.badge")}</div>
@@ -896,12 +948,17 @@ ${sections}
                 <div className="muted" style={{ marginTop: 8, fontSize: 13, lineHeight: 1.6 }}>
                   {t("portes.p1.packs.card.essentiel.desc")}
                 </div>
+                <ul className="packFeat">
+                  <li>{t("portes.p1.packs.card.essentiel.f1")}</li>
+                  <li>{t("portes.p1.packs.card.essentiel.f2")}</li>
+                  <li>{t("portes.p1.packs.card.essentiel.f3")}</li>
+                </ul>
                 <div className="priceRow">
                   <span style={{ fontSize: 13, fontWeight: 800 }}>{t("portes.p1.packs.card.total")}</span>
                   <span className="amt">{formatMAD((quoteMap as any)?.ESSENTIEL?.amounts?.totalMADRounded)}</span>
                   <span style={{ fontSize: 13, fontWeight: 800 }}>{t("portes.p1.packs.card.currency")}</span>
                 </div>
-                <button className="btn btn-dark" type="button" onClick={() => setPack("ESSENTIEL")}>{t("portes.p1.packs.card.compare")}</button>
+                <button className="btn btn-dark" type="button" onClick={() => { setExecutionEnabled(false); setSuiviLevel((s) => s === "SUR_PLACE" ? "AUCUN" : s); }}>{t("portes.p1.packs.card.compare")}</button>
               </div>
 
               <div className={`card ${pack === "AVANCE" ? "featured" : ""}`}>
@@ -910,12 +967,17 @@ ${sections}
                 <div className="muted" style={{ marginTop: 8, fontSize: 13, lineHeight: 1.6 }}>
                   {t("portes.p1.packs.card.avance.desc")}
                 </div>
+                <ul className="packFeat">
+                  <li>{t("portes.p1.packs.card.avance.f1")}</li>
+                  <li>{t("portes.p1.packs.card.avance.f2")}</li>
+                  <li>{t("portes.p1.packs.card.avance.f3")}</li>
+                </ul>
                 <div className="priceRow">
                   <span style={{ fontSize: 13, fontWeight: 800 }}>{t("portes.p1.packs.card.total")}</span>
                   <span className="amt">{formatMAD((quoteMap as any)?.AVANCE?.amounts?.totalMADRounded)}</span>
                   <span style={{ fontSize: 13, fontWeight: 800 }}>{t("portes.p1.packs.card.currency")}</span>
                 </div>
-                <button className="btn btn-gold" type="button" onClick={() => setPack("AVANCE")}>{t("portes.p1.packs.card.compare")}</button>
+                <button className="btn btn-gold" type="button" onClick={() => { setExecutionEnabled(true); setSuiviLevel((s) => s === "SUR_PLACE" ? "DISTANCE" : s); }}>{t("portes.p1.packs.card.compare")}</button>
               </div>
 
               <div className={`card ${pack === "COMPLET" ? "featured" : ""}`}>
@@ -924,12 +986,17 @@ ${sections}
                 <div className="muted" style={{ marginTop: 8, fontSize: 13, lineHeight: 1.6 }}>
                   {t("portes.p1.packs.card.complet.desc")}
                 </div>
+                <ul className="packFeat">
+                  <li>{t("portes.p1.packs.card.complet.f1")}</li>
+                  <li>{t("portes.p1.packs.card.complet.f2")}</li>
+                  <li>{t("portes.p1.packs.card.complet.f3")}</li>
+                </ul>
                 <div className="priceRow">
                   <span style={{ fontSize: 13, fontWeight: 800 }}>{t("portes.p1.packs.card.total")}</span>
                   <span className="amt">{formatMAD((quoteMap as any)?.COMPLET?.amounts?.totalMADRounded)}</span>
                   <span style={{ fontSize: 13, fontWeight: 800 }}>{t("portes.p1.packs.card.currency")}</span>
                 </div>
-                <button className="btn btn-dark" type="button" onClick={() => setPack("COMPLET")}>{t("portes.p1.packs.card.compare")}</button>
+                <button className="btn btn-dark" type="button" onClick={() => setSuiviLevel("SUR_PLACE")}>{t("portes.p1.packs.card.compare")}</button>
               </div>
             </div>
 
