@@ -60,6 +60,8 @@ type TypeConfig = {
   lotLabels?: Record<string, string>;
   /** Libellés de standing spécifiques au type (override de STANDING_LABELS). */
   standingLabels?: Partial<Record<Standing, string>>;
+  /** Plancher de prix DH/m² par lot (coût minimal réel, indépendant du standing). */
+  lotFloorM2?: Partial<Record<string, number>>;
 };
 
 export const COST_RANGES_MA: Record<TypeProjet, TypeConfig> = {
@@ -79,6 +81,8 @@ export const COST_RANGES_MA: Record<TypeProjet, TypeConfig> = {
     // décomposition du standing : Moyen standing / Standing / Haut standing / Luxe.
     ranges: { ULTRA_ECO: [2500, 3500], ECONOMIQUE: [4000, 5200], STANDARD: [5500, 7000], STANDING: [7500, 9500], PREMIUM: [10000, 14000] },
     standingLabels: { ULTRA_ECO: "Très économique", ECONOMIQUE: "Moyen standing", STANDARD: "Standing", STANDING: "Haut standing", PREMIUM: "Luxe / Premium" },
+    // Fondations : pas de version "très économique" — minimum réel 600 DH/m².
+    lotFloorM2: { FON: 600 },
     lots: { INS: 0.02, TER: 0.03, FON: 0.08, STR: 0.18, MAC: 0.08, ETA: 0.04, FAC: 0.08, ALU: 0.09, BOI: 0.06, ELE: 0.07, PLO: 0.07, REV: 0.11, PEI: 0.03, PLA: 0.04, FER: 0.02 },
   },
   MIX: {
@@ -142,12 +146,17 @@ export function estimateLots(type: TypeProjet, standing: Standing, surfaceM2: nu
   // AME : DEM/CLO/CLM/ENS). Poids normalisés (÷ somme) → lots = total exact.
   const lots: LotEstimate[] = Object.keys(cfg.lots).map((code) => {
     const w = cfg.lots[code] / sumW;
+    // Plancher de prix DH/m² par lot : certains lots ont un coût minimal réel
+    // indépendant du standing de finition (ex. fondations ≥ 600 DH/m² — pas de
+    // version "très économique" : le système porteur dépend du sol, pas du carrelage).
+    const floorM2 = cfg.lotFloorM2?.[code];
+    const floorTotal = floorM2 ? floorM2 * surfaceM2 : 0;
     return {
       code,
       label: cfg.lotLabels?.[code] ?? LOT_LABELS[code] ?? code,
       pct: cfg.lots[code],
-      min: Math.round(rangeM2[0] * w * surfaceM2),
-      max: Math.round(rangeM2[1] * w * surfaceM2),
+      min: Math.max(Math.round(rangeM2[0] * w * surfaceM2), Math.round(floorTotal)),
+      max: Math.max(Math.round(rangeM2[1] * w * surfaceM2), Math.round(floorTotal)),
     };
   });
   return {
@@ -155,8 +164,10 @@ export function estimateLots(type: TypeProjet, standing: Standing, surfaceM2: nu
     standing,
     surfaceM2,
     rangeM2,
-    totalMin: rangeM2[0] * surfaceM2,
-    totalMax: rangeM2[1] * surfaceM2,
+    // Totaux = somme réelle des lots (intègre les planchers de prix éventuels ;
+    // identique à rangeM2×surface quand aucun plancher ne s'applique).
+    totalMin: lots.reduce((s, l) => s + l.min, 0),
+    totalMax: lots.reduce((s, l) => s + l.max, 0),
     lots,
   };
 }
