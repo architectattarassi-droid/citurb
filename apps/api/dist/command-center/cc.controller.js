@@ -289,7 +289,14 @@ __decorate([
 ], CCController.prototype, "createLead", null);
 exports.CCController = CCController = __decorate([
     (0, tome_at_1.Tome)("tome9"),
-    (0, common_1.Controller)("api/cc"),
+    (0, common_1.Controller)("api/cc")
+    // SÉCURITÉ : tout le backoffice CC est réservé ADMIN/OWNER/OPS. Guard au niveau
+    // CLASSE (auparavant seulement sur certaines méthodes → snapshot/media/leads
+    // exposaient des données — dont des leads avec PII — sans authentification).
+    // Les méthodes avec un @Roles plus strict (verify/deactivate = ADMIN/OWNER) le conservent.
+    ,
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)("ADMIN", "OWNER", "OPS"),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
         cc_snapshot_service_1.CCSnapshotService,
         lead_funnel_service_1.LeadFunnelService])

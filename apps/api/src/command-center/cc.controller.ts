@@ -43,6 +43,12 @@ type LeadQualif = {
 
 @Tome("tome9")
 @Controller("api/cc")
+// SÉCURITÉ : tout le backoffice CC est réservé ADMIN/OWNER/OPS. Guard au niveau
+// CLASSE (auparavant seulement sur certaines méthodes → snapshot/media/leads
+// exposaient des données — dont des leads avec PII — sans authentification).
+// Les méthodes avec un @Roles plus strict (verify/deactivate = ADMIN/OWNER) le conservent.
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles("ADMIN", "OWNER", "OPS")
 export class CCController {
   constructor(
     private readonly prisma: PrismaService,

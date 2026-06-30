@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CC } from "../../theme/tokens";
+import { getToken } from "../../../tomes/tome4/apiClient";
 
 type Snapshot = {
   ytSubscribers?: number;
@@ -33,8 +34,8 @@ export default function CCDashboard() {
     (async () => {
       try {
         const [s, m] = await Promise.all([
-          fetch("/api/cc/snapshot/current").then(r => (r.ok ? r.json() : fallbackSnapshot)),
-          fetch("/api/cc/media").then(r => (r.ok ? r.json() : { items: fallbackMedia })),
+          fetch("/api/cc/snapshot/current", { headers: { Authorization: `Bearer ${getToken() ?? ""}` } }).then(r => (r.ok ? r.json() : fallbackSnapshot)),
+          fetch("/api/cc/media", { headers: { Authorization: `Bearer ${getToken() ?? ""}` } }).then(r => (r.ok ? r.json() : { items: fallbackMedia })),
         ]);
         setSnapshot(s);
         setMedia(m.items || fallbackMedia);

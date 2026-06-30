@@ -7,6 +7,7 @@
 
 import React, { useEffect, useState } from "react";
 import { CC } from "../theme/tokens";
+import { getToken } from "../../tomes/tome4/apiClient";
 
 // ─── Types ───────────────────────────────────────────────────
 
@@ -40,7 +41,7 @@ export default function CCKpiBar() {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch("/api/cc/snapshot/current");
+        const res = await fetch("/api/cc/snapshot/current", { headers: { Authorization: `Bearer ${getToken() ?? ""}` } });
         if (!res.ok) throw new Error("fetch failed");
         const data: CCKpis = await res.json();
         if (!cancelled) setKpis(data);
