@@ -1808,5 +1808,12 @@
   "portes.p1.packs.card.avance.f3": "Consultation des entreprises",
   "portes.p1.packs.card.complet.f1": "Tout le pack Avancé",
   "portes.p1.packs.card.complet.f2": "Suivi de chantier sur place",
-  "portes.p1.packs.card.complet.f3": "Réception des travaux"
+  "portes.p1.packs.card.complet.f3": "Réception des travaux",
+  "portes.p1.docs.doc_titre": "Titre foncier / Attestation de propriété",
+  "portes.p1.docs.doc_cadastre": "Plan cadastral",
+  "portes.p1.docs.doc_contenances": "Fiche des contenances / Note de renseignements",
+  "portes.p1.docs.doc_cin": "CIN / Passeport (copie)",
+  "portes.p1.docs.doc_contrat": "Contrat architecte (modèle auto-généré)",
+  "portes.p1.docs.doc_autoex": "Autorisations existantes (si rénovation)",
+  "portes.p1.docs.doc_lotis": "Cahier des charges du lotissement"
 }

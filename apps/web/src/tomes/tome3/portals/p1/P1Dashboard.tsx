@@ -129,7 +129,7 @@ function DocsSection({ dossier, onChange, dossierId }: { dossier: Dossier; onCha
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: 13, fontWeight: 600, color: "#0f172a" }}>
-                {doc.label}
+                {(() => { const k = `portes.p1.docs.${doc.id}`; const v = t(k); return v && v !== k ? v : doc.label; })()}
                 {doc.required && <span style={{ marginLeft: 6, fontSize: 10, color: "#dc2626", fontWeight: 800 }}>{t("portes.p1.dashboard.docs.required")}</span>}
               </div>
               {doc.uploaded && doc.fileName && (

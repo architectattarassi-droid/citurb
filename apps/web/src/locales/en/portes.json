@@ -1583,5 +1583,12 @@
   "portes.p1.packs.card.avance.f3": "Contractor consultation",
   "portes.p1.packs.card.complet.f1": "Everything in the Advanced pack",
   "portes.p1.packs.card.complet.f2": "On-site site supervision",
-  "portes.p1.packs.card.complet.f3": "Works handover"
+  "portes.p1.packs.card.complet.f3": "Works handover",
+  "portes.p1.docs.doc_titre": "Land title / Ownership certificate",
+  "portes.p1.docs.doc_cadastre": "Cadastral plan",
+  "portes.p1.docs.doc_contenances": "Area statement / Information note",
+  "portes.p1.docs.doc_cin": "National ID (CIN) / Passport (copy)",
+  "portes.p1.docs.doc_contrat": "Architect contract (auto-generated template)",
+  "portes.p1.docs.doc_autoex": "Existing permits (if renovation)",
+  "portes.p1.docs.doc_lotis": "Subdivision specifications (cahier des charges)"
 }

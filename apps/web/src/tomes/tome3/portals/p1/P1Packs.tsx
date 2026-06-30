@@ -141,9 +141,13 @@ export default function P1Packs() {
   const [quoteErr, setQuoteErr] = React.useState<string | null>(null);
 
   // Derived access flags (must be declared BEFORE any hook uses them)
-  const hasCaseParam = Boolean(params.get("case"));
-  const isMember = hasCaseParam || (auth.isAuthed && canAccessPacksPage(auth.userId || null));
-  const packsVisible = hasCaseParam || (auth.isAuthed && canShowPacks(auth.userId || null));
+  // Clé de déverrouillage : utilisateur connecté, sinon la case courante (flux anon).
+  // SÉCURITÉ : la simple présence de ?case= NE déverrouille PAS — il faut la
+  // vérification email (canShowPacks lit l'état écrit par unlockPacks après le code).
+  const caseParam = params.get("case") || "";
+  const unlockKey = auth.userId || (caseParam ? `case:${caseParam}` : "");
+  const isMember = Boolean(unlockKey);
+  const packsVisible = Boolean(unlockKey) && canShowPacks(unlockKey);
 
   // Villa-only : le sous-sol déclaré en qualification est DÉJÀ intégré à la surface plancher
   // (computeSP) — donc déjà reflété dans le devis. Dérivé du draft, plus de toggle (redondant).
@@ -511,7 +515,7 @@ export default function P1Packs() {
     const dateLocale = lang === "ar" ? "ar-MA" : lang === "en" ? "en-GB" : "fr-FR";
     const dir = lang === "ar" ? "rtl" : "ltr";
     const stamp = new Date().toLocaleDateString(dateLocale, { day: "2-digit", month: "long", year: "numeric" });
-    const html = `<!doctype html><html lang="${lang}" dir="${dir}"><head><meta charset="utf-8"><title>${esc(t("portes.p1.fiche.doc_title"))} — CITURBAREA</title>
+    const html = `<!doctype html><html lang="${lang}" dir="${dir}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${esc(t("portes.p1.fiche.doc_title"))} — CITURBAREA</title>
 <style>
 @page { margin: 16mm; }
 * { box-sizing: border-box; }
@@ -523,11 +527,13 @@ body { font-family: Georgia, "Times New Roman", serif; color:#0B1B3A; margin:0; 
 h1 { font-size:18px; margin:0 0 18px; }
 section { margin-bottom:16px; page-break-inside:avoid; }
 h2 { font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:#C9A227; border-bottom:1px solid rgba(201,162,39,.3); padding-bottom:6px; margin:0 0 8px; }
-table { width:100%; border-collapse:collapse; font-size:13px; }
-th { text-align:left; width:40%; font-weight:600; color:#475569; padding:5px 8px 5px 0; vertical-align:top; }
-td { padding:5px 0; }
+table { width:100%; border-collapse:collapse; font-size:13px; table-layout:fixed; }
+th { text-align:left; width:42%; font-weight:600; color:#475569; padding:5px 8px 5px 0; vertical-align:top; word-break:break-word; overflow-wrap:anywhere; }
+td { padding:5px 0; word-break:break-word; overflow-wrap:anywhere; }
+[dir="rtl"] th { text-align:right; padding:5px 0 5px 8px; }
 .foot { margin-top:26px; font-size:10.5px; color:#94a3b8; border-top:1px solid #e5e7eb; padding-top:10px; }
 .bar { margin-top:18px; }
+@media (max-width:600px) { body { padding:16px; } h1 { font-size:16px; } }
 @media print { .noprint { display:none; } body { padding:0; } }
 </style></head>
 <body>

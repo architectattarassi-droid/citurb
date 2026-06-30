@@ -787,7 +787,7 @@
   "portes.p1.recap.f.tf_number": "رقم الرسم العقاري",
   "portes.p1.recap.f.lot_status": "تجزئة",
   "portes.p1.recap.f.lot_name": "اسم التجزئة",
-  "portes.p1.recap.f.lot_number": "رقم البقعة",
+  "portes.p1.recap.f.lot_number": "رقم القطعة الأرضية",
   "portes.p1.recap.val.plan_type": "تصميم نموذجي (ميزانية)",
   "portes.p1.recap.val.plan_custom": "تصميم مخصص",
   "portes.p1.recap.val.start_qual": "بدء التأهيل",
@@ -1782,7 +1782,7 @@
   "portes.p1.fiche.titre_foncier": "الرسم العقاري",
   "portes.p1.fiche.lotissement": "التجزئة",
   "portes.p1.fiche.lot_name": "اسم التجزئة",
-  "portes.p1.fiche.lot_num": "رقم البقعة",
+  "portes.p1.fiche.lot_num": "رقم القطعة الأرضية",
   "portes.p1.packs.basement_note_b": "طابق سفلي مصرّح به",
   "portes.p1.packs.basement_note": "— مُدرج أصلًا في المساحة المبنية ({m2} m²) وبالتالي في الحساب أدناه. لتعديله، عُد إلى",
   "portes.p1.packs.basement_note_link": "التأهيل",
@@ -1808,5 +1808,12 @@
   "portes.p1.packs.card.avance.f3": "استشارة المقاولات",
   "portes.p1.packs.card.complet.f1": "كل الباقة المتقدمة",
   "portes.p1.packs.card.complet.f2": "تتبع الورش في الموقع",
-  "portes.p1.packs.card.complet.f3": "تسلّم الأشغال"
+  "portes.p1.packs.card.complet.f3": "تسلّم الأشغال",
+  "portes.p1.docs.doc_titre": "الرسم العقاري / شهادة الملكية",
+  "portes.p1.docs.doc_cadastre": "التصميم العقاري",
+  "portes.p1.docs.doc_contenances": "بيان المساحات / مذكرة المعلومات",
+  "portes.p1.docs.doc_cin": "البطاقة الوطنية (CIN) / جواز السفر (نسخة)",
+  "portes.p1.docs.doc_contrat": "عقد المهندس المعماري (نموذج تلقائي)",
+  "portes.p1.docs.doc_autoex": "الرخص القائمة (في حالة الترميم)",
+  "portes.p1.docs.doc_lotis": "دفتر تحملات التجزئة"
 }
