@@ -26,6 +26,7 @@ const NAV_GROUPS: NavGroup[] = [
     title: "Atelier",
     items: [
       { id: "dashboard",   label: "Tableau de bord", path: "/cc/dashboard",   mark: "I"   },
+      { id: "visites",     label: "Visites",         path: "/cc/visites",     mark: "Ib"  },
       { id: "leads",       label: "Leads",           path: "/cc/leads",       mark: "II"  },
       { id: "inscrits",    label: "Inscrits Cercles",path: "/cc/inscrits",    mark: "III" },
       { id: "validations", label: "Validations",     path: "/cc/validations", mark: "IV"  },

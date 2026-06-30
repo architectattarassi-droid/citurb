@@ -14,6 +14,7 @@ import CCLayout from './layout/CCLayout';
 import CCDashboard from './modules/dashboard/CCDashboard';
 import MediaModule from './modules/media/MediaModule';
 import LeadsModule from './modules/leads/LeadsModule';
+import VisitorsModule from './modules/visitors/VisitorsModule';
 import InscritsModule from './modules/inscrits/InscritsModule';
 import ProjectsModule from './modules/projects/ProjectsModule';
 import TerritorialModule from './modules/territorial/TerritorialModule';
@@ -60,6 +61,7 @@ export default function CommandCenterApp() {
               <Route path="dashboard" element={<CCDashboard />} />
               <Route path="media/*" element={<MediaModule />} />
               <Route path="leads/*" element={<LeadsModule />} />
+              <Route path="visites" element={<VisitorsModule />} />
               <Route path="inscrits" element={<InscritsModule />} />
               <Route path="projects/*" element={<ProjectsModule />} />
               <Route path="territorial/*" element={<TerritorialModule />} />

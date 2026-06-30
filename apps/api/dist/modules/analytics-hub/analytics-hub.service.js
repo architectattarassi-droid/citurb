@@ -22,7 +22,8 @@ const PORTES = ["P1", "P2", "P3", "P4", "P5", "P6"];
  */
 let AnalyticsHubService = AnalyticsHubService_1 = class AnalyticsHubService {
     logger = new common_1.Logger(AnalyticsHubService_1.name);
-    dir = (0, path_1.join)(process.cwd(), "storage", "analytics");
+    // Stocké sur le volume persistant (UPLOADS_DIR) pour survivre aux redéploiements.
+    dir = (0, path_1.join)(process.env.UPLOADS_DIR || (0, path_1.join)(process.cwd(), "uploads"), "analytics");
     fileForToday() {
         const day = new Date().toISOString().slice(0, 10);
         return (0, path_1.join)(this.dir, `events-${day}.jsonl`);
@@ -120,6 +121,146 @@ let AnalyticsHubService = AnalyticsHubService_1 = class AnalyticsHubService {
             portes,
             topPorteByGmv: topByGmv?.gmvMad > 0 ? topByGmv.porte : undefined,
             topPorteByConversion: topByConv?.funnel.rateGlobalViewToPaid > 0 ? topByConv.porte : undefined,
+        };
+    }
+    /** Normalise un path : retire query/hash, IDs numériques/UUID → :id (regroupement). */
+    normPath(p) {
+        if (!p)
+            return "(inconnu)";
+        let s = p.split("?")[0].split("#")[0];
+        if (s.length > 1 && s.endsWith("/"))
+            s = s.slice(0, -1);
+        s = s.replace(/\/[0-9a-f]{8}-[0-9a-f-]{20,}/gi, "/:id").replace(/\/\d+/g, "/:id");
+        return s || "/";
+    }
+    /**
+     * Suivi des visites : sessions, pages vues, durée, sortie — même sans lead.
+     * Reconstruit les sessions à partir des events (view / page_leave / activité).
+     */
+    async visitors(period) {
+        const days = period === "7d" ? 7 : period === "30d" ? 30 : 90;
+        const events = await this.loadEvents(days);
+        // 1) Regroupe par session
+        const bySession = new Map();
+        for (const e of events) {
+            if (!e.sessionId)
+                continue;
+            const arr = bySession.get(e.sessionId);
+            if (arr)
+                arr.push(e);
+            else
+                bySession.set(e.sessionId, [e]);
+        }
+        const sessions = [];
+        for (const [sid, evs] of bySession) {
+            evs.sort((a, b) => (a.ts < b.ts ? -1 : a.ts > b.ts ? 1 : 0));
+            const views = evs.filter((e) => e.type === "view");
+            const first = evs[0].ts;
+            const last = evs[evs.length - 1].ts;
+            // Durée : somme des temps "page_leave" si dispo, sinon amplitude des events.
+            const leaveDur = evs
+                .filter((e) => e.type === "page_leave")
+                .reduce((s, e) => s + (Number(e.meta?.durationMs) || 0), 0);
+            const spanMs = new Date(last).getTime() - new Date(first).getTime();
+            const durationSec = Math.round((leaveDur > 0 ? leaveDur : spanMs) / 1000);
+            const paths = views.map((e) => this.normPath(e.path));
+            sessions.push({
+                sessionId: sid,
+                userId: evs.find((e) => e.userId)?.userId,
+                firstSeen: first,
+                lastSeen: last,
+                durationSec,
+                pageviews: views.length,
+                entryPath: paths[0],
+                exitPath: paths.length ? paths[paths.length - 1] : this.normPath(evs[evs.length - 1].path),
+                paths,
+                isLead: evs.some((e) => e.type === "intake_submit"),
+            });
+        }
+        // 2) Daily : visiteurs/pages par jour d'activité ; durée/bounce par jour de début.
+        const actByDay = new Map();
+        for (const e of events) {
+            const day = e.ts.slice(0, 10);
+            const d = actByDay.get(day) || { visitors: new Set(), pageviews: 0 };
+            if (e.sessionId)
+                d.visitors.add(e.sessionId);
+            if (e.type === "view")
+                d.pageviews++;
+            actByDay.set(day, d);
+        }
+        const startByDay = new Map();
+        for (const s of sessions) {
+            const day = s.firstSeen.slice(0, 10);
+            const d = startByDay.get(day) || { durations: [], bounces: 0, total: 0 };
+            d.durations.push(s.durationSec);
+            d.total++;
+            if (s.pageviews <= 1)
+                d.bounces++;
+            startByDay.set(day, d);
+        }
+        const allDays = new Set([...actByDay.keys(), ...startByDay.keys()]);
+        const daily = [...allDays].sort().map((date) => {
+            const a = actByDay.get(date);
+            const s = startByDay.get(date);
+            const avg = s && s.durations.length ? Math.round(s.durations.reduce((x, y) => x + y, 0) / s.durations.length) : 0;
+            return {
+                date,
+                visitors: a ? a.visitors.size : 0,
+                pageviews: a ? a.pageviews : 0,
+                avgDurationSec: avg,
+                bounceRate: s && s.total ? Math.round((s.bounces / s.total) * 100) : 0,
+            };
+        });
+        // 3) Top pages + uniques
+        const pageMap = new Map();
+        for (const e of events) {
+            if (e.type !== "view")
+                continue;
+            const p = this.normPath(e.path);
+            const m = pageMap.get(p) || { views: 0, uniq: new Set() };
+            m.views++;
+            if (e.sessionId)
+                m.uniq.add(e.sessionId);
+            pageMap.set(p, m);
+        }
+        const topPages = [...pageMap.entries()]
+            .map(([path, m]) => ({ path, views: m.views, uniques: m.uniq.size }))
+            .sort((a, b) => b.views - a.views)
+            .slice(0, 30);
+        // 4) Pages de sortie
+        const exitMap = new Map();
+        for (const s of sessions) {
+            if (!s.exitPath)
+                continue;
+            exitMap.set(s.exitPath, (exitMap.get(s.exitPath) || 0) + 1);
+        }
+        const topExitPages = [...exitMap.entries()]
+            .map(([path, count]) => ({ path, views: count, uniques: count }))
+            .sort((a, b) => b.views - a.views)
+            .slice(0, 15);
+        // 5) Sessions récentes (parcours + sortie + quand)
+        const recentSessions = [...sessions]
+            .sort((a, b) => (a.lastSeen < b.lastSeen ? 1 : -1))
+            .slice(0, 60);
+        const totalPv = sessions.reduce((s, x) => s + x.pageviews, 0);
+        const durs = sessions.map((s) => s.durationSec);
+        const bounces = sessions.filter((s) => s.pageviews <= 1).length;
+        const leads = sessions.filter((s) => s.isLead).length;
+        return {
+            period,
+            generatedAt: new Date().toISOString(),
+            totals: {
+                visitors: bySession.size,
+                sessions: sessions.length,
+                pageviews: totalPv,
+                avgDurationSec: durs.length ? Math.round(durs.reduce((a, b) => a + b, 0) / durs.length) : 0,
+                bounceRate: sessions.length ? Math.round((bounces / sessions.length) * 100) : 0,
+                leads,
+            },
+            daily,
+            topPages,
+            topExitPages,
+            recentSessions,
         };
     }
 };

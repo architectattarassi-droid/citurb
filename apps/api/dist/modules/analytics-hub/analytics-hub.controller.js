@@ -38,6 +38,11 @@ let AnalyticsHubController = class AnalyticsHubController {
         const dashboard = await this.svc.dashboard(period || "30d");
         return { ok: true, dashboard };
     }
+    /** Suivi des visites : sessions, pages, durée, sortie — même sans lead (admin). */
+    async visitors(period) {
+        const report = await this.svc.visitors(period || "7d");
+        return { ok: true, report };
+    }
 };
 exports.AnalyticsHubController = AnalyticsHubController;
 __decorate([
@@ -55,6 +60,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], AnalyticsHubController.prototype, "dashboard", null);
+__decorate([
+    (0, common_1.Get)("visitors"),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    __param(0, (0, common_1.Query)("period")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AnalyticsHubController.prototype, "visitors", null);
 exports.AnalyticsHubController = AnalyticsHubController = __decorate([
     (0, tome_at_1.Tome)("tome0"),
     (0, common_1.Controller)("api/analytics-hub"),

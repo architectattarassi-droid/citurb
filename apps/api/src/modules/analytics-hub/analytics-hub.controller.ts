@@ -28,4 +28,12 @@ export class AnalyticsHubController {
     const dashboard = await this.svc.dashboard(period || "30d");
     return { ok: true, dashboard };
   }
+
+  /** Suivi des visites : sessions, pages, durée, sortie — même sans lead (admin). */
+  @Get("visitors")
+  @UseGuards(JwtAuthGuard)
+  async visitors(@Query("period") period?: "7d" | "30d" | "90d") {
+    const report = await this.svc.visitors(period || "7d");
+    return { ok: true, report };
+  }
 }

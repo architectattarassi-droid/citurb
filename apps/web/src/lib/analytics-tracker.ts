@@ -8,7 +8,7 @@ import { apiBase } from "../tomes/tome4/apiClient";
 
 type PorteId = "P1" | "P2" | "P3" | "P4" | "P5" | "P6";
 type EventType =
-  | "view" | "wizard_start" | "wizard_step" | "wizard_complete"
+  | "view" | "page_leave" | "wizard_start" | "wizard_step" | "wizard_complete"
   | "intake_submit" | "payment_initiated" | "payment_received"
   | "nps_response" | "phase_completed";
 
@@ -70,4 +70,10 @@ export function porteFromPath(path: string): PorteId | undefined {
 /** Auto-track une vue de page (à appeler sur change de route). */
 export function trackView(path: string): void {
   track("view", { path, porte: porteFromPath(path) });
+}
+
+/** Track la sortie d'une page avec le temps passé (ms). */
+export function trackPageLeave(path: string, durationMs: number): void {
+  if (!path || durationMs < 500) return; // ignore les passages < 0,5s (rebonds techniques)
+  track("page_leave", { path, porte: porteFromPath(path), meta: { durationMs: Math.round(durationMs) } });
 }
