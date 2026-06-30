@@ -13,7 +13,7 @@
  *  - JAMAIS de cache pour /auth, /webhooks, /uploads (passthrough).
  *  - skipWaiting + clients.claim pour un déploiement rapide.
  */
-const SW_VERSION = "citurbarea-sw-v2";
+const SW_VERSION = "citurbarea-sw-v3";
 const PRECACHE = `${SW_VERSION}-precache`;
 const RUNTIME = `${SW_VERSION}-runtime`;
 const API_CACHE = `${SW_VERSION}-api`;
