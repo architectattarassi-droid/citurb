@@ -12,6 +12,7 @@ import { createDossier as createCase } from "../../../../application/p1/createDo
 import { selectPack } from "../../../../application/p1/selectPack";
 import { canAccessPacksPage, canShowPacks, unlockPacks } from "../../../../application/p1/enterPacks";
 import { recommendPack } from "../../../../application/p1/packRecommendationService";
+import { setToken } from "../../../tome4/apiClient";
 import {
   apiFetch,
   quoteP1Packs,
@@ -314,6 +315,37 @@ export default function P1Packs() {
 				return;
 			}
 			unlockPacks(auth.userId || `case:${caseId}`, Date.now());
+
+      // Email validé → crée le dossier EN BASE + le compte + notifie l'owner via
+      // l'intake public (le client P1 anonyme n'a pas de session ; /p2/dossier/create
+      // exige une auth, d'où des dossiers invisibles côté admin). Idempotent par case.
+      try {
+        const doneKey = `citurbarea:p1:intake_done:${caseId}`;
+        if (!localStorage.getItem(doneKey)) {
+          const d: any = data || {};
+          const nom = displayNameSafe || [d.firstname || d.firstName, d.lastname || d.lastName].filter(Boolean).join(" ") || undefined;
+          const resp: any = await apiFetch("/p2/intake", {
+            method: "POST",
+            body: {
+              porteType: "P1",
+              clientEmail: ((emailForCode || d.email || "").trim()) || undefined,
+              clientTel: ((d.phone || phoneForCode || "").trim()) || undefined,
+              clientNom: nom,
+              title: `P1 — ${d.city || d.commune || d.province || "Projet"}`,
+              commune: d.commune || d.city || d.province || undefined,
+              natureProjet: d.type || d.projectType || undefined,
+              surfaceTerrain: Number(d.terrainArea) || undefined,
+              surfacePlancher: derived.surfaceM2 || undefined,
+              source: "P1",
+              lang,
+            },
+          });
+          if (resp?.dossierId) localStorage.setItem(`citurbarea:p1:dossierId:${caseId}`, resp.dossierId);
+          if (resp?.access_token) setToken(resp.access_token);
+          localStorage.setItem(doneKey, "1");
+        }
+      } catch { /* non-bloquant : ne pas casser le déverrouillage si l'intake échoue */ }
+
       setUnlockMsg(t("portes.p1.packs.unlock.msg.validated"));
       setTimeout(() => packsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
     } catch (e: any) {
