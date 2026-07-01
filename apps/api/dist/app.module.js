@@ -63,6 +63,7 @@ const zillow_ma_module_1 = require("./modules/zillow-ma/zillow-ma.module");
 const mre_diaspora_module_1 = require("./modules/mre-diaspora/mre-diaspora.module");
 const analytics_hub_module_1 = require("./modules/analytics-hub/analytics-hub.module");
 const ads_module_1 = require("./modules/ads/ads.module");
+const seo_module_1 = require("./modules/seo/seo.module");
 const chef_copilote_module_1 = require("./modules/chef-copilote/chef-copilote.module");
 const avance_tresorerie_module_1 = require("./modules/avance-tresorerie/avance-tresorerie.module");
 const mandataires_registry_module_1 = require("./modules/mandataires-registry/mandataires-registry.module");
@@ -127,6 +128,7 @@ exports.AppModule = AppModule = __decorate([
             mre_diaspora_module_1.MreDiasporaModule,
             analytics_hub_module_1.AnalyticsHubModule,
             ads_module_1.AdsModule,
+            seo_module_1.SeoModule,
             chef_copilote_module_1.ChefCopiloteModule,
             avance_tresorerie_module_1.AvanceTresorerieModule,
             mandataires_registry_module_1.MandatairesRegistryModule,

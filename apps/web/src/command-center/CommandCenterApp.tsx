@@ -16,6 +16,7 @@ import MediaModule from './modules/media/MediaModule';
 import LeadsModule from './modules/leads/LeadsModule';
 import VisitorsModule from './modules/visitors/VisitorsModule';
 import AdsModule from './modules/ads/AdsModule';
+import SeoModule from './modules/seo/SeoModule';
 import InscritsModule from './modules/inscrits/InscritsModule';
 import ProjectsModule from './modules/projects/ProjectsModule';
 import TerritorialModule from './modules/territorial/TerritorialModule';
@@ -64,6 +65,7 @@ export default function CommandCenterApp() {
               <Route path="leads/*" element={<LeadsModule />} />
               <Route path="visites" element={<VisitorsModule />} />
               <Route path="publicite" element={<AdsModule />} />
+              <Route path="seo" element={<SeoModule />} />
               <Route path="inscrits" element={<InscritsModule />} />
               <Route path="projects/*" element={<ProjectsModule />} />
               <Route path="territorial/*" element={<TerritorialModule />} />
