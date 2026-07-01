@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { Tome } from "../../tomes/tome-at";
 import { JwtAuthGuard } from "../../tomes/tome-5/auth/jwt-auth.guard";
 import { RolesGuard } from "../../tomes/tome-5/auth/roles.guard";
@@ -18,6 +18,9 @@ export class SeoController {
 
   @Get("audit")
   async audit() { return { ok: true, audit: await this.seo.audit() }; }
+
+  @Get("gsc")
+  async gsc(@Query("days") days?: string) { return { ok: true, gsc: await this.seo.gsc(Number(days) || 28) }; }
 
   @Get("audit/urls")
   async getUrls() { return { ok: true, urls: await this.seo.getAuditUrls() }; }

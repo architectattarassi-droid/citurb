@@ -321,8 +321,13 @@ function porteBreadcrumbSchema(p, url) {
 
 function portePageHtml(p, allPortes) {
   const url = `${business.baseUrl}/fr/${p.slugFr}`;
-  const title = `${p.titleFr} | CITURBAREA — Architecte & expertise BTP Maroc`;
-  const desc = esc(String(p.subtitleFr).slice(0, 158));
+  // Titre ≤ ~60 car. (au-delà, Google tronque). Marque courte si ça rentre.
+  const withBrand = `${p.titleFr} | CITURBAREA`;
+  const title = withBrand.length <= 62 ? withBrand : String(p.titleFr).slice(0, 60).trim();
+  // Meta description 90–158 car. : on complète si le sous-titre est court.
+  let d = String(p.subtitleFr || "").trim();
+  if (d.length < 90) d = `${d} — CITURBAREA, plateforme marocaine d'architecture, d'urbanisme et de gestion de projets BTP au Maroc.`.trim();
+  const desc = esc(d.slice(0, 158));
   const otherPortes = allPortes
     .filter((o) => o.num !== p.num)
     .map((o) => `<li><a href="/fr/${o.slugFr}">${o.icon} ${esc(o.titleFr)}</a></li>`)

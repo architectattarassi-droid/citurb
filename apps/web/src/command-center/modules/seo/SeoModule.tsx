@@ -14,7 +14,7 @@ const authGet = (p: string) => fetch(`${apiBase()}${p}`, { headers: { Authorizat
 const authSend = (p: string, method: string, body?: unknown) =>
   fetch(`${apiBase()}${p}`, { method, headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken() ?? ""}` }, body: body ? JSON.stringify(body) : undefined });
 
-type Tab = "audit" | "keywords" | "competitors";
+type Tab = "audit" | "gsc" | "keywords" | "competitors";
 
 export default function SeoModule() {
   const [tab, setTab] = useState<Tab>("audit");
@@ -27,13 +27,14 @@ export default function SeoModule() {
         </div>
       </div>
       <div style={S.tabs}>
-        {(["audit", "keywords", "competitors"] as Tab[]).map((t) => (
+        {(["audit", "gsc", "keywords", "competitors"] as Tab[]).map((t) => (
           <button key={t} onClick={() => setTab(t)} style={{ ...S.tab, ...(tab === t ? S.tabOn : {}) }}>
-            {t === "audit" ? "Audit on-page" : t === "keywords" ? "Mots-clés" : "Concurrents"}
+            {t === "audit" ? "Audit on-page" : t === "gsc" ? "Search Console" : t === "keywords" ? "Mots-clés" : "Concurrents"}
           </button>
         ))}
       </div>
       {tab === "audit" && <AuditTab />}
+      {tab === "gsc" && <GscTab />}
       {tab === "keywords" && <KeywordsTab />}
       {tab === "competitors" && <CompetitorsTab />}
     </div>
@@ -76,6 +77,63 @@ function AuditTab() {
           )}
         </div>
       ))}
+    </div>
+  );
+}
+
+/* ── Search Console ────────────────────────────────────────────────────────── */
+function GscTab() {
+  const [data, setData] = useState<any>(null);
+  const [days, setDays] = useState(28);
+  const [loading, setLoading] = useState(true);
+  const load = useCallback(async () => {
+    setLoading(true);
+    try { const r = await authGet(`/api/cc/seo/gsc?days=${days}`); if (r.ok) setData((await r.json()).gsc); } finally { setLoading(false); }
+  }, [days]);
+  useEffect(() => { load(); }, [load]);
+
+  if (loading && !data) return <div style={S.muted}>Chargement…</div>;
+
+  if (data && !data.configured) {
+    return (
+      <div style={S.card}>
+        <div style={S.cardTitle}>Connecter Google Search Console</div>
+        <p style={S.muted}>Pour voir tes vraies requêtes, positions, clics et impressions Google, connecte un compte de service (gratuit) :</p>
+        <ol style={{ fontSize: 13, color: C.inkMid, lineHeight: 1.9, paddingLeft: 20 }}>
+          <li>Google Cloud Console → crée un <b>compte de service</b> → génère une <b>clé JSON</b>.</li>
+          <li>Active l'API <b>Google Search Console</b> dans le projet.</li>
+          <li>Dans Search Console (propriété <b>citurbarea.com</b>) → Paramètres → Utilisateurs → ajoute l'email du compte de service en <b>lecture</b>.</li>
+          <li>Sur Railway (service <b>citurb</b>), ajoute 2 variables : <code style={S.code}>GSC_SA_JSON</code> = le contenu du JSON, et <code style={S.code}>GSC_SITE_URL</code> = <code style={S.code}>sc-domain:citurbarea.com</code>.</li>
+          <li>Reviens ici — les données s'afficheront.</li>
+        </ol>
+        <p style={S.muted}>Propriété attendue : <b>{data.siteUrl || "sc-domain:citurbarea.com (à définir)"}</b></p>
+      </div>
+    );
+  }
+  if (data?.error) return <div style={S.err}>Search Console : {data.error}</div>;
+
+  return (
+    <div>
+      <div style={{ display: "flex", gap: 8, marginBottom: 16, alignItems: "center", flexWrap: "wrap" }}>
+        {[7, 28, 90].map((d) => <button key={d} onClick={() => setDays(d)} style={{ ...S.btn, ...(days === d ? S.btnGo : {}) }}>{d} jours</button>)}
+        {data?.totals && <span style={S.muted}><b>{data.totals.clicks}</b> clics · <b>{data.totals.impressions}</b> impressions · position moy. <b>{data.totals.avgPosition}</b></span>}
+      </div>
+      <div style={S.cols2}>
+        <div style={S.card}>
+          <div style={S.sectionTitle}>Top requêtes</div>
+          <table style={S.table}><thead><tr><th style={S.th}>Requête</th><th style={S.th}>Clics</th><th style={S.th}>Impr.</th><th style={S.th}>Pos.</th></tr></thead>
+            <tbody>{(data?.queries || []).slice(0, 30).map((r: any) => (
+              <tr key={r.key}><td style={S.td}>{r.key}</td><td style={S.td}>{r.clicks}</td><td style={S.td}>{r.impressions}</td><td style={S.td}>{r.position}</td></tr>
+            ))}</tbody></table>
+        </div>
+        <div style={S.card}>
+          <div style={S.sectionTitle}>Top pages</div>
+          <table style={S.table}><thead><tr><th style={S.th}>Page</th><th style={S.th}>Clics</th><th style={S.th}>Impr.</th></tr></thead>
+            <tbody>{(data?.pages || []).slice(0, 30).map((r: any) => (
+              <tr key={r.key}><td style={S.td}><span style={S.subUrl}>{r.key}</span></td><td style={S.td}>{r.clicks}</td><td style={S.td}>{r.impressions}</td></tr>
+            ))}</tbody></table>
+        </div>
+      </div>
     </div>
   );
 }
@@ -186,6 +244,9 @@ const S: Record<string, React.CSSProperties> = {
   muted: { color: C.inkMuted, fontSize: 12.5, lineHeight: 1.5, marginTop: 8 },
   err: { padding: "12px 16px", borderRadius: 8, background: C.dangerBg, color: C.danger, fontSize: 13, marginBottom: 16 },
   card: { background: C.bgRaised, border: `1px solid ${C.border}`, borderRadius: 12, padding: 16, marginBottom: 12, boxShadow: CC.shadow.soft },
+  cols2: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 16 },
+  sectionTitle: { fontWeight: 800, fontSize: 13, color: C.navy, marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.04em" },
+  code: { fontFamily: CC.font.mono, fontSize: 12, background: C.bgSoft, padding: "1px 5px", borderRadius: 4, color: C.navy },
   scoreBadge: { minWidth: 44, textAlign: "center", padding: "8px 6px", borderRadius: 10, color: "#fff", fontWeight: 900, fontSize: 18 },
   cardUrl: { fontSize: 12, color: C.inkMuted, fontFamily: CC.font.mono },
   cardTitle: { fontSize: 14.5, fontWeight: 800, color: C.navy, marginTop: 2 },

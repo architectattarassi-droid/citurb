@@ -9,6 +9,7 @@ var SeoService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SeoService = void 0;
 const common_1 = require("@nestjs/common");
+const crypto = require("crypto");
 const fs_1 = require("fs");
 const promises_1 = require("fs/promises");
 const path_1 = require("path");
@@ -51,9 +52,12 @@ let SeoService = SeoService_1 = class SeoService {
     async setAuditUrls(urls) { await this.write("config.json", { urls }); return { ok: true, urls }; }
     // ── Parsing HTML (regex, sans dépendance) ─────────────────────────────────
     meta(html, key, val) {
-        const re1 = new RegExp(`<meta[^>]+${key}=["']${val}["'][^>]+content=["']([^"']*)["']`, "i");
-        const re2 = new RegExp(`<meta[^>]+content=["']([^"']*)["'][^>]+${key}=["']${val}["']`, "i");
-        return (html.match(re1)?.[1] ?? html.match(re2)?.[1] ?? null);
+        // Capture le délimiteur (") et matche jusqu'au MÊME délimiteur → gère les
+        // apostrophes françaises (d'expertise) dans un attribut entre guillemets.
+        const re1 = new RegExp(`<meta[^>]+${key}=["']${val}["'][^>]*?\\scontent=(["'])([\\s\\S]*?)\\1`, "i");
+        const re2 = new RegExp(`<meta[^>]+content=(["'])([\\s\\S]*?)\\1[^>]*?\\s${key}=["']${val}["']`, "i");
+        const m = html.match(re1) || html.match(re2);
+        return m ? m[2].trim() : null;
     }
     auditHtml(url, html, status) {
         const title = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]?.trim() || "";
@@ -154,6 +158,58 @@ let SeoService = SeoService_1 = class SeoService {
         const all = (await this.listCompetitors()).filter((x) => x.id !== id);
         await this.write("competitors.json", all);
         return all;
+    }
+    // ── Google Search Console (compte de service, sans redirection OAuth) ──────
+    gscConfigured() { return !!(process.env.GSC_SA_JSON && process.env.GSC_SITE_URL); }
+    async gscToken() {
+        const sa = JSON.parse(process.env.GSC_SA_JSON);
+        const now = Math.floor(Date.now() / 1000);
+        const b64u = (o) => Buffer.from(typeof o === "string" ? o : JSON.stringify(o)).toString("base64url");
+        const header = b64u({ alg: "RS256", typ: "JWT" });
+        const claim = b64u({ iss: sa.client_email, scope: "https://www.googleapis.com/auth/webmasters.readonly", aud: "https://oauth2.googleapis.com/token", iat: now, exp: now + 3600 });
+        const signer = crypto.createSign("RSA-SHA256");
+        signer.update(`${header}.${claim}`);
+        const sig = signer.sign(sa.private_key.replace(/\\n/g, "\n")).toString("base64url");
+        const res = await fetch("https://oauth2.googleapis.com/token", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${header}.${claim}.${sig}`,
+        });
+        const j = await res.json();
+        if (!j.access_token)
+            throw new Error(j.error_description || j.error || "auth GSC échouée");
+        return j.access_token;
+    }
+    /** Requêtes / pages Google Search Console des N derniers jours. */
+    async gsc(days = 28) {
+        const siteUrl = process.env.GSC_SITE_URL || null;
+        if (!this.gscConfigured())
+            return { configured: false, siteUrl };
+        try {
+            const token = await this.gscToken();
+            const site = process.env.GSC_SITE_URL;
+            const fmt = (d) => d.toISOString().slice(0, 10);
+            const startDate = fmt(new Date(Date.now() - days * 86400000));
+            const endDate = fmt(new Date());
+            const query = async (dim) => {
+                const res = await fetch(`https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(site)}/searchAnalytics/query`, {
+                    method: "POST",
+                    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+                    body: JSON.stringify({ startDate, endDate, dimensions: [dim], rowLimit: 100 }),
+                });
+                const j = await res.json();
+                if (j.error)
+                    throw new Error(j.error.message || "erreur API GSC");
+                return (j.rows || []).map((r) => ({ key: r.keys[0], clicks: r.clicks, impressions: r.impressions, ctr: Math.round(r.ctr * 1000) / 10, position: Math.round(r.position * 10) / 10 }));
+            };
+            const [queries, pages] = await Promise.all([query("query"), query("page")]);
+            const totals = queries.reduce((a, r) => ({ clicks: a.clicks + r.clicks, impressions: a.impressions + r.impressions }), { clicks: 0, impressions: 0 });
+            const avgPos = queries.length ? Math.round((queries.reduce((s, r) => s + r.position, 0) / queries.length) * 10) / 10 : 0;
+            return { configured: true, siteUrl: site, days, totals: { ...totals, avgPosition: avgPos }, queries, pages };
+        }
+        catch (e) {
+            return { configured: true, error: e?.message || "Erreur GSC", siteUrl };
+        }
     }
     /** Inspecte publiquement une page concurrente (title/meta/H1/keywords déclarés). */
     async inspectCompetitor(id) {

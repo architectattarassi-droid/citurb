@@ -29,6 +29,7 @@ let SeoController = class SeoController {
         this.seo = seo;
     }
     async audit() { return { ok: true, audit: await this.seo.audit() }; }
+    async gsc(days) { return { ok: true, gsc: await this.seo.gsc(Number(days) || 28) }; }
     async getUrls() { return { ok: true, urls: await this.seo.getAuditUrls() }; }
     async setUrls(body) { return this.seo.setAuditUrls(body?.urls || []); }
     async keywords() { return { ok: true, keywords: await this.seo.listKeywords() }; }
@@ -46,6 +47,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], SeoController.prototype, "audit", null);
+__decorate([
+    (0, common_1.Get)("gsc"),
+    __param(0, (0, common_1.Query)("days")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], SeoController.prototype, "gsc", null);
 __decorate([
     (0, common_1.Get)("audit/urls"),
     __metadata("design:type", Function),
