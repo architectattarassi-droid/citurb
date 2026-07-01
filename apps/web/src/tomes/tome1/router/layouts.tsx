@@ -6,7 +6,6 @@ import { useT } from "../../../i18n/i18n";
 import LangSwitcher from "../../../i18n/LangSwitcher";
 import { BottomNav } from "../../../components/bottom-nav/BottomNav";
 import { useIsMobile, MobileDrawer } from "../../../components/mobile";
-import PageTracker from "../../../lib/PageTracker";
 
 /* ── PublicLayout ─────────────────────────────────────────────────────────── */
 export function PublicLayout() {
@@ -39,7 +38,6 @@ export function PublicLayout() {
 
   return (
     <div style={{ minHeight: "100vh", fontFamily: "var(--font-body)", background: "var(--c-bg)" }}>
-      <PageTracker />
       {!isHome && (
         <header style={{ background: "var(--c-card)", borderBottom: "1px solid var(--c-line)", position: "sticky", top: 0, zIndex: 100 }}>
           <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60, gap: 8, flexWrap: "wrap" }}>

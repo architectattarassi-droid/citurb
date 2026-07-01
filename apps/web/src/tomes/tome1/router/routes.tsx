@@ -1,6 +1,17 @@
 import React from "react";
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
 import { PublicLayout } from "./layouts";
+import PageTracker from "../../../lib/PageTracker";
+
+/**
+ * RootTracker — layout racine qui englobe TOUTES les routes (home, cercles,
+ * créer-compte, portes…) pour que le suivi des visites se déclenche partout.
+ * (PublicLayout ne wrappait qu'une partie des routes.) Le tracker s'exclut
+ * lui-même de /cc et /admin.
+ */
+function RootTracker() {
+  return (<><PageTracker /><Outlet /></>);
+}
 
 import P1Home from "../../tome3/portals/p1/P1Home";
 import P1Packs from "../../tome3/portals/p1/P1Packs";
@@ -205,6 +216,9 @@ const SigHostBlock = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const router = createBrowserRouter([
+ {
+  element: <RootTracker />,
+  children: [
   // Landing publique
   { path: CANON.HOME, element: <LandingRoute /> },
 
@@ -382,4 +396,6 @@ export const router = createBrowserRouter([
       { path: "*", element: <Redirect to={CANON.HOME} /> },
     ],
   },
+  ],
+ },
 ]);
