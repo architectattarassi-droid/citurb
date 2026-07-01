@@ -19,8 +19,10 @@
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" type="image/svg+xml" href="/icons/icon.svg" />
 
-    <!-- Canonical -->
+    <!-- Canonical + hreflang (home FR, langue gérée côté client) -->
     <link rel="canonical" href="https://citurbarea.com/" />
+    <link rel="alternate" hreflang="fr" href="https://citurbarea.com/" />
+    <link rel="alternate" hreflang="x-default" href="https://citurbarea.com/" />
 
     <!-- Open Graph (Facebook, WhatsApp, LinkedIn, Telegram) -->
     <!-- og:image : pour les pages d'articles, le middleware OG du backend (apps/api/src/modules/articles/og-prerender.middleware.ts) intercepte les bots et sert le cover de l'article spécifique. Cette image par défaut sert pour les pages génériques (home, etc.) -->
@@ -119,6 +121,18 @@
             <li><a href="/simulateur" style="color:#60a5fa;text-decoration:none">Simulateur de coût de construction</a></li>
             <li><a href="/foncier/estimation" style="color:#60a5fa;text-decoration:none">Estimation foncière</a></li>
             <li><a href="/cercles" style="color:#60a5fa;text-decoration:none">Cercles — réseau professionnel BTP</a></li>
+          </ul>
+
+          <h2 style="font-size:20px;font-weight:800;margin:0 0 14px">Architecte dans votre ville</h2>
+          <p style="color:#9aa6bd;margin:0 0 12px">Un architecte qui connaît le terrain et la réglementation locale, dans le corridor Rabat–Salé–Kénitra et sur l'axe Casablanca–Tanger :</p>
+          <ul style="list-style:none;padding:0;margin:0 0 28px;display:flex;flex-wrap:wrap;gap:8px 18px;line-height:2">
+            <li><a href="/architecte-kenitra" style="color:#60a5fa;font-weight:700;text-decoration:none">Architecte à Kénitra</a></li>
+            <li><a href="/architecte-sale" style="color:#60a5fa;font-weight:700;text-decoration:none">Architecte à Salé</a></li>
+            <li><a href="/architecte-rabat" style="color:#60a5fa;font-weight:700;text-decoration:none">Architecte à Rabat</a></li>
+            <li><a href="/architecte-temara" style="color:#60a5fa;font-weight:700;text-decoration:none">Architecte à Témara</a></li>
+            <li><a href="/architecte-mohammedia" style="color:#60a5fa;font-weight:700;text-decoration:none">Architecte à Mohammedia</a></li>
+            <li><a href="/architecte-casablanca" style="color:#60a5fa;font-weight:700;text-decoration:none">Architecte à Casablanca</a></li>
+            <li><a href="/architecte-tanger" style="color:#60a5fa;font-weight:700;text-decoration:none">Architecte à Tanger</a></li>
           </ul>
 
           <p style="color:#6b7a93;font-size:14px;margin:0 0 8px">
