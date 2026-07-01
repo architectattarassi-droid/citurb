@@ -1594,9 +1594,18 @@ model SupplierOffer {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Régie pub — mise en avant sponsorisée d'une offre, ciblée sur un lot de finition
+  // (REV/PEI/ALU/FAC/BOI/PLO), affichée dans le devis client. Modération admin.
+  promoStatus      String    @default("NONE") // NONE PENDING ACTIVE PAUSED REJECTED
+  promoLot         String?   // lot de finition ciblé
+  promoUntil       DateTime? // fin de la mise en avant
+  promoImpressions Int       @default(0)
+  promoClicks      Int       @default(0)
+
   @@unique([marketProductId, supplierId])
   @@index([marketProductId])
   @@index([supplierId])
+  @@index([promoStatus, promoLot])
 }
 
 // ==============================

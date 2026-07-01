@@ -51,6 +51,7 @@ const NAV_GROUPS: NavGroup[] = [
       { id: "media",       label: "Médias",                 path: "/cc/media",       mark: "VIII" },
       { id: "territorial", label: "Intelligence territoire", path: "/cc/territorial", mark: "IX"   },
       { id: "business",    label: "Business",                path: "/cc/business",    mark: "X"    },
+      { id: "publicite",   label: "Régie pub",               path: "/cc/publicite",   mark: "Xb"   },
       { id: "firms",       label: "Cabinets",                path: "/cc/firms",       mark: "XI"   },
       { id: "live",        label: "Live",                    path: "/cc/live",        mark: "XII"  },
     ],

@@ -60,6 +60,7 @@ import { IncidentsChantierModule } from "./modules/incidents-chantier/incidents-
 import { ZillowMaModule } from "./modules/zillow-ma/zillow-ma.module";
 import { MreDiasporaModule } from "./modules/mre-diaspora/mre-diaspora.module";
 import { AnalyticsHubModule } from "./modules/analytics-hub/analytics-hub.module";
+import { AdsModule } from "./modules/ads/ads.module";
 import { ChefCopiloteModule } from "./modules/chef-copilote/chef-copilote.module";
 import { AvanceTresorerieModule } from "./modules/avance-tresorerie/avance-tresorerie.module";
 import { MandatairesRegistryModule } from "./modules/mandataires-registry/mandataires-registry.module";
@@ -123,6 +124,7 @@ import { CabinetModule } from "./modules/cabinet/cabinet.module";
     ZillowMaModule,
     MreDiasporaModule,
     AnalyticsHubModule,
+    AdsModule,
     ChefCopiloteModule,
     AvanceTresorerieModule,
     MandatairesRegistryModule,
