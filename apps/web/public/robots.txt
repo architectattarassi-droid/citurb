@@ -33,4 +33,6 @@ Allow: /
 Sitemap: https://citurbarea.com/sitemap.xml
 Sitemap: https://citurbarea.com/sitemap-lead.xml
 Sitemap: https://citurbarea.com/sitemap-services.xml
+Sitemap: https://citurbarea.com/sitemap-portes.xml
+Sitemap: https://citurbarea.com/sitemap-villes.xml
 Sitemap: https://citurbarea.com/api/pro/sitemap.xml

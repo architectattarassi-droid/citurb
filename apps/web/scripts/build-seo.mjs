@@ -460,6 +460,142 @@ ${portePublished
 `;
 fs.writeFileSync(path.join(PUBLIC_DIR, "sitemap-portes.xml"), sitemapPortes);
 
+// ════════════════════════════════════════════════════════════════════
+// PAGES VILLES (hubs SEO local) — /architecte-<slug>.html
+// Contenu UNIQUE par ville (anti duplicate-content) + LocalBusiness schema.
+// Servi par nginx via try_files $uri.html AVANT le fallback SPA.
+// ════════════════════════════════════════════════════════════════════
+const VILLE_HUBS = [
+  { slug: "kenitra", name: "Kénitra", region: "Rabat-Salé-Kénitra", lat: 34.2610, lng: -6.5802,
+    intro: "Capitale de la région du Gharb, Kénitra conjugue essor industriel, port de commerce et forte demande résidentielle. Concevoir et bâtir à Kénitra suppose une bonne maîtrise du plan d'aménagement communal, des zones inondables proches de l'oued Sebou et des règles de l'agence urbaine de Kénitra-Sidi Kacem.",
+    atouts: "Terrains encore accessibles dans le corridor, dynamique de lotissements neufs, proximité de Rabat (40 min). Je vous accompagne du choix du terrain à la réception, en tenant compte des contraintes locales (nappe phréatique, servitudes agricoles, PA en vigueur)." },
+  { slug: "sale", name: "Salé", region: "Rabat-Salé-Kénitra", lat: 34.0531, lng: -6.7985,
+    intro: "Ville jumelle de Rabat, Salé connaît une expansion résidentielle soutenue (Sala Al Jadida, Hay Karima, Bettana). Construire à Salé demande de composer avec un tissu urbain dense, la préservation de la médina classée et les prescriptions de l'agence urbaine de Rabat-Salé.",
+    atouts: "Foncier plus abordable qu'à Rabat pour une même accessibilité. Villas, immeubles R+4 et projets mixtes : j'optimise la constructibilité (CES/COS) tout en sécurisant l'autorisation de construire." },
+  { slug: "rabat", name: "Rabat", region: "Rabat-Salé-Kénitra", lat: 34.0209, lng: -6.8416,
+    intro: "Capitale administrative du Maroc et ville classée au patrimoine mondial, Rabat impose des exigences architecturales et réglementaires élevées (hauteurs, façades, secteurs sauvegardés). Un projet à Rabat se gagne sur la qualité du dossier et la connaissance fine des servitudes.",
+    atouts: "Standing, réhabilitation et projets haut de gamme : je pilote la conception, le BET et le suivi pour un rendu à la hauteur des attentes de la capitale, dans le respect strict du règlement d'urbanisme." },
+  { slug: "temara", name: "Témara", region: "Rabat-Salé-Kénitra", lat: 33.9287, lng: -6.9067,
+    intro: "Pôle résidentiel au sud de Rabat, Témara (Harhoura, Guich Oudaya, Massira) attire une clientèle en quête de villas et de cadre balnéaire. La pression foncière y est forte et les règles de lotissement strictes.",
+    atouts: "Spécialiste des villas et maisons individuelles sur le littoral de Témara : implantation optimisée, sous-sol, prestations de standing, et gestion des contraintes de recul et de vue mer." },
+  { slug: "mohammedia", name: "Mohammedia", region: "Casablanca-Settat", lat: 33.6866, lng: -7.3830,
+    intro: "Entre Rabat et Casablanca, Mohammedia allie front de mer, tissu industriel et quartiers résidentiels de standing. Construire à Mohammedia implique de composer avec les zones portuaires/industrielles et un plan d'aménagement orienté qualité de vie.",
+    atouts: "Villas balnéaires, immeubles et projets mixtes : j'accompagne les particuliers et promoteurs sur un marché recherché, en sécurisant l'autorisation auprès des services communaux et de l'agence urbaine." },
+  { slug: "casablanca", name: "Casablanca", region: "Casablanca-Settat", lat: 33.5731, lng: -7.5898,
+    intro: "Métropole économique du Maroc, Casablanca concentre la promotion immobilière, les immeubles de rapport et les projets mixtes à forte densité. Y construire exige une lecture experte du règlement d'urbanisme, des hauteurs autorisées et du stationnement.",
+    atouts: "Immeubles résidentiels, RDC commerciaux, surélévations et rénovations : j'optimise la constructibilité et la rentabilité de votre foncier casablancais, du permis à la livraison, avec BET et bureau de contrôle." },
+  { slug: "tanger", name: "Tanger", region: "Tanger-Tétouan-Al Hoceïma", lat: 35.7595, lng: -5.8340,
+    intro: "Portée par Tanger Med et sa zone franche, Tanger vit un boom immobilier (Malabata, Boubana, Marchan) porté par les investisseurs et les MRE. Un projet à Tanger se construit avec la topographie en pente et les prescriptions de l'agence urbaine de Tanger.",
+    atouts: "Villas avec vue mer, immeubles et investissements locatifs : je gère la conception, les études (dont géotechnique en terrain pentu) et le suivi, à distance ou sur place, pour une clientèle souvent non résidente." },
+];
+
+function villeHubSchema(h, url) {
+  return {
+    "@context": "https://schema.org", "@type": "ProfessionalService",
+    "@id": `${url}#business`, name: `Architecte à ${h.name} — ${business.name}`,
+    url, image: business.image, logo: business.logo, priceRange: business.priceRange,
+    description: `${business.founder}, architecte : conception, permis et suivi de projets à ${h.name}. ${h.region}.`,
+    areaServed: { "@type": "City", name: h.name },
+    geo: { "@type": "GeoCoordinates", latitude: h.lat, longitude: h.lng },
+    address: { "@type": "PostalAddress", addressLocality: h.name, addressRegion: h.region, addressCountry: "MA" },
+    founder: { "@type": "Person", name: business.founder, jobTitle: business.founderTitle },
+    sameAs: business.sameAs,
+  };
+}
+function villeHubFaq(h) {
+  return { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [
+    { "@type": "Question", name: `Faut-il un architecte pour construire à ${h.name} ?`, acceptedAnswer: { "@type": "Answer", text: `Oui. Au Maroc, le recours à un architecte inscrit à l'Ordre est obligatoire pour toute demande d'autorisation de construire, y compris à ${h.name}.` } },
+    { "@type": "Question", name: `Quels sont vos honoraires pour un projet à ${h.name} ?`, acceptedAnswer: { "@type": "Answer", text: `Les honoraires se calculent en pourcentage du coût des travaux (barème CNOA). Un premier échange permet d'estimer votre budget global avant tout engagement.` } },
+    { "@type": "Question", name: `Intervenez-vous sur tout ${h.region} ?`, acceptedAnswer: { "@type": "Answer", text: `Oui, j'interviens à ${h.name} et dans toute la région ${h.region}, en présentiel ou avec un suivi à distance selon vos besoins.` } },
+  ] };
+}
+function villeHubHtml(h, portes) {
+  const url = `${business.baseUrl}/architecte-${h.slug}`;
+  const title = `Architecte à ${h.name} | CITURBAREA`;
+  const desc = esc(`Architecte à ${h.name} : conception, permis de construire, suivi de chantier et expertise. ${business.founder}, région ${h.region}. Devis et accompagnement de A à Z.`.slice(0, 158));
+  const portesLi = portes.map((p) => `<li><a href="/fr/${p.slugFr}">${p.icon} ${esc(p.titleFr)}</a></li>`).join("");
+  const otherVilles = VILLE_HUBS.filter((v) => v.slug !== h.slug).map((v) => `<a href="/architecte-${v.slug}">${esc(v.name)}</a>`).join(" · ");
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${esc(title)}</title>
+<meta name="description" content="${desc}">
+<link rel="canonical" href="${url}">
+<link rel="alternate" hreflang="fr" href="${url}">
+<link rel="alternate" hreflang="x-default" href="${url}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${desc}">
+<meta property="og:url" content="${url}">
+<meta property="og:site_name" content="CITURBAREA">
+<meta property="og:locale" content="fr_MA">
+<meta property="og:image" content="${business.image || business.baseUrl + "/og-default.png"}">
+<script type="application/ld+json">${JSON.stringify(villeHubSchema(h, url))}</script>
+<script type="application/ld+json">${JSON.stringify(villeHubFaq(h))}</script>
+<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Accueil", item: business.baseUrl }, { "@type": "ListItem", position: 2, name: `Architecte à ${h.name}`, item: url }] })}</script>
+<style>
+  *{box-sizing:border-box}
+  body{font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#0f172a;background:#f8fafc;margin:0}
+  main{max-width:820px;margin:0 auto;padding:32px 20px 60px}
+  nav[aria-label="fil"]{font-size:13px;color:#64748b;margin-bottom:18px}
+  a{color:#1e3a8a}
+  h1{font-size:30px;font-weight:900;letter-spacing:-.02em;margin:0 0 10px}
+  .lead{font-size:17px;color:#475569;margin:0 0 20px}
+  h2{font-size:19px;font-weight:800;margin:30px 0 12px}
+  p{margin:0 0 14px}
+  .cta{display:inline-block;background:#1e3a8a;color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:700;margin:8px 0}
+  ul.services{list-style:none;padding:0}
+  ul.services li{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:8px}
+  ul.services li a{text-decoration:none;font-weight:600}
+  details{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:8px}
+  details summary{cursor:pointer;font-weight:700}
+  footer{border-top:1px solid #e2e8f0;margin-top:44px;padding-top:22px;color:#64748b;font-size:13px}
+  .villes{font-size:13.5px;line-height:2}
+</style>
+</head>
+<body>
+<main>
+  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › Architecte à ${esc(h.name)}</nav>
+  <h1>Architecte à ${esc(h.name)}</h1>
+  <p class="lead">${esc(business.founder)}, architecte — conception, permis de construire, expertise et suivi de chantier à ${esc(h.name)} et dans la région ${esc(h.region)}.</p>
+  <p>${esc(h.intro)}</p>
+  <p><a class="cta" href="${business.baseUrl}#contact">Discuter de mon projet à ${esc(h.name)}</a></p>
+
+  <h2>Nos services d'architecture à ${esc(h.name)}</h2>
+  <ul class="services">${portesLi}</ul>
+
+  <h2>Construire à ${esc(h.name)} : ce qu'il faut savoir</h2>
+  <p>${esc(h.atouts)}</p>
+
+  <h2>Questions fréquentes — architecte à ${esc(h.name)}</h2>
+  <details><summary>Faut-il un architecte pour construire à ${esc(h.name)} ?</summary><p>Oui : au Maroc, l'architecte inscrit à l'Ordre est obligatoire pour toute autorisation de construire, y compris à ${esc(h.name)}.</p></details>
+  <details><summary>Comment se déroule un premier contact ?</summary><p>Un échange cadre votre projet, vérifie la faisabilité réglementaire à ${esc(h.name)} et estime le budget avant tout engagement.</p></details>
+  <details><summary>Intervenez-vous au-delà de ${esc(h.name)} ?</summary><p>Oui, sur toute la région ${esc(h.region)}, en présentiel ou avec un suivi à distance.</p></details>
+
+  <footer>
+    <strong>Architecte dans d'autres villes :</strong> <span class="villes">${otherVilles}</span><br><br>
+    <strong style="color:#0f172a">CITURBAREA</strong> — ${esc(business.founder)}, ${esc(business.founderTitle)}.<br>
+    © 2026 CITURBAREA · <a href="${business.baseUrl}">citurbarea.com</a>
+  </footer>
+</main>
+</body>
+</html>`;
+}
+
+const villeHubsPublished = [];
+for (const h of VILLE_HUBS) {
+  fs.writeFileSync(path.join(PUBLIC_DIR, `architecte-${h.slug}.html`), villeHubHtml(h, PORTES));
+  villeHubsPublished.push({ full: `${business.baseUrl}/architecte-${h.slug}`, name: h.name });
+}
+const sitemapVilles = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${villeHubsPublished.map((v) => `  <url>\n    <loc>${v.full}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.9</priority>\n  </url>`).join("\n")}
+</urlset>
+`;
+fs.writeFileSync(path.join(PUBLIC_DIR, "sitemap-villes.xml"), sitemapVilles);
+
 // ─────────────────────────── rapport console ───────────────────────
 const total = services.length * localities.length;
 console.log("\n  CITURBAREA — build:seo  ────────────────────────────────");
