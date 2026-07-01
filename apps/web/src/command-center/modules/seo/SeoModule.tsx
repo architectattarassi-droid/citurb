@@ -84,56 +84,80 @@ function AuditTab() {
 /* ── Search Console ────────────────────────────────────────────────────────── */
 function GscTab() {
   const [data, setData] = useState<any>(null);
-  const [days, setDays] = useState(28);
   const [loading, setLoading] = useState(true);
+  const [showImport, setShowImport] = useState(false);
+  const [q, setQ] = useState(""); const [p, setP] = useState(""); const [busy, setBusy] = useState(false);
   const load = useCallback(async () => {
     setLoading(true);
-    try { const r = await authGet(`/api/cc/seo/gsc?days=${days}`); if (r.ok) setData((await r.json()).gsc); } finally { setLoading(false); }
-  }, [days]);
+    try { const r = await authGet(`/api/cc/seo/gsc`); if (r.ok) setData((await r.json()).gsc); } finally { setLoading(false); }
+  }, []);
   useEffect(() => { load(); }, [load]);
 
-  if (loading && !data) return <div style={S.muted}>Chargement…</div>;
+  const doImport = async () => {
+    setBusy(true);
+    try { const r = await authSend("/api/cc/seo/gsc/import", "POST", { queries: q, pages: p }); if (r.ok) { setData((await r.json()).gsc); setShowImport(false); setQ(""); setP(""); } }
+    finally { setBusy(false); }
+  };
 
-  if (data && !data.configured) {
-    return (
-      <div style={S.card}>
-        <div style={S.cardTitle}>Connecter Google Search Console</div>
-        <p style={S.muted}>Pour voir tes vraies requêtes, positions, clics et impressions Google, connecte un compte de service (gratuit) :</p>
-        <ol style={{ fontSize: 13, color: C.inkMid, lineHeight: 1.9, paddingLeft: 20 }}>
-          <li>Google Cloud Console → crée un <b>compte de service</b> → génère une <b>clé JSON</b>.</li>
-          <li>Active l'API <b>Google Search Console</b> dans le projet.</li>
-          <li>Dans Search Console (propriété <b>citurbarea.com</b>) → Paramètres → Utilisateurs → ajoute l'email du compte de service en <b>lecture</b>.</li>
-          <li>Sur Railway (service <b>citurb</b>), ajoute 2 variables : <code style={S.code}>GSC_SA_JSON</code> = le contenu du JSON, et <code style={S.code}>GSC_SITE_URL</code> = <code style={S.code}>sc-domain:citurbarea.com</code>.</li>
-          <li>Reviens ici — les données s'afficheront.</li>
-        </ol>
-        <p style={S.muted}>Propriété attendue : <b>{data.siteUrl || "sc-domain:citurbarea.com (à définir)"}</b></p>
-      </div>
-    );
-  }
-  if (data?.error) return <div style={S.err}>Search Console : {data.error}</div>;
+  if (loading && !data) return <div style={S.muted}>Chargement…</div>;
+  const hasData = data && (data.queries?.length || data.pages?.length);
 
   return (
     <div>
-      <div style={{ display: "flex", gap: 8, marginBottom: 16, alignItems: "center", flexWrap: "wrap" }}>
-        {[7, 28, 90].map((d) => <button key={d} onClick={() => setDays(d)} style={{ ...S.btn, ...(days === d ? S.btnGo : {}) }}>{d} jours</button>)}
-        {data?.totals && <span style={S.muted}><b>{data.totals.clicks}</b> clics · <b>{data.totals.impressions}</b> impressions · position moy. <b>{data.totals.avgPosition}</b></span>}
-      </div>
-      <div style={S.cols2}>
-        <div style={S.card}>
-          <div style={S.sectionTitle}>Top requêtes</div>
-          <table style={S.table}><thead><tr><th style={S.th}>Requête</th><th style={S.th}>Clics</th><th style={S.th}>Impr.</th><th style={S.th}>Pos.</th></tr></thead>
-            <tbody>{(data?.queries || []).slice(0, 30).map((r: any) => (
-              <tr key={r.key}><td style={S.td}>{r.key}</td><td style={S.td}>{r.clicks}</td><td style={S.td}>{r.impressions}</td><td style={S.td}>{r.position}</td></tr>
-            ))}</tbody></table>
+      {/* Bandeau : gratuit via import, ou API */}
+      <div style={{ ...S.card, background: C.bgSoft }}>
+        <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+          <div>
+            <b style={{ color: C.navy }}>Données Google Search Console</b>
+            <div style={S.muted}>
+              {data?.source === "api" ? "Connecté via API (compte de service)." :
+               data?.source === "import" ? `Importées le ${new Date(data.importedAt).toLocaleString("fr-FR")} (export CSV — gratuit).` :
+               "L'API Google Cloud exige une carte (30 $). Alternative 100% gratuite : importe l'export CSV de Search Console."}
+            </div>
+          </div>
+          <button onClick={() => setShowImport((v) => !v)} style={{ ...S.btn, ...S.btnGo }}>{showImport ? "Fermer" : (hasData ? "Réimporter un CSV" : "Importer un CSV (gratuit)")}</button>
         </div>
-        <div style={S.card}>
-          <div style={S.sectionTitle}>Top pages</div>
-          <table style={S.table}><thead><tr><th style={S.th}>Page</th><th style={S.th}>Clics</th><th style={S.th}>Impr.</th></tr></thead>
-            <tbody>{(data?.pages || []).slice(0, 30).map((r: any) => (
-              <tr key={r.key}><td style={S.td}><span style={S.subUrl}>{r.key}</span></td><td style={S.td}>{r.clicks}</td><td style={S.td}>{r.impressions}</td></tr>
-            ))}</tbody></table>
-        </div>
+
+        {showImport && (
+          <div style={{ marginTop: 14 }}>
+            <ol style={{ fontSize: 12.5, color: C.inkMid, lineHeight: 1.8, paddingLeft: 18, marginTop: 0 }}>
+              <li>Ouvre <b>Search Console</b> → <b>Performances</b> → onglet <b>Requêtes</b> → bouton <b>Exporter</b> (CSV/Google Sheets).</li>
+              <li>Colle le contenu ci-dessous (Requêtes d'un côté, Pages de l'autre). Colonnes : requête/page, clics, impressions, CTR, position.</li>
+            </ol>
+            <div style={S.cols2}>
+              <div><div style={S.miniLbl}>Requêtes (CSV)</div><textarea value={q} onChange={(e) => setQ(e.target.value)} placeholder={"architecte kénitra,12,340,3.5%,8.2\n…"} style={S.textarea} /></div>
+              <div><div style={S.miniLbl}>Pages (CSV) — optionnel</div><textarea value={p} onChange={(e) => setP(e.target.value)} placeholder={"https://citurbarea.com/fr/porte-01…,8,210,3.8%,6.1\n…"} style={S.textarea} /></div>
+            </div>
+            <button onClick={doImport} disabled={busy || !q.trim()} style={{ ...S.btn, ...S.btnGo, marginTop: 8 }}>{busy ? "Import…" : "Importer"}</button>
+          </div>
+        )}
       </div>
+
+      {data?.error && <div style={S.err}>API : {data.error}</div>}
+
+      {hasData ? (
+        <>
+          {data.totals && <div style={{ ...S.muted, margin: "6px 2px 14px" }}><b>{data.totals.clicks}</b> clics · <b>{data.totals.impressions}</b> impressions · position moy. <b>{data.totals.avgPosition}</b></div>}
+          <div style={S.cols2}>
+            <div style={S.card}>
+              <div style={S.sectionTitle}>Top requêtes</div>
+              <table style={S.table}><thead><tr><th style={S.th}>Requête</th><th style={S.th}>Clics</th><th style={S.th}>Impr.</th><th style={S.th}>Pos.</th></tr></thead>
+                <tbody>{(data.queries || []).slice(0, 40).map((r: any, i: number) => (
+                  <tr key={i}><td style={S.td}>{r.key}</td><td style={S.td}>{r.clicks}</td><td style={S.td}>{r.impressions}</td><td style={S.td}>{r.position}</td></tr>
+                ))}</tbody></table>
+            </div>
+            <div style={S.card}>
+              <div style={S.sectionTitle}>Top pages</div>
+              <table style={S.table}><thead><tr><th style={S.th}>Page</th><th style={S.th}>Clics</th><th style={S.th}>Impr.</th></tr></thead>
+                <tbody>{(data.pages || []).slice(0, 40).map((r: any, i: number) => (
+                  <tr key={i}><td style={S.td}><span style={S.subUrl}>{r.key}</span></td><td style={S.td}>{r.clicks}</td><td style={S.td}>{r.impressions}</td></tr>
+                ))}</tbody></table>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div style={S.muted}>Aucune donnée pour l'instant. Importe ton export CSV Search Console ci-dessus (gratuit), ou configure l'API plus tard.</div>
+      )}
     </div>
   );
 }

@@ -30,6 +30,9 @@ let SeoController = class SeoController {
     }
     async audit() { return { ok: true, audit: await this.seo.audit() }; }
     async gsc(days) { return { ok: true, gsc: await this.seo.gsc(Number(days) || 28) }; }
+    async gscImport(body) {
+        return { ok: true, gsc: await this.seo.importGsc(body?.queries || "", body?.pages || "") };
+    }
     async getUrls() { return { ok: true, urls: await this.seo.getAuditUrls() }; }
     async setUrls(body) { return this.seo.setAuditUrls(body?.urls || []); }
     async keywords() { return { ok: true, keywords: await this.seo.listKeywords() }; }
@@ -54,6 +57,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], SeoController.prototype, "gsc", null);
+__decorate([
+    (0, common_1.Post)("gsc/import"),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], SeoController.prototype, "gscImport", null);
 __decorate([
     (0, common_1.Get)("audit/urls"),
     __metadata("design:type", Function),

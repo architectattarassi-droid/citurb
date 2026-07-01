@@ -180,11 +180,43 @@ let SeoService = SeoService_1 = class SeoService {
             throw new Error(j.error_description || j.error || "auth GSC échouée");
         return j.access_token;
     }
-    /** Requêtes / pages Google Search Console des N derniers jours. */
+    /** Parse un export CSV Search Console (requête/page, clics, impressions, CTR, position). */
+    parseGscCsv(text) {
+        const num = (s) => Number(String(s ?? "").replace(/[%\s"]/g, "").replace(",", ".")) || 0;
+        const rows = [];
+        for (const line of (text || "").split(/\r?\n/)) {
+            if (!line.trim())
+                continue;
+            // split CSV en gérant les guillemets basiques
+            const parts = line.match(/("[^"]*"|[^,]+)/g)?.map((p) => p.replace(/^"|"$/g, "").trim()) || [];
+            if (parts.length < 2)
+                continue;
+            const r = { key: parts[0], clicks: num(parts[1]), impressions: num(parts[2]), ctr: num(parts[3]), position: num(parts[4]) };
+            if (!r.key || (r.clicks === 0 && r.impressions === 0 && r.position === 0))
+                continue; // header / vide
+            rows.push(r);
+        }
+        return rows.slice(0, 200);
+    }
+    /** Import gratuit : l'utilisateur colle l'export CSV de Search Console (sans API/Cloud). */
+    async importGsc(queriesCsv, pagesCsv) {
+        const queries = this.parseGscCsv(queriesCsv);
+        const pages = this.parseGscCsv(pagesCsv);
+        const totals = queries.reduce((a, r) => ({ clicks: a.clicks + r.clicks, impressions: a.impressions + r.impressions }), { clicks: 0, impressions: 0 });
+        const avgPosition = queries.length ? Math.round((queries.reduce((s, r) => s + r.position, 0) / queries.length) * 10) / 10 : 0;
+        const data = { importedAt: new Date().toISOString(), totals: { ...totals, avgPosition }, queries, pages };
+        await this.write("gsc-manual.json", data);
+        return { ok: true, ...data };
+    }
+    /** Requêtes / pages Google Search Console : API si configurée, sinon import CSV. */
     async gsc(days = 28) {
         const siteUrl = process.env.GSC_SITE_URL || null;
-        if (!this.gscConfigured())
-            return { configured: false, siteUrl };
+        if (!this.gscConfigured()) {
+            const manual = await this.read("gsc-manual.json", null);
+            if (manual)
+                return { configured: false, source: "import", siteUrl, ...manual };
+            return { configured: false, source: "none", siteUrl };
+        }
         try {
             const token = await this.gscToken();
             const site = process.env.GSC_SITE_URL;
@@ -205,7 +237,7 @@ let SeoService = SeoService_1 = class SeoService {
             const [queries, pages] = await Promise.all([query("query"), query("page")]);
             const totals = queries.reduce((a, r) => ({ clicks: a.clicks + r.clicks, impressions: a.impressions + r.impressions }), { clicks: 0, impressions: 0 });
             const avgPos = queries.length ? Math.round((queries.reduce((s, r) => s + r.position, 0) / queries.length) * 10) / 10 : 0;
-            return { configured: true, siteUrl: site, days, totals: { ...totals, avgPosition: avgPos }, queries, pages };
+            return { configured: true, source: "api", siteUrl: site, days, totals: { ...totals, avgPosition: avgPos }, queries, pages };
         }
         catch (e) {
             return { configured: true, error: e?.message || "Erreur GSC", siteUrl };

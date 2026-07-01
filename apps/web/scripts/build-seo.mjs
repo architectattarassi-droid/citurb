@@ -351,9 +351,11 @@ function portePageHtml(p, allPortes) {
 <meta property="og:url" content="${url}">
 <meta property="og:site_name" content="CITURBAREA">
 <meta property="og:locale" content="fr_MA">
+<meta property="og:image" content="${business.image || business.baseUrl + "/og-default.png"}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(p.titleFr)} — CITURBAREA">
 <meta name="twitter:description" content="${desc}">
+<meta name="twitter:image" content="${business.image || business.baseUrl + "/og-default.png"}">
 <script type="application/ld+json">${JSON.stringify(porteServiceSchema(p, url))}</script>
 <script type="application/ld+json">${JSON.stringify(porteFaqSchema(p))}</script>
 <script type="application/ld+json">${JSON.stringify(porteBreadcrumbSchema(p, url))}</script>

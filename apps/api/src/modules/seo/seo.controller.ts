@@ -22,6 +22,11 @@ export class SeoController {
   @Get("gsc")
   async gsc(@Query("days") days?: string) { return { ok: true, gsc: await this.seo.gsc(Number(days) || 28) }; }
 
+  @Post("gsc/import")
+  async gscImport(@Body() body: { queries?: string; pages?: string }) {
+    return { ok: true, gsc: await this.seo.importGsc(body?.queries || "", body?.pages || "") };
+  }
+
   @Get("audit/urls")
   async getUrls() { return { ok: true, urls: await this.seo.getAuditUrls() }; }
   @Put("audit/urls")
