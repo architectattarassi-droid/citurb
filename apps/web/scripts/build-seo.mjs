@@ -489,6 +489,17 @@ const VILLE_HUBS = [
     atouts: "Villas avec vue mer, immeubles et investissements locatifs : je gère la conception, les études (dont géotechnique en terrain pentu) et le suivi, à distance ou sur place, pour une clientèle souvent non résidente." },
 ];
 
+// Quartiers desservis par ville (contenu local unique — anti-duplicate + géo-signal).
+const QUARTIERS = {
+  kenitra: "Maâmora, Bir Rami, Ouled Oujih, Val Fleuri, Mimosas, Saknia, Bassatine",
+  sale: "Sala Al Jadida, Hay Karima, Bettana, Tabriquet, Hay Salam, Said Hajji",
+  rabat: "Agdal, Hay Riad, Souissi, Hassan, L'Océan, Yacoub El Mansour, Aviation",
+  temara: "Harhoura, Guich Oudaya, Massira, Wifak, Firdaous, Ain Atiq",
+  mohammedia: "El Alia, Parc, El Wahda, Hassania, La Kasbah, Beausite",
+  casablanca: "Maârif, Ain Diab, Californie, Bourgogne, Sidi Maârouf, Anfa, Oulfa",
+  tanger: "Malabata, Marchan, Boubana, Iberia, California, Achakar, Branes",
+};
+
 function villeHubSchema(h, url) {
   return {
     "@context": "https://schema.org", "@type": "ProfessionalService",
@@ -503,9 +514,13 @@ function villeHubSchema(h, url) {
   };
 }
 function villeHubFaq(h) {
+  const q = QUARTIERS[h.slug] || "";
   return { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [
-    { "@type": "Question", name: `Faut-il un architecte pour construire à ${h.name} ?`, acceptedAnswer: { "@type": "Answer", text: `Oui. Au Maroc, le recours à un architecte inscrit à l'Ordre est obligatoire pour toute demande d'autorisation de construire, y compris à ${h.name}.` } },
-    { "@type": "Question", name: `Quels sont vos honoraires pour un projet à ${h.name} ?`, acceptedAnswer: { "@type": "Answer", text: `Les honoraires se calculent en pourcentage du coût des travaux (barème CNOA). Un premier échange permet d'estimer votre budget global avant tout engagement.` } },
+    { "@type": "Question", name: `Faut-il un architecte pour construire à ${h.name} ?`, acceptedAnswer: { "@type": "Answer", text: `Oui. Au Maroc, le recours à un architecte inscrit à l'Ordre national (CNOA) est obligatoire pour toute demande d'autorisation de construire, y compris à ${h.name}.` } },
+    { "@type": "Question", name: `Combien coûte un architecte à ${h.name} ?`, acceptedAnswer: { "@type": "Answer", text: `Les honoraires d'architecte se calculent en pourcentage du coût des travaux (barème CNOA), généralement autour de 5%. Le montant exact dépend de la surface, du standing et de la mission. Vous pouvez estimer votre budget avec le simulateur CITURBAREA avant tout engagement.` } },
+    { "@type": "Question", name: `Combien de temps pour obtenir un permis de construire à ${h.name} ?`, acceptedAnswer: { "@type": "Answer", text: `À ${h.name}, le délai d'instruction d'une autorisation de construire varie selon la nature du projet et la commune, généralement de 1 à 3 mois après dépôt d'un dossier complet et conforme au plan d'aménagement.` } },
+    { "@type": "Question", name: `Quels documents pour construire à ${h.name} ?`, acceptedAnswer: { "@type": "Answer", text: `Titre foncier ou attestation de propriété, plan cadastral, note de renseignements, et le dossier d'architecte (plans + formulaires). L'architecte constitue et dépose le dossier auprès des services de la commune de ${h.name}.` } },
+    { "@type": "Question", name: `Quels quartiers de ${h.name} couvrez-vous ?`, acceptedAnswer: { "@type": "Answer", text: `J'interviens dans tous les quartiers de ${h.name}${q ? ` : ${q}` : ""}, ainsi que dans la région ${h.region}.` } },
     { "@type": "Question", name: `Intervenez-vous sur tout ${h.region} ?`, acceptedAnswer: { "@type": "Answer", text: `Oui, j'interviens à ${h.name} et dans toute la région ${h.region}, en présentiel ou avec un suivi à distance selon vos besoins.` } },
   ] };
 }
@@ -568,11 +583,16 @@ function villeHubHtml(h, portes) {
 
   <h2>Construire à ${esc(h.name)} : ce qu'il faut savoir</h2>
   <p>${esc(h.atouts)}</p>
+  ${QUARTIERS[h.slug] ? `<p><strong>Quartiers desservis à ${esc(h.name)} :</strong> ${esc(QUARTIERS[h.slug])}.</p>` : ""}
+
+  <h2>Combien coûte un architecte à ${esc(h.name)} ?</h2>
+  <p>Les honoraires se calculent en pourcentage du coût des travaux (barème CNOA, ~5% selon la mission). Le montant dépend de la surface, du standing et de l'étendue de l'accompagnement. Estimez votre budget en quelques clics avec le <a href="/simulateur">simulateur de coût de construction</a>, puis affinez lors d'un premier échange.</p>
 
   <h2>Questions fréquentes — architecte à ${esc(h.name)}</h2>
-  <details><summary>Faut-il un architecte pour construire à ${esc(h.name)} ?</summary><p>Oui : au Maroc, l'architecte inscrit à l'Ordre est obligatoire pour toute autorisation de construire, y compris à ${esc(h.name)}.</p></details>
-  <details><summary>Comment se déroule un premier contact ?</summary><p>Un échange cadre votre projet, vérifie la faisabilité réglementaire à ${esc(h.name)} et estime le budget avant tout engagement.</p></details>
-  <details><summary>Intervenez-vous au-delà de ${esc(h.name)} ?</summary><p>Oui, sur toute la région ${esc(h.region)}, en présentiel ou avec un suivi à distance.</p></details>
+  <details><summary>Faut-il un architecte pour construire à ${esc(h.name)} ?</summary><p>Oui : au Maroc, l'architecte inscrit à l'Ordre (CNOA) est obligatoire pour toute autorisation de construire, y compris à ${esc(h.name)}.</p></details>
+  <details><summary>Combien de temps pour un permis de construire à ${esc(h.name)} ?</summary><p>Généralement 1 à 3 mois après dépôt d'un dossier complet et conforme au plan d'aménagement de ${esc(h.name)}.</p></details>
+  <details><summary>Quels documents faut-il fournir ?</summary><p>Titre foncier, plan cadastral, note de renseignements et le dossier d'architecte. Je constitue et dépose le tout auprès de la commune de ${esc(h.name)}.</p></details>
+  <details><summary>Intervenez-vous dans tous les quartiers de ${esc(h.name)} ?</summary><p>Oui${QUARTIERS[h.slug] ? ` — ${esc(QUARTIERS[h.slug])}` : ""}, et dans toute la région ${esc(h.region)}, en présentiel ou à distance.</p></details>
 
   <footer>
     <strong>Architecte dans d'autres villes :</strong> <span class="villes">${otherVilles}</span><br><br>
