@@ -14,8 +14,20 @@
   "priceRange": "$$",
   "sameAs": [
     "https://citurbarea.com",
+    "https://www.facebook.com/yassineattarassi",
+    "https://www.instagram.com/arc_bati_architecture",
+    "https://www.youtube.com/@citiestalkmaroc",
+    "https://ma.linkedin.com/in/yassine-attarassi-716628129",
+    "https://www.tiktok.com/@yassine.attarassi",
     "https://www.google.com/search?q=arc+bati+architecture"
   ],
+  "social": {
+    "facebook": "https://www.facebook.com/yassineattarassi",
+    "instagram": "https://www.instagram.com/arc_bati_architecture",
+    "youtube": "https://www.youtube.com/@citiestalkmaroc",
+    "linkedin": "https://ma.linkedin.com/in/yassine-attarassi-716628129",
+    "tiktok": "https://www.tiktok.com/@yassine.attarassi"
+  },
   "reviewLink": "https://search.google.com/local/writereview?placeid=",
   "hq": {
     "streetAddress": "Bureau 6, Immeuble Meryam C, angle rue Chellah et rue Mabrek Doukkali",

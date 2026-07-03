@@ -598,7 +598,8 @@ function villeHubHtml(h, portes) {
   <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 18px;margin-top:32px">
     <strong style="color:#0f172a;font-size:16px">${esc(business.name)}</strong> — ${esc(business.founder)}, architecte<br>
     📍 ${esc(business.hq.streetAddress)}, ${esc(business.hq.locality)}<br>
-    ☎ <a href="tel:${business.phone}">${business.phone}</a> · WhatsApp <a href="https://wa.me/${business.whatsapp.replace(/[^0-9]/g, "")}">${business.whatsapp}</a>
+    ☎ <a href="tel:${business.phone}">${business.phone}</a> · WhatsApp <a href="https://wa.me/${business.whatsapp.replace(/[^0-9]/g, "")}">${business.whatsapp}</a><br>
+    <span style="font-size:13.5px">${["facebook", "instagram", "youtube", "linkedin", "tiktok"].filter((k) => business.social && business.social[k]).map((k) => `<a href="${business.social[k]}" rel="noopener" style="color:#1e3a8a;text-decoration:none">${k[0].toUpperCase() + k.slice(1)}</a>`).join(" · ")}</span>
   </div>
   <footer>
     <strong>Architecte dans d'autres villes :</strong> <span class="villes">${otherVilles}</span><br><br>
