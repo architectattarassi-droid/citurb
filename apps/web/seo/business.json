@@ -1,27 +1,27 @@
 {
-  "_doc": "Identité NAP du cabinet pour les JSON-LD ProfessionalService et le footer. Compléter [...] avant publication (téléphone, adresse exacte, lien avis Google).",
-  "name": "Cabinet Yassine AT-TARASSI — Architecte",
-  "legalName": "Yassine AT-TARASSI",
+  "_doc": "Identité NAP du cabinet pour les JSON-LD ProfessionalService/LocalBusiness et le footer. Aligné sur la fiche Google Business 'Arc Bati Architecture' (cohérence NAP = facteur SEO local).",
+  "name": "Arc Bati Architecture",
+  "legalName": "Arc Bati Architecture — Yassine AT-TARASSI",
   "founder": "Yassine AT-TARASSI",
   "founderTitle": "Architecte DENA, Doctorant en géographie urbaine (Univ. Ibn Tofaïl)",
   "baseUrl": "https://citurbarea.com",
   "pathPrefix": "/services",
-  "phone": "[+212-XXXXXXXXX]",
+  "phone": "+212530132323",
+  "whatsapp": "+212700127892",
   "email": "architectattarassi@gmail.com",
   "logo": "https://citurbarea.com/img/logo.png",
   "image": "https://citurbarea.com/img/cabinet-kenitra.jpg",
   "priceRange": "$$",
   "sameAs": [
     "https://citurbarea.com",
-    "[https://www.facebook.com/...]",
-    "[https://www.instagram.com/...]"
+    "https://www.google.com/search?q=arc+bati+architecture"
   ],
-  "reviewLink": "[LIEN_AVIS_GOOGLE]",
+  "reviewLink": "https://search.google.com/local/writereview?placeid=",
   "hq": {
-    "streetAddress": "[Adresse exacte du cabinet]",
+    "streetAddress": "Bureau 6, Immeuble Meryam C, angle rue Chellah et rue Mabrek Doukkali",
     "locality": "Kénitra",
     "region": "Rabat-Salé-Kénitra",
-    "postalCode": "[14000]",
+    "postalCode": "14000",
     "country": "MA",
     "lat": "34.2610",
     "lng": "-6.5802"

@@ -503,12 +503,13 @@ const QUARTIERS = {
 function villeHubSchema(h, url) {
   return {
     "@context": "https://schema.org", "@type": "ProfessionalService",
-    "@id": `${url}#business`, name: `Architecte à ${h.name} — ${business.name}`,
+    "@id": `${url}#business`, name: `${business.name} — Architecte à ${h.name}`,
     url, image: business.image, logo: business.logo, priceRange: business.priceRange,
-    description: `${business.founder}, architecte : conception, permis et suivi de projets à ${h.name}. ${h.region}.`,
+    telephone: business.phone,
+    description: `${business.name} (${business.founder}), architecte : conception, permis de construire et suivi de chantier à ${h.name} et dans la région ${h.region}. Cabinet basé à Kénitra.`,
     areaServed: { "@type": "City", name: h.name },
-    geo: { "@type": "GeoCoordinates", latitude: h.lat, longitude: h.lng },
-    address: { "@type": "PostalAddress", addressLocality: h.name, addressRegion: h.region, addressCountry: "MA" },
+    geo: { "@type": "GeoCoordinates", latitude: business.hq.lat, longitude: business.hq.lng },
+    address: { "@type": "PostalAddress", streetAddress: business.hq.streetAddress, addressLocality: business.hq.locality, addressRegion: business.hq.region, postalCode: business.hq.postalCode, addressCountry: business.hq.country },
     founder: { "@type": "Person", name: business.founder, jobTitle: business.founderTitle },
     sameAs: business.sameAs,
   };
@@ -594,9 +595,14 @@ function villeHubHtml(h, portes) {
   <details><summary>Quels documents faut-il fournir ?</summary><p>Titre foncier, plan cadastral, note de renseignements et le dossier d'architecte. Je constitue et dépose le tout auprès de la commune de ${esc(h.name)}.</p></details>
   <details><summary>Intervenez-vous dans tous les quartiers de ${esc(h.name)} ?</summary><p>Oui${QUARTIERS[h.slug] ? ` — ${esc(QUARTIERS[h.slug])}` : ""}, et dans toute la région ${esc(h.region)}, en présentiel ou à distance.</p></details>
 
+  <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px 18px;margin-top:32px">
+    <strong style="color:#0f172a;font-size:16px">${esc(business.name)}</strong> — ${esc(business.founder)}, architecte<br>
+    📍 ${esc(business.hq.streetAddress)}, ${esc(business.hq.locality)}<br>
+    ☎ <a href="tel:${business.phone}">${business.phone}</a> · WhatsApp <a href="https://wa.me/${business.whatsapp.replace(/[^0-9]/g, "")}">${business.whatsapp}</a>
+  </div>
   <footer>
     <strong>Architecte dans d'autres villes :</strong> <span class="villes">${otherVilles}</span><br><br>
-    <strong style="color:#0f172a">CITURBAREA</strong> — ${esc(business.founder)}, ${esc(business.founderTitle)}.<br>
+    <strong style="color:#0f172a">${esc(business.name)}</strong> — cabinet basé à Kénitra, sur la plateforme <a href="${business.baseUrl}">CITURBAREA</a>.<br>
     © 2026 CITURBAREA · <a href="${business.baseUrl}">citurbarea.com</a>
   </footer>
 </main>
