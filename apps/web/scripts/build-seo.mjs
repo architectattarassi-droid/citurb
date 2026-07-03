@@ -589,6 +589,14 @@ function villeHubHtml(h, portes) {
   <h2>Combien coûte un architecte à ${esc(h.name)} ?</h2>
   <p>Les honoraires se calculent en pourcentage du coût des travaux (barème CNOA, ~5% selon la mission). Le montant dépend de la surface, du standing et de l'étendue de l'accompagnement. Estimez votre budget en quelques clics avec le <a href="/simulateur">simulateur de coût de construction</a>, puis affinez lors d'un premier échange.</p>
 
+  <h2>Guides utiles</h2>
+  <ul class="services">
+    <li><a href="/guide/prix-construction-villa-maroc">Prix de construction d'une villa au Maroc</a></li>
+    <li><a href="/guide/permis-de-construire-maroc">Permis de construire : documents, étapes et délais</a></li>
+    <li><a href="/guide/honoraires-architecte-maroc">Combien coûte un architecte au Maroc ?</a></li>
+    <li><a href="/guide/etapes-construction-maison-maroc">Les étapes pour construire sa maison au Maroc</a></li>
+  </ul>
+
   <h2>Questions fréquentes — architecte à ${esc(h.name)}</h2>
   <details><summary>Faut-il un architecte pour construire à ${esc(h.name)} ?</summary><p>Oui : au Maroc, l'architecte inscrit à l'Ordre (CNOA) est obligatoire pour toute autorisation de construire, y compris à ${esc(h.name)}.</p></details>
   <details><summary>Combien de temps pour un permis de construire à ${esc(h.name)} ?</summary><p>Généralement 1 à 3 mois après dépôt d'un dossier complet et conforme au plan d'aménagement de ${esc(h.name)}.</p></details>
@@ -622,6 +630,206 @@ ${villeHubsPublished.map((v) => `  <url>\n    <loc>${v.full}</loc>\n    <lastmod
 </urlset>
 `;
 fs.writeFileSync(path.join(PUBLIC_DIR, "sitemap-villes.xml"), sitemapVilles);
+
+// ════════════════════════════════════════════════════════════════════
+// PAGES GUIDES (longue-traîne à forte intention) — /guide/<slug>.html
+// Contenu éditorial réel + Article + FAQPage + Breadcrumb schema.
+// ════════════════════════════════════════════════════════════════════
+const GUIDES = [
+  {
+    slug: "prix-construction-villa-maroc",
+    title: "Prix de construction d'une villa au Maroc (2026) — coût au m²",
+    h1: "Combien coûte la construction d'une villa au Maroc en 2026 ?",
+    desc: "Prix de construction d'une villa au Maroc en 2026 : coût au m² par niveau de standing (de 2 500 à 14 000 DH/m²), ce qui fait varier le budget et ce qu'il n'inclut pas.",
+    intro: "Le coût de construction d'une villa au Maroc dépend surtout du <strong>niveau de finition (standing)</strong>, de la <strong>surface plancher</strong> et de la région. En 2026, comptez entre <strong>2 500 et 14 000 DH/m²</strong>. Voici une grille claire pour cadrer votre budget avant de vous lancer.",
+    body: `
+      <h2>Coût de construction au m² par standing</h2>
+      <table>
+        <tr><th>Standing</th><th>DH / m²</th><th>Villa 150 m²</th></tr>
+        <tr><td>Très économique</td><td>2 500 – 3 500</td><td>375 000 – 525 000 DH</td></tr>
+        <tr><td>Moyen standing</td><td>4 000 – 5 200</td><td>600 000 – 780 000 DH</td></tr>
+        <tr><td>Standing</td><td>5 500 – 7 000</td><td>825 000 – 1 050 000 DH</td></tr>
+        <tr><td>Haut standing</td><td>7 500 – 9 500</td><td>1 125 000 – 1 425 000 DH</td></tr>
+        <tr><td>Luxe / Premium</td><td>10 000 – 14 000</td><td>1 500 000 – 2 100 000 DH</td></tr>
+      </table>
+      <p><a class="cta" href="/simulateur">Estimer précisément mon budget →</a></p>
+
+      <h2>Ce qui fait varier le prix</h2>
+      <ul>
+        <li><strong>Les finitions</strong> (carrelage, menuiserie, façade, sanitaire) : le principal levier — un marbre ou une façade en pierre double certains lots.</li>
+        <li><strong>Un sous-sol</strong> : excavation + structure = surface supplémentaire facturée.</li>
+        <li><strong>Le terrain</strong> : pente forte, mauvais sol → fondations et voile de soutènement plus lourds.</li>
+        <li><strong>La région</strong> : coût de la main-d'œuvre et des matériaux variable (corridor Rabat-Kénitra, Casablanca, Tanger…).</li>
+      </ul>
+
+      <h2>Ce que ce prix n'inclut PAS</h2>
+      <p>Le prix au m² couvre le gros œuvre et le second œuvre, mais <strong>pas</strong> : le terrain, les honoraires d'architecte et de BET, les taxes et frais d'autorisation (taxe sur opérations de construction, agence urbaine, occupation du domaine public), les raccordements officiels (eau, électricité, égout), la cuisine équipée, le mobilier et les VRD lourds.</p>
+    `,
+    faq: [
+      ["Combien coûte une villa de 200 m² au Maroc ?", "Pour 200 m² de plancher, comptez de 500 000 DH (très économique) à plus de 2 000 000 DH (luxe), hors terrain et honoraires. Le standard/haut standing se situe autour de 1,1 à 1,9 million de DH."],
+      ["Le prix inclut-il l'architecte ?", "Non. Les honoraires d'architecte (≈ 5 % du coût des travaux, barème CNOA) s'ajoutent au coût de construction, tout comme le BET et les taxes."],
+      ["Comment réduire le coût de construction ?", "En choisissant un standing de finition adapté, en optimisant la surface et le plan, et en composant les lots (le simulateur CITURBAREA permet de tester chaque option et de voir le budget en direct)."],
+    ],
+  },
+  {
+    slug: "permis-de-construire-maroc",
+    title: "Permis de construire au Maroc : documents, étapes, délais et coût",
+    h1: "Permis de construire au Maroc : documents, étapes et délais",
+    desc: "Comment obtenir un permis de construire (autorisation de construire) au Maroc : documents à fournir, étapes du dépôt, délais d'instruction et taxes à prévoir.",
+    intro: "Au Maroc, toute construction neuve nécessite une <strong>autorisation de construire</strong> délivrée par la commune, sur la base d'un dossier établi par un <strong>architecte inscrit à l'Ordre (CNOA)</strong>. Voici le parcours complet.",
+    body: `
+      <h2>Documents à fournir</h2>
+      <ul>
+        <li>Titre foncier ou attestation de propriété</li>
+        <li>Plan cadastral et note de renseignements</li>
+        <li>Dossier d'architecte : plans (masse, façades, coupes), formulaires réglementaires</li>
+        <li>Selon le projet : étude de sol (géotechnique), avis du BET, note de calcul</li>
+      </ul>
+
+      <h2>Étapes et délais</h2>
+      <ol>
+        <li><strong>Conception</strong> par l'architecte + validation avec vous.</li>
+        <li><strong>Dépôt</strong> du dossier auprès des services de la commune (guichet unique / agence urbaine).</li>
+        <li><strong>Instruction</strong> par les services (voirie, régie, protection civile…) : généralement <strong>1 à 3 mois</strong> pour un dossier complet et conforme au plan d'aménagement.</li>
+        <li><strong>Obtention</strong> de l'autorisation, puis démarrage du chantier.</li>
+      </ol>
+
+      <h2>Taxes et frais à prévoir</h2>
+      <p>Taxe sur les opérations de construction (≈ 20 à 40 DH/m² selon la commune), participation à l'agence urbaine (≈ 3,6 DH/m²), occupation du domaine public pour le chantier, avis de la protection civile. <strong>Important :</strong> réglez votre <strong>taxe sur le terrain non bâti (TNB)</strong> en amont — un arriéré peut bloquer l'obtention de l'autorisation.</p>
+    `,
+    faq: [
+      ["Peut-on construire sans architecte au Maroc ?", "Non. Le recours à un architecte inscrit à l'Ordre national (CNOA) est obligatoire pour toute demande d'autorisation de construire."],
+      ["Combien de temps pour obtenir un permis de construire ?", "En général 1 à 3 mois après dépôt d'un dossier complet, selon la commune et la nature du projet."],
+      ["Que risque-t-on à construire sans autorisation ?", "Une construction sans autorisation est illégale : arrêt de chantier, amendes, voire démolition, et impossibilité de régulariser ou de raccorder officiellement."],
+    ],
+  },
+  {
+    slug: "honoraires-architecte-maroc",
+    title: "Honoraires d'architecte au Maroc : combien ça coûte ?",
+    h1: "Combien coûte un architecte au Maroc ? Honoraires et barème",
+    desc: "Honoraires d'architecte au Maroc : mode de calcul (pourcentage du coût des travaux, barème CNOA), ce qu'ils couvrent et comment estimer votre budget d'accompagnement.",
+    intro: "Les honoraires d'architecte au Maroc se calculent en <strong>pourcentage du coût des travaux</strong> (barème indicatif CNOA), généralement autour de <strong>5 %</strong>. Le montant dépend de la surface, du standing et de l'étendue de la mission.",
+    body: `
+      <h2>Comment sont calculés les honoraires ?</h2>
+      <p>La base = le coût estimé des travaux. Le taux (≈ 5 %) s'y applique. Pour une villa dont la construction est estimée à 1 000 000 DH, comptez donc de l'ordre de 50 000 DH d'honoraires d'architecte, à moduler selon la mission choisie (conception seule, conception + suivi, clé en main).</p>
+
+      <h2>Ce que couvrent les honoraires</h2>
+      <ul>
+        <li>Conception (esquisse, avant-projet, plans définitifs)</li>
+        <li>Constitution et dépôt du dossier d'autorisation</li>
+        <li>Selon la mission : dossier d'exécution, consultation des entreprises, suivi de chantier, réception</li>
+      </ul>
+      <p>À cela s'ajoutent, séparément, le <strong>BET</strong> (structure & fluides, ≈ 2 %), et selon les cas géotechnicien, topographe, bureau de contrôle et laboratoire.</p>
+    `,
+    faq: [
+      ["Les honoraires d'architecte sont-ils négociables ?", "Le barème CNOA est indicatif. Le montant final dépend surtout de l'étendue de la mission ; un premier échange permet de cadrer le périmètre et le budget."],
+      ["Peut-on payer l'architecte par étapes ?", "Oui, les honoraires sont généralement échelonnés selon l'avancement (conception, autorisation, exécution, chantier)."],
+    ],
+  },
+  {
+    slug: "etapes-construction-maison-maroc",
+    title: "Construire sa maison au Maroc : les étapes de A à Z",
+    h1: "Construire sa maison au Maroc : les étapes de A à Z",
+    desc: "Les étapes pour construire sa maison ou sa villa au Maroc : du terrain à la réception, en passant par l'architecte, le permis, le chantier et le suivi.",
+    intro: "Construire au Maroc suit un parcours précis. Voici les <strong>grandes étapes</strong>, de l'acquisition du terrain à la remise des clés.",
+    body: `
+      <h2>Les 8 étapes clés</h2>
+      <ol>
+        <li><strong>Le terrain</strong> : vérifier le titre foncier, le zonage et la constructibilité (CES/COS).</li>
+        <li><strong>L'architecte</strong> : conception du projet selon votre budget et vos besoins.</li>
+        <li><strong>Les études</strong> : BET structure & fluides, étude de sol si nécessaire.</li>
+        <li><strong>L'autorisation de construire</strong> : dépôt et instruction du dossier.</li>
+        <li><strong>La consultation des entreprises</strong> : chiffrage et sélection.</li>
+        <li><strong>Le gros œuvre</strong> : fondations, structure, maçonnerie.</li>
+        <li><strong>Le second œuvre & finitions</strong> : électricité, plomberie, revêtements, peinture.</li>
+        <li><strong>La réception</strong> : levée des réserves et remise des clés.</li>
+      </ol>
+      <p>Un <strong>suivi de chantier</strong> (sur place ou à distance par photos) sécurise la qualité et le respect du budget à chaque étape.</p>
+    `,
+    faq: [
+      ["Combien de temps pour construire une villa au Maroc ?", "Comptez généralement 10 à 18 mois entre le dépôt du dossier et la réception, selon la taille du projet et les aléas."],
+      ["Par quoi commencer pour construire au Maroc ?", "Par le terrain (vérifier titre + constructibilité) puis l'architecte, qui cadre la faisabilité et le budget avant tout engagement."],
+    ],
+  },
+];
+
+function guidePageHtml(g) {
+  const url = `${business.baseUrl}/guide/${g.slug}`;
+  const faqHtml = g.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
+  const articleSchema = { "@context": "https://schema.org", "@type": "Article", headline: g.h1, description: g.desc, inLanguage: "fr-MA", mainEntityOfPage: url, author: { "@type": "Person", name: business.founder, jobTitle: "Architecte DENA", sameAs: business.sameAs }, publisher: { "@type": "Organization", name: "CITURBAREA", logo: { "@type": "ImageObject", url: business.logo } } };
+  const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: g.faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) };
+  const breadcrumb = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Accueil", item: business.baseUrl }, { "@type": "ListItem", position: 2, name: "Guides", item: `${business.baseUrl}/guide` }, { "@type": "ListItem", position: 3, name: g.h1, item: url }] };
+  const otherGuides = GUIDES.filter((x) => x.slug !== g.slug).map((x) => `<li><a href="/guide/${x.slug}">${esc(x.title)}</a></li>`).join("");
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${esc(g.title)} | CITURBAREA</title>
+<meta name="description" content="${esc(g.desc.slice(0, 158))}">
+<link rel="canonical" href="${url}">
+<link rel="alternate" hreflang="fr" href="${url}">
+<link rel="alternate" hreflang="x-default" href="${url}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="${esc(g.title)}">
+<meta property="og:description" content="${esc(g.desc.slice(0, 158))}">
+<meta property="og:url" content="${url}">
+<meta property="og:site_name" content="CITURBAREA">
+<meta property="og:image" content="${business.image || business.baseUrl + "/og-default.png"}">
+<script type="application/ld+json">${JSON.stringify(articleSchema)}</script>
+<script type="application/ld+json">${JSON.stringify(faqSchema)}</script>
+<script type="application/ld+json">${JSON.stringify(breadcrumb)}</script>
+<style>
+  *{box-sizing:border-box}
+  body{font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#0f172a;background:#f8fafc;margin:0}
+  main{max-width:800px;margin:0 auto;padding:32px 20px 60px}
+  nav[aria-label="fil"]{font-size:13px;color:#64748b;margin-bottom:18px}
+  a{color:#1e3a8a}
+  h1{font-size:30px;font-weight:900;letter-spacing:-.02em;margin:0 0 14px;line-height:1.2}
+  .lead{font-size:17px;color:#475569;margin:0 0 22px}
+  h2{font-size:20px;font-weight:800;margin:30px 0 12px}
+  p{margin:0 0 14px}ul,ol{padding-left:22px;margin:0 0 14px}li{margin-bottom:6px}
+  table{width:100%;border-collapse:collapse;margin:0 0 16px;font-size:14.5px}
+  th,td{border:1px solid #e2e8f0;padding:9px 12px;text-align:left}th{background:#f1f5f9;font-weight:700}
+  .cta{display:inline-block;background:#1e3a8a;color:#fff;padding:11px 22px;border-radius:10px;text-decoration:none;font-weight:700;margin:8px 0}
+  details{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:8px}
+  details summary{cursor:pointer;font-weight:700}
+  footer{border-top:1px solid #e2e8f0;margin-top:44px;padding-top:22px;color:#64748b;font-size:13px}
+</style>
+</head>
+<body>
+<main>
+  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › Guides › ${esc(g.h1)}</nav>
+  <h1>${esc(g.h1)}</h1>
+  <p class="lead">${g.intro}</p>
+  ${g.body}
+  <h2>Questions fréquentes</h2>
+  ${faqHtml}
+  <p style="margin-top:24px"><a class="cta" href="${business.baseUrl}#contact">Discuter de mon projet avec un architecte</a></p>
+  <footer>
+    <strong>Autres guides :</strong>
+    <ul>${otherGuides}</ul>
+    <strong style="color:#0f172a">${esc(business.name)}</strong> — ${esc(business.founder)}, architecte à Kénitra · <a href="${business.baseUrl}">citurbarea.com</a>
+  </footer>
+</main>
+</body>
+</html>`;
+}
+
+const guidesDir = path.join(PUBLIC_DIR, "guide");
+fs.mkdirSync(guidesDir, { recursive: true });
+for (const f of fs.readdirSync(guidesDir)) if (f.endsWith(".html")) fs.unlinkSync(path.join(guidesDir, f));
+const guidesPublished = [];
+for (const g of GUIDES) {
+  fs.writeFileSync(path.join(guidesDir, `${g.slug}.html`), guidePageHtml(g));
+  guidesPublished.push({ full: `${business.baseUrl}/guide/${g.slug}`, title: g.title });
+}
+const sitemapGuides = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${guidesPublished.map((x) => `  <url>\n    <loc>${x.full}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>`).join("\n")}
+</urlset>
+`;
+fs.writeFileSync(path.join(PUBLIC_DIR, "sitemap-guides.xml"), sitemapGuides);
 
 // ─────────────────────────── rapport console ───────────────────────
 const total = services.length * localities.length;
