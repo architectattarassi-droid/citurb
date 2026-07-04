@@ -7,5 +7,44 @@
   "architecte__sale": {
     "localContext": "À Salé, entre médina, corniche et nouveaux pôles, chaque projet compose avec un tissu urbain contrasté. J'adapte la conception au contexte réglementaire et patrimonial local.",
     "localProof": "Projets de conception menés à [exemples réels]."
+  },
+  "architecte__kenitra": {
+    "localContext": "À Kénitra, capitale du Gharb, je conçois villas, immeubles et rénovations en tenant compte du plan d'aménagement communal, de la proximité de l'oued Sebou et des règles de l'agence urbaine de Kénitra–Sidi Kacem."
+  },
+  "architecte__rabat": {
+    "localContext": "À Rabat, ville classée au patrimoine mondial, la conception compose avec des exigences strictes (hauteurs, façades, secteurs sauvegardés). J'assure des projets à la hauteur des attentes de la capitale."
+  },
+  "permis-de-construire__rabat": {
+    "localContext": "À Rabat, l'instruction passe par l'agence urbaine et des prescriptions patrimoniales exigeantes. Je constitue un dossier conforme et j'en assure le suivi jusqu'à l'autorisation de construire."
+  },
+  "permis-de-construire__sale": {
+    "localContext": "À Salé, l'obtention du permis compose avec la préservation de la médina et les prescriptions de l'agence urbaine de Rabat–Salé. J'accompagne le dépôt et le suivi du dossier."
+  },
+  "plans-de-maison__kenitra": {
+    "localContext": "À Kénitra, je dessine des plans de villas et maisons optimisés pour les terrains du corridor (Maâmora, Bir Rami), en maximisant la surface constructible dans le respect du CES local."
+  },
+  "plans-de-maison__rabat": {
+    "localContext": "À Rabat, les plans s'adaptent à un foncier rare et cher : j'optimise chaque m² utile (Hay Riad, Souissi) tout en respectant le règlement d'urbanisme de la capitale."
+  },
+  "plans-de-maison__sale": {
+    "localContext": "À Salé, je conçois des plans de villas et maisons pour les nouveaux pôles (Sala Al Jadida, Hay Karima), avec un bon rapport surface/budget adapté au marché salétin."
+  },
+  "suivi-de-chantier__kenitra": {
+    "localContext": "À Kénitra, j'assure le suivi de chantier (visites, PV, coordination des corps d'état) en présentiel ou à distance par images, pour garantir qualité et respect du budget."
+  },
+  "suivi-de-chantier__rabat": {
+    "localContext": "À Rabat, le suivi de chantier exige rigueur et coordination avec des entreprises de standing. Je contrôle la conformité à chaque étape jusqu'à la réception."
+  },
+  "suivi-de-chantier__sale": {
+    "localContext": "À Salé, je coordonne les intervenants et contrôle l'avancement du chantier, avec un suivi documenté (PV tous les 15 jours) pour sécuriser votre projet."
+  },
+  "renovation__kenitra": {
+    "localContext": "À Kénitra, je réhabilite maisons et locaux anciens (médina, centre-ville) : mise aux normes, extension et valorisation, dans le respect des règles communales."
+  },
+  "renovation__rabat": {
+    "localContext": "À Rabat, la rénovation en secteur patrimonial demande un savoir-faire particulier (façades, matériaux, autorisations). J'accompagne réhabilitations et extensions conformes."
+  },
+  "renovation__sale": {
+    "localContext": "À Salé, je mène des projets de rénovation et d'extension adaptés au bâti local, de la médina aux quartiers récents, avec mise aux normes et valorisation."
   }
 }
