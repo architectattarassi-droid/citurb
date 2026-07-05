@@ -64,6 +64,7 @@ const mre_diaspora_module_1 = require("./modules/mre-diaspora/mre-diaspora.modul
 const analytics_hub_module_1 = require("./modules/analytics-hub/analytics-hub.module");
 const ads_module_1 = require("./modules/ads/ads.module");
 const seo_module_1 = require("./modules/seo/seo.module");
+const drive_module_1 = require("./modules/drive/drive.module");
 const chef_copilote_module_1 = require("./modules/chef-copilote/chef-copilote.module");
 const avance_tresorerie_module_1 = require("./modules/avance-tresorerie/avance-tresorerie.module");
 const mandataires_registry_module_1 = require("./modules/mandataires-registry/mandataires-registry.module");
@@ -129,6 +130,7 @@ exports.AppModule = AppModule = __decorate([
             analytics_hub_module_1.AnalyticsHubModule,
             ads_module_1.AdsModule,
             seo_module_1.SeoModule,
+            drive_module_1.DriveModule,
             chef_copilote_module_1.ChefCopiloteModule,
             avance_tresorerie_module_1.AvanceTresorerieModule,
             mandataires_registry_module_1.MandatairesRegistryModule,

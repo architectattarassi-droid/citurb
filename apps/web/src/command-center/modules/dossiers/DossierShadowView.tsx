@@ -259,6 +259,8 @@ export default function DossierShadowView() {
           >
             💾 Export ZIP complet
           </a>
+          <div style={{ height: 1, background: "#1e2330", margin: "12px 0" }} />
+          <DriveBackupBlock dossierId={dossier.id} />
         </CardBlock>
 
         <CardBlock>
@@ -1121,4 +1123,78 @@ function iconFor(name: string, mime?: string): string {
   if (e === "dwg" || e === "dxf") return "📐";
   if (e === "rvt" || e === "pln" || e === "skp") return "🏢";
   return "📎";
+}
+
+/**
+ * DriveBackupBlock — connexion Google Drive + miroir du dossier.
+ * Une seule connexion (globale) suffit ; ensuite « Sauvegarder sur Drive »
+ * pousse le ZIP complet du dossier dans le Drive du fondateur.
+ */
+function DriveBackupBlock({ dossierId }: { dossierId: string }) {
+  const [st, setSt] = useState<any>(null);
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<string>("");
+
+  const load = () => apiFetch<any>("/api/cc/drive/status").then(setSt).catch(() => setSt({ configured: false }));
+  useEffect(() => { load(); }, []);
+
+  const connect = async () => {
+    setBusy(true); setMsg("");
+    try {
+      const r = await apiFetch<any>("/api/cc/drive/connect");
+      if (r?.authUrl) {
+        window.open(r.authUrl, "_blank", "width=520,height=680");
+        setMsg("Autorise dans la fenêtre Google, puis clique « Rafraîchir ».");
+      } else setMsg(r?.error || "Impossible de démarrer la connexion.");
+    } catch (e: any) { setMsg(String(e?.message || e)); }
+    finally { setBusy(false); }
+  };
+
+  const mirror = async () => {
+    setBusy(true); setMsg("");
+    try {
+      const r = await apiFetch<any>(`/api/cc/drive/mirror/${dossierId}`, { method: "POST" });
+      const ko = r?.zipBytes ? Math.round(r.zipBytes / 1024) : 0;
+      setMsg(`✅ Sauvegardé sur Drive : ${r?.fileName} (${ko} Ko${r?.missing ? `, ${r.missing} fichier(s) manquant(s)` : ""})`);
+      load();
+    } catch (e: any) { setMsg(`⚠️ ${String(e?.message || e)}`); }
+    finally { setBusy(false); }
+  };
+
+  if (!st) return <div style={{ fontSize: 11, color: CC.color.inkMid }}>Google Drive…</div>;
+
+  return (
+    <div>
+      <Eyebrow>Miroir Google Drive</Eyebrow>
+      {!st.configured ? (
+        <p style={{ fontSize: 11, color: "#fbbf24", margin: "6px 0", lineHeight: 1.5 }}>
+          ⚙️ À configurer : variables <code>GOOGLE_CLIENT_ID</code> / <code>GOOGLE_CLIENT_SECRET</code> sur Railway.
+        </p>
+      ) : !st.connected ? (
+        <>
+          <p style={{ fontSize: 11, color: CC.color.inkMid, margin: "6px 0 8px", lineHeight: 1.5 }}>
+            Connecte le Drive du fondateur pour pousser chaque dossier (sync auto sur ton PC via Drive Desktop).
+          </p>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button onClick={connect} disabled={busy} style={{ padding: "8px 14px", background: "#2563eb", color: "#fff", border: 0, borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: busy ? "wait" : "pointer" }}>
+              🔗 Connecter Google Drive
+            </button>
+            <button onClick={load} style={{ padding: "8px 12px", background: "transparent", color: CC.color.inkMid, border: "1px solid #334155", borderRadius: 6, fontSize: 12, cursor: "pointer" }}>
+              ↻ Rafraîchir
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <p style={{ fontSize: 11, color: "#34d399", margin: "6px 0 8px", lineHeight: 1.5 }}>
+            ✅ Connecté à <b>{st.email || "Google Drive"}</b> · {st.dossiersMirrored || 0} dossier(s) miroir(s).
+          </p>
+          <button onClick={mirror} disabled={busy} style={{ padding: "8px 14px", background: "#16a34a", color: "#fff", border: 0, borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: busy ? "wait" : "pointer" }}>
+            {busy ? "⏳ Envoi…" : "☁️ Sauvegarder ce dossier sur Drive"}
+          </button>
+        </>
+      )}
+      {msg && <p style={{ fontSize: 11, color: CC.color.inkMid, marginTop: 8, lineHeight: 1.5 }}>{msg}</p>}
+    </div>
+  );
 }
