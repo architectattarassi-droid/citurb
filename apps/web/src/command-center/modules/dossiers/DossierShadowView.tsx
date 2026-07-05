@@ -249,6 +249,19 @@ export default function DossierShadowView() {
         <VisaCroaBlock dossierId={dossier.id} />
 
         <CardBlock>
+          <Eyebrow>Durabilité — sauvegarde</Eyebrow>
+          <p style={{ fontSize: 11, color: CC.color.inkMid, margin: "6px 0 10px", lineHeight: 1.5 }}>
+            Télécharge une copie autonome complète du dossier (manifeste + tous les fichiers). À conserver sur ton disque / Google Drive.
+          </p>
+          <a
+            href={`${apiBase()}/api/cc/archive/dossier/${dossier.id}/export.zip?_t=${encodeURIComponent(localStorage.getItem("citurbarea.token") || "")}`}
+            style={{ display: "inline-block", padding: "8px 14px", background: "#0e7490", color: "#fff", border: 0, borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: "pointer", textDecoration: "none" }}
+          >
+            💾 Export ZIP complet
+          </a>
+        </CardBlock>
+
+        <CardBlock>
           <Eyebrow>Métadonnées</Eyebrow>
           <div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 11.5, color: CC.color.inkMid, lineHeight: 1.6, marginTop: 6 }}>
             <Meta k="ID"     v={dossier.id} mono />

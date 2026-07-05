@@ -12,6 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ArchiveService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../../tomes/tome-at/kernel/prisma/prisma.service");
+const path_1 = require("path");
+const fs_1 = require("fs");
+const UPLOADS_BASE = process.env.UPLOADS_DIR || (0, path_1.join)(process.cwd(), "uploads");
+/** Nettoie un segment de nom pour un chemin de fichier sûr dans un ZIP. */
+function safeSeg(name) {
+    const s = String(name ?? "").replace(/[\/\\:*?"<>|]/g, "_").replace(/\s+/g, " ").trim();
+    return s.slice(0, 120) || "sans-nom";
+}
 let ArchiveService = class ArchiveService {
     prisma;
     constructor(prisma) {
@@ -201,6 +209,56 @@ let ArchiveService = class ArchiveService {
             summary: this.buildSummary(dossier),
             timeline: this.buildTimeline(dossier),
         };
+    }
+    /**
+     * EXPORT ZIP — Durabilité anti-perte (étape 1).
+     *
+     * Rassemble TOUT un dossier pour un export « rien ne se perd » :
+     *   - le manifeste JSON complet (métadonnées DB : phases, messages,
+     *     intervenants, paiements, historique…) via `dossierFull`
+     *   - tous les fichiers physiques du volume :
+     *       • documents de base    → {UPLOADS}/dossiers/{storedName}
+     *       • documents sous-phases → {UPLOADS}/sous-phases/{filePath}
+     *
+     * Les fichiers absents du volume sont listés dans `missing` (jamais une
+     * erreur silencieuse : on veut savoir ce qui manque).
+     */
+    async collectExport(dossierId) {
+        const full = await this.dossierFull(dossierId);
+        const d = full.dossier;
+        const files = [];
+        const missing = [];
+        const push = (diskPath, zipPath) => {
+            try {
+                if ((0, fs_1.existsSync)(diskPath)) {
+                    files.push({ diskPath, zipPath, sizeBytes: (0, fs_1.statSync)(diskPath).size });
+                }
+                else {
+                    missing.push({ zipPath, reason: "fichier absent du volume" });
+                }
+            }
+            catch (e) {
+                missing.push({ zipPath, reason: String(e?.message || e) });
+            }
+        };
+        // 1. Documents de base (DossierDocument) → 01_documents/{type}/{nom}
+        for (const doc of d.documents || []) {
+            if (!doc.storedName)
+                continue;
+            push((0, path_1.join)(UPLOADS_BASE, "dossiers", doc.storedName), `01_documents/${safeSeg(doc.docType || "autre")}/${safeSeg(doc.originalName || doc.storedName)}`);
+        }
+        // 2. Documents de sous-phases (SousPhaseDocument) → 02_phases/{numero-titre}/{nom}
+        for (const sp of d.sousPhases || []) {
+            const label = safeSeg([sp.numero != null ? String(sp.numero).padStart(2, "0") : null, sp.titre || sp.nom || sp.libelle || sp.code]
+                .filter(Boolean)
+                .join("_") || sp.id);
+            for (const doc of sp.documents || []) {
+                if (!doc.filePath)
+                    continue;
+                push((0, path_1.join)(UPLOADS_BASE, "sous-phases", doc.filePath), `02_phases/${label}/${safeSeg(doc.nom || doc.filePath)}`);
+            }
+        }
+        return { full, files, missing };
     }
     // ── Helpers ──────────────────────────────────────────────────────────
     toFacetArray(map) {

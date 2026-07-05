@@ -1,4 +1,6 @@
-import { Controller, Get, Param, Query, UseGuards } from "@nestjs/common";
+import { Controller, Get, Param, Query, Res, UseGuards } from "@nestjs/common";
+import type { Response } from "express";
+import { createReadStream } from "fs";
 import { Tome } from "../../tomes/tome-at";
 import { JwtAuthGuard } from "../../tomes/tome-5/auth/jwt-auth.guard";
 import { RolesGuard } from "../../tomes/tome-5/auth/roles.guard";
@@ -56,6 +58,59 @@ export class ArchiveController {
   @Roles("ADMIN", "OWNER", "OPS")
   async dossierFull(@Param("id") id: string) {
     return await this.svc.dossierFull(id);
+  }
+
+  /**
+   * EXPORT ZIP « rien ne se perd » — télécharge TOUT le dossier :
+   * manifeste JSON complet (métadonnées DB) + tous les fichiers physiques.
+   * Sert la durabilité : l'admin peut à tout moment sauvegarder une copie
+   * autonome sur disque / Google Drive, indépendante de la plateforme.
+   *
+   *   GET /api/cc/archive/dossier/:id/export.zip
+   */
+  @Get("dossier/:id/export.zip")
+  @Roles("ADMIN", "OWNER", "OPS")
+  async exportZip(@Param("id") id: string, @Res() res: Response) {
+    const { full, files, missing } = await this.svc.collectExport(id);
+    const d: any = full.dossier;
+    const safeTitle = String(d.title || d.id).replace(/[^a-zA-Z0-9-_]/g, "_").slice(0, 60) || d.id;
+    const stamp = new Date().toISOString().slice(0, 10);
+
+    // archiver est déclaré en dependency (^7.0.1)
+    const archiver = require("archiver");
+    const archive = archiver("zip", { zlib: { level: 9 } });
+
+    res.setHeader("Content-Type", "application/zip");
+    res.setHeader("Content-Disposition", `attachment; filename="dossier-${safeTitle}-${stamp}.zip"`);
+    archive.on("warning", () => {});
+    archive.on("error", () => { try { res.destroy(); } catch {} });
+    archive.pipe(res);
+
+    // Manifeste complet : toutes les métadonnées DB (source de vérité)
+    archive.append(JSON.stringify(full, null, 2), { name: "00_manifest.json" });
+
+    // Note de contenu lisible (inventaire + fichiers manquants éventuels)
+    const readme = [
+      `EXPORT DOSSIER — CITURBAREA`,
+      `Dossier : ${d.title || "(sans titre)"}  [${d.id}]`,
+      `Porte   : ${d.porteType || "?"}   Statut : ${d.status || "?"}`,
+      `Exporté : ${stamp}`,
+      ``,
+      `Contenu :`,
+      `  00_manifest.json  → toutes les métadonnées (phases, messages, intervenants, paiements, historique)`,
+      `  01_documents/     → documents de base du dossier`,
+      `  02_phases/        → documents des sous-phases`,
+      ``,
+      `Fichiers inclus : ${files.length}`,
+      missing.length ? `\n⚠️ Fichiers référencés mais ABSENTS du volume (${missing.length}) :\n` + missing.map((m) => `  - ${m.zipPath} (${m.reason})`).join("\n") : `Aucun fichier manquant. ✅`,
+    ].join("\n");
+    archive.append(readme, { name: "00_LISEZ-MOI.txt" });
+
+    for (const f of files) {
+      archive.append(createReadStream(f.diskPath), { name: f.zipPath });
+    }
+
+    await archive.finalize();
   }
 
   /**

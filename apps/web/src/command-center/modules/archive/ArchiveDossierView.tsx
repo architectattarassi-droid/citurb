@@ -11,7 +11,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { apiFetch, apiBase } from "../../../tomes/tome4/apiClient";
+import { apiFetch, apiBase, getToken } from "../../../tomes/tome4/apiClient";
 
 type Tab = "DATA" | "DOCS" | "PHASES" | "MESSAGES" | "PAYMENTS" | "TIMELINE";
 
@@ -101,9 +101,18 @@ export default function ArchiveDossierView() {
         <div style={{ textAlign: "right" }}>
           <div style={{ fontSize: 26, fontWeight: 800, color: "#10b981", fontFamily: "'DM Mono', monospace" }}>{fmtMAD(summary?.honorairesTTC)}</div>
           <div style={{ fontSize: 10, color: "#6b7280" }}>Honoraires TTC</div>
-          <button onClick={() => navigate(`/cc/dossiers/${d.id}/shadow`)} style={{ marginTop: 8, padding: "6px 12px", background: "#7c3aed", color: "#fff", border: 0, borderRadius: 4, fontSize: 11, cursor: "pointer" }}>
-            👁️ Shadow view
-          </button>
+          <div style={{ display: "flex", gap: 8, justifyContent: "flex-end", marginTop: 8 }}>
+            <a
+              href={`${apiBase()}/api/cc/archive/dossier/${d.id}/export.zip?_t=${encodeURIComponent(getToken() || "")}`}
+              title="Télécharge TOUT le dossier (manifeste + tous les fichiers) en un ZIP autonome — à sauvegarder sur disque / Drive"
+              style={{ padding: "6px 12px", background: "#0e7490", color: "#fff", border: 0, borderRadius: 4, fontSize: 11, cursor: "pointer", textDecoration: "none" }}
+            >
+              💾 Export ZIP complet
+            </a>
+            <button onClick={() => navigate(`/cc/dossiers/${d.id}/shadow`)} style={{ padding: "6px 12px", background: "#7c3aed", color: "#fff", border: 0, borderRadius: 4, fontSize: 11, cursor: "pointer" }}>
+              👁️ Shadow view
+            </button>
+          </div>
         </div>
       </div>
 
