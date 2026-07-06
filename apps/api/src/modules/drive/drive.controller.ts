@@ -58,7 +58,13 @@ export class DriveController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles("ADMIN", "OWNER")
   async mirror(@Param("dossierId") dossierId: string) {
-    return await this.svc.mirrorDossier(dossierId);
+    // Admin-only : on renvoie le vrai message d'erreur (utile pour diagnostiquer
+    // un échec de sauvegarde) au lieu de le laisser rédiger en "Erreur interne".
+    try {
+      return await this.svc.mirrorDossier(dossierId);
+    } catch (e: any) {
+      return { ok: false, error: String(e?.message || e), stage: "mirror" };
+    }
   }
 
   @Post("disconnect")
