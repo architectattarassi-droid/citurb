@@ -52,7 +52,7 @@ export function FooterSection() {
           <span style={{ color:"rgba(255,255,255,.35)" }}>© {new Date().getFullYear()} CITURBAREA — Arc Bati Architecture. {t("landing.footer.rights")}</span>
           <div style={{ display:"flex",gap:16 }}>
             {[t("landing.footer.legal"),t("landing.footer.privacy"),t("landing.footer.terms")].map(l => (
-              <a key={l} href="/media" style={{ color:"rgba(255,255,255,.35)" }}>{l}</a>
+              <a key={l} href="/confidentialite" style={{ color:"rgba(255,255,255,.35)" }}>{l}</a>
             ))}
           </div>
         </div>
