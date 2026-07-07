@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { P2Controller } from "./p2.controller";
 import { IntakeController } from "./intake.controller";
+import { GoogleLeadsWebhookController } from "./google-leads-webhook.controller";
 import { AdminDossierController } from "./admin-dossier.controller";
 import { QuoteController } from "./quote.controller";
 import { ContractController } from "./contract.controller";
@@ -21,7 +22,7 @@ import { Tome5AuthModule } from "../../tome-5/auth/auth.module";
 
 @Module({
   imports: [PrismaModule, OwnerNotifyModule, ClientNotifyModule, StorageModule, PhaseEngineModule, MessagerieModule, Tome5AuthModule],
-  controllers: [P2Controller, AreaController, IntakeController, AdminDossierController, QuoteController, ContractController, VisaCroaController],
+  controllers: [P2Controller, AreaController, IntakeController, GoogleLeadsWebhookController, AdminDossierController, QuoteController, ContractController, VisaCroaController],
   providers: [DossierService, AreaService, ReminderService, P2PricingService, P2ContractService],
   exports: [P2ContractService], // P1ContractService réutilise le rendu HTML du contrat type unifié CNOA
 })
