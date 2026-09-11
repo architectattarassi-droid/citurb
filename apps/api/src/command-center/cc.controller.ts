@@ -102,14 +102,30 @@ export class CCController {
       // best-effort : ne jamais casser /cc/leads si le funnel n'est pas dispo
     }
 
-    // 3) Dédupliquer par email (priorité au Dossier qui a plus de contexte)
-    const seenEmails = new Set<string>();
+    // 3) Dédupliquer : un visiteur passé par leadBridge.submitLead produit un
+    // Lead ET un Dossier. Clé : téléphone normalisé, puis email. Le Dossier
+    // (plus riche) est gardé et récupère la qualification wizard du Lead.
+    const parTel = new Map<string, (typeof fromDossiers)[number]>();
+    const parEmail = new Map<string, (typeof fromDossiers)[number]>();
     for (const l of fromDossiers) {
-      if (l.email) seenEmails.add(l.email.toLowerCase());
+      const tel = normTel(l.tel);
+      if (tel && !parTel.has(tel)) parTel.set(tel, l);
+      const email = normEmail(l.email);
+      if (email && !parEmail.has(email)) parEmail.set(email, l);
     }
-    const funnelDedup = fromFunnel.filter((l) => {
-      if (!l.email) return true; // sans email on garde (pas de doublon détectable)
-      return !seenEmails.has(l.email.toLowerCase());
+    const funnelDedup = fromFunnel.filter((f) => {
+      const tel = normTel(f.tel);
+      const email = normEmail(f.email);
+      const d = (tel && parTel.get(tel)) || (email && parEmail.get(email)) || null;
+      if (!d) return true;
+      if (!d.wizard && f.wizard) d.wizard = f.wizard;
+      if (!d.funnelLeadId) d.funnelLeadId = f.id;
+      d.qualification = {
+        ...f.qualification,
+        // 0 / vide côté Dossier (ex. surfacePlancher non saisie) n'écrase pas la valeur du Lead.
+        ...Object.fromEntries(Object.entries(d.qualification).filter(([, v]) => v != null && v !== "" && v !== 0)),
+      };
+      return false;
     });
 
     // 4) Tri global par createdAt DESC
@@ -285,7 +301,33 @@ function extractLeadView(d: any) {
     notes: qualif.notes || [],
     brief: d.payload?.brief,
     origin: "DOSSIER" as const,
+    qualification: {
+      porte: (d.porteType || undefined) as string | undefined,
+      typeProjet: (d.payload?.natureProjet || d.payload?.brief?.categoryLabel || undefined) as string | undefined,
+      commune: (d.commune || undefined) as string | undefined,
+      surface: (d.payload?.surfacePlancher ?? d.payload?.surfaceTerrain ?? undefined) as number | undefined,
+      budget: undefined as number | undefined,
+      delaiMois: undefined as number | undefined,
+    },
+    /** Qualification wizard récupérée du Lead fusionné (déduplication /cc/leads). */
+    wizard: undefined as Record<string, unknown> | undefined,
+    funnelLeadId: undefined as string | undefined,
   };
+}
+
+/** Téléphone réduit au format national marocain (06…), comme leadBridge.normalizePhone. */
+function normTel(t: string | null | undefined): string {
+  let d = String(t || "").replace(/\D/g, "");
+  if (d.startsWith("00212")) d = d.slice(5);
+  else if (d.startsWith("212") && d.length === 12) d = d.slice(3);
+  if (d.length === 9) d = "0" + d;
+  return d;
+}
+
+function normEmail(e: string | null | undefined): string {
+  const s = String(e || "").trim().toLowerCase();
+  // Adresse fabriquée par /p2/intake quand le visiteur n'en donne pas : pas une clé.
+  return s.endsWith("@citurbarea.unknown") ? "" : s;
 }
 
 /**
@@ -301,6 +343,7 @@ function extractLeadView(d: any) {
  */
 function extractFunnelLeadView(l: FunnelLead) {
   const status: LeadStatus = FUNNEL_STAGE_TO_STATUS[l.stage] || "NEW";
+  const wizard = (l.meta as { wizard?: Record<string, any> } | undefined)?.wizard;
   // L'extraction des dernieres actions (note libre) depuis events.
   const notesFromEvents = (l.events || [])
     .filter((e) => e.kind === "NOTE" || e.kind === "STAGE_CHANGE")
@@ -333,5 +376,15 @@ function extractFunnelLeadView(l: FunnelLead) {
     notes: notesFromEvents,
     brief: { score: l.score, breakdown: l.scoreBreakdown, utm: l.utm, meta: l.meta },
     origin: "FUNNEL" as const,
+    qualification: {
+      porte: (l.projetType || undefined) as string | undefined,
+      typeProjet: (wizard?.natureProjet || wizard?.type || wizard?.sousTypeP2 || undefined) as string | undefined,
+      commune: l.ville,
+      surface: l.surface,
+      budget: l.budget,
+      delaiMois: l.delaiMois,
+    },
+    wizard: wizard as Record<string, unknown> | undefined,
+    funnelLeadId: undefined as string | undefined,
   };
 }

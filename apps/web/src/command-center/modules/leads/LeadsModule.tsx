@@ -59,6 +59,11 @@ export interface Lead {
   lastNote?: LeadNote | null;
   notes: LeadNote[];
   brief?: any;
+  origin?: "DOSSIER" | "FUNNEL";
+  /** Qualification de porte (cc.controller : Dossier, Lead ou fusion des deux). */
+  qualification?: { porte?: string; typeProjet?: string; commune?: string; surface?: number; budget?: number; delaiMois?: number };
+  /** meta.wizard du Lead (parcours de porte filtré). */
+  wizard?: Record<string, unknown>;
 }
 
 // ─── Config UI ───────────────────────────────────────────────
@@ -410,6 +415,25 @@ function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow, isMobile }: {
         <Field k="Source" v={lead.source} />
         <Field k="Reçu" v={fmtDate(lead.createdAt) + " · " + timeSince(lead.createdAt)} />
       </Section>
+
+      {(lead.qualification || lead.wizard) && (
+        <Section title="Qualification">
+          <Field k="Porte" v={lead.qualification?.porte || lead.type} />
+          <Field k="Type de projet" v={lead.qualification?.typeProjet} />
+          <Field k="Commune" v={lead.qualification?.commune || lead.ville} />
+          <Field k="Surface" v={lead.qualification?.surface != null ? `${lead.qualification.surface} m²` : undefined} />
+          <Field k="Budget" v={lead.qualification?.budget != null ? new Intl.NumberFormat("fr-MA").format(lead.qualification.budget) + " MAD" : undefined} />
+          <Field k="Délai" v={lead.qualification?.delaiMois != null ? `${lead.qualification.delaiMois} mois` : undefined} />
+          {lead.wizard && Object.keys(lead.wizard).length > 0 && (
+            <details style={{ marginTop: 8 }}>
+              <summary style={{ cursor: "pointer", fontSize: 12, color: "#9ca3af" }}>
+                Parcours de porte ({Object.keys(lead.wizard).length} champs)
+              </summary>
+              <pre style={S.briefJson}>{JSON.stringify(lead.wizard, null, 2)}</pre>
+            </details>
+          )}
+        </Section>
+      )}
 
       {(lead.interet || lead.brief) && (
         <Section title="Demande">
