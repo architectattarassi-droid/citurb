@@ -18,41 +18,81 @@ import {
   Get,
   Headers,
   HttpCode,
+  HttpException,
+  HttpStatus,
   NotFoundException,
   Param,
   Post,
   Query,
   Req,
+  ServiceUnavailableException,
   UseGuards,
 } from "@nestjs/common";
 import { createHmac, timingSafeEqual } from "crypto";
 import { Tome } from "../../tomes/tome-at";
 import { JwtAuthGuard } from "../../tomes/tome-at/security/jwt-auth.guard";
+import { SlidingWindowLimiter } from "./capture-rate-limit";
 import { LeadFunnelService } from "./lead-funnel.service";
 import type { LeadCaptureInput, LeadStage } from "./lead-funnel.types";
 
 @Tome("tome0")
 @Controller("api/lead-funnel")
 export class LeadFunnelController {
+  // Anti-abus de la route publique : 5 captures / 10 min par IP,
+  // 3 / heure par numéro. En mémoire, gratuit, sans service tiers.
+  private readonly perIp = new SlidingWindowLimiter(5, 10 * 60_000);
+  private readonly perPhone = new SlidingWindowLimiter(3, 60 * 60_000);
+
   constructor(private readonly svc: LeadFunnelService) {}
 
   // ── Public : capture ──────────────────────────────────────────────
 
   @Post("capture")
   @HttpCode(201)
-  async capture(@Body() body: LeadCaptureInput, @Req() req: any) {
+  async capture(@Body() body: LeadCaptureInput & { website?: unknown }, @Req() req: any) {
     if (!body || typeof body !== "object") {
       throw new BadRequestException("payload_invalid");
     }
-    // Enrichit avec headers utiles (IP / UA / referer) en meta
+
+    const ip = String(req?.ip || req?.socket?.remoteAddress || "unknown");
+    if (!this.perIp.take(`ip:${ip}`)) {
+      throw new HttpException("too_many_requests", HttpStatus.TOO_MANY_REQUESTS);
+    }
+
+    // Pot de miel : champ caché que seuls les robots remplissent. Réponse
+    // identique à un succès pour ne pas leur signaler le filtre.
+    const { website, ...input } = body;
+    if (typeof website === "string" && website.trim()) {
+      return {
+        ok: true,
+        leadId: `lead_${Date.now().toString(36)}`,
+        scoreInitial: 0,
+        stage: "NEW",
+        message: "Demande reçue. Notre équipe vous recontacte sous 24h.",
+      };
+    }
+
+    const phoneKey = String(input.telephone || "").replace(/[\s\-]/g, "");
+    if (phoneKey && !this.perPhone.take(`tel:${phoneKey}`)) {
+      throw new HttpException("too_many_requests", HttpStatus.TOO_MANY_REQUESTS);
+    }
+
+    // Meta : description libre du projet saisie par le visiteur + headers
+    // utiles (IP / UA / referer). Le reste du meta client est ignoré.
+    const clientMeta =
+      input.meta && typeof input.meta === "object" ? (input.meta as Record<string, unknown>) : {};
     const meta = {
+      projetLibre:
+        typeof clientMeta.projetLibre === "string"
+          ? clientMeta.projetLibre.slice(0, 2000)
+          : undefined,
       ip: (req?.headers?.["x-forwarded-for"] || req?.ip || "").toString(),
       ua: (req?.headers?.["user-agent"] || "").toString(),
       referer: (req?.headers?.["referer"] || "").toString(),
     };
 
     try {
-      const result = await this.svc.capture({ ...body, meta });
+      const result = await this.svc.capture({ ...input, meta });
       return { ok: true, ...result };
     } catch (e: any) {
       if (e?.message === "phone_invalid") {
@@ -60,6 +100,9 @@ export class LeadFunnelController {
       }
       if (e?.message === "nom_invalid") {
         throw new BadRequestException("nom_invalid");
+      }
+      if (e?.message === "storage_unavailable") {
+        throw new ServiceUnavailableException("storage_unavailable");
       }
       throw e;
     }
@@ -70,6 +113,7 @@ export class LeadFunnelController {
   @Get("lead/:id")
   @UseGuards(JwtAuthGuard)
   async getLead(@Param("id") id: string) {
+    await this.svc.syncFromDb();
     const lead = this.svc.get(id);
     if (!lead) throw new NotFoundException("lead_not_found");
     return { ok: true, lead };
@@ -82,6 +126,7 @@ export class LeadFunnelController {
     @Query("minScore") minScore?: string,
     @Query("limit") limit?: string,
   ) {
+    await this.svc.syncFromDb();
     const leads = this.svc.list({
       stage,
       minScore: minScore ? Number(minScore) : undefined,
@@ -113,6 +158,7 @@ export class LeadFunnelController {
   @Get("funnel-stats")
   @UseGuards(JwtAuthGuard)
   async stats() {
+    await this.svc.syncFromDb();
     return { ok: true, stats: this.svc.funnelStats() };
   }
 
