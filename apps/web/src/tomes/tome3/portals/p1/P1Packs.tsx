@@ -22,6 +22,8 @@ import {
   verifyP1PacksSmsCode,
 } from "../../../tome4/apiClient";
 import { quoteLocal } from "../../../../domain/p1/quote.engine";
+import LeadCaptureForm from "../../../../features/lead-funnel/LeadCaptureForm";
+import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
 
 /**
  * P1 Packs — Page 3 du tunnel (doctrine)
@@ -50,6 +52,8 @@ export default function P1Packs() {
   const [devCode, setDevCode] = React.useState<string | null>(null);
   const [activeCaseId, setActiveCaseId] = React.useState("");
   const packsRef = useRef<HTMLDivElement>(null);
+  // unlockPacks() écrit en localStorage : forcer un rendu pour relire canShowPacks.
+  const [, bumpUnlock] = React.useReducer((n: number) => n + 1, 0);
   const data = useMemo(() => {
     // Storage-first: draft saved by application layer
     const uid = auth.userId || null;
@@ -207,7 +211,9 @@ export default function P1Packs() {
       navigate(`/login?next=${encodeURIComponent('/p1/packs')}`, { replace: true });
       return;
     }
-    if (auth.isAuthed && !canAccessPacksPage(auth.userId || null)) {
+    // Mode "lead" : pas de renvoi vers la vérification SMS, le déverrouillage
+    // passe par le formulaire de capture ci-dessous.
+    if (SIGNUP_MODE === "full" && auth.isAuthed && !canAccessPacksPage(auth.userId || null)) {
       navigate(`/verify-phone?next=${encodeURIComponent('/p1/packs')}`, { replace: true });
       return;
     }
@@ -779,7 +785,29 @@ ${sections}
 
         <div className="divider" />
 
-	        {!packsVisible && (<>
+	        {!packsVisible && SIGNUP_MODE === "lead" && (
+          // Phase récolte : nom + téléphone au lieu du code email/SMS.
+          <div className="card" style={{ marginTop: 18 }}>
+            <div className="lux" style={{ fontSize: 18, marginBottom: 10 }}>{t("lead.p1.unlock_title")}</div>
+            <div className="muted" style={{ fontSize: 13, lineHeight: 1.7, marginBottom: 14 }}>
+              {t("lead.p1.unlock_intro")}
+            </div>
+            <LeadCaptureForm
+              porteType="P1"
+              source="WEB_P1_PACKS"
+              withEmail
+              compact
+              onCaptured={() => {
+                if (!unlockKey) return;
+                unlockPacks(unlockKey, Date.now());
+                bumpUnlock();
+                setTimeout(() => packsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+              }}
+            />
+          </div>
+        )}
+
+        {!packsVisible && SIGNUP_MODE === "full" && (<>
           <div className="card" style={{ marginTop: 18 }}>
             <div className="lux" style={{ fontSize: 18, marginBottom: 10 }}>{t("portes.p1.packs.unlock.title")}</div>
             <div className="muted" style={{ fontSize: 13, lineHeight: 1.7 }}>

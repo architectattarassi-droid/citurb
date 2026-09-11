@@ -73,6 +73,8 @@ import ConfirmEmail from "../../tome5/pages/ConfirmEmail";
 import ForgotPassword from "../../tome5/pages/ForgotPassword";
 import AccountTypeChooser from "../../tome5/pages/AccountTypeChooser";
 import ClientSignup from "../../tome5/pages/ClientSignup";
+import LeadCapturePage from "../../../features/lead-funnel/LeadCapturePage";
+import { SIGNUP_MODE } from "../../../features/lead-funnel/signupMode";
 
 import LandingPage from "../../../ui/landing/LandingPage";
 import { useAuth } from "../../tome5/AuthProvider";
@@ -238,8 +240,11 @@ export const router = createBrowserRouter([
   // Cercles — réseau pro BTP marocain (auth requis côté API JWT)
   // Toutes ces routes sont bloquées sur admin.citurbarea.com (redirect vers /admin/login)
   { path: '/inscription',                          element: <AdminHostBlock><InscriptionPage /></AdminHostBlock> },
-  { path: '/creer-compte',                          element: <AdminHostBlock><AccountTypeChooser /></AdminHostBlock> },
-  { path: '/creer-compte/client',                   element: <AdminHostBlock><ClientSignup /></AdminHostBlock> },
+  // Phase récolte (VITE_SIGNUP_MODE=lead, défaut) : « Créer un compte » et les
+  // renvois des portes P2/P5 mènent au formulaire de capture, sans OTP.
+  // AccountTypeChooser / ClientSignup reprennent la main en mode "full".
+  { path: '/creer-compte',                          element: <AdminHostBlock>{SIGNUP_MODE === 'lead' ? <LeadCapturePage /> : <AccountTypeChooser />}</AdminHostBlock> },
+  { path: '/creer-compte/client',                   element: <AdminHostBlock>{SIGNUP_MODE === 'lead' ? <LeadCapturePage /> : <ClientSignup />}</AdminHostBlock> },
   { path: '/post/:id',                             element: <PublicPostPage /> },
   { path: '/cercles',                              element: <AdminHostBlock><CerclesHome /></AdminHostBlock> },
   { path: '/cercles/bienvenue',                    element: <AdminHostBlock><CerclesHomePage /></AdminHostBlock> },

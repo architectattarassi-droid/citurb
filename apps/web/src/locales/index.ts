@@ -37,6 +37,7 @@ import frDocuments from "./fr/documents.json";
 import frPermis from "./fr/permis.json";
 import frRokhas from "./fr/rokhas.json";
 import frPrestations from "./fr/prestations.json";
+import frLead from "./fr/lead.json";
 
 // ── AR ──────────────────────────────────────────────────────────────────
 import arCommon from "./ar/common.json";
@@ -60,6 +61,7 @@ import arDocuments from "./ar/documents.json";
 import arPermis from "./ar/permis.json";
 import arRokhas from "./ar/rokhas.json";
 import arPrestations from "./ar/prestations.json";
+import arLead from "./ar/lead.json";
 
 // ── EN ──────────────────────────────────────────────────────────────────
 import enCommon from "./en/common.json";
@@ -83,6 +85,7 @@ import enDocuments from "./en/documents.json";
 import enPermis from "./en/permis.json";
 import enRokhas from "./en/rokhas.json";
 import enPrestations from "./en/prestations.json";
+import enLead from "./en/lead.json";
 
 export type Lang = "fr" | "ar" | "en";
 
@@ -110,6 +113,7 @@ const FR: FlatNs = {
   ...frPermis,
   ...frRokhas,
   ...frPrestations,
+  ...frLead,
 };
 
 const AR: FlatNs = {
@@ -134,6 +138,7 @@ const AR: FlatNs = {
   ...arPermis,
   ...arRokhas,
   ...arPrestations,
+  ...arLead,
 };
 
 const EN: FlatNs = {
@@ -158,6 +163,7 @@ const EN: FlatNs = {
   ...enPermis,
   ...enRokhas,
   ...enPrestations,
+  ...enLead,
 };
 
 /**

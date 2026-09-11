@@ -19,6 +19,8 @@ export type LeadSource =
   | "WEB_ROI_CALC"
   | "WEB_WHATSAPP_CTA"
   | "WEB_NEWSLETTER"
+  | "WEB_SIGNUP"        // /creer-compte en mode VITE_SIGNUP_MODE=lead
+  | "WEB_P1_PACKS"      // déverrouillage des packs P1 en mode lead
   | "PARTENAIRE"
   | "WHATSAPP_INBOUND"
   | "REFERRAL"

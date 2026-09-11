@@ -52,6 +52,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
   const [tel, setTel] = useState("");
   const [email, setEmail] = useState("");
   const [projet, setProjet] = useState("");
+  const [hp, setHp] = useState(""); // pot de miel anti-robots
   const [status, setStatus] = useState<Status>("idle");
   const [errMsg, setErrMsg] = useState<string>("");
   const [leadId, setLeadId] = useState<string>("");
@@ -90,11 +91,24 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
             lang,
             pageContext: typeof window !== "undefined" ? window.location.pathname : undefined,
             meta: { projetLibre: projet.trim() || undefined },
+            website: hp || undefined,
           }),
         });
+        if (res.status === 429) {
+          setErrMsg(t("lead.err.rate"));
+          setStatus("error");
+          return;
+        }
         const json: CaptureResponse = await res.json();
         if (!res.ok || !json.ok || !json.leadId) {
-          setErrMsg(json.message || t("lead.err.generic"));
+          const code = String(json.message || "");
+          setErrMsg(
+            code === "phone_invalid"
+              ? t("lead.err.tel")
+              : code === "nom_invalid"
+                ? t("lead.err.nom")
+                : t("lead.err.generic"),
+          );
           setStatus("error");
           return;
         }
@@ -102,12 +116,13 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
         setScore(json.scoreInitial || 0);
         setStatus("success");
         onCaptured?.(json.leadId, json.scoreInitial || 0);
-      } catch (err: any) {
-        setErrMsg(err?.message || t("lead.err.generic"));
+      } catch {
+        // Réseau coupé ou réponse non JSON (API absente) : message générique.
+        setErrMsg(t("lead.err.generic"));
         setStatus("error");
       }
     },
-    [nom, tel, email, projet, phoneValid, porteType, source, lang, t, onCaptured],
+    [nom, tel, email, projet, hp, phoneValid, porteType, source, lang, t, onCaptured],
   );
 
   if (status === "success") {
@@ -213,6 +228,19 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
             placeholder={t("lead.placeholder.projet")}
           />
         </div>
+
+        {/* Pot de miel : hors écran, hors tabulation, ignoré des lecteurs
+            d'écran. Un humain le laisse vide ; rempli → capture ignorée. */}
+        <input
+          type="text"
+          name="website"
+          value={hp}
+          onChange={(e) => setHp(e.target.value)}
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          style={{ position: "absolute", left: "-10000px", width: 1, height: 1, opacity: 0 }}
+        />
 
         {status === "error" && errMsg && (
           <p className="text-sm text-rose-600" role="alert">
