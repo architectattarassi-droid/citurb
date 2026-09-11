@@ -12,6 +12,7 @@
 
 import React, { useCallback, useMemo, useState } from "react";
 import { useT, useLang } from "../../i18n/i18n";
+import { captureLead, currentUtm, leadKey, sanitizeWizard, type CaptureBody } from "./leadBridge";
 
 const RE_PHONE_MA = /^(\+212|0)[567]\d{8}$/;
 
@@ -27,16 +28,15 @@ export interface LeadCaptureFormProps {
   /** Compact (form inline / hero). */
   compact?: boolean;
   className?: string;
+  /** Valeurs initiales (pré-remplissage depuis un draft de porte). */
+  initial?: { nom?: string; telephone?: string; email?: string; projet?: string };
+  /** Champs de capture supplémentaires (budget, ville, surface, délai…). */
+  extraCapture?: () => Partial<CaptureBody>;
+  /** Qualification de porte jointe en meta.wizard (filtrée et bornée par leadBridge). */
+  extraMeta?: Record<string, unknown>;
 }
 
 type Status = "idle" | "submitting" | "success" | "error";
-
-interface CaptureResponse {
-  ok: boolean;
-  leadId?: string;
-  scoreInitial?: number;
-  message?: string;
-}
 
 const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
   source,
@@ -45,13 +45,17 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
   onCaptured,
   compact = false,
   className,
+  initial,
+  extraCapture,
+  extraMeta,
 }) => {
   const t = useT();
   const { lang } = useLang();
-  const [nom, setNom] = useState("");
-  const [tel, setTel] = useState("");
-  const [email, setEmail] = useState("");
-  const [projet, setProjet] = useState("");
+  const [nom, setNom] = useState(initial?.nom || "");
+  const [tel, setTel] = useState(initial?.telephone || "");
+  const [email, setEmail] = useState(initial?.email || "");
+  const [projet, setProjet] = useState(initial?.projet || "");
+  const [queued, setQueued] = useState(false);
   const [hp, setHp] = useState(""); // pot de miel anti-robots
   const [status, setStatus] = useState<Status>("idle");
   const [errMsg, setErrMsg] = useState<string>("");
@@ -78,51 +82,43 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
         return;
       }
       setStatus("submitting");
-      try {
-        const res = await fetch("/api/lead-funnel/capture", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            nom: nom.trim(),
-            telephone: tel.trim(),
-            email: email.trim() || undefined,
-            projetType: porteType,
-            source: source || "WEB_HERO",
-            lang,
-            pageContext: typeof window !== "undefined" ? window.location.pathname : undefined,
-            meta: { projetLibre: projet.trim() || undefined },
-            website: hp || undefined,
-          }),
-        });
-        if (res.status === 429) {
-          setErrMsg(t("lead.err.rate"));
-          setStatus("error");
-          return;
-        }
-        const json: CaptureResponse = await res.json();
-        if (!res.ok || !json.ok || !json.leadId) {
-          const code = String(json.message || "");
-          setErrMsg(
-            code === "phone_invalid"
-              ? t("lead.err.tel")
-              : code === "nom_invalid"
-                ? t("lead.err.nom")
-                : t("lead.err.generic"),
-          );
-          setStatus("error");
-          return;
-        }
-        setLeadId(json.leadId);
-        setScore(json.scoreInitial || 0);
-        setStatus("success");
-        onCaptured?.(json.leadId, json.scoreInitial || 0);
-      } catch {
-        // Réseau coupé ou réponse non JSON (API absente) : message générique.
-        setErrMsg(t("lead.err.generic"));
+      // Tout part par leadBridge : file de reprise si le réseau manque,
+      // idempotence par porte + téléphone.
+      const wizard = extraMeta ? sanitizeWizard(extraMeta) : undefined;
+      const body: CaptureBody = {
+        source: source || "WEB_HERO",
+        lang,
+        pageContext: typeof window !== "undefined" ? window.location.pathname : undefined,
+        utm: currentUtm(),
+        ...(extraCapture?.() || {}),
+        nom: nom.trim(),
+        telephone: tel.trim(),
+        email: email.trim() || undefined,
+        projetType: porteType,
+        meta: { projetLibre: projet.trim() || undefined, ...(wizard ? { wizard } : {}) },
+        website: hp || undefined,
+      };
+      const out = await captureLead(leadKey(body.projetType, body.telephone), body);
+      if (out.status === "invalid") {
+        setErrMsg(
+          out.code === "phone_invalid"
+            ? t("lead.err.tel")
+            : out.code === "nom_invalid"
+              ? t("lead.err.nom")
+              : t("lead.err.generic"),
+        );
         setStatus("error");
+        return;
       }
+      const id = out.status === "sent" || out.status === "already" ? out.leadId || "" : "";
+      const sc = out.status === "sent" ? out.score || 0 : 0;
+      setLeadId(id);
+      setScore(sc);
+      setQueued(out.status === "queued");
+      setStatus("success");
+      onCaptured?.(id, sc);
     },
-    [nom, tel, email, projet, hp, phoneValid, porteType, source, lang, t, onCaptured],
+    [nom, tel, email, projet, hp, phoneValid, porteType, source, lang, t, onCaptured, extraCapture, extraMeta],
   );
 
   if (status === "success") {
@@ -137,9 +133,12 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
       >
         <div className="text-lg font-semibold">{t("lead.success.title")}</div>
         <p className="mt-1 text-sm">{t("lead.success.msg")}</p>
-        <p className="mt-2 text-xs text-emerald-800">
-          {t("lead.success.ref")}: <code className="rounded bg-white/60 px-2 py-0.5">{leadId}</code>
-        </p>
+        {queued && <p className="mt-2 text-xs text-emerald-800">{t("lead.success.queued")}</p>}
+        {leadId && (
+          <p className="mt-2 text-xs text-emerald-800">
+            {t("lead.success.ref")}: <code className="rounded bg-white/60 px-2 py-0.5">{leadId}</code>
+          </p>
+        )}
         {score > 0 && (
           <p className="mt-1 text-xs text-emerald-700">
             {t("lead.success.score")}: <b>{score}/100</b>

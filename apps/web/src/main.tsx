@@ -7,6 +7,7 @@ import "./styles/responsive-desktop.css";
 import "./styles/mobile-overrides.css";
 import { registerServiceWorker } from "./sw/register";
 import { startWebVitals } from "./lib/web-vitals";
+import { initLeadBridge } from "./features/lead-funnel/leadBridge";
 
 const rootEl = document.getElementById("root");
 if (!rootEl) throw new Error("Root element #root introuvable dans index.html");
@@ -21,3 +22,6 @@ registerServiceWorker();
 
 // Telemetry: collecte des Web Vitals et POST vers /api/telemetry/vitals.
 startWebVitals();
+
+// Lead funnel : mémorise les UTM et rejoue la file de reprise des captures.
+initLeadBridge();

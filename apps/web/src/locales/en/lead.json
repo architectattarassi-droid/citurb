@@ -24,6 +24,16 @@
   "lead.success.msg": "Thank you! Our team will contact you within 24 hours.",
   "lead.success.ref": "Reference",
   "lead.success.score": "Priority",
+  "lead.success.queued": "Your request is saved on this device and will reach us as soon as the connection allows.",
+  "lead.porte.success_title": "Request received",
+  "lead.porte.success_body": "Thank you! A CITURBAREA architect will call you back within 24 hours on the number provided.",
+  "lead.porte.quote_later": "Detailed estimate sent within 24 hours.",
+  "lead.porte.catalog_unavailable": "The catalogue is not available right now: describe your need and we will refine it together.",
+  "lead.porte.free_ph": "E.g. five-storey building with 12 flats",
+  "lead.porte.continue": "Continue",
+  "lead.porte.err_contact": "Invalid phone number (format 06XXXXXXXX or +2126XXXXXXXX).",
+  "lead.porte.ref_later": "Reference data unavailable right now: our team will complete this information with you.",
+  "lead.porte.home": "Back to home",
   "lead.p1.unlock_title": "Get the pack details",
   "lead.p1.unlock_intro": "Leave your details: the packs show up right away and an architect will call you to refine the estimate."
 }

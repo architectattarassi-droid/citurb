@@ -24,6 +24,16 @@
   "lead.success.msg": "Merci ! Notre équipe vous recontacte sous 24 h.",
   "lead.success.ref": "Référence",
   "lead.success.score": "Priorité",
+  "lead.success.queued": "Votre demande est enregistrée sur cet appareil ; elle nous sera transmise dès que la connexion le permet.",
+  "lead.porte.success_title": "Demande reçue",
+  "lead.porte.success_body": "Merci ! Un architecte CITURBAREA vous recontacte sous 24 h au numéro indiqué.",
+  "lead.porte.quote_later": "Estimation détaillée envoyée sous 24 h.",
+  "lead.porte.catalog_unavailable": "Le catalogue n'est pas disponible pour le moment : décrivez votre besoin, nous le préciserons ensemble.",
+  "lead.porte.free_ph": "Ex. : immeuble R+4 de 12 logements",
+  "lead.porte.continue": "Continuer",
+  "lead.porte.err_contact": "Numéro de téléphone invalide (format 06XXXXXXXX ou +2126XXXXXXXX).",
+  "lead.porte.ref_later": "Référentiel indisponible pour le moment : notre équipe complétera ces informations avec vous.",
+  "lead.porte.home": "Retour à l'accueil",
   "lead.p1.unlock_title": "Recevez le détail des packs",
   "lead.p1.unlock_intro": "Laissez vos coordonnées : les packs s'affichent aussitôt et un architecte vous rappelle pour affiner le chiffrage."
 }

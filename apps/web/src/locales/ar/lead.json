@@ -24,6 +24,16 @@
   "lead.success.msg": "شكرًا! سيتواصل معك فريقنا خلال 24 ساعة.",
   "lead.success.ref": "المرجع",
   "lead.success.score": "الأولوية",
+  "lead.success.queued": "تم حفظ طلبك على هذا الجهاز وسيُرسل إلينا فور عودة الاتصال.",
+  "lead.porte.success_title": "تم استلام طلبك",
+  "lead.porte.success_body": "شكرًا! سيتصل بك مهندس معماري من CITURBAREA خلال 24 ساعة على الرقم المُدخل.",
+  "lead.porte.quote_later": "سيُرسل إليك التقدير المفصل خلال 24 ساعة.",
+  "lead.porte.catalog_unavailable": "القائمة غير متاحة حاليًا: صف حاجتك وسنحددها معًا.",
+  "lead.porte.free_ph": "مثال: عمارة R+4 من 12 شقة",
+  "lead.porte.continue": "متابعة",
+  "lead.porte.err_contact": "رقم الهاتف غير صالح (الصيغة 06XXXXXXXX أو +2126XXXXXXXX).",
+  "lead.porte.ref_later": "المرجع غير متاح حاليًا: سيستكمل فريقنا هذه المعلومات معك.",
+  "lead.porte.home": "العودة إلى الصفحة الرئيسية",
   "lead.p1.unlock_title": "اطلع على تفاصيل الباقات",
   "lead.p1.unlock_intro": "اترك بياناتك: تظهر الباقات فورًا وسيتصل بك مهندس معماري لتدقيق التقدير."
 }
