@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
 import { getStoredLang, useT } from "../../../../i18n/i18n";
+import { apiAvailable, captureFromIntake, submitLead } from "../../../../features/lead-funnel/leadBridge";
 
 /**
  * P6Home — Onboarding réseau prestataires & fournisseurs
@@ -114,19 +115,29 @@ export default function P6Home() {
   const [score, setScore] = useState<ScoreResult | null>(null);
   const [error, setError] = useState("");
   const [dossierId, setDossierId] = useState<string | null>(null);
+  // Référentiels injoignables (API absente) : le parcours continue sans eux.
+  const [refsKo, setRefsKo] = useState(false);
 
   useEffect(() => {
+    const charger = (chemin: string) => fetch(`${apiBase()}${chemin}`).then(r => r.json()).catch(() => null);
     Promise.all([
-      fetch(`${apiBase()}/p6/types`).then(r => r.json()),
-      fetch(`${apiBase()}/p6/classes-btp`).then(r => r.json()),
-      fetch(`${apiBase()}/p6/categories-agrement`).then(r => r.json()),
-      fetch(`${apiBase()}/p6/documents-requis`).then(r => r.json()),
-    ]).then(([t, c, ca, d]) => {
-      if (t.ok) setTypes(t.items);
-      if (c.ok) setClasses(c.items);
-      if (ca.ok) setCategories(ca.items);
-      if (d.ok) setDocsList({ PRESTATAIRE_SERVICE: d.PRESTATAIRE_SERVICE, FOURNISSEUR_MATERIAUX: d.FOURNISSEUR_MATERIAUX });
-    }).catch(() => setError(t("portes.p6.err.refload")));
+      charger("/p6/types"), charger("/p6/classes-btp"), charger("/p6/categories-agrement"), charger("/p6/documents-requis"),
+    ]).then(([ty, c, ca, d]) => {
+      if (ty?.ok) setTypes(ty.items);
+      else {
+        setRefsKo(true);
+        // Les deux types sont des constantes du parcours : on les propose quand même.
+        setTypes([
+          { code: "PRESTATAIRE_SERVICE", label: t("portes.p6.success.role_prestataire"), desc: "" },
+          { code: "FOURNISSEUR_MATERIAUX", label: t("portes.p6.success.role_fournisseur"), desc: "" },
+        ] as unknown as typeof types);
+      }
+      if (c?.ok) setClasses(c.items); else setRefsKo(true);
+      if (ca?.ok) setCategories(ca.items); else setRefsKo(true);
+      if (d?.ok) setDocsList({ PRESTATAIRE_SERVICE: d.PRESTATAIRE_SERVICE, FOURNISSEUR_MATERIAUX: d.FOURNISSEUR_MATERIAUX });
+      else setRefsKo(true);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const stepIndex = ["type", "identite", "classement", "docs", "score", "contact"].indexOf(step);
@@ -157,6 +168,9 @@ export default function P6Home() {
 
   const computeScore = async () => {
     setError("");
+    // Scoring injoignable (API absente) : on passe au contact ; l'équipe
+    // établira le score à la revue de la fiche.
+    if (!(await apiAvailable())) { setStep("contact"); return; }
     setStep("submitting");
     try {
       const res = await fetch(`${apiBase()}/p6/scoring`, {
@@ -164,10 +178,10 @@ export default function P6Home() {
         body: JSON.stringify(buildScoringInput()),
       });
       const data = await res.json();
-      if (!data.ok) throw new Error(data.error || t("portes.p6.err.refload"));
+      if (!data.ok) { setError(data.error || t("portes.p6.err.refload")); setStep("docs"); return; }
       setScore(data);
       setStep("score");
-    } catch (e: any) { setError(e.message); setStep("docs"); }
+    } catch { setStep("contact"); }
   };
 
   const submit = async () => {
@@ -177,46 +191,68 @@ export default function P6Home() {
       return;
     }
     setStep("submitting");
-    try {
-      const title = `${type === "PRESTATAIRE_SERVICE" ? t("portes.p6.title.prestataire") : t("portes.p6.title.fournisseur")} — ${identite.raisonSociale}`;
-      const res = await fetch(`${apiBase()}/p2/intake`, {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          porteType: "P6", gestionMode: "AUTONOME",
-          commune: identite.commune || undefined,
-          raisonSociale: identite.raisonSociale,
-          representant: identite.representant || undefined,
-          rc: identite.rc || undefined,
-          ice: identite.ice || undefined,
-          clientNom: identite.clientNom,
-          clientTel: identite.clientTel,
-          clientEmail: identite.clientEmail || undefined,
-          title, source: "P6_WIZARD", lang: getStoredLang(),
-          brief: {
-            p6Type: type,
-            classeBTP: classeBTP || undefined,
-            categoriesAgrement: Array.from(categoriesAgrement),
-            agrementMetleNumero, agrementMetleValidite,
-            ancienneteAnnees: identite.ancienneteAnnees ? +identite.ancienneteAnnees : 0,
-            nbReferences: identite.nbReferences ? +identite.nbReferences : 0,
-            nbPhotosChantiers: identite.nbPhotosChantiers ? +identite.nbPhotosChantiers : 0,
-            nbMateriauxCatalogue: identite.nbMateriauxCatalogue ? +identite.nbMateriauxCatalogue : 0,
-            zonesFourniture: identite.zonesFourniture,
-            decennaleValide, rcProValide,
-            documents: docs,
-            scoreSnapshot: score,
-          },
-        }),
-      });
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.message || "Erreur soumission");
-      if (data.access_token) { try { localStorage.setItem("citurbarea.token", data.access_token); } catch {} }
-      setDossierId(data.dossierId);
+    const title = `${type === "PRESTATAIRE_SERVICE" ? t("portes.p6.title.prestataire") : t("portes.p6.title.fournisseur")} — ${identite.raisonSociale}`;
+    const payload = {
+      porteType: "P6", gestionMode: "AUTONOME",
+      commune: identite.commune || undefined,
+      raisonSociale: identite.raisonSociale,
+      representant: identite.representant || undefined,
+      rc: identite.rc || undefined,
+      ice: identite.ice || undefined,
+      clientNom: identite.clientNom,
+      clientTel: identite.clientTel,
+      clientEmail: identite.clientEmail || undefined,
+      title, source: "P6_WIZARD", lang: getStoredLang(),
+      brief: {
+        p6Type: type,
+        classeBTP: classeBTP || undefined,
+        categoriesAgrement: Array.from(categoriesAgrement),
+        agrementMetleNumero, agrementMetleValidite,
+        ancienneteAnnees: identite.ancienneteAnnees ? +identite.ancienneteAnnees : 0,
+        nbReferences: identite.nbReferences ? +identite.nbReferences : 0,
+        nbPhotosChantiers: identite.nbPhotosChantiers ? +identite.nbPhotosChantiers : 0,
+        nbMateriauxCatalogue: identite.nbMateriauxCatalogue ? +identite.nbMateriauxCatalogue : 0,
+        zonesFourniture: identite.zonesFourniture,
+        decennaleValide, rcProValide,
+        documents: docs,
+        scoreSnapshot: score,
+      },
+    };
+    // Point de sortie unique : capture d'abord (sans API), dossier si l'API répond.
+    const { key, body } = captureFromIntake("P6", payload);
+    const envoi = submitLead({ key, capture: body, intake: payload });
+    const res = await envoi.intake;
+    if (res) {
+      if (res.accessToken) { try { localStorage.setItem("citurbarea.token", res.accessToken); } catch {} }
+      setDossierId(res.dossierId || null);
       setStep("success");
-    } catch (e: any) { setError(e.message); setStep("contact"); }
+      return;
+    }
+    const cap = await envoi.capture;
+    if (cap.status === "invalid") {
+      setError(cap.code === "phone_invalid" ? t("lead.porte.err_contact") : t("lead.err.generic"));
+      setStep("contact");
+      return;
+    }
+    setDossierId(null);
+    setStep("success");
   };
 
   if (step === "submitting") return <div style={S.loader}>{t("portes.p6.loader.computing")}</div>;
+
+  // Succès sans dossier (API absente) : fiche reçue, sans promesse d'espace.
+  if (step === "success" && !dossierId) {
+    return (
+      <div style={S.root}>
+        <div style={S.successWrap}>
+          <div style={S.successIcon}>✅</div>
+          <div style={S.successTitle}>{t("lead.porte.success_title")}</div>
+          <div style={S.successSub}>{t("lead.porte.success_body")}</div>
+          <a href="/" style={{ color: "#dc2626", textDecoration: "none", fontSize: 13, fontWeight: 600 }}>{t("lead.porte.home")}</a>
+        </div>
+      </div>
+    );
+  }
 
   if (step === "success") {
     return (
@@ -348,6 +384,7 @@ export default function P6Home() {
           <div style={S.formTitle}>{t("portes.p6.classement.title")}</div>
           <div style={S.formSub}>{t("portes.p6.classement.sub")}</div>
 
+          {refsKo && classes.length === 0 && <div style={{ color: "#fcd34d", fontSize: 13, marginBottom: 12 }}>{t("lead.porte.ref_later")}</div>}
           <label style={S.label}>{t("portes.p6.classement.classe_label")}</label>
           {classes.map(c => (
             <div key={c.code} style={{ ...S.classRow, ...(classeBTP === c.code ? S.classRowActive : {}) }} onClick={() => setClasseBTP(c.code === classeBTP ? "" : c.code)}>
@@ -402,6 +439,7 @@ export default function P6Home() {
           <Stepper />
           <div style={S.formTitle}>{t("portes.p6.docs.title")}</div>
           <div style={S.formSub}>{t("portes.p6.docs.sub")}</div>
+          {refsKo && list.length === 0 && <div style={{ color: "#fcd34d", fontSize: 13, marginBottom: 12 }}>{t("lead.porte.ref_later")}</div>}
 
           {list.map((d) => (
             <label key={d.slug} style={{ ...S.docRow, color: docs[d.slug] ? "#a7f3d0" : "#cbd5e1" }}>
@@ -476,7 +514,7 @@ export default function P6Home() {
     return (
       <div style={S.root}>
         <div style={S.wrap}>
-          <button style={S.btnBack} onClick={() => setStep("score")}>{t("portes.p6.contact.back_score")}</button>
+          <button style={S.btnBack} onClick={() => setStep(score ? "score" : "docs")}>{t("portes.p6.contact.back_score")}</button>
           <Stepper />
           <div style={S.formTitle}>{t("portes.p6.contact.title")}</div>
           <div style={S.formSub}>{t("portes.p6.contact.sub")}</div>

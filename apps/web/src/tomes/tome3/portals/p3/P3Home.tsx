@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
 import { getStoredLang, useT } from "../../../../i18n/i18n";
+import { apiAvailable, captureFromIntake, montantDevis, submitLead } from "../../../../features/lead-funnel/leadBridge";
 import FichesPrestations from "../../../../components/fiches-prestations/FichesPrestations";
 
 /**
@@ -123,6 +124,12 @@ export default function P3Home() {
   });
   const [error, setError] = useState("");
   const [dossierId, setDossierId] = useState<string | null>(null);
+  // API injoignable : référentiels en saisie libre, devis livré sous 24 h.
+  const [corpsKo, setCorpsKo] = useState(false);
+  const [corpsLibre, setCorpsLibre] = useState("");
+  const [categoriesKo, setCategoriesKo] = useState(false);
+  const [categoryLibre, setCategoryLibre] = useState("");
+  const [quoteLater, setQuoteLater] = useState(false);
 
   const stepIndex = ["section", "category", "measures", "corps", "quote", "identity"].indexOf(step);
   const selectedCategory = categories.find(c => c.code === categoryCode);
@@ -130,15 +137,17 @@ export default function P3Home() {
 
   useEffect(() => {
     fetch(`${apiBase()}/p3/corps-metiers`).then(r => r.json())
-      .then(d => { if (d.ok) setCorpsGroupes(d.groupes); })
-      .catch(() => setError(t("portes.p3.err.load_corps")));
+      .then(d => { if (d.ok) setCorpsGroupes(d.groupes); else setCorpsKo(true); })
+      .catch(() => setCorpsKo(true));
   }, [t]);
 
   useEffect(() => {
     if (!section) return;
+    setCategoriesKo(false);
     fetch(`${apiBase()}/p2/categories?section=${section}`)
       .then(r => r.json())
-      .then(d => { if (d.ok) setCategories(d.items); });
+      .then(d => { if (d.ok) setCategories(d.items); else setCategoriesKo(true); })
+      .catch(() => setCategoriesKo(true));
   }, [section]);
 
   const toggleCorps = (slug: string) => {
@@ -153,6 +162,9 @@ export default function P3Home() {
     setError("");
     if (!surfacePlancher || +surfacePlancher <= 0) { setError(t("portes.p3.err.surface_required")); return; }
     setStep("submitting");
+    // Devis injoignable (API absente, ou catégorie décrite hors catalogue) :
+    // on passe à l'identité, estimation détaillée envoyée sous 24 h.
+    if (categoryCode === "LIBRE" || !(await apiAvailable())) { setQuoteLater(true); setStep("identity"); return; }
     try {
       const res = await fetch(`${apiBase()}/p3/quote`, {
         method: "POST",
@@ -164,10 +176,10 @@ export default function P3Home() {
         }),
       });
       const data = await res.json();
-      if (!data.ok) throw new Error(data.error || t("portes.p3.err.generic"));
+      if (!data.ok) { setError(data.error || t("portes.p3.err.generic")); setStep("corps"); return; }
       setQuote(data);
       setStep("quote");
-    } catch (e: any) { setError(e.message); setStep("corps"); }
+    } catch { setQuoteLater(true); setStep("identity"); }
   };
 
   const submit = async () => {
@@ -175,45 +187,68 @@ export default function P3Home() {
     if (!identity.clientNom || !identity.clientTel) { setError(t("portes.p3.err.name_phone")); return; }
     if (!identity.commune) { setError(t("portes.p3.err.commune")); return; }
     setStep("submitting");
-    try {
-      const title = t("portes.p3.recap.title_label", {
-        section: sectionLabel,
-        category: selectedCategory?.label ?? "",
-        commune: identity.commune,
-      });
-      const res = await fetch(`${apiBase()}/p2/intake`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          porteType: "P3", gestionMode: "DELEGUE",
-          commune: identity.commune,
-          surfacePlancher: +surfacePlancher,
-          natureProjet: identity.natureProjet || undefined,
-          raisonSociale: identity.raisonSociale || undefined,
-          rc: identity.rc || undefined, ice: identity.ice || undefined,
-          representant: identity.representant || undefined,
-          clientNom: identity.clientNom, clientTel: identity.clientTel,
-          clientEmail: identity.clientEmail || undefined,
-          title, source: "P3_WIZARD", lang: getStoredLang(),
-          brief: {
-            section, categoryCode,
-            categoryLabel: selectedCategory?.label,
-            surfacePlancherM2: +surfacePlancher,
-            nbBatiments: section === "GR" ? +nbBatiments : 1,
-            corpsMetiers: Array.from(selectedCorps),
-            quoteSnapshot: quote,
-          },
-        }),
-      });
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.message || t("portes.p3.err.submit"));
-      if (data.access_token) { try { localStorage.setItem("citurbarea.token", data.access_token); } catch {} }
-      setDossierId(data.dossierId);
+    const title = t("portes.p3.recap.title_label", {
+      section: sectionLabel,
+      category: selectedCategory?.label ?? categoryLibre,
+      commune: identity.commune,
+    });
+    const payload = {
+      porteType: "P3", gestionMode: "DELEGUE",
+      commune: identity.commune,
+      surfacePlancher: +surfacePlancher,
+      natureProjet: identity.natureProjet || undefined,
+      raisonSociale: identity.raisonSociale || undefined,
+      rc: identity.rc || undefined, ice: identity.ice || undefined,
+      representant: identity.representant || undefined,
+      clientNom: identity.clientNom, clientTel: identity.clientTel,
+      clientEmail: identity.clientEmail || undefined,
+      title, source: "P3_WIZARD", lang: getStoredLang(),
+      brief: {
+        section, categoryCode,
+        categoryLabel: selectedCategory?.label || categoryLibre || undefined,
+        surfacePlancherM2: +surfacePlancher,
+        nbBatiments: section === "GR" ? +nbBatiments : 1,
+        corpsMetiers: Array.from(selectedCorps),
+        corpsLibre: corpsLibre || undefined,
+        quoteSnapshot: quote,
+      },
+    };
+    // Point de sortie unique : capture d'abord (sans API), dossier si l'API répond.
+    const { key, body } = captureFromIntake("P3", payload, { budget: montantDevis(quote) });
+    const envoi = submitLead({ key, capture: body, intake: payload });
+    const res = await envoi.intake;
+    if (res) {
+      if (res.accessToken) { try { localStorage.setItem("citurbarea.token", res.accessToken); } catch {} }
+      setDossierId(res.dossierId || null);
       setStep("success");
-    } catch (e: any) { setError(e.message); setStep("identity"); }
+      return;
+    }
+    const cap = await envoi.capture;
+    if (cap.status === "invalid") {
+      setError(cap.code === "phone_invalid" ? t("lead.porte.err_contact") : t("lead.err.generic"));
+      setStep("identity");
+      return;
+    }
+    setDossierId(null);
+    setStep("success");
   };
 
   if (step === "submitting") return <div style={S.loader}>{t("portes.p3.loader.calc")}</div>;
+
+  // Succès sans dossier (API absente) : demande confirmée, sans espace client promis.
+  if (step === "success" && !dossierId) {
+    return (
+      <div style={S.root}>
+        <style>{P3_RESPONSIVE_CSS}</style>
+        <div className="cit-porte-p3-narrow" style={S.successWrap}>
+          <div style={S.successIcon}>✅</div>
+          <div style={S.successTitle}>{t("lead.porte.success_title")}</div>
+          <div style={S.successSub}>{t("lead.porte.success_body")}<br />{t("lead.porte.quote_later")}</div>
+          <a href="/" style={{ color: "#9ca3af", textDecoration: "none", fontSize: 13, fontWeight: 600 }}>{t("lead.porte.home")}</a>
+        </div>
+      </div>
+    );
+  }
 
   if (step === "success") {
     return (
@@ -286,6 +321,13 @@ export default function P3Home() {
               <div style={S.catCost}>{fmtMAD(c.costPerM2)}/m²</div>
             </div>
           ))}
+          {categories.length === 0 && categoriesKo && (
+            <>
+              <div style={{ color: "#fcd34d", fontSize: 13, margin: "10px 0" }}>{t("lead.porte.catalog_unavailable")}</div>
+              <input style={S.inp} value={categoryLibre} onChange={e => setCategoryLibre(e.target.value)} placeholder={t("lead.porte.free_ph")} />
+              <button style={S.btn} onClick={() => { setCategoryCode("LIBRE"); setStep("measures"); }}>{t("lead.porte.continue")}</button>
+            </>
+          )}
         </div>
       </div>
     );
@@ -334,6 +376,13 @@ export default function P3Home() {
           <div style={S.formTitle}>{t("portes.p3.corps.title")}</div>
           <div style={S.formSub} dangerouslySetInnerHTML={{ __html: t("portes.p3.corps.progress", { n: `<strong>${selectedCorps.size}</strong>`, total: `<strong>${totalCorps}</strong>` }) }} />
           {error && <div style={S.err}>⚠ {error}</div>}
+
+          {corpsKo && corpsGroupes.length === 0 && (
+            <>
+              <div style={{ color: "#fcd34d", fontSize: 13, marginBottom: 10 }}>{t("lead.porte.catalog_unavailable")}</div>
+              <textarea style={{ ...S.inp, minHeight: 90 }} value={corpsLibre} onChange={e => setCorpsLibre(e.target.value)} placeholder={t("lead.porte.free_ph")} />
+            </>
+          )}
 
           {corpsGroupes.map(g => (
             <div key={g.groupe} style={S.groupeBox}>
@@ -418,10 +467,11 @@ export default function P3Home() {
       <div style={S.root}>
         <style>{P3_RESPONSIVE_CSS}</style>
         <div className="cit-porte-p3-wrap">
-          <button style={S.btnBack} onClick={() => setStep("quote")}>{t("portes.p3.back_quote")}</button>
+          <button style={S.btnBack} onClick={() => setStep(quote ? "quote" : "corps")}>{t("portes.p3.back_quote")}</button>
           <Stepper />
           <div style={S.formTitle}>{t("portes.p3.identity.title")}</div>
           <div style={S.formSub}>{t("portes.p3.identity.sub")}</div>
+          {!quote && quoteLater && <div style={S.noteBox}>{t("lead.porte.quote_later")}</div>}
           {error && <div style={S.err}>⚠ {error}</div>}
 
           <div className="cit-porte-p3-row2">

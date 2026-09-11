@@ -48,7 +48,12 @@ export default function AdminLocationSelect({ value, onChange, required, disable
   const [busyR, setBusyR] = useState(false);
   const [busyP, setBusyP] = useState(false);
   const [busyC, setBusyC] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
+  // Repli saisie libre quand la liste officielle ne peut pas être chargée.
+  const [manuel, setManuel] = useState(false);
+  const [txt, setTxt] = useState<Value>({
+    region: value?.region || "", province: value?.province || "", commune: value?.commune || "",
+  });
 
   // États en CODE (interne) — les onChange retournent les NOMS au parent
   const [regionCode, setRegionCode] = useState<string>("");
@@ -69,7 +74,8 @@ export default function AdminLocationSelect({ value, onChange, required, disable
         if (!d?.ok) throw new Error(d?.error || "Erreur");
         setRegions(d.items || []);
       })
-      .catch(e => setError(e?.message || "Erreur de chargement des régions"))
+      // API SIG absente : saisie libre plutôt qu'un parcours bloqué.
+      .catch(() => setManuel(true))
       .finally(() => setBusyR(false));
   }, [cacheBust]);
 
@@ -120,6 +126,25 @@ export default function AdminLocationSelect({ value, onChange, required, disable
     setCommuneCode(cc);
     emit(regionCode, provinceCode, cc);
   };
+
+  if (manuel) {
+    const maj = (k: keyof Value, v: string) => {
+      const next = { ...txt, [k]: v };
+      setTxt(next);
+      onChange?.({ region: next.region || "", province: next.province || "", commune: next.commune || "", codes: {} });
+    };
+    return (
+      <div style={S.wrap} className={"admin-location-select"}>
+        {(["region", "province", "commune"] as const).map((k) => (
+          <div key={k} style={S.field}>
+            <label style={S.label}>{LIBELLES[k]} {required && <span style={S.req}>*</span>}</label>
+            <input style={S.input} value={txt[k] || ""} disabled={disabled} onChange={(e) => maj(k, e.target.value)} />
+          </div>
+        ))}
+        <div style={S.note}>Liste officielle momentanément indisponible : saisissez les noms.</div>
+      </div>
+    );
+  }
 
   return (
     <div style={S.wrap} className={"admin-location-select"}>
@@ -179,8 +204,11 @@ export default function AdminLocationSelect({ value, onChange, required, disable
   );
 }
 
+const LIBELLES: Record<keyof Value, string> = { region: "Région", province: "Province / Préfecture", commune: "Commune" };
+
 const S: Record<string, React.CSSProperties> = {
   wrap: { display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 14 },
+  note: { gridColumn: "1 / -1", color: "rgba(11,27,58,0.6)", fontSize: 12 },
   field: { display: "flex", flexDirection: "column", gap: 6 },
   label: { fontSize: 12, fontWeight: 800, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(11,27,58,0.8)" },
   req: { color: "rgba(201,162,39,0.95)", fontWeight: 900 },

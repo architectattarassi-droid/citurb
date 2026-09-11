@@ -24,6 +24,7 @@ import {
 import { quoteLocal } from "../../../../domain/p1/quote.engine";
 import LeadCaptureForm from "../../../../features/lead-funnel/LeadCaptureForm";
 import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
+import { captureFromP1, hasSubmittedLead, leadKey } from "../../../../features/lead-funnel/leadBridge";
 
 /**
  * P1 Packs — Page 3 du tunnel (doctrine)
@@ -153,6 +154,17 @@ export default function P1Packs() {
   const unlockKey = auth.userId || (caseParam ? `case:${caseParam}` : "");
   const isMember = Boolean(unlockKey);
   const packsVisible = Boolean(unlockKey) && canShowPacks(unlockKey);
+
+  // Mode "lead" : si ce visiteur a déjà laissé ses coordonnées (écran
+  // d'identification P1, ou visite précédente), on ne redemande rien.
+  const p1Phone = String((data as any)?.phone || "");
+  const p1LeadKey = leadKey("P1", p1Phone);
+  useEffect(() => {
+    if (SIGNUP_MODE !== "lead" || packsVisible || !unlockKey || !p1Phone) return;
+    if (!hasSubmittedLead(p1LeadKey)) return;
+    unlockPacks(unlockKey, Date.now());
+    bumpUnlock();
+  }, [packsVisible, unlockKey, p1Phone, p1LeadKey]);
 
   // Villa-only : le sous-sol déclaré en qualification est DÉJÀ intégré à la surface plancher
   // (computeSP) — donc déjà reflété dans le devis. Dérivé du draft, plus de toggle (redondant).
@@ -797,6 +809,16 @@ ${sections}
               source="WEB_P1_PACKS"
               withEmail
               compact
+              initial={{
+                nom: [(data as any)?.firstname, (data as any)?.lastname].filter(Boolean).join(" "),
+                telephone: p1Phone,
+                email: (data as any)?.email || "",
+              }}
+              extraCapture={() => {
+                const { body } = captureFromP1({ ...(data as any), constructionBudgetMAD: constructionBudget ?? (data as any)?.constructionBudgetMAD });
+                return { budget: body.budget, ville: body.ville, surface: body.surface, delaiMois: body.delaiMois };
+              }}
+              extraMeta={data as Record<string, unknown>}
               onCaptured={() => {
                 if (!unlockKey) return;
                 unlockPacks(unlockKey, Date.now());

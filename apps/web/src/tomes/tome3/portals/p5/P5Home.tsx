@@ -7,6 +7,8 @@ import MapPicker from "../../../../features/geo/MapPicker";
 import MohafadatiUpload, { UploadedDoc } from "../../../../features/geo/MohafadatiUpload";
 import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
 import TitleFoncierInput from "../../../../features/geo/TitleFoncierInput";
+import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
+import { captureFromIntake, montantDevis, submitLead } from "../../../../features/lead-funnel/leadBridge";
 import proj4 from "proj4";
 
 // Définitions Lambert Maroc — déjà enregistrées dans MapPicker, on duplique
@@ -559,7 +561,36 @@ function P5HomeInner() {
     const idErr = validateIdentity();   if (idErr)   { setError(idErr);   setPhase("identity"); return; }
     const detErr = validateDetails();   if (detErr)  { setError(detErr);  setPhase("details");  return; }
 
-    try { localStorage.setItem(P5_PENDING_KEY, JSON.stringify(buildIntakePayload(auth.email))); } catch {}
+    const payload = buildIntakePayload(auth.email || undefined);
+    const { key, body } = captureFromIntake("P5", payload, { budget: montantDevis(quote) });
+
+    // Mode "lead", visiteur anonyme : pas de signup ; le dossier est créé ici
+    // quand l'API répond, sinon la coordonnée suffit (aucun dossier promis).
+    if (SIGNUP_MODE === "lead" && !auth.isAuthed) {
+      setBusy(true);
+      const envoi = submitLead({ key, capture: body, intake: payload });
+      const res = await envoi.intake;
+      if (res) {
+        if (res.accessToken) { try { localStorage.setItem("citurbarea.token", res.accessToken); } catch {} }
+        setDossierId(res.dossierId || null);
+        setScreen("success");
+        return;
+      }
+      const cap = await envoi.capture;
+      setBusy(false);
+      if (cap.status === "invalid") {
+        setError(cap.code === "phone_invalid" ? t("lead.porte.err_contact") : t("lead.err.generic"));
+        setPhase("identity");
+        return;
+      }
+      setDossierId(null);
+      setScreen("success");
+      return;
+    }
+
+    // Parcours signup / finalize : la coordonnée part tout de suite quand même.
+    void submitLead({ key, capture: body }).capture;
+    try { localStorage.setItem(P5_PENDING_KEY, JSON.stringify(payload)); } catch {}
 
     if (!auth.isAuthed) {
       const params = new URLSearchParams();
@@ -578,6 +609,27 @@ function P5HomeInner() {
 
   const f = (k: keyof typeof identity) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setIdentity(prev => ({ ...prev, [k]: e.target.value }));
+
+  // ── Écran de succès sans dossier (API absente) : demande confirmée, rien de plus.
+  if (screen === "success" && !dossierId) {
+    return (
+      <div className="p5page" style={fullBleed}>
+        <style>{P5_CSS}</style>
+        <section className="section">
+          <div className="container-max" style={{ maxWidth: 820 }}>
+            <div className="lux-card" style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 52, marginBottom: 14 }}>✅</div>
+              <h2 style={{ fontSize: 26, margin: "0 0 12px" }}>{t("lead.porte.success_title")}</h2>
+              <p className="muted" style={{ fontSize: 14.5, lineHeight: 1.7, margin: "0 0 18px" }}>
+                {t("lead.porte.success_body")}<br />{t("lead.porte.quote_later")}
+              </p>
+              <a className="btn btn-dark" href="/">{t("lead.porte.home")}</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   // ── Écran de succès ────────────────────────────────────────────────
   if (screen === "success") {

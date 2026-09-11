@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { apiBase, getToken } from "../../../tome4/apiClient";
+import { getToken } from "../../../tome4/apiClient";
+import { captureFromIntake, delaiMoisDepuis, montantDevis, submitLead } from "../../../../features/lead-funnel/leadBridge";
 import { useAuth } from "../../../tome5/AuthProvider";
 
 const P2_PENDING_KEY = "citurbarea:p2:pending_intake:v1";
@@ -52,17 +53,14 @@ export default function P2Finalize() {
 
     (async () => {
       try {
-        const token = getToken();
-        const res = await fetch(`${apiBase()}/p2/intake`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-          body: JSON.stringify(payload),
+        // Même point de sortie que P2Home : capture (déjà partie → idempotente)
+        // puis intake authentifié.
+        const { key, body } = captureFromIntake("P2", payload, {
+          budget: montantDevis(payload?.brief?.quoteSnapshot),
+          delaiMois: delaiMoisDepuis(payload?.brief?.timeline),
         });
-        const data = await res.json();
-        if (!data?.ok) throw new Error(data?.message || "Erreur lors de la création du dossier");
+        const data = await submitLead({ key, capture: body, intake: payload, token: getToken() }).intake;
+        if (!data) throw new Error("Service momentanément indisponible. Votre demande est enregistrée : notre équipe vous recontacte sous 24 h.");
         try { localStorage.removeItem(P2_PENDING_KEY); } catch {}
         setDossierId(data.dossierId || null);
         if (isExpertise) {

@@ -5,6 +5,8 @@ import { useAuth } from "../../../tome5/AuthProvider";
 import { getStoredLang, useT } from "../../../../i18n/i18n";
 import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
 import FichesPrestations from "../../../../components/fiches-prestations/FichesPrestations";
+import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
+import { apiAvailable, captureFromIntake, delaiMoisDepuis, montantDevis, submitLead } from "../../../../features/lead-funnel/leadBridge";
 
 const P2_PENDING_KEY = "citurbarea:p2:pending_intake:v1";
 
@@ -385,6 +387,10 @@ function P2HomeInner() {
   const [natureAutre, setNatureAutre] = useState<string>("");
   const [error, setError] = useState("");
   const [dossierId, setDossierId] = useState<string | null>(null);
+  // API injoignable : catalogue en saisie libre, devis livré sous 24 h.
+  const [categoriesKo, setCategoriesKo] = useState(false);
+  const [categoryLibre, setCategoryLibre] = useState("");
+  const [quoteLater, setQuoteLater] = useState(false);
 
   const isLOT = section === "LOT";
   const isAMG = section === "AMG";
@@ -428,16 +434,18 @@ function P2HomeInner() {
   // Les catégories « villa » sont écartées des sections de construction neuve.
   useEffect(() => {
     if (!section || section === "LOT") { setCategories([]); return; }
+    setCategoriesKo(false);
     fetch(`${apiBase()}/p2/categories?section=${section}`)
       .then(r => r.json())
       .then(d => {
-        if (!d.ok) return;
+        if (!d.ok) { setCategoriesKo(true); return; }
         const items: Category[] = (d.items || []).filter((c: Category) =>
           (section === "IMM" || section === "GR") ? !/villa/i.test(c.label) : true
         );
         setCategories(items);
       })
-      .catch(() => setError(t("portes.p2.category.loading")));
+      // API injoignable : saisie libre dans le bloc catégorie, le parcours continue.
+      .catch(() => setCategoriesKo(true));
   }, [section]);
 
   // Défilement doux vers le bloc qui vient de se révéler.
@@ -484,8 +492,11 @@ function P2HomeInner() {
     setPhase("follow");
   };
 
-  const computeQuote = async () => {
+  // Devis serveur. Injoignable → « estimation détaillée sous 24 h », jamais une
+  // erreur technique ; une réponse métier ok:false reste affichée.
+  const computeQuote = async (): Promise<Quote | null> => {
     setError("");
+    if (!(await apiAvailable()) || categoryCode === "LIBRE") { setQuoteLater(true); return null; }
     setBusy(true);
     try {
       const body: any = { section, followMode };
@@ -503,11 +514,13 @@ function P2HomeInner() {
         body: JSON.stringify(body),
       });
       const data = await res.json();
-      if (!data.ok) throw new Error(data.error || t("portes.p2.identity.err_calc"));
+      if (!data.ok) { setError(data.error || t("portes.p2.identity.err_calc")); return null; }
       setQuote(data);
       setPhase("quote");
-    } catch (e: any) {
-      setError(e.message);
+      return data;
+    } catch {
+      setQuoteLater(true);
+      return null;
     } finally {
       setBusy(false);
     }
@@ -517,7 +530,7 @@ function P2HomeInner() {
   // Réutilisé par le submit direct ET par la branche signup (stockée puis rejouée).
   const buildIntakePayload = (clientEmailOverride?: string) => {
     const sectionLabel = section ? t(`portes.p2.sections.${section}.label`) : "";
-    const title = `${sectionLabel} — ${selectedCategory?.label || ""} — ${identity.commune}`.replace(/—\s+—/g, "—").trim();
+    const title = `${sectionLabel} — ${selectedCategory?.label || categoryLibre || ""} — ${identity.commune}`.replace(/—\s+—/g, "—").trim();
     return {
       porteType: "P2" as const,
       gestionMode: "AUTONOME",
@@ -538,7 +551,7 @@ function P2HomeInner() {
       brief: {
         sectionP2: section,
         categoryCode: categoryCode || undefined,
-        categoryLabel: selectedCategory?.label,
+        categoryLabel: selectedCategory?.label || categoryLibre || undefined,
         surfacePlancherM2: section === "LOT" ? undefined : (isAMG ? +surfacePlancher : (computedSPPerBuilding ?? undefined)),
         surfacePlancherTotalEstime: !isLOT && computedSPTotal != null ? computedSPTotal : undefined,
         terrainM2: useRichMeasures && terrainM2 ? +terrainM2 : undefined,
@@ -648,11 +661,15 @@ function P2HomeInner() {
     const idErr = validateIdentity();
     if (idErr) { setError(idErr); setPhase("identity"); return; }
 
-    // Continuité « comme P1 » : si pas connecté, on passe par le signup client
-    // (mot de passe + double validation email/SMS), puis on rejoue l'intake.
-    if (!auth.isAuthed) {
+    // Mode "full", visiteur non connecté : signup client (mot de passe + double
+    // validation email/SMS), puis rejeu de l'intake sur /p2/finalize. La
+    // coordonnée part tout de suite quand même (leadBridge).
+    if (SIGNUP_MODE === "full" && !auth.isAuthed) {
+      const pending = buildIntakePayload();
+      const { key, body } = captureFromIntake("P2", pending, { delaiMois: delaiMoisDepuis(timeline) });
+      void submitLead({ key, capture: body }).capture;
       try {
-        localStorage.setItem(P2_PENDING_KEY, JSON.stringify(buildIntakePayload()));
+        localStorage.setItem(P2_PENDING_KEY, JSON.stringify(pending));
       } catch {}
       // Préremplit l'inscription avec le téléphone/email/nom déjà saisis (via query).
       const params = new URLSearchParams();
@@ -665,44 +682,69 @@ function P2HomeInner() {
     }
 
     setBusy(true);
-    try {
-      // Devis calculé en silence juste avant la création du dossier — il
-      // accompagnera la confirmation. Comme prévu : le devis n'est livré
-      // qu'avec un dossier identifié.
-      // (Pas de devis CNOA pour une mission d'expertise — la facturation se
-      // fait au forfait expertise dans la Porte 5.)
-      if (!quote && !isExpertise) {
-        try { await computeQuote(); } catch { /* devis livré plus tard */ }
+    // Devis calculé en silence juste avant la création du dossier — il
+    // accompagnera la confirmation. (Pas de devis CNOA pour une mission
+    // d'expertise — forfait expertise dans la Porte 5.) Injoignable : livré sous 24 h.
+    const q = quote || (isExpertise ? null : await computeQuote());
+    setBusy(true);
+    const payload = buildIntakePayload(auth.email || undefined);
+    if (q) payload.brief.quoteSnapshot = q;
+    // Point de sortie unique : capture d'abord (sans API), dossier si l'API répond.
+    const { key, body } = captureFromIntake("P2", payload, { budget: montantDevis(q), delaiMois: delaiMoisDepuis(timeline) });
+    const envoi = submitLead({ key, capture: body, intake: payload });
+    const res = await envoi.intake;
+    if (res) {
+      if (res.accessToken) {
+        try { localStorage.setItem("citurbarea.token", res.accessToken); } catch {}
       }
-      const payload = buildIntakePayload(auth.email);
-      const res = await fetch(`${apiBase()}/p2/intake`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.message || t("portes.p2.identity.err_calc"));
-      if (data.access_token) {
-        try { localStorage.setItem("citurbarea.token", data.access_token); } catch {}
-      }
-      setDossierId(data.dossierId);
+      setDossierId(res.dossierId || null);
       // Mission d'expertise : on quitte la P2 et on bascule sur la Porte 5
       // (rapports & expertises) avec le dossier en référence, pour scoper le
       // rapport et déclencher le devis du forfait expertise.
       if (isExpertise) {
-        const ref = data.dossierId ? `?fromP2=${encodeURIComponent(data.dossierId)}&expertise=1` : "?expertise=1";
+        const ref = res.dossierId ? `?fromP2=${encodeURIComponent(res.dossierId)}&expertise=1` : "?expertise=1";
         navigate(`/p5${ref}`, { replace: true });
         return;
       }
       setScreen("success");
-    } catch (e: any) {
-      setError(e.message);
-      setBusy(false);
+      return;
     }
+    // API absente : la coordonnée suffit, aucun dossier n'est promis.
+    const cap = await envoi.capture;
+    setBusy(false);
+    if (cap.status === "invalid") {
+      setError(cap.code === "phone_invalid" ? t("lead.porte.err_contact") : t("lead.err.generic"));
+      setPhase("identity");
+      return;
+    }
+    setDossierId(null);
+    setScreen("success");
   };
 
   const f = (k: keyof typeof identity) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setIdentity(prev => ({ ...prev, [k]: e.target.value }));
+
+  // ── Écran de succès sans dossier (API absente) : on confirme la demande,
+  // sans promettre d'espace client ni de paiement.
+  if (screen === "success" && !dossierId) {
+    return (
+      <div className="p2page" style={fullBleed}>
+        <style>{P1_CSS}</style>
+        <section className="section">
+          <div className="container-max cit-porte-p2-narrow">
+            <div className="lux-card" style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 52, marginBottom: 14 }}>✅</div>
+              <h2 style={{ fontSize: 26, margin: "0 0 12px" }}>{t("lead.porte.success_title")}</h2>
+              <p className="muted" style={{ fontSize: 14.5, lineHeight: 1.7, margin: "0 0 18px" }}>
+                {t("lead.porte.success_body")}<br />{t("lead.porte.quote_later")}
+              </p>
+              <a className="btn btn-dark" href="/">{t("lead.porte.home")}</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   // ── Écran de succès : compte créé + dossier identifié + devis livré ──
   if (screen === "success") {
@@ -730,6 +772,9 @@ function P2HomeInner() {
 
             {/* Devis officiel — livré uniquement avec un dossier identifié.
                 Masqué pour les missions d'expertise (forfait notifié séparément). */}
+            {!isExpertise && !quote && quoteLater && (
+              <div className="lux-card" style={{ marginBottom: 18, textAlign: "center" }}>{t("lead.porte.quote_later")}</div>
+            )}
             {!isExpertise && quote && (
               <div className="lux-card" style={{ marginBottom: 18 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 18, flexWrap: "wrap" }}>
@@ -890,7 +935,14 @@ function P2HomeInner() {
                   </div>
                 </div>
               ))}
-              {categories.length === 0 && <div className="muted">{t("portes.p2.category.loading")}</div>}
+              {categories.length === 0 && !categoriesKo && <div className="muted">{t("portes.p2.category.loading")}</div>}
+              {categories.length === 0 && categoriesKo && (
+                <div className="lux-card" style={{ gridColumn: "1 / -1" }}>
+                  <div className="muted" style={{ marginBottom: 12 }}>{t("lead.porte.catalog_unavailable")}</div>
+                  <input className="control" value={categoryLibre} onChange={e => setCategoryLibre(e.target.value)} placeholder={t("lead.porte.free_ph")} />
+                  <button className="btn btn-gold" style={{ marginTop: 14 }} onClick={() => pickCategory("LIBRE")}>{t("lead.porte.continue")}</button>
+                </div>
+              )}
             </div>
           </div>
         </section>

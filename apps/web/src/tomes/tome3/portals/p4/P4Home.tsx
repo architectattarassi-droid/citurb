@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
 import { getStoredLang, useT } from "../../../../i18n/i18n";
+import { apiAvailable, captureFromIntake, montantDevis, submitLead } from "../../../../features/lead-funnel/leadBridge";
 
 /**
  * P4Home — Wizard analyse foncière (3 packs)
@@ -127,11 +128,15 @@ export default function P4Home() {
   });
   const [error, setError] = useState("");
   const [dossierId, setDossierId] = useState<string | null>(null);
+  // API injoignable : besoin décrit librement, devis livré sous 24 h.
+  const [packsKo, setPacksKo] = useState(false);
+  const [packLibre, setPackLibre] = useState("");
+  const [quoteLater, setQuoteLater] = useState(false);
 
   useEffect(() => {
     fetch(`${apiBase()}/p4/packs`).then(r => r.json())
-      .then(d => { if (d.ok) setPacks(d.items); })
-      .catch(() => setError(t("portes.p4.err.load")));
+      .then(d => { if (d.ok) setPacks(d.items); else setPacksKo(true); })
+      .catch(() => setPacksKo(true));
   }, [t]);
 
   const stepIndex = ["pack", "foncier", "quote", "identity"].indexOf(step);
@@ -139,6 +144,9 @@ export default function P4Home() {
 
   const compute = async () => {
     setError("");
+    // Devis injoignable (API absente, ou besoin décrit hors catalogue) : on
+    // passe à l'identité, estimation détaillée envoyée sous 24 h.
+    if (!pack || !(await apiAvailable())) { setQuoteLater(true); setStep("identity"); return; }
     if (!foncier.prixVenteFoncierDH || +foncier.prixVenteFoncierDH <= 0) {
       setError(t("portes.p4.err.prix_required"));
       return;
@@ -151,12 +159,12 @@ export default function P4Home() {
         body: JSON.stringify({ pack, prixVenteFoncierDH: +foncier.prixVenteFoncierDH }),
       });
       const data = await res.json();
-      if (!data.ok) throw new Error(data.error || t("portes.p4.err.generic"));
+      if (!data.ok) { setError(data.error || t("portes.p4.err.generic")); setStep("foncier"); return; }
       setQuote(data);
       setStep("quote");
-    } catch (e: any) {
-      setError(e.message);
-      setStep("foncier");
+    } catch {
+      setQuoteLater(true);
+      setStep("identity");
     }
   };
 
@@ -167,50 +175,69 @@ export default function P4Home() {
       return;
     }
     setStep("submitting");
-    try {
-      const title = t("portes.p4.recap.title_label", {
-        label: selectedPack?.label ?? "",
-        commune: foncier.commune || "—",
-      });
-      const res = await fetch(`${apiBase()}/p2/intake`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          porteType: "P4",
-          gestionMode: "AUTONOME",
-          commune: foncier.commune || undefined,
-          raisonSociale: identity.raisonSociale || undefined,
-          clientNom: identity.clientNom,
-          clientTel: identity.clientTel,
-          clientEmail: identity.clientEmail || undefined,
-          natureProjet: foncier.natureUsagePrevu || undefined,
-          surfaceTerrain: foncier.surfaceTerrainM2 ? +foncier.surfaceTerrainM2 : undefined,
-          title,
-          source: "P4_WIZARD",
-          lang: getStoredLang(),
-          brief: {
-            pack,
-            packLabel: selectedPack?.label,
-            titreFoncierNum: foncier.titreFoncierNum,
-            adresse: foncier.adresse,
-            prixVenteFoncierDH: +foncier.prixVenteFoncierDH,
-            natureUsagePrevu: foncier.natureUsagePrevu,
-            quoteSnapshot: quote,
-          },
-        }),
-      });
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.message || t("portes.p4.err.submit"));
-      if (data.access_token) { try { localStorage.setItem("citurbarea.token", data.access_token); } catch {} }
-      setDossierId(data.dossierId);
+    const title = t("portes.p4.recap.title_label", {
+      label: selectedPack?.label ?? packLibre,
+      commune: foncier.commune || "—",
+    });
+    const payload = {
+      porteType: "P4",
+      gestionMode: "AUTONOME",
+      commune: foncier.commune || undefined,
+      raisonSociale: identity.raisonSociale || undefined,
+      clientNom: identity.clientNom,
+      clientTel: identity.clientTel,
+      clientEmail: identity.clientEmail || undefined,
+      natureProjet: foncier.natureUsagePrevu || undefined,
+      surfaceTerrain: foncier.surfaceTerrainM2 ? +foncier.surfaceTerrainM2 : undefined,
+      title,
+      source: "P4_WIZARD",
+      lang: getStoredLang(),
+      brief: {
+        pack,
+        packLabel: selectedPack?.label || packLibre || undefined,
+        titreFoncierNum: foncier.titreFoncierNum,
+        adresse: foncier.adresse,
+        prixVenteFoncierDH: foncier.prixVenteFoncierDH ? +foncier.prixVenteFoncierDH : undefined,
+        natureUsagePrevu: foncier.natureUsagePrevu,
+        quoteSnapshot: quote,
+      },
+    };
+    // Point de sortie unique : capture d'abord (sans API), dossier si l'API répond.
+    const { key, body } = captureFromIntake("P4", payload, { budget: montantDevis(quote) });
+    const envoi = submitLead({ key, capture: body, intake: payload });
+    const res = await envoi.intake;
+    if (res) {
+      if (res.accessToken) { try { localStorage.setItem("citurbarea.token", res.accessToken); } catch {} }
+      setDossierId(res.dossierId || null);
       setStep("success");
-    } catch (e: any) {
-      setError(e.message);
-      setStep("identity");
+      return;
     }
+    const cap = await envoi.capture;
+    if (cap.status === "invalid") {
+      setError(cap.code === "phone_invalid" ? t("lead.porte.err_contact") : t("lead.err.generic"));
+      setStep("identity");
+      return;
+    }
+    setDossierId(null);
+    setStep("success");
   };
 
   if (step === "submitting") return <div style={S.loader}>{t("portes.p4.loader.calc")}</div>;
+
+  // Succès sans dossier (API absente) : demande confirmée, sans espace client promis.
+  if (step === "success" && !dossierId) {
+    return (
+      <div style={S.root}>
+        <style>{P4_RESPONSIVE_CSS}</style>
+        <div className="cit-porte-p4-narrow" style={S.successWrap}>
+          <div style={S.successIcon}>✅</div>
+          <div style={S.successTitle}>{t("lead.porte.success_title")}</div>
+          <div style={S.successSub}>{t("lead.porte.success_body")}<br />{t("lead.porte.quote_later")}</div>
+          <a href="/" style={{ color: "#9ca3af", textDecoration: "none", fontSize: 13, fontWeight: 600 }}>{t("lead.porte.home")}</a>
+        </div>
+      </div>
+    );
+  }
 
   if (step === "success") {
     return (
@@ -267,7 +294,14 @@ export default function P4Home() {
               </div>
             </div>
           ))}
-          {packs.length === 0 && <div style={{ color: "#6b7280" }}>{t("portes.p4.loading_packs")}</div>}
+          {packs.length === 0 && !packsKo && <div style={{ color: "#6b7280" }}>{t("portes.p4.loading_packs")}</div>}
+          {packs.length === 0 && packsKo && (
+            <div style={{ ...cardStyle(false), cursor: "default" }}>
+              <div style={S.cardDesc}>{t("lead.porte.catalog_unavailable")}</div>
+              <textarea style={{ ...S.inp, minHeight: 80, marginTop: 10 }} value={packLibre} onChange={e => setPackLibre(e.target.value)} placeholder={t("lead.porte.free_ph")} />
+              <button style={S.btn} onClick={() => { setPack(null); setStep("foncier"); }}>{t("lead.porte.continue")}</button>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -374,10 +408,11 @@ export default function P4Home() {
       <div style={S.root}>
         <style>{P4_RESPONSIVE_CSS}</style>
         <div className="cit-porte-p4-wrap">
-          <button style={S.btnBack} onClick={() => setStep("quote")}>{t("portes.p4.back_quote")}</button>
+          <button style={S.btnBack} onClick={() => setStep(quote ? "quote" : "foncier")}>{t("portes.p4.back_quote")}</button>
           <Stepper />
           <div style={S.formTitle}>{t("portes.p4.identity.title")}</div>
           <div style={S.formSub}>{t("portes.p4.identity.sub")}</div>
+          {!quote && quoteLater && <div style={S.noteBox}>{t("lead.porte.quote_later")}</div>}
           {error && <div style={S.err}>⚠ {error}</div>}
 
           <div className="cit-porte-p4-row2" style={S.row2}>

@@ -6,6 +6,7 @@ import { readJSON, writeJSON } from "../../../../infrastructure/storage";
 import { STORAGE_KEYS } from "../../../../infrastructure/storage/keys";
 import { resolveUserId } from "../../../../application/p1/startQualification";
 import { createDossier } from "../../../../application/p1/createDossier";
+import { captureFromP1, submitLead } from "../../../../features/lead-funnel/leadBridge";
 import { useT, useLang, tVanilla, getStoredLang, LANG_CHANGE_EVENT, type Lang } from "../../../../i18n/i18n";
 import FichesPrestations from "../../../../components/fiches-prestations/FichesPrestations";
 
@@ -972,6 +973,29 @@ export default function P1Landing() {
       });
     }
 
+    // Lead : premier instant où téléphone ET email sont connus. La capture part
+    // sans bloquer la navigation (keepalive + file de reprise, cf. leadBridge) ;
+    // le dossier P1 reste local. Commune / délai ne vivent que dans le DOM :
+    // on les recopie dans le draft pour /p1/packs.
+    const envoyerLeadP1 = () => {
+      const val = (id: string) => ((byId(id) as HTMLInputElement | HTMLSelectElement | null)?.value || "").trim();
+      Object.assign(draft, {
+        firstname: val("q_firstname") || draft.firstname,
+        lastname: val("q_lastname") || draft.lastname,
+        phone: val("q_phone") || draft.phone,
+        email: val("q_email") || draft.email,
+        region: val("q_region") || draft.region,
+        province: val("q_province") || draft.province,
+        commune: val("q_commune") || draft.commune,
+        timeline: val("q_timeline") || draft.timeline,
+        ownerStatus: val("q_owner_status") || draft.ownerStatus,
+      });
+      save(draft);
+      const { key, body } = captureFromP1(draft);
+      if (!body.telephone) return;
+      void submitLead({ key, capture: body }).capture;
+    };
+
     // 5) Créer dossier → route auth (ne jamais sauter vers packs)
     const btnCreate = byId("btn_create_account");
     if (btnCreate) {
@@ -982,6 +1006,7 @@ export default function P1Landing() {
         // fait par email (lien de confirmation) à l'étape suivante.
         save(draft);
         writeJSON(OTP_OK_KEY, true);
+        envoyerLeadP1();
         const { caseId } = createDossier(userId);
         navigate(`/p1/packs?case=${encodeURIComponent(caseId)}`);
       });
@@ -1010,6 +1035,7 @@ export default function P1Landing() {
       writeJSON(OTP_OK_KEY, true);
       setOtpHint(tt('p1.lp.imperative.otp_ok'), true);
       // Create dossier append-only and route to packs
+      envoyerLeadP1();
       const { caseId } = createDossier(userId);
       navigate(`/p1/packs?case=${encodeURIComponent(caseId)}`);
     };
