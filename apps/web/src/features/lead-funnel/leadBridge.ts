@@ -366,7 +366,7 @@ const CONTACT = new Set(["clientnom", "clienttel", "clientemail", "firstname", "
 const SURROGATE_ISOLE = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g;
 
 function texte(s: string): string {
-  const propre = s.replace(/ /g, "").replace(SURROGATE_ISOLE, "�");
+  const propre = s.replace(/\u0000/g, "").replace(SURROGATE_ISOLE, "�");
   const car = Array.from(propre);
   return car.length > WIZARD_STR_MAX ? car.slice(0, WIZARD_STR_MAX).join("") : propre;
 }
@@ -455,11 +455,15 @@ export function captureFromP1(d: Record<string, any>): { key: string; body: Capt
   return { key: leadKey("P1", telephone), body };
 }
 
-/** P2–P6 : payload /p2/intake → capture. */
+/**
+ * P2–P6 : payload /p2/intake → capture.
+ * budget = budget prévisionnel déclaré par le visiteur (absent → vide, jamais
+ * de repli) ; les honoraires calculés vont dans meta.wizard.honoraires.
+ */
 export function captureFromIntake(
   porte: Exclude<Porte, "P1">,
   intake: Record<string, any>,
-  opts: { budget?: number; delaiMois?: number } = {},
+  opts: { budget?: number | null; honoraires?: number; delaiMois?: number } = {},
 ): { key: string; body: CaptureBody } {
   const telephone = String(intake.clientTel || "").trim();
   const body: CaptureBody = {
@@ -475,7 +479,7 @@ export function captureFromIntake(
     delaiMois: opts.delaiMois,
     source: `WEB_${porte}_WIZARD`,
     ...contexte(),
-    meta: { wizard: sanitizeWizard(intake) },
+    meta: { wizard: sanitizeWizard({ ...intake, ...(opts.honoraires ? { honoraires: opts.honoraires } : {}) }) },
   };
   return { key: leadKey(porte, telephone), body };
 }

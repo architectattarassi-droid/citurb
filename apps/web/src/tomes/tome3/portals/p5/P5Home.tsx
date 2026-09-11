@@ -9,6 +9,7 @@ import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
 import TitleFoncierInput from "../../../../features/geo/TitleFoncierInput";
 import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
 import { captureFromIntake, montantDevis, submitLead } from "../../../../features/lead-funnel/leadBridge";
+import BudgetPrevisionnelField from "../../../../features/lead-funnel/BudgetPrevisionnelField";
 import proj4 from "proj4";
 
 // Définitions Lambert Maroc — déjà enregistrées dans MapPicker, on duplique
@@ -304,6 +305,8 @@ function P5HomeInner() {
 
   const [quote, setQuote] = useState<Quote | null>(null);
   const [dossierId, setDossierId] = useState<string | null>(null);
+  // Budget prévisionnel de construction déclaré (facultatif) — jamais les honoraires.
+  const [budgetPrev, setBudgetPrev] = useState<number | null>(null);
 
   const PHASES: Phase[] = ["identity", "report", "details", "delay"];
   const reached = (p: Phase) => PHASES.indexOf(phase) >= PHASES.indexOf(p);
@@ -541,6 +544,7 @@ function P5HomeInner() {
           points: validLambertPoints,
         } : undefined,
         fromP2Dossier: fromP2 || undefined,
+        budgetPrevisionnelMAD: budgetPrev ?? undefined,
         quoteSnapshot: quote,
       },
     };
@@ -562,7 +566,7 @@ function P5HomeInner() {
     const detErr = validateDetails();   if (detErr)  { setError(detErr);  setPhase("details");  return; }
 
     const payload = buildIntakePayload(auth.email || undefined);
-    const { key, body } = captureFromIntake("P5", payload, { budget: montantDevis(quote) });
+    const { key, body } = captureFromIntake("P5", payload, { budget: budgetPrev, honoraires: montantDevis(quote) });
 
     // Mode "lead", visiteur anonyme : pas de signup ; le dossier est créé ici
     // quand l'API répond, sinon la coordonnée suffit (aucun dossier promis).
@@ -1219,6 +1223,15 @@ function P5HomeInner() {
               })}
             </div>
 
+            <div style={{ marginTop: 26, maxWidth: 520 }}>
+              <BudgetPrevisionnelField
+                surfaceM2={+surfacePlancherM2 > 0 ? +surfacePlancherM2 : null}
+                value={budgetPrev}
+                onChange={setBudgetPrev}
+                labelClassName="label"
+                controlClassName="control"
+              />
+            </div>
             {error && phase === "delay" && <div className="err">⚠ {error}</div>}
             <div style={{ marginTop: 30 }}>
               <button className="btn btn-gold" disabled={busy} onClick={submitIntake}>

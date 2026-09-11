@@ -7,6 +7,7 @@ import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
 import FichesPrestations from "../../../../components/fiches-prestations/FichesPrestations";
 import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
 import { apiAvailable, captureFromIntake, delaiMoisDepuis, montantDevis, submitLead } from "../../../../features/lead-funnel/leadBridge";
+import BudgetPrevisionnelField from "../../../../features/lead-funnel/BudgetPrevisionnelField";
 
 const P2_PENDING_KEY = "citurbarea:p2:pending_intake:v1";
 
@@ -391,6 +392,8 @@ function P2HomeInner() {
   const [categoriesKo, setCategoriesKo] = useState(false);
   const [categoryLibre, setCategoryLibre] = useState("");
   const [quoteLater, setQuoteLater] = useState(false);
+  // Budget prévisionnel de construction déclaré (facultatif) — jamais les honoraires.
+  const [budgetPrev, setBudgetPrev] = useState<number | null>(null);
 
   const isLOT = section === "LOT";
   const isAMG = section === "AMG";
@@ -574,6 +577,7 @@ function P2HomeInner() {
         // Mission d'expertise & qualification (rapport facturable) — pas de devis
         // CNOA classique, la facturation suit le barème expertise CITURBAREA.
         expertiseRequested: natureCode === "expertise_qualif" ? true : undefined,
+        budgetPrevisionnelMAD: budgetPrev ?? undefined,
         quoteSnapshot: quote,
       },
     };
@@ -666,7 +670,7 @@ function P2HomeInner() {
     // coordonnée part tout de suite quand même (leadBridge).
     if (SIGNUP_MODE === "full" && !auth.isAuthed) {
       const pending = buildIntakePayload();
-      const { key, body } = captureFromIntake("P2", pending, { delaiMois: delaiMoisDepuis(timeline) });
+      const { key, body } = captureFromIntake("P2", pending, { budget: budgetPrev, delaiMois: delaiMoisDepuis(timeline) });
       void submitLead({ key, capture: body }).capture;
       try {
         localStorage.setItem(P2_PENDING_KEY, JSON.stringify(pending));
@@ -690,7 +694,7 @@ function P2HomeInner() {
     const payload = buildIntakePayload(auth.email || undefined);
     if (q) payload.brief.quoteSnapshot = q;
     // Point de sortie unique : capture d'abord (sans API), dossier si l'API répond.
-    const { key, body } = captureFromIntake("P2", payload, { budget: montantDevis(q), delaiMois: delaiMoisDepuis(timeline) });
+    const { key, body } = captureFromIntake("P2", payload, { budget: budgetPrev, honoraires: montantDevis(q), delaiMois: delaiMoisDepuis(timeline) });
     const envoi = submitLead({ key, capture: body, intake: payload });
     const res = await envoi.intake;
     if (res) {
@@ -1058,6 +1062,12 @@ function P2HomeInner() {
                 )}
               </>
             )}
+            {/* Lotissement : pas d'étape « suivi », le budget se déclare ici. */}
+            {isLOT && (
+              <div className="cit-porte-p2-mid" style={{ marginTop: 18 }}>
+                <BudgetPrevisionnelField value={budgetPrev} onChange={setBudgetPrev} labelClassName="label" controlClassName="control" />
+              </div>
+            )}
             {error && phase === "measures" && <div className="err">⚠ {error}</div>}
             <div style={{ marginTop: 26 }}>
               <button className="btn btn-gold" disabled={busy} onClick={measuresContinue}>
@@ -1105,6 +1115,15 @@ function P2HomeInner() {
                   </div>
                 );
               })()}
+            </div>
+            <div className="cit-porte-p2-narrow" style={{ marginTop: 26 }}>
+              <BudgetPrevisionnelField
+                surfaceM2={computedSPTotal ?? (isAMG && +surfacePlancher > 0 ? +surfacePlancher : null)}
+                value={budgetPrev}
+                onChange={setBudgetPrev}
+                labelClassName="label"
+                controlClassName="control"
+              />
             </div>
             {error && phase === "follow" && <div className="err">⚠ {error}</div>}
             <div style={{ marginTop: 26 }}>

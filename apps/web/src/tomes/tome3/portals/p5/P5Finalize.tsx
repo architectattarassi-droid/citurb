@@ -70,7 +70,10 @@ export default function P5Finalize() {
     (async () => {
       try {
         // Même point de sortie que les portes : capture (idempotente) puis intake.
-        const { key, body } = captureFromIntake("P5", payload, { budget: montantDevis(payload?.brief?.quoteSnapshot) });
+        const { key, body } = captureFromIntake("P5", payload, {
+          budget: payload?.brief?.budgetPrevisionnelMAD ?? null,
+          honoraires: montantDevis(payload?.brief?.quoteSnapshot),
+        });
         const data = await submitLead({ key, capture: body, intake: payload, token: getToken() }).intake;
         if (!data) throw new Error("Service momentanément indisponible. Votre demande est enregistrée : notre équipe vous recontacte sous 24 h.");
         try { localStorage.removeItem(P5_PENDING_KEY); } catch {}

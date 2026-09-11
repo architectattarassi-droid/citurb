@@ -34,6 +34,8 @@
   "lead.porte.err_contact": "رقم الهاتف غير صالح (الصيغة 06XXXXXXXX أو +2126XXXXXXXX).",
   "lead.porte.ref_later": "المرجع غير متاح حاليًا: سيستكمل فريقنا هذه المعلومات معك.",
   "lead.porte.home": "العودة إلى الصفحة الرئيسية",
+  "lead.porte.optional": "اختياري",
+  "lead.porte.budget_libre_ph": "المبلغ التقديري بالدرهم",
   "lead.p1.unlock_title": "اطلع على تفاصيل الباقات",
   "lead.p1.unlock_intro": "اترك بياناتك: تظهر الباقات فورًا وسيتصل بك مهندس معماري لتدقيق التقدير."
 }

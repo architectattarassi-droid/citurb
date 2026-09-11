@@ -34,6 +34,8 @@
   "lead.porte.err_contact": "Invalid phone number (format 06XXXXXXXX or +2126XXXXXXXX).",
   "lead.porte.ref_later": "Reference data unavailable right now: our team will complete this information with you.",
   "lead.porte.home": "Back to home",
+  "lead.porte.optional": "optional",
+  "lead.porte.budget_libre_ph": "Estimated amount in MAD",
   "lead.p1.unlock_title": "Get the pack details",
   "lead.p1.unlock_intro": "Leave your details: the packs show up right away and an architect will call you to refine the estimate."
 }

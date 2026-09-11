@@ -56,7 +56,8 @@ export default function P2Finalize() {
         // Même point de sortie que P2Home : capture (déjà partie → idempotente)
         // puis intake authentifié.
         const { key, body } = captureFromIntake("P2", payload, {
-          budget: montantDevis(payload?.brief?.quoteSnapshot),
+          budget: payload?.brief?.budgetPrevisionnelMAD ?? null,
+          honoraires: montantDevis(payload?.brief?.quoteSnapshot),
           delaiMois: delaiMoisDepuis(payload?.brief?.timeline),
         });
         const data = await submitLead({ key, capture: body, intake: payload, token: getToken() }).intake;

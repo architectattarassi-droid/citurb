@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
 import { getStoredLang, useT } from "../../../../i18n/i18n";
 import { apiAvailable, captureFromIntake, montantDevis, submitLead } from "../../../../features/lead-funnel/leadBridge";
+import BudgetPrevisionnelField from "../../../../features/lead-funnel/BudgetPrevisionnelField";
 import FichesPrestations from "../../../../components/fiches-prestations/FichesPrestations";
 
 /**
@@ -130,6 +131,8 @@ export default function P3Home() {
   const [categoriesKo, setCategoriesKo] = useState(false);
   const [categoryLibre, setCategoryLibre] = useState("");
   const [quoteLater, setQuoteLater] = useState(false);
+  // Budget prévisionnel de construction déclaré (facultatif) — jamais les honoraires.
+  const [budgetPrev, setBudgetPrev] = useState<number | null>(null);
 
   const stepIndex = ["section", "category", "measures", "corps", "quote", "identity"].indexOf(step);
   const selectedCategory = categories.find(c => c.code === categoryCode);
@@ -210,11 +213,12 @@ export default function P3Home() {
         nbBatiments: section === "GR" ? +nbBatiments : 1,
         corpsMetiers: Array.from(selectedCorps),
         corpsLibre: corpsLibre || undefined,
+        budgetPrevisionnelMAD: budgetPrev ?? undefined,
         quoteSnapshot: quote,
       },
     };
     // Point de sortie unique : capture d'abord (sans API), dossier si l'API répond.
-    const { key, body } = captureFromIntake("P3", payload, { budget: montantDevis(quote) });
+    const { key, body } = captureFromIntake("P3", payload, { budget: budgetPrev, honoraires: montantDevis(quote) });
     const envoi = submitLead({ key, capture: body, intake: payload });
     const res = await envoi.intake;
     if (res) {
@@ -492,6 +496,14 @@ export default function P3Home() {
           <input style={S.inp} value={identity.commune} onChange={e => setIdentity({...identity, commune: e.target.value})} placeholder={t("portes.p3.identity.commune_ph")} />
           <label style={S.label}>{t("portes.p3.identity.nature")}</label>
           <input style={S.inp} value={identity.natureProjet} onChange={e => setIdentity({...identity, natureProjet: e.target.value})} placeholder={t("portes.p3.identity.nature_ph")} />
+          <BudgetPrevisionnelField
+            surfaceM2={+surfacePlancher > 0 ? +surfacePlancher * (section === "GR" ? Math.max(1, +nbBatiments || 1) : 1) : null}
+            value={budgetPrev}
+            onChange={setBudgetPrev}
+            labelStyle={S.label}
+            controlStyle={S.inp}
+            helpStyle={{ color: "#9ca3af", marginTop: -6 }}
+          />
 
           <button style={S.btn} onClick={submit}>{t("portes.p3.identity.submit")}</button>
         </div>

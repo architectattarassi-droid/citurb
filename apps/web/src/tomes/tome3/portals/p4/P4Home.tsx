@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
 import { getStoredLang, useT } from "../../../../i18n/i18n";
 import { apiAvailable, captureFromIntake, montantDevis, submitLead } from "../../../../features/lead-funnel/leadBridge";
+import BudgetPrevisionnelField from "../../../../features/lead-funnel/BudgetPrevisionnelField";
 
 /**
  * P4Home — Wizard analyse foncière (3 packs)
@@ -131,6 +132,8 @@ export default function P4Home() {
   // API injoignable : besoin décrit librement, devis livré sous 24 h.
   const [packsKo, setPacksKo] = useState(false);
   const [packLibre, setPackLibre] = useState("");
+  // Budget prévisionnel de construction déclaré (facultatif) — jamais les honoraires.
+  const [budgetPrev, setBudgetPrev] = useState<number | null>(null);
   const [quoteLater, setQuoteLater] = useState(false);
 
   useEffect(() => {
@@ -199,11 +202,12 @@ export default function P4Home() {
         adresse: foncier.adresse,
         prixVenteFoncierDH: foncier.prixVenteFoncierDH ? +foncier.prixVenteFoncierDH : undefined,
         natureUsagePrevu: foncier.natureUsagePrevu,
+        budgetPrevisionnelMAD: budgetPrev ?? undefined,
         quoteSnapshot: quote,
       },
     };
     // Point de sortie unique : capture d'abord (sans API), dossier si l'API répond.
-    const { key, body } = captureFromIntake("P4", payload, { budget: montantDevis(quote) });
+    const { key, body } = captureFromIntake("P4", payload, { budget: budgetPrev, honoraires: montantDevis(quote) });
     const envoi = submitLead({ key, capture: body, intake: payload });
     const res = await envoi.intake;
     if (res) {
@@ -429,6 +433,14 @@ export default function P4Home() {
           <input style={S.inp} value={identity.clientEmail} onChange={f("clientEmail")} placeholder={t("portes.p4.identity.email_ph")} />
           <label style={S.label}>{t("portes.p4.identity.raison")}</label>
           <input style={S.inp} value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder={t("portes.p4.identity.raison_ph")} />
+          {/* Porte foncière : pas de surface de plancher, montant libre. */}
+          <BudgetPrevisionnelField
+            value={budgetPrev}
+            onChange={setBudgetPrev}
+            labelStyle={S.label}
+            controlStyle={S.inp}
+            helpStyle={{ color: "#9ca3af", marginTop: -6 }}
+          />
 
           <button style={S.btn} onClick={submit}>{t("portes.p4.identity.submit")}</button>
         </div>
