@@ -680,7 +680,7 @@ function jsonOrDbNull(
 const SURROGATE_ISOLE = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g;
 
 function textePropre(s: string): string {
-  return s.replace(/ /g, "").replace(SURROGATE_ISOLE, "�");
+  return s.replace(/\u0000/g, "").replace(SURROGATE_ISOLE, "�");
 }
 
 function jsonPropre<T>(v: T): T {
