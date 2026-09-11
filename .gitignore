@@ -10,6 +10,9 @@ apps/api/data/dgi-pdfs/
 # Build artifacts (régénérables)
 apps/desktop/dist/
 apps/api/dist/web/
+# Sortie du build front : Cloudflare Pages la reconstruit à chaque déploiement
+# (npm --prefix apps/web run build → apps/web/dist).
+apps/web/dist/
 *.bak
 *.bak_avant_*
 
