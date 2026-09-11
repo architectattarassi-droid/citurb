@@ -21,6 +21,11 @@ export type LeadSource =
   | "WEB_NEWSLETTER"
   | "WEB_SIGNUP"        // /creer-compte en mode VITE_SIGNUP_MODE=lead
   | "WEB_P1_PACKS"      // déverrouillage des packs P1 en mode lead
+  | "WEB_P2_WIZARD"     // portes P2–P6 via leadBridge.submitLead
+  | "WEB_P3_WIZARD"
+  | "WEB_P4_WIZARD"
+  | "WEB_P5_WIZARD"
+  | "WEB_P6_WIZARD"
   | "PARTENAIRE"
   | "WHATSAPP_INBOUND"
   | "REFERRAL"
@@ -53,6 +58,8 @@ export interface LeadCaptureInput {
   lang?: "fr" | "ar" | "en";
   meta?: Record<string, unknown>;
   pageContext?: string;      // URL / slug de la page qui a capturé
+  /** Clé d'une soumission (leadBridge) : un rejeu ne crée pas de second lead. */
+  idempotencyKey?: string;
   utm?: {
     source?: string;
     medium?: string;

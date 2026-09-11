@@ -149,6 +149,16 @@ export class LeadFunnelService {
     if (!isValidMaPhone(telephone)) {
       throw new Error("phone_invalid");
     }
+    // Rejeu d'une soumission déjà reçue (même clé) : on renvoie le lead
+    // existant, sans second enregistrement ni seconde notification.
+    const cle = typeof input.meta?.idempotencyKey === "string" ? input.meta.idempotencyKey : "";
+    if (cle) {
+      const deja = Array.from(this.leads.values()).find(
+        (l) => (l.meta as { idempotencyKey?: unknown } | undefined)?.idempotencyKey === cle,
+      );
+      if (deja) return resultatCapture(deja);
+    }
+
     const email = clip(input.email, 200) || undefined;
     const budget = toNum(input.budget);
     const surface = toNum(input.surface);
@@ -239,17 +249,7 @@ export class LeadFunnelService {
       );
     }
 
-    return {
-      leadId: lead.id,
-      scoreInitial: lead.score,
-      stage: lead.stage,
-      message:
-        lead.lang === "ar"
-          ? "تم استلام طلبك. سيتواصل معك فريقنا خلال 24 ساعة."
-          : lead.lang === "en"
-            ? "Request received. Our team will reach out within 24h."
-            : "Demande reçue. Notre équipe vous recontacte sous 24h.",
-    };
+    return resultatCapture(lead);
   }
 
   private detectReturn(phone: string, email?: string): boolean {
@@ -595,6 +595,20 @@ export class LeadFunnelService {
   }
 }
 
+function resultatCapture(lead: Lead): LeadCaptureResult {
+  return {
+    leadId: lead.id,
+    scoreInitial: lead.score,
+    stage: lead.stage,
+    message:
+      lead.lang === "ar"
+        ? "تم استلام طلبك. سيتواصل معك فريقنا خلال 24 ساعة."
+        : lead.lang === "en"
+          ? "Request received. Our team will reach out within 24h."
+          : "Demande reçue. Notre équipe vous recontacte sous 24h.",
+  };
+}
+
 // ── Conversions Lead (domaine) ⇄ ligne Prisma ───────────────────────
 
 function toDb(l: Lead): Prisma.LeadUncheckedCreateInput {
@@ -621,7 +635,7 @@ function toDb(l: Lead): Prisma.LeadUncheckedCreateInput {
     returnVisitor: !!l.returnVisitor,
     nurtureLog: jsonOrDbNull(l.nurtureLog),
     convertedDossierId: l.convertedDossierId ?? null,
-    events: (l.events ?? []) as unknown as Prisma.InputJsonValue,
+    events: jsonPropre(l.events ?? []) as unknown as Prisma.InputJsonValue,
     meta: jsonOrDbNull(l.meta),
   };
 }
@@ -658,7 +672,19 @@ function fromDb(r: LeadRow): Lead {
 function jsonOrDbNull(
   v: unknown,
 ): Prisma.InputJsonValue | Prisma.NullableJsonNullValueInput {
-  return v === undefined || v === null ? Prisma.DbNull : (v as Prisma.InputJsonValue);
+  return v === undefined || v === null ? Prisma.DbNull : (jsonPropre(v) as Prisma.InputJsonValue);
+}
+
+// Postgres rejette le caractère nul (text : 22021) et, en jsonb, les demi-paires
+// UTF-16 (22P05). Une capture ne doit jamais échouer pour un caractère.
+const SURROGATE_ISOLE = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/g;
+
+function textePropre(s: string): string {
+  return s.replace(/ /g, "").replace(SURROGATE_ISOLE, "�");
+}
+
+function jsonPropre<T>(v: T): T {
+  return JSON.parse(JSON.stringify(v, (_k, x) => (typeof x === "string" ? textePropre(x) : x)));
 }
 
 function toNum(v: unknown): number | undefined {
@@ -670,7 +696,7 @@ function toNum(v: unknown): number | undefined {
 /** Chaîne nettoyée et tronquée ("" si la valeur n'est pas une chaîne/nombre). */
 function clip(v: unknown, max: number): string {
   if (typeof v !== "string" && typeof v !== "number") return "";
-  return String(v).trim().slice(0, max);
+  return Array.from(textePropre(String(v)).trim()).slice(0, max).join("");
 }
 
 // ── Helpers locaux ──────────────────────────────────────────────────

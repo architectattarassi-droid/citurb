@@ -35,13 +35,17 @@ import { SlidingWindowLimiter } from "./capture-rate-limit";
 import { LeadFunnelService } from "./lead-funnel.service";
 import type { LeadCaptureInput, LeadStage } from "./lead-funnel.types";
 
+/** Taille max de meta.wizard sérialisé (le front borne lui-même à 8 Ko). */
+const WIZARD_MAX_BYTES = 16 * 1024;
+
 @Tome("tome0")
 @Controller("api/lead-funnel")
 export class LeadFunnelController {
-  // Anti-abus de la route publique : 5 captures / 10 min par IP,
-  // 3 / heure par numéro. En mémoire, gratuit, sans service tiers.
-  private readonly perIp = new SlidingWindowLimiter(5, 10 * 60_000);
-  private readonly perPhone = new SlidingWindowLimiter(3, 60 * 60_000);
+  // Anti-abus de la route publique : par défaut 5 captures / 10 min par IP,
+  // 3 / heure par numéro (LEAD_CAPTURE_MAX_PER_IP / _PER_PHONE pour ajuster).
+  // En mémoire, gratuit, sans service tiers.
+  private readonly perIp = new SlidingWindowLimiter(Number(process.env.LEAD_CAPTURE_MAX_PER_IP) || 5, 10 * 60_000);
+  private readonly perPhone = new SlidingWindowLimiter(Number(process.env.LEAD_CAPTURE_MAX_PER_PHONE) || 3, 60 * 60_000);
 
   constructor(private readonly svc: LeadFunnelService) {}
 
@@ -54,7 +58,7 @@ export class LeadFunnelController {
       throw new BadRequestException("payload_invalid");
     }
 
-    const ip = String(req?.ip || req?.socket?.remoteAddress || "unknown");
+    const ip = ipClient(req);
     if (!this.perIp.take(`ip:${ip}`)) {
       throw new HttpException("too_many_requests", HttpStatus.TOO_MANY_REQUESTS);
     }
@@ -77,15 +81,28 @@ export class LeadFunnelController {
       throw new HttpException("too_many_requests", HttpStatus.TOO_MANY_REQUESTS);
     }
 
-    // Meta : description libre du projet saisie par le visiteur + headers
-    // utiles (IP / UA / referer). Le reste du meta client est ignoré.
+    // Meta : liste blanche — description libre du projet, qualification du
+    // wizard de porte, headers utiles (IP / UA / referer). Le reste est ignoré.
     const clientMeta =
       input.meta && typeof input.meta === "object" ? (input.meta as Record<string, unknown>) : {};
+    const wizard = clientMeta.wizard;
+    if (wizard !== undefined) {
+      if (wizard === null || typeof wizard !== "object" || Array.isArray(wizard)) {
+        throw new BadRequestException("meta_invalid");
+      }
+      // Pas de troncature silencieuse côté serveur : le front borne à 8 Ko.
+      if (Buffer.byteLength(JSON.stringify(wizard), "utf8") > WIZARD_MAX_BYTES) {
+        throw new BadRequestException("meta_too_large");
+      }
+    }
     const meta = {
       projetLibre:
         typeof clientMeta.projetLibre === "string"
           ? clientMeta.projetLibre.slice(0, 2000)
           : undefined,
+      wizard: wizard as Record<string, unknown> | undefined,
+      idempotencyKey:
+        typeof input.idempotencyKey === "string" ? input.idempotencyKey.slice(0, 80) : undefined,
       ip: (req?.headers?.["x-forwarded-for"] || req?.ip || "").toString(),
       ua: (req?.headers?.["user-agent"] || "").toString(),
       referer: (req?.headers?.["referer"] || "").toString(),
@@ -230,6 +247,23 @@ export class LeadFunnelController {
     }
     return { ok: true };
   }
+}
+
+/**
+ * IP du visiteur pour la limite de débit. Derrière un proxy (Cloudflare,
+ * hébergeur), req.ip est celle du proxy : tous les visiteurs partageraient
+ * un seul quota. LEAD_TRUST_PROXY=1 fait lire l'en-tête d'origine — à
+ * n'activer que si l'API n'est joignable QUE par ce proxy (sinon l'en-tête
+ * est falsifiable et la limite contournable).
+ */
+function ipClient(req: any): string {
+  if (process.env.LEAD_TRUST_PROXY === "1") {
+    const cf = String(req?.headers?.["cf-connecting-ip"] || "").trim();
+    if (cf) return cf;
+    const xff = String(req?.headers?.["x-forwarded-for"] || "").split(",")[0].trim();
+    if (xff) return xff;
+  }
+  return String(req?.ip || req?.socket?.remoteAddress || "unknown");
 }
 
 function safeEq(a: string, b: string): boolean {
