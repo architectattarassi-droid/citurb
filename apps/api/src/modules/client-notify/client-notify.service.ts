@@ -236,6 +236,13 @@ export class ClientNotifyService {
   }
 
   private async send(to: string, subject: string, html: string): Promise<void> {
+    // Phase récolte : délivrabilité email non fiable au Maroc, le prospect est
+    // rappelé par téléphone. Emails client coupés sauf CLIENT_NOTIFY_ENABLED=true
+    // (décision révocable ; les appels restent en place). ownerNotify n'est pas concerné.
+    if (process.env.CLIENT_NOTIFY_ENABLED !== "true") {
+      this.logger.log(`[ClientNotify] désactivé (CLIENT_NOTIFY_ENABLED≠true) — email "${subject}" non envoyé`);
+      return;
+    }
     if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
       this.logger.warn(`[ClientNotify] SMTP non configuré — email à ${to} non envoyé. Configurer SMTP_HOST/SMTP_USER/SMTP_PASS.`);
       return;
