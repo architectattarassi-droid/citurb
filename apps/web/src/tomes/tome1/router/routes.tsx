@@ -303,6 +303,8 @@ export const router = createBrowserRouter([
       // Article public — vignette Open Graph dynamique servie par le middleware backend pour les bots sociaux (FB/WhatsApp/LinkedIn/Twitter)
       { path: '/media/article/:slug', element: <AdminHostBlock><ArticleDetailPage /></AdminHostBlock> },
       // Porte 6 = réseau pro Cercles : /p6 redirige vers l'espace Cercles
+      // P6 volontairement fermée (arbitrage du propriétaire) : /p6 renvoie vers
+      // Cercles. P6Home reste branché sur leadBridge, dormant — pas un oubli.
       { path: '/p6', element: <Redirect to="/cercles" /> },
       { path: '/p6/dashboard', element: <AdminHostBlock><P6Dashboard /></AdminHostBlock> },
       // ── Catalogue Matériaux BTP Maroc (Phase 3) ──
