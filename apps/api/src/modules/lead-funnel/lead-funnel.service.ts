@@ -3,20 +3,22 @@
  *
  * Capture, scoring, journalisation et stats des leads.
  *
- * Persistance V1 (MVP) :
- *  - Map en mémoire `leads`
- *  - Dump périodique JSON dans `<cwd>/data/leads.json` (best-effort, async)
- *  - Recharge au démarrage si le fichier existe
- *
- * À remplacer par Prisma `Lead` dès que la migration est appliquée
- * (cf. INTEGRATION.md).
+ * Persistance :
+ *  - DATABASE_URL défini → table Prisma `Lead` = source de vérité. La `Map`
+ *    mémoire n'est qu'un cache ; `syncFromDb()` la recharge avant chaque
+ *    lecture exposée, car d'autres écrivains (ex. Pages Function Cloudflare)
+ *    peuvent alimenter la même table.
+ *  - Sans DATABASE_URL (dev hors base) : Map + dump JSON best-effort dans
+ *    `<cwd>/data/leads.json`, rechargé au démarrage.
  */
 
 import { Injectable, Logger, Optional } from "@nestjs/common";
+import { Prisma, type Lead as LeadRow } from "@prisma/client";
 import { join } from "path";
 import { promises as fsp } from "fs";
 import { EmailService } from "../email/email.service";
 import { ProbativeLogService } from "../kernel/services/probative-log.service";
+import { PrismaService } from "../../tomes/tome-at/kernel/prisma/prisma.service";
 import { computeLeadScore, rescoreLead, isValidMaPhone } from "./lead-scoring";
 import type {
   FunnelStats,
@@ -24,56 +26,111 @@ import type {
   LeadCaptureInput,
   LeadCaptureResult,
   LeadEvent,
+  LeadSource,
   LeadStage,
 } from "./lead-funnel.types";
 
 const STORE_DIR = join(process.cwd(), "data");
 const STORE_FILE = join(STORE_DIR, "leads.json");
 
+/** Nombre max de leads rechargés depuis la base (les plus récents). */
+const DB_SYNC_LIMIT = 2000;
+
 @Injectable()
 export class LeadFunnelService {
   private readonly log = new Logger(LeadFunnelService.name);
   private readonly leads = new Map<string, Lead>();
-  private dirty = false;
+  /** Leads modifiés en mémoire, pas encore écrits (base ou JSON). */
+  private readonly dirtyIds = new Set<string>();
   private flushTimer: NodeJS.Timeout | null = null;
+  private readonly useDb: boolean;
+  private readonly ready: Promise<void>;
 
   constructor(
     private readonly email: EmailService,
     @Optional() private readonly probative?: ProbativeLogService,
+    @Optional() private readonly prisma?: PrismaService,
   ) {
+    this.useDb = !!this.prisma && !!process.env.DATABASE_URL;
     // Hydratation initiale (best-effort, ne bloque pas le boot)
-    this.hydrate().catch((e) =>
+    this.ready = this.hydrate().catch((e) =>
       this.log.warn(`[LeadFunnel] hydrate failed: ${e?.message}`),
     );
   }
 
-  // ── Persistence (JSON fallback) ───────────────────────────────────
+  // ── Persistence ───────────────────────────────────────────────────
 
   private async hydrate(): Promise<void> {
+    if (this.useDb) {
+      await this.syncFromDb();
+      this.log.log(`[LeadFunnel] hydrated ${this.leads.size} leads (db)`);
+      return;
+    }
     try {
       const raw = await fsp.readFile(STORE_FILE, "utf8");
       const arr = JSON.parse(raw) as Lead[];
       for (const l of arr) this.leads.set(l.id, l);
-      this.log.log(`[LeadFunnel] hydrated ${this.leads.size} leads`);
+      this.log.log(`[LeadFunnel] hydrated ${this.leads.size} leads (json)`);
     } catch {
       // fichier absent au premier boot : OK
     }
   }
 
-  private scheduleFlush(): void {
-    this.dirty = true;
+  /**
+   * Recharge le cache depuis la base. À appeler avant toute lecture exposée
+   * (/cc/leads, /api/lead-funnel/list…). No-op hors mode base.
+   */
+  async syncFromDb(): Promise<void> {
+    if (!this.useDb || !this.prisma) return;
+    const rows = await this.prisma.lead.findMany({
+      orderBy: { createdAt: "desc" },
+      take: DB_SYNC_LIMIT,
+    });
+    for (const row of rows) {
+      // Une modification locale pas encore écrite prime sur la ligne en base.
+      if (this.dirtyIds.has(row.id)) continue;
+      this.leads.set(row.id, fromDb(row));
+    }
+  }
+
+  private async persistToDb(lead: Lead): Promise<void> {
+    if (!this.prisma) return;
+    const data = toDb(lead);
+    await this.prisma.lead.upsert({ where: { id: lead.id }, create: data, update: data });
+  }
+
+  private scheduleFlush(id: string): void {
+    this.dirtyIds.add(id);
     if (this.flushTimer) return;
     this.flushTimer = setTimeout(() => {
       this.flushTimer = null;
-      if (!this.dirty) return;
-      this.dirty = false;
       this.flush().catch((e) =>
         this.log.warn(`[LeadFunnel] flush failed: ${e?.message}`),
       );
-    }, 2000);
+    }, this.useDb ? 200 : 2000);
   }
 
   private async flush(): Promise<void> {
+    const batch = Array.from(this.dirtyIds)
+      .map((id) => this.leads.get(id))
+      .filter((l): l is Lead => !!l);
+    this.dirtyIds.clear();
+
+    if (this.useDb) {
+      const failed: string[] = [];
+      for (const lead of batch) {
+        try {
+          await this.persistToDb(lead);
+        } catch (e: any) {
+          failed.push(lead.id);
+          this.dirtyIds.add(lead.id); // réessayé au prochain flush
+          this.log.warn(`[LeadFunnel] db write failed leadId=${lead.id}: ${e?.message}`);
+        }
+      }
+      if (failed.length) throw new Error(`${failed.length} lead(s) non écrits en base`);
+      return;
+    }
+
     await fsp.mkdir(STORE_DIR, { recursive: true });
     const arr = Array.from(this.leads.values());
     await fsp.writeFile(STORE_FILE, JSON.stringify(arr, null, 2), "utf8");
@@ -82,24 +139,31 @@ export class LeadFunnelService {
   // ── Capture publique ──────────────────────────────────────────────
 
   async capture(input: LeadCaptureInput): Promise<LeadCaptureResult> {
-    const nom = String(input.nom || "").trim();
-    const telephone = String(input.telephone || "").trim();
+    await this.ready;
+
+    const nom = clip(input.nom, 120);
+    const telephone = clip(input.telephone, 30);
     if (!nom || nom.length < 2) {
       throw new Error("nom_invalid");
     }
     if (!isValidMaPhone(telephone)) {
       throw new Error("phone_invalid");
     }
+    const email = clip(input.email, 200) || undefined;
+    const budget = toNum(input.budget);
+    const surface = toNum(input.surface);
+    const delaiMois = toNum(input.delaiMois);
+    const ville = clip(input.ville, 120) || undefined;
 
     // Détecte return visitor sur (téléphone OU email) déjà connu
-    const returnVisitor = this.detectReturn(telephone, input.email);
+    const returnVisitor = this.detectReturn(telephone, email);
 
     const { score, breakdown } = computeLeadScore({
-      budget: input.budget,
-      email: input.email,
+      budget,
+      email,
       telephone,
-      delaiMois: input.delaiMois,
-      ville: input.ville,
+      delaiMois,
+      ville,
       returnVisitor,
       wizardStep: 0,
     });
@@ -115,15 +179,15 @@ export class LeadFunnelService {
       updatedAt: now,
       nom,
       telephone,
-      email: input.email?.trim() || undefined,
-      projetType: input.projetType,
-      budget: input.budget,
-      ville: input.ville?.trim() || undefined,
-      surface: input.surface,
-      delaiMois: input.delaiMois,
-      source: input.source || "DIRECT",
-      lang: input.lang || "fr",
-      pageContext: input.pageContext,
+      email,
+      projetType: clip(input.projetType, 40) || undefined,
+      budget,
+      ville,
+      surface,
+      delaiMois,
+      source: (clip(input.source, 40) || "DIRECT") as LeadSource,
+      lang: input.lang === "ar" || input.lang === "en" ? input.lang : "fr",
+      pageContext: clip(input.pageContext, 300) || undefined,
       utm: input.utm,
       score,
       scoreBreakdown: breakdown,
@@ -150,7 +214,18 @@ export class LeadFunnelService {
     };
 
     this.leads.set(id, lead);
-    this.scheduleFlush();
+    if (this.useDb) {
+      // Écriture awaitée : on ne confirme (201) qu'un lead réellement en base.
+      try {
+        await this.persistToDb(lead);
+      } catch (e: any) {
+        this.leads.delete(id);
+        this.log.error(`[LeadFunnel] persist failed leadId=${id}: ${e?.message}`);
+        throw new Error("storage_unavailable");
+      }
+    } else {
+      this.scheduleFlush(id);
+    }
 
     // Notification équipe (fire & forget)
     this.notifyTeamNewLead(lead).catch((e) =>
@@ -223,7 +298,7 @@ export class LeadFunnelService {
       kind: "SCORED",
       payload: { score, breakdown },
     });
-    this.scheduleFlush();
+    this.scheduleFlush(id);
     return l;
   }
 
@@ -239,7 +314,7 @@ export class LeadFunnelService {
       kind: "STAGE_CHANGE",
       payload: { from: prev, to: stage },
     });
-    this.scheduleFlush();
+    this.scheduleFlush(id);
     return l;
   }
 
@@ -253,7 +328,7 @@ export class LeadFunnelService {
     };
     l.events.push(evt);
     l.updatedAt = evt.at;
-    this.scheduleFlush();
+    this.scheduleFlush(id);
     return l;
   }
 
@@ -273,7 +348,7 @@ export class LeadFunnelService {
       kind: "DOSSIER_CONVERTED",
       payload: { dossierId },
     });
-    this.scheduleFlush();
+    this.scheduleFlush(id);
     return l;
   }
 
@@ -516,8 +591,86 @@ export class LeadFunnelService {
       channel: "EMAIL",
       payload: { template },
     });
-    this.scheduleFlush();
+    this.scheduleFlush(leadId);
   }
+}
+
+// ── Conversions Lead (domaine) ⇄ ligne Prisma ───────────────────────
+
+function toDb(l: Lead): Prisma.LeadUncheckedCreateInput {
+  return {
+    id: l.id,
+    createdAt: new Date(l.createdAt),
+    updatedAt: new Date(l.updatedAt),
+    nom: l.nom,
+    telephone: l.telephone,
+    email: l.email ?? null,
+    projetType: l.projetType != null ? String(l.projetType) : null,
+    budget: toNum(l.budget) ?? null,
+    ville: l.ville ?? null,
+    surface: toNum(l.surface) ?? null,
+    delaiMois: toNum(l.delaiMois) ?? null,
+    source: l.source,
+    lang: l.lang,
+    pageContext: l.pageContext ?? null,
+    utm: jsonOrDbNull(l.utm),
+    score: Math.round(l.score),
+    scoreBreakdown: jsonOrDbNull(l.scoreBreakdown),
+    stage: l.stage,
+    wizardStep: l.wizardStep ?? null,
+    returnVisitor: !!l.returnVisitor,
+    nurtureLog: jsonOrDbNull(l.nurtureLog),
+    convertedDossierId: l.convertedDossierId ?? null,
+    events: (l.events ?? []) as unknown as Prisma.InputJsonValue,
+    meta: jsonOrDbNull(l.meta),
+  };
+}
+
+function fromDb(r: LeadRow): Lead {
+  return {
+    id: r.id,
+    createdAt: r.createdAt.toISOString(),
+    updatedAt: r.updatedAt.toISOString(),
+    nom: r.nom,
+    telephone: r.telephone,
+    email: r.email ?? undefined,
+    projetType: r.projetType ?? undefined,
+    budget: r.budget ?? undefined,
+    ville: r.ville ?? undefined,
+    surface: r.surface ?? undefined,
+    delaiMois: r.delaiMois ?? undefined,
+    source: r.source as LeadSource,
+    lang: r.lang === "ar" || r.lang === "en" ? r.lang : "fr",
+    pageContext: r.pageContext ?? undefined,
+    utm: (r.utm as Lead["utm"] | null) ?? undefined,
+    score: r.score,
+    scoreBreakdown: (r.scoreBreakdown as Record<string, number> | null) ?? undefined,
+    stage: r.stage as LeadStage,
+    wizardStep: r.wizardStep ?? undefined,
+    returnVisitor: r.returnVisitor,
+    nurtureLog: (r.nurtureLog as Record<string, string> | null) ?? undefined,
+    convertedDossierId: r.convertedDossierId,
+    events: Array.isArray(r.events) ? (r.events as unknown as LeadEvent[]) : [],
+    meta: (r.meta as Record<string, unknown> | null) ?? undefined,
+  };
+}
+
+function jsonOrDbNull(
+  v: unknown,
+): Prisma.InputJsonValue | Prisma.NullableJsonNullValueInput {
+  return v === undefined || v === null ? Prisma.DbNull : (v as Prisma.InputJsonValue);
+}
+
+function toNum(v: unknown): number | undefined {
+  if (v === null || v === undefined || v === "") return undefined;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : undefined;
+}
+
+/** Chaîne nettoyée et tronquée ("" si la valeur n'est pas une chaîne/nombre). */
+function clip(v: unknown, max: number): string {
+  if (typeof v !== "string" && typeof v !== "number") return "";
+  return String(v).trim().slice(0, max);
 }
 
 // ── Helpers locaux ──────────────────────────────────────────────────

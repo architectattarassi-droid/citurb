@@ -2127,3 +2127,44 @@ model Article {
   @@index([lang, status])
   @@index([authorId])
 }
+
+// ==============================
+// TOME 0 — LEAD FUNNEL
+// Leads capturés par POST /api/lead-funnel/capture (nom + téléphone, sans OTP).
+// Source de vérité du LeadFunnelService (la Map mémoire n'est qu'un cache).
+// Colonnes volontairement simples (String plutôt qu'enum, défauts SQL) pour
+// que d'autres écrivains (ex. Pages Function Cloudflare) puissent insérer en
+// SQL brut sans migration.
+// ==============================
+
+model Lead {
+  id                 String   @id
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @default(now()) @updatedAt
+  nom                String
+  telephone          String
+  email              String?
+  projetType         String?
+  budget             Float?
+  ville              String?
+  surface            Float?
+  delaiMois          Float?
+  source             String   @default("DIRECT")
+  lang               String   @default("fr")
+  pageContext        String?
+  utm                Json?
+  score              Int      @default(0)
+  scoreBreakdown     Json?
+  stage              String   @default("NEW")
+  wizardStep         Int?
+  returnVisitor      Boolean  @default(false)
+  nurtureLog         Json?
+  convertedDossierId String?
+  events             Json     @default("[]")
+  meta               Json?
+
+  @@index([telephone])
+  @@index([email])
+  @@index([stage])
+  @@index([createdAt])
+}

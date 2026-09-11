@@ -89,8 +89,11 @@ export class CCController {
     const fromDossiers = dossiers.map((d) => extractLeadView(d));
 
     // 2) Leads issus du funnel public (POST /api/lead-funnel/capture)
-    // Le funnel persiste en mémoire + JSON ; il faut les afficher aussi dans /cc/leads
+    // Le funnel persiste en base (table Lead) ; il faut les afficher aussi dans /cc/leads
     // sinon les leads de la home page (hero, ROI calc, WhatsApp inbound) sont invisibles.
+    // Resynchro d'abord : d'autres écrivains peuvent alimenter la table. Base
+    // indisponible → on sert le cache mémoire.
+    await this.leadFunnel.syncFromDb().catch(() => undefined);
     let fromFunnel: ReturnType<typeof extractFunnelLeadView>[] = [];
     try {
       const funnelLeads = this.leadFunnel.list({ limit: 200 });
