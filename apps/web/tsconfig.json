@@ -1,7 +1,13 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@citurbarea/pricing-cnoa": [
+        "../../packages/pricing-cnoa/src/index.ts"
+      ]
+    }
   },
   "include": [
     "src"

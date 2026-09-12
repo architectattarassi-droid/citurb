@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@citurbarea/contracts": "file:../../packages/contracts",
+    "@citurbarea/pricing-cnoa": "file:../../packages/pricing-cnoa",
     "exifr": "^7.1.3",
     "maplibre-gl": "^5.24.0",
     "proj4": "^2.20.8",

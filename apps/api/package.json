@@ -18,6 +18,7 @@
   "dependencies": {
     "@citurbarea/config": "file:../../packages/config",
     "@citurbarea/contracts": "file:../../packages/contracts",
+    "@citurbarea/pricing-cnoa": "file:../../packages/pricing-cnoa",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "^10.2.0",
