@@ -8,6 +8,21 @@ import FichesPrestations from "../../../../components/fiches-prestations/FichesP
 import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
 import { apiAvailable, captureFromIntake, delaiMoisDepuis, montantDevis, submitLead } from "../../../../features/lead-funnel/leadBridge";
 import BudgetPrevisionnelField from "../../../../features/lead-funnel/BudgetPrevisionnelField";
+import {
+  BAREME_CNOA_2021,
+  FAMILLES,
+  computeQuote as computeQuoteLocal,
+  estCategorieConnue,
+  fourchetteDe,
+  niveauxDe,
+  niveauxDeSousType,
+  resoudreCategorie,
+  sousTypeDe,
+  sousTypesDeFamille,
+  type CategoryCode,
+  type DevisResult,
+  type FamilleCode,
+} from "@citurbarea/pricing-cnoa";
 
 const P2_PENDING_KEY = "citurbarea:p2:pending_intake:v1";
 
@@ -33,32 +48,21 @@ type FollowMode = "ON_SITE" | "PHOTOS";
 // qu'avec un vrai dossier identifié.
 type Phase = "identity" | "section" | "category" | "measures" | "follow" | "quote";
 
-type Category = { code: string; label: string; costPerM2: number; photoOptionAvailable: boolean; notes?: string };
-type Quote = {
-  ok: true;
-  currency: "MAD";
-  meta: {
-    section: P2Section;
-    sectionLabel: string;
-    category?: string;
-    categoryLabel?: string;
-    followMode: FollowMode;
-    photoOptionAvailable: boolean;
-    requiresQuotePersonnalise: boolean;
-  };
-  base: { surfacePlancherM2?: number; nbBatiments: number; coutConstructionM2?: number; coutTravauxEstime?: number; surfaceTerrainHa?: number };
-  honoraires: {
-    rate: number;
-    totalHT: number | null;
-    tvaRate: number;
-    tva: number | null;
-    totalTTC: number | null;
-    breakdown: { phaseA_esquisseAutorisation: number | null; phaseB_dceCps: number | null; phaseC_suivi: number | null };
-  };
-  visaCroa: { payableSeparately: true; note: string };
-  decennale: { applicable: boolean; options?: string[]; note: string };
-  notes: string[];
+/** Catégorie telle que /p2/categories la renvoie : plancher + niveaux tarifés. */
+type Category = {
+  code: string;
+  label: string;
+  costPerM2: number;
+  plancherM2?: number;
+  photoOptionAvailable: boolean;
+  notes?: string;
+  niveaux?: { cle: string; bas: number; haut: number | null }[];
 };
+/**
+ * Le devis a exactement la forme produite par @citurbarea/pricing-cnoa : le
+ * calcul local et /p2/quote sont la même fonction, donc le même type.
+ */
+type Quote = DevisResult;
 
 const fmtMAD = (n: number | null | undefined) => {
   if (n == null) return "—";
@@ -205,112 +209,31 @@ const PAGE_BG =
  *   - Petit collectif jusqu'à R+4 (bi-familial et plus, max R+4)
  *   - Collectif R+5 et plus
  */
-const NATURE_FAMILIES: { code: "immeuble_petit" | "immeuble_grand" | "villa" | "gr" | "lot" | "epig" | "amg" | "expertise" | "autre"; category: string; title: string; sub: string }[] = [
-  { code: "immeuble_petit", category: "PETIT COLLECTIF (≤ R+4)", title: "Immeuble jusqu'à R+4", sub: "Bi-familial et plus, max R+4 — au moins 2 logements." },
-  { code: "immeuble_grand", category: "COLLECTIF R+5 ET PLUS",   title: "Immeuble R+5 et plus", sub: "Collectif à partir de R+5, moyen / haut standing, bureaux." },
-  { code: "villa",          category: "RÉSIDENTIEL",             title: "Villas",                sub: "En bande, jumelée ou isolée — version standard ou de standing." },
-  { code: "gr",             category: "OPÉRATION GROUPÉE",       title: "Groupement résidentiel", sub: "Plusieurs bâtiments sur un même projet (résidence, complexe)." },
-  { code: "lot",            category: "FONCIER",                 title: "Lotissement",           sub: "Découpage / morcellement / viabilisation (loi 25-90)." },
-  { code: "epig",           category: "ÉQUIPEMENT",              title: "Équipement privé",      sub: "Hôtel, école, mosquée, clinique, hangar, usine, etc." },
-  { code: "amg",            category: "TRANSFORMATION",          title: "Aménagement",           sub: "Réagencement d'un local existant / changement d'affectation." },
-  { code: "expertise",      category: "EXPERTISE & QUALIFICATION", title: "Je ne sais pas — Expertise", sub: "Vous hésitez sur la typologie ? Une mission d'expertise CITURBAREA qualifie votre projet (programme, gabarit, faisabilité). Mission facturable, livrable = rapport." },
-  { code: "autre",          category: "AUTRE",                   title: "Autre — à préciser",    sub: "Votre projet ne correspond à aucune des familles ci-dessus." },
-];
+/**
+ * Catalogue des natures de projet — lu depuis @citurbarea/pricing-cnoa.
+ *
+ * Ces listes vivaient ici et contredisaient le barème : « petit collectif
+ * ≤ R+4 » alors que la catégorie 3.1 dit « R+4 et plus », collectif démarrant
+ * à R+5, école et mosquée séparées alors que 5.3 les regroupe, aménagement
+ * découpé par activité alors que 6.1/6.2 se découpent par surface.
+ *
+ * Le paquet est désormais la seule source ; ce qui suit n'en est qu'une
+ * projection pour le rendu déjà en place.
+ */
+const NATURE_FAMILIES = FAMILLES.map((f) => ({
+  code: f.code,
+  category: f.categorie,
+  title: f.titre,
+  sub: f.sous,
+}));
 
-
-const NATURE_PROJET_OPTIONS: { family: string; group: string; options: { value: string; label: string }[] }[] = [
-  {
-    family: "immeuble_petit",
-    group: "Petit immeuble collectif (≤ R+4, ≥ 2 logements)",
-    options: [
-      { value: "immeuble_rdc_bifam",  label: "Immeuble RDC bi-familial (2 logements de plain-pied)" },
-      { value: "immeuble_r1",         label: "Immeuble R+1 (2 à 4 logements)" },
-      { value: "immeuble_r2",         label: "Immeuble R+2 (3 à 6 logements)" },
-      { value: "immeuble_r3",         label: "Immeuble R+3 (4 à 8 logements)" },
-      { value: "immeuble_r4",         label: "Immeuble R+4 (5 à 10 logements)" },
-      { value: "immeuble_social_r4",  label: "Habitat social conventionné — petit collectif (≤ R+4)" },
-    ],
-  },
-  {
-    family: "immeuble_grand",
-    group: "Immeuble collectif / bureaux R+5 et plus",
-    options: [
-      { value: "immeuble_r5",        label: "Immeuble R+5" },
-      { value: "immeuble_r6",        label: "Immeuble R+6" },
-      { value: "immeuble_r7",        label: "Immeuble R+7" },
-      { value: "immeuble_r8plus",    label: "Immeuble R+8 et plus" },
-      { value: "immeuble_moyen",     label: "Immeuble collectif moyen standing (R+5+)" },
-      { value: "immeuble_haut",      label: "Immeuble collectif haut standing (R+5+)" },
-      { value: "bureaux_r5plus",     label: "Immeuble de bureaux R+5+" },
-    ],
-  },
-  {
-    family: "villa",
-    group: "Villas",
-    options: [
-      { value: "villa_bande",        label: "Villa en bande" },
-      { value: "villa_bande_st",     label: "Villa en bande de standing" },
-      { value: "villa_jumelee",      label: "Villa jumelée" },
-      { value: "villa_jumelee_st",   label: "Villa jumelée de standing" },
-      { value: "villa_isolee",       label: "Villa isolée" },
-      { value: "villa_isolee_st",    label: "Villa isolée de standing" },
-    ],
-  },
-  {
-    family: "gr",
-    group: "Groupement résidentiel",
-    options: [
-      { value: "gr_residence",       label: "Résidence (plusieurs immeubles)" },
-      { value: "gr_complexe",        label: "Complexe résidentiel mixte" },
-      { value: "gr_villas",          label: "Lotissement de villas" },
-    ],
-  },
-  {
-    family: "lot",
-    group: "Lotissement / morcellement",
-    options: [
-      { value: "lot_residentiel",    label: "Lotissement résidentiel" },
-      { value: "lot_industriel",     label: "Lotissement industriel" },
-      { value: "lot_morcellement",   label: "Morcellement (loi 25-90)" },
-    ],
-  },
-  {
-    family: "epig",
-    group: "Équipement privé d'intérêt général (EPIG)",
-    options: [
-      { value: "epig_hangar_agri",   label: "Hangar agricole" },
-      { value: "epig_hangar_indus",  label: "Hangar / dépôt industriel" },
-      { value: "epig_usine",         label: "Usine" },
-      { value: "epig_ecole",         label: "École / collège / lycée" },
-      { value: "epig_mosquee",       label: "Mosquée" },
-      { value: "epig_maison_hote",   label: "Maison d'hôte" },
-      { value: "epig_hotel2",        label: "Hôtel 2★ / résidence touristique" },
-      { value: "epig_hotel3",        label: "Hôtel 3★" },
-      { value: "epig_hotel4",        label: "Hôtel 4★" },
-      { value: "epig_hotel5",        label: "Hôtel 5★ / équipement haut standing" },
-      { value: "epig_clinique",      label: "Clinique / hospitalier" },
-      { value: "epig_labo",          label: "Laboratoire / hémodialyse" },
-    ],
-  },
-  {
-    family: "amg",
-    group: "Aménagement / transformation",
-    options: [
-      { value: "amg_petit",          label: "Petit aménagement intérieur (≤ 50 m²)" },
-      { value: "amg_agence",         label: "Agence bancaire / télécom" },
-      { value: "amg_showroom",       label: "Show-room / commerce" },
-      { value: "amg_restaurant",     label: "Restaurant / café" },
-      { value: "amg_changement_aff", label: "Changement d'affectation (villa → équipement)" },
-    ],
-  },
-  {
-    family: "autre",
-    group: "Autre",
-    options: [
-      { value: "autre",              label: "Autre — à préciser" },
-    ],
-  },
-];
+const NATURE_PROJET_OPTIONS = FAMILLES
+  .map((f) => ({
+    family: f.code as string,
+    group: f.titre,
+    options: sousTypesDeFamille(f.code).map((s) => ({ value: s.value, label: s.label })),
+  }))
+  .filter((g) => g.options.length > 0);
 
 const fullBleed: React.CSSProperties = {
   width: "100vw", position: "relative", left: "50%", right: "50%",
@@ -366,10 +289,11 @@ function P2HomeInner() {
   const [immVariant, setImmVariant] = useState<string>("standard");
   const [followMode, setFollowMode] = useState<FollowMode>("ON_SITE");
   const [quote, setQuote] = useState<Quote | null>(null);
-  // Niveau de standing — pilote le coût construction (en complément de la
-  // catégorie de barème). Aligné sur la doctrine P1 (économique / moyen /
-  // haut / luxe → 2000 / 3500 / 5000 / 7500 MAD par m²).
-  const [standing, setStanding] = useState<"economique" | "moyen" | "haut" | "luxe">("moyen");
+  // Niveau de prestation — clé de GRILLE_REELLE[categorie].niveaux. Il CHOISIT
+  // la catégorie du barème (« moyen » ⇒ 3.2, « standing » sur une villa
+  // jumelée ⇒ 4.4) ; il ne multiplie aucun coût. Vide tant que le visiteur n'a
+  // pas choisi : pas de valeur de repli silencieuse.
+  const [niveau, setNiveau] = useState<string>("");
   // Maître d'ouvrage : personne physique ou morale (cf. P1)
   const [moaType, setMoaType] = useState<"physique" | "morale">("physique");
   // Statut du propriétaire du terrain (cf. P1 ownerStatus)
@@ -495,29 +419,94 @@ function P2HomeInner() {
     setPhase("follow");
   };
 
-  // Devis serveur. Injoignable → « estimation détaillée sous 24 h », jamais une
-  // erreur technique ; une réponse métier ok:false reste affichée.
+  // ── Catégorie du barème réellement retenue ─────────────────────────
+  // Le sous-type et le niveau désignent une catégorie ; la carte cliquée par le
+  // visiteur prime si elle est valide. Les règles de surface du barème
+  // (1.1 ≤ 500 m², aménagement ≤ 50 m²) s'appliquent ensuite — ici comme côté
+  // serveur, avec la même fonction.
+  const sousTypeCourant = sousTypeDe(natureCode);
+  const categorieCatalogue: CategoryCode | null = (() => {
+    if (!sousTypeCourant || sousTypeCourant.horsBareme) return null;
+    if (sousTypeCourant.categorieParNiveau) {
+      return niveau ? (sousTypeCourant.categorieParNiveau[niveau] ?? null) : null;
+    }
+    return sousTypeCourant.categorie ?? null;
+  })();
+  const categorieChoisie: CategoryCode | null =
+    categoryCode && categoryCode !== "LIBRE" && estCategorieConnue(categoryCode)
+      ? (categoryCode as CategoryCode)
+      : categorieCatalogue;
+  const surfacePourCategorie = isAMG
+    ? (+surfacePlancher > 0 ? +surfacePlancher : null)
+    : computedSPPerBuilding;
+  const resolution = categorieChoisie ? resoudreCategorie(categorieChoisie, surfacePourCategorie) : null;
+  const categorieRetenue: CategoryCode | null = resolution?.categorie ?? null;
+  const bascule = resolution?.bascule;
+  // Niveaux offerts au visiteur : ceux du sous-type, restreints à ceux que la
+  // catégorie finalement retenue accepte. Un habitat R+3 de 900 m² bascule en
+  // 3.1, qui ne connaît que « économique » : mieux vaut ne proposer que ce qui
+  // sera accepté plutôt que laisser le serveur refuser après coup.
+  const niveauxProposes: string[] = (() => {
+    const offerts = sousTypeCourant && !sousTypeCourant.horsBareme ? niveauxDeSousType(sousTypeCourant) : [];
+    if (!categorieRetenue) return offerts;
+    const acceptes = niveauxDe(categorieRetenue);
+    const commun = offerts.filter((n) => acceptes.includes(n));
+    return commun.length ? commun : acceptes;
+  })();
+
+  /** Fourchette réelle d'un niveau, via la catégorie que ce niveau vise. */
+  const fourchetteDuNiveau = (cle: string) => {
+    const cat = sousTypeCourant?.categorieParNiveau?.[cle] ?? categorieRetenue ?? sousTypeCourant?.categorie ?? null;
+    return cat ? fourchetteDe(cat, cle) : null;
+  };
+
+  // Une bascule de catégorie peut invalider le niveau déjà choisi : on l'efface
+  // plutôt que d'envoyer au serveur une valeur qu'il refusera.
+  useEffect(() => {
+    if (niveau && niveauxProposes.length > 0 && !niveauxProposes.includes(niveau)) {
+      setNiveau("");
+      setQuote(null);
+    }
+  }, [niveau, niveauxProposes.join("|")]);
+
+  // Devis. L'API répond → elle fait foi. Injoignable → le MÊME calcul tourne
+  // ici (paquet partagé) : le visiteur voit son devis, API éteinte.
   const computeQuote = async (): Promise<Quote | null> => {
     setError("");
-    if (!(await apiAvailable()) || categoryCode === "LIBRE") { setQuoteLater(true); return null; }
+    if (categoryCode === "LIBRE") { setQuoteLater(true); return null; }
+    if (!isLOT && (!categorieRetenue || !niveau)) { setQuoteLater(true); return null; }
+    const body: any = { section, followMode };
+    if (section === "LOT") {
+      body.surfaceTerrainHa = +surfaceTerrainHa;
+    } else {
+      body.categoryCode = categorieRetenue;
+      body.niveau = niveau;
+      // AMG : plancher saisi directement. IMM/GR/EPIG : plancher calculé depuis le terrain et la typologie.
+      body.surfacePlancherM2 = isAMG ? +surfacePlancher : (computedSPPerBuilding ?? 0);
+      body.nbBatiments = section === "GR" ? +nbBatiments : 1;
+    }
+    if (!(await apiAvailable())) {
+      try {
+        const local = computeQuoteLocal(body);
+        setQuote(local);
+        setPhase("quote");
+        return local;
+      } catch {
+        setQuoteLater(true);
+        return null;
+      }
+    }
     setBusy(true);
     try {
-      const body: any = { section, followMode };
-      if (section === "LOT") {
-        body.surfaceTerrainHa = +surfaceTerrainHa;
-      } else {
-        body.categoryCode = categoryCode;
-        // AMG : plancher saisi directement. IMM/GR/EPIG : plancher calculé depuis le terrain et la typologie.
-        body.surfacePlancherM2 = isAMG ? +surfacePlancher : (computedSPPerBuilding ?? 0);
-        body.nbBatiments = section === "GR" ? +nbBatiments : 1;
-      }
       const res = await fetch(`${apiBase()}/p2/quote`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
       const data = await res.json();
-      if (!data.ok) { setError(data.error || t("portes.p2.identity.err_calc")); return null; }
+      // 400 = saisie refusée (niveau inconnu, surface manquante…) : on le dit,
+      // on ne replie pas sur une valeur par défaut.
+      if (!res.ok || !data.ok) { setError(data.error || data.message || t("portes.p2.identity.err_calc")); return null; }
       setQuote(data);
       setPhase("quote");
       return data;
@@ -569,7 +558,9 @@ function P2HomeInner() {
         region: identity.region,
         province: identity.province,
         moaType,
-        standing,
+        niveau,
+        // Miroir conservé le temps que le cockpit et les exports lisent `niveau`.
+        standing: niveau,
         ownerStatus,
         timeline,
         natureProjetCode: natureCode,
@@ -585,28 +576,9 @@ function P2HomeInner() {
 
   // Famille déduite du code nature pour afficher les sous-champs adéquats.
   // (Habitat individuel est volontairement exclu — il relève de la Porte 1.)
-  const natureFamily: "immeuble_petit" | "immeuble_grand" | "villa" | "gr" | "lot" | "epig" | "amg" | "expertise" | "autre" | "" = (() => {
-    if (!natureCode) return "";
-    if (natureCode === "autre") return "autre";
-    if (natureCode === "expertise_qualif") return "expertise";
-    // Petits immeubles ≤ R+4 (et habitat social petit collectif)
-    if (
-      natureCode === "immeuble_rdc_bifam" ||
-      natureCode === "immeuble_r1" ||
-      natureCode === "immeuble_r2" ||
-      natureCode === "immeuble_r3" ||
-      natureCode === "immeuble_r4" ||
-      natureCode === "immeuble_social_r4"
-    ) return "immeuble_petit";
-    // Grands immeubles R+5 et plus
-    if (natureCode.startsWith("immeuble_") || natureCode === "bureaux_r5plus") return "immeuble_grand";
-    if (natureCode.startsWith("villa_")) return "villa";
-    if (natureCode.startsWith("gr_")) return "gr";
-    if (natureCode.startsWith("lot_")) return "lot";
-    if (natureCode.startsWith("epig_")) return "epig";
-    if (natureCode.startsWith("amg_")) return "amg";
-    return "";
-  })();
+  // La famille vient du catalogue partagé. La déduction par préfixe rangeait
+  // R+4 dans le petit collectif, contre le barème (3.1 = « R+4 et plus »).
+  const natureFamily: FamilleCode | "" = sousTypeDe(natureCode)?.famille ?? "";
 
   // Le niveau R+ est-il déjà inscrit dans le label de la nature ?
   // (ex. "Immeuble R+2", "Immeuble R+5"). Dans ce cas on ne le redemande pas.
@@ -617,10 +589,10 @@ function P2HomeInner() {
   const isExpertise = natureFamily === "expertise";
   const askRLevel       = !isExpertise && (
                           natureFamily === "villa" || natureFamily === "gr"
-                          || (natureFamily === "immeuble_petit" && !rLevelImpliedByNature)
-                          || (natureFamily === "immeuble_grand" && !rLevelImpliedByNature));
+                          || (natureFamily === "habitat_r3" && !rLevelImpliedByNature)
+                          || (natureFamily === "collectif" && !rLevelImpliedByNature));
   const askNbBatiments  = !isExpertise && natureFamily === "gr";
-  const askTerrainM2    = !isExpertise && ["immeuble_petit", "immeuble_grand", "villa", "gr", "epig"].includes(natureFamily);
+  const askTerrainM2    = !isExpertise && ["habitat_r3", "collectif", "villa", "gr", "epig"].includes(natureFamily);
   const askTerrainHa    = !isExpertise && natureFamily === "lot";
   const askPlancher     = !isExpertise && (natureFamily === "amg" || natureFamily === "epig");
 
@@ -640,6 +612,8 @@ function P2HomeInner() {
     if (askNbBatiments && (!nbBatiments || +nbBatiments < 1)) return t("portes.p2.identity.err_nb_bat");
     if (askTerrainHa && (!surfaceTerrainHa || +surfaceTerrainHa <= 0)) return t("portes.p2.identity.err_ha");
     if (askPlancher && (!surfacePlancher || +surfacePlancher <= 0)) return t("portes.p2.identity.err_plancher");
+    // Le niveau commande la catégorie du barème : sans lui, pas de devis.
+    if (niveauxProposes.length > 0 && !niveau) return t("portes.p2.niveau.select");
     if (!ownerStatus) return t("portes.p2.identity.err_owner");
     if (!timeline) return t("portes.p2.identity.err_timeline");
     return null;
@@ -797,8 +771,36 @@ function P2HomeInner() {
                   </div>
                 </div>
                 <div className="gold-divider" style={{ margin: "18px 0 6px" }} />
-                {quote.base.coutTravauxEstime != null && (
+                {quote.meta.niveau && (
+                  <div className="qrow">
+                    <span className="k">{t("portes.p2.niveau.label")}</span>
+                    <span className="v">
+                      {t(`portes.p2.niveau.${quote.meta.niveau}`)}
+                      {quote.base.fourchette && (
+                        <> · {fmtInt(quote.base.fourchette[0])}
+                          {quote.base.fourchette[1] == null
+                            ? ` DH/m² ${t("portes.p2.niveau.et_plus")}`
+                            : ` – ${fmtInt(quote.base.fourchette[1])} DH/m²`}
+                        </>
+                      )}
+                    </span>
+                  </div>
+                )}
+                {quote.base.coutRetenu != null && (
+                  <div className="qrow"><span className="k">{t("portes.p2.recap.cout_retenu")}</span><span className="v">{fmtMAD(quote.base.coutRetenu)}</span></div>
+                )}
+                {quote.base.coutRetenu == null && quote.base.coutTravauxEstime != null && (
                   <div className="qrow"><span className="k">{t("portes.p2.recap.coast_estim")}</span><span className="v">{fmtMAD(quote.base.coutTravauxEstime)}</span></div>
+                )}
+                {quote.meta.bascule && (
+                  <div className="mini-note" style={{ marginTop: 10 }}>
+                    ⚠ {quote.meta.bascule.raison === "surface_sup_500" ? t("portes.p2.recap.bascule_500") : t("portes.p2.recap.bascule_amg")}
+                  </div>
+                )}
+                {quote.conformite?.plancherRespecte && (
+                  <div className="mini-note" style={{ marginTop: 10 }}>
+                    ✓ {t("portes.p2.recap.conformite", { categorie: quote.conformite.categorie, plancher: fmtInt(quote.conformite.plancherM2) })}
+                  </div>
                 )}
                 {quote.honoraires.totalHT != null && (
                   <>
@@ -923,13 +925,27 @@ function P2HomeInner() {
               {categories.map(c => (
                 <div key={c.code} className={"price-card" + (categoryCode === c.code ? " sel" : "")} onClick={() => pickCategory(c.code)}>
                   <div className="lux-title" style={{ fontSize: 17 }}>{c.label}</div>
-                  <div style={{ margin: "14px 0 4px" }}>
-                    <div className="muted" style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>{t("portes.p2.category.from")}</div>
-                    <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 3 }}>
-                      <span style={{ fontSize: 28, fontWeight: 900, color: "#0B1B3A" }}>{fmtMAD(c.costPerM2)}</span>
-                      <span className="muted" style={{ fontWeight: 800, fontSize: 13 }}>{t("portes.p2.category.per_m2")}</span>
-                    </div>
-                  </div>
+                  {(() => {
+                    // Prix affiché = fourchette réelle du niveau choisi ; à défaut,
+                    // la plus basse de la catégorie. Le plancher CNOA est rappelé
+                    // en dessous — c'est un plancher, pas un tarif.
+                    const dispo = c.niveaux || [];
+                    const n = dispo.find((x) => x.cle === niveau) || dispo[0];
+                    return (
+                      <div style={{ margin: "14px 0 4px" }}>
+                        <div className="muted" style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>{t("portes.p2.category.from")}</div>
+                        <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginTop: 3, flexWrap: "wrap" }}>
+                          <span style={{ fontSize: 24, fontWeight: 900, color: "#0B1B3A" }}>
+                            {n ? (n.haut == null ? `${fmtInt(n.bas)}+` : `${fmtInt(n.bas)} – ${fmtInt(n.haut)}`) : fmtMAD(c.costPerM2)}
+                          </span>
+                          <span className="muted" style={{ fontWeight: 800, fontSize: 13 }}>{t("portes.p2.category.per_m2")}</span>
+                        </div>
+                        <div className="muted" style={{ fontSize: 11.5, marginTop: 4 }}>
+                          {t("portes.p2.recap.conformite", { categorie: c.code, plancher: fmtInt(c.plancherM2 ?? c.costPerM2) })}
+                        </div>
+                      </div>
+                    );
+                  })()}
                   <div style={{ flex: 1 }}>
                     {c.notes && <div className="muted" style={{ fontSize: 12.5, marginTop: 8 }}>⚠ {c.notes}</div>}
                     {!c.photoOptionAvailable && <div className="muted" style={{ fontSize: 12.5, marginTop: 6 }}>{t("portes.p2.category.warn_physical")}</div>}
@@ -1101,17 +1117,32 @@ function P2HomeInner() {
                 <div style={{ fontWeight: 900, color: "#0B1B3A" }}>{t("portes.p2.follow.physique_pct")}</div>
               </div>
               {(() => {
-                const photoAvail = selectedCategory?.photoOptionAvailable !== false;
+                // Catégorie qui interdit le suivi photos (5.5 à 5.9) : l'option
+                // est RETIRÉE de l'écran, pas seulement ignorée au calcul.
+                const cat = categorieRetenue;
+                const photoAvail = cat
+                  ? BAREME_CNOA_2021[cat].photoOptionAvailable
+                  : selectedCategory?.photoOptionAvailable !== false;
+                if (!photoAvail) {
+                  return (
+                    <div className="lux-card">
+                      <div className="lux-title" style={{ fontSize: 16 }}>{t("portes.p2.follow.photos")}</div>
+                      <div className="muted" style={{ fontSize: 12.5, marginTop: 8, lineHeight: 1.6 }}>
+                        {t("portes.p2.follow.photos_na")}
+                        {cat && BAREME_CNOA_2021[cat].notes ? ` — ${BAREME_CNOA_2021[cat].notes}` : ""}
+                      </div>
+                    </div>
+                  );
+                }
                 return (
-                  <div className={"price-card" + (followMode === "PHOTOS" ? " sel" : "") + (photoAvail ? "" : " disabled")}
-                    onClick={() => photoAvail && setFollowMode("PHOTOS")}>
+                  <div className={"price-card" + (followMode === "PHOTOS" ? " sel" : "")}
+                    onClick={() => setFollowMode("PHOTOS")}>
                     <div style={{ fontSize: 30, marginBottom: 10 }}>📷</div>
                     <div className="lux-title" style={{ fontSize: 17 }}>{t("portes.p2.follow.photos")}</div>
                     <div className="muted" style={{ fontSize: 13, lineHeight: 1.6, margin: "8px 0 12px", flex: 1 }}>
                       {t("portes.p2.follow.photos_d")}
                     </div>
-                    <div style={{ fontWeight: 900, color: photoAvail ? "#0B1B3A" : "rgba(11,27,58,0.5)" }}>{t("portes.p2.follow.photos_pct")}</div>
-                    {!photoAvail && <div style={{ color: "#b91c1c", fontSize: 11.5, marginTop: 8 }}>{t("portes.p2.follow.photos_na")}</div>}
+                    <div style={{ fontWeight: 900, color: "#0B1B3A" }}>{t("portes.p2.follow.photos_pct")}</div>
                   </div>
                 );
               })()}
@@ -1440,18 +1471,29 @@ function P2HomeInner() {
               )}
             </div>
 
-            {/* 5) Caractéristiques projet — standing, propriétaire, délai (cf. P1) */}
+            {/* 5) Caractéristiques projet — niveau de prestation, propriétaire, délai (cf. P1) */}
             <div className="blk-title">{moaType === "morale" ? "5" : "4"}) {t("portes.p2.identity.proj_char")}</div>
             <div className="form-grid">
-              <div className="field">
-                <label className="label">{t("portes.p2.identity.standing")} <span className="req">*</span></label>
-                <select className="control" value={standing} onChange={(e) => setStanding(e.target.value as any)}>
-                  <option value="economique">{t("portes.p2.identity.standing.eco")}</option>
-                  <option value="moyen">{t("portes.p2.identity.standing.moy")}</option>
-                  <option value="haut">{t("portes.p2.identity.standing.haut")}</option>
-                  <option value="luxe">{t("portes.p2.identity.standing.luxe")}</option>
-                </select>
-              </div>
+              {/* Niveau de prestation — options et fourchettes lues dans la
+                  grille des coûts réels. Aucun prix n'est écrit ici. */}
+              {niveauxProposes.length > 0 && (
+                <div className="field">
+                  <label className="label">{t("portes.p2.niveau.label")} <span className="req">*</span></label>
+                  <select className="control" value={niveau} onChange={(e) => { setNiveau(e.target.value); setQuote(null); }}>
+                    <option value="">{t("portes.p2.niveau.select")}</option>
+                    {niveauxProposes.map((cle) => {
+                      const f = fourchetteDuNiveau(cle);
+                      const prix = !f
+                        ? ""
+                        : f[1] == null
+                          ? ` — ${fmtInt(f[0])} DH/m² ${t("portes.p2.niveau.et_plus")}`
+                          : ` — ${fmtInt(f[0])} – ${fmtInt(f[1])} DH/m²`;
+                      return <option key={cle} value={cle}>{t(`portes.p2.niveau.${cle}`)}{prix}</option>;
+                    })}
+                  </select>
+                  <div className="muted" style={{ fontSize: 11.5, marginTop: 6, lineHeight: 1.5 }}>{t("portes.p2.niveau.help")}</div>
+                </div>
+              )}
               <div className="field">
                 <label className="label">{t("portes.p2.identity.owner")} <span className="req">*</span></label>
                 <select className="control" value={ownerStatus} onChange={(e) => setOwnerStatus(e.target.value)}>
