@@ -164,7 +164,7 @@ A4 Land Use Policy IF=6.1 — panel étendu n=37-50, Bartlett, Delphi
 A5 World Development IF=6.9 — Transferability Score
 A6 CEUS IF=7.8 — TerriScan API computable (open-source MIT)
 
-Réponds en français, précis, orienté Q1. Tu maîtrises chaque valeur de la matrice, chaque choix méthodologique, chaque nuance statistique et chaque limitation déclarée.`
+Réponds dans la langue de la question : en français si on t'écrit en français, en anglais si on t'écrit en anglais (answer in English when the question is in English). Sois précis, orienté Q1. Tu maîtrises chaque valeur de la matrice, chaque choix méthodologique, chaque nuance statistique et chaque limitation déclarée.`
 
 // ─── HELPERS ────────────────────────────────────────────────────────
 
@@ -545,7 +545,7 @@ function AssistantTab() {
       <div ref={ref} style={{flex:1,overflowY:"auto",marginBottom:10,display:"flex",flexDirection:"column",gap:8}}>
         {msgs.length===0&&(
           <div style={{padding:12}}>
-            <p style={{fontSize:12,color:"var(--color-text-secondary)",marginBottom:10}}>Questions suggérées :</p>
+            <p style={{fontSize:12,color:"var(--color-text-secondary)",marginBottom:10}}>Questions suggérées · Suggested questions :</p>
             {starters.map((s,i)=>(
               <button key={i} onClick={()=>{setInput(s)}} style={{display:"block",width:"100%",textAlign:"left",padding:"7px 10px",marginBottom:5,fontSize:11,background:"var(--color-background-secondary)",border:"0.5px solid var(--color-border-tertiary)",borderRadius:"var(--border-radius-md)",cursor:"pointer",color:"var(--color-text-primary)"}}>
                 ↗ {s}
@@ -562,10 +562,10 @@ function AssistantTab() {
       </div>
       <div style={{display:"flex",gap:8}}>
         <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()}
-          placeholder="Pose une question sur la matrice CUE, KMST, les stats…"
+          placeholder="Pose une question… · Ask a question about the CUE matrix, KMST, stats…"
           style={{flex:1,padding:"8px 12px",borderRadius:"var(--border-radius-md)",border:"0.5px solid var(--color-border-secondary)",fontSize:12,background:"var(--color-background-primary)",color:"var(--color-text-primary)"}}/>
         <button onClick={send} disabled={loading} style={{padding:"8px 14px",borderRadius:"var(--border-radius-md)",border:"0.5px solid var(--color-border-secondary)",background:"var(--color-background-primary)",cursor:loading?"not-allowed":"pointer",fontSize:12,color:"var(--color-text-primary)"}}>
-          {loading?"…":"Envoyer ↗"}
+          {loading?"…":"Envoyer · Send ↗"}
         </button>
       </div>
     </div>

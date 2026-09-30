@@ -188,7 +188,6 @@ const bridge: CitNativeBridge = {
         correctOrientation: true,
         width: 1920,
         height: 1920,
-        preserveAspectRatio: true,
       });
       if (!photo.dataUrl) {
         return null;
