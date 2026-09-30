@@ -36,6 +36,11 @@ jobs:
     name: Build Android APK (debug)
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # Le token par défaut est en lecture seule : l'étape « Comment PR » a besoin d'écrire.
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
 
     steps:
       - name: Checkout
