@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
 import { PublicLayout } from "./layouts";
 import PageTracker from "../../../lib/PageTracker";
@@ -13,113 +13,123 @@ import { VILLES_SEO } from "../../../ui/seo/portes.data";
  * lui-même de /cc et /admin.
  */
 function RootTracker() {
-  return (<><PageTracker /><RouteMeta /><Outlet /></>);
+  // Les pages sont chargées à la demande (React.lazy) : seul l'accueil est
+  // dans le bundle initial. Suspense couvre toutes les routes enfants.
+  return (
+    <>
+      <PageTracker />
+      <RouteMeta />
+      <Suspense fallback={<div style={{ minHeight: "60vh" }} aria-busy="true" />}>
+        <Outlet />
+      </Suspense>
+    </>
+  );
 }
 
-import P1Home from "../../tome3/portals/p1/P1Home";
-import P1Packs from "../../tome3/portals/p1/P1Packs";
-import P1Dossier from "../../tome3/portals/p1/P1Dossier";
-import P1ClientPhases from "../../tome3/portals/p1/P1ClientPhases";
-import P1MyDossiers from "../../tome3/portals/p1/P1MyDossiers";
-import P2Home from "../../tome3/portals/p2/P2Home";
-import P2Finalize from "../../tome3/portals/p2/P2Finalize";
-import P3Home from "../../tome3/portals/p3/P3Home";
-import P4Home from "../../tome3/portals/p4/P4Home";
-import P5Home from "../../tome3/portals/p5/P5Home";
-import P5Finalize from "../../tome3/portals/p5/P5Finalize";
-import SigExplorer from "../../../features/geo/SigExplorer";
-import P6Dashboard from "../../tome3/portals/p6/P6Dashboard";
+const P1Home = lazy(() => import("../../tome3/portals/p1/P1Home"));
+const P1Packs = lazy(() => import("../../tome3/portals/p1/P1Packs"));
+const P1Dossier = lazy(() => import("../../tome3/portals/p1/P1Dossier"));
+const P1ClientPhases = lazy(() => import("../../tome3/portals/p1/P1ClientPhases"));
+const P1MyDossiers = lazy(() => import("../../tome3/portals/p1/P1MyDossiers"));
+const P2Home = lazy(() => import("../../tome3/portals/p2/P2Home"));
+const P2Finalize = lazy(() => import("../../tome3/portals/p2/P2Finalize"));
+const P3Home = lazy(() => import("../../tome3/portals/p3/P3Home"));
+const P4Home = lazy(() => import("../../tome3/portals/p4/P4Home"));
+const P5Home = lazy(() => import("../../tome3/portals/p5/P5Home"));
+const P5Finalize = lazy(() => import("../../tome3/portals/p5/P5Finalize"));
+const SigExplorer = lazy(() => import("../../../features/geo/SigExplorer"));
+const P6Dashboard = lazy(() => import("../../tome3/portals/p6/P6Dashboard"));
 
 // ── Nouveaux modules (Phase 3 push 7-agents v3) ──
-import MaterialsCatalogPage from "../../../features/materials/MaterialsCatalogPage";
-import MaterialDetail from "../../../features/materials/MaterialDetail";
-import PrestataireTarifsList from "../../../features/prestataire-tarifs/PrestataireTarifsList";
-import PrestataireTarifsEditor from "../../../features/prestataire-tarifs/PrestataireTarifsEditor";
-import TarifContractPublic from "../../../features/prestataire-tarifs/TarifContractPublic";
-import ProjectCalendarPage from "../../../features/project-calendar/ProjectCalendarPage";
-import LivraisonsPage from "../../../features/livraisons-materiaux/LivraisonsPage";
+const MaterialsCatalogPage = lazy(() => import("../../../features/materials/MaterialsCatalogPage"));
+const MaterialDetail = lazy(() => import("../../../features/materials/MaterialDetail"));
+const PrestataireTarifsList = lazy(() => import("../../../features/prestataire-tarifs/PrestataireTarifsList"));
+const PrestataireTarifsEditor = lazy(() => import("../../../features/prestataire-tarifs/PrestataireTarifsEditor"));
+const TarifContractPublic = lazy(() => import("../../../features/prestataire-tarifs/TarifContractPublic"));
+const ProjectCalendarPage = lazy(() => import("../../../features/project-calendar/ProjectCalendarPage"));
+const LivraisonsPage = lazy(() => import("../../../features/livraisons-materiaux/LivraisonsPage"));
 
 // ── Phase 5 (parcours complet lead → manage → permit → site → delivery) ──
-import MonParcoursPage from "../../../features/mon-parcours/MonParcoursPage";
+const MonParcoursPage = lazy(() => import("../../../features/mon-parcours/MonParcoursPage"));
 // ── Sprint Articles 2026-06 : page article + middleware OG backend pour vignettes par article ──
-import ArticleDetailPage from "../../../features/media/ArticleDetailPage";
+const ArticleDetailPage = lazy(() => import("../../../features/media/ArticleDetailPage"));
 // Vague 3 (migration v7) — page générique des phases DAG en lecture seule.
 // Additif strict : aucune route legacy modifiée.
-import DossierPhasesPage from "../../../features/dossier-phases/DossierPhasesPage";
-import DossierPhaseDetailPage from "../../../features/dossier-phases/DossierPhaseDetailPage";
-import DocumentsRepoPage from "../../../features/documents-repo/DocumentsRepoPage";
-import PcWizardPage from "../../../features/permis-construire/PcWizardPage";
-import RokhasTrackerPage from "../../../features/rokhas-tracker/RokhasTrackerPage";
-import SousTraitantsPage from "../../../features/sous-traitants/SousTraitantsPage";
-import ReceptionPage from "../../../features/reception-conformite/ReceptionPage";
-import IncidentsChantierPage from "../../../features/incidents-chantier/IncidentsChantierPage";
-import EstimationPage from "../../../features/zillow-ma/EstimationPage";
-import RoiCalculator from "../../../features/lead-funnel/RoiCalculator";
-import NotificationsCenterPage from "../../../features/notifications/NotificationsCenterPage";
-import MreDiasporaLanding from "../../../features/mre-diaspora/MreDiasporaLanding";
-import MetricsDashboardPage from "../../../features/analytics/MetricsDashboardPage";
-import CopiloteChantierPage from "../../../features/chef-copilote/CopiloteChantierPage";
-import ChantierPvPage from "../../../features/pv-chantier/ChantierPvPage";
-import CpsGeneratorPage from "../../../features/cps-generator/CpsGeneratorPage";
-import DossierCpsPage from "../../../features/cps-generator/DossierCpsPage";
-import PvChantierEditor from "../../../features/pv-chantier/PvChantierEditor";
-import PvChantierViewer from "../../../features/pv-chantier/PvChantierViewer";
-import MandataireSearchPage from "../../../features/mandataires-registry/MandataireSearchPage";
-import OpciOfferingsPage from "../../../features/opci-tokenise/OpciOfferingsPage";
-import DiasporaHubPage from "../../../features/cercles-diaspora/DiasporaHubPage";
+const DossierPhasesPage = lazy(() => import("../../../features/dossier-phases/DossierPhasesPage"));
+const DossierPhaseDetailPage = lazy(() => import("../../../features/dossier-phases/DossierPhaseDetailPage"));
+const DocumentsRepoPage = lazy(() => import("../../../features/documents-repo/DocumentsRepoPage"));
+const PcWizardPage = lazy(() => import("../../../features/permis-construire/PcWizardPage"));
+const RokhasTrackerPage = lazy(() => import("../../../features/rokhas-tracker/RokhasTrackerPage"));
+const SousTraitantsPage = lazy(() => import("../../../features/sous-traitants/SousTraitantsPage"));
+const ReceptionPage = lazy(() => import("../../../features/reception-conformite/ReceptionPage"));
+const IncidentsChantierPage = lazy(() => import("../../../features/incidents-chantier/IncidentsChantierPage"));
+const EstimationPage = lazy(() => import("../../../features/zillow-ma/EstimationPage"));
+const RoiCalculator = lazy(() => import("../../../features/lead-funnel/RoiCalculator"));
+const NotificationsCenterPage = lazy(() => import("../../../features/notifications/NotificationsCenterPage"));
+const MreDiasporaLanding = lazy(() => import("../../../features/mre-diaspora/MreDiasporaLanding"));
+const MetricsDashboardPage = lazy(() => import("../../../features/analytics/MetricsDashboardPage"));
+const CopiloteChantierPage = lazy(() => import("../../../features/chef-copilote/CopiloteChantierPage"));
+const ChantierPvPage = lazy(() => import("../../../features/pv-chantier/ChantierPvPage"));
+const CpsGeneratorPage = lazy(() => import("../../../features/cps-generator/CpsGeneratorPage"));
+const DossierCpsPage = lazy(() => import("../../../features/cps-generator/DossierCpsPage"));
+const PvChantierEditor = lazy(() => import("../../../features/pv-chantier/PvChantierEditor"));
+const PvChantierViewer = lazy(() => import("../../../features/pv-chantier/PvChantierViewer"));
+const MandataireSearchPage = lazy(() => import("../../../features/mandataires-registry/MandataireSearchPage"));
+const OpciOfferingsPage = lazy(() => import("../../../features/opci-tokenise/OpciOfferingsPage"));
+const DiasporaHubPage = lazy(() => import("../../../features/cercles-diaspora/DiasporaHubPage"));
 import { PaymentSuccessPage, PaymentCancelPage, PaymentStartPage } from "../../tome3/portals/payment/PaymentPages";
-import DocsPage from "../../../ui/docs/DocsPage";
+const DocsPage = lazy(() => import("../../../ui/docs/DocsPage"));
 
-import Login from "../../tome5/pages/Login";
-import VerifyPhone from "../../tome5/pages/VerifyPhone";
-import ConfirmEmail from "../../tome5/pages/ConfirmEmail";
-import ForgotPassword from "../../tome5/pages/ForgotPassword";
-import AccountTypeChooser from "../../tome5/pages/AccountTypeChooser";
-import ClientSignup from "../../tome5/pages/ClientSignup";
-import LeadCapturePage from "../../../features/lead-funnel/LeadCapturePage";
+const Login = lazy(() => import("../../tome5/pages/Login"));
+const VerifyPhone = lazy(() => import("../../tome5/pages/VerifyPhone"));
+const ConfirmEmail = lazy(() => import("../../tome5/pages/ConfirmEmail"));
+const ForgotPassword = lazy(() => import("../../tome5/pages/ForgotPassword"));
+const AccountTypeChooser = lazy(() => import("../../tome5/pages/AccountTypeChooser"));
+const ClientSignup = lazy(() => import("../../tome5/pages/ClientSignup"));
+const LeadCapturePage = lazy(() => import("../../../features/lead-funnel/LeadCapturePage"));
 import { SIGNUP_MODE } from "../../../features/lead-funnel/signupMode";
 
 import LandingPage from "../../../ui/landing/LandingPage";
 import { useAuth } from "../../tome5/AuthProvider";
-import DevRoutesPage from "../../../ui/dev/DevRoutesPage";
-import SimulatorPage from "../../../ui/simulateur/SimulatorPage";
-import TerriScanLab from "../../../features/terriscan/TerriScanLab";
+const DevRoutesPage = lazy(() => import("../../../ui/dev/DevRoutesPage"));
+const SimulatorPage = lazy(() => import("../../../ui/simulateur/SimulatorPage"));
+const TerriScanLab = lazy(() => import("../../../features/terriscan/TerriScanLab"));
 
 import { CANON, REDIRECTS } from "../../../application/routeRegistry";
-import CommandCenterApp from '../../../command-center/CommandCenterApp';
+const CommandCenterApp = lazy(() => import("../../../command-center/CommandCenterApp"));
 import { PorteLanding, VilleLanding } from '../../../ui/seo';
 
 // Cercles — réseau pro BTP (Sprints C0-C3 + D1-D3 + E1-E3 chat)
-import FeedHomePage     from "../../../features/cercles/FeedHomePage";
-import CerclesHomePage  from "../../../features/cercles/CerclesHomePage";
-import CercleDetailPage from "../../../features/cercles/CercleDetailPage";
-import NewCerclePage    from "../../../features/cercles/NewCerclePage";
-import PostDetailPage   from "../../../features/cercles/PostDetailPage";
-import LiveRoomPage     from "../../../features/cercles/LiveRoomPage";
-import AnnuairePage     from "../../../features/cercles/AnnuairePage";
-import ProfilePage      from "../../../features/cercles/ProfilePage";
-import CercleChatPage   from "../../../features/cercles/CercleChatPage";
-import InscriptionPage  from "../../../features/cercles/InscriptionPage";
-import EditProfilePage  from "../../../features/cercles/EditProfilePage";
-import AssociationApplyPage  from "../../../features/cercles/AssociationApplyPage";
-import AssociationManagePage from "../../../features/cercles/AssociationManagePage";
-import CerclesLanding       from "../../../features/cercles/CerclesLanding";
-import PublicPostPage       from "../../../features/cercles/PublicPostPage";
-import MarketplacePage        from "../../../features/cercles/marketplace/MarketplacePage";
-import ProductDetailPage      from "../../../features/cercles/marketplace/ProductDetailPage";
-import MyOffersPage           from "../../../features/cercles/marketplace/MyOffersPage";
-import MarketplacePhotosPage  from "../../../features/cercles/marketplace/MarketplacePhotosPage";
-import DirectMessagesPage   from "../../../features/cercles/DirectMessagesPage";
+const FeedHomePage = lazy(() => import("../../../features/cercles/FeedHomePage"));
+const CerclesHomePage = lazy(() => import("../../../features/cercles/CerclesHomePage"));
+const CercleDetailPage = lazy(() => import("../../../features/cercles/CercleDetailPage"));
+const NewCerclePage = lazy(() => import("../../../features/cercles/NewCerclePage"));
+const PostDetailPage = lazy(() => import("../../../features/cercles/PostDetailPage"));
+const LiveRoomPage = lazy(() => import("../../../features/cercles/LiveRoomPage"));
+const AnnuairePage = lazy(() => import("../../../features/cercles/AnnuairePage"));
+const ProfilePage = lazy(() => import("../../../features/cercles/ProfilePage"));
+const CercleChatPage = lazy(() => import("../../../features/cercles/CercleChatPage"));
+const InscriptionPage = lazy(() => import("../../../features/cercles/InscriptionPage"));
+const EditProfilePage = lazy(() => import("../../../features/cercles/EditProfilePage"));
+const AssociationApplyPage = lazy(() => import("../../../features/cercles/AssociationApplyPage"));
+const AssociationManagePage = lazy(() => import("../../../features/cercles/AssociationManagePage"));
+const CerclesLanding = lazy(() => import("../../../features/cercles/CerclesLanding"));
+const PublicPostPage = lazy(() => import("../../../features/cercles/PublicPostPage"));
+const MarketplacePage = lazy(() => import("../../../features/cercles/marketplace/MarketplacePage"));
+const ProductDetailPage = lazy(() => import("../../../features/cercles/marketplace/ProductDetailPage"));
+const MyOffersPage = lazy(() => import("../../../features/cercles/marketplace/MyOffersPage"));
+const MarketplacePhotosPage = lazy(() => import("../../../features/cercles/marketplace/MarketplacePhotosPage"));
+const DirectMessagesPage = lazy(() => import("../../../features/cercles/DirectMessagesPage"));
 
 // Fiche cabinet d'architecte (ancrée sur ProProfile, cf. memory citurb-cabinet-portfolio-anchor)
-import CabinetPublicPage    from "../../../features/cabinet/CabinetPublicPage";
-import CabinetProjectPage   from "../../../features/cabinet/CabinetProjectPage";
-import CabinetManagePage    from "../../../features/cabinet/CabinetManagePage";
+const CabinetPublicPage = lazy(() => import("../../../features/cabinet/CabinetPublicPage"));
+const CabinetProjectPage = lazy(() => import("../../../features/cabinet/CabinetProjectPage"));
+const CabinetManagePage = lazy(() => import("../../../features/cabinet/CabinetManagePage"));
 
 // Admin Vault (Sprint H — app admin ultra-sécurisée)
-import AdminLoginPage           from "../../../features/admin/AdminLoginPage";
-import AdminDashboard           from "../../../features/admin/AdminDashboard";
-import AdminRegisterPasskeyPage from "../../../features/admin/AdminRegisterPasskeyPage";
+const AdminLoginPage = lazy(() => import("../../../features/admin/AdminLoginPage"));
+const AdminDashboard = lazy(() => import("../../../features/admin/AdminDashboard"));
+const AdminRegisterPasskeyPage = lazy(() => import("../../../features/admin/AdminRegisterPasskeyPage"));
 
 /**
  * V152-B1 — Canonisation Routes (memo)
