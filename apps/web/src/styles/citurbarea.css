@@ -31,7 +31,12 @@
   --font-body:   'DM Sans', system-ui, sans-serif;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* Reset dans la couche base de Tailwind (cf. tailwind.css) : hors couche, il
+   l'emportait sur les utilitaires (px-4, mt-2…) et LeadCaptureForm perdait
+   tous ses espacements. Spécificité nulle : sans effet sur les autres styles. */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+}
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--font-body);
