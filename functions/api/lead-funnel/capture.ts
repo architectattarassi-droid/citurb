@@ -27,6 +27,11 @@ import { neon } from "@neondatabase/serverless";
 
 interface Env {
   DATABASE_URL?: string;
+  /** Alerte e-mail à chaque nouveau lead : les deux requis, sinon rien n'est envoyé. */
+  RESEND_API_KEY?: string;
+  LEAD_NOTIFY_TO?: string;
+  /** Expéditeur vérifié dans Resend (défaut : CITURBAREA <no-reply@citurbarea.com>). */
+  LEAD_NOTIFY_FROM?: string;
 }
 
 /** Client SQL en gabarit balisé (neon) — injectable pour les tests. */
@@ -35,6 +40,8 @@ export type Sql = (strings: TemplateStringsArray, ...values: unknown[]) => Promi
 interface Reponse {
   status: number;
   json: Record<string, unknown>;
+  /** Présent seulement quand un lead vient d'être écrit (pas en rejeu ni pot de miel). */
+  nouveau?: { id: string; nom: string; telephone: string; email: string | null; ville: string | null; projetType: string | null; budget: number | null; source: string; pageContext: string | null; score: number };
 }
 
 const WIZARD_MAX_BYTES = 16 * 1024;
@@ -211,7 +218,11 @@ export async function traiterCapture(body: unknown, headers: Headers, sql: Sql):
         '{}'::jsonb, NULL, ${JSON.stringify(events)}::jsonb, ${JSON.stringify(meta)}::jsonb
       )`;
 
-    return { status: 201, json: resultat(id, s, "NEW", lang) };
+    return {
+      status: 201,
+      json: resultat(id, s, "NEW", lang),
+      nouveau: { id, nom, telephone, email, ville, projetType, budget, source, pageContext, score: s },
+    };
   } catch (e) {
     // 42P01 = table absente (schéma non poussé) : jamais de CREATE TABLE ici.
     const code = (e as { code?: string })?.code;
@@ -227,12 +238,61 @@ function repondre(r: Reponse): Response {
   });
 }
 
-export async function onRequestPost(ctx: { request: Request; env: Env }): Promise<Response> {
+const echapper = (s: string) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+
+/** Corps de l'alerte e-mail envoyée au propriétaire pour un nouveau lead. */
+export function messageAlerte(l: NonNullable<Reponse["nouveau"]>): { subject: string; text: string; html: string } {
+  const lignes: [string, string][] = [
+    ["Nom", l.nom],
+    ["Téléphone", l.telephone],
+    ["E-mail", l.email || "—"],
+    ["Ville", l.ville || "—"],
+    ["Porte / projet", l.projetType || "—"],
+    ["Budget", l.budget != null ? `${new Intl.NumberFormat("fr-FR").format(l.budget)} MAD` : "—"],
+    ["Source", l.source],
+    ["Page", l.pageContext || "—"],
+    ["Score", String(l.score)],
+  ];
+  const lien = `https://admin.citurbarea.com/cc/leads`;
+  return {
+    subject: `Nouveau lead CITURBAREA — ${l.nom}${l.ville ? ` (${l.ville})` : ""}`,
+    text: `${lignes.map(([k, v]) => `${k} : ${v}`).join("\n")}\n\n${lien}`,
+    html: `<table style="font-family:sans-serif;font-size:14px">${lignes
+      .map(([k, v]) => `<tr><td style="color:#666;padding:2px 12px 2px 0">${k}</td><td><strong>${echapper(v)}</strong></td></tr>`)
+      .join("")}</table><p><a href="${lien}">Ouvrir le back-office</a></p>`,
+  };
+}
+
+async function alerter(env: Env, l: NonNullable<Reponse["nouveau"]>): Promise<void> {
+  if (!env.RESEND_API_KEY || !env.LEAD_NOTIFY_TO) return;
+  const m = messageAlerte(l);
+  try {
+    const r = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
+      body: JSON.stringify({
+        from: env.LEAD_NOTIFY_FROM || "CITURBAREA <no-reply@citurbarea.com>",
+        to: env.LEAD_NOTIFY_TO.split(",").map((x) => x.trim()).filter(Boolean),
+        subject: m.subject,
+        text: m.text,
+        html: m.html,
+      }),
+    });
+    if (!r.ok) console.error(`[lead-funnel/capture] alerte e-mail refusée (${r.status})`);
+  } catch {
+    console.error("[lead-funnel/capture] alerte e-mail impossible");
+  }
+}
+
+export async function onRequestPost(ctx: { request: Request; env: Env; waitUntil?: (p: Promise<unknown>) => void }): Promise<Response> {
   if (!ctx.env.DATABASE_URL) return repondre(indisponible());
   let body: unknown;
   try { body = await ctx.request.json(); } catch { return repondre({ status: 400, json: { ok: false, error: "payload_invalid" } }); }
   const sql = neon(ctx.env.DATABASE_URL) as unknown as Sql;
-  return repondre(await traiterCapture(body, ctx.request.headers, sql));
+  const r = await traiterCapture(body, ctx.request.headers, sql);
+  // L'alerte part après la réponse : le visiteur n'attend jamais Resend.
+  if (r.nouveau && ctx.waitUntil) ctx.waitUntil(alerter(ctx.env, r.nouveau));
+  return repondre(r);
 }
 
 export async function onRequestGet(ctx: { env: Env }): Promise<Response> {
