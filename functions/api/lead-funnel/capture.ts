@@ -46,6 +46,18 @@ interface Reponse {
 
 const WIZARD_MAX_BYTES = 16 * 1024;
 const RE_TEL_MA = /^(\+212|0)[567]\d{8}$/;
+
+/**
+ * Téléphone accepté, compacté, ou null : marocain (0…, +212…, 00212…) ou
+ * international pour la diaspora (+indicatif / 00indicatif, E.164).
+ * Même règle que telephoneEnvoyable (apps/web/src/features/lead-funnel/leadBridge.ts).
+ */
+export function telephoneLead(t: string): string | null {
+  const c = t.replace(/[\s.\-()]/g, "");
+  if (/^(\+212|00212|0)[567]\d{8}$/.test(c)) return c.startsWith("00212") ? `+${c.slice(2)}` : c;
+  if (/^(\+|00)[1-9]\d{7,14}$/.test(c)) return c.startsWith("00") ? `+${c.slice(2)}` : c;
+  return null;
+}
 const VILLES_TOP = new Set(["casablanca", "casa", "rabat", "marrakech", "marrakesh", "tanger", "tangier"]);
 
 // Mêmes exclusions que apps/web/src/features/lead-funnel/leadBridge.ts (EXCLUS).
@@ -145,10 +157,10 @@ export async function traiterCapture(body: unknown, headers: Headers, sql: Sql):
   }
 
   const nom = clip(b.nom, 120);
-  const telephone = clip(b.telephone, 30);
+  const telephone = telephoneLead(clip(b.telephone, 30));
   if (nom.length < 2) return { status: 400, json: { ok: false, error: "nom_invalid" } };
-  if (!RE_TEL_MA.test(telephone.replace(/[\s-]/g, ""))) return { status: 400, json: { ok: false, error: "phone_invalid" } };
-  if (!accepter(`tel:${telephone.replace(/[\s-]/g, "")}`, 3, 60 * 60_000)) return { status: 429, json: { ok: false, error: "too_many_requests" } };
+  if (!telephone) return { status: 400, json: { ok: false, error: "phone_invalid" } };
+  if (!accepter(`tel:${telephone}`, 3, 60 * 60_000)) return { status: 429, json: { ok: false, error: "too_many_requests" } };
 
   const metaClient = b.meta && typeof b.meta === "object" && !Array.isArray(b.meta) ? (b.meta as Record<string, unknown>) : {};
   let wizard: unknown = undefined;

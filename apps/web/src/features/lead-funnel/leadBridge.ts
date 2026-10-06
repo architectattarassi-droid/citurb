@@ -128,6 +128,8 @@ function bumpTries(key: string): void {
 
 function markSent(key: string, leadId: string): void {
   const s = readSent();
+  // Purge des entrées expirées : la table ne grossit pas indéfiniment.
+  for (const k of Object.keys(s)) if (!envoiRecent(s[k])) delete s[k];
   s[key] = { leadId, at: new Date().toISOString() };
   writeJson(SENT_KEY, s);
 }
@@ -143,13 +145,31 @@ export function normalizePhone(t: string | undefined): string {
   return d;
 }
 
+/**
+ * Téléphone accepté pour un lead, sous forme compacte, ou null.
+ * Marocain : 06/07/05…, +212…, 00212… ; international (diaspora MRE) :
+ * +<indicatif><numéro> ou 00<indicatif>…, 8 à 15 chiffres (E.164).
+ * Même règle que functions/api/lead-funnel/capture.ts (telephoneLead).
+ */
+export function telephoneEnvoyable(t: string | undefined): string | null {
+  const c = String(t || "").replace(/[\s.\-()]/g, "");
+  if (/^(\+212|00212|0)[567]\d{8}$/.test(c)) return c.startsWith("00212") ? `+${c.slice(2)}` : c;
+  if (/^(\+|00)[1-9]\d{7,14}$/.test(c)) return c.startsWith("00") ? `+${c.slice(2)}` : c;
+  return null;
+}
+
 export function leadKey(porte: string | undefined, telephone: string): string {
   return `${porte || "GEN"}:${normalizePhone(telephone)}`;
 }
 
-/** Vrai si la capture a déjà abouti ou attend dans la file de reprise. */
+/** Au-delà, un même téléphone sur la même porte redevient un nouveau lead
+ *  (client qui revient pour un autre projet). */
+const SENT_TTL_MS = 24 * 3600_000;
+const envoiRecent = (e: SentEntry | undefined) => !!e && Date.now() - Date.parse(e.at) < SENT_TTL_MS;
+
+/** Vrai si la capture a abouti il y a moins de 24 h ou attend dans la file de reprise. */
 export function hasSubmittedLead(key: string): boolean {
-  return !!readSent()[key] || readQueue().some((x) => x.key === key);
+  return envoiRecent(readSent()[key]) || readQueue().some((x) => x.key === key);
 }
 
 // ── Réseau ────────────────────────────────────────────────────────────
@@ -200,7 +220,7 @@ function nouvelleCle(): string {
 /** Envoie la capture d'un lead (écriture en file AVANT l'envoi). */
 export async function captureLead(key: string, body: CaptureBody): Promise<CaptureOutcome> {
   const sent = readSent()[key];
-  if (sent) {
+  if (sent && envoiRecent(sent)) {
     dequeue(key);
     return { status: "already", leadId: sent.leadId };
   }
