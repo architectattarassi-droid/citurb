@@ -1,19 +1,97 @@
 {
-  "generatedAt": "2026-06-15",
+  "generatedAt": "2026-10-06",
   "baseUrl": "https://citurbarea.com",
   "pathPrefix": "/services",
   "cells": [
     {
       "service": "architecte",
+      "locality": "kenitra",
+      "url": "/services/architecte-kenitra",
+      "full": "https://citurbarea.com/services/architecte-kenitra"
+    },
+    {
+      "service": "architecte",
       "locality": "sale",
-      "url": "/services/architecte-sale.html",
-      "full": "https://citurbarea.com/services/architecte-sale.html"
+      "url": "/services/architecte-sale",
+      "full": "https://citurbarea.com/services/architecte-sale"
+    },
+    {
+      "service": "architecte",
+      "locality": "rabat",
+      "url": "/services/architecte-rabat",
+      "full": "https://citurbarea.com/services/architecte-rabat"
     },
     {
       "service": "permis-de-construire",
       "locality": "kenitra",
-      "url": "/services/permis-de-construire-kenitra.html",
-      "full": "https://citurbarea.com/services/permis-de-construire-kenitra.html"
+      "url": "/services/permis-de-construire-kenitra",
+      "full": "https://citurbarea.com/services/permis-de-construire-kenitra"
+    },
+    {
+      "service": "permis-de-construire",
+      "locality": "sale",
+      "url": "/services/permis-de-construire-sale",
+      "full": "https://citurbarea.com/services/permis-de-construire-sale"
+    },
+    {
+      "service": "permis-de-construire",
+      "locality": "rabat",
+      "url": "/services/permis-de-construire-rabat",
+      "full": "https://citurbarea.com/services/permis-de-construire-rabat"
+    },
+    {
+      "service": "suivi-de-chantier",
+      "locality": "kenitra",
+      "url": "/services/suivi-de-chantier-kenitra",
+      "full": "https://citurbarea.com/services/suivi-de-chantier-kenitra"
+    },
+    {
+      "service": "suivi-de-chantier",
+      "locality": "sale",
+      "url": "/services/suivi-de-chantier-sale",
+      "full": "https://citurbarea.com/services/suivi-de-chantier-sale"
+    },
+    {
+      "service": "suivi-de-chantier",
+      "locality": "rabat",
+      "url": "/services/suivi-de-chantier-rabat",
+      "full": "https://citurbarea.com/services/suivi-de-chantier-rabat"
+    },
+    {
+      "service": "plans-de-maison",
+      "locality": "kenitra",
+      "url": "/services/plans-de-maison-kenitra",
+      "full": "https://citurbarea.com/services/plans-de-maison-kenitra"
+    },
+    {
+      "service": "plans-de-maison",
+      "locality": "sale",
+      "url": "/services/plans-de-maison-sale",
+      "full": "https://citurbarea.com/services/plans-de-maison-sale"
+    },
+    {
+      "service": "plans-de-maison",
+      "locality": "rabat",
+      "url": "/services/plans-de-maison-rabat",
+      "full": "https://citurbarea.com/services/plans-de-maison-rabat"
+    },
+    {
+      "service": "renovation",
+      "locality": "kenitra",
+      "url": "/services/renovation-kenitra",
+      "full": "https://citurbarea.com/services/renovation-kenitra"
+    },
+    {
+      "service": "renovation",
+      "locality": "sale",
+      "url": "/services/renovation-sale",
+      "full": "https://citurbarea.com/services/renovation-sale"
+    },
+    {
+      "service": "renovation",
+      "locality": "rabat",
+      "url": "/services/renovation-rabat",
+      "full": "https://citurbarea.com/services/renovation-rabat"
     }
   ]
 }

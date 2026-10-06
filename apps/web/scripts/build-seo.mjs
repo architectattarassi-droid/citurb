@@ -41,7 +41,9 @@ for (const f of fs.readdirSync(PAGES_DIR)) {
 }
 
 const esc = (s = "") => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-const urlFor = (svc, loc) => `${business.pathPrefix}/${svc.slug}-${loc.slug}.html`;
+// Sans « .html » : Cloudflare Pages redirige (308) x.html → x ; l'URL du
+// sitemap, la canonical et les liens doivent être l'URL servie en 200.
+const urlFor = (svc, loc) => `${business.pathPrefix}/${svc.slug}-${loc.slug}`;
 const fullUrl = (svc, loc) => `${business.baseUrl}${urlFor(svc, loc)}`;
 
 // ───────────────────────────── JSON-LD ─────────────────────────────
@@ -131,7 +133,6 @@ function pageHtml(svc, loc, ov) {
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${fullUrl(svc, loc)}">
 <link rel="alternate" hreflang="fr" href="${fullUrl(svc, loc)}">
-<link rel="alternate" hreflang="ar" href="${business.baseUrl}/ar${urlFor(svc, loc)}">
 <link rel="alternate" hreflang="x-default" href="${fullUrl(svc, loc)}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
@@ -216,8 +217,6 @@ ${published
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="${p.full}"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="${business.baseUrl}/ar${p.url}"/>
   </url>`,
   )
   .join("\n")}
@@ -342,8 +341,6 @@ function portePageHtml(p, allPortes) {
 <meta name="description" content="${desc}">
 <link rel="canonical" href="${url}">
 <link rel="alternate" hreflang="fr" href="${url}">
-<link rel="alternate" hreflang="ar" href="${business.baseUrl}/ar/${p.slugAr}">
-<link rel="alternate" hreflang="en" href="${business.baseUrl}/en/${p.slugEn}">
 <link rel="alternate" hreflang="x-default" href="${url}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${esc(p.titleFr)} — CITURBAREA">
@@ -451,8 +448,6 @@ ${portePublished
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="${p.full}"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="${p.ar}"/>
   </url>`,
   )
   .join("\n")}
