@@ -6,7 +6,7 @@ import { getStoredLang, useT } from "../../../../i18n/i18n";
 import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
 import FichesPrestations from "../../../../components/fiches-prestations/FichesPrestations";
 import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
-import { apiAvailable, captureFromIntake, delaiMoisDepuis, montantDevis, submitLead } from "../../../../features/lead-funnel/leadBridge";
+import { apiAvailable, captureFromIntake, delaiMoisDepuis, montantDevis, submitLead, telephoneEnvoyable } from "../../../../features/lead-funnel/leadBridge";
 import BudgetPrevisionnelField from "../../../../features/lead-funnel/BudgetPrevisionnelField";
 import {
   BAREME_CNOA_2021,
@@ -152,9 +152,10 @@ const P1_CSS = `
 .p2page .label { font-size:12px; font-weight:900; letter-spacing:.10em; text-transform:uppercase; color:rgba(11,27,58,0.80); }
 .p2page .control {
   width:100%; border:1px solid rgba(201,162,39,0.35); background:rgba(255,255,255,0.85);
-  border-radius:14px; padding:12px 13px; font-size:14px; color:#0B1B3A; outline:none; font-family:inherit;
+  border-radius:14px; padding:12px 13px; font-size:16px; color:#0B1B3A; outline:none; font-family:inherit; /* ≥16px : pas de zoom iOS */
 }
 .p2page .control:focus { box-shadow:0 0 0 4px rgba(201,162,39,0.18); border-color:rgba(201,162,39,0.65); }
+.p2page .control[aria-invalid="true"] { border-color:#b91c1c; }
 
 .p2page .pill {
   display:inline-flex; align-items:center; gap:10px; padding:8px 14px; border-radius:999px;
@@ -245,6 +246,27 @@ const fullBleed: React.CSSProperties = {
 
 const HERO_POINT_IDS = ["bareme", "phases", "devis", "contract"] as const;
 
+/**
+ * Préremplissage de l'inscription (nom / téléphone / email) transmis par
+ * sessionStorage — jamais par l'URL (données personnelles, loi 09-08).
+ * Valeur : JSON { name?, phone?, email?, at } ; lu et effacé par la page
+ * d'inscription (tomes/tome5/pages/ClientSignup.tsx).
+ */
+const PREFILL_KEY = "citurbarea:prefill";
+
+/** Délai maximal de chargement du catalogue avant bascule en saisie libre. */
+const CATALOGUE_TIMEOUT_MS = 5000;
+
+/** Erreur d'un champ de l'étape identité ; field = suffixe de l'id DOM « p2f_<field> ». */
+type ErreurChamp = { field: string; msg: string };
+
+/** Textes propres à la page, absents des dictionnaires (FR / AR / EN). */
+const TXT_P2: Record<"fr" | "ar" | "en", { libre: string }> = {
+  fr: { libre: "Décrivez votre projet en quelques mots : un architecte vous rappelle sous 24 h pour le préciser avec vous." },
+  ar: { libre: "صف مشروعك في بضع كلمات: سيتصل بك مهندس معماري خلال 24 ساعة لتحديده معك." },
+  en: { libre: "Describe your project in a few words: an architect will call you back within 24 hours to refine it with you." },
+};
+
 function P2HomeInner() {
   const t = useT();
   const auth = useAuth();
@@ -311,6 +333,9 @@ function P2HomeInner() {
   const [natureCode, setNatureCode] = useState<string>("");
   const [natureAutre, setNatureAutre] = useState<string>("");
   const [error, setError] = useState("");
+  // Erreurs de l'étape identité, affichées SOUS le champ concerné ; n change à
+  // chaque tentative pour relancer le défilement vers le premier champ invalide.
+  const [idErrs, setIdErrs] = useState<{ list: ErreurChamp[]; n: number } | null>(null);
   const [dossierId, setDossierId] = useState<string | null>(null);
   // API injoignable : catalogue en saisie libre, devis livré sous 24 h.
   const [categoriesKo, setCategoriesKo] = useState(false);
@@ -362,7 +387,11 @@ function P2HomeInner() {
   useEffect(() => {
     if (!section || section === "LOT") { setCategories([]); return; }
     setCategoriesKo(false);
-    fetch(`${apiBase()}/p2/categories?section=${section}`)
+    // Délai maximal : sans réponse JSON en 5 s, on passe en saisie libre.
+    let actif = true;
+    const ac = new AbortController();
+    const timer = setTimeout(() => ac.abort(), CATALOGUE_TIMEOUT_MS);
+    fetch(`${apiBase()}/p2/categories?section=${section}`, { signal: ac.signal })
       .then(r => r.json())
       .then(d => {
         if (!d.ok) { setCategoriesKo(true); return; }
@@ -372,7 +401,9 @@ function P2HomeInner() {
         setCategories(items);
       })
       // API injoignable : saisie libre dans le bloc catégorie, le parcours continue.
-      .catch(() => setCategoriesKo(true));
+      .catch(() => { if (actif) setCategoriesKo(true); })
+      .finally(() => clearTimeout(timer));
+    return () => { actif = false; clearTimeout(timer); ac.abort(); };
   }, [section]);
 
   // Défilement doux vers le bloc qui vient de se révéler.
@@ -597,33 +628,79 @@ function P2HomeInner() {
   const askPlancher     = !isExpertise && (natureFamily === "amg" || natureFamily === "epig");
 
   // Validation de la phase identité (étape 1 — qui êtes-vous).
-  const validateIdentity = (): string | null => {
-    if (!identity.clientNom || !identity.clientTel) return t("portes.p2.identity.err_name_phone");
-    if (!identity.region || !identity.province || !identity.commune) return t("portes.p2.identity.err_loc");
-    if (moaType === "morale" && (!identity.raisonSociale || !identity.representant)) {
-      return t("portes.p2.identity.err_moral");
+  // Renvoie les erreurs dans l'ordre d'affichage : nom et téléphone ensemble,
+  // puis au plus une erreur pour le reste (comportement historique).
+  const validateIdentity = (): ErreurChamp[] => {
+    const errs: ErreurChamp[] = [];
+    if (identity.clientNom.trim().length < 2) errs.push({ field: "nom", msg: t("lead.err.nom") });
+    if (!telephoneEnvoyable(identity.clientTel)) {
+      errs.push({ field: "tel", msg: identity.clientTel.trim() ? t("lead.porte.err_contact") : t("portes.p2.identity.err_name_phone") });
     }
-    if (!natureCode) return t("portes.p2.identity.err_nature");
+    if (errs.length) return errs;
+    const une = (field: string, msg: string) => [{ field, msg }];
+    if (!identity.region || !identity.province || !identity.commune) return une("loc", t("portes.p2.identity.err_loc"));
+    if (moaType === "morale" && !identity.raisonSociale) return une("raison", t("portes.p2.identity.err_moral"));
+    if (moaType === "morale" && !identity.representant) return une("repr", t("portes.p2.identity.err_moral"));
+    if (!natureCode) return une("nature", t("portes.p2.identity.err_nature"));
     if (natureCode === "autre" && !natureAutre.trim()) {
-      return t("portes.p2.identity.err_autre");
+      return une("autre", t("portes.p2.identity.err_autre"));
     }
     // Sous-champs contextuels (n'apparaissent que pour certaines familles).
-    if (askRLevel && !rLevel) return t("portes.p2.identity.err_rlevel");
-    if (askNbBatiments && (!nbBatiments || +nbBatiments < 1)) return t("portes.p2.identity.err_nb_bat");
-    if (askTerrainHa && (!surfaceTerrainHa || +surfaceTerrainHa <= 0)) return t("portes.p2.identity.err_ha");
-    if (askPlancher && (!surfacePlancher || +surfacePlancher <= 0)) return t("portes.p2.identity.err_plancher");
+    if (askRLevel && !rLevel) return une("rlevel", t("portes.p2.identity.err_rlevel"));
+    if (askNbBatiments && (!nbBatiments || +nbBatiments < 1)) return une("nb", t("portes.p2.identity.err_nb_bat"));
+    if (askTerrainHa && (!surfaceTerrainHa || +surfaceTerrainHa <= 0)) return une("ha", t("portes.p2.identity.err_ha"));
+    if (askPlancher && (!surfacePlancher || +surfacePlancher <= 0)) return une("plancher", t("portes.p2.identity.err_plancher"));
     // Le niveau commande la catégorie du barème : sans lui, pas de devis.
-    if (niveauxProposes.length > 0 && !niveau) return t("portes.p2.niveau.select");
-    if (!ownerStatus) return t("portes.p2.identity.err_owner");
-    if (!timeline) return t("portes.p2.identity.err_timeline");
-    return null;
+    if (niveauxProposes.length > 0 && !niveau) return une("niveau", t("portes.p2.niveau.select"));
+    if (!ownerStatus) return une("owner", t("portes.p2.identity.err_owner"));
+    if (!timeline) return une("timeline", t("portes.p2.identity.err_timeline"));
+    return [];
   };
+
+  // Signale les erreurs : message sous chaque champ + résumé près du bouton.
+  const signalerIdentite = (errs: ErreurChamp[]) => {
+    setError(errs[0].msg);
+    setIdErrs({ list: errs, n: Date.now() });
+  };
+
+  // Défilement + focus sur le premier champ invalide, à chaque tentative.
+  useEffect(() => {
+    if (!idErrs || !idErrs.list.length || phase !== "identity") return;
+    const id = setTimeout(() => {
+      const box = document.getElementById(`p2f_${idErrs.list[0].field}`);
+      if (!box) return;
+      const cible = (box.matches("input,select,textarea,button") ? box : box.querySelector("input,select,textarea,button")) as HTMLElement | null;
+      box.scrollIntoView({ behavior: "smooth", block: "center" });
+      cible?.focus({ preventScroll: true });
+    }, 30);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idErrs?.n, phase]);
+
+  // Après une tentative, les messages suivent la saisie (disparaissent une fois corrigés).
+  useEffect(() => {
+    if (!idErrs) return;
+    const errs = validateIdentity();
+    const avant = idErrs.list.map(e => e.field + e.msg).join("|");
+    const apres = errs.map(e => e.field + e.msg).join("|");
+    if (avant === apres) return;
+    if (!errs.length) { setIdErrs(null); setError(""); return; }
+    setIdErrs({ list: errs, n: idErrs.n }); // même n : pas de nouveau défilement
+    setError(errs[0].msg);
+  });
+
+  const errSous = (field: string) => {
+    const e = idErrs?.list.find(x => x.field === field);
+    return e ? <div className="err" role="alert" id={`p2f_${field}_err`} style={{ margin: "4px 0 0" }}>⚠ {e.msg}</div> : null;
+  };
+  const invalide = (field: string) => (idErrs?.list.some(x => x.field === field) ? { "aria-invalid": true, "aria-describedby": `p2f_${field}_err` } : {});
 
   // Étape 1 → 2 : on a identifié le client, on passe au projet.
   const identityContinue = () => {
     setError("");
-    const err = validateIdentity();
-    if (err) { setError(err); return; }
+    const errs = validateIdentity();
+    if (errs.length) { signalerIdentite(errs); return; }
+    setIdErrs(null);
     // Mission d'expertise : pas d'étapes projet (section/catégorie/mesures) —
     // le rapport facturable est créé directement à partir de l'identité.
     if (isExpertise) {
@@ -637,7 +714,7 @@ function P2HomeInner() {
     setError("");
     // Filet de sécurité : si on arrive ici via un raccourci, on re-vérifie l'identité.
     const idErr = validateIdentity();
-    if (idErr) { setError(idErr); setPhase("identity"); return; }
+    if (idErr.length) { signalerIdentite(idErr); setPhase("identity"); return; }
 
     // Mode "full", visiteur non connecté : signup client (mot de passe + double
     // validation email/SMS), puis rejeu de l'intake sur /p2/finalize. La
@@ -649,11 +726,17 @@ function P2HomeInner() {
       try {
         localStorage.setItem(P2_PENDING_KEY, JSON.stringify(pending));
       } catch {}
-      // Préremplit l'inscription avec le téléphone/email/nom déjà saisis (via query).
+      // Préremplit l'inscription avec le téléphone/email/nom déjà saisis —
+      // par sessionStorage, JAMAIS dans l'URL (historique, logs, Referer).
+      try {
+        sessionStorage.setItem(PREFILL_KEY, JSON.stringify({
+          name: identity.clientNom || undefined,
+          phone: identity.clientTel || undefined,
+          email: identity.clientEmail || undefined,
+          at: new Date().toISOString(),
+        }));
+      } catch {}
       const params = new URLSearchParams();
-      if (identity.clientEmail) params.set("email", identity.clientEmail);
-      if (identity.clientTel) params.set("phone", identity.clientTel);
-      if (identity.clientNom) params.set("name", identity.clientNom);
       params.set("next", "/p2/finalize");
       navigate(`/creer-compte/client?${params.toString()}`);
       return;
@@ -691,7 +774,8 @@ function P2HomeInner() {
     const cap = await envoi.capture;
     setBusy(false);
     if (cap.status === "invalid") {
-      setError(cap.code === "phone_invalid" ? t("lead.porte.err_contact") : t("lead.err.generic"));
+      if (cap.code === "phone_invalid") signalerIdentite([{ field: "tel", msg: t("lead.porte.err_contact") }]);
+      else setError(t("lead.err.generic"));
       setPhase("identity");
       return;
     }
@@ -958,7 +1042,7 @@ function P2HomeInner() {
               {categories.length === 0 && !categoriesKo && <div className="muted">{t("portes.p2.category.loading")}</div>}
               {categories.length === 0 && categoriesKo && (
                 <div className="lux-card" style={{ gridColumn: "1 / -1" }}>
-                  <div className="muted" style={{ marginBottom: 12 }}>{t("lead.porte.catalog_unavailable")}</div>
+                  <div className="muted" style={{ marginBottom: 12 }}>{(TXT_P2[getStoredLang()] || TXT_P2.fr).libre}</div>
                   <input className="control" value={categoryLibre} onChange={e => setCategoryLibre(e.target.value)} placeholder={t("lead.porte.free_ph")} />
                   <button className="btn btn-gold" style={{ marginTop: 14 }} onClick={() => pickCategory("LIBRE")}>{t("lead.porte.continue")}</button>
                 </div>
@@ -1165,6 +1249,7 @@ function P2HomeInner() {
             <div className="muted cit-porte-p2-help" style={{ marginTop: 14, fontSize: 12.5, lineHeight: 1.6 }}>
               {t("portes.p2.follow.foot")}
             </div>
+            <p className="muted" style={{ marginTop: 8, fontSize: 12.5, lineHeight: 1.5 }}>{t("lead.legal")}</p>
           </div>
         </section>
       )}
@@ -1219,18 +1304,21 @@ function P2HomeInner() {
             <div className="pill" style={{ marginBottom: 14 }}>{t("portes.p2.identity.contact")} <span className="req">*</span></div>
             <div className="form-grid">
               <div className="field">
-                <label className="label">{t("portes.p2.identity.fullname")} <span className="req">*</span></label>
-                <input className="control" value={identity.clientNom} onChange={f("clientNom")} placeholder={t("portes.p2.identity.fullname_ph")} />
+                <label className="label" htmlFor="p2f_nom">{t("portes.p2.identity.fullname")} <span className="req">*</span></label>
+                <input id="p2f_nom" className="control" autoComplete="name" value={identity.clientNom} onChange={f("clientNom")} placeholder={t("portes.p2.identity.fullname_ph")} {...invalide("nom")} />
+                {errSous("nom")}
               </div>
               <div className="field">
-                <label className="label">{t("portes.p2.identity.phone")} <span className="req">*</span></label>
-                <input className="control" value={identity.clientTel} onChange={f("clientTel")} placeholder={t("portes.p2.identity.phone_ph")} />
+                <label className="label" htmlFor="p2f_tel">{t("portes.p2.identity.phone")} <span className="req">*</span></label>
+                <input id="p2f_tel" className="control" type="tel" inputMode="tel" autoComplete="tel" value={identity.clientTel} onChange={f("clientTel")} placeholder={t("portes.p2.identity.phone_ph")} {...invalide("tel")} />
+                {errSous("tel")}
               </div>
               <div className="field">
-                <label className="label">{t("portes.p2.identity.email")}</label>
-                <input className="control" value={identity.clientEmail} onChange={f("clientEmail")} placeholder={t("portes.p2.identity.email_ph")} />
+                <label className="label" htmlFor="p2f_email">{t("portes.p2.identity.email")}</label>
+                <input id="p2f_email" className="control" type="email" inputMode="email" autoComplete="email" value={identity.clientEmail} onChange={f("clientEmail")} placeholder={t("portes.p2.identity.email_ph")} />
               </div>
             </div>
+            <p className="muted" style={{ fontSize: 12.5, marginTop: 8, lineHeight: 1.5 }}>{t("lead.legal")}</p>
 
             {/* 3) Société — visible UNIQUEMENT si personne morale */}
             {moaType === "morale" && (
@@ -1238,12 +1326,14 @@ function P2HomeInner() {
                 <div className="blk-title">3) {t("portes.p2.identity.company")}</div>
                 <div className="form-grid">
                   <div className="field">
-                    <label className="label">{t("portes.p2.identity.raison")} <span className="req">*</span></label>
-                    <input className="control" value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder={t("portes.p2.identity.raison_ph")} />
+                    <label className="label" htmlFor="p2f_raison">{t("portes.p2.identity.raison")} <span className="req">*</span></label>
+                    <input id="p2f_raison" className="control" autoComplete="organization" value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder={t("portes.p2.identity.raison_ph")} {...invalide("raison")} />
+                    {errSous("raison")}
                   </div>
                   <div className="field">
-                    <label className="label">{t("portes.p2.identity.repr")} <span className="req">*</span></label>
-                    <input className="control" value={identity.representant} onChange={f("representant")} placeholder={t("portes.p2.identity.repr_ph")} />
+                    <label className="label" htmlFor="p2f_repr">{t("portes.p2.identity.repr")} <span className="req">*</span></label>
+                    <input id="p2f_repr" className="control" value={identity.representant} onChange={f("representant")} placeholder={t("portes.p2.identity.repr_ph")} {...invalide("repr")} />
+                    {errSous("repr")}
                   </div>
                   <div className="field">
                     <label className="label">{t("portes.p2.identity.rc")}</label>
@@ -1262,6 +1352,7 @@ function P2HomeInner() {
             <div className="muted cit-porte-p2-help" style={{ fontSize: 12.5, marginBottom: 10 }}>
               {t("portes.p2.identity.location_sub")}
             </div>
+            <div id="p2f_loc">
             <AdminLocationSelect
               required
               value={{ region: identity.region, province: identity.province, commune: identity.commune }}
@@ -1274,10 +1365,13 @@ function P2HomeInner() {
                 }));
               }}
             />
+            {errSous("loc")}
+            </div>
             <div className="form-grid" style={{ marginTop: 14 }}>
               {/* Nature du projet — cartes premium par famille (style P1) */}
-              <div className="field" style={{ gridColumn: "1 / -1" }}>
+              <div className="field" id="p2f_nature" style={{ gridColumn: "1 / -1" }}>
                 <label className="label" style={{ marginBottom: 8 }}>{t("portes.p2.identity.nature")} <span className="req">*</span></label>
+                {errSous("nature")}
                 <div style={{
                   background: "rgba(201,162,39,0.07)",
                   border: "1px solid rgba(201,162,39,0.22)",
@@ -1399,8 +1493,9 @@ function P2HomeInner() {
                 })()}
               </div>
               {natureCode === "autre" && (
-                <div className="field" style={{ gridColumn: "1 / -1" }}>
+                <div className="field" id="p2f_autre" style={{ gridColumn: "1 / -1" }}>
                   <label className="label">{t("portes.p2.identity.precise_autre")} <span className="req">*</span></label>
+                  {errSous("autre")}
                   <input
                     className="control"
                     value={natureAutre}
@@ -1416,8 +1511,9 @@ function P2HomeInner() {
 
               {/* Sous-champs contextuels — apparaissent selon le type de projet choisi */}
               {askRLevel && (
-                <div className="field">
+                <div className="field" id="p2f_rlevel">
                   <label className="label">{t("portes.p2.identity.r_level")} <span className="req">*</span></label>
+                  {errSous("rlevel")}
                   <select className="control" value={rLevel} onChange={(e) => setRLevel(e.target.value)}>
                     <option value="">{t("portes.p2.identity.r_select")}</option>
                     <option value="R0">{t("portes.p2.identity.r_rdc")}</option>
@@ -1433,8 +1529,9 @@ function P2HomeInner() {
                 </div>
               )}
               {askNbBatiments && (
-                <div className="field">
+                <div className="field" id="p2f_nb">
                   <label className="label">{t("portes.p2.identity.nb_bat")} <span className="req">*</span></label>
+                  {errSous("nb")}
                   <input className="control" type="number" min={1} step={1}
                     value={nbBatiments} onChange={(e) => setNbBatiments(e.target.value)}
                     placeholder={t("portes.p2.identity.nb_bat_ph")} />
@@ -1449,16 +1546,18 @@ function P2HomeInner() {
                 </div>
               )}
               {askTerrainHa && (
-                <div className="field">
+                <div className="field" id="p2f_ha">
                   <label className="label">{t("portes.p2.identity.terrain_ha")} <span className="req">*</span></label>
+                  {errSous("ha")}
                   <input className="control" type="number" min={0} step="0.01"
                     value={surfaceTerrainHa} onChange={(e) => setSurfaceTerrainHa(e.target.value)}
                     placeholder={t("portes.p2.identity.terrain_ha_ph")} />
                 </div>
               )}
               {askPlancher && (
-                <div className="field">
+                <div className="field" id="p2f_plancher">
                   <label className="label">{t("portes.p2.identity.plancher")} <span className="req">*</span></label>
+                  {errSous("plancher")}
                   <input className="control" type="number" min={0} step={1}
                     value={surfacePlancher} onChange={(e) => setSurfacePlancher(e.target.value)}
                     placeholder={t("portes.p2.identity.plancher_ph")} />
@@ -1477,8 +1576,9 @@ function P2HomeInner() {
               {/* Niveau de prestation — options et fourchettes lues dans la
                   grille des coûts réels. Aucun prix n'est écrit ici. */}
               {niveauxProposes.length > 0 && (
-                <div className="field">
+                <div className="field" id="p2f_niveau">
                   <label className="label">{t("portes.p2.niveau.label")} <span className="req">*</span></label>
+                  {errSous("niveau")}
                   <select className="control" value={niveau} onChange={(e) => { setNiveau(e.target.value); setQuote(null); }}>
                     <option value="">{t("portes.p2.niveau.select")}</option>
                     {niveauxProposes.map((cle) => {
@@ -1494,8 +1594,9 @@ function P2HomeInner() {
                   <div className="muted" style={{ fontSize: 11.5, marginTop: 6, lineHeight: 1.5 }}>{t("portes.p2.niveau.help")}</div>
                 </div>
               )}
-              <div className="field">
+              <div className="field" id="p2f_owner">
                 <label className="label">{t("portes.p2.identity.owner")} <span className="req">*</span></label>
+                {errSous("owner")}
                 <select className="control" value={ownerStatus} onChange={(e) => setOwnerStatus(e.target.value)}>
                   <option value="">{t("portes.p2.identity.r_select")}</option>
                   <option value="proprietaire">{t("portes.p2.identity.owner.prop")}</option>
@@ -1505,8 +1606,9 @@ function P2HomeInner() {
                   <option value="autre">{t("portes.p2.identity.owner.autre")}</option>
                 </select>
               </div>
-              <div className="field">
+              <div className="field" id="p2f_timeline">
                 <label className="label">{t("portes.p2.identity.timeline")} <span className="req">*</span></label>
+                {errSous("timeline")}
                 <select className="control" value={timeline} onChange={(e) => setTimeline(e.target.value)}>
                   <option value="">{t("portes.p2.identity.r_select")}</option>
                   <option value="0-6m">{t("portes.p2.identity.timeline.0_6m")}</option>

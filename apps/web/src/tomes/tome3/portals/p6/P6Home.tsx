@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
 import { getStoredLang, useT } from "../../../../i18n/i18n";
-import { apiAvailable, captureFromIntake, submitLead } from "../../../../features/lead-funnel/leadBridge";
+import { apiAvailable, captureFromIntake, submitLead, telephoneEnvoyable } from "../../../../features/lead-funnel/leadBridge";
 
 /**
  * P6Home — Onboarding réseau prestataires & fournisseurs
@@ -68,7 +68,7 @@ const S: Record<string, React.CSSProperties> = {
   formTitle: { fontSize: 24, fontWeight: 800, marginBottom: 8 },
   formSub: { color: "#6b7280", fontSize: 14, marginBottom: 24 },
   label: { display: "block", fontSize: 11, color: "#9ca3af", fontWeight: 600, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 },
-  inp: { background: "#0a0f1a", border: "1px solid #1e2330", borderRadius: 6, color: "#e8eaf0", padding: "12px 14px", fontSize: 14, width: "100%", boxSizing: "border-box", marginBottom: 14 },
+  inp: { background: "#0a0f1a", border: "1px solid #1e2330", borderRadius: 6, color: "#e8eaf0", padding: "12px 14px", fontSize: 16, width: "100%", boxSizing: "border-box", marginBottom: 14 },
   row2: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 },
   btn: { background: "#7f1d1d", color: "#fff", border: "none", borderRadius: 8, padding: "14px 28px", fontSize: 15, fontWeight: 700, cursor: "pointer", width: "100%", marginTop: 12 },
   btnBack: { background: "none", border: "none", color: "#6b7280", cursor: "pointer", marginBottom: 16, fontSize: 13 },
@@ -119,7 +119,13 @@ export default function P6Home() {
   const [refsKo, setRefsKo] = useState(false);
 
   useEffect(() => {
-    const charger = (chemin: string) => fetch(`${apiBase()}${chemin}`).then(r => r.json()).catch(() => null);
+    // Borné à 5 s : sans API, le parcours continue sans attendre indéfiniment.
+    const charger = (chemin: string) => {
+      const ac = new AbortController();
+      const timer = setTimeout(() => ac.abort(), 5000);
+      return fetch(`${apiBase()}${chemin}`, { signal: ac.signal }).then(r => r.json()).catch(() => null)
+        .finally(() => clearTimeout(timer));
+    };
     Promise.all([
       charger("/p6/types"), charger("/p6/classes-btp"), charger("/p6/categories-agrement"), charger("/p6/documents-requis"),
     ]).then(([ty, c, ca, d]) => {
@@ -188,6 +194,12 @@ export default function P6Home() {
     setError("");
     if (!identite.clientNom || !identite.clientTel || !identite.raisonSociale) {
       setError(t("portes.p6.contact.err_required"));
+      return;
+    }
+    // Même règle que la capture serveur : sinon la demande serait refusée.
+    if (!telephoneEnvoyable(identite.clientTel)) {
+      setError(t("lead.porte.err_contact"));
+      try { document.getElementById("p6f_tel")?.focus(); } catch {}
       return;
     }
     setStep("submitting");
@@ -518,16 +530,17 @@ export default function P6Home() {
           <Stepper />
           <div style={S.formTitle}>{t("portes.p6.contact.title")}</div>
           <div style={S.formSub}>{t("portes.p6.contact.sub")}</div>
-          {error && <div style={S.err}>⚠ {error}</div>}
+          {error && <div style={S.err} role="alert">⚠ {error}</div>}
 
           <div style={S.row2}>
-            <div><label style={S.label}>{t("portes.p6.contact.name_label")}</label><input style={S.inp} value={identite.clientNom} onChange={e => setIdentite({...identite, clientNom: e.target.value})} placeholder={t("portes.p6.contact.name_ph")} /></div>
-            <div><label style={S.label}>{t("portes.p6.contact.phone_label")}</label><input style={S.inp} value={identite.clientTel} onChange={e => setIdentite({...identite, clientTel: e.target.value})} placeholder={t("portes.p6.contact.phone_ph")} /></div>
+            <div><label htmlFor="p6f_nom" style={S.label}>{t("portes.p6.contact.name_label")}</label><input id="p6f_nom" style={S.inp} autoComplete="name" value={identite.clientNom} onChange={e => setIdentite({...identite, clientNom: e.target.value})} placeholder={t("portes.p6.contact.name_ph")} /></div>
+            <div><label htmlFor="p6f_tel" style={S.label}>{t("portes.p6.contact.phone_label")}</label><input id="p6f_tel" style={S.inp} type="tel" inputMode="tel" autoComplete="tel" value={identite.clientTel} onChange={e => setIdentite({...identite, clientTel: e.target.value})} placeholder={t("portes.p6.contact.phone_ph")} /></div>
           </div>
-          <label style={S.label}>{t("portes.p6.contact.email_label")}</label>
-          <input style={S.inp} value={identite.clientEmail} onChange={e => setIdentite({...identite, clientEmail: e.target.value})} placeholder={t("portes.p6.contact.email_ph")} />
+          <label htmlFor="p6f_email" style={S.label}>{t("portes.p6.contact.email_label")}</label>
+          <input id="p6f_email" style={S.inp} type="email" inputMode="email" autoComplete="email" value={identite.clientEmail} onChange={e => setIdentite({...identite, clientEmail: e.target.value})} placeholder={t("portes.p6.contact.email_ph")} />
 
           <button style={S.btn} onClick={submit}>{t("portes.p6.contact.submit")}</button>
+          <p style={{ color: "#9ca3af", fontSize: 12.5, lineHeight: 1.5, marginTop: 12 }}>{t("lead.legal")}</p>
         </div>
       </div>
     );

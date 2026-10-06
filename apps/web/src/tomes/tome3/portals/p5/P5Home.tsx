@@ -8,7 +8,7 @@ import MohafadatiUpload, { UploadedDoc } from "../../../../features/geo/Mohafada
 import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
 import TitleFoncierInput from "../../../../features/geo/TitleFoncierInput";
 import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
-import { captureFromIntake, montantDevis, submitLead } from "../../../../features/lead-funnel/leadBridge";
+import { captureFromIntake, montantDevis, submitLead, telephoneEnvoyable } from "../../../../features/lead-funnel/leadBridge";
 import BudgetPrevisionnelField from "../../../../features/lead-funnel/BudgetPrevisionnelField";
 import proj4 from "proj4";
 
@@ -39,6 +39,16 @@ if (!proj4.defs("EPSG:26191")) {
  */
 
 const P5_PENDING_KEY = "citurbarea:p5:pending_intake:v1";
+
+/**
+ * Préremplissage de l'inscription (nom / téléphone / email) par sessionStorage —
+ * jamais par l'URL (loi 09-08). JSON { name?, phone?, email?, at } ; lu et effacé
+ * par tomes/tome5/pages/ClientSignup.tsx. Même clé que P2.
+ */
+const PREFILL_KEY = "citurbarea:prefill";
+
+/** Erreur d'un champ de l'étape identité ; field = suffixe de l'id DOM « p5f_<field> ». */
+type ErreurChamp = { field: string; msg: string };
 
 type ReportType = "ESTIMATION_EXPRESS" | "EXPERTISE_PRIX" | "EXPERTISE_URBA" | "READY_TO_INVEST";
 type DelayMode = "EXPRESS" | "STANDARD" | "ECONOMIQUE";
@@ -325,14 +335,56 @@ function P5HomeInner() {
   const selectedReport = REPORT_CARDS.find(r => r.code === reportType);
 
   // ── Validation ─────────────────────────────────────────────────────
-  const validateIdentity = (): string | null => {
-    if (!identity.clientNom || !identity.clientTel) return "Nom et téléphone obligatoires.";
-    if (!identity.region || !identity.province || !identity.commune) return "Région, province et commune obligatoires.";
-    if (moaType === "morale" && (!identity.raisonSociale || !identity.representant)) {
-      return "Raison sociale et représentant légal obligatoires pour une personne morale.";
+  // Erreurs de l'étape identité, dans l'ordre d'affichage (nom + téléphone
+  // ensemble, puis au plus une autre). field = suffixe de l'id DOM « p5f_<field> ».
+  const validateIdentity = (): ErreurChamp[] => {
+    const errs: ErreurChamp[] = [];
+    if (identity.clientNom.trim().length < 2) errs.push({ field: "nom", msg: t("lead.err.nom") });
+    if (!telephoneEnvoyable(identity.clientTel)) {
+      errs.push({ field: "tel", msg: identity.clientTel.trim() ? t("lead.porte.err_contact") : "Indiquez un numéro de téléphone pour être rappelé." });
     }
-    return null;
+    if (errs.length) return errs;
+    if (moaType === "morale" && !identity.raisonSociale) return [{ field: "raison", msg: "Raison sociale obligatoire pour une personne morale." }];
+    if (moaType === "morale" && !identity.representant) return [{ field: "repr", msg: "Représentant légal obligatoire pour une personne morale." }];
+    if (!identity.region || !identity.province || !identity.commune) return [{ field: "loc", msg: "Région, province et commune obligatoires." }];
+    return [];
   };
+
+  // Signale les erreurs : message sous chaque champ + résumé près du bouton.
+  const [idErrs, setIdErrs] = useState<{ list: ErreurChamp[]; n: number } | null>(null);
+  const signalerIdentite = (errs: ErreurChamp[]) => {
+    setError(errs[0].msg);
+    setIdErrs({ list: errs, n: Date.now() });
+  };
+  // Défilement + focus sur le premier champ invalide, à chaque tentative.
+  useEffect(() => {
+    if (!idErrs || !idErrs.list.length || phase !== "identity") return;
+    const id = setTimeout(() => {
+      const box = document.getElementById(`p5f_${idErrs.list[0].field}`);
+      if (!box) return;
+      const cible = (box.matches("input,select,textarea,button") ? box : box.querySelector("input,select,textarea,button")) as HTMLElement | null;
+      box.scrollIntoView({ behavior: "smooth", block: "center" });
+      cible?.focus({ preventScroll: true });
+    }, 30);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idErrs?.n, phase]);
+  // Après une tentative, les messages suivent la saisie (disparaissent une fois corrigés).
+  useEffect(() => {
+    if (!idErrs) return;
+    const errs = validateIdentity();
+    const avant = idErrs.list.map(e => e.field + e.msg).join("|");
+    const apres = errs.map(e => e.field + e.msg).join("|");
+    if (avant === apres) return;
+    if (!errs.length) { setIdErrs(null); setError(""); return; }
+    setIdErrs({ list: errs, n: idErrs.n });
+    setError(errs[0].msg);
+  });
+  const errSous = (field: string) => {
+    const e = idErrs?.list.find(x => x.field === field);
+    return e ? <div className="err" role="alert" id={`p5f_${field}_err`} style={{ margin: "4px 0 0" }}>⚠ {e.msg}</div> : null;
+  };
+  const invalide = (field: string) => (idErrs?.list.some(x => x.field === field) ? { "aria-invalid": true, "aria-describedby": `p5f_${field}_err` } : {});
   const validateDetails = (): string | null => {
     if (!reportType) return "Choisissez un type de rapport.";
     // Toujours requis : description du bien
@@ -354,8 +406,9 @@ function P5HomeInner() {
   // ── Transitions ────────────────────────────────────────────────────
   const identityContinue = () => {
     setError("");
-    const err = validateIdentity();
-    if (err) { setError(err); return; }
+    const errs = validateIdentity();
+    if (errs.length) { signalerIdentite(errs); return; }
+    setIdErrs(null);
     setPhase("report");
   };
   const pickReport = (code: ReportType) => {
@@ -562,7 +615,7 @@ function P5HomeInner() {
   // données post-auth) — bug corrigé en redirigeant tout le monde vers Finalize.
   const submitIntake = async () => {
     setError("");
-    const idErr = validateIdentity();   if (idErr)   { setError(idErr);   setPhase("identity"); return; }
+    const idErr = validateIdentity();   if (idErr.length) { signalerIdentite(idErr); setPhase("identity"); return; }
     const detErr = validateDetails();   if (detErr)  { setError(detErr);  setPhase("details");  return; }
 
     const payload = buildIntakePayload(auth.email || undefined);
@@ -583,7 +636,8 @@ function P5HomeInner() {
       const cap = await envoi.capture;
       setBusy(false);
       if (cap.status === "invalid") {
-        setError(cap.code === "phone_invalid" ? t("lead.porte.err_contact") : t("lead.err.generic"));
+        if (cap.code === "phone_invalid") signalerIdentite([{ field: "tel", msg: t("lead.porte.err_contact") }]);
+        else setError(t("lead.err.generic"));
         setPhase("identity");
         return;
       }
@@ -597,10 +651,17 @@ function P5HomeInner() {
     try { localStorage.setItem(P5_PENDING_KEY, JSON.stringify(payload)); } catch {}
 
     if (!auth.isAuthed) {
+      // Préremplissage de l'inscription par sessionStorage, JAMAIS dans l'URL
+      // (données personnelles, loi 09-08) — même clé que P2.
+      try {
+        sessionStorage.setItem(PREFILL_KEY, JSON.stringify({
+          name: identity.clientNom || undefined,
+          phone: identity.clientTel || undefined,
+          email: identity.clientEmail || undefined,
+          at: new Date().toISOString(),
+        }));
+      } catch {}
       const params = new URLSearchParams();
-      if (identity.clientEmail) params.set("email", identity.clientEmail);
-      if (identity.clientTel) params.set("phone", identity.clientTel);
-      if (identity.clientNom) params.set("name", identity.clientNom);
       params.set("next", "/p5/finalize");
       navigate(`/creer-compte/client?${params.toString()}`);
       return;
@@ -815,17 +876,18 @@ function P5HomeInner() {
 
             <div className="pill" style={{ marginBottom: 14 }}>2) Contact <span className="req">*</span></div>
             <div className="form-grid">
-              <div className="field"><label className="label">Nom complet <span className="req">*</span></label><input className="control" value={identity.clientNom} onChange={f("clientNom")} placeholder="Prénom Nom" /></div>
-              <div className="field"><label className="label">Téléphone <span className="req">*</span></label><input className="control" value={identity.clientTel} onChange={f("clientTel")} placeholder="+212 6XX XXX XXX" /></div>
-              <div className="field"><label className="label">Email</label><input className="control" value={identity.clientEmail} onChange={f("clientEmail")} placeholder="contact@exemple.ma" /></div>
+              <div className="field"><label className="label" htmlFor="p5f_nom">Nom complet <span className="req">*</span></label><input id="p5f_nom" className="control" autoComplete="name" value={identity.clientNom} onChange={f("clientNom")} placeholder="Prénom Nom" {...invalide("nom")} />{errSous("nom")}</div>
+              <div className="field"><label className="label" htmlFor="p5f_tel">Téléphone <span className="req">*</span></label><input id="p5f_tel" className="control" type="tel" inputMode="tel" autoComplete="tel" value={identity.clientTel} onChange={f("clientTel")} placeholder="+212 6XX XXX XXX" {...invalide("tel")} />{errSous("tel")}</div>
+              <div className="field"><label className="label" htmlFor="p5f_email">Email</label><input id="p5f_email" className="control" type="email" inputMode="email" autoComplete="email" value={identity.clientEmail} onChange={f("clientEmail")} placeholder="contact@exemple.ma" /></div>
             </div>
+            <p className="muted" style={{ fontSize: 12.5, marginTop: 8, lineHeight: 1.5 }}>{t("lead.legal")}</p>
 
             {moaType === "morale" && (
               <>
                 <div className="blk-title">3) Société</div>
                 <div className="form-grid">
-                  <div className="field"><label className="label">Raison sociale <span className="req">*</span></label><input className="control" value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder="SARL / SA / SNC…" /></div>
-                  <div className="field"><label className="label">Représentant légal <span className="req">*</span></label><input className="control" value={identity.representant} onChange={f("representant")} placeholder="Gérant / DG" /></div>
+                  <div className="field"><label className="label" htmlFor="p5f_raison">Raison sociale <span className="req">*</span></label><input id="p5f_raison" className="control" autoComplete="organization" value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder="SARL / SA / SNC…" {...invalide("raison")} />{errSous("raison")}</div>
+                  <div className="field"><label className="label" htmlFor="p5f_repr">Représentant légal <span className="req">*</span></label><input id="p5f_repr" className="control" value={identity.representant} onChange={f("representant")} placeholder="Gérant / DG" {...invalide("repr")} />{errSous("repr")}</div>
                   <div className="field"><label className="label">RC</label><input className="control" value={identity.rc} onChange={f("rc")} placeholder="12345" /></div>
                   <div className="field"><label className="label">ICE</label><input className="control" value={identity.ice} onChange={f("ice")} placeholder="000000000000000" /></div>
                 </div>
@@ -836,6 +898,7 @@ function P5HomeInner() {
             <div className="muted" style={{ fontSize: 12.5, marginBottom: 10, maxWidth: 720 }}>
               Sélection officielle issue du découpage HCP — 14 régions / 77 provinces / 1 505 communes.
             </div>
+            <div id="p5f_loc">
             <AdminLocationSelect
               required
               value={{ region: identity.region, province: identity.province, commune: identity.commune }}
@@ -844,6 +907,8 @@ function P5HomeInner() {
                 setAdminCodes(codes);
               }}
             />
+            {errSous("loc")}
+            </div>
             <div className="form-grid" style={{ marginTop: 14 }}>
               <div className="field" style={{ gridColumn: "1 / -1" }}>
                 <label className="label">Adresse précise du bien (optionnel)</label>
@@ -1244,6 +1309,7 @@ function P5HomeInner() {
               Votre devis personnalisé est calculé après la création du dossier — un dossier
               identifié, rattaché à votre compte client.
             </div>
+            <p className="muted" style={{ marginTop: 8, fontSize: 12.5, maxWidth: 720, lineHeight: 1.5 }}>{t("lead.legal")}</p>
           </div>
         </section>
       )}
@@ -1304,8 +1370,9 @@ const P5_CSS = `
 @media(max-width:760px){ .p5page .form-grid { grid-template-columns:1fr; } }
 .p5page .field { display:flex; flex-direction:column; gap:6px; }
 .p5page .label { font-size:12px; font-weight:900; letter-spacing:.10em; text-transform:uppercase; color:rgba(11,27,58,0.80); }
-.p5page .control { width:100%; border:1px solid rgba(201,162,39,0.35); background:rgba(255,255,255,0.85); border-radius:14px; padding:12px 13px; font-size:14px; color:#0B1B3A; outline:none; font-family:inherit; }
+.p5page .control { width:100%; border:1px solid rgba(201,162,39,0.35); background:rgba(255,255,255,0.85); border-radius:14px; padding:12px 13px; font-size:16px; color:#0B1B3A; outline:none; font-family:inherit; }
 .p5page .control:focus { box-shadow:0 0 0 4px rgba(201,162,39,0.18); border-color:rgba(201,162,39,0.65); }
+.p5page .control[aria-invalid="true"] { border-color:#b91c1c; }
 .p5page .pill { display:inline-flex; align-items:center; gap:10px; padding:8px 14px; border-radius:999px; border:1px solid rgba(201,162,39,0.35); background:rgba(255,255,255,0.72); font-size:12px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:rgba(11,27,58,0.78); }
 .p5page .req { color:rgba(201,162,39,0.95); font-weight:900; }
 .p5page .mini-note { border:1px solid rgba(201,162,39,0.35); background:rgba(255,255,255,0.78); border-radius:16px; padding:14px 16px; color:rgba(11,18,32,0.80); font-size:13px; line-height:1.6; box-shadow:0 12px 40px rgba(11,27,58,0.06); }

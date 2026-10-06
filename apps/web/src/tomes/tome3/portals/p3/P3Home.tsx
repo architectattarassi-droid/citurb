@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../../tome4/apiClient";
 import { getStoredLang, useT } from "../../../../i18n/i18n";
-import { apiAvailable, captureFromIntake, montantDevis, submitLead } from "../../../../features/lead-funnel/leadBridge";
+import { apiAvailable, captureFromIntake, montantDevis, submitLead, telephoneEnvoyable } from "../../../../features/lead-funnel/leadBridge";
+import { CONTACT, lienTel, lienWhatsApp } from "../../../../config/contact";
 import BudgetPrevisionnelField from "../../../../features/lead-funnel/BudgetPrevisionnelField";
 import FichesPrestations from "../../../../components/fiches-prestations/FichesPrestations";
 
@@ -18,6 +19,66 @@ import FichesPrestations from "../../../../components/fiches-prestations/FichesP
  */
 
 type P3Section = "IMM" | "GR" | "EPIG" | "AMG";
+
+/** Délai maximal de chargement d'un référentiel avant bascule sur le parcours court. */
+const CATALOGUE_TIMEOUT_MS = 5000;
+
+/** GET JSON borné à CATALOGUE_TIMEOUT_MS ; rejette si pas de réponse JSON { ok: true }. */
+async function chargerReferentiel(url: string, signal: AbortSignal): Promise<any> {
+  const ac = new AbortController();
+  const timer = setTimeout(() => ac.abort(), CATALOGUE_TIMEOUT_MS);
+  const relai = () => ac.abort();
+  signal.addEventListener("abort", relai);
+  try {
+    const r = await fetch(url, { signal: ac.signal });
+    const d = await r.json(); // en prod sans API : HTML de la SPA → rejet
+    if (!d || !d.ok) throw new Error("referentiel_ko");
+    return d;
+  } finally {
+    clearTimeout(timer);
+    signal.removeEventListener("abort", relai);
+  }
+}
+
+const WA_MSG_P3 = "Bonjour, je souhaite parler d'un projet en maîtrise d'ouvrage déléguée (P3).";
+
+/** Textes propres à la page, absents des dictionnaires (FR / AR / EN). */
+const TXT_P3: Record<"fr" | "ar" | "en", { courtTitre: string; courtSub: string; courtPh: string; wa: string; corpsLibre: string; telVide: string }> = {
+  fr: {
+    courtTitre: "Décrivez votre projet, un architecte vous rappelle sous 24 h",
+    courtSub: "Quelques mots suffisent (type d'ouvrage, surface, ville). Nous préciserons ensemble les corps de métier et le budget.",
+    courtPh: "Ex. : immeuble R+4 de 12 logements à Kénitra, 1 800 m² de plancher",
+    wa: "Écrire sur WhatsApp",
+    corpsLibre: "Indiquez les corps de métier à coordonner (facultatif) : nous les préciserons ensemble.",
+    telVide: "Indiquez un numéro de téléphone pour être rappelé.",
+  },
+  ar: {
+    courtTitre: "صف مشروعك، وسيتصل بك مهندس معماري خلال 24 ساعة",
+    courtSub: "بضع كلمات تكفي (نوع البناء، المساحة، المدينة). سنحدد معًا الحرف والميزانية.",
+    courtPh: "مثال: عمارة R+4 من 12 شقة في القنيطرة، 1800 م² مساحة مغطاة",
+    wa: "راسلنا عبر واتساب",
+    corpsLibre: "اذكر الحرف المطلوب تنسيقها (اختياري): سنحددها معًا.",
+    telVide: "يرجى إدخال رقم هاتف ليتم الاتصال بك.",
+  },
+  en: {
+    courtTitre: "Describe your project, an architect will call you back within 24 hours",
+    courtSub: "A few words are enough (type of building, floor area, city). We will refine trades and budget together.",
+    courtPh: "E.g. R+4 building with 12 flats in Kenitra, 1,800 m² floor area",
+    wa: "Message us on WhatsApp",
+    corpsLibre: "List the trades to coordinate (optional): we will refine them together.",
+    telVide: "Please enter a phone number so we can call you back.",
+  },
+};
+
+/** Rend une carte cliquable utilisable au clavier (Entrée / Espace). */
+const activable = (action: () => void) => ({
+  role: "button" as const,
+  tabIndex: 0,
+  onClick: action,
+  onKeyDown: (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); action(); }
+  },
+});
 
 const SECTION_IDS: P3Section[] = ["IMM", "GR", "EPIG", "AMG"];
 
@@ -81,7 +142,7 @@ const S: Record<string, React.CSSProperties> = {
   formTitle: { fontSize: 24, fontWeight: 800, marginBottom: 8 },
   formSub: { color: "#6b7280", fontSize: 14, marginBottom: 24 },
   label: { display: "block", fontSize: 11, color: "#9ca3af", fontWeight: 600, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 },
-  inp: { background: "#0a0f1a", border: "1px solid #1e2330", borderRadius: 6, color: "#e8eaf0", padding: "12px 14px", fontSize: 14, width: "100%", boxSizing: "border-box", marginBottom: 14 },
+  inp: { background: "#0a0f1a", border: "1px solid #1e2330", borderRadius: 6, color: "#e8eaf0", padding: "12px 14px", fontSize: 16, width: "100%", boxSizing: "border-box", marginBottom: 14 },
   row2: {},
   btn: { background: "#047857", color: "#fff", border: "none", borderRadius: 8, padding: "14px 28px", fontSize: 15, fontWeight: 700, cursor: "pointer", width: "100%", marginTop: 12 },
   btnBack: { background: "none", border: "none", color: "#6b7280", cursor: "pointer", marginBottom: 16, fontSize: 13 },
@@ -138,20 +199,63 @@ export default function P3Home() {
   const selectedCategory = categories.find(c => c.code === categoryCode);
   const sectionLabel = section ? t(`portes.p3.section.${section}.label`) : "";
 
+  // Champ en erreur à l'étape identité (message sous le champ, focus dessus).
+  const [errField, setErrField] = useState<{ field: string; n: number } | null>(null);
+  const txt = TXT_P3[getStoredLang()] || TXT_P3.fr;
+
+  // Référentiels bornés à 5 s ; échec → parcours court, sans message d'erreur.
   useEffect(() => {
-    fetch(`${apiBase()}/p3/corps-metiers`).then(r => r.json())
-      .then(d => { if (d.ok) setCorpsGroupes(d.groupes); else setCorpsKo(true); })
-      .catch(() => setCorpsKo(true));
-  }, [t]);
+    const ac = new AbortController();
+    chargerReferentiel(`${apiBase()}/p3/corps-metiers`, ac.signal)
+      .then(d => setCorpsGroupes(d.groupes || []))
+      .catch(() => { if (!ac.signal.aborted) setCorpsKo(true); });
+    return () => ac.abort();
+  }, []);
 
   useEffect(() => {
     if (!section) return;
     setCategoriesKo(false);
-    fetch(`${apiBase()}/p2/categories?section=${section}`)
-      .then(r => r.json())
-      .then(d => { if (d.ok) setCategories(d.items); else setCategoriesKo(true); })
-      .catch(() => setCategoriesKo(true));
+    const ac = new AbortController();
+    chargerReferentiel(`${apiBase()}/p2/categories?section=${section}`, ac.signal)
+      .then(d => setCategories(d.items || []))
+      .catch(() => { if (!ac.signal.aborted) setCategoriesKo(true); });
+    return () => ac.abort();
   }, [section]);
+
+  // Focus + défilement sur le champ invalide signalé.
+  useEffect(() => {
+    if (!errField || step !== "identity") return;
+    const el = document.getElementById(`p3f_${errField.field}`);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.focus({ preventScroll: true });
+  }, [errField?.n, step]);
+
+  // Le message disparaît dès que le champ signalé devient valide.
+  useEffect(() => {
+    if (!errField) return;
+    const ok = errField.field === "nom" ? identity.clientNom.trim().length >= 2
+      : errField.field === "tel" ? !!telephoneEnvoyable(identity.clientTel)
+      : errField.field === "commune" ? !!identity.commune.trim() : false;
+    if (ok) { setErrField(null); setError(""); }
+  }, [identity, errField]);
+
+  const errSous = (field: string) =>
+    errField?.field === field && error
+      ? <div id={`p3f_${field}_err`} role="alert" style={{ ...S.err, marginTop: -8 }}>⚠ {error}</div>
+      : null;
+  const erreurSur = (field: string) =>
+    errField?.field === field ? { "aria-invalid": true, "aria-describedby": `p3f_${field}_err` } : {};
+
+  // Parcours court : description libre → identité, estimation envoyée sous 24 h.
+  const parcoursCourt = () => {
+    setError("");
+    setCategoryCode("LIBRE");
+    setQuote(null);
+    setQuoteLater(true);
+    setIdentity(prev => ({ ...prev, natureProjet: prev.natureProjet || categoryLibre.trim() }));
+    setStep("identity");
+  };
 
   const toggleCorps = (slug: string) => {
     setSelectedCorps(prev => {
@@ -187,8 +291,14 @@ export default function P3Home() {
 
   const submit = async () => {
     setError("");
-    if (!identity.clientNom || !identity.clientTel) { setError(t("portes.p3.err.name_phone")); return; }
-    if (!identity.commune) { setError(t("portes.p3.err.commune")); return; }
+    const signaler = (field: string, msg: string) => { setError(msg); setErrField({ field, n: Date.now() }); };
+    if (identity.clientNom.trim().length < 2) { signaler("nom", t("portes.p3.err.name_phone")); return; }
+    if (!telephoneEnvoyable(identity.clientTel)) {
+      signaler("tel", identity.clientTel.trim() ? t("lead.porte.err_contact") : txt.telVide);
+      return;
+    }
+    if (!identity.commune.trim()) { signaler("commune", t("portes.p3.err.commune")); return; }
+    setErrField(null);
     setStep("submitting");
     const title = t("portes.p3.recap.title_label", {
       section: sectionLabel,
@@ -230,6 +340,7 @@ export default function P3Home() {
     const cap = await envoi.capture;
     if (cap.status === "invalid") {
       setError(cap.code === "phone_invalid" ? t("lead.porte.err_contact") : t("lead.err.generic"));
+      if (cap.code === "phone_invalid") setErrField({ field: "tel", n: Date.now() });
       setStep("identity");
       return;
     }
@@ -286,8 +397,8 @@ export default function P3Home() {
         <style>{P3_RESPONSIVE_CSS}</style>
         <div style={S.hero}>
           <div style={S.badge}>{t("portes.p3.title_prefix")} — {t("p3.home_title").toUpperCase()}</div>
-          <div style={S.title}>{t("p3.home_title")}</div>
-          <div style={S.sub}>{t("p3.home_subtitle")}</div>
+          <h1 style={{ ...S.title, marginTop: 0, lineHeight: 1.2 }}>{t("p3.home_title")}</h1>
+          <p style={{ ...S.sub, marginTop: 0 }}>{t("p3.home_subtitle")}</p>
         </div>
         <section className="cit-porte-p3-wrap" style={{ background: "#f8fafc", color: "#1a2540", borderRadius: 12, marginBottom: 24 }}>
           <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6, color: "#1e3a5f" }}>{t("portes.p3.fiches.section_title")}</h2>
@@ -296,11 +407,13 @@ export default function P3Home() {
         </section>
         <div className="cit-porte-p3-grid" style={S.grid}>
           {SECTION_IDS.map(id => (
-            <div key={id} style={cardStyle(false)} onClick={() => { setSection(id); setStep("category"); }}>
-              <div style={S.cardIcon}>{t(`portes.p3.section.${id}.icon`)}</div>
+            <button key={id} type="button"
+              style={{ ...cardStyle(false), color: "inherit", font: "inherit", textAlign: "left", width: "100%" }}
+              onClick={() => { setSection(id); setStep("category"); }}>
+              <div style={S.cardIcon} aria-hidden="true">{t(`portes.p3.section.${id}.icon`)}</div>
               <div style={S.cardTitle}>{t(`portes.p3.section.${id}.label`)}</div>
               <div style={S.cardDesc}>{t(`portes.p3.section.${id}.desc`)}</div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
@@ -317,7 +430,7 @@ export default function P3Home() {
           <div style={S.formTitle}>{t("portes.p3.category.title")}</div>
           <div style={S.formSub} dangerouslySetInnerHTML={{ __html: t("portes.p3.category.sub", { section: `<strong>${sectionLabel}</strong>` }) }} />
           {categories.map(c => (
-            <div key={c.code} style={{ ...S.catRow, ...(categoryCode === c.code ? S.catRowActive : {}) }} onClick={() => { setCategoryCode(c.code); setStep("measures"); }}>
+            <div key={c.code} style={{ ...S.catRow, ...(categoryCode === c.code ? S.catRowActive : {}) }} {...activable(() => { setCategoryCode(c.code); setStep("measures"); })}>
               <div style={{ flex: 1 }}>
                 <div style={S.catLabel}>{c.label}</div>
                 {c.notes && <div style={{ color: "#6b7280", fontSize: 11, marginTop: 4 }}>⚠ {c.notes}</div>}
@@ -325,12 +438,24 @@ export default function P3Home() {
               <div style={S.catCost}>{fmtMAD(c.costPerM2)}/m²</div>
             </div>
           ))}
+          {categories.length === 0 && !categoriesKo && (
+            <div style={{ color: "#9ca3af", fontSize: 13, margin: "10px 0" }} role="status">{t("portes.p2.category.loading")}</div>
+          )}
           {categories.length === 0 && categoriesKo && (
-            <>
-              <div style={{ color: "#fcd34d", fontSize: 13, margin: "10px 0" }}>{t("lead.porte.catalog_unavailable")}</div>
-              <input style={S.inp} value={categoryLibre} onChange={e => setCategoryLibre(e.target.value)} placeholder={t("lead.porte.free_ph")} />
-              <button style={S.btn} onClick={() => { setCategoryCode("LIBRE"); setStep("measures"); }}>{t("lead.porte.continue")}</button>
-            </>
+            // Catalogue injoignable : parcours court (description libre → coordonnées).
+            <div style={{ ...S.quoteWrap, marginTop: 8 }}>
+              <h2 style={{ fontSize: 19, fontWeight: 800, margin: "0 0 6px", color: "#fff" }}>{txt.courtTitre}</h2>
+              <p style={{ color: "#9ca3af", fontSize: 14, margin: "0 0 14px", lineHeight: 1.6 }}>{txt.courtSub}</p>
+              <label htmlFor="p3f_libre" style={S.label}>{t("portes.p3.identity.nature")}</label>
+              <textarea id="p3f_libre" style={{ ...S.inp, minHeight: 96, fontFamily: "inherit" }} value={categoryLibre} onChange={e => setCategoryLibre(e.target.value)} placeholder={txt.courtPh} />
+              <button type="button" style={S.btn} onClick={parcoursCourt}>{t("lead.porte.continue")}</button>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
+                <a href={lienWhatsApp(WA_MSG_P3)} target="_blank" rel="noopener noreferrer"
+                  style={{ background: "#128C7E", color: "#fff", padding: "11px 18px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>{txt.wa}</a>
+                <a href={lienTel}
+                  style={{ border: "1px solid #374151", color: "#e8eaf0", padding: "11px 18px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>{t("portes.p1.dashboard.canal.call")} {CONTACT.telAffiche}</a>
+              </div>
+            </div>
           )}
         </div>
       </div>
@@ -383,8 +508,8 @@ export default function P3Home() {
 
           {corpsKo && corpsGroupes.length === 0 && (
             <>
-              <div style={{ color: "#fcd34d", fontSize: 13, marginBottom: 10 }}>{t("lead.porte.catalog_unavailable")}</div>
-              <textarea style={{ ...S.inp, minHeight: 90 }} value={corpsLibre} onChange={e => setCorpsLibre(e.target.value)} placeholder={t("lead.porte.free_ph")} />
+              <label htmlFor="p3f_corps" style={{ color: "#9ca3af", fontSize: 13, marginBottom: 10, display: "block" }}>{txt.corpsLibre}</label>
+              <textarea id="p3f_corps" style={{ ...S.inp, minHeight: 90 }} value={corpsLibre} onChange={e => setCorpsLibre(e.target.value)} placeholder={t("lead.porte.free_ph")} />
             </>
           )}
 
@@ -471,19 +596,27 @@ export default function P3Home() {
       <div style={S.root}>
         <style>{P3_RESPONSIVE_CSS}</style>
         <div className="cit-porte-p3-wrap">
-          <button style={S.btnBack} onClick={() => setStep(quote ? "quote" : "corps")}>{t("portes.p3.back_quote")}</button>
+          <button style={S.btnBack} onClick={() => setStep(quote ? "quote" : categoryCode === "LIBRE" && categoriesKo ? "category" : "corps")}>{t("portes.p3.back_quote")}</button>
           <Stepper />
           <div style={S.formTitle}>{t("portes.p3.identity.title")}</div>
           <div style={S.formSub}>{t("portes.p3.identity.sub")}</div>
           {!quote && quoteLater && <div style={S.noteBox}>{t("lead.porte.quote_later")}</div>}
-          {error && <div style={S.err}>⚠ {error}</div>}
+          {error && !errField && <div style={S.err} role="alert">⚠ {error}</div>}
 
           <div className="cit-porte-p3-row2">
-            <div><label style={S.label}>{t("portes.p3.identity.fullname")}</label><input style={S.inp} value={identity.clientNom} onChange={f("clientNom")} placeholder={t("portes.p3.identity.fullname_ph")} /></div>
-            <div><label style={S.label}>{t("portes.p3.identity.phone")}</label><input style={S.inp} value={identity.clientTel} onChange={f("clientTel")} placeholder={t("portes.p3.identity.phone_ph")} /></div>
+            <div>
+              <label htmlFor="p3f_nom" style={S.label}>{t("portes.p3.identity.fullname")}</label>
+              <input id="p3f_nom" style={S.inp} autoComplete="name" value={identity.clientNom} onChange={f("clientNom")} placeholder={t("portes.p3.identity.fullname_ph")} {...erreurSur("nom")} />
+              {errSous("nom")}
+            </div>
+            <div>
+              <label htmlFor="p3f_tel" style={S.label}>{t("portes.p3.identity.phone")}</label>
+              <input id="p3f_tel" style={S.inp} type="tel" inputMode="tel" autoComplete="tel" value={identity.clientTel} onChange={f("clientTel")} placeholder={t("portes.p3.identity.phone_ph")} {...erreurSur("tel")} />
+              {errSous("tel")}
+            </div>
           </div>
-          <label style={S.label}>{t("portes.p3.identity.email")}</label>
-          <input style={S.inp} value={identity.clientEmail} onChange={f("clientEmail")} placeholder={t("portes.p3.identity.email_ph")} />
+          <label htmlFor="p3f_email" style={S.label}>{t("portes.p3.identity.email")}</label>
+          <input id="p3f_email" style={S.inp} type="email" inputMode="email" autoComplete="email" value={identity.clientEmail} onChange={f("clientEmail")} placeholder={t("portes.p3.identity.email_ph")} />
           <div className="cit-porte-p3-row2">
             <div><label style={S.label}>{t("portes.p3.identity.raison")}</label><input style={S.inp} value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
             <div><label style={S.label}>{t("portes.p3.identity.representant")}</label><input style={S.inp} value={identity.representant} onChange={f("representant")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
@@ -492,10 +625,11 @@ export default function P3Home() {
             <div><label style={S.label}>{t("portes.p3.identity.rc")}</label><input style={S.inp} value={identity.rc} onChange={f("rc")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
             <div><label style={S.label}>{t("portes.p3.identity.ice")}</label><input style={S.inp} value={identity.ice} onChange={f("ice")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
           </div>
-          <label style={S.label}>{t("portes.p3.identity.commune")}</label>
-          <input style={S.inp} value={identity.commune} onChange={e => setIdentity({...identity, commune: e.target.value})} placeholder={t("portes.p3.identity.commune_ph")} />
-          <label style={S.label}>{t("portes.p3.identity.nature")}</label>
-          <input style={S.inp} value={identity.natureProjet} onChange={e => setIdentity({...identity, natureProjet: e.target.value})} placeholder={t("portes.p3.identity.nature_ph")} />
+          <label htmlFor="p3f_commune" style={S.label}>{t("portes.p3.identity.commune")}</label>
+          <input id="p3f_commune" style={S.inp} autoComplete="address-level2" value={identity.commune} onChange={e => setIdentity({...identity, commune: e.target.value})} placeholder={t("portes.p3.identity.commune_ph")} {...erreurSur("commune")} />
+          {errSous("commune")}
+          <label htmlFor="p3f_nature" style={S.label}>{t("portes.p3.identity.nature")}</label>
+          <input id="p3f_nature" style={S.inp} value={identity.natureProjet} onChange={e => setIdentity({...identity, natureProjet: e.target.value})} placeholder={t("portes.p3.identity.nature_ph")} />
           <BudgetPrevisionnelField
             surfaceM2={+surfacePlancher > 0 ? +surfacePlancher * (section === "GR" ? Math.max(1, +nbBatiments || 1) : 1) : null}
             value={budgetPrev}
@@ -506,6 +640,7 @@ export default function P3Home() {
           />
 
           <button style={S.btn} onClick={submit}>{t("portes.p3.identity.submit")}</button>
+          <p style={{ color: "#9ca3af", fontSize: 12.5, lineHeight: 1.5, marginTop: 12 }}>{t("lead.legal")}</p>
         </div>
       </div>
     );

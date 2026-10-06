@@ -6,7 +6,8 @@ import { readJSON, writeJSON } from "../../../../infrastructure/storage";
 import { STORAGE_KEYS } from "../../../../infrastructure/storage/keys";
 import { resolveUserId } from "../../../../application/p1/startQualification";
 import { createDossier } from "../../../../application/p1/createDossier";
-import { captureFromP1, submitLead } from "../../../../features/lead-funnel/leadBridge";
+import { captureFromP1, submitLead, telephoneEnvoyable, type CaptureOutcome } from "../../../../features/lead-funnel/leadBridge";
+import { CONTACT, lienTel, lienWhatsApp } from "../../../../config/contact";
 import { BANDES_BUDGET, arrondiMAD } from "../../../../features/lead-funnel/budgetPrevisionnel";
 import { useT, useLang, tVanilla, getStoredLang, LANG_CHANGE_EVENT, type Lang } from "../../../../i18n/i18n";
 import FichesPrestations from "../../../../components/fiches-prestations/FichesPrestations";
@@ -20,6 +21,35 @@ import FichesPrestations from "../../../../components/fiches-prestations/FichesP
  *   encore des chaînes FR via .textContent (chemin DOM legacy) — à migrer
  *   dans une itération dédiée (orchestrateur de labels stable côté store).
  */
+
+/** Textes propres à cette page, absents des dictionnaires (FR / AR / EN). */
+const TXT_P1: Record<Lang, { fix: string; chat: string; wa: string }> = {
+  fr: {
+    fix: "Complétez les champs signalés (nom ou prénom, téléphone) pour analyser votre projet.",
+    chat: "Merci ! Pour une réponse d'un architecte, continuez la conversation sur WhatsApp ou appelez-nous au",
+    wa: "Continuer sur WhatsApp",
+  },
+  ar: {
+    fix: "يرجى إكمال الحقول المشار إليها (الاسم أو اللقب، الهاتف) لتحليل مشروعك.",
+    chat: "شكرًا! للحصول على رد من مهندس معماري، تابع المحادثة عبر واتساب أو اتصل بنا على",
+    wa: "المتابعة عبر واتساب",
+  },
+  en: {
+    fix: "Please complete the highlighted fields (last or first name, phone) to analyse your project.",
+    chat: "Thank you! To get an answer from an architect, continue on WhatsApp or call us on",
+    wa: "Continue on WhatsApp",
+  },
+};
+
+const WA_MSG_CHAT_P1 = "Bonjour, j'ai une question sur mon projet (P1)";
+const WA_MSG_LEAD_P1 = "Bonjour, je viens d'envoyer ma demande de projet sur citurbarea.com (P1).";
+
+/** Échappe une valeur saisie avant insertion dans du HTML. */
+const echapperHtml = (s: unknown): string =>
+  String(s ?? "").replace(/[&<>"']/g, (c) =>
+    c === "&" ? "&amp;" : c === "<" ? "&lt;" : c === ">" ? "&gt;" : c === '"' ? "&quot;" : "&#39;",
+  );
+
 export default function P1Landing() {
   const navigate = useNavigate();
   const t = useT();
@@ -811,10 +841,68 @@ export default function P1Landing() {
     // 4) Analyse projet → générer le récap COMPLET uniquement dans la section 5
     // (pas de récap mini en section 3)
 
+    // Validation minimale avant récap + lead : (prénom OU nom) + téléphone
+    // joignable. Les autres champs restent facultatifs. Les zones d'erreur
+    // (<p id="<champ>_err" role="alert">) sont rendues vides par React.
+    const setErreurChamp = (id: string, msg: string | null) => {
+      const input = byId(id);
+      const err = byId(`${id}_err`);
+      if (err) {
+        err.textContent = msg || "";
+        err.hidden = !msg;
+      }
+      if (!input) return;
+      if (msg) {
+        input.setAttribute("aria-invalid", "true");
+        input.setAttribute("aria-describedby", `${id}_err`);
+      } else {
+        input.removeAttribute("aria-invalid");
+      }
+    };
+    const valeurChamp = (id: string) => ((byId(id) as HTMLInputElement | null)?.value || "").trim();
+    const nomValide = () => (valeurChamp("q_lastname") + valeurChamp("q_firstname")).length >= 2;
+    const telValide = () => !!telephoneEnvoyable(valeurChamp("q_phone"));
+    const validerIdentite = (): boolean => {
+      const invalides: string[] = [];
+      if (nomValide()) setErreurChamp("q_lastname", null);
+      else { setErreurChamp("q_lastname", tt("lead.err.nom")); invalides.push("q_lastname"); }
+      if (telValide()) setErreurChamp("q_phone", null);
+      else { setErreurChamp("q_phone", tt("lead.porte.err_contact")); invalides.push("q_phone"); }
+      const resume = byId("analyze_err");
+      if (resume) {
+        resume.textContent = invalides.length ? (TXT_P1[getStoredLang()] || TXT_P1.fr).fix : "";
+        resume.hidden = !invalides.length;
+      }
+      if (invalides.length) {
+        const premier = byId(invalides[0]);
+        try { premier?.scrollIntoView({ behavior: "smooth", block: "center" }); } catch { premier?.scrollIntoView(); }
+        focusNoScroll(premier);
+      }
+      return invalides.length === 0;
+    };
+    // L'erreur disparaît dès que le champ devient valide (pas de re-validation agressive).
+    const onSaisieIdentite = (e: Event) => {
+      const id = (e.target as HTMLElement | null)?.id;
+      if (id === "q_lastname" || id === "q_firstname") {
+        if (byId("q_lastname")?.getAttribute("aria-invalid") && nomValide()) setErreurChamp("q_lastname", null);
+      } else if (id === "q_phone") {
+        if (byId("q_phone")?.getAttribute("aria-invalid") && telValide()) setErreurChamp("q_phone", null);
+      } else return;
+      const resume = byId("analyze_err");
+      if (resume && !resume.hidden && nomValide() && telValide()) { resume.textContent = ""; resume.hidden = true; }
+    };
+    document.addEventListener("input", onSaisieIdentite);
+
     const btnAnalyze = byId("btn_analyze_project") || qs("[data-action='analyze']") || null;
     if (btnAnalyze) {
       btnAnalyze.addEventListener("click", (e) => {
         e.preventDefault();
+
+        if (!validerIdentite()) {
+          const recap = byId("recap_inline");
+          if (recap) recap.style.display = "none";
+          return;
+        }
 
         const effectiveType =
           draft.type === "renovation" ? (draft.renoBaseType || draft.type) : draft.type;
@@ -827,7 +915,8 @@ export default function P1Landing() {
         };
         const label = (id: string) => {
           const el = byId(id) as HTMLSelectElement | null;
-          if (!el) return "";
+          // Option vide (« — Choisir — ») : rien à récapituler.
+          if (!el || !el.value) return "";
           const opt = el.selectedOptions?.[0];
           return (opt?.textContent || el.value || "").trim();
         };
@@ -928,17 +1017,18 @@ export default function P1Landing() {
         const html = `
           <div style="border:1px solid rgba(201,162,39,0.25);border-radius:18px;background:rgba(255,255,255,0.92);box-shadow:0 10px 30px rgba(11,27,58,0.06);overflow:hidden">
             <div style="padding:14px 16px;border-bottom:1px solid rgba(201,162,39,0.18);display:flex;gap:10px;align-items:center;justify-content:space-between">
-              <div style="font-weight:950;color:#0B1B3A">${tt("portes.p1.recap.card.title")}</div>
-              <div style="font-size:12px;color:rgba(11,27,58,0.62)">${tt("portes.p1.recap.card.sub")}</div>
+              <div style="font-weight:950;color:#0B1B3A">${echapperHtml(tt("portes.p1.recap.card.title"))}</div>
+              <div style="font-size:12px;color:rgba(11,27,58,0.62)">${echapperHtml(tt("portes.p1.recap.card.sub"))}</div>
             </div>
             <div style="padding:14px 16px">
-              <div style="display:grid;grid-template-columns:220px 1fr;gap:10px 18px;align-items:start">
+              <div style="display:grid;grid-template-columns:minmax(0,min(220px,42%)) minmax(0,1fr);gap:10px 14px;align-items:start">
                 ${rows
                   .map(([k, val]) => {
                     if (val === '__section__') {
-                      return `<div style="grid-column:1/-1;margin:10px 0 2px;padding:10px 12px;border-radius:14px;background:rgba(11,27,58,0.04);border:1px solid rgba(11,27,58,0.06);font-weight:950;color:rgba(11,27,58,0.92)">${k}</div>`;
+                      return `<div style="grid-column:1/-1;margin:10px 0 2px;padding:10px 12px;border-radius:14px;background:rgba(11,27,58,0.04);border:1px solid rgba(11,27,58,0.06);font-weight:950;color:rgba(11,27,58,0.92)">${echapperHtml(k)}</div>`;
                     }
-                    return `<div style="font-weight:850;color:rgba(11,27,58,0.9)">${k}</div><div style="color:rgba(11,27,58,0.78)">${val}</div>`;
+                    // Valeurs saisies par le visiteur : toujours échappées.
+                    return `<div style="font-weight:850;color:rgba(11,27,58,0.9)">${echapperHtml(k)}</div><div style="color:rgba(11,27,58,0.78);overflow-wrap:anywhere">${echapperHtml(val)}</div>`;
                   })
                   .join('')}
               </div>
@@ -949,11 +1039,31 @@ export default function P1Landing() {
         if (recapInline && recapInlineContent) {
           // IMPORTANT: Le récap doit s'afficher dans la section 5 sans provoquer un saut/scroll automatique.
           recapInline.style.display = "block";
-          recapInlineContent.innerHTML = html || `<div>${tt("portes.p1.recap.empty")}</div>`;
+          recapInlineContent.innerHTML = html || `<div>${echapperHtml(tt("portes.p1.recap.empty"))}</div>`;
           focusNoScroll(recapInline);
+        }
+
+        // Identité validée : le lead part maintenant (sans attendre la création
+        // de compte) et le visiteur voit explicitement que sa demande est reçue.
+        const envoi = envoyerLeadP1();
+        if (envoi) {
+          void envoi.then((r) => afficherConfirmationLead(r)).catch(() => afficherConfirmationLead({ status: "queued" }));
         }
       });
     }
+
+    // Confirmation visible du lead (bloc #p1_lead_confirm rendu par React).
+    const afficherConfirmationLead = (r: CaptureOutcome) => {
+      const box = byId("p1_lead_confirm");
+      const ok = byId("p1_lead_confirm_ok");
+      const ko = byId("p1_lead_confirm_ko");
+      if (!box || !ok || !ko) return;
+      const echec = r.status === "invalid";
+      ok.hidden = echec;
+      ko.hidden = !echec;
+      box.hidden = false;
+      focusNoScroll(box);
+    };
 
     // Lead : premier instant où téléphone ET email sont connus. La capture part
     // sans bloquer la navigation (keepalive + file de reprise, cf. leadBridge) ;
@@ -973,9 +1083,11 @@ export default function P1Landing() {
         ownerStatus: val("q_owner_status") || draft.ownerStatus,
       });
       save(draft);
-      const { key, body } = captureFromP1(draft);
-      if (!body.telephone) return;
-      void submitLead({ key, capture: body }).capture;
+      // Téléphone non joignable → aucun envoi (le serveur le refuserait).
+      const tel = telephoneEnvoyable(draft.phone);
+      if (!tel) return null;
+      const { key, body } = captureFromP1({ ...draft, phone: tel });
+      return submitLead({ key, capture: body }).capture;
     };
 
     // 5) Créer dossier → route auth (ne jamais sauter vers packs)
@@ -1104,9 +1216,34 @@ export default function P1Landing() {
       if (!v) return;
       appendChat("user", v);
       chatInput.value = "";
-      // IA placeholder (doctrine: AI + humain ensuite)
+      // Pas de faux bot : on oriente vers un humain (WhatsApp ou téléphone).
       window.setTimeout(() => {
-        appendChat("ai", tt('p1.lp.imperative.chat_ai_default'));
+        if (!chatBox) return;
+        const txt = TXT_P1[getStoredLang()] || TXT_P1.fr;
+        const wrap = document.createElement("div");
+        wrap.className = "chat-msg-ai";
+        const bubble = document.createElement("div");
+        bubble.style.cssText = "background:white;padding:12px 16px;border-radius:12px 12px 12px 4px;font-size:14px;line-height:1.6;box-shadow:0 2px 8px rgba(0,0,0,0.08);display:inline-block;max-width:85%";
+        const p = document.createElement("p");
+        p.style.margin = "0 0 10px";
+        p.textContent = `${txt.chat} ${CONTACT.telAffiche}.`;
+        const actions = document.createElement("div");
+        actions.style.cssText = "display:flex;gap:8px;flex-wrap:wrap";
+        const lien = (href: string, label: string, bg: string, externe: boolean) => {
+          const a = document.createElement("a");
+          a.href = href;
+          a.textContent = label;
+          if (externe) { a.target = "_blank"; a.rel = "noopener noreferrer"; }
+          a.style.cssText = `display:inline-block;padding:10px 14px;border-radius:10px;background:${bg};color:white;font-weight:700;text-decoration:none;font-size:14px`;
+          return a;
+        };
+        actions.appendChild(lien(lienWhatsApp(WA_MSG_CHAT_P1), txt.wa, "#128C7E", true));
+        actions.appendChild(lien(lienTel, `${tt("portes.p1.dashboard.canal.call")} ${CONTACT.telAffiche}`, "#0B1B3A", false));
+        bubble.appendChild(p);
+        bubble.appendChild(actions);
+        wrap.appendChild(bubble);
+        chatBox.appendChild(wrap);
+        chatBox.scrollTop = chatBox.scrollHeight;
       }, 250);
     };
 
@@ -1130,6 +1267,7 @@ export default function P1Landing() {
     // Cleanup listeners: (best-effort)
     return () => {
       document.removeEventListener('change', onSelectChange);
+      document.removeEventListener("input", onSaisieIdentite);
       window.removeEventListener(LANG_CHANGE_EVENT, onLangChange);
     };
   }, [navigate]);
@@ -1506,10 +1644,12 @@ export default function P1Landing() {
       background:rgba(255,255,255,0.78);
       border-radius:14px;
       padding:12px 12px;
-      font-size:14px;
+      font-size:16px; /* ≥16px : évite le zoom automatique d'iOS au focus */
       color:var(--ink);
       outline:none;
     }
+    .control[aria-invalid="true"]{ border-color:#b42318; }
+    .field-err{ margin:2px 0 0; font-size:13px; font-weight:700; color:#b42318; line-height:1.4; }
     .control:focus{ box-shadow:0 0 0 4px rgba(201,162,39,0.18); border-color:rgba(201,162,39,0.65); }
     .hint-small{ font-size:12px; color:rgba(11,27,58,0.64); line-height:1.5; }
     .hidden{ display:none !important; }
@@ -1902,20 +2042,22 @@ export default function P1Landing() {
         <div className="pill" style={{ marginBottom: "12px" }}>{t("p1.lp.sec.identity")} <span className="req">*</span></div>
         <div className="form-grid">
           <div className="field">
-            <label className="label">{t("p1.lp.f.lastname")} <span className="req">*</span></label>
-            <input className="control" id="q_lastname" type="text" placeholder={t("p1.lp.f.lastname_ph")}/>
+            <label className="label" htmlFor="q_lastname">{t("p1.lp.f.lastname")} <span className="req">*</span></label>
+            <input className="control" id="q_lastname" type="text" autoComplete="family-name" placeholder={t("p1.lp.f.lastname_ph")}/>
+            <p id="q_lastname_err" className="field-err" role="alert" aria-live="assertive" hidden></p>
           </div>
           <div className="field">
-            <label className="label">{t("p1.lp.f.firstname")} <span className="req">*</span></label>
-            <input className="control" id="q_firstname" type="text" placeholder={t("p1.lp.f.firstname_ph")}/>
+            <label className="label" htmlFor="q_firstname">{t("p1.lp.f.firstname")} <span className="req">*</span></label>
+            <input className="control" id="q_firstname" type="text" autoComplete="given-name" placeholder={t("p1.lp.f.firstname_ph")}/>
           </div>
           <div className="field">
-            <label className="label">{t("p1.lp.f.phone")} <span className="req">*</span></label>
-            <input className="control" id="q_phone" type="tel" placeholder={t("p1.lp.f.phone_ph")}/>
+            <label className="label" htmlFor="q_phone">{t("p1.lp.f.phone")} <span className="req">*</span></label>
+            <input className="control" id="q_phone" type="tel" inputMode="tel" autoComplete="tel" placeholder={t("p1.lp.f.phone_ph")}/>
+            <p id="q_phone_err" className="field-err" role="alert" aria-live="assertive" hidden></p>
           </div>
           <div className="field">
-            <label className="label">{t("p1.lp.f.email")} <span className="req">*</span></label>
-            <input className="control" id="q_email" type="email" placeholder={t("p1.lp.f.email_ph")}/>
+            <label className="label" htmlFor="q_email">{t("p1.lp.f.email")}</label>
+            <input className="control" id="q_email" type="email" inputMode="email" autoComplete="email" placeholder={t("p1.lp.f.email_ph")}/>
           </div>
           <div className="field">
             <label className="label">{t("p1.lp.f.person_type")} <span className="req">*</span></label>
@@ -2265,7 +2407,30 @@ export default function P1Landing() {
         </p>
 
         <div style={{ textAlign: "center", marginBottom: "18px" }}>
-          <button className="btn btn-gold" id="btn_analyze_project">{t("p1.lp.analyse.cta")}</button>
+          <button className="btn btn-gold" id="btn_analyze_project" type="button">{t("p1.lp.analyse.cta")}</button>
+          <p id="analyze_err" className="field-err" role="alert" aria-live="assertive" hidden style={{ marginTop: "10px" }}></p>
+        </div>
+
+        {/* Confirmation explicite du lead (affichée par le code impératif quand la capture part). */}
+        <div id="p1_lead_confirm" role="status" aria-live="polite" hidden
+          style={{ margin: "18px 0", padding: "16px 18px", borderRadius: "16px", border: "1px solid rgba(16,122,87,0.35)", background: "rgba(16,185,129,0.08)", color: "#064e3b" }}>
+          <div id="p1_lead_confirm_ok">
+            <div style={{ fontWeight: 900, fontSize: "17px" }}>
+              {t("lead.porte.success_title")} — {t("lead.porte.success_body")}
+            </div>
+          </div>
+          <div id="p1_lead_confirm_ko" hidden style={{ fontWeight: 700, color: "#b42318" }}>
+            {t("lead.err.generic")}
+          </div>
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "12px" }}>
+            <a className="btn" href={lienWhatsApp(WA_MSG_LEAD_P1)} target="_blank" rel="noopener noreferrer"
+              style={{ textDecoration: "none", background: "#128C7E", color: "#fff" }}>
+              {TXT_P1[lang]?.wa || TXT_P1.fr.wa}
+            </a>
+            <a className="btn btn-outline" href={lienTel} style={{ textDecoration: "none" }}>
+              {t("portes.p1.dashboard.canal.call")} {CONTACT.telAffiche}
+            </a>
+          </div>
         </div>
 
         {/* Récap complet — doit s'afficher ici (section 5) après action "Analyser mon projet" */}
@@ -2302,7 +2467,7 @@ export default function P1Landing() {
           <div className="form-grid">
             <div className="control">
               <label htmlFor="otp_code">{t("p1.lp.otp.label")}</label>
-              <input id="otp_code" type="text" inputMode="numeric" maxLength={6} placeholder={t("p1.lp.otp.ph")} />
+              <input id="otp_code" type="text" inputMode="numeric" autoComplete="one-time-code" maxLength={6} placeholder={t("p1.lp.otp.ph")} style={{ fontSize: "16px" }} />
               <div className="hint muted" id="otp_hint" style={{ marginTop: "8px" }}></div>
             </div>
           </div>
@@ -2462,7 +2627,7 @@ export default function P1Landing() {
   </button>
   
   
-  <div id="chatbot_window" style={{ display: "none", position: "fixed", bottom: "100px", right: "24px", width: "380px", maxHeight: "550px", background: "white", borderRadius: "20px", boxShadow: "0 12px 48px rgba(0,0,0,0.25)", overflow: "hidden" }}>
+  <div id="chatbot_window" style={{ display: "none", position: "fixed", bottom: "100px", right: "24px", width: "380px", maxWidth: "calc(100vw - 32px)", maxHeight: "550px", background: "white", borderRadius: "20px", boxShadow: "0 12px 48px rgba(0,0,0,0.25)", overflow: "hidden" }}>
     
     <div style={{ background: "linear-gradient(135deg,#C9A227,#E6C75B)", color: "white", padding: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
       <div>
@@ -2490,7 +2655,7 @@ export default function P1Landing() {
 
     <div style={{ padding: "16px", borderTop: "1px solid #e5e5e5", background: "white" }}>
       <div style={{ display: "flex", gap: "8px" }}>
-        <input type="text" id="chat_input" placeholder={t("p1.lp.chat.input_ph")} style={{ flex: "1", padding: "12px", border: "1px solid #ddd", borderRadius: "12px", fontSize: "14px" }} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); } }} />
+        <input type="text" id="chat_input" aria-label={t("p1.lp.chat.input_ph")} placeholder={t("p1.lp.chat.input_ph")} style={{ flex: "1", minWidth: 0, padding: "12px", border: "1px solid #ddd", borderRadius: "12px", fontSize: "16px" }} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); } }} />
         <button id="chat_send_btn" type="button" aria-label="send" style={{ padding: "12px 20px", background: "linear-gradient(135deg,#C9A227,#E6C75B)", color: "white", border: "none", borderRadius: "12px", cursor: "pointer", fontWeight: "600" }}>
           ➤
         </button>

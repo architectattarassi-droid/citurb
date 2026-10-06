@@ -25,15 +25,26 @@ export default function ClientSignup() {
   const [step, setStep] = useState<"form" | "sent">("form");
   const [devLink, setDevLink] = useState<string | undefined>(undefined);
 
-  // Préremplissage depuis les query params (ex. arrivée depuis la qualification P2)
-  const initialName = (params.get("name") || "").trim();
+  // Préremplissage depuis les portes P2/P5 : sessionStorage « citurbarea:prefill »
+  // (les coordonnées ne passent plus dans l'URL — loi 09-08). Lu une fois puis
+  // effacé ; les anciens query params restent un repli.
+  const [prefill] = useState<{ name?: string; email?: string; phone?: string }>(() => {
+    try {
+      const raw = sessionStorage.getItem("citurbarea:prefill");
+      sessionStorage.removeItem("citurbarea:prefill");
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  });
+  const initialName = (prefill.name || params.get("name") || "").trim();
   const initialPrenom = initialName.split(/\s+/)[0] || "";
   const initialNom = initialName.split(/\s+/).slice(1).join(" ") || "";
 
   const [prenom, setPrenom] = useState(initialPrenom);
   const [nom, setNom] = useState(initialNom);
-  const [email, setEmail] = useState((params.get("email") || "").trim());
-  const [phone, setPhone] = useState((params.get("phone") || "").trim());
+  const [email, setEmail] = useState((prefill.email || params.get("email") || "").trim());
+  const [phone, setPhone] = useState((prefill.phone || params.get("phone") || "").trim());
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
 

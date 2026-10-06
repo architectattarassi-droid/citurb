@@ -24,7 +24,7 @@ import {
 import { quoteLocal } from "../../../../domain/p1/quote.engine";
 import LeadCaptureForm from "../../../../features/lead-funnel/LeadCaptureForm";
 import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
-import { captureFromP1, hasSubmittedLead, leadKey } from "../../../../features/lead-funnel/leadBridge";
+import { captureFromP1, hasSubmittedLead, leadKey, telephoneEnvoyable } from "../../../../features/lead-funnel/leadBridge";
 
 /**
  * P1 Packs — Page 3 du tunnel (doctrine)
@@ -244,7 +244,7 @@ export default function P1Packs() {
 				return;
 			}
     } else {
-      if (!phone || phone.length < 8) {
+      if (!telephoneEnvoyable(phone)) {
         setUnlockMsg(t("portes.p1.packs.unlock.msg.phone_invalid"));
         return;
       }
@@ -854,20 +854,28 @@ ${sections}
 	                <div style={{ display: "grid", gap: 6 }}>
 	                  <div className="muted" style={{ fontSize: 12 }}>{t("portes.p1.packs.unlock.email_field")}</div>
 	                  <input
+	                    type="email"
+	                    inputMode="email"
+	                    autoComplete="email"
+	                    aria-label={t("portes.p1.packs.unlock.email_field")}
 	                    value={emailForCode}
 	                    onChange={(e) => setEmailForCode(e.target.value)}
 	                    placeholder={t("portes.p1.packs.unlock.email_placeholder")}
-	                    style={{ padding: "10px 12px", borderRadius: 12, border: "1px solid rgba(15,23,42,0.18)", fontSize: 14 }}
+	                    style={{ padding: "10px 12px", borderRadius: 12, border: "1px solid rgba(15,23,42,0.18)", fontSize: 16 }}
 	                  />
 	                </div>
 	              ) : (
 	                <div style={{ display: "grid", gap: 6 }}>
 	                  <div className="muted" style={{ fontSize: 12 }}>{t("portes.p1.packs.unlock.phone_field")}</div>
 	                  <input
+	                    type="tel"
+	                    inputMode="tel"
+	                    autoComplete="tel"
+	                    aria-label={t("portes.p1.packs.unlock.phone_field")}
 	                    value={phoneForCode}
 	                    onChange={(e) => setPhoneForCode(e.target.value)}
 	                    placeholder={t("portes.p1.packs.unlock.phone_placeholder")}
-	                    style={{ padding: "10px 12px", borderRadius: 12, border: "1px solid rgba(15,23,42,0.18)", fontSize: 14 }}
+	                    style={{ padding: "10px 12px", borderRadius: 12, border: "1px solid rgba(15,23,42,0.18)", fontSize: 16 }}
 	                  />
 	                </div>
 	              )}
