@@ -1,6 +1,12 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*
+  Tailwind v4 : les directives v3 (@tailwind base/components/utilities) ne
+  chargeaient pas le thème — bg-blue-700, px-4, py-3… n'étaient pas générés et
+  LeadCaptureForm s'affichait brut. On importe le thème et les utilitaires,
+  SANS preflight : la réinitialisation globale casserait les styles existants.
+*/
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
 
 /*
   CITURBAREA — UX Doctrine
