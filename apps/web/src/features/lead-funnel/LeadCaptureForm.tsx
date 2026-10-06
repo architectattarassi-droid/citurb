@@ -4,17 +4,16 @@
  * Formulaire public de capture lead à 3 champs (nom, téléphone, projet).
  *
  * Soumission : POST /api/lead-funnel/capture
- * Succès : state inline avec leadId visible + reset bouton.
+ * Succès : confirmation inline + contact direct (WhatsApp, appel).
  *
  * Mobile-first. RTL-ready (utilise `dir` du document).
  * i18n : clés `lead.*` — voir INTEGRATION.md pour le DICT à fusionner.
  */
 
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useId, useMemo, useState } from "react";
 import { useT, useLang } from "../../i18n/i18n";
-import { captureLead, currentUtm, leadKey, sanitizeWizard, type CaptureBody } from "./leadBridge";
-
-const RE_PHONE_MA = /^(\+212|0)[567]\d{8}$/;
+import { captureLead, currentUtm, leadKey, sanitizeWizard, telephoneEnvoyable, type CaptureBody } from "./leadBridge";
+import { lienTel, lienWhatsApp } from "../../config/contact";
 
 export interface LeadCaptureFormProps {
   /** Source page-context (passée au backend pour traçabilité). */
@@ -59,13 +58,9 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
   const [hp, setHp] = useState(""); // pot de miel anti-robots
   const [status, setStatus] = useState<Status>("idle");
   const [errMsg, setErrMsg] = useState<string>("");
-  const [leadId, setLeadId] = useState<string>("");
-  const [score, setScore] = useState<number>(0);
-
-  const phoneValid = useMemo(() => {
-    if (!tel) return false;
-    return RE_PHONE_MA.test(tel.replace(/[\s\-]/g, ""));
-  }, [tel]);
+  const ids = useId();
+  // Marocain ou international (diaspora MRE) : même règle que la Pages Function.
+  const phoneValid = useMemo(() => !!telephoneEnvoyable(tel), [tel]);
 
   const onSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -112,8 +107,6 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
       }
       const id = out.status === "sent" || out.status === "already" ? out.leadId || "" : "";
       const sc = out.status === "sent" ? out.score || 0 : 0;
-      setLeadId(id);
-      setScore(sc);
       setQueued(out.status === "queued");
       setStatus("success");
       onCaptured?.(id, sc);
@@ -134,16 +127,23 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
         <div className="text-lg font-semibold">{t("lead.success.title")}</div>
         <p className="mt-1 text-sm">{t("lead.success.msg")}</p>
         {queued && <p className="mt-2 text-xs text-emerald-800">{t("lead.success.queued")}</p>}
-        {leadId && (
-          <p className="mt-2 text-xs text-emerald-800">
-            {t("lead.success.ref")}: <code className="rounded bg-white/60 px-2 py-0.5">{leadId}</code>
-          </p>
-        )}
-        {score > 0 && (
-          <p className="mt-1 text-xs text-emerald-700">
-            {t("lead.success.score")}: <b>{score}/100</b>
-          </p>
-        )}
+        {/* Ni référence interne ni score : un contact direct à la place. */}
+        <div className="mt-4 flex flex-wrap gap-2">
+          <a
+            href={lienWhatsApp(`Bonjour, je viens d'envoyer une demande sur citurbarea.com (${nom.trim()}).`)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700"
+          >
+            {t("lead.success.whatsapp")}
+          </a>
+          <a
+            href={lienTel}
+            className="inline-flex min-h-11 items-center rounded-md border border-emerald-600 px-4 py-2 text-sm font-semibold text-emerald-800 hover:bg-emerald-100"
+          >
+            {t("lead.success.call")}
+          </a>
+        </div>
       </div>
     );
   }
@@ -160,10 +160,11 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
     >
       <div className="space-y-3">
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor={`${ids}-nom`} className="mb-1 block text-sm font-medium text-slate-700">
             {t("lead.field.nom")}
           </label>
           <input
+            id={`${ids}-nom`}
             type="text"
             value={nom}
             onChange={(e) => setNom(e.target.value)}
@@ -175,10 +176,11 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
         </div>
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor={`${ids}-tel`} className="mb-1 block text-sm font-medium text-slate-700">
             {t("lead.field.tel")}
           </label>
           <input
+            id={`${ids}-tel`}
             type="tel"
             value={tel}
             onChange={(e) => setTel(e.target.value)}
@@ -187,6 +189,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
             autoComplete="tel"
             placeholder="+212 6 12 34 56 78"
             aria-invalid={tel ? !phoneValid : undefined}
+            aria-describedby={tel && !phoneValid ? `${ids}-tel-err` : undefined}
             className={
               "w-full rounded-md border px-3 py-2.5 text-base focus:outline-none focus:ring-2 " +
               (tel && !phoneValid
@@ -195,16 +198,17 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
             }
           />
           {tel && !phoneValid && (
-            <p className="mt-1 text-xs text-rose-600">{t("lead.err.tel_format")}</p>
+            <p id={`${ids}-tel-err`} className="mt-1 text-xs text-rose-600">{t("lead.err.tel_format")}</p>
           )}
         </div>
 
         {withEmail && (
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">
+            <label htmlFor={`${ids}-email`} className="mb-1 block text-sm font-medium text-slate-700">
               {t("lead.field.email")} <span className="text-slate-400">(optionnel)</span>
             </label>
             <input
+              id={`${ids}-email`}
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -216,14 +220,15 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
         )}
 
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">
+          <label htmlFor={`${ids}-projet`} className="mb-1 block text-sm font-medium text-slate-700">
             {t("lead.field.projet")}
           </label>
           <textarea
+            id={`${ids}-projet`}
             value={projet}
             onChange={(e) => setProjet(e.target.value)}
             rows={compact ? 2 : 3}
-            className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+            className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-base focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
             placeholder={t("lead.placeholder.projet")}
           />
         </div>

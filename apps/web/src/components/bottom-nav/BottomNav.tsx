@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useT } from "../../i18n/i18n";
+import { lienTel, lienWhatsApp } from "../../config/contact";
 
 /**
  * BottomNav — barre de navigation mobile inspirée des apps natives
@@ -20,6 +21,8 @@ import { useT } from "../../i18n/i18n";
 
 interface Tab {
   to: string;
+  /** Lien externe (WhatsApp, tel:) : <a href> au lieu d'un <Link>. */
+  externe?: boolean;
   /** Clé i18n (nav.bottom.*) — traduite au rendu. */
   labelKey: string;
   match: (path: string) => boolean;
@@ -109,6 +112,16 @@ const Icon = {
       <path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" />
     </svg>
   ),
+  WhatsApp: (
+    <svg width={ICON_SIZE} height={ICON_SIZE} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4a.5.5 0 0 0 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.5-.3z" />
+    </svg>
+  ),
+  Phone: (
+    <svg width={ICON_SIZE} height={ICON_SIZE} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z" />
+    </svg>
+  ),
 };
 
 const TABS: Tab[] = [
@@ -147,6 +160,28 @@ const TABS: Tab[] = [
     icon: Icon.User,
   },
 ];
+
+/**
+ * Visiteur non connecté : « Dossiers » et « Profil » ne lui servent à rien.
+ * On lui donne le contact direct (WhatsApp, appel) et le dépôt de projet.
+ */
+const TABS_VISITEUR: Tab[] = [
+  TABS[0],
+  {
+    to: lienWhatsApp("Bonjour, je souhaite parler de mon projet avec un architecte."),
+    externe: true,
+    labelKey: "nav.bottom.whatsapp",
+    match: () => false,
+    icon: Icon.WhatsApp,
+  },
+  TABS[2],
+  { to: lienTel, externe: true, labelKey: "nav.bottom.call", match: () => false, icon: Icon.Phone },
+  TABS[3],
+];
+
+const estConnecte = (): boolean => {
+  try { return !!localStorage.getItem("citurbarea.token"); } catch { return false; }
+};
 
 // Routes où on cache la nav (full-screen workflows : SIG, admin, login, etc.)
 // On masque aussi les pages qui ont leur propre barre d'action sticky en bas
@@ -273,10 +308,24 @@ export function BottomNav({ hidden }: BottomNavProps = {}) {
       role="navigation"
       aria-label="Navigation principale mobile"
     >
-      {TABS.map((tab) => {
+      {(estConnecte() ? TABS : TABS_VISITEUR).map((tab) => {
         const active = tab.match(loc.pathname);
         const cls = `cit-bottomnav__tab${tab.highlight ? " cit-bottomnav__tab--fab" : ""}`;
         const label = t(tab.labelKey);
+        if (tab.externe) {
+          return (
+            <a
+              key={tab.labelKey}
+              href={tab.to}
+              className={cls}
+              aria-label={label}
+              {...(tab.to.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+            >
+              <span className="cit-bottomnav__icon">{tab.icon}</span>
+              <span className="cit-bottomnav__label">{label}</span>
+            </a>
+          );
+        }
         return (
           <Link
             key={tab.to}
