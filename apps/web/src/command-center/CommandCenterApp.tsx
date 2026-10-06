@@ -8,7 +8,7 @@
  * { path: '/cc/*', element: <ProtectedRoute roles={['ADMIN','OWNER']}><CommandCenterApp /></ProtectedRoute> }
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import CCLayout from './layout/CCLayout';
 import CCDashboard from './modules/dashboard/CCDashboard';
@@ -35,7 +35,7 @@ import FirmsModule from './modules/firms/FirmsModule';
 import CCLogin from './pages/CCLogin';
 import SigExplorer from '../features/geo/SigExplorer';
 import CCSimulateur from './modules/dossiers/CCSimulateur';
-import { getToken } from '../tomes/tome4/apiClient';
+import { apiBase, getToken } from '../tomes/tome4/apiClient';
 
 export type CCModule =
   | 'dashboard'
@@ -46,8 +46,21 @@ export type CCModule =
   | 'business'
   | 'dossiers';
 
+/**
+ * Sans JWT de l'API, on demande à la Pages Function /api/cc/session si la
+ * requête est passée par Cloudflare Access (admin.citurbarea.com) : c'est
+ * l'accès au back-office tant que l'API NestJS n'est pas hébergée.
+ */
 function CCGuard({ children }: { children: React.ReactNode }) {
-  if (!getToken()) return <Navigate to="/cc/login" replace />;
+  const [etat, setEtat] = useState<'verif' | 'ok' | 'refuse'>(getToken() ? 'ok' : 'verif');
+  useEffect(() => {
+    if (etat !== 'verif') return;
+    fetch(`${apiBase()}/api/cc/session`, { credentials: 'include' })
+      .then(r => setEtat(r.ok ? 'ok' : 'refuse'))
+      .catch(() => setEtat('refuse'));
+  }, [etat]);
+  if (etat === 'verif') return <div style={{ padding: 24 }}>Vérification de l'accès…</div>;
+  if (etat === 'refuse') return <Navigate to="/cc/login" replace />;
   return <>{children}</>;
 }
 

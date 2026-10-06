@@ -149,7 +149,9 @@ const LandingRoute = () => {
   // /api/admin/bridge/to-user → User JWT 7j → débloque /cc/*.
   // L'utilisateur peut toujours accéder explicitement à /admin/login s'il
   // veut entrer par le vault MFA.
-  if (h === HOST_ADMIN) return <Navigate to="/cc/dashboard" replace />;
+  // Tant que l'API n'est pas hébergée, seuls les leads (Pages Functions + Neon)
+  // ont des données : on y atterrit plutôt que sur un tableau de bord vide.
+  if (h === HOST_ADMIN) return <Navigate to="/cc/leads" replace />;
   // sig.citurbarea.com → explorateur SIG (gated par auth + au moins 1 dossier).
   // Si pas connecté → /login. Si connecté sans dossier → /portal pour en créer un.
   // Si connecté avec dossier → /sig directement.
