@@ -46,6 +46,18 @@ const esc = (s = "") => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").r
 const urlFor = (svc, loc) => `${business.pathPrefix}/${svc.slug}-${loc.slug}`;
 const fullUrl = (svc, loc) => `${business.baseUrl}${urlFor(svc, loc)}`;
 
+// Appel à l'action des pages statiques : formulaire court (/creer-compte),
+// WhatsApp et téléphone. L'ancienne cible citurbarea.com#contact n'existait pas.
+const waDigits = business.whatsapp.replace(/[^0-9]/g, "");
+function ctaContact(libelle, contexte) {
+  const msg = encodeURIComponent(`Bonjour, je souhaite parler de mon projet${contexte ? ` (${contexte})` : ""}.`);
+  return `<p class="cta-row" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">` +
+    `<a class="cta" href="${business.baseUrl}/creer-compte">${esc(libelle)}</a>` +
+    `<a class="cta-alt" href="https://wa.me/${waDigits}?text=${msg}" rel="noopener" style="display:inline-block;padding:12px 18px;border-radius:10px;background:#16a34a;color:#fff;font-weight:600;text-decoration:none">WhatsApp</a>` +
+    `<a class="cta-alt" href="tel:${business.phone}" style="display:inline-block;padding:12px 18px;border-radius:10px;border:1px solid #0f172a;color:#0f172a;font-weight:600;text-decoration:none">Appeler</a>` +
+    `</p>`;
+}
+
 // ───────────────────────────── JSON-LD ─────────────────────────────
 function localBusinessSchema(svc, loc, ov) {
   return {
@@ -160,13 +172,13 @@ function pageHtml(svc, loc, ov) {
 </head>
 <body>
 <main>
-  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › <a href="${business.pathPrefix}">Services</a> › ${esc(svc.name)} › ${esc(loc.name)}</nav>
+  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › Services › ${esc(svc.name)} › ${esc(loc.name)}</nav>
 
   <h1>${esc(svc.name)} à ${esc(loc.name)}</h1>
   <p class="lead">${esc(svc.summary)}</p>
   <p>${esc(svc.detail)} À ${esc(loc.name)}, je vous accompagne avec une connaissance fine du territoire et de sa réglementation.</p>
 
-  <p><a class="cta" href="${business.baseUrl}#contact">Discuter de mon projet à ${esc(loc.name)}</a></p>
+  ${ctaContact(`Discuter de mon projet à ${loc.name}`, `${svc.name} à ${loc.name}`)}
 
   <h2>${esc(svc.name)} à ${esc(loc.name)} : contexte local</h2>
   <p>${esc(ov.localContext)}</p>
@@ -572,7 +584,7 @@ function villeHubHtml(h, portes) {
   <h1>Architecte à ${esc(h.name)}</h1>
   <p class="lead">${esc(business.founder)}, architecte — conception, permis de construire, expertise et suivi de chantier à ${esc(h.name)} et dans la région ${esc(h.region)}.</p>
   <p>${esc(h.intro)}</p>
-  <p><a class="cta" href="${business.baseUrl}#contact">Discuter de mon projet à ${esc(h.name)}</a></p>
+  ${ctaContact(`Discuter de mon projet à ${h.name}`, `architecte à ${h.name}`)}
 
   <h2>Nos services d'architecture à ${esc(h.name)}</h2>
   <ul class="services">${portesLi}</ul>
@@ -800,7 +812,7 @@ function guidePageHtml(g) {
   ${g.body}
   <h2>Questions fréquentes</h2>
   ${faqHtml}
-  <p style="margin-top:24px"><a class="cta" href="${business.baseUrl}#contact">Discuter de mon projet avec un architecte</a></p>
+  <div style="margin-top:24px">${ctaContact("Discuter de mon projet avec un architecte", g.title || "")}</div>
   <footer>
     <strong>Autres guides :</strong>
     <ul>${otherGuides}</ul>
