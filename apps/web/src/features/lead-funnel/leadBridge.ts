@@ -21,6 +21,7 @@
 import { useEffect, useState } from "react";
 import { apiBase } from "../../tomes/tome4/apiClient";
 import { getStoredLang } from "../../i18n/i18n";
+import { track } from "../../lib/analytics-tracker";
 
 export type Porte = "P1" | "P2" | "P3" | "P4" | "P5" | "P6";
 
@@ -214,6 +215,7 @@ export async function captureLead(key: string, body: CaptureBody): Promise<Captu
     if (r.kind === "sent") {
       dequeue(key);
       markSent(key, r.leadId);
+      track("intake_submit", { meta: { source: body.source } });
       return { status: "sent", leadId: r.leadId, score: r.score };
     }
     if (r.kind === "invalid") {

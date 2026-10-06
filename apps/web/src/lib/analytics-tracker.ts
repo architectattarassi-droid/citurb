@@ -67,9 +67,55 @@ export function porteFromPath(path: string): PorteId | undefined {
   return m ? (`P${m[1]}` as PorteId) : undefined;
 }
 
-/** Auto-track une vue de page (à appeler sur change de route). */
+let premiereVue = true;
+
+/** Auto-track une vue de page (à appeler sur change de route). La première
+ *  vue du chargement porte la provenance (origine du référent seulement). */
 export function trackView(path: string): void {
-  track("view", { path, porte: porteFromPath(path) });
+  let referrer: string | undefined;
+  if (premiereVue) {
+    premiereVue = false;
+    try {
+      const r = document.referrer ? new URL(document.referrer) : null;
+      if (r && r.hostname !== location.hostname) referrer = r.hostname;
+    } catch { /* référent illisible */ }
+  }
+  track("view", { path, porte: porteFromPath(path), meta: referrer ? { referrer } : undefined });
+}
+
+/**
+ * Suivi des formulaires, sans aucune valeur saisie : premier focus sur un
+ * champ → wizard_start ; champ modifié → wizard_step { champ: nom du champ }.
+ * Une fois par page et par champ. Permet de voir les formulaires commencés
+ * puis abandonnés. Renvoie la fonction de nettoyage.
+ */
+export function suivreFormulaires(estSuivi: (path: string) => boolean): () => void {
+  const vus = new Set<string>();
+  const nomChamp = (el: Element): string | null => {
+    if (!(el instanceof HTMLInputElement || el instanceof HTMLSelectElement || el instanceof HTMLTextAreaElement)) return null;
+    if (el instanceof HTMLInputElement && ["hidden", "password", "submit", "button"].includes(el.type)) return null;
+    const nom = el.name || el.id || el.getAttribute("aria-label") || el.getAttribute("placeholder") || el.tagName.toLowerCase();
+    return nom === "website" ? null : nom.slice(0, 60); // « website » = pot de miel
+  };
+  const surFocus = (e: FocusEvent) => {
+    const path = location.pathname;
+    if (!estSuivi(path) || !e.target || !nomChamp(e.target as Element) || vus.has(`start:${path}`)) return;
+    vus.add(`start:${path}`);
+    track("wizard_start", { path, porte: porteFromPath(path) });
+  };
+  const surChange = (e: Event) => {
+    const path = location.pathname;
+    const champ = e.target ? nomChamp(e.target as Element) : null;
+    if (!estSuivi(path) || !champ || vus.has(`${path}|${champ}`)) return;
+    vus.add(`${path}|${champ}`);
+    track("wizard_step", { path, porte: porteFromPath(path), meta: { champ } });
+  };
+  document.addEventListener("focusin", surFocus, true);
+  document.addEventListener("change", surChange, true);
+  return () => {
+    document.removeEventListener("focusin", surFocus, true);
+    document.removeEventListener("change", surChange, true);
+  };
 }
 
 /** Track la sortie d'une page avec le temps passé (ms). */

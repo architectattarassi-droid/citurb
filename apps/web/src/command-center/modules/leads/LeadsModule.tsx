@@ -15,6 +15,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiBase, getToken } from "../../../tomes/tome4/apiClient";
 import { useIsMobile, BottomSheet } from "../../../components/mobile";
+import FunnelPanel from "./FunnelPanel";
 
 // ─── Types alignés sur backend cc.controller.ts ──────────────
 
@@ -177,6 +178,8 @@ export default function LeadsModule() {
           </div>
         ))}
       </div>
+
+      <FunnelPanel />
 
       <div style={S.filtersRow}>
         <input

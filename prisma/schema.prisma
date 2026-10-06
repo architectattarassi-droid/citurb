@@ -2168,3 +2168,19 @@ model Lead {
   @@index([stage])
   @@index([createdAt])
 }
+
+/// Événements anonymes du site public (functions/api/analytics-hub/event.ts) :
+/// vues, durée, formulaires commencés (noms de champs, jamais les valeurs), envois.
+model FunnelEvent {
+  id        String   @id
+  createdAt DateTime @default(now())
+  type      String
+  sessionId String
+  path      String
+  porte     String?
+  meta      Json?
+  pays      String?
+
+  @@index([createdAt])
+  @@index([sessionId])
+}

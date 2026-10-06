@@ -13,7 +13,7 @@
  */
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { trackView, trackPageLeave } from "./analytics-tracker";
+import { trackView, trackPageLeave, suivreFormulaires } from "./analytics-tracker";
 
 function isTracked(path: string): boolean {
   // On ne suit pas le backoffice ni les assets ; uniquement la plateforme publique.
@@ -36,6 +36,9 @@ export default function PageTracker() {
     prevPath.current = path;
     enteredAt.current = now;
   }, [path]);
+
+  // Formulaires commencés (champs touchés, jamais leurs valeurs).
+  useEffect(() => suivreFormulaires(isTracked), []);
 
   // Sortie de la plateforme (fermeture onglet / app en arrière-plan).
   useEffect(() => {
