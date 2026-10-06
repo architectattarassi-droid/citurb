@@ -2,6 +2,9 @@ import React from "react";
 import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
 import { PublicLayout } from "./layouts";
 import PageTracker from "../../../lib/PageTracker";
+import RouteMeta from "../../../lib/RouteMeta";
+import NotFound from "../../../ui/NotFound";
+import { VILLES_SEO } from "../../../ui/seo/portes.data";
 
 /**
  * RootTracker — layout racine qui englobe TOUTES les routes (home, cercles,
@@ -10,7 +13,7 @@ import PageTracker from "../../../lib/PageTracker";
  * lui-même de /cc et /admin.
  */
 function RootTracker() {
-  return (<><PageTracker /><Outlet /></>);
+  return (<><PageTracker /><RouteMeta /><Outlet /></>);
 }
 
 import P1Home from "../../tome3/portals/p1/P1Home";
@@ -399,10 +402,13 @@ export const router = createBrowserRouter([
       { path: '/ar/bab-06-sharikat-wa-shoraka', element: <PorteLanding num="06" lang="ar" /> },
 
       // ── Pages SEO Villes ──
-      { path: '/architecte-:ville', element: <VilleLanding /> },
+      // React Router 6 n'accepte pas un paramètre partiel (« /architecte-:ville ») :
+      // une route explicite par ville connue.
+      ...VILLES_SEO.map(v => ({ path: `/architecte-${v.slug}`, element: <VilleLanding ville={v.slug} /> })),
 
-      // Catch-all → landing
-      { path: "*", element: <Redirect to={CANON.HOME} /> },
+      // Route inconnue : vraie page 404 (noindex) avec appel à l'action,
+      // au lieu d'une redirection silencieuse vers l'accueil.
+      { path: "*", element: <NotFound /> },
     ],
   },
   ],

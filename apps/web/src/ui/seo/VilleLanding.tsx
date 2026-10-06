@@ -27,8 +27,10 @@ function setMetaLink(rel: string, href: string) {
   return el;
 }
 
-export default function VilleLanding() {
-  const { ville } = useParams<{ ville: string }>();
+export default function VilleLanding(props: { ville?: string }) {
+  // Route explicite par ville (routes.tsx) ; le paramètre d'URL reste un repli.
+  const params = useParams<{ ville: string }>();
+  const ville = props.ville ?? params.ville;
   const nav = useNavigate();
   const v = VILLES_SEO.find(x => x.slug === ville);
 
