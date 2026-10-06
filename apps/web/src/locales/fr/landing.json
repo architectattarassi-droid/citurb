@@ -243,5 +243,19 @@
 
   "landing.alert.soon": "Bientôt disponible. Cette section est en cours de finalisation.",
   "landing.alert.linkedin_soon": "LinkedIn — bientôt disponible",
-  "landing.alert.tiktok_soon": "TikTok @arc_bati_architecture — bientôt"
+  "landing.alert.tiktok_soon": "TikTok @arc_bati_architecture — bientôt",
+  "landing.contact.aria": "Contacter directement un architecte",
+  "landing.contact.whatsapp": "WhatsApp",
+  "landing.contact.call": "Appeler",
+  "landing.contact.callback": "Être rappelé sous 24 h",
+  "landing.contact.wa_message": "Bonjour, je souhaite parler de mon projet",
+  "landing.form.hint_phone": "Laissez votre téléphone : nous vous orientons vers la bonne porte et un architecte vous rappelle sous 24 h.",
+  "landing.form.phone_placeholder": "Téléphone (obligatoire)",
+  "landing.form.email_optional": "Email (facultatif)",
+  "landing.form.next": "Continuer : {porte}",
+  "landing.lead.done_title": "Demande reçue — un architecte vous rappelle sous 24 h",
+  "landing.lead.err_phone": "Numéro invalide. Exemples : 06 12 34 56 78, +212 6 12 34 56 78 ou +33 6 12 34 56 78.",
+  "landing.lead.err_email": "Adresse email invalide (ou laissez le champ vide).",
+  "landing.lead_modal.callback_title": "Être rappelé par un architecte",
+  "landing.lead_modal.callback_intro": "Nom et téléphone suffisent : un architecte CITURBAREA vous rappelle sous 24 h, sans engagement."
 }

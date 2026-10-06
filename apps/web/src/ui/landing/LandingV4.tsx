@@ -7,6 +7,15 @@ import { cerclesApi } from "../../features/cercles/api";
 import { cerclePostToArticle } from "./cerclePostToArticle";
 import { useT, useLang } from "../../i18n/i18n";
 import { BottomNav } from "../../components/bottom-nav/BottomNav";
+import {
+  captureLead,
+  currentUtm,
+  leadKey,
+  sanitizeWizard,
+  telephoneEnvoyable,
+  type CaptureBody,
+} from "../../features/lead-funnel/leadBridge";
+import { lienTel, lienWhatsApp } from "../../config/contact";
 
 // Landing keeps the validated HTML/CSS identity, but renders the Articles preview in React.
 // Legacy inline JS media feed is removed to avoid runtime errors and to make content maintainable.
@@ -238,20 +247,33 @@ const STYLES = `
     border:1px solid #e7eefc;
     background:#fbfcff;
     border-radius:14px;
+    width:100%;
+    max-width:100%;
+    min-width:0;
   }
-  .form h3{ margin:0 0 10px; font-size:15px; font-weight:900; color:var(--blue2); }
+  .form h3{ margin:0 0 10px; font-size:15px; font-weight:900; color:var(--blue2); overflow-wrap:anywhere; }
   .hint{ margin:0 0 14px; color:#475569; font-size:13.5px; line-height:1.5; }
-  .form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .form-grid{ display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px; margin:0; }
+  .form-grid > *{ min-width:0; }
+  .form .span2{ grid-column:1 / -1; }
   .form input, .form select{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    min-height:46px;
     padding:12px;
     border-radius:12px;
     border:1px solid #cbd5e1;
     background:#fff;
-    font-size:14px;
+    font-size:16px;
     outline:none;
+    text-overflow:ellipsis;
   }
+  .form input:focus, .form select:focus{ border-color:var(--blue); box-shadow:0 0 0 3px rgba(29,78,216,.15); }
   .form button{
-    grid-column:span 2;
+    grid-column:1 / -1;
+    font-size:16px;
+    min-height:48px;
     background:linear-gradient(90deg,var(--blue),var(--blue2));
     color:#fff;
     padding:13px 14px;
@@ -262,6 +284,53 @@ const STYLES = `
     transition:.15s ease;
   }
   .form button:hover{ filter:brightness(.95); }
+
+  .hero-grid > *{ min-width:0; }
+  [hidden]{ display:none !important; }
+
+  /* Accès direct (hero) : WhatsApp / appel / rappel */
+  .quick-contact{ display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+  .qc-btn{
+    flex:1 1 140px;
+    min-height:46px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:11px 14px;
+    border-radius:12px;
+    border:1px solid transparent;
+    font-size:15px;
+    font-weight:900;
+    cursor:pointer;
+    text-align:center;
+    font-family:inherit;
+  }
+  .qc-wa{ background:#16a34a; color:#fff; }
+  .qc-wa:hover{ background:#15803d; }
+  .qc-call{ background:#fff; color:var(--blue2); border-color:#cbd5e1; }
+  .qc-call:hover{ background:#f1f5f9; }
+  .qc-cb{ background:linear-gradient(90deg,var(--blue),var(--blue2)); color:#fff; }
+  .qc-cb:hover{ filter:brightness(.95); }
+
+  /* Formulaires de lead : erreurs, confirmation, mention légale, pot de miel */
+  .form-err{ margin:0; color:#be123c; font-size:14px; font-weight:700; }
+  .form-legal{ margin:0; color:#64748b; font-size:11.5px; line-height:1.45; text-align:center; }
+  .hp-field{ position:absolute !important; left:-10000px !important; width:1px !important; height:1px !important; min-height:0 !important; padding:0 !important; opacity:0 !important; }
+  .lead-done{
+    padding:16px;
+    border-radius:14px;
+    border:1px solid #a7f3d0;
+    background:#ecfdf5;
+    color:#064e3b;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .lead-done strong{ font-size:16px; line-height:1.4; }
+  .lead-done p{ margin:0; font-size:13px; line-height:1.5; }
+  .lead-done .qc-row{ display:flex; flex-wrap:wrap; gap:10px; }
+  .cat.cat-suggested{ outline:3px solid var(--blue); outline-offset:2px; background:#eef4ff; }
 
   .panel{ display:flex; flex-direction:column; gap:14px; }
   .block{ padding:14px; }
@@ -590,7 +659,7 @@ const STYLES = `
   }
   .modal-grid{
     display:grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap:12px;
     margin-top:10px;
   }
@@ -600,10 +669,16 @@ const STYLES = `
     border-radius:12px;
     border:1px solid #cbd5e1;
     outline:none;
-    font-size:14px;
+    font-size:16px;
     background:#fff;
+    font-family:inherit;
   }
   .modal-body textarea{ min-height:110px; resize:vertical; }
+  .modal-card.lead-card{ width:min(560px, 100%); max-height:92vh; overflow-y:auto; }
+  #lmForm{ display:flex; flex-direction:column; gap:12px; margin-top:12px; }
+  #lmForm .modal-grid{ margin-top:0; }
+  #lmForm .modal-actions{ margin-top:0; }
+  #lmForm .mbtn{ font-size:16px; min-height:46px; }
   .modal-actions{
     margin-top:12px;
     display:flex;
@@ -660,12 +735,13 @@ const STYLES = `
     .nav{ width:100%; margin-left:0; justify-content:flex-start; flex-wrap:wrap; }
     .post{ flex-direction:column; }
     .post-media,.post-body{ width:100%; }
-    .modal-grid{ grid-template-columns:1fr; }
+    .modal-grid{ grid-template-columns:minmax(0, 1fr); }
   }
 
   @media(max-width:768px){
     .hero-grid { grid-template-columns: 1fr; gap: 16px; }
-    .form-grid { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: minmax(0, 1fr); }
+    .modal { padding: 10px; }
     /* Header surchargé sur mobile : on ne garde que les pills essentiels
      * (lang-switcher + 2 boutons auth) ; les pills secondaires (WhatsApp,
      * Choose my category, Media, Cart, etc.) sont masqués pour éviter
@@ -697,6 +773,7 @@ function esc(s: string): string {
 }
 
 function buildPreHtml(t: T, lang: string): string {
+  const waHref = lienWhatsApp(t("landing.contact.wa_message"));
   return `
 
 
@@ -722,8 +799,6 @@ function buildPreHtml(t: T, lang: string): string {
       <div class="socials" aria-label="${attr(t("landing.socials.aria"))}">
         <button type="button" onclick="window.open('https://web.facebook.com/yassineattarassi','_blank')">f</button>
         <button type="button" onclick="window.open('https://www.instagram.com/arc_bati_architecture','_blank')">ig</button>
-        <button type="button" onclick="soon('${attr(t("landing.alert.linkedin_soon"))}')">in</button>
-        <button type="button" onclick="soon('${attr(t("landing.alert.tiktok_soon"))}')">tt</button>
       </div>
 
       <div class="chip" onclick="window.location.href='/p1'">${esc(t("landing.chip.design"))}</div>
@@ -779,8 +854,6 @@ function buildPreHtml(t: T, lang: string): string {
         <div class="pill vip" onclick="openSubModal('vip')">VIP</div>
         <div class="pill vvip" onclick="openSubModal('vvip')">VVIP</div>
 
-        <a class="pill" href="#" onclick="soon('${attr(t("landing.nav.cart_soon"))}');return false;">${esc(t("landing.nav.cart"))}</a>
-
         <!-- LANG SWITCHER -->
         <div class="lang-switcher" id="langSwitcher">
           <button class="lang-btn${lang === "fr" ? " active" : ""}" onclick="setLang('fr')">FR</button>
@@ -805,39 +878,46 @@ function buildPreHtml(t: T, lang: string): string {
         ${t("landing.hero.lead")}
       </p>
 
-      <div class="categories" aria-label="${attr(t("landing.categories.aria"))}">
+      <!-- Accès direct : visible dès le hero, y compris en mobile -->
+      <div class="quick-contact" aria-label="${attr(t("landing.contact.aria"))}">
+        <a class="qc-btn qc-wa" href="${attr(waHref)}" target="_blank" rel="noopener">${esc(t("landing.contact.whatsapp"))}</a>
+        <a class="qc-btn qc-call" href="${attr(lienTel)}">${esc(t("landing.contact.call"))}</a>
+        <button type="button" class="qc-btn qc-cb" onclick="openLeadModal()">${esc(t("landing.contact.callback"))}</button>
+      </div>
+
+      <div class="categories" id="categories" aria-label="${attr(t("landing.categories.aria"))}">
         <!-- P1: funnel interne (évite redirection WhatsApp) -->
-        <article class="cat" onclick="window.location.href='/p1'">
+        <article class="cat" id="cat-P1" onclick="window.location.href='/p1'">
           <h3>${esc(t("landing.cat.p1.title"))}</h3>
           <p>${esc(t("landing.cat.p1.desc"))}</p>
           <div class="deliver">${esc(t("landing.cat.p1.deliver"))}</div>
         </article>
 
-        <article class="cat" onclick="window.location.href='/p2'">
+        <article class="cat" id="cat-P2" onclick="window.location.href='/p2'">
           <h3>${esc(t("landing.cat.p2.title"))}</h3>
           <p>${esc(t("landing.cat.p2.desc"))}</p>
           <div class="deliver">${esc(t("landing.cat.p2.deliver"))}</div>
         </article>
 
-        <article class="cat" onclick="window.location.href='/p3'">
+        <article class="cat" id="cat-P3" onclick="window.location.href='/p3'">
           <h3>${esc(t("landing.cat.p3.title"))}</h3>
           <p>${esc(t("landing.cat.p3.desc"))}</p>
           <div class="deliver">${esc(t("landing.cat.p3.deliver"))}</div>
         </article>
 
-        <article class="cat" onclick="window.location.href='/p4'">
+        <article class="cat" id="cat-P4" onclick="window.location.href='/p4'">
           <h3>${esc(t("landing.cat.p4.title"))}</h3>
           <p>${esc(t("landing.cat.p4.desc"))}</p>
           <div class="deliver">${esc(t("landing.cat.p4.deliver"))}</div>
         </article>
 
-        <article class="cat" onclick="window.location.href='/p5'">
+        <article class="cat" id="cat-P5" onclick="window.location.href='/p5'">
           <h3>${esc(t("landing.cat.p5.title"))}</h3>
           <p>${esc(t("landing.cat.p5.desc"))}</p>
           <div class="deliver">${esc(t("landing.cat.p5.deliver"))}</div>
         </article>
 
-        <article class="cat" onclick="window.location.href='/p6'">
+        <article class="cat" id="cat-P6" onclick="window.location.href='/p6'">
           <h3>${esc(t("landing.cat.p6.title"))}</h3>
           <p>${esc(t("landing.cat.p6.desc"))}</p>
           <div class="deliver">${esc(t("landing.cat.p6.deliver"))}</div>
@@ -846,58 +926,58 @@ function buildPreHtml(t: T, lang: string): string {
 
       <div class="form" aria-label="${attr(t("landing.form.aria"))}">
         <h3>${esc(t("landing.form.title"))}</h3>
-        <p class="hint">${esc(t("landing.form.hint"))}</p>
+        <p class="hint">${esc(t("landing.form.hint_phone"))}</p>
 
-        <div class="form-grid">
-          <input id="fName" placeholder="${attr(t("landing.form.name_placeholder"))}">
-          <input id="fEmail" placeholder="${attr(t("landing.form.email_placeholder"))}">
-          <select id="fProfile">
+        <form class="form-grid" id="fForm" onsubmit="autoOrient(event)" novalidate>
+          <input id="fName" name="name" autocomplete="name" aria-label="${attr(t("landing.form.name_placeholder"))}" placeholder="${attr(t("landing.form.name_placeholder"))}">
+          <input id="fPhone" name="tel" type="tel" inputmode="tel" autocomplete="tel" aria-label="${attr(t("landing.form.phone_placeholder"))}" placeholder="${attr(t("landing.form.phone_placeholder"))}">
+          <input id="fEmail" name="email" type="email" inputmode="email" autocomplete="email" aria-label="${attr(t("landing.form.email_optional"))}" placeholder="${attr(t("landing.form.email_optional"))}" class="span2">
+          <select id="fProfile" aria-label="${attr(t("landing.form.profile_placeholder"))}">
             <option value="">${esc(t("landing.form.profile_placeholder"))}</option>
-            <option>${esc(t("landing.form.profile.particulier"))}</option>
-            <option>${esc(t("landing.form.profile.porteur"))}</option>
-            <option>${esc(t("landing.form.profile.invest"))}</option>
-            <option>${esc(t("landing.form.profile.foncier"))}</option>
-            <option>${esc(t("landing.form.profile.banque"))}</option>
-            <option>${esc(t("landing.form.profile.entreprise"))}</option>
-            <option>${esc(t("landing.form.profile.archi"))}</option>
+            <option value="particulier">${esc(t("landing.form.profile.particulier"))}</option>
+            <option value="porteur">${esc(t("landing.form.profile.porteur"))}</option>
+            <option value="invest">${esc(t("landing.form.profile.invest"))}</option>
+            <option value="foncier">${esc(t("landing.form.profile.foncier"))}</option>
+            <option value="banque">${esc(t("landing.form.profile.banque"))}</option>
+            <option value="entreprise">${esc(t("landing.form.profile.entreprise"))}</option>
+            <option value="archi">${esc(t("landing.form.profile.archi"))}</option>
           </select>
-          <select id="fNeed">
+          <select id="fNeed" aria-label="${attr(t("landing.form.need_placeholder"))}">
             <option value="">${esc(t("landing.form.need_placeholder"))}</option>
-            <option>${esc(t("landing.form.need.design"))}</option>
-            <option>${esc(t("landing.form.need.autorisation"))}</option>
-            <option>${esc(t("landing.form.need.realisation"))}</option>
-            <option>${esc(t("landing.form.need.foncier"))}</option>
-            <option>${esc(t("landing.form.need.report"))}</option>
-            <option>${esc(t("landing.form.need.partenariat"))}</option>
+            <option value="design">${esc(t("landing.form.need.design"))}</option>
+            <option value="autorisation">${esc(t("landing.form.need.autorisation"))}</option>
+            <option value="realisation">${esc(t("landing.form.need.realisation"))}</option>
+            <option value="foncier">${esc(t("landing.form.need.foncier"))}</option>
+            <option value="report">${esc(t("landing.form.need.report"))}</option>
+            <option value="partenariat">${esc(t("landing.form.need.partenariat"))}</option>
           </select>
+          <input id="fWebsite" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-          <button type="button" onclick="autoOrient()">${esc(t("landing.form.submit"))}</button>
+          <p id="fErr" class="form-err span2" role="alert" hidden></p>
+          <button type="submit" id="fSend">${esc(t("landing.form.submit"))}</button>
+          <p class="form-legal span2">${esc(t("lead.legal"))}</p>
+        </form>
+
+        <div id="fDone" class="lead-done" tabindex="-1" role="status" aria-live="polite" hidden>
+          <strong>${esc(t("landing.lead.done_title"))}</strong>
+          <p id="fQueued" hidden>${esc(t("lead.success.queued"))}</p>
+          <div class="qc-row">
+            <a id="fNext" class="qc-btn qc-cb" href="#categories" hidden></a>
+            <a class="qc-btn qc-wa" href="${attr(waHref)}" target="_blank" rel="noopener">${esc(t("landing.contact.whatsapp"))}</a>
+          </div>
         </div>
       </div>
     </section>
 
     <aside class="panel" aria-label="${attr(t("landing.aside.aria"))}">
-      <div class="card block">
-        <div class="block-title">
-          <span>${esc(t("landing.aside.discover.title"))}</span>
-          <small>${esc(t("landing.aside.discover.sub"))}</small>
-        </div>
-        <div class="mock-video">${esc(t("landing.aside.discover.video"))}</div>
-        <div style="margin-top:10px; display:flex; gap:10px;">
-          <button class="mbtn secondary" type="button" onclick="soon('${attr(t("landing.aside.discover.soon"))}')">${esc(t("landing.aside.discover.see"))}</button>
-          <button class="mbtn primary" type="button" onclick="scrollToId('medias')">${esc(t("landing.aside.discover.goto"))}</button>
-        </div>
-      </div>
-
+      <!-- Bloc « Découvrir » (vidéo d'orientation) et vignettes d'opportunités retirés :
+           pas encore de contenu réel à montrer. -->
       <div class="card block">
         <div class="block-title">
           <span>${esc(t("landing.aside.briefs.title"))}</span>
           <small>${esc(t("landing.aside.briefs.sub"))}</small>
         </div>
-        <div class="mock-video" style="background:linear-gradient(135deg,#111827,#0b3c5d)">
-          ${esc(t("landing.aside.briefs.video"))}
-        </div>
-        <div style="margin-top:10px; display:flex; gap:10px;">
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
           <button class="mbtn secondary" type="button" onclick="openSubModal('vip')">${esc(t("landing.aside.briefs.vip"))}</button>
           <button class="mbtn primary" type="button" onclick="openSubModal('vvip')">${esc(t("landing.aside.briefs.vvip"))}</button>
         </div>
@@ -905,61 +985,13 @@ function buildPreHtml(t: T, lang: string): string {
     </aside>
   </div>
 
-  <!-- OPPORTUNITIES (conservé vitrine) -->
-  <section class="card scroll-section" aria-label="${attr(t("landing.opp.aria"))}">
-    <div class="scroll-card">
-      <div class="scroll-head">
-        <div>
-          <div class="scroll-title">${esc(t("landing.opp.title"))}</div>
-          <p class="scroll-sub">${esc(t("landing.opp.sub"))}</p>
-        </div>
-      </div>
-
-      <div class="scroller" id="oppScroller">
-        <div class="tile" onclick="soon('${attr(t("landing.opp.detail_soon"))}');">
-          <div class="thumb">
-            <div class="ph"></div>
-            <span class="badge">${esc(t("landing.opp.tile1.badge"))}</span>
-            <span class="play">${esc(t("landing.opp.video"))}</span>
-          </div>
-          <div class="tile-body">
-            <p class="tile-title">${esc(t("landing.opp.tile1.title"))}</p>
-            <p class="tile-meta">${esc(t("landing.opp.tile1.meta"))}</p>
-          </div>
-        </div>
-
-        <div class="tile" onclick="soon('${attr(t("landing.opp.detail_soon"))}');">
-          <div class="thumb">
-            <div class="ph"></div>
-            <span class="badge">${esc(t("landing.opp.tile2.badge"))}</span>
-            <span class="play">${esc(t("landing.opp.video"))}</span>
-          </div>
-          <div class="tile-body">
-            <p class="tile-title">${esc(t("landing.opp.tile2.title"))}</p>
-            <p class="tile-meta">${esc(t("landing.opp.tile2.meta"))}</p>
-          </div>
-        </div>
-
-        <div class="tile" onclick="soon('${attr(t("landing.opp.soon"))}');">
-          <div class="thumb">
-            <div class="ph"></div>
-            <span class="badge">${esc(t("landing.opp.tile3.badge"))}</span>
-          </div>
-          <div class="tile-body">
-            <p class="tile-title">${esc(t("landing.opp.tile3.title"))}</p>
-            <p class="tile-meta">${esc(t("landing.opp.tile3.meta"))}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ✅ MEDIAS SECTION (V2) -->
 
 `;
 }
 
 function buildPostHtml(t: T): string {
+  const waHref = lienWhatsApp(t("landing.contact.wa_message"));
   return `
 
 
@@ -1016,36 +1048,51 @@ font-size:14px;">
   </div>
 </div>
 
-<!-- MODAL: porte-first (demander échange) -->
+<!-- MODAL: être rappelé (ouverte par le bouton « Être rappelé » du hero) -->
 <div class="modal" id="leadModal" onclick="modalBackdropClose(event,'leadModal')">
-  <div class="modal-card" role="dialog" aria-label="${attr(t("landing.lead_modal.aria"))}">
+  <div class="modal-card lead-card" role="dialog" aria-modal="true" aria-labelledby="lmTitle">
     <div class="modal-head">
-      <span>${esc(t("landing.lead_modal.title"))}</span>
-      <button class="modal-close" onclick="closeModal('leadModal')">${esc(t("landing.sub_modal.back"))}</button>
+      <span id="lmTitle">${esc(t("landing.lead_modal.callback_title"))}</span>
+      <button type="button" class="modal-close" onclick="closeModal('leadModal')">${esc(t("landing.sub_modal.back"))}</button>
     </div>
     <div class="modal-body">
-      <div style="font-weight:1000; color:#0b2d97;">
-        ${esc(t("landing.lead_modal.intro"))}
+      <div style="font-weight:800; color:#334155; line-height:1.5;">
+        ${esc(t("landing.lead_modal.callback_intro"))}
       </div>
 
-      <div class="modal-grid">
-        <input id="lmEmail" placeholder="${attr(t("landing.lead_modal.email"))}">
-        <select id="lmDoor">
-          <option value="">${esc(t("landing.lead_modal.door_placeholder"))}</option>
-          <option value="personal">${esc(t("landing.lead_modal.door.p1"))}</option>
-          <option value="immo">${esc(t("landing.lead_modal.door.p2"))}</option>
-          <option value="cle">${esc(t("landing.lead_modal.door.p3"))}</option>
-          <option value="invest">${esc(t("landing.lead_modal.door.p4"))}</option>
-          <option value="rapports">${esc(t("landing.lead_modal.door.p5"))}</option>
-          <option value="pro">${esc(t("landing.lead_modal.door.p6"))}</option>
-        </select>
-      </div>
+      <form id="lmForm" onsubmit="submitLead(event)" novalidate>
+        <div class="modal-grid">
+          <input id="lmName" name="name" autocomplete="name" aria-label="${attr(t("landing.form.name_placeholder"))}" placeholder="${attr(t("landing.form.name_placeholder"))}">
+          <input id="lmPhone" name="tel" type="tel" inputmode="tel" autocomplete="tel" aria-label="${attr(t("landing.form.phone_placeholder"))}" placeholder="${attr(t("landing.form.phone_placeholder"))}">
+          <input id="lmEmail" name="email" type="email" inputmode="email" autocomplete="email" aria-label="${attr(t("landing.form.email_optional"))}" placeholder="${attr(t("landing.form.email_optional"))}">
+          <select id="lmDoor" aria-label="${attr(t("landing.lead_modal.door_placeholder"))}">
+            <option value="">${esc(t("landing.lead_modal.door_placeholder"))}</option>
+            <option value="P1">${esc(t("landing.lead_modal.door.p1"))}</option>
+            <option value="P2">${esc(t("landing.lead_modal.door.p2"))}</option>
+            <option value="P3">${esc(t("landing.lead_modal.door.p3"))}</option>
+            <option value="P4">${esc(t("landing.lead_modal.door.p4"))}</option>
+            <option value="P5">${esc(t("landing.lead_modal.door.p5"))}</option>
+            <option value="P6">${esc(t("landing.lead_modal.door.p6"))}</option>
+          </select>
+        </div>
 
-      <textarea id="lmMsg" placeholder="${attr(t("landing.lead_modal.message"))}"></textarea>
+        <textarea id="lmMsg" name="message" aria-label="${attr(t("landing.lead_modal.message"))}" placeholder="${attr(t("landing.lead_modal.message"))}"></textarea>
+        <input id="lmWebsite" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-      <div class="modal-actions">
-        <button class="mbtn primary" onclick="submitLead()">${esc(t("landing.lead_modal.send"))}</button>
-        <button class="mbtn secondary" onclick="closeModal('leadModal')">${esc(t("landing.lead_modal.cancel"))}</button>
+        <p id="lmErr" class="form-err" role="alert" hidden></p>
+        <div class="modal-actions">
+          <button type="submit" id="lmSend" class="mbtn primary" style="flex:1;">${esc(t("lead.btn.send"))}</button>
+          <button type="button" class="mbtn secondary" onclick="closeModal('leadModal')">${esc(t("landing.lead_modal.cancel"))}</button>
+        </div>
+        <p class="form-legal">${esc(t("lead.legal"))}</p>
+      </form>
+
+      <div id="lmDone" class="lead-done" tabindex="-1" role="status" aria-live="polite" hidden>
+        <strong>${esc(t("landing.lead.done_title"))}</strong>
+        <p id="lmQueued" hidden>${esc(t("lead.success.queued"))}</p>
+        <div class="qc-row">
+          <a class="qc-btn qc-wa" href="${attr(waHref)}" target="_blank" rel="noopener">${esc(t("landing.contact.whatsapp"))}</a>
+        </div>
       </div>
     </div>
   </div>
@@ -1110,6 +1157,147 @@ font-size:14px;">
 `;
 }
 
+// ── Leads de l'accueil ────────────────────────────────────────────────
+
+/** Valeur d'un champ du HTML injecté. */
+function champ(id: string): string {
+  const el = document.getElementById(id) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
+  return el?.value?.trim() || "";
+}
+
+/** Libellé (texte visible) de l'option choisie d'un select. */
+function libelleChoisi(id: string): string {
+  const el = document.getElementById(id) as HTMLSelectElement | null;
+  if (!el || !el.value) return "";
+  return el.selectedOptions?.[0]?.text?.trim() || "";
+}
+
+type PorteAccueil = "P1" | "P2" | "P3" | "P4" | "P5" | "P6";
+
+const PORTE_PAR_BESOIN: Record<string, PorteAccueil> = {
+  design: "P1",
+  autorisation: "P2",
+  realisation: "P3",
+  foncier: "P4",
+  report: "P5",
+  partenariat: "P6",
+};
+const PORTE_PAR_PROFIL: Record<string, PorteAccueil> = {
+  particulier: "P1",
+  porteur: "P2",
+  invest: "P4",
+  foncier: "P4",
+  banque: "P5",
+  entreprise: "P6",
+  archi: "P6",
+};
+
+/** Porte conseillée d'après le besoin (prioritaire) et le profil. */
+function porteConseillee(profil: string, besoin: string): PorteAccueil | undefined {
+  // Conception / autorisation : un particulier relève de P1, un porteur de projet de P2.
+  if ((besoin === "design" || besoin === "autorisation") && (profil === "particulier" || profil === "porteur")) {
+    return PORTE_PAR_PROFIL[profil];
+  }
+  return PORTE_PAR_BESOIN[besoin] || PORTE_PAR_PROFIL[profil];
+}
+
+const RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/**
+ * Valide puis envoie un lead de l'accueil (source WEB_HOME). Affiche l'erreur
+ * ou la confirmation dans les éléments `ids`. Vrai si le lead est parti ou
+ * attend dans la file de reprise.
+ */
+async function envoyerLeadAccueil(p: {
+  ids: { form: string; send: string; err: string; done: string; queued: string };
+  nom: string;
+  telephone: string;
+  email: string;
+  website: string;
+  porte?: string;
+  projetLibre?: string;
+  wizard: Record<string, unknown>;
+  lang: "fr" | "ar" | "en";
+  t: T;
+}): Promise<boolean> {
+  const errEl = document.getElementById(p.ids.err);
+  const sendEl = document.getElementById(p.ids.send) as HTMLButtonElement | null;
+  const erreur = (msg: string, focusId?: string) => {
+    if (errEl) {
+      errEl.textContent = msg;
+      errEl.hidden = !msg;
+    }
+    if (focusId) (document.getElementById(focusId) as HTMLElement | null)?.focus();
+  };
+  const prefixe = p.ids.form === "fForm" ? "f" : "lm";
+
+  if (p.nom.length < 2) {
+    erreur(p.t("lead.err.nom"), `${prefixe}Name`);
+    return false;
+  }
+  const telephone = telephoneEnvoyable(p.telephone);
+  if (!telephone) {
+    erreur(p.t("landing.lead.err_phone"), `${prefixe}Phone`);
+    return false;
+  }
+  if (p.email && !RE_EMAIL.test(p.email)) {
+    erreur(p.t("landing.lead.err_email"), `${prefixe}Email`);
+    return false;
+  }
+  erreur("");
+  if (sendEl?.disabled) return false; // envoi déjà en cours
+
+  const libelle = sendEl?.textContent || "";
+  if (sendEl) {
+    sendEl.disabled = true;
+    sendEl.textContent = p.t("lead.btn.sending");
+  }
+  try {
+    const wizard = sanitizeWizard(p.wizard);
+    const body: CaptureBody = {
+      nom: p.nom,
+      telephone,
+      email: p.email || undefined,
+      projetType: p.porte,
+      source: "WEB_HOME",
+      lang: p.lang,
+      pageContext: "/",
+      utm: currentUtm(),
+      meta: { projetLibre: p.projetLibre, wizard },
+      website: p.website || undefined,
+    };
+    const out = await captureLead(leadKey(p.porte, telephone), body);
+    if (out.status === "invalid") {
+      erreur(
+        out.code === "phone_invalid"
+          ? p.t("landing.lead.err_phone")
+          : out.code === "nom_invalid"
+            ? p.t("lead.err.nom")
+            : p.t("lead.err.generic"),
+      );
+      return false;
+    }
+    const form = document.getElementById(p.ids.form);
+    const done = document.getElementById(p.ids.done);
+    const queued = document.getElementById(p.ids.queued);
+    if (form) form.hidden = true;
+    if (queued) queued.hidden = out.status !== "queued";
+    if (done) {
+      done.hidden = false;
+      done.focus?.();
+    }
+    return true;
+  } catch {
+    erreur(p.t("lead.err.generic"));
+    return false;
+  } finally {
+    if (sendEl) {
+      sendEl.disabled = false;
+      sendEl.textContent = libelle;
+    }
+  }
+}
+
 function ensureGlobal(name: string, fn: (...args: any[]) => any) {
   // @ts-expect-error attach to window
   if (!window[name]) window[name] = fn;
@@ -1155,23 +1343,6 @@ export default function LandingV4() {
       const el = document.getElementById(id);
       if (el) el.style.display = "none";
     });
-    ensureGlobal("submitLead", () => {
-      const name = (document.getElementById("lead_name") as HTMLInputElement | null)?.value?.trim() || "";
-      const email = (document.getElementById("lead_email") as HTMLInputElement | null)?.value?.trim() || "";
-      const phone = (document.getElementById("lead_phone") as HTMLInputElement | null)?.value?.trim() || "";
-      const profile = (document.getElementById("lead_profile") as HTMLSelectElement | null)?.value || "";
-      if (!name || !email || !phone || !profile) {
-        alert("Merci de remplir Nom, Email, Téléphone et Profil.");
-        return;
-      }
-      // Storage-first: save locally, no SaaS
-      try {
-        localStorage.setItem("citurbarea:lead", JSON.stringify({ name, email, phone, profile, ts: Date.now() }));
-      } catch {}
-      alert("✅ Merci. Nous vous recontactons rapidement.");
-      const el = document.getElementById("leadModal");
-      if (el) el.style.display = "none";
-    });
     ensureGlobal("submitArticle", () => {
       const q = (document.getElementById("searchInput") as HTMLInputElement | null)?.value?.trim() || "";
       if (!q) {
@@ -1185,11 +1356,80 @@ export default function LandingV4() {
     });
 
 
-    ensureGlobal("autoOrient", (targetId?: string) => {
-      const el = document.getElementById(targetId || "categories");
-      if (!el) return;
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
+    // ── Leads de l'accueil : envoi réel via leadBridge (file de reprise si
+    // l'API ne répond pas). Les valeurs saisies ne sont jamais réinjectées
+    // en HTML : messages et libellés passent par textContent.
+    const leadGlobals: Record<string, (...args: any[]) => any> = {
+      openLeadModal: () => {
+        const el = document.getElementById("leadModal");
+        if (el) el.style.display = "flex";
+        const first = document.getElementById("lmName") as HTMLInputElement | null;
+        if (first && !(document.getElementById("lmForm") as HTMLElement | null)?.hidden) first.focus();
+      },
+
+      // Modale « Être rappelé »
+      submitLead: async (evt?: Event) => {
+        evt?.preventDefault?.();
+        const door = champ("lmDoor");
+        await envoyerLeadAccueil({
+          ids: { form: "lmForm", send: "lmSend", err: "lmErr", done: "lmDone", queued: "lmQueued" },
+          nom: champ("lmName"),
+          telephone: champ("lmPhone"),
+          email: champ("lmEmail"),
+          website: champ("lmWebsite"),
+          porte: /^P[1-6]$/.test(door) ? door : undefined,
+          projetLibre: champ("lmMsg") || undefined,
+          wizard: { formulaire: "rappel_accueil" },
+          lang,
+          t,
+        });
+      },
+
+      // Formulaire « Être orienté automatiquement » : lead d'abord, puis orientation.
+      autoOrient: async (evt?: Event) => {
+        evt?.preventDefault?.();
+        const profil = champ("fProfile");
+        const besoin = champ("fNeed");
+        const porte = porteConseillee(profil, besoin);
+        const ok = await envoyerLeadAccueil({
+          ids: { form: "fForm", send: "fSend", err: "fErr", done: "fDone", queued: "fQueued" },
+          nom: champ("fName"),
+          telephone: champ("fPhone"),
+          email: champ("fEmail"),
+          website: champ("fWebsite"),
+          porte,
+          wizard: {
+            formulaire: "orientation_accueil",
+            profil: libelleChoisi("fProfile") || undefined,
+            profilCode: profil || undefined,
+            besoin: libelleChoisi("fNeed") || undefined,
+            besoinCode: besoin || undefined,
+            porteConseillee: porte,
+          },
+          lang,
+          t,
+        });
+        if (!ok) return;
+
+        // Orientation : mise en avant de la porte conseillée, puis défilement.
+        document.querySelectorAll(".cat.cat-suggested").forEach((n) => n.classList.remove("cat-suggested"));
+        const next = document.getElementById("fNext") as HTMLAnchorElement | null;
+        const card = porte ? document.getElementById(`cat-${porte}`) : null;
+        if (porte && card) {
+          card.classList.add("cat-suggested");
+          if (next) {
+            next.href = `/${porte.toLowerCase()}`;
+            next.textContent = t("landing.form.next", { porte: t(`landing.cat.${porte.toLowerCase()}.title`) });
+            next.hidden = false;
+          }
+          card.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else {
+          document.getElementById("categories")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      },
+    };
+    const w = window as any;
+    for (const [name, fn] of Object.entries(leadGlobals)) w[name] = fn;
 
     // Lang switcher : délègue au Provider i18n (useT/useLang). Le DOM est
     // re-rendu via useMemo(buildPreHtml) — plus de patch DOM ciblé nécessaire.
@@ -1204,7 +1444,13 @@ export default function LandingV4() {
       const url = q ? `/media?q=${encodeURIComponent(q)}` : "/media";
       window.location.href = url;
     });
-  }, [setLang, t]);
+
+    return () => {
+      for (const [name, fn] of Object.entries(leadGlobals)) {
+        if (w[name] === fn) delete w[name];
+      }
+    };
+  }, [setLang, t, lang]);
 
   // Publications PUBLIQUES Cercles → mêmes cartes que le journal (ArticleCard).
   const [cercleArticles, setCercleArticles] = useState<Article[]>([]);

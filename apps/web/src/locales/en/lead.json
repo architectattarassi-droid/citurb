@@ -39,5 +39,7 @@
   "lead.porte.optional": "optional",
   "lead.porte.budget_libre_ph": "Estimated amount in MAD",
   "lead.p1.unlock_title": "Get the pack details",
-  "lead.p1.unlock_intro": "Leave your details: the packs show up right away and an architect will call you to refine the estimate."
+  "lead.p1.unlock_intro": "Leave your details: the packs show up right away and an architect will call you to refine the estimate.",
+  "lead.sim.title": "Get a detailed study of your plot",
+  "lead.sim.intro": "This calculation is indicative. An architect checks the planning rules that apply to your plot (zoning plan, setbacks, height) and calls you back within 24 h."
 }

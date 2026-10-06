@@ -243,5 +243,19 @@
 
   "landing.alert.soon": "قريبا. هذا القسم قيد الإنجاز.",
   "landing.alert.linkedin_soon": "LinkedIn — قريبا",
-  "landing.alert.tiktok_soon": "TikTok @arc_bati_architecture — قريبا"
+  "landing.alert.tiktok_soon": "TikTok @arc_bati_architecture — قريبا",
+  "landing.contact.aria": "تواصل مباشرة مع مهندس معماري",
+  "landing.contact.whatsapp": "واتساب",
+  "landing.contact.call": "اتصل بنا",
+  "landing.contact.callback": "اطلب اتصالاً خلال 24 ساعة",
+  "landing.contact.wa_message": "مرحبا، أود التحدث عن مشروعي",
+  "landing.form.hint_phone": "اترك رقم هاتفك: نوجهك إلى البوابة المناسبة ويتصل بك مهندس معماري خلال 24 ساعة.",
+  "landing.form.phone_placeholder": "الهاتف (إلزامي)",
+  "landing.form.email_optional": "البريد الإلكتروني (اختياري)",
+  "landing.form.next": "متابعة: {porte}",
+  "landing.lead.done_title": "تم استلام طلبك — سيتصل بك مهندس معماري خلال 24 ساعة",
+  "landing.lead.err_phone": "رقم غير صالح. أمثلة: 06 12 34 56 78 أو ‎+212 6 12 34 56 78 أو ‎+33 6 12 34 56 78.",
+  "landing.lead.err_email": "بريد إلكتروني غير صالح (أو اترك الحقل فارغاً).",
+  "landing.lead_modal.callback_title": "اطلب اتصالاً من مهندس معماري",
+  "landing.lead_modal.callback_intro": "يكفي الاسم والهاتف: يتصل بك مهندس معماري من CITURBAREA خلال 24 ساعة، دون أي التزام."
 }
