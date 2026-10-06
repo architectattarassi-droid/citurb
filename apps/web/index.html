@@ -52,12 +52,35 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
+      "@type": ["Organization", "ProfessionalService"],
+      "@id": "https://citurbarea.com/#organization",
       "name": "CITURBAREA",
+      "alternateName": "Arc Bati Architecture",
       "url": "https://citurbarea.com",
       "logo": "https://citurbarea.com/icons/icon.svg",
-      "description": "Plateforme marocaine d'expertise BTP, immobilier et urbanisme : permis de construire, expertise foncière, marchés de travaux, réseau professionnel Cercles.",
+      "image": "https://citurbarea.com/og-default.png",
+      "description": "Plateforme marocaine de construction portée par un cabinet d'architecte inscrit à l'Ordre : architecte, permis de construire (autorisation de construire), coordination des bureaux d'études (BET) et des entreprises, suivi de chantier, expertise foncière, accompagnement de la diaspora (MRE).",
+      "telephone": "+212530132323",
+      "priceRange": "$$",
+      "address": { "@type": "PostalAddress", "streetAddress": "Bureau 6, Immeuble Meryam C, angle rue Chellah et rue Mabrek Doukkali", "addressLocality": "Kénitra", "addressRegion": "Rabat-Salé-Kénitra", "postalCode": "14000", "addressCountry": "MA" },
+      "contactPoint": [
+        { "@type": "ContactPoint", "contactType": "customer service", "telephone": "+212530132323", "availableLanguage": ["fr", "ar", "en"], "areaServed": "MA" },
+        { "@type": "ContactPoint", "contactType": "customer service", "telephone": "+212700127892", "contactOption": "WhatsApp", "availableLanguage": ["fr", "ar"] }
+      ],
       "areaServed": { "@type": "Country", "name": "Maroc" },
+      "knowsAbout": ["architecture", "permis de construire au Maroc", "autorisation de construire", "plateforme Rokhas", "bureau d'études techniques", "béton armé", "suivi de chantier", "construction de villa", "lotissement", "urbanisme marocain", "loi 12-90", "loi 25-90", "expertise foncière", "maîtrise d'ouvrage déléguée", "construction pour MRE"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Services CITURBAREA",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Architecte : conception de maison, villa et immeuble", "url": "https://citurbarea.com/services" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Permis de construire : constitution et dépôt du dossier", "url": "https://citurbarea.com/guide/permis-de-construire-maroc" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Coordination des bureaux d'études techniques (BET)", "url": "https://citurbarea.com/guide/bureau-etudes-techniques-bet-maroc" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Consultation et suivi des entreprises de construction", "url": "https://citurbarea.com/guide/choisir-entreprise-construction-maroc" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Maîtrise d'ouvrage déléguée", "url": "https://citurbarea.com/p3" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Expertise et faisabilité foncière", "url": "https://citurbarea.com/p4" } }
+        ]
+      },
       "founder": { "@type": "Person", "name": "Yassine AT-TARASSI", "jobTitle": "Architecte DENA, Doctorant en géographie urbaine" },
       "email": "architectattarassi@gmail.com",
       "sameAs": [

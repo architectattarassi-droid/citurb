@@ -172,7 +172,7 @@ function pageHtml(svc, loc, ov) {
 </head>
 <body>
 <main>
-  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › Services › ${esc(svc.name)} › ${esc(loc.name)}</nav>
+  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › <a href="/services">Services</a> › ${esc(svc.name)} › ${esc(loc.name)}</nav>
 
   <h1>${esc(svc.name)} à ${esc(loc.name)}</h1>
   <p class="lead">${esc(svc.summary)}</p>
@@ -602,6 +602,8 @@ function villeHubHtml(h, portes) {
     <li><a href="/guide/permis-de-construire-maroc">Permis de construire : documents, étapes et délais</a></li>
     <li><a href="/guide/honoraires-architecte-maroc">Combien coûte un architecte au Maroc ?</a></li>
     <li><a href="/guide/etapes-construction-maison-maroc">Les étapes pour construire sa maison au Maroc</a></li>
+    <li><a href="/guide/bureau-etudes-techniques-bet-maroc">Bureau d'études techniques (BET) : rôle et coût</a></li>
+    <li><a href="/guide/choisir-entreprise-construction-maroc">Choisir une entreprise de construction</a></li>
   </ul>
 
   <h2>Questions fréquentes — architecte à ${esc(h.name)}</h2>
@@ -758,6 +760,83 @@ const GUIDES = [
       ["Par quoi commencer pour construire au Maroc ?", "Par le terrain (vérifier titre + constructibilité) puis l'architecte, qui cadre la faisabilité et le budget avant tout engagement."],
     ],
   },
+  {
+    slug: "bureau-etudes-techniques-bet-maroc",
+    title: "Bureau d'études techniques (BET) au Maroc : rôle, missions et coût",
+    h1: "Bureau d'études techniques (BET) au Maroc : à quoi sert-il et comment le choisir ?",
+    desc: "Le BET au Maroc : études structure (béton armé), fluides, géotechnique, rôle à côté de l'architecte, coût indicatif et comment choisir un bureau d'études pour votre construction.",
+    intro: "Le <strong>bureau d'études techniques (BET)</strong> dimensionne ce que l'architecte dessine : la <strong>structure</strong> (fondations, poteaux, poutres, dalles en béton armé) et les <strong>réseaux</strong> (plomberie, électricité, assainissement). Sur toute construction neuve au Maroc, il travaille aux côtés de l'architecte, du permis jusqu'au chantier.",
+    body: `
+      <h2>Architecte et BET : qui fait quoi ?</h2>
+      <table>
+        <tr><th>Intervenant</th><th>Rôle</th></tr>
+        <tr><td>Architecte (inscrit à l'Ordre)</td><td>Conçoit le projet, établit et dépose le dossier d'autorisation de construire, coordonne les intervenants, suit l'exécution.</td></tr>
+        <tr><td>BET structure</td><td>Calcule la structure (note de calcul, plans de béton armé, ferraillage) et vérifie sa stabilité, y compris face au risque sismique.</td></tr>
+        <tr><td>BET fluides</td><td>Conçoit l'électricité, la plomberie, l'assainissement et, selon le projet, la climatisation et la sécurité incendie.</td></tr>
+        <tr><td>Laboratoire / géotechnicien</td><td>Étudie le sol (étude géotechnique) pour adapter les fondations, et contrôle les matériaux (essais sur béton).</td></tr>
+        <tr><td>Topographe</td><td>Lève le terrain (plan topographique, implantation du bâtiment).</td></tr>
+        <tr><td>Bureau de contrôle</td><td>Contrôle indépendant de la conception et de l'exécution, exigé sur de nombreux projets d'importance.</td></tr>
+      </table>
+
+      <h2>Quand faut-il un BET ?</h2>
+      <p>Dès qu'un projet comporte une structure porteuse en béton armé — c'est-à-dire pour la quasi-totalité des maisons, villas et immeubles. Les plans de béton armé guident l'entreprise sur le chantier : sans eux, l'entreprise improvise le ferraillage, ce qui expose à des désordres graves et engage la responsabilité de chacun.</p>
+
+      <h2>Combien coûte un BET ?</h2>
+      <p>Les honoraires d'un BET se négocient en général <strong>en pourcentage du coût des travaux</strong> (de l'ordre de 2 % pour la structure et les fluides sur une villa) ou au forfait. L'étude de sol et le levé topographique sont facturés à part. Ces montants restent faibles au regard du coût d'une erreur de structure.</p>
+
+      <h2>Comment choisir son BET ?</h2>
+      <ul>
+        <li>Des <strong>références</strong> sur des projets comparables (villa, immeuble R+4, équipement).</li>
+        <li>Une <strong>assurance de responsabilité civile professionnelle</strong> en cours.</li>
+        <li>Une mission claire : notes de calcul, plans d'exécution, <strong>visites de chantier</strong> aux étapes clés (fondations, coulage des dalles).</li>
+        <li>Une bonne coordination avec l'architecte : c'est lui qui assure la cohérence de l'ensemble.</li>
+      </ul>
+      <p>Avec CITURBAREA, l'architecte constitue l'équipe d'études (BET, topographe, laboratoire) adaptée à votre projet et la coordonne jusqu'à la réception.</p>
+    `,
+    faq: [
+      ["Le BET est-il obligatoire pour construire une maison au Maroc ?", "Les études de structure sont nécessaires pour toute construction porteuse en béton armé ; elles sont réalisées par un bureau d'études techniques et accompagnent le dossier de l'architecte. En pratique, toute villa ou maison neuve en a besoin."],
+      ["Quelle différence entre un architecte et un BET ?", "L'architecte conçoit le bâtiment, dépose l'autorisation de construire et coordonne le projet ; le BET calcule la structure et les réseaux techniques (électricité, plomberie, assainissement)."],
+      ["Combien coûte un bureau d'études pour une villa ?", "Souvent de l'ordre de 2 % du coût des travaux pour la structure et les fluides, hors étude de sol et levé topographique, facturés séparément."],
+    ],
+  },
+  {
+    slug: "choisir-entreprise-construction-maroc",
+    title: "Choisir une entreprise de construction au Maroc : méthode et pièges à éviter",
+    h1: "Comment choisir une entreprise de construction au Maroc ?",
+    desc: "Choisir une entreprise de BTP au Maroc : consulter plusieurs entreprises, comparer les devis sur un même descriptif, vérifier les références, sécuriser le contrat et les paiements.",
+    intro: "L'entreprise de construction réalise ce que l'architecte et le BET ont conçu. Bien la choisir, c'est <strong>comparer des offres sur une même base</strong>, <strong>vérifier sa solidité</strong> et <strong>encadrer le contrat</strong>. Voici la méthode.",
+    body: `
+      <h2>1. Consulter sur un dossier commun</h2>
+      <p>Demandez des prix sur le même <strong>dossier de consultation</strong> : plans d'exécution, descriptif des travaux et <strong>bordereau des quantités</strong> préparés par l'architecte et le BET. Sans base commune, les devis ne sont pas comparables et les écarts réapparaissent en cours de chantier sous forme de suppléments.</p>
+
+      <h2>2. Vérifier l'entreprise</h2>
+      <ul>
+        <li>Existence légale : registre de commerce, identifiant commun de l'entreprise (ICE), situation fiscale et sociale (CNSS) à jour.</li>
+        <li>Références : chantiers comparables, visite d'un chantier en cours si possible.</li>
+        <li>Moyens : encadrement (conducteur de travaux), main-d'œuvre, matériel.</li>
+        <li>Pour les marchés publics, l'administration exige un certificat de qualification et de classification ; pour un projet privé, c'est un indice utile de sérieux, sans être obligatoire.</li>
+      </ul>
+
+      <h2>3. Comparer les offres</h2>
+      <p>Comparez ligne à ligne, pas seulement le total. Une offre nettement plus basse cache souvent des quantités sous-estimées, des matériaux de qualité inférieure ou des postes omis. L'architecte analyse les offres et signale les écarts.</p>
+
+      <h2>4. Sécuriser le contrat et les paiements</h2>
+      <ul>
+        <li>Un contrat écrit : prix (global et forfaitaire, ou au bordereau des prix), délais, pénalités de retard.</li>
+        <li>Des paiements <strong>échelonnés selon l'avancement constaté</strong> (situations de travaux validées), jamais très en avance sur le chantier.</li>
+        <li>Une <strong>retenue de garantie</strong> conservée jusqu'à la réception définitive.</li>
+        <li>La responsabilité décennale de l'entrepreneur et de l'architecte sur la solidité de l'ouvrage (article 769 du Dahir des obligations et contrats).</li>
+      </ul>
+
+      <h2>5. Faire suivre le chantier</h2>
+      <p>Le suivi par l'architecte (visites, comptes rendus, validation des situations, réception avec levée des réserves) protège votre budget et la qualité. Pour la diaspora, CITURBAREA assure ce suivi à distance avec des comptes rendus réguliers.</p>
+    `,
+    faq: [
+      ["Combien de devis demander pour construire une maison ?", "Au moins trois, sur le même dossier de consultation (plans, descriptif et bordereau des quantités), pour pouvoir comparer ligne à ligne."],
+      ["Faut-il payer une avance à l'entreprise ?", "Une avance limitée peut se justifier au démarrage ; ensuite, les paiements doivent suivre l'avancement constaté et validé, avec une retenue de garantie jusqu'à la réception."],
+      ["Qui vérifie le travail de l'entreprise ?", "L'architecte, dans le cadre de sa mission de suivi, appuyé par le BET et, selon le projet, un bureau de contrôle et un laboratoire."],
+    ],
+  },
 ];
 
 function guidePageHtml(g) {
@@ -806,7 +885,7 @@ function guidePageHtml(g) {
 </head>
 <body>
 <main>
-  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › Guides › ${esc(g.h1)}</nav>
+  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › <a href="/guide">Guides</a> › ${esc(g.h1)}</nav>
   <h1>${esc(g.h1)}</h1>
   <p class="lead">${g.intro}</p>
   ${g.body}
@@ -837,6 +916,131 @@ ${guidesPublished.map((x) => `  <url>\n    <loc>${x.full}</loc>\n    <lastmod>${
 </urlset>
 `;
 fs.writeFileSync(path.join(PUBLIC_DIR, "sitemap-guides.xml"), sitemapGuides);
+
+// ════════════════════════════════════════════════════════════════════
+// PAGES CARREFOURS — /guide et /services (fichiers plats guide.html et
+// services.html, servis en URL propre). Les fils d'Ariane y menaient sans
+// page derrière ; elles concentrent le maillage interne vers chaque page.
+// ════════════════════════════════════════════════════════════════════
+function hubHtml({ url, title, desc, h1, intro, items, sections }) {
+  const itemList = {
+    "@context": "https://schema.org", "@type": "CollectionPage", name: h1, url, description: desc, inLanguage: "fr-MA",
+    isPartOf: { "@type": "WebSite", name: "CITURBAREA", url: business.baseUrl },
+    mainEntity: { "@type": "ItemList", itemListElement: items.map((it, i) => ({ "@type": "ListItem", position: i + 1, url: it.url, name: it.name })) },
+  };
+  const breadcrumb = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Accueil", item: business.baseUrl }, { "@type": "ListItem", position: 2, name: h1, item: url }] };
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(desc.slice(0, 158))}">
+<link rel="canonical" href="${url}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(desc.slice(0, 158))}">
+<meta property="og:url" content="${url}">
+<meta property="og:site_name" content="CITURBAREA">
+<meta property="og:image" content="${business.image}">
+<script type="application/ld+json">${JSON.stringify(itemList)}</script>
+<script type="application/ld+json">${JSON.stringify(breadcrumb)}</script>
+<style>
+  *{box-sizing:border-box}
+  body{font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#0f172a;background:#f8fafc;margin:0}
+  main{max-width:900px;margin:0 auto;padding:32px 20px 60px}
+  nav[aria-label="fil"]{font-size:13px;color:#64748b;margin-bottom:18px}
+  a{color:#1e3a8a}
+  h1{font-size:30px;font-weight:900;letter-spacing:-.02em;margin:0 0 14px;line-height:1.2}
+  .lead{font-size:17px;color:#475569;margin:0 0 26px}
+  h2{font-size:20px;font-weight:800;margin:32px 0 12px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;padding:0;list-style:none;margin:0}
+  .grid li a{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;text-decoration:none;color:#0f172a;font-weight:600;min-height:44px}
+  .grid li a span{display:block;font-weight:400;font-size:14px;color:#64748b;margin-top:4px}
+  .cta{display:inline-block;background:#1e3a8a;color:#fff;padding:12px 22px;border-radius:10px;text-decoration:none;font-weight:700}
+  footer{border-top:1px solid #e2e8f0;margin-top:44px;padding-top:22px;color:#64748b;font-size:13px}
+</style>
+</head>
+<body>
+<main>
+  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › ${esc(h1)}</nav>
+  <h1>${esc(h1)}</h1>
+  <p class="lead">${intro}</p>
+  ${sections.map((s) => `<h2>${esc(s.titre)}</h2><ul class="grid">${s.liens.map((l) => `<li><a href="${l.href}">${esc(l.label)}${l.sous ? `<span>${esc(l.sous)}</span>` : ""}</a></li>`).join("")}</ul>`).join("\n  ")}
+  <div style="margin-top:32px">${ctaContact("Parler de mon projet à un architecte", h1)}</div>
+  <footer>
+    <strong style="color:#0f172a">${esc(business.name)}</strong> — ${esc(business.founder)}, architecte · ${esc(business.hq.streetAddress)}, ${esc(business.hq.locality)} · <a href="tel:${business.phone}">${business.phone}</a>
+  </footer>
+</main>
+</body>
+</html>`;
+}
+
+const villesLiens = VILLE_HUBS.map((v) => ({ href: `/architecte-${v.slug}`, label: `Architecte à ${v.name}`, sous: v.region }));
+const guidesLiens = GUIDES.map((g) => ({ href: `/guide/${g.slug}`, label: g.h1, sous: g.desc.slice(0, 110) + "…" }));
+const portesLiens = PORTES.map((p) => ({ href: `/fr/${p.slugFr}`, label: p.titleFr }));
+const servicesLiens = published.map((p) => ({ href: p.url, label: `${p.service} à ${p.locality}` }));
+
+const hubGuide = {
+  url: `${business.baseUrl}/guide`,
+  title: "Guides construction au Maroc : prix, permis, architecte | CITURBAREA",
+  desc: "Guides pratiques pour construire au Maroc : prix au m², permis de construire, honoraires d'architecte, étapes de A à Z. Rédigés par un architecte.",
+  h1: "Guides pour construire au Maroc",
+  intro: "Prix de construction, autorisation de construire, honoraires d'architecte, étapes du chantier : l'essentiel pour décider en connaissance de cause, rédigé par un architecte qui dépose des dossiers chaque semaine.",
+  items: guidesLiens.map((l) => ({ url: `${business.baseUrl}${l.href}`, name: l.label })),
+  sections: [
+    { titre: "Tous les guides", liens: guidesLiens },
+    { titre: "Trouver un architecte dans votre ville", liens: villesLiens },
+  ],
+};
+const hubServices = {
+  url: `${business.baseUrl}/services`,
+  title: "Architecte, permis de construire et suivi de chantier au Maroc | CITURBAREA",
+  desc: "Tous les services CITURBAREA : architecte, permis de construire, plans de maison, rénovation et suivi de chantier, à Kénitra, Rabat, Salé, Casablanca, Tanger et partout au Maroc.",
+  h1: "Services d'architecture et de construction au Maroc",
+  intro: "Conception, autorisation de construire, suivi de chantier, rénovation : choisissez votre ville ou votre besoin. Chaque projet est suivi par un architecte inscrit à l'Ordre.",
+  items: [...villesLiens, ...servicesLiens].map((l) => ({ url: `${business.baseUrl}${l.href}`, name: l.label })),
+  sections: [
+    { titre: "Par ville", liens: villesLiens },
+    { titre: "Par service et par ville", liens: servicesLiens },
+    { titre: "Par type de projet", liens: portesLiens },
+    { titre: "Guides pratiques", liens: guidesLiens },
+  ],
+};
+fs.writeFileSync(path.join(PUBLIC_DIR, "guide.html"), hubHtml(hubGuide));
+fs.writeFileSync(path.join(PUBLIC_DIR, "services.html"), hubHtml(hubServices));
+// Les carrefours entrent dans les sitemaps de leur famille.
+fs.writeFileSync(path.join(PUBLIC_DIR, "sitemap-hubs.xml"), `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${[hubGuide.url, hubServices.url].map((u) => `  <url>\n    <loc>${u}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>\n  </url>`).join("\n")}
+</urlset>
+`);
+
+// ════════════════════════════════════════════════════════════════════
+// llms-full.txt — texte intégral des guides et des pages villes, sans HTML,
+// pour les assistants IA (ChatGPT, Claude, Gemini, Perplexity) qui
+// n'exécutent pas le JavaScript. Référencé depuis public/llms.txt.
+// ════════════════════════════════════════════════════════════════════
+const texteBrut = (h) => String(h)
+  .replace(/<tr>/g, "\n").replace(/<\/t[dh]>/g, " | ")
+  .replace(/<li>/g, "\n- ").replace(/<h2>/g, "\n\n## ").replace(/<\/h2>/g, "\n")
+  .replace(/<\/p>/g, "\n").replace(/<[^>]+>/g, "")
+  .replace(/&amp;/g, "&").replace(/[ \t]+/g, " ").replace(/\n[ \t]+/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+const llmsFull = [
+  "# CITURBAREA — texte intégral des guides et des pages locales",
+  "",
+  `> Source : ${business.baseUrl}. Auteur : ${business.founder}, architecte (${business.name}, ${business.hq.locality}). Contact : ${business.phone} · WhatsApp ${business.whatsapp} · ${business.baseUrl}/creer-compte. Mis à jour le ${today}.`,
+  "",
+  ...GUIDES.flatMap((g) => [
+    `# ${g.h1}`, "", `URL : ${business.baseUrl}/guide/${g.slug}`, "", texteBrut(g.intro), "", texteBrut(g.body), "",
+    "## Questions fréquentes", ...g.faq.flatMap(([q, a]) => [`**${q}**`, a, ""]), "",
+  ]),
+  ...VILLE_HUBS.flatMap((h) => [
+    `# Architecte à ${h.name}`, "", `URL : ${business.baseUrl}/architecte-${h.slug}`, "", h.intro, "", h.atouts, "",
+    QUARTIERS[h.slug] ? `Quartiers couverts : ${QUARTIERS[h.slug]}.` : "", "",
+  ]),
+].join("\n");
+fs.writeFileSync(path.join(PUBLIC_DIR, "llms-full.txt"), llmsFull);
 
 // ─────────────────────────── rapport console ───────────────────────
 const total = services.length * localities.length;
