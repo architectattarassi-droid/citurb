@@ -200,3 +200,18 @@ describe("immeuble R+4 à Rabat (mutualisation)", () => {
     expect(controleGrille(r).ecart).toBeGreaterThan(-0.2);
   });
 });
+
+describe("correspondance avec le catalogue CIT (contrat fournisseurs ↔ chiffrage)", () => {
+  it("chaque code CIT existe et les unités concordent", async () => {
+    const { materiau } = await import("../materiaux/catalogue");
+    const { CORRESPONDANCE_CIT, UNITE_EQUIVALENTE, prixComposantDepuisCIT } = await import("./correspondanceCIT");
+    for (const [id, c] of Object.entries(CORRESPONDANCE_CIT)) {
+      const m = materiau(c.cit);
+      expect(m, `${id} → ${c.cit}`).toBeDefined();
+      expect(MATERIAUX[id], id).toBeDefined();
+      if (c.facteur === 1) expect(UNITE_EQUIVALENTE[m!.uniteRef], `${id} : ${MATERIAUX[id].unite} / ${m!.uniteRef}`).toBe(MATERIAUX[id].unite);
+    }
+    expect(prixComposantDepuisCIT("CIMENT_CPJ45", { "CIT-GO-008": 1.6 })).toBeCloseTo(80, 5);
+    expect(prixComposantDepuisCIT("SABLE", {})).toBe(MATERIAUX.SABLE.ref);
+  });
+});
