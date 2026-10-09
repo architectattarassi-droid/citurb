@@ -23,6 +23,8 @@ const ROUTES: Record<string, Meta> = {
   "/p4": { titre: "Investisseur foncier : étude et valorisation de terrain" + SUFFIXE, index: true },
   "/p5": { titre: "Rapports et expertises immobilières" + SUFFIXE, index: true },
   "/creer-compte": { titre: "Parlez-nous de votre projet" + SUFFIXE, index: true },
+  "/chiffrage": { titre: "Coût de construction d'une villa au Maroc, lot par lot" + SUFFIXE, index: true },
+  "/calculateur": { titre: "Calculateur de coût de construction" + SUFFIXE, index: true },
   "/simulateur": { titre: "Simulateur de constructibilité d'un terrain" + SUFFIXE, index: true },
   "/cercles": { titre: "Cercles — le réseau des professionnels du BTP" + SUFFIXE, index: true },
   "/login": { titre: "Connexion" + SUFFIXE },
