@@ -10,6 +10,7 @@
  * When the backend is available, P1Packs calls /p1/packs/quote (source of truth).
  * This module is the OFFLINE FALLBACK — same formulas, same output shape.
  */
+import { P1_COUT_M2 } from "../prix/grille2026";
 
 export type ConstructionLevel = "ECONOMIQUE" | "STANDING" | "HAUT_STANDING" | "PREMIUM" | "BLACK";
 export type PackType = "ESSENTIEL" | "AVANCE" | "COMPLET";
@@ -50,14 +51,16 @@ export interface QuoteOutput {
 }
 
 // ── Internal baselines (not exposed) ──
+// Grille unique (domain/prix/grille2026.ts) = valeurs de l'API : le repli hors
+// ligne affichait 3000/4000/5000/6000/7000, soit jusqu'à -46 % en PREMIUM.
 function costPerM2(level: ConstructionLevel, blackBudgetMAD: number | null | undefined, surface: number): number {
-  if (level === "ECONOMIQUE") return 3000;
-  if (level === "STANDING") return 4000;
-  if (level === "HAUT_STANDING") return 5000;
-  if (level === "PREMIUM") return 6000;
+  if (level === "ECONOMIQUE") return P1_COUT_M2.ECONOMIQUE;
+  if (level === "STANDING") return P1_COUT_M2.STANDING;
+  if (level === "HAUT_STANDING") return P1_COUT_M2.HAUT_STANDING;
+  if (level === "PREMIUM") return P1_COUT_M2.PREMIUM;
   if (blackBudgetMAD && blackBudgetMAD > 0 && surface > 0)
-    return Math.max(6500, Math.round(blackBudgetMAD / surface));
-  return 7000;
+    return Math.max(P1_COUT_M2.BLACK_MIN, Math.round(blackBudgetMAD / surface));
+  return P1_COUT_M2.BLACK;
 }
 
 function roundMoney(n: number): number {

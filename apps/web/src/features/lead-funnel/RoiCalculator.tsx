@@ -21,6 +21,8 @@
 import React, { useMemo, useState } from "react";
 import { useT, useLang } from "../../i18n/i18n";
 import LeadCaptureForm from "./LeadCaptureForm";
+import { coefRegional, coutM2Median } from "../../domain/prix/grille2026";
+import type { Standing as GrilleStanding, TypeProjet as GrilleType } from "../../command-center/modules/dossiers/costRangesMA";
 
 type TypeProjet =
   | "villa_rdc"
@@ -31,39 +33,29 @@ type TypeProjet =
   | "commerce";
 type Standing = "eco" | "moyen" | "haut";
 
-interface CoutsM2 {
-  base: number; // MAD/m² SHOB livré clé en main, standing moyen, Casablanca
+/**
+ * Coût/m² (base Rabat-Salé-Kénitra, HT) tiré de la grille unique
+ * (domain/prix/grille2026.ts) : même chiffre que l'estimatif par lots.
+ * eco = très économique, moyen = entre moyen standing et standing, haut = haut standing.
+ */
+function coutM2(type: TypeProjet, standing: Standing): number {
+  const m = (t: GrilleType, s: GrilleStanding) => coutM2Median(t, s) ?? 0;
+  const parStanding = (t: GrilleType) => ({
+    eco: m(t, "ULTRA_ECO"),
+    moyen: Math.round((m(t, "ECONOMIQUE") + m(t, "STANDARD")) / 2),
+    haut: m(t, "STANDING"),
+  })[standing];
+  switch (type) {
+    // Plain-pied : plus de toiture et de fondations par m² ; R+2 : un peu plus de structure.
+    case "villa_rdc": return Math.round(parStanding("VIL") * 1.05);
+    case "villa_r1": return parStanding("VIL");
+    case "villa_r2": return Math.round(parStanding("VIL") * 1.03);
+    case "immeuble": return parStanding("IMM");
+    case "commerce": return parStanding("MIX");
+    // Lotissement : VRD + lots aménagés, hors bâtiment (non couvert par la grille).
+    case "lotissement": return { eco: 1450, moyen: 1800, haut: 2600 }[standing];
+  }
 }
-
-const COUT_M2_BASE: Record<TypeProjet, CoutsM2> = {
-  villa_rdc: { base: 4500 },
-  villa_r1: { base: 5200 },
-  villa_r2: { base: 5800 },
-  immeuble: { base: 6500 },
-  lotissement: { base: 1800 }, // VRD + lots aménagés
-  commerce: { base: 7000 },
-};
-
-const COEF_VILLE: Record<string, number> = {
-  casablanca: 1.15,
-  rabat: 1.1,
-  marrakech: 1.05,
-  tanger: 1.0,
-  bouskoura: 1.08,
-  sale: 0.95,
-  temara: 0.95,
-  agadir: 0.95,
-  fes: 0.85,
-  meknes: 0.82,
-  oujda: 0.78,
-  kenitra: 0.88,
-};
-
-const COEF_STANDING: Record<Standing, number> = {
-  eco: 0.8,
-  moyen: 1.0,
-  haut: 1.45,
-};
 
 interface Result {
   min: number;
@@ -104,10 +96,7 @@ const RoiCalculator: React.FC<{ className?: string }> = ({ className }) => {
   );
 
   const result: Result = useMemo(() => {
-    const base = COUT_M2_BASE[typeProjet].base;
-    const cv = COEF_VILLE[ville.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")] || 0.9;
-    const cs = COEF_STANDING[standing];
-    const estim = base * cv * cs * Math.max(1, surface);
+    const estim = coutM2(typeProjet, standing) * coefRegional(ville) * Math.max(1, surface);
     const min = estim * 0.85;
     const max = estim * 1.18;
     // Délais indicatifs :
