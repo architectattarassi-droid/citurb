@@ -52,5 +52,6 @@
   "lead.type.cle_en_main": "مشروع جاهز (مقاولة منتدبة)",
   "lead.type.terrain": "أرض: دراسة أو تثمين",
   "lead.type.expertise": "تقرير / خبرة تقنية",
-  "lead.type.professionnel": "أنا مهني في قطاع البناء"
+  "lead.type.professionnel": "أنا مهني في قطاع البناء",
+  "lead.calc.detaille": "تقدير مفصل حسب الحصص (الأساسات، الطابق تحت الأرضي، الانحدار) ←"
 }

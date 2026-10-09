@@ -1824,5 +1824,6 @@
   "portes.p1.docs.doc_cin": "CIN / Passeport (copie)",
   "portes.p1.docs.doc_contrat": "Contrat architecte (modèle auto-généré)",
   "portes.p1.docs.doc_autoex": "Autorisations existantes (si rénovation)",
-  "portes.p1.docs.doc_lotis": "Cahier des charges du lotissement"
+  "portes.p1.docs.doc_lotis": "Cahier des charges du lotissement",
+  "portes.p1.cost.detaille": "Chiffrer lot par lot avec métré (fondations, sous-sol, pente) →"
 }

@@ -52,5 +52,6 @@
   "lead.type.cle_en_main": "Projet clé en main (MOD)",
   "lead.type.terrain": "Terrain : étude ou valorisation",
   "lead.type.expertise": "Rapport / expertise technique",
-  "lead.type.professionnel": "Je suis un professionnel du BTP"
+  "lead.type.professionnel": "Je suis un professionnel du BTP",
+  "lead.calc.detaille": "Chiffrage détaillé lot par lot (fondations, sous-sol, pente) →"
 }

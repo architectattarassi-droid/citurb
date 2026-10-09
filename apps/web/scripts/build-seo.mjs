@@ -594,7 +594,7 @@ function villeHubHtml(h, portes) {
   ${QUARTIERS[h.slug] ? `<p><strong>Quartiers desservis à ${esc(h.name)} :</strong> ${esc(QUARTIERS[h.slug])}.</p>` : ""}
 
   <h2>Combien coûte un architecte à ${esc(h.name)} ?</h2>
-  <p>Les honoraires se calculent en pourcentage du coût des travaux (barème CNOA, ~5% selon la mission). Le montant dépend de la surface, du standing et de l'étendue de l'accompagnement. Estimez votre budget en quelques clics avec le <a href="/simulateur">simulateur de coût de construction</a>, puis affinez lors d'un premier échange.</p>
+  <p>Les honoraires se calculent en pourcentage du coût des travaux (barème CNOA, ~5% selon la mission). Le montant dépend de la surface, du standing et de l'étendue de l'accompagnement. Estimez votre budget lot par lot avec le <a href="/chiffrage">chiffrage de construction</a>, puis affinez lors d'un premier échange.</p>
 
   <h2>Guides utiles</h2>
   <ul class="services">
@@ -661,7 +661,7 @@ const GUIDES = [
         <tr><td>Haut standing</td><td>7 500 – 9 500</td><td>1 125 000 – 1 425 000 DH</td></tr>
         <tr><td>Luxe / Premium</td><td>10 000 – 14 000</td><td>1 500 000 – 2 100 000 DH</td></tr>
       </table>
-      <p><a class="cta" href="/simulateur">Estimer précisément mon budget →</a></p>
+      <p><a class="cta" href="/chiffrage">Estimer précisément mon budget →</a></p>
 
       <h2>Ce qui fait varier le prix</h2>
       <ul>

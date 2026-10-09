@@ -52,5 +52,6 @@
   "lead.type.cle_en_main": "Turnkey project (delegated management)",
   "lead.type.terrain": "Land: study or valuation",
   "lead.type.expertise": "Technical report / survey",
-  "lead.type.professionnel": "I'm a construction professional"
+  "lead.type.professionnel": "I'm a construction professional",
+  "lead.calc.detaille": "Detailed line-by-line estimate (foundations, basement, slope) →"
 }

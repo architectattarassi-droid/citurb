@@ -1824,5 +1824,6 @@
   "portes.p1.docs.doc_cin": "البطاقة الوطنية (CIN) / جواز السفر (نسخة)",
   "portes.p1.docs.doc_contrat": "عقد المهندس المعماري (نموذج تلقائي)",
   "portes.p1.docs.doc_autoex": "الرخص القائمة (في حالة الترميم)",
-  "portes.p1.docs.doc_lotis": "دفتر تحملات التجزئة"
+  "portes.p1.docs.doc_lotis": "دفتر تحملات التجزئة",
+  "portes.p1.cost.detaille": "التقدير حسب الحصص مع قياس الكميات ←"
 }

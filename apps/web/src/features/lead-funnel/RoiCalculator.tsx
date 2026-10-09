@@ -266,6 +266,12 @@ const RoiCalculator: React.FC<{ className?: string }> = ({ className }) => {
         <p className="mt-2 text-[11px] italic text-slate-500">
           {t("lead.calc.disclaimer")}
         </p>
+        <a
+          href={`/chiffrage?type=${typeProjet === "immeuble" ? "immeuble" : typeProjet === "commerce" ? "mixte" : "villa"}&surface=${Math.round(surface)}&niveaux=${({ villa_rdc: 1, villa_r1: 2, villa_r2: 3, immeuble: 5, commerce: 5, lotissement: 2 } as Record<TypeProjet, number>)[typeProjet]}&standing=${{ eco: "ULTRA_ECO", moyen: "ECONOMIQUE", haut: "STANDING" }[standing]}&ville=${encodeURIComponent(ville)}`}
+          className="mt-3 inline-block text-sm font-semibold text-blue-800 underline"
+        >
+          {t("lead.calc.detaille")}
+        </a>
       </div>
 
       {!showCapture ? (

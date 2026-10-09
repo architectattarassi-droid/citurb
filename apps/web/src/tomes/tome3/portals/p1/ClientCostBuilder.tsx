@@ -115,6 +115,7 @@ export default function ClientCostBuilder({
           <div style={S.kicker}>{t("portes.p1.cost.kicker")}</div>
           <div style={S.title}>{t("portes.p1.cost.title")}</div>
           <div style={S.sub}>{t("portes.p1.cost.sub")}</div>
+          <a href={`/chiffrage?type=${type === "IMM" ? "immeuble" : type === "MIX" ? "mixte" : type === "HMB" ? "maison" : "villa"}&surface=${surface}`} target="_blank" rel="noopener" style={{ display: "inline-block", marginTop: 6, fontSize: 13, fontWeight: 700, color: NAVY, textDecoration: "underline" }}>{t("portes.p1.cost.detaille")}</a>
         </div>
       </div>
 

@@ -1604,5 +1604,6 @@
   "portes.p1.docs.doc_cin": "National ID (CIN) / Passport (copy)",
   "portes.p1.docs.doc_contrat": "Architect contract (auto-generated template)",
   "portes.p1.docs.doc_autoex": "Existing permits (if renovation)",
-  "portes.p1.docs.doc_lotis": "Subdivision specifications (cahier des charges)"
+  "portes.p1.docs.doc_lotis": "Subdivision specifications (cahier des charges)",
+  "portes.p1.cost.detaille": "Estimate line by line with quantities (foundations, basement, slope) →"
 }
