@@ -2184,3 +2184,153 @@ model FunnelEvent {
   @@index([createdAt])
   @@index([sessionId])
 }
+
+// ==============================
+// CERCLES — FOURNISSEURS & FICHES DE PRIX (Pages Functions + Neon)
+// SQL de création : docs/prix/sql/cercles-fournisseurs.sql (collé à la main
+// dans Neon). Codes matériaux : apps/web/src/domain/materiaux/catalogue.ts.
+// Colonnes String plutôt qu'enum : écrites en SQL brut par functions/.
+// ==============================
+
+/// Pro ou fournisseur inscrit sur Cercles (sans mot de passe : accès par code à usage unique).
+model Fournisseur {
+  id                String    @id
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @default(now()) @updatedAt
+  statut            String    @default("PENDING") // PENDING APPROVED REJECTED SUSPENDED
+  metier            String
+  raisonSociale     String
+  slug              String    @unique
+  contactNom        String?
+  ice               String?
+  ville             String
+  region            String?
+  zonesLivraison    String[]  @default([])
+  categories        String[]  @default([])
+  telephone         String
+  email             String    @unique
+  logoUrl           String?
+  siteWeb           String?
+  description       String?
+  commissionPct     Float?
+  motifRejet        String?
+  codeHash          String?
+  codeExpire        DateTime?
+  codeTentatives    Int       @default(0)
+  derniereConnexion DateTime?
+  idempotencyKey    String?   @unique
+  events            Json      @default("[]")
+  meta              Json?
+
+  prix     SupplierPrice[]
+  reponses ReponsePrix[]
+
+  @@index([statut])
+  @@index([region])
+  @@index([metier])
+}
+
+/// Fiche de prix d'un fournisseur pour un matériau du catalogue (une par matériau).
+model SupplierPrice {
+  id              String      @id
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @default(now()) @updatedAt
+  fournisseurId   String
+  fournisseur     Fournisseur @relation(fields: [fournisseurId], references: [id], onDelete: Cascade)
+  materiauCode    String
+  uniteVente      String
+  prixHT          Float
+  tvaPct          Float       @default(20)
+  prixRefHT       Float
+  quantiteMin     Float?
+  degressifs      Json        @default("[]")
+  livraison       Json        @default("[]")
+  disponibilite   String      @default("EN_STOCK")
+  validiteJusquau DateTime?   @db.Date
+  marque          String?
+  note            String?
+  statut          String      @default("PENDING") // PENDING APPROVED REJECTED
+  signalement     String?
+  ecartRef        Float?
+  moderePar       String?
+  modereLe        DateTime?
+
+  @@unique([fournisseurId, materiauCode])
+  @@index([materiauCode, statut], map: "SupplierPrice_materiau_idx")
+  @@index([statut])
+}
+
+/// Historique daté de chaque création / mise à jour / modération de fiche.
+model SupplierPriceHistory {
+  id            String   @id
+  at            DateTime @default(now())
+  priceId       String
+  fournisseurId String
+  materiauCode  String
+  action        String
+  auteur        String
+  prixHT        Float?
+  prixRefHT     Float?
+  uniteVente    String?
+  donnees       Json?
+
+  @@index([priceId, at], map: "SupplierPriceHistory_price_idx")
+  @@index([fournisseurId, at], map: "SupplierPriceHistory_fournisseur_idx")
+}
+
+/// Demande de prix (RFQ) d'un client sur un bordereau, envoyée à N fournisseurs.
+model DemandePrix {
+  id              String        @id
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @default(now()) @updatedAt
+  statut          String        @default("OUVERTE")
+  leadId          String?
+  clientNom       String
+  clientTelephone String
+  clientEmail     String?
+  ville           String
+  region          String?
+  lot             String?
+  porte           String?
+  lignes          Json
+  fournisseurIds  String[]      @default([])
+  commissionPct   Float
+  jetonHash       String
+  idempotencyKey  String?       @unique
+  message         String?
+  meta            Json?
+  reponses        ReponsePrix[]
+
+  @@index([createdAt])
+}
+
+/// Réponse d'un fournisseur, ligne à ligne sur le bordereau de la demande.
+model ReponsePrix {
+  id               String      @id
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @default(now()) @updatedAt
+  demandeId        String
+  demande          DemandePrix @relation(fields: [demandeId], references: [id], onDelete: Cascade)
+  fournisseurId    String
+  fournisseur      Fournisseur @relation(fields: [fournisseurId], references: [id], onDelete: Cascade)
+  statut           String      @default("ENVOYEE") // ENVOYEE ACCEPTEE DECLINEE
+  lignes           Json
+  totalHT          Float
+  fraisLivraisonHT Float       @default(0)
+  delaiJours       Int?
+  validiteJours    Int?
+  message          String?
+  commissionPct    Float
+  contactInitieLe  DateTime?
+
+  @@unique([demandeId, fournisseurId])
+  @@index([fournisseurId], map: "ReponsePrix_fournisseur_idx")
+}
+
+/// Paramètres modifiables par l'administration (ex. commissionPctDefaut).
+model ParametrePlateforme {
+  cle       String   @id
+  valeur    Json
+  updatedAt DateTime @default(now()) @updatedAt
+  auteur    String?
+}
