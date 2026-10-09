@@ -111,6 +111,16 @@ export default function CCLayout({ children }: { children: React.ReactNode }) {
     return () => { cancelled = true; };
   }, []);
 
+  // Déconnexion : efface le cookie de session des Pages Functions (mode mot de
+  // passe) et le JWT de l'API s'il existe (développement local).
+  const seDeconnecter = async () => {
+    try {
+      await fetch(`${apiBase()}/api/cc/logout`, { method: "POST", credentials: "include" });
+    } catch { /* hors ligne : on quitte quand même l'écran */ }
+    setToken(null);
+    navigate("/cc/login", { replace: true });
+  };
+
   const active = ALL_ITEMS.find(n => location.pathname.startsWith(n.path)) ?? ALL_ITEMS[0];
   const activeGroup = NAV_GROUPS.find(g => g.items.some(i => i.id === active.id));
 
@@ -189,6 +199,9 @@ export default function CCLayout({ children }: { children: React.ReactNode }) {
                 <span style={S.userRole}>Architecte fondateur</span>
               </div>
             </div>
+            <button type="button" onClick={seDeconnecter} style={S.logoutBtn}>
+              Se déconnecter
+            </button>
           </div>
         </header>
 
@@ -387,6 +400,19 @@ const S: Record<string, React.CSSProperties> = {
     color: CC.color.inkMid,
     fontStyle: "italic",
     letterSpacing: "0.02em",
+  },
+  logoutBtn: {
+    minHeight: 36,
+    padding: "6px 14px",
+    background: "transparent",
+    color: CC.color.navy,
+    border: `1px solid ${CC.color.border}`,
+    borderRadius: 18,
+    fontSize: 13,
+    fontWeight: 600,
+    fontFamily: CC.font.body,
+    cursor: "pointer",
+    whiteSpace: "nowrap",
   },
   userChip: {
     display: "flex",
