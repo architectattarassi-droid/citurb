@@ -31,7 +31,8 @@ export type LeadStatus =
   | "DOSSIER_OPENED"
   | "PAID"
   | "ARCHIVED";
-export type PorteType = "P1" | "P2" | "P3" | "P4" | "P5" | "P6";
+/** "NA" : porte non renseignée par le visiteur (à qualifier). */
+export type PorteType = "P1" | "P2" | "P3" | "P4" | "P5" | "P6" | "NA";
 
 export interface LeadNote {
   ts: string;
@@ -89,6 +90,7 @@ const PORTE_CONFIG: Record<PorteType, { label: string; color: string }> = {
   P4: { label: "P4 — Institutionnel", color: "#f59e0b" },
   P5: { label: "P5 — MRE/Diaspora", color: "#10b981" },
   P6: { label: "P6 — Prestataire",  color: "#ef4444" },
+  NA: { label: "À qualifier",       color: "#9ca3af" },
 };
 
 // ─── Module principal ────────────────────────────────────────
@@ -270,7 +272,7 @@ export default function LeadsModule() {
 
 function LeadRow({ lead, even, onSelect }: { lead: Lead; even: boolean; onSelect: () => void }) {
   const sta = STATUS_CONFIG[lead.status] ?? STATUS_CONFIG.NEW;
-  const porte = PORTE_CONFIG[lead.type] ?? PORTE_CONFIG.P1;
+  const porte = PORTE_CONFIG[lead.type] ?? PORTE_CONFIG.NA;
   return (
     <tr style={{ ...S.tr, background: even ? "transparent" : "rgba(30,35,48,0.3)" }} onClick={onSelect}>
       <td style={S.td}>
@@ -312,7 +314,7 @@ function LeadRow({ lead, even, onSelect }: { lead: Lead; even: boolean; onSelect
 
 function LeadCardMobile({ lead, onSelect }: { lead: Lead; onSelect: () => void }) {
   const sta = STATUS_CONFIG[lead.status] ?? STATUS_CONFIG.NEW;
-  const porte = PORTE_CONFIG[lead.type] ?? PORTE_CONFIG.P1;
+  const porte = PORTE_CONFIG[lead.type] ?? PORTE_CONFIG.NA;
   return (
     <div
       onClick={onSelect}
@@ -352,13 +354,14 @@ function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow, isMobile }: {
   isMobile?: boolean;
 }) {
   const [status, setStatus] = useState<LeadStatus>(lead.status);
+  const [porteSel, setPorteSel] = useState<PorteType>(lead.type);
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
 
   async function commit() {
-    if (!note.trim() && status === lead.status) {
-      setErr("Change le statut ou ajoute une note");
+    if (!note.trim() && status === lead.status && porteSel === lead.type) {
+      setErr("Change le statut, la porte ou ajoute une note");
       return;
     }
     setBusy(true);
@@ -369,6 +372,7 @@ function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow, isMobile }: {
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken() ?? ""}` },
         body: JSON.stringify({
           status: status !== lead.status ? status : undefined,
+          porte: porteSel !== lead.type && porteSel !== "NA" ? porteSel : undefined,
           note: note.trim() || undefined,
         }),
       });
@@ -380,6 +384,7 @@ function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow, isMobile }: {
       const newQualif = data.leadQualif ?? {};
       onUpdated({
         ...lead,
+        type: (data.porte as PorteType) ?? lead.type,
         status: newQualif.status ?? status,
         notes: newQualif.notes ?? lead.notes,
         notesCount: (newQualif.notes ?? lead.notes ?? []).length,
@@ -395,7 +400,7 @@ function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow, isMobile }: {
   }
 
   const sta = STATUS_CONFIG[lead.status] ?? STATUS_CONFIG.NEW;
-  const porte = PORTE_CONFIG[lead.type] ?? PORTE_CONFIG.P1;
+  const porte = PORTE_CONFIG[lead.type] ?? PORTE_CONFIG.NA;
 
   // ── Contenu factorisé du drawer (réutilisé desktop et mobile) ──
   const drawerBody = (
@@ -455,6 +460,12 @@ function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow, isMobile }: {
 
       <Section title="Qualifier">
         {err && <div style={S.errorMini}>⚠ {err}</div>}
+        <label style={S.label}>Porte (type de client)</label>
+        <select value={porteSel} onChange={e => setPorteSel(e.target.value as PorteType)} style={{ ...S.select, width: "100%", marginBottom: 12, minHeight: isMobile ? 44 : undefined, fontSize: isMobile ? 14 : 11 }}>
+          {(Object.keys(PORTE_CONFIG) as PorteType[]).map(p => (
+            <option key={p} value={p} disabled={p === "NA" && lead.type !== "NA"}>{PORTE_CONFIG[p].label}</option>
+          ))}
+        </select>
         <label style={S.label}>Nouveau statut</label>
         <select value={status} onChange={e => setStatus(e.target.value as LeadStatus)} style={{ ...S.select, width: "100%", marginBottom: 12, minHeight: isMobile ? 44 : undefined, fontSize: isMobile ? 14 : 11 }}>
           {(Object.keys(STATUS_CONFIG) as LeadStatus[]).map(s => (

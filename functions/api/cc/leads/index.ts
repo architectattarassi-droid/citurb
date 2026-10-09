@@ -19,6 +19,8 @@ export type Sql = (strings: TemplateStringsArray, ...values: unknown[]) => Promi
 /** Statuts que LeadsModule sait afficher ; la colonne stage est un texte libre. */
 export const STATUTS = ["NEW", "CONTACTED", "QUALIFIED", "WON", "LOST", "SPAM", "WIZARD_STARTED", "DOSSIER_OPENED", "PAID", "ARCHIVED"];
 
+export const PORTES = ["P1", "P2", "P3", "P4", "P5", "P6"];
+
 /** meta.typeProjet du formulaire court (LeadCaptureForm, TYPES_PROJET) → libellé. */
 const TYPE_LIBELLE: Record<string, string> = {
   maison: "Maison / villa", renovation: "Rénovation / extension", immeuble: "Immeuble, lotissement",
@@ -51,7 +53,8 @@ export function vueLead(l: Record<string, unknown>) {
     updatedAt: iso(l.updatedAt),
     nom: String(l.nom ?? ""),
     ville: (l.ville as string) || "—",
-    type: (l.projetType as string) || "P1",
+    // Porte non choisie par le visiteur : « NA » (à qualifier), jamais P1 par défaut.
+    type: PORTES.includes(String(l.projetType)) ? String(l.projetType) : "NA",
     source: (l.source as string) || "DIRECT",
     status: STATUTS.includes(stage) ? stage : "NEW",
     // Le message libre du visiteur d'abord (affiché sous le nom dans la liste).
