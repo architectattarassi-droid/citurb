@@ -15,6 +15,17 @@ import { useT, useLang } from "../../i18n/i18n";
 import { captureLead, currentUtm, leadKey, sanitizeWizard, telephoneEnvoyable, type CaptureBody } from "./leadBridge";
 import { lienTel, lienWhatsApp } from "../../config/contact";
 
+/** Types de projet du formulaire générique → porte du parcours CITURBAREA. */
+const TYPES_PROJET = [
+  { id: "maison", porte: "P1" },
+  { id: "renovation", porte: "P1" },
+  { id: "immeuble", porte: "P2" },
+  { id: "cle_en_main", porte: "P3" },
+  { id: "terrain", porte: "P4" },
+  { id: "expertise", porte: "P5" },
+  { id: "professionnel", porte: "P6" },
+] as const;
+
 export interface LeadCaptureFormProps {
   /** Source page-context (passée au backend pour traçabilité). */
   source?: string;
@@ -54,6 +65,11 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
   const [tel, setTel] = useState(initial?.telephone || "");
   const [email, setEmail] = useState(initial?.email || "");
   const [projet, setProjet] = useState(initial?.projet || "");
+  // Formulaire générique (sans porte imposée) : type de projet et ville,
+  // facultatifs, pour qualifier le lead dès le premier contact.
+  const generique = !porteType;
+  const [typeChoisi, setTypeChoisi] = useState("");
+  const [ville, setVille] = useState("");
   const [queued, setQueued] = useState(false);
   const [hp, setHp] = useState(""); // pot de miel anti-robots
   const [status, setStatus] = useState<Status>("idle");
@@ -86,11 +102,16 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
         pageContext: typeof window !== "undefined" ? window.location.pathname : undefined,
         utm: currentUtm(),
         ...(extraCapture?.() || {}),
+        ...(generique && ville.trim() ? { ville: ville.trim() } : {}),
         nom: nom.trim(),
         telephone: tel.trim(),
         email: email.trim() || undefined,
-        projetType: porteType,
-        meta: { projetLibre: projet.trim() || undefined, ...(wizard ? { wizard } : {}) },
+        projetType: porteType || TYPES_PROJET.find((x) => x.id === typeChoisi)?.porte,
+        meta: {
+          projetLibre: projet.trim() || undefined,
+          ...(generique && typeChoisi ? { typeProjet: typeChoisi } : {}),
+          ...(wizard ? { wizard } : {}),
+        },
         website: hp || undefined,
       };
       const out = await captureLead(leadKey(body.projetType, body.telephone), body);
@@ -111,7 +132,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
       setStatus("success");
       onCaptured?.(id, sc);
     },
-    [nom, tel, email, projet, hp, phoneValid, porteType, source, lang, t, onCaptured, extraCapture, extraMeta],
+    [nom, tel, email, projet, hp, phoneValid, porteType, source, lang, t, onCaptured, extraCapture, extraMeta, generique, typeChoisi, ville],
   );
 
   if (status === "success") {
@@ -216,6 +237,41 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
               className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-base focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
               placeholder="vous@exemple.ma"
             />
+          </div>
+        )}
+
+        {generique && (
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label htmlFor={`${ids}-type`} className="mb-1 block text-sm font-medium text-slate-700">
+                {t("lead.field.type")} <span className="text-slate-400">({t("lead.porte.optional")})</span>
+              </label>
+              <select
+                id={`${ids}-type`}
+                value={typeChoisi}
+                onChange={(e) => setTypeChoisi(e.target.value)}
+                className="w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-base focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              >
+                <option value="">{t("lead.type.choose")}</option>
+                {TYPES_PROJET.map((x) => (
+                  <option key={x.id} value={x.id}>{t(`lead.type.${x.id}`)}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor={`${ids}-ville`} className="mb-1 block text-sm font-medium text-slate-700">
+                {t("lead.field.ville")} <span className="text-slate-400">({t("lead.porte.optional")})</span>
+              </label>
+              <input
+                id={`${ids}-ville`}
+                type="text"
+                value={ville}
+                onChange={(e) => setVille(e.target.value)}
+                autoComplete="address-level2"
+                className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-base focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                placeholder={t("lead.placeholder.ville")}
+              />
+            </div>
           </div>
         )}
 

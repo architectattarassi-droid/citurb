@@ -19,7 +19,13 @@ export type Sql = (strings: TemplateStringsArray, ...values: unknown[]) => Promi
 /** Statuts que LeadsModule sait afficher ; la colonne stage est un texte libre. */
 export const STATUTS = ["NEW", "CONTACTED", "QUALIFIED", "WON", "LOST", "SPAM", "WIZARD_STARTED", "DOSSIER_OPENED", "PAID", "ARCHIVED"];
 
-type Evenement = { id?: string; at?: string; kind?: string; payload?: Record<string, unknown> };
+/** meta.typeProjet du formulaire court (LeadCaptureForm, TYPES_PROJET) → libellé. */
+const TYPE_LIBELLE: Record<string, string> = {
+  maison: "Maison / villa", renovation: "Rénovation / extension", immeuble: "Immeuble, lotissement",
+  cle_en_main: "Clé en main (MOD)", terrain: "Terrain", expertise: "Rapport / expertise", professionnel: "Professionnel du BTP",
+};
+
+type Evenement ={ id?: string; at?: string; kind?: string; payload?: Record<string, unknown> };
 
 const iso = (v: unknown): string => (v instanceof Date ? v.toISOString() : String(v ?? ""));
 const obj = (v: unknown): Record<string, unknown> | undefined =>
@@ -48,7 +54,8 @@ export function vueLead(l: Record<string, unknown>) {
     type: (l.projetType as string) || "P1",
     source: (l.source as string) || "DIRECT",
     status: STATUTS.includes(stage) ? stage : "NEW",
-    interet: (l.pageContext as string) || undefined,
+    // Le message libre du visiteur d'abord (affiché sous le nom dans la liste).
+    interet: (meta?.projetLibre as string) || (l.pageContext as string) || undefined,
     email: (l.email as string) || undefined,
     tel: (l.telephone as string) || undefined,
     notesCount: notes.length,
@@ -59,7 +66,7 @@ export function vueLead(l: Record<string, unknown>) {
     origin: "FUNNEL" as const,
     qualification: {
       porte: (l.projetType as string) || undefined,
-      typeProjet: (wizard?.natureProjet || wizard?.type || wizard?.sousTypeP2 || undefined) as string | undefined,
+      typeProjet: (TYPE_LIBELLE[String(meta?.typeProjet)] || wizard?.natureProjet || wizard?.type || wizard?.sousTypeP2 || undefined) as string | undefined,
       commune: (l.ville as string) || undefined,
       surface: num(l.surface),
       budget: num(l.budget),

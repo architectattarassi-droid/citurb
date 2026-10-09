@@ -440,8 +440,16 @@ function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow, isMobile }: {
 
       {(lead.interet || lead.brief) && (
         <Section title="Demande">
-          {lead.interet && <div style={S.briefText}>{lead.interet}</div>}
-          {lead.brief && <pre style={S.briefJson}>{JSON.stringify(lead.brief, null, 2)}</pre>}
+          {/* Le message du visiteur (meta.projetLibre) d'abord, en clair. */}
+          {lead.brief?.meta?.projetLibre
+            ? <div style={{ ...S.briefText, fontSize: 15, color: "#e8eaf0" }}>« {lead.brief.meta.projetLibre} »</div>
+            : <div style={{ ...S.briefText, fontStyle: "italic" }}>Aucun message saisi par le visiteur.</div>}
+          {lead.brief && (
+            <details style={{ marginTop: 8 }}>
+              <summary style={{ cursor: "pointer", fontSize: 12, color: "#9ca3af" }}>Données techniques (score, provenance)</summary>
+              <pre style={S.briefJson}>{JSON.stringify(lead.brief, null, 2)}</pre>
+            </details>
+          )}
         </Section>
       )}
 

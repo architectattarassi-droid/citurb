@@ -41,5 +41,16 @@
   "lead.p1.unlock_title": "Recevez le détail des packs",
   "lead.p1.unlock_intro": "Laissez vos coordonnées : les packs s'affichent aussitôt et un architecte vous rappelle pour affiner le chiffrage.",
   "lead.sim.title": "Recevoir l'étude détaillée de votre terrain",
-  "lead.sim.intro": "Ce calcul est indicatif. Un architecte vérifie les règles d'urbanisme applicables à votre parcelle (plan d'aménagement, reculs, hauteur) et vous rappelle sous 24 h."
+  "lead.sim.intro": "Ce calcul est indicatif. Un architecte vérifie les règles d'urbanisme applicables à votre parcelle (plan d'aménagement, reculs, hauteur) et vous rappelle sous 24 h.",
+  "lead.field.type": "Type de projet",
+  "lead.field.ville": "Ville",
+  "lead.placeholder.ville": "Ex. : Kénitra",
+  "lead.type.choose": "— Choisir —",
+  "lead.type.maison": "Construire une maison / villa",
+  "lead.type.renovation": "Rénovation / extension",
+  "lead.type.immeuble": "Immeuble, lotissement (promoteur)",
+  "lead.type.cle_en_main": "Projet clé en main (MOD)",
+  "lead.type.terrain": "Terrain : étude ou valorisation",
+  "lead.type.expertise": "Rapport / expertise technique",
+  "lead.type.professionnel": "Je suis un professionnel du BTP"
 }
