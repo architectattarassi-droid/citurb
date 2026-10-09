@@ -16,8 +16,17 @@
  *   ACCESS_TEAM_DOMAIN  ex. citurbarea.cloudflareaccess.com
  *   ACCESS_AUD          « Application Audience (AUD) Tag » de l'application Access
  *   ADMIN_EMAILS        adresses autorisées, séparées par des virgules
- * Une seule absente → 503 access_not_configured : fermé par défaut.
+ * Une seule absente → mode Access inactif.
+ *
+ * Second mode, sans Access : cookie de session signé posé par POST /api/cc/login
+ * (mot de passe, voir functions/_lib/adminSession.ts). Pour une requête
+ * modifiante authentifiée par cookie, l'en-tête Origin doit être celui de
+ * l'hôte (anti-CSRF, en plus de SameSite=Strict).
+ * Aucun des deux modes configuré → 503 access_not_configured : fermé par défaut.
+ * /api/cc/login et /api/cc/logout passent sans session (ils ont leurs propres contrôles).
  */
+
+import { cookieDeLaRequete, lireJetonSession, modeMotDePasse, origineAutorisee, type PasswordEnv } from "../../_lib/adminSession";
 
 export interface AccessEnv {
   ACCESS_TEAM_DOMAIN?: string;
@@ -28,7 +37,7 @@ export interface AccessEnv {
 interface Jwk { kid: string; kty: string; n: string; e: string; alg?: string }
 export type ChargerCles = (equipe: string) => Promise<Jwk[]>;
 
-export type Verdict = { ok: true; email: string } | { ok: false; status: number; error: string };
+export type Verdict = { ok: true; email: string; mode?: "access" | "password" } | { ok: false; status: number; error: string };
 
 const b64url = (s: string): Uint8Array => {
   const b = atob(s.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((s.length + 3) % 4));
@@ -91,8 +100,44 @@ export async function verifierJeton(jeton: string, env: AccessEnv, charger: Char
   return { ok: true, email };
 }
 
-export async function onRequest(ctx: { request: Request; env: AccessEnv; data: Record<string, unknown>; next: () => Promise<Response> }): Promise<Response> {
-  const v = await verifierJeton(jetonDeLaRequete(ctx.request), ctx.env);
+const accessConfigure = (env: AccessEnv): boolean =>
+  !!(env.ACCESS_TEAM_DOMAIN || "").trim() && !!(env.ACCESS_AUD || "").trim() && !!(env.ADMIN_EMAILS || "").trim();
+
+const SANS_SESSION = new Set(["/api/cc/login", "/api/cc/logout"]);
+const LECTURE = new Set(["GET", "HEAD", "OPTIONS"]);
+
+/** Accès par jeton Access (si configuré) ou par cookie de session (si configuré). */
+export async function verifierRequete(req: Request, env: AccessEnv & PasswordEnv, charger?: ChargerCles, maintenant = Date.now()): Promise<Verdict> {
+  const access = accessConfigure(env), motDePasse = modeMotDePasse(env);
+  if (!access && !motDePasse) return { ok: false, status: 503, error: "access_not_configured" };
+
+  let refus: Verdict = { ok: false, status: 401, error: "unauthenticated" };
+  const jeton = jetonDeLaRequete(req);
+  if (access && (jeton || !motDePasse)) {
+    const v = await verifierJeton(jeton, env, charger, maintenant);
+    if (v.ok) return v;
+    refus = v;
+  }
+  if (motDePasse) {
+    const brut = cookieDeLaRequete(req);
+    const email = brut ? await lireJetonSession(brut, env.ADMIN_SESSION_SECRET as string, maintenant) : null;
+    if (email) {
+      if (!LECTURE.has(req.method) && !origineAutorisee(req)) return { ok: false, status: 403, error: "forbidden_origin" };
+      return { ok: true, email, mode: "password" };
+    }
+  }
+  return refus;
+}
+
+export async function onRequest(ctx: { request: Request; env: AccessEnv & PasswordEnv; data: Record<string, unknown>; next: () => Promise<Response> }): Promise<Response> {
+  if (SANS_SESSION.has(new URL(ctx.request.url).pathname.replace(/\/+$/, ""))) {
+    const res = await ctx.next();
+    const out = new Response(res.body, res);
+    out.headers.set("cache-control", "no-store");
+    out.headers.set("x-robots-tag", "noindex");
+    return out;
+  }
+  const v = await verifierRequete(ctx.request, ctx.env);
   if (!v.ok) {
     return new Response(JSON.stringify({ ok: false, error: v.error }), {
       status: v.status,
@@ -100,6 +145,7 @@ export async function onRequest(ctx: { request: Request; env: AccessEnv; data: R
     });
   }
   ctx.data.adminEmail = v.email;
+  ctx.data.authMode = v.mode || "access";
   const res = await ctx.next();
   const out = new Response(res.body, res);
   out.headers.set("cache-control", "no-store");
