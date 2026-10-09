@@ -37,7 +37,7 @@
       "condition": "terrassements_generaux_plateforme"
     },
     {
-      "code": "LOT_26_VRD",
+      "code": "LOT_26_VRD_VOIRIE",
       "obligatoire": true,
       "ordre": 26,
       "condition": "voirie_+_assainissement_+_eau_potable_+_reseaux_secs"

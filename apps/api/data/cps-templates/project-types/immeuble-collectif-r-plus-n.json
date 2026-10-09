@@ -113,7 +113,7 @@
       "ordre": 18
     },
     {
-      "code": "LOT_20_VDI",
+      "code": "LOT_20_VDI_COURANTS_FAIBLES",
       "obligatoire": true,
       "ordre": 20
     },
@@ -136,7 +136,7 @@
       "condition": "obligatoire_des_que_R+3_et_plus_ou_>11m"
     },
     {
-      "code": "LOT_26_VRD",
+      "code": "LOT_26_VRD_VOIRIE",
       "obligatoire": true,
       "ordre": 26
     }

@@ -11,7 +11,10 @@
     "NM_10_1_004_CIMENT",
     "NM_10_1_008_GRANULATS"
   ],
-  "competencesRequises": ["ENTREPRISE_QUALIFIEE_GO", "BET_STRUCTURE_HMONP"],
+  "competencesRequises": [
+    "ENTREPRISE_QUALIFIEE_GO",
+    "BET_STRUCTURE_HMONP"
+  ],
   "articles": [
     {
       "numero": "2.1",
@@ -54,11 +57,155 @@
       "corpsMD": "L'entreprise est tenue, conformément aux **articles 769 et 770 du Dahir formant Code des Obligations et Contrats (DOC)** :\n\n- **Garantie de parfait achèvement** : **1 an** à compter de la réception provisoire, couvrant tous désordres signalés par procès-verbal contradictoire\n- **Garantie biennale** (art. 769 bis DOC) : **2 ans** sur les éléments d'équipement dissociables\n- **Garantie décennale** : **10 ans** sur la solidité de l'ouvrage et des éléments faisant indissociablement corps avec lui, ainsi que sur les défauts compromettant la destination de l'ouvrage\n\nL'entreprise présentera son **attestation d'assurance décennale** souscrite auprès d'une compagnie marocaine agréée ACAPS, montant de garantie ≥ {{MONTANT_TRAVAUX_LOT}} MAD, **avant tout démarrage des travaux** sous peine de résiliation aux torts exclusifs."
     }
   ],
+  "bordereau": [
+    {
+      "code": "2.01",
+      "designation": {
+        "fr": "Béton de propreté dosé à 150 kg/m³",
+        "ar": "خرسانة النظافة بمعيار 150 كلغ/م³",
+        "en": "Blinding concrete at 150 kg/m³"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au m³ mesuré sur plans d'exécution, épaisseur théorique sous fondations.",
+        "ar": "بالمتر المكعب حسب تصاميم التنفيذ، بالسمك النظري تحت الأسس.",
+        "en": "Per m³ measured on construction drawings, theoretical thickness under foundations."
+      }
+    },
+    {
+      "code": "2.02",
+      "designation": {
+        "fr": "Gros béton de fondation dosé à 250 kg/m³",
+        "ar": "خرسانة الأساس الكتلية بمعيار 250 كلغ/م³",
+        "en": "Mass foundation concrete at 250 kg/m³"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au m³ mesuré sur plans, sans plus-value pour surlargeur de fouille.",
+        "ar": "بالمتر المكعب حسب التصاميم، دون زيادة عن توسيع الحفر.",
+        "en": "Per m³ measured on drawings, no extra for trench over-width."
+      }
+    },
+    {
+      "code": "2.03",
+      "designation": {
+        "fr": "Béton armé en fondations (semelles, longrines), y compris coffrage et armatures",
+        "ar": "خرسانة مسلحة للأسس (قواعد وروافد) بما في ذلك القوالب والتسليح",
+        "en": "Reinforced concrete in foundations (footings, ground beams), formwork and reinforcement included"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au m³ de béton en place mesuré sur plans de béton armé ; armatures et coffrages compris dans le prix.",
+        "ar": "بالمتر المكعب من الخرسانة المنفذة حسب تصاميم الخرسانة المسلحة ؛ التسليح والقوالب داخلة في الثمن.",
+        "en": "Per m³ of concrete in place measured on RC drawings; reinforcement and formwork included in the rate."
+      }
+    },
+    {
+      "code": "2.04",
+      "designation": {
+        "fr": "Béton armé en élévation (poteaux, poutres, chaînages, voiles), y compris coffrage et armatures",
+        "ar": "خرسانة مسلحة في الارتفاع (أعمدة، روافد، أحزمة، جدران) بما في ذلك القوالب والتسليح",
+        "en": "Reinforced concrete in superstructure (columns, beams, ties, walls), formwork and reinforcement included"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au m³ de béton en place ; déduction des trémies > 0,25 m² ; armatures et coffrages compris.",
+        "ar": "بالمتر المكعب من الخرسانة المنفذة ؛ مع خصم الفتحات > 0,25 م² ؛ التسليح والقوالب داخلة.",
+        "en": "Per m³ of concrete in place; openings > 0.25 m² deducted; reinforcement and formwork included."
+      }
+    },
+    {
+      "code": "2.05",
+      "designation": {
+        "fr": "Dalle pleine en béton armé, y compris coffrage et armatures",
+        "ar": "بلاطة خرسانية مسلحة مصمتة بما في ذلك القوالب والتسليح",
+        "en": "Solid reinforced concrete slab, formwork and reinforcement included"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au m³ de dalle en place, épaisseur des plans ; trémies > 0,25 m² déduites.",
+        "ar": "بالمتر المكعب من البلاطة المنفذة حسب سمك التصاميم ؛ مع خصم الفتحات > 0,25 م².",
+        "en": "Per m³ of slab in place, drawing thickness; openings > 0.25 m² deducted."
+      }
+    },
+    {
+      "code": "2.06",
+      "designation": {
+        "fr": "Plancher à corps creux (hourdis + poutrelles + dalle de compression 16+4 ou 20+5)",
+        "ar": "سقف بالآجر المجوف (هوردي + روافد صغيرة + بلاطة ضغط 16+4 أو 20+5)",
+        "en": "Hollow-block floor (infill blocks + joists + topping 16+4 or 20+5)"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au m² de plancher entre nus intérieurs des appuis ; trémies > 1 m² déduites ; chaînages comptés au poste 2.04.",
+        "ar": "بالمتر المربع من السقف بين الأوجه الداخلية للمساند ؛ مع خصم الفتحات > 1 م² ؛ الأحزمة تحتسب في البند 2.04.",
+        "en": "Per m² of floor between inner faces of supports; openings > 1 m² deducted; ties measured under item 2.04."
+      }
+    },
+    {
+      "code": "2.07",
+      "designation": {
+        "fr": "Escalier en béton armé (paillasse et marches), y compris coffrage et armatures",
+        "ar": "درج من الخرسانة المسلحة (الحامل والدرجات) بما في ذلك القوالب والتسليح",
+        "en": "Reinforced concrete staircase (waist and steps), formwork and reinforcement included"
+      },
+      "unite": "m3",
+      "modeMetreMD": {
+        "fr": "Au m³ de béton en place mesuré sur plans.",
+        "ar": "بالمتر المكعب من الخرسانة المنفذة حسب التصاميم.",
+        "en": "Per m³ of concrete in place measured on drawings."
+      }
+    },
+    {
+      "code": "2.08",
+      "designation": {
+        "fr": "Dallage sur terre-plein en béton armé de treillis soudé, ép. 10 à 12 cm, y compris hérisson",
+        "ar": "بلاطة أرضية على ردم بخرسانة مسلحة بشبكة ملحومة سمك 10 إلى 12 سم، بما في ذلك طبقة الحجارة",
+        "en": "Ground-bearing slab with welded mesh, 10–12 cm, hardcore included"
+      },
+      "unite": "m2",
+      "modeMetreMD": {
+        "fr": "Au m² de dallage fini ; hérisson, film polyane et treillis compris.",
+        "ar": "بالمتر المربع من البلاطة المنجزة ؛ طبقة الحجارة والغشاء والشبكة داخلة.",
+        "en": "Per m² of finished slab; hardcore, polythene sheet and mesh included."
+      }
+    },
+    {
+      "code": "2.09",
+      "designation": {
+        "fr": "Plus-value pour aciers HA supplémentaires au-delà du ratio contractuel",
+        "ar": "زيادة عن حديد التسليح الإضافي فوق النسبة التعاقدية",
+        "en": "Extra for additional HA reinforcement beyond the contractual ratio"
+      },
+      "unite": "kg",
+      "modeMetreMD": {
+        "fr": "Au kg d'acier façonné et mis en place, selon nomenclature d'armatures validée par le BET.",
+        "ar": "بالكيلوغرام من الحديد المشكل والموضوع حسب جدول التسليح المصادق عليه من مكتب الدراسات.",
+        "en": "Per kg of steel shaped and placed, per reinforcement schedule approved by the engineer."
+      }
+    }
+  ],
   "cross_referencesInterlots": [
-    { "lotCible": "LOT_03_MACONNERIE", "type": "RESERVATIONS", "description": "Coordination des réservations maçonnerie dans voiles BA (gaines, trémies)" },
-    { "lotCible": "LOT_14_PLOMBERIE_SANITAIRE", "type": "RESERVATIONS", "description": "Réservations pour passages canalisations et siphons sols" },
-    { "lotCible": "LOT_15_ELECTRICITE", "type": "RESERVATIONS", "description": "Saignées et fourreaux noyés en dalle pour courants forts/faibles" },
-    { "lotCible": "LOT_23_ASCENSEUR", "type": "PUITS_GAINE", "description": "Coordination puits ascenseur ; précision dimensions et niveaux ±5 mm" }
+    {
+      "lotCible": "LOT_03_MACONNERIE",
+      "type": "RESERVATIONS",
+      "description": "Coordination des réservations maçonnerie dans voiles BA (gaines, trémies)"
+    },
+    {
+      "lotCible": "LOT_14_PLOMBERIE_SANITAIRE",
+      "type": "RESERVATIONS",
+      "description": "Réservations pour passages canalisations et siphons sols"
+    },
+    {
+      "lotCible": "LOT_15_ELECTRICITE",
+      "type": "RESERVATIONS",
+      "description": "Saignées et fourreaux noyés en dalle pour courants forts/faibles"
+    },
+    {
+      "lotCible": "LOT_23_ASCENSEUR",
+      "type": "PUITS_GAINE",
+      "description": "Coordination puits ascenseur ; précision dimensions et niveaux ±5 mm"
+    }
   ],
   "metadata": {
     "version": "1.0.0",
@@ -70,5 +217,6 @@
       "RPS 2011 (Direction de la Réglementation et de la Normalisation Technique, Ministère Habitat)",
       "DOC art. 769, 770"
     ]
-  }
+  },
+  "famille": "GROS_OEUVRE"
 }
