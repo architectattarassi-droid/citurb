@@ -30,6 +30,7 @@ const NAV_GROUPS: NavGroup[] = [
       { id: "seo",         label: "SEO / GEO",       path: "/cc/seo",         mark: "Ic"  },
       { id: "leads",       label: "Leads",           path: "/cc/leads",       mark: "II"  },
       { id: "inscrits",    label: "Inscrits Cercles",path: "/cc/inscrits",    mark: "III" },
+      { id: "fournisseurs",label: "Fournisseurs & prix", path: "/cc/fournisseurs", mark: "IIIb" },
       { id: "validations", label: "Validations",     path: "/cc/validations", mark: "IV"  },
     ],
   },

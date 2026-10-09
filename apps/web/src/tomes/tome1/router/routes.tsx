@@ -120,6 +120,9 @@ const ProductDetailPage = lazy(() => import("../../../features/cercles/marketpla
 const MyOffersPage = lazy(() => import("../../../features/cercles/marketplace/MyOffersPage"));
 const MarketplacePhotosPage = lazy(() => import("../../../features/cercles/marketplace/MarketplacePhotosPage"));
 const DirectMessagesPage = lazy(() => import("../../../features/cercles/DirectMessagesPage"));
+// Cercles fournisseurs (Pages Functions + Neon) : inscription pro, espace fiches de prix
+const InscriptionProPage = lazy(() => import("../../../features/fournisseurs/InscriptionProPage"));
+const EspaceFournisseurPage = lazy(() => import("../../../features/fournisseurs/EspaceFournisseurPage"));
 
 // Fiche cabinet d'architecte (ancrée sur ProProfile, cf. memory citurb-cabinet-portfolio-anchor)
 const CabinetPublicPage = lazy(() => import("../../../features/cabinet/CabinetPublicPage"));
@@ -254,7 +257,9 @@ export const router = createBrowserRouter([
 
   // Cercles — réseau pro BTP marocain (auth requis côté API JWT)
   // Toutes ces routes sont bloquées sur admin.citurbarea.com (redirect vers /admin/login)
-  { path: '/inscription',                          element: <AdminHostBlock><InscriptionPage /></AdminHostBlock> },
+  // L'ancien formulaire (InscriptionPage) dépend de l'API NestJS éteinte : /inscription mène à l'inscription pro.
+  { path: '/inscription',                          element: <AdminHostBlock><InscriptionProPage /></AdminHostBlock> },
+  { path: '/inscription/architecte',               element: <AdminHostBlock><InscriptionPage /></AdminHostBlock> },
   // Phase récolte (VITE_SIGNUP_MODE=lead, défaut) : « Créer un compte » et les
   // renvois des portes P2/P5 mènent au formulaire de capture, sans OTP.
   // AccountTypeChooser / ClientSignup reprennent la main en mode "full".
@@ -264,6 +269,8 @@ export const router = createBrowserRouter([
   { path: '/cercles',                              element: <AdminHostBlock><CerclesHome /></AdminHostBlock> },
   { path: '/cercles/bienvenue',                    element: <AdminHostBlock><CerclesHomePage /></AdminHostBlock> },
   { path: '/cercles/annuaire',                     element: <AdminHostBlock><AnnuairePage /></AdminHostBlock> },
+  { path: '/cercles/inscription',                  element: <AdminHostBlock><InscriptionProPage /></AdminHostBlock> },
+  { path: '/cercles/espace',                       element: <AdminHostBlock><EspaceFournisseurPage /></AdminHostBlock> },
   { path: '/cercles/me/edit',                      element: <AdminHostBlock><EditProfilePage /></AdminHostBlock> },
   { path: '/cercles/profile/:userIdOrId',          element: <AdminHostBlock><ProfilePage /></AdminHostBlock> },
   { path: '/cercles/messages',                     element: <AdminHostBlock><DirectMessagesPage /></AdminHostBlock> },
