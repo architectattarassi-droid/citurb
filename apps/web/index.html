@@ -149,6 +149,23 @@
     <link rel="dns-prefetch" href="https://services3.arcgis.com" />
 
     <title>CITURBAREA — Expertise BTP & Immobilier Maroc</title>
+
+    <!--
+      Le bloc pré-rendu SEO/GEO (#root > [data-seo-prerender]) reste dans le
+      HTML pour les robots qui n'exécutent pas le JS, mais ne doit pas
+      s'afficher aux visiteurs pendant le chargement de l'application (il
+      « flashait » avant l'accueil, l'admin ou les leads). Navigateur avec JS :
+      on le masque ; filet de sécurité si l'application ne démarre pas en 10 s.
+    -->
+    <style>
+      html.cit-js [data-seo-prerender] { display: none; }
+    </style>
+    <script>
+      document.documentElement.classList.add("cit-js");
+      setTimeout(function () {
+        if (document.querySelector("[data-seo-prerender]")) document.documentElement.classList.remove("cit-js");
+      }, 10000);
+    </script>
   </head>
   <body>
     <!--
