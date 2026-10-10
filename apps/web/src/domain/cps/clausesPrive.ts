@@ -26,7 +26,8 @@ export type ArbitragesCps = {
 
 export const ARBITRAGES_DEFAUT: ArbitragesCps = { prix: "FERMES", litiges: "TRIBUNAUX", assurancesContractuelles: true, delaiPaiementJours: 30 };
 
-type Clause = { titre: string; corps: string; fondement: string };
+/** `corps` absent : on garde le texte du gabarit (seuls titre et fondement sont corrigés). */
+type Clause = { titre: string; corps?: string; fondement: string };
 
 export function clausesPrive(a: ArbitragesCps, delaiAmiable = 30): Record<string, Clause | null> {
   return {
@@ -61,19 +62,19 @@ export function clausesPrive(a: ArbitragesCps, delaiAmiable = 30): Record<string
       titre: "Assurance Tous Risques Chantier",
       corps: a.assurancesContractuelles
         ? [
-          "L'obligation légale d'assurance Tous Risques Chantier (loi 59-13 et arrêtés d'application en vigueur depuis le 30 décembre 2024) vise, pour l'habitat, les bâtiments de plus de trois étages ou de plus de 800 m². Le présent ouvrage n'y étant pas assujetti au vu de ses caractéristiques, les parties conviennent expressément de la souscrire à titre contractuel, en raison notamment du sous-sol, des soutènements et de la mitoyenneté.",
+          "L'obligation légale d'assurance Tous Risques Chantier (Code des assurances modifié par la loi 59-13, textes d'application en vigueur depuis le 30 décembre 2024) vise, pour l'habitat, les bâtiments de plus de trois étages ou de plus de 800 m². Le présent ouvrage n'y étant pas assujetti au vu de ses caractéristiques, les parties conviennent expressément de la souscrire à titre contractuel, en raison notamment du sous-sol, des soutènements et de la mitoyenneté.",
           "",
           "Le maître d'ouvrage souscrit une police TRC couvrant l'ouvrage pour le montant des travaux, la responsabilité civile envers les tiers et les avoisinants, pour toute la durée du chantier. Franchises, plafonds et exclusions sont précisés aux conditions particulières ; l'attestation est remise avant l'ordre de service de commencer.",
         ].join("\n")
         : "L'ouvrage, compte tenu de ses caractéristiques, n'est pas assujetti à l'assurance obligatoire Tous Risques Chantier. Les parties n'en prévoient pas la souscription ; l'entrepreneur reste responsable des dommages causés aux ouvrages et aux tiers jusqu'à la réception.",
-      fondement: "Loi 59-13 (Code des assurances) et arrêtés du 30/12/2024 ; stipulation contractuelle",
+      fondement: "Loi 17-99 portant Code des assurances, modifiée par la loi 59-13, et textes d'application en vigueur depuis le 30/12/2024 ; stipulation contractuelle",
     },
     ASSURANCE_RC_DECENNALE_59_13: {
       titre: "Assurance de responsabilité civile décennale",
       corps: a.assurancesContractuelles
         ? "L'entrepreneur, ainsi que l'architecte et les bureaux d'études intervenants, justifient avant l'ordre de service de commencer d'une assurance de responsabilité civile décennale couvrant les ouvrages du présent marché, exigée à titre contractuel (l'obligation légale ne visant que les bâtiments résidentiels de plus de trois étages ou de plus de 800 m²). L'absence d'assujettissement légal ne supprime pas la responsabilité décennale prévue par le DOC."
         : "L'ouvrage n'est pas assujetti à l'assurance obligatoire de responsabilité civile décennale. Cette absence d'assujettissement ne supprime pas la responsabilité décennale des constructeurs prévue par l'article 769 du DOC.",
-      fondement: "Loi 59-13 et arrêtés du 30/12/2024 ; DOC, art. 769 ; stipulation contractuelle",
+      fondement: "Loi 17-99 portant Code des assurances, modifiée par la loi 59-13, et textes d'application en vigueur depuis le 30/12/2024 ; DOC, art. 769 ; stipulation contractuelle",
     },
     PENALITES_RETARD_CCAG: {
       titre: "Pénalités de retard",
@@ -101,7 +102,7 @@ export function clausesPrive(a: ArbitragesCps, delaiAmiable = 30): Record<string
       corps: [
         "Le marché est conclu à prix unitaires, à l'exception des postes expressément désignés comme forfaitaires (unité « ff ») au bordereau. Les prix unitaires s'appliquent aux quantités réellement exécutées, mesurées et constatées contradictoirement selon les modes de métré annexés.",
         "",
-        "Chaque prix comprend la fourniture, la main-d'œuvre, le matériel, les transports, les pertes, les frais généraux et la marge de l'entrepreneur, à l'exclusion de l'installation, du repli et du nettoyage de chantier, rémunérés uniquement par le poste forfaitaire 00.01. Aucune prestation ne peut être rémunérée deux fois.",
+        "Chaque prix comprend la fourniture, la main-d'œuvre, le matériel, les transports, les pertes, les frais généraux et la marge de l'entrepreneur, à l'exclusion de l'installation, du repli et du nettoyage de chantier, rémunérés uniquement par le poste forfaitaire 00.01 (base-vie, clôture et signalisation, branchements provisoires, repli et nettoyage final). Les frais de chantier compris dans les prix unitaires couvrent la conduite et l'encadrement des travaux, les consommables et le nettoyage courant des postes de travail. Aucune prestation ne peut être rémunérée deux fois.",
         "",
         "Tout ouvrage supplémentaire ou toute modification susceptible de faire varier le montant du marché fait l'objet, avant exécution, d'un accord écrit sur son prix et, le cas échéant, sur son incidence sur le délai, sauf mesure conservatoire urgente justifiée. La TVA est appliquée au taux légal en vigueur.",
       ].join("\n"),
@@ -134,6 +135,23 @@ export function clausesPrive(a: ArbitragesCps, delaiAmiable = 30): Record<string
       corps: "Le marché peut être résilié par le maître d'ouvrage, après mise en demeure restée sans effet dans le délai qu'elle fixe, en cas de manquement grave de l'entrepreneur à ses obligations, d'abandon de chantier, de défaut de production des attestations d'assurance exigées par le marché, de retard atteignant le plafond des pénalités ou d'ouverture d'une procédure collective dans les conditions légales. La résiliation donne lieu à un constat contradictoire des travaux exécutés et à un décompte ; les travaux restants peuvent être confiés à un tiers aux frais et risques de l'entrepreneur défaillant.",
       fondement: "DOC (résolution pour inexécution) ; stipulation contractuelle",
     },
+    PARFAIT_ACHEVEMENT_1_AN: {
+      titre: "Garantie de parfait achèvement (1 an)",
+      fondement: "Stipulation contractuelle (durée usuelle, CCAG-Travaux cité à titre de référence) ; sans préjudice de l'article 769 du DOC",
+    },
+    AVANCE_ACOMPTES_SITUATIONS: {
+      titre: "Avance, acomptes et situations de travaux",
+      fondement: "Stipulation contractuelle",
+    },
+    RC_PRO_ARCHITECTE_016_89: {
+      titre: "Responsabilité civile professionnelle de l'architecte",
+      corps: "L'architecte justifie, avant l'ordre de service de commencer, d'une assurance de responsabilité civile professionnelle couvrant sa mission, conformément aux obligations découlant de la loi n° 016-89 relative à l'exercice de la profession d'architecte et des règles de l'Ordre. L'attestation en cours de validité est annexée au marché.",
+      fondement: "Loi 016-89 (article précis à vérifier lors de la mise au point)",
+    },
+    DONNEES_PERSONNELLES_09_08: {
+      titre: "Protection des données personnelles (CNDP)",
+      fondement: "Loi 09-08, sous le contrôle de la CNDP",
+    },
     RECEPTION_PROVISOIRE_DEFINITIVE: {
       titre: "Réceptions",
       corps: [
@@ -144,4 +162,28 @@ export function clausesPrive(a: ArbitragesCps, delaiAmiable = 30): Record<string
       fondement: "Stipulation contractuelle ; DOC, art. 769",
     },
   };
+}
+
+/**
+ * Références légales des gabarits de lots (Titre II) ramenées à ce qui est vérifié :
+ * l'article 769 du DOC fonde la décennale ; « 770 » et « 769 bis » ne sont pas
+ * retenus (contre-audit du 10/10/2026), la garantie de 2 ans est contractuelle.
+ */
+export function assainirReferences(md: string): string {
+  return md
+    .replace(/\*\*Garantie biennale\*\* \(art\. 769 bis DOC\)/g, "**Garantie contractuelle de bon fonctionnement**")
+    .replace(/\(réf\. art\. 769\/770 du DOC\)/g, "(stipulation contractuelle)")
+    .replace(/aux \*\*articles 769 et 770 (du [^*]*)\*\*/g, "à l'**article 769 $1**")
+    .replace(/aux articles \*\*769 et 770\*\*/g, "à l'article **769**")
+    .replace(/769 ?(\/|-|et) ?770/g, "769")
+    .replace(/769 bis/g, "769")
+    .replace(/Garantie biennale — 2 ans/g, "Garantie contractuelle de bon fonctionnement — 2 ans")
+    .replace(/\*\*biennale\*\*/g, "**de bon fonctionnement** (2 ans, contractuelle)")
+    .replace(/Garantie \*\*biennale\*\*/g, "Garantie **de bon fonctionnement** (2 ans, contractuelle)");
+}
+
+/** Fondement d'une clause type : le CCAG-Travaux n'est cité qu'à titre de référence (marché privé). */
+export function fondementPrive(f: string): string {
+  const g = assainirReferences(f);
+  return /CCAG/.test(g) && !/référence/.test(g) ? `${g} — CCAG-Travaux cité à titre de référence, non applicable de plein droit` : g;
 }

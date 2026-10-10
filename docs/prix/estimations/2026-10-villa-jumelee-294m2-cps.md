@@ -58,7 +58,7 @@ En cas de discordance entre les quantités du BPDE et les plans d'exécution vis
 
 Le CCAG-Travaux (décret n° 2-14-394) ne s'applique pas de plein droit au présent marché privé. Les parties conviennent des valeurs ci-dessous, dont certaines s'inspirent de ce texte à titre de référence ; elles priment sur toute autre mention du présent CPS :
 
-| Clause | Valeur retenue | Référence |
+| Clause | Valeur retenue | Inspirée de (à titre indicatif) |
 |:--|:--|:--|
 | Cautionnement définitif | 3 % du montant initial du marché | CCAG-T art. 15 |
 | Retenue de garantie | 10 % de chaque acompte, plafonnée à 7 % du montant initial | CCAG-T art. 64 |
@@ -96,9 +96,7 @@ L'entrepreneur est tenu, pendant un délai d'**un (1) an** à compter de la **r�
 
 Les travaux de reprise sont exécutés dans les délais fixés par le maître d'œuvre. À défaut, ils peuvent être exécutés aux frais et risques de l'entrepreneur défaillant. La réception définitive n'est prononcée qu'après levée de l'intégralité des réserves.
 
-Fondement : CCAG-Travaux et pratique contractuelle marocaine ; articulation avec DOC art. 769-770.
-
-*Fondement : CCAG-Travaux + pratique contractuelle (1 an) ; DOC art. 769-770.*
+*Fondement : Stipulation contractuelle (durée usuelle, CCAG-Travaux cité à titre de référence) ; sans préjudice de l'article 769 du DOC.*
 
 ### Article A.7 — Garantie contractuelle de bon fonctionnement (2 ans)
 
@@ -108,25 +106,23 @@ Les éléments d'équipement dissociables du gros œuvre (appareils sanitaires, 
 
 ### Article A.8 — Assurance Tous Risques Chantier
 
-L'obligation légale d'assurance Tous Risques Chantier (loi 59-13 et arrêtés d'application en vigueur depuis le 30 décembre 2024) vise, pour l'habitat, les bâtiments de plus de trois étages ou de plus de 800 m². Le présent ouvrage n'y étant pas assujetti au vu de ses caractéristiques, les parties conviennent expressément de la souscrire à titre contractuel, en raison notamment du sous-sol, des soutènements et de la mitoyenneté.
+L'obligation légale d'assurance Tous Risques Chantier (Code des assurances modifié par la loi 59-13, textes d'application en vigueur depuis le 30 décembre 2024) vise, pour l'habitat, les bâtiments de plus de trois étages ou de plus de 800 m². Le présent ouvrage n'y étant pas assujetti au vu de ses caractéristiques, les parties conviennent expressément de la souscrire à titre contractuel, en raison notamment du sous-sol, des soutènements et de la mitoyenneté.
 
 Le maître d'ouvrage souscrit une police TRC couvrant l'ouvrage pour le montant des travaux, la responsabilité civile envers les tiers et les avoisinants, pour toute la durée du chantier. Franchises, plafonds et exclusions sont précisés aux conditions particulières ; l'attestation est remise avant l'ordre de service de commencer.
 
-*Fondement : Loi 59-13 (Code des assurances) et arrêtés du 30/12/2024 ; stipulation contractuelle.*
+*Fondement : Loi 17-99 portant Code des assurances, modifiée par la loi 59-13, et textes d'application en vigueur depuis le 30/12/2024 ; stipulation contractuelle.*
 
 ### Article A.9 — Assurance de responsabilité civile décennale
 
 L'entrepreneur, ainsi que l'architecte et les bureaux d'études intervenants, justifient avant l'ordre de service de commencer d'une assurance de responsabilité civile décennale couvrant les ouvrages du présent marché, exigée à titre contractuel (l'obligation légale ne visant que les bâtiments résidentiels de plus de trois étages ou de plus de 800 m²). L'absence d'assujettissement légal ne supprime pas la responsabilité décennale prévue par le DOC.
 
-*Fondement : Loi 59-13 et arrêtés du 30/12/2024 ; DOC, art. 769 ; stipulation contractuelle.*
+*Fondement : Loi 17-99 portant Code des assurances, modifiée par la loi 59-13, et textes d'application en vigueur depuis le 30/12/2024 ; DOC, art. 769 ; stipulation contractuelle.*
 
 ### Article A.10 — Responsabilité civile professionnelle de l'architecte
 
-L'architecte est tenu de souscrire une **assurance de responsabilité civile professionnelle** couvrant les conséquences pécuniaires de sa responsabilité dans l'exercice de sa mission, conformément à l'**article 26 de la loi 016-89 relative à l'exercice de la profession d'architecte et à l'institution de l'Ordre National des Architectes**.
+L'architecte justifie, avant l'ordre de service de commencer, d'une assurance de responsabilité civile professionnelle couvrant sa mission, conformément aux obligations découlant de la loi n° 016-89 relative à l'exercice de la profession d'architecte et des règles de l'Ordre. L'attestation en cours de validité est annexée au marché.
 
-L'attestation RC professionnelle, en cours de validité et au nom de l'architecte signataire des plans, est jointe au dossier de permis et tenue à disposition du maître d'ouvrage durant toute la mission. Cette assurance est distincte et complémentaire de la RC décennale (loi 59-13).
-
-*Fondement : Loi 016-89 art. 26 (RC professionnelle architecte).*
+*Fondement : Loi 016-89 (article précis à vérifier lors de la mise au point).*
 
 ### Article A.11 — Situations, délais de paiement et intérêts de retard
 
@@ -142,7 +138,7 @@ Une **avance de démarrage** peut être consentie à l'entrepreneur dans la limi
 
 Les paiements s'effectuent par **acomptes mensuels** sur la base des **situations de travaux** établies par l'entrepreneur, contradictoirement vérifiées et arrêtées par le maître d'œuvre. Le **décompte général et définitif** est établi après réception et levée des réserves. Les délais et intérêts de retard de la clause « Délais de paiement » s'appliquent à chaque acompte.
 
-*Fondement : Pratique contractuelle BTP + CCAG-Travaux ; délais Lois 32-10 / 49-15 / 69-21.*
+*Fondement : Stipulation contractuelle.*
 
 ### Article A.13 — Délai d'exécution et ordres de service
 
@@ -150,7 +146,7 @@ Le **délai global d'exécution** des travaux est fixé à **365 jours** calenda
 
 Le planning détaillé (chemin critique, jalons, plannings par lot) est soumis au maître d'œuvre dans les **15 jours** suivant l'OS. Les prolongations de délai ne peuvent résulter que d'OS écrits, de cas de force majeure dûment constatés, d'intempéries au-delà des seuils contractuels, ou de sujétions imprévues approuvées par le maître d'ouvrage. Toute suspension de chantier fait l'objet d'un OS et d'un constat contradictoire.
 
-*Fondement : CCAG-Travaux (ordres de service, délais) + pratique contractuelle.*
+*Fondement : CCAG-Travaux (ordres de service, délais) + pratique contractuelle — CCAG-Travaux cité à titre de référence, non applicable de plein droit.*
 
 ### Article A.14 — Pénalités de retard
 
@@ -166,7 +162,7 @@ Une **retenue de garantie** est opérée sur chaque acompte, au taux de **dix po
 
 La retenue de garantie peut être **remplacée, à l'initiative de l'entrepreneur, par une caution bancaire de retenue de garantie** de même montant, émise par un établissement agréé. La retenue (ou la caution) est **libérée après la réception définitive** et la levée de la totalité des réserves.
 
-*Fondement : CCAG-Travaux : retenue de garantie 10 % plafonnée à 7 %, remplaçable par caution bancaire.*
+*Fondement : CCAG-Travaux : retenue de garantie 10 % plafonnée à 7 %, remplaçable par caution bancaire — CCAG-Travaux cité à titre de référence, non applicable de plein droit.*
 
 ### Article A.16 — Cautionnement définitif et garanties bancaires
 
@@ -174,7 +170,7 @@ L'entrepreneur constitue un **cautionnement définitif** d'un montant de **trois
 
 Le cautionnement définitif garantit la bonne exécution du marché. Il est **restitué après la réception définitive** des travaux, déduction faite des sommes éventuellement dues. Les autres garanties bancaires (restitution d'avance, retenue de garantie) sont régies par leurs clauses propres.
 
-*Fondement : CCAG-Travaux + pratique des marchés (cautionnement définitif 3 %).*
+*Fondement : CCAG-Travaux + pratique des marchés (cautionnement définitif 3 %) — CCAG-Travaux cité à titre de référence, non applicable de plein droit.*
 
 ### Article A.17 — Caractère des prix
 
@@ -218,7 +214,7 @@ Tout traitement de **données à caractère personnel** réalisé dans le cadre 
 
 Les parties s'engagent à : déclarer/obtenir l'autorisation des traitements concernés, recueillir le consentement requis, limiter la collecte à la finalité, garantir la sécurité et la confidentialité des données, et respecter les droits des personnes concernées (accès, rectification, opposition). **Le non-respect expose à des sanctions pouvant atteindre 300 000 MAD**, sans préjudice des poursuites pénales prévues par la loi.
 
-*Fondement : Loi 09-08 (CNDP), sanctions jusqu'à 300 000 MAD.*
+*Fondement : Loi 09-08, sous le contrôle de la CNDP.*
 
 ### Article A.23 — Règlement des différends et droit applicable
 
@@ -234,7 +230,7 @@ Le marché est régi par le droit marocain.
 
 Le marché est conclu à prix unitaires, à l'exception des postes expressément désignés comme forfaitaires (unité « ff ») au bordereau. Les prix unitaires s'appliquent aux quantités réellement exécutées, mesurées et constatées contradictoirement selon les modes de métré annexés.
 
-Chaque prix comprend la fourniture, la main-d'œuvre, le matériel, les transports, les pertes, les frais généraux et la marge de l'entrepreneur, à l'exclusion de l'installation, du repli et du nettoyage de chantier, rémunérés uniquement par le poste forfaitaire 00.01. Aucune prestation ne peut être rémunérée deux fois.
+Chaque prix comprend la fourniture, la main-d'œuvre, le matériel, les transports, les pertes, les frais généraux et la marge de l'entrepreneur, à l'exclusion de l'installation, du repli et du nettoyage de chantier, rémunérés uniquement par le poste forfaitaire 00.01 (base-vie, clôture et signalisation, branchements provisoires, repli et nettoyage final). Les frais de chantier compris dans les prix unitaires couvrent la conduite et l'encadrement des travaux, les consommables et le nettoyage courant des postes de travail. Aucune prestation ne peut être rémunérée deux fois.
 
 Tout ouvrage supplémentaire ou toute modification susceptible de faire varier le montant du marché fait l'objet, avant exécution, d'un accord écrit sur son prix et, le cas échéant, sur son incidence sur le délai, sauf mesure conservatoire urgente justifiée. La TVA est appliquée au taux légal en vigueur.
 
@@ -444,7 +440,7 @@ Tout résultat non conforme entraîne la **reprise** de la couche (scarification
 
 **Réception** : elle est prononcée après remise des **procès-verbaux d'essais** de compactage conformes et levée des réserves éventuelles.
 
-**Garanties** : conformément aux articles **769 et 770** du DOC (Dahir des Obligations et Contrats), l'entrepreneur demeure responsable des désordres affectant la solidité de l'ouvrage et des tassements anormaux imputables à un compactage défectueux. Toute reprise rendue nécessaire par un défaut d'exécution des terrassements (tassements, glissements de talus, instabilité des fonds) est à la charge de l'entrepreneur pendant la période de garantie.
+**Garanties** : conformément à l'article **769** du DOC (Dahir des Obligations et Contrats), l'entrepreneur demeure responsable des désordres affectant la solidité de l'ouvrage et des tassements anormaux imputables à un compactage défectueux. Toute reprise rendue nécessaire par un défaut d'exécution des terrassements (tassements, glissements de talus, instabilité des fonds) est à la charge de l'entrepreneur pendant la période de garantie.
 
 #### 1.7 — Hygiène, sécurité et gestion des déblais
 
@@ -546,10 +542,10 @@ Tout dépassement entraîne reprise aux frais de l'entreprise ou réfaction de p
 
 #### 2.8 — Garanties
 
-L'entreprise est tenue, conformément aux **articles 769 et 770 du Dahir formant Code des Obligations et Contrats (DOC)** :
+L'entreprise est tenue, conformément à l'**article 769 du Dahir formant Code des Obligations et Contrats (DOC)** :
 
 - **Garantie de parfait achèvement** : **1 an** à compter de la réception provisoire, couvrant tous désordres signalés par procès-verbal contradictoire
-- **Garantie biennale** (art. 769 bis DOC) : **2 ans** sur les éléments d'équipement dissociables
+- **Garantie contractuelle de bon fonctionnement** : **2 ans** sur les éléments d'équipement dissociables
 - **Garantie décennale** : **10 ans** sur la solidité de l'ouvrage et des éléments faisant indissociablement corps avec lui, ainsi que sur les défauts compromettant la destination de l'ouvrage
 
 L'entreprise présentera son **attestation d'assurance décennale** souscrite auprès d'une compagnie marocaine agréée ACAPS, montant de garantie ≥ 639 542 DH HT (estimation) MAD, **avant tout démarrage des travaux** sous peine de résiliation aux torts exclusifs.
@@ -637,7 +633,7 @@ Tout ouvrage hors tolérance (faux aplomb, enduit décollé, fissuration de retr
 
 #### 3.7 — Garanties, hygiène, sécurité et gestion des déchets
 
-**Garanties** : conformément aux articles **769 et 770** du DOC, l'entrepreneur garantit la solidité et la tenue des ouvrages de maçonnerie ; les désordres (fissuration anormale, décollement d'enduit, défaut de chaînage) imputables à un défaut d'exécution sont repris à sa charge pendant la période de garantie.
+**Garanties** : conformément à l'article **769** du DOC, l'entrepreneur garantit la solidité et la tenue des ouvrages de maçonnerie ; les désordres (fissuration anormale, décollement d'enduit, défaut de chaînage) imputables à un défaut d'exécution sont repris à sa charge pendant la période de garantie.
 
 **HSE** :
 - Échafaudages conformes et stabilisés ; protection collective des rives et trémies.
@@ -732,12 +728,12 @@ Souplesse à froid ≤ **-20 °C**, résistance au pelage et au poinçonnement c
 
 Tout écart entraîne reprise aux frais exclusifs de l'entreprise après avis du Maître d'Œuvre.
 
-#### 4.7 — Garanties (DOC art. 769 / 770)
+#### 4.7 — Garanties (DOC art. 769)
 
-Conformément aux **articles 769 et 770 du Dahir formant Code des Obligations et Contrats (DOC)**, l'entreprise est tenue :
+Conformément à l'**article 769 du Dahir formant Code des Obligations et Contrats (DOC)**, l'entreprise est tenue :
 
 - **Garantie de parfait achèvement — 1 an** à compter de la réception provisoire : reprise de tous désordres signalés (infiltrations, décollements, fissures de relevés, stagnations d'eau) ;
-- **Garantie biennale — 2 ans** sur les éléments d'équipement dissociables (crapaudines, dispositifs de relevés démontables) ;
+- **Garantie contractuelle de bon fonctionnement — 2 ans** sur les éléments d'équipement dissociables (crapaudines, dispositifs de relevés démontables) ;
 - **Garantie décennale — 10 ans** sur l'étanchéité, l'imperméabilité du complexe garantissant le clos et le couvert de l'ouvrage.
 
 L'entreprise fournira en outre, lorsqu'il est exigé, un **engagement de garantie spécifique du système d'étanchéité** (10 ans) couvrant la fourniture et la pose. Elle présentera, **avant tout démarrage**, son **attestation d'assurance décennale** souscrite auprès d'une compagnie agréée **ACAPS**, montant ≥ **54 120 DH HT (estimation) MAD**, sous peine de résiliation à ses torts exclusifs. Le procès-verbal d'essai de mise en eau et les plans de récolement (DOE) seront remis à la réception.
@@ -831,9 +827,9 @@ Tout défaut (infiltration, point dur, défaut d'aspect du laquage, écart de te
 
 #### 7.7 — Garanties, HSE et gestion des déchets
 
-**Garanties** (conformément aux **articles 769 et 770 du Dahir formant Code des Obligations et Contrats — DOC**) :
+**Garanties** (conformément à l'**article 769 du Dahir formant Code des Obligations et Contrats — DOC**) :
 - **Garantie de parfait achèvement** : **1 an** à compter de la réception provisoire
-- **Garantie biennale** (art. 769 bis DOC) : **2 ans** sur la quincaillerie et les éléments d'équipement dissociables
+- **Garantie contractuelle de bon fonctionnement** : **2 ans** sur la quincaillerie et les éléments d'équipement dissociables
 - **Garantie décennale** : **10 ans** au titre du clos et couvert pour l'étanchéité à l'air et à l'eau des ensembles
 - Garanties fabricant : vitrage isolant (rupture de joint) et finition (laquage/anodisation) selon labels QUALICOAT/QUALANOD
 
@@ -942,7 +938,7 @@ Un **PV de réception** par typologie est établi contradictoirement avec le Ma�
 #### 8.7 — Garanties, HSE et gestion des déchets
 
 **Garanties :**
-- **garantie de parfait achevement** d'un an (réf. art. 769/770 du DOC) couvrant les désordres signalés à la réception ;
+- **garantie de parfait achevement** d'un an (stipulation contractuelle) couvrant les désordres signalés à la réception ;
 - garantie de bon fonctionnement de **2 ans** sur la quincaillerie et les éléments d'équipement dissociables ;
 - l'entrepreneur remet le **DOE** (plans conformes d'exécution, fiches produits, notices d'entretien, organigramme de clés).
 
@@ -1059,7 +1055,7 @@ La protection anticorrosion est adaptée à la **catégorie de corrosivité** du
 - **PV de réception** contradictoire par typologie d'ouvrage.
 
 **Garanties :**
-- **garantie de parfait achèvement** d'un an (réf. art. 769/770 du DOC) ;
+- **garantie de parfait achèvement** d'un an (stipulation contractuelle) ;
 - garantie de bon fonctionnement **2 ans** sur organes mobiles et serrurerie ;
 - remise du **DOE** (plans conformes, notes de calcul, PV galvanisation/peinture, notices d'entretien).
 
@@ -1178,7 +1174,7 @@ Une **surface témoin** de minimum **10 m²** par type de revêtement est réali
 - Pentes respectées dans locaux humides (**≥ 1,5 %** vers siphons)
 
 ##### Garanties
-Garantie de **parfait achèvement (1 an)**, **biennale** (équipements/profilés) et **décennale** pour les revêtements scellés solidaires de l'ouvrage.
+Garantie de **parfait achèvement (1 an)**, **de bon fonctionnement** (2 ans, contractuelle) (équipements/profilés) et **décennale** pour les revêtements scellés solidaires de l'ouvrage.
 
 #### 11.6 — HSE, gestion des déchets et protection des ouvrages
 
@@ -1462,7 +1458,7 @@ La réception est prononcée par comparaison avec les surfaces témoins agréée
 
 ##### Garanties
 - Garantie de **parfait achèvement (1 an)** sur l'ensemble des peintures intérieures
-- Garantie **biennale** pour les peintures de façade et systèmes d'imperméabilité (selon DTU 42.1, durabilité I1–I4)
+- Garantie **de bon fonctionnement** (2 ans, contractuelle) pour les peintures de façade et systèmes d'imperméabilité (selon DTU 42.1, durabilité I1–I4)
 - Garantie sur la tenue des teintes et l'absence de farinage prématuré en façade
 
 #### 13.6 — HSE, gestion des déchets et protection des ouvrages

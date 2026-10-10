@@ -13,7 +13,7 @@ import { HYPOTHESES } from "../chiffrage/hypotheses";
 import { quantitatif } from "../chiffrage/quantitatif";
 import { TVA } from "../chiffrage/referentiel";
 import { bordereau, type LotBPDE } from "./bordereau";
-import { ARBITRAGES_DEFAUT, clausesPrive, type ArbitragesCps } from "./clausesPrive";
+import { ARBITRAGES_DEFAUT, assainirReferences, clausesPrive, fondementPrive, type ArbitragesCps } from "./clausesPrive";
 import { CORRESPONDANCE_CPS } from "./correspondance";
 import { CLAUSES_CPS, LOT_CPS_PAR_CODE, TYPES_PROJET_CPS, fr } from "./gabarits";
 
@@ -128,7 +128,7 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   art("Valeurs contractuelles arrêtées", [
     "Le CCAG-Travaux (décret n° 2-14-394) ne s'applique pas de plein droit au présent marché privé. Les parties conviennent des valeurs ci-dessous, dont certaines s'inspirent de ce texte à titre de référence ; elles priment sur toute autre mention du présent CPS :",
     "",
-    "| Clause | Valeur retenue | Référence |",
+    "| Clause | Valeur retenue | Inspirée de (à titre indicatif) |",
     "|:--|:--|:--|",
     "| Cautionnement définitif | 3 % du montant initial du marché | CCAG-T art. 15 |",
     "| Retenue de garantie | 10 % de chaque acompte, plafonnée à 7 % du montant initial | CCAG-T art. 64 |",
@@ -148,8 +148,10 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
     // les assurances sont traitées par les clauses TRC / RCD (plus d'article « Assurances » générique).
     const x = prive[c.code];
     if (x === null) continue;
-    if (x) art(x.titre, `${x.corps}\n\n*Fondement : ${x.fondement}.*`);
-    else art(fr(c.titre), retrograder(sub(fr(c.corpsMD))) + (c.fondement ? `\n\n*Fondement : ${c.fondement}.*` : ""));
+    // Le corps des gabarits peut contenir sa propre ligne « Fondement : » : on la retire (un seul fondement par article).
+    const corpsGabarit = () => assainirReferences(retrograder(sub(fr(c.corpsMD)))).replace(/\n+\*?Fondement :[^\n]*\*?\s*$/, "");
+    if (x) art(x.titre, `${x.corps ?? corpsGabarit()}\n\n*Fondement : ${x.fondement}.*`);
+    else art(fr(c.titre), corpsGabarit() + (c.fondement ? `\n\n*Fondement : ${fondementPrive(c.fondement)}.*` : ""));
   }
   if (type.visasObligatoires.length) art("Visas et autorisations", type.visasObligatoires.map((v) => `- ${v.type.replace(/_/g, " ")} — phase ${v.phase.replace(/_/g, " ").toLowerCase()}${v.delaiLegal ? ` (délai légal ${v.delaiLegal} jours)` : ""}.`).join("\n") + "\n- Permis de construire et autorisations de voirie : à la charge du maître d'ouvrage avant l'ordre de service de commencement.");
 
@@ -161,11 +163,11 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
     p(`### Lot ${String(lot.numero).padStart(2, "0")} — ${lot.intitule}`);
     p();
     if (!g) { p("*Gabarit de prescriptions en cours de rédaction : les ouvrages de ce lot sont décrits par leur désignation au Titre IV et par la notice du fabricant ; prescriptions à compléter par le maître d'œuvre.*"); p(); continue; }
-    if (g.description) { p(retrograder(sub(fr(g.description), lot.code))); p(); }
+    if (g.description) { p(assainirReferences(retrograder(sub(fr(g.description), lot.code)))); p(); }
     for (const a of g.articles) {
-      p(`#### ${a.numero} — ${fr(a.titre)}`);
+      p(`#### ${a.numero} — ${assainirReferences(fr(a.titre))}`);
       p();
-      p(retrograder(sub(fr(a.corpsMD), lot.code)));
+      p(assainirReferences(retrograder(sub(fr(a.corpsMD), lot.code))));
       p();
     }
   }
