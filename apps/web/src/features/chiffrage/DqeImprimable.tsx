@@ -19,7 +19,7 @@ export default function DqeImprimable({ res }: { res: Resultat }) {
       <h1 className="text-lg font-bold">CITURBAREA — Devis quantitatif estimatif (DQE)</h1>
       <p>
         {p.type === "VILLA" ? "Villa" : p.type === "MAISON" ? "Maison" : p.type === "IMMEUBLE" ? "Immeuble" : "Immeuble mixte"} {p.niveaux === 1 ? "RDC" : `R+${p.niveaux - 1}`},
-        {" "}{dh(p.surfacePlancher)} m² de plancher{g.surfaceSousSol ? ` + sous-sol ${dh(g.surfaceSousSol)} m² (${p.sousSol?.profondeur} m)` : ""}, {p.ville || "ville non précisée"} (coefficient {res.region.coef}),
+        {" "}{dh(p.surfacePlancher)} m² de plancher{g.surfaceSousSol ? ` + sous-sol ${dh(g.surfaceSousSol)} m² (${(p.sousSol?.profondeur ?? 0).toLocaleString("fr-FR")} m)` : ""}, {p.ville || "ville non précisée"} (coefficient {res.region.coef.toLocaleString("fr-FR")}),
         {" "}standing {standingLabel(TYPE_GRILLE[p.type], p.standing)}, sol {g.sol.toLowerCase().replace("_", " / ")}, pente {p.pente ?? 0} %, fondation {g.fondation.toLowerCase().replace("_", " ")}.
       </p>
       <p>Édité le {date} — référentiel de prix {CHIFFRAGE_VERSION} — précision : niveau {res.precision.niveau} ({res.precision.libelle}), ±{Math.round(res.precision.global * 100)} %.</p>

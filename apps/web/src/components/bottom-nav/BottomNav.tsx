@@ -202,6 +202,7 @@ const HIDE_ON_PREFIXES = [
   "/foncier",
   "/metrics",
   "/notifications",
+  "/chiffrage",
 ];
 
 const STYLE_ID = "cit-bottomnav-style";

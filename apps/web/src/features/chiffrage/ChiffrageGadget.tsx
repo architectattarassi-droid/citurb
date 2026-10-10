@@ -20,8 +20,11 @@ import { GAMMES_LIBELLES, VILLES, texte } from "./textes";
 import DqeImprimable from "./DqeImprimable";
 
 const GOLD = "#C9A227";
-export const fmtDH = (n: number) => `${Math.round(n).toLocaleString("fr-FR").replace(/ /g, " ")} DH`;
+export const fmtDH = (n: number) => `${Math.round(n).toLocaleString("fr-FR").replace(/\s/g, " ")} DH`;
 const pct = (x: number) => `${Math.round(x * 100)} %`;
+const dec = (n: number, d = 2) => n.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d });
+/** La feuille de style globale habille les <button> et les <a> : on neutralise pour les boutons-liens. */
+const LIEN: React.CSSProperties = { background: "none", border: 0, padding: 0, boxShadow: "none" };
 
 const BROUILLON = "citurbarea:chiffrage:v1";
 
@@ -78,13 +81,14 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px] print:hidden">
         {/* ── Formulaire ── */}
         <div>
-          <ol className="mb-4 grid grid-cols-3 gap-2" aria-label="Étapes">
+          <ol className="mb-4 grid list-none grid-cols-3 gap-2 p-0" aria-label="Étapes">
             {([1, 2, 3] as const).map((e) => (
               <li key={e}>
                 <button type="button" onClick={() => allerA(e)} aria-current={etape === e ? "step" : undefined}
                   className={`flex w-full min-h-[44px] items-center gap-2 rounded-lg border px-2 py-2 text-left text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A227] ${etape === e ? "border-[#0B1B3A] bg-[#0B1B3A] text-white" : "border-slate-300 bg-white text-slate-700 hover:border-slate-400"}`}>
                   <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-full text-xs ${etape === e ? "bg-[#C9A227] text-[#0B1B3A]" : "bg-slate-100"}`}>{e}</span>
-                  <span className="leading-tight">{t(e === 1 ? "etape1" : e === 2 ? "etape2" : "etape3")}</span>
+                  <span className="leading-tight sm:hidden">{t(e === 1 ? "etape1" : e === 2 ? "etape2court" : "etape3court")}</span>
+                  <span className="hidden leading-tight sm:inline">{t(e === 1 ? "etape1" : e === 2 ? "etape2" : "etape3")}</span>
                 </button>
               </li>
             ))}
@@ -95,7 +99,7 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
               <div className="grid gap-5">
                 <Champ label={t("type")}>
                   {() => (
-                    <Segments valeur={projet.type} options={(["VILLA", "MAISON", "IMMEUBLE", "MIXTE"] as TypeBatiment[]).map((v) => ({ v, l: t(`type.${v}` as never) }))}
+                    <Segments grille valeur={projet.type} options={(["VILLA", "MAISON", "IMMEUBLE", "MIXTE"] as TypeBatiment[]).map((v) => ({ v, l: t(`type.${v}` as never) }))}
                       onChange={(v) => maj(v === "IMMEUBLE" || v === "MIXTE"
                         ? { type: v, surfacePlancher: Math.max(projet.surfacePlancher, 600), niveaux: Math.max(projet.niveaux, 5), chambres: undefined, sallesDeBain: undefined, terrasses: 0 }
                         : { type: v, niveaux: Math.min(projet.niveaux, 3), surfacePlancher: Math.min(projet.surfacePlancher, 600), chambres: projet.chambres ?? 4, sallesDeBain: projet.sallesDeBain ?? 3 })} />
@@ -191,7 +195,7 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
                   <Bascule label={t("sousSol")} actif={!!projet.sousSol} onChange={(on) => maj({ sousSol: on ? { profondeur: 2.8 } : null, nappe: on ? projet.nappe : false })} />
                   {projet.sousSol && (
                     <div className="mt-4 grid gap-4">
-                      <Champ label={`${t("profondeur")} : ${projet.sousSol.profondeur.toFixed(1)} m`}>
+                      <Champ label={`${t("profondeur")} : ${projet.sousSol.profondeur.toFixed(1).replace(".", ",")} m`}>
                         {(id) => <input id={id} type="range" min={2.2} max={7} step={0.1} value={projet.sousSol!.profondeur} onChange={(e) => maj({ sousSol: { ...projet.sousSol!, profondeur: Number(e.target.value) } })} className="w-full accent-[#0B1B3A]" />}
                       </Champ>
                       <Bascule label={t("nappe")} actif={!!projet.nappe} onChange={(on) => maj({ nappe: on })} />
@@ -251,7 +255,7 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
                 <button type="button" onClick={() => allerA((etape + 1) as 2 | 3)}
                   className="min-h-[44px] rounded-lg bg-[#0B1B3A] px-5 text-sm font-semibold text-white hover:bg-[#13285a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A227]">{t("suivant")} →</button>
               ) : (
-                <a href="#resultat-chiffrage" onClick={() => maj({ etapes: { ...projet.etapes, finitions: true } })}
+                <a href="#resultat-chiffrage" style={{ color: "#fff", textDecoration: "none" }} onClick={() => maj({ etapes: { ...projet.etapes, finitions: true } })}
                   className="inline-flex min-h-[44px] items-center rounded-lg bg-[#0B1B3A] px-5 text-sm font-semibold text-white hover:bg-[#13285a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A227]">{t("voirResultat")} ↓</a>
               )}
             </div>
@@ -276,14 +280,14 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
         </Section>
 
         <Section titre={t("detail")} action={
-          <button type="button" onClick={() => window.print()} className="min-h-[40px] rounded-lg border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-700 hover:border-slate-400">⎙ {t("imprimer")}</button>
+          <button type="button" onClick={() => window.print()} className="min-h-[40px] whitespace-nowrap rounded-lg border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-700 hover:border-slate-400">⎙ {t("imprimer")}</button>
         }>
           <div className="divide-y divide-slate-200 rounded-xl border border-slate-200">
             {res.lots.map((l) => {
               const ouvert = !!ouverts[l.lot.code];
               return (
                 <div key={l.lot.code}>
-                  <button type="button" aria-expanded={ouvert} onClick={() => setOuverts((o) => ({ ...o, [l.lot.code]: !ouvert }))}
+                  <button type="button" aria-expanded={ouvert} onClick={() => setOuverts((o) => ({ ...o, [l.lot.code]: !ouvert }))} style={{ background: ouvert ? "#F8FAFC" : "#fff", border: 0, borderRadius: 0, boxShadow: "none", color: "inherit" }}
                     className="flex w-full min-h-[48px] items-center gap-3 px-3 py-2 text-left hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#C9A227]">
                     <span className="w-7 shrink-0 text-xs font-semibold text-slate-400">{l.lot.numero}</span>
                     <span className="flex-1 text-sm font-semibold">{l.lot.libelle}</span>
@@ -303,7 +307,7 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
             })}
           </div>
           {projet.quantites && Object.keys(projet.quantites).length > 0 && (
-            <button type="button" onClick={() => maj({ quantites: undefined })} className="mt-2 text-sm font-semibold text-[#0B1B3A] underline">{t("reinitialiser")} (quantités saisies)</button>
+            <button type="button" onClick={() => maj({ quantites: undefined })} style={LIEN} className="mt-2 text-sm font-semibold text-[#0B1B3A] underline">{t("reinitialiser")} (quantités saisies)</button>
           )}
         </Section>
 
@@ -315,7 +319,7 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
         </Section>
 
         <Section titre={t("controles")}>
-          <ul className="grid gap-2 text-sm">
+          <ul className="grid list-none gap-2 p-0 text-sm">
             <li>
               <Pastille ok={coh.grille.ok} /> Coût du bâtiment ramené à Rabat-Salé-Kénitra : <b>{Math.round(coh.grille.coutM2RSK).toLocaleString("fr-FR")} DH/m²</b>
               {coh.grille.fourchette && <> — grille CITURBAREA 2026 {standingLabel(typeGrille, projet.standing)} : {coh.grille.fourchette[0].toLocaleString("fr-FR")}–{coh.grille.fourchette[1].toLocaleString("fr-FR")} DH/m²{!coh.grille.ok && ` (écart ${coh.grille.ecart > 0 ? "+" : ""}${Math.round(coh.grille.ecart * 100)} %)`}</>}
@@ -330,8 +334,8 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
       </div>
 
       {/* Barre mobile : total toujours visible */}
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 px-4 py-2 backdrop-blur lg:hidden print:hidden">
-        <a href="#resultat-chiffrage" className="flex min-h-[44px] items-center justify-between gap-3">
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 px-4 pt-2 backdrop-blur lg:hidden print:hidden" style={{ paddingBottom: "calc(0.5rem + env(safe-area-inset-bottom, 0px))" }}>
+        <a href="#resultat-chiffrage" style={{ textDecoration: "none" }} className="flex min-h-[44px] items-center justify-between gap-3">
           <span className="text-xs text-slate-500">{t("travauxTTC")}<br /><span className="text-xs">±{Math.round(res.precision.global * 100)} %</span></span>
           <span className="text-lg font-bold tabular-nums text-[#0B1B3A]" aria-live="polite">{fmtDH(res.totalTTC)}</span>
         </a>
@@ -370,9 +374,9 @@ function Nombre({ id, valeur, onChange, unite, min, max, pas = 1, placeholder }:
   );
 }
 
-function Segments<V extends string | number>({ valeur, options, onChange }: { valeur: V; options: { v: V; l: string }[]; onChange: (v: V) => void }) {
+function Segments<V extends string | number>({ valeur, options, onChange, grille }: { valeur: V; options: { v: V; l: string }[]; onChange: (v: V) => void; grille?: boolean }) {
   return (
-    <div className="flex flex-wrap gap-2" role="group">
+    <div className={grille ? "grid grid-cols-2 gap-2 sm:grid-cols-4" : "flex flex-wrap gap-2"} role="group">
       {options.map((o) => (
         <button key={String(o.v)} type="button" aria-pressed={valeur === o.v} onClick={() => onChange(o.v)}
           className={`min-h-[44px] min-w-[52px] flex-1 rounded-lg border px-3 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A227] ${valeur === o.v ? "border-[#0B1B3A] bg-[#0B1B3A] text-white" : "border-slate-300 bg-white text-slate-700 hover:border-slate-400"}`}>
@@ -387,7 +391,7 @@ function Bascule({ label, actif, onChange }: { label: string; actif: boolean; on
   return (
     <label className="flex min-h-[44px] cursor-pointer items-center justify-between gap-4">
       <span className="text-sm font-medium text-slate-800">{label}</span>
-      <input type="checkbox" role="switch" checked={actif} onChange={(e) => onChange(e.target.checked)} className="peer sr-only" />
+      <input type="checkbox" role="switch" aria-label={label} checked={actif} onChange={(e) => onChange(e.target.checked)} className="peer sr-only" />
       <span aria-hidden className="relative h-7 w-12 shrink-0 rounded-full bg-slate-300 transition peer-checked:bg-[#0B1B3A] peer-focus-visible:ring-2 peer-focus-visible:ring-[#C9A227] after:absolute after:left-1 after:top-1 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition peer-checked:after:translate-x-5" />
     </label>
   );
@@ -396,7 +400,7 @@ function Bascule({ label, actif, onChange }: { label: string; actif: boolean; on
 function Section({ titre, action, children }: { titre: string; action?: React.ReactNode; children: React.ReactNode }) {
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-      <div className="mb-3 flex items-center justify-between gap-3">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-lg font-bold text-[#0B1B3A]">{titre}</h2>
         {action}
       </div>
@@ -426,7 +430,7 @@ function Resume({ res, t }: { res: Resultat; t: T }) {
         <p className="mt-2 text-sm text-slate-300">{t("travauxTTC")}</p>
         <p className="text-3xl font-bold tabular-nums sm:text-4xl" aria-live="polite">{fmtDH(res.totalTTC)}</p>
         <p className="mt-1 text-sm text-slate-300">{t("coutM2", { v: Math.round(res.coutM2HT).toLocaleString("fr-FR") })}</p>
-        <p className="mt-1 text-sm text-slate-300">{t("fourchette", { min: fmtDH(res.fourchette.min), max: fmtDH(res.fourchette.max) })}</p>
+        <p className="mt-1 text-sm text-slate-300">{t("fourchette", { min: fmtDH(res.fourchette.min * (1 + TVA.taux)), max: fmtDH(res.fourchette.max * (1 + TVA.taux)) })}</p>
 
         <div className="mt-4 rounded-xl bg-white/10 p-3">
           <div className="flex items-center justify-between gap-2">
@@ -438,7 +442,7 @@ function Resume({ res, t }: { res: Resultat; t: T }) {
         </div>
 
         {res.impacts.length > 0 && (
-          <ul className="mt-4 grid gap-2">
+          <ul className="mt-4 grid list-none gap-2 p-0">
             {res.impacts.map((i) => (
               <li key={i.cle} className="rounded-xl border border-[#C9A227]/50 bg-[#C9A227]/10 p-3 text-sm leading-snug">
                 {i.cle === "sous_sol" && t("impactSousSol", { m: fmtDH(i.montantHT), s: fmtDH(i.dontSoutenement) })}
@@ -467,7 +471,7 @@ function Resume({ res, t }: { res: Resultat; t: T }) {
 function BarresLots({ res }: { res: Resultat }) {
   const max = Math.max(...res.lots.map((l) => l.total));
   return (
-    <ul className="grid gap-2">
+    <ul className="grid list-none gap-2 p-0">
       {res.lots.map((l) => (
         <li key={l.lot.code} className="grid grid-cols-[minmax(0,9rem)_1fr_auto] items-center gap-2 text-sm sm:grid-cols-[minmax(0,15rem)_1fr_7.5rem]" title={`${l.lot.libelle} : ${fmtDH(l.total)} (${pct(l.part)})`}>
           <span className="truncate text-slate-700">{l.lot.libelle}</span>
@@ -484,7 +488,7 @@ function BarresLots({ res }: { res: Resultat }) {
 function BarresStandings({ comp, actif, typeGrille }: { comp: ReturnType<typeof comparerStandings>; actif: Standing; typeGrille: TypeProjet }) {
   const max = Math.max(...comp.map((c) => c.travauxHT));
   return (
-    <ul className="grid gap-2">
+    <ul className="grid list-none gap-2 p-0">
       {comp.map((c) => (
         <li key={c.standing} className="grid grid-cols-[minmax(0,9rem)_1fr_auto] items-center gap-2 text-sm sm:grid-cols-[minmax(0,15rem)_1fr_10rem]">
           <span className={`truncate ${c.standing === actif ? "font-bold text-[#0B1B3A]" : "text-slate-700"}`}>{standingLabel(typeGrille, c.standing)}</span>
@@ -506,8 +510,8 @@ function LigneOuvrage({ li, t, onQte }: { li: LigneDQE; t: T; onQte: (q: number)
   const id = useId();
   return (
     <div className="border-b border-slate-200 py-3 last:border-0">
-      <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_8.5rem_7rem_8rem] sm:items-center">
-        <div className="min-w-0">
+      <div className="grid grid-cols-[7.5rem_1fr_auto] items-center gap-2 sm:grid-cols-[minmax(0,1fr)_8.5rem_7rem_8rem]">
+        <div className="col-span-3 min-w-0 sm:col-span-1">
           <p className="text-sm font-medium leading-snug">{li.libelle}</p>
           <p className="text-xs text-slate-500">{li.formule}</p>
           <p className="mt-1 flex flex-wrap gap-1">
@@ -522,9 +526,9 @@ function LigneOuvrage({ li, t, onQte }: { li: LigneDQE; t: T; onQte: (q: number)
           <span className="w-8 text-xs text-slate-500">{li.unite}</span>
         </div>
         <p className="text-sm tabular-nums text-slate-600 sm:text-right">× {fmtDH(li.pu)}</p>
-        <p className="text-sm font-semibold tabular-nums sm:text-right">{fmtDH(li.montant)}</p>
+        <p className="text-right text-sm font-semibold tabular-nums">{fmtDH(li.montant)}</p>
       </div>
-      <button type="button" aria-expanded={sd} onClick={() => setSd((v) => !v)} className="mt-1 text-xs font-semibold text-[#0B1B3A] underline">{t("sousDetail")} ({li.ouvrage})</button>
+      <button type="button" aria-expanded={sd} onClick={() => setSd((v) => !v)} style={LIEN} className="mt-1 text-xs font-semibold text-[#0B1B3A] underline">{t("sousDetail")} ({li.ouvrage})</button>
       {sd && (
         <div className="mt-2 overflow-x-auto rounded-lg border border-slate-200 bg-white">
           <table className="w-full min-w-[520px] text-xs">
@@ -535,14 +539,14 @@ function LigneOuvrage({ li, t, onQte }: { li: LigneDQE; t: T; onQte: (q: number)
               {li.prix.sousDetail.map((c, i) => (
                 <tr key={i} className="border-t border-slate-100">
                   <td className="p-2">{c.libelle}{c.note && <span className="block text-slate-400">{c.note}</span>}</td>
-                  <td className="p-2 text-right tabular-nums">{c.nature === "PM" ? "5 %" : `${+c.qte.toFixed(3)} ${c.unite}`}</td>
-                  <td className="p-2 text-right tabular-nums">{c.nature === "PM" ? "" : c.pu.toFixed(2)}</td>
-                  <td className="p-2 text-right tabular-nums">{c.montant.toFixed(2)}</td>
+                  <td className="p-2 text-right tabular-nums">{c.nature === "PM" ? "5 %" : `${(+c.qte.toFixed(3)).toLocaleString("fr-FR")} ${c.unite}`}</td>
+                  <td className="p-2 text-right tabular-nums">{c.nature === "PM" ? "" : dec(c.pu)}</td>
+                  <td className="p-2 text-right tabular-nums">{dec(c.montant)}</td>
                   <td className="p-2"><Fiab f={c.fiabilite} /> <span className="text-slate-500">{c.sourceIds.join(", ") || (c.nature === "OUV" ? "sous-ouvrage" : "")}</span></td>
                 </tr>
               ))}
-              <tr className="border-t border-slate-200 font-semibold"><td className="p-2" colSpan={3}>Déboursé sec</td><td className="p-2 text-right tabular-nums">{li.prix.debourseSec.toFixed(2)}</td><td /></tr>
-              <tr><td className="p-2" colSpan={3}>× K {li.prix.k.toFixed(2)} {li.prix.ouvrage.sousTraite ? "(sous-traitance : coordination)" : "(frais de chantier, frais généraux, aléas et bénéfice)"}, régionalisé</td><td className="p-2 text-right font-semibold tabular-nums">{li.pu.toFixed(2)}</td><td className="p-2 text-slate-500">{Math.round(li.puMin)}–{Math.round(li.puMax)}</td></tr>
+              <tr className="border-t border-slate-200 font-semibold"><td className="p-2" colSpan={3}>Déboursé sec</td><td className="p-2 text-right tabular-nums">{dec(li.prix.debourseSec)}</td><td /></tr>
+              <tr><td className="p-2" colSpan={3}>× K {dec(li.prix.k)} {li.prix.ouvrage.sousTraite ? "(sous-traitance : coordination)" : "(frais de chantier, frais généraux, aléas et bénéfice)"}, régionalisé</td><td className="p-2 text-right font-semibold tabular-nums">{dec(li.pu)}</td><td className="p-2 text-slate-500">{Math.round(li.puMin)}–{Math.round(li.puMax)}</td></tr>
             </tbody>
           </table>
           {li.prix.ouvrage.note && <p className="border-t border-slate-100 p-2 text-xs text-slate-500">{li.prix.ouvrage.note}</p>}
@@ -586,7 +590,7 @@ function Hypotheses({ projet, onChange, t }: { projet: ProjetInput; onChange: (h
       ))}
       <div className="flex flex-wrap gap-3 text-xs text-slate-500">
         <span>Prix élémentaires : {Object.keys(MATERIAUX).length} matériaux et {Object.keys(MAIN_OEUVRE).length} métiers sourcés (docs/prix/recherche).</span>
-        {projet.hypotheses && <button type="button" onClick={() => onChange(undefined)} className="font-semibold text-[#0B1B3A] underline">{t("reinitialiser")}</button>}
+        {projet.hypotheses && <button type="button" onClick={() => onChange(undefined)} style={LIEN} className="font-semibold text-[#0B1B3A] underline">{t("reinitialiser")}</button>}
       </div>
     </div>
   );

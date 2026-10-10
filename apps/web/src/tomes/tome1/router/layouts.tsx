@@ -24,7 +24,7 @@ export function PublicLayout() {
     "/p1", "/p2", "/p3", "/p4", "/p5", "/p6",
     "/sig", "/portal", "/mon-espace", "/docs", "/simulateur",
     "/payment", "/fr/porte-", "/en/door-", "/ar/bab-", "/architecte-",
-    "/terriscan",
+    "/terriscan", "/chiffrage",
   ];
   const isFullWidth = FULL_WIDTH_PREFIXES.some(p => path.startsWith(p));
   // Pages "narrow" résiduelles : login, signup, OTP, mot-de-passe-oublié.

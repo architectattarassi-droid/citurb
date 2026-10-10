@@ -208,7 +208,7 @@ export function calculerImpacts(input: ProjetInput, res: Resultat): Impact[] {
       cle: "sous_sol", libelle: "Sous-sol",
       montantHT: res.travauxHT - ref.travauxHT,
       dontSoutenement: somme(res, (l) => l.tags.includes("sous_sol") && l.tags.includes("soutenement")),
-      detail: `${r0(res.geometrie.surfaceSousSol)} m² sur ${input.sousSol.profondeur} m de profondeur${input.nappe ? ", avec nappe (cuvelage, épuisement)" : ""}`,
+      detail: `${r0(res.geometrie.surfaceSousSol)} m² sur ${String(input.sousSol.profondeur).replace(".", ",")} m de profondeur${input.nappe ? ", avec nappe (cuvelage, épuisement)" : ""}`,
     });
   }
   if (input.sol && input.sol !== "BON") {
