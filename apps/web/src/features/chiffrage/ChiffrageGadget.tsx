@@ -13,8 +13,8 @@ import { standingLabel } from "../../command-center/modules/dossiers/costRangesM
 import {
   HYPOTHESES, INCERTITUDE_QTE, LOTS_FINITION, MATERIAUX, MAIN_OEUVRE, STANDINGS, TYPE_GRILLE, TVA,
   chiffrer, coherence, comparerStandings,
-  REGIMES, regimeParDefaut,
-  type LigneDQE, type LotFinition, type NatureSol, type ParcelleChiffrage, type ProjetInput, type Regime, type Resultat, type TypeBatiment,
+  REGIMES, regimeParDefaut, quantitatif, LIBELLE_SOUTENEMENT,
+  type EmplacementSoutenement, type Soutenement, type LigneDQE, type LotFinition, type NatureSol, type ParcelleChiffrage, type ProjetInput, type Regime, type Resultat, type TypeBatiment,
 } from "../../domain/chiffrage";
 import type { Standing, TypeProjet } from "../../command-center/modules/dossiers/costRangesMA";
 import { GAMMES_LIBELLES, VILLES, texte } from "./textes";
@@ -279,6 +279,25 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
                 <Champ label={`${t("pente")} : ${projet.pente ?? 0} %`}>
                   {(id) => <input id={id} type="range" min={0} max={35} step={1} value={projet.pente ?? 0} onChange={(e) => maj({ pente: Number(e.target.value) })} className="w-full accent-[#0B1B3A]" />}
                 </Champ>
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <Champ label={t("fondation")} aide={projet.fondation ? undefined : `${t("auto")} : ${t(`fond.${res.geometrie.fondation}` as never)}`}>
+                    {(id) => (
+                      <select id={id} className={INPUT} value={projet.fondation ?? ""} onChange={(e) => maj({ fondation: (e.target.value || undefined) as ProjetInput["fondation"] })}>
+                        <option value="">{t("selonSol")}</option>
+                        {(["SEMELLES_ISOLEES", "SEMELLES_FILANTES", "RADIER"] as const).map((f) => <option key={f} value={f}>{t(`fond.${f}` as never)}</option>)}
+                      </select>
+                    )}
+                  </Champ>
+                  <Champ label={t("plancher")}>
+                    {(id) => (
+                      <select id={id} className={INPUT} value={projet.plancher ?? ""} onChange={(e) => maj({ plancher: (e.target.value || undefined) as ProjetInput["plancher"] })}>
+                        <option value="">{t("plancher.auto")}</option>
+                        {(["HOURDIS_16", "HOURDIS_20", "DALLE_PLEINE"] as const).map((f) => <option key={f} value={f}>{t(`plancher.${f}` as never)}</option>)}
+                      </select>
+                    )}
+                  </Champ>
+                </div>
+                <Soutenements valeur={projet.soutenements ?? []} profondeurSousSol={projet.sousSol?.profondeur} onChange={(s) => maj({ soutenements: s.length ? s : undefined })} t={t} />
                 <fieldset className="rounded-xl border border-slate-200 p-4">
                   <legend className="px-1 text-sm font-semibold text-slate-800">{t("sousSol")}</legend>
                   <Bascule label={t("sousSol")} actif={!!projet.sousSol} onChange={(on) => maj({ sousSol: on ? { profondeur: 2.8 } : null, nappe: on ? projet.nappe : false })} />
@@ -360,6 +379,12 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
 
       {/* ── Détail ── */}
       <div className="mt-8 grid gap-6 print:hidden">
+        <Section titre={t("quantitatifGeneral")} action={variante === "cc" ? (
+          <button type="button" onClick={() => ouvrirCps(res)} className="min-h-[40px] whitespace-nowrap rounded-lg bg-[#0B1B3A] px-3 text-sm font-semibold text-white">{t("genererCps")}</button>
+        ) : undefined}>
+          <QuantitatifGeneral res={res} />
+        </Section>
+
         <Section titre={t("parLot")}>
           <BarresLots res={res} />
         </Section>
@@ -472,6 +497,82 @@ function Segments<V extends string | number>({ valeur, options, onChange, grille
           {o.l}
         </button>
       ))}
+    </div>
+  );
+}
+
+/** CPS type + quantitatif + BPDE dans un nouvel onglet imprimable (gabarits chargés à la demande). */
+async function ouvrirCps(res: Resultat) {
+  const w = window.open("", "_blank");
+  if (!w) return;
+  w.document.write("<p style=\"font-family:sans-serif;padding:24px\">Génération du CPS…</p>");
+  const { genererCps, documentHtml } = await import("../../domain/cps");
+  const p = res.input;
+  const nom = `${p.type === "VILLA" ? "Villa" : p.type === "MAISON" ? "Maison" : "Immeuble"} ${p.niveaux === 1 ? "RDC" : `R+${p.niveaux - 1}`}${res.geometrie.surfaceSousSol ? " + sous-sol" : ""}${p.surfaceTerrain ? ` — terrain ${Math.round(p.surfaceTerrain)} m²` : ""}`;
+  const doc = genererCps(res, { nomProjet: nom, commune: p.ville || undefined });
+  w.document.open();
+  w.document.write(documentHtml(`CPS — ${nom}`, doc.markdown));
+  w.document.close();
+}
+
+function Soutenements({ valeur, onChange, profondeurSousSol, t }: { valeur: Soutenement[]; onChange: (s: Soutenement[]) => void; profondeurSousSol?: number; t: T }) {
+  const maj = (i: number, patch: Partial<Soutenement>) => onChange(valeur.map((s, k) => (k === i ? { ...s, ...patch } : s)));
+  return (
+    <fieldset className="rounded-xl border border-slate-200 p-4">
+      <legend className="px-1 text-sm font-semibold text-slate-800">{t("soutenements")}</legend>
+      <p className="mb-3 text-xs text-slate-500">{t("soutenementsAide")}</p>
+      <div className="grid gap-3">
+        {valeur.map((s, i) => (
+          <div key={i} className="grid grid-cols-2 items-end gap-2 rounded-lg bg-slate-50 p-2 sm:grid-cols-[1.6fr_1fr_1fr_1fr_auto]">
+            <label className="col-span-2 text-xs text-slate-600 sm:col-span-1">{t("emplacement")}
+              <select className={INPUT} value={s.emplacement} onChange={(e) => maj(i, { emplacement: e.target.value as EmplacementSoutenement })}>
+                {(Object.keys(LIBELLE_SOUTENEMENT) as EmplacementSoutenement[]).map((k) => <option key={k} value={k}>{LIBELLE_SOUTENEMENT[k]}</option>)}
+              </select>
+            </label>
+            <label className="text-xs text-slate-600">{t("longueur")} (ml)
+              <input type="number" min={0} step={0.5} className={INPUT} value={s.longueur || ""} onChange={(e) => maj(i, { longueur: Number(e.target.value) || 0 })} />
+            </label>
+            <label className="text-xs text-slate-600">{t("hauteur")} (m)
+              <input type="number" min={0} step={0.1} className={INPUT} placeholder={s.emplacement === "COUR_ANGLAISE" ? String(profondeurSousSol ?? 2.8) : "1.5"} value={s.hauteur ?? ""} onChange={(e) => maj(i, { hauteur: e.target.value === "" ? undefined : Number(e.target.value) })} />
+            </label>
+            {s.emplacement === "COUR_ANGLAISE" ? (
+              <label className="text-xs text-slate-600">{t("largeur")} (m)
+                <input type="number" min={0.8} step={0.1} className={INPUT} placeholder="1.5" value={s.largeur ?? ""} onChange={(e) => maj(i, { largeur: e.target.value === "" ? undefined : Number(e.target.value) })} />
+              </label>
+            ) : <span className="hidden sm:block" />}
+            <button type="button" style={LIEN} onClick={() => onChange(valeur.filter((_, k) => k !== i))} className="min-h-[44px] px-2 text-sm font-semibold text-red-700 underline">{t("supprimer")}</button>
+          </div>
+        ))}
+      </div>
+      <button type="button" onClick={() => onChange([...valeur, { emplacement: profondeurSousSol ? "COUR_ANGLAISE" : "JARDIN", longueur: 10 }])}
+        className="mt-3 min-h-[44px] rounded-lg border border-dashed border-slate-400 px-4 text-sm font-semibold text-[#0B1B3A]">+ {t("ajouterSoutenement")}</button>
+    </fieldset>
+  );
+}
+
+function QuantitatifGeneral({ res }: { res: Resultat }) {
+  const q = useMemo(() => quantitatif(res), [res]);
+  return (
+    <div className="grid gap-4">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[480px] text-sm">
+          <thead className="text-left text-xs uppercase tracking-wide text-slate-500"><tr><th className="py-2">Famille</th><th className="py-2 text-right">Montant HT</th><th className="py-2 text-right">DH HT/m²</th><th className="py-2 text-right">Part</th></tr></thead>
+          <tbody>
+            {q.general.map((g) => (
+              <tr key={g.famille} className="border-t border-slate-100"><td className="py-2 pr-2">{g.libelle}</td><td className="py-2 text-right tabular-nums">{fmtDH(g.montantHT)}</td><td className="py-2 text-right tabular-nums">{Math.round(g.dhM2).toLocaleString("fr-FR")}</td><td className="py-2 text-right tabular-nums">{pct(g.part)}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <ul className="grid list-none gap-1 p-0 text-sm text-slate-700 sm:grid-cols-2">
+        <li>Fondations (semelles, longrines, amorces) : <b>{Math.round(q.ratios.fondationsStrictesDhM2Emprise).toLocaleString("fr-FR")} DH/m² d'emprise</b></li>
+        <li>Gros œuvre strict (structure + murs) : <b>{Math.round(q.ratios.grosOeuvreStrictDhM2).toLocaleString("fr-FR")} DH/m²</b></li>
+        <li>Dallage et hérisson : {Math.round(q.ratios.dallageDhM2).toLocaleString("fr-FR")} DH/m²</li>
+        <li>Cloisons, enduits, chapes : {Math.round(q.ratios.cloisonsEnduitsChapesDhM2).toLocaleString("fr-FR")} DH/m²</li>
+        {q.ratios.soutenementsHT > 0 && <li>Soutènements : {fmtDH(q.ratios.soutenementsHT)} HT</li>}
+        <li>Béton {dec(q.ratios.betonM3ParM2)} m³/m² · acier {dec(q.ratios.acierKgParM2, 1)} kg/m²</li>
+      </ul>
+      <p className="text-xs text-slate-500">Matériaux principaux : {q.materiaux.filter((m) => /BPE_B25|BPE_B30|ACIER_HA|CIMENT|AGGLO20|HOURDIS/.test(m.id)).map((m) => `${m.libelle.split(" (")[0]} ${Math.round(m.quantite).toLocaleString("fr-FR")} ${m.unite}`).join(" · ")}. Main-d'œuvre : {q.mainOeuvre.slice(0, 3).map((m) => `${m.libelle.split(" (")[0].toLowerCase()} ${Math.round(m.jours)} j`).join(", ")}.</p>
     </div>
   );
 }
