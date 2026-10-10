@@ -2501,7 +2501,7 @@ Les quantités suivantes résultent de ratios et ne valent pas dimensionnement. 
 
 ## ANNEXE 4 — COMPOSITION DES PRIX
 
-Les prix unitaires du BPDE sont établis à partir du déboursé sec (matériaux, main-d'œuvre charges sociales comprises, petit matériel) multiplié par un coefficient de vente de 1,380 (frais de chantier 10 %, frais généraux 12 %, aléas et bénéfice 12 %, appliqués en cascade). Les ouvrages sous-traités fournis-posés portent un coefficient réduit, le prix du sous-traitant contenant déjà sa marge.
+Les prix unitaires du BPDE sont établis à partir du déboursé sec (matériaux, main-d'œuvre charges sociales comprises, petit matériel) multiplié par un coefficient de vente de 1,380 (frais de chantier 10 %, frais généraux 12 %, aléas et bénéfice 12 %, appliqués en cascade). Ces taux sont des majorations du coût de revient, et non des taux de marge sur le prix de vente : 12 % d'aléas et bénéfice ajoutés au coût correspondent à environ 10,7 % du prix de vente. Les ouvrages sous-traités fournis-posés portent un coefficient réduit, le prix du sous-traitant contenant déjà sa marge.
 
 Affectation des dépenses entre les prix unitaires et le forfait d'installation 00.01 :
 

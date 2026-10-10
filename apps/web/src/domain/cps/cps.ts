@@ -285,7 +285,7 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   // Composition des prix : affectation des dépenses PU / forfait 00.01 (contre-examen, point 5).
   p("## ANNEXE 4 — COMPOSITION DES PRIX");
   p();
-  p(`Les prix unitaires du BPDE sont établis à partir du déboursé sec (matériaux, main-d'œuvre charges sociales comprises, petit matériel) multiplié par un coefficient de vente de ${((1 + COEF_K.fraisChantier) * (1 + COEF_K.fraisGeneraux) * (1 + COEF_K.aleasBenefice)).toFixed(3).replace(".", ",")} (frais de chantier ${COEF_K.fraisChantier * 100} %, frais généraux ${COEF_K.fraisGeneraux * 100} %, aléas et bénéfice ${COEF_K.aleasBenefice * 100} %, appliqués en cascade). Les ouvrages sous-traités fournis-posés portent un coefficient réduit, le prix du sous-traitant contenant déjà sa marge.`);
+  p(`Les prix unitaires du BPDE sont établis à partir du déboursé sec (matériaux, main-d'œuvre charges sociales comprises, petit matériel) multiplié par un coefficient de vente de ${((1 + COEF_K.fraisChantier) * (1 + COEF_K.fraisGeneraux) * (1 + COEF_K.aleasBenefice)).toFixed(3).replace(".", ",")} (frais de chantier ${COEF_K.fraisChantier * 100} %, frais généraux ${COEF_K.fraisGeneraux * 100} %, aléas et bénéfice ${COEF_K.aleasBenefice * 100} %, appliqués en cascade). Ces taux sont des majorations du coût de revient, et non des taux de marge sur le prix de vente : 12 % d'aléas et bénéfice ajoutés au coût correspondent à environ 10,7 % du prix de vente. Les ouvrages sous-traités fournis-posés portent un coefficient réduit, le prix du sous-traitant contenant déjà sa marge.`);
   p();
   p("Affectation des dépenses entre les prix unitaires et le forfait d'installation 00.01 :");
   p();

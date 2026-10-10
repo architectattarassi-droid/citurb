@@ -343,7 +343,11 @@ Moteur calculé **sans sous-sol** (la recherche est hors sous-sol), en DH HT/m²
 
 - Grille CITURBAREA 2026 (Moyen standing) : 4 194 DH/m² base RSK pour 4000–5200 → dans la fourchette.
 - Part du gros œuvre : 58 % (repères EnginLoc : 55-60 % économique, 45-50 % standard).
-- Prix d'ouvrage recoupés avec les prix posés du marché (règle ±20 %) : 18/19.
+- Prix d'ouvrage recoupés avec les prix posés du marché (règle ±20 %) : 22/23.
+  - ✓ Fouilles en rigole (m³) : 114 contre 80–150 (GO-021)
+  - ✓ Évacuation des déblais, transport inclus (m³) : 101 contre 60–180 (GO-023) — Distance de décharge non précisée par la source
+  - ✓ Remblai compacté en réemploi (m³) : 48 contre 50–80 (GO-024)
+  - ✓ Dalle pleine complète 16 cm (m²) : 674 contre 480–810 (PL-003) — PU au m³ (béton, acier, coffrage) × 0,16 m ; la source donne un prix au m² de dalle
   - ✓ Maçonnerie d'agglos de 20 posée (m²) : 244 contre 180–250 (op-lechantier-agglo20)
   - ✓ Plancher hourdis complet (m²) : 449 contre 350–545 (op-lechantier-dalle-hourdis)
   - ✓ Toiture-terrasse hourdis + forme + enduit sous face (m²) : 626 contre 600–600 (obs-tet20-toiture-12-4) — Observatoire de Tétouan 2020, non revalorisé

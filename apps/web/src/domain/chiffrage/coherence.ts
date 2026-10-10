@@ -47,6 +47,11 @@ type Ref = { code: string; libelle: string; prix: () => number; ref: [number, nu
 const pu = (code: string) => prixOuvrage(code).pu;
 
 const REFERENCES: Ref[] = [
+  // Repères LeChantier GO 04/2026 repris par l'audit économique GPT du 10/10/2026.
+  { code: "TER.03", libelle: "Fouilles en rigole (m³)", prix: () => pu("TER.03"), ref: [80, 150], ids: ["GO-021"], fichier: "gros-oeuvre-soutenement-cps" },
+  { code: "TER.05", libelle: "Évacuation des déblais, transport inclus (m³)", prix: () => pu("TER.05"), ref: [60, 180], ids: ["GO-023"], fichier: "gros-oeuvre-soutenement-cps", note: "Distance de décharge non précisée par la source" },
+  { code: "TER.07", libelle: "Remblai compacté en réemploi (m³)", prix: () => pu("TER.07"), ref: [50, 80], ids: ["GO-024"], fichier: "gros-oeuvre-soutenement-cps" },
+  { code: "STR.05", libelle: "Dalle pleine complète 16 cm (m²)", prix: () => pu("STR.05") * 0.16, ref: [480, 810], ids: ["PL-003"], fichier: "gros-oeuvre-soutenement-cps", note: "PU au m³ (béton, acier, coffrage) × 0,16 m ; la source donne un prix au m² de dalle" },
   { code: "MAC.01", libelle: "Maçonnerie d'agglos de 20 posée (m²)", prix: () => pu("MAC.01"), ref: [180, 250], ids: ["op-lechantier-agglo20"], fichier: "marche-prive-main-oeuvre" },
   { code: "STR.03", libelle: "Plancher hourdis complet (m²)", prix: () => pu("STR.03"), ref: [350, 545], ids: ["op-lechantier-dalle-hourdis"], fichier: "marche-prive-main-oeuvre" },
   { code: "STR.03+ETA.01+MAC.06", libelle: "Toiture-terrasse hourdis + forme + enduit sous face (m²)", prix: () => pu("STR.03") + pu("ETA.01") + pu("MAC.06"), ref: [600, 600], ids: ["obs-tet20-toiture-12-4"], fichier: "marches-publics", note: "Observatoire de Tétouan 2020, non revalorisé" },
