@@ -8,12 +8,32 @@
 | Commune | Salé |
 | Nature des travaux | Construction d'une villa, tous corps d'état (17 lots) |
 | Surface de plancher | 376,8 m² (emprise 117,6 m², sous-sol 117,6 m²) |
-| Montant estimatif | 1 708 493 DH HT — 2 050 191 DH TTC |
+| Montant estimatif | 1 708 506,29 DH HT — 2 050 207,55 DH TTC |
 | Forme du prix | prix unitaires du bordereau des prix, appliqués aux quantités réellement exécutées et constatées contradictoirement |
 | Délai d'exécution | 365 jours calendaires |
 | Date | 10/10/2026 |
 
-> Document type généré par CITURBAREA à partir du chiffrage lot par lot. Les mentions « [à compléter] » doivent être renseignées avant signature ; les quantités sont estimatives (métré paramétrique) et doivent être confirmées sur les plans d'exécution.
+> **Statut : document de consultation — estimation paramétrique NON CONTRACTUELLE.** Généré par CITURBAREA à partir du chiffrage lot par lot. Il ne peut être signé qu'après la levée des conditions ci-dessous.
+
+**Conditions de levée avant signature :**
+
+1. quantités de fondations, voiles, planchers et soutènements remplacées par celles de la note de calcul et des plans d'exécution du BET ;
+2. étude géotechnique réalisée (contrainte admissible, nappe, poussées) et blindages / avoisinants validés ;
+3. tableau des menuiseries, plans de plomberie, d'électricité, de mise à la terre et de courants faibles établis ;
+4. mentions « [à compléter] » renseignées (maître d'ouvrage, coefficient sismique…) ;
+5. clauses administratives relues par le conseil juridique du maître d'ouvrage ;
+6. offres d'entreprises recueillies et comparées au BPDE.
+
+**Arbitrages contractuels retenus** (modifiables avant signature) :
+
+| Sujet | Choix retenu |
+|:--|:--|
+| Caractère des prix | fermes et non révisables |
+| Forme des prix | prix unitaires ; postes « ff » forfaitaires |
+| Règlement des litiges | juridictions compétentes du lieu des travaux |
+| Assurances TRC et RCD | exigées contractuellement (ouvrage non assujetti à l'obligation légale) |
+| Délai de paiement des situations | 30 jours |
+| Plafond des pénalités de retard | 8 % du montant initial HT |
 
 ## TITRE I — CLAUSES ADMINISTRATIVES
 
@@ -30,11 +50,13 @@ Par ordre de priorité décroissante :
 4. les plans architecturaux et d'exécution (BET) visés « bon pour exécution » ;
 5. le rapport d'étude géotechnique ;
 6. le planning d'exécution approuvé ;
-7. les normes marocaines (NM) et le Règlement de construction parasismique (RPS 2000 version 2011) et le Règlement thermique de construction au Maroc (RTCM) en vigueur.
+7. les normes marocaines (NM), le Règlement de construction parasismique (RPS 2000, version 2011) et le Règlement thermique de construction au Maroc (RTCM) en vigueur ; les DTU et normes étrangères cités aux prescriptions techniques ne valent que comme règles de l'art de référence, à défaut de norme marocaine équivalente.
+
+En cas de discordance entre les quantités du BPDE et les plans d'exécution visés, les plans prévalent pour la consistance des ouvrages ; les prix unitaires du BPDE s'appliquent aux quantités réellement exécutées conformément à ces plans.
 
 ### Article A.3 — Valeurs contractuelles arrêtées
 
-Les valeurs ci-dessous, reprises du CCAG-Travaux (décret n° 2-14-394) à titre de référence pour le présent marché privé, priment sur toute fourchette mentionnée dans les articles suivants :
+Le CCAG-Travaux (décret n° 2-14-394) ne s'applique pas de plein droit au présent marché privé. Les parties conviennent des valeurs ci-dessous, dont certaines s'inspirent de ce texte à titre de référence ; elles priment sur toute autre mention du présent CPS :
 
 | Clause | Valeur retenue | Référence |
 |:--|:--|:--|
@@ -48,23 +70,25 @@ Les valeurs ci-dessous, reprises du CCAG-Travaux (décret n° 2-14-394) à titre
 | Acomptes sur approvisionnements | 4/5 de la valeur des matériaux approvisionnés | CCAG-T |
 | Délai d'exécution | 365 jours calendaires à compter de l'ordre de service | présent CPS |
 
-### Article A.4 — Garantie décennale
+### Article A.4 — Responsabilité décennale des constructeurs
 
-Conformément à l'**article 769 du Dahir formant Code des Obligations et Contrats (DOC)**, l'architecte, l'entrepreneur et le bureau d'études techniques sont solidairement responsables pendant **dix (10) ans** à compter de la réception définitive de l'ouvrage, des dommages — même résultant d'un vice du sol — qui compromettent la solidité de l'ouvrage ou de l'un de ses éléments constitutifs ou d'équipement le rendant impropre à sa destination.
+La responsabilité décennale des constructeurs (architecte, ingénieurs, entrepreneur) est régie par les dispositions impératives de l'article 769 du Dahir formant Code des obligations et des contrats (DOC), dans sa version applicable.
 
-Cette garantie couvre notamment : effondrement total ou partiel, fissurations structurelles, défauts d'étanchéité affectant la stabilité, désordres rendant l'ouvrage impropre à son usage.
+Elle demeure distincte des garanties contractuelles de parfait achèvement et de bon fonctionnement instituées par le présent marché. Aucune stipulation du marché ne peut avoir pour objet ou pour effet de réduire les droits que le maître d'ouvrage tient de ces dispositions.
 
-Les constructeurs ne peuvent s'exonérer qu'en prouvant la force majeure, la faute du maître d'ouvrage ou le fait d'un tiers.
+Son point de départ et ses conditions de mise en œuvre sont ceux prévus par la loi, sans préjudice des stipulations relatives aux opérations de réception et à leur constatation contradictoire.
 
-*Fondement : DOC art. 769.*
+*Fondement : DOC, art. 769.*
 
-### Article A.5 — Délai d'action et forclusion de la garantie décennale
+### Article A.5 — Signalement des désordres et exercice des recours
 
-Conformément à l'**article 770 du DOC**, l'action en garantie décennale (et en garantie de parfait achèvement) doit être intentée dans un **délai de trente (30) jours** à compter du jour où le maître d'ouvrage a eu connaissance du dommage ou du vice. Passé ce délai, l'action est **forclose**.
+Tout désordre constaté par le maître d'ouvrage est signalé par écrit à l'entrepreneur et aux intervenants concernés, avec la description de sa nature et, si possible, un constat photographique ou technique.
 
-Le maître d'ouvrage notifiera donc tout désordre par procès-verbal contradictoire ou lettre recommandée avec accusé de réception **sans délai** dès sa constatation, afin de préserver ses droits. La date de découverte du désordre fait courir le délai de forclusion.
+Les délais d'action relatifs à la responsabilité décennale sont ceux prévus par l'article 769 du DOC. Le présent article ne crée aucun délai de forclusion et ne modifie pas les délais légaux impératifs.
 
-*Fondement : DOC art. 770 (forclusion 30 jours).*
+En cas de désordre grave ou présentant un danger, le maître d'ouvrage peut prendre immédiatement les mesures conservatoires nécessaires, en informant les intervenants concernés.
+
+*Fondement : DOC, art. 769 ; stipulation contractuelle.*
 
 ### Article A.6 — Garantie de parfait achèvement (1 an)
 
@@ -76,33 +100,25 @@ Fondement : CCAG-Travaux et pratique contractuelle marocaine ; articulation avec
 
 *Fondement : CCAG-Travaux + pratique contractuelle (1 an) ; DOC art. 769-770.*
 
-### Article A.7 — Garantie biennale de bon fonctionnement (2 ans)
+### Article A.7 — Garantie contractuelle de bon fonctionnement (2 ans)
 
-Les **éléments d'équipement dissociables** du corps de l'ouvrage (appareils sanitaires, robinetterie, équipements de chauffage/climatisation amovibles, ascenseurs au titre de leur fonctionnement, menuiseries démontables, etc.) bénéficient d'une **garantie biennale de bon fonctionnement de deux (2) ans** à compter de la réception.
+Les éléments d'équipement dissociables du gros œuvre (appareils sanitaires, robinetterie, appareillage électrique, équipements de climatisation, menuiseries et quincaillerie, volets) bénéficient d'une garantie contractuelle de bon fonctionnement de deux (2) ans à compter de la réception provisoire. L'entrepreneur répare ou remplace à ses frais tout élément qui cesse de fonctionner normalement pendant ce délai, hors usure normale et défaut d'entretien.
 
-Cette garantie est rattachée principalement à la **loi 44-00 relative à la vente d'immeubles en l'état futur d'achèvement (VEFA)** et à la pratique contractuelle ; elle **ne repose pas sur un article autonome du DOC**. L'entrepreneur ou le promoteur remplace ou répare gratuitement tout élément d'équipement qui cesse de fonctionner correctement pendant ce délai.
+*Fondement : Stipulation contractuelle (la garantie biennale de la loi 44-00 vise la vente en l'état futur d'achèvement).*
 
-*Fondement : Loi 44-00 (VEFA) + pratique contractuelle — PAS d'article DOC autonome.*
+### Article A.8 — Assurance Tous Risques Chantier
 
-### Article A.8 — Assurance Tous Risques Chantier (TRC) obligatoire
+L'obligation légale d'assurance Tous Risques Chantier (loi 59-13 et arrêtés d'application en vigueur depuis le 30 décembre 2024) vise, pour l'habitat, les bâtiments de plus de trois étages ou de plus de 800 m². Le présent ouvrage n'y étant pas assujetti au vu de ses caractéristiques, les parties conviennent expressément de la souscrire à titre contractuel, en raison notamment du sous-sol, des soutènements et de la mitoyenneté.
 
-La souscription d'une **assurance Tous Risques Chantier (TRC)** est **obligatoire** en application de la **loi 59-13 modifiant et complétant le Code des assurances (loi 17-99)**, entrée en vigueur en 2025 sous la supervision de l'**ACAPS**.
+Le maître d'ouvrage souscrit une police TRC couvrant l'ouvrage pour le montant des travaux, la responsabilité civile envers les tiers et les avoisinants, pour toute la durée du chantier. Franchises, plafonds et exclusions sont précisés aux conditions particulières ; l'attestation est remise avant l'ordre de service de commencer.
 
-Elle est exigée pour tout ouvrage dépassant les seuils réglementaires : **plus de trois (3) étages** OU surface de plancher **supérieure à 800 m²**.
+*Fondement : Loi 59-13 (Code des assurances) et arrêtés du 30/12/2024 ; stipulation contractuelle.*
 
-La TRC couvre les dommages matériels affectant l'ouvrage en cours de construction (effondrement, incendie, dégâts des eaux, événements naturels). **La présentation de l'attestation TRC conditionne la délivrance du permis de construire.** L'attestation, mentionnant le montant des travaux assurés et la période de couverture, est remise au maître d'ouvrage avant ouverture du chantier.
+### Article A.9 — Assurance de responsabilité civile décennale
 
-*Fondement : Loi 59-13 (modif. Code des assurances 17-99), en vigueur 2025, supervision ACAPS — TRC conditionne le permis de construire ; seuils >3 étages ou >800 m².*
+L'entrepreneur, ainsi que l'architecte et les bureaux d'études intervenants, justifient avant l'ordre de service de commencer d'une assurance de responsabilité civile décennale couvrant les ouvrages du présent marché, exigée à titre contractuel (l'obligation légale ne visant que les bâtiments résidentiels de plus de trois étages ou de plus de 800 m²). L'absence d'assujettissement légal ne supprime pas la responsabilité décennale prévue par le DOC.
 
-### Article A.9 — Assurance Responsabilité Civile Décennale (RCD) obligatoire
-
-La souscription d'une **assurance Responsabilité Civile Décennale (RCD)** est **obligatoire** en application de la **loi 59-13 modifiant et complétant le Code des assurances (loi 17-99)**, en vigueur en 2025, sous supervision **ACAPS**.
-
-Elle couvre la responsabilité décennale des constructeurs (entrepreneur, architecte, BET) au titre de l'article 769 du DOC, pour les mêmes seuils que la TRC (**plus de 3 étages OU > 800 m²**).
-
-**La présentation de l'attestation RCD conditionne la délivrance du permis d'habiter.** Chaque intervenant produit son attestation RCD nominative, en cours de validité, avant la réception, mentionnant l'ouvrage assuré et le montant de garantie.
-
-*Fondement : Loi 59-13 (modif. Code des assurances 17-99), en vigueur 2025, supervision ACAPS — RCD conditionne le permis d'habiter ; seuils >3 étages ou >800 m².*
+*Fondement : Loi 59-13 et arrêtés du 30/12/2024 ; DOC, art. 769 ; stipulation contractuelle.*
 
 ### Article A.10 — Responsabilité civile professionnelle de l'architecte
 
@@ -112,15 +128,13 @@ L'attestation RC professionnelle, en cours de validité et au nom de l'architect
 
 *Fondement : Loi 016-89 art. 26 (RC professionnelle architecte).*
 
-### Article A.11 — Délais de paiement et intérêts de retard
+### Article A.11 — Situations, délais de paiement et intérêts de retard
 
-Les délais de paiement sont régis par la **loi 32-10**, complétée par la **loi 49-15** et par la **loi 69-21 sur les délais de paiement**. Le délai de paiement convenu ne peut excéder **soixante (60) jours** à compter de la date de réception de la facture ; il peut être porté contractuellement à **quatre-vingt-dix (90) jours** dans les conditions prévues par la loi.
+Les situations de travaux sont établies mensuellement par l'entrepreneur, vérifiées par le maître d'œuvre et réglées par le maître d'ouvrage dans un délai de 30 jours à compter de leur réception vérifiée.
 
-Tout retard de paiement entraîne, de plein droit et sans mise en demeure, l'application d'**intérêts de retard** calculés sur la base du **taux directeur de Bank Al-Maghrib majoré de 0,85 % par mois** de retard, outre une indemnité forfaitaire de recouvrement le cas échéant.
+Tout retard de paiement imputable au maître d'ouvrage ouvre droit, après mise en demeure, à des intérêts de retard au taux convenu aux conditions particulières. Lorsque le maître d'ouvrage agit en qualité de professionnel, les dispositions légales impératives relatives aux délais de paiement entre commerçants (loi 69-21) s'appliquent ; leur applicabilité est vérifiée lors de la mise au point du marché.
 
-Les situations de travaux sont établies mensuellement, vérifiées par le maître d'œuvre, et payées dans les délais ci-dessus.
-
-*Fondement : Lois 32-10 + 49-15 + 69-21 (délais 60–90 j ; intérêts = taux directeur BAM + 0,85 %/mois).*
+*Fondement : Stipulation contractuelle ; loi 69-21 sous réserve de son champ d'application.*
 
 ### Article A.12 — Avance, acomptes et situations de travaux
 
@@ -140,11 +154,11 @@ Le planning détaillé (chemin critique, jalons, plannings par lot) est soumis a
 
 ### Article A.14 — Pénalités de retard
 
-En cas de dépassement du délai contractuel d'exécution, l'entrepreneur encourt, **sans mise en demeure préalable**, des **pénalités de retard** au taux de **un pour mille (1‰) du montant du marché par jour calendaire de retard**, conformément au CCAG-Travaux.
+Sauf prolongation de délai régulièrement accordée, tout retard imputable à l'entrepreneur dans l'achèvement des travaux donne lieu à une pénalité égale à un pour mille (1 ‰) du montant initial HT du marché par jour calendaire de retard.
 
-Le **montant cumulé des pénalités est plafonné** à environ **huit à dix pour cent (8 à 10 %) du montant du marché**. Les pénalités sont déduites d'office des acomptes ou du décompte définitif, ou prélevées sur la retenue de garantie / le cautionnement. L'application des pénalités ne libère pas l'entrepreneur de ses autres obligations contractuelles.
+Le montant cumulé des pénalités de retard est plafonné à huit pour cent (8 %) du montant initial HT du marché. Les retards résultant d'une décision du maître d'ouvrage, d'une suspension ordonnée ou d'un événement ouvrant droit à prolongation sont examinés contradictoirement avant toute application de pénalité.
 
-*Fondement : CCAG-Travaux : pénalités 1‰/jour, plafond ~8-10 %.*
+*Fondement : Stipulation contractuelle (valeurs reprises du CCAG-Travaux, art. 65, à titre de référence).*
 
 ### Article A.15 — Retenue de garantie
 
@@ -162,33 +176,25 @@ Le cautionnement définitif garantit la bonne exécution du marché. Il est **re
 
 *Fondement : CCAG-Travaux + pratique des marchés (cautionnement définitif 3 %).*
 
-### Article A.17 — Révision des prix (index BTP/TP)
+### Article A.17 — Caractère des prix
 
-Lorsque le marché est conclu à **prix révisables**, la révision s'opère par application d'une **formule paramétrique** fondée sur les **index officiels marocains des prix des travaux publics et du bâtiment (index TP/BTP)** publiés par l'administration.
+Les prix du marché sont fermes et non révisables pendant toute la durée contractuelle d'exécution. Seules les modifications de prestations acceptées par écrit (article « Nature et règlement des prix ») peuvent faire varier le montant du marché.
 
-La formule type est de la forme :
+*Fondement : Stipulation contractuelle.*
 
-`P = P0 × (a + b × I/I0 + c × A/A0 + …)`
+### Article A.18 — Réceptions
 
-où `P0` est le prix initial, `a` la partie fixe (non révisable), `I`, `A`, … les valeurs des index (matériaux, salaires, énergie) à la date de révision, et `I0`, `A0`, … leurs valeurs à la date de référence du marché. La somme des coefficients (a + b + c + …) est égale à 1. La révision est appliquée à chaque situation selon les index publiés à la date de réalisation des travaux.
+La réception provisoire est prononcée par procès-verbal contradictoire après achèvement des travaux, essais et vérifications ; les réserves y sont consignées avec leur délai de levée. Elle fait courir la garantie de parfait achèvement (1 an) et la garantie contractuelle de bon fonctionnement (2 ans), et transfère la garde de l'ouvrage.
 
-*Fondement : Révision des prix par formule sur index TP/BTP marocains (réglementation marchés + pratique).*
+La réception définitive est prononcée par procès-verbal contradictoire à l'expiration du délai de parfait achèvement et après levée de toutes les réserves ; elle conditionne la libération de la retenue de garantie et du cautionnement. Aucune réception ne vaut renonciation aux droits que le maître d'ouvrage tient de l'article 769 du DOC.
 
-### Article A.18 — Réception provisoire et réception définitive
-
-La **réception provisoire** est prononcée par procès-verbal contradictoire après achèvement des travaux et exécution des essais et vérifications. Elle marque le **point de départ des garanties** (parfait achèvement, biennale, décennale) et le transfert de la garde de l'ouvrage. Les réserves éventuelles sont consignées au PV avec un délai de levée.
-
-La **réception définitive** est prononcée à l'expiration de la **garantie de parfait achèvement (1 an)** et après **levée intégrale des réserves**, par PV contradictoire. Elle conditionne la **libération de la retenue de garantie / du cautionnement définitif**. Aucune réception ne vaut renonciation aux garanties légales (DOC art. 769-770).
-
-*Fondement : CCAG-Travaux + DOC art. 769-770 (point de départ des garanties).*
+*Fondement : Stipulation contractuelle ; DOC, art. 769.*
 
 ### Article A.19 — Résiliation du marché
 
-Le marché peut être **résilié** dans les cas suivants : manquement grave de l'entrepreneur à ses obligations après mise en demeure restée infructueuse, abandon de chantier, défaut de souscription des assurances obligatoires (TRC/RCD), retard excédant le plafond des pénalités, liquidation judiciaire, ou force majeure rendant l'exécution durablement impossible.
+Le marché peut être résilié par le maître d'ouvrage, après mise en demeure restée sans effet dans le délai qu'elle fixe, en cas de manquement grave de l'entrepreneur à ses obligations, d'abandon de chantier, de défaut de production des attestations d'assurance exigées par le marché, de retard atteignant le plafond des pénalités ou d'ouverture d'une procédure collective dans les conditions légales. La résiliation donne lieu à un constat contradictoire des travaux exécutés et à un décompte ; les travaux restants peuvent être confiés à un tiers aux frais et risques de l'entrepreneur défaillant.
 
-La résiliation est prononcée **après mise en demeure** par lettre recommandée avec AR, assortie d'un délai. Elle donne lieu à un **constat contradictoire** des travaux exécutés, à un décompte de résiliation, et le cas échéant à l'exécution des travaux par un tiers **aux frais et risques** de l'entrepreneur défaillant. La résiliation aux torts de l'entrepreneur entraîne la confiscation des garanties dans les conditions légales.
-
-*Fondement : CCAG-Travaux + DOC (résolution pour inexécution) + pratique contractuelle.*
+*Fondement : DOC (résolution pour inexécution) ; stipulation contractuelle.*
 
 ### Article A.20 — Force majeure
 
@@ -202,11 +208,9 @@ La partie affectée notifie l'événement à l'autre partie **sans délai** par 
 
 ### Article A.21 — Sous-traitance
 
-La sous-traitance de tout ou partie des travaux est soumise à l'**agrément écrit préalable du maître d'ouvrage / maître d'œuvre**. L'entrepreneur principal demeure **seul et entièrement responsable** vis-à-vis du maître d'ouvrage de l'exécution de l'ensemble des travaux, y compris ceux confiés à ses sous-traitants.
+Toute sous-traitance est subordonnée à l'information préalable et à l'acceptation écrite du maître d'ouvrage, sur proposition indiquant l'identité, les qualifications et les assurances du sous-traitant ainsi que les ouvrages concernés. L'entrepreneur principal demeure seul responsable envers le maître d'ouvrage de l'exécution de l'ensemble des travaux ; les sous-traitants sont payés par lui, sauf stipulation contraire écrite.
 
-En droit privé marocain, il n'existe **pas de paiement direct** du sous-traitant par le maître d'ouvrage : le sous-traitant est payé par l'entrepreneur principal. Le sous-traitant agréé doit justifier des qualifications et assurances requises pour les ouvrages qui lui sont confiés.
-
-*Fondement : DOC + décret 2-22-431 relatif aux marchés publics.*
+*Fondement : DOC ; stipulation contractuelle.*
 
 ### Article A.22 — Protection des données personnelles (CNDP)
 
@@ -216,29 +220,27 @@ Les parties s'engagent à : déclarer/obtenir l'autorisation des traitements con
 
 *Fondement : Loi 09-08 (CNDP), sanctions jusqu'à 300 000 MAD.*
 
-### Article A.23 — Règlement des litiges et droit applicable
+### Article A.23 — Règlement des différends et droit applicable
 
-Tout litige né de l'interprétation ou de l'exécution du présent marché fera l'objet d'une **tentative de règlement amiable** préalable entre les parties, le cas échéant avec l'assistance du maître d'œuvre, dans un délai de **30 jours**.
+Tout différend relatif à l'interprétation ou à l'exécution du marché fait l'objet d'une notification écrite précisant les faits, les demandes et les pièces justificatives. Les parties recherchent une solution amiable dans un délai de 30 jours calendaires à compter de cette notification.
 
-À défaut d'accord amiable, le litige est soumis, au choix retenu au marché : soit aux **tribunaux marocains compétents du lieu d'exécution des travaux**, soit à l'**arbitrage** conformément à la loi 95-17 relative à l'arbitrage et à la médiation conventionnelle. Le **droit marocain** est seul applicable au marché, y compris le Dahir formant Code des Obligations et Contrats.
+À défaut d'accord amiable, le différend relève des juridictions marocaines compétentes du lieu d'exécution des travaux.
 
-*Fondement : DOC + Loi 95-17 (arbitrage et médiation conventionnelle) + compétence territoriale.*
+Le marché est régi par le droit marocain.
 
-### Article A.24 — Forme et caractère des prix
+*Fondement : DOC ; Code de procédure civile.*
 
-Le marché est conclu à **prix prix unitaires du bordereau des prix, appliqués aux quantités réellement exécutées et constatées contradictoirement** (unitaires, forfaitaires ou mixtes). Les prix sont réputés **fermes et non révisables** OU **révisables** selon la mention portée au présent marché.
+### Article A.24 — Nature et règlement des prix
 
-Les prix comprennent toutes les charges et sujétions d'exécution : main-d'œuvre, fournitures, matériels, transports, installation et repli de chantier, frais généraux, aléas, taxes et marge bénéficiaire de l'entrepreneur. Aucun supplément ne sera dû pour des sujétions que l'entrepreneur, en tant que professionnel, aurait dû prévoir. Les prix s'entendent **hors TVA**, la TVA étant facturée au taux légal en vigueur.
+Le marché est conclu à prix unitaires, à l'exception des postes expressément désignés comme forfaitaires (unité « ff ») au bordereau. Les prix unitaires s'appliquent aux quantités réellement exécutées, mesurées et constatées contradictoirement selon les modes de métré annexés.
 
-*Fondement : CCAG-Travaux + pratique contractuelle (forme et caractère des prix).*
+Chaque prix comprend la fourniture, la main-d'œuvre, le matériel, les transports, les pertes, les frais généraux et la marge de l'entrepreneur, à l'exclusion de l'installation, du repli et du nettoyage de chantier, rémunérés uniquement par le poste forfaitaire 00.01. Aucune prestation ne peut être rémunérée deux fois.
 
-### Article A.25 — Assurances
+Tout ouvrage supplémentaire ou toute modification susceptible de faire varier le montant du marché fait l'objet, avant exécution, d'un accord écrit sur son prix et, le cas échéant, sur son incidence sur le délai, sauf mesure conservatoire urgente justifiée. La TVA est appliquée au taux légal en vigueur.
 
-- **TRC** — souscripteur : mo (Loi 59-13 (Code des assurances 17-99) — conditionne le permis de construire).
-- **DECENNALE** — souscripteur : entreprise generale, durée 10 ans (Loi 59-13 (Code des assurances 17-99) + DOC art. 769 — conditionne le permis d'habiter).
-- **RC PRO ARCHITECTE** — souscripteur : architecte (Loi 016-89 art. 26).
+*Fondement : Stipulation contractuelle.*
 
-### Article A.26 — Visas et autorisations
+### Article A.25 — Visas et autorisations
 
 - VISA CROA — phase apd pret depot permis (délai légal 15 jours).
 - Permis de construire et autorisations de voirie : à la charge du maître d'ouvrage avant l'ordre de service de commencement.
@@ -550,7 +552,7 @@ L'entreprise est tenue, conformément aux **articles 769 et 770 du Dahir formant
 - **Garantie biennale** (art. 769 bis DOC) : **2 ans** sur les éléments d'équipement dissociables
 - **Garantie décennale** : **10 ans** sur la solidité de l'ouvrage et des éléments faisant indissociablement corps avec lui, ainsi que sur les défauts compromettant la destination de l'ouvrage
 
-L'entreprise présentera son **attestation d'assurance décennale** souscrite auprès d'une compagnie marocaine agréée ACAPS, montant de garantie ≥ 614 861 DH HT (estimation) MAD, **avant tout démarrage des travaux** sous peine de résiliation aux torts exclusifs.
+L'entreprise présentera son **attestation d'assurance décennale** souscrite auprès d'une compagnie marocaine agréée ACAPS, montant de garantie ≥ 639 542 DH HT (estimation) MAD, **avant tout démarrage des travaux** sous peine de résiliation aux torts exclusifs.
 
 ### Lot 03 — Maçonnerie et enduits
 
@@ -663,7 +665,7 @@ Le présent lot a pour objet la fourniture et la mise en œuvre complète des **
 - la **protection** : lourde par gravillons roulés, dalles sur plots, ou autoprotégée selon destination de la terrasse (inaccessible, technique, accessible) ;
 - tous les ouvrages annexes : entrées d'eaux pluviales (EP), trop-pleins, joints de dilatation, crapaudines.
 
-Le montant des travaux du présent lot est estimé à **78 787 DH HT (estimation) MAD HT**.
+Le montant des travaux du présent lot est estimé à **54 120 DH HT (estimation) MAD HT**.
 
 #### 4.2 — Limites de prestation et documents de référence
 
@@ -738,7 +740,7 @@ Conformément aux **articles 769 et 770 du Dahir formant Code des Obligations et
 - **Garantie biennale — 2 ans** sur les éléments d'équipement dissociables (crapaudines, dispositifs de relevés démontables) ;
 - **Garantie décennale — 10 ans** sur l'étanchéité, l'imperméabilité du complexe garantissant le clos et le couvert de l'ouvrage.
 
-L'entreprise fournira en outre, lorsqu'il est exigé, un **engagement de garantie spécifique du système d'étanchéité** (10 ans) couvrant la fourniture et la pose. Elle présentera, **avant tout démarrage**, son **attestation d'assurance décennale** souscrite auprès d'une compagnie agréée **ACAPS**, montant ≥ **78 787 DH HT (estimation) MAD**, sous peine de résiliation à ses torts exclusifs. Le procès-verbal d'essai de mise en eau et les plans de récolement (DOE) seront remis à la réception.
+L'entreprise fournira en outre, lorsqu'il est exigé, un **engagement de garantie spécifique du système d'étanchéité** (10 ans) couvrant la fourniture et la pose. Elle présentera, **avant tout démarrage**, son **attestation d'assurance décennale** souscrite auprès d'une compagnie agréée **ACAPS**, montant ≥ **54 120 DH HT (estimation) MAD**, sous peine de résiliation à ses torts exclusifs. Le procès-verbal d'essai de mise en eau et les plans de récolement (DOE) seront remis à la réception.
 
 ### Lot 07 — Menuiserie extérieure aluminium — Façades & mur-rideau
 
@@ -2074,7 +2076,7 @@ Surface de référence : 376,8 m² de plancher. Montants HT.
 | Étanchéité et isolation | 55 572 | 147 | 3 % |
 | Second œuvre et finitions | 503 818 | 1 337 | 29 % |
 | Extérieurs, réseaux et options | 125 845 | 334 | 7 % |
-| **Total travaux HT** | **1 708 493** | **4 534** | 100 % |
+| **Total travaux HT** | **1 708 506** | **4 534** | 100 % |
 
 **Ratios de gros œuvre** (à comparer aux repères de praticien) :
 
@@ -2083,87 +2085,89 @@ Surface de référence : 376,8 m² de plancher. Montants HT.
 - Soutènements (sous-sol, cour anglaise, jardin, limite) : 227 339 DH HT.
 - Béton : 0,41 m³/m² ; acier : 26,69 kg/m² de plancher (69 kg/m³ de béton armé).
 
-**Besoins estimés en matériaux principaux** (pertes comprises) :
+Le montant contractuel est celui du Titre IV ; les montants ci-dessus, issus du calcul, peuvent en différer de quelques dirhams d'arrondi.
 
-| Matériau | Quantité | Unité |
-|:--|--:|:--|
-| Acier HA FeE500 (tous diamètres) | 10 055,7 | kg |
-| Agglo creux 10×20×40 | 2 991,45 | u |
-| Agglo creux 15×20×40 | 2 543,76 | u |
-| Agglo creux 20×20×40 | 3 652,95 | u |
-| Alimentation générale : regard compteur, nourrices EF/EC, vannes, réducteur | 1 | ens |
-| Béton prêt à l'emploi B15 (propreté) | 8,22 | m³ |
-| Béton prêt à l'emploi B25 | 113,33 | m³ |
-| Béton prêt à l'emploi B30 (ouvrages enterrés) | 33,17 | m³ |
-| Blindage provisoire de fouille (location + pose) | 32,53 | m² |
-| Bloc-porte complet (porte + huisserie + serrure) | 11 | u |
-| Bois sapin (bastaings, chevrons de coffrage) | 5,14 | m³ |
-| Boîte d'encastrement | 180 | u |
-| Chauffe-eau électrique 100 L | 2 | u |
-| Ciment CPJ 45, sac de 50 kg | 594,58 | sac |
-| Coffret d'abonné encastré 42 modules | 2,2 | u |
-| Contreplaqué CTBX 18 mm (coffrage) | 206,08 | m² |
-| Courants faibles : coffret VDI, RJ45, TV, interphone | 1 | ens |
-| Cuisine aménagée — moyen standing | 1 | ens |
-| Disjoncteur modulaire 1P 16 A | 30 | u |
-| Drain / tube PVC Ø100 | 51,24 | ml |
-| Enduit de lissage / rebouchage | 941,88 | kg |
-| Façade de placard coulissante mélaminée avec aménagement | 8 | ml |
-| Faïence murale 30×60 (négoce) | 86,4 | m² |
-| Fenêtre alu RPT double vitrage 4/16/4 (fourni) | 38,88 | m² |
-| Fil d'attache recuit | 95,77 | kg |
-| Fil H07V-U 1,5 mm² | 1 285,2 | ml |
-| Fil H07V-U 2,5 mm² | 1 921,5 | ml |
-| Gaine ICTA Ø20 | 1 068,9 | ml |
-| Garde-corps inox 304 | 16 | ml |
-| Géotextile non tissé | 390 | m² |
-| Gravier 15/25 rendu chantier | 12,2 | m³ |
-| Grès cérame 45×45 | 111,77 | m² |
-| Grès cérame 60×60 / 60×120 poli | 257,15 | m² |
-| Grille de défense en fer (fenêtres du RDC et du sous-sol), posée | 19,44 | m² |
-| Hourdis béton 16 cm | 2 966,11 | u |
-| Impression / primaire | 147,47 | L |
-| Interrupteur différentiel 2P 40 A | 4 | u |
-| Interrupteur SA/VV avec plaque | 51 | u |
-| Isolant polystyrène expansé PSE 4 cm | 123,48 | m² |
-| Lavabo design | 3 | u |
-| Location mini-pelle avec conducteur (jour) | 16,31 | j |
-| Membrane bitumineuse 3 mm (rouleau 10 m²) | 213,9 | m² |
-| Membrane bitumineuse 4 mm (rouleau 10 m²) | 365,01 | m² |
-| Mitigeur douche | 3 | u |
-| Mitigeur évier | 1 | u |
-| Mitigeur lavabo | 4 | u |
-| Mortier-colle C2 pour carrelage | 1 578,93 | kg |
-| Ossature galvanisée (montant / fourrure) | 194,4 | ml |
-| Pack WC complet éco | 1 | u |
-| Pack WC complet moyen | 3 | u |
-| Paroi de douche à l'italienne 90×200 | 3 | u |
-| Peinture façade vinylique mate (seau 30 kg) | 156,1 | kg |
-| Peinture vinylique intérieure (gamme éco, seau 30 kg) | 97,02 | kg |
-| Peinture vinylique intérieure (gamme moyenne) | 335,66 | kg |
-| Plaque BA13 standard | 81,65 | m² |
-| Plinthe assortie h 7-10 cm | 143,7 | ml |
-| Pompage du béton | 28,82 | m³ |
-| Portail métallique 3,5 m + portillon | 1 | u |
-| Porte d'entrée aluminium pleine | 1 | u |
-| Pose de menuiserie aluminium | 46,91 | m² |
-| Pose garde-corps (MO + ancrage) | 16 | ml |
-| Pose porte intérieure + huisserie | 11 | u |
-| Poutrelle précontrainte | 594,65 | ml |
-| Primaire d'accrochage bitumineux (EIF) | 99,72 | kg |
-| Prise 2P+T avec plaque | 78 | u |
-| Prise de terre (piquets, barrette, câble 25 mm²) | 1 | ens |
-| Raccords, vannes, siphons, flexibles (par appareil) | 20,75 | u |
-| Regard béton 60×60×60 avec tampon fonte (ouvrage) | 3 | u |
-| Sable concassé 0/4 rendu chantier | 93,43 | m³ |
-| Spot LED encastré / plafonnier LED de base | 39 | u |
-| Tout-venant 0/40 rendu chantier | 25,87 | m³ |
-| Transport et mise en décharge des déblais (≤ 10 km) | 467,58 | m³ |
-| Treillis soudé ST25 | 525,23 | m² |
-| Tube PPR PN20 Ø20 | 121,8 | ml |
-| Tube PVC assainissement Ø200 SN4 (négoce) | 28,51 | ml |
-| Tube PVC évacuation Ø40 à Ø100 | 108,15 | ml |
-| Volet roulant aluminium | 11,66 | m² |
+**Besoins estimés en matériaux principaux** (pertes comprises) et postes du BPDE qui les consomment :
+
+| Matériau | Quantité | Unité | Principaux postes consommateurs (quantité) |
+|:--|--:|:--|:--|
+| Acier HA FeE500 (tous diamètres) | 10 055,7 | kg | 2.04-a (3 381,84), 2.04-c (1 740,59), 2.04-b (1 171,17), 2.03-a (899,85) |
+| Agglo creux 10×20×40 | 2 991,45 | u | 3.C3 (2 991,45) |
+| Agglo creux 15×20×40 | 2 543,76 | u | 3.C1 (1 245,3), 3.C2 (914,16), 3.C5 (384,3) |
+| Agglo creux 20×20×40 | 3 652,95 | u | 3.01 (3 652,95) |
+| Alimentation générale : regard compteur, nourrices EF/EC, vannes, réducteur | 1 | ens | 14.C5 (1) |
+| Béton prêt à l'emploi B15 (propreté) | 8,22 | m³ | 2.01 (6,22), 3.C1 (1,99) |
+| Béton prêt à l'emploi B25 | 113,33 | m³ | 2.06 (22,7), 2.03-a (17,65), 2.04-c (15,52), 2.08 (14,54) |
+| Béton prêt à l'emploi B30 (ouvrages enterrés) | 33,17 | m³ | 2.04-a (33,17) |
+| Blindage provisoire de fouille (location + pose) | 32,53 | m² | 1.07 (32,53) |
+| Bloc-porte complet (porte + huisserie + serrure) | 11 | u | 8.01 (11) |
+| Bois sapin (bastaings, chevrons de coffrage) | 5,14 | m³ | 2.04-a (1,93), 2.06 (1,02), 2.04-c (0,72), 2.04-b (0,51) |
+| Boîte d'encastrement | 180 | u | 15.04 (102), 15.05 (70), 15.06 (8) |
+| Chauffe-eau électrique 100 L | 2 | u | 17.C1 (2) |
+| Ciment CPJ 45, sac de 50 kg | 594,58 | sac | 3.07-a (137,02), 3.C4 (123,14), 3.08 (57,22), 4.01 (50,87) |
+| Coffret d'abonné encastré 42 modules | 2,2 | u | 15.03 (1,2), 15.02 (1) |
+| Contreplaqué CTBX 18 mm (coffrage) | 206,08 | m² | 2.04-a (96,62), 2.04-c (36,17), 2.04-b (25,74), 2.05 (11,19) |
+| Courants faibles : coffret VDI, RJ45, TV, interphone | 1 | ens | 20.C1 (1) |
+| Cuisine aménagée — moyen standing | 1 | ens | 8.C1 (1) |
+| Disjoncteur modulaire 1P 16 A | 30 | u | 15.03 (16), 15.02 (14) |
+| Drain / tube PVC Ø100 | 51,24 | ml | 2.C1 (51,24) |
+| Enduit de lissage / rebouchage | 941,88 | kg | 13.01-b (730,68), 13.01-a (211,2) |
+| Façade de placard coulissante mélaminée avec aménagement | 8 | ml | 8.03 (8) |
+| Faïence murale 30×60 (négoce) | 86,4 | m² | 12.01 (86,4) |
+| Fenêtre alu RPT double vitrage 4/16/4 (fourni) | 38,88 | m² | 7.01 (38,88) |
+| Fil d'attache recuit | 95,77 | kg | 2.04-a (32,21), 2.04-c (16,58), 2.04-b (11,15), 2.03-a (8,57) |
+| Fil H07V-U 1,5 mm² | 1 285,2 | ml | 15.04 (1 285,2) |
+| Fil H07V-U 2,5 mm² | 1 921,5 | ml | 15.05 (1 543,5), 15.06 (378) |
+| Gaine ICTA Ø20 | 1 068,9 | ml | 15.05 (514,5), 15.04 (428,4), 15.06 (126) |
+| Garde-corps inox 304 | 16 | ml | 9.01 (16) |
+| Géotextile non tissé | 390 | m² | 2.C2 (161,04), 4.06 (155,76), 2.C1 (73,2) |
+| Gravier 15/25 rendu chantier | 12,2 | m³ | 2.C1 (12,2) |
+| Grès cérame 45×45 | 111,77 | m² | 11.01-a (111,77) |
+| Grès cérame 60×60 / 60×120 poli | 257,15 | m² | 11.01-b (257,15) |
+| Grille de défense en fer (fenêtres du RDC et du sous-sol), posée | 19,44 | m² | 9.03 (19,44) |
+| Hourdis béton 16 cm | 2 966,11 | u | 2.06 (2 966,11) |
+| Impression / primaire | 147,47 | L | 13.01-b (91,34), 13.02 (29,73), 13.01-a (26,4) |
+| Interrupteur différentiel 2P 40 A | 4 | u | 15.02 (2), 15.03 (2) |
+| Interrupteur SA/VV avec plaque | 51 | u | 15.04 (51) |
+| Isolant polystyrène expansé PSE 4 cm | 123,48 | m² | 4.03 (123,48) |
+| Lavabo design | 3 | u | 14.C2 (3) |
+| Location mini-pelle avec conducteur (jour) | 16,31 | j | 1.02 (8,25), 1.06 (3,12), 1.05 (1,94), 1.03 (1,13) |
+| Membrane bitumineuse 3 mm (rouleau 10 m²) | 213,9 | m² | 4.04 (168,59), 4.05 (28,06), 12.07 (17,25) |
+| Membrane bitumineuse 4 mm (rouleau 10 m²) | 365,01 | m² | 4.04 (168,59), 2.C2 (168,36), 4.05 (28,06) |
+| Mitigeur douche | 3 | u | 14.C2 (3) |
+| Mitigeur évier | 1 | u | 14.C3 (1) |
+| Mitigeur lavabo | 4 | u | 14.C2 (3), 14.05 (1) |
+| Mortier-colle C2 pour carrelage | 1 578,93 | kg | 11.01-b (1 190,5), 12.01 (320), 11.05 (68,43) |
+| Ossature galvanisée (montant / fourrure) | 194,4 | ml | 18.02 (194,4) |
+| Pack WC complet éco | 1 | u | 14.05 (1) |
+| Pack WC complet moyen | 3 | u | 14.C2 (3) |
+| Paroi de douche à l'italienne 90×200 | 3 | u | 14.C2 (3) |
+| Peinture façade vinylique mate (seau 30 kg) | 156,1 | kg | 13.02 (156,1) |
+| Peinture vinylique intérieure (gamme éco, seau 30 kg) | 97,02 | kg | 13.01-a (97,02) |
+| Peinture vinylique intérieure (gamme moyenne) | 335,66 | kg | 13.01-b (335,66) |
+| Plaque BA13 standard | 81,65 | m² | 18.02 (81,65) |
+| Plinthe assortie h 7-10 cm | 143,7 | ml | 11.05 (143,7) |
+| Pompage du béton | 28,82 | m³ | 2.06 (22,04), 2.05 (6,78) |
+| Portail métallique 3,5 m + portillon | 1 | u | 9.04 (1) |
+| Porte d'entrée aluminium pleine | 1 | u | 7.C2 (1) |
+| Pose de menuiserie aluminium | 46,91 | m² | 7.01 (38,88), 7.C1 (5,83), 7.C2 (2,2) |
+| Pose garde-corps (MO + ancrage) | 16 | ml | 9.01 (16) |
+| Pose porte intérieure + huisserie | 11 | u | 8.01 (11) |
+| Poutrelle précontrainte | 594,65 | ml | 2.06 (594,65) |
+| Primaire d'accrochage bitumineux (EIF) | 99,72 | kg | 4.04 (43,98), 2.C2 (43,92), 4.05 (7,32), 12.07 (4,5) |
+| Prise 2P+T avec plaque | 78 | u | 15.05 (70), 15.06 (8) |
+| Prise de terre (piquets, barrette, câble 25 mm²) | 1 | ens | 15.07 (1) |
+| Raccords, vannes, siphons, flexibles (par appareil) | 20,75 | u | 14.C1 (12), 14.03 (4,5), 14.C4 (2,25), 17.C1 (2) |
+| Regard béton 60×60×60 avec tampon fonte (ouvrage) | 3 | u | 26.04 (3) |
+| Sable concassé 0/4 rendu chantier | 93,43 | m³ | 3.07-a (20,9), 3.C4 (18,79), 3.08 (8,73), 4.01 (7,76) |
+| Spot LED encastré / plafonnier LED de base | 39 | u | 15.C1 (39) |
+| Tout-venant 0/40 rendu chantier | 25,87 | m³ | 2.08 (25,87) |
+| Transport et mise en décharge des déblais (≤ 10 km) | 467,58 | m³ | 1.06 (467,58) |
+| Treillis soudé ST25 | 525,23 | m² | 2.06 (389,99), 2.08 (135,24) |
+| Tube PPR PN20 Ø20 | 121,8 | ml | 14.C1 (100,8), 14.C5 (21) |
+| Tube PVC assainissement Ø200 SN4 (négoce) | 28,51 | ml | 26.C1 (28,51) |
+| Tube PVC évacuation Ø40 à Ø100 | 108,15 | ml | 14.C1 (50,4), 14.03 (33), 14.C4 (24,75) |
+| Volet roulant aluminium | 11,66 | m² | 7.C1 (11,66) |
 
 **Main-d'œuvre estimée** :
 
@@ -2182,207 +2186,207 @@ Surface de référence : 376,8 m² de plancher. Montants HT.
 
 ## TITRE IV — BORDEREAU DES PRIX – DÉTAIL ESTIMATIF
 
-Prix unitaires HT, établis par sous-détail (matériaux, main-d'œuvre, matériel, frais et marge). Les postes « C » sont des prix complémentaires hors gabarit ; les sous-postes « -a, -b » distinguent des ouvrages de prix différents relevant d'un même article.
+Prix unitaires HT, établis par sous-détail (matériaux, main-d'œuvre, matériel, frais et marge), installation de chantier exclue (poste forfaitaire 00.01). La numérotation suit les lots des gabarits CPS (00 à 26, seuls les lots du projet figurent). Les postes « C » sont des prix complémentaires hors gabarit ; les sous-postes « -a, -b » distinguent des ouvrages de prix différents relevant d'un même article. Quantités et prix unitaires sont arrêtés au centime ; chaque montant est égal à la quantité multipliée par le prix unitaire affichés.
 
 ### Lot 00 — Généralités et prescriptions communes à tous les lots
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 00.01 | Installation et repli de chantier (base-vie, clôture, branchements provisoires) | ff | 1 | 33 499,85 | 33 500 |
-| | **Total lot 00** | | | | **33 500** |
+| 00.01 | Installation et repli de chantier (base-vie, clôture, branchements provisoires) | ff | 1 | 33 499,85 | 33 499,85 |
+| | **Total lot 00** | | | | **33 499,85** |
 
 ### Lot 01 — Terrassements généraux
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 1.01 | Décapage de la terre végétale et mise en dépôt provisoire | m² | 220,35 | 13,23 | 2 916 |
-| 1.02 | Fouilles en pleine masse en terrain de toute nature | m³ | 494,93 | 52,58 | 26 023 |
-| 1.03 | Fouilles en rigole et en trou pour fondations et longrines | m³ | 34,02 | 113,93 | 3 876 |
-| 1.05 | Remblai compacté en réemploi de déblais aptes | m³ | 154,89 | 47,66 | 7 382 |
-| 1.06 | Évacuation des déblais excédentaires à la décharge agréée | m³ | 467,58 | 101,20 | 47 319 |
-| 1.07 | Blindage et soutènement provisoire des fouilles | m² | 32,53 | 345,00 | 11 223 |
-| | **Total lot 01** | | | | **98 739** |
+| 1.01 | Décapage de la terre végétale et mise en dépôt provisoire | m² | 220,35 | 13,23 | 2 915,23 |
+| 1.02 | Fouilles en pleine masse en terrain de toute nature | m³ | 494,93 | 52,58 | 26 023,42 |
+| 1.03 | Fouilles en rigole et en trou pour fondations et longrines | m³ | 34,02 | 113,93 | 3 875,90 |
+| 1.05 | Remblai compacté en réemploi de déblais aptes | m³ | 154,89 | 47,66 | 7 382,06 |
+| 1.06 | Évacuation des déblais excédentaires à la décharge agréée | m³ | 467,58 | 101,20 | 47 319,10 |
+| 1.07 | Blindage et soutènement provisoire des fouilles | m² | 32,53 | 345,00 | 11 222,85 |
+| | **Total lot 01** | | | | **98 738,56** |
 
 ### Lot 02 — Gros œuvre — Béton armé
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 2.01 | Béton de propreté dosé à 150 kg/m³ (ép. 10 cm) | m³ | 5,93 | 1 297,41 | 7 690 |
-| 2.03-a | Béton armé en fondations — Béton armé pour semelles isolées | m³ | 17,14 | 2 602,41 | 44 605 |
-| 2.03-b | Béton armé en fondations — Béton armé pour longrines | m³ | 4,12 | 4 192,61 | 17 274 |
-| 2.03-c | Béton armé en fondations — Béton armé pour amorces de poteaux | m³ | 0,94 | 5 274,52 | 4 958 |
-| 2.03-d | Béton armé en fondations — Béton armé pour semelles filantes | m³ | 10,25 | 2 792,66 | 28 625 |
-| 2.04-a | Béton armé en élévation — Voile périphérique enterré en béton armé B30, ép. 20 cm (voile ép. 20 cm) | m³ | 32,21 | 4 916,99 | 158 366 |
-| 2.04-b | Béton armé en élévation — Béton armé pour poteaux | m³ | 8,58 | 5 274,52 | 45 255 |
-| 2.04-c | Béton armé en élévation — Béton armé pour poutres, chaînages et linteaux | m³ | 15,07 | 4 638,44 | 69 901 |
-| 2.05 | Dalle pleine en béton armé, y compris coffrage et armatures | m³ | 6,78 | 4 214,46 | 28 574 |
-| 2.06 | Plancher à corps creux (hourdis + poutrelles + dalle de compression 16+4 ou 20+5) | m² | 339,12 | 448,69 | 152 159 |
-| 2.07 | Escalier en béton armé (paillasse et marches), y compris coffrage et armatures | m³ | 3,6 | 4 419,66 | 15 911 |
-| 2.08 | Dallage sur terre-plein en béton armé de treillis soudé, ép. 10 à 12 cm, y compris hérisson | m² | 117,6 | 353,25 | 41 543 |
-| | **Total lot 02** | | | | **614 861** |
+| 2.01 | Béton de propreté dosé à 150 kg/m³ (ép. 10 cm) | m³ | 5,93 | 1 297,41 | 7 693,64 |
+| 2.03-a | Béton armé en fondations — Béton armé pour semelles isolées | m³ | 17,14 | 2 602,41 | 44 605,31 |
+| 2.03-b | Béton armé en fondations — Béton armé pour longrines | m³ | 4,12 | 4 192,61 | 17 273,55 |
+| 2.03-c | Béton armé en fondations — Béton armé pour amorces de poteaux | m³ | 0,94 | 5 274,52 | 4 958,05 |
+| 2.03-d | Béton armé en fondations — Béton armé pour semelles filantes | m³ | 10,25 | 2 792,66 | 28 624,77 |
+| 2.04-a | Béton armé en élévation — Voile périphérique enterré en béton armé B30, ép. 20 cm (voile ép. 20 cm) | m³ | 32,21 | 4 916,99 | 158 376,25 |
+| 2.04-b | Béton armé en élévation — Béton armé pour poteaux | m³ | 8,58 | 5 274,52 | 45 255,38 |
+| 2.04-c | Béton armé en élévation — Béton armé pour poutres, chaînages et linteaux | m³ | 15,07 | 4 638,44 | 69 901,29 |
+| 2.05 | Dalle pleine en béton armé, y compris coffrage et armatures | m³ | 6,78 | 4 214,46 | 28 574,04 |
+| 2.06 | Plancher à corps creux (hourdis + poutrelles + dalle de compression 16+4 ou 20+5) | m² | 339,12 | 448,69 | 152 159,75 |
+| 2.07 | Escalier en béton armé (paillasse et marches), y compris coffrage et armatures | m³ | 3,6 | 4 419,66 | 15 910,78 |
+| 2.08 | Dallage sur terre-plein en béton armé de treillis soudé, ép. 10 à 12 cm, y compris hérisson (PU hérisson compris) | m² | 117,6 | 353,25 | 41 542,20 |
+| 2.C1 | Drainage périphérique : drain Ø100, massif drainant, géotextile | ml | 48,8 | 153,28 | 7 480,06 |
+| 2.C2 | Étanchéité des parois enterrées : primaire + membrane bitumineuse + protection | m² | 146,4 | 117,40 | 17 187,36 |
+| | **Total lot 02** | | | | **639 542,43** |
 
 ### Lot 03 — Maçonnerie et enduits
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 3.01 | Maçonnerie de blocs creux en béton de 20 cm | m² | 278,32 | 244,40 | 68 023 |
-| 3.07-a | Enduit de mortier intérieur dressé en trois couches — Enduit de ciment intérieur dressé (murs) | m² | 950,2 | 68,93 | 65 495 |
-| 3.07-b | Enduit de mortier intérieur dressé en trois couches — Enduit de ciment sous plafond | m² | 299,04 | 75,90 | 22 696 |
-| 3.08 | Enduit de mortier extérieur en trois couches avec joints de fractionnement | m² | 317,43 | 86,71 | 27 523 |
-| 3.C1 | Clôture maçonnée h 2,20 m sur semelle filante, enduite 2 faces | ml | 47,44 | 1 309,03 | 62 100 |
-| 3.C2 | Mur en agglos creux de 15 cm | m² | 69,65 | 203,98 | 14 207 |
-| 3.C3 | Cloison en agglos creux de 10 cm | m² | 227,92 | 150,12 | 34 215 |
-| 3.C4 | Chape de ciment ép. 5 cm (support des revêtements) | m² | 341,59 | 87,00 | 29 719 |
-| 3.C5 | Acrotère maçonné h 0,60 m avec chaînage et enduit | ml | 48,8 | 351,15 | 17 136 |
-| | **Total lot 03** | | | | **341 114** |
+| 3.01 | Maçonnerie de blocs creux en béton de 20 cm | m² | 278,32 | 244,40 | 68 021,41 |
+| 3.07-a | Enduit de mortier intérieur dressé en trois couches — Enduit de ciment intérieur dressé (murs) | m² | 950,2 | 68,93 | 65 497,29 |
+| 3.07-b | Enduit de mortier intérieur dressé en trois couches — Enduit de ciment sous plafond | m² | 299,04 | 75,90 | 22 697,14 |
+| 3.08 | Enduit de mortier extérieur en trois couches avec joints de fractionnement | m² | 317,43 | 86,71 | 27 524,36 |
+| 3.C1 | Clôture maçonnée h 2,20 m sur semelle filante, enduite 2 faces | ml | 47,44 | 1 309,03 | 62 100,38 |
+| 3.C2 | Mur en agglos creux de 15 cm | m² | 69,65 | 203,98 | 14 207,21 |
+| 3.C3 | Cloison en agglos creux de 10 cm | m² | 227,92 | 150,12 | 34 215,35 |
+| 3.C4 | Chape de ciment ép. 5 cm (support des revêtements) | m² | 341,59 | 87,00 | 29 718,33 |
+| 3.C5 | Acrotère maçonné h 0,60 m avec chaînage et enduit | ml | 48,8 | 351,15 | 17 136,12 |
+| | **Total lot 03** | | | | **341 117,59** |
 
 ### Lot 04 — Étanchéité des toitures-terrasses et isolation thermique
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 4.01 | Forme de pente en béton léger ou mortier, pente min 1,5 %, dressée et talochée | m² | 117,6 | 101,51 | 11 937 |
-| 4.03 | Isolation thermique en panneaux XPS/EPS, épaisseur selon note RTCM, posée à joints décalés | m² | 117,6 | 33,37 | 3 924 |
-| 4.04 | Étanchéité bicouche bitume SBS (3 mm + 4 mm) soudée, y compris recouvrements | m² | 146,6 | 154,22 | 22 609 |
-| 4.05 | Relevés d'étanchéité sur acrotères et émergences, h ≥ 15 cm, équerre de renfort + bande solin | ml | 48,8 | 79,25 | 3 867 |
-| 4.06 | Protection lourde par gravillons roulés lavés 15/25 sur écran géotextile | m² | 141,6 | 83,21 | 11 783 |
-| 4.C1 | Drainage périphérique : drain Ø100, massif drainant, géotextile | ml | 48,8 | 153,28 | 7 480 |
-| 4.C2 | Étanchéité des parois enterrées : primaire + membrane bitumineuse + protection | m² | 146,4 | 117,40 | 17 187 |
-| | **Total lot 04** | | | | **78 787** |
+| 4.01 | Forme de pente en béton léger ou mortier, pente min 1,5 %, dressée et talochée | m² | 117,6 | 101,51 | 11 937,58 |
+| 4.03 | Isolation thermique en panneaux XPS/EPS, épaisseur selon note RTCM, posée à joints décalés | m² | 117,6 | 33,37 | 3 924,31 |
+| 4.04 | Étanchéité bicouche bitume SBS (3 mm + 4 mm) soudée, y compris recouvrements | m² | 146,6 | 154,22 | 22 608,65 |
+| 4.05 | Relevés d'étanchéité sur acrotères et émergences, h ≥ 15 cm, équerre de renfort + bande solin | ml | 48,8 | 79,25 | 3 867,40 |
+| 4.06 | Protection lourde par gravillons roulés lavés 15/25 sur écran géotextile | m² | 141,6 | 83,21 | 11 782,54 |
+| | **Total lot 04** | | | | **54 120,48** |
 
 ### Lot 07 — Menuiserie extérieure aluminium — Façades & mur-rideau
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 7.01 | Fenêtre aluminium RPT, double vitrage Uw conforme RTCM, ouvrant à frappe | m² | 38,88 | 1 708,00 | 66 407 |
-| 7.C1 | Volets roulants aluminium | m² | 11,66 | 1 106,00 | 12 896 |
-| 7.C2 | Porte d'entrée aluminium pleine, posée | u | 1 | 6 277,60 | 6 278 |
-| | **Total lot 07** | | | | **85 581** |
+| 7.01 | Fenêtre aluminium RPT, double vitrage Uw conforme RTCM, ouvrant à frappe | m² | 38,88 | 1 708,00 | 66 407,04 |
+| 7.C1 | Volets roulants aluminium | m² | 11,66 | 1 106,00 | 12 895,96 |
+| 7.C2 | Porte d'entrée aluminium pleine, posée | u | 1 | 6 277,60 | 6 277,60 |
+| | **Total lot 07** | | | | **85 580,60** |
 
 ### Lot 08 — Menuiserie intérieure bois
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 8.01 | Bloc-porte intérieur âme alvéolaire, parement stratifié, vantail + huisserie + quincaillerie, dimensions standard | u | 11 | 2 576,00 | 28 336 |
-| 8.03 | Placard / dressing intégré toute hauteur, façades + caissons + étagères + tringles (placard toute hauteur 2,50 m) | m² | 20 | 806,40 | 16 128 |
-| 8.C1 | Cuisine aménagée posée — moyen standing (hors électroménager) | ens | 1 | 33 600,00 | 33 600 |
-| | **Total lot 08** | | | | **78 064** |
+| 8.01 | Bloc-porte intérieur âme alvéolaire, parement stratifié, vantail + huisserie + quincaillerie, dimensions standard | u | 11 | 2 576,00 | 28 336,00 |
+| 8.03 | Placard / dressing intégré toute hauteur, façades + caissons + étagères + tringles (placard toute hauteur 2,50 m) | m² | 20 | 806,40 | 16 128,00 |
+| 8.C1 | Cuisine aménagée posée — moyen standing (hors électroménager) | ens | 1 | 33 600,00 | 33 600,00 |
+| | **Total lot 08** | | | | **78 064,00** |
 
 ### Lot 09 — Métallerie - Serrurerie
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 9.01 | Garde-corps acier hauteur ≥ 1,00 m, montants + lisses + barreaudage vertical (vides ≤ 11 cm), galvanisé | ml | 16 | 1 176,00 | 18 816 |
-| 9.03 | Grille de défense / barreaudage de fenêtre en acier, fixation scellée | m² | 19,44 | 728,00 | 14 152 |
-| 9.04 | Portail métallique 2 vantaux, cadre + remplissage, quincaillerie et serrure | u | 1 | 16 800,00 | 16 800 |
-| | **Total lot 09** | | | | **49 768** |
+| 9.01 | Garde-corps acier hauteur ≥ 1,00 m, montants + lisses + barreaudage vertical (vides ≤ 11 cm), galvanisé | ml | 16 | 1 176,00 | 18 816,00 |
+| 9.03 | Grille de défense / barreaudage de fenêtre en acier, fixation scellée | m² | 19,44 | 728,00 | 14 152,32 |
+| 9.04 | Portail métallique 2 vantaux, cadre + remplissage, quincaillerie et serrure | u | 1 | 16 800,00 | 16 800,00 |
+| | **Total lot 09** | | | | **49 768,32** |
 
 ### Lot 11 — Revêtements de sols durs et souples
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 11.01-a | Revêtement de sol en grès cérame pleine masse — Carrelage grès cérame 45×45 scellé, joints compris | m² | 103,49 | 219,98 | 22 766 |
-| 11.01-b | Revêtement de sol en grès cérame pleine masse — Carrelage grès cérame 60×60 collé, joints compris | m² | 238,1 | 305,55 | 72 751 |
-| 11.05 | Plinthe en grès cérame assortie hauteur 8 cm, pose collée, joints traités | ml | 136,86 | 35,74 | 4 892 |
-| | **Total lot 11** | | | | **100 409** |
+| 11.01-a | Revêtement de sol en grès cérame pleine masse — Carrelage grès cérame 45×45 scellé, joints compris | m² | 103,49 | 219,98 | 22 765,73 |
+| 11.01-b | Revêtement de sol en grès cérame pleine masse — Carrelage grès cérame 60×60 collé, joints compris | m² | 238,1 | 305,55 | 72 751,46 |
+| 11.05 | Plinthe en grès cérame assortie hauteur 8 cm, pose collée, joints traités | ml | 136,86 | 35,74 | 4 891,38 |
+| | **Total lot 11** | | | | **100 408,57** |
 
 ### Lot 12 — Revêtements muraux et savoir-faire traditionnels marocains
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 12.01 | Revêtement mural en faïence céramique émaillée, pose collée C2, joints CG2, y compris coupes et finitions | m² | 80 | 197,37 | 15 789 |
-| 12.07 | Imperméabilisation sous carrelage (SPEC) des parois de douches et zones humides avant pose | m² | 15 | 96,80 | 1 452 |
-| | **Total lot 12** | | | | **17 241** |
+| 12.01 | Revêtement mural en faïence céramique émaillée, pose collée C2, joints CG2, y compris coupes et finitions | m² | 80 | 197,37 | 15 789,60 |
+| 12.07 | Imperméabilisation sous carrelage (SPEC) des parois de douches et zones humides avant pose | m² | 15 | 96,80 | 1 452,00 |
+| | **Total lot 12** | | | | **17 241,60** |
 
 ### Lot 13 — Peinture, vitrerie et ravalement
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 13.01-a | Peinture intérieure acrylique sur murs et plafonds — Enduit de lissage + vinylique 2 couches (gamme éco) | m² | 264 | 47,89 | 12 643 |
-| 13.01-b | Peinture intérieure acrylique sur murs et plafonds — Enduit de lissage + vinylique lessivable 2 couches | m² | 913,35 | 52,32 | 47 790 |
-| 13.02 | Peinture de façade imperméable (classe I selon support), préparation, impression et 2 couches de finition | m² | 247,78 | 70,10 | 17 369 |
-| | **Total lot 13** | | | | **77 802** |
+| 13.01-a | Peinture intérieure acrylique sur murs et plafonds — Enduit de lissage + vinylique 2 couches (gamme éco) | m² | 264 | 47,89 | 12 642,96 |
+| 13.01-b | Peinture intérieure acrylique sur murs et plafonds — Enduit de lissage + vinylique lessivable 2 couches | m² | 913,35 | 52,32 | 47 786,47 |
+| 13.02 | Peinture de façade imperméable (classe I selon support), préparation, impression et 2 couches de finition | m² | 247,78 | 70,10 | 17 369,38 |
+| | **Total lot 13** | | | | **77 798,81** |
 
 ### Lot 14 — Plomberie sanitaire — Alimentation eau froide, évacuations et appareils sanitaires
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 14.03 | Réseau d'évacuation EU/EV en PVC-U NM EN 1329-1, y compris collage, joints, supports et pentes réglementaires | ml | 30 | 117,25 | 3 518 |
-| 14.05 | Fourniture et pose de cuvette WC céramique NM EN 997 avec réservoir double chasse et mécanisme | u | 1 | 2 784,91 | 2 785 |
-| 14.C1 | Point d'eau : alimentation PPR + évacuation PVC + raccords | u | 12 | 759,99 | 9 120 |
-| 14.C2 | Équipement salle de bain courante : WC, lavabo, douche à l'italienne | u | 3 | 7 389,25 | 22 168 |
-| 14.C3 | Évier de cuisine : mitigeur et raccordement | u | 1 | 1 556,44 | 1 556 |
-| 14.C4 | Descente d'eaux pluviales PVC Ø100 avec naissance et colliers | ml | 22,5 | 93,74 | 2 109 |
-| 14.C5 | Alimentation générale : regard compteur, nourrices EF/EC, vannes | ens | 1 | 4 689,55 | 4 690 |
-| | **Total lot 14** | | | | **45 945** |
+| 14.03 | Réseau d'évacuation EU/EV en PVC-U NM EN 1329-1, y compris collage, joints, supports et pentes réglementaires | ml | 30 | 117,25 | 3 517,50 |
+| 14.05 | Fourniture et pose de cuvette WC céramique NM EN 997 avec réservoir double chasse et mécanisme (WC invités du RDC ; les salles de bain sont équipées aux postes complémentaires) | u | 1 | 2 784,91 | 2 784,91 |
+| 14.C1 | Point d'eau : alimentation PPR + évacuation PVC + raccords | u | 12 | 759,99 | 9 119,88 |
+| 14.C2 | Équipement salle de bain courante : WC, lavabo, douche à l'italienne | u | 3 | 7 389,25 | 22 167,75 |
+| 14.C3 | Évier de cuisine : mitigeur et raccordement | u | 1 | 1 556,44 | 1 556,44 |
+| 14.C4 | Descente d'eaux pluviales PVC Ø100 avec naissance et colliers | ml | 22,5 | 93,74 | 2 109,15 |
+| 14.C5 | Alimentation générale : regard compteur, nourrices EF/EC, vannes | ens | 1 | 4 689,55 | 4 689,55 |
+| | **Total lot 14** | | | | **45 945,18** |
 
 ### Lot 15 — Électricité — Courants forts (CFO)
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 15.02 | Gaine technique de logement (GTL) équipée, panneau de contrôle et tableau de répartition | ens | 1 | 2 698,93 | 2 699 |
-| 15.03 | Tableau divisionnaire équipé (disjoncteurs courbe C + différentiels 30 mA type A/AC) (1 ensemble = 1 tableau) | u | 2 | 1 551,16 | 3 102 |
-| 15.04 | Circuit d'éclairage complet (conduit ICTA, conducteur 1,5 mm², point lumineux et commande) | u | 51 | 253,87 | 12 947 |
-| 15.05 | Circuit prises de courant 16 A 2P+T (conduit, conducteur 2,5 mm², socle) | u | 70 | 260,19 | 18 213 |
-| 15.06 | Circuit spécialisé 32 A (cuisson) / 20 A (chauffe-eau, lave-linge) conducteur 6/4 mm² | u | 8 | 501,03 | 4 008 |
-| 15.07 | Prise de terre fond de fouille (cuivre nu 25 mm²) avec barrette de mesure | ens | 1 | 2 006,92 | 2 007 |
-| 15.C1 | Luminaire LED de base posé (spot encastré ou plafonnier) | u | 39 | 96,62 | 3 768 |
-| | **Total lot 15** | | | | **46 745** |
+| 15.02 | Gaine technique de logement (GTL) équipée, panneau de contrôle et tableau de répartition | ens | 1 | 2 698,93 | 2 698,93 |
+| 15.03 | Tableau divisionnaire équipé (disjoncteurs courbe C + différentiels 30 mA type A/AC) (1 ensemble = 1 tableau) | u | 2 | 1 551,16 | 3 102,32 |
+| 15.04 | Circuit d'éclairage complet (conduit ICTA, conducteur 1,5 mm², point lumineux et commande) | u | 51 | 253,87 | 12 947,37 |
+| 15.05 | Circuit prises de courant 16 A 2P+T (conduit, conducteur 2,5 mm², socle) | u | 70 | 260,19 | 18 213,30 |
+| 15.06 | Circuit spécialisé 32 A (cuisson) / 20 A (chauffe-eau, lave-linge) conducteur 6/4 mm² | u | 8 | 501,03 | 4 008,24 |
+| 15.07 | Prise de terre fond de fouille (cuivre nu 25 mm²) avec barrette de mesure | ens | 1 | 2 006,92 | 2 006,92 |
+| 15.C1 | Luminaire LED de base posé (spot encastré ou plafonnier) | u | 39 | 96,62 | 3 768,18 |
+| | **Total lot 15** | | | | **46 745,26** |
 
 ### Lot 17 — Plomberie ECS — Production d'eau chaude sanitaire et chauffe-eau solaire thermique
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 17.C1 | Chauffe-eau électrique 100 L avec groupe de sécurité | u | 2 | 3 229,04 | 6 458 |
-| | **Total lot 17** | | | | **6 458** |
+| 17.C1 | Chauffe-eau électrique 100 L avec groupe de sécurité | u | 2 | 3 229,04 | 6 458,08 |
+| | **Total lot 17** | | | | **6 458,08** |
 
 ### Lot 18 — Faux plafonds et plafonds suspendus
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 18.02 | Plafond continu en plaques de plâtre BA13 sur ossature suspendue, joints traités prêts à peindre | m² | 77,76 | 161,14 | 12 530 |
-| | **Total lot 18** | | | | **12 530** |
+| 18.02 | Plafond continu en plaques de plâtre BA13 sur ossature suspendue, joints traités prêts à peindre | m² | 77,76 | 161,14 | 12 530,25 |
+| | **Total lot 18** | | | | **12 530,25** |
 
 ### Lot 20 — Courants faibles — VDI, téléphonie, TV, sûreté
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 20.C1 | Courants faibles : coffret VDI, prises RJ45/TV, interphone | ens | 1 | 7 601,84 | 7 602 |
-| | **Total lot 20** | | | | **7 602** |
+| 20.C1 | Courants faibles : coffret VDI, prises RJ45/TV, interphone | ens | 1 | 7 601,84 | 7 601,84 |
+| | **Total lot 20** | | | | **7 601,84** |
 
 ### Lot 26 — Voirie et Réseaux Divers (VRD)
 
 | N° | Désignation | U | Quantité | PU HT | Montant HT |
 |:--|:--|:--|--:|--:|--:|
-| 26.04 | Regard de visite préfabriqué/coulé en place, tampon fonte D400, profondeur variable | u | 3 | 2 139,00 | 6 417 |
-| 26.C1 | Canalisation d'assainissement PVC Ø200 en tranchée, lit de sable | ml | 27,15 | 255,17 | 6 928 |
-| | **Total lot 26** | | | | **13 345** |
+| 26.04 | Regard de visite préfabriqué/coulé en place, tampon fonte D400, profondeur variable | u | 3 | 2 139,00 | 6 417,00 |
+| 26.C1 | Canalisation d'assainissement PVC Ø200 en tranchée, lit de sable | ml | 27,15 | 255,17 | 6 927,87 |
+| | **Total lot 26** | | | | **13 344,87** |
 
 ### Récapitulatif
 
 | Lot | Intitulé | Montant HT (DH) |
 |:--|:--|--:|
-| 00 | Généralités et prescriptions communes à tous les lots | 33 500 |
-| 01 | Terrassements généraux | 98 739 |
-| 02 | Gros œuvre — Béton armé | 614 861 |
-| 03 | Maçonnerie et enduits | 341 114 |
-| 04 | Étanchéité des toitures-terrasses et isolation thermique | 78 787 |
-| 07 | Menuiserie extérieure aluminium — Façades & mur-rideau | 85 581 |
-| 08 | Menuiserie intérieure bois | 78 064 |
-| 09 | Métallerie - Serrurerie | 49 768 |
-| 11 | Revêtements de sols durs et souples | 100 409 |
-| 12 | Revêtements muraux et savoir-faire traditionnels marocains | 17 241 |
-| 13 | Peinture, vitrerie et ravalement | 77 802 |
-| 14 | Plomberie sanitaire — Alimentation eau froide, évacuations et appareils sanitaires | 45 945 |
-| 15 | Électricité — Courants forts (CFO) | 46 745 |
-| 17 | Plomberie ECS — Production d'eau chaude sanitaire et chauffe-eau solaire thermique | 6 458 |
-| 18 | Faux plafonds et plafonds suspendus | 12 530 |
-| 20 | Courants faibles — VDI, téléphonie, TV, sûreté | 7 602 |
-| 26 | Voirie et Réseaux Divers (VRD) | 13 345 |
-| | **Total HT** | **1 708 493** |
-| | TVA 20 % | 341 699 |
-| | **Total TTC** | **2 050 191** |
+| 00 | Généralités et prescriptions communes à tous les lots | 33 499,85 |
+| 01 | Terrassements généraux | 98 738,56 |
+| 02 | Gros œuvre — Béton armé | 639 542,43 |
+| 03 | Maçonnerie et enduits | 341 117,59 |
+| 04 | Étanchéité des toitures-terrasses et isolation thermique | 54 120,48 |
+| 07 | Menuiserie extérieure aluminium — Façades & mur-rideau | 85 580,60 |
+| 08 | Menuiserie intérieure bois | 78 064,00 |
+| 09 | Métallerie - Serrurerie | 49 768,32 |
+| 11 | Revêtements de sols durs et souples | 100 408,57 |
+| 12 | Revêtements muraux et savoir-faire traditionnels marocains | 17 241,60 |
+| 13 | Peinture, vitrerie et ravalement | 77 798,81 |
+| 14 | Plomberie sanitaire — Alimentation eau froide, évacuations et appareils sanitaires | 45 945,18 |
+| 15 | Électricité — Courants forts (CFO) | 46 745,26 |
+| 17 | Plomberie ECS — Production d'eau chaude sanitaire et chauffe-eau solaire thermique | 6 458,08 |
+| 18 | Faux plafonds et plafonds suspendus | 12 530,25 |
+| 20 | Courants faibles — VDI, téléphonie, TV, sûreté | 7 601,84 |
+| 26 | Voirie et Réseaux Divers (VRD) | 13 344,87 |
+| | **Total HT** | **1 708 506,29** |
+| | TVA 20 % | 341 701,26 |
+| | **Total TTC** | **2 050 207,55** |
 
-Arrêté le présent détail estimatif à la somme de **2 050 191 DH TTC** (estimation ; provision pour aléas non comprise : 85 425 DH HT).
+Arrêté le présent détail estimatif à la somme de **2 050 207,55 DH TTC** (estimation ; provision pour aléas non comprise : 85 425 DH HT).
 
 ## ANNEXE 1 — MODES DE MÉTRÉ
 
@@ -2477,3 +2481,15 @@ Arrêté le présent détail estimatif à la somme de **2 050 191 DH TTC** (esti
 | Points lumineux extérieurs (façades, jardin, portail) | 6 u |
 | Réseau d'assainissement extérieur : longueur fixe ajoutée à √(terrain) | 10 ml |
 | Regards d'assainissement | 3 u |
+
+## ANNEXE 3 — RÉSERVES TECHNIQUES
+
+Les quantités suivantes résultent de ratios et ne valent pas dimensionnement. Elles doivent être remplacées par celles des plans d'exécution et de la note de calcul du BET avant contractualisation :
+
+1. fondations : volume des semelles par ratio (0.065 m³/m² de plancher), réduit de 30 % sous sous-sol (hypothèse économique, non structurelle) ;
+2. voile périphérique enterré : épaisseur 20 cm, béton B30 et 100 kg d'acier/m³ par hypothèse ; poussées, surcharges, appuis et nappe à vérifier ;
+3. blindage : prévu au seul droit des côtés mitoyens ; talutage, avoisinants et accès à vérifier sur plan d'installation ;
+4. planchers, poteaux et poutres : surfaces et volumes par ratio au m² de plancher, à reprendre sur plans de coffrage ;
+5. menuiseries extérieures : surface de baies par ratio ; tableau des menuiseries (profils, vitrages, performances RTCM) à établir ;
+6. plomberie, électricité, mise à la terre et courants faibles : quantités par ratio ; plans et schémas d'exécution à établir, essais de réception à prévoir ;
+7. réseaux extérieurs : limites de prestation avec les concessionnaires (ONEE, régie) à préciser ; branchements hors marché sauf mention contraire.

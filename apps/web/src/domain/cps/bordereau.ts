@@ -26,6 +26,8 @@ export type LotBPDE = { code: string; numero: number; intitule: string; sansGaba
 const UNITE: Record<string, string> = { m2: "m²", m3: "m³", "m²": "m²", "m³": "m³" };
 export const uniteCps = (u: string) => UNITE[u] ?? u;
 const lettre = (i: number) => String.fromCharCode(97 + i);
+/** Arrondi au centime : le BPDE imprimé doit se recalculer exactement (quantité × PU = montant). */
+const c2 = (n: number) => Math.round(n * 100) / 100;
 /** Intitulé de lot sans préfixe « Lot n°NN — » (déjà numéroté dans le document). */
 const intitule = (s: string) => s.replace(/^Lot\s*n°?\s*\d+\s*[—–-]\s*/i, "");
 
@@ -63,8 +65,8 @@ export function bordereau(r: Resultat): LotBPDE[] {
   const g0 = LOT_CPS_PAR_CODE.LOT_00_GENERALITES;
   const p0 = g0.bordereau.find((p) => p.code === "00.01")!;
   out.push({
-    code: g0.code, numero: 0, intitule: intitule(fr(g0.intitule)), sansGabarit: false, total: r.installationHT,
-    postes: [{ numero: "00.01", designation: fr(p0.designation), unite: "ff", modeMetre: fr(p0.modeMetreMD), quantite: 1, pu: r.installationHT, montant: r.installationHT, ouvrages: ["INS"], complementaire: false }],
+    code: g0.code, numero: 0, intitule: intitule(fr(g0.intitule)), sansGabarit: false, total: c2(r.installationHT),
+    postes: [{ numero: "00.01", designation: fr(p0.designation), unite: "ff", modeMetre: fr(p0.modeMetreMD), quantite: 1, pu: c2(r.installationHT), montant: c2(r.installationHT), ouvrages: ["INS"], complementaire: false }],
   });
 
   for (const [code, postes] of lots) {
@@ -80,7 +82,8 @@ export function bordereau(r: Resultat): LotBPDE[] {
         const b = blocs[0];
         const o = OUVRAGES[b.ouvrage];
         nComp += 1;
-        lignes.push({ numero: `${numero}.C${nComp}`, designation: o.libelle, unite: uniteCps(o.unite), modeMetre: o.note, quantite: b.qte, pu: b.pu, montant: b.montant, ouvrages: [b.ouvrage], complementaire: true });
+        const qc = c2(b.qte), pc = c2(b.pu);
+        lignes.push({ numero: `${numero}.C${nComp}`, designation: o.libelle, unite: uniteCps(o.unite), modeMetre: o.note, quantite: qc, pu: pc, montant: c2(qc * pc), ouvrages: [b.ouvrage], complementaire: true });
         continue;
       }
       const poste = g!.bordereau.find((p) => p.code === cle);
@@ -95,16 +98,16 @@ export function bordereau(r: Resultat): LotBPDE[] {
           designation: sous ? `${fr(poste.designation).split(/[,(]/)[0].trim()} — ${OUVRAGES[b.ouvrage].libelle}` : fr(poste.designation),
           unite: uniteCps(poste.unite),
           modeMetre: fr(poste.modeMetreMD),
-          quantite: b.qte * f,
-          pu: b.pu / f,
-          montant: b.montant,
+          quantite: c2(b.qte * f),
+          pu: c2(b.pu / f),
+          montant: c2(c2(b.qte * f) * c2(b.pu / f)),
           ouvrages: [b.ouvrage],
           complementaire: false,
           note: c.note,
         });
       });
     }
-    out.push({ code, numero, intitule: g ? intitule(fr(g.intitule)) : sg.intitule, sansGabarit: !g, postes: lignes, total: lignes.reduce((s, p) => s + p.montant, 0) });
+    out.push({ code, numero, intitule: g ? intitule(fr(g.intitule)) : sg.intitule, sansGabarit: !g, postes: lignes, total: c2(lignes.reduce((s, p) => s + p.montant, 0)) });
   }
   return out.sort((a, b) => a.numero - b.numero);
 }

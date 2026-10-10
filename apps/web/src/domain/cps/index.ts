@@ -3,4 +3,5 @@ export * from "./gabarits";
 export * from "./correspondance";
 export * from "./bordereau";
 export * from "./cps";
+export * from "./clausesPrive";
 export * from "./html";

@@ -31,7 +31,7 @@ export const CORRESPONDANCE_CPS: Record<string, Cible> = {
   "FON.01": { lot: B, poste: "2.01", facteur: 0.1, note: "ép. 10 cm" },
   "FON.02": { lot: B, poste: "2.03" }, "FON.03": { lot: B, poste: "2.03" }, "FON.04": { lot: B, poste: "2.03" },
   "FON.05": { lot: B, poste: "2.03" }, "FON.06": { lot: B, poste: "2.03" }, "FON.09": { lot: B, poste: "2.02" },
-  "FON.07": { lot: B, poste: "2.08", fusionAvec: "FON.08" }, "FON.08": { lot: B, poste: "2.08" },
+  "FON.07": { lot: B, poste: "2.08", fusionAvec: "FON.08" }, "FON.08": { lot: B, poste: "2.08", note: "PU hérisson compris" },
   "FON.10": { lot: B, poste: "2.04", facteur: 0.2, note: "voile ép. 20 cm" },
   "FON.11": { lot: B }, "FON.15": { lot: B }, "FON.16": { lot: "LOT_03_MACONNERIE" },
   "STR.01": { lot: B, poste: "2.04" }, "STR.02": { lot: B, poste: "2.04" }, "STR.07": { lot: B, poste: "2.04" },
@@ -46,7 +46,8 @@ export const CORRESPONDANCE_CPS: Record<string, Cible> = {
   "ETA.01": { lot: E, poste: "4.01" }, "ETA.02": { lot: E, poste: "4.04" }, "ETA.03": { lot: E, poste: "4.06" },
   "ETA.04": { lot: E, poste: "4.03" }, "ETA.05": { lot: E, poste: "4.03" }, "ETA.06": { lot: E, poste: "4.05" },
   "ETA.07": { lot: R, poste: "12.07" },
-  "FON.12": { lot: E }, "FON.13": { lot: E }, "FON.14": { lot: E },
+  // Ouvrages enterrés (drainage, étanchéité des parois, cuvelage) : rattachés au lot 02 (infrastructure), pas au lot toiture.
+  "FON.12": { lot: B }, "FON.13": { lot: B }, "FON.14": { lot: B },
   // 07 Menuiseries extérieures
   "ALU.01": { lot: A }, "ALU.02": { lot: A, poste: "7.01" }, "ALU.03": { lot: A, poste: "7.01" }, "ALU.04": { lot: A, poste: "7.02" },
   "ALU.05": { lot: A }, "ALU.06": { lot: A },
@@ -66,7 +67,7 @@ export const CORRESPONDANCE_CPS: Record<string, Cible> = {
   "FAC.02": { lot: P, poste: "13.02" }, "FAC.03": { lot: P, poste: "13.02" },
   // 14 / 17 Plomberie, eau chaude
   "PLO.01": { lot: PL }, "PLO.02": { lot: PL }, "PLO.03": { lot: PL }, "PLO.04": { lot: PL }, "PLO.05": { lot: PL },
-  "PLO.06": { lot: PL }, "PLO.07": { lot: PL }, "PLO.09": { lot: PL, poste: "14.05" }, "PLO.10": { lot: PL, poste: "14.03" },
+  "PLO.06": { lot: PL }, "PLO.07": { lot: PL }, "PLO.09": { lot: PL, poste: "14.05", note: "WC invités du RDC ; les salles de bain sont équipées aux postes complémentaires" }, "PLO.10": { lot: PL, poste: "14.03" },
   "PLO.11": { lot: PL }, "PLO.12": { lot: PL },
   "PLO.08": { lot: ECS }, "ENR.01": { lot: ECS },
   // 15 Électricité, 20 courants faibles

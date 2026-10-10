@@ -34,7 +34,9 @@ function famille(lot: CodeLot, tags: string[]): Famille {
 
 export type LigneGenerale = { famille: Famille; libelle: string; montantHT: number; dhM2: number; part: number };
 
-export type BesoinMateriau = { id: string; libelle: string; unite: string; quantite: number };
+export type BesoinMateriau = { id: string; libelle: string; unite: string; quantite: number;
+  /** Ouvrages du DQE qui consomment ce matériau (code → quantité), du plus gros au plus petit. */
+  ouvrages: { code: string; quantite: number }[] };
 export type BesoinMO = { metier: Metier; libelle: string; heures: number; jours: number };
 
 export type Quantitatif = {
@@ -65,12 +67,19 @@ export type Quantitatif = {
 };
 
 /** Déroule le sous-détail d'un ouvrage (sous-ouvrages compris) pour une quantité donnée. */
-function derouler(code: string, qte: number, mat: Map<string, number>, mo: Map<Metier, number>) {
+function derouler(code: string, qte: number, mat: Map<string, number>, mo: Map<Metier, number>, parOuvrage?: Map<string, Map<string, number>>, racine = code) {
   const o = OUVRAGES[code];
   for (const c of o.composants) {
-    if (c.type === "mat") mat.set(c.ref, (mat.get(c.ref) ?? 0) + qte * c.qte * (1 + (c.perte ?? 0)));
-    else if (c.type === "mo") mo.set(c.metier, (mo.get(c.metier) ?? 0) + qte * c.h);
-    else derouler(c.ref, qte * c.qte, mat, mo);
+    if (c.type === "mat") {
+      const v = qte * c.qte * (1 + (c.perte ?? 0));
+      mat.set(c.ref, (mat.get(c.ref) ?? 0) + v);
+      if (parOuvrage) {
+        const m = parOuvrage.get(c.ref) ?? new Map<string, number>();
+        m.set(racine, (m.get(racine) ?? 0) + v);
+        parOuvrage.set(c.ref, m);
+      }
+    } else if (c.type === "mo") mo.set(c.metier, (mo.get(c.metier) ?? 0) + qte * c.h);
+    else derouler(c.ref, qte * c.qte, mat, mo, parOuvrage, racine);
   }
 }
 
@@ -105,7 +114,8 @@ export function quantitatif(r: Resultat): Quantitatif {
 
   const mat = new Map<string, number>();
   const mo = new Map<Metier, number>();
-  for (const l of r.lignes) derouler(l.ouvrage, l.qte, mat, mo);
+  const parOuvrage = new Map<string, Map<string, number>>();
+  for (const l of r.lignes) derouler(l.ouvrage, l.qte, mat, mo, parOuvrage);
   const beton = ["BPE_B15", "BPE_B25", "BPE_B30"].reduce((s, k) => s + (mat.get(k) ?? 0), 0);
   const betonArme = ["BPE_B25", "BPE_B30"].reduce((s, k) => s + (mat.get(k) ?? 0), 0);
   const acier = mat.get("ACIER_HA") ?? 0;
@@ -129,7 +139,8 @@ export function quantitatif(r: Resultat): Quantitatif {
       acierKgParM3: betonArme ? acier / betonArme : 0,
     },
     materiaux: [...mat.entries()]
-      .map(([id, q]) => ({ id, libelle: MATERIAUX[id].libelle, unite: MATERIAUX[id].unite, quantite: q }))
+      .map(([id, q]) => ({ id, libelle: MATERIAUX[id].libelle, unite: MATERIAUX[id].unite, quantite: q,
+        ouvrages: [...(parOuvrage.get(id) ?? new Map()).entries()].map(([code, v]) => ({ code, quantite: v })).sort((a, b) => b.quantite - a.quantite) }))
       .sort((a, b) => a.libelle.localeCompare(b.libelle, "fr")),
     mainOeuvre: [...mo.entries()]
       .map(([metier, h]) => ({ metier, libelle: MAIN_OEUVRE[metier].libelle, heures: h, jours: h / 8 }))

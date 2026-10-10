@@ -13,6 +13,8 @@ import { HYPOTHESES } from "../chiffrage/hypotheses";
 import { quantitatif } from "../chiffrage/quantitatif";
 import { TVA } from "../chiffrage/referentiel";
 import { bordereau, type LotBPDE } from "./bordereau";
+import { ARBITRAGES_DEFAUT, clausesPrive, type ArbitragesCps } from "./clausesPrive";
+import { CORRESPONDANCE_CPS } from "./correspondance";
 import { CLAUSES_CPS, LOT_CPS_PAR_CODE, TYPES_PROJET_CPS, fr } from "./gabarits";
 
 export type OptionsCps = {
@@ -27,6 +29,8 @@ export type OptionsCps = {
   /** "UNITAIRE" (prix unitaires appliqués aux quantités réellement exécutées) ou "FORFAIT". */
   formePrix?: "UNITAIRE" | "FORFAIT";
   date?: string;
+  /** Arbitrages contractuels (prix fermes / révisables, litiges, assurances, délai de paiement). */
+  arbitrages?: Partial<ArbitragesCps>;
 };
 
 export type DocumentCps = { markdown: string; bpde: LotBPDE[]; totalHT: number; totalTTC: number };
@@ -66,8 +70,11 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
 
   const L: string[] = [];
   const p = (s = "") => L.push(s);
-  const totalHT = r.travauxHT;
-  const totalTTC = totalHT * (1 + TVA.taux);
+  // Montants contractuels : ceux du BPDE (quantités et PU arrondis au centime, montants recalculés).
+  const totalHT = Math.round(bpde.reduce((s, l) => s + l.total, 0) * 100) / 100;
+  const totalTTC = Math.round(totalHT * (1 + TVA.taux) * 100) / 100;
+  const arb: ArbitragesCps = { ...ARBITRAGES_DEFAUT, ...o.arbitrages };
+  const prive = clausesPrive(arb, Number(vars.DELAI_AMIABLE_JOURS));
 
   // ── Page de garde ──────────────────────────────────────────────────────
   p("# CAHIER DES PRESCRIPTIONS SPÉCIALES");
@@ -80,12 +87,34 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   p(`| Commune | ${vars.COMMUNE || "[à compléter]"} |`);
   p(`| Nature des travaux | Construction ${collectif ? "d'un immeuble" : "d'une villa"}, tous corps d'état (${bpde.length} lots) |`);
   p(`| Surface de plancher | ${q(r.geometrie.surfaceTotale)} m² (emprise ${q(r.geometrie.emprise)} m²${r.geometrie.surfaceSousSol ? `, sous-sol ${q(r.geometrie.surfaceSousSol)} m²` : ""}) |`);
-  p(`| Montant estimatif | ${dh(totalHT)} DH HT — ${dh(totalTTC)} DH TTC |`);
+  p(`| Montant estimatif | ${dh2(totalHT)} DH HT — ${dh2(totalTTC)} DH TTC |`);
   p(`| Forme du prix | ${formePrix} |`);
   p(`| Délai d'exécution | ${vars.DELAI_EXECUTION_JOURS} jours calendaires |`);
   p(`| Date | ${o.date ?? new Date().toLocaleDateString("fr-FR")} |`);
   p();
-  p("> Document type généré par CITURBAREA à partir du chiffrage lot par lot. Les mentions « [à compléter] » doivent être renseignées avant signature ; les quantités sont estimatives (métré paramétrique) et doivent être confirmées sur les plans d'exécution.");
+  p("> **Statut : document de consultation — estimation paramétrique NON CONTRACTUELLE.** Généré par CITURBAREA à partir du chiffrage lot par lot. Il ne peut être signé qu'après la levée des conditions ci-dessous.");
+  p();
+  p("**Conditions de levée avant signature :**");
+  p();
+  [
+    "quantités de fondations, voiles, planchers et soutènements remplacées par celles de la note de calcul et des plans d'exécution du BET ;",
+    "étude géotechnique réalisée (contrainte admissible, nappe, poussées) et blindages / avoisinants validés ;",
+    "tableau des menuiseries, plans de plomberie, d'électricité, de mise à la terre et de courants faibles établis ;",
+    "mentions « [à compléter] » renseignées (maître d'ouvrage, coefficient sismique…) ;",
+    "clauses administratives relues par le conseil juridique du maître d'ouvrage ;",
+    "offres d'entreprises recueillies et comparées au BPDE.",
+  ].forEach((x, i) => p(`${i + 1}. ${x}`));
+  p();
+  p("**Arbitrages contractuels retenus** (modifiables avant signature) :");
+  p();
+  p("| Sujet | Choix retenu |");
+  p("|:--|:--|");
+  p(`| Caractère des prix | ${arb.prix === "FERMES" ? "fermes et non révisables" : "révisables (formule annexée)"} |`);
+  p(`| Forme des prix | ${o.formePrix === "FORFAIT" ? "forfaitaire" : "prix unitaires ; postes « ff » forfaitaires"} |`);
+  p(`| Règlement des litiges | ${arb.litiges === "TRIBUNAUX" ? "juridictions compétentes du lieu des travaux" : "arbitrage (loi 95-17)"} |`);
+  p(`| Assurances TRC et RCD | ${arb.assurancesContractuelles ? "exigées contractuellement (ouvrage non assujetti à l'obligation légale)" : "non exigées"} |`);
+  p(`| Délai de paiement des situations | ${arb.delaiPaiementJours} jours |`);
+  p("| Plafond des pénalités de retard | 8 % du montant initial HT |");
   p();
 
   // ── Titre I — Clauses administratives ─────────────────────────────────
@@ -94,10 +123,10 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   let n = 0;
   const art = (titre: string, corps: string) => { n += 1; p(`### Article A.${n} — ${titre}`); p(); p(corps); p(); };
   art("Objet du marché", `Le présent marché a pour objet l'exécution, en entreprise générale tous corps d'état, des travaux de construction du projet **${o.nomProjet}**${vars.PROJECT_ADDRESS ? `, ${vars.PROJECT_ADDRESS}` : ""}, tels que définis par le présent CPS, les plans et le bordereau des prix – détail estimatif (Titre IV).`);
-  art("Pièces constitutives du marché", ["Par ordre de priorité décroissante :", "1. l'acte d'engagement ;", "2. le présent cahier des prescriptions spéciales (CPS) ;", "3. le bordereau des prix – détail estimatif (BPDE) ;", "4. les plans architecturaux et d'exécution (BET) visés « bon pour exécution » ;", "5. le rapport d'étude géotechnique ;", "6. le planning d'exécution approuvé ;", "7. les normes marocaines (NM) et le Règlement de construction parasismique (RPS 2000 version 2011) et le Règlement thermique de construction au Maroc (RTCM) en vigueur."].join("\n"));
+  art("Pièces constitutives du marché", ["Par ordre de priorité décroissante :", "1. l'acte d'engagement ;", "2. le présent cahier des prescriptions spéciales (CPS) ;", "3. le bordereau des prix – détail estimatif (BPDE) ;", "4. les plans architecturaux et d'exécution (BET) visés « bon pour exécution » ;", "5. le rapport d'étude géotechnique ;", "6. le planning d'exécution approuvé ;", "7. les normes marocaines (NM), le Règlement de construction parasismique (RPS 2000, version 2011) et le Règlement thermique de construction au Maroc (RTCM) en vigueur ; les DTU et normes étrangères cités aux prescriptions techniques ne valent que comme règles de l'art de référence, à défaut de norme marocaine équivalente.", "", "En cas de discordance entre les quantités du BPDE et les plans d'exécution visés, les plans prévalent pour la consistance des ouvrages ; les prix unitaires du BPDE s'appliquent aux quantités réellement exécutées conformément à ces plans."].join("\n"));
   // Valeurs chiffrées arrêtées : elles priment sur les fourchettes rédigées dans les clauses types.
   art("Valeurs contractuelles arrêtées", [
-    "Les valeurs ci-dessous, reprises du CCAG-Travaux (décret n° 2-14-394) à titre de référence pour le présent marché privé, priment sur toute fourchette mentionnée dans les articles suivants :",
+    "Le CCAG-Travaux (décret n° 2-14-394) ne s'applique pas de plein droit au présent marché privé. Les parties conviennent des valeurs ci-dessous, dont certaines s'inspirent de ce texte à titre de référence ; elles priment sur toute autre mention du présent CPS :",
     "",
     "| Clause | Valeur retenue | Référence |",
     "|:--|:--|:--|",
@@ -114,8 +143,14 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   const codes = [...new Set([...type.clausesLegalesObligatoires, ...CLAUSES_COMPLEMENTAIRES])];
   // Ordre du gabarit (prix, délais, paiement, garanties, réception, pénalités, litiges).
   const clauses = CLAUSES_CPS.filter((c) => codes.includes(c.code) && c.marche.includes("PRIVE"));
-  for (const c of clauses) art(fr(c.titre), retrograder(sub(fr(c.corpsMD))) + (c.fondement ? `\n\n*Fondement : ${c.fondement}.*` : ""));
-  art("Assurances", type.assurancesObligatoires.map((a) => `- **${a.type.replace(/_/g, " ")}** — souscripteur : ${(a.souscripteur ?? a.souscripteurDefault ?? "").replace(/_/g, " ").toLowerCase() || "à préciser"}${a.duree ? `, durée ${a.duree} ans` : ""} (${a.fondement}).`).join("\n"));
+  for (const c of clauses) {
+    // Clauses de marché privé (clausesPrive.ts) prioritaires sur les clauses types ;
+    // les assurances sont traitées par les clauses TRC / RCD (plus d'article « Assurances » générique).
+    const x = prive[c.code];
+    if (x === null) continue;
+    if (x) art(x.titre, `${x.corps}\n\n*Fondement : ${x.fondement}.*`);
+    else art(fr(c.titre), retrograder(sub(fr(c.corpsMD))) + (c.fondement ? `\n\n*Fondement : ${c.fondement}.*` : ""));
+  }
   if (type.visasObligatoires.length) art("Visas et autorisations", type.visasObligatoires.map((v) => `- ${v.type.replace(/_/g, " ")} — phase ${v.phase.replace(/_/g, " ").toLowerCase()}${v.delaiLegal ? ` (délai légal ${v.delaiLegal} jours)` : ""}.`).join("\n") + "\n- Permis de construire et autorisations de voirie : à la charge du maître d'ouvrage avant l'ordre de service de commencement.");
 
   // ── Titre II — Prescriptions techniques ───────────────────────────────
@@ -153,11 +188,22 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   if (qt.ratios.soutenementsHT) p(`- Soutènements (sous-sol, cour anglaise, jardin, limite) : ${dh(qt.ratios.soutenementsHT)} DH HT.`);
   p(`- Béton : ${q(qt.ratios.betonM3ParM2)} m³/m² ; acier : ${q(qt.ratios.acierKgParM2)} kg/m² de plancher (${dh(qt.ratios.acierKgParM3)} kg/m³ de béton armé).`);
   p();
-  p("**Besoins estimés en matériaux principaux** (pertes comprises) :");
+  p("Le montant contractuel est celui du Titre IV ; les montants ci-dessus, issus du calcul, peuvent en différer de quelques dirhams d'arrondi.");
   p();
-  p("| Matériau | Quantité | Unité |");
-  p("|:--|--:|:--|");
-  for (const m of qt.materiaux.filter((x) => x.quantite >= 1)) p(`| ${m.libelle} | ${q(m.quantite)} | ${m.unite} |`);
+  // Rapprochement matériaux → postes du BPDE (constat d'audit n° 18).
+  const posteDe = new Map<string, string>();
+  for (const lot of bpde) for (const x of lot.postes) for (const ov of x.ouvrages) posteDe.set(ov, x.numero);
+  for (const [ov, c] of Object.entries(CORRESPONDANCE_CPS)) if (c.fusionAvec && posteDe.has(c.fusionAvec)) posteDe.set(ov, posteDe.get(c.fusionAvec)!);
+  p("**Besoins estimés en matériaux principaux** (pertes comprises) et postes du BPDE qui les consomment :");
+  p();
+  p("| Matériau | Quantité | Unité | Principaux postes consommateurs (quantité) |");
+  p("|:--|--:|:--|:--|");
+  for (const m of qt.materiaux.filter((x) => x.quantite >= 1)) {
+    const postes = new Map<string, number>();
+    for (const o2 of m.ouvrages) { const k = posteDe.get(o2.code) ?? o2.code; postes.set(k, (postes.get(k) ?? 0) + o2.quantite); }
+    const top = [...postes.entries()].sort((a, b) => b[1] - a[1]).slice(0, 4).map(([k, v]) => `${k} (${q(v)})`).join(", ");
+    p(`| ${m.libelle} | ${q(m.quantite)} | ${m.unite} | ${top} |`);
+  }
   p();
   p("**Main-d'œuvre estimée** :");
   p();
@@ -169,27 +215,27 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   // ── Titre IV — BPDE ─────────────────────────────────────────────────────
   p("## TITRE IV — BORDEREAU DES PRIX – DÉTAIL ESTIMATIF");
   p();
-  p("Prix unitaires HT, établis par sous-détail (matériaux, main-d'œuvre, matériel, frais et marge). Les postes « C » sont des prix complémentaires hors gabarit ; les sous-postes « -a, -b » distinguent des ouvrages de prix différents relevant d'un même article.");
+  p("Prix unitaires HT, établis par sous-détail (matériaux, main-d'œuvre, matériel, frais et marge), installation de chantier exclue (poste forfaitaire 00.01). La numérotation suit les lots des gabarits CPS (00 à 26, seuls les lots du projet figurent). Les postes « C » sont des prix complémentaires hors gabarit ; les sous-postes « -a, -b » distinguent des ouvrages de prix différents relevant d'un même article. Quantités et prix unitaires sont arrêtés au centime ; chaque montant est égal à la quantité multipliée par le prix unitaire affichés.");
   p();
   for (const lot of bpde) {
     p(`### Lot ${String(lot.numero).padStart(2, "0")} — ${lot.intitule}`);
     p();
     p("| N° | Désignation | U | Quantité | PU HT | Montant HT |");
     p("|:--|:--|:--|--:|--:|--:|");
-    for (const x of lot.postes) p(`| ${x.numero} | ${cellule(x.designation)}${x.note ? ` (${x.note})` : ""} | ${x.unite} | ${q(x.quantite)} | ${dh2(x.pu)} | ${dh(x.montant)} |`);
-    p(`| | **Total lot ${String(lot.numero).padStart(2, "0")}** | | | | **${dh(lot.total)}** |`);
+    for (const x of lot.postes) p(`| ${x.numero} | ${cellule(x.designation)}${x.note ? ` (${x.note})` : ""} | ${x.unite} | ${q(x.quantite)} | ${dh2(x.pu)} | ${dh2(x.montant)} |`);
+    p(`| | **Total lot ${String(lot.numero).padStart(2, "0")}** | | | | **${dh2(lot.total)}** |`);
     p();
   }
   p("### Récapitulatif");
   p();
   p("| Lot | Intitulé | Montant HT (DH) |");
   p("|:--|:--|--:|");
-  for (const lot of bpde) p(`| ${String(lot.numero).padStart(2, "0")} | ${lot.intitule} | ${dh(lot.total)} |`);
-  p(`| | **Total HT** | **${dh(totalHT)}** |`);
-  p(`| | TVA ${Math.round(TVA.taux * 100)} % | ${dh(totalHT * TVA.taux)} |`);
-  p(`| | **Total TTC** | **${dh(totalTTC)}** |`);
+  for (const lot of bpde) p(`| ${String(lot.numero).padStart(2, "0")} | ${lot.intitule} | ${dh2(lot.total)} |`);
+  p(`| | **Total HT** | **${dh2(totalHT)}** |`);
+  p(`| | TVA ${Math.round(TVA.taux * 100)} % | ${dh2(Math.round(totalHT * TVA.taux * 100) / 100)} |`);
+  p(`| | **Total TTC** | **${dh2(totalTTC)}** |`);
   p();
-  p(`Arrêté le présent détail estimatif à la somme de **${dh(totalTTC)} DH TTC** (estimation ; provision pour aléas non comprise : ${dh(r.aleasHT)} DH HT).`);
+  p(`Arrêté le présent détail estimatif à la somme de **${dh2(totalTTC)} DH TTC** (estimation ; provision pour aléas non comprise : ${dh(r.aleasHT)} DH HT).`);
   p();
 
   // ── Annexes ─────────────────────────────────────────────────────────────
@@ -202,6 +248,24 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   p("| Hypothèse | Valeur |");
   p("|:--|--:|");
   for (const [id, v] of Object.entries(r.hypotheses)) p(`| ${HYPOTHESES[id]?.libelle ?? id} | ${v.toLocaleString("fr-FR")} ${HYPOTHESES[id]?.unite ?? ""} |`);
+  p();
+  // Réserves techniques : ce que le métré paramétrique ne permet pas de certifier.
+  p("## ANNEXE 3 — RÉSERVES TECHNIQUES");
+  p();
+  p("Les quantités suivantes résultent de ratios et ne valent pas dimensionnement. Elles doivent être remplacées par celles des plans d'exécution et de la note de calcul du BET avant contractualisation :");
+  p();
+  const a = (ov: string) => r.lignes.some((l) => l.ouvrage === ov);
+  const res: string[] = [];
+  if (a("FON.02") || a("FON.03")) res.push(`fondations : volume des semelles par ratio (${r.hypotheses["fon.ratio." + r.input.sol] ?? "—"} m³/m² de plancher)${r.hypotheses["ss.reductionSemelles"] ? `, réduit de ${Math.round(r.hypotheses["ss.reductionSemelles"] * 100)} % sous sous-sol (hypothèse économique, non structurelle)` : ""} ;`);
+  if (a("FON.04")) res.push("radier : épaisseur moyenne par hypothèse, à fixer par le BET selon l'étude de sol ;");
+  if (a("FON.10")) res.push("voile périphérique enterré : épaisseur 20 cm, béton B30 et 100 kg d'acier/m³ par hypothèse ; poussées, surcharges, appuis et nappe à vérifier ;");
+  if (a("TER.08")) res.push("blindage : prévu au seul droit des côtés mitoyens ; talutage, avoisinants et accès à vérifier sur plan d'installation ;");
+  if (r.lignes.some((l) => l.id.startsWith("SOUT"))) res.push("soutènements localisés (cour anglaise, jardin, terrasse, limite) : sections par ratio, à dimensionner (coupe, ferraillage, drainage, garde-corps) ;");
+  if (a("STR.03") || a("STR.04") || a("STR.05")) res.push("planchers, poteaux et poutres : surfaces et volumes par ratio au m² de plancher, à reprendre sur plans de coffrage ;");
+  res.push("menuiseries extérieures : surface de baies par ratio ; tableau des menuiseries (profils, vitrages, performances RTCM) à établir ;");
+  res.push("plomberie, électricité, mise à la terre et courants faibles : quantités par ratio ; plans et schémas d'exécution à établir, essais de réception à prévoir ;");
+  res.push("réseaux extérieurs : limites de prestation avec les concessionnaires (ONEE, régie) à préciser ; branchements hors marché sauf mention contraire.");
+  res.forEach((x, i) => p(`${i + 1}. ${x}`));
   p();
   return { markdown: L.join("\n"), bpde, totalHT, totalTTC };
 }
