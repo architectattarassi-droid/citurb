@@ -37,6 +37,60 @@ function courMinReglementaire(e: number): number {
   return 24;
 }
 
+/** Coefficient d'emprise au sol (CES) retenu par la règle métier. */
+export function cesParcelle(p: ParcelleInput): number | null {
+  if (p.bati === "villa") {
+    if (!p.villaType) return null;
+    return p.villaType === "bande" ? 0.5 : p.villaType === "jumelee" ? 0.4 : 0.3;
+  }
+  const it = p.immeubleType ?? "standard";
+  return it === "maison_ville" ? 0.7 : it === "rdc_commercial" ? (p.galerie === false ? 1.0 : 0.7) : 1.0;
+}
+
+export type DecompositionSP = {
+  ces: number;
+  /** Emprise du RDC (m²), nette de la cour le cas échéant. */
+  rdc: number;
+  /** Surface de chaque étage (m²), du R+1 au R+N. */
+  etages: number[];
+  sousSol: number;
+  /** Cage d'escalier + buanderie + terrasse. */
+  forfait: number;
+  /** = computeParcelleSP (même règle, arrondie). */
+  total: number;
+};
+
+/**
+ * Même règle que computeParcelleSP, détaillée niveau par niveau (RDC, étages,
+ * sous-sol, forfait) : sert au métré du chiffrage lot par lot.
+ */
+export function decomposeParcelleSP(p: ParcelleInput): DecompositionSP | null {
+  const st = Number(p.surfaceTerrain);
+  const ces = cesParcelle(p);
+  if (!Number.isFinite(st) || st <= 0 || ces == null) return null;
+  const hasBasement = p.sousSol ? 1 : 0;
+  const coefEtage = p.voieLarge ? 1.1 : 1.0;
+  const e = Math.max(0, Math.floor(Number(p.etages) || 0));
+  const plein = st * ces;
+  const out = (rdc: number, etages: number[], sousSol: number): DecompositionSP => ({
+    ces, rdc, etages, sousSol, forfait: FORFAIT_ADDONS_M2, total: computeParcelleSP(p)!,
+  });
+  const n = (v: number) => Array.from({ length: e }, () => v);
+  if (p.bati === "villa" || Number(p.facades ?? 2) >= 2) return out(plein, n(plein * coefEtage), hasBasement * plein);
+  const mode = p.rdcCourMode ?? "unknown";
+  if (mode === "unknown") return out(plein, n(plein), hasBasement * plein);
+  if (mode === "with_cour") {
+    const net = Math.max(0, plein - Math.max(Number(p.courSurface || 0), courMinReglementaire(e)));
+    return out(net, n(net), hasBasement * net);
+  }
+  const etages = Array.from({ length: e }, (_, k) => {
+    const i = k + 1;
+    const cour = e === 3 && i === 3 ? 16 : e >= 4 && i === e ? 20 : 9;
+    return Math.max(0, plein - cour);
+  });
+  return out(plein, etages, hasBasement * plein);
+}
+
 /** Retourne la SP estimée (m²) ou null si données insuffisantes. */
 export function computeParcelleSP(p: ParcelleInput): number | null {
   const st = Number(p.surfaceTerrain);

@@ -279,6 +279,34 @@ export const K_PRIVE = +((1 + COEF_K.fraisChantier) * (1 + COEF_K.fraisGeneraux)
  */
 export const K_SOUS_TRAITANCE = { ref: 1.12, min: 1.08, max: 1.18, source: hyp("Coefficient de coordination de l'entreprise générale sur les lots sous-traités") };
 
+/**
+ * Mode de réalisation. La villa très économique se réalise en pratique par
+ * tâcheron / artisans : « formule annoncée 15 à 20 % moins chère que
+ * l'entreprise » (marche-prive-main-oeuvre.md §4.3, op-tache-go-aqar,
+ * op-tache-go-mawtini) ; les fournitures fabriquées (menuiseries, sanitaires,
+ * équipements) sont achetées par le client, sans coefficient de coordination.
+ */
+export type Regime = "ENTREPRISE" | "TACHERON";
+export const REGIMES: Record<Regime, { libelle: string; facteurK: { min: number; ref: number; max: number }; kSousTraite: { min: number; ref: number; max: number }; source: SourceRef }> = {
+  ENTREPRISE: {
+    libelle: "Entreprise générale (HT, frais et marge compris)",
+    facteurK: { min: 1, ref: 1, max: 1 },
+    kSousTraite: K_SOUS_TRAITANCE,
+    source: COEF_K.source,
+  },
+  TACHERON: {
+    libelle: "Tâcheron / artisans (fournitures achetées par le client)",
+    facteurK: { min: 0.8, ref: 0.83, max: 0.85 },
+    kSousTraite: { min: 1, ref: 1, max: 1 },
+    source: src(M, ["op-tache-go-aqar", "op-tache-go-mawtini"], "C", "2024-07/2026-04", "Tâcheron 15 à 20 % moins cher que l'entreprise (marche-prive-main-oeuvre.md §4.3)"),
+  },
+};
+
+/** Régime par défaut : tâcheron pour le très économique, entreprise sinon. */
+export function regimeParDefaut(standing: string): Regime {
+  return standing === "ULTRA_ECO" ? "TACHERON" : "ENTREPRISE";
+}
+
 /** Petit matériel et consommables, en % de la main-d'œuvre (hypothèse ; CYPE n'applique que 2 % de coûts directs complémentaires). */
 export const PETIT_MATERIEL_MO = 0.05;
 

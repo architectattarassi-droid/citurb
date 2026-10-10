@@ -10,8 +10,10 @@ import { HYPOTHESES } from "./hypotheses";
 import { LOTS, LOT_PAR_CODE, type CodeLot, type Lot } from "./lots";
 import { metre, type Geometrie, type LigneMetre, type ProjetInput } from "./metre";
 import { OUVRAGES } from "./ouvrages";
-import { prixOuvrage, type PrixOuvrage } from "./prix";
-import { COEF_K, K_PRIVE, TVA, coefsRegionaux, type SourceRef } from "./referentiel";
+import { resoudreProjet } from "./parcelle";
+import { coefK, prixOuvrage, type PrixOuvrage } from "./prix";
+import { COEF_K, K_PRIVE, REGIMES, TVA, coefsRegionaux, regimeParDefaut, type Regime, type SourceRef } from "./referentiel";
+import type { DecompositionSP } from "../../command-center/modules/dossiers/parcelleSP";
 
 export type Origine = "ratio" | "parametrique" | "saisie";
 
@@ -67,6 +69,11 @@ export type Resultat = {
   totalTTC: number;
   coutM2HT: number;
   coutM2HorsSolHT: number;
+  /** Bâtiment seul (hors clôture, portail, réseaux, options) par m² de plancher, sous-sol compris. */
+  coutM2BatimentHT: number;
+  regime: Regime;
+  /** Surfaces issues de la règle parcelle (null : surfaces saisies). */
+  decomposition: DecompositionSP | null;
   /** Bâtiment seul (hors extérieurs, VRD et options) : base des contrôles avec la grille. */
   batimentHT: number;
   partGrosOeuvre: number;
@@ -104,7 +111,9 @@ export function taxesAutorisation(surfaceCouverte: number, collectif: boolean, f
   ];
 }
 
-export function chiffrer(input: ProjetInput, options: OptionsChiffrage = {}): Resultat {
+export function chiffrer(brut: ProjetInput, options: OptionsChiffrage = {}): Resultat {
+  const { projet: input, decomposition } = resoudreProjet(brut);
+  const regime = input.regime ?? regimeParDefaut(input.standing);
   const { lignes: lm, geometrie, hypotheses } = metre(input);
   const coef = coefRegional(input.ville);
   const reg = coefsRegionaux(coef);
@@ -112,7 +121,7 @@ export function chiffrer(input: ProjetInput, options: OptionsChiffrage = {}): Re
   const h = (id: string) => input.hypotheses?.[id] ?? HYPOTHESES[id].valeur;
 
   const lignes: LigneDQE[] = lm.map((l) => {
-    const p = prixOuvrage(l.ouvrage, region);
+    const p = prixOuvrage(l.ouvrage, region, regime);
     const o = OUVRAGES[l.ouvrage];
     return {
       ...l, lot: o.lot, libelle: o.libelle, unite: o.unite,
@@ -171,18 +180,19 @@ export function chiffrer(input: ProjetInput, options: OptionsChiffrage = {}): Re
   // Précision : quantités (méthode) et prix (fourchettes des intrants).
   const qte = ouvragesHT ? lignes.reduce((s, l) => s + INCERTITUDE_QTE[l.origine] * l.montant, 0) / ouvragesHT : 0;
   const quad = Math.sqrt(lignes.reduce((s, l) => s + ((l.montantMax - l.montantMin) / 2) ** 2, 0));
-  const prix = ouvragesHT ? quad / ouvragesHT + (COEF_K.max - COEF_K.min) / 2 / K_PRIVE : 0;
+  const prix = ouvragesHT ? quad / ouvragesHT + (COEF_K.max * REGIMES[regime].facteurK.max - COEF_K.min * REGIMES[regime].facteurK.min) / 2 / (K_PRIVE * REGIMES[regime].facteurK.ref) : 0;
   const global = Math.sqrt(qte ** 2 + prix ** 2);
   const niveau: 1 | 2 | 3 = qte <= 0.05 ? 3 : qte <= 0.1 ? 2 : 1;
 
   const res: Resultat = {
-    input, geometrie, hypotheses,
+    input, geometrie, hypotheses, regime, decomposition,
     region: { ville: input.ville ?? "", coef, mat: reg.mat, mo: reg.mo },
-    k: K_PRIVE,
+    k: coefK({ sousTraite: false } as never, "ref", regime),
     lots, lignes,
     ouvragesHT, installationHT, travauxHT, aleasHT, totalHT, tva, totalTTC,
     coutM2HT: travauxHT / geometrie.surfaceTotale,
     coutM2HorsSolHT: travauxHT / input.surfacePlancher,
+    coutM2BatimentHT: batimentHT / geometrie.surfaceTotale,
     batimentHT, partGrosOeuvre,
     honoraires: { lignes: hon, totalHT: honHT, tva: honHT * TVA.taux, totalTTC: honHT * (1 + TVA.taux) },
     taxes: { lignes: taxes, total: taxesTotal },
@@ -192,7 +202,7 @@ export function chiffrer(input: ProjetInput, options: OptionsChiffrage = {}): Re
     fourchette: { min: totalHT * (1 - global), max: totalHT * (1 + global) },
     impacts: [],
   };
-  if (options.impacts !== false) res.impacts = calculerImpacts(input, res);
+  if (options.impacts !== false) res.impacts = calculerImpacts(brut, res);
   return res;
 }
 
@@ -227,7 +237,7 @@ export function calculerImpacts(input: ProjetInput, res: Resultat): Impact[] {
 export function comparerStandings(input: ProjetInput) {
   return (["ULTRA_ECO", "ECONOMIQUE", "STANDARD", "STANDING", "PREMIUM"] as const).map((s) => {
     const r = chiffrer({ ...input, standing: s, finitions: undefined }, { impacts: false });
-    return { standing: s, travauxHT: r.travauxHT, coutM2HT: r.coutM2HT, totalTTC: r.totalTTC };
+    return { standing: s, travauxHT: r.travauxHT, coutM2HT: r.coutM2HT, coutM2BatimentHT: r.coutM2BatimentHT, totalTTC: r.totalTTC, regime: r.regime };
   });
 }
 

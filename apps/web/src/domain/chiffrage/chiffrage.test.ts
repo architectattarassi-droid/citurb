@@ -81,10 +81,27 @@ describe("villa R+1 de 150 m² à Kénitra, bon sol, sans sous-sol", () => {
     }
   });
 
-  it("très économique : au-dessus de la grille (tâcheron) mais dans le marché entreprise éco 2 800-4 200 DH/m²", () => {
-    const g = controleGrille(chiffrer({ ...VILLA, standing: "ULTRA_ECO" }, { impacts: false }));
-    expect(g.coutM2RSK).toBeGreaterThan(2800);
-    expect(g.coutM2RSK).toBeLessThan(4200);
+  it("très économique : réalisé par tâcheron, ≈ 3 000 DH/m² (dans la grille 2 500-3 500)", () => {
+    const r = chiffrer({ ...VILLA, standing: "ULTRA_ECO" }, { impacts: false });
+    expect(r.regime).toBe("TACHERON");
+    const g = controleGrille(r);
+    expect(g.ok, `${Math.round(g.coutM2RSK)}`).toBe(true);
+    expect(g.coutM2RSK).toBeGreaterThan(2700);
+    expect(g.coutM2RSK).toBeLessThan(3400);
+    // En entreprise générale, le même projet coûte 15 à 20 % de plus.
+    const e = chiffrer({ ...VILLA, standing: "ULTRA_ECO", regime: "ENTREPRISE" }, { impacts: false });
+    expect(e.travauxHT / r.travauxHT).toBeGreaterThan(1.12);
+    expect(e.travauxHT / r.travauxHT).toBeLessThan(1.25);
+  });
+
+  it("surfaces calculées depuis la parcelle : villa jumelée 294 m², R+1 + sous-sol = 376,8 m² (règle parcelleSP)", () => {
+    const r = chiffrer({ ...VILLA, surfacePlancher: 0, surfaceTerrain: 294, parcelle: { villaType: "jumelee" }, sousSol: { profondeur: 3 } }, { impacts: false });
+    expect(r.decomposition!.total).toBe(377);
+    expect(r.geometrie.emprise).toBeCloseTo(117.6, 1);
+    expect(r.geometrie.surfaceSousSol).toBeCloseTo(117.6, 1);
+    expect(r.geometrie.surfaceTotale).toBeCloseTo(376.8, 1);
+    expect(r.input.mitoyennete).toBe(1);
+    expect(r.lignes.some((l) => l.id === "SS.blindage")).toBe(true);
   });
 
   it("le gros œuvre pèse 45 à 55 % en économique et moyen standing", () => {

@@ -13,4 +13,5 @@ export * from "./metre";
 export * from "./dqe";
 export * from "./coherence";
 export * from "./correspondanceCIT";
+export * from "./parcelle";
 export const CHIFFRAGE_VERSION = "2026-10";

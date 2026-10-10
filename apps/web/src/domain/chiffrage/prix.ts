@@ -5,8 +5,8 @@
  */
 import { OUVRAGES, type Ouvrage } from "./ouvrages";
 import {
-  COEF_K, K_PRIVE, K_SOUS_TRAITANCE, MAIN_OEUVRE, MATERIAUX, PETIT_MATERIEL_MO,
-  coutHoraire, prixHT, type Fiabilite,
+  COEF_K, K_PRIVE, MAIN_OEUVRE, MATERIAUX, PETIT_MATERIEL_MO, REGIMES,
+  coutHoraire, prixHT, type Fiabilite, type Regime,
 } from "./referentiel";
 
 export type Borne = "min" | "ref" | "max";
@@ -102,17 +102,18 @@ function dominante(f: Record<Fiabilite, number>): Fiabilite {
   return (Object.keys(f) as Fiabilite[]).reduce((a, b) => (f[b] > f[a] ? b : a), "A");
 }
 
-export function coefK(o: Ouvrage, borne: Borne): number {
-  if (o.sousTraite) return K_SOUS_TRAITANCE[borne];
-  return borne === "ref" ? K_PRIVE : COEF_K[borne];
+export function coefK(o: Ouvrage, borne: Borne, regime: Regime = "ENTREPRISE"): number {
+  const r = REGIMES[regime];
+  if (o.sousTraite) return r.kSousTraite[borne];
+  return (borne === "ref" ? K_PRIVE : COEF_K[borne]) * r.facteurK[borne];
 }
 
 /** Prix unitaire de vente HT (posé), régionalisé, avec fourchette. */
-export function prixOuvrage(code: string, region: CoefsRegion = SANS_REGION): PrixOuvrage {
+export function prixOuvrage(code: string, region: CoefsRegion = SANS_REGION, regime: Regime = "ENTREPRISE"): PrixOuvrage {
   const o = OUVRAGES[code];
   if (!o) throw new Error(`Ouvrage inconnu : ${code}`);
   const ref = debourse(code, "ref", region);
-  const k = coefK(o, "ref");
+  const k = coefK(o, "ref", regime);
   const tot = ref.total || 1;
   const partFiabilite = vide();
   for (const f of Object.keys(partFiabilite) as Fiabilite[]) partFiabilite[f] = ref.fiab[f] / tot;
@@ -122,8 +123,8 @@ export function prixOuvrage(code: string, region: CoefsRegion = SANS_REGION): Pr
     debourseSec: ref.total,
     k,
     pu: ref.total * k,
-    min: debourse(code, "min", region).total * coefK(o, "min"),
-    max: debourse(code, "max", region).total * coefK(o, "max"),
+    min: debourse(code, "min", region).total * coefK(o, "min", regime),
+    max: debourse(code, "max", region).total * coefK(o, "max", regime),
     sousDetail: ref.lignes,
     repartition: { materiaux: ref.materiaux, mainOeuvre: ref.mainOeuvre, materiel: ref.materiel, total: ref.total },
     partFiabilite,

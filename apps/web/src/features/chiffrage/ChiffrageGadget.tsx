@@ -13,7 +13,8 @@ import { standingLabel } from "../../command-center/modules/dossiers/costRangesM
 import {
   HYPOTHESES, INCERTITUDE_QTE, LOTS_FINITION, MATERIAUX, MAIN_OEUVRE, STANDINGS, TYPE_GRILLE, TVA,
   chiffrer, coherence, comparerStandings,
-  type LigneDQE, type LotFinition, type NatureSol, type ProjetInput, type Resultat, type TypeBatiment,
+  REGIMES, regimeParDefaut,
+  type LigneDQE, type LotFinition, type NatureSol, type ParcelleChiffrage, type ProjetInput, type Regime, type Resultat, type TypeBatiment,
 } from "../../domain/chiffrage";
 import type { Standing, TypeProjet } from "../../command-center/modules/dossiers/costRangesMA";
 import { GAMMES_LIBELLES, VILLES, texte } from "./textes";
@@ -26,10 +27,21 @@ const dec = (n: number, d = 2) => n.toLocaleString("fr-FR", { minimumFractionDig
 /** La feuille de style globale habille les <button> et les <a> : on neutralise pour les boutons-liens. */
 const LIEN: React.CSSProperties = { background: "none", border: 0, padding: 0, boxShadow: "none" };
 
-const BROUILLON = "citurbarea:chiffrage:v1";
+const BROUILLON = "citurbarea:chiffrage:v2";
+
+const m2 = (n: number) => `${(Math.round(n * 10) / 10).toLocaleString("fr-FR")} m²`;
+
+/** Sous-type par défaut pour la règle parcelle (CES) selon le type de projet. */
+export function parcelleParDefaut(type: TypeBatiment): ParcelleChiffrage {
+  if (type === "VILLA") return { villaType: "isolee" };
+  if (type === "MAISON") return { immeubleType: "maison_ville", facades: 1 };
+  if (type === "MIXTE") return { immeubleType: "rdc_commercial", facades: 2, galerie: true };
+  return { immeubleType: "standard", facades: 2 };
+}
 
 export const PROJET_DEFAUT: ProjetInput = {
   type: "VILLA", ville: "Rabat", surfacePlancher: 200, niveaux: 2, standing: "ECONOMIQUE", sol: "BON", pente: 0,
+  surfaceTerrain: 300, parcelle: { villaType: "isolee" },
   sousSol: null, nappe: false, chambres: 4, sallesDeBain: 3, terrasses: 12,
 };
 
@@ -60,6 +72,8 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
   }, [projet]);
 
   const maj = (patch: Partial<ProjetInput>) => setProjet((p) => ({ ...p, ...patch }));
+  // Un changement de sous-type redonne la mitoyenneté par défaut (jumelée = 1 côté…).
+  const majParcelle = (patch: Partial<ParcelleChiffrage>) => setProjet((p) => ({ ...p, parcelle: { ...p.parcelle, ...patch }, mitoyennete: undefined }));
   const differe = useDeferredValue(projet);
   const res = useMemo(() => chiffrer(differe), [differe]);
   const comp = useMemo(() => comparerStandings(differe), [differe]);
@@ -101,10 +115,49 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
                   {() => (
                     <Segments grille valeur={projet.type} options={(["VILLA", "MAISON", "IMMEUBLE", "MIXTE"] as TypeBatiment[]).map((v) => ({ v, l: t(`type.${v}` as never) }))}
                       onChange={(v) => maj(v === "IMMEUBLE" || v === "MIXTE"
-                        ? { type: v, surfacePlancher: Math.max(projet.surfacePlancher, 600), niveaux: Math.max(projet.niveaux, 5), chambres: undefined, sallesDeBain: undefined, terrasses: 0 }
-                        : { type: v, niveaux: Math.min(projet.niveaux, 3), surfacePlancher: Math.min(projet.surfacePlancher, 600), chambres: projet.chambres ?? 4, sallesDeBain: projet.sallesDeBain ?? 3 })} />
+                        ? { type: v, surfacePlancher: Math.max(projet.surfacePlancher, 600), niveaux: Math.max(projet.niveaux, 4), chambres: undefined, sallesDeBain: undefined, terrasses: 0, mitoyennete: undefined, parcelle: projet.parcelle ? parcelleParDefaut(v) : projet.parcelle }
+                        : { type: v, niveaux: Math.min(projet.niveaux, 3), surfacePlancher: Math.min(projet.surfacePlancher, 600), chambres: projet.chambres ?? 4, sallesDeBain: projet.sallesDeBain ?? 3, mitoyennete: undefined, parcelle: projet.parcelle ? (v === "VILLA" && projet.parcelle.villaType ? projet.parcelle : parcelleParDefaut(v)) : projet.parcelle })} />
                   )}
                 </Champ>
+                {projet.parcelle && (projet.type === "VILLA" ? (
+                  <Champ label={t("typeVilla")}>
+                    {() => (
+                      <Segments valeur={projet.parcelle?.villaType ?? "isolee"}
+                        options={(["isolee", "jumelee", "bande"] as const).map((v) => ({ v, l: t(`villa.${v}` as never) }))}
+                        onChange={(v) => majParcelle({ villaType: v })} />
+                    )}
+                  </Champ>
+                ) : (
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <Champ label={t("typeImmeuble")}>
+                      {(id) => (
+                        <select id={id} className={INPUT} value={projet.parcelle?.immeubleType ?? "standard"} onChange={(e) => majParcelle({ immeubleType: e.target.value as never })}>
+                          {(["standard", "maison_ville", "rdc_commercial"] as const).map((v) => <option key={v} value={v}>{t(`imm.${v}` as never)}</option>)}
+                        </select>
+                      )}
+                    </Champ>
+                    <Champ label={t("facades")}>
+                      {() => <Segments valeur={Number(projet.parcelle?.facades ?? 2)} options={[{ v: 1, l: t("facade1") }, { v: 2, l: t("facade2") }]} onChange={(v) => majParcelle({ facades: v })} />}
+                    </Champ>
+                    {projet.parcelle?.immeubleType === "rdc_commercial" && (
+                      <Bascule label={t("galerie")} actif={projet.parcelle?.galerie !== false} onChange={(on) => majParcelle({ galerie: on })} />
+                    )}
+                    {Number(projet.parcelle?.facades ?? 2) === 1 && (
+                      <Champ label={t("cour")}>
+                        {(id) => (
+                          <select id={id} className={INPUT} value={projet.parcelle?.rdcCourMode ?? "unknown"} onChange={(e) => majParcelle({ rdcCourMode: e.target.value as never })}>
+                            {(["unknown", "with_cour", "without_cour"] as const).map((v) => <option key={v} value={v}>{t(`cour.${v}` as never)}</option>)}
+                          </select>
+                        )}
+                      </Champ>
+                    )}
+                    {Number(projet.parcelle?.facades ?? 2) === 1 && projet.parcelle?.rdcCourMode === "with_cour" && (
+                      <Champ label={t("courSurface")}>
+                        {(id) => <Nombre id={id} valeur={projet.parcelle?.courSurface} unite="m²" min={0} max={500} onChange={(v) => majParcelle({ courSurface: v })} />}
+                      </Champ>
+                    )}
+                  </div>
+                ))}
                 <div className="grid gap-5 sm:grid-cols-2">
                   <Champ label={t("ville")}>
                     {(id) => (
@@ -114,8 +167,8 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
                       </select>
                     )}
                   </Champ>
-                  <Champ label={t("surface")} aide={`${t("emprise")} : ${Math.round(res.geometrie.emprise)} m²`}>
-                    {(id) => <Nombre id={id} valeur={projet.surfacePlancher} unite="m²" min={30} max={20000} pas={5} onChange={(v) => maj({ surfacePlancher: v ?? 0 })} />}
+                  <Champ label={t("terrain")} aide={projet.surfaceTerrain ? undefined : `${t("auto")} : ${Math.round(res.geometrie.surfaceTerrain)} m²`}>
+                    {(id) => <Nombre id={id} valeur={projet.surfaceTerrain} unite="m²" min={30} max={100000} pas={1} onChange={(v) => maj({ surfaceTerrain: v })} />}
                   </Champ>
                 </div>
                 <Champ label={t("niveaux")}>
@@ -125,6 +178,40 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
                       onChange={(n) => maj({ niveaux: n })} />
                   )}
                 </Champ>
+                <div className="grid gap-x-6 gap-y-1 sm:grid-cols-2">
+                  <Bascule label={t("sousSol")} actif={!!projet.sousSol} onChange={(on) => maj({ sousSol: on ? { profondeur: projet.sousSol?.profondeur ?? 3 } : null, nappe: on ? projet.nappe : false })} />
+                  {projet.parcelle && <Bascule label={t("voieLarge")} actif={!!projet.parcelle.voieLarge} onChange={(on) => majParcelle({ voieLarge: on })} />}
+                </div>
+
+                {/* Surface plancher : règle parcelle du cabinet, ou saisie directe */}
+                <div className="rounded-xl border border-[#C9A227]/60 bg-[#FBF6E7] p-4">
+                  {res.decomposition ? (
+                    <>
+                      <p className="text-sm text-slate-700">{t("surfaceCalculee")}</p>
+                      <p className="mt-1 text-2xl font-bold tabular-nums text-[#0B1B3A]">{m2(res.geometrie.surfaceTotale)}</p>
+                      <p className="mt-1 text-sm text-slate-700">
+                        {t("emprise")} {m2(res.decomposition.rdc)} (CES {res.decomposition.ces.toLocaleString("fr-FR")} × {m2(projet.surfaceTerrain ?? 0)})
+                      </p>
+                      <p className="mt-1 text-xs leading-relaxed text-slate-600">
+                        RDC {m2(res.decomposition.rdc)}
+                        {res.decomposition.etages.map((s, i) => <span key={i}> + R+{i + 1} {m2(s)}</span>)}
+                        {res.decomposition.sousSol > 0 && <> + {t("sousSol").toLowerCase()} {m2(res.decomposition.sousSol)}</>}
+                        {" "}+ {t("forfait")} {m2(res.decomposition.forfait)}
+                      </p>
+                      <button type="button" style={LIEN} onClick={() => maj({ parcelle: null, surfacePlancher: res.input.surfacePlancher, emprise: res.geometrie.emprise })} className="mt-2 text-xs font-semibold text-[#0B1B3A] underline">{t("saisieDirecte")}</button>
+                    </>
+                  ) : (
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <Champ label={t("surface")}>
+                        {(id) => <Nombre id={id} valeur={projet.surfacePlancher} unite="m²" min={30} max={20000} pas={5} onChange={(v) => maj({ surfacePlancher: v ?? 0 })} />}
+                      </Champ>
+                      <Champ label={t("emprise")} aide={projet.emprise ? undefined : `${t("auto")} : ${Math.round(res.geometrie.emprise)} m²`}>
+                        {(id) => <Nombre id={id} valeur={projet.emprise} unite="m²" min={20} max={20000} pas={5} onChange={(v) => maj({ emprise: v })} />}
+                      </Champ>
+                      <button type="button" style={LIEN} onClick={() => maj({ parcelle: parcelleParDefaut(projet.type), surfaceTerrain: projet.surfaceTerrain || 300, mitoyennete: undefined })} className="text-left text-xs font-semibold text-[#0B1B3A] underline sm:col-span-2">{t("calculParcelle")}</button>
+                    </div>
+                  )}
+                </div>
                 <Champ label={t("standing")}>
                   {() => (
                     <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
@@ -135,11 +222,19 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
                           <button key={s} type="button" aria-pressed={actif} onClick={() => maj({ standing: s, finitions: undefined })}
                             className={`min-h-[64px] rounded-lg border px-2 py-2 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A227] ${actif ? "border-[#0B1B3A] bg-[#0B1B3A] text-white" : "border-slate-300 bg-white hover:border-slate-400"}`}>
                             <span className="block text-sm font-semibold leading-tight">{standingLabel(typeGrille, s)}</span>
-                            {c && <span className={`mt-1 block text-xs ${actif ? "text-[#E8D59A]" : "text-slate-500"}`}>≈ {Math.round(c.coutM2HT).toLocaleString("fr-FR")} DH/m²</span>}
+                            {c && <span className={`mt-1 block text-xs ${actif ? "text-[#E8D59A]" : "text-slate-500"}`}>≈ {Math.round(c.coutM2BatimentHT).toLocaleString("fr-FR")} DH/m²{c.regime === "TACHERON" ? ` · ${t("parTacheron")}` : ""}</span>}
                           </button>
                         );
                       })}
                     </div>
+                  )}
+                </Champ>
+                <Champ label={t("regime")} aide={t("regimeAide")}>
+                  {(id) => (
+                    <select id={id} className={INPUT} value={projet.regime ?? ""} onChange={(e) => maj({ regime: (e.target.value || undefined) as Regime | undefined })}>
+                      <option value="">{t("regimeAuto")} ({REGIMES[regimeParDefaut(projet.standing)].libelle.toLowerCase()})</option>
+                      {(Object.keys(REGIMES) as Regime[]).map((r) => <option key={r} value={r}>{REGIMES[r].libelle}</option>)}
+                    </select>
                   )}
                 </Champ>
                 {collectif ? (
@@ -158,17 +253,11 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
             {etape === 2 && (
               <div className="grid gap-5">
                 <div className="grid gap-5 sm:grid-cols-2">
-                  <Champ label={t("terrain")} aide={projet.surfaceTerrain ? undefined : `${t("auto")} : ${Math.round(res.geometrie.surfaceTerrain)} m²`}>
-                    {(id) => <Nombre id={id} valeur={projet.surfaceTerrain} unite="m²" min={30} max={100000} pas={10} onChange={(v) => maj({ surfaceTerrain: v })} />}
-                  </Champ>
-                  <Champ label={t("emprise")} aide={projet.emprise ? undefined : `${t("auto")} : ${Math.round(res.geometrie.emprise)} m²`}>
-                    {(id) => <Nombre id={id} valeur={projet.emprise} unite="m²" min={20} max={20000} pas={5} onChange={(v) => maj({ emprise: v })} />}
-                  </Champ>
                   <Champ label={t("hsp")}>
                     {(id) => <Nombre id={id} valeur={projet.hauteurSousPlafond} unite="m" min={2.5} max={5} pas={0.1} placeholder={(res.geometrie.hauteurEtage - (projet.hypotheses?.["geo.epaisseurPlancher"] ?? HYPOTHESES["geo.epaisseurPlancher"].valeur)).toFixed(2)} onChange={(v) => maj({ hauteurSousPlafond: v })} />}
                   </Champ>
                   <Champ label={t("mitoyennete")}>
-                    {() => <Segments valeur={projet.mitoyennete ?? (projet.type === "VILLA" ? 0 : 2)} options={[0, 1, 2, 3].map((n) => ({ v: n, l: String(n) }))} onChange={(n) => maj({ mitoyennete: n })} />}
+                    {() => <Segments valeur={res.input.mitoyennete ?? (projet.type === "VILLA" ? 0 : 2)} options={[0, 1, 2, 3].map((n) => ({ v: n, l: String(n) }))} onChange={(n) => maj({ mitoyennete: n })} />}
                   </Champ>
                 </div>
                 <Champ label={t("sol")} aide={t("solInconnu")}>
@@ -429,7 +518,8 @@ function Resume({ res, t }: { res: Resultat; t: T }) {
         <p className="text-xs font-semibold uppercase tracking-widest text-[#C9A227]">{t("resultat")}</p>
         <p className="mt-2 text-sm text-slate-300">{t("travauxTTC")}</p>
         <p className="text-3xl font-bold tabular-nums sm:text-4xl" aria-live="polite">{fmtDH(res.totalTTC)}</p>
-        <p className="mt-1 text-sm text-slate-300">{t("coutM2", { v: Math.round(res.coutM2HT).toLocaleString("fr-FR") })}</p>
+        <p className="mt-1 text-sm text-slate-300">{t("coutM2", { v: Math.round(res.coutM2BatimentHT).toLocaleString("fr-FR") })}</p>
+        <p className="mt-1 text-xs text-slate-400">{REGIMES[res.regime].libelle}</p>
         <p className="mt-1 text-sm text-slate-300">{t("fourchette", { min: fmtDH(res.fourchette.min * (1 + TVA.taux)), max: fmtDH(res.fourchette.max * (1 + TVA.taux)) })}</p>
 
         <div className="mt-4 rounded-xl bg-white/10 p-3">
@@ -495,7 +585,7 @@ function BarresStandings({ comp, actif, typeGrille }: { comp: ReturnType<typeof 
           <span className="h-3 rounded-full bg-slate-100">
             <span className="block h-3 rounded-full" style={{ width: `${(c.travauxHT / max) * 100}%`, background: c.standing === actif ? GOLD : "#94A3B8" }} />
           </span>
-          <span className="text-right tabular-nums">{fmtDH(c.totalTTC)}<span className="block text-xs text-slate-500">{Math.round(c.coutM2HT).toLocaleString("fr-FR")} DH HT/m²</span></span>
+          <span className="text-right tabular-nums">{fmtDH(c.totalTTC)}<span className="block text-xs text-slate-500">{Math.round(c.coutM2BatimentHT).toLocaleString("fr-FR")} DH HT/m²</span></span>
         </li>
       ))}
     </ul>

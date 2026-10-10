@@ -7,6 +7,8 @@
 import type { Standing } from "../../command-center/modules/dossiers/costRangesMA";
 import { HYPOTHESES } from "./hypotheses";
 import { OUVRAGES } from "./ouvrages";
+import type { ParcelleChiffrage } from "./parcelle";
+import type { Regime } from "./referentiel";
 
 export type TypeBatiment = "VILLA" | "MAISON" | "IMMEUBLE" | "MIXTE";
 export type NatureSol = "ROCHER" | "BON" | "MOYEN" | "ARGILE_REMBLAI";
@@ -56,6 +58,17 @@ export type ProjetInput = {
   quantites?: Record<string, number>;
   /** Étapes renseignées par l'utilisateur (sinon : valeurs par défaut). */
   etapes?: { terrain?: boolean; finitions?: boolean };
+  /**
+   * Calcul des surfaces depuis la parcelle (règle parcelleSP : CES selon le
+   * type, étages, sous-sol, forfait 24 m²). Absent : surfaces saisies.
+   */
+  parcelle?: ParcelleChiffrage | null;
+  /**
+   * Mode de réalisation : entreprise générale (K 1,38) ou tâcheron / artisans
+   * (15 à 20 % moins cher, fournitures achetées par le client). Défaut :
+   * tâcheron en très économique, entreprise sinon.
+   */
+  regime?: Regime;
 };
 
 export type Tag = "sous_sol" | "soutenement" | "sol" | "pente" | "option";
@@ -258,7 +271,9 @@ export function metre(input: ProjetInput): { lignes: LigneMetre[]; geometrie: Ge
   add("TER.evacuation", "TER.05", Math.max(0, deblais - reemploi) * h("ter.foisonnement"), `(déblais ${fmt(deblais)} − réemploi ${fmt(reemploi)}) × ${h("ter.foisonnement")}`, "terrain", ["ter.foisonnement"], ss ? ["sous_sol"] : []);
 
   // ── 03 Structure ─────────────────────────────────────────────────────
-  const planchers = E * n + Sss; // planchers hauts de chaque niveau, + plancher haut du sous-sol
+  // Planchers hauts de chaque niveau (étages en porte-à-faux et édicule de
+  // terrasse compris : au moins la surface hors sol), + plancher haut du sous-sol.
+  const planchers = Math.max(E * n, Sp) + Sss;
   const partDP = h("geo.partDallePleine");
   // Plancher 20+5 en haut standing et luxe (portées plus grandes) : la structure suit le standing global.
   add("STR.planchers", G.plancher, planchers * (1 - partDP), `planchers ${fmt(planchers)} m² × ${1 - partDP}`, "projet", ["geo.partDallePleine"]);

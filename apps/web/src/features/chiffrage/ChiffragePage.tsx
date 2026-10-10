@@ -1,7 +1,8 @@
 /**
  * /chiffrage — page publique du gadget de chiffrage lot par lot.
  * Paramètres d'URL acceptés (lien depuis P1 ou le calculateur) :
- *   ?type=villa|maison|immeuble|mixte&surface=200&niveaux=2&standing=STANDARD&ville=Rabat
+ *   ?type=villa|maison|immeuble|mixte&terrain=294&villa=isolee|jumelee|bande&niveaux=2&soussol=3
+ *   &standing=STANDARD&ville=Rabat (ou surface=200 pour une surface plancher saisie)
  * Appel à l'action : LeadCaptureForm (source WEB_CHIFFRAGE), DQE résumé en meta.wizard.
  */
 import React, { useMemo, useState } from "react";
@@ -9,7 +10,7 @@ import { useLocation } from "react-router-dom";
 import { useLang } from "../../i18n/i18n";
 import LeadCaptureForm from "../lead-funnel/LeadCaptureForm";
 import { STANDINGS, type ProjetInput, type Resultat, type TypeBatiment } from "../../domain/chiffrage";
-import ChiffrageGadget, { fmtDH } from "./ChiffrageGadget";
+import ChiffrageGadget, { fmtDH, parcelleParDefaut } from "./ChiffrageGadget";
 import { texte } from "./textes";
 
 const TYPES: Record<string, TypeBatiment> = { villa: "VILLA", maison: "MAISON", immeuble: "IMMEUBLE", mixte: "MIXTE" };
@@ -25,6 +26,14 @@ export function projetDepuisUrl(search: string): Partial<ProjetInput> | undefine
   if (niveaux >= 1 && niveaux <= 12) p.niveaux = Math.round(niveaux);
   const standing = q.get("standing") as ProjetInput["standing"];
   if (STANDINGS.includes(standing)) p.standing = standing;
+  const terrain = Number(q.get("terrain"));
+  if (terrain >= 30 && terrain <= 100000) {
+    p.surfaceTerrain = terrain;
+    const v = q.get("villa");
+    p.parcelle = v === "jumelee" || v === "bande" || v === "isolee" ? { villaType: v } : parcelleParDefaut(p.type ?? "VILLA");
+  } else if (p.surfacePlancher) p.parcelle = null;
+  const ss = Number(q.get("soussol"));
+  if (ss >= 2 && ss <= 8) p.sousSol = { profondeur: ss };
   const ville = q.get("ville");
   if (ville) p.ville = ville.slice(0, 40);
   return Object.keys(p).length ? p : undefined;
@@ -39,7 +48,8 @@ export function resumeLead(r: Resultat) {
       finitions: p.finitions, sol: r.geometrie.sol, fondation: r.geometrie.fondation, pente: p.pente ?? 0,
       sousSol: p.sousSol ? { profondeur: p.sousSol.profondeur, surface: r.geometrie.surfaceSousSol, nappe: !!p.nappe } : null,
       travauxHT: Math.round(r.travauxHT), totalTTC: Math.round(r.totalTTC), budgetTTC: Math.round(r.budgetTTC),
-      coutM2HT: Math.round(r.coutM2HT), precision: r.precision.niveau,
+      coutM2HT: Math.round(r.coutM2BatimentHT), precision: r.precision.niveau, regime: r.regime,
+      surfaceTerrain: p.surfaceTerrain, parcelle: p.parcelle ?? null, surfacePlancherTotale: Math.round(r.geometrie.surfaceTotale),
       impacts: r.impacts.map((i) => ({ cle: i.cle, montantHT: Math.round(i.montantHT), soutenement: Math.round(i.dontSoutenement) })),
       lots: r.lots.map((l) => ({ lot: l.lot.code, ht: Math.round(l.total) })),
       quantitesSaisies: p.quantites ? Object.keys(p.quantites).length : 0,
