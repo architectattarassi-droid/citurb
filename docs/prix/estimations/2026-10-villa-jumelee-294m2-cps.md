@@ -32,7 +32,23 @@ Par ordre de priorité décroissante :
 6. le planning d'exécution approuvé ;
 7. les normes marocaines (NM) et le Règlement de construction parasismique (RPS 2000 version 2011) et le Règlement thermique de construction au Maroc (RTCM) en vigueur.
 
-### Article A.3 — Garantie décennale
+### Article A.3 — Valeurs contractuelles arrêtées
+
+Les valeurs ci-dessous, reprises du CCAG-Travaux (décret n° 2-14-394) à titre de référence pour le présent marché privé, priment sur toute fourchette mentionnée dans les articles suivants :
+
+| Clause | Valeur retenue | Référence |
+|:--|:--|:--|
+| Cautionnement définitif | 3 % du montant initial du marché | CCAG-T art. 15 |
+| Retenue de garantie | 10 % de chaque acompte, plafonnée à 7 % du montant initial | CCAG-T art. 64 |
+| Pénalités de retard | 1/1 000 du montant initial par jour calendaire de retard | CCAG-T art. 65 |
+| Plafond des pénalités de retard | 8 % du montant initial du marché | CCAG-T art. 65 |
+| Plafond des pénalités particulières | 2 % du montant initial du marché | CCAG-T art. 66 |
+| Délai de garantie | 12 mois à compter de la réception provisoire | CCAG-T art. 75 |
+| Augmentation de la masse des travaux | 10 % au plus du montant initial | CCAG-T |
+| Acomptes sur approvisionnements | 4/5 de la valeur des matériaux approvisionnés | CCAG-T |
+| Délai d'exécution | 365 jours calendaires à compter de l'ordre de service | présent CPS |
+
+### Article A.4 — Garantie décennale
 
 Conformément à l'**article 769 du Dahir formant Code des Obligations et Contrats (DOC)**, l'architecte, l'entrepreneur et le bureau d'études techniques sont solidairement responsables pendant **dix (10) ans** à compter de la réception définitive de l'ouvrage, des dommages — même résultant d'un vice du sol — qui compromettent la solidité de l'ouvrage ou de l'un de ses éléments constitutifs ou d'équipement le rendant impropre à sa destination.
 
@@ -42,7 +58,7 @@ Les constructeurs ne peuvent s'exonérer qu'en prouvant la force majeure, la fau
 
 *Fondement : DOC art. 769.*
 
-### Article A.4 — Délai d'action et forclusion de la garantie décennale
+### Article A.5 — Délai d'action et forclusion de la garantie décennale
 
 Conformément à l'**article 770 du DOC**, l'action en garantie décennale (et en garantie de parfait achèvement) doit être intentée dans un **délai de trente (30) jours** à compter du jour où le maître d'ouvrage a eu connaissance du dommage ou du vice. Passé ce délai, l'action est **forclose**.
 
@@ -50,7 +66,7 @@ Le maître d'ouvrage notifiera donc tout désordre par procès-verbal contradict
 
 *Fondement : DOC art. 770 (forclusion 30 jours).*
 
-### Article A.5 — Garantie de parfait achèvement (1 an)
+### Article A.6 — Garantie de parfait achèvement (1 an)
 
 L'entrepreneur est tenu, pendant un délai d'**un (1) an** à compter de la **réception provisoire**, d'une **garantie de parfait achèvement** au titre de laquelle il reprend à ses frais tous les désordres, défauts et malfaçons signalés soit dans les réserves consignées au procès-verbal de réception, soit par notification écrite du maître d'ouvrage en cours d'année de garantie.
 
@@ -60,7 +76,7 @@ Fondement : CCAG-Travaux et pratique contractuelle marocaine ; articulation avec
 
 *Fondement : CCAG-Travaux + pratique contractuelle (1 an) ; DOC art. 769-770.*
 
-### Article A.6 — Garantie biennale de bon fonctionnement (2 ans)
+### Article A.7 — Garantie biennale de bon fonctionnement (2 ans)
 
 Les **éléments d'équipement dissociables** du corps de l'ouvrage (appareils sanitaires, robinetterie, équipements de chauffage/climatisation amovibles, ascenseurs au titre de leur fonctionnement, menuiseries démontables, etc.) bénéficient d'une **garantie biennale de bon fonctionnement de deux (2) ans** à compter de la réception.
 
@@ -68,7 +84,7 @@ Cette garantie est rattachée principalement à la **loi 44-00 relative à la ve
 
 *Fondement : Loi 44-00 (VEFA) + pratique contractuelle — PAS d'article DOC autonome.*
 
-### Article A.7 — Assurance Tous Risques Chantier (TRC) obligatoire
+### Article A.8 — Assurance Tous Risques Chantier (TRC) obligatoire
 
 La souscription d'une **assurance Tous Risques Chantier (TRC)** est **obligatoire** en application de la **loi 59-13 modifiant et complétant le Code des assurances (loi 17-99)**, entrée en vigueur en 2025 sous la supervision de l'**ACAPS**.
 
@@ -78,7 +94,7 @@ La TRC couvre les dommages matériels affectant l'ouvrage en cours de constructi
 
 *Fondement : Loi 59-13 (modif. Code des assurances 17-99), en vigueur 2025, supervision ACAPS — TRC conditionne le permis de construire ; seuils >3 étages ou >800 m².*
 
-### Article A.8 — Assurance Responsabilité Civile Décennale (RCD) obligatoire
+### Article A.9 — Assurance Responsabilité Civile Décennale (RCD) obligatoire
 
 La souscription d'une **assurance Responsabilité Civile Décennale (RCD)** est **obligatoire** en application de la **loi 59-13 modifiant et complétant le Code des assurances (loi 17-99)**, en vigueur en 2025, sous supervision **ACAPS**.
 
@@ -88,7 +104,7 @@ Elle couvre la responsabilité décennale des constructeurs (entrepreneur, archi
 
 *Fondement : Loi 59-13 (modif. Code des assurances 17-99), en vigueur 2025, supervision ACAPS — RCD conditionne le permis d'habiter ; seuils >3 étages ou >800 m².*
 
-### Article A.9 — Responsabilité civile professionnelle de l'architecte
+### Article A.10 — Responsabilité civile professionnelle de l'architecte
 
 L'architecte est tenu de souscrire une **assurance de responsabilité civile professionnelle** couvrant les conséquences pécuniaires de sa responsabilité dans l'exercice de sa mission, conformément à l'**article 26 de la loi 016-89 relative à l'exercice de la profession d'architecte et à l'institution de l'Ordre National des Architectes**.
 
@@ -96,7 +112,7 @@ L'attestation RC professionnelle, en cours de validité et au nom de l'architect
 
 *Fondement : Loi 016-89 art. 26 (RC professionnelle architecte).*
 
-### Article A.10 — Délais de paiement et intérêts de retard
+### Article A.11 — Délais de paiement et intérêts de retard
 
 Les délais de paiement sont régis par la **loi 32-10**, complétée par la **loi 49-15** et par la **loi 69-21 sur les délais de paiement**. Le délai de paiement convenu ne peut excéder **soixante (60) jours** à compter de la date de réception de la facture ; il peut être porté contractuellement à **quatre-vingt-dix (90) jours** dans les conditions prévues par la loi.
 
@@ -106,7 +122,7 @@ Les situations de travaux sont établies mensuellement, vérifiées par le maît
 
 *Fondement : Lois 32-10 + 49-15 + 69-21 (délais 60–90 j ; intérêts = taux directeur BAM + 0,85 %/mois).*
 
-### Article A.11 — Avance, acomptes et situations de travaux
+### Article A.12 — Avance, acomptes et situations de travaux
 
 Une **avance de démarrage** peut être consentie à l'entrepreneur dans la limite contractuelle (usuellement **≤ 10 % du montant du marché**), garantie par une **caution bancaire de restitution d'avance** et récupérée par déduction proportionnelle sur les acomptes.
 
@@ -114,7 +130,7 @@ Les paiements s'effectuent par **acomptes mensuels** sur la base des **situation
 
 *Fondement : Pratique contractuelle BTP + CCAG-Travaux ; délais Lois 32-10 / 49-15 / 69-21.*
 
-### Article A.12 — Délai d'exécution et ordres de service
+### Article A.13 — Délai d'exécution et ordres de service
 
 Le **délai global d'exécution** des travaux est fixé à **365 jours** calendaires, courant à compter de la date de notification de l'**ordre de service (OS) de commencer les travaux**.
 
@@ -122,7 +138,7 @@ Le planning détaillé (chemin critique, jalons, plannings par lot) est soumis a
 
 *Fondement : CCAG-Travaux (ordres de service, délais) + pratique contractuelle.*
 
-### Article A.13 — Pénalités de retard
+### Article A.14 — Pénalités de retard
 
 En cas de dépassement du délai contractuel d'exécution, l'entrepreneur encourt, **sans mise en demeure préalable**, des **pénalités de retard** au taux de **un pour mille (1‰) du montant du marché par jour calendaire de retard**, conformément au CCAG-Travaux.
 
@@ -130,7 +146,7 @@ Le **montant cumulé des pénalités est plafonné** à environ **huit à dix po
 
 *Fondement : CCAG-Travaux : pénalités 1‰/jour, plafond ~8-10 %.*
 
-### Article A.14 — Retenue de garantie
+### Article A.15 — Retenue de garantie
 
 Une **retenue de garantie** est opérée sur chaque acompte, au taux de **dix pour cent (10 %)**, dans la limite d'un plafond cumulé de **sept pour cent (7 %) du montant du marché**, destinée à couvrir les réserves et l'obligation de parfait achèvement.
 
@@ -138,7 +154,7 @@ La retenue de garantie peut être **remplacée, à l'initiative de l'entrepreneu
 
 *Fondement : CCAG-Travaux : retenue de garantie 10 % plafonnée à 7 %, remplaçable par caution bancaire.*
 
-### Article A.15 — Cautionnement définitif et garanties bancaires
+### Article A.16 — Cautionnement définitif et garanties bancaires
 
 L'entrepreneur constitue un **cautionnement définitif** d'un montant de **trois pour cent (3 %) du montant du marché**, dans le délai contractuel suivant la notification de l'approbation du marché, sous forme de caution bancaire émise par un établissement agréé par Bank Al-Maghrib.
 
@@ -146,7 +162,7 @@ Le cautionnement définitif garantit la bonne exécution du marché. Il est **re
 
 *Fondement : CCAG-Travaux + pratique des marchés (cautionnement définitif 3 %).*
 
-### Article A.16 — Révision des prix (index BTP/TP)
+### Article A.17 — Révision des prix (index BTP/TP)
 
 Lorsque le marché est conclu à **prix révisables**, la révision s'opère par application d'une **formule paramétrique** fondée sur les **index officiels marocains des prix des travaux publics et du bâtiment (index TP/BTP)** publiés par l'administration.
 
@@ -158,7 +174,7 @@ où `P0` est le prix initial, `a` la partie fixe (non révisable), `I`, `A`, …
 
 *Fondement : Révision des prix par formule sur index TP/BTP marocains (réglementation marchés + pratique).*
 
-### Article A.17 — Réception provisoire et réception définitive
+### Article A.18 — Réception provisoire et réception définitive
 
 La **réception provisoire** est prononcée par procès-verbal contradictoire après achèvement des travaux et exécution des essais et vérifications. Elle marque le **point de départ des garanties** (parfait achèvement, biennale, décennale) et le transfert de la garde de l'ouvrage. Les réserves éventuelles sont consignées au PV avec un délai de levée.
 
@@ -166,7 +182,7 @@ La **réception définitive** est prononcée à l'expiration de la **garantie de
 
 *Fondement : CCAG-Travaux + DOC art. 769-770 (point de départ des garanties).*
 
-### Article A.18 — Résiliation du marché
+### Article A.19 — Résiliation du marché
 
 Le marché peut être **résilié** dans les cas suivants : manquement grave de l'entrepreneur à ses obligations après mise en demeure restée infructueuse, abandon de chantier, défaut de souscription des assurances obligatoires (TRC/RCD), retard excédant le plafond des pénalités, liquidation judiciaire, ou force majeure rendant l'exécution durablement impossible.
 
@@ -174,7 +190,7 @@ La résiliation est prononcée **après mise en demeure** par lettre recommandé
 
 *Fondement : CCAG-Travaux + DOC (résolution pour inexécution) + pratique contractuelle.*
 
-### Article A.19 — Force majeure
+### Article A.20 — Force majeure
 
 Conformément à l'**article 268 du DOC**, le débiteur est exonéré de toute responsabilité lorsque l'inexécution de l'obligation provient d'une cause qui ne peut lui être imputée, telle que la **force majeure** ou le **cas fortuit**, et qu'il n'a pas pris à sa charge les risques par une clause expresse.
 
@@ -184,7 +200,7 @@ La partie affectée notifie l'événement à l'autre partie **sans délai** par 
 
 *Fondement : DOC art. 268 (exonération) + art. 269 (définition de la force majeure).*
 
-### Article A.20 — Sous-traitance
+### Article A.21 — Sous-traitance
 
 La sous-traitance de tout ou partie des travaux est soumise à l'**agrément écrit préalable du maître d'ouvrage / maître d'œuvre**. L'entrepreneur principal demeure **seul et entièrement responsable** vis-à-vis du maître d'ouvrage de l'exécution de l'ensemble des travaux, y compris ceux confiés à ses sous-traitants.
 
@@ -192,7 +208,7 @@ En droit privé marocain, il n'existe **pas de paiement direct** du sous-traitan
 
 *Fondement : DOC + décret 2-22-431 relatif aux marchés publics.*
 
-### Article A.21 — Protection des données personnelles (CNDP)
+### Article A.22 — Protection des données personnelles (CNDP)
 
 Tout traitement de **données à caractère personnel** réalisé dans le cadre du marché (coordonnées des intervenants, données des occupants, vidéosurveillance de chantier, badges, géolocalisation) est soumis à la **loi 09-08 relative à la protection des personnes physiques à l'égard du traitement des données à caractère personnel**, sous le contrôle de la **CNDP**.
 
@@ -200,7 +216,7 @@ Les parties s'engagent à : déclarer/obtenir l'autorisation des traitements con
 
 *Fondement : Loi 09-08 (CNDP), sanctions jusqu'à 300 000 MAD.*
 
-### Article A.22 — Règlement des litiges et droit applicable
+### Article A.23 — Règlement des litiges et droit applicable
 
 Tout litige né de l'interprétation ou de l'exécution du présent marché fera l'objet d'une **tentative de règlement amiable** préalable entre les parties, le cas échéant avec l'assistance du maître d'œuvre, dans un délai de **30 jours**.
 
@@ -208,7 +224,7 @@ Tout litige né de l'interprétation ou de l'exécution du présent marché fera
 
 *Fondement : DOC + Loi 95-17 (arbitrage et médiation conventionnelle) + compétence territoriale.*
 
-### Article A.23 — Forme et caractère des prix
+### Article A.24 — Forme et caractère des prix
 
 Le marché est conclu à **prix prix unitaires du bordereau des prix, appliqués aux quantités réellement exécutées et constatées contradictoirement** (unitaires, forfaitaires ou mixtes). Les prix sont réputés **fermes et non révisables** OU **révisables** selon la mention portée au présent marché.
 
@@ -216,13 +232,13 @@ Les prix comprennent toutes les charges et sujétions d'exécution : main-d'œuv
 
 *Fondement : CCAG-Travaux + pratique contractuelle (forme et caractère des prix).*
 
-### Article A.24 — Assurances
+### Article A.25 — Assurances
 
 - **TRC** — souscripteur : mo (Loi 59-13 (Code des assurances 17-99) — conditionne le permis de construire).
 - **DECENNALE** — souscripteur : entreprise generale, durée 10 ans (Loi 59-13 (Code des assurances 17-99) + DOC art. 769 — conditionne le permis d'habiter).
 - **RC PRO ARCHITECTE** — souscripteur : architecte (Loi 016-89 art. 26).
 
-### Article A.25 — Visas et autorisations
+### Article A.26 — Visas et autorisations
 
 - VISA CROA — phase apd pret depot permis (délai légal 15 jours).
 - Permis de construire et autorisations de voirie : à la charge du maître d'ouvrage avant l'ordre de service de commencement.

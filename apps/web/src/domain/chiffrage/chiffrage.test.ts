@@ -11,7 +11,7 @@ const RECHERCHE = (f: string) => fileURLToPath(new URL(`../../../../../docs/prix
 /** Identifiants réellement présents dans les fichiers de recherche. */
 function idsRecherche(): Set<string> {
   const ids = new Set<string>();
-  for (const f of ["materiaux-gros-oeuvre", "materiaux-second-oeuvre", "marche-prive-main-oeuvre", "marches-publics"]) {
+  for (const f of ["materiaux-gros-oeuvre", "materiaux-second-oeuvre", "marche-prive-main-oeuvre", "marches-publics", "gros-oeuvre-soutenement-cps"]) {
     const d = JSON.parse(readFileSync(RECHERCHE(f), "utf8"));
     for (const e of d.entrees) ids.add(e.id);
   }
@@ -271,5 +271,21 @@ describe("quantitatif général, variantes et soutènements localisés", () => {
     expect(r.lignes.find((l) => l.id === "SOUT2.mur")!.qte).toBeCloseTo(30, 1);
     expect(r.lignes.filter((l) => l.id.startsWith("SOUT")).every((l) => l.tags.includes("soutenement"))).toBe(true);
     expect(r.travauxHT).toBeGreaterThan(base.travauxHT + 80000);
+  });
+});
+
+describe("types de murs de soutènement", () => {
+  it("à 2 m : gabions < moellons < béton armé, ordres de grandeur de la recherche (1 300 / 3 100 / ≈ 3 700 DH/ml)", () => {
+    const base: ProjetInput = { type: "VILLA", ville: "Salé", surfacePlancher: 200, niveaux: 2, standing: "ECONOMIQUE", sol: "BON", etapes: { terrain: true, finitions: true } };
+    const coutMl = (type: "BETON_ARME" | "GABIONS" | "MOELLONS") => {
+      const r = chiffrer({ ...base, soutenements: [{ emplacement: "JARDIN", longueur: 10, hauteur: 2, type }] }, { impacts: false });
+      return r.lignes.filter((l) => l.id === "SOUT1.mur").reduce((s, l) => s + l.montant, 0) / 10;
+    };
+    const [g, m, b] = [coutMl("GABIONS"), coutMl("MOELLONS"), coutMl("BETON_ARME")];
+    expect(g).toBeLessThan(m);
+    expect(m).toBeLessThan(b);
+    expect(g).toBeGreaterThan(900); expect(g).toBeLessThan(1700);
+    expect(m).toBeGreaterThan(2500); expect(m).toBeLessThan(4200);
+    expect(b).toBeGreaterThan(3000); expect(b).toBeLessThan(4500);
   });
 });

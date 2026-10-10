@@ -36,7 +36,7 @@ export const HYPOTHESES: Record<string, Hypothese> = Object.fromEntries([
   H("str.poteaux", "Structure", "Béton des poteaux par m² de plancher", 0.022, "m³/m²", 0.015, 0.035, "Trame 4-5 m, poteaux 25×25 à 30×30"),
   H("str.poutres", "Structure", "Béton des poutres, chaînages et linteaux par m² de plancher", 0.04, "m³/m²", 0.035, 0.07, "Portées 4-5 m"),
   H("str.escalier", "Structure", "Béton par volée d'escalier", 1.8, "m³", 1.2, 2.5, "Escalier 1,10 m, paillasse 15 cm, 17 marches"),
-  H("str.epDallePleineGenerale", "Structure", "Dalle pleine généralisée : épaisseur moyenne (portées 4-5 m)", 0.18, "m", 0.15, 0.25, "Variante sans corps creux"),
+  H("str.epDallePleineGenerale", "Structure", "Dalle pleine généralisée : épaisseur moyenne (portées 4-5 m)", 0.16, "m", 0.15, 0.25, "Recherche 2026-10 : dalle pleine 15-20 cm 480-810 DH/m², +35 à 50 % sur l'hourdis (PL-003, PL-005)"),
   H("str.voilesImmeuble", "Structure", "Voiles de cage d'escalier / ascenseur par niveau (immeuble)", 3, "m³/niveau", 1.5, 6, ""),
   // Fondations
   H("fon.ratio.ROCHER", "Fondations", "Fondations sur rocher : semelles isolées par m² de plancher", 0.045, "m³/m²", 0.03, 0.06, "Contrainte admissible ≥ 4 bars (étude de sol à confirmer)"),
@@ -54,6 +54,7 @@ export const HYPOTHESES: Record<string, Hypothese> = Object.fromEntries([
   H("ss.surlargeur", "Sous-sol", "Surlargeur de terrassement autour du sous-sol", 1, "m", 0.6, 1.5, "Travail + talus ; remplacée par un blindage côté mitoyen"),
   H("ss.semelleVoile", "Sous-sol", "Semelle filante sous voile périphérique", 0.21, "m³/ml", 0.15, 0.35, "0,60 × 0,35 m"),
   H("ss.reductionSemelles", "Sous-sol", "Semelles isolées allégées : charges de façade reprises par la semelle du voile", 0.3, "—", 0, 0.5, "Relecture 2026-10 : risque de double comptage semelles / semelle filante sous voile"),
+  H("sout.coefLimite", "Sous-sol", "Soutènement en limite de propriété : majoration (accès, coffrage une face, blindage)", 1.2, "—", 1.15, 1.3, "gros-oeuvre-soutenement-cps.json SO-040"),
   H("ca.largeur", "Sous-sol", "Cour anglaise : largeur libre", 1.5, "m", 1, 3, "Éclairement et ventilation du sous-sol"),
   H("ss.semainesEpuisement", "Sous-sol", "Durée d'épuisement de la nappe", 6, "semaines", 3, 12, "Durée du gros œuvre enterré"),
   // Pente

@@ -33,7 +33,7 @@ export const CORRESPONDANCE_CPS: Record<string, Cible> = {
   "FON.05": { lot: B, poste: "2.03" }, "FON.06": { lot: B, poste: "2.03" }, "FON.09": { lot: B, poste: "2.02" },
   "FON.07": { lot: B, poste: "2.08", fusionAvec: "FON.08" }, "FON.08": { lot: B, poste: "2.08" },
   "FON.10": { lot: B, poste: "2.04", facteur: 0.2, note: "voile ép. 20 cm" },
-  "FON.11": { lot: B },
+  "FON.11": { lot: B }, "FON.15": { lot: B }, "FON.16": { lot: "LOT_03_MACONNERIE" },
   "STR.01": { lot: B, poste: "2.04" }, "STR.02": { lot: B, poste: "2.04" }, "STR.07": { lot: B, poste: "2.04" },
   "STR.03": { lot: B, poste: "2.06" }, "STR.04": { lot: B, poste: "2.06" }, "STR.05": { lot: B, poste: "2.05" },
   "STR.06": { lot: B, poste: "2.07" }, "STR.08": { lot: M },

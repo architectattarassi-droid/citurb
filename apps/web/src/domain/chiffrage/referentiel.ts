@@ -22,6 +22,7 @@ export type FichierRecherche =
   | "marche-prive-main-oeuvre"
   | "marches-publics"
   | "prix-internes"
+  | "gros-oeuvre-soutenement-cps"
   | "hypothese";
 
 export type SourceRef = {
@@ -171,6 +172,8 @@ export const MATERIAUX: Record<string, PrixElementaire> = Object.fromEntries([
   P("CUISINE_S", "Cuisine aménagée — standing (laqué, plan quartz)", "ens", 35000, 50000, 70000, hyp("Provision : relecture GPT 2026-10 ; ArtMood confort 6 000-10 000 DH/ml (am-cuis-confort)")),
   P("CUISINE_HS", "Cuisine aménagée — haut standing (îlot, plan pierre)", "ens", 70000, 100000, 150000, hyp("Provision : relecture GPT 2026-10 ; ArtMood premium 10 000-18 000 DH/ml (am-cuis-premium)")),
   P("CUISINE_L", "Cuisine aménagée — luxe (sur mesure, électroménager intégré exclu)", "ens", 140000, 200000, 300000, hyp("Provision : relecture GPT 2026-10 ; recherche : jusqu'à 300 000 DH en haut standing")),
+  P("GABIONS", "Mur en gabions : cage double torsion + pierre calcaire, posé", "m³", 460, 560, 660, src("gros-oeuvre-soutenement-cps", ["SO-006"], "B", "2026-10", "Kit cage + pierre calcaire + pose")),
+  P("MOELLONS_MUR", "Mur poids en maçonnerie de moellons (ouvrage)", "m³", 1500, 1860, 2300, src("gros-oeuvre-soutenement-cps", ["SO-004"], "C", "non daté", "CYPE ATS010")),
   P("VDI_FORFAIT", "Courants faibles : coffret VDI, RJ45, TV, interphone", "ens", 3000, 5000, 8000, hyp("Ligne non chiffrée du DQE réel (dqe-reel-kenitra#21)")),
 
   // Plomberie / sanitaire (Bricoma, prix promo en réf., prix normal en max)

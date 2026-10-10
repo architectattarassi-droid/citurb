@@ -539,7 +539,15 @@ function Soutenements({ valeur, onChange, profondeurSousSol, t }: { valeur: Sout
               <label className="text-xs text-slate-600">{t("largeur")} (m)
                 <input type="number" min={0.8} step={0.1} className={INPUT} placeholder="1.5" value={s.largeur ?? ""} onChange={(e) => maj(i, { largeur: e.target.value === "" ? undefined : Number(e.target.value) })} />
               </label>
-            ) : <span className="hidden sm:block" />}
+            ) : (
+              <label className="text-xs text-slate-600">{t("typeMur")}
+                <select className={INPUT} value={s.type ?? "BETON_ARME"} onChange={(e) => maj(i, { type: e.target.value as Soutenement["type"] })}>
+                  <option value="BETON_ARME">{t("mur.BETON_ARME")}</option>
+                  <option value="GABIONS">{t("mur.GABIONS")}</option>
+                  <option value="MOELLONS">{t("mur.MOELLONS")}</option>
+                </select>
+              </label>
+            )}
             <button type="button" style={LIEN} onClick={() => onChange(valeur.filter((_, k) => k !== i))} className="min-h-[44px] px-2 text-sm font-semibold text-red-700 underline">{t("supprimer")}</button>
           </div>
         ))}

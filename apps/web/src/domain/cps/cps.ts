@@ -95,6 +95,22 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   const art = (titre: string, corps: string) => { n += 1; p(`### Article A.${n} — ${titre}`); p(); p(corps); p(); };
   art("Objet du marché", `Le présent marché a pour objet l'exécution, en entreprise générale tous corps d'état, des travaux de construction du projet **${o.nomProjet}**${vars.PROJECT_ADDRESS ? `, ${vars.PROJECT_ADDRESS}` : ""}, tels que définis par le présent CPS, les plans et le bordereau des prix – détail estimatif (Titre IV).`);
   art("Pièces constitutives du marché", ["Par ordre de priorité décroissante :", "1. l'acte d'engagement ;", "2. le présent cahier des prescriptions spéciales (CPS) ;", "3. le bordereau des prix – détail estimatif (BPDE) ;", "4. les plans architecturaux et d'exécution (BET) visés « bon pour exécution » ;", "5. le rapport d'étude géotechnique ;", "6. le planning d'exécution approuvé ;", "7. les normes marocaines (NM) et le Règlement de construction parasismique (RPS 2000 version 2011) et le Règlement thermique de construction au Maroc (RTCM) en vigueur."].join("\n"));
+  // Valeurs chiffrées arrêtées : elles priment sur les fourchettes rédigées dans les clauses types.
+  art("Valeurs contractuelles arrêtées", [
+    "Les valeurs ci-dessous, reprises du CCAG-Travaux (décret n° 2-14-394) à titre de référence pour le présent marché privé, priment sur toute fourchette mentionnée dans les articles suivants :",
+    "",
+    "| Clause | Valeur retenue | Référence |",
+    "|:--|:--|:--|",
+    "| Cautionnement définitif | 3 % du montant initial du marché | CCAG-T art. 15 |",
+    "| Retenue de garantie | 10 % de chaque acompte, plafonnée à 7 % du montant initial | CCAG-T art. 64 |",
+    "| Pénalités de retard | 1/1 000 du montant initial par jour calendaire de retard | CCAG-T art. 65 |",
+    "| Plafond des pénalités de retard | 8 % du montant initial du marché | CCAG-T art. 65 |",
+    "| Plafond des pénalités particulières | 2 % du montant initial du marché | CCAG-T art. 66 |",
+    "| Délai de garantie | 12 mois à compter de la réception provisoire | CCAG-T art. 75 |",
+    "| Augmentation de la masse des travaux | 10 % au plus du montant initial | CCAG-T |",
+    "| Acomptes sur approvisionnements | 4/5 de la valeur des matériaux approvisionnés | CCAG-T |",
+    `| Délai d'exécution | ${vars.DELAI_EXECUTION_JOURS} jours calendaires à compter de l'ordre de service | présent CPS |`,
+  ].join("\n"));
   const codes = [...new Set([...type.clausesLegalesObligatoires, ...CLAUSES_COMPLEMENTAIRES])];
   // Ordre du gabarit (prix, délais, paiement, garanties, réception, pénalités, litiges).
   const clauses = CLAUSES_CPS.filter((c) => codes.includes(c.code) && c.marche.includes("PRIVE"));

@@ -90,6 +90,8 @@ export type Soutenement = {
   hauteur?: number;
   /** Cour anglaise : largeur libre (m), défaut 1,5. */
   largeur?: number;
+  /** Mur hors cour anglaise : béton armé en L (défaut), gabions ou mur poids en moellons. */
+  type?: "BETON_ARME" | "GABIONS" | "MOELLONS";
 };
 
 export const LIBELLE_SOUTENEMENT: Record<EmplacementSoutenement, string> = {
@@ -320,7 +322,11 @@ export function metre(input: ProjetInput): { lignes: LigneMetre[]; geometrie: Ge
       add(`${id}.gardeCorps`, g("MET").gardeCorps, L, `${nom} : garde-corps en tête`, "terrain", [], tg);
     } else {
       const H = st.hauteur ?? 1.5;
-      add(`${id}.mur`, "FON.11", L * H, `${nom} : ${fmt(L)} ml × ${fmt(H)} m${H > 3 ? " (au-delà de 3 m : mur à contreforts, à dimensionner)" : ""}`, "terrain", [], tg);
+      const kLim = st.emplacement === "LIMITE" ? h("sout.coefLimite") : 1;
+      const majo = kLim !== 1 ? ` × ${kLim} (contraintes de limite)` : "";
+      if (st.type === "GABIONS") add(`${id}.mur`, "FON.15", L * H * (0.6 + 0.2 * H) * kLim, `${nom} en gabions : ${fmt(L)} ml × ${fmt(H)} m × (0,6 + 0,2 H) m³/m²${majo}`, "terrain", st.emplacement === "LIMITE" ? ["sout.coefLimite"] : [], tg);
+      else if (st.type === "MOELLONS") add(`${id}.mur`, "FON.16", L * H * (0.35 + 0.25 * H) * kLim, `${nom} en moellons : ${fmt(L)} ml × ${fmt(H)} m × (0,35 + 0,25 H) m³/m²${majo}`, "terrain", st.emplacement === "LIMITE" ? ["sout.coefLimite"] : [], tg);
+      else add(`${id}.mur`, "FON.11", L * H * kLim, `${nom} : ${fmt(L)} ml × ${fmt(H)} m${majo}${H > 3 ? " (au-delà de 3 m : mur à contreforts, à dimensionner)" : ""}`, "terrain", st.emplacement === "LIMITE" ? ["sout.coefLimite"] : [], tg);
       const fouille = L * (0.6 * H + 0.4) * 0.5;
       fouilles += fouille;
       add(`${id}.fouille`, "TER.03", fouille, `${nom} : semelle ${fmt(0.6 * H + 0.4)} m × 0,5 m`, "terrain", [], tg);

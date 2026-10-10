@@ -296,7 +296,7 @@ Moteur calculé **sans sous-sol** (la recherche est hors sous-sol), en DH HT/m²
 ## 7. Méthode de prix et hypothèses
 
 - Prix d'ouvrage = déboursé sec (matériaux + main-d'œuvre chargée CNSS 21,09 % + petit matériel 5 % de la MO) × K. K entreprise = 1.38 (frais de chantier 10 %, frais généraux 12 %, aléas et bénéfice 12 %) ; ouvrages fournis-posés par un sous-traitant × 1,12 ; tâcheron : K × 0,83 et fournitures achetées par le client (× 1,00).
-- 136 prix élémentaires sourcés dans docs/prix/recherche (fiabilité A/B/C) ou marqués H (hypothèse). TVA 20 % sur les travaux d'entreprise.
+- 138 prix élémentaires sourcés dans docs/prix/recherche (fiabilité A/B/C) ou marqués H (hypothèse). TVA 20 % sur les travaux d'entreprise.
 - Hypothèses de métré utilisées (toutes modifiables dans l'écran /chiffrage) :
 
 | Hypothèse | Valeur | Plage | Justification |
