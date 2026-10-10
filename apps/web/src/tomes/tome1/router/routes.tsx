@@ -69,6 +69,7 @@ const IncidentsChantierPage = lazy(() => import("../../../features/incidents-cha
 const EstimationPage = lazy(() => import("../../../features/zillow-ma/EstimationPage"));
 const RoiCalculator = lazy(() => import("../../../features/lead-funnel/RoiCalculator"));
 const ChiffragePage = lazy(() => import("../../../features/chiffrage/ChiffragePage"));
+const ChiffrageDevis = lazy(() => import("../../../features/chiffrage/ChiffrageDevis"));
 const NotificationsCenterPage = lazy(() => import("../../../features/notifications/NotificationsCenterPage"));
 const MreDiasporaLanding = lazy(() => import("../../../features/mre-diaspora/MreDiasporaLanding"));
 const MetricsDashboardPage = lazy(() => import("../../../features/analytics/MetricsDashboardPage"));
@@ -380,6 +381,7 @@ export const router = createBrowserRouter([
       { path: '/metrics', element: <AdminHostBlock><MetricsDashboardPage /></AdminHostBlock> },
       { path: '/calculateur', element: <RoiCalculator /> },
       { path: '/chiffrage', element: <ChiffragePage /> },
+      { path: '/chiffrage/devis', element: <ChiffrageDevis /> },
       { path: '/notifications', element: <AdminHostBlock><NotificationsCenterPage /></AdminHostBlock> },
 
       // ── Livraisons Matériaux (Tome 5 — chef chantier + fournisseur) ──

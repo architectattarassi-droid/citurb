@@ -1,6 +1,7 @@
 /**
  * DQE imprimable (impression navigateur → PDF) : masqué à l'écran, seul
  * élément visible à l'impression (règle @media print du gadget).
+ * `ecran` : affiché à l'écran (page /chiffrage/devis, filigranée).
  */
 import React from "react";
 import { standingLabel } from "../../command-center/modules/dossiers/costRangesMA";
@@ -9,13 +10,13 @@ import { CHIFFRAGE_VERSION, TYPE_GRILLE, TVA, type Resultat } from "../../domain
 const dh = (n: number) => Math.round(n).toLocaleString("fr-FR").replace(/ /g, " ");
 const q = (n: number) => (+n.toFixed(2)).toLocaleString("fr-FR");
 
-export default function DqeImprimable({ res }: { res: Resultat }) {
+export default function DqeImprimable({ res, ecran = false }: { res: Resultat; ecran?: boolean }) {
   const p = res.input;
   const g = res.geometrie;
   const date = new Date().toLocaleDateString("fr-FR");
   const cell = "border border-slate-400 px-1.5 py-0.5";
   return (
-    <div id="dqe-imprimable" className="hidden print:block text-[10.5px] leading-tight text-black">
+    <div id={ecran ? undefined : "dqe-imprimable"} className={`${ecran ? "block text-[12px] sm:text-[13px]" : "hidden print:block text-[10.5px]"} leading-tight text-black`}>
       <h1 className="text-lg font-bold">CITURBAREA — Devis quantitatif estimatif (DQE)</h1>
       <p>
         {p.type === "VILLA" ? "Villa" : p.type === "MAISON" ? "Maison" : p.type === "IMMEUBLE" ? "Immeuble" : "Immeuble mixte"} {p.niveaux === 1 ? "RDC" : `R+${p.niveaux - 1}`},

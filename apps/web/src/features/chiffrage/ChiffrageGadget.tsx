@@ -29,6 +29,15 @@ const LIEN: React.CSSProperties = { background: "none", border: 0, padding: 0, b
 
 const BROUILLON = "citurbarea:chiffrage:v2";
 
+/** Page devis filigranée (/chiffrage/devis) : projet dans le fragment d'URL, jamais envoyé au serveur. */
+export const lienDevis = (projet: ProjetInput) => `/chiffrage/devis#p=${encodeURIComponent(JSON.stringify(projet))}`;
+function ouvrirDevis(projet: ProjetInput) {
+  const url = lienDevis(projet);
+  const w = window.open(url, "_blank");
+  if (w) w.opener = null;
+  else window.location.assign(url); // fenêtre bloquée : même onglet
+}
+
 const m2 = (n: number) => `${(Math.round(n * 10) / 10).toLocaleString("fr-FR")} m²`;
 
 /** Sous-type par défaut pour la règle parcelle (CES) selon le type de projet. */
@@ -394,7 +403,9 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
         </Section>
 
         <Section titre={t("detail")} action={
-          <button type="button" onClick={() => window.print()} className="min-h-[40px] whitespace-nowrap rounded-lg border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-700 hover:border-slate-400">⎙ {t("imprimer")}</button>
+          variante === "public"
+            ? <button type="button" onClick={() => ouvrirDevis(projet)} className="min-h-[40px] whitespace-nowrap rounded-lg border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-700 hover:border-slate-400">⎙ {t("voirDevis")}</button>
+            : <button type="button" onClick={() => window.print()} className="min-h-[40px] whitespace-nowrap rounded-lg border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-700 hover:border-slate-400">⎙ {t("imprimer")}</button>
         }>
           <div className="divide-y divide-slate-200 rounded-xl border border-slate-200">
             {res.lots.map((l) => {

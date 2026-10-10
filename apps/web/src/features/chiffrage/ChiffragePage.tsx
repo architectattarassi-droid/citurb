@@ -75,8 +75,8 @@ export default function ChiffragePage() {
   );
 }
 
-function Cta({ r, t }: { r: Resultat; t: ReturnType<typeof texte> }) {
-  const [ouvert, setOuvert] = useState(false);
+export function Cta({ r, t, ouvertParDefaut = false }: { r: Resultat; t: ReturnType<typeof texte>; ouvertParDefaut?: boolean }) {
+  const [ouvert, setOuvert] = useState(ouvertParDefaut);
   const p = r.input;
   const porte = p.type === "IMMEUBLE" || p.type === "MIXTE" ? "P2" : "P1";
   if (!ouvert) {
