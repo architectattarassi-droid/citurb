@@ -76,7 +76,33 @@ Montants HT (DH), puis DH HT par m² de plancher total. Installation de chantier
 | **Total travaux HT** | **1 258 040**<br>3 339/m² | **1 628 965**<br>4 323/m² | **1 914 651**<br>5 081/m² | **2 335 423**<br>6 198/m² | **2 853 437**<br>7 573/m² |
 | Part du gros œuvre (bâtiment) | 64 % | 60 % | 51 % | 42 % | 34 % |
 
-## 4. Sensibilité : sol, nappe, pente, mode de réalisation (moyen standing)
+## 4. Comparaison avec la recherche « coût par lot × standing »
+
+Moteur calculé **sans sous-sol** (la recherche est hors sous-sol), en DH HT/m² de plancher. Cellule : moteur / référence de la recherche (fourchette) → écart. La recherche reconstruit elle-même ses colonnes du moyen standing au luxe (fiabilité C) : c'est un repère, pas une vérité.
+
+| Lot | Très économique | Moyen standing | Standing | Haut standing | Luxe / Premium |
+|:--|--:|--:|--:|--:|--:|
+| Terrassements | 32 / 60 (40–110) → -47 % ⚠ | 39 / 100 (75–175) → -61 % ⚠ | 39 / 130 (75–200) → -70 % ⚠ | 39 / 160 (100–450) → -76 % ⚠ | 39 / 220 (100–450) → -82 % ⚠ |
+| Fondations | 369 / 150 (115–250) → +146 % ⚠ | 444 / 300 (250–500) → +48 % ⚠ | 444 / 350 (250–500) → +27 % | 444 / 400 (300–700) → +11 % | 444 / 550 (400–700) → -19 % |
+| Structure béton armé | 732 / 600 (450–800) → +22 % | 882 / 950 (800–1 200) → -7 % | 882 / 1 200 (900–1 400) → -26 % | 950 / 1 450 (1 100–1 800) → -34 % ⚠ | 950 / 2 000 (1 500–2 500) → -52 % ⚠ |
+| Maçonnerie et enduits | 624 / 250 (200–350) → +150 % ⚠ | 723 / 450 (400–600) → +61 % ⚠ | 694 / 550 (400–750) → +26 % | 694 / 650 (450–750) → +7 % | 682 / 850 (650–1 000) → -20 % |
+| Étanchéité | 147 / 80 (60–150) → +84 % ⚠ | 192 / 150 (105–275) → +28 % | 227 / 180 (150–275) → +26 % | 227 / 220 (150–300) → +3 % | 227 / 300 (200–400) → -24 % |
+| Façades | 126 / 150 (100–250) → -16 % | 150 / 350 (280–450) → -57 % ⚠ | 214 / 450 (350–600) → -52 % ⚠ | 306 / 600 (400–900) → -49 % ⚠ | 433 / 900 (600–1 500) → -52 % ⚠ |
+| Menuiserie alu | 174 / 150 (45–250) → +16 % | 330 / 400 (300–500) → -17 % | 546 / 550 (450–750) → -1 % | 961 / 850 (650–1 100) → +13 % | 1 619 / 1 400 (1 000–2 000) → +16 % |
+| Menuiserie bois | 38 / 120 (50–170) → -68 % ⚠ | 172 / 300 (220–450) → -43 % ⚠ | 337 / 400 (300–600) → -16 % | 550 / 600 (400–900) → -8 % | 550 / 950 (600–1 500) → -42 % ⚠ |
+| Ferronnerie | 24 / 40 (20–80) → -41 % ⚠ | 36 / 100 (40–150) → -64 % ⚠ | 66 / 150 (100–330) → -56 % ⚠ | 66 / 220 (125–350) → -70 % ⚠ | 93 / 350 (200–500) → -73 % ⚠ |
+| Faux plafonds | 0 / 30 (0–60) → -100 % ⚠ | 48 / 120 (80–200) → -60 % ⚠ | 97 / 170 (120–250) → -43 % ⚠ | 215 / 250 (180–400) → -14 % | 255 / 450 (300–800) → -43 % ⚠ |
+| Sols | 183 / 200 (100–250) → -8 % | 300 / 380 (280–500) → -21 % | 496 / 500 (380–700) → -1 % | 695 / 750 (550–1 000) → -7 % | 990 / 1 400 (900–2 600) → -29 % |
+| Murs (faïence) | 38 / 60 (30–70) → -37 % ⚠ | 46 / 120 (80–180) → -62 % ⚠ | 55 / 170 (120–250) → -68 % ⚠ | 55 / 260 (180–400) → -79 % ⚠ | 167 / 450 (300–800) → -63 % ⚠ |
+| Peinture | 144 / 70 (50–70) → +106 % ⚠ | 188 / 160 (80–230) → +18 % | 187 / 200 (150–280) → -6 % | 297 / 280 (200–400) → +6 % | 294 / 420 (280–700) → -30 % |
+| Plomberie + eau chaude solaire | 140 / 150 (20–200) → -6 % | 176 / 350 (200–450) → -50 % ⚠ | 321 / 450 (300–550) → -29 % | 508 / 600 (400–800) → -15 % | 508 / 900 (600–1 200) → -44 % ⚠ |
+| Électricité | 99 / 130 (20–200) → -24 % | 133 / 330 (250–400) → -60 % ⚠ | 202 / 420 (300–500) → -52 % ⚠ | 230 / 550 (400–750) → -58 % ⚠ | 265 / 750 (500–1 000) → -65 % ⚠ |
+| Courants faibles | 0 / 0 (0–0) → +0 % | 29 / 70 (50–120) → -58 % ⚠ | 29 / 150 (100–230) → -80 % ⚠ | 81 / 350 (175–500) → -77 % ⚠ | 254 / 800 (600–1 250) → -68 % ⚠ |
+| Climatisation | 0 / 0 (0–0) → +0 % | 0 / 150 (100–200) → -100 % ⚠ | 120 / 250 (175–300) → -52 % ⚠ | 192 / 350 (200–500) → -45 % ⚠ | 685 / 550 (400–800) → +25 % |
+
+Écarts supérieurs à 30 % (47) : Faux plafonds très économique -100 % ; Climatisation moyen standing -100 % ; Terrassements luxe / premium -82 % ; Courants faibles standing -80 % ; Murs (faïence) haut standing -79 % ; Courants faibles haut standing -77 % ; Terrassements haut standing -76 % ; Ferronnerie luxe / premium -73 % ; Terrassements standing -70 % ; Ferronnerie haut standing -70 % ; Courants faibles luxe / premium -68 % ; Menuiserie bois très économique -68 % ; Murs (faïence) standing -68 % ; Électricité luxe / premium -65 % ; Ferronnerie moyen standing -64 % ; Murs (faïence) luxe / premium -63 % ; Murs (faïence) moyen standing -62 % ; Terrassements moyen standing -61 % ; Faux plafonds moyen standing -60 % ; Électricité moyen standing -60 % ; Électricité haut standing -58 % ; Courants faibles moyen standing -58 % ; Façades moyen standing -57 % ; Ferronnerie standing -56 % ; Structure béton armé luxe / premium -52 % ; Façades standing -52 % ; Électricité standing -52 % ; Climatisation standing -52 % ; Façades luxe / premium -52 % ; Plomberie + eau chaude solaire moyen standing -50 % ; Façades haut standing -49 % ; Terrassements très économique -47 % ; Climatisation haut standing -45 % ; Plomberie + eau chaude solaire luxe / premium -44 % ; Faux plafonds luxe / premium -43 % ; Faux plafonds standing -43 % ; Menuiserie bois moyen standing -43 % ; Menuiserie bois luxe / premium -42 % ; Ferronnerie très économique -41 % ; Murs (faïence) très économique -37 % ; Structure béton armé haut standing -34 % ; Fondations moyen standing +48 % ; Maçonnerie et enduits moyen standing +61 % ; Étanchéité très économique +84 % ; Peinture très économique +106 % ; Fondations très économique +146 % ; Maçonnerie et enduits très économique +150 %.
+
+## 5. Sensibilité : sol, nappe, pente, mode de réalisation (moyen standing)
 
 | Scénario | Travaux TTC | Écart TTC | Fondation |
 |:--|--:|--:|--:|
@@ -88,7 +114,7 @@ Montants HT (DH), puis DH HT par m² de plancher total. Installation de chantier
 | Pente 10 % | 2 145 034 | +92 538 | semelles isolées |
 | Réalisation par tâcheron | 1 716 574 | -335 922 | semelles isolées |
 
-## 5. DQE détaillé — Moyen standing — Entreprise générale (HT, frais et marge compris)
+## 6. DQE détaillé — Moyen standing — Entreprise générale (HT, frais et marge compris)
 
 ### 00 Installation de chantier — 31 940 DH HT
 
@@ -255,7 +281,7 @@ Montants HT (DH), puis DH HT par m² de plancher total. Installation de chantier
 | Clôture maçonnée h 2,20 m sur semelle filante, enduite 2 faces | EXT.01 | 47,4 | ml | 1 309 | 62 100 | 4 × √terrain × côtés non mitoyens − portail | 1 046–1 706 |
 | Portail métallique et portillon, posés | EXT.02 | 1 | u | 16 800 | 16 800 | portail + portillon | 9 720–29 500 |
 
-## 6. Méthode de prix et hypothèses
+## 7. Méthode de prix et hypothèses
 
 - Prix d'ouvrage = déboursé sec (matériaux + main-d'œuvre chargée CNSS 21,09 % + petit matériel 5 % de la MO) × K. K entreprise = 1.38 (frais de chantier 10 %, frais généraux 12 %, aléas et bénéfice 12 %) ; ouvrages fournis-posés par un sous-traitant × 1,12 ; tâcheron : K × 0,83 et fournitures achetées par le client (× 1,00).
 - 128 prix élémentaires sourcés dans docs/prix/recherche (fiabilité A/B/C) ou marqués H (hypothèse). TVA 20 % sur les travaux d'entreprise.
@@ -296,7 +322,7 @@ Montants HT (DH), puis DH HT par m² de plancher total. Installation de chantier
 | Réseau d'assainissement extérieur : longueur fixe ajoutée à √(terrain) | 10 ml | 0–40 |  |
 | Regards d'assainissement | 3 u | 2–8 |  |
 
-## 7. Contrôles de cohérence
+## 8. Contrôles de cohérence
 
 - Grille CITURBAREA 2026 (Moyen standing) : 4 073 DH/m² base RSK pour 4000–5200 → dans la fourchette.
 - Part du gros œuvre : 60 % (repères EnginLoc : 55-60 % économique, 45-50 % standard).
@@ -321,7 +347,7 @@ Montants HT (DH), puis DH HT par m² de plancher total. Installation de chantier
   - ✓ Point d'eau, arrivée + évacuation (u) : 760 contre 250–800 (op-7rafti-plomb-point)
   - ✓ Garde-corps alu posé, pose comprise (ml) : 857 contre 480–1 100 (lc-gc-alu-std, lc-gc-pose) — Fourniture 280-450 + pose 200-650
 
-## 8. Relecture Claude (points à vérifier en priorité)
+## 9. Relecture Claude (points à vérifier en priorité)
 
 1. Fondations, risque de double comptage : les semelles isolées sont calculées sur 376,8 m² (sous-sol compris), en plus de la semelle filante sous le voile (10,3 m³). Sous le sous-sol, le voile porte la façade : le lot 02 pourrait être surestimé de 10 à 15 % (environ 15 000 à 25 000 DH).
 2. Voile périphérique : 161 m² × 983 DH = 158 000 DH, premier poste du sous-sol. L épaisseur (20 cm), le béton (B30) et l acier (100 kg/m³) sont des hypothèses à faire confirmer par le BET. Côté mitoyen, le voile est coulé contre le blindage avec une seule face coffrée : le coffrage y est surestimé.
@@ -333,7 +359,7 @@ Montants HT (DH), puis DH HT par m² de plancher total. Installation de chantier
 8. Prix unitaires principaux en ligne avec le marché : plancher hourdis 449 DH/m² (marché 350 à 545), agglo de 20 posé 244 DH/m² (180 à 250), étanchéité SBS 154 DH/m², alu RPT posé 1 708 DH/m² (1 150 à 1 800). Le béton armé en élévation (4 600 à 5 300 DH/m³) n a aucune référence publique pour le recouper : à comparer avec vos bordereaux.
 9. Très économique par tâcheron : 3 129 DH/m². Cela repose sur K × 0,83 et sur des fournitures (menuiseries, sanitaires) achetées directement par le client ; à confirmer par vos retours de chantier.
 
-## 9. Questions pour la relecture
+## 10. Questions pour la relecture
 
 1. Les prix au m² par standing (section 2) correspondent-ils à ce que vous observez sur des villas jumelées comparables, dans la même ville ?
 2. Le coût du sous-sol (section 2, tableau sans sous-sol) et sa part de soutènement sont-ils réalistes pour 3 m de terre et un côté mitoyen ?
@@ -343,10 +369,10 @@ Montants HT (DH), puis DH HT par m² de plancher total. Installation de chantier
 6. Les hypothèses de la section 6 à corriger en priorité ?
 7. Le chiffrage du très économique par tâcheron (K × 0,83, fournitures achetées par le client) est-il représentatif ?
 
-## 10. Consigne à coller dans GPT
+## 11. Consigne à coller dans GPT
 
 ```
-Tu es économiste de la construction au Maroc (marché privé 2026). Relis de façon critique l'estimation ci-dessous (villa, chiffrage lot par lot). Pour chaque section : 1) signale les quantités ou prix unitaires qui te paraissent faux, avec la valeur que tu proposes, l'unité et ta source ou ton raisonnement ; 2) réponds aux questions de la section 9 ; 3) donne ton propre coût par lot en DH HT/m² pour chaque standing, dans le même tableau que la section 3 ; 4) distingue clairement ce qui est un fait sourcé de ce qui est ton estimation. Réponds en français, sans arrondir à l'excès.
+Tu es économiste de la construction au Maroc (marché privé 2026). Relis de façon critique l'estimation ci-dessous (villa, chiffrage lot par lot). Pour chaque section : 1) signale les quantités ou prix unitaires qui te paraissent faux, avec la valeur que tu proposes, l'unité et ta source ou ton raisonnement ; 2) réponds aux questions de la section 10 ; 3) donne ton propre coût par lot en DH HT/m² pour chaque standing, dans le même tableau que la section 3 ; 4) distingue clairement ce qui est un fait sourcé de ce qui est ton estimation. Réponds en français, sans arrondir à l'excès.
 ```
 
 > Estimation indicative, hors terrain, mobilier, électroménager et luminaires. Ne vaut pas offre d'entreprise. Quantités à confirmer sur plans et étude de sol.

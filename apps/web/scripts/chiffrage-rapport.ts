@@ -6,7 +6,7 @@
  *
  * projet.json : un ProjetInput (sans `standing`, le rapport compare les 5).
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { standingLabel } from "../src/command-center/modules/dossiers/costRangesMA";
 import {
   CHIFFRAGE_VERSION, HYPOTHESES, K_PRIVE, MATERIAUX, REGIMES, STANDINGS, TVA, TYPE_GRILLE,
@@ -102,7 +102,43 @@ table(["Lot", ...STANDINGS.map(lib)],
   ["**Total travaux HT**", ...parStanding.map(({ r }) => `**${dh(r.travauxHT)}**<br>${dh(r.travauxHT / S)}/m²`)],
   ["Part du gros œuvre (bâtiment)", ...parStanding.map(({ r }) => pct(r.partGrosOeuvre))]]);
 
-p("## 4. Sensibilité : sol, nappe, pente, mode de réalisation (moyen standing)");
+// ── Comparaison avec la recherche coût par lot × standing (docs/prix/recherche/cout-par-lot-standing.json)
+const RECH = new URL("../../../docs/prix/recherche/cout-par-lot-standing.json", import.meta.url);
+if (existsSync(RECH)) {
+  type E = { type: string; lot: string; standing: string; prix_min: number; prix_ref: number; prix_max: number };
+  const ent = (JSON.parse(readFileSync(RECH, "utf8")).entrees as E[]).filter((e) => e.type === "REFERENCE_DERIVEE");
+  const ST: Record<string, string> = { ULTRA_ECO: "TRES_ECONOMIQUE", ECONOMIQUE: "MOYEN_STANDING", STANDARD: "STANDING", STANDING: "HAUT_STANDING", PREMIUM: "LUXE" };
+  const LOTS: [string, string[], string][] = [
+    ["Terrassements", ["TER"], "TER"], ["Fondations", ["FON"], "FON"], ["Structure béton armé", ["STR"], "STR"], ["Maçonnerie et enduits", ["MAC"], "MAC"],
+    ["Étanchéité", ["ETA"], "ETA"], ["Façades", ["FAC"], "FAC"], ["Menuiserie alu", ["ALU"], "ALU"], ["Menuiserie bois", ["BOI"], "BOI"],
+    ["Ferronnerie", ["MET"], "FER"], ["Faux plafonds", ["FPL"], "PLA"], ["Sols", ["RSO"], "SOL"], ["Murs (faïence)", ["RMU"], "MUR"], ["Peinture", ["PEI"], "PEI"],
+    ["Plomberie + eau chaude solaire", ["PLO", "ENR"], "PLO"], ["Électricité", ["ELE"], "ELE"], ["Courants faibles", ["CFA"], "CFA"], ["Climatisation", ["CVC"], "CLI"],
+  ];
+  const ecarts: { lot: string; s: string; e: number }[] = [];
+  p("## 4. Comparaison avec la recherche « coût par lot × standing »");
+  p();
+  p("Moteur calculé **sans sous-sol** (la recherche est hors sous-sol), en DH HT/m² de plancher. Cellule : moteur / référence de la recherche (fourchette) → écart. La recherche reconstruit elle-même ses colonnes du moyen standing au luxe (fiabilité C) : c'est un repère, pas une vérité.");
+  p();
+  table(["Lot", ...STANDINGS.map(lib)], LOTS.map(([nom, codesM, codeR]) => [nom, ...STANDINGS.map((st, i) => {
+    const r = sansSousSol[i].r;
+    const v = r.lots.filter((l) => codesM.includes(l.lot.code)).reduce((a, l) => a + l.total, 0) / r.geometrie.surfaceTotale;
+    const x = ent.find((e) => e.lot === codeR && e.standing === ST[st]);
+    if (!x) return dh(v);
+    const e = x.prix_ref ? v / x.prix_ref - 1 : 0;
+    ecarts.push({ lot: nom, s: lib(st), e });
+    const flag = Math.abs(e) > 0.3 ? " ⚠" : "";
+    return `${dh(v)} / ${dh(x.prix_ref)} (${dh(x.prix_min)}–${dh(x.prix_max)}) → ${e >= 0 ? "+" : ""}${Math.round(e * 100)} %${flag}`;
+  })]));
+  const tot = ent.filter((e) => e.lot === "TOTAL");
+  if (tot.length) table(["Total bâtiment", ...STANDINGS.map(lib)], [["Moteur / recherche", ...STANDINGS.map((st, i) => {
+    const x = tot.find((e) => e.standing === ST[st]); const v = sansSousSol[i].r.coutM2BatimentHT;
+    return x ? `${dh(v)} / ${dh(x.prix_ref)} → ${v >= x.prix_ref ? "+" : ""}${Math.round((v / x.prix_ref - 1) * 100)} %` : dh(v);
+  })]]);
+  const gros = ecarts.filter((x) => Math.abs(x.e) > 0.3).sort((a, b) => a.e - b.e);
+  if (gros.length) { p(`Écarts supérieurs à 30 % (${gros.length}) : ${gros.map((x) => `${x.lot} ${x.s.toLowerCase()} ${x.e > 0 ? "+" : ""}${Math.round(x.e * 100)} %`).join(" ; ")}.`); p(); }
+}
+
+p("## 5. Sensibilité : sol, nappe, pente, mode de réalisation (moyen standing)");
 p();
 const scen: [string, Partial<ProjetInput>][] = [
   ["Référence (bon sol, sans nappe, terrain plat)", {}],
@@ -118,7 +154,7 @@ table(["Scénario", "Travaux TTC", "Écart TTC", "Fondation"], scen.map(([n, pat
   return [n, dh(r.totalTTC), `${r.totalTTC >= ref.totalTTC ? "+" : ""}${dh(r.totalTTC - ref.totalTTC)}`, FONDATION[r.geometrie.fondation]];
 }));
 
-p(`## 5. DQE détaillé — ${lib("ECONOMIQUE")} — ${REGIMES[ref.regime].libelle}`);
+p(`## 6. DQE détaillé — ${lib("ECONOMIQUE")} — ${REGIMES[ref.regime].libelle}`);
 p();
 for (const l of ref.lots) {
   p(`### ${l.lot.numero} ${l.lot.libelle} — ${dh(l.total)} DH HT`);
@@ -129,7 +165,7 @@ for (const l of ref.lots) {
     [":--", ":--", "--:", ":--", "--:", "--:", ":--", "--:"]);
 }
 
-p("## 6. Méthode de prix et hypothèses");
+p("## 7. Méthode de prix et hypothèses");
 p();
 p(`- Prix d'ouvrage = déboursé sec (matériaux + main-d'œuvre chargée CNSS 21,09 % + petit matériel 5 % de la MO) × K. K entreprise = ${K_PRIVE} (frais de chantier 10 %, frais généraux 12 %, aléas et bénéfice 12 %) ; ouvrages fournis-posés par un sous-traitant × 1,12 ; tâcheron : K × 0,83 et fournitures achetées par le client (× 1,00).`);
 p(`- ${Object.keys(MATERIAUX).length} prix élémentaires sourcés dans docs/prix/recherche (fiabilité A/B/C) ou marqués H (hypothèse). TVA ${pct(TVA.taux)} sur les travaux d'entreprise.`);
@@ -140,7 +176,7 @@ table(["Hypothèse", "Valeur", "Plage", "Justification"], Object.entries(ref.hyp
   return [h.libelle, `${v.toLocaleString("fr-FR")} ${h.unite}`, `${h.min}–${h.max}`, h.source.note ?? ""];
 }), [":--", "--:", "--:", ":--"]);
 
-p("## 7. Contrôles de cohérence");
+p("## 8. Contrôles de cohérence");
 p();
 const coh = coherence(ref);
 p(`- Grille CITURBAREA 2026 (${lib("ECONOMIQUE")}) : ${dh(coh.grille.coutM2RSK)} DH/m² base RSK pour ${coh.grille.fourchette?.join("–")} → ${coh.grille.ok ? "dans la fourchette" : `écart ${Math.round(coh.grille.ecart * 100)} %`}.`);
@@ -150,12 +186,12 @@ for (const x of coh.recoupements) p(`  - ${x.ok ? "✓" : "⚠"} ${x.libelle} : 
 p();
 
 if (base.relecture?.length) {
-  p("## 8. Relecture Claude (points à vérifier en priorité)");
+  p("## 9. Relecture Claude (points à vérifier en priorité)");
   p();
   base.relecture.forEach((x, i) => p(`${i + 1}. ${x}`));
   p();
 }
-p("## 9. Questions pour la relecture");
+p("## 10. Questions pour la relecture");
 p();
 [
   "Les prix au m² par standing (section 2) correspondent-ils à ce que vous observez sur des villas jumelées comparables, dans la même ville ?",
@@ -167,10 +203,10 @@ p();
   "Le chiffrage du très économique par tâcheron (K × 0,83, fournitures achetées par le client) est-il représentatif ?",
 ].forEach((q, i) => p(`${i + 1}. ${q}`));
 p();
-p("## 10. Consigne à coller dans GPT");
+p("## 11. Consigne à coller dans GPT");
 p();
 p("```");
-p("Tu es économiste de la construction au Maroc (marché privé 2026). Relis de façon critique l'estimation ci-dessous (villa, chiffrage lot par lot). Pour chaque section : 1) signale les quantités ou prix unitaires qui te paraissent faux, avec la valeur que tu proposes, l'unité et ta source ou ton raisonnement ; 2) réponds aux questions de la section 9 ; 3) donne ton propre coût par lot en DH HT/m² pour chaque standing, dans le même tableau que la section 3 ; 4) distingue clairement ce qui est un fait sourcé de ce qui est ton estimation. Réponds en français, sans arrondir à l'excès.");
+p("Tu es économiste de la construction au Maroc (marché privé 2026). Relis de façon critique l'estimation ci-dessous (villa, chiffrage lot par lot). Pour chaque section : 1) signale les quantités ou prix unitaires qui te paraissent faux, avec la valeur que tu proposes, l'unité et ta source ou ton raisonnement ; 2) réponds aux questions de la section 10 ; 3) donne ton propre coût par lot en DH HT/m² pour chaque standing, dans le même tableau que la section 3 ; 4) distingue clairement ce qui est un fait sourcé de ce qui est ton estimation. Réponds en français, sans arrondir à l'excès.");
 p("```");
 p();
 p("> Estimation indicative, hors terrain, mobilier, électroménager et luminaires. Ne vaut pas offre d'entreprise. Quantités à confirmer sur plans et étude de sol.");
