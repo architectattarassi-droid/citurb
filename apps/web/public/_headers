@@ -1,3 +1,12 @@
 # Cloudflare Pages : fichiers versionnés par hash, jamais modifiés en place.
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Shell SPA et service worker : toujours revalidés, jamais servis d'un cache
+# long — sinon un ancien index.html référence des chunks supprimés.
+/
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
+/sw.js
+  Cache-Control: no-cache

@@ -3,7 +3,12 @@
  * Stratégies :
  *  - Précache du shell app (/, /manifest, icônes) installé au premier lancement.
  *  - Network-first pour /api/* (toujours frais, fallback offline JSON).
- *  - Stale-while-revalidate pour les assets hashés Vite (/assets/*.js, *.css, *.woff2).
+ *  - Cache-first pour les assets hashés Vite (/assets/*.js, *.css, *.woff2) :
+ *    immuables sur leur hash. Une réponse HTML (fallback SPA de Cloudflare
+ *    Pages pour un chunk disparu après redéploiement) n'est JAMAIS mise en
+ *    cache et devient un 404, pour que l'app déclenche son rechargement.
+ *  - Network-first (no-store) pour index.html et toute réponse HTML : le
+ *    shell ne doit jamais référencer d'anciens chunks après un déploiement.
  *  - Cache-first pour les icônes et le manifest.
  *  - Toute navigation (request.mode === 'navigate') retombe sur "/" depuis le précache si offline,
  *    pour que la SPA puisse au moins se charger et afficher un écran cohérent.
@@ -13,7 +18,8 @@
  *  - JAMAIS de cache pour /auth, /webhooks, /uploads (passthrough).
  *  - skipWaiting + clients.claim pour un déploiement rapide.
  */
-const SW_VERSION = "citurbarea-sw-v3";
+// v4 : purge des caches runtime pouvant contenir du HTML servi comme chunk.
+const SW_VERSION = "citurbarea-sw-v4";
 const PRECACHE = `${SW_VERSION}-precache`;
 const RUNTIME = `${SW_VERSION}-runtime`;
 const API_CACHE = `${SW_VERSION}-api`;
@@ -88,6 +94,14 @@ function isStaticIcon(url) {
   );
 }
 
+function isHtml(res) {
+  return (res.headers.get("content-type") || "").includes("text/html");
+}
+
+function isShell(url) {
+  return url.pathname === "/" || url.pathname === "/index.html";
+}
+
 async function networkFirst(request, cacheName) {
   const cache = await caches.open(cacheName);
   try {
@@ -116,11 +130,30 @@ async function staleWhileRevalidate(request, cacheName) {
   const cached = await cache.match(request);
   const networkPromise = fetch(request)
     .then((res) => {
-      if (res && res.ok) cache.put(request, res.clone());
+      // Jamais de HTML en runtime : un shell en cache référencerait d'anciens chunks.
+      if (res && res.ok && !isHtml(res)) cache.put(request, res.clone());
       return res;
     })
-    .catch(() => null);
-  return cached || networkPromise || fetch(request);
+    .catch(() => Response.error());
+  return cached || networkPromise;
+}
+
+async function hashedAsset(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
+  if (cached && !isHtml(cached)) return cached;
+  const fresh = await fetch(request);
+  if (fresh.ok && isHtml(fresh)) {
+    // Chunk absent du déploiement courant : Cloudflare Pages renvoie
+    // index.html en 200. On le transforme en vrai 404 non mis en cache.
+    if (cached) await cache.delete(request);
+    return new Response("Asset introuvable", {
+      status: 404,
+      headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store" },
+    });
+  }
+  if (fresh.ok) cache.put(request, fresh.clone());
+  return fresh;
 }
 
 async function cacheFirst(request, cacheName) {
@@ -178,9 +211,15 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Assets Vite hashés → stale-while-revalidate (immutables sur leur hash).
+  // Shell (index.html) hors navigation → toujours le réseau, sans cache HTTP.
+  if (isShell(url)) {
+    event.respondWith(navigationFallback(request));
+    return;
+  }
+
+  // Assets Vite hashés → cache-first, jamais de HTML (immutables sur leur hash).
   if (isHashedAsset(url)) {
-    event.respondWith(staleWhileRevalidate(request, RUNTIME));
+    event.respondWith(hashedAsset(request, RUNTIME));
     return;
   }
 

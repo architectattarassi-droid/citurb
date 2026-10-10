@@ -8,6 +8,10 @@ import "./styles/mobile-overrides.css";
 import { registerServiceWorker } from "./sw/register";
 import { startWebVitals } from "./lib/web-vitals";
 import { initLeadBridge } from "./features/lead-funnel/leadBridge";
+import { installChunkReloadHandler } from "./lib/chunkReload";
+
+// Avant le rendu : chunk lazy disparu après redéploiement → un rechargement.
+installChunkReloadHandler();
 
 const rootEl = document.getElementById("root");
 if (!rootEl) throw new Error("Root element #root introuvable dans index.html");

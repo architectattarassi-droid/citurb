@@ -4,6 +4,7 @@ import { PublicLayout } from "./layouts";
 import PageTracker from "../../../lib/PageTracker";
 import RouteMeta from "../../../lib/RouteMeta";
 import NotFound from "../../../ui/NotFound";
+import RouteError from "../../../ui/RouteError";
 import { VILLES_SEO } from "../../../ui/seo/portes.data";
 
 /**
@@ -239,6 +240,8 @@ const SigHostBlock = ({ children }: { children: React.ReactNode }) => {
 export const router = createBrowserRouter([
  {
   element: <RootTracker />,
+  // Chunk lazy introuvable après redéploiement → un rechargement complet.
+  errorElement: <RouteError />,
   children: [
   // Landing publique
   { path: CANON.HOME, element: <LandingRoute /> },
