@@ -69,6 +69,10 @@ export type ProjetInput = {
    * tâcheron en très économique, entreprise sinon.
    */
   regime?: Regime;
+  /** Cuisine aménagée au forfait selon le standing (défaut : oui ; cuisineMl la remplace par un linéaire). */
+  cuisine?: boolean;
+  /** Édicule de terrasse (cage, buanderie) inclus dans la surface plancher : murs, enduits et toiture métrés à part. */
+  edicule?: number;
 };
 
 export type Tag = "sous_sol" | "soutenement" | "sol" | "pente" | "option";
@@ -111,12 +115,14 @@ export const GAMMES: Record<Standing, {
   gardeCorps: string; sdb: string; evier: string; ptLum: string; prise: string; densiteElec: number;
   facade: string; facadePierre: number; baies: number; isolation: string | null; plancher: string; cfa: boolean;
   climDefaut: boolean; split12: string; gainable: boolean; solaireDefaut: boolean;
+  /** Luminaires de base par point lumineux, cuisine aménagée (forfait), grilles de défense. */
+  luminaires: number; cuisine: string; grilles: boolean;
 }> = {
-  ULTRA_ECO: { sol: "RSO.01", mur: "RMU.01", peinture: "PEI.01", fpBA13: 0, fpStaff: 0, alu: "ALU.01", aluLuxePart: 0, volets: 0, porteEntree: "ALU.06", porte: "BOI.01", gardeCorps: "MET.01", sdb: "PLO.02", evier: "PLO.06", ptLum: "ELE.01", prise: "ELE.02", densiteElec: 0.85, facade: "FAC.02", facadePierre: 0, baies: 0.13, isolation: null, plancher: "STR.03", cfa: false, climDefaut: false, split12: "CVC.01", gainable: false, solaireDefaut: false },
-  ECONOMIQUE: { sol: "RSO.02", mur: "RMU.01", peinture: "PEI.02", fpBA13: 0.3, fpStaff: 0, alu: "ALU.02", aluLuxePart: 0, volets: 0.3, porteEntree: "ALU.06", porte: "BOI.02", gardeCorps: "MET.02", sdb: "PLO.03", evier: "PLO.06", ptLum: "ELE.01", prise: "ELE.02", densiteElec: 1, facade: "FAC.02", facadePierre: 0, baies: 0.15, isolation: "ETA.05", plancher: "STR.03", cfa: true, climDefaut: false, split12: "CVC.01", gainable: false, solaireDefaut: false },
-  STANDARD: { sol: "RSO.03", mur: "RMU.02", peinture: "PEI.02", fpBA13: 0.6, fpStaff: 0, alu: "ALU.03", aluLuxePart: 0, volets: 0.6, porteEntree: "BOI.05", porte: "BOI.03", gardeCorps: "MET.03", sdb: "PLO.04", evier: "PLO.07", ptLum: "ELE.03", prise: "ELE.04", densiteElec: 1.15, facade: "FAC.03", facadePierre: 0.1, baies: 0.17, isolation: "ETA.04", plancher: "STR.03", cfa: true, climDefaut: true, split12: "CVC.01", gainable: false, solaireDefaut: true },
-  STANDING: { sol: "RSO.04", mur: "RMU.02", peinture: "PEI.03", fpBA13: 0.6, fpStaff: 0.4, alu: "ALU.03", aluLuxePart: 0.3, volets: 0.8, porteEntree: "BOI.05", porte: "BOI.04", gardeCorps: "MET.03", sdb: "PLO.05", evier: "PLO.07", ptLum: "ELE.03", prise: "ELE.04", densiteElec: 1.35, facade: "FAC.03", facadePierre: 0.25, baies: 0.2, isolation: "ETA.04", plancher: "STR.04", cfa: true, climDefaut: true, split12: "CVC.03", gainable: false, solaireDefaut: true },
-  PREMIUM: { sol: "RSO.05", mur: "RMU.03", peinture: "PEI.03", fpBA13: 0.3, fpStaff: 0.7, alu: "ALU.03", aluLuxePart: 0.7, volets: 0.9, porteEntree: "BOI.05", porte: "BOI.04", gardeCorps: "MET.04", sdb: "PLO.05", evier: "PLO.07", ptLum: "ELE.03", prise: "ELE.04", densiteElec: 1.6, facade: "FAC.03", facadePierre: 0.5, baies: 0.24, isolation: "ETA.04", plancher: "STR.04", cfa: true, climDefaut: true, split12: "CVC.03", gainable: true, solaireDefaut: true },
+  ULTRA_ECO: { sol: "RSO.01", mur: "RMU.01", peinture: "PEI.01", fpBA13: 0, fpStaff: 0, alu: "ALU.01", aluLuxePart: 0, volets: 0, porteEntree: "ALU.06", porte: "BOI.01", gardeCorps: "MET.01", sdb: "PLO.02", evier: "PLO.06", ptLum: "ELE.01", prise: "ELE.02", densiteElec: 0.85, facade: "FAC.02", facadePierre: 0, baies: 0.13, isolation: null, plancher: "STR.03", cfa: false, climDefaut: false, split12: "CVC.01", gainable: false, solaireDefaut: false, luminaires: 0, cuisine: "BOI.10", grilles: true },
+  ECONOMIQUE: { sol: "RSO.02", mur: "RMU.01", peinture: "PEI.02", fpBA13: 0.3, fpStaff: 0, alu: "ALU.02", aluLuxePart: 0, volets: 0.3, porteEntree: "ALU.06", porte: "BOI.02", gardeCorps: "MET.02", sdb: "PLO.03", evier: "PLO.06", ptLum: "ELE.01", prise: "ELE.02", densiteElec: 1, facade: "FAC.02", facadePierre: 0, baies: 0.15, isolation: "ETA.05", plancher: "STR.03", cfa: true, climDefaut: false, split12: "CVC.01", gainable: false, solaireDefaut: false, luminaires: 1, cuisine: "BOI.11", grilles: true },
+  STANDARD: { sol: "RSO.03", mur: "RMU.02", peinture: "PEI.02", fpBA13: 0.6, fpStaff: 0, alu: "ALU.03", aluLuxePart: 0, volets: 0.6, porteEntree: "BOI.05", porte: "BOI.03", gardeCorps: "MET.03", sdb: "PLO.04", evier: "PLO.07", ptLum: "ELE.03", prise: "ELE.04", densiteElec: 1.15, facade: "FAC.03", facadePierre: 0.2, baies: 0.17, isolation: "ETA.04", plancher: "STR.03", cfa: true, climDefaut: true, split12: "CVC.01", gainable: false, solaireDefaut: true, luminaires: 1.2, cuisine: "BOI.12", grilles: true },
+  STANDING: { sol: "RSO.04", mur: "RMU.02", peinture: "PEI.03", fpBA13: 0.6, fpStaff: 0.4, alu: "ALU.03", aluLuxePart: 0.3, volets: 0.8, porteEntree: "BOI.05", porte: "BOI.04", gardeCorps: "MET.03", sdb: "PLO.05", evier: "PLO.07", ptLum: "ELE.03", prise: "ELE.04", densiteElec: 1.35, facade: "FAC.03", facadePierre: 0.4, baies: 0.2, isolation: "ETA.04", plancher: "STR.04", cfa: true, climDefaut: true, split12: "CVC.03", gainable: false, solaireDefaut: true, luminaires: 1.5, cuisine: "BOI.13", grilles: false },
+  PREMIUM: { sol: "RSO.05", mur: "RMU.03", peinture: "PEI.03", fpBA13: 0.3, fpStaff: 0.7, alu: "ALU.03", aluLuxePart: 0.7, volets: 0.9, porteEntree: "BOI.05", porte: "BOI.04", gardeCorps: "MET.04", sdb: "PLO.05", evier: "PLO.07", ptLum: "ELE.03", prise: "ELE.04", densiteElec: 1.6, facade: "FAC.03", facadePierre: 0.6, baies: 0.24, isolation: "ETA.04", plancher: "STR.04", cfa: true, climDefaut: true, split12: "CVC.03", gainable: true, solaireDefaut: true, luminaires: 2, cuisine: "BOI.14", grilles: false },
 };
 
 const DEFAUTS_TYPE: Record<TypeBatiment, { mitoyennete: number; terrainSurEmprise: number; hsp: number; baiesFacteur: number; cloture: boolean }> = {
@@ -203,8 +209,9 @@ export function metre(input: ProjetInput): { lignes: LigneMetre[]; geometrie: Ge
     if (!ss) pleineMasse += Efond * ep;
   } else {
     const r = h(`fon.ratio.${sol}`);
-    volFond = r * Stot * (1 + surcoutPente);
-    add("FON.semelles", sol === "MOYEN" ? "FON.03" : "FON.02", volFond, `${r} m³/m² × ${fmt(Stot)} m²${surcoutPente ? ` × (1 + ${fmt(surcoutPente)} redans)` : ""}`, "terrain", [`fon.ratio.${sol}`], tagsSol);
+    const allegement = ss ? h("ss.reductionSemelles") : 0;
+    volFond = r * Stot * (1 + surcoutPente) * (1 - allegement);
+    add("FON.semelles", sol === "MOYEN" ? "FON.03" : "FON.02", volFond, `${r} m³/m² × ${fmt(Stot)} m²${surcoutPente ? ` × (1 + ${fmt(surcoutPente)} redans)` : ""}${allegement ? ` × (1 − ${allegement} repris par le voile)` : ""}`, "terrain", [`fon.ratio.${sol}`, ...(allegement ? ["ss.reductionSemelles"] : [])], tagsSol);
     volLongrines = h("fon.longrines") * Efond;
     add("FON.longrines", "FON.05", volLongrines, `${h("fon.longrines")} m³/m² × emprise`, "terrain", ["fon.longrines"]);
     add("FON.proprete", "FON.01", volFond / h("fon.hauteurSemelle") + volLongrines / 0.4, "volume des semelles ÷ hauteur + longrines", "terrain", ["fon.hauteurSemelle"], tagsSol);
@@ -284,12 +291,22 @@ export function metre(input: ProjetInput): { lignes: LigneMetre[]; geometrie: Ge
   add("STR.escaliers", "STR.06", volees * h("str.escalier"), `${volees} volée(s) × ${h("str.escalier")} m³`, "projet", ["str.escalier"]);
   if (collectif) add("STR.voiles", "STR.07", (n + (ss ? 1 : 0)) * h("str.voilesImmeuble"), "cage d'escalier / ascenseur", "projet", ["str.voilesImmeuble"]);
   add("STR.acrotere", "STR.08", P, "périmètre de la toiture", "projet", ["geo.coefPerimetre"]);
+  const ed = Math.max(0, input.edicule ?? 0);
+  if (ed > 0) {
+    const murEd = Math.max(0, kP * Math.sqrt(ed) * hEt - 2);
+    add("EDI.murs", "MAC.02", murEd, `édicule ${fmt(ed)} m² : périmètre × ${fmt(hEt)} m − porte`, "projet");
+    add("EDI.enduitsInt", "MAC.05", murEd, "face intérieure de l'édicule", "projet");
+    add("EDI.enduitsExt", "FAC.01", murEd, "face extérieure de l'édicule", "projet");
+    add("EDI.etancheite", "ETA.02", ed, "toiture de l'édicule", "projet");
+    add("EDI.protection", "ETA.03", ed, "toiture de l'édicule", "projet");
+  }
 
   // ── 04 Maçonnerie ────────────────────────────────────────────────────
   add("MAC.mursExt", "MAC.01", mursExt, `périmètre ${fmt(P)} m × ${fmt(hEt)} m × ${n} niv. − baies ${fmt(baies)} m²`, "projet", ["geo.coefPerimetre", "geo.epaisseurPlancher"]);
   const cloisons = h("geo.ratioCloisons") * Sp * (hsp / 2.9);
   add("MAC.cloisons", "MAC.03", cloisons, `${h("geo.ratioCloisons")} m²/m² × ${fmt(Sp)} m²`, "projet", ["geo.ratioCloisons"]);
-  const faience = sdb * h("geo.faienceSdb") + logements * h("geo.faienceCuisine");
+  const wcInv = collectif ? 0 : 1;
+  const faience = sdb * h("geo.faienceSdb") + logements * h("geo.faienceCuisine") + wcInv * h("so.faienceWc");
   const enduitsInt = 2 * cloisons + mursExt;
   add("MAC.enduitsInt", "MAC.05", enduitsInt, "2 faces des cloisons + face intérieure des murs", "projet");
   const gFPL = g("FPL");
@@ -328,10 +345,12 @@ export function metre(input: ProjetInput): { lignes: LigneMetre[]; geometrie: Ge
   const portes = collectif ? logements * 2 + chambres + sdb : chambres + sdb + n + 2;
   add("BOI.portes", gBOI.porte, portes, collectif ? "par logement : chambres + SdB + 2" : "chambres + SdB + niveaux + 2", "finitions");
   if (g("BOI") !== GAMMES.ULTRA_ECO) add("BOI.placards", "BOI.07", chambres * h("so.placards"), `${chambres} chambre(s) × ${h("so.placards")} ml`, "finitions", ["so.placards"]);
-  if (input.cuisineMl && input.cuisineMl > 0) add("BOI.cuisine", "BOI.06", input.cuisineMl * logements, "option cuisine équipée", "finitions", [], ["option"]);
+  if (input.cuisineMl && input.cuisineMl > 0) add("BOI.cuisine", "BOI.06", input.cuisineMl * logements, "linéaire de cuisine saisi", "finitions", [], ["option"]);
+  else if (input.cuisine !== false) add("BOI.cuisine", gBOI.cuisine, logements, "1 cuisine aménagée par logement (provision selon le standing)", "finitions", [], ["option"]);
 
   // ── 10 Métallerie ────────────────────────────────────────────────────
   const gc = volees * h("so.gardeCorpsEscalier") + Math.max(0, input.terrasses ?? 0) * h("so.gardeCorpsBalcons") + (input.terrasseAccessible ? P : 0);
+  if (g("MET").grilles && !collectif) add("MET.grilles", "MET.05", baies * h("so.grillesDefense"), `${Math.round(h("so.grillesDefense") * 100)} % des baies (RDC, sous-sol)`, "finitions", ["so.grillesDefense"]);
   add("MET.gardeCorps", g("MET").gardeCorps, gc, "escaliers + balcons + toit accessible", "finitions", ["so.gardeCorpsEscalier", "so.gardeCorpsBalcons"]);
 
   // ── 12 Faux plafonds ─────────────────────────────────────────────────
@@ -343,7 +362,7 @@ export function metre(input: ProjetInput): { lignes: LigneMetre[]; geometrie: Ge
   add("RSO.sols", gRSO.sol, sols, `${h("geo.ratioSols")} × surface de plancher`, "finitions", ["geo.ratioSols"]);
   add("RSO.terrasses", gRSO === GAMMES.ULTRA_ECO ? "RSO.01" : "RSO.02", terrasses, "balcons et terrasses (grès antidérapant)", "finitions");
   add("RSO.plinthes", "RSO.06", sols * h("geo.plinthes"), `${h("geo.plinthes")} ml/m² de sol`, "finitions", ["geo.plinthes"]);
-  add("RMU.faience", g("RMU").mur, faience, `${sdb} SdB × ${h("geo.faienceSdb")} m² + ${logements} cuisine(s) × ${h("geo.faienceCuisine")} m²`, "finitions", ["geo.faienceSdb", "geo.faienceCuisine"]);
+  add("RMU.faience", g("RMU").mur, faience, `${sdb} SdB × ${h("geo.faienceSdb")} m² + ${logements} cuisine(s) × ${h("geo.faienceCuisine")} m²${wcInv ? ` + WC invités ${h("so.faienceWc")} m²` : ""}`, "finitions", ["geo.faienceSdb", "geo.faienceCuisine", "so.faienceWc"]);
 
   // ── 15 Peinture ──────────────────────────────────────────────────────
   add("PEI.murs", g("PEI").peinture, Math.max(0, enduitsInt - faience) + Sp, "murs enduits − faïence + plafonds", "finitions");
@@ -353,7 +372,10 @@ export function metre(input: ProjetInput): { lignes: LigneMetre[]; geometrie: Ge
   add("PLO.points", "PLO.01", sdb * 3 + logements * 2 + 1, "3 par SdB + 2 par cuisine + 1 extérieur", "finitions");
   add("PLO.sdb", gPLO.sdb, sdb, `${sdb} salle(s) de bain`, "finitions");
   add("PLO.evier", gPLO.evier, logements, "1 par cuisine", "finitions");
-  const wcInvites = collectif ? 0 : 1;
+  const wcInvites = wcInv;
+  add("PLO.alimentation", "PLO.12", logements, "1 par logement", "finitions");
+  const descentes = Math.max(2, Math.ceil(E / h("so.descentesEP")));
+  add("PLO.eauxPluviales", "PLO.11", descentes * (hEt * n + 1), `${descentes} descentes × (${fmt(hEt)} m × ${n} niv. + 1 m)`, "projet", ["so.descentesEP"]);
   add("PLO.wcInvites", "PLO.09", wcInvites, "WC invités au RDC", "finitions");
   add("PLO.collecteurs", "PLO.10", h("so.collecteurs") * (sdb + logements + wcInvites), `${h("so.collecteurs")} ml × (SdB + cuisines + WC)`, "finitions", ["so.collecteurs"]);
   const solaire = input.chauffeEauSolaire ?? G.solaireDefaut;
@@ -370,6 +392,10 @@ export function metre(input: ProjetInput): { lignes: LigneMetre[]; geometrie: Ge
   const splits24 = clim && !gainables ? logements : 0;
   add("ELE.specialises", "ELE.05", logements * h("so.circuitsSpecialises") + splits12 + splits24 + gainables, "circuits dédiés (+ 1 par appareil de clim)", "finitions", ["so.circuitsSpecialises"]);
   add("ELE.tableau", "ELE.06", logements, "1 tableau par logement", "finitions");
+  if (!collectif) add("ELE.tableauxEtage", "ELE.09", n - 1 + (ss ? 1 : 0), "1 tableau divisionnaire par niveau supplémentaire", "finitions");
+  const ptsLum = Math.ceil(Sp * h("so.pointsLumineux") * gELE.densiteElec);
+  add("ELE.luminaires", "ELE.08", ptsLum * gELE.luminaires, `${ptsLum} points × ${gELE.luminaires} luminaire(s) de base`, "finitions");
+  if (!collectif) add("ELE.exterieurs", gELE.ptLum, h("so.exterieurs"), "façades, jardin, portail", "finitions", ["so.exterieurs"]);
   add("ELE.terre", "ELE.07", 1, "1 par bâtiment", "finitions");
   if (collectif || G.cfa) add("CFA.vdi", "CFA.01", logements, "1 par logement", "finitions");
   if (input.standing === "STANDING" || input.standing === "PREMIUM") add("CFA.securite", "CFA.02", 1, "alarme et vidéosurveillance", "finitions");

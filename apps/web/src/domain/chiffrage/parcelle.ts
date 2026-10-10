@@ -66,6 +66,7 @@ export function resoudreProjet(input: ProjetInput): { projet: ProjetInput; decom
       emprise: Math.round(d.rdc * 100) / 100,
       sousSol: input.sousSol && input.sousSol.profondeur > 0 ? { ...input.sousSol, surface: Math.round(d.sousSol * 100) / 100 } : null,
       mitoyennete: input.mitoyennete ?? mitoyenneteParDefaut(input.type, input.parcelle),
+      edicule: input.edicule ?? d.forfait,
     },
   };
 }

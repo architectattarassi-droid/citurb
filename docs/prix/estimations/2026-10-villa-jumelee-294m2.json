@@ -1,5 +1,5 @@
 {
-  "titre": "Estimation — villa jumelée, terrain 294 m², RDC + 1 étage + sous-sol",
+  "titre": "Estimation recalée après relectures — villa jumelée, terrain 294 m², RDC + 1 étage + sous-sol",
   "contexte": "Consultation du 2026-10-11. Données du client : terrain 294 m², villa jumelée (occupation au sol 40 %), RDC + 1 étage + sous-sol. Hypothèses CITURBAREA à valider : ville Salé (base Rabat-Salé-Kénitra, coefficient 1,00 — à remplacer par la commune réelle), bon sol, terrain plat, sans nappe, 3 m de terre au droit du sous-sol, 4 chambres et 3 salles de bain, 10 m² de balcons, voie < 12 m.",
   "type": "VILLA",
   "ville": "Salé",
@@ -19,14 +19,14 @@
   "terrasses": 10,
   "standing": "ECONOMIQUE",
   "relecture": [
-    "Fondations, risque de double comptage : les semelles isolées sont calculées sur 376,8 m² (sous-sol compris), en plus de la semelle filante sous le voile (10,3 m³). Sous le sous-sol, le voile porte la façade : le lot 02 pourrait être surestimé de 10 à 15 % (environ 15 000 à 25 000 DH).",
-    "Voile périphérique : 161 m² × 983 DH = 158 000 DH, premier poste du sous-sol. L épaisseur (20 cm), le béton (B30) et l acier (100 kg/m³) sont des hypothèses à faire confirmer par le BET. Côté mitoyen, le voile est coulé contre le blindage avec une seule face coffrée : le coffrage y est surestimé.",
-    "Évacuation des déblais : 477 m³ foisonnés à 101 DH/m³, soit 48 000 DH. Le prix du transport et de la décharge (60 DH/m³) est une hypothèse sans source ; il faut le remplacer par un devis de terrassier local.",
-    "Électricité (environ 99 DH/m², 37 000 DH) et plomberie (environ 121 DH/m², 46 000 DH) en moyen standing : probablement bas pour une villa de 4 chambres et 3 salles de bain, luminaires exclus. À comparer à des devis réels de villa (le seul DQE réel disponible est un commerce de Kénitra, 215 à 255 DH/m² en électricité).",
-    "Haut standing et luxe ressortent 21 à 27 % sous la grille CITURBAREA. Le sous-sol, fini simplement, fait baisser la moyenne au m² ; sans sous-sol, l écart tombe à −11 % et −14 %. Les lots de finition haut de gamme (menuiseries, revêtements, éclairage, domotique) sont probablement sous-dotés pour une villa de luxe.",
-    "Sol argileux (+50 000 DH) moins cher que sol moyen (+65 000 DH) : avec un sous-sol, le radier remplace semelles, longrines, hérisson et dallage. C est cohérent au métré, mais à valider par l étude géotechnique (la purge de 40 cm est une hypothèse).",
-    "Édicule de terrasse (forfait de 24 m²) : il est compté en plancher mais n a pas de murs propres dans le métré. La maçonnerie est donc sous-estimée d environ 25 m² (environ 6 000 DH).",
-    "Prix unitaires principaux en ligne avec le marché : plancher hourdis 449 DH/m² (marché 350 à 545), agglo de 20 posé 244 DH/m² (180 à 250), étanchéité SBS 154 DH/m², alu RPT posé 1 708 DH/m² (1 150 à 1 800). Le béton armé en élévation (4 600 à 5 300 DH/m³) n a aucune référence publique pour le recouper : à comparer avec vos bordereaux.",
-    "Très économique par tâcheron : 3 129 DH/m². Cela repose sur K × 0,83 et sur des fournitures (menuiseries, sanitaires) achetées directement par le client ; à confirmer par vos retours de chantier."
+    "CORRIGÉ (Claude + GPT) : les semelles isolées sont réduites de 30 % quand il y a un sous-sol, car les charges de façade passent par la semelle du voile. Lot 02 : 349 580 → 327 727 DH HT (cible GPT ≈ 320 000).",
+    "À VALIDER PAR LE BET : voile périphérique de 20 cm en B30 avec 100 kg/m³ d acier ; côté mitoyen coulé contre le blindage, avec une seule face coffrée.",
+    "À REMPLACER PAR UN DEVIS : évacuation des déblais à 60 DH/m³ (transport et décharge), hypothèse sans source.",
+    "CORRIGÉ EN PARTIE (Claude + GPT + recherche) : électricité (luminaires LED de base, tableaux d étage, 8 circuits spécialisés, éclairage extérieur) et plomberie (alimentation générale, descentes d eaux pluviales). Moyen standing : électricité 124 DH/m², plomberie 139 DH/m² ; GPT propose 170 et 210, une fois les prestations définies.",
+    "EN ATTENTE D UNE MATRICE DE PRESTATIONS : haut standing et luxe restent sous la grille et sous GPT (−18 % et −27 %).",
+    "NON DÉMONTRÉ (GPT) : le sol argileux ressort moins cher que le sol moyen. La faisabilité géotechnique passe avant le coût.",
+    "CORRIGÉ : murs, enduits et toiture de l édicule de 24 m² sont maintenant métrés.",
+    "PU principaux (hourdis, agglos, étanchéité, alu RPT) dans les fourchettes du marché ; le béton armé en élévation reste sans référence publique.",
+    "Très économique par tâcheron : 3 216 DH/m² avec sous-sol, 3 123 DH/m² sans. C est un scénario à encadrer (fournitures, fiscalité), pas un coefficient universel."
   ]
 }

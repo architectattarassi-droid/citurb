@@ -28,8 +28,8 @@ export const HYPOTHESES: Record<string, Hypothese> = Object.fromEntries([
   H("geo.ratioCloisons", "Géométrie", "Cloisons intérieures par m² de plancher (HSP 2,9 m)", 0.85, "m²/m²", 0.6, 1.1, "≈ 0,3 ml de cloison par m² × 2,9 m"),
   H("geo.ratioSols", "Géométrie", "Surface des sols intérieurs / surface de plancher", 0.88, "—", 0.82, 0.92, "Emprise des murs et gaines ≈ 12 %"),
   H("geo.plinthes", "Géométrie", "Plinthes par m² de sol", 0.6, "ml/m²", 0.4, 0.9, "Pièces de 12 à 20 m²"),
-  H("geo.faienceSdb", "Géométrie", "Faïence par salle de bain", 18, "m²", 10, 30, "Toute hauteur sur 3 faces d'une pièce de 5 m²"),
-  H("geo.faienceCuisine", "Géométrie", "Faïence par cuisine (crédence)", 6, "m²", 3, 15, "Crédence sur 4 à 6 ml"),
+  H("geo.faienceSdb", "Géométrie", "Faïence par salle de bain", 22, "m²", 10, 35, "Toute hauteur, 4 faces d'une pièce de 5 m² moins la porte (relecture 2026-10 : 18 jugé court)"),
+  H("geo.faienceCuisine", "Géométrie", "Faïence par cuisine (crédence)", 8, "m²", 3, 15, "Crédence sur 5 à 6 ml, h 1,4 m"),
   H("geo.partDallePleine", "Structure", "Part des planchers en dalle pleine (balcons, paliers)", 0.1, "—", 0, 0.3, ""),
   H("geo.epDallePleine", "Structure", "Épaisseur des dalles pleines", 0.18, "m", 0.15, 0.25, ""),
   // Structure
@@ -52,6 +52,7 @@ export const HYPOTHESES: Record<string, Hypothese> = Object.fromEntries([
   // Sous-sol
   H("ss.surlargeur", "Sous-sol", "Surlargeur de terrassement autour du sous-sol", 1, "m", 0.6, 1.5, "Travail + talus ; remplacée par un blindage côté mitoyen"),
   H("ss.semelleVoile", "Sous-sol", "Semelle filante sous voile périphérique", 0.21, "m³/ml", 0.15, 0.35, "0,60 × 0,35 m"),
+  H("ss.reductionSemelles", "Sous-sol", "Semelles isolées allégées : charges de façade reprises par la semelle du voile", 0.3, "—", 0, 0.5, "Relecture 2026-10 : risque de double comptage semelles / semelle filante sous voile"),
   H("ss.semainesEpuisement", "Sous-sol", "Durée d'épuisement de la nappe", 6, "semaines", 3, 12, "Durée du gros œuvre enterré"),
   // Pente
   H("pente.seuil", "Pente", "Pente à partir de laquelle des soutènements sont nécessaires", 5, "%", 3, 8, ""),
@@ -60,13 +61,17 @@ export const HYPOTHESES: Record<string, Hypothese> = Object.fromEntries([
   // Second œuvre
   H("so.pointsLumineux", "Second œuvre", "Points lumineux par m² de plancher", 0.15, "u/m²", 0.08, 0.25, "≥ 1 point par pièce (NF C 15-100 comme repère)"),
   H("so.prises", "Second œuvre", "Prises par m² de plancher", 0.25, "u/m²", 0.15, 0.4, ""),
-  H("so.circuitsSpecialises", "Second œuvre", "Circuits spécialisés par logement (hors clim)", 6, "u", 3, 8, "Plaque, four, lave-linge, lave-vaisselle, chauffe-eau"),
+  H("so.circuitsSpecialises", "Second œuvre", "Circuits spécialisés par logement (hors clim)", 8, "u", 3, 12, "Plaque, four, hotte, lave-linge, lave-vaisselle, sèche-linge, chauffe-eau, extérieur"),
   H("so.gardeCorpsBalcons", "Second œuvre", "Garde-corps par m² de balcon / terrasse", 0.4, "ml/m²", 0.2, 0.8, ""),
-  H("so.gardeCorpsEscalier", "Second œuvre", "Garde-corps par volée d'escalier", 4, "ml", 3, 8, ""),
+  H("so.gardeCorpsEscalier", "Second œuvre", "Garde-corps par volée d'escalier", 6, "ml", 3, 10, "Rampe + garde-corps de trémie"),
   H("so.etancheiteSdb", "Second œuvre", "Étanchéité sous carrelage par salle de bain", 5, "m²", 3, 10, ""),
   H("so.collecteurs", "Second œuvre", "Chutes et collecteurs : ml par salle d'eau et cuisine, par niveau desservi", 6, "ml", 3, 10, "Colonne de chute + collecteur sous dallage"),
   H("so.placards", "Second œuvre", "Placards par chambre", 2, "ml", 0, 4, ""),
   H("so.partiesCommunes", "Second œuvre", "Parties communes (hall, paliers) par niveau, immeuble", 18, "m²", 10, 40, ""),
+  H("so.faienceWc", "Second œuvre", "Faïence du WC invités", 6, "m²", 0, 12, ""),
+  H("so.grillesDefense", "Second œuvre", "Grilles de défense : part des baies équipées (RDC et sous-sol)", 0.5, "—", 0, 1, "Pratique courante en villa économique et moyen standing"),
+  H("so.descentesEP", "Second œuvre", "Toiture desservie par descente d'eaux pluviales", 40, "m²", 25, 80, ""),
+  H("so.exterieurs", "Second œuvre", "Points lumineux extérieurs (façades, jardin, portail)", 6, "u", 2, 20, ""),
   H("vrd.longueurReseau", "Équipements", "Réseau d'assainissement extérieur : longueur fixe ajoutée à √(terrain)", 10, "ml", 0, 40, ""),
   H("vrd.regards", "Équipements", "Regards d'assainissement", 3, "u", 2, 8, ""),
   // Frais

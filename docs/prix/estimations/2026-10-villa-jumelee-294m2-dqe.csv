@@ -1,14 +1,14 @@
 ﻿standing;lot;code_lot;ligne;ouvrage;designation;quantite;unite;pu_ht;montant_ht;pu_min;pu_max;formule;tags
 Très économique;Terrassements;TER;TER.decapage;TER.01;"Décapage de la terre végétale sur 20 cm";220,35;m²;10,98;2420,23;7,77;14,77;"(√emprise + 2 × 2 m)²";
-Très économique;Terrassements;TER;TER.fouilles;TER.03;"Fouilles en rigole et en trou pour fondations";45,77;m³;94,56;4328,19;66,87;127,19;"béton de fondation × 1.6";
+Très économique;Terrassements;TER;TER.fouilles;TER.03;"Fouilles en rigole et en trou pour fondations";34,02;m³;94,56;3217,06;66,87;127,19;"béton de fondation × 1.6";
 Très économique;Terrassements;TER;SS.deblai;TER.02;"Déblai en pleine masse, terrain ordinaire";494,93;m³;43,64;21599,33;30,86;58,7;"(√117,6 + 2 × 1 m)² × 3 m";sous_sol
 Très économique;Terrassements;TER;SS.blindage;TER.08;"Blindage et soutènement provisoire des fouilles";32,53;m²;286,35;9314,97;162;493;"1 côté(s) mitoyen(s) × 10,84 m × 3 m";sous_sol,soutenement
 Très économique;Terrassements;TER;SS.remblai;TER.07;"Remblai compacté en réemploi des déblais";142,13;m³;39,56;5622,29;27,97;53,21;"remblai contre les voiles (surlargeur)";sous_sol
-Très économique;Terrassements;TER;TER.remblai;TER.07;"Remblai compacté en réemploi des déblais";17,16;m³;39,56;678,8;27,97;53,21;"remblai des fouilles en réemploi";
-Très économique;Terrassements;TER;TER.evacuation;TER.05;"Évacuation des déblais excédentaires (foisonnés)";476,76;m³;84;40045,93;54;131,47;"(déblais 540,71 − réemploi 159,3) × 1.25";sous_sol
-Très économique;Fondations, infrastructure et soutènement;FON;FON.semelles;FON.02;"Béton armé pour semelles isolées";24,49;m³;2160;52898,39;1752,7;2641,04;"0.065 m³/m² × 376,8 m²";
+Très économique;Terrassements;TER;TER.remblai;TER.07;"Remblai compacté en réemploi des déblais";12,76;m³;39,56;504,75;27,97;53,21;"remblai des fouilles en réemploi";
+Très économique;Terrassements;TER;TER.evacuation;TER.05;"Évacuation des déblais excédentaires (foisonnés)";467,58;m³;84;39274,85;54;131,47;"(déblais 528,95 − réemploi 154,89) × 1.25";sous_sol
+Très économique;Fondations, infrastructure et soutènement;FON;FON.semelles;FON.02;"Béton armé pour semelles isolées";17,14;m³;2160;37022,39;1752,7;2641,04;"0.065 m³/m² × 376,8 m² × (1 − 0.3 repris par le voile)";
 Très économique;Fondations, infrastructure et soutènement;FON;FON.longrines;FON.05;"Béton armé pour longrines";4,12;m³;3479,86;14337,04;2818,42;4349,04;"0.035 m³/m² × emprise";
-Très économique;Fondations, infrastructure et soutènement;FON;FON.proprete;FON.01;"Béton de propreté B15, ép. 10 cm";80,27;m²;107,69;8643,88;91,32;128,22;"volume des semelles ÷ hauteur + longrines";
+Très économique;Fondations, infrastructure et soutènement;FON;FON.proprete;FON.01;"Béton de propreté B15, ép. 10 cm";59,27;m²;107,69;6382,5;91,32;128,22;"volume des semelles ÷ hauteur + longrines";
 Très économique;Fondations, infrastructure et soutènement;FON;FON.amorces;FON.06;"Béton armé pour amorces de poteaux";0,94;m³;4377,85;4115,18;3538,14;5519,07;"0.008 m³/m² × emprise";
 Très économique;Fondations, infrastructure et soutènement;FON;FON.herisson;FON.07;"Hérisson / couche de forme en tout-venant, ép. 20 cm";117,6;m²;49,98;5877,71;33,86;68,92;"fond du sous-sol";
 Très économique;Fondations, infrastructure et soutènement;FON;FON.dallage;FON.08;"Dallage sur terre-plein en béton armé de treillis soudé, ép. 12 cm";117,6;m²;243,22;28602,61;186,77;301,25;"fond du sous-sol";
@@ -25,32 +25,41 @@ Très économique;Structure béton armé;STR;STR.acrotere;STR.08;"Acrotère maç
 Très économique;Maçonnerie et enduits;MAC;SS.chape;MAC.07;"Chape de ciment ép. 5 cm (support des revêtements)";103,49;m²;72,21;7473,06;56,85;91,93;"sol du sous-sol";sous_sol
 Très économique;Maçonnerie et enduits;MAC;SS.enduit;MAC.05;"Enduit de ciment intérieur dressé (murs)";146,4;m²;57,21;8375,47;44,56;77,22;"face intérieure des voiles";sous_sol
 Très économique;Maçonnerie et enduits;MAC;SS.plafond;MAC.06;"Enduit de ciment sous plafond";117,6;m²;62,99;7408,02;49,02;86;"sous-face du plancher";sous_sol
+Très économique;Maçonnerie et enduits;MAC;EDI.murs;MAC.02;"Mur en agglos creux de 15 cm";69,65;m²;169,31;11792,2;120,61;244,01;"édicule 24 m² : périmètre × 3,25 m − porte";
+Très économique;Maçonnerie et enduits;MAC;EDI.enduitsInt;MAC.05;"Enduit de ciment intérieur dressé (murs)";69,65;m²;57,21;3984,64;44,56;77,22;"face intérieure de l'édicule";
 Très économique;Maçonnerie et enduits;MAC;MAC.mursExt;MAC.01;"Mur en agglos creux de 20 cm";283,5;m²;202,86;57509,61;146,24;280,11;"périmètre 48,8 m × 3,25 m × 2 niv. − baies 33,7 m²";
 Très économique;Maçonnerie et enduits;MAC;MAC.cloisons;MAC.03;"Cloison en agglos creux de 10 cm";227,92;m²;124,6;28398,82;85,31;186,84;"0.85 m²/m² × 259,2 m²";
 Très économique;Maçonnerie et enduits;MAC;MAC.enduitsInt;MAC.05;"Enduit de ciment intérieur dressé (murs)";739,34;m²;57,21;42297,25;44,56;77,22;"2 faces des cloisons + face intérieure des murs";
 Très économique;Maçonnerie et enduits;MAC;MAC.enduitPlafond;MAC.06;"Enduit de ciment sous plafond";259,2;m²;62,99;16327,89;49,02;86;"plafonds sans faux plafond (100 %)";
 Très économique;Maçonnerie et enduits;MAC;MAC.chape;MAC.07;"Chape de ciment ép. 5 cm (support des revêtements)";238,1;m²;72,21;17193,31;56,85;91,93;"sols intérieurs + terrasses carrelées";
+Très économique;Étanchéité et isolation;ETA;EDI.etancheite;ETA.02;"Étanchéité bicouche bitume SBS (3 + 4 mm) soudée";24;m²;128;3072,09;114,61;149,29;"toiture de l'édicule";
+Très économique;Étanchéité et isolation;ETA;EDI.protection;ETA.03;"Protection lourde : chape 4 cm sur géotextile";24;m²;69,07;1657,62;53,42;88,67;"toiture de l'édicule";
 Très économique;Étanchéité et isolation;ETA;ETA.forme;ETA.01;"Forme de pente en mortier, ép. moyenne 6 cm";117,6;m²;84,25;9907,76;66,3;106,79;"toiture-terrasse";
 Très économique;Étanchéité et isolation;ETA;ETA.etancheite;ETA.02;"Étanchéité bicouche bitume SBS (3 + 4 mm) soudée";122,6;m²;128;15693,27;114,61;149,29;"toiture + balcons en porte-à-faux (50 %)";
 Très économique;Étanchéité et isolation;ETA;ETA.protection;ETA.03;"Protection lourde : chape 4 cm sur géotextile";117,6;m²;69,07;8122,34;53,42;88,67;"toiture non accessible";
 Très économique;Étanchéité et isolation;ETA;ETA.releves;ETA.06;"Relevés d'étanchéité sur acrotères (h ≥ 15 cm)";48,8;ml;65,78;3209,91;58,98;77,59;"périmètre des acrotères";
 Très économique;Étanchéité et isolation;ETA;ETA.sdb;ETA.07;"Étanchéité sous carrelage des pièces humides";15;m²;80,34;1205,11;70,18;97,51;"3 salle(s) de bain × 5 m²";
+Très économique;Façades (enduit et peinture extérieurs);FAC;EDI.enduitsExt;FAC.01;"Enduit extérieur 3 couches (échafaudage compris)";69,65;m²;71,97;5012,5;56,02;97,14;"face extérieure de l'édicule";
 Très économique;Façades (enduit et peinture extérieurs);FAC;FAC.enduit;FAC.01;"Enduit extérieur 3 couches (échafaudage compris)";251,67;m²;71,97;18111,92;56,02;97,14;"murs extérieurs × façades libres 0.75 + acrotères";
 Très économique;Façades (enduit et peinture extérieurs);FAC;FAC.peinture;FAC.02;"Peinture façade vinylique 2 couches sur impression";251,67;m²;58,18;14642,34;45,84;75,29;"surface enduite";
 Très économique;Menuiseries extérieures aluminium;ALU;ALU.baies;ALU.01;"Fenêtres alu sans RPT, vitrage simple ou double basique, posées";33,7;m²;1175;39597,5;850;1500;"0.13 m²/m² × 259,2 m²";
 Très économique;Menuiseries extérieures aluminium;ALU;ENT.porte;ALU.06;"Porte d'entrée aluminium pleine, posée";1;u;5605;5605;3830;7880;"1 porte(s) d'entrée";
 Très économique;Menuiseries intérieures bois et cuisine;BOI;BOI.portes;BOI.01;"Porte intérieure isoplane mélaminée, posée";11;u;900;9900;650;1150;"chambres + SdB + niveaux + 2";
-Très économique;Métallerie, ferronnerie;MET;MET.gardeCorps;MET.01;"Garde-corps aluminium à barreaudage, posé";12;ml;765;9180;480;1100;"escaliers + balcons + toit accessible";
+Très économique;Menuiseries intérieures bois et cuisine;BOI;BOI.cuisine;BOI.10;"Cuisine aménagée posée — très économique (hors électroménager)";1;ens;15000;15000;10000;25000;"1 cuisine aménagée par logement (provision selon le standing)";option
+Très économique;Métallerie, ferronnerie;MET;MET.grilles;MET.05;"Grilles de défense en fer, posées";16,85;m²;650;10952,5;450;900;"50 % des baies (RDC, sous-sol)";
+Très économique;Métallerie, ferronnerie;MET;MET.gardeCorps;MET.01;"Garde-corps aluminium à barreaudage, posé";16;ml;765;12240;480;1100;"escaliers + balcons + toit accessible";
 Très économique;Revêtements de sols;RSO;SS.carrelage;RSO.01;"Carrelage grès cérame 45×45 scellé, joints compris";103,49;m²;182,59;18895,83;153,83;226,17;"sol du sous-sol (grès 45×45)";sous_sol
 Très économique;Revêtements de sols;RSO;RSO.sols;RSO.01;"Carrelage grès cérame 45×45 scellé, joints compris";228,1;m²;182,59;41647,88;153,83;226,17;"0.88 × surface de plancher";
 Très économique;Revêtements de sols;RSO;RSO.terrasses;RSO.01;"Carrelage grès cérame 45×45 scellé, joints compris";10;m²;182,59;1825,86;153,83;226,17;"balcons et terrasses (grès antidérapant)";
 Très économique;Revêtements de sols;RSO;RSO.plinthes;RSO.06;"Plinthes assorties";136,86;ml;29,67;4060,36;16,12;47,57;"0.6 ml/m² de sol";
-Très économique;Revêtements muraux (faïence);RMU;RMU.faience;RMU.01;"Faïence murale 30×60 collée (gamme courante)";60;m²;163,82;9828,95;125,5;197,26;"3 SdB × 18 m² + 1 cuisine(s) × 6 m²";
+Très économique;Revêtements muraux (faïence);RMU;RMU.faience;RMU.01;"Faïence murale 30×60 collée (gamme courante)";80;m²;163,82;13105,26;125,5;197,26;"3 SdB × 22 m² + 1 cuisine(s) × 8 m² + WC invités 6 m²";
 Très économique;Peinture intérieure;PEI;SS.peinture;PEI.01;"Enduit de lissage + vinylique 2 couches (gamme éco)";264;m²;39,75;10494,03;27,14;54,65;"murs et plafond";sous_sol
-Très économique;Peinture intérieure;PEI;PEI.murs;PEI.01;"Enduit de lissage + vinylique 2 couches (gamme éco)";938,54;m²;39,75;37307,08;27,14;54,65;"murs enduits − faïence + plafonds";
+Très économique;Peinture intérieure;PEI;PEI.murs;PEI.01;"Enduit de lissage + vinylique 2 couches (gamme éco)";918,54;m²;39,75;36512,08;27,14;54,65;"murs enduits − faïence + plafonds";
 Très économique;Plomberie sanitaire et eau chaude;PLO;PLO.points;PLO.01;"Point d'eau : alimentation PPR + évacuation PVC + raccords";12;u;630,79;7569,49;462,06;968,08;"3 par SdB + 2 par cuisine + 1 extérieur";
 Très économique;Plomberie sanitaire et eau chaude;PLO;PLO.sdb;PLO.02;"Équipement salle d'eau éco : pack WC, lavabo-colonne, cabine de douche";3;u;5633,6;16900,8;4867,97;6597,55;"3 salle(s) de bain";
 Très économique;Plomberie sanitaire et eau chaude;PLO;PLO.evier;PLO.06;"Évier de cuisine : mitigeur et raccordement";1;u;1291,85;1291,85;1192,34;1573,84;"1 par cuisine";
+Très économique;Plomberie sanitaire et eau chaude;PLO;PLO.alimentation;PLO.12;"Alimentation générale : regard compteur, nourrices EF/EC, vannes";1;ens;3892,32;3892,32;2742,44;5837,4;"1 par logement";
+Très économique;Plomberie sanitaire et eau chaude;PLO;PLO.eauxPluviales;PLO.11;"Descente d'eaux pluviales PVC Ø100 avec naissance et colliers";22,5;ml;77,81;1750,63;53,97;113,6;"3 descentes × (3,25 m × 2 niv. + 1 m)";
 Très économique;Plomberie sanitaire et eau chaude;PLO;PLO.wcInvites;PLO.09;"WC invités : pack WC et lave-mains";1;u;2311,47;2311,47;1892,2;2840,38;"WC invités au RDC";
 Très économique;Plomberie sanitaire et eau chaude;PLO;PLO.collecteurs;PLO.10;"Chutes et collecteurs EU/EV en PVC Ø100-125 (y compris raccords)";30;ml;97,32;2919,56;67,09;144,68;"6 ml × (SdB + cuisines + WC)";
 Très économique;Plomberie sanitaire et eau chaude;PLO;PLO.chauffeEau;PLO.08;"Chauffe-eau électrique 100 L avec groupe de sécurité";2;u;2680,1;5360,2;2421,58;4738,64;"1 pour 2 SdB";
@@ -58,23 +67,25 @@ Très économique;Électricité;ELE;SS.points;ELE.01;"Point lumineux simple allu
 Très économique;Électricité;ELE;SS.prises;ELE.02;"Prise de courant 2P+T 16 A encastrée (fil 2,5 mm²)";5;u;215,96;1079,8;184,17;282,18;"1 prise / 25 m²";sous_sol
 Très économique;Électricité;ELE;ELE.points;ELE.01;"Point lumineux simple allumage encastré (gaine, fil 1,5 mm², interrupteur)";34;u;210,71;7164,12;171,74;289,4;"0.15/m² × densité 0.85";
 Très économique;Électricité;ELE;ELE.prises;ELE.02;"Prise de courant 2P+T 16 A encastrée (fil 2,5 mm²)";56;u;215,96;12093,75;184,17;282,18;"0.25/m² × densité 0.85";
-Très économique;Électricité;ELE;ELE.specialises;ELE.05;"Circuit spécialisé (plaque, four, lave-linge, chauffe-eau, clim)";6;u;415,85;2495,12;359,78;539,53;"circuits dédiés (+ 1 par appareil de clim)";
+Très économique;Électricité;ELE;ELE.specialises;ELE.05;"Circuit spécialisé (plaque, four, lave-linge, chauffe-eau, clim)";8;u;415,85;3326,83;359,78;539,53;"circuits dédiés (+ 1 par appareil de clim)";
 Très économique;Électricité;ELE;ELE.tableau;ELE.06;"Tableau électrique équipé (coffret 42 modules, différentiels 30 mA)";1;ens;2240,11;2240,11;1932,59;3110,17;"1 tableau par logement";
+Très économique;Électricité;ELE;ELE.tableauxEtage;ELE.09;"Tableau divisionnaire d'étage (coffret, différentiel, disjoncteurs)";2;ens;1287,46;2574,92;1102,75;1777,75;"1 tableau divisionnaire par niveau supplémentaire";
+Très économique;Électricité;ELE;ELE.exterieurs;ELE.01;"Point lumineux simple allumage encastré (gaine, fil 1,5 mm², interrupteur)";6;u;210,71;1264,26;171,74;289,4;"façades, jardin, portail";
 Très économique;Électricité;ELE;ELE.terre;ELE.07;"Prise de terre et liaisons équipotentielles";1;ens;1665,74;1665,74;1069,97;2639,65;"1 par bâtiment";
 Très économique;Assainissement et réseaux extérieurs;VRD;VRD.reseau;VRD.01;"Canalisation d'assainissement PVC Ø200 en tranchée, lit de sable";27,15;ml;211,79;5750,19;160,26;299,14;"√terrain + 10 ml";
 Très économique;Assainissement et réseaux extérieurs;VRD;VRD.regards;VRD.02;"Regard 60×60 avec tampon fonte";3;u;1775,37;5326,11;1404;2218,5;"regards de visite et de branchement";
 Très économique;Clôture, portail, piscine et extérieurs;EXT;EXT.cloture;EXT.01;"Clôture maçonnée h 2,20 m sur semelle filante, enduite 2 faces";47,44;ml;1086,49;51543,16;837;1450,44;"4 × √terrain × côtés non mitoyens − portail";option
 Très économique;Clôture, portail, piscine et extérieurs;EXT;EXT.portail;EXT.02;"Portail métallique et portillon, posés";1;u;15000;15000;9000;25000;"portail + portillon";option
 Moyen standing;Terrassements;TER;TER.decapage;TER.01;"Décapage de la terre végétale sur 20 cm";220,35;m²;13,23;2915,95;9,71;17,38;"(√emprise + 2 × 2 m)²";
-Moyen standing;Terrassements;TER;TER.fouilles;TER.03;"Fouilles en rigole et en trou pour fondations";45,77;m³;113,93;5214,69;83,59;149,64;"béton de fondation × 1.6";
+Moyen standing;Terrassements;TER;TER.fouilles;TER.03;"Fouilles en rigole et en trou pour fondations";34,02;m³;113,93;3875,98;83,59;149,64;"béton de fondation × 1.6";
 Moyen standing;Terrassements;TER;SS.deblai;TER.02;"Déblai en pleine masse, terrain ordinaire";494,93;m³;52,58;26023,28;38,58;69,06;"(√117,6 + 2 × 1 m)² × 3 m";sous_sol
 Moyen standing;Terrassements;TER;SS.blindage;TER.08;"Blindage et soutènement provisoire des fouilles";32,53;m²;345;11222,85;202,5;580;"1 côté(s) mitoyen(s) × 10,84 m × 3 m";sous_sol,soutenement
 Moyen standing;Terrassements;TER;SS.remblai;TER.07;"Remblai compacté en réemploi des déblais";142,13;m³;47,66;6773,84;34,97;62,6;"remblai contre les voiles (surlargeur)";sous_sol
-Moyen standing;Terrassements;TER;TER.remblai;TER.07;"Remblai compacté en réemploi des déblais";17,16;m³;47,66;817,84;34,97;62,6;"remblai des fouilles en réemploi";
-Moyen standing;Terrassements;TER;TER.evacuation;TER.05;"Évacuation des déblais excédentaires (foisonnés)";476,76;m³;101,2;48248,11;67,5;154,67;"(déblais 540,71 − réemploi 159,3) × 1.25";sous_sol
-Moyen standing;Fondations, infrastructure et soutènement;FON;FON.semelles;FON.02;"Béton armé pour semelles isolées";24,49;m³;2602,41;63733;2190,88;3107,11;"0.065 m³/m² × 376,8 m²";
+Moyen standing;Terrassements;TER;TER.remblai;TER.07;"Remblai compacté en réemploi des déblais";12,76;m³;47,66;608,13;34,97;62,6;"remblai des fouilles en réemploi";
+Moyen standing;Terrassements;TER;TER.evacuation;TER.05;"Évacuation des déblais excédentaires (foisonnés)";467,58;m³;101,2;47319,1;67,5;154,67;"(déblais 528,95 − réemploi 154,89) × 1.25";sous_sol
+Moyen standing;Fondations, infrastructure et soutènement;FON;FON.semelles;FON.02;"Béton armé pour semelles isolées";17,14;m³;2602,41;44605,29;2190,88;3107,11;"0.065 m³/m² × 376,8 m² × (1 − 0.3 repris par le voile)";
 Moyen standing;Fondations, infrastructure et soutènement;FON;FON.longrines;FON.05;"Béton armé pour longrines";4,12;m³;4192,61;17273,54;3523,02;5116,52;"0.035 m³/m² × emprise";
-Moyen standing;Fondations, infrastructure et soutènement;FON;FON.proprete;FON.01;"Béton de propreté B15, ép. 10 cm";80,27;m²;129,74;10414,32;114,14;150,85;"volume des semelles ÷ hauteur + longrines";
+Moyen standing;Fondations, infrastructure et soutènement;FON;FON.proprete;FON.01;"Béton de propreté B15, ép. 10 cm";59,27;m²;129,74;7689,75;114,14;150,85;"volume des semelles ÷ hauteur + longrines";
 Moyen standing;Fondations, infrastructure et soutènement;FON;FON.amorces;FON.06;"Béton armé pour amorces de poteaux";0,94;m³;5274,52;4958,05;4422,68;6493,03;"0.008 m³/m² × emprise";
 Moyen standing;Fondations, infrastructure et soutènement;FON;FON.herisson;FON.07;"Hérisson / couche de forme en tout-venant, ép. 20 cm";117,6;m²;60,22;7081,57;42,33;81,08;"fond du sous-sol";
 Moyen standing;Fondations, infrastructure et soutènement;FON;FON.dallage;FON.08;"Dallage sur terre-plein en béton armé de treillis soudé, ép. 12 cm";117,6;m²;293,04;34460,97;233,46;354,42;"fond du sous-sol";
@@ -91,17 +102,22 @@ Moyen standing;Structure béton armé;STR;STR.acrotere;STR.08;"Acrotère maçonn
 Moyen standing;Maçonnerie et enduits;MAC;SS.chape;MAC.07;"Chape de ciment ép. 5 cm (support des revêtements)";103,49;m²;87;9003,69;71,07;108,15;"sol du sous-sol";sous_sol
 Moyen standing;Maçonnerie et enduits;MAC;SS.enduit;MAC.05;"Enduit de ciment intérieur dressé (murs)";146,4;m²;68,93;10090,92;55,7;90,85;"face intérieure des voiles";sous_sol
 Moyen standing;Maçonnerie et enduits;MAC;SS.plafond;MAC.06;"Enduit de ciment sous plafond";117,6;m²;75,9;8925,33;61,27;101,18;"sous-face du plancher";sous_sol
+Moyen standing;Maçonnerie et enduits;MAC;EDI.murs;MAC.02;"Mur en agglos creux de 15 cm";69,65;m²;203,98;14207,48;150,76;287,07;"édicule 24 m² : périmètre × 3,25 m − porte";
+Moyen standing;Maçonnerie et enduits;MAC;EDI.enduitsInt;MAC.05;"Enduit de ciment intérieur dressé (murs)";69,65;m²;68,93;4800,77;55,7;90,85;"face intérieure de l'édicule";
 Moyen standing;Maçonnerie et enduits;MAC;MAC.mursExt;MAC.01;"Mur en agglos creux de 20 cm";278,32;m²;244,4;68022,68;182,8;329,54;"périmètre 48,8 m × 3,25 m × 2 niv. − baies 38,88 m²";
 Moyen standing;Maçonnerie et enduits;MAC;MAC.cloisons;MAC.03;"Cloison en agglos creux de 10 cm";227,92;m²;150,12;34215,45;106,64;219,82;"0.85 m²/m² × 259,2 m²";
 Moyen standing;Maçonnerie et enduits;MAC;MAC.enduitsInt;MAC.05;"Enduit de ciment intérieur dressé (murs)";734,15;m²;68,93;50602,81;55,7;90,85;"2 faces des cloisons + face intérieure des murs";
 Moyen standing;Maçonnerie et enduits;MAC;MAC.enduitPlafond;MAC.06;"Enduit de ciment sous plafond";181,44;m²;75,9;13770,51;61,27;101,18;"plafonds sans faux plafond (70 %)";
 Moyen standing;Maçonnerie et enduits;MAC;MAC.chape;MAC.07;"Chape de ciment ép. 5 cm (support des revêtements)";238,1;m²;87;20714,83;71,07;108,15;"sols intérieurs + terrasses carrelées";
+Moyen standing;Étanchéité et isolation;ETA;EDI.etancheite;ETA.02;"Étanchéité bicouche bitume SBS (3 + 4 mm) soudée";24;m²;154,22;3701,32;143,26;175,64;"toiture de l'édicule";
+Moyen standing;Étanchéité et isolation;ETA;EDI.protection;ETA.03;"Protection lourde : chape 4 cm sur géotextile";24;m²;83,21;1997,13;66,77;104,32;"toiture de l'édicule";
 Moyen standing;Étanchéité et isolation;ETA;ETA.forme;ETA.01;"Forme de pente en mortier, ép. moyenne 6 cm";117,6;m²;101,51;11937,06;82,88;125,64;"toiture-terrasse";
 Moyen standing;Étanchéité et isolation;ETA;ETA.etancheite;ETA.02;"Étanchéité bicouche bitume SBS (3 + 4 mm) soudée";122,6;m²;154,22;18907,55;143,26;175,64;"toiture + balcons en porte-à-faux (50 %)";
 Moyen standing;Étanchéité et isolation;ETA;ETA.protection;ETA.03;"Protection lourde : chape 4 cm sur géotextile";117,6;m²;83,21;9785,96;66,77;104,32;"toiture non accessible";
 Moyen standing;Étanchéité et isolation;ETA;ETA.isolation;ETA.05;"Isolation thermique de toiture PSE 4 cm";117,6;m²;33,37;3923,9;31,57;43,82;"toiture (RTCM)";
 Moyen standing;Étanchéité et isolation;ETA;ETA.releves;ETA.06;"Relevés d'étanchéité sur acrotères (h ≥ 15 cm)";48,8;ml;79,25;3867,36;73,72;91,28;"périmètre des acrotères";
 Moyen standing;Étanchéité et isolation;ETA;ETA.sdb;ETA.07;"Étanchéité sous carrelage des pièces humides";15;m²;96,8;1451,94;87,73;114,72;"3 salle(s) de bain × 5 m²";
+Moyen standing;Façades (enduit et peinture extérieurs);FAC;EDI.enduitsExt;FAC.01;"Enduit extérieur 3 couches (échafaudage compris)";69,65;m²;86,71;6039,15;70,02;114,28;"face extérieure de l'édicule";
 Moyen standing;Façades (enduit et peinture extérieurs);FAC;FAC.enduit;FAC.01;"Enduit extérieur 3 couches (échafaudage compris)";247,78;m²;86,71;21484,3;70,02;114,28;"murs extérieurs × façades libres 0.75 + acrotères";
 Moyen standing;Façades (enduit et peinture extérieurs);FAC;FAC.peinture;FAC.02;"Peinture façade vinylique 2 couches sur impression";247,78;m²;70,1;17368,69;57,31;88,58;"surface enduite";
 Moyen standing;Menuiseries extérieures aluminium;ALU;ALU.baies;ALU.02;"Fenêtres alu RPT double vitrage 4/16/4, posées";38,88;m²;1708;66407,04;1242;2242;"0.15 m²/m² × 259,2 m²";
@@ -109,18 +125,22 @@ Moyen standing;Menuiseries extérieures aluminium;ALU;ALU.volets;ALU.05;"Volets 
 Moyen standing;Menuiseries extérieures aluminium;ALU;ENT.porte;ALU.06;"Porte d'entrée aluminium pleine, posée";1;u;6277,6;6277,6;4136,4;9298,4;"1 porte(s) d'entrée";
 Moyen standing;Menuiseries intérieures bois et cuisine;BOI;BOI.portes;BOI.02;"Bloc-porte intérieur complet, posé";11;u;2576;28336;1512;4602;"chambres + SdB + niveaux + 2";
 Moyen standing;Menuiseries intérieures bois et cuisine;BOI;BOI.placards;BOI.07;"Placards : façades coulissantes et aménagement intérieur";8;ml;2016;16128;1296;2950;"4 chambre(s) × 2 ml";
-Moyen standing;Métallerie, ferronnerie;MET;MET.gardeCorps;MET.02;"Garde-corps inox 304, posé";12;ml;1176;14112;702;1770;"escaliers + balcons + toit accessible";
+Moyen standing;Menuiseries intérieures bois et cuisine;BOI;BOI.cuisine;BOI.11;"Cuisine aménagée posée — moyen standing (hors électroménager)";1;ens;33600;33600;21600;53100;"1 cuisine aménagée par logement (provision selon le standing)";option
+Moyen standing;Métallerie, ferronnerie;MET;MET.grilles;MET.05;"Grilles de défense en fer, posées";19,44;m²;728;14152,32;486;1062;"50 % des baies (RDC, sous-sol)";
+Moyen standing;Métallerie, ferronnerie;MET;MET.gardeCorps;MET.02;"Garde-corps inox 304, posé";16;ml;1176;18816;702;1770;"escaliers + balcons + toit accessible";
 Moyen standing;Faux plafonds, plâtre et staff;FPL;FPL.ba13;FPL.01;"Faux plafond BA13 sur ossature galvanisée";77,76;m²;161,14;12530,26;120,15;209,58;"30 % des plafonds";
 Moyen standing;Revêtements de sols;RSO;SS.carrelage;RSO.01;"Carrelage grès cérame 45×45 scellé, joints compris";103,49;m²;219,98;22766,06;192,29;266,08;"sol du sous-sol (grès 45×45)";sous_sol
 Moyen standing;Revêtements de sols;RSO;RSO.sols;RSO.02;"Carrelage grès cérame 60×60 collé, joints compris";228,1;m²;305,55;69695,4;235,29;457,99;"0.88 × surface de plancher";
 Moyen standing;Revêtements de sols;RSO;RSO.terrasses;RSO.02;"Carrelage grès cérame 60×60 collé, joints compris";10;m²;305,55;3055,48;235,29;457,99;"balcons et terrasses (grès antidérapant)";
 Moyen standing;Revêtements de sols;RSO;RSO.plinthes;RSO.06;"Plinthes assorties";136,86;ml;35,74;4892;20,15;55,96;"0.6 ml/m² de sol";
-Moyen standing;Revêtements muraux (faïence);RMU;RMU.faience;RMU.01;"Faïence murale 30×60 collée (gamme courante)";60;m²;197,37;11842,1;156,88;232,07;"3 SdB × 18 m² + 1 cuisine(s) × 6 m²";
+Moyen standing;Revêtements muraux (faïence);RMU;RMU.faience;RMU.01;"Faïence murale 30×60 collée (gamme courante)";80;m²;197,37;15789,47;156,88;232,07;"3 SdB × 22 m² + 1 cuisine(s) × 8 m² + WC invités 6 m²";
 Moyen standing;Peinture intérieure;PEI;SS.peinture;PEI.01;"Enduit de lissage + vinylique 2 couches (gamme éco)";264;m²;47,89;12643,41;33,93;64,29;"murs et plafond";sous_sol
-Moyen standing;Peinture intérieure;PEI;PEI.murs;PEI.02;"Enduit de lissage + vinylique lessivable 2 couches";933,35;m²;52,32;48836,39;38,56;70,19;"murs enduits − faïence + plafonds";
+Moyen standing;Peinture intérieure;PEI;PEI.murs;PEI.02;"Enduit de lissage + vinylique lessivable 2 couches";913,35;m²;52,32;47789,91;38,56;70,19;"murs enduits − faïence + plafonds";
 Moyen standing;Plomberie sanitaire et eau chaude;PLO;PLO.points;PLO.01;"Point d'eau : alimentation PPR + évacuation PVC + raccords";12;u;759,99;9119,87;577,58;1138,92;"3 par SdB + 2 par cuisine + 1 extérieur";
 Moyen standing;Plomberie sanitaire et eau chaude;PLO;PLO.sdb;PLO.03;"Équipement salle de bain courante : WC, lavabo, douche à l'italienne";3;u;7389,25;22167,75;6715,21;8694,53;"3 salle(s) de bain";
 Moyen standing;Plomberie sanitaire et eau chaude;PLO;PLO.evier;PLO.06;"Évier de cuisine : mitigeur et raccordement";1;u;1556,44;1556,44;1490,43;1851,58;"1 par cuisine";
+Moyen standing;Plomberie sanitaire et eau chaude;PLO;PLO.alimentation;PLO.12;"Alimentation générale : regard compteur, nourrices EF/EC, vannes";1;ens;4689,55;4689,55;3428,04;6867,53;"1 par logement";
+Moyen standing;Plomberie sanitaire et eau chaude;PLO;PLO.eauxPluviales;PLO.11;"Descente d'eaux pluviales PVC Ø100 avec naissance et colliers";22,5;ml;93,74;2109,19;67,46;133,65;"3 descentes × (3,25 m × 2 niv. + 1 m)";
 Moyen standing;Plomberie sanitaire et eau chaude;PLO;PLO.wcInvites;PLO.09;"WC invités : pack WC et lave-mains";1;u;2784,91;2784,91;2365,25;3341,62;"WC invités au RDC";
 Moyen standing;Plomberie sanitaire et eau chaude;PLO;PLO.collecteurs;PLO.10;"Chutes et collecteurs EU/EV en PVC Ø100-125 (y compris raccords)";30;ml;117,25;3517,54;83,87;170,21;"6 ml × (SdB + cuisines + WC)";
 Moyen standing;Plomberie sanitaire et eau chaude;PLO;PLO.chauffeEau;PLO.08;"Chauffe-eau électrique 100 L avec groupe de sécurité";2;u;3229,04;6458,08;3026,98;5574,87;"1 pour 2 SdB";
@@ -128,8 +148,11 @@ Moyen standing;Électricité;ELE;SS.points;ELE.01;"Point lumineux simple allumag
 Moyen standing;Électricité;ELE;SS.prises;ELE.02;"Prise de courant 2P+T 16 A encastrée (fil 2,5 mm²)";5;u;260,19;1300,96;230,22;331,98;"1 prise / 25 m²";sous_sol
 Moyen standing;Électricité;ELE;ELE.points;ELE.01;"Point lumineux simple allumage encastré (gaine, fil 1,5 mm², interrupteur)";39;u;253,87;9900,8;214,67;340,47;"0.15/m² × densité 1";
 Moyen standing;Électricité;ELE;ELE.prises;ELE.02;"Prise de courant 2P+T 16 A encastrée (fil 2,5 mm²)";65;u;260,19;16912,51;230,22;331,98;"0.25/m² × densité 1";
-Moyen standing;Électricité;ELE;ELE.specialises;ELE.05;"Circuit spécialisé (plaque, four, lave-linge, chauffe-eau, clim)";6;u;501,03;3006,17;449,72;634,74;"circuits dédiés (+ 1 par appareil de clim)";
+Moyen standing;Électricité;ELE;ELE.specialises;ELE.05;"Circuit spécialisé (plaque, four, lave-linge, chauffe-eau, clim)";8;u;501,03;4008,23;449,72;634,74;"circuits dédiés (+ 1 par appareil de clim)";
 Moyen standing;Électricité;ELE;ELE.tableau;ELE.06;"Tableau électrique équipé (coffret 42 modules, différentiels 30 mA)";1;ens;2698,93;2698,93;2415,74;3659,02;"1 tableau par logement";
+Moyen standing;Électricité;ELE;ELE.tableauxEtage;ELE.09;"Tableau divisionnaire d'étage (coffret, différentiel, disjoncteurs)";2;ens;1551,16;3102,32;1378,43;2091,47;"1 tableau divisionnaire par niveau supplémentaire";
+Moyen standing;Électricité;ELE;ELE.luminaires;ELE.08;"Luminaire LED de base posé (spot encastré ou plafonnier)";39;u;96,62;3768,37;81,23;118,69;"39 points × 1 luminaire(s) de base";
+Moyen standing;Électricité;ELE;ELE.exterieurs;ELE.01;"Point lumineux simple allumage encastré (gaine, fil 1,5 mm², interrupteur)";6;u;253,87;1523,2;214,67;340,47;"façades, jardin, portail";
 Moyen standing;Électricité;ELE;ELE.terre;ELE.07;"Prise de terre et liaisons équipotentielles";1;ens;2006,92;2006,92;1337,47;3105,47;"1 par bâtiment";
 Moyen standing;Courants faibles (VDI, interphone);CFA;CFA.vdi;CFA.01;"Courants faibles : coffret VDI, prises RJ45/TV, interphone";1;ens;7601,84;7601,84;4564,94;12613,98;"1 par logement";
 Moyen standing;Assainissement et réseaux extérieurs;VRD;VRD.reseau;VRD.01;"Canalisation d'assainissement PVC Ø200 en tranchée, lit de sable";27,15;ml;255,17;6927,94;200,33;351,92;"√terrain + 10 ml";
@@ -137,15 +160,15 @@ Moyen standing;Assainissement et réseaux extérieurs;VRD;VRD.regards;VRD.02;"Re
 Moyen standing;Clôture, portail, piscine et extérieurs;EXT;EXT.cloture;EXT.01;"Clôture maçonnée h 2,20 m sur semelle filante, enduite 2 faces";47,44;ml;1309,03;62100,19;1046,25;1706,4;"4 × √terrain × côtés non mitoyens − portail";option
 Moyen standing;Clôture, portail, piscine et extérieurs;EXT;EXT.portail;EXT.02;"Portail métallique et portillon, posés";1;u;16800;16800;9720;29500;"portail + portillon";option
 Standing;Terrassements;TER;TER.decapage;TER.01;"Décapage de la terre végétale sur 20 cm";220,35;m²;13,23;2915,95;9,71;17,38;"(√emprise + 2 × 2 m)²";
-Standing;Terrassements;TER;TER.fouilles;TER.03;"Fouilles en rigole et en trou pour fondations";45,77;m³;113,93;5214,69;83,59;149,64;"béton de fondation × 1.6";
+Standing;Terrassements;TER;TER.fouilles;TER.03;"Fouilles en rigole et en trou pour fondations";34,02;m³;113,93;3875,98;83,59;149,64;"béton de fondation × 1.6";
 Standing;Terrassements;TER;SS.deblai;TER.02;"Déblai en pleine masse, terrain ordinaire";494,93;m³;52,58;26023,28;38,58;69,06;"(√117,6 + 2 × 1 m)² × 3 m";sous_sol
 Standing;Terrassements;TER;SS.blindage;TER.08;"Blindage et soutènement provisoire des fouilles";32,53;m²;345;11222,85;202,5;580;"1 côté(s) mitoyen(s) × 10,84 m × 3 m";sous_sol,soutenement
 Standing;Terrassements;TER;SS.remblai;TER.07;"Remblai compacté en réemploi des déblais";142,13;m³;47,66;6773,84;34,97;62,6;"remblai contre les voiles (surlargeur)";sous_sol
-Standing;Terrassements;TER;TER.remblai;TER.07;"Remblai compacté en réemploi des déblais";17,16;m³;47,66;817,84;34,97;62,6;"remblai des fouilles en réemploi";
-Standing;Terrassements;TER;TER.evacuation;TER.05;"Évacuation des déblais excédentaires (foisonnés)";476,76;m³;101,2;48248,11;67,5;154,67;"(déblais 540,71 − réemploi 159,3) × 1.25";sous_sol
-Standing;Fondations, infrastructure et soutènement;FON;FON.semelles;FON.02;"Béton armé pour semelles isolées";24,49;m³;2602,41;63733;2190,88;3107,11;"0.065 m³/m² × 376,8 m²";
+Standing;Terrassements;TER;TER.remblai;TER.07;"Remblai compacté en réemploi des déblais";12,76;m³;47,66;608,13;34,97;62,6;"remblai des fouilles en réemploi";
+Standing;Terrassements;TER;TER.evacuation;TER.05;"Évacuation des déblais excédentaires (foisonnés)";467,58;m³;101,2;47319,1;67,5;154,67;"(déblais 528,95 − réemploi 154,89) × 1.25";sous_sol
+Standing;Fondations, infrastructure et soutènement;FON;FON.semelles;FON.02;"Béton armé pour semelles isolées";17,14;m³;2602,41;44605,29;2190,88;3107,11;"0.065 m³/m² × 376,8 m² × (1 − 0.3 repris par le voile)";
 Standing;Fondations, infrastructure et soutènement;FON;FON.longrines;FON.05;"Béton armé pour longrines";4,12;m³;4192,61;17273,54;3523,02;5116,52;"0.035 m³/m² × emprise";
-Standing;Fondations, infrastructure et soutènement;FON;FON.proprete;FON.01;"Béton de propreté B15, ép. 10 cm";80,27;m²;129,74;10414,32;114,14;150,85;"volume des semelles ÷ hauteur + longrines";
+Standing;Fondations, infrastructure et soutènement;FON;FON.proprete;FON.01;"Béton de propreté B15, ép. 10 cm";59,27;m²;129,74;7689,75;114,14;150,85;"volume des semelles ÷ hauteur + longrines";
 Standing;Fondations, infrastructure et soutènement;FON;FON.amorces;FON.06;"Béton armé pour amorces de poteaux";0,94;m³;5274,52;4958,05;4422,68;6493,03;"0.008 m³/m² × emprise";
 Standing;Fondations, infrastructure et soutènement;FON;FON.herisson;FON.07;"Hérisson / couche de forme en tout-venant, ép. 20 cm";117,6;m²;60,22;7081,57;42,33;81,08;"fond du sous-sol";
 Standing;Fondations, infrastructure et soutènement;FON;FON.dallage;FON.08;"Dallage sur terre-plein en béton armé de treillis soudé, ép. 12 cm";117,6;m²;293,04;34460,97;233,46;354,42;"fond du sous-sol";
@@ -162,45 +185,57 @@ Standing;Structure béton armé;STR;STR.acrotere;STR.08;"Acrotère maçonné h 0
 Standing;Maçonnerie et enduits;MAC;SS.chape;MAC.07;"Chape de ciment ép. 5 cm (support des revêtements)";103,49;m²;87;9003,69;71,07;108,15;"sol du sous-sol";sous_sol
 Standing;Maçonnerie et enduits;MAC;SS.enduit;MAC.05;"Enduit de ciment intérieur dressé (murs)";146,4;m²;68,93;10090,92;55,7;90,85;"face intérieure des voiles";sous_sol
 Standing;Maçonnerie et enduits;MAC;SS.plafond;MAC.06;"Enduit de ciment sous plafond";117,6;m²;75,9;8925,33;61,27;101,18;"sous-face du plancher";sous_sol
+Standing;Maçonnerie et enduits;MAC;EDI.murs;MAC.02;"Mur en agglos creux de 15 cm";69,65;m²;203,98;14207,48;150,76;287,07;"édicule 24 m² : périmètre × 3,25 m − porte";
+Standing;Maçonnerie et enduits;MAC;EDI.enduitsInt;MAC.05;"Enduit de ciment intérieur dressé (murs)";69,65;m²;68,93;4800,77;55,7;90,85;"face intérieure de l'édicule";
 Standing;Maçonnerie et enduits;MAC;MAC.mursExt;MAC.01;"Mur en agglos creux de 20 cm";273,13;m²;244,4;66754,22;182,8;329,54;"périmètre 48,8 m × 3,25 m × 2 niv. − baies 44,06 m²";
 Standing;Maçonnerie et enduits;MAC;MAC.cloisons;MAC.03;"Cloison en agglos creux de 10 cm";227,92;m²;150,12;34215,45;106,64;219,82;"0.85 m²/m² × 259,2 m²";
 Standing;Maçonnerie et enduits;MAC;MAC.enduitsInt;MAC.05;"Enduit de ciment intérieur dressé (murs)";728,97;m²;68,93;50245,77;55,7;90,85;"2 faces des cloisons + face intérieure des murs";
 Standing;Maçonnerie et enduits;MAC;MAC.enduitPlafond;MAC.06;"Enduit de ciment sous plafond";103,68;m²;75,9;7868,86;61,27;101,18;"plafonds sans faux plafond (40 %)";
 Standing;Maçonnerie et enduits;MAC;MAC.chape;MAC.07;"Chape de ciment ép. 5 cm (support des revêtements)";238,1;m²;87;20714,83;71,07;108,15;"sols intérieurs + terrasses carrelées";
+Standing;Étanchéité et isolation;ETA;EDI.etancheite;ETA.02;"Étanchéité bicouche bitume SBS (3 + 4 mm) soudée";24;m²;154,22;3701,32;143,26;175,64;"toiture de l'édicule";
+Standing;Étanchéité et isolation;ETA;EDI.protection;ETA.03;"Protection lourde : chape 4 cm sur géotextile";24;m²;83,21;1997,13;66,77;104,32;"toiture de l'édicule";
 Standing;Étanchéité et isolation;ETA;ETA.forme;ETA.01;"Forme de pente en mortier, ép. moyenne 6 cm";117,6;m²;101,51;11937,06;82,88;125,64;"toiture-terrasse";
 Standing;Étanchéité et isolation;ETA;ETA.etancheite;ETA.02;"Étanchéité bicouche bitume SBS (3 + 4 mm) soudée";122,6;m²;154,22;18907,55;143,26;175,64;"toiture + balcons en porte-à-faux (50 %)";
 Standing;Étanchéité et isolation;ETA;ETA.protection;ETA.03;"Protection lourde : chape 4 cm sur géotextile";117,6;m²;83,21;9785,96;66,77;104,32;"toiture non accessible";
 Standing;Étanchéité et isolation;ETA;ETA.isolation;ETA.04;"Isolation thermique de toiture XPS 4 cm";117,6;m²;109,04;12823,16;105,6;132,64;"toiture (RTCM)";
 Standing;Étanchéité et isolation;ETA;ETA.releves;ETA.06;"Relevés d'étanchéité sur acrotères (h ≥ 15 cm)";48,8;ml;79,25;3867,36;73,72;91,28;"périmètre des acrotères";
 Standing;Étanchéité et isolation;ETA;ETA.sdb;ETA.07;"Étanchéité sous carrelage des pièces humides";15;m²;96,8;1451,94;87,73;114,72;"3 salle(s) de bain × 5 m²";
-Standing;Façades (enduit et peinture extérieurs);FAC;FAC.enduit;FAC.01;"Enduit extérieur 3 couches (échafaudage compris)";219,5;m²;86,71;19032,22;70,02;114,28;"murs extérieurs × façades libres 0.75 + acrotères";
-Standing;Façades (enduit et peinture extérieurs);FAC;FAC.peinture;FAC.03;"Peinture façade siloxane 2 couches sur impression";219,5;m²;82,95;18208,56;69,88;104,44;"surface enduite";
-Standing;Façades (enduit et peinture extérieurs);FAC;FAC.pierre;FAC.04;"Habillage de façade en pierre naturelle collée";24,39;m²;746,51;18207,33;616,1;873,23;"10 % de la façade en pierre";
+Standing;Façades (enduit et peinture extérieurs);FAC;EDI.enduitsExt;FAC.01;"Enduit extérieur 3 couches (échafaudage compris)";69,65;m²;86,71;6039,15;70,02;114,28;"face extérieure de l'édicule";
+Standing;Façades (enduit et peinture extérieurs);FAC;FAC.enduit;FAC.01;"Enduit extérieur 3 couches (échafaudage compris)";195,11;m²;86,71;16917,43;70,02;114,28;"murs extérieurs × façades libres 0.75 + acrotères";
+Standing;Façades (enduit et peinture extérieurs);FAC;FAC.peinture;FAC.03;"Peinture façade siloxane 2 couches sur impression";195,11;m²;82,95;16185,29;69,88;104,44;"surface enduite";
+Standing;Façades (enduit et peinture extérieurs);FAC;FAC.pierre;FAC.04;"Habillage de façade en pierre naturelle collée";48,78;m²;746,51;36414,65;616,1;873,23;"20 % de la façade en pierre";
 Standing;Menuiseries extérieures aluminium;ALU;ALU.baies;ALU.03;"Menuiseries alu RPT renforcé, grandes baies, posées";44,06;m²;2548;112264,88;1782;3422;"0.17 m²/m² × 259,2 m²";
 Standing;Menuiseries extérieures aluminium;ALU;ALU.volets;ALU.05;"Volets roulants aluminium";26,44;m²;1106;29242,64;729;1534;"60 % des baies";
 Standing;Menuiseries intérieures bois et cuisine;BOI;ENT.porte;BOI.05;"Porte d'entrée en bois massif, posée";1;u;14448;14448;9828;22656;"1 porte(s) d'entrée";
 Standing;Menuiseries intérieures bois et cuisine;BOI;BOI.portes;BOI.03;"Porte intérieure en pin massif, posée";11;u;5152;56672;3456;7434;"chambres + SdB + niveaux + 2";
 Standing;Menuiseries intérieures bois et cuisine;BOI;BOI.placards;BOI.07;"Placards : façades coulissantes et aménagement intérieur";8;ml;2016;16128;1296;2950;"4 chambre(s) × 2 ml";
-Standing;Métallerie, ferronnerie;MET;MET.gardeCorps;MET.03;"Garde-corps verre trempé et montants inox, posé";12;ml;2128;25536;1512;2891;"escaliers + balcons + toit accessible";
+Standing;Menuiseries intérieures bois et cuisine;BOI;BOI.cuisine;BOI.12;"Cuisine aménagée posée — standing (hors électroménager)";1;ens;56000;56000;37800;82600;"1 cuisine aménagée par logement (provision selon le standing)";option
+Standing;Métallerie, ferronnerie;MET;MET.grilles;MET.05;"Grilles de défense en fer, posées";22,03;m²;728;16037,84;486;1062;"50 % des baies (RDC, sous-sol)";
+Standing;Métallerie, ferronnerie;MET;MET.gardeCorps;MET.03;"Garde-corps verre trempé et montants inox, posé";16;ml;2128;34048;1512;2891;"escaliers + balcons + toit accessible";
 Standing;Faux plafonds, plâtre et staff;FPL;FPL.ba13;FPL.01;"Faux plafond BA13 sur ossature galvanisée";155,52;m²;161,14;25060,51;120,15;209,58;"60 % des plafonds";
 Standing;Revêtements de sols;RSO;SS.carrelage;RSO.01;"Carrelage grès cérame 45×45 scellé, joints compris";103,49;m²;219,98;22766,06;192,29;266,08;"sol du sous-sol (grès 45×45)";sous_sol
 Standing;Revêtements de sols;RSO;RSO.sols;RSO.03;"Carrelage grès cérame grand format collé (double encollage)";228,1;m²;528,71;120599,55;349,26;723,49;"0.88 × surface de plancher";
 Standing;Revêtements de sols;RSO;RSO.terrasses;RSO.02;"Carrelage grès cérame 60×60 collé, joints compris";10;m²;305,55;3055,48;235,29;457,99;"balcons et terrasses (grès antidérapant)";
 Standing;Revêtements de sols;RSO;RSO.plinthes;RSO.06;"Plinthes assorties";136,86;ml;35,74;4892;20,15;55,96;"0.6 ml/m² de sol";
-Standing;Revêtements muraux (faïence);RMU;RMU.faience;RMU.02;"Faïence murale décor collée";60;m²;237,73;14263,83;198,38;313,21;"3 SdB × 18 m² + 1 cuisine(s) × 6 m²";
+Standing;Revêtements muraux (faïence);RMU;RMU.faience;RMU.02;"Faïence murale décor collée";80;m²;237,73;19018,44;198,38;313,21;"3 SdB × 22 m² + 1 cuisine(s) × 8 m² + WC invités 6 m²";
 Standing;Peinture intérieure;PEI;SS.peinture;PEI.01;"Enduit de lissage + vinylique 2 couches (gamme éco)";264;m²;47,89;12643,41;33,93;64,29;"murs et plafond";sous_sol
-Standing;Peinture intérieure;PEI;PEI.murs;PEI.02;"Enduit de lissage + vinylique lessivable 2 couches";928,17;m²;52,32;48565,35;38,56;70,19;"murs enduits − faïence + plafonds";
+Standing;Peinture intérieure;PEI;PEI.murs;PEI.02;"Enduit de lissage + vinylique lessivable 2 couches";908,17;m²;52,32;47518,88;38,56;70,19;"murs enduits − faïence + plafonds";
 Standing;Plomberie sanitaire et eau chaude;PLO;PLO.points;PLO.01;"Point d'eau : alimentation PPR + évacuation PVC + raccords";12;u;759,99;9119,87;577,58;1138,92;"3 par SdB + 2 par cuisine + 1 extérieur";
 Standing;Plomberie sanitaire et eau chaude;PLO;PLO.sdb;PLO.04;"Équipement salle de bain haut de gamme : WC suspendu, vasque, paroi";3;u;17147,33;51441,98;14243,95;21812,07;"3 salle(s) de bain";
 Standing;Plomberie sanitaire et eau chaude;PLO;PLO.evier;PLO.07;"Évier de cuisine : mitigeur haut de gamme";1;u;3294,09;3294,09;3190,3;3513,04;"1 par cuisine";
+Standing;Plomberie sanitaire et eau chaude;PLO;PLO.alimentation;PLO.12;"Alimentation générale : regard compteur, nourrices EF/EC, vannes";1;ens;4689,55;4689,55;3428,04;6867,53;"1 par logement";
+Standing;Plomberie sanitaire et eau chaude;PLO;PLO.eauxPluviales;PLO.11;"Descente d'eaux pluviales PVC Ø100 avec naissance et colliers";22,5;ml;93,74;2109,19;67,46;133,65;"3 descentes × (3,25 m × 2 niv. + 1 m)";
 Standing;Plomberie sanitaire et eau chaude;PLO;PLO.wcInvites;PLO.09;"WC invités : pack WC et lave-mains";1;u;2784,91;2784,91;2365,25;3341,62;"WC invités au RDC";
 Standing;Plomberie sanitaire et eau chaude;PLO;PLO.collecteurs;PLO.10;"Chutes et collecteurs EU/EV en PVC Ø100-125 (y compris raccords)";30;ml;117,25;3517,54;83,87;170,21;"6 ml × (SdB + cuisines + WC)";
 Standing;Électricité;ELE;SS.points;ELE.01;"Point lumineux simple allumage encastré (gaine, fil 1,5 mm², interrupteur)";6;u;253,87;1523,2;214,67;340,47;"1 point / 20 m²";sous_sol
 Standing;Électricité;ELE;SS.prises;ELE.02;"Prise de courant 2P+T 16 A encastrée (fil 2,5 mm²)";5;u;260,19;1300,96;230,22;331,98;"1 prise / 25 m²";sous_sol
 Standing;Électricité;ELE;ELE.points;ELE.03;"Point lumineux avec appareillage design";45;u;343,02;15436,11;308,75;441,35;"0.15/m² × densité 1.15";
 Standing;Électricité;ELE;ELE.prises;ELE.04;"Prise de courant avec appareillage design";75;u;355,1;26632,54;324,85;445,55;"0.25/m² × densité 1.15";
-Standing;Électricité;ELE;ELE.specialises;ELE.05;"Circuit spécialisé (plaque, four, lave-linge, chauffe-eau, clim)";11;u;501,03;5511,32;449,72;634,74;"circuits dédiés (+ 1 par appareil de clim)";
+Standing;Électricité;ELE;ELE.specialises;ELE.05;"Circuit spécialisé (plaque, four, lave-linge, chauffe-eau, clim)";13;u;501,03;6513,38;449,72;634,74;"circuits dédiés (+ 1 par appareil de clim)";
 Standing;Électricité;ELE;ELE.tableau;ELE.06;"Tableau électrique équipé (coffret 42 modules, différentiels 30 mA)";1;ens;2698,93;2698,93;2415,74;3659,02;"1 tableau par logement";
+Standing;Électricité;ELE;ELE.tableauxEtage;ELE.09;"Tableau divisionnaire d'étage (coffret, différentiel, disjoncteurs)";2;ens;1551,16;3102,32;1378,43;2091,47;"1 tableau divisionnaire par niveau supplémentaire";
+Standing;Électricité;ELE;ELE.luminaires;ELE.08;"Luminaire LED de base posé (spot encastré ou plafonnier)";54;u;96,62;5217,75;81,23;118,69;"45 points × 1.2 luminaire(s) de base";
+Standing;Électricité;ELE;ELE.exterieurs;ELE.03;"Point lumineux avec appareillage design";6;u;343,02;2058,15;308,75;441,35;"façades, jardin, portail";
 Standing;Électricité;ELE;ELE.terre;ELE.07;"Prise de terre et liaisons équipotentielles";1;ens;2006,92;2006,92;1337,47;3105,47;"1 par bâtiment";
 Standing;Courants faibles (VDI, interphone);CFA;CFA.vdi;CFA.01;"Courants faibles : coffret VDI, prises RJ45/TV, interphone";1;ens;7601,84;7601,84;4564,94;12613,98;"1 par logement";
 Standing;Climatisation;CVC;CVC.chambres;CVC.01;"Split inverter 12 000 BTU posé (chambre)";4;u;5524,4;22097,6;4581;7767,35;"1 split 12 000 BTU par chambre";
@@ -211,15 +246,15 @@ Standing;Assainissement et réseaux extérieurs;VRD;VRD.regards;VRD.02;"Regard 6
 Standing;Clôture, portail, piscine et extérieurs;EXT;EXT.cloture;EXT.01;"Clôture maçonnée h 2,20 m sur semelle filante, enduite 2 faces";47,44;ml;1309,03;62100,19;1046,25;1706,4;"4 × √terrain × côtés non mitoyens − portail";option
 Standing;Clôture, portail, piscine et extérieurs;EXT;EXT.portail;EXT.02;"Portail métallique et portillon, posés";1;u;16800;16800;9720;29500;"portail + portillon";option
 Haut standing;Terrassements;TER;TER.decapage;TER.01;"Décapage de la terre végétale sur 20 cm";220,35;m²;13,23;2915,95;9,71;17,38;"(√emprise + 2 × 2 m)²";
-Haut standing;Terrassements;TER;TER.fouilles;TER.03;"Fouilles en rigole et en trou pour fondations";45,77;m³;113,93;5214,69;83,59;149,64;"béton de fondation × 1.6";
+Haut standing;Terrassements;TER;TER.fouilles;TER.03;"Fouilles en rigole et en trou pour fondations";34,02;m³;113,93;3875,98;83,59;149,64;"béton de fondation × 1.6";
 Haut standing;Terrassements;TER;SS.deblai;TER.02;"Déblai en pleine masse, terrain ordinaire";494,93;m³;52,58;26023,28;38,58;69,06;"(√117,6 + 2 × 1 m)² × 3 m";sous_sol
 Haut standing;Terrassements;TER;SS.blindage;TER.08;"Blindage et soutènement provisoire des fouilles";32,53;m²;345;11222,85;202,5;580;"1 côté(s) mitoyen(s) × 10,84 m × 3 m";sous_sol,soutenement
 Haut standing;Terrassements;TER;SS.remblai;TER.07;"Remblai compacté en réemploi des déblais";142,13;m³;47,66;6773,84;34,97;62,6;"remblai contre les voiles (surlargeur)";sous_sol
-Haut standing;Terrassements;TER;TER.remblai;TER.07;"Remblai compacté en réemploi des déblais";17,16;m³;47,66;817,84;34,97;62,6;"remblai des fouilles en réemploi";
-Haut standing;Terrassements;TER;TER.evacuation;TER.05;"Évacuation des déblais excédentaires (foisonnés)";476,76;m³;101,2;48248,11;67,5;154,67;"(déblais 540,71 − réemploi 159,3) × 1.25";sous_sol
-Haut standing;Fondations, infrastructure et soutènement;FON;FON.semelles;FON.02;"Béton armé pour semelles isolées";24,49;m³;2602,41;63733;2190,88;3107,11;"0.065 m³/m² × 376,8 m²";
+Haut standing;Terrassements;TER;TER.remblai;TER.07;"Remblai compacté en réemploi des déblais";12,76;m³;47,66;608,13;34,97;62,6;"remblai des fouilles en réemploi";
+Haut standing;Terrassements;TER;TER.evacuation;TER.05;"Évacuation des déblais excédentaires (foisonnés)";467,58;m³;101,2;47319,1;67,5;154,67;"(déblais 528,95 − réemploi 154,89) × 1.25";sous_sol
+Haut standing;Fondations, infrastructure et soutènement;FON;FON.semelles;FON.02;"Béton armé pour semelles isolées";17,14;m³;2602,41;44605,29;2190,88;3107,11;"0.065 m³/m² × 376,8 m² × (1 − 0.3 repris par le voile)";
 Haut standing;Fondations, infrastructure et soutènement;FON;FON.longrines;FON.05;"Béton armé pour longrines";4,12;m³;4192,61;17273,54;3523,02;5116,52;"0.035 m³/m² × emprise";
-Haut standing;Fondations, infrastructure et soutènement;FON;FON.proprete;FON.01;"Béton de propreté B15, ép. 10 cm";80,27;m²;129,74;10414,32;114,14;150,85;"volume des semelles ÷ hauteur + longrines";
+Haut standing;Fondations, infrastructure et soutènement;FON;FON.proprete;FON.01;"Béton de propreté B15, ép. 10 cm";59,27;m²;129,74;7689,75;114,14;150,85;"volume des semelles ÷ hauteur + longrines";
 Haut standing;Fondations, infrastructure et soutènement;FON;FON.amorces;FON.06;"Béton armé pour amorces de poteaux";0,94;m³;5274,52;4958,05;4422,68;6493,03;"0.008 m³/m² × emprise";
 Haut standing;Fondations, infrastructure et soutènement;FON;FON.herisson;FON.07;"Hérisson / couche de forme en tout-venant, ép. 20 cm";117,6;m²;60,22;7081,57;42,33;81,08;"fond du sous-sol";
 Haut standing;Fondations, infrastructure et soutènement;FON;FON.dallage;FON.08;"Dallage sur terre-plein en béton armé de treillis soudé, ép. 12 cm";117,6;m²;293,04;34460,97;233,46;354,42;"fond du sous-sol";
@@ -236,46 +271,57 @@ Haut standing;Structure béton armé;STR;STR.acrotere;STR.08;"Acrotère maçonn�
 Haut standing;Maçonnerie et enduits;MAC;SS.chape;MAC.07;"Chape de ciment ép. 5 cm (support des revêtements)";103,49;m²;87;9003,69;71,07;108,15;"sol du sous-sol";sous_sol
 Haut standing;Maçonnerie et enduits;MAC;SS.enduit;MAC.05;"Enduit de ciment intérieur dressé (murs)";156,16;m²;68,93;10763,65;55,7;90,85;"face intérieure des voiles";sous_sol
 Haut standing;Maçonnerie et enduits;MAC;SS.plafond;MAC.06;"Enduit de ciment sous plafond";117,6;m²;75,9;8925,33;61,27;101,18;"sous-face du plancher";sous_sol
+Haut standing;Maçonnerie et enduits;MAC;EDI.murs;MAC.02;"Mur en agglos creux de 15 cm";74,06;m²;203,98;15107,04;150,76;287,07;"édicule 24 m² : périmètre × 3,45 m − porte";
+Haut standing;Maçonnerie et enduits;MAC;EDI.enduitsInt;MAC.05;"Enduit de ciment intérieur dressé (murs)";74,06;m²;68,93;5104,74;55,7;90,85;"face intérieure de l'édicule";
 Haut standing;Maçonnerie et enduits;MAC;MAC.mursExt;MAC.01;"Mur en agglos creux de 20 cm";284,88;m²;244,4;69625,97;182,8;329,54;"périmètre 48,8 m × 3,45 m × 2 niv. − baies 51,84 m²";
 Haut standing;Maçonnerie et enduits;MAC;MAC.cloisons;MAC.03;"Cloison en agglos creux de 10 cm";243,11;m²;150,12;36495,77;106,64;219,82;"0.85 m²/m² × 259,2 m²";
 Haut standing;Maçonnerie et enduits;MAC;MAC.enduitsInt;MAC.05;"Enduit de ciment intérieur dressé (murs)";771,1;m²;68,93;53149,67;55,7;90,85;"2 faces des cloisons + face intérieure des murs";
 Haut standing;Maçonnerie et enduits;MAC;MAC.chape;MAC.07;"Chape de ciment ép. 5 cm (support des revêtements)";238,1;m²;87;20714,83;71,07;108,15;"sols intérieurs + terrasses carrelées";
+Haut standing;Étanchéité et isolation;ETA;EDI.etancheite;ETA.02;"Étanchéité bicouche bitume SBS (3 + 4 mm) soudée";24;m²;154,22;3701,32;143,26;175,64;"toiture de l'édicule";
+Haut standing;Étanchéité et isolation;ETA;EDI.protection;ETA.03;"Protection lourde : chape 4 cm sur géotextile";24;m²;83,21;1997,13;66,77;104,32;"toiture de l'édicule";
 Haut standing;Étanchéité et isolation;ETA;ETA.forme;ETA.01;"Forme de pente en mortier, ép. moyenne 6 cm";117,6;m²;101,51;11937,06;82,88;125,64;"toiture-terrasse";
 Haut standing;Étanchéité et isolation;ETA;ETA.etancheite;ETA.02;"Étanchéité bicouche bitume SBS (3 + 4 mm) soudée";122,6;m²;154,22;18907,55;143,26;175,64;"toiture + balcons en porte-à-faux (50 %)";
 Haut standing;Étanchéité et isolation;ETA;ETA.protection;ETA.03;"Protection lourde : chape 4 cm sur géotextile";117,6;m²;83,21;9785,96;66,77;104,32;"toiture non accessible";
 Haut standing;Étanchéité et isolation;ETA;ETA.isolation;ETA.04;"Isolation thermique de toiture XPS 4 cm";117,6;m²;109,04;12823,16;105,6;132,64;"toiture (RTCM)";
 Haut standing;Étanchéité et isolation;ETA;ETA.releves;ETA.06;"Relevés d'étanchéité sur acrotères (h ≥ 15 cm)";48,8;ml;79,25;3867,36;73,72;91,28;"périmètre des acrotères";
 Haut standing;Étanchéité et isolation;ETA;ETA.sdb;ETA.07;"Étanchéité sous carrelage des pièces humides";15;m²;96,8;1451,94;87,73;114,72;"3 salle(s) de bain × 5 m²";
-Haut standing;Façades (enduit et peinture extérieurs);FAC;FAC.enduit;FAC.01;"Enduit extérieur 3 couches (échafaudage compris)";189,52;m²;86,71;16432,74;70,02;114,28;"murs extérieurs × façades libres 0.75 + acrotères";
-Haut standing;Façades (enduit et peinture extérieurs);FAC;FAC.peinture;FAC.03;"Peinture façade siloxane 2 couches sur impression";189,52;m²;82,95;15721,57;69,88;104,44;"surface enduite";
-Haut standing;Façades (enduit et peinture extérieurs);FAC;FAC.pierre;FAC.04;"Habillage de façade en pierre naturelle collée";63,17;m²;746,51;47156,9;616,1;873,23;"25 % de la façade en pierre";
+Haut standing;Façades (enduit et peinture extérieurs);FAC;EDI.enduitsExt;FAC.01;"Enduit extérieur 3 couches (échafaudage compris)";74,06;m²;86,71;6421,53;70,02;114,28;"face extérieure de l'édicule";
+Haut standing;Façades (enduit et peinture extérieurs);FAC;FAC.enduit;FAC.01;"Enduit extérieur 3 couches (échafaudage compris)";151,62;m²;86,71;13146,54;70,02;114,28;"murs extérieurs × façades libres 0.75 + acrotères";
+Haut standing;Façades (enduit et peinture extérieurs);FAC;FAC.peinture;FAC.03;"Peinture façade siloxane 2 couches sur impression";151,62;m²;82,95;12577,59;69,88;104,44;"surface enduite";
+Haut standing;Façades (enduit et peinture extérieurs);FAC;FAC.pierre;FAC.04;"Habillage de façade en pierre naturelle collée";101,08;m²;746,51;75457,01;616,1;873,23;"40 % de la façade en pierre";
 Haut standing;Menuiseries extérieures aluminium;ALU;ALU.baies;ALU.03;"Menuiseries alu RPT renforcé, grandes baies, posées";36,29;m²;2548;92466,92;1782;3422;"0.2 m²/m² × 259,2 m²";
 Haut standing;Menuiseries extérieures aluminium;ALU;ALU.baiesPremium;ALU.04;"Baies levant-coulissantes premium, posées";15,55;m²;7120,4;110722,22;5070,6;9463,6;"30 % des baies en levant-coulissant";
 Haut standing;Menuiseries extérieures aluminium;ALU;ALU.volets;ALU.05;"Volets roulants aluminium";41,47;m²;1106;45865,82;729;1534;"80 % des baies";
 Haut standing;Menuiseries intérieures bois et cuisine;BOI;ENT.porte;BOI.05;"Porte d'entrée en bois massif, posée";1;u;14448;14448;9828;22656;"1 porte(s) d'entrée";
 Haut standing;Menuiseries intérieures bois et cuisine;BOI;BOI.portes;BOI.04;"Porte intérieure en chêne massif, posée";11;u;10192;112112;7452;13924;"chambres + SdB + niveaux + 2";
 Haut standing;Menuiseries intérieures bois et cuisine;BOI;BOI.placards;BOI.07;"Placards : façades coulissantes et aménagement intérieur";8;ml;2016;16128;1296;2950;"4 chambre(s) × 2 ml";
-Haut standing;Métallerie, ferronnerie;MET;MET.gardeCorps;MET.03;"Garde-corps verre trempé et montants inox, posé";12;ml;2128;25536;1512;2891;"escaliers + balcons + toit accessible";
+Haut standing;Menuiseries intérieures bois et cuisine;BOI;BOI.cuisine;BOI.13;"Cuisine aménagée posée — haut standing (hors électroménager)";1;ens;112000;112000;75600;177000;"1 cuisine aménagée par logement (provision selon le standing)";option
+Haut standing;Métallerie, ferronnerie;MET;MET.gardeCorps;MET.03;"Garde-corps verre trempé et montants inox, posé";16;ml;2128;34048;1512;2891;"escaliers + balcons + toit accessible";
 Haut standing;Faux plafonds, plâtre et staff;FPL;FPL.ba13;FPL.01;"Faux plafond BA13 sur ossature galvanisée";155,52;m²;161,14;25060,51;120,15;209,58;"60 % des plafonds";
 Haut standing;Faux plafonds, plâtre et staff;FPL;FPL.staff;FPL.02;"Faux plafond staff décoratif avec corniches";103,68;m²;295,68;30656,1;215,46;387,63;"40 % des plafonds";
 Haut standing;Revêtements de sols;RSO;SS.carrelage;RSO.01;"Carrelage grès cérame 45×45 scellé, joints compris";103,49;m²;219,98;22766,06;192,29;266,08;"sol du sous-sol (grès 45×45)";sous_sol
 Haut standing;Revêtements de sols;RSO;RSO.sols;RSO.04;"Marbre local poli 2 cm, posé, poncé et cristallisé";228,1;m²;754,49;172098,78;625,6;869,17;"0.88 × surface de plancher";
 Haut standing;Revêtements de sols;RSO;RSO.terrasses;RSO.02;"Carrelage grès cérame 60×60 collé, joints compris";10;m²;305,55;3055,48;235,29;457,99;"balcons et terrasses (grès antidérapant)";
 Haut standing;Revêtements de sols;RSO;RSO.plinthes;RSO.06;"Plinthes assorties";136,86;ml;35,74;4892;20,15;55,96;"0.6 ml/m² de sol";
-Haut standing;Revêtements muraux (faïence);RMU;RMU.faience;RMU.02;"Faïence murale décor collée";60;m²;237,73;14263,83;198,38;313,21;"3 SdB × 18 m² + 1 cuisine(s) × 6 m²";
+Haut standing;Revêtements muraux (faïence);RMU;RMU.faience;RMU.02;"Faïence murale décor collée";80;m²;237,73;19018,44;198,38;313,21;"3 SdB × 22 m² + 1 cuisine(s) × 8 m² + WC invités 6 m²";
 Haut standing;Peinture intérieure;PEI;SS.peinture;PEI.01;"Enduit de lissage + vinylique 2 couches (gamme éco)";273,76;m²;47,89;13110,84;33,93;64,29;"murs et plafond";sous_sol
-Haut standing;Peinture intérieure;PEI;PEI.murs;PEI.03;"Enduit 2 passes + acrylique mate haut de gamme 2 couches";970,3;m²;79,46;77099,05;58,12;109,36;"murs enduits − faïence + plafonds";
+Haut standing;Peinture intérieure;PEI;PEI.murs;PEI.03;"Enduit 2 passes + acrylique mate haut de gamme 2 couches";950,3;m²;79,46;75509,87;58,12;109,36;"murs enduits − faïence + plafonds";
 Haut standing;Plomberie sanitaire et eau chaude;PLO;PLO.points;PLO.01;"Point d'eau : alimentation PPR + évacuation PVC + raccords";12;u;759,99;9119,87;577,58;1138,92;"3 par SdB + 2 par cuisine + 1 extérieur";
 Haut standing;Plomberie sanitaire et eau chaude;PLO;PLO.sdb;PLO.05;"Équipement salle de bain luxe : WC suspendu, vasque, douche encastrée";3;u;33307,79;99923,36;30184,56;38681,35;"3 salle(s) de bain";
 Haut standing;Plomberie sanitaire et eau chaude;PLO;PLO.evier;PLO.07;"Évier de cuisine : mitigeur haut de gamme";1;u;3294,09;3294,09;3190,3;3513,04;"1 par cuisine";
+Haut standing;Plomberie sanitaire et eau chaude;PLO;PLO.alimentation;PLO.12;"Alimentation générale : regard compteur, nourrices EF/EC, vannes";1;ens;4689,55;4689,55;3428,04;6867,53;"1 par logement";
+Haut standing;Plomberie sanitaire et eau chaude;PLO;PLO.eauxPluviales;PLO.11;"Descente d'eaux pluviales PVC Ø100 avec naissance et colliers";23,7;ml;93,74;2221,68;67,46;133,65;"3 descentes × (3,45 m × 2 niv. + 1 m)";
 Haut standing;Plomberie sanitaire et eau chaude;PLO;PLO.wcInvites;PLO.09;"WC invités : pack WC et lave-mains";1;u;2784,91;2784,91;2365,25;3341,62;"WC invités au RDC";
 Haut standing;Plomberie sanitaire et eau chaude;PLO;PLO.collecteurs;PLO.10;"Chutes et collecteurs EU/EV en PVC Ø100-125 (y compris raccords)";30;ml;117,25;3517,54;83,87;170,21;"6 ml × (SdB + cuisines + WC)";
 Haut standing;Électricité;ELE;SS.points;ELE.01;"Point lumineux simple allumage encastré (gaine, fil 1,5 mm², interrupteur)";6;u;253,87;1523,2;214,67;340,47;"1 point / 20 m²";sous_sol
 Haut standing;Électricité;ELE;SS.prises;ELE.02;"Prise de courant 2P+T 16 A encastrée (fil 2,5 mm²)";5;u;260,19;1300,96;230,22;331,98;"1 prise / 25 m²";sous_sol
 Haut standing;Électricité;ELE;ELE.points;ELE.03;"Point lumineux avec appareillage design";53;u;343,02;18180,31;308,75;441,35;"0.15/m² × densité 1.35";
 Haut standing;Électricité;ELE;ELE.prises;ELE.04;"Prise de courant avec appareillage design";88;u;355,1;31248,84;324,85;445,55;"0.25/m² × densité 1.35";
-Haut standing;Électricité;ELE;ELE.specialises;ELE.05;"Circuit spécialisé (plaque, four, lave-linge, chauffe-eau, clim)";11;u;501,03;5511,32;449,72;634,74;"circuits dédiés (+ 1 par appareil de clim)";
+Haut standing;Électricité;ELE;ELE.specialises;ELE.05;"Circuit spécialisé (plaque, four, lave-linge, chauffe-eau, clim)";13;u;501,03;6513,38;449,72;634,74;"circuits dédiés (+ 1 par appareil de clim)";
 Haut standing;Électricité;ELE;ELE.tableau;ELE.06;"Tableau électrique équipé (coffret 42 modules, différentiels 30 mA)";1;ens;2698,93;2698,93;2415,74;3659,02;"1 tableau par logement";
+Haut standing;Électricité;ELE;ELE.tableauxEtage;ELE.09;"Tableau divisionnaire d'étage (coffret, différentiel, disjoncteurs)";2;ens;1551,16;3102,32;1378,43;2091,47;"1 tableau divisionnaire par niveau supplémentaire";
+Haut standing;Électricité;ELE;ELE.luminaires;ELE.08;"Luminaire LED de base posé (spot encastré ou plafonnier)";80;u;96,62;7729,99;81,23;118,69;"53 points × 1.5 luminaire(s) de base";
+Haut standing;Électricité;ELE;ELE.exterieurs;ELE.03;"Point lumineux avec appareillage design";6;u;343,02;2058,15;308,75;441,35;"façades, jardin, portail";
 Haut standing;Électricité;ELE;ELE.terre;ELE.07;"Prise de terre et liaisons équipotentielles";1;ens;2006,92;2006,92;1337,47;3105,47;"1 par bâtiment";
 Haut standing;Courants faibles (VDI, interphone);CFA;CFA.vdi;CFA.01;"Courants faibles : coffret VDI, prises RJ45/TV, interphone";1;ens;7601,84;7601,84;4564,94;12613,98;"1 par logement";
 Haut standing;Courants faibles (VDI, interphone);CFA;CFA.securite;CFA.02;"Alarme et vidéosurveillance";1;ens;13440;13440;8640;23600;"alarme et vidéosurveillance";
@@ -287,15 +333,15 @@ Haut standing;Assainissement et réseaux extérieurs;VRD;VRD.regards;VRD.02;"Reg
 Haut standing;Clôture, portail, piscine et extérieurs;EXT;EXT.cloture;EXT.01;"Clôture maçonnée h 2,20 m sur semelle filante, enduite 2 faces";47,44;ml;1309,03;62100,19;1046,25;1706,4;"4 × √terrain × côtés non mitoyens − portail";option
 Haut standing;Clôture, portail, piscine et extérieurs;EXT;EXT.portail;EXT.02;"Portail métallique et portillon, posés";1;u;16800;16800;9720;29500;"portail + portillon";option
 Luxe / Premium;Terrassements;TER;TER.decapage;TER.01;"Décapage de la terre végétale sur 20 cm";220,35;m²;13,23;2915,95;9,71;17,38;"(√emprise + 2 × 2 m)²";
-Luxe / Premium;Terrassements;TER;TER.fouilles;TER.03;"Fouilles en rigole et en trou pour fondations";45,77;m³;113,93;5214,69;83,59;149,64;"béton de fondation × 1.6";
+Luxe / Premium;Terrassements;TER;TER.fouilles;TER.03;"Fouilles en rigole et en trou pour fondations";34,02;m³;113,93;3875,98;83,59;149,64;"béton de fondation × 1.6";
 Luxe / Premium;Terrassements;TER;SS.deblai;TER.02;"Déblai en pleine masse, terrain ordinaire";494,93;m³;52,58;26023,28;38,58;69,06;"(√117,6 + 2 × 1 m)² × 3 m";sous_sol
 Luxe / Premium;Terrassements;TER;SS.blindage;TER.08;"Blindage et soutènement provisoire des fouilles";32,53;m²;345;11222,85;202,5;580;"1 côté(s) mitoyen(s) × 10,84 m × 3 m";sous_sol,soutenement
 Luxe / Premium;Terrassements;TER;SS.remblai;TER.07;"Remblai compacté en réemploi des déblais";142,13;m³;47,66;6773,84;34,97;62,6;"remblai contre les voiles (surlargeur)";sous_sol
-Luxe / Premium;Terrassements;TER;TER.remblai;TER.07;"Remblai compacté en réemploi des déblais";17,16;m³;47,66;817,84;34,97;62,6;"remblai des fouilles en réemploi";
-Luxe / Premium;Terrassements;TER;TER.evacuation;TER.05;"Évacuation des déblais excédentaires (foisonnés)";476,76;m³;101,2;48248,11;67,5;154,67;"(déblais 540,71 − réemploi 159,3) × 1.25";sous_sol
-Luxe / Premium;Fondations, infrastructure et soutènement;FON;FON.semelles;FON.02;"Béton armé pour semelles isolées";24,49;m³;2602,41;63733;2190,88;3107,11;"0.065 m³/m² × 376,8 m²";
+Luxe / Premium;Terrassements;TER;TER.remblai;TER.07;"Remblai compacté en réemploi des déblais";12,76;m³;47,66;608,13;34,97;62,6;"remblai des fouilles en réemploi";
+Luxe / Premium;Terrassements;TER;TER.evacuation;TER.05;"Évacuation des déblais excédentaires (foisonnés)";467,58;m³;101,2;47319,1;67,5;154,67;"(déblais 528,95 − réemploi 154,89) × 1.25";sous_sol
+Luxe / Premium;Fondations, infrastructure et soutènement;FON;FON.semelles;FON.02;"Béton armé pour semelles isolées";17,14;m³;2602,41;44605,29;2190,88;3107,11;"0.065 m³/m² × 376,8 m² × (1 − 0.3 repris par le voile)";
 Luxe / Premium;Fondations, infrastructure et soutènement;FON;FON.longrines;FON.05;"Béton armé pour longrines";4,12;m³;4192,61;17273,54;3523,02;5116,52;"0.035 m³/m² × emprise";
-Luxe / Premium;Fondations, infrastructure et soutènement;FON;FON.proprete;FON.01;"Béton de propreté B15, ép. 10 cm";80,27;m²;129,74;10414,32;114,14;150,85;"volume des semelles ÷ hauteur + longrines";
+Luxe / Premium;Fondations, infrastructure et soutènement;FON;FON.proprete;FON.01;"Béton de propreté B15, ép. 10 cm";59,27;m²;129,74;7689,75;114,14;150,85;"volume des semelles ÷ hauteur + longrines";
 Luxe / Premium;Fondations, infrastructure et soutènement;FON;FON.amorces;FON.06;"Béton armé pour amorces de poteaux";0,94;m³;5274,52;4958,05;4422,68;6493,03;"0.008 m³/m² × emprise";
 Luxe / Premium;Fondations, infrastructure et soutènement;FON;FON.herisson;FON.07;"Hérisson / couche de forme en tout-venant, ép. 20 cm";117,6;m²;60,22;7081,57;42,33;81,08;"fond du sous-sol";
 Luxe / Premium;Fondations, infrastructure et soutènement;FON;FON.dallage;FON.08;"Dallage sur terre-plein en béton armé de treillis soudé, ép. 12 cm";117,6;m²;293,04;34460,97;233,46;354,42;"fond du sous-sol";
@@ -312,46 +358,57 @@ Luxe / Premium;Structure béton armé;STR;STR.acrotere;STR.08;"Acrotère maçonn
 Luxe / Premium;Maçonnerie et enduits;MAC;SS.chape;MAC.07;"Chape de ciment ép. 5 cm (support des revêtements)";103,49;m²;87;9003,69;71,07;108,15;"sol du sous-sol";sous_sol
 Luxe / Premium;Maçonnerie et enduits;MAC;SS.enduit;MAC.05;"Enduit de ciment intérieur dressé (murs)";156,16;m²;68,93;10763,65;55,7;90,85;"face intérieure des voiles";sous_sol
 Luxe / Premium;Maçonnerie et enduits;MAC;SS.plafond;MAC.06;"Enduit de ciment sous plafond";117,6;m²;75,9;8925,33;61,27;101,18;"sous-face du plancher";sous_sol
+Luxe / Premium;Maçonnerie et enduits;MAC;EDI.murs;MAC.02;"Mur en agglos creux de 15 cm";74,06;m²;203,98;15107,04;150,76;287,07;"édicule 24 m² : périmètre × 3,45 m − porte";
+Luxe / Premium;Maçonnerie et enduits;MAC;EDI.enduitsInt;MAC.05;"Enduit de ciment intérieur dressé (murs)";74,06;m²;68,93;5104,74;55,7;90,85;"face intérieure de l'édicule";
 Luxe / Premium;Maçonnerie et enduits;MAC;MAC.mursExt;MAC.01;"Mur en agglos creux de 20 cm";274,51;m²;244,4;67091,5;182,8;329,54;"périmètre 48,8 m × 3,45 m × 2 niv. − baies 62,21 m²";
 Luxe / Premium;Maçonnerie et enduits;MAC;MAC.cloisons;MAC.03;"Cloison en agglos creux de 10 cm";243,11;m²;150,12;36495,77;106,64;219,82;"0.85 m²/m² × 259,2 m²";
 Luxe / Premium;Maçonnerie et enduits;MAC;MAC.enduitsInt;MAC.05;"Enduit de ciment intérieur dressé (murs)";760,73;m²;68,93;52434,89;55,7;90,85;"2 faces des cloisons + face intérieure des murs";
 Luxe / Premium;Maçonnerie et enduits;MAC;MAC.chape;MAC.07;"Chape de ciment ép. 5 cm (support des revêtements)";238,1;m²;87;20714,83;71,07;108,15;"sols intérieurs + terrasses carrelées";
+Luxe / Premium;Étanchéité et isolation;ETA;EDI.etancheite;ETA.02;"Étanchéité bicouche bitume SBS (3 + 4 mm) soudée";24;m²;154,22;3701,32;143,26;175,64;"toiture de l'édicule";
+Luxe / Premium;Étanchéité et isolation;ETA;EDI.protection;ETA.03;"Protection lourde : chape 4 cm sur géotextile";24;m²;83,21;1997,13;66,77;104,32;"toiture de l'édicule";
 Luxe / Premium;Étanchéité et isolation;ETA;ETA.forme;ETA.01;"Forme de pente en mortier, ép. moyenne 6 cm";117,6;m²;101,51;11937,06;82,88;125,64;"toiture-terrasse";
 Luxe / Premium;Étanchéité et isolation;ETA;ETA.etancheite;ETA.02;"Étanchéité bicouche bitume SBS (3 + 4 mm) soudée";122,6;m²;154,22;18907,55;143,26;175,64;"toiture + balcons en porte-à-faux (50 %)";
 Luxe / Premium;Étanchéité et isolation;ETA;ETA.protection;ETA.03;"Protection lourde : chape 4 cm sur géotextile";117,6;m²;83,21;9785,96;66,77;104,32;"toiture non accessible";
 Luxe / Premium;Étanchéité et isolation;ETA;ETA.isolation;ETA.04;"Isolation thermique de toiture XPS 4 cm";117,6;m²;109,04;12823,16;105,6;132,64;"toiture (RTCM)";
 Luxe / Premium;Étanchéité et isolation;ETA;ETA.releves;ETA.06;"Relevés d'étanchéité sur acrotères (h ≥ 15 cm)";48,8;ml;79,25;3867,36;73,72;91,28;"périmètre des acrotères";
 Luxe / Premium;Étanchéité et isolation;ETA;ETA.sdb;ETA.07;"Étanchéité sous carrelage des pièces humides";15;m²;96,8;1451,94;87,73;114,72;"3 salle(s) de bain × 5 m²";
-Luxe / Premium;Façades (enduit et peinture extérieurs);FAC;FAC.enduit;FAC.01;"Enduit extérieur 3 couches (échafaudage compris)";122,46;m²;86,71;10618,16;70,02;114,28;"murs extérieurs × façades libres 0.75 + acrotères";
-Luxe / Premium;Façades (enduit et peinture extérieurs);FAC;FAC.peinture;FAC.03;"Peinture façade siloxane 2 couches sur impression";122,46;m²;82,95;10158,63;69,88;104,44;"surface enduite";
-Luxe / Premium;Façades (enduit et peinture extérieurs);FAC;FAC.pierre;FAC.04;"Habillage de façade en pierre naturelle collée";122,46;m²;746,51;91417,35;616,1;873,23;"50 % de la façade en pierre";
+Luxe / Premium;Façades (enduit et peinture extérieurs);FAC;EDI.enduitsExt;FAC.01;"Enduit extérieur 3 couches (échafaudage compris)";74,06;m²;86,71;6421,53;70,02;114,28;"face extérieure de l'édicule";
+Luxe / Premium;Façades (enduit et peinture extérieurs);FAC;FAC.enduit;FAC.01;"Enduit extérieur 3 couches (échafaudage compris)";97,97;m²;86,71;8494,7;70,02;114,28;"murs extérieurs × façades libres 0.75 + acrotères";
+Luxe / Premium;Façades (enduit et peinture extérieurs);FAC;FAC.peinture;FAC.03;"Peinture façade siloxane 2 couches sur impression";97,97;m²;82,95;8127,07;69,88;104,44;"surface enduite";
+Luxe / Premium;Façades (enduit et peinture extérieurs);FAC;FAC.pierre;FAC.04;"Habillage de façade en pierre naturelle collée";146,95;m²;746,51;109699,32;616,1;873,23;"60 % de la façade en pierre";
 Luxe / Premium;Menuiseries extérieures aluminium;ALU;ALU.baies;ALU.03;"Menuiseries alu RPT renforcé, grandes baies, posées";18,66;m²;2548;47545,68;1782;3422;"0.24 m²/m² × 259,2 m²";
 Luxe / Premium;Menuiseries extérieures aluminium;ALU;ALU.baiesPremium;ALU.04;"Baies levant-coulissantes premium, posées";43,55;m²;7120,4;310093,42;5070,6;9463,6;"70 % des baies en levant-coulissant";
 Luxe / Premium;Menuiseries extérieures aluminium;ALU;ALU.volets;ALU.05;"Volets roulants aluminium";55,99;m²;1106;61924,94;729;1534;"90 % des baies";
 Luxe / Premium;Menuiseries intérieures bois et cuisine;BOI;ENT.porte;BOI.05;"Porte d'entrée en bois massif, posée";1;u;14448;14448;9828;22656;"1 porte(s) d'entrée";
 Luxe / Premium;Menuiseries intérieures bois et cuisine;BOI;BOI.portes;BOI.04;"Porte intérieure en chêne massif, posée";11;u;10192;112112;7452;13924;"chambres + SdB + niveaux + 2";
 Luxe / Premium;Menuiseries intérieures bois et cuisine;BOI;BOI.placards;BOI.07;"Placards : façades coulissantes et aménagement intérieur";8;ml;2016;16128;1296;2950;"4 chambre(s) × 2 ml";
-Luxe / Premium;Métallerie, ferronnerie;MET;MET.gardeCorps;MET.04;"Garde-corps tout verre feuilleté, posé";12;ml;3024;36288;2160;4071;"escaliers + balcons + toit accessible";
+Luxe / Premium;Menuiseries intérieures bois et cuisine;BOI;BOI.cuisine;BOI.14;"Cuisine aménagée posée — luxe (hors électroménager)";1;ens;224000;224000;151200;354000;"1 cuisine aménagée par logement (provision selon le standing)";option
+Luxe / Premium;Métallerie, ferronnerie;MET;MET.gardeCorps;MET.04;"Garde-corps tout verre feuilleté, posé";16;ml;3024;48384;2160;4071;"escaliers + balcons + toit accessible";
 Luxe / Premium;Faux plafonds, plâtre et staff;FPL;FPL.ba13;FPL.01;"Faux plafond BA13 sur ossature galvanisée";77,76;m²;161,14;12530,26;120,15;209,58;"30 % des plafonds";
 Luxe / Premium;Faux plafonds, plâtre et staff;FPL;FPL.staff;FPL.02;"Faux plafond staff décoratif avec corniches";181,44;m²;295,68;53648,18;215,46;387,63;"70 % des plafonds";
 Luxe / Premium;Revêtements de sols;RSO;SS.carrelage;RSO.01;"Carrelage grès cérame 45×45 scellé, joints compris";103,49;m²;219,98;22766,06;192,29;266,08;"sol du sous-sol (grès 45×45)";sous_sol
 Luxe / Premium;Revêtements de sols;RSO;RSO.sols;RSO.05;"Marbre importé poli 2 cm, posé, poncé et cristallisé";228,1;m²;1090,57;248758,5;937,5;1250,7;"0.88 × surface de plancher";
 Luxe / Premium;Revêtements de sols;RSO;RSO.terrasses;RSO.02;"Carrelage grès cérame 60×60 collé, joints compris";10;m²;305,55;3055,48;235,29;457,99;"balcons et terrasses (grès antidérapant)";
 Luxe / Premium;Revêtements de sols;RSO;RSO.plinthes;RSO.06;"Plinthes assorties";136,86;ml;35,74;4892;20,15;55,96;"0.6 ml/m² de sol";
-Luxe / Premium;Revêtements muraux (faïence);RMU;RMU.faience;RMU.03;"Zellige 10×10 posé par maâlem";60;m²;722,12;43327,07;530,04;906,08;"3 SdB × 18 m² + 1 cuisine(s) × 6 m²";
+Luxe / Premium;Revêtements muraux (faïence);RMU;RMU.faience;RMU.03;"Zellige 10×10 posé par maâlem";80;m²;722,12;57769,43;530,04;906,08;"3 SdB × 22 m² + 1 cuisine(s) × 8 m² + WC invités 6 m²";
 Luxe / Premium;Peinture intérieure;PEI;SS.peinture;PEI.01;"Enduit de lissage + vinylique 2 couches (gamme éco)";273,76;m²;47,89;13110,84;33,93;64,29;"murs et plafond";sous_sol
-Luxe / Premium;Peinture intérieure;PEI;PEI.murs;PEI.03;"Enduit 2 passes + acrylique mate haut de gamme 2 couches";959,93;m²;79,46;76275,06;58,12;109,36;"murs enduits − faïence + plafonds";
+Luxe / Premium;Peinture intérieure;PEI;PEI.murs;PEI.03;"Enduit 2 passes + acrylique mate haut de gamme 2 couches";939,93;m²;79,46;74685,88;58,12;109,36;"murs enduits − faïence + plafonds";
 Luxe / Premium;Plomberie sanitaire et eau chaude;PLO;PLO.points;PLO.01;"Point d'eau : alimentation PPR + évacuation PVC + raccords";12;u;759,99;9119,87;577,58;1138,92;"3 par SdB + 2 par cuisine + 1 extérieur";
 Luxe / Premium;Plomberie sanitaire et eau chaude;PLO;PLO.sdb;PLO.05;"Équipement salle de bain luxe : WC suspendu, vasque, douche encastrée";3;u;33307,79;99923,36;30184,56;38681,35;"3 salle(s) de bain";
 Luxe / Premium;Plomberie sanitaire et eau chaude;PLO;PLO.evier;PLO.07;"Évier de cuisine : mitigeur haut de gamme";1;u;3294,09;3294,09;3190,3;3513,04;"1 par cuisine";
+Luxe / Premium;Plomberie sanitaire et eau chaude;PLO;PLO.alimentation;PLO.12;"Alimentation générale : regard compteur, nourrices EF/EC, vannes";1;ens;4689,55;4689,55;3428,04;6867,53;"1 par logement";
+Luxe / Premium;Plomberie sanitaire et eau chaude;PLO;PLO.eauxPluviales;PLO.11;"Descente d'eaux pluviales PVC Ø100 avec naissance et colliers";23,7;ml;93,74;2221,68;67,46;133,65;"3 descentes × (3,45 m × 2 niv. + 1 m)";
 Luxe / Premium;Plomberie sanitaire et eau chaude;PLO;PLO.wcInvites;PLO.09;"WC invités : pack WC et lave-mains";1;u;2784,91;2784,91;2365,25;3341,62;"WC invités au RDC";
 Luxe / Premium;Plomberie sanitaire et eau chaude;PLO;PLO.collecteurs;PLO.10;"Chutes et collecteurs EU/EV en PVC Ø100-125 (y compris raccords)";30;ml;117,25;3517,54;83,87;170,21;"6 ml × (SdB + cuisines + WC)";
 Luxe / Premium;Électricité;ELE;SS.points;ELE.01;"Point lumineux simple allumage encastré (gaine, fil 1,5 mm², interrupteur)";6;u;253,87;1523,2;214,67;340,47;"1 point / 20 m²";sous_sol
 Luxe / Premium;Électricité;ELE;SS.prises;ELE.02;"Prise de courant 2P+T 16 A encastrée (fil 2,5 mm²)";5;u;260,19;1300,96;230,22;331,98;"1 prise / 25 m²";sous_sol
 Luxe / Premium;Électricité;ELE;ELE.points;ELE.03;"Point lumineux avec appareillage design";63;u;343,02;21610,56;308,75;441,35;"0.15/m² × densité 1.6";
 Luxe / Premium;Électricité;ELE;ELE.prises;ELE.04;"Prise de courant avec appareillage design";104;u;355,1;36930,45;324,85;445,55;"0.25/m² × densité 1.6";
-Luxe / Premium;Électricité;ELE;ELE.specialises;ELE.05;"Circuit spécialisé (plaque, four, lave-linge, chauffe-eau, clim)";11;u;501,03;5511,32;449,72;634,74;"circuits dédiés (+ 1 par appareil de clim)";
+Luxe / Premium;Électricité;ELE;ELE.specialises;ELE.05;"Circuit spécialisé (plaque, four, lave-linge, chauffe-eau, clim)";13;u;501,03;6513,38;449,72;634,74;"circuits dédiés (+ 1 par appareil de clim)";
 Luxe / Premium;Électricité;ELE;ELE.tableau;ELE.06;"Tableau électrique équipé (coffret 42 modules, différentiels 30 mA)";1;ens;2698,93;2698,93;2415,74;3659,02;"1 tableau par logement";
+Luxe / Premium;Électricité;ELE;ELE.tableauxEtage;ELE.09;"Tableau divisionnaire d'étage (coffret, différentiel, disjoncteurs)";2;ens;1551,16;3102,32;1378,43;2091,47;"1 tableau divisionnaire par niveau supplémentaire";
+Luxe / Premium;Électricité;ELE;ELE.luminaires;ELE.08;"Luminaire LED de base posé (spot encastré ou plafonnier)";126;u;96,62;12174,74;81,23;118,69;"63 points × 2 luminaire(s) de base";
+Luxe / Premium;Électricité;ELE;ELE.exterieurs;ELE.03;"Point lumineux avec appareillage design";6;u;343,02;2058,15;308,75;441,35;"façades, jardin, portail";
 Luxe / Premium;Électricité;ELE;ELE.terre;ELE.07;"Prise de terre et liaisons équipotentielles";1;ens;2006,92;2006,92;1337,47;3105,47;"1 par bâtiment";
 Luxe / Premium;Courants faibles (VDI, interphone);CFA;CFA.vdi;CFA.01;"Courants faibles : coffret VDI, prises RJ45/TV, interphone";1;ens;7601,84;7601,84;4564,94;12613,98;"1 par logement";
 Luxe / Premium;Courants faibles (VDI, interphone);CFA;CFA.securite;CFA.02;"Alarme et vidéosurveillance";1;ens;13440;13440;8640;23600;"alarme et vidéosurveillance";

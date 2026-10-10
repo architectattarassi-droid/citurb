@@ -237,6 +237,12 @@ export const OUVRAGES: Record<string, Ouvrage> = Object.fromEntries([
     composants: [mat("PORTE_ENTREE_BOIS", 1), mat("POSE_PORTE_MASSIF", 1.5)] }),
   O({ code: "BOI.07", lot: "BOI", libelle: "Placards : façades coulissantes et aménagement intérieur", unite: "ml", cps: "8", terriscan: "SO.03.A.02", sousTraite: true,
     composants: [mat("PLACARD", 1)] }),
+  ...(["TE", "MS", "S", "HS", "L"] as const).map((g, i) => O({
+    code: `BOI.1${i}`, lot: "BOI", unite: "ens", sousTraite: true, cps: "8",
+    libelle: `Cuisine aménagée posée — ${["très économique", "moyen standing", "standing", "haut standing", "luxe"][i]} (hors électroménager)`,
+    composants: [mat(`CUISINE_${g}`, 1)],
+    note: "Provision de programmation (relecture GPT 2026-10), à remplacer par le devis du cuisiniste.",
+  })),
   O({ code: "BOI.06", lot: "BOI", libelle: "Cuisine équipée sur mesure (hors électroménager), posée", unite: "ml", sousTraite: true,
     composants: [mat("CUISINE_ML", 1)] }),
 
@@ -249,6 +255,9 @@ export const OUVRAGES: Record<string, Ouvrage> = Object.fromEntries([
     composants: [mat("GC_VERRE", 1), mat("GC_POSE", 1)] }),
   O({ code: "MET.04", lot: "MET", libelle: "Garde-corps tout verre feuilleté, posé", unite: "ml", cps: "9", sousTraite: true,
     composants: [mat("GC_TOUT_VERRE", 1), mat("GC_POSE", 1)] }),
+
+  O({ code: "MET.05", lot: "MET", libelle: "Grilles de défense en fer, posées", unite: "m²", cps: "9", sousTraite: true,
+    composants: [mat("GRILLE_DEFENSE", 1)] }),
 
   // ── 12 Faux plafonds ───────────────────────────────────────────────────
   O({ code: "FPL.01", lot: "FPL", libelle: "Faux plafond BA13 sur ossature galvanisée", unite: "m²", cps: "18", terriscan: "SO.02.A.01",
@@ -310,6 +319,10 @@ export const OUVRAGES: Record<string, Ouvrage> = Object.fromEntries([
     composants: [mat("WC_ECO", 1), mat("LAVABO_ECO", 0.6, 0, "lave-mains"), mat("MIT_LAV_ECO", 1), mo("plombier", 3)] }),
   O({ code: "PLO.10", lot: "PLO", libelle: "Chutes et collecteurs EU/EV en PVC Ø100-125 (y compris raccords)", unite: "ml", cps: "14", terriscan: "TEC.02.A.02",
     composants: [mat("PVC_EVAC", 1, 0.1), mat("ACCESSOIRES_PLOMB", 0.15, 0, "raccords, colliers"), mo("plombier", 0.4), mo("manoeuvre", 0.3)] }),
+  O({ code: "PLO.11", lot: "PLO", libelle: "Descente d'eaux pluviales PVC Ø100 avec naissance et colliers", unite: "ml", cps: "14", terriscan: "TEC.02.A.02",
+    composants: [mat("PVC_EVAC", 1, 0.1), mat("ACCESSOIRES_PLOMB", 0.1, 0, "naissance, colliers"), mo("plombier", 0.3), mo("manoeuvre", 0.2)] }),
+  O({ code: "PLO.12", lot: "PLO", libelle: "Alimentation générale : regard compteur, nourrices EF/EC, vannes", unite: "ens", cps: "14", terriscan: "TEC.02.A.01",
+    composants: [mat("ALIM_GENERALE", 1), mat("PPR20", 20, 0.05, "branchement → nourrice"), mo("plombier", 8), mo("manoeuvre", 4)] }),
   O({ code: "PLO.08", lot: "PLO", libelle: "Chauffe-eau électrique 100 L avec groupe de sécurité", unite: "u", cps: "17", terriscan: "TEC.02.A.07",
     composants: [mat("CHAUFFE_EAU_100", 1), mat("ACCESSOIRES_PLOMB", 1), mo("plombier", 3)] }),
 
@@ -332,6 +345,10 @@ export const OUVRAGES: Record<string, Ouvrage> = Object.fromEntries([
   O({ code: "CFA.01", lot: "CFA", libelle: "Courants faibles : coffret VDI, prises RJ45/TV, interphone", unite: "ens", cps: "20", terriscan: "TEC.01.A.11",
     composants: [mat("VDI_FORFAIT", 1), mo("electricien", 8)] }),
 
+  O({ code: "ELE.08", lot: "ELE", libelle: "Luminaire LED de base posé (spot encastré ou plafonnier)", unite: "u", cps: "15", terriscan: "TEC.01.A.08",
+    composants: [mat("SPOT_LED", 1), mo("electricien", 0.25)] }),
+  O({ code: "ELE.09", lot: "ELE", libelle: "Tableau divisionnaire d'étage (coffret, différentiel, disjoncteurs)", unite: "ens", cps: "15",
+    composants: [mat("COFFRET42", 0.6, 0, "coffret 13-24 modules (prorata)"), mat("DISJ", 8), mat("ID30", 1), mo("electricien", 5)] }),
   O({ code: "CFA.02", lot: "CFA", libelle: "Alarme et vidéosurveillance", unite: "ens", sousTraite: true, composants: [mat("ALARME_VIDEO", 1)] }),
   O({ code: "CFA.03", lot: "CFA", libelle: "Domotique (éclairage, volets, climatisation)", unite: "ens", sousTraite: true, composants: [mat("DOMOTIQUE", 1)] }),
 

@@ -163,6 +163,14 @@ export const MATERIAUX: Record<string, PrixElementaire> = Object.fromEntries([
   P("PLACARD", "Façade de placard coulissante mélaminée avec aménagement", "ml", 1200, 1800, 2500, hyp("Aucun prix de placard dans les recherches")),
   P("ALARME_VIDEO", "Alarme et vidéosurveillance (4 caméras)", "ens", 8000, 12000, 20000, hyp("Lignes « alarme, vidéosurveillance » du corpus prestataires, non chiffrées dans les recherches")),
   P("DOMOTIQUE", "Domotique : éclairage, volets, clim pilotés", "ens", 25000, 40000, 70000, hyp("Aucun prix de domotique dans les recherches")),
+  P("SPOT_LED", "Spot LED encastré / plafonnier LED de base", "u", 57.9, 64.95, 72, src(I, ["dqe-reel-kenitra#16"], "A", "2026-07", "Prix comptoir constaté"), true),
+  P("ALIM_GENERALE", "Alimentation générale : regard compteur, nourrices EF/EC, vannes, réducteur", "ens", 1800, 2500, 3500, hyp("Lignes non chiffrées du DQE réel (dqe-reel-kenitra#29, #31)")),
+  P("GRILLE_DEFENSE", "Grille de défense en fer (fenêtres du RDC et du sous-sol), posée", "m²", 450, 650, 900, src(S, ["lc-gc-fer-forge"], "C", "2026-06", "Proxy : garde-corps en fer forgé 650-1 800 DH/ml (h ≈ 1 m) ; grille simple en bas de fourchette")),
+  P("CUISINE_TE", "Cuisine aménagée — très économique (caissons, plan stratifié, évier)", "ens", 10000, 15000, 25000, hyp("Provision : relecture GPT 2026-10 ; recherche cout-par-lot-standing : cuisines courantes 15 000-70 000 DH")),
+  P("CUISINE_MS", "Cuisine aménagée — moyen standing", "ens", 20000, 30000, 45000, hyp("Provision : relecture GPT 2026-10 ; recherche cout-par-lot-standing")),
+  P("CUISINE_S", "Cuisine aménagée — standing (laqué, plan quartz)", "ens", 35000, 50000, 70000, hyp("Provision : relecture GPT 2026-10 ; ArtMood confort 6 000-10 000 DH/ml (am-cuis-confort)")),
+  P("CUISINE_HS", "Cuisine aménagée — haut standing (îlot, plan pierre)", "ens", 70000, 100000, 150000, hyp("Provision : relecture GPT 2026-10 ; ArtMood premium 10 000-18 000 DH/ml (am-cuis-premium)")),
+  P("CUISINE_L", "Cuisine aménagée — luxe (sur mesure, électroménager intégré exclu)", "ens", 140000, 200000, 300000, hyp("Provision : relecture GPT 2026-10 ; recherche : jusqu'à 300 000 DH en haut standing")),
   P("VDI_FORFAIT", "Courants faibles : coffret VDI, RJ45, TV, interphone", "ens", 3000, 5000, 8000, hyp("Ligne non chiffrée du DQE réel (dqe-reel-kenitra#21)")),
 
   // Plomberie / sanitaire (Bricoma, prix promo en réf., prix normal en max)

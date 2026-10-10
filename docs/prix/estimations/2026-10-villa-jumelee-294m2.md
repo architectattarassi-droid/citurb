@@ -1,4 +1,4 @@
-# Estimation — villa jumelée, terrain 294 m², RDC + 1 étage + sous-sol
+# Estimation recalée après relectures — villa jumelée, terrain 294 m², RDC + 1 étage + sous-sol
 
 > Dossier généré le 10/10/2026 avec le moteur de chiffrage CITURBAREA (référentiel 2026-10), le même que https://citurbarea.com/chiffrage.
 > Objet : relecture critique par l'architecte, Claude et GPT. Les questions de relecture sont en fin de document.
@@ -28,11 +28,11 @@ Consultation du 2026-10-11. Données du client : terrain 294 m², villa jumelée
 
 | Standing | Réalisation | DH HT/m² bâtiment | Travaux HT | Aléas | TVA 20 % | Travaux TTC | Fourchette TTC | Honoraires TTC | Taxes + raccord. | Budget total TTC | Grille CITURBAREA |
 |:--|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|--:|
-| Très économique | tâcheron | 3 129 | 1 258 040 | 62 902 | 264 188 | **1 585 131** | 1 340 704 – 1 829 557 | 125 300 | 28 763 | **1 739 194** | 2 500–3 500 ✓ |
-| Moyen standing | entreprise | 4 073 | 1 628 965 | 81 448 | 342 083 | **2 052 496** | 1 791 218 – 2 313 774 | 162 245 | 28 763 | **2 243 504** | 4 000–5 200 ✓ |
-| Standing | entreprise | 4 832 | 1 914 651 | 95 733 | 402 077 | **2 412 460** | 2 106 159 – 2 718 761 | 190 699 | 28 763 | **2 631 922** | 5 500–7 000 (-12 %) |
-| Haut standing | entreprise | 5 948 | 2 335 423 | 116 771 | 490 439 | **2 942 633** | 2 580 518 – 3 304 748 | 232 607 | 28 763 | **3 204 003** | 7 500–9 500 (-21 %) |
-| Luxe / Premium | entreprise | 7 323 | 2 853 437 | 142 672 | 599 222 | **3 595 331** | 3 135 226 – 4 055 435 | 284 202 | 28 763 | **3 908 296** | 10 000–14 000 (-27 %) |
+| Très économique | tâcheron | 3 216 | 1 306 116 | 65 306 | 274 284 | **1 645 706** | 1 394 610 – 1 896 802 | 130 090 | 28 763 | **1 804 559** | 2 500–3 500 ✓ |
+| Moyen standing | entreprise | 4 194 | 1 708 493 | 85 425 | 358 783 | **2 152 701** | 1 881 130 – 2 424 271 | 170 165 | 28 763 | **2 351 628** | 4 000–5 200 ✓ |
+| Standing | entreprise | 5 013 | 2 040 031 | 102 002 | 428 407 | **2 570 440** | 2 247 474 – 2 893 405 | 203 188 | 28 763 | **2 802 390** | 5 500–7 000 (-9 %) |
+| Haut standing | entreprise | 6 117 | 2 513 263 | 125 663 | 527 785 | **3 166 712** | 2 774 179 – 3 559 245 | 250 320 | 28 763 | **3 445 795** | 7 500–9 500 (-18 %) |
+| Luxe / Premium | entreprise | 7 519 | 3 155 690 | 157 785 | 662 695 | **3 976 170** | 3 453 492 – 4 498 847 | 314 306 | 28 763 | **4 319 239** | 10 000–14 000 (-25 %) |
 
 Prix au m² « bâtiment » : hors clôture, portail, réseaux extérieurs et options, ramené à la surface plancher totale (sous-sol compris). Grille : coût du bâtiment ramené à la base Rabat-Salé-Kénitra.
 
@@ -40,11 +40,11 @@ Prix au m² « bâtiment » : hors clôture, portail, réseaux extérieurs et op
 
 | Standing | DH HT/m² bâtiment | Travaux TTC | Budget total TTC | Coût du sous-sol HT | dont soutènement HT |
 |:--|--:|--:|--:|--:|--:|
-| Très économique | 2 929 | 1 056 237 | 1 164 541 | 419 757 | 188 691 |
-| Moyen standing | 3 966 | 1 413 967 | 1 550 551 | 506 769 | 227 339 |
-| Standing | 5 054 | 1 769 037 | 1 933 687 | 510 653 | 227 339 |
-| Haut standing | 6 641 | 2 287 421 | 2 493 047 | 520 010 | 227 339 |
-| Luxe / Premium | 8 625 | 2 935 512 | 3 192 369 | 523 666 | 227 339 |
+| Très économique | 3 123 | 1 139 144 | 1 254 001 | 402 033 | 188 691 |
+| Moyen standing | 4 221 | 1 540 424 | 1 687 003 | 485 934 | 227 339 |
+| Standing | 5 390 | 1 950 822 | 2 129 841 | 491 760 | 227 339 |
+| Haut standing | 6 959 | 2 535 305 | 2 760 526 | 501 117 | 227 339 |
+| Luxe / Premium | 8 976 | 3 337 853 | 3 626 513 | 506 600 | 227 339 |
 
 ## 3. Coût par lot et par standing
 
@@ -52,29 +52,29 @@ Montants HT (DH), puis DH HT par m² de plancher total. Installation de chantier
 
 | Lot | Très économique | Moyen standing | Standing | Haut standing | Luxe / Premium |
 |:--|--:|--:|--:|--:|--:|
-| 00 Installation de chantier | 24 667 <br>65/m² · 2 % | 31 940 <br>85/m² · 2 % | 37 542 <br>100/m² · 2 % | 45 793 <br>122/m² · 2 % | 55 950 <br>148/m² · 2 % |
-| 01 Terrassements | 84 010 <br>223/m² · 7 % | 101 217 <br>269/m² · 6 % | 101 217 <br>269/m² · 5 % | 101 217 <br>269/m² · 4 % | 101 217 <br>269/m² · 4 % |
-| 02 Fondations, infrastructure et soutènement | 290 151 <br>770/m² · 23 % | 349 580 <br>928/m² · 21 % | 349 580 <br>928/m² · 18 % | 349 580 <br>928/m² · 15 % | 349 580 <br>928/m² · 12 % |
-| 03 Structure béton armé | 273 018 <br>725/m² · 22 % | 328 937 <br>873/m² · 20 % | 328 937 <br>873/m² · 17 % | 354 640 <br>941/m² · 15 % | 354 640 <br>941/m² · 12 % |
-| 04 Maçonnerie et enduits | 184 983 <br>491/m² · 15 % | 215 346 <br>572/m² · 13 % | 207 819 <br>552/m² · 11 % | 208 679 <br>554/m² · 9 % | 205 430 <br>545/m² · 7 % |
-| 05 Étanchéité et isolation | 38 138 <br>101/m² · 3 % | 49 874 <br>132/m² · 3 % | 58 773 <br>156/m² · 3 % | 58 773 <br>156/m² · 3 % | 58 773 <br>156/m² · 2 % |
-| 07 Façades (enduit et peinture extérieurs) | 32 754 <br>87/m² · 3 % | 38 853 <br>103/m² · 2 % | 55 448 <br>147/m² · 3 % | 79 311 <br>210/m² · 3 % | 112 194 <br>298/m² · 4 % |
-| 08 Menuiseries extérieures aluminium | 45 203 <br>120/m² · 4 % | 85 581 <br>227/m² · 5 % | 141 508 <br>376/m² · 7 % | 249 055 <br>661/m² · 11 % | 419 564 <br>1 113/m² · 15 % |
-| 09 Menuiseries intérieures bois et cuisine | 9 900 <br>26/m² · 1 % | 44 464 <br>118/m² · 3 % | 87 248 <br>232/m² · 5 % | 142 688 <br>379/m² · 6 % | 142 688 <br>379/m² · 5 % |
-| 10 Métallerie, ferronnerie | 9 180 <br>24/m² · 1 % | 14 112 <br>37/m² · 1 % | 25 536 <br>68/m² · 1 % | 25 536 <br>68/m² · 1 % | 36 288 <br>96/m² · 1 % |
-| 13 Revêtements de sols | 66 430 <br>176/m² · 5 % | 100 409 <br>266/m² · 6 % | 151 313 <br>402/m² · 8 % | 202 812 <br>538/m² · 9 % | 279 472 <br>742/m² · 10 % |
-| 14 Revêtements muraux (faïence) | 9 829 <br>26/m² · 1 % | 11 842 <br>31/m² · 1 % | 14 264 <br>38/m² · 1 % | 14 264 <br>38/m² · 1 % | 43 327 <br>115/m² · 2 % |
-| 15 Peinture intérieure | 47 801 <br>127/m² · 4 % | 61 480 <br>163/m² · 4 % | 61 209 <br>162/m² · 3 % | 90 210 <br>239/m² · 4 % | 89 386 <br>237/m² · 3 % |
-| 16 Plomberie sanitaire et eau chaude | 36 353 <br>96/m² · 3 % | 45 605 <br>121/m² · 3 % | 70 158 <br>186/m² · 4 % | 118 640 <br>315/m² · 5 % | 118 640 <br>315/m² · 4 % |
-| 17 Électricité | 28 003 <br>74/m² · 2 % | 37 350 <br>99/m² · 2 % | 55 110 <br>146/m² · 3 % | 62 470 <br>166/m² · 3 % | 71 582 <br>190/m² · 3 % |
+| 00 Installation de chantier | 25 610 <br>68/m² · 2 % | 33 500 <br>89/m² · 2 % | 40 001 <br>106/m² · 2 % | 49 280 <br>131/m² · 2 % | 61 876 <br>164/m² · 2 % |
+| 01 Terrassements | 81 953 <br>217/m² · 6 % | 98 739 <br>262/m² · 6 % | 98 739 <br>262/m² · 5 % | 98 739 <br>262/m² · 4 % | 98 739 <br>262/m² · 3 % |
+| 02 Fondations, infrastructure et soutènement | 272 014 <br>722/m² · 21 % | 327 727 <br>870/m² · 19 % | 327 727 <br>870/m² · 16 % | 327 727 <br>870/m² · 13 % | 327 727 <br>870/m² · 10 % |
+| 03 Structure béton armé | 273 018 <br>725/m² · 21 % | 328 937 <br>873/m² · 19 % | 328 937 <br>873/m² · 16 % | 354 640 <br>941/m² · 14 % | 354 640 <br>941/m² · 11 % |
+| 04 Maçonnerie et enduits | 200 760 <br>533/m² · 15 % | 234 354 <br>622/m² · 14 % | 226 827 <br>602/m² · 11 % | 228 891 <br>607/m² · 9 % | 225 641 <br>599/m² · 7 % |
+| 05 Étanchéité et isolation | 42 868 <br>114/m² · 3 % | 55 572 <br>147/m² · 3 % | 64 471 <br>171/m² · 3 % | 64 471 <br>171/m² · 3 % | 64 471 <br>171/m² · 2 % |
+| 07 Façades (enduit et peinture extérieurs) | 37 767 <br>100/m² · 3 % | 44 892 <br>119/m² · 3 % | 75 557 <br>201/m² · 4 % | 107 603 <br>286/m² · 4 % | 132 743 <br>352/m² · 4 % |
+| 08 Menuiseries extérieures aluminium | 45 203 <br>120/m² · 3 % | 85 581 <br>227/m² · 5 % | 141 508 <br>376/m² · 7 % | 249 055 <br>661/m² · 10 % | 419 564 <br>1 113/m² · 13 % |
+| 09 Menuiseries intérieures bois et cuisine | 24 900 <br>66/m² · 2 % | 78 064 <br>207/m² · 5 % | 143 248 <br>380/m² · 7 % | 254 688 <br>676/m² · 10 % | 366 688 <br>973/m² · 12 % |
+| 10 Métallerie, ferronnerie | 23 193 <br>62/m² · 2 % | 32 968 <br>87/m² · 2 % | 50 086 <br>133/m² · 2 % | 34 048 <br>90/m² · 1 % | 48 384 <br>128/m² · 2 % |
+| 13 Revêtements de sols | 66 430 <br>176/m² · 5 % | 100 409 <br>266/m² · 6 % | 151 313 <br>402/m² · 7 % | 202 812 <br>538/m² · 8 % | 279 472 <br>742/m² · 9 % |
+| 14 Revêtements muraux (faïence) | 13 105 <br>35/m² · 1 % | 15 789 <br>42/m² · 1 % | 19 018 <br>50/m² · 1 % | 19 018 <br>50/m² · 1 % | 57 769 <br>153/m² · 2 % |
+| 15 Peinture intérieure | 47 006 <br>125/m² · 4 % | 60 433 <br>160/m² · 4 % | 60 162 <br>160/m² · 3 % | 88 621 <br>235/m² · 4 % | 87 797 <br>233/m² · 3 % |
+| 16 Plomberie sanitaire et eau chaude | 41 996 <br>111/m² · 3 % | 52 403 <br>139/m² · 3 % | 76 957 <br>204/m² · 4 % | 125 551 <br>333/m² · 5 % | 125 551 <br>333/m² · 4 % |
+| 17 Électricité | 32 674 <br>87/m² · 3 % | 46 745 <br>124/m² · 3 % | 66 490 <br>176/m² · 3 % | 76 363 <br>203/m² · 3 % | 89 920 <br>239/m² · 3 % |
 | 22 Assainissement et réseaux extérieurs | 11 076 <br>29/m² · 1 % | 13 345 <br>35/m² · 1 % | 13 345 <br>35/m² · 1 % | 13 345 <br>35/m² · 1 % | 13 345 <br>35/m² · 0 % |
 | 23 Clôture, portail, piscine et extérieurs | 66 543 <br>177/m² · 5 % | 78 900 <br>209/m² · 5 % | 78 900 <br>209/m² · 4 % | 78 900 <br>209/m² · 3 % | 78 900 <br>209/m² · 3 % |
 | 12 Faux plafonds, plâtre et staff | — | 12 530 <br>33/m² · 1 % | 25 061 <br>67/m² · 1 % | 55 717 <br>148/m² · 2 % | 66 178 <br>176/m² · 2 % |
 | 18 Courants faibles (VDI, interphone) | — | 7 602 <br>20/m² · 0 % | 7 602 <br>20/m² · 0 % | 21 042 <br>56/m² · 1 % | 65 842 <br>175/m² · 2 % |
 | 19 Climatisation | — | — | 31 160 <br>83/m² · 2 % | 49 831 <br>132/m² · 2 % | 177 520 <br>471/m² · 6 % |
 | 21 Énergies renouvelables (solaire, photovoltaïque) | — | — | 12 922 <br>34/m² · 1 % | 12 922 <br>34/m² · 1 % | 12 922 <br>34/m² · 0 % |
-| **Total travaux HT** | **1 258 040**<br>3 339/m² | **1 628 965**<br>4 323/m² | **1 914 651**<br>5 081/m² | **2 335 423**<br>6 198/m² | **2 853 437**<br>7 573/m² |
-| Part du gros œuvre (bâtiment) | 64 % | 60 % | 51 % | 42 % | 34 % |
+| **Total travaux HT** | **1 306 116**<br>3 466/m² | **1 708 493**<br>4 534/m² | **2 040 031**<br>5 414/m² | **2 513 263**<br>6 670/m² | **3 155 690**<br>8 375/m² |
+| Part du gros œuvre (bâtiment) | 62 % | 58 % | 49 % | 41 % | 33 % |
 
 ## 4. Comparaison avec la recherche « coût par lot × standing »
 
@@ -85,60 +85,60 @@ Moteur calculé **sans sous-sol** (la recherche est hors sous-sol), en DH HT/m²
 | Terrassements | 32 / 60 (40–110) → -47 % ⚠ | 39 / 100 (75–175) → -61 % ⚠ | 39 / 130 (75–200) → -70 % ⚠ | 39 / 160 (100–450) → -76 % ⚠ | 39 / 220 (100–450) → -82 % ⚠ |
 | Fondations | 369 / 150 (115–250) → +146 % ⚠ | 444 / 300 (250–500) → +48 % ⚠ | 444 / 350 (250–500) → +27 % | 444 / 400 (300–700) → +11 % | 444 / 550 (400–700) → -19 % |
 | Structure béton armé | 732 / 600 (450–800) → +22 % | 882 / 950 (800–1 200) → -7 % | 882 / 1 200 (900–1 400) → -26 % | 950 / 1 450 (1 100–1 800) → -34 % ⚠ | 950 / 2 000 (1 500–2 500) → -52 % ⚠ |
-| Maçonnerie et enduits | 624 / 250 (200–350) → +150 % ⚠ | 723 / 450 (400–600) → +61 % ⚠ | 694 / 550 (400–750) → +26 % | 694 / 650 (450–750) → +7 % | 682 / 850 (650–1 000) → -20 % |
-| Étanchéité | 147 / 80 (60–150) → +84 % ⚠ | 192 / 150 (105–275) → +28 % | 227 / 180 (150–275) → +26 % | 227 / 220 (150–300) → +3 % | 227 / 300 (200–400) → -24 % |
-| Façades | 126 / 150 (100–250) → -16 % | 150 / 350 (280–450) → -57 % ⚠ | 214 / 450 (350–600) → -52 % ⚠ | 306 / 600 (400–900) → -49 % ⚠ | 433 / 900 (600–1 500) → -52 % ⚠ |
+| Maçonnerie et enduits | 685 / 250 (200–350) → +174 % ⚠ | 796 / 450 (400–600) → +77 % ⚠ | 767 / 550 (400–750) → +39 % ⚠ | 772 / 650 (450–750) → +19 % | 760 / 850 (650–1 000) → -11 % |
+| Étanchéité | 165 / 80 (60–150) → +107 % ⚠ | 214 / 150 (105–275) → +43 % ⚠ | 249 / 180 (150–275) → +38 % ⚠ | 249 / 220 (150–300) → +13 % | 249 / 300 (200–400) → -17 % |
+| Façades | 146 / 150 (100–250) → -3 % | 173 / 350 (280–450) → -51 % ⚠ | 291 / 450 (350–600) → -35 % ⚠ | 415 / 600 (400–900) → -31 % ⚠ | 512 / 900 (600–1 500) → -43 % ⚠ |
 | Menuiserie alu | 174 / 150 (45–250) → +16 % | 330 / 400 (300–500) → -17 % | 546 / 550 (450–750) → -1 % | 961 / 850 (650–1 100) → +13 % | 1 619 / 1 400 (1 000–2 000) → +16 % |
-| Menuiserie bois | 38 / 120 (50–170) → -68 % ⚠ | 172 / 300 (220–450) → -43 % ⚠ | 337 / 400 (300–600) → -16 % | 550 / 600 (400–900) → -8 % | 550 / 950 (600–1 500) → -42 % ⚠ |
-| Ferronnerie | 24 / 40 (20–80) → -41 % ⚠ | 36 / 100 (40–150) → -64 % ⚠ | 66 / 150 (100–330) → -56 % ⚠ | 66 / 220 (125–350) → -70 % ⚠ | 93 / 350 (200–500) → -73 % ⚠ |
+| Menuiserie bois | 96 / 120 (50–170) → -20 % | 301 / 300 (220–450) → +0 % | 553 / 400 (300–600) → +38 % ⚠ | 983 / 600 (400–900) → +64 % ⚠ | 1 415 / 950 (600–1 500) → +49 % ⚠ |
+| Ferronnerie | 72 / 40 (20–80) → +79 % ⚠ | 100 / 100 (40–150) → 0 % | 144 / 150 (100–330) → -4 % | 82 / 220 (125–350) → -63 % ⚠ | 117 / 350 (200–500) → -67 % ⚠ |
 | Faux plafonds | 0 / 30 (0–60) → -100 % ⚠ | 48 / 120 (80–200) → -60 % ⚠ | 97 / 170 (120–250) → -43 % ⚠ | 215 / 250 (180–400) → -14 % | 255 / 450 (300–800) → -43 % ⚠ |
 | Sols | 183 / 200 (100–250) → -8 % | 300 / 380 (280–500) → -21 % | 496 / 500 (380–700) → -1 % | 695 / 750 (550–1 000) → -7 % | 990 / 1 400 (900–2 600) → -29 % |
-| Murs (faïence) | 38 / 60 (30–70) → -37 % ⚠ | 46 / 120 (80–180) → -62 % ⚠ | 55 / 170 (120–250) → -68 % ⚠ | 55 / 260 (180–400) → -79 % ⚠ | 167 / 450 (300–800) → -63 % ⚠ |
-| Peinture | 144 / 70 (50–70) → +106 % ⚠ | 188 / 160 (80–230) → +18 % | 187 / 200 (150–280) → -6 % | 297 / 280 (200–400) → +6 % | 294 / 420 (280–700) → -30 % |
-| Plomberie + eau chaude solaire | 140 / 150 (20–200) → -6 % | 176 / 350 (200–450) → -50 % ⚠ | 321 / 450 (300–550) → -29 % | 508 / 600 (400–800) → -15 % | 508 / 900 (600–1 200) → -44 % ⚠ |
-| Électricité | 99 / 130 (20–200) → -24 % | 133 / 330 (250–400) → -60 % ⚠ | 202 / 420 (300–500) → -52 % ⚠ | 230 / 550 (400–750) → -58 % ⚠ | 265 / 750 (500–1 000) → -65 % ⚠ |
+| Murs (faïence) | 51 / 60 (30–70) → -16 % | 61 / 120 (80–180) → -49 % ⚠ | 73 / 170 (120–250) → -57 % ⚠ | 73 / 260 (180–400) → -72 % ⚠ | 223 / 450 (300–800) → -50 % ⚠ |
+| Peinture | 141 / 70 (50–70) → +101 % ⚠ | 184 / 160 (80–230) → +15 % | 183 / 200 (150–280) → -8 % | 291 / 280 (200–400) → +4 % | 288 / 420 (280–700) → -31 % ⚠ |
+| Plomberie + eau chaude solaire | 162 / 150 (20–200) → +8 % | 202 / 350 (200–450) → -42 % ⚠ | 347 / 450 (300–550) → -23 % | 534 / 600 (400–800) → -11 % | 534 / 900 (600–1 200) → -41 % ⚠ |
+| Électricité | 112 / 130 (20–200) → -14 % | 163 / 330 (250–400) → -50 % ⚠ | 240 / 420 (300–500) → -43 % ⚠ | 278 / 550 (400–750) → -50 % ⚠ | 330 / 750 (500–1 000) → -56 % ⚠ |
 | Courants faibles | 0 / 0 (0–0) → +0 % | 29 / 70 (50–120) → -58 % ⚠ | 29 / 150 (100–230) → -80 % ⚠ | 81 / 350 (175–500) → -77 % ⚠ | 254 / 800 (600–1 250) → -68 % ⚠ |
 | Climatisation | 0 / 0 (0–0) → +0 % | 0 / 150 (100–200) → -100 % ⚠ | 120 / 250 (175–300) → -52 % ⚠ | 192 / 350 (200–500) → -45 % ⚠ | 685 / 550 (400–800) → +25 % |
 
-Écarts supérieurs à 30 % (47) : Faux plafonds très économique -100 % ; Climatisation moyen standing -100 % ; Terrassements luxe / premium -82 % ; Courants faibles standing -80 % ; Murs (faïence) haut standing -79 % ; Courants faibles haut standing -77 % ; Terrassements haut standing -76 % ; Ferronnerie luxe / premium -73 % ; Terrassements standing -70 % ; Ferronnerie haut standing -70 % ; Courants faibles luxe / premium -68 % ; Menuiserie bois très économique -68 % ; Murs (faïence) standing -68 % ; Électricité luxe / premium -65 % ; Ferronnerie moyen standing -64 % ; Murs (faïence) luxe / premium -63 % ; Murs (faïence) moyen standing -62 % ; Terrassements moyen standing -61 % ; Faux plafonds moyen standing -60 % ; Électricité moyen standing -60 % ; Électricité haut standing -58 % ; Courants faibles moyen standing -58 % ; Façades moyen standing -57 % ; Ferronnerie standing -56 % ; Structure béton armé luxe / premium -52 % ; Façades standing -52 % ; Électricité standing -52 % ; Climatisation standing -52 % ; Façades luxe / premium -52 % ; Plomberie + eau chaude solaire moyen standing -50 % ; Façades haut standing -49 % ; Terrassements très économique -47 % ; Climatisation haut standing -45 % ; Plomberie + eau chaude solaire luxe / premium -44 % ; Faux plafonds luxe / premium -43 % ; Faux plafonds standing -43 % ; Menuiserie bois moyen standing -43 % ; Menuiserie bois luxe / premium -42 % ; Ferronnerie très économique -41 % ; Murs (faïence) très économique -37 % ; Structure béton armé haut standing -34 % ; Fondations moyen standing +48 % ; Maçonnerie et enduits moyen standing +61 % ; Étanchéité très économique +84 % ; Peinture très économique +106 % ; Fondations très économique +146 % ; Maçonnerie et enduits très économique +150 %.
+Écarts supérieurs à 30 % (48) : Faux plafonds très économique -100 % ; Climatisation moyen standing -100 % ; Terrassements luxe / premium -82 % ; Courants faibles standing -80 % ; Courants faibles haut standing -77 % ; Terrassements haut standing -76 % ; Murs (faïence) haut standing -72 % ; Terrassements standing -70 % ; Courants faibles luxe / premium -68 % ; Ferronnerie luxe / premium -67 % ; Ferronnerie haut standing -63 % ; Terrassements moyen standing -61 % ; Faux plafonds moyen standing -60 % ; Courants faibles moyen standing -58 % ; Murs (faïence) standing -57 % ; Électricité luxe / premium -56 % ; Structure béton armé luxe / premium -52 % ; Climatisation standing -52 % ; Façades moyen standing -51 % ; Murs (faïence) luxe / premium -50 % ; Électricité moyen standing -50 % ; Électricité haut standing -50 % ; Murs (faïence) moyen standing -49 % ; Terrassements très économique -47 % ; Climatisation haut standing -45 % ; Faux plafonds luxe / premium -43 % ; Faux plafonds standing -43 % ; Façades luxe / premium -43 % ; Électricité standing -43 % ; Plomberie + eau chaude solaire moyen standing -42 % ; Plomberie + eau chaude solaire luxe / premium -41 % ; Façades standing -35 % ; Structure béton armé haut standing -34 % ; Peinture luxe / premium -31 % ; Façades haut standing -31 % ; Menuiserie bois standing +38 % ; Étanchéité standing +38 % ; Maçonnerie et enduits standing +39 % ; Étanchéité moyen standing +43 % ; Fondations moyen standing +48 % ; Menuiserie bois luxe / premium +49 % ; Menuiserie bois haut standing +64 % ; Maçonnerie et enduits moyen standing +77 % ; Ferronnerie très économique +79 % ; Peinture très économique +101 % ; Étanchéité très économique +107 % ; Fondations très économique +146 % ; Maçonnerie et enduits très économique +174 %.
 
 ## 5. Sensibilité : sol, nappe, pente, mode de réalisation (moyen standing)
 
 | Scénario | Travaux TTC | Écart TTC | Fondation |
 |:--|--:|--:|--:|
-| Référence (bon sol, sans nappe, terrain plat) | 2 052 496 | +0 | semelles isolées |
-| Sol moyen (semelles filantes) | 2 117 827 | +65 331 | semelles filantes |
-| Argile / remblai (radier + purge) | 2 102 644 | +50 148 | radier général |
-| Rocher (brise-roche) | 2 235 668 | +183 172 | semelles isolées |
-| Nappe phréatique (cuvelage + épuisement) | 2 221 892 | +169 396 | radier général |
-| Pente 10 % | 2 145 034 | +92 538 | semelles isolées |
-| Réalisation par tâcheron | 1 716 574 | -335 922 | semelles isolées |
+| Référence (bon sol, sans nappe, terrain plat) | 2 152 701 | +0 | semelles isolées |
+| Sol moyen (semelles filantes) | 2 198 455 | +45 755 | semelles filantes |
+| Argile / remblai (radier + purge) | 2 234 117 | +81 417 | radier général |
+| Rocher (brise-roche) | 2 342 172 | +189 472 | semelles isolées |
+| Nappe phréatique (cuvelage + épuisement) | 2 353 365 | +200 665 | radier général |
+| Pente 10 % | 2 242 129 | +89 428 | semelles isolées |
+| Réalisation par tâcheron | 1 803 982 | -348 719 | semelles isolées |
 
 ## 6. DQE détaillé — Moyen standing — Entreprise générale (HT, frais et marge compris)
 
-### 00 Installation de chantier — 31 940 DH HT
+### 00 Installation de chantier — 33 500 DH HT
 
 2 % du montant des ouvrages (hypothèse).
 
-### 01 Terrassements — 101 217 DH HT
+### 01 Terrassements — 98 739 DH HT
 
 | Ouvrage | Code | Qté | U | PU HT | Montant HT | Quantité : formule | Fourchette PU |
 |:--|:--|--:|:--|--:|--:|:--|--:|
 | Décapage de la terre végétale sur 20 cm | TER.01 | 220,4 | m² | 13 | 2 916 | (√emprise + 2 × 2 m)² | 10–17 |
-| Fouilles en rigole et en trou pour fondations | TER.03 | 45,8 | m³ | 114 | 5 215 | béton de fondation × 1.6 | 84–150 |
+| Fouilles en rigole et en trou pour fondations | TER.03 | 34 | m³ | 114 | 3 876 | béton de fondation × 1.6 | 84–150 |
 | Déblai en pleine masse, terrain ordinaire | TER.02 | 494,9 | m³ | 53 | 26 023 | (√117,6 + 2 × 1 m)² × 3 m | 39–69 |
 | Blindage et soutènement provisoire des fouilles | TER.08 | 32,5 | m² | 345 | 11 223 | 1 côté(s) mitoyen(s) × 10,84 m × 3 m | 203–580 |
 | Remblai compacté en réemploi des déblais | TER.07 | 142,1 | m³ | 48 | 6 774 | remblai contre les voiles (surlargeur) | 35–63 |
-| Remblai compacté en réemploi des déblais | TER.07 | 17,2 | m³ | 48 | 818 | remblai des fouilles en réemploi | 35–63 |
-| Évacuation des déblais excédentaires (foisonnés) | TER.05 | 476,8 | m³ | 101 | 48 248 | (déblais 540,71 − réemploi 159,3) × 1.25 | 68–155 |
+| Remblai compacté en réemploi des déblais | TER.07 | 12,8 | m³ | 48 | 608 | remblai des fouilles en réemploi | 35–63 |
+| Évacuation des déblais excédentaires (foisonnés) | TER.05 | 467,6 | m³ | 101 | 47 319 | (déblais 528,95 − réemploi 154,89) × 1.25 | 68–155 |
 
-### 02 Fondations, infrastructure et soutènement — 349 580 DH HT
+### 02 Fondations, infrastructure et soutènement — 327 727 DH HT
 
 | Ouvrage | Code | Qté | U | PU HT | Montant HT | Quantité : formule | Fourchette PU |
 |:--|:--|--:|:--|--:|--:|:--|--:|
-| Béton armé pour semelles isolées | FON.02 | 24,5 | m³ | 2 602 | 63 733 | 0.065 m³/m² × 376,8 m² | 2 191–3 107 |
+| Béton armé pour semelles isolées | FON.02 | 17,1 | m³ | 2 602 | 44 605 | 0.065 m³/m² × 376,8 m² × (1 − 0.3 repris par le voile) | 2 191–3 107 |
 | Béton armé pour longrines | FON.05 | 4,1 | m³ | 4 193 | 17 274 | 0.035 m³/m² × emprise | 3 523–5 117 |
-| Béton de propreté B15, ép. 10 cm | FON.01 | 80,3 | m² | 130 | 10 414 | volume des semelles ÷ hauteur + longrines | 114–151 |
+| Béton de propreté B15, ép. 10 cm | FON.01 | 59,3 | m² | 130 | 7 690 | volume des semelles ÷ hauteur + longrines | 114–151 |
 | Béton armé pour amorces de poteaux | FON.06 | 0,9 | m³ | 5 275 | 4 958 | 0.008 m³/m² × emprise | 4 423–6 493 |
 | Hérisson / couche de forme en tout-venant, ép. 20 cm | FON.07 | 117,6 | m² | 60 | 7 082 | fond du sous-sol | 42–81 |
 | Dallage sur terre-plein en béton armé de treillis soudé, ép. 12 cm | FON.08 | 117,6 | m² | 293 | 34 461 | fond du sous-sol | 233–354 |
@@ -158,23 +158,27 @@ Moteur calculé **sans sous-sol** (la recherche est hors sous-sol), en DH HT/m²
 | Escalier en béton armé (paillasse et marches) | STR.06 | 3,6 | m³ | 4 420 | 15 911 | 2 volée(s) × 1.8 m³ | 3 698–5 471 |
 | Acrotère maçonné h 0,60 m avec chaînage et enduit | STR.08 | 48,8 | ml | 351 | 17 136 | périmètre de la toiture | 280–461 |
 
-### 04 Maçonnerie et enduits — 215 346 DH HT
+### 04 Maçonnerie et enduits — 234 354 DH HT
 
 | Ouvrage | Code | Qté | U | PU HT | Montant HT | Quantité : formule | Fourchette PU |
 |:--|:--|--:|:--|--:|--:|:--|--:|
 | Chape de ciment ép. 5 cm (support des revêtements) | MAC.07 | 103,5 | m² | 87 | 9 004 | sol du sous-sol | 71–108 |
 | Enduit de ciment intérieur dressé (murs) | MAC.05 | 146,4 | m² | 69 | 10 091 | face intérieure des voiles | 56–91 |
 | Enduit de ciment sous plafond | MAC.06 | 117,6 | m² | 76 | 8 925 | sous-face du plancher | 61–101 |
+| Mur en agglos creux de 15 cm | MAC.02 | 69,7 | m² | 204 | 14 207 | édicule 24 m² : périmètre × 3,25 m − porte | 151–287 |
+| Enduit de ciment intérieur dressé (murs) | MAC.05 | 69,7 | m² | 69 | 4 801 | face intérieure de l'édicule | 56–91 |
 | Mur en agglos creux de 20 cm | MAC.01 | 278,3 | m² | 244 | 68 023 | périmètre 48,8 m × 3,25 m × 2 niv. − baies 38,88 m² | 183–330 |
 | Cloison en agglos creux de 10 cm | MAC.03 | 227,9 | m² | 150 | 34 215 | 0.85 m²/m² × 259,2 m² | 107–220 |
 | Enduit de ciment intérieur dressé (murs) | MAC.05 | 734,2 | m² | 69 | 50 603 | 2 faces des cloisons + face intérieure des murs | 56–91 |
 | Enduit de ciment sous plafond | MAC.06 | 181,4 | m² | 76 | 13 771 | plafonds sans faux plafond (70 %) | 61–101 |
 | Chape de ciment ép. 5 cm (support des revêtements) | MAC.07 | 238,1 | m² | 87 | 20 715 | sols intérieurs + terrasses carrelées | 71–108 |
 
-### 05 Étanchéité et isolation — 49 874 DH HT
+### 05 Étanchéité et isolation — 55 572 DH HT
 
 | Ouvrage | Code | Qté | U | PU HT | Montant HT | Quantité : formule | Fourchette PU |
 |:--|:--|--:|:--|--:|--:|:--|--:|
+| Étanchéité bicouche bitume SBS (3 + 4 mm) soudée | ETA.02 | 24 | m² | 154 | 3 701 | toiture de l'édicule | 143–176 |
+| Protection lourde : chape 4 cm sur géotextile | ETA.03 | 24 | m² | 83 | 1 997 | toiture de l'édicule | 67–104 |
 | Forme de pente en mortier, ép. moyenne 6 cm | ETA.01 | 117,6 | m² | 102 | 11 937 | toiture-terrasse | 83–126 |
 | Étanchéité bicouche bitume SBS (3 + 4 mm) soudée | ETA.02 | 122,6 | m² | 154 | 18 908 | toiture + balcons en porte-à-faux (50 %) | 143–176 |
 | Protection lourde : chape 4 cm sur géotextile | ETA.03 | 117,6 | m² | 83 | 9 786 | toiture non accessible | 67–104 |
@@ -182,10 +186,11 @@ Moteur calculé **sans sous-sol** (la recherche est hors sous-sol), en DH HT/m²
 | Relevés d'étanchéité sur acrotères (h ≥ 15 cm) | ETA.06 | 48,8 | ml | 79 | 3 867 | périmètre des acrotères | 74–91 |
 | Étanchéité sous carrelage des pièces humides | ETA.07 | 15 | m² | 97 | 1 452 | 3 salle(s) de bain × 5 m² | 88–115 |
 
-### 07 Façades (enduit et peinture extérieurs) — 38 853 DH HT
+### 07 Façades (enduit et peinture extérieurs) — 44 892 DH HT
 
 | Ouvrage | Code | Qté | U | PU HT | Montant HT | Quantité : formule | Fourchette PU |
 |:--|:--|--:|:--|--:|--:|:--|--:|
+| Enduit extérieur 3 couches (échafaudage compris) | FAC.01 | 69,7 | m² | 87 | 6 039 | face extérieure de l'édicule | 70–114 |
 | Enduit extérieur 3 couches (échafaudage compris) | FAC.01 | 247,8 | m² | 87 | 21 484 | murs extérieurs × façades libres 0.75 + acrotères | 70–114 |
 | Peinture façade vinylique 2 couches sur impression | FAC.02 | 247,8 | m² | 70 | 17 369 | surface enduite | 57–89 |
 
@@ -197,18 +202,20 @@ Moteur calculé **sans sous-sol** (la recherche est hors sous-sol), en DH HT/m²
 | Volets roulants aluminium | ALU.05 | 11,7 | m² | 1 106 | 12 896 | 30 % des baies | 729–1 534 |
 | Porte d'entrée aluminium pleine, posée | ALU.06 | 1 | u | 6 278 | 6 278 | 1 porte(s) d'entrée | 4 136–9 298 |
 
-### 09 Menuiseries intérieures bois et cuisine — 44 464 DH HT
+### 09 Menuiseries intérieures bois et cuisine — 78 064 DH HT
 
 | Ouvrage | Code | Qté | U | PU HT | Montant HT | Quantité : formule | Fourchette PU |
 |:--|:--|--:|:--|--:|--:|:--|--:|
 | Bloc-porte intérieur complet, posé | BOI.02 | 11 | u | 2 576 | 28 336 | chambres + SdB + niveaux + 2 | 1 512–4 602 |
 | Placards : façades coulissantes et aménagement intérieur | BOI.07 | 8 | ml | 2 016 | 16 128 | 4 chambre(s) × 2 ml | 1 296–2 950 |
+| Cuisine aménagée posée — moyen standing (hors électroménager) | BOI.11 | 1 | ens | 33 600 | 33 600 | 1 cuisine aménagée par logement (provision selon le standing) | 21 600–53 100 |
 
-### 10 Métallerie, ferronnerie — 14 112 DH HT
+### 10 Métallerie, ferronnerie — 32 968 DH HT
 
 | Ouvrage | Code | Qté | U | PU HT | Montant HT | Quantité : formule | Fourchette PU |
 |:--|:--|--:|:--|--:|--:|:--|--:|
-| Garde-corps inox 304, posé | MET.02 | 12 | ml | 1 176 | 14 112 | escaliers + balcons + toit accessible | 702–1 770 |
+| Grilles de défense en fer, posées | MET.05 | 19,4 | m² | 728 | 14 152 | 50 % des baies (RDC, sous-sol) | 486–1 062 |
+| Garde-corps inox 304, posé | MET.02 | 16 | ml | 1 176 | 18 816 | escaliers + balcons + toit accessible | 702–1 770 |
 
 ### 12 Faux plafonds, plâtre et staff — 12 530 DH HT
 
@@ -225,31 +232,33 @@ Moteur calculé **sans sous-sol** (la recherche est hors sous-sol), en DH HT/m²
 | Carrelage grès cérame 60×60 collé, joints compris | RSO.02 | 10 | m² | 306 | 3 055 | balcons et terrasses (grès antidérapant) | 235–458 |
 | Plinthes assorties | RSO.06 | 136,9 | ml | 36 | 4 892 | 0.6 ml/m² de sol | 20–56 |
 
-### 14 Revêtements muraux (faïence) — 11 842 DH HT
+### 14 Revêtements muraux (faïence) — 15 789 DH HT
 
 | Ouvrage | Code | Qté | U | PU HT | Montant HT | Quantité : formule | Fourchette PU |
 |:--|:--|--:|:--|--:|--:|:--|--:|
-| Faïence murale 30×60 collée (gamme courante) | RMU.01 | 60 | m² | 197 | 11 842 | 3 SdB × 18 m² + 1 cuisine(s) × 6 m² | 157–232 |
+| Faïence murale 30×60 collée (gamme courante) | RMU.01 | 80 | m² | 197 | 15 789 | 3 SdB × 22 m² + 1 cuisine(s) × 8 m² + WC invités 6 m² | 157–232 |
 
-### 15 Peinture intérieure — 61 480 DH HT
+### 15 Peinture intérieure — 60 433 DH HT
 
 | Ouvrage | Code | Qté | U | PU HT | Montant HT | Quantité : formule | Fourchette PU |
 |:--|:--|--:|:--|--:|--:|:--|--:|
 | Enduit de lissage + vinylique 2 couches (gamme éco) | PEI.01 | 264 | m² | 48 | 12 643 | murs et plafond | 34–64 |
-| Enduit de lissage + vinylique lessivable 2 couches | PEI.02 | 933,4 | m² | 52 | 48 836 | murs enduits − faïence + plafonds | 39–70 |
+| Enduit de lissage + vinylique lessivable 2 couches | PEI.02 | 913,4 | m² | 52 | 47 790 | murs enduits − faïence + plafonds | 39–70 |
 
-### 16 Plomberie sanitaire et eau chaude — 45 605 DH HT
+### 16 Plomberie sanitaire et eau chaude — 52 403 DH HT
 
 | Ouvrage | Code | Qté | U | PU HT | Montant HT | Quantité : formule | Fourchette PU |
 |:--|:--|--:|:--|--:|--:|:--|--:|
 | Point d'eau : alimentation PPR + évacuation PVC + raccords | PLO.01 | 12 | u | 760 | 9 120 | 3 par SdB + 2 par cuisine + 1 extérieur | 578–1 139 |
 | Équipement salle de bain courante : WC, lavabo, douche à l'italienne | PLO.03 | 3 | u | 7 389 | 22 168 | 3 salle(s) de bain | 6 715–8 695 |
 | Évier de cuisine : mitigeur et raccordement | PLO.06 | 1 | u | 1 556 | 1 556 | 1 par cuisine | 1 490–1 852 |
+| Alimentation générale : regard compteur, nourrices EF/EC, vannes | PLO.12 | 1 | ens | 4 690 | 4 690 | 1 par logement | 3 428–6 868 |
+| Descente d'eaux pluviales PVC Ø100 avec naissance et colliers | PLO.11 | 22,5 | ml | 94 | 2 109 | 3 descentes × (3,25 m × 2 niv. + 1 m) | 67–134 |
 | WC invités : pack WC et lave-mains | PLO.09 | 1 | u | 2 785 | 2 785 | WC invités au RDC | 2 365–3 342 |
 | Chutes et collecteurs EU/EV en PVC Ø100-125 (y compris raccords) | PLO.10 | 30 | ml | 117 | 3 518 | 6 ml × (SdB + cuisines + WC) | 84–170 |
 | Chauffe-eau électrique 100 L avec groupe de sécurité | PLO.08 | 2 | u | 3 229 | 6 458 | 1 pour 2 SdB | 3 027–5 575 |
 
-### 17 Électricité — 37 350 DH HT
+### 17 Électricité — 46 745 DH HT
 
 | Ouvrage | Code | Qté | U | PU HT | Montant HT | Quantité : formule | Fourchette PU |
 |:--|:--|--:|:--|--:|--:|:--|--:|
@@ -257,8 +266,11 @@ Moteur calculé **sans sous-sol** (la recherche est hors sous-sol), en DH HT/m²
 | Prise de courant 2P+T 16 A encastrée (fil 2,5 mm²) | ELE.02 | 5 | u | 260 | 1 301 | 1 prise / 25 m² | 230–332 |
 | Point lumineux simple allumage encastré (gaine, fil 1,5 mm², interrupteur) | ELE.01 | 39 | u | 254 | 9 901 | 0.15/m² × densité 1 | 215–340 |
 | Prise de courant 2P+T 16 A encastrée (fil 2,5 mm²) | ELE.02 | 65 | u | 260 | 16 913 | 0.25/m² × densité 1 | 230–332 |
-| Circuit spécialisé (plaque, four, lave-linge, chauffe-eau, clim) | ELE.05 | 6 | u | 501 | 3 006 | circuits dédiés (+ 1 par appareil de clim) | 450–635 |
+| Circuit spécialisé (plaque, four, lave-linge, chauffe-eau, clim) | ELE.05 | 8 | u | 501 | 4 008 | circuits dédiés (+ 1 par appareil de clim) | 450–635 |
 | Tableau électrique équipé (coffret 42 modules, différentiels 30 mA) | ELE.06 | 1 | ens | 2 699 | 2 699 | 1 tableau par logement | 2 416–3 659 |
+| Tableau divisionnaire d'étage (coffret, différentiel, disjoncteurs) | ELE.09 | 2 | ens | 1 551 | 3 102 | 1 tableau divisionnaire par niveau supplémentaire | 1 378–2 091 |
+| Luminaire LED de base posé (spot encastré ou plafonnier) | ELE.08 | 39 | u | 97 | 3 768 | 39 points × 1 luminaire(s) de base | 81–119 |
+| Point lumineux simple allumage encastré (gaine, fil 1,5 mm², interrupteur) | ELE.01 | 6 | u | 254 | 1 523 | façades, jardin, portail | 215–340 |
 | Prise de terre et liaisons équipotentielles | ELE.07 | 1 | ens | 2 007 | 2 007 | 1 par bâtiment | 1 337–3 105 |
 
 ### 18 Courants faibles (VDI, interphone) — 7 602 DH HT
@@ -284,7 +296,7 @@ Moteur calculé **sans sous-sol** (la recherche est hors sous-sol), en DH HT/m²
 ## 7. Méthode de prix et hypothèses
 
 - Prix d'ouvrage = déboursé sec (matériaux + main-d'œuvre chargée CNSS 21,09 % + petit matériel 5 % de la MO) × K. K entreprise = 1.38 (frais de chantier 10 %, frais généraux 12 %, aléas et bénéfice 12 %) ; ouvrages fournis-posés par un sous-traitant × 1,12 ; tâcheron : K × 0,83 et fournitures achetées par le client (× 1,00).
-- 128 prix élémentaires sourcés dans docs/prix/recherche (fiabilité A/B/C) ou marqués H (hypothèse). TVA 20 % sur les travaux d'entreprise.
+- 136 prix élémentaires sourcés dans docs/prix/recherche (fiabilité A/B/C) ou marqués H (hypothèse). TVA 20 % sur les travaux d'entreprise.
 - Hypothèses de métré utilisées (toutes modifiables dans l'écran /chiffrage) :
 
 | Hypothèse | Valeur | Plage | Justification |
@@ -294,6 +306,7 @@ Moteur calculé **sans sous-sol** (la recherche est hors sous-sol), en DH HT/m²
 | Pente à partir de laquelle des soutènements sont nécessaires | 5 % | 3–8 |  |
 | Bande décapée autour de l'emprise | 2 m | 1–4 |  |
 | Bon sol : semelles isolées par m² de plancher | 0,065 m³/m² | 0.05–0.08 | Contrainte admissible 2 à 3 bars |
+| Semelles isolées allégées : charges de façade reprises par la semelle du voile | 0,3 — | 0–0.5 | Relecture 2026-10 : risque de double comptage semelles / semelle filante sous voile |
 | Longrines par m² d'emprise | 0,035 m³/m² | 0.025–0.05 |  |
 | Hauteur moyenne des semelles (pour le béton de propreté) | 0,35 m | 0.3–0.5 |  |
 | Fouilles / volume de béton de fondation | 1,6 — | 1.3–2.2 | Surlargeur de travail et talus |
@@ -308,24 +321,28 @@ Moteur calculé **sans sous-sol** (la recherche est hors sous-sol), en DH HT/m²
 | Béton des poutres, chaînages et linteaux par m² de plancher | 0,04 m³/m² | 0.035–0.07 | Portées 4-5 m |
 | Béton par volée d'escalier | 1,8 m³ | 1.2–2.5 | Escalier 1,10 m, paillasse 15 cm, 17 marches |
 | Cloisons intérieures par m² de plancher (HSP 2,9 m) | 0,85 m²/m² | 0.6–1.1 | ≈ 0,3 ml de cloison par m² × 2,9 m |
-| Faïence par salle de bain | 18 m² | 10–30 | Toute hauteur sur 3 faces d'une pièce de 5 m² |
-| Faïence par cuisine (crédence) | 6 m² | 3–15 | Crédence sur 4 à 6 ml |
+| Faïence par salle de bain | 22 m² | 10–35 | Toute hauteur, 4 faces d'une pièce de 5 m² moins la porte (relecture 2026-10 : 18 jugé court) |
+| Faïence par cuisine (crédence) | 8 m² | 3–15 | Crédence sur 5 à 6 ml, h 1,4 m |
+| Faïence du WC invités | 6 m² | 0–12 |  |
 | Étanchéité sous carrelage par salle de bain | 5 m² | 3–10 |  |
 | Placards par chambre | 2 ml | 0–4 |  |
-| Garde-corps par volée d'escalier | 4 ml | 3–8 |  |
+| Garde-corps par volée d'escalier | 6 ml | 3–10 | Rampe + garde-corps de trémie |
 | Garde-corps par m² de balcon / terrasse | 0,4 ml/m² | 0.2–0.8 |  |
+| Grilles de défense : part des baies équipées (RDC et sous-sol) | 0,5 — | 0–1 | Pratique courante en villa économique et moyen standing |
 | Plinthes par m² de sol | 0,6 ml/m² | 0.4–0.9 | Pièces de 12 à 20 m² |
+| Toiture desservie par descente d'eaux pluviales | 40 m² | 25–80 |  |
 | Chutes et collecteurs : ml par salle d'eau et cuisine, par niveau desservi | 6 ml | 3–10 | Colonne de chute + collecteur sous dallage |
 | Points lumineux par m² de plancher | 0,15 u/m² | 0.08–0.25 | ≥ 1 point par pièce (NF C 15-100 comme repère) |
 | Prises par m² de plancher | 0,25 u/m² | 0.15–0.4 |  |
-| Circuits spécialisés par logement (hors clim) | 6 u | 3–8 | Plaque, four, lave-linge, lave-vaisselle, chauffe-eau |
+| Circuits spécialisés par logement (hors clim) | 8 u | 3–12 | Plaque, four, hotte, lave-linge, lave-vaisselle, sèche-linge, chauffe-eau, extérieur |
+| Points lumineux extérieurs (façades, jardin, portail) | 6 u | 2–20 |  |
 | Réseau d'assainissement extérieur : longueur fixe ajoutée à √(terrain) | 10 ml | 0–40 |  |
 | Regards d'assainissement | 3 u | 2–8 |  |
 
 ## 8. Contrôles de cohérence
 
-- Grille CITURBAREA 2026 (Moyen standing) : 4 073 DH/m² base RSK pour 4000–5200 → dans la fourchette.
-- Part du gros œuvre : 60 % (repères EnginLoc : 55-60 % économique, 45-50 % standard).
+- Grille CITURBAREA 2026 (Moyen standing) : 4 194 DH/m² base RSK pour 4000–5200 → dans la fourchette.
+- Part du gros œuvre : 58 % (repères EnginLoc : 55-60 % économique, 45-50 % standard).
 - Prix d'ouvrage recoupés avec les prix posés du marché (règle ±20 %) : 18/19.
   - ✓ Maçonnerie d'agglos de 20 posée (m²) : 244 contre 180–250 (op-lechantier-agglo20)
   - ✓ Plancher hourdis complet (m²) : 449 contre 350–545 (op-lechantier-dalle-hourdis)
@@ -349,15 +366,15 @@ Moteur calculé **sans sous-sol** (la recherche est hors sous-sol), en DH HT/m²
 
 ## 9. Relecture Claude (points à vérifier en priorité)
 
-1. Fondations, risque de double comptage : les semelles isolées sont calculées sur 376,8 m² (sous-sol compris), en plus de la semelle filante sous le voile (10,3 m³). Sous le sous-sol, le voile porte la façade : le lot 02 pourrait être surestimé de 10 à 15 % (environ 15 000 à 25 000 DH).
-2. Voile périphérique : 161 m² × 983 DH = 158 000 DH, premier poste du sous-sol. L épaisseur (20 cm), le béton (B30) et l acier (100 kg/m³) sont des hypothèses à faire confirmer par le BET. Côté mitoyen, le voile est coulé contre le blindage avec une seule face coffrée : le coffrage y est surestimé.
-3. Évacuation des déblais : 477 m³ foisonnés à 101 DH/m³, soit 48 000 DH. Le prix du transport et de la décharge (60 DH/m³) est une hypothèse sans source ; il faut le remplacer par un devis de terrassier local.
-4. Électricité (environ 99 DH/m², 37 000 DH) et plomberie (environ 121 DH/m², 46 000 DH) en moyen standing : probablement bas pour une villa de 4 chambres et 3 salles de bain, luminaires exclus. À comparer à des devis réels de villa (le seul DQE réel disponible est un commerce de Kénitra, 215 à 255 DH/m² en électricité).
-5. Haut standing et luxe ressortent 21 à 27 % sous la grille CITURBAREA. Le sous-sol, fini simplement, fait baisser la moyenne au m² ; sans sous-sol, l écart tombe à −11 % et −14 %. Les lots de finition haut de gamme (menuiseries, revêtements, éclairage, domotique) sont probablement sous-dotés pour une villa de luxe.
-6. Sol argileux (+50 000 DH) moins cher que sol moyen (+65 000 DH) : avec un sous-sol, le radier remplace semelles, longrines, hérisson et dallage. C est cohérent au métré, mais à valider par l étude géotechnique (la purge de 40 cm est une hypothèse).
-7. Édicule de terrasse (forfait de 24 m²) : il est compté en plancher mais n a pas de murs propres dans le métré. La maçonnerie est donc sous-estimée d environ 25 m² (environ 6 000 DH).
-8. Prix unitaires principaux en ligne avec le marché : plancher hourdis 449 DH/m² (marché 350 à 545), agglo de 20 posé 244 DH/m² (180 à 250), étanchéité SBS 154 DH/m², alu RPT posé 1 708 DH/m² (1 150 à 1 800). Le béton armé en élévation (4 600 à 5 300 DH/m³) n a aucune référence publique pour le recouper : à comparer avec vos bordereaux.
-9. Très économique par tâcheron : 3 129 DH/m². Cela repose sur K × 0,83 et sur des fournitures (menuiseries, sanitaires) achetées directement par le client ; à confirmer par vos retours de chantier.
+1. CORRIGÉ (Claude + GPT) : les semelles isolées sont réduites de 30 % quand il y a un sous-sol, car les charges de façade passent par la semelle du voile. Lot 02 : 349 580 → 327 727 DH HT (cible GPT ≈ 320 000).
+2. À VALIDER PAR LE BET : voile périphérique de 20 cm en B30 avec 100 kg/m³ d acier ; côté mitoyen coulé contre le blindage, avec une seule face coffrée.
+3. À REMPLACER PAR UN DEVIS : évacuation des déblais à 60 DH/m³ (transport et décharge), hypothèse sans source.
+4. CORRIGÉ EN PARTIE (Claude + GPT + recherche) : électricité (luminaires LED de base, tableaux d étage, 8 circuits spécialisés, éclairage extérieur) et plomberie (alimentation générale, descentes d eaux pluviales). Moyen standing : électricité 124 DH/m², plomberie 139 DH/m² ; GPT propose 170 et 210, une fois les prestations définies.
+5. EN ATTENTE D UNE MATRICE DE PRESTATIONS : haut standing et luxe restent sous la grille et sous GPT (−18 % et −27 %).
+6. NON DÉMONTRÉ (GPT) : le sol argileux ressort moins cher que le sol moyen. La faisabilité géotechnique passe avant le coût.
+7. CORRIGÉ : murs, enduits et toiture de l édicule de 24 m² sont maintenant métrés.
+8. PU principaux (hourdis, agglos, étanchéité, alu RPT) dans les fourchettes du marché ; le béton armé en élévation reste sans référence publique.
+9. Très économique par tâcheron : 3 216 DH/m² avec sous-sol, 3 123 DH/m² sans. C est un scénario à encadrer (fournitures, fiscalité), pas un coefficient universel.
 
 ## 10. Questions pour la relecture
 
