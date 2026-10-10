@@ -3,6 +3,7 @@ import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
 import { PublicLayout } from "./layouts";
 import PageTracker from "../../../lib/PageTracker";
 import RouteMeta from "../../../lib/RouteMeta";
+import DeployWatcher from "../../../lib/DeployWatcher";
 import NotFound from "../../../ui/NotFound";
 import RouteError from "../../../ui/RouteError";
 import { VILLES_SEO } from "../../../ui/seo/portes.data";
@@ -20,6 +21,7 @@ function RootTracker() {
     <>
       <PageTracker />
       <RouteMeta />
+      <DeployWatcher />
       <Suspense fallback={<div style={{ minHeight: "60vh" }} aria-busy="true" />}>
         <Outlet />
       </Suspense>

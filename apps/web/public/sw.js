@@ -18,8 +18,9 @@
  *  - JAMAIS de cache pour /auth, /webhooks, /uploads (passthrough).
  *  - skipWaiting + clients.claim pour un déploiement rapide.
  */
-// v4 : purge des caches runtime pouvant contenir du HTML servi comme chunk.
-const SW_VERSION = "citurbarea-sw-v4";
+// v5 : purge des caches pouvant contenir du HTML servi comme chunk (v3) ou
+// des réponses API privées (no-store) mises en cache à tort (≤ v4).
+const SW_VERSION = "citurbarea-sw-v5";
 const PRECACHE = `${SW_VERSION}-precache`;
 const RUNTIME = `${SW_VERSION}-runtime`;
 const API_CACHE = `${SW_VERSION}-api`;
@@ -29,6 +30,7 @@ const API_CACHE = `${SW_VERSION}-api`;
 const PRECACHE_URLS = [
   "/",
   "/index.html",
+  "/offline.html",
   "/manifest.webmanifest",
   "/icons/icon-192.png",
   "/icons/icon-512.png",
@@ -42,6 +44,7 @@ const BYPASS_PREFIXES = [
   "/api/payment",
   "/api/cc",
   "/api/telemetry",
+  "/version.json", // sonde de déploiement : toujours le réseau
 ];
 
 self.addEventListener("install", (event) => {
@@ -94,6 +97,13 @@ function isStaticIcon(url) {
   );
 }
 
+// Le SW ne doit jamais conserver ce que le serveur interdit de stocker
+// (réponses privées : espace fournisseur, sessions…).
+function isStorable(res) {
+  const cc = (res.headers.get("cache-control") || "").toLowerCase();
+  return !cc.includes("no-store") && !cc.includes("private");
+}
+
 function isHtml(res) {
   return (res.headers.get("content-type") || "").includes("text/html");
 }
@@ -106,7 +116,12 @@ async function networkFirst(request, cacheName) {
   const cache = await caches.open(cacheName);
   try {
     const fresh = await fetch(request);
-    if (fresh && fresh.ok) cache.put(request, fresh.clone());
+    // Requête authentifiée ou réponse privée : jamais en cache.
+    if (fresh && fresh.ok && isStorable(fresh) && !request.headers.has("authorization")) {
+      cache.put(request, fresh.clone());
+    } else if (fresh && !isStorable(fresh)) {
+      cache.delete(request);
+    }
     return fresh;
   } catch (err) {
     const cached = await cache.match(request);
@@ -131,7 +146,7 @@ async function staleWhileRevalidate(request, cacheName) {
   const networkPromise = fetch(request)
     .then((res) => {
       // Jamais de HTML en runtime : un shell en cache référencerait d'anciens chunks.
-      if (res && res.ok && !isHtml(res)) cache.put(request, res.clone());
+      if (res && res.ok && !isHtml(res) && isStorable(res)) cache.put(request, res.clone());
       return res;
     })
     .catch(() => Response.error());
@@ -178,7 +193,9 @@ async function navigationFallback(request) {
   } catch {
     const cache = await caches.open(PRECACHE);
     const cached =
-      (await cache.match("/index.html")) || (await cache.match("/"));
+      (await cache.match("/index.html")) ||
+      (await cache.match("/")) ||
+      (await cache.match("/offline.html"));
     if (cached) return cached;
     return new Response(
       `<!doctype html><meta charset="utf-8"><title>Hors-ligne</title>

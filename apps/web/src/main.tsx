@@ -9,9 +9,12 @@ import { registerServiceWorker } from "./sw/register";
 import { startWebVitals } from "./lib/web-vitals";
 import { initLeadBridge } from "./features/lead-funnel/leadBridge";
 import { installChunkReloadHandler } from "./lib/chunkReload";
+import { startDeployWatch } from "./lib/deployWatch";
 
 // Avant le rendu : chunk lazy disparu après redéploiement → un rechargement.
 installChunkReloadHandler();
+// Nouveau build en ligne → rechargement à la navigation suivante.
+startDeployWatch();
 
 const rootEl = document.getElementById("root");
 if (!rootEl) throw new Error("Root element #root introuvable dans index.html");

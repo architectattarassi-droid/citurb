@@ -9,6 +9,8 @@
  * proposer un toast "nouvelle version disponible".
  */
 
+import { flagUpdatePending } from "../lib/deployWatch";
+
 export interface RegisterOptions {
   /** URL du SW (par défaut /sw.js). */
   swUrl?: string;
@@ -83,13 +85,15 @@ export function registerServiceWorker(opts: RegisterOptions = {}): void {
       });
   });
 
-  // Quand un nouveau SW prend le contrôle, recharger la page pour
-  // garantir une UX cohérente (pas de mix ancien JS / nouveau cache).
-  let refreshing = false;
+  // Quand un nouveau SW remplace l'ancien, recharger la page — mais à la
+  // navigation suivante (DeployWatcher), jamais au milieu d'une saisie.
+  // Première installation (aucun contrôleur au chargement) : clients.claim()
+  // déclenche aussi controllerchange, mais rien à rafraîchir — sans cette
+  // garde, chaque nouveau visiteur subissait un rechargement complet.
+  const hadController = Boolean(navigator.serviceWorker.controller);
   navigator.serviceWorker.addEventListener("controllerchange", () => {
-    if (refreshing) return;
-    refreshing = true;
-    window.location.reload();
+    if (!hadController) return;
+    flagUpdatePending("sw");
   });
 }
 
