@@ -73,6 +73,30 @@ export type ProjetInput = {
   cuisine?: boolean;
   /** Édicule de terrasse (cage, buanderie) inclus dans la surface plancher : murs, enduits et toiture métrés à part. */
   edicule?: number;
+  /** Système de fondation imposé (sinon déduit du sol : bon sol → isolées, moyen → filantes, argile/nappe → radier). */
+  fondation?: "SEMELLES_ISOLEES" | "SEMELLES_FILANTES" | "RADIER";
+  /** Système de plancher (défaut : corps creux selon le standing + 10 % de dalles pleines). */
+  plancher?: "HOURDIS_16" | "HOURDIS_20" | "DALLE_PLEINE";
+  /** Soutènements localisés, au mètre linéaire et à la hauteur réels. */
+  soutenements?: Soutenement[];
+};
+
+export type EmplacementSoutenement = "COUR_ANGLAISE" | "JARDIN" | "TERRASSE" | "LIMITE";
+export type Soutenement = {
+  emplacement: EmplacementSoutenement;
+  /** Linéaire (ml). */
+  longueur: number;
+  /** Hauteur de terre soutenue (m). Cour anglaise : défaut = profondeur du sous-sol. */
+  hauteur?: number;
+  /** Cour anglaise : largeur libre (m), défaut 1,5. */
+  largeur?: number;
+};
+
+export const LIBELLE_SOUTENEMENT: Record<EmplacementSoutenement, string> = {
+  COUR_ANGLAISE: "Cour anglaise",
+  JARDIN: "Mur de soutènement de jardin",
+  TERRASSE: "Soutènement de terrasse extérieure",
+  LIMITE: "Soutènement en limite de propriété",
 };
 
 export type Tag = "sous_sol" | "soutenement" | "sol" | "pente" | "option";
@@ -185,8 +209,9 @@ export function metre(input: ProjetInput): { lignes: LigneMetre[]; geometrie: Ge
   const Stot = Sp + Sss;
 
   // ── Fondation selon le sol ───────────────────────────────────────────
-  const radier = sol === "ARGILE_REMBLAI" || (!!ss && !!input.nappe);
-  const fondation: Geometrie["fondation"] = radier ? "RADIER" : sol === "MOYEN" ? "SEMELLES_FILANTES" : "SEMELLES_ISOLEES";
+  const fondationSol: Geometrie["fondation"] = sol === "ARGILE_REMBLAI" || (!!ss && !!input.nappe) ? "RADIER" : sol === "MOYEN" ? "SEMELLES_FILANTES" : "SEMELLES_ISOLEES";
+  const fondation: Geometrie["fondation"] = input.fondation ?? fondationSol;
+  const radier = fondation === "RADIER";
   const Efond = ss ? Math.max(E, Sss) : E;
   const surcoutPente = pente >= h("pente.seuil") ? (h("pente.surcoutFondations") * pente) / 100 : 0;
   const tagsSol: Tag[] = sol === "BON" ? [] : ["sol"];
@@ -211,7 +236,7 @@ export function metre(input: ProjetInput): { lignes: LigneMetre[]; geometrie: Ge
     const r = h(`fon.ratio.${sol}`);
     const allegement = ss ? h("ss.reductionSemelles") : 0;
     volFond = r * Stot * (1 + surcoutPente) * (1 - allegement);
-    add("FON.semelles", sol === "MOYEN" ? "FON.03" : "FON.02", volFond, `${r} m³/m² × ${fmt(Stot)} m²${surcoutPente ? ` × (1 + ${fmt(surcoutPente)} redans)` : ""}${allegement ? ` × (1 − ${allegement} repris par le voile)` : ""}`, "terrain", [`fon.ratio.${sol}`, ...(allegement ? ["ss.reductionSemelles"] : [])], tagsSol);
+    add("FON.semelles", fondation === "SEMELLES_FILANTES" ? "FON.03" : "FON.02", volFond, `${r} m³/m² × ${fmt(Stot)} m²${surcoutPente ? ` × (1 + ${fmt(surcoutPente)} redans)` : ""}${allegement ? ` × (1 − ${allegement} repris par le voile)` : ""}`, "terrain", [`fon.ratio.${sol}`, ...(allegement ? ["ss.reductionSemelles"] : [])], tagsSol);
     volLongrines = h("fon.longrines") * Efond;
     add("FON.longrines", "FON.05", volLongrines, `${h("fon.longrines")} m³/m² × emprise`, "terrain", ["fon.longrines"]);
     add("FON.proprete", "FON.01", volFond / h("fon.hauteurSemelle") + volLongrines / 0.4, "volume des semelles ÷ hauteur + longrines", "terrain", ["fon.hauteurSemelle"], tagsSol);
@@ -271,6 +296,39 @@ export function metre(input: ProjetInput): { lignes: LigneMetre[]; geometrie: Ge
     add("PENTE.drainage", "FON.12", Math.sqrt(A), "drain en pied du talus amont", "terrain", [], ["pente"]);
   }
 
+  // ── Soutènements localisés (cour anglaise, jardin, terrasse, limite) ─
+  (input.soutenements ?? []).forEach((st, i) => {
+    const L = Math.max(0, st.longueur);
+    if (!L) return;
+    const id = `SOUT${i + 1}`;
+    const nom = LIBELLE_SOUTENEMENT[st.emplacement];
+    const tg: Tag[] = ["soutenement"];
+    if (st.emplacement === "COUR_ANGLAISE") {
+      const H = st.hauteur ?? (Hss || 2.8);
+      const l = st.largeur ?? h("ca.largeur");
+      const deblai = L * l * H;
+      pleineMasse += deblai;
+      add(`${id}.deblai`, "TER.02", deblai, `${nom} : ${fmt(L)} ml × ${fmt(l)} m × ${fmt(H)} m`, "terrain", ["ca.largeur"], tg);
+      add(`${id}.voile`, "FON.10", L * (H + 0.3), `${nom} : voile côté terre ${fmt(L)} ml × (${fmt(H)} + 0,30) m`, "terrain", [], tg);
+      add(`${id}.semelle`, "FON.03", L * h("ss.semelleVoile"), `${nom} : ${fmt(L)} ml × ${h("ss.semelleVoile")} m³/ml`, "terrain", ["ss.semelleVoile"], tg);
+      add(`${id}.herisson`, "FON.07", L * l, `${nom} : fond ${fmt(L)} × ${fmt(l)} m`, "terrain", [], tg);
+      add(`${id}.fond`, "FON.08", L * l, `${nom} : dalle de fond`, "terrain", [], tg);
+      add(`${id}.drainage`, "FON.12", L, `${nom} : drain en pied`, "terrain", [], tg);
+      add(`${id}.etancheite`, "FON.13", L * H, `${nom} : face enterrée`, "terrain", [], tg);
+      add(`${id}.regard`, "VRD.02", Math.max(1, Math.ceil(L / 10)), `${nom} : évacuation des eaux (1 regard / 10 ml)`, "terrain", [], tg);
+      add(`${id}.enduit`, "FAC.01", L * H, `${nom} : parement vu`, "terrain", [], tg);
+      add(`${id}.gardeCorps`, g("MET").gardeCorps, L, `${nom} : garde-corps en tête`, "terrain", [], tg);
+    } else {
+      const H = st.hauteur ?? 1.5;
+      add(`${id}.mur`, "FON.11", L * H, `${nom} : ${fmt(L)} ml × ${fmt(H)} m${H > 3 ? " (au-delà de 3 m : mur à contreforts, à dimensionner)" : ""}`, "terrain", [], tg);
+      const fouille = L * (0.6 * H + 0.4) * 0.5;
+      fouilles += fouille;
+      add(`${id}.fouille`, "TER.03", fouille, `${nom} : semelle ${fmt(0.6 * H + 0.4)} m × 0,5 m`, "terrain", [], tg);
+      add(`${id}.drainage`, "FON.12", L, `${nom} : drain et massif drainant`, "terrain", [], tg);
+      if (st.emplacement === "LIMITE") add(`${id}.enduit`, "FAC.01", L * H, `${nom} : parement vu`, "terrain", [], tg);
+    }
+  });
+
   // Évacuation : tout ce qui n'est pas réemployé, foisonné
   const deblais = fouilles + pleineMasse + purge;
   const reemploi = remblaiFouilles + remblaiAutres;
@@ -283,8 +341,14 @@ export function metre(input: ProjetInput): { lignes: LigneMetre[]; geometrie: Ge
   const planchers = Math.max(E * n, Sp) + Sss;
   const partDP = h("geo.partDallePleine");
   // Plancher 20+5 en haut standing et luxe (portées plus grandes) : la structure suit le standing global.
-  add("STR.planchers", G.plancher, planchers * (1 - partDP), `planchers ${fmt(planchers)} m² × ${1 - partDP}`, "projet", ["geo.partDallePleine"]);
-  add("STR.dallesPleines", "STR.05", planchers * partDP * h("geo.epDallePleine"), `${fmt(planchers)} m² × ${partDP} × ${h("geo.epDallePleine")} m`, "projet", ["geo.partDallePleine", "geo.epDallePleine"]);
+  if (input.plancher === "DALLE_PLEINE") {
+    const ep = h("str.epDallePleineGenerale");
+    add("STR.dallesPleines", "STR.05", planchers * ep, `tous planchers en dalle pleine : ${fmt(planchers)} m² × ${ep} m`, "projet", ["str.epDallePleineGenerale"]);
+  } else {
+    const ouvPlancher = input.plancher === "HOURDIS_16" ? "STR.03" : input.plancher === "HOURDIS_20" ? "STR.04" : G.plancher;
+    add("STR.planchers", ouvPlancher, planchers * (1 - partDP), `planchers ${fmt(planchers)} m² × ${1 - partDP}`, "projet", ["geo.partDallePleine"]);
+    add("STR.dallesPleines", "STR.05", planchers * partDP * h("geo.epDallePleine"), `${fmt(planchers)} m² × ${partDP} × ${h("geo.epDallePleine")} m`, "projet", ["geo.partDallePleine", "geo.epDallePleine"]);
+  }
   add("STR.poteaux", "STR.01", h("str.poteaux") * Stot * (hsp / 2.9), `${h("str.poteaux")} m³/m² × ${fmt(Stot)} m² × HSP/2,9`, "projet", ["str.poteaux"]);
   add("STR.poutres", "STR.02", h("str.poutres") * Stot, `${h("str.poutres")} m³/m² × ${fmt(Stot)} m²`, "projet", ["str.poutres"]);
   const volees = (n - 1) + (ss ? 1 : 0) + (input.terrasseAccessible ? 1 : 0);

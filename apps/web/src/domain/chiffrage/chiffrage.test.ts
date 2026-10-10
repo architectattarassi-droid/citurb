@@ -232,3 +232,44 @@ describe("correspondance avec le catalogue CIT (contrat fournisseurs ↔ chiffra
     expect(prixComposantDepuisCIT("SABLE", {})).toBe(MATERIAUX.SABLE.ref);
   });
 });
+
+describe("quantitatif général, variantes et soutènements localisés", () => {
+  const JUMELEE: ProjetInput = { type: "VILLA", ville: "Salé", surfacePlancher: 0, niveaux: 2, surfaceTerrain: 294, parcelle: { villaType: "jumelee" }, sol: "BON", standing: "ECONOMIQUE", chambres: 4, sallesDeBain: 3, etapes: { terrain: true, finitions: true } };
+
+  it("retrouve les repères de praticien : gros œuvre ≈ 1 200 DH/m², semelles isolées ≈ 600 DH/m² d'emprise", async () => {
+    const { quantitatif } = await import("./quantitatif");
+    const q = quantitatif(chiffrer(JUMELEE, { impacts: false }));
+    expect(q.ratios.grosOeuvreStrictDhM2).toBeGreaterThan(1000);
+    expect(q.ratios.grosOeuvreStrictDhM2).toBeLessThan(1400);
+    expect(q.ratios.fondationsStrictesDhM2Emprise).toBeGreaterThan(500);
+    expect(q.ratios.fondationsStrictesDhM2Emprise).toBeLessThan(750);
+    const somme = q.general.reduce((s, g) => s + g.montantHT, 0);
+    expect(somme).toBeCloseTo(chiffrer(JUMELEE, { impacts: false }).travauxHT, -1);
+    expect(q.materiaux.find((m) => m.id === "BPE_B25")!.quantite).toBeGreaterThan(30);
+    expect(q.mainOeuvre.length).toBeGreaterThan(5);
+  });
+
+  it("dalle pleine généralisée : plus chère et plus d'acier que le plancher hourdis", async () => {
+    const { quantitatif } = await import("./quantitatif");
+    const h = chiffrer(JUMELEE, { impacts: false });
+    const d = chiffrer({ ...JUMELEE, plancher: "DALLE_PLEINE" }, { impacts: false });
+    expect(d.travauxHT).toBeGreaterThan(h.travauxHT);
+    expect(d.lignes.some((l) => l.ouvrage === "STR.03" || l.ouvrage === "STR.04")).toBe(false);
+    expect(quantitatif(d).ratios.acierKgParM2).toBeGreaterThan(quantitatif(h).ratios.acierKgParM2);
+  });
+
+  it("fondation imposée : radier choisi sur bon sol", () => {
+    const r = chiffrer({ ...JUMELEE, fondation: "RADIER" }, { impacts: false });
+    expect(r.geometrie.fondation).toBe("RADIER");
+    expect(r.lignes.some((l) => l.ouvrage === "FON.04")).toBe(true);
+  });
+
+  it("soutènements localisés : cour anglaise et mur de jardin au linéaire réel", () => {
+    const base = chiffrer({ ...JUMELEE, sousSol: { profondeur: 3 } }, { impacts: false });
+    const r = chiffrer({ ...JUMELEE, sousSol: { profondeur: 3 }, soutenements: [{ emplacement: "COUR_ANGLAISE", longueur: 10 }, { emplacement: "JARDIN", longueur: 20, hauteur: 1.5 }] }, { impacts: false });
+    expect(r.lignes.find((l) => l.id === "SOUT1.voile")!.qte).toBeCloseTo(10 * 3.3, 1);
+    expect(r.lignes.find((l) => l.id === "SOUT2.mur")!.qte).toBeCloseTo(30, 1);
+    expect(r.lignes.filter((l) => l.id.startsWith("SOUT")).every((l) => l.tags.includes("soutenement"))).toBe(true);
+    expect(r.travauxHT).toBeGreaterThan(base.travauxHT + 80000);
+  });
+});
