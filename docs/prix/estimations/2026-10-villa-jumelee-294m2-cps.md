@@ -22,7 +22,8 @@
 3. tableau des menuiseries, plans de plomberie, d'électricité, de mise à la terre et de courants faibles établis ;
 4. mentions « [à compléter] » renseignées (maître d'ouvrage, coefficient sismique…) ;
 5. clauses administratives relues par le conseil juridique du maître d'ouvrage ;
-6. offres d'entreprises recueillies et comparées au BPDE.
+6. offres d'entreprises recueillies et comparées au BPDE, avec la décomposition du forfait 00.01 et des frais de chantier (Annexe 4) ;
+7. variables contractuelles arrêtées : taux et modalités de calcul des intérêts de retard de paiement ; durée d'empêchement continu ouvrant droit à résiliation pour force majeure.
 
 **Arbitrages contractuels retenus** (modifiables avant signature) :
 
@@ -34,6 +35,11 @@
 | Assurances TRC et RCD | exigées contractuellement (ouvrage non assujetti à l'obligation légale) |
 | Délai de paiement des situations | 30 jours |
 | Plafond des pénalités de retard | 8 % du montant initial HT |
+| Avance de démarrage | aucune |
+| Intérêts de retard de paiement | **à renseigner avant signature** |
+| Remise du cautionnement définitif | 15 jours après notification de la signature (proposition) |
+| Délai des mises en demeure | 15 jours calendaires (proposition) |
+| Force majeure | réexamen après 30 jours ; résiliation après **durée à négocier avant signature** |
 
 ## TITRE I — CLAUSES ADMINISTRATIVES
 
@@ -52,7 +58,9 @@ Par ordre de priorité décroissante :
 6. le planning d'exécution approuvé ;
 7. les normes marocaines (NM), le Règlement de construction parasismique (RPS 2000, version 2011) et le Règlement thermique de construction au Maroc (RTCM) en vigueur ; les DTU et normes étrangères cités aux prescriptions techniques ne valent que comme règles de l'art de référence, à défaut de norme marocaine équivalente.
 
-En cas de discordance entre les quantités du BPDE et les plans d'exécution visés, les plans prévalent pour la consistance des ouvrages ; les prix unitaires du BPDE s'appliquent aux quantités réellement exécutées conformément à ces plans.
+En cas de contradiction entre deux pièces, la pièce de rang supérieur prévaut, sauf erreur matérielle manifeste constatée contradictoirement. Les prescriptions techniques du Titre II priment sur les désignations abrégées du BPDE.
+
+En cas de discordance entre les plans d'exécution et le BPDE, les quantités réellement exécutées sont rémunérées aux prix unitaires contractuels lorsque la nature et les conditions techniques d'exécution des ouvrages demeurent inchangées. Toute modification substantielle des caractéristiques d'un ouvrage — notamment sa résistance, sa géométrie, ses armatures, ses performances ou ses conditions d'exécution — fait l'objet, avant réalisation, d'un examen contradictoire et, si nécessaire, d'un prix nouveau arrêté par écrit entre les parties. La priorité des plans pour la détermination des ouvrages à réaliser ne dispense pas de formaliser par écrit les incidences financières et les modifications de délai.
 
 ### Article A.3 — Valeurs contractuelles arrêtées
 
@@ -60,13 +68,13 @@ Le CCAG-Travaux (décret n° 2-14-394) ne s'applique pas de plein droit au prés
 
 | Clause | Valeur retenue | Inspirée de (à titre indicatif) |
 |:--|:--|:--|
-| Cautionnement définitif | 3 % du montant initial du marché | CCAG-T art. 15 |
-| Retenue de garantie | 10 % de chaque acompte, plafonnée à 7 % du montant initial | CCAG-T art. 64 |
-| Pénalités de retard | 1/1 000 du montant initial par jour calendaire de retard | CCAG-T art. 65 |
-| Plafond des pénalités de retard | 8 % du montant initial du marché | CCAG-T art. 65 |
-| Plafond des pénalités particulières | 2 % du montant initial du marché | CCAG-T art. 66 |
+| Cautionnement définitif | 3 % du montant initial HT du marché | CCAG-T art. 15 |
+| Retenue de garantie | 10 % de chaque acompte, plafonnée à 7 % du montant initial HT | CCAG-T art. 64 |
+| Pénalités de retard | 1/1 000 du montant initial HT par jour calendaire de retard | CCAG-T art. 65 |
+| Plafond des pénalités de retard | 8 % du montant initial HT du marché | CCAG-T art. 65 |
+| Plafond des pénalités particulières | 2 % du montant initial HT du marché | CCAG-T art. 66 |
 | Délai de garantie | 12 mois à compter de la réception provisoire | CCAG-T art. 75 |
-| Augmentation de la masse des travaux | 10 % au plus du montant initial | CCAG-T |
+| Augmentation de la masse des travaux | 10 % au plus du montant initial HT ; au-delà, avenant écrit préalable fixant prix et délai | CCAG-T |
 | Acomptes sur approvisionnements | 4/5 de la valeur des matériaux approvisionnés | CCAG-T |
 | Délai d'exécution | 365 jours calendaires à compter de l'ordre de service | présent CPS |
 
@@ -92,9 +100,9 @@ En cas de désordre grave ou présentant un danger, le maître d'ouvrage peut pr
 
 ### Article A.6 — Garantie de parfait achèvement (1 an)
 
-L'entrepreneur est tenu, pendant un délai d'**un (1) an** à compter de la **réception provisoire**, d'une **garantie de parfait achèvement** au titre de laquelle il reprend à ses frais tous les désordres, défauts et malfaçons signalés soit dans les réserves consignées au procès-verbal de réception, soit par notification écrite du maître d'ouvrage en cours d'année de garantie.
+L'entrepreneur est tenu, pendant un (1) an à compter de la réception provisoire, d'une garantie de parfait achèvement : il reprend à ses frais les désordres, défauts et malfaçons consignés en réserves au procès-verbal de réception ou notifiés par écrit par le maître d'ouvrage pendant ce délai.
 
-Les travaux de reprise sont exécutés dans les délais fixés par le maître d'œuvre. À défaut, ils peuvent être exécutés aux frais et risques de l'entrepreneur défaillant. La réception définitive n'est prononcée qu'après levée de l'intégralité des réserves.
+Le maître d'œuvre fixe pour chaque reprise un délai d'exécution raisonnable, adapté à sa nature. À défaut d'exécution dans ce délai, le maître d'ouvrage met l'entrepreneur en demeure par écrit ; si la mise en demeure reste sans effet 15 jours calendaires après sa réception (délai réduit en cas d'urgence ou de risque pour la sécurité ou la conservation de l'ouvrage), les reprises peuvent être exécutées par un tiers aux frais et risques de l'entrepreneur, après constat contradictoire ou, à défaut, constat d'huissier. La réception définitive n'est prononcée qu'après levée de l'intégralité des réserves.
 
 *Fondement : Stipulation contractuelle (durée usuelle, CCAG-Travaux cité à titre de référence) ; sans préjudice de l'article 769 du DOC.*
 
@@ -108,47 +116,43 @@ Les éléments d'équipement dissociables du gros œuvre (appareils sanitaires, 
 
 L'obligation légale d'assurance Tous Risques Chantier (Code des assurances modifié par la loi 59-13, textes d'application en vigueur depuis le 30 décembre 2024) vise, pour l'habitat, les bâtiments de plus de trois étages ou de plus de 800 m². Le présent ouvrage n'y étant pas assujetti au vu de ses caractéristiques, les parties conviennent expressément de la souscrire à titre contractuel, en raison notamment du sous-sol, des soutènements et de la mitoyenneté.
 
-Le maître d'ouvrage souscrit une police TRC couvrant l'ouvrage pour le montant des travaux, la responsabilité civile envers les tiers et les avoisinants, pour toute la durée du chantier. Franchises, plafonds et exclusions sont précisés aux conditions particulières ; l'attestation est remise avant l'ordre de service de commencer.
+Le maître d'ouvrage souscrit une police TRC couvrant l'ouvrage pour le montant des travaux, la responsabilité civile envers les tiers et les avoisinants, pour toute la durée du chantier. L'attestation, remise avant l'ordre de service de commencer, identifie l'assureur, le numéro de police, le montant assuré, les plafonds, franchises et exclusions ; la garantie des avoisinants (sous-sol et mitoyenneté) doit y être expressément acceptée par l'assureur. L'étendue des garanties est confirmée par l'assureur avant la signature du marché.
 
 *Fondement : Loi 17-99 portant Code des assurances, modifiée par la loi 59-13, et textes d'application en vigueur depuis le 30/12/2024 ; stipulation contractuelle.*
 
 ### Article A.9 — Assurance de responsabilité civile décennale
 
-L'entrepreneur, ainsi que l'architecte et les bureaux d'études intervenants, justifient avant l'ordre de service de commencer d'une assurance de responsabilité civile décennale couvrant les ouvrages du présent marché, exigée à titre contractuel (l'obligation légale ne visant que les bâtiments résidentiels de plus de trois étages ou de plus de 800 m²). L'absence d'assujettissement légal ne supprime pas la responsabilité décennale prévue par le DOC.
+L'entrepreneur justifie, avant l'ordre de service de commencer, d'une assurance de responsabilité civile décennale couvrant les ouvrages du présent marché, exigée à titre contractuel (l'obligation légale ne visant que les bâtiments résidentiels de plus de trois étages ou de plus de 800 m²). L'attestation identifie l'assureur, le numéro de police, les ouvrages couverts, les plafonds et franchises ; l'assurabilité de l'ouvrage et l'étendue des garanties sont confirmées par l'assureur avant la signature du marché.
+
+Les obligations d'assurance de l'architecte et des bureaux d'études relèvent de leurs contrats respectifs avec le maître d'ouvrage. L'absence d'assujettissement légal ne supprime pas la responsabilité décennale prévue par l'article 769 du DOC.
 
 *Fondement : Loi 17-99 portant Code des assurances, modifiée par la loi 59-13, et textes d'application en vigueur depuis le 30/12/2024 ; DOC, art. 769 ; stipulation contractuelle.*
 
-### Article A.10 — Responsabilité civile professionnelle de l'architecte
-
-L'architecte justifie, avant l'ordre de service de commencer, d'une assurance de responsabilité civile professionnelle couvrant sa mission, conformément aux obligations découlant de la loi n° 016-89 relative à l'exercice de la profession d'architecte et des règles de l'Ordre. L'attestation en cours de validité est annexée au marché.
-
-*Fondement : Loi 016-89 (article précis à vérifier lors de la mise au point).*
-
-### Article A.11 — Situations, délais de paiement et intérêts de retard
+### Article A.10 — Situations, délais de paiement et intérêts de retard
 
 Les situations de travaux sont établies mensuellement par l'entrepreneur, vérifiées par le maître d'œuvre et réglées par le maître d'ouvrage dans un délai de 30 jours à compter de leur réception vérifiée.
 
-Tout retard de paiement imputable au maître d'ouvrage ouvre droit, après mise en demeure, à des intérêts de retard au taux convenu aux conditions particulières. Lorsque le maître d'ouvrage agit en qualité de professionnel, les dispositions légales impératives relatives aux délais de paiement entre commerçants (loi 69-21) s'appliquent ; leur applicabilité est vérifiée lors de la mise au point du marché.
+Tout retard de paiement imputable au maître d'ouvrage ouvre droit, après mise en demeure, à des intérêts de retard dont le taux et les modalités de calcul sont arrêtés au tableau des arbitrages (**variable à renseigner avant signature** ; à défaut, régime légal applicable selon la qualité du maître d'ouvrage). Lorsque le maître d'ouvrage agit en qualité de professionnel, les dispositions légales impératives relatives aux délais de paiement entre commerçants (loi 69-21) s'appliquent ; leur applicabilité est vérifiée lors de la mise au point du marché.
 
 *Fondement : Stipulation contractuelle ; loi 69-21 sous réserve de son champ d'application.*
 
-### Article A.12 — Avance, acomptes et situations de travaux
+### Article A.11 — Avance, acomptes et situations de travaux
 
-Une **avance de démarrage** peut être consentie à l'entrepreneur dans la limite contractuelle (usuellement **≤ 10 % du montant du marché**), garantie par une **caution bancaire de restitution d'avance** et récupérée par déduction proportionnelle sur les acomptes.
+Aucune avance de démarrage n'est prévue au présent marché.
 
-Les paiements s'effectuent par **acomptes mensuels** sur la base des **situations de travaux** établies par l'entrepreneur, contradictoirement vérifiées et arrêtées par le maître d'œuvre. Le **décompte général et définitif** est établi après réception et levée des réserves. Les délais et intérêts de retard de la clause « Délais de paiement » s'appliquent à chaque acompte.
+Les paiements s'effectuent par acomptes mensuels sur la base des situations de travaux établies par l'entrepreneur, contradictoirement vérifiées et arrêtées par le maître d'œuvre. Le décompte général et définitif est établi après réception et levée des réserves. Les délais et intérêts de retard de l'article « Situations, délais de paiement et intérêts de retard » s'appliquent à chaque acompte.
 
 *Fondement : Stipulation contractuelle.*
 
-### Article A.13 — Délai d'exécution et ordres de service
+### Article A.12 — Délai d'exécution et ordres de service
 
-Le **délai global d'exécution** des travaux est fixé à **365 jours** calendaires, courant à compter de la date de notification de l'**ordre de service (OS) de commencer les travaux**.
+Le délai global d'exécution des travaux est fixé à 365 jours calendaires à compter de la notification de l'ordre de service (OS) de commencer les travaux. Le planning détaillé (chemin critique, jalons, plannings par lot) est soumis au maître d'œuvre dans les quinze jours suivant cet OS.
 
-Le planning détaillé (chemin critique, jalons, plannings par lot) est soumis au maître d'œuvre dans les **15 jours** suivant l'OS. Les prolongations de délai ne peuvent résulter que d'OS écrits, de cas de force majeure dûment constatés, d'intempéries au-delà des seuils contractuels, ou de sujétions imprévues approuvées par le maître d'ouvrage. Toute suspension de chantier fait l'objet d'un OS et d'un constat contradictoire.
+Le délai n'est prolongé que par : un OS écrit ; un cas de force majeure notifié et constaté dans les conditions de l'article « Force majeure » ; des journées d'intempéries ayant rendu impossible ou dangereuse l'exécution des ouvrages en cours, constatées contradictoirement au journal de chantier le jour même, avec relevé météorologique à l'appui ; des sujétions imprévues approuvées par écrit par le maître d'ouvrage. Chaque journée ainsi constatée prolonge le délai d'autant ; la demande de prolongation est présentée au plus tard avec la situation mensuelle suivante. Toute suspension de chantier fait l'objet d'un OS et d'un constat contradictoire.
 
-*Fondement : CCAG-Travaux (ordres de service, délais) + pratique contractuelle — CCAG-Travaux cité à titre de référence, non applicable de plein droit.*
+*Fondement : Stipulation contractuelle.*
 
-### Article A.14 — Pénalités de retard
+### Article A.13 — Pénalités de retard
 
 Sauf prolongation de délai régulièrement accordée, tout retard imputable à l'entrepreneur dans l'achèvement des travaux donne lieu à une pénalité égale à un pour mille (1 ‰) du montant initial HT du marché par jour calendaire de retard.
 
@@ -156,7 +160,7 @@ Le montant cumulé des pénalités de retard est plafonné à huit pour cent (8 
 
 *Fondement : Stipulation contractuelle (valeurs reprises du CCAG-Travaux, art. 65, à titre de référence).*
 
-### Article A.15 — Retenue de garantie
+### Article A.14 — Retenue de garantie
 
 Une **retenue de garantie** est opérée sur chaque acompte, au taux de **dix pour cent (10 %)**, dans la limite d'un plafond cumulé de **sept pour cent (7 %) du montant du marché**, destinée à couvrir les réserves et l'obligation de parfait achèvement.
 
@@ -164,59 +168,61 @@ La retenue de garantie peut être **remplacée, à l'initiative de l'entrepreneu
 
 *Fondement : CCAG-Travaux : retenue de garantie 10 % plafonnée à 7 %, remplaçable par caution bancaire — CCAG-Travaux cité à titre de référence, non applicable de plein droit.*
 
-### Article A.16 — Cautionnement définitif et garanties bancaires
+### Article A.15 — Cautionnement définitif
 
-L'entrepreneur constitue un **cautionnement définitif** d'un montant de **trois pour cent (3 %) du montant du marché**, dans le délai contractuel suivant la notification de l'approbation du marché, sous forme de caution bancaire émise par un établissement agréé par Bank Al-Maghrib.
+L'entrepreneur remet, dans les 15 jours calendaires suivant la notification de la signature du marché, un cautionnement définitif de trois pour cent (3 %) du montant initial HT du marché, sous forme de caution bancaire émise par un établissement agréé par Bank Al-Maghrib. Sa remise est une condition préalable à la notification de l'ordre de service de commencer.
 
-Le cautionnement définitif garantit la bonne exécution du marché. Il est **restitué après la réception définitive** des travaux, déduction faite des sommes éventuellement dues. Les autres garanties bancaires (restitution d'avance, retenue de garantie) sont régies par leurs clauses propres.
+Le cautionnement garantit la bonne exécution du marché. Il est restitué après la réception définitive, déduction faite des sommes éventuellement dues. Les autres garanties bancaires (restitution d'avance, retenue de garantie) sont régies par leurs articles propres.
 
-*Fondement : CCAG-Travaux + pratique des marchés (cautionnement définitif 3 %) — CCAG-Travaux cité à titre de référence, non applicable de plein droit.*
+*Fondement : Stipulation contractuelle (délai proposé, non légal ; taux inspiré du CCAG-Travaux à titre de référence).*
 
-### Article A.17 — Caractère des prix
+### Article A.16 — Caractère des prix
 
 Les prix du marché sont fermes et non révisables pendant toute la durée contractuelle d'exécution. Seules les modifications de prestations acceptées par écrit (article « Nature et règlement des prix ») peuvent faire varier le montant du marché.
 
 *Fondement : Stipulation contractuelle.*
 
-### Article A.18 — Réceptions
+### Article A.17 — Réceptions
 
 La réception provisoire est prononcée par procès-verbal contradictoire après achèvement des travaux, essais et vérifications ; les réserves y sont consignées avec leur délai de levée. Elle fait courir la garantie de parfait achèvement (1 an) et la garantie contractuelle de bon fonctionnement (2 ans), et transfère la garde de l'ouvrage.
+
+La demande de réception est accompagnée du dossier des ouvrages exécutés (DOE : plans conformes à l'exécution, notices et garanties des équipements, procès-verbaux d'essais). Un DOE incomplet est consigné en réserve ; la retenue de garantie n'est libérée qu'après sa remise complète.
 
 La réception définitive est prononcée par procès-verbal contradictoire à l'expiration du délai de parfait achèvement et après levée de toutes les réserves ; elle conditionne la libération de la retenue de garantie et du cautionnement. Aucune réception ne vaut renonciation aux droits que le maître d'ouvrage tient de l'article 769 du DOC.
 
 *Fondement : Stipulation contractuelle ; DOC, art. 769.*
 
-### Article A.19 — Résiliation du marché
+### Article A.18 — Résiliation du marché
 
-Le marché peut être résilié par le maître d'ouvrage, après mise en demeure restée sans effet dans le délai qu'elle fixe, en cas de manquement grave de l'entrepreneur à ses obligations, d'abandon de chantier, de défaut de production des attestations d'assurance exigées par le marché, de retard atteignant le plafond des pénalités ou d'ouverture d'une procédure collective dans les conditions légales. La résiliation donne lieu à un constat contradictoire des travaux exécutés et à un décompte ; les travaux restants peuvent être confiés à un tiers aux frais et risques de l'entrepreneur défaillant.
+Le marché peut être résilié par le maître d'ouvrage, après mise en demeure écrite restée sans effet 15 jours calendaires après sa réception, en cas de manquement grave de l'entrepreneur à ses obligations, d'abandon de chantier, de défaut de production des attestations d'assurance exigées par le marché, de retard atteignant le plafond des pénalités ou d'ouverture d'une procédure collective dans les conditions légales.
 
-*Fondement : DOC (résolution pour inexécution) ; stipulation contractuelle.*
+La décision de résiliation est notifiée par écrit. Dans les quinze jours qui suivent, un constat contradictoire est dressé en présence des deux parties et du maître d'œuvre (ou, en cas de carence de l'entrepreneur dûment convoqué, par huissier de justice) : travaux exécutés, ouvrages en cours, approvisionnements et matériel présents, état de sécurité du chantier. Le décompte de résiliation reprend les travaux exécutés aux prix du marché, les approvisionnements acceptés, les pénalités encourues et, le cas échéant, le surcoût d'achèvement par un tiers aux frais et risques de l'entrepreneur défaillant ; il est notifié à l'entrepreneur, qui dispose de trente jours pour présenter ses observations.
 
-### Article A.20 — Force majeure
+*Fondement : DOC (résolution pour inexécution) ; stipulation contractuelle (délais proposés, non légaux).*
 
-Conformément à l'**article 268 du DOC**, le débiteur est exonéré de toute responsabilité lorsque l'inexécution de l'obligation provient d'une cause qui ne peut lui être imputée, telle que la **force majeure** ou le **cas fortuit**, et qu'il n'a pas pris à sa charge les risques par une clause expresse.
+### Article A.19 — Force majeure
 
-L'**article 269 du DOC** définit la force majeure comme tout fait que l'homme ne peut prévenir, tel que les phénomènes naturels (inondations, séismes, sécheresse), les faits du prince, ou tout événement extérieur, imprévisible et irrésistible.
+Aucune partie n'est responsable de l'inexécution de ses obligations lorsqu'elle provient d'un cas de force majeure ou d'un cas fortuit au sens des articles 268 et 269 du DOC.
 
-La partie affectée notifie l'événement à l'autre partie **sans délai** par écrit, en justifie la réalité et les conséquences. La force majeure suspend les délais d'exécution pour la durée de l'empêchement ; si elle se prolonge au-delà du seuil contractuel, le marché peut être résilié sans pénalité.
+La partie affectée notifie l'événement par écrit dans les meilleurs délais, avec ses justificatifs et ses conséquences prévisibles. L'empêchement est constaté contradictoirement ; les délais d'exécution sont suspendus pour sa durée et les mesures conservatoires nécessaires sont prises. Après 30 jours d'empêchement continu, les parties réexaminent contradictoirement la situation (mesures conservatoires, planning, coûts de maintien du chantier).
 
-*Fondement : DOC art. 268 (exonération) + art. 269 (définition de la force majeure).*
+La durée d'empêchement continu ouvrant droit à résiliation sans indemnité ni pénalité est arrêtée au tableau des arbitrages (**variable à renseigner avant signature**) ; la résiliation donne lieu à un décompte contradictoire des travaux exécutés.
 
-### Article A.21 — Sous-traitance
+*Fondement : DOC, art. 268 et 269 ; stipulation contractuelle.*
+
+### Article A.20 — Sous-traitance
 
 Toute sous-traitance est subordonnée à l'information préalable et à l'acceptation écrite du maître d'ouvrage, sur proposition indiquant l'identité, les qualifications et les assurances du sous-traitant ainsi que les ouvrages concernés. L'entrepreneur principal demeure seul responsable envers le maître d'ouvrage de l'exécution de l'ensemble des travaux ; les sous-traitants sont payés par lui, sauf stipulation contraire écrite.
 
 *Fondement : DOC ; stipulation contractuelle.*
 
-### Article A.22 — Protection des données personnelles (CNDP)
+### Article A.21 — Protection des données personnelles (CNDP)
 
-Tout traitement de **données à caractère personnel** réalisé dans le cadre du marché (coordonnées des intervenants, données des occupants, vidéosurveillance de chantier, badges, géolocalisation) est soumis à la **loi 09-08 relative à la protection des personnes physiques à l'égard du traitement des données à caractère personnel**, sous le contrôle de la **CNDP**.
-
-Les parties s'engagent à : déclarer/obtenir l'autorisation des traitements concernés, recueillir le consentement requis, limiter la collecte à la finalité, garantir la sécurité et la confidentialité des données, et respecter les droits des personnes concernées (accès, rectification, opposition). **Le non-respect expose à des sanctions pouvant atteindre 300 000 MAD**, sans préjudice des poursuites pénales prévues par la loi.
+Chaque partie respecte la loi 09-08 pour les traitements de données personnelles dont elle a la responsabilité dans le cadre du marché (coordonnées des intervenants, contrôle d'accès, vidéosurveillance de chantier le cas échéant). Selon la nature de chaque traitement, elle procède à la déclaration préalable ou à la demande d'autorisation auprès de la CNDP, informe les personnes concernées et ne recueille leur consentement que lorsque la loi l'exige ; elle limite la collecte à la finalité poursuivie, assure la sécurité des données et respecte les droits d'accès, de rectification et d'opposition.
 
 *Fondement : Loi 09-08, sous le contrôle de la CNDP.*
 
-### Article A.23 — Règlement des différends et droit applicable
+### Article A.22 — Règlement des différends et droit applicable
 
 Tout différend relatif à l'interprétation ou à l'exécution du marché fait l'objet d'une notification écrite précisant les faits, les demandes et les pièces justificatives. Les parties recherchent une solution amiable dans un délai de 30 jours calendaires à compter de cette notification.
 
@@ -226,7 +232,7 @@ Le marché est régi par le droit marocain.
 
 *Fondement : DOC ; Code de procédure civile.*
 
-### Article A.24 — Nature et règlement des prix
+### Article A.23 — Nature et règlement des prix
 
 Le marché est conclu à prix unitaires, à l'exception des postes expressément désignés comme forfaitaires (unité « ff ») au bordereau. Les prix unitaires s'appliquent aux quantités réellement exécutées, mesurées et constatées contradictoirement selon les modes de métré annexés.
 
@@ -236,10 +242,13 @@ Tout ouvrage supplémentaire ou toute modification susceptible de faire varier l
 
 *Fondement : Stipulation contractuelle.*
 
-### Article A.25 — Visas et autorisations
+### Article A.24 — Autorisations administratives et commencement des travaux
 
-- VISA CROA — phase apd pret depot permis (délai légal 15 jours).
-- Permis de construire et autorisations de voirie : à la charge du maître d'ouvrage avant l'ordre de service de commencement.
+Le maître d'ouvrage fait établir et obtenir, préalablement au commencement des travaux, les autorisations administratives requises pour le projet, notamment le permis de construire et, le cas échéant, les autorisations d'occupation temporaire du domaine public.
+
+L'architecte accomplit les démarches relevant de sa mission conformément à la réglementation marocaine applicable et aux stipulations de son contrat de maîtrise d'œuvre ; les délais et formalités de visa ordinal sont ceux des procédures effectivement applicables.
+
+L'entrepreneur ne peut commencer les travaux avant la communication des autorisations nécessaires, la validation des documents d'exécution requis et la notification de l'ordre de service de commencer.
 
 ## TITRE II — PRESCRIPTIONS TECHNIQUES
 
@@ -2489,3 +2498,22 @@ Les quantités suivantes résultent de ratios et ne valent pas dimensionnement. 
 5. menuiseries extérieures : surface de baies par ratio ; tableau des menuiseries (profils, vitrages, performances RTCM) à établir ;
 6. plomberie, électricité, mise à la terre et courants faibles : quantités par ratio ; plans et schémas d'exécution à établir, essais de réception à prévoir ;
 7. réseaux extérieurs : limites de prestation avec les concessionnaires (ONEE, régie) à préciser ; branchements hors marché sauf mention contraire.
+
+## ANNEXE 4 — COMPOSITION DES PRIX
+
+Les prix unitaires du BPDE sont établis à partir du déboursé sec (matériaux, main-d'œuvre charges sociales comprises, petit matériel) multiplié par un coefficient de vente de 1,380 (frais de chantier 10 %, frais généraux 12 %, aléas et bénéfice 12 %, appliqués en cascade). Les ouvrages sous-traités fournis-posés portent un coefficient réduit, le prix du sous-traitant contenant déjà sa marge.
+
+Affectation des dépenses entre les prix unitaires et le forfait d'installation 00.01 :
+
+| Poste de coût | Rémunéré par |
+|:--|:--|
+| Chef de chantier, conduite et encadrement courant | frais de chantier des PU |
+| Petit outillage et consommables | PU (petit matériel et frais de chantier) |
+| Nettoyage quotidien propre à chaque ouvrage | frais de chantier des PU |
+| Base-vie, sanitaires et installations provisoires | forfait 00.01 |
+| Clôture provisoire et signalisation de chantier | forfait 00.01 |
+| Branchements et consommations provisoires de chantier | forfait 00.01 |
+| Repli général et nettoyage final | forfait 00.01 |
+| Clôture définitive de la parcelle | poste spécifique du BPDE, distinct du forfait |
+
+L'entrepreneur joint à son offre la décomposition chiffrée du forfait 00.01 et de ses frais de chantier selon cette affectation ; une même dépense ne peut figurer dans les deux.

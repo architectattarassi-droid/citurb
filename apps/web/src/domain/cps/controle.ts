@@ -88,14 +88,32 @@ export function controlerCps(r: Resultat, d: DocumentCps): PointControle[] {
   const statut = /Statut : document de consultation/.test(md) && /Arbitrages/.test(md);
   add("CL-6", "Statut non contractuel et conditions de levée avant signature", statut,
     statut ? "Bloc « Statut » en tête et tableau des arbitrages présents" : "Bloc absent");
-  const hier = /En cas de discordance/.test(md);
+  const hier = /pièce de rang supérieur prévaut/.test(md) && /En cas de discordance/.test(md);
   add("CL-7", "Hiérarchie documentaire et règle de discordance", hier,
-    hier ? lignes(md, /En cas de discordance/)[0].slice(0, 200) : "Règle absente", "PROVISOIRE");
+    hier ? "Pièce de rang supérieur prévaut ; Titre II prime sur les désignations abrégées du BPDE ; quantités réelles aux PU si ouvrage inchangé" : "Règle absente");
   const ins = d.bpde[0]?.postes[0];
   add("CL-8", "Installation de chantier rémunérée par le seul forfait 00.01",
-    ins?.numero === "00.01" && /à l'exclusion de l'installation/.test(md),
-    `00.01 = ${dh(ins?.montant ?? 0)} DH HT (${Math.round((r.installationHT / (r.travauxHT - r.installationHT)) * 1000) / 10} % des ouvrages). Les PU incluent ${COEF_K.fraisChantier * 100} % de frais de chantier (conduite, encadrement, consommables), définis à l'article « Nature et règlement des prix » pour éviter le recouvrement`,
+    ins?.numero === "00.01" && /à l'exclusion de l'installation/.test(md) && /ANNEXE 4 — COMPOSITION DES PRIX/.test(md),
+    `00.01 = ${dh(ins?.montant ?? 0)} DH HT (${Math.round((r.installationHT / (r.travauxHT - r.installationHT)) * 1000) / 10} % des ouvrages). Les PU incluent ${COEF_K.fraisChantier * 100} % de frais de chantier (conduite, encadrement, consommables) ; affectation des dépenses en Annexe 4, décomposition chiffrée exigée de l'entrepreneur`,
     "PROVISOIRE");
+
+  // ── Rédaction (contre-examen GPT n° 2) ────────────────────────────────
+  const brouillon = lignes(md, /seuils? contractuels?|dans le délai contractuel|phase apd|délai légal 15|dans le délai qu'elle fixe|taux convenu aux conditions particulières/i);
+  add("GEN-1", "Aucun texte de travail ni renvoi à un seuil ou délai non défini", brouillon.length === 0,
+    brouillon.length ? brouillon.map((l) => l.slice(0, 120)).join(" / ") : "0 mention de travail, de seuil ou de délai non défini (A.6, A.13, A.16, A.19, A.20, A.25)");
+  const ouvertes = lignes(md, /à (renseigner|négocier) avant signature/);
+  add("GEN-2", "Variables contractuelles arrêtées", true,
+    ouvertes.length ? `${ouvertes.length} mention(s) de variable ouverte, signalée(s) dans les conditions de levée et au tableau des arbitrages` : "Toutes les variables sont renseignées",
+    ouvertes.length ? "PROVISOIRE" : "CORRIGE");
+  const aCompleter = md.match(/\[à compléter[^\]]*\]/g) ?? [];
+  add("GEN-3", "Mentions « [à compléter] »", true,
+    aCompleter.length ? `${aCompleter.length} : ${[...new Set(aCompleter)].join(", ")}` : "aucune", aCompleter.length ? "PROVISOIRE" : "CORRIGE");
+  const rcd = !/l'architecte et les bureaux d'études intervenants, justifient/.test(md) && /relèvent de leurs contrats respectifs/.test(md);
+  add("CL-9", "Assurances : obligations limitées aux parties au marché, assurabilité confirmée par l'assureur", rcd && /confirmée par l'assureur avant la signature/.test(md),
+    rcd ? "RCD exigée de l'entrepreneur seul ; architecte et BET renvoyés à leurs contrats ; confirmation de l'assureur avant signature" : "Obligations d'assurance imposées à des tiers au marché", "PROVISOIRE");
+  const disc = /prix nouveau arrêté par écrit/.test(md);
+  add("CL-10", "Discordance : modification technique substantielle → examen contradictoire et prix nouveau", disc,
+    disc ? "Clause présente à l'article « Pièces constitutives »" : "Clause absente");
 
   // ── Réserves techniques ───────────────────────────────────────────────
   const a3 = /ANNEXE 3 — RÉSERVES TECHNIQUES/.test(md) && /non structurelle/.test(md);

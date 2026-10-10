@@ -11,9 +11,9 @@
 import type { Resultat } from "../chiffrage/dqe";
 import { HYPOTHESES } from "../chiffrage/hypotheses";
 import { quantitatif } from "../chiffrage/quantitatif";
-import { TVA } from "../chiffrage/referentiel";
+import { COEF_K, TVA } from "../chiffrage/referentiel";
 import { bordereau, type LotBPDE } from "./bordereau";
-import { ARBITRAGES_DEFAUT, assainirReferences, clausesPrive, fondementPrive, type ArbitragesCps } from "./clausesPrive";
+import { ARBITRAGES_DEFAUT, assainirReferences, clausesPrive, fondementPrive, variablesNonArretees, type ArbitragesCps } from "./clausesPrive";
 import { CORRESPONDANCE_CPS } from "./correspondance";
 import { CLAUSES_CPS, LOT_CPS_PAR_CODE, TYPES_PROJET_CPS, fr } from "./gabarits";
 
@@ -74,7 +74,8 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   const totalHT = Math.round(bpde.reduce((s, l) => s + l.total, 0) * 100) / 100;
   const totalTTC = Math.round(totalHT * (1 + TVA.taux) * 100) / 100;
   const arb: ArbitragesCps = { ...ARBITRAGES_DEFAUT, ...o.arbitrages };
-  const prive = clausesPrive(arb, Number(vars.DELAI_AMIABLE_JOURS));
+  const prive = clausesPrive(arb, Number(vars.DELAI_AMIABLE_JOURS), Number(vars.DELAI_EXECUTION_JOURS));
+  const ouvertes = variablesNonArretees(arb);
 
   // ── Page de garde ──────────────────────────────────────────────────────
   p("# CAHIER DES PRESCRIPTIONS SPÉCIALES");
@@ -102,7 +103,8 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
     "tableau des menuiseries, plans de plomberie, d'électricité, de mise à la terre et de courants faibles établis ;",
     "mentions « [à compléter] » renseignées (maître d'ouvrage, coefficient sismique…) ;",
     "clauses administratives relues par le conseil juridique du maître d'ouvrage ;",
-    "offres d'entreprises recueillies et comparées au BPDE.",
+    "offres d'entreprises recueillies et comparées au BPDE, avec la décomposition du forfait 00.01 et des frais de chantier (Annexe 4) ;",
+    ...(ouvertes.length ? [`variables contractuelles arrêtées : ${ouvertes.join(" ; ")}.`] : []),
   ].forEach((x, i) => p(`${i + 1}. ${x}`));
   p();
   p("**Arbitrages contractuels retenus** (modifiables avant signature) :");
@@ -115,6 +117,11 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   p(`| Assurances TRC et RCD | ${arb.assurancesContractuelles ? "exigées contractuellement (ouvrage non assujetti à l'obligation légale)" : "non exigées"} |`);
   p(`| Délai de paiement des situations | ${arb.delaiPaiementJours} jours |`);
   p("| Plafond des pénalités de retard | 8 % du montant initial HT |");
+  p(`| Avance de démarrage | ${arb.avancePct ? `${arb.avancePct} % du montant initial HT, contre caution de restitution` : "aucune"} |`);
+  p(`| Intérêts de retard de paiement | ${arb.tauxInteretsRetard ?? "**à renseigner avant signature**"} |`);
+  p(`| Remise du cautionnement définitif | ${arb.delaiCautionJours} jours après notification de la signature (proposition) |`);
+  p(`| Délai des mises en demeure | ${arb.delaiMiseEnDemeureJours} jours calendaires (proposition) |`);
+  p(`| Force majeure | réexamen après ${arb.forceMajeureReexamenJours} jours ; résiliation après ${arb.forceMajeureResiliationJours ? `${arb.forceMajeureResiliationJours} jours continus` : "**durée à négocier avant signature**"} |`);
   p();
 
   // ── Titre I — Clauses administratives ─────────────────────────────────
@@ -123,20 +130,20 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   let n = 0;
   const art = (titre: string, corps: string) => { n += 1; p(`### Article A.${n} — ${titre}`); p(); p(corps); p(); };
   art("Objet du marché", `Le présent marché a pour objet l'exécution, en entreprise générale tous corps d'état, des travaux de construction du projet **${o.nomProjet}**${vars.PROJECT_ADDRESS ? `, ${vars.PROJECT_ADDRESS}` : ""}, tels que définis par le présent CPS, les plans et le bordereau des prix – détail estimatif (Titre IV).`);
-  art("Pièces constitutives du marché", ["Par ordre de priorité décroissante :", "1. l'acte d'engagement ;", "2. le présent cahier des prescriptions spéciales (CPS) ;", "3. le bordereau des prix – détail estimatif (BPDE) ;", "4. les plans architecturaux et d'exécution (BET) visés « bon pour exécution » ;", "5. le rapport d'étude géotechnique ;", "6. le planning d'exécution approuvé ;", "7. les normes marocaines (NM), le Règlement de construction parasismique (RPS 2000, version 2011) et le Règlement thermique de construction au Maroc (RTCM) en vigueur ; les DTU et normes étrangères cités aux prescriptions techniques ne valent que comme règles de l'art de référence, à défaut de norme marocaine équivalente.", "", "En cas de discordance entre les quantités du BPDE et les plans d'exécution visés, les plans prévalent pour la consistance des ouvrages ; les prix unitaires du BPDE s'appliquent aux quantités réellement exécutées conformément à ces plans."].join("\n"));
+  art("Pièces constitutives du marché", ["Par ordre de priorité décroissante :", "1. l'acte d'engagement ;", "2. le présent cahier des prescriptions spéciales (CPS) ;", "3. le bordereau des prix – détail estimatif (BPDE) ;", "4. les plans architecturaux et d'exécution (BET) visés « bon pour exécution » ;", "5. le rapport d'étude géotechnique ;", "6. le planning d'exécution approuvé ;", "7. les normes marocaines (NM), le Règlement de construction parasismique (RPS 2000, version 2011) et le Règlement thermique de construction au Maroc (RTCM) en vigueur ; les DTU et normes étrangères cités aux prescriptions techniques ne valent que comme règles de l'art de référence, à défaut de norme marocaine équivalente.", "", "En cas de contradiction entre deux pièces, la pièce de rang supérieur prévaut, sauf erreur matérielle manifeste constatée contradictoirement. Les prescriptions techniques du Titre II priment sur les désignations abrégées du BPDE.", "", "En cas de discordance entre les plans d'exécution et le BPDE, les quantités réellement exécutées sont rémunérées aux prix unitaires contractuels lorsque la nature et les conditions techniques d'exécution des ouvrages demeurent inchangées. Toute modification substantielle des caractéristiques d'un ouvrage — notamment sa résistance, sa géométrie, ses armatures, ses performances ou ses conditions d'exécution — fait l'objet, avant réalisation, d'un examen contradictoire et, si nécessaire, d'un prix nouveau arrêté par écrit entre les parties. La priorité des plans pour la détermination des ouvrages à réaliser ne dispense pas de formaliser par écrit les incidences financières et les modifications de délai."].join("\n"));
   // Valeurs chiffrées arrêtées : elles priment sur les fourchettes rédigées dans les clauses types.
   art("Valeurs contractuelles arrêtées", [
     "Le CCAG-Travaux (décret n° 2-14-394) ne s'applique pas de plein droit au présent marché privé. Les parties conviennent des valeurs ci-dessous, dont certaines s'inspirent de ce texte à titre de référence ; elles priment sur toute autre mention du présent CPS :",
     "",
     "| Clause | Valeur retenue | Inspirée de (à titre indicatif) |",
     "|:--|:--|:--|",
-    "| Cautionnement définitif | 3 % du montant initial du marché | CCAG-T art. 15 |",
-    "| Retenue de garantie | 10 % de chaque acompte, plafonnée à 7 % du montant initial | CCAG-T art. 64 |",
-    "| Pénalités de retard | 1/1 000 du montant initial par jour calendaire de retard | CCAG-T art. 65 |",
-    "| Plafond des pénalités de retard | 8 % du montant initial du marché | CCAG-T art. 65 |",
-    "| Plafond des pénalités particulières | 2 % du montant initial du marché | CCAG-T art. 66 |",
+    "| Cautionnement définitif | 3 % du montant initial HT du marché | CCAG-T art. 15 |",
+    "| Retenue de garantie | 10 % de chaque acompte, plafonnée à 7 % du montant initial HT | CCAG-T art. 64 |",
+    "| Pénalités de retard | 1/1 000 du montant initial HT par jour calendaire de retard | CCAG-T art. 65 |",
+    "| Plafond des pénalités de retard | 8 % du montant initial HT du marché | CCAG-T art. 65 |",
+    "| Plafond des pénalités particulières | 2 % du montant initial HT du marché | CCAG-T art. 66 |",
     "| Délai de garantie | 12 mois à compter de la réception provisoire | CCAG-T art. 75 |",
-    "| Augmentation de la masse des travaux | 10 % au plus du montant initial | CCAG-T |",
+    "| Augmentation de la masse des travaux | 10 % au plus du montant initial HT ; au-delà, avenant écrit préalable fixant prix et délai | CCAG-T |",
     "| Acomptes sur approvisionnements | 4/5 de la valeur des matériaux approvisionnés | CCAG-T |",
     `| Délai d'exécution | ${vars.DELAI_EXECUTION_JOURS} jours calendaires à compter de l'ordre de service | présent CPS |`,
   ].join("\n"));
@@ -153,7 +160,13 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
     if (x) art(x.titre, `${x.corps ?? corpsGabarit()}\n\n*Fondement : ${x.fondement}.*`);
     else art(fr(c.titre), corpsGabarit() + (c.fondement ? `\n\n*Fondement : ${fondementPrive(c.fondement)}.*` : ""));
   }
-  if (type.visasObligatoires.length) art("Visas et autorisations", type.visasObligatoires.map((v) => `- ${v.type.replace(/_/g, " ")} — phase ${v.phase.replace(/_/g, " ").toLowerCase()}${v.delaiLegal ? ` (délai légal ${v.delaiLegal} jours)` : ""}.`).join("\n") + "\n- Permis de construire et autorisations de voirie : à la charge du maître d'ouvrage avant l'ordre de service de commencement.");
+  art("Autorisations administratives et commencement des travaux", [
+    "Le maître d'ouvrage fait établir et obtenir, préalablement au commencement des travaux, les autorisations administratives requises pour le projet, notamment le permis de construire et, le cas échéant, les autorisations d'occupation temporaire du domaine public.",
+    "",
+    "L'architecte accomplit les démarches relevant de sa mission conformément à la réglementation marocaine applicable et aux stipulations de son contrat de maîtrise d'œuvre ; les délais et formalités de visa ordinal sont ceux des procédures effectivement applicables.",
+    "",
+    "L'entrepreneur ne peut commencer les travaux avant la communication des autorisations nécessaires, la validation des documents d'exécution requis et la notification de l'ordre de service de commencer.",
+  ].join("\n"));
 
   // ── Titre II — Prescriptions techniques ───────────────────────────────
   p("## TITRE II — PRESCRIPTIONS TECHNIQUES");
@@ -268,6 +281,28 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   res.push("plomberie, électricité, mise à la terre et courants faibles : quantités par ratio ; plans et schémas d'exécution à établir, essais de réception à prévoir ;");
   res.push("réseaux extérieurs : limites de prestation avec les concessionnaires (ONEE, régie) à préciser ; branchements hors marché sauf mention contraire.");
   res.forEach((x, i) => p(`${i + 1}. ${x}`));
+  p();
+  // Composition des prix : affectation des dépenses PU / forfait 00.01 (contre-examen, point 5).
+  p("## ANNEXE 4 — COMPOSITION DES PRIX");
+  p();
+  p(`Les prix unitaires du BPDE sont établis à partir du déboursé sec (matériaux, main-d'œuvre charges sociales comprises, petit matériel) multiplié par un coefficient de vente de ${((1 + COEF_K.fraisChantier) * (1 + COEF_K.fraisGeneraux) * (1 + COEF_K.aleasBenefice)).toFixed(3).replace(".", ",")} (frais de chantier ${COEF_K.fraisChantier * 100} %, frais généraux ${COEF_K.fraisGeneraux * 100} %, aléas et bénéfice ${COEF_K.aleasBenefice * 100} %, appliqués en cascade). Les ouvrages sous-traités fournis-posés portent un coefficient réduit, le prix du sous-traitant contenant déjà sa marge.`);
+  p();
+  p("Affectation des dépenses entre les prix unitaires et le forfait d'installation 00.01 :");
+  p();
+  p("| Poste de coût | Rémunéré par |");
+  p("|:--|:--|");
+  for (const [a, b] of [
+    ["Chef de chantier, conduite et encadrement courant", "frais de chantier des PU"],
+    ["Petit outillage et consommables", "PU (petit matériel et frais de chantier)"],
+    ["Nettoyage quotidien propre à chaque ouvrage", "frais de chantier des PU"],
+    ["Base-vie, sanitaires et installations provisoires", "forfait 00.01"],
+    ["Clôture provisoire et signalisation de chantier", "forfait 00.01"],
+    ["Branchements et consommations provisoires de chantier", "forfait 00.01"],
+    ["Repli général et nettoyage final", "forfait 00.01"],
+    ["Clôture définitive de la parcelle", "poste spécifique du BPDE, distinct du forfait"],
+  ]) p(`| ${a} | ${b} |`);
+  p();
+  p("L'entrepreneur joint à son offre la décomposition chiffrée du forfait 00.01 et de ses frais de chantier selon cette affectation ; une même dépense ne peut figurer dans les deux.");
   p();
   return { markdown: L.join("\n"), bpde, totalHT, totalTTC };
 }

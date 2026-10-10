@@ -7,7 +7,7 @@ Statuts : **Corrigé** = défaut résolu et contrôle réussi ; **Provisoire** =
 
 ## 1. Contrôles automatiques
 
-**Bilan : 13 corrigés, 5 provisoires, 0 bloquants.**
+**Bilan : 16 corrigés, 7 provisoires, 0 bloquants.**
 
 | Réf. | Contrôle | Statut | Preuve tirée du document généré |
 |:--|:--|:--|:--|
@@ -25,8 +25,13 @@ Statuts : **Corrigé** = défaut résolu et contrôle réussi ; **Provisoire** =
 | CL-4 | CCAG-T jamais présenté comme applicable de plein droit | Corrigé | Mention explicite au Titre I ; tous les fondements CCAG portent « à titre de référence » |
 | CL-5 | Décret 2-22-431 (marchés publics) non opposé au marché privé | Corrigé | 0 mention |
 | CL-6 | Statut non contractuel et conditions de levée avant signature | Corrigé | Bloc « Statut » en tête et tableau des arbitrages présents |
-| CL-7 | Hiérarchie documentaire et règle de discordance | Provisoire | En cas de discordance entre les quantités du BPDE et les plans d'exécution visés, les plans prévalent pour la consistance des ouvrages ; les prix unitaires du BPDE s'appliquent aux quantités réellemen |
-| CL-8 | Installation de chantier rémunérée par le seul forfait 00.01 | Provisoire | 00.01 = 33 499,85 DH HT (2 % des ouvrages). Les PU incluent 10 % de frais de chantier (conduite, encadrement, consommables), définis à l'article « Nature et règlement des prix » pour éviter le recouvrement |
+| CL-7 | Hiérarchie documentaire et règle de discordance | Corrigé | Pièce de rang supérieur prévaut ; Titre II prime sur les désignations abrégées du BPDE ; quantités réelles aux PU si ouvrage inchangé |
+| CL-8 | Installation de chantier rémunérée par le seul forfait 00.01 | Provisoire | 00.01 = 33 499,85 DH HT (2 % des ouvrages). Les PU incluent 10 % de frais de chantier (conduite, encadrement, consommables) ; affectation des dépenses en Annexe 4, décomposition chiffrée exigée de l'entrepreneur |
+| GEN-1 | Aucun texte de travail ni renvoi à un seuil ou délai non défini | Corrigé | 0 mention de travail, de seuil ou de délai non défini (A.6, A.13, A.16, A.19, A.20, A.25) |
+| GEN-2 | Variables contractuelles arrêtées | Provisoire | 4 mention(s) de variable ouverte, signalée(s) dans les conditions de levée et au tableau des arbitrages |
+| GEN-3 | Mentions « [à compléter] » | Provisoire | 3 : [à compléter], [à compléter : coef a] |
+| CL-9 | Assurances : obligations limitées aux parties au marché, assurabilité confirmée par l'assureur | Provisoire | RCD exigée de l'entrepreneur seul ; architecte et BET renvoyés à leurs contrats ; confirmation de l'assureur avant signature |
+| CL-10 | Discordance : modification technique substantielle → examen contradictoire et prix nouveau | Corrigé | Clause présente à l'article « Pièces constitutives » |
 | RT-1 | Réserves BET / géotechnique maintenues (Annexe 3) | Provisoire | Annexe 3 présente ; réduction des semelles qualifiée de non structurelle ; quantités par ratio à remplacer par les plans d'exécution |
 | RT-2 | Rapprochement matériaux ↔ postes du BPDE | Provisoire | Colonne présente au Titre III |
 
@@ -36,9 +41,9 @@ Statuts : **Corrigé** = défaut résolu et contrôle réussi ; **Provisoire** =
 
 ### Titre I — articles
 
-- Ajoutés : Responsabilité décennale des constructeurs ; Signalement des désordres et exercice des recours ; Garantie contractuelle de bon fonctionnement (2 ans) ; Assurance Tous Risques Chantier ; Assurance de responsabilité civile décennale ; Situations, délais de paiement et intérêts de retard ; Caractère des prix ; Réceptions ; Règlement des différends et droit applicable ; Nature et règlement des prix
-- Retirés ou renommés : Garantie décennale ; Délai d'action et forclusion de la garantie décennale ; Garantie biennale de bon fonctionnement (2 ans) ; Assurance Tous Risques Chantier (TRC) obligatoire ; Assurance Responsabilité Civile Décennale (RCD) obligatoire ; Délais de paiement et intérêts de retard ; Révision des prix (index BTP/TP) ; Réception provisoire et réception définitive ; Règlement des litiges et droit applicable ; Forme et caractère des prix ; Assurances
-- Modifiés : Pièces constitutives du marché ; Valeurs contractuelles arrêtées ; Garantie de parfait achèvement (1 an) ; Responsabilité civile professionnelle de l'architecte ; Avance, acomptes et situations de travaux ; Délai d'exécution et ordres de service ; Pénalités de retard ; Retenue de garantie ; Cautionnement définitif et garanties bancaires ; Résiliation du marché ; Sous-traitance ; Protection des données personnelles (CNDP)
+- Ajoutés : Responsabilité décennale des constructeurs ; Signalement des désordres et exercice des recours ; Garantie contractuelle de bon fonctionnement (2 ans) ; Assurance Tous Risques Chantier ; Assurance de responsabilité civile décennale ; Situations, délais de paiement et intérêts de retard ; Cautionnement définitif ; Caractère des prix ; Réceptions ; Règlement des différends et droit applicable ; Nature et règlement des prix ; Autorisations administratives et commencement des travaux
+- Retirés ou renommés : Garantie décennale ; Délai d'action et forclusion de la garantie décennale ; Garantie biennale de bon fonctionnement (2 ans) ; Assurance Tous Risques Chantier (TRC) obligatoire ; Assurance Responsabilité Civile Décennale (RCD) obligatoire ; Responsabilité civile professionnelle de l'architecte ; Délais de paiement et intérêts de retard ; Cautionnement définitif et garanties bancaires ; Révision des prix (index BTP/TP) ; Réception provisoire et réception définitive ; Règlement des litiges et droit applicable ; Forme et caractère des prix ; Assurances ; Visas et autorisations
+- Modifiés : Pièces constitutives du marché ; Valeurs contractuelles arrêtées ; Garantie de parfait achèvement (1 an) ; Avance, acomptes et situations de travaux ; Délai d'exécution et ordres de service ; Pénalités de retard ; Retenue de garantie ; Résiliation du marché ; Force majeure ; Sous-traitance ; Protection des données personnelles (CNDP)
 
 ### Références légales (nombre d'occurrences, document entier)
 

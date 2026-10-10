@@ -22,14 +22,42 @@ export type ArbitragesCps = {
   assurancesContractuelles: boolean;
   /** Délai de paiement des situations (jours). */
   delaiPaiementJours: number;
+  /** Avance de démarrage en % du montant initial HT (0 = pas d'avance). */
+  avancePct: number;
+  /** Taux et modalités des intérêts de retard de paiement ; null = à renseigner avant signature. */
+  tauxInteretsRetard: string | null;
+  /** Délai de remise du cautionnement définitif après signature (jours) — proposition contractuelle, non légale. */
+  delaiCautionJours: number;
+  /** Délai des mises en demeure (reprises, résiliation), en jours calendaires. */
+  delaiMiseEnDemeureJours: number;
+  /** Force majeure : réexamen contradictoire après N jours d'empêchement continu. */
+  forceMajeureReexamenJours: number;
+  /** Force majeure : durée continue ouvrant droit à résiliation ; null = à négocier avant signature. */
+  forceMajeureResiliationJours: number | null;
 };
 
-export const ARBITRAGES_DEFAUT: ArbitragesCps = { prix: "FERMES", litiges: "TRIBUNAUX", assurancesContractuelles: true, delaiPaiementJours: 30 };
+/**
+ * Valeurs par défaut : propositions contractuelles (contre-examen GPT du 10/10/2026),
+ * aucune n'est une prescription légale. Les variables `null` bloquent la signature.
+ */
+export const ARBITRAGES_DEFAUT: ArbitragesCps = {
+  prix: "FERMES", litiges: "TRIBUNAUX", assurancesContractuelles: true, delaiPaiementJours: 30,
+  avancePct: 0, tauxInteretsRetard: null, delaiCautionJours: 15, delaiMiseEnDemeureJours: 15,
+  forceMajeureReexamenJours: 30, forceMajeureResiliationJours: null,
+};
+
+/** Variables contractuelles encore ouvertes (à renseigner avant signature). */
+export function variablesNonArretees(a: ArbitragesCps): string[] {
+  const v: string[] = [];
+  if (!a.tauxInteretsRetard) v.push("taux et modalités de calcul des intérêts de retard de paiement");
+  if (!a.forceMajeureResiliationJours) v.push("durée d'empêchement continu ouvrant droit à résiliation pour force majeure");
+  return v;
+}
 
 /** `corps` absent : on garde le texte du gabarit (seuls titre et fondement sont corrigés). */
 type Clause = { titre: string; corps?: string; fondement: string };
 
-export function clausesPrive(a: ArbitragesCps, delaiAmiable = 30): Record<string, Clause | null> {
+export function clausesPrive(a: ArbitragesCps, delaiAmiable = 30, delaiExecution = 365): Record<string, Clause | null> {
   return {
     DECENNALE_DOC_769: {
       titre: "Responsabilité décennale des constructeurs",
@@ -64,7 +92,7 @@ export function clausesPrive(a: ArbitragesCps, delaiAmiable = 30): Record<string
         ? [
           "L'obligation légale d'assurance Tous Risques Chantier (Code des assurances modifié par la loi 59-13, textes d'application en vigueur depuis le 30 décembre 2024) vise, pour l'habitat, les bâtiments de plus de trois étages ou de plus de 800 m². Le présent ouvrage n'y étant pas assujetti au vu de ses caractéristiques, les parties conviennent expressément de la souscrire à titre contractuel, en raison notamment du sous-sol, des soutènements et de la mitoyenneté.",
           "",
-          "Le maître d'ouvrage souscrit une police TRC couvrant l'ouvrage pour le montant des travaux, la responsabilité civile envers les tiers et les avoisinants, pour toute la durée du chantier. Franchises, plafonds et exclusions sont précisés aux conditions particulières ; l'attestation est remise avant l'ordre de service de commencer.",
+          "Le maître d'ouvrage souscrit une police TRC couvrant l'ouvrage pour le montant des travaux, la responsabilité civile envers les tiers et les avoisinants, pour toute la durée du chantier. L'attestation, remise avant l'ordre de service de commencer, identifie l'assureur, le numéro de police, le montant assuré, les plafonds, franchises et exclusions ; la garantie des avoisinants (sous-sol et mitoyenneté) doit y être expressément acceptée par l'assureur. L'étendue des garanties est confirmée par l'assureur avant la signature du marché.",
         ].join("\n")
         : "L'ouvrage, compte tenu de ses caractéristiques, n'est pas assujetti à l'assurance obligatoire Tous Risques Chantier. Les parties n'en prévoient pas la souscription ; l'entrepreneur reste responsable des dommages causés aux ouvrages et aux tiers jusqu'à la réception.",
       fondement: "Loi 17-99 portant Code des assurances, modifiée par la loi 59-13, et textes d'application en vigueur depuis le 30/12/2024 ; stipulation contractuelle",
@@ -72,7 +100,11 @@ export function clausesPrive(a: ArbitragesCps, delaiAmiable = 30): Record<string
     ASSURANCE_RC_DECENNALE_59_13: {
       titre: "Assurance de responsabilité civile décennale",
       corps: a.assurancesContractuelles
-        ? "L'entrepreneur, ainsi que l'architecte et les bureaux d'études intervenants, justifient avant l'ordre de service de commencer d'une assurance de responsabilité civile décennale couvrant les ouvrages du présent marché, exigée à titre contractuel (l'obligation légale ne visant que les bâtiments résidentiels de plus de trois étages ou de plus de 800 m²). L'absence d'assujettissement légal ne supprime pas la responsabilité décennale prévue par le DOC."
+        ? [
+          "L'entrepreneur justifie, avant l'ordre de service de commencer, d'une assurance de responsabilité civile décennale couvrant les ouvrages du présent marché, exigée à titre contractuel (l'obligation légale ne visant que les bâtiments résidentiels de plus de trois étages ou de plus de 800 m²). L'attestation identifie l'assureur, le numéro de police, les ouvrages couverts, les plafonds et franchises ; l'assurabilité de l'ouvrage et l'étendue des garanties sont confirmées par l'assureur avant la signature du marché.",
+          "",
+          "Les obligations d'assurance de l'architecte et des bureaux d'études relèvent de leurs contrats respectifs avec le maître d'ouvrage. L'absence d'assujettissement légal ne supprime pas la responsabilité décennale prévue par l'article 769 du DOC.",
+        ].join("\n")
         : "L'ouvrage n'est pas assujetti à l'assurance obligatoire de responsabilité civile décennale. Cette absence d'assujettissement ne supprime pas la responsabilité décennale des constructeurs prévue par l'article 769 du DOC.",
       fondement: "Loi 17-99 portant Code des assurances, modifiée par la loi 59-13, et textes d'application en vigueur depuis le 30/12/2024 ; DOC, art. 769 ; stipulation contractuelle",
     },
@@ -126,36 +158,85 @@ export function clausesPrive(a: ArbitragesCps, delaiAmiable = 30): Record<string
       corps: [
         `Les situations de travaux sont établies mensuellement par l'entrepreneur, vérifiées par le maître d'œuvre et réglées par le maître d'ouvrage dans un délai de ${a.delaiPaiementJours} jours à compter de leur réception vérifiée.`,
         "",
-        "Tout retard de paiement imputable au maître d'ouvrage ouvre droit, après mise en demeure, à des intérêts de retard au taux convenu aux conditions particulières. Lorsque le maître d'ouvrage agit en qualité de professionnel, les dispositions légales impératives relatives aux délais de paiement entre commerçants (loi 69-21) s'appliquent ; leur applicabilité est vérifiée lors de la mise au point du marché.",
+        a.tauxInteretsRetard
+          ? `Tout retard de paiement imputable au maître d'ouvrage ouvre droit, après mise en demeure, à des intérêts de retard calculés comme suit : ${a.tauxInteretsRetard}. Lorsque`
+          : "Tout retard de paiement imputable au maître d'ouvrage ouvre droit, après mise en demeure, à des intérêts de retard dont le taux et les modalités de calcul sont arrêtés au tableau des arbitrages (**variable à renseigner avant signature** ; à défaut, régime légal applicable selon la qualité du maître d'ouvrage). Lorsque le maître d'ouvrage agit en qualité de professionnel, les dispositions légales impératives relatives aux délais de paiement entre commerçants (loi 69-21) s'appliquent ; leur applicabilité est vérifiée lors de la mise au point du marché.",
       ].join("\n"),
       fondement: "Stipulation contractuelle ; loi 69-21 sous réserve de son champ d'application",
     },
     RESILIATION_MARCHE: {
       titre: "Résiliation du marché",
-      corps: "Le marché peut être résilié par le maître d'ouvrage, après mise en demeure restée sans effet dans le délai qu'elle fixe, en cas de manquement grave de l'entrepreneur à ses obligations, d'abandon de chantier, de défaut de production des attestations d'assurance exigées par le marché, de retard atteignant le plafond des pénalités ou d'ouverture d'une procédure collective dans les conditions légales. La résiliation donne lieu à un constat contradictoire des travaux exécutés et à un décompte ; les travaux restants peuvent être confiés à un tiers aux frais et risques de l'entrepreneur défaillant.",
-      fondement: "DOC (résolution pour inexécution) ; stipulation contractuelle",
+      corps: [
+        `Le marché peut être résilié par le maître d'ouvrage, après mise en demeure écrite restée sans effet ${a.delaiMiseEnDemeureJours} jours calendaires après sa réception, en cas de manquement grave de l'entrepreneur à ses obligations, d'abandon de chantier, de défaut de production des attestations d'assurance exigées par le marché, de retard atteignant le plafond des pénalités ou d'ouverture d'une procédure collective dans les conditions légales.`,
+        "",
+        "La décision de résiliation est notifiée par écrit. Dans les quinze jours qui suivent, un constat contradictoire est dressé en présence des deux parties et du maître d'œuvre (ou, en cas de carence de l'entrepreneur dûment convoqué, par huissier de justice) : travaux exécutés, ouvrages en cours, approvisionnements et matériel présents, état de sécurité du chantier. Le décompte de résiliation reprend les travaux exécutés aux prix du marché, les approvisionnements acceptés, les pénalités encourues et, le cas échéant, le surcoût d'achèvement par un tiers aux frais et risques de l'entrepreneur défaillant ; il est notifié à l'entrepreneur, qui dispose de trente jours pour présenter ses observations.",
+      ].join("\n"),
+      fondement: "DOC (résolution pour inexécution) ; stipulation contractuelle (délais proposés, non légaux)",
     },
     PARFAIT_ACHEVEMENT_1_AN: {
       titre: "Garantie de parfait achèvement (1 an)",
+      corps: [
+        "L'entrepreneur est tenu, pendant un (1) an à compter de la réception provisoire, d'une garantie de parfait achèvement : il reprend à ses frais les désordres, défauts et malfaçons consignés en réserves au procès-verbal de réception ou notifiés par écrit par le maître d'ouvrage pendant ce délai.",
+        "",
+        `Le maître d'œuvre fixe pour chaque reprise un délai d'exécution raisonnable, adapté à sa nature. À défaut d'exécution dans ce délai, le maître d'ouvrage met l'entrepreneur en demeure par écrit ; si la mise en demeure reste sans effet ${a.delaiMiseEnDemeureJours} jours calendaires après sa réception (délai réduit en cas d'urgence ou de risque pour la sécurité ou la conservation de l'ouvrage), les reprises peuvent être exécutées par un tiers aux frais et risques de l'entrepreneur, après constat contradictoire ou, à défaut, constat d'huissier. La réception définitive n'est prononcée qu'après levée de l'intégralité des réserves.`,
+      ].join("\n"),
       fondement: "Stipulation contractuelle (durée usuelle, CCAG-Travaux cité à titre de référence) ; sans préjudice de l'article 769 du DOC",
     },
     AVANCE_ACOMPTES_SITUATIONS: {
       titre: "Avance, acomptes et situations de travaux",
+      corps: [
+        a.avancePct > 0
+          ? `Une avance de démarrage de ${a.avancePct} % du montant initial HT du marché est versée après notification de l'ordre de service de commencer, contre remise d'une caution bancaire de restitution d'avance du même montant. Elle est remboursée par retenue sur chaque acompte, proportionnellement au montant des travaux exécutés, de sorte qu'elle soit intégralement remboursée au dernier acompte précédant la réception provisoire ; la caution est libérée à due concurrence.`
+          : "Aucune avance de démarrage n'est prévue au présent marché.",
+        "",
+        "Les paiements s'effectuent par acomptes mensuels sur la base des situations de travaux établies par l'entrepreneur, contradictoirement vérifiées et arrêtées par le maître d'œuvre. Le décompte général et définitif est établi après réception et levée des réserves. Les délais et intérêts de retard de l'article « Situations, délais de paiement et intérêts de retard » s'appliquent à chaque acompte.",
+      ].join("\n"),
       fondement: "Stipulation contractuelle",
     },
-    RC_PRO_ARCHITECTE_016_89: {
-      titre: "Responsabilité civile professionnelle de l'architecte",
-      corps: "L'architecte justifie, avant l'ordre de service de commencer, d'une assurance de responsabilité civile professionnelle couvrant sa mission, conformément aux obligations découlant de la loi n° 016-89 relative à l'exercice de la profession d'architecte et des règles de l'Ordre. L'attestation en cours de validité est annexée au marché.",
-      fondement: "Loi 016-89 (article précis à vérifier lors de la mise au point)",
+    // Obligations de l'architecte et du BET : dans leurs propres contrats (contre-examen B5).
+    RC_PRO_ARCHITECTE_016_89: null,
+    DELAI_EXECUTION_OS: {
+      titre: "Délai d'exécution et ordres de service",
+      corps: [
+        `Le délai global d'exécution des travaux est fixé à ${delaiExecution} jours calendaires à compter de la notification de l'ordre de service (OS) de commencer les travaux. Le planning détaillé (chemin critique, jalons, plannings par lot) est soumis au maître d'œuvre dans les quinze jours suivant cet OS.`,
+        "",
+        "Le délai n'est prolongé que par : un OS écrit ; un cas de force majeure notifié et constaté dans les conditions de l'article « Force majeure » ; des journées d'intempéries ayant rendu impossible ou dangereuse l'exécution des ouvrages en cours, constatées contradictoirement au journal de chantier le jour même, avec relevé météorologique à l'appui ; des sujétions imprévues approuvées par écrit par le maître d'ouvrage. Chaque journée ainsi constatée prolonge le délai d'autant ; la demande de prolongation est présentée au plus tard avec la situation mensuelle suivante. Toute suspension de chantier fait l'objet d'un OS et d'un constat contradictoire.",
+      ].join("\n"),
+      fondement: "Stipulation contractuelle",
+    },
+    CAUTIONNEMENT_DEFINITIF: {
+      titre: "Cautionnement définitif",
+      corps: [
+        `L'entrepreneur remet, dans les ${a.delaiCautionJours} jours calendaires suivant la notification de la signature du marché, un cautionnement définitif de trois pour cent (3 %) du montant initial HT du marché, sous forme de caution bancaire émise par un établissement agréé par Bank Al-Maghrib. Sa remise est une condition préalable à la notification de l'ordre de service de commencer.`,
+        "",
+        "Le cautionnement garantit la bonne exécution du marché. Il est restitué après la réception définitive, déduction faite des sommes éventuellement dues. Les autres garanties bancaires (restitution d'avance, retenue de garantie) sont régies par leurs articles propres.",
+      ].join("\n"),
+      fondement: "Stipulation contractuelle (délai proposé, non légal ; taux inspiré du CCAG-Travaux à titre de référence)",
+    },
+    FORCE_MAJEURE_DOC_268_269: {
+      titre: "Force majeure",
+      corps: [
+        "Aucune partie n'est responsable de l'inexécution de ses obligations lorsqu'elle provient d'un cas de force majeure ou d'un cas fortuit au sens des articles 268 et 269 du DOC.",
+        "",
+        `La partie affectée notifie l'événement par écrit dans les meilleurs délais, avec ses justificatifs et ses conséquences prévisibles. L'empêchement est constaté contradictoirement ; les délais d'exécution sont suspendus pour sa durée et les mesures conservatoires nécessaires sont prises. Après ${a.forceMajeureReexamenJours} jours d'empêchement continu, les parties réexaminent contradictoirement la situation (mesures conservatoires, planning, coûts de maintien du chantier).`,
+        "",
+        a.forceMajeureResiliationJours
+          ? `Si l'empêchement dure plus de ${a.forceMajeureResiliationJours} jours continus, chaque partie peut résilier le marché sans indemnité ni pénalité, après décompte contradictoire des travaux exécutés.`
+          : "La durée d'empêchement continu ouvrant droit à résiliation sans indemnité ni pénalité est arrêtée au tableau des arbitrages (**variable à renseigner avant signature**) ; la résiliation donne lieu à un décompte contradictoire des travaux exécutés.",
+      ].join("\n"),
+      fondement: "DOC, art. 268 et 269 ; stipulation contractuelle",
     },
     DONNEES_PERSONNELLES_09_08: {
       titre: "Protection des données personnelles (CNDP)",
+      corps: "Chaque partie respecte la loi 09-08 pour les traitements de données personnelles dont elle a la responsabilité dans le cadre du marché (coordonnées des intervenants, contrôle d'accès, vidéosurveillance de chantier le cas échéant). Selon la nature de chaque traitement, elle procède à la déclaration préalable ou à la demande d'autorisation auprès de la CNDP, informe les personnes concernées et ne recueille leur consentement que lorsque la loi l'exige ; elle limite la collecte à la finalité poursuivie, assure la sécurité des données et respecte les droits d'accès, de rectification et d'opposition.",
       fondement: "Loi 09-08, sous le contrôle de la CNDP",
     },
     RECEPTION_PROVISOIRE_DEFINITIVE: {
       titre: "Réceptions",
       corps: [
         "La réception provisoire est prononcée par procès-verbal contradictoire après achèvement des travaux, essais et vérifications ; les réserves y sont consignées avec leur délai de levée. Elle fait courir la garantie de parfait achèvement (1 an) et la garantie contractuelle de bon fonctionnement (2 ans), et transfère la garde de l'ouvrage.",
+        "",
+        "La demande de réception est accompagnée du dossier des ouvrages exécutés (DOE : plans conformes à l'exécution, notices et garanties des équipements, procès-verbaux d'essais). Un DOE incomplet est consigné en réserve ; la retenue de garantie n'est libérée qu'après sa remise complète.",
         "",
         "La réception définitive est prononcée par procès-verbal contradictoire à l'expiration du délai de parfait achèvement et après levée de toutes les réserves ; elle conditionne la libération de la retenue de garantie et du cautionnement. Aucune réception ne vaut renonciation aux droits que le maître d'ouvrage tient de l'article 769 du DOC.",
       ].join("\n"),
