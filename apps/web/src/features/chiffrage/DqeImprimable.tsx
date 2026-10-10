@@ -9,8 +9,20 @@ import { CHIFFRAGE_VERSION, TYPE_GRILLE, TVA, type Resultat } from "../../domain
 
 const dh = (n: number) => Math.round(n).toLocaleString("fr-FR").replace(/ /g, " ");
 const q = (n: number) => (+n.toFixed(2)).toLocaleString("fr-FR");
+const FACTICE = "4827391560";
+/**
+ * Prix flouté : chiffres FACTICES de même longueur, floutés. Le vrai montant
+ * n'est jamais écrit dans la page (un flou CSS seul se lit à l'inspecteur).
+ */
+function Flou({ n, i }: { n: number; i: number }) {
+  const nb = String(Math.round(Math.abs(n))).length;
+  const faux = Array.from({ length: nb }, (_, k) => FACTICE[(k + i * 3) % FACTICE.length]).join("");
+  return <span aria-label="prix masqué" style={{ filter: "blur(4px)", userSelect: "none", WebkitUserSelect: "none" }}>{Number(faux).toLocaleString("fr-FR").replace(/ /g, " ")}</span>;
+}
 
-export default function DqeImprimable({ res, ecran = false }: { res: Resultat; ecran?: boolean }) {
+export default function DqeImprimable({ res, ecran = false, flou = false }: { res: Resultat; ecran?: boolean; flou?: boolean }) {
+  let k = 0;
+  const px = (n: number) => (flou ? <Flou n={n} i={k++} /> : dh(n));
   const p = res.input;
   const g = res.geometrie;
   const date = new Date().toLocaleDateString("fr-FR");
@@ -34,17 +46,17 @@ export default function DqeImprimable({ res, ecran = false }: { res: Resultat; e
         <tbody>
           {res.lots.map((l) => (
             <React.Fragment key={l.lot.code}>
-              <tr className="bg-slate-100 font-bold"><td className={cell}>{l.lot.numero}</td><td className={cell} colSpan={4}>{l.lot.libelle}</td><td className={`${cell} text-right`}>{dh(l.total)}</td></tr>
+              <tr className="bg-slate-100 font-bold"><td className={cell}>{l.lot.numero}</td><td className={cell} colSpan={4}>{l.lot.libelle}</td><td className={`${cell} text-right`}>{px(l.total)}</td></tr>
               {l.lot.code === "INS"
-                ? <tr><td className={cell}>{l.lot.numero}.1</td><td className={cell}>Installation, repli et nettoyage de chantier</td><td className={cell}>ff</td><td className={`${cell} text-right`}>1</td><td className={`${cell} text-right`}>{dh(l.total)}</td><td className={`${cell} text-right`}>{dh(l.total)}</td></tr>
+                ? <tr><td className={cell}>{l.lot.numero}.1</td><td className={cell}>Installation, repli et nettoyage de chantier</td><td className={cell}>ff</td><td className={`${cell} text-right`}>1</td><td className={`${cell} text-right`}>{px(l.total)}</td><td className={`${cell} text-right`}>{px(l.total)}</td></tr>
                 : l.lignes.map((li, i) => (
                   <tr key={li.id} className="break-inside-avoid">
                     <td className={cell}>{l.lot.numero}.{i + 1}</td>
                     <td className={cell}>{li.libelle}</td>
                     <td className={`${cell} text-center`}>{li.unite}</td>
                     <td className={`${cell} text-right`}>{q(li.qte)}</td>
-                    <td className={`${cell} text-right`}>{dh(li.pu)}</td>
-                    <td className={`${cell} text-right`}>{dh(li.montant)}</td>
+                    <td className={`${cell} text-right`}>{px(li.pu)}</td>
+                    <td className={`${cell} text-right`}>{px(li.montant)}</td>
                   </tr>
                 ))}
             </React.Fragment>
@@ -61,7 +73,7 @@ export default function DqeImprimable({ res, ecran = false }: { res: Resultat; e
             ["Raccordements (estimation)", res.fraisAnnexes.total],
             ["Budget total TTC", res.budgetTTC],
           ] as [string, number][]).map(([l, v]) => (
-            <tr key={l} className="font-semibold"><td className={cell} colSpan={5}>{l}</td><td className={`${cell} text-right`}>{dh(v)}</td></tr>
+            <tr key={l} className="font-semibold"><td className={cell} colSpan={5}>{l}</td><td className={`${cell} text-right`}>{px(v)}</td></tr>
           ))}
         </tfoot>
       </table>

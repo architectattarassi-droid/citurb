@@ -1,6 +1,7 @@
 /**
  * /chiffrage/devis — devis estimatif (DQE) affiché dans une nouvelle page,
- * filigrané CITURBAREA sur toute la surface (écran et impression), prix lisibles,
+ * filigrané CITURBAREA sur toute la surface (écran et impression), prix floutés
+ * (chiffres factices : les vrais montants ne sont pas dans la page),
  * avec l'appel « S'inscrire pour recevoir le devis » (LeadCaptureForm WEB_CHIFFRAGE).
  *
  * Le projet arrive dans le fragment d'URL (#p=…) : jamais transmis au serveur,
@@ -77,7 +78,7 @@ export default function ChiffrageDevis() {
 
       <div className="mx-auto max-w-5xl px-4 py-6">
         <div className="overflow-x-auto">
-          <DqeImprimable res={res} ecran />
+          <DqeImprimable res={res} ecran flou />
         </div>
 
         <section id="inscription-devis" className="relative z-30 mx-auto mt-8 max-w-xl scroll-mt-24 print:hidden">
