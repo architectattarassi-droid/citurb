@@ -10,7 +10,7 @@
  */
 import type { Resultat } from "../chiffrage/dqe";
 import { HYPOTHESES } from "../chiffrage/hypotheses";
-import { quantitatif } from "../chiffrage/quantitatif";
+import { expositionFiscale, quantitatif } from "../chiffrage/quantitatif";
 import { COEF_K, TVA } from "../chiffrage/referentiel";
 import { bordereau, type LotBPDE } from "./bordereau";
 import { ARBITRAGES_DEFAUT, assainirReferences, clausesPrive, fondementPrive, variablesNonArretees, type ArbitragesCps } from "./clausesPrive";
@@ -76,6 +76,7 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   const arb: ArbitragesCps = { ...ARBITRAGES_DEFAUT, ...o.arbitrages };
   const prive = clausesPrive(arb, Number(vars.DELAI_AMIABLE_JOURS), Number(vars.DELAI_EXECUTION_JOURS));
   const ouvertes = variablesNonArretees(arb);
+  const fisc = expositionFiscale(r);
 
   // ── Page de garde ──────────────────────────────────────────────────────
   p("# CAHIER DES PRESCRIPTIONS SPÉCIALES");
@@ -104,6 +105,7 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
     "mentions « [à compléter] » renseignées (maître d'ouvrage, coefficient sismique…) ;",
     "clauses administratives relues par le conseil juridique du maître d'ouvrage ;",
     "offres d'entreprises recueillies et comparées au BPDE, avec la décomposition du forfait 00.01 et des frais de chantier (Annexe 4) ;",
+    ...(fisc.materiaux.length ? [`régime fiscal des prix de matériaux confirmé par devis fournisseur indiquant HT, TVA et TTC (${fisc.materiaux.length} matériaux de gros œuvre retenus HT par hypothèse, Annexe 4) ;`] : []),
     ...(ouvertes.length ? [`variables contractuelles arrêtées : ${ouvertes.join(" ; ")}.`] : []),
   ].forEach((x, i) => p(`${i + 1}. ${x}`));
   p();
@@ -303,6 +305,12 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   ]) p(`| ${a} | ${b} |`);
   p();
   p("L'entrepreneur joint à son offre la décomposition chiffrée du forfait 00.01 et de ses frais de chantier selon cette affectation ; une même dépense ne peut figurer dans les deux.");
+  if (fisc.materiaux.length) {
+    p();
+    p("**Régime fiscal des prix de matériaux.** Les prix de négoce et des guides professionnels ne mentionnent pas la TVA : ils sont retenus HT par hypothèse, non vérifiée. Les prix publics des distributeurs grand public sont présumés TTC et divisés par 1,20. Les fournitures de second œuvre, souvent chiffrées fournies-posées par des sous-traitants, restent également à confirmer sur devis.");
+    p();
+    p(`Matériaux de gros œuvre du projet concernés (béton prêt à l'emploi, acier, ciment, granulats, blocs, hourdis, coffrage, réseaux) : ${fisc.materiaux.length}, pour une valeur d'environ ${dh(fisc.valeurHT)} DH HT (principaux : ${fisc.materiaux.slice(0, 6).map((m) => m.libelle.split(/[,(]/)[0].trim()).join(", ")}). Si ces prix étaient TTC, le montant des travaux baisserait d'environ ${dh(fisc.impactSiTTC)} DH HT (${(fisc.part * 100).toFixed(1).replace(".", ",")} %). Cette incidence mesure un risque ; elle ne constitue ni une économie acquise ni une preuve que ces prix sont TTC. Validation attendue : devis fournisseur indiquant HT, TVA et TTC.`);
+  }
   p();
   return { markdown: L.join("\n"), bpde, totalHT, totalTTC };
 }

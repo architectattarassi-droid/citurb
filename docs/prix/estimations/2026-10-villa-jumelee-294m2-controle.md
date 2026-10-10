@@ -7,7 +7,7 @@ Statuts : **Corrigé** = défaut résolu et contrôle réussi ; **Provisoire** =
 
 ## 1. Contrôles automatiques
 
-**Bilan : 16 corrigés, 7 provisoires, 0 bloquants.**
+**Bilan : 16 corrigés, 8 provisoires, 0 bloquants.**
 
 | Réf. | Contrôle | Statut | Preuve tirée du document généré |
 |:--|:--|:--|:--|
@@ -32,6 +32,7 @@ Statuts : **Corrigé** = défaut résolu et contrôle réussi ; **Provisoire** =
 | GEN-3 | Mentions « [à compléter] » | Provisoire | 3 : [à compléter], [à compléter : coef a] |
 | CL-9 | Assurances : obligations limitées aux parties au marché, assurabilité confirmée par l'assureur | Provisoire | RCD exigée de l'entrepreneur seul ; architecte et BET renvoyés à leurs contrats ; confirmation de l'assureur avant signature |
 | CL-10 | Discordance : modification technique substantielle → examen contradictoire et prix nouveau | Corrigé | Clause présente à l'article « Pièces constitutives » |
+| FISC-1 | Régime fiscal des prix de matériaux (HT supposé / TVA non indiquée par la source) | Provisoire | 25 matériaux de gros œuvre retenus HT sans vérification (≈ 547 087,54 DH HT) ; incidence si TTC ≈ −125 830,13 DH HT (7,4 %) ; déclaré en Annexe 4 et dans les conditions de levée |
 | RT-1 | Réserves BET / géotechnique maintenues (Annexe 3) | Provisoire | Annexe 3 présente ; réduction des semelles qualifiée de non structurelle ; quantités par ratio à remplacer par les plans d'exécution |
 | RT-2 | Rapprochement matériaux ↔ postes du BPDE | Provisoire | Colonne présente au Titre III |
 

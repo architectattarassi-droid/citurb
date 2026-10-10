@@ -4,6 +4,7 @@
  * et classée Corrigé / Provisoire / Bloquant.
  */
 import type { Resultat } from "../chiffrage/dqe";
+import { expositionFiscale } from "../chiffrage/quantitatif";
 import { COEF_K, TVA } from "../chiffrage/referentiel";
 import { CORRESPONDANCE_CPS } from "./correspondance";
 import type { DocumentCps } from "./cps";
@@ -114,6 +115,12 @@ export function controlerCps(r: Resultat, d: DocumentCps): PointControle[] {
   const disc = /prix nouveau arrêté par écrit/.test(md);
   add("CL-10", "Discordance : modification technique substantielle → examen contradictoire et prix nouveau", disc,
     disc ? "Clause présente à l'article « Pièces constitutives »" : "Clause absente");
+
+  // ── Régime fiscal des prix de matériaux (contre-examen GPT n° 12) ─────
+  const fisc = expositionFiscale(r);
+  add("FISC-1", "Régime fiscal des prix de matériaux (HT supposé / TVA non indiquée par la source)", /Régime fiscal des prix de matériaux/.test(md),
+    `${fisc.materiaux.length} matériaux de gros œuvre retenus HT sans vérification (≈ ${dh(fisc.valeurHT)} DH HT) ; incidence si TTC ≈ −${dh(fisc.impactSiTTC)} DH HT (${(fisc.part * 100).toFixed(1).replace(".", ",")} %) ; déclaré en Annexe 4 et dans les conditions de levée`,
+    fisc.materiaux.length ? "PROVISOIRE" : "CORRIGE");
 
   // ── Réserves techniques ───────────────────────────────────────────────
   const a3 = /ANNEXE 3 — RÉSERVES TECHNIQUES/.test(md) && /non structurelle/.test(md);

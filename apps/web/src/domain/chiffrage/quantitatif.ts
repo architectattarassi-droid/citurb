@@ -7,7 +7,7 @@
  */
 import { LOT_PAR_CODE, type CodeLot } from "./lots";
 import { OUVRAGES } from "./ouvrages";
-import { MAIN_OEUVRE, MATERIAUX, type Metier } from "./referentiel";
+import { K_PRIVE, MAIN_OEUVRE, MATERIAUX, prixHT, regimeFiscal, type Metier } from "./referentiel";
 import type { Resultat } from "./dqe";
 
 export type Famille = "INSTALLATION" | "TERRASSEMENTS_FONDATIONS" | "STRUCTURE_MACONNERIE" | "ETANCHEITE" | "SECOND_OEUVRE" | "EQUIPEMENTS" | "EXTERIEURS";
@@ -146,4 +146,24 @@ export function quantitatif(r: Resultat): Quantitatif {
       .map(([metier, h]) => ({ metier, libelle: MAIN_OEUVRE[metier].libelle, heures: h, jours: h / 8 }))
       .sort((a, b) => b.heures - a.heures),
   };
+}
+
+export type ExpositionFiscale = { materiaux: { id: string; libelle: string; valeurHT: number }[]; valeurHT: number; impactSiTTC: number; part: number };
+
+/**
+ * Risque fiscal des prix de matériaux de gros œuvre (négoce) : matériaux dont la source
+ * n'indique pas la TVA (prix retenu HT par hypothèse, non vérifié). Impact
+ * si ces prix étaient TTC : valeur ÷ 6 × coefficient de vente × coefficient
+ * régional matériaux (ordre de grandeur, ±3 % de la simulation complète).
+ */
+export function expositionFiscale(r: Resultat, qt: Quantitatif = quantitatif(r)): ExpositionFiscale {
+  const materiaux = qt.materiaux.flatMap((m) => {
+    const e = MATERIAUX[m.id];
+    if (!e || e.source.fichier !== "materiaux-gros-oeuvre") return [];
+    const f = regimeFiscal(e);
+    return f.observe === "NON_INDIQUE" && !f.verifie ? [{ id: m.id, libelle: m.libelle, valeurHT: m.quantite * prixHT(e) * r.region.mat }] : [];
+  }).sort((a, b) => b.valeurHT - a.valeurHT);
+  const valeurHT = materiaux.reduce((s, m) => s + m.valeurHT, 0);
+  const impactSiTTC = (valeurHT / 6) * K_PRIVE;
+  return { materiaux, valeurHT, impactSiTTC, part: impactSiTTC / r.travauxHT };
 }

@@ -289,3 +289,16 @@ describe("types de murs de soutènement", () => {
     expect(b).toBeGreaterThan(3000); expect(b).toBeLessThan(4500);
   });
 });
+
+describe("régime fiscal des prix de matériaux", () => {
+  it("les prix de négoce sont HT supposé, non vérifié ; l'incidence si TTC est un ordre de grandeur de 5 à 10 %", async () => {
+    const { expositionFiscale } = await import("./quantitatif");
+    const { MATERIAUX, regimeFiscal } = await import("./referentiel");
+    expect(regimeFiscal(MATERIAUX.CIMENT_CPJ45)).toEqual({ observe: "NON_INDIQUE", suppose: "HT", verifie: false });
+    const r = chiffrer({ type: "VILLA", ville: "Salé", surfacePlancher: 0, niveaux: 2, surfaceTerrain: 294, parcelle: { villaType: "jumelee" }, sousSol: { profondeur: 3 }, sol: "BON", standing: "ECONOMIQUE", etapes: { terrain: true, finitions: true } });
+    const f = expositionFiscale(r);
+    expect(f.materiaux.some((m) => m.id === "ACIER_HA")).toBe(true);
+    expect(f.part).toBeGreaterThan(0.05);
+    expect(f.part).toBeLessThan(0.1);
+  });
+});

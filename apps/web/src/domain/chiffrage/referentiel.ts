@@ -44,8 +44,20 @@ export type PrixElementaire = {
   max: number;
   /** Prix public présumé TTC (÷ 1,20 pour obtenir le HT). */
   ttc?: boolean;
+  /** Régime fiscal confirmé par un devis fournisseur indiquant HT, TVA et TTC (aucun à ce jour). */
+  fiscaliteVerifiee?: boolean;
   source: SourceRef;
 };
+
+/**
+ * Régime fiscal d'un prix (contre-examen GPT du 10/10/2026) : ce que la source
+ * indique, distinct de ce que le moteur suppose. Les négoces et guides ne
+ * mentionnent pas la TVA : prix publié retenu HT par hypothèse, non vérifié.
+ */
+export type RegimeFiscal = { observe: "TTC_PRESUME" | "NON_INDIQUE"; suppose: "HT" | "TTC"; verifie: boolean };
+export function regimeFiscal(p: PrixElementaire): RegimeFiscal {
+  return { observe: p.ttc ? "TTC_PRESUME" : "NON_INDIQUE", suppose: p.ttc ? "TTC" : "HT", verifie: !!p.fiscaliteVerifiee };
+}
 
 const G = "materiaux-gros-oeuvre" as const;
 const S = "materiaux-second-oeuvre" as const;

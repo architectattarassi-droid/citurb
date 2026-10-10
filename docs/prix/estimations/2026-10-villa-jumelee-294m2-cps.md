@@ -23,7 +23,8 @@
 4. mentions « [à compléter] » renseignées (maître d'ouvrage, coefficient sismique…) ;
 5. clauses administratives relues par le conseil juridique du maître d'ouvrage ;
 6. offres d'entreprises recueillies et comparées au BPDE, avec la décomposition du forfait 00.01 et des frais de chantier (Annexe 4) ;
-7. variables contractuelles arrêtées : taux et modalités de calcul des intérêts de retard de paiement ; durée d'empêchement continu ouvrant droit à résiliation pour force majeure.
+7. régime fiscal des prix de matériaux confirmé par devis fournisseur indiquant HT, TVA et TTC (25 matériaux de gros œuvre retenus HT par hypothèse, Annexe 4) ;
+8. variables contractuelles arrêtées : taux et modalités de calcul des intérêts de retard de paiement ; durée d'empêchement continu ouvrant droit à résiliation pour force majeure.
 
 **Arbitrages contractuels retenus** (modifiables avant signature) :
 
@@ -2517,3 +2518,7 @@ Affectation des dépenses entre les prix unitaires et le forfait d'installation 
 | Clôture définitive de la parcelle | poste spécifique du BPDE, distinct du forfait |
 
 L'entrepreneur joint à son offre la décomposition chiffrée du forfait 00.01 et de ses frais de chantier selon cette affectation ; une même dépense ne peut figurer dans les deux.
+
+**Régime fiscal des prix de matériaux.** Les prix de négoce et des guides professionnels ne mentionnent pas la TVA : ils sont retenus HT par hypothèse, non vérifiée. Les prix publics des distributeurs grand public sont présumés TTC et divisés par 1,20. Les fournitures de second œuvre, souvent chiffrées fournies-posées par des sous-traitants, restent également à confirmer sur devis.
+
+Matériaux de gros œuvre du projet concernés (béton prêt à l'emploi, acier, ciment, granulats, blocs, hourdis, coffrage, réseaux) : 25, pour une valeur d'environ 547 088 DH HT (principaux : Béton prêt à l'emploi B25, Acier HA FeE500, Ciment CPJ 45, Béton prêt à l'emploi B30, Location mini-pelle avec conducteur, Poutrelle précontrainte). Si ces prix étaient TTC, le montant des travaux baisserait d'environ 125 830 DH HT (7,4 %). Cette incidence mesure un risque ; elle ne constitue ni une économie acquise ni une preuve que ces prix sont TTC. Validation attendue : devis fournisseur indiquant HT, TVA et TTC.
