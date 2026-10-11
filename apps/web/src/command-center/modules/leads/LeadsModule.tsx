@@ -403,6 +403,8 @@ function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow, isMobile }: {
   const porte = PORTE_CONFIG[lead.type] ?? PORTE_CONFIG.NA;
 
   // ── Contenu factorisé du drawer (réutilisé desktop et mobile) ──
+  // Estimation jointe par la page publique /chiffrage (meta.wizard.chiffrage).
+  const estimation = (lead.wizard?.chiffrage && typeof lead.wizard.chiffrage === "object" ? lead.wizard.chiffrage : null) as Record<string, unknown> | null;
   const drawerBody = (
     <div style={{ background: isMobile ? "transparent" : "#0d1017", color: "#e8eaf0", padding: isMobile ? 0 : 24, overflowY: "auto", flex: 1 }}>
       <div style={{ marginBottom: 16 }}>
@@ -432,7 +434,7 @@ function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow, isMobile }: {
           <Field k="Surface" v={lead.qualification?.surface != null ? `${lead.qualification.surface} m²` : undefined} />
           <Field k="Budget" v={lead.qualification?.budget != null ? new Intl.NumberFormat("fr-MA").format(lead.qualification.budget) + " MAD" : undefined} />
           <Field k="Délai" v={lead.qualification?.delaiMois != null ? `${lead.qualification.delaiMois} mois` : undefined} />
-          {lead.wizard && Object.keys(lead.wizard).length > 0 && (
+          {lead.wizard && Object.keys(lead.wizard).length > 0 && !estimation && (
             <details style={{ marginTop: 8 }}>
               <summary style={{ cursor: "pointer", fontSize: 12, color: "#9ca3af" }}>
                 Parcours de porte ({Object.keys(lead.wizard).length} champs)
@@ -440,6 +442,28 @@ function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow, isMobile }: {
               <pre style={S.briefJson}>{JSON.stringify(lead.wizard, null, 2)}</pre>
             </details>
           )}
+        </Section>
+      )}
+
+      {estimation && (
+        <Section title="Estimation du simulateur (/chiffrage)">
+          <Field k="Projet" v={[String(estimation.type ?? "").toLowerCase(), typeof estimation.niveaux === "number" ? (estimation.niveaux === 1 ? "RDC" : `R+${estimation.niveaux - 1}`) : "", estimation.sousSol ? "+ sous-sol" : ""].filter(Boolean).join(" ")} />
+          <Field k="Terrain" v={typeof estimation.surfaceTerrain === "number" ? `${fmtNb(estimation.surfaceTerrain)} m²${(estimation.parcelle as { villaType?: string } | null)?.villaType ? ` (villa ${(estimation.parcelle as { villaType?: string }).villaType})` : ""}` : undefined} />
+          <Field k="Surface plancher" v={typeof estimation.surfacePlancherTotale === "number" ? `${fmtNb(estimation.surfacePlancherTotale)} m²` : undefined} />
+          <Field k="Standing" v={STANDING_LIBELLE[String(estimation.standing)] ?? String(estimation.standing ?? "")} />
+          <Field k="Ville" v={String(estimation.ville ?? "") || undefined} />
+          <Field k="Travaux HT" v={typeof estimation.travauxHT === "number" ? `${fmtNb(estimation.travauxHT)} DH` : undefined} />
+          <Field k="Travaux TTC" v={typeof estimation.totalTTC === "number" ? `${fmtNb(estimation.totalTTC)} DH` : undefined} />
+          <Field k="Budget total TTC" v={typeof estimation.budgetTTC === "number" ? `${fmtNb(estimation.budgetTTC)} DH` : undefined} />
+          <Field k="Coût bâtiment" v={typeof estimation.coutM2HT === "number" ? `${fmtNb(estimation.coutM2HT)} DH HT/m²` : undefined} />
+          <Field k="Précision" v={estimation.precision != null ? `niveau ${estimation.precision}${estimation.regime ? ` · ${String(estimation.regime).toLowerCase()}` : ""}` : undefined} />
+          <a href={`/cc/simulateur?${paramsSimulateur(estimation)}`} target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", marginTop: 10, padding: "8px 12px", borderRadius: 8, background: "#C9A227", color: "#0B1B3A", fontWeight: 700, fontSize: 13, textDecoration: "none" }}>
+            Rouvrir dans le simulateur (CPS) ↗
+          </a>
+          <details style={{ marginTop: 8 }}>
+            <summary style={{ cursor: "pointer", fontSize: 12, color: "#9ca3af" }}>Données brutes</summary>
+            <pre style={S.briefJson}>{JSON.stringify(lead.wizard, null, 2)}</pre>
+          </details>
         </Section>
       )}
 
@@ -630,6 +654,27 @@ function CreateDossierModal({ onClose, onCreated }: {
 }
 
 // ─── Helpers ─────────────────────────────────────────────────
+
+/** Libellés des standings villa (costRangesMA, type VIL). */
+const STANDING_LIBELLE: Record<string, string> = { ULTRA_ECO: "Très économique", ECONOMIQUE: "Moyen standing", STANDARD: "Standing", STANDING: "Haut standing", PREMIUM: "Luxe / Premium" };
+const fmtNb = (n: number) => new Intl.NumberFormat("fr-FR").format(Math.round(n));
+
+/** URL du simulateur back-office préremplie depuis le résumé de chiffrage (lu par projetDepuisUrl). */
+function paramsSimulateur(c: Record<string, unknown>): string {
+  const q = new URLSearchParams();
+  if (c.type) q.set("type", String(c.type).toLowerCase());
+  if (typeof c.niveaux === "number") q.set("niveaux", String(c.niveaux));
+  if (c.standing) q.set("standing", String(c.standing));
+  if (c.ville) q.set("ville", String(c.ville));
+  const parcelle = c.parcelle as { villaType?: string } | null | undefined;
+  if (typeof c.surfaceTerrain === "number" && parcelle) {
+    q.set("terrain", String(c.surfaceTerrain));
+    if (parcelle.villaType) q.set("villa", parcelle.villaType);
+  } else if (typeof c.surfacePlancher === "number") q.set("surface", String(Math.round(c.surfacePlancher)));
+  const ss = c.sousSol as { profondeur?: number } | null | undefined;
+  if (ss?.profondeur) q.set("soussol", String(ss.profondeur));
+  return q.toString();
+}
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (

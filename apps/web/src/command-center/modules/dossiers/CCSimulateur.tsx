@@ -10,7 +10,8 @@ import CostEngine from "./CostEngine";
 import LotsEstimator from "./LotsEstimator";
 import { CC } from "../../theme/tokens";
 
-const ChiffrageGadget = lazy(() => import("../../../features/chiffrage/ChiffrageGadget"));
+// Prérempli depuis l'URL quand on arrive d'un lead (?type=&terrain=&standing=…).
+const ChiffrageCC = lazy(() => import("../../../features/chiffrage/ChiffrageCC"));
 
 export default function CCSimulateur() {
   const [tab, setTab] = useState<"chiffrage" | "lots" | "honoraires">("chiffrage");
@@ -29,7 +30,7 @@ export default function CCSimulateur() {
 
       {tab === "chiffrage" ? (
         <Suspense fallback={<p style={{ fontSize: 13, color: CC.color.inkMid }}>Chargement…</p>}>
-          <ChiffrageGadget variante="cc" />
+          <ChiffrageCC />
         </Suspense>
       ) : tab === "lots" ? <LotsEstimator /> : <CostEngine />}
     </div>

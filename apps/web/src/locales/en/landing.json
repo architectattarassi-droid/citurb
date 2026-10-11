@@ -257,5 +257,10 @@
   "landing.lead.err_phone": "Invalid number. Examples: 06 12 34 56 78, +212 6 12 34 56 78 or +33 6 12 34 56 78.",
   "landing.lead.err_email": "Invalid email address (or leave the field empty).",
   "landing.lead_modal.callback_title": "Get a call back from an architect",
-  "landing.lead_modal.callback_intro": "Name and phone are enough: a CITURBAREA architect calls you back within 24 h, with no commitment."
+  "landing.lead_modal.callback_intro": "Name and phone are enough: a CITURBAREA architect calls you back within 24 h, with no commitment.",
+
+  "landing.chiffrage.titre": "How much will your villa cost?",
+  "landing.chiffrage.texte": "Estimate it item by item in 2 minutes, free and with no commitment: foundations, structure, finishes.",
+  "landing.chiffrage.cta": "Estimate my build, free",
+  "landing.nav.chiffrage": "Estimate my build"
 }

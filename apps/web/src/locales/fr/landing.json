@@ -257,5 +257,10 @@
   "landing.lead.err_phone": "Numéro invalide. Exemples : 06 12 34 56 78, +212 6 12 34 56 78 ou +33 6 12 34 56 78.",
   "landing.lead.err_email": "Adresse email invalide (ou laissez le champ vide).",
   "landing.lead_modal.callback_title": "Être rappelé par un architecte",
-  "landing.lead_modal.callback_intro": "Nom et téléphone suffisent : un architecte CITURBAREA vous rappelle sous 24 h, sans engagement."
+  "landing.lead_modal.callback_intro": "Nom et téléphone suffisent : un architecte CITURBAREA vous rappelle sous 24 h, sans engagement.",
+
+  "landing.chiffrage.titre": "Combien coûtera votre villa ?",
+  "landing.chiffrage.texte": "Chiffrez-la lot par lot en 2 minutes, gratuitement et sans engagement : fondations, gros œuvre, finitions.",
+  "landing.chiffrage.cta": "Chiffrer mon projet",
+  "landing.nav.chiffrage": "Chiffrer mon projet"
 }

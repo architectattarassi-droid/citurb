@@ -41,7 +41,7 @@ interface Reponse {
   status: number;
   json: Record<string, unknown>;
   /** Présent seulement quand un lead vient d'être écrit (pas en rejeu ni pot de miel). */
-  nouveau?: { id: string; nom: string; telephone: string; email: string | null; ville: string | null; projetType: string | null; budget: number | null; source: string; pageContext: string | null; score: number };
+  nouveau?: { id: string; nom: string; telephone: string; email: string | null; ville: string | null; projetType: string | null; budget: number | null; source: string; pageContext: string | null; score: number; estimation?: string };
 }
 
 const WIZARD_MAX_BYTES = 16 * 1024;
@@ -233,7 +233,7 @@ export async function traiterCapture(body: unknown, headers: Headers, sql: Sql):
     return {
       status: 201,
       json: resultat(id, s, "NEW", lang),
-      nouveau: { id, nom, telephone, email, ville, projetType, budget, source, pageContext, score: s },
+      nouveau: { id, nom, telephone, email, ville, projetType, budget, source, pageContext, score: s, estimation: resumeEstimation(wizard) },
     };
   } catch (e) {
     // 42P01 = table absente (schéma non poussé) : jamais de CREATE TABLE ici.
@@ -250,6 +250,19 @@ function repondre(r: Reponse): Response {
   });
 }
 
+/** Libellés des standings villa (costRangesMA, type VIL). */
+const STANDING_LIBELLE: Record<string, string> = { ULTRA_ECO: "très économique", ECONOMIQUE: "moyen standing", STANDARD: "standing", STANDING: "haut standing", PREMIUM: "luxe / premium" };
+
+/** Résumé lisible du chiffrage joint par /chiffrage (meta.wizard.chiffrage), pour l'alerte e-mail. */
+export function resumeEstimation(wizard: unknown): string | undefined {
+  const c = (wizard as { chiffrage?: Record<string, unknown> } | undefined)?.chiffrage;
+  if (!c || typeof c !== "object") return undefined;
+  const n = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? new Intl.NumberFormat("fr-FR").format(Math.round(v)) : "?");
+  const niveaux = typeof c.niveaux === "number" ? (c.niveaux === 1 ? "RDC" : `R+${c.niveaux - 1}`) : "";
+  const ss = c.sousSol && typeof c.sousSol === "object" ? " + sous-sol" : "";
+  return `${String(c.type ?? "").toLowerCase()} ${niveaux}${ss}, ${n(c.surfacePlancherTotale ?? c.surfacePlancher)} m², ${STANDING_LIBELLE[String(c.standing)] ?? String(c.standing ?? "standing ?").toLowerCase()} — travaux ${n(c.travauxHT)} DH HT, budget total ${n(c.budgetTTC)} DH TTC (précision niveau ${c.precision ?? "?"})`;
+}
+
 const echapper = (s: string) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 
 /** Corps de l'alerte e-mail envoyée au propriétaire pour un nouveau lead. */
@@ -264,6 +277,7 @@ export function messageAlerte(l: NonNullable<Reponse["nouveau"]>): { subject: st
     ["Source", l.source],
     ["Page", l.pageContext || "—"],
     ["Score", String(l.score)],
+    ...(l.estimation ? [["Estimation", l.estimation] as [string, string]] : []),
   ];
   const lien = `https://admin.citurbarea.com/cc/leads`;
   return {

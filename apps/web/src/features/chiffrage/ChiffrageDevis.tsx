@@ -77,6 +77,7 @@ export default function ChiffrageDevis() {
       </div>
 
       <div className="mx-auto max-w-5xl px-4 py-6">
+        <p className="relative z-30 mb-3 rounded-lg border border-[#C9A227] bg-[#FFF8E1] px-3 py-2 text-sm font-semibold text-[#0B1B3A] print:hidden">{t("devisFlouNote")}</p>
         <div className="overflow-x-auto">
           <DqeImprimable res={res} ecran flou />
         </div>

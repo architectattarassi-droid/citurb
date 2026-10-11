@@ -312,6 +312,13 @@ const STYLES = `
   .qc-call:hover{ background:#f1f5f9; }
   .qc-cb{ background:linear-gradient(90deg,var(--blue),var(--blue2)); color:#fff; }
   .qc-cb:hover{ filter:brightness(.95); }
+  .chiffrage-banner{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; margin:14px 0 4px; padding:14px 16px; border-radius:14px; background:#0B1B3A; color:#fff; text-decoration:none; border:1px solid #C9A227; }
+  .chiffrage-banner:hover{ filter:brightness(1.08); }
+  .chiffrage-banner .cb-txt{ display:flex; flex-direction:column; gap:4px; flex:1 1 260px; }
+  .chiffrage-banner .cb-txt strong{ font-size:18px; }
+  .chiffrage-banner .cb-txt span{ font-size:14px; opacity:.9; }
+  .chiffrage-banner .cb-cta{ background:#C9A227; color:#0B1B3A; font-weight:800; padding:10px 16px; border-radius:10px; white-space:nowrap; min-height:44px; display:inline-flex; align-items:center; }
+  .pill-chiffrage{ background:#C9A227 !important; color:#0B1B3A !important; font-weight:700; }
 
   /* Formulaires de lead : erreurs, confirmation, mention légale, pot de miel */
   .form-err{ margin:0; color:#be123c; font-size:14px; font-weight:700; }
@@ -815,6 +822,7 @@ function buildPreHtml(t: T, lang: string): string {
       <div class="brand">CITURBAREA</div>
 
       <div class="nav">
+        <a class="pill pill-chiffrage" href="/chiffrage">${esc(t("landing.nav.chiffrage"))}</a>
         <a class="pill" href="https://wa.me/212700127892?text=Salam%20Yassine%2C%20je%20veux%20un%20diagnostic%20CITURBAREA." target="_blank" rel="noopener">${esc(t("landing.nav.whatsapp_rdv"))}</a>
 
         <div class="dropdown">
@@ -884,6 +892,12 @@ function buildPreHtml(t: T, lang: string): string {
         <a class="qc-btn qc-call" href="${attr(lienTel)}">${esc(t("landing.contact.call"))}</a>
         <button type="button" class="qc-btn qc-cb" onclick="openLeadModal()">${esc(t("landing.contact.callback"))}</button>
       </div>
+
+      <!-- Outil de chiffrage : page officielle /chiffrage -->
+      <a class="chiffrage-banner" href="/chiffrage">
+        <span class="cb-txt"><strong>${esc(t("landing.chiffrage.titre"))}</strong><span>${esc(t("landing.chiffrage.texte"))}</span></span>
+        <span class="cb-cta">${esc(t("landing.chiffrage.cta"))} →</span>
+      </a>
 
       <div class="categories" id="categories" aria-label="${attr(t("landing.categories.aria"))}">
         <!-- P1: funnel interne (évite redirection WhatsApp) -->

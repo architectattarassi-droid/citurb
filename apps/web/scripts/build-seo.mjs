@@ -450,6 +450,8 @@ for (const p of PORTES) {
 }
 
 // sitemap-portes.xml (à déclarer dans robots.txt — étape SEO technique)
+// Outil public de chiffrage (page officielle, indexée) : entrée du sitemap des portes.
+portePublished.push({ full: `${business.baseUrl}/chiffrage`, title: "Chiffrage lot par lot" });
 const sitemapPortes = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">

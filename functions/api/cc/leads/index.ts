@@ -69,7 +69,7 @@ export function vueLead(l: Record<string, unknown>) {
     origin: "FUNNEL" as const,
     qualification: {
       porte: (l.projetType as string) || undefined,
-      typeProjet: (TYPE_LIBELLE[String(meta?.typeProjet)] || wizard?.natureProjet || wizard?.type || wizard?.sousTypeP2 || undefined) as string | undefined,
+      typeProjet: (TYPE_LIBELLE[String(meta?.typeProjet)] || wizard?.natureProjet || wizard?.type || wizard?.sousTypeP2 || (wizard?.chiffrage as { type?: string } | undefined)?.type || undefined) as string | undefined,
       commune: (l.ville as string) || undefined,
       surface: num(l.surface),
       budget: num(l.budget),

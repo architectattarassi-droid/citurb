@@ -257,5 +257,10 @@
   "landing.lead.err_phone": "رقم غير صالح. أمثلة: 06 12 34 56 78 أو ‎+212 6 12 34 56 78 أو ‎+33 6 12 34 56 78.",
   "landing.lead.err_email": "بريد إلكتروني غير صالح (أو اترك الحقل فارغاً).",
   "landing.lead_modal.callback_title": "اطلب اتصالاً من مهندس معماري",
-  "landing.lead_modal.callback_intro": "يكفي الاسم والهاتف: يتصل بك مهندس معماري من CITURBAREA خلال 24 ساعة، دون أي التزام."
+  "landing.lead_modal.callback_intro": "يكفي الاسم والهاتف: يتصل بك مهندس معماري من CITURBAREA خلال 24 ساعة، دون أي التزام.",
+
+  "landing.chiffrage.titre": "شحال غادي تكلفك الفيلا ديالك؟",
+  "landing.chiffrage.texte": "من الساس للمفتاح، لوط بلوط، فدقيقتين، مجانا وبلا التزام.",
+  "landing.chiffrage.cta": "احسب التكلفة ديالك مجانا",
+  "landing.nav.chiffrage": "احسب التكلفة"
 }
