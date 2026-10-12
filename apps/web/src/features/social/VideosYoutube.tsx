@@ -2,7 +2,7 @@
  * Vidéos de la chaîne « مدن تتحدت - Cities Talk » (@citiestalkmaroc) intégrées
  * en lecteur vidéo (youtube-nocookie, lecture sur place), choisies selon la
  * catégorie de la page et le type de projet, + liens vers les réseaux.
- * Les lecteurs se chargent paresseusement (loading="lazy") : la page reste rapide.
+ * Façade : seule la miniature est chargée, le lecteur n'arrive qu'au clic.
  */
 import React from "react";
 import { RESEAUX, lienWhatsApp } from "../../config/contact";
@@ -46,25 +46,54 @@ export function videosPourProjet(type: string): Video[] {
   return VIDEOS.cout;
 }
 
-function Lecteur({ v }: { v: Video }) {
+/**
+ * Lecteur en « façade » : seule la miniature (i.ytimg.com, ~20 Ko) est chargée ;
+ * le lecteur youtube-nocookie (≈ 1 Mo de JS) n'est injecté qu'au clic, puis
+ * démarre directement. La page reste légère même avec plusieurs vidéos.
+ */
+export function LecteurYoutube({ v, className = "" }: { v: Video; className?: string }) {
+  const [actif, setActif] = React.useState(false);
   return (
-    <figure className="m-0">
+    <figure className={`m-0 ${className}`}>
       <div className="relative aspect-video overflow-hidden rounded-xl bg-slate-900 shadow-sm">
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1`}
-          title={v.titre}
-          loading="lazy"
-          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-          onFocus={() => evenement("video_lecture", { video: v.id })}
-          className="absolute inset-0 h-full w-full border-0"
-        />
+        {actif ? (
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1&autoplay=1`}
+            title={v.titre}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            className="absolute inset-0 h-full w-full border-0"
+          />
+        ) : (
+          <button
+            type="button"
+            onClick={() => { setActif(true); evenement("video_lecture", { video: v.id }); }}
+            aria-label={`Lire la vidéo : ${v.titre}`}
+            className="group absolute inset-0 h-full w-full cursor-pointer border-0 bg-transparent p-0"
+          >
+            <img
+              src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              width={480}
+              height={360}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <span aria-hidden="true" className="absolute inset-0 bg-black/10 transition group-hover:bg-black/25" />
+            <span aria-hidden="true" className="absolute left-1/2 top-1/2 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#C9A227] text-[#0B1B3A] shadow-lg transition group-hover:scale-110">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+            </span>
+          </button>
+        )}
       </div>
       <figcaption dir="auto" className="mt-2 text-sm font-semibold leading-snug text-[#0B1B3A]">{v.titre}</figcaption>
     </figure>
   );
 }
+
+const Lecteur = LecteurYoutube;
 
 export function VideosYoutube({ titre, videos, className = "" }: { titre: string; videos: Video[]; className?: string }) {
   if (!videos.length) return null;

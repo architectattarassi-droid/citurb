@@ -26,3 +26,13 @@ export const RESEAUX = {
   tiktok: "https://www.tiktok.com/@yassine.attarassi",
   instagram: "https://www.instagram.com/arc_bati_architecture",
 } as const;
+
+/**
+ * Lien « Laisser un avis Google » de la fiche Google Business Profile
+ * (Arc Bati Architecture). VIDE tant qu'il n'est pas configuré : le bouton
+ * n'apparaît alors nulle part. À renseigner avec le lien court fourni par la
+ * fiche (Google Business → « Demander des avis » → copier le lien, de la forme
+ * https://g.page/r/XXXX/review) ou
+ * https://search.google.com/local/writereview?placeid=<PLACE_ID>.
+ */
+export const AVIS_GOOGLE_URL = "";

@@ -1,11 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import TerrainsAccueil from "../../features/terrains/TerrainsAccueil";
-
-import { listPublished } from "../../features/media/articles/store";
-import type { Article } from "../../features/media/articles/types";
-import { ArticleCard } from "../../features/media/components/ArticleCard";
-import { cerclesApi } from "../../features/cercles/api";
-import { cerclePostToArticle } from "./cerclePostToArticle";
+import React, { useEffect, useMemo } from "react";
+import AccueilBasDePage from "./AccueilBasDePage";
 import { useT, useLang } from "../../i18n/i18n";
 import { BottomNav } from "../../components/bottom-nav/BottomNav";
 import {
@@ -18,8 +12,9 @@ import {
 } from "../../features/lead-funnel/leadBridge";
 import { lienTel, lienWhatsApp } from "../../config/contact";
 
-// Landing keeps the validated HTML/CSS identity, but renders the Articles preview in React.
-// Legacy inline JS media feed is removed to avoid runtime errors and to make content maintainable.
+// Landing keeps the validated HTML/CSS identity for the hero; everything below
+// the hero (architect, steps, cost, projects, videos, land, guides, FAQ, final
+// CTA, footer) is rendered in React by AccueilBasDePage.
 
 type T = (key: string, vars?: Record<string, string | number>) => string;
 
@@ -324,7 +319,8 @@ const STYLES = `
   /* Formulaires de lead : erreurs, confirmation, mention légale, pot de miel */
   .form-err{ margin:0; color:#be123c; font-size:14px; font-weight:700; }
   .form-legal{ margin:0; color:#64748b; font-size:11.5px; line-height:1.45; text-align:center; }
-  .hp-field{ position:absolute !important; left:-10000px !important; width:1px !important; height:1px !important; min-height:0 !important; padding:0 !important; opacity:0 !important; }
+  /* Pot de miel masqué sans décalage hors écran : un left négatif créait 10 000 px de défilement horizontal en arabe (RTL). */
+  .hp-field{ position:absolute !important; width:1px !important; height:1px !important; min-height:0 !important; padding:0 !important; margin:-1px !important; border:0 !important; overflow:hidden !important; clip:rect(0 0 0 0) !important; clip-path:inset(50%) !important; opacity:0 !important; pointer-events:none !important; }
   .lead-done{
     padding:16px;
     border-radius:14px;
@@ -1013,16 +1009,7 @@ function buildPostHtml(t: T): string {
 
 </main>
 
-<footer>
-  <div class="container">
-    <h3>${esc(t("landing.footer.title"))}</h3>
-    <ul>
-      <li>${esc(t("landing.footer.li1"))}</li>
-      <li>${esc(t("landing.footer.li2"))}</li>
-      <li>${esc(t("landing.footer.li3"))}</li>
-    </ul>
-  </div>
-</footer>
+<!-- Pied de page : rendu en React (AccueilBasDePage). -->
 
 <!-- SOON BOX global -->
 <div id="soonBox" style="
@@ -1468,91 +1455,13 @@ export default function LandingV4() {
     };
   }, [setLang, t, lang]);
 
-  // Publications PUBLIQUES Cercles → mêmes cartes que le journal (ArticleCard).
-  const [cercleArticles, setCercleArticles] = useState<Article[]>([]);
-  useEffect(() => {
-    let alive = true;
-    cerclesApi
-      .publicFeed(1)
-      .then((r) => {
-        if (!alive) return;
-        const mapped = (r.data || []).map(cerclePostToArticle);
-        setCercleArticles(mapped);
-      })
-      .catch(() => {
-        if (alive) setCercleArticles([]);
-      });
-    return () => {
-      alive = false;
-    };
-  }, []);
-
-  // Fusion journal + communauté, triée du plus récent au plus ancien.
-  const articles = useMemo(() => {
-    const merged = [...listPublished(), ...cercleArticles];
-    merged.sort(
-      (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-    );
-    return merged.slice(0, 9);
-  }, [cercleArticles]);
-
-  const mediaFilters: Array<{ key: string; label: string }> = [
-    { key: "all", label: t("landing.medias.filter.all") },
-    { key: "fr", label: t("landing.medias.filter.fr") },
-    { key: "ar", label: t("landing.medias.filter.ar") },
-    { key: "invest", label: t("landing.medias.filter.invest") },
-    { key: "chantier", label: t("landing.medias.filter.chantier") },
-    { key: "rapports", label: t("landing.medias.filter.rapports") },
-    { key: "premium", label: t("landing.medias.filter.premium") },
-  ];
-
   return (
     <div>
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
       <div dangerouslySetInnerHTML={{ __html: preHtml }} />
 
-      {/* Annonces de terrains (porte P4) : contenu vivant de l'accueil. */}
-      <TerrainsAccueil />
-
-      <section id="medias" style={{ scrollMarginTop: 140, padding: "32px 0 48px" }}>
-        <div style={{ maxWidth: 1300, margin: "0 auto", padding: "0 20px" }}>
-          {/* Header */}
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 20, flexWrap: "wrap", marginBottom: 24 }}>
-            <div>
-              <h2 id="media-title-txt" style={{ margin: "0 0 8px", fontSize: 22, fontWeight: 900, color: "var(--blue2)" }}>
-                {t("landing.medias.title")}
-              </h2>
-              <p id="media-sub-txt" style={{ margin: 0, color: "#64748b", fontSize: 13, lineHeight: 1.6 }}>
-                {t("landing.medias.sub")}
-              </p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 12 }}>
-                {mediaFilters.map((f, i) => (
-                  <span key={f.key} style={{ padding: "6px 13px", borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: "pointer", background: i === 0 ? "var(--blue)" : "#e6ebf5", color: i === 0 ? "#fff" : "var(--blue2)", border: i === 0 ? "1px solid var(--blue)" : "1px solid #d7def0" }}>{f.label}</span>
-                ))}
-              </div>
-            </div>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", flexShrink: 0 }}>
-              <button style={{ padding: "9px 16px", borderRadius: 12, border: "none", background: "#0f172a", color: "#fff", fontWeight: 700, fontSize: 13, cursor: "pointer" }} id="goto-media-btn" onClick={() => (window.location.href = "/media")}>
-                {t("landing.medias.goto")}
-              </button>
-            </div>
-          </div>
-          {/* Article grid */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            {articles.length === 0 ? (
-              <div style={{ color: "#64748b", fontSize: 14, gridColumn: "1/-1" }}>{t("landing.medias.empty")}</div>
-            ) : (
-              articles.map((a) => <ArticleCard key={a.id} article={a} mode="landing" />)
-            )}
-          </div>
-          <div style={{ marginTop: 24, textAlign: "center" }}>
-            <button style={{ padding: "10px 24px", borderRadius: 12, border: "1px solid #d7def0", background: "#e6ebf5", color: "var(--blue2)", fontWeight: 700, fontSize: 13, cursor: "pointer" }} id="see-all-btn" onClick={() => (window.location.href = "/media")}>
-              {t("landing.medias.see_all")}
-            </button>
-          </div>
-        </div>
-      </section>
+      {/* Bas de page : preuve, étapes, coût, réalisations, vidéos, terrains, guides, FAQ, CTA, pied de page. */}
+      <AccueilBasDePage />
 
       <div dangerouslySetInnerHTML={{ __html: postHtml }} />
       <BottomNav />
