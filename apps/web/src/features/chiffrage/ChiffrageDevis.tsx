@@ -7,7 +7,9 @@
  * Le projet arrive dans le fragment d'URL (#p=…) : jamais transmis au serveur,
  * aucune donnée personnelle (paramètres de projet uniquement).
  */
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { evenement } from "../../lib/marketing";
+import { VIDEOS, VideosYoutube } from "../social/VideosYoutube";
 import { Link, useLocation } from "react-router-dom";
 import { useLang } from "../../i18n/i18n";
 import { chiffrer, type ProjetInput } from "../../domain/chiffrage";
@@ -42,6 +44,7 @@ export default function ChiffrageDevis() {
     try { return chiffrer(p); } catch { return null; }
   }, [hash]);
   const [inscription, setInscription] = useState(false);
+  useEffect(() => { if (res) evenement("devis_vu", { type: res.input.type }, true); }, [res]);
 
   if (!res) {
     return (
@@ -95,6 +98,8 @@ export default function ChiffrageDevis() {
               </div>
             )}
         </section>
+
+        <VideosYoutube titre={t("videosContrat")} videos={VIDEOS.contrat} className="relative z-30 mx-auto mt-10 max-w-xl" />
       </div>
     </main>
   );

@@ -67,6 +67,7 @@ const SousTraitantsPage = lazy(() => import("../../../features/sous-traitants/So
 const ReceptionPage = lazy(() => import("../../../features/reception-conformite/ReceptionPage"));
 const IncidentsChantierPage = lazy(() => import("../../../features/incidents-chantier/IncidentsChantierPage"));
 const EstimationPage = lazy(() => import("../../../features/zillow-ma/EstimationPage"));
+const AvecVideos = lazy(() => import("../../../features/social/AvecVideos"));
 const ChiffragePage = lazy(() => import("../../../features/chiffrage/ChiffragePage"));
 const ChiffrageDevis = lazy(() => import("../../../features/chiffrage/ChiffrageDevis"));
 const NotificationsCenterPage = lazy(() => import("../../../features/notifications/NotificationsCenterPage"));
@@ -310,18 +311,18 @@ export const router = createBrowserRouter([
       { path: "/confirmer-email", element: <ConfirmEmail /> },
       { path: "/mot-de-passe-oublie", element: <ForgotPassword /> },
       // Portails publics P1-P6 → bloqués sur admin.citurbarea.com
-      { path: CANON.P1, element: <AdminHostBlock><P1Home /></AdminHostBlock> },
+      { path: CANON.P1, element: <AdminHostBlock><AvecVideos theme="p1"><P1Home /></AvecVideos></AdminHostBlock> },
       { path: CANON.P1_PACKS, element: <AdminHostBlock><P1Packs /></AdminHostBlock> },
       { path: CANON.P1_DOSSIER, element: <AdminHostBlock><P1Dossier /></AdminHostBlock> },
       { path: '/p1/dossier/phases', element: <AdminHostBlock><P1ClientPhases /></AdminHostBlock> },
       { path: '/portal', element: <AdminHostBlock><P1MyDossiers /></AdminHostBlock> },
       { path: '/mon-espace', element: <AdminHostBlock><P1MyDossiers /></AdminHostBlock> },
-      { path: '/p2', element: <AdminHostBlock><P2Home /></AdminHostBlock> },
+      { path: '/p2', element: <AdminHostBlock><AvecVideos theme="p2"><P2Home /></AvecVideos></AdminHostBlock> },
       { path: '/p2/form', element: <AdminHostBlock><P2Home /></AdminHostBlock> },
       { path: '/p2/result', element: <AdminHostBlock><P2Home /></AdminHostBlock> },
       { path: '/p2/finalize', element: <AdminHostBlock><P2Finalize /></AdminHostBlock> },
-      { path: '/p3', element: <AdminHostBlock><P3Home /></AdminHostBlock> },
-      { path: '/p4', element: <AdminHostBlock><P4Home /></AdminHostBlock> },
+      { path: '/p3', element: <AdminHostBlock><AvecVideos theme="p3"><P3Home /></AvecVideos></AdminHostBlock> },
+      { path: '/p4', element: <AdminHostBlock><AvecVideos theme="p4"><P4Home /></AvecVideos></AdminHostBlock> },
       { path: '/p5', element: <AdminHostBlock><P5Home /></AdminHostBlock> },
       { path: '/p5/finalize', element: <AdminHostBlock><P5Finalize /></AdminHostBlock> },
 

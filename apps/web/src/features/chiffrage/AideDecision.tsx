@@ -6,6 +6,7 @@
 import React, { useDeferredValue, useMemo, useState } from "react";
 import { FORMULES_CONCEPTION, aideDecision, type FormuleConception, type ProjetInput } from "../../domain/chiffrage";
 import type { texte } from "./textes";
+import { evenement } from "../../lib/marketing";
 
 const dh = (n: number) => `${Math.round(n).toLocaleString("fr-FR").replace(/\s/g, " ")} DH`;
 const signe = (n: number) => `${n > 0 ? "+" : n < 0 ? "−" : ""}${dh(Math.abs(n))}`;
@@ -26,6 +27,7 @@ export default function AideDecision({ projet, onChange, t }: Props) {
   }, [p, b]);
 
   const majBudget = (v: string) => {
+    evenement("decision_aid_used", {}, true);
     const n = Number(v.replace(/[^\d]/g, ""));
     setBudget(n);
     try { localStorage.setItem(BUDGET_CLE, String(n)); } catch { /* stockage indisponible */ }

@@ -12,11 +12,18 @@
  * non mis en cache ; l'app recharge alors une fois (lib/chunkReload).
  */
 
+import { PAGES_SEO, jsonLdChiffrage, reecrire } from "./_lib/seo";
+
 const HOTE_INDEXABLE = "citurbarea.com";
 
 export async function onRequest(ctx: { request: Request; next: () => Promise<Response> }): Promise<Response> {
-  const res = await ctx.next();
+  let res = await ctx.next();
   const url = new URL(ctx.request.url);
+  // Pages de l'application à référencer : titre, description, canonique et contenu dans le HTML servi.
+  const page = PAGES_SEO[url.pathname.replace(/\/+$/, "") || "/"];
+  if (page && (res.headers.get("content-type") || "").includes("text/html")) {
+    res = reecrire(res, page, url.pathname.startsWith("/chiffrage") && !page.noindex ? jsonLdChiffrage : undefined);
+  }
   if (url.pathname.startsWith("/assets/") && (res.headers.get("content-type") || "").includes("text/html")) {
     return new Response("Asset introuvable", {
       status: 404,

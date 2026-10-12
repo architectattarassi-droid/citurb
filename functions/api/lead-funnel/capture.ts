@@ -45,7 +45,6 @@ interface Reponse {
 }
 
 const WIZARD_MAX_BYTES = 16 * 1024;
-const RE_TEL_MA = /^(\+212|0)[567]\d{8}$/;
 
 /**
  * Téléphone accepté, compacté, ou null : marocain (0…, +212…, 00212…) ou
@@ -58,7 +57,7 @@ export function telephoneLead(t: string): string | null {
   if (/^(\+|00)[1-9]\d{7,14}$/.test(c)) return c.startsWith("00") ? `+${c.slice(2)}` : c;
   return null;
 }
-const VILLES_TOP = new Set(["casablanca", "casa", "rabat", "marrakech", "marrakesh", "tanger", "tangier"]);
+const VILLES_TOP = new Set(["casablanca", "casa", "rabat", "marrakech", "marrakesh", "tanger", "tangier", "kénitra", "kenitra", "salé", "sale", "témara", "temara"]);
 
 // Mêmes exclusions que apps/web/src/features/lead-funnel/leadBridge.ts (EXCLUS).
 const EXCLUS = new Set([
@@ -107,10 +106,16 @@ function utmPropre(v: unknown): Record<string, string> | null {
 }
 
 /** Réplique de computeLeadScore (apps/api/src/modules/lead-funnel/lead-scoring.ts). */
-function score(input: { budget: number | null; email: string | null; telephone: string; delaiMois: number | null; ville: string | null; returnVisitor: boolean }) {
-  const b: Record<string, number> = { budget: 0, contact: 0, urgency: 0, ville: 0, return: 0, wizard: 0, response: 0 };
+/**
+ * Score du lead. Contact : téléphone valide (marocain OU international, MRE)
+ * + e-mail valide OU réponse WhatsApp acceptée. Terrain détenu (titre) : +10.
+ */
+export function score(input: { budget: number | null; email: string | null; telephone: string; delaiMois: number | null; ville: string | null; returnVisitor: boolean; whatsapp?: boolean; terrain?: string | null }) {
+  const b: Record<string, number> = { budget: 0, contact: 0, urgency: 0, ville: 0, return: 0, wizard: 0, response: 0, terrain: 0 };
   if ((input.budget ?? 0) > 500_000) b.budget = 20;
-  if (input.email && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(input.email) && RE_TEL_MA.test(input.telephone.replace(/[\s-]/g, ""))) b.contact = 15;
+  const emailOk = !!input.email && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(input.email);
+  if (telephoneLead(input.telephone) && (emailOk || input.whatsapp)) b.contact = 15;
+  if (input.terrain === "TITRE") b.terrain = 10;
   if (typeof input.delaiMois === "number" && input.delaiMois < 6) b.urgency = 15;
   if (input.ville && VILLES_TOP.has(input.ville.trim().toLowerCase())) b.ville = 10;
   if (input.returnVisitor) b.return = 10;
@@ -197,7 +202,8 @@ export async function traiterCapture(body: unknown, headers: Headers, sql: Sql):
     }
     const connu = await sql`SELECT 1 FROM "Lead" WHERE "telephone" = ${telephone} OR (${email}::text IS NOT NULL AND lower("email") = lower(${email}::text)) LIMIT 1`;
     const returnVisitor = connu.length > 0;
-    const { score: s, breakdown } = score({ budget, email, telephone, delaiMois, ville, returnVisitor });
+    const whatsapp = metaClient.whatsapp === true;
+    const { score: s, breakdown } = score({ budget, email, telephone, delaiMois, ville, returnVisitor, whatsapp });
 
     const maintenant = new Date().toISOString();
     const id = `lead_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
@@ -207,6 +213,7 @@ export async function traiterCapture(body: unknown, headers: Headers, sql: Sql):
     ];
     const meta = {
       projetLibre: typeof metaClient.projetLibre === "string" ? clip(metaClient.projetLibre, 2000) : undefined,
+      whatsapp: whatsapp || undefined,
       wizard,
       idempotencyKey: idempotencyKey || undefined,
       ip,

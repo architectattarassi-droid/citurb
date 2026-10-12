@@ -12,8 +12,31 @@
 
 import React, { useCallback, useId, useMemo, useState } from "react";
 import { useT, useLang } from "../../i18n/i18n";
-import { captureLead, currentUtm, leadKey, sanitizeWizard, telephoneEnvoyable, type CaptureBody } from "./leadBridge";
+import { captureLead, currentUtm, leadKey, qualifierLead, sanitizeWizard, telephoneEnvoyable, type CaptureBody } from "./leadBridge";
 import { lienTel, lienWhatsApp } from "../../config/contact";
+import { evenement } from "../../lib/marketing";
+
+/** Indicatifs proposés (Maroc + pays de résidence des MRE). */
+const INDICATIFS = [
+  { code: "+212", pays: "MA", label: "🇲🇦 +212" }, { code: "+33", pays: "FR", label: "🇫🇷 +33" }, { code: "+34", pays: "ES", label: "🇪🇸 +34" },
+  { code: "+39", pays: "IT", label: "🇮🇹 +39" }, { code: "+32", pays: "BE", label: "🇧🇪 +32" }, { code: "+31", pays: "NL", label: "🇳🇱 +31" },
+  { code: "+49", pays: "DE", label: "🇩🇪 +49" }, { code: "+44", pays: "GB", label: "🇬🇧 +44" }, { code: "+1", pays: "US", label: "🇺🇸🇨🇦 +1" },
+  { code: "+971", pays: "AE", label: "🇦🇪 +971" }, { code: "+966", pays: "SA", label: "🇸🇦 +966" }, { code: "+974", pays: "QA", label: "🇶🇦 +974" },
+] as const;
+
+/** Numéro complet : saisi en international (+… / 00…) tel quel, sinon indicatif + numéro sans le 0 initial. */
+function numeroComplet(indicatif: string, saisi: string): string {
+  const t = saisi.trim();
+  if (!t) return "";
+  if (t.startsWith("+") || t.startsWith("00")) return t;
+  return indicatif + t.replace(/[^0-9]/g, "").replace(/^0+/, "");
+}
+
+const QUESTIONS = [
+  { cle: "terrain", options: ["TITRE", "EN_COURS", "CHERCHE"] },
+  { cle: "delai", options: ["MOINS_6", "6_12", "PLUS_12", "INFO"] },
+  { cle: "residence", options: ["MAROC", "ETRANGER"] },
+] as const;
 
 /** Types de projet du formulaire générique → porte du parcours CITURBAREA. */
 const TYPES_PROJET = [
@@ -44,6 +67,11 @@ export interface LeadCaptureFormProps {
   extraCapture?: () => Partial<CaptureBody>;
   /** Qualification de porte jointe en meta.wizard (filtrée et bornée par leadBridge). */
   extraMeta?: Record<string, unknown>;
+  /**
+   * « whatsapp » : palier 1 de l'entonnoir (prénom + numéro WhatsApp avec indicatif,
+   * e-mail replié, projet joint sans zone de texte), puis palier 2 (3 questions à un clic).
+   */
+  variante?: "standard" | "whatsapp";
 }
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -58,7 +86,9 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
   initial,
   extraCapture,
   extraMeta,
+  variante = "standard",
 }) => {
+  const wa = variante === "whatsapp";
   const t = useT();
   const { lang } = useLang();
   const [nom, setNom] = useState(initial?.nom || "");
@@ -75,8 +105,14 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
   const [status, setStatus] = useState<Status>("idle");
   const [errMsg, setErrMsg] = useState<string>("");
   const ids = useId();
+  const [indicatif, setIndicatif] = useState("+212");
+  const [whatsapp, setWhatsapp] = useState(true);
+  const [voirEmail, setVoirEmail] = useState(false);
+  const [capture, setCapture] = useState<{ leadId: string; cle: string } | null>(null);
+  const [reponses, setReponses] = useState<Record<string, string>>({});
+  const telComplet = wa ? numeroComplet(indicatif, tel) : tel;
   // Marocain ou international (diaspora MRE) : même règle que la Pages Function.
-  const phoneValid = useMemo(() => !!telephoneEnvoyable(tel), [tel]);
+  const phoneValid = useMemo(() => !!telephoneEnvoyable(telComplet), [telComplet]);
 
   const onSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -104,11 +140,12 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
         ...(extraCapture?.() || {}),
         ...(generique && ville.trim() ? { ville: ville.trim() } : {}),
         nom: nom.trim(),
-        telephone: tel.trim(),
+        telephone: telComplet.trim(),
         email: email.trim() || undefined,
         projetType: porteType || TYPES_PROJET.find((x) => x.id === typeChoisi)?.porte,
         meta: {
           projetLibre: projet.trim() || undefined,
+          ...(wa && whatsapp ? { whatsapp: true } : {}),
           ...(generique && typeChoisi ? { typeProjet: typeChoisi } : {}),
           ...(wizard ? { wizard } : {}),
         },
@@ -128,12 +165,58 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
       }
       const id = out.status === "sent" || out.status === "already" ? out.leadId || "" : "";
       const sc = out.status === "sent" ? out.score || 0 : 0;
+      if (out.status === "sent" && out.cle) setCapture({ leadId: out.leadId, cle: out.cle });
+      evenement("lead_submit", { source: body.source, porte: body.projetType, whatsapp: wa && whatsapp });
       setQueued(out.status === "queued");
       setStatus("success");
       onCaptured?.(id, sc);
     },
-    [nom, tel, email, projet, hp, phoneValid, porteType, source, lang, t, onCaptured, extraCapture, extraMeta, generique, typeChoisi, ville],
+    [nom, telComplet, email, projet, hp, phoneValid, porteType, source, lang, t, onCaptured, extraCapture, extraMeta, generique, typeChoisi, ville, wa, whatsapp],
   );
+
+  const messageWa = `Bonjour, je viens de faire mon chiffrage sur citurbarea.com${projet.trim() ? ` : ${projet.trim()}` : ""}. Je souhaite recevoir le devis détaillé.`;
+  const repondre = (cle: string, valeur: string) => {
+    const r = { ...reponses, [cle]: valeur };
+    setReponses(r);
+    evenement("palier2_repondu", { question: cle, reponse: valeur });
+    if (capture) void qualifierLead(capture.leadId, capture.cle, { [cle]: valeur, ...(cle === "residence" && valeur === "ETRANGER" ? { pays: INDICATIFS.find((x) => x.code === indicatif)?.pays } : {}) });
+  };
+
+  if (status === "success" && wa) {
+    const fini = QUESTIONS.every((q) => reponses[q.cle]);
+    return (
+      <div className={"rounded-xl border border-emerald-200 bg-emerald-50 p-5 text-emerald-900 " + (className || "")} role="status" aria-live="polite">
+        <div className="text-lg font-semibold">{t("lead.success.title")}</div>
+        <p className="mt-1 text-sm">{t("lead.wa.success")}</p>
+        {queued && <p className="mt-2 text-xs text-emerald-800">{t("lead.success.queued")}</p>}
+        <a href={lienWhatsApp(messageWa)} target="_blank" rel="noopener noreferrer" onClick={() => evenement("whatsapp_click", { emplacement: "apres_lead" })}
+          className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
+          {t("lead.wa.ecrire")}
+        </a>
+        {capture && (
+          <div className="mt-5 rounded-lg border border-emerald-200 bg-white p-4 text-slate-800">
+            <p className="text-sm font-semibold text-slate-900">{fini ? t("lead.q.merci") : t("lead.q.titre")}</p>
+            {QUESTIONS.map((q) => (
+              <fieldset key={q.cle} className="mt-3">
+                <legend className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">{t(`lead.q.${q.cle}`)}</legend>
+                <div className="flex flex-wrap gap-2">
+                  {q.options.map((o) => {
+                    const actif = reponses[q.cle] === o;
+                    return (
+                      <button key={o} type="button" aria-pressed={actif} onClick={() => repondre(q.cle, o)}
+                        className={"min-h-11 rounded-full border px-3 text-sm " + (actif ? "border-emerald-600 bg-emerald-600 text-white" : "border-slate-300 bg-white text-slate-700 hover:border-emerald-500")}>
+                        {t(`lead.q.${q.cle}.${o}`)}
+                      </button>
+                    );
+                  })}
+                </div>
+              </fieldset>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
 
   if (status === "success") {
     return (
@@ -182,7 +265,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
       <div className="space-y-3">
         <div>
           <label htmlFor={`${ids}-nom`} className="mb-1 block text-sm font-medium text-slate-700">
-            {t("lead.field.nom")}
+            {wa ? t("lead.wa.prenom") : t("lead.field.nom")}
           </label>
           <input
             id={`${ids}-nom`}
@@ -198,8 +281,15 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
 
         <div>
           <label htmlFor={`${ids}-tel`} className="mb-1 block text-sm font-medium text-slate-700">
-            {t("lead.field.tel")}
+            {wa ? t("lead.wa.tel") : t("lead.field.tel")}
           </label>
+          <div className={wa ? "flex gap-2" : ""}>
+          {wa && (
+            <select aria-label={t("lead.wa.indicatif")} value={indicatif} onChange={(e) => setIndicatif(e.target.value)}
+              className="min-h-[46px] shrink-0 rounded-md border border-slate-300 bg-white px-2 text-base">
+              {INDICATIFS.map((x) => <option key={x.code} value={x.code}>{x.label}</option>)}
+            </select>
+          )}
           <input
             id={`${ids}-tel`}
             type="tel"
@@ -208,7 +298,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
             required
             inputMode="tel"
             autoComplete="tel"
-            placeholder="+212 6 12 34 56 78"
+            placeholder={wa ? (indicatif === "+212" ? "6 12 34 56 78" : "") : "+212 6 12 34 56 78"}
             aria-invalid={tel ? !phoneValid : undefined}
             aria-describedby={tel && !phoneValid ? `${ids}-tel-err` : undefined}
             className={
@@ -218,12 +308,25 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
                 : "border-slate-300 focus:border-blue-500 focus:ring-blue-200")
             }
           />
+          </div>
           {tel && !phoneValid && (
             <p id={`${ids}-tel-err`} className="mt-1 text-xs text-rose-600">{t("lead.err.tel_format")}</p>
           )}
+          {wa && (
+            <label className="mt-2 flex min-h-[44px] items-center gap-2 text-sm text-slate-700">
+              <input type="checkbox" checked={whatsapp} onChange={(e) => setWhatsapp(e.target.checked)} className="h-5 w-5 accent-emerald-600" />
+              {t("lead.wa.check")}
+            </label>
+          )}
         </div>
 
-        {withEmail && (
+        {wa && withEmail && !voirEmail && (
+          <button type="button" onClick={() => setVoirEmail(true)} className="text-sm font-semibold text-slate-600 underline" style={{ background: "none", border: 0, padding: 0, boxShadow: "none" }}>
+            {t("lead.wa.addEmail")}
+          </button>
+        )}
+
+        {withEmail && (!wa || voirEmail) && (
           <div>
             <label htmlFor={`${ids}-email`} className="mb-1 block text-sm font-medium text-slate-700">
               {t("lead.field.email")} <span className="text-slate-400">(optionnel)</span>
@@ -275,7 +378,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
           </div>
         )}
 
-        <div>
+        {!wa && <div>
           <label htmlFor={`${ids}-projet`} className="mb-1 block text-sm font-medium text-slate-700">
             {t("lead.field.projet")}
           </label>
@@ -287,7 +390,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
             className="w-full rounded-md border border-slate-300 px-3 py-2.5 text-base focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
             placeholder={t("lead.placeholder.projet")}
           />
-        </div>
+        </div>}
 
         {/* Pot de miel : hors écran, hors tabulation, ignoré des lecteurs
             d'écran. Un humain le laisse vide ; rempli → capture ignorée. */}
@@ -313,8 +416,9 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
           disabled={status === "submitting"}
           className="w-full rounded-md bg-blue-700 px-4 py-3 text-base font-semibold text-white shadow-sm hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {status === "submitting" ? t("lead.btn.sending") : t("lead.btn.send")}
+          {status === "submitting" ? t("lead.btn.sending") : wa ? t("lead.wa.btn") : t("lead.btn.send")}
         </button>
+        {wa && <p className="-mt-1 text-center text-xs font-semibold text-slate-600">{t("lead.wa.sous")}</p>}
 
         <p className="text-center text-[11px] text-slate-500">
           {t("lead.legal")}

@@ -9,6 +9,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useLang } from "../../i18n/i18n";
 import LeadCaptureForm from "../lead-funnel/LeadCaptureForm";
+import { lienWhatsApp } from "../../config/contact";
+import { evenement } from "../../lib/marketing";
 import { STANDINGS, type ProjetInput, type Resultat, type TypeBatiment } from "../../domain/chiffrage";
 import ChiffrageGadget, { fmtDH, parcelleParDefaut } from "./ChiffrageGadget";
 import { texte } from "./textes";
@@ -93,6 +95,11 @@ export function Cta({ r, t, ouvertParDefaut = false }: { r: Resultat; t: ReturnT
           {t("cta")}
         </button>
         <p className="mt-2 text-center text-xs text-slate-500">{t("ctaSous")}</p>
+        <a href={lienWhatsApp(`Bonjour, j'ai une question sur mon chiffrage citurbarea.com (${p.type.toLowerCase()} ${Math.round(r.geometrie.surfaceTotale)} m², ${p.ville || "ville à préciser"}).`)}
+          target="_blank" rel="noopener noreferrer" onClick={() => evenement("whatsapp_click", { emplacement: "resultat" })}
+          className="mt-3 flex min-h-[44px] items-center justify-center rounded-lg border border-emerald-600 px-3 text-sm font-semibold text-emerald-700 hover:bg-emerald-50" style={{ textDecoration: "none" }}>
+          {t("ctaWhatsapp")}
+        </a>
       </div>
     );
   }
@@ -102,6 +109,7 @@ export function Cta({ r, t, ouvertParDefaut = false }: { r: Resultat; t: ReturnT
       <LeadCaptureForm
         source="WEB_CHIFFRAGE"
         porteType={porte}
+        variante="whatsapp"
         withEmail
         initial={{ projet: `Chiffrage ${p.type.toLowerCase()} ${Math.round(r.geometrie.surfaceTotale)} m²${r.geometrie.surfaceSousSol ? " (sous-sol compris)" : ""} ${p.niveaux === 1 ? "RDC" : `R+${p.niveaux - 1}`}${p.ville ? `, ${p.ville}` : ""} : ${fmtDH(r.totalTTC)} TTC (niveau ${r.precision.niveau})` }}
         extraCapture={() => ({ budget: Math.round(r.budgetTTC), ville: p.ville || undefined, surface: Math.round(r.geometrie.surfaceTotale) })}

@@ -10,11 +10,14 @@ import { startWebVitals } from "./lib/web-vitals";
 import { initLeadBridge } from "./features/lead-funnel/leadBridge";
 import { installChunkReloadHandler } from "./lib/chunkReload";
 import { startDeployWatch } from "./lib/deployWatch";
+import { chargerBalises } from "./lib/marketing";
 
 // Avant le rendu : chunk lazy disparu après redéploiement → un rechargement.
 installChunkReloadHandler();
 // Nouveau build en ligne → rechargement à la navigation suivante.
 startDeployWatch();
+// Balises marketing (GTM / pixel Meta) : seulement si leurs identifiants sont configurés.
+chargerBalises();
 
 const rootEl = document.getElementById("root");
 if (!rootEl) throw new Error("Root element #root introuvable dans index.html");

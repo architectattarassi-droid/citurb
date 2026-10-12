@@ -51,7 +51,7 @@ export interface CaptureBody {
 }
 
 export type CaptureOutcome =
-  | { status: "sent"; leadId: string; score?: number }
+  | { status: "sent"; leadId: string; score?: number; /** Clé d'idempotence : autorise la qualification du palier 2. */ cle?: string }
   | { status: "already"; leadId?: string }
   | { status: "queued" }
   | { status: "invalid"; code: string };
@@ -236,7 +236,7 @@ export async function captureLead(key: string, body: CaptureBody): Promise<Captu
       dequeue(key);
       markSent(key, r.leadId);
       track("intake_submit", { meta: { source: body.source } });
-      return { status: "sent", leadId: r.leadId, score: r.score };
+      return { status: "sent", leadId: r.leadId, score: r.score, cle: body.idempotencyKey };
     }
     if (r.kind === "invalid") {
       dequeue(key);
@@ -514,4 +514,14 @@ export function initLeadBridge(): void {
   rememberUtm();
   void replayLeadQueue();
   window.addEventListener("online", () => { void replayLeadQueue(); });
+}
+
+/** Palier 2 : réponses à un clic (terrain, démarrage, résidence) rattachées au lead capturé. */
+export async function qualifierLead(leadId: string, cle: string, reponses: { terrain?: string; delai?: string; residence?: string; pays?: string }): Promise<boolean> {
+  try {
+    const res = await fetchWithTimeout("/api/lead-funnel/qualify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ leadId, cle, ...reponses }), keepalive: true }, CAPTURE_TIMEOUT_MS);
+    return res.ok;
+  } catch {
+    return false;
+  }
 }

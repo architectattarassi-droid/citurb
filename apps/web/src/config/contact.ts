@@ -18,3 +18,11 @@ export function lienWhatsApp(message?: string): string {
 }
 
 export const lienTel = `tel:${CONTACT.tel}`;
+
+/** Réseaux de l'architecte (Yassine Attarassi) : liens publics. */
+export const RESEAUX = {
+  youtube: "https://www.youtube.com/@citiestalkmaroc",
+  facebook: "https://www.facebook.com/yassineattarassi",
+  tiktok: "https://www.tiktok.com/@yassine.attarassi",
+  instagram: "https://www.instagram.com/arc_bati_architecture",
+} as const;

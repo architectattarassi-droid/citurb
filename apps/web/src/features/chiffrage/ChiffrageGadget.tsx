@@ -20,6 +20,8 @@ import type { Standing, TypeProjet } from "../../command-center/modules/dossiers
 import { GAMMES_LIBELLES, VILLES, texte } from "./textes";
 import DqeImprimable from "./DqeImprimable";
 import AideDecision from "./AideDecision";
+import { evenement } from "../../lib/marketing";
+import { VideosYoutube, videosPourProjet } from "../social/VideosYoutube";
 import { libelleStanding } from "../../domain/chiffrage/decision";
 
 const GOLD = "#C9A227";
@@ -75,6 +77,8 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
   const t = texte(lang);
   const [projet, setProjet] = useState<ProjetInput>(() => ({ ...PROJET_DEFAUT, ...(initial ? {} : lireBrouillon() ?? {}), ...(initial ?? {}) }));
   const [etape, setEtape] = useState<1 | 2 | 3>(1);
+  // Entonnoir : première interaction, puis chaque étape atteinte (aucune donnée personnelle).
+  useEffect(() => { if (variante === "public" && etape > 1) evenement("chiffrage_etape", { etape }, true); }, [etape, variante]);
   const [ouverts, setOuverts] = useState<Record<string, boolean>>({});
   const [voirHyp, setVoirHyp] = useState(false);
 
@@ -82,7 +86,10 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
     try { localStorage.setItem(BROUILLON, JSON.stringify({ ...projet, quantites: undefined })); } catch { /* stockage indisponible */ }
   }, [projet]);
 
-  const maj = (patch: Partial<ProjetInput>) => setProjet((p) => ({ ...p, ...patch }));
+  const maj = (patch: Partial<ProjetInput>) => {
+    if (variante === "public") evenement("chiffrage_start", { type: projet.type }, true);
+    setProjet((p) => ({ ...p, ...patch }));
+  };
   // Un changement de sous-type redonne la mitoyenneté par défaut (jumelée = 1 côté…).
   const majParcelle = (patch: Partial<ParcelleChiffrage>) => setProjet((p) => ({ ...p, parcelle: { ...p.parcelle, ...patch }, mitoyennete: undefined }));
   const differe = useDeferredValue(projet);
@@ -473,6 +480,8 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
         </a>
       </div>
       <div className="h-16 lg:hidden print:hidden" aria-hidden />
+
+      {variante === "public" && <VideosYoutube titre={t(projet.type === "VILLA" ? "videosTitre" : "videosTitreProjet")} videos={videosPourProjet(projet.type)} className="mt-12" />}
 
       <DqeImprimable res={res} />
     </div>
