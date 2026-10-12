@@ -1,74 +1,29 @@
 import { useEffect, useState } from "react";
-import { apiBase } from "../../../tome4/apiClient";
 import { getStoredLang, useT } from "../../../../i18n/i18n";
-import { apiAvailable, captureFromIntake, montantDevis, submitLead, telephoneEnvoyable } from "../../../../features/lead-funnel/leadBridge";
+import { captureFromIntake, montantDevis, submitLead, telephoneEnvoyable } from "../../../../features/lead-funnel/leadBridge";
 import BudgetPrevisionnelField from "../../../../features/lead-funnel/BudgetPrevisionnelField";
-import { CONTACT, lienTel, lienWhatsApp } from "../../../../config/contact";
-
-/** Délai maximal de chargement des packs avant bascule sur le parcours court. */
-const CATALOGUE_TIMEOUT_MS = 5000;
-
-const WA_MSG_P4 = "Bonjour, je souhaite une analyse foncière (P4).";
+import { computeP4Quote, honorairesHTParPack, listP4Packs, type P4Pack, type P4Quote } from "../../../../domain/p4/quoteLocal";
 
 /** Textes propres à la page, absents des dictionnaires (FR / AR / EN). */
-const TXT_P4: Record<"fr" | "ar" | "en", { courtTitre: string; courtSub: string; courtLabel: string; courtPh: string; wa: string; telVide: string }> = {
-  fr: {
-    courtTitre: "Décrivez votre projet, un architecte vous rappelle sous 24 h",
-    courtSub: "Quelques mots suffisent (terrain, surface, ville, projet envisagé). Nous vous proposerons l'analyse adaptée.",
-    courtLabel: "Votre projet",
-    courtPh: "Ex. : terrain de 600 m² à Salé, titre foncier, projet R+3",
-    wa: "Écrire sur WhatsApp",
-    telVide: "Indiquez un numéro de téléphone pour être rappelé.",
-  },
-  ar: {
-    courtTitre: "صف مشروعك، وسيتصل بك مهندس معماري خلال 24 ساعة",
-    courtSub: "بضع كلمات تكفي (الأرض، المساحة، المدينة، المشروع المزمع). سنقترح عليك التحليل المناسب.",
-    courtLabel: "مشروعك",
-    courtPh: "مثال: أرض مساحتها 600 م² في سلا، رسم عقاري، مشروع R+3",
-    wa: "راسلنا عبر واتساب",
-    telVide: "يرجى إدخال رقم هاتف ليتم الاتصال بك.",
-  },
-  en: {
-    courtTitre: "Describe your project, an architect will call you back within 24 hours",
-    courtSub: "A few words are enough (plot, area, city, intended project). We will suggest the right analysis.",
-    courtLabel: "Your project",
-    courtPh: "E.g. 600 m² plot in Salé, land title, R+3 project",
-    wa: "Message us on WhatsApp",
-    telVide: "Please enter a phone number so we can call you back.",
-  },
+const TXT_P4: Record<"fr" | "ar" | "en", { telVide: string }> = {
+  fr: { telVide: "Indiquez un numéro de téléphone pour être rappelé." },
+  ar: { telVide: "يرجى إدخال رقم هاتف ليتم الاتصال بك." },
+  en: { telVide: "Please enter a phone number so we can call you back." },
 };
 
 /**
  * P4Home — Wizard analyse foncière (3 packs)
  *
- * Étapes:
- *   1. Pack (BASIQUE 0.3% / MOYEN 0.6% / RENTABILITE 1%)
- *   2. Identité du foncier (titre, surface, commune, prix vente cible)
- *   3. Devis détaillé (POST /p4/quote)
- *   4. Identité client + soumission via /p2/intake (porteType:"P4")
+ * Tout est calculé dans le navigateur (domain/p4/quoteLocal, copie conforme de
+ * l'API tome-4/p4, éteinte en production) :
+ *   1. Pack (BASIQUE 0,3 % / MOYEN 0,6 % / RENTABILITÉ 1 %, minimum 3 000 DH HT)
+ *   2. Foncier (prix de vente requis, commune, surface ; titre foncier facultatif)
+ *   3. Estimation du pack + comparatif des 3 packs pour ce prix
+ *   4. Coordonnées + soumission (porteType:"P4")
  */
 
-type P4Pack = "BASIQUE" | "MOYEN" | "RENTABILITE";
-
-type Pack = {
-  code: P4Pack;
-  rate: number;
-  ratePct: string;
-  label: string;
-  shortDesc: string;
-  deliveryDays: number;
-  deliverables: string[];
-};
-
-type Quote = {
-  ok: true;
-  meta: { pack: P4Pack; packLabel: string; rate: number; ratePct: string; deliveryDays: number };
-  base: { prixVenteFoncierDH: number; rate: number; floorHT: number; flooredApplied: boolean };
-  deliverables: string[];
-  amounts: { computedHT: number; totalHT: number; tvaRate: number; tva: number; totalTTC: number };
-  payment: { modalities: string; download: string };
-  notes: string[];
-};
+/** Les 3 packs (identiques à GET /p4/packs). */
+const PACKS = listP4Packs();
 
 const ICONS: Record<P4Pack, string> = {
   BASIQUE: "🗺️",
@@ -151,40 +106,22 @@ type Step = "pack" | "foncier" | "quote" | "identity" | "submitting" | "success"
 export default function P4Home() {
   const t = useT();
   const [step, setStep] = useState<Step>("pack");
-  const [packs, setPacks] = useState<Pack[]>([]);
   const [pack, setPack] = useState<P4Pack | null>(null);
   const [foncier, setFoncier] = useState({
     titreFoncierNum: "", surfaceTerrainM2: "", commune: "", adresse: "", prixVenteFoncierDH: "",
     natureUsagePrevu: "",
   });
-  const [quote, setQuote] = useState<Quote | null>(null);
+  const [quote, setQuote] = useState<P4Quote | null>(null);
   const [identity, setIdentity] = useState({
     clientNom: "", clientTel: "", clientEmail: "", raisonSociale: "",
   });
   const [error, setError] = useState("");
   const [dossierId, setDossierId] = useState<string | null>(null);
-  // API injoignable : besoin décrit librement, devis livré sous 24 h.
-  const [packsKo, setPacksKo] = useState(false);
-  const [packLibre, setPackLibre] = useState("");
   // Budget prévisionnel de construction déclaré (facultatif) — jamais les honoraires.
   const [budgetPrev, setBudgetPrev] = useState<number | null>(null);
-  const [quoteLater, setQuoteLater] = useState(false);
 
   const [errField, setErrField] = useState<{ field: string; n: number } | null>(null);
   const txt = TXT_P4[getStoredLang()] || TXT_P4.fr;
-
-  // Packs bornés à 5 s ; sans réponse JSON valable (en prod sans API : HTML de
-  // la SPA), parcours court — aucun message d'erreur.
-  useEffect(() => {
-    let actif = true;
-    const ac = new AbortController();
-    const timer = setTimeout(() => ac.abort(), CATALOGUE_TIMEOUT_MS);
-    fetch(`${apiBase()}/p4/packs`, { signal: ac.signal }).then(r => r.json())
-      .then(d => { if (!actif) return; if (d?.ok) setPacks(d.items || []); else setPacksKo(true); })
-      .catch(() => { if (actif) setPacksKo(true); })
-      .finally(() => clearTimeout(timer));
-    return () => { actif = false; clearTimeout(timer); ac.abort(); };
-  }, []);
 
   // Focus + défilement sur le champ invalide signalé.
   useEffect(() => {
@@ -210,41 +147,22 @@ export default function P4Home() {
   const erreurSur = (field: string) =>
     errField?.field === field ? { "aria-invalid": true, "aria-describedby": `p4f_${field}_err` } : {};
 
-  // Parcours court : description libre → coordonnées, estimation sous 24 h.
-  const parcoursCourt = () => {
-    setError("");
-    setPack(null);
-    setQuote(null);
-    setQuoteLater(true);
-    setStep("identity");
-  };
-
   const stepIndex = ["pack", "foncier", "quote", "identity"].indexOf(step);
-  const selectedPack = packs.find(p => p.code === pack);
+  const selectedPack = PACKS.find(p => p.code === pack);
+  const parPack = honorairesHTParPack(+foncier.prixVenteFoncierDH);
 
-  const compute = async () => {
+  // Estimation calculée localement (même règle que POST /p4/quote).
+  const compute = (code: P4Pack | null = pack) => {
     setError("");
-    // Devis injoignable (API absente, ou besoin décrit hors catalogue) : on
-    // passe à l'identité, estimation détaillée envoyée sous 24 h.
-    if (!pack || !(await apiAvailable())) { setQuoteLater(true); setStep("identity"); return; }
-    if (!foncier.prixVenteFoncierDH || +foncier.prixVenteFoncierDH <= 0) {
-      setError(t("portes.p4.err.prix_required"));
-      return;
-    }
-    setStep("submitting");
+    if (!code) { setStep("pack"); return; }
+    if (!foncier.prixVenteFoncierDH || +foncier.prixVenteFoncierDH <= 0) { setError(t("portes.p4.err.prix_required")); setStep("foncier"); return; }
+    if (!foncier.commune.trim()) { setError(t("portes.p4.err.commune")); setStep("foncier"); return; }
     try {
-      const res = await fetch(`${apiBase()}/p4/quote`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pack, prixVenteFoncierDH: +foncier.prixVenteFoncierDH }),
-      });
-      const data = await res.json();
-      if (!data.ok) { setError(data.error || t("portes.p4.err.generic")); setStep("foncier"); return; }
-      setQuote(data);
+      setQuote(computeP4Quote({ pack: code, prixVenteFoncierDH: +foncier.prixVenteFoncierDH }));
+      setPack(code);
       setStep("quote");
     } catch {
-      setQuoteLater(true);
-      setStep("identity");
+      setError(t("portes.p4.err.generic"));
     }
   };
 
@@ -259,7 +177,7 @@ export default function P4Home() {
     setErrField(null);
     setStep("submitting");
     const title = t("portes.p4.recap.title_label", {
-      label: selectedPack?.label ?? packLibre,
+      label: selectedPack?.label ?? "",
       commune: foncier.commune || "—",
     });
     const payload = {
@@ -277,7 +195,7 @@ export default function P4Home() {
       lang: getStoredLang(),
       brief: {
         pack,
-        packLabel: selectedPack?.label || packLibre || undefined,
+        packLabel: selectedPack?.label || undefined,
         titreFoncierNum: foncier.titreFoncierNum,
         adresse: foncier.adresse,
         prixVenteFoncierDH: foncier.prixVenteFoncierDH ? +foncier.prixVenteFoncierDH : undefined,
@@ -366,36 +284,20 @@ export default function P4Home() {
           <p style={{ ...S.sub, marginTop: 0 }}>{t("p4.home_subtitle")}</p>
         </div>
         <div className="cit-porte-p4-grid" style={S.grid}>
-          {packs.map(p => (
+          {PACKS.map(p => (
             <button key={p.code} type="button" style={{ ...cardStyle(false), color: "inherit", font: "inherit", textAlign: "left", width: "100%" }} onClick={() => { setPack(p.code); setStep("foncier"); }}>
               <div style={S.cardIcon}>{ICONS[p.code]}</div>
               <div style={S.cardTitle}>{p.label}</div>
               <div style={S.cardDesc}>{p.shortDesc}</div>
               <div style={{ ...S.cardRate, color: COLORS[p.code], fontSize: 22 }}>{p.ratePct}</div>
-              <div style={{ color: "#6b7280", fontSize: 11 }}>{t("portes.p4.from", { n: p.deliveryDays })}</div>
+              <div style={{ color: "#9ca3af", fontSize: 11 }}>{t("portes.p4.rate_label", { rate: "" }).trim()}</div>
+              <div style={{ color: "#6b7280", fontSize: 11, marginTop: 2 }}>{t("portes.p4.min_ht", { n: p.deliveryDays })}</div>
               <div style={{ marginTop: 10, fontSize: 11, color: "#cbd5e1" }}>
                 {p.deliverables.slice(0, 3).map((d, i) => <div key={i}>✓ {d}</div>)}
                 {p.deliverables.length > 3 && <div style={{ color: "#6b7280" }}>{t("portes.p4.more_deliverables", { n: p.deliverables.length - 3 })}</div>}
               </div>
             </button>
           ))}
-          {packs.length === 0 && !packsKo && <div style={{ color: "#6b7280" }} role="status">{t("portes.p4.loading_packs")}</div>}
-          {packs.length === 0 && packsKo && (
-            // Packs injoignables : parcours court (description libre → coordonnées).
-            <div style={{ ...cardStyle(false), cursor: "default", gridColumn: "1 / -1" }}>
-              <h2 style={{ fontSize: 19, fontWeight: 800, margin: "0 0 6px", color: "#fff" }}>{txt.courtTitre}</h2>
-              <p style={{ color: "#9ca3af", fontSize: 14, margin: "0 0 12px", lineHeight: 1.6 }}>{txt.courtSub}</p>
-              <label htmlFor="p4f_libre" style={S.label}>{txt.courtLabel}</label>
-              <textarea id="p4f_libre" style={{ ...S.inp, minHeight: 90, fontFamily: "inherit" }} value={packLibre} onChange={e => setPackLibre(e.target.value)} placeholder={txt.courtPh} />
-              <button type="button" style={S.btn} onClick={parcoursCourt}>{t("lead.porte.continue")}</button>
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
-                <a href={lienWhatsApp(WA_MSG_P4)} target="_blank" rel="noopener noreferrer"
-                  style={{ background: "#128C7E", color: "#fff", padding: "11px 18px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>{txt.wa}</a>
-                <a href={lienTel}
-                  style={{ border: "1px solid #374151", color: "#e8eaf0", padding: "11px 18px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>{t("portes.p1.dashboard.canal.call")} {CONTACT.telAffiche}</a>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     );
@@ -415,7 +317,7 @@ export default function P4Home() {
 
           <div className="cit-porte-p4-row2" style={S.row2}>
             <div>
-              <label style={S.label}>{t("portes.p4.foncier.tf")}</label>
+              <label style={S.label}>{t("portes.p4.foncier.tf_optional")}</label>
               <input style={S.inp} value={foncier.titreFoncierNum} onChange={e => setFoncier({...foncier, titreFoncierNum: e.target.value})} placeholder={t("portes.p4.foncier.tf_ph")} />
             </div>
             <div>
@@ -435,7 +337,7 @@ export default function P4Home() {
           <label style={S.label}>{t("portes.p4.foncier.nature_usage")}</label>
           <input style={S.inp} value={foncier.natureUsagePrevu} onChange={e => setFoncier({...foncier, natureUsagePrevu: e.target.value})} placeholder={t("portes.p4.foncier.nature_usage_ph")} />
 
-          <button style={S.btn} onClick={compute}>{t("portes.p4.foncier.compute_btn")}</button>
+          <button style={S.btn} onClick={() => compute()}>{t("portes.p4.foncier.compute_btn")}</button>
         </div>
       </div>
     );
@@ -484,9 +386,25 @@ export default function P4Home() {
             </div>
 
             <div style={{ marginTop: 14, color: "#6b7280", fontSize: 11, lineHeight: 1.6 }}>
+              <div>• {t("portes.p4.quote.local_note")}</div>
               {quote.notes.map((n, i) => <div key={i}>• {n}</div>)}
             </div>
           </div>
+
+          {parPack && (
+            <div style={S.quoteWrap}>
+              <div style={{ ...S.quoteRowKey, fontSize: 11, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>{t("portes.p4.quote.compare_title")}</div>
+              {PACKS.map(p => (
+                <div key={p.code} style={{ ...S.quoteRow, alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+                  <span style={{ ...S.quoteRowKey, flex: "1 1 180px" }}>{ICONS[p.code]} {p.label} <span style={{ color: COLORS[p.code] }}>({p.ratePct})</span></span>
+                  <span style={S.quoteRowVal}>{fmtMAD(parPack[p.code])} HT</span>
+                  {p.code === pack
+                    ? <span style={{ color: "#f59e0b", fontSize: 12, fontWeight: 700, minWidth: 80, textAlign: "right" }}>{t("portes.p4.quote.selected")}</span>
+                    : <button type="button" onClick={() => compute(p.code)} style={{ background: "none", border: "1px solid #374151", color: "#e8eaf0", borderRadius: 6, padding: "6px 10px", fontSize: 12, cursor: "pointer", minWidth: 80 }}>{t("portes.p4.quote.choose")}</button>}
+                </div>
+              ))}
+            </div>
+          )}
 
           <button style={S.btn} onClick={() => setStep("identity")}>{t("portes.p4.quote.continue_identity")}</button>
         </div>
@@ -502,11 +420,15 @@ export default function P4Home() {
       <div style={S.root}>
         <style>{P4_RESPONSIVE_CSS}</style>
         <div className="cit-porte-p4-wrap">
-          <button style={S.btnBack} onClick={() => setStep(quote ? "quote" : (!pack && packsKo) ? "pack" : "foncier")}>{t("portes.p4.back_quote")}</button>
+          <button style={S.btnBack} onClick={() => setStep(quote ? "quote" : "foncier")}>{quote ? t("portes.p4.back_estimate") : t("portes.p4.modify")}</button>
           <Stepper />
           <div style={S.formTitle}>{t("portes.p4.identity.title")}</div>
-          <div style={S.formSub}>{t("portes.p4.identity.sub")}</div>
-          {!quote && quoteLater && <div style={S.noteBox}>{t("lead.porte.quote_later")}</div>}
+          <div style={S.formSub}>{t("portes.p4.identity.sub_honest")}</div>
+          {quote && (
+            <div style={{ ...S.noteBox, marginTop: 0, marginBottom: 18 }}>
+              {quote.meta.packLabel} — <strong>{fmtMAD(quote.amounts.totalTTC)}</strong> {t("portes.p4.quote.ttc")}
+            </div>
+          )}
           {error && !errField && <div style={S.err} role="alert">⚠ {error}</div>}
 
           <div className="cit-porte-p4-row2" style={S.row2}>
@@ -523,15 +445,11 @@ export default function P4Home() {
           </div>
           <label htmlFor="p4f_email" style={S.label}>{t("portes.p4.identity.email")}</label>
           <input id="p4f_email" style={S.inp} type="email" inputMode="email" autoComplete="email" value={identity.clientEmail} onChange={f("clientEmail")} placeholder={t("portes.p4.identity.email_ph")} />
-          {/* Parcours court : la commune n'a pas été demandée à l'étape foncier. */}
-          {!pack && (
-            <>
-              <label htmlFor="p4f_commune" style={S.label}>{t("portes.p4.foncier.commune")}</label>
-              <input id="p4f_commune" style={S.inp} autoComplete="address-level2" value={foncier.commune} onChange={e => setFoncier({ ...foncier, commune: e.target.value })} placeholder={t("portes.p4.foncier.commune_ph")} />
-            </>
-          )}
-          <label htmlFor="p4f_raison" style={S.label}>{t("portes.p4.identity.raison")}</label>
-          <input id="p4f_raison" style={S.inp} autoComplete="organization" value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder={t("portes.p4.identity.raison_ph")} />
+          <details style={{ marginBottom: 14 }}>
+            <summary style={{ cursor: "pointer", color: "#9ca3af", fontSize: 13, fontWeight: 600, marginBottom: 12 }}>{t("portes.p3.identity.company_toggle")}</summary>
+            <label htmlFor="p4f_raison" style={S.label}>{t("portes.p4.identity.raison")}</label>
+            <input id="p4f_raison" style={S.inp} autoComplete="organization" value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder={t("portes.p4.identity.raison_ph")} />
+          </details>
           {/* Porte foncière : pas de surface de plancher, montant libre. */}
           <BudgetPrevisionnelField
             value={budgetPrev}

@@ -1,73 +1,29 @@
-import { useEffect, useState } from "react";
-import { apiBase } from "../../../tome4/apiClient";
+import { useEffect, useMemo, useState } from "react";
 import { getStoredLang, useT } from "../../../../i18n/i18n";
-import { apiAvailable, captureFromIntake, montantDevis, submitLead, telephoneEnvoyable } from "../../../../features/lead-funnel/leadBridge";
-import { CONTACT, lienTel, lienWhatsApp } from "../../../../config/contact";
+import { captureFromIntake, montantDevis, submitLead, telephoneEnvoyable } from "../../../../features/lead-funnel/leadBridge";
 import BudgetPrevisionnelField from "../../../../features/lead-funnel/BudgetPrevisionnelField";
 import FichesPrestations from "../../../../components/fiches-prestations/FichesPrestations";
+import { P3_SECTIONS, categoriesP3, computeP3Quote, sectionBareme, type P3Quote, type P3Section } from "../../../../domain/p3/quoteLocal";
+import { listCorpsMetiersGrouped } from "../../../../domain/p3/corpsMetiers";
 
 /**
  * P3Home — Wizard MOD (Maîtrise d'Ouvrage Déléguée)
  *
- * 6 étapes:
- *   1. Section projet (IMM/GR/EPIG/AMG — réutilise barème P2)
- *   2. Catégorie (depuis /p2/categories?section=...)
+ * 6 étapes, toutes calculées dans le navigateur (l'API est éteinte en
+ * production ; le dossier est créé par /api/intake) :
+ *   1. Section projet (villa / maison, immeuble, groupement, équipement, aménagement)
+ *   2. Catégorie du barème CNOA 2021 (domain/p3/quoteLocal → @citurbarea/pricing-cnoa)
  *   3. Mesures (surface plancher, nb bâtiments si GR)
- *   4. Corps de métiers à coordonner (multi-select groupé, 40+ corps)
- *   5. Devis détaillé (POST /p3/quote — 10% du coût de réalisation)
- *   6. Identité MO + soumission via /p2/intake (porteType:"P3")
+ *   4. Corps de métiers à coordonner (facultatif, liste locale domain/p3/corpsMetiers)
+ *   5. Estimation : 10 % du coût de réalisation (computeP3Quote)
+ *   6. Identité MO + soumission (porteType:"P3")
  */
 
-type P3Section = "IMM" | "GR" | "EPIG" | "AMG";
-
-/** Délai maximal de chargement d'un référentiel avant bascule sur le parcours court. */
-const CATALOGUE_TIMEOUT_MS = 5000;
-
-/** GET JSON borné à CATALOGUE_TIMEOUT_MS ; rejette si pas de réponse JSON { ok: true }. */
-async function chargerReferentiel(url: string, signal: AbortSignal): Promise<any> {
-  const ac = new AbortController();
-  const timer = setTimeout(() => ac.abort(), CATALOGUE_TIMEOUT_MS);
-  const relai = () => ac.abort();
-  signal.addEventListener("abort", relai);
-  try {
-    const r = await fetch(url, { signal: ac.signal });
-    const d = await r.json(); // en prod sans API : HTML de la SPA → rejet
-    if (!d || !d.ok) throw new Error("referentiel_ko");
-    return d;
-  } finally {
-    clearTimeout(timer);
-    signal.removeEventListener("abort", relai);
-  }
-}
-
-const WA_MSG_P3 = "Bonjour, je souhaite parler d'un projet en maîtrise d'ouvrage déléguée (P3).";
-
 /** Textes propres à la page, absents des dictionnaires (FR / AR / EN). */
-const TXT_P3: Record<"fr" | "ar" | "en", { courtTitre: string; courtSub: string; courtPh: string; wa: string; corpsLibre: string; telVide: string }> = {
-  fr: {
-    courtTitre: "Décrivez votre projet, un architecte vous rappelle sous 24 h",
-    courtSub: "Quelques mots suffisent (type d'ouvrage, surface, ville). Nous préciserons ensemble les corps de métier et le budget.",
-    courtPh: "Ex. : immeuble R+4 de 12 logements à Kénitra, 1 800 m² de plancher",
-    wa: "Écrire sur WhatsApp",
-    corpsLibre: "Indiquez les corps de métier à coordonner (facultatif) : nous les préciserons ensemble.",
-    telVide: "Indiquez un numéro de téléphone pour être rappelé.",
-  },
-  ar: {
-    courtTitre: "صف مشروعك، وسيتصل بك مهندس معماري خلال 24 ساعة",
-    courtSub: "بضع كلمات تكفي (نوع البناء، المساحة، المدينة). سنحدد معًا الحرف والميزانية.",
-    courtPh: "مثال: عمارة R+4 من 12 شقة في القنيطرة، 1800 م² مساحة مغطاة",
-    wa: "راسلنا عبر واتساب",
-    corpsLibre: "اذكر الحرف المطلوب تنسيقها (اختياري): سنحددها معًا.",
-    telVide: "يرجى إدخال رقم هاتف ليتم الاتصال بك.",
-  },
-  en: {
-    courtTitre: "Describe your project, an architect will call you back within 24 hours",
-    courtSub: "A few words are enough (type of building, floor area, city). We will refine trades and budget together.",
-    courtPh: "E.g. R+4 building with 12 flats in Kenitra, 1,800 m² floor area",
-    wa: "Message us on WhatsApp",
-    corpsLibre: "List the trades to coordinate (optional): we will refine them together.",
-    telVide: "Please enter a phone number so we can call you back.",
-  },
+const TXT_P3: Record<"fr" | "ar" | "en", { telVide: string }> = {
+  fr: { telVide: "Indiquez un numéro de téléphone pour être rappelé." },
+  ar: { telVide: "يرجى إدخال رقم هاتف ليتم الاتصال بك." },
+  en: { telVide: "Please enter a phone number so we can call you back." },
 };
 
 /** Rend une carte cliquable utilisable au clavier (Entrée / Espace). */
@@ -80,20 +36,8 @@ const activable = (action: () => void) => ({
   },
 });
 
-const SECTION_IDS: P3Section[] = ["IMM", "GR", "EPIG", "AMG"];
-
-type Category = { code: string; label: string; costPerM2: number; photoOptionAvailable: boolean; notes?: string };
-type CorpsMetier = { slug: string; label: string; groupe: string; lotNumero?: string; obligatoireQualification?: boolean; notes?: string };
-type CorpsGroupe = { groupe: string; label: string; items: CorpsMetier[] };
-type Quote = {
-  ok: true;
-  meta: { porte: string; category: string; categoryLabel: string; section: string };
-  base: { surfacePlancherM2: number; nbBatiments: number; coutConstructionM2: number; coutRealisation: number };
-  honoraires: { rate: number; ratePct: string; totalHT: number; tvaRate: number; tva: number; totalTTC: number };
-  escrow: { platformOnly: boolean; notice: string };
-  services: string[];
-  notes: string[];
-};
+/** Référentiel local des corps de métier (identique à GET /p3/corps-metiers). */
+const CORPS_GROUPES = listCorpsMetiersGrouped();
 
 const fmtMAD = (n: number | null | undefined) => {
   if (n == null) return "—";
@@ -172,13 +116,11 @@ export default function P3Home() {
   const t = useT();
   const [step, setStep] = useState<Step>("section");
   const [section, setSection] = useState<P3Section | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [categoryCode, setCategoryCode] = useState<string>("");
   const [surfacePlancher, setSurfacePlancher] = useState<string>("");
   const [nbBatiments, setNbBatiments] = useState<string>("1");
-  const [corpsGroupes, setCorpsGroupes] = useState<CorpsGroupe[]>([]);
   const [selectedCorps, setSelectedCorps] = useState<Set<string>>(new Set());
-  const [quote, setQuote] = useState<Quote | null>(null);
+  const [quote, setQuote] = useState<P3Quote | null>(null);
   const [identity, setIdentity] = useState({
     clientNom: "", clientTel: "", clientEmail: "",
     raisonSociale: "", representant: "", rc: "", ice: "",
@@ -186,41 +128,19 @@ export default function P3Home() {
   });
   const [error, setError] = useState("");
   const [dossierId, setDossierId] = useState<string | null>(null);
-  // API injoignable : référentiels en saisie libre, devis livré sous 24 h.
-  const [corpsKo, setCorpsKo] = useState(false);
-  const [corpsLibre, setCorpsLibre] = useState("");
-  const [categoriesKo, setCategoriesKo] = useState(false);
-  const [categoryLibre, setCategoryLibre] = useState("");
-  const [quoteLater, setQuoteLater] = useState(false);
   // Budget prévisionnel de construction déclaré (facultatif) — jamais les honoraires.
   const [budgetPrev, setBudgetPrev] = useState<number | null>(null);
 
   const stepIndex = ["section", "category", "measures", "corps", "quote", "identity"].indexOf(step);
+  // Catégories du barème pour la section choisie (remplace GET /p2/categories).
+  const categories = useMemo(() => (section ? categoriesP3(section) : []), [section]);
   const selectedCategory = categories.find(c => c.code === categoryCode);
   const sectionLabel = section ? t(`portes.p3.section.${section}.label`) : "";
+  const corpsGroupes = CORPS_GROUPES;
 
   // Champ en erreur à l'étape identité (message sous le champ, focus dessus).
   const [errField, setErrField] = useState<{ field: string; n: number } | null>(null);
   const txt = TXT_P3[getStoredLang()] || TXT_P3.fr;
-
-  // Référentiels bornés à 5 s ; échec → parcours court, sans message d'erreur.
-  useEffect(() => {
-    const ac = new AbortController();
-    chargerReferentiel(`${apiBase()}/p3/corps-metiers`, ac.signal)
-      .then(d => setCorpsGroupes(d.groupes || []))
-      .catch(() => { if (!ac.signal.aborted) setCorpsKo(true); });
-    return () => ac.abort();
-  }, []);
-
-  useEffect(() => {
-    if (!section) return;
-    setCategoriesKo(false);
-    const ac = new AbortController();
-    chargerReferentiel(`${apiBase()}/p2/categories?section=${section}`, ac.signal)
-      .then(d => setCategories(d.items || []))
-      .catch(() => { if (!ac.signal.aborted) setCategoriesKo(true); });
-    return () => ac.abort();
-  }, [section]);
 
   // Focus + défilement sur le champ invalide signalé.
   useEffect(() => {
@@ -247,16 +167,6 @@ export default function P3Home() {
   const erreurSur = (field: string) =>
     errField?.field === field ? { "aria-invalid": true, "aria-describedby": `p3f_${field}_err` } : {};
 
-  // Parcours court : description libre → identité, estimation envoyée sous 24 h.
-  const parcoursCourt = () => {
-    setError("");
-    setCategoryCode("LIBRE");
-    setQuote(null);
-    setQuoteLater(true);
-    setIdentity(prev => ({ ...prev, natureProjet: prev.natureProjet || categoryLibre.trim() }));
-    setStep("identity");
-  };
-
   const toggleCorps = (slug: string) => {
     setSelectedCorps(prev => {
       const next = new Set(prev);
@@ -265,28 +175,28 @@ export default function P3Home() {
     });
   };
 
-  const computeQuote = async () => {
+  // Mesures validées avant les corps de métier : l'estimation en dépend.
+  const measuresContinue = () => {
     setError("");
     if (!surfacePlancher || +surfacePlancher <= 0) { setError(t("portes.p3.err.surface_required")); return; }
-    setStep("submitting");
-    // Devis injoignable (API absente, ou catégorie décrite hors catalogue) :
-    // on passe à l'identité, estimation détaillée envoyée sous 24 h.
-    if (categoryCode === "LIBRE" || !(await apiAvailable())) { setQuoteLater(true); setStep("identity"); return; }
+    setStep("corps");
+  };
+
+  // Estimation calculée localement (même règle que POST /p3/quote).
+  const computeQuote = () => {
+    setError("");
+    if (!section) { setStep("section"); return; }
+    if (!surfacePlancher || +surfacePlancher <= 0) { setError(t("portes.p3.err.surface_required")); setStep("measures"); return; }
     try {
-      const res = await fetch(`${apiBase()}/p3/quote`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          section, categoryCode,
-          surfacePlancherM2: +surfacePlancher,
-          nbBatiments: section === "GR" ? +nbBatiments : 1,
-        }),
-      });
-      const data = await res.json();
-      if (!data.ok) { setError(data.error || t("portes.p3.err.generic")); setStep("corps"); return; }
-      setQuote(data);
+      setQuote(computeP3Quote({
+        section, categoryCode,
+        surfacePlancherM2: +surfacePlancher,
+        nbBatiments: section === "GR" ? +nbBatiments : 1,
+      }));
       setStep("quote");
-    } catch { setQuoteLater(true); setStep("identity"); }
+    } catch {
+      setError(t("portes.p3.err.generic"));
+    }
   };
 
   const submit = async () => {
@@ -302,7 +212,7 @@ export default function P3Home() {
     setStep("submitting");
     const title = t("portes.p3.recap.title_label", {
       section: sectionLabel,
-      category: selectedCategory?.label ?? categoryLibre,
+      category: selectedCategory?.label ?? "",
       commune: identity.commune,
     });
     const payload = {
@@ -317,12 +227,14 @@ export default function P3Home() {
       clientEmail: identity.clientEmail || undefined,
       title, source: "P3_WIZARD", lang: getStoredLang(),
       brief: {
-        section, categoryCode,
-        categoryLabel: selectedCategory?.label || categoryLibre || undefined,
+        // Section du barème (API) + section affichée (VILLA n'existe pas côté API).
+        section: section ? sectionBareme(section) : undefined,
+        sectionP3: section || undefined,
+        categoryCode,
+        categoryLabel: selectedCategory?.label || undefined,
         surfacePlancherM2: +surfacePlancher,
         nbBatiments: section === "GR" ? +nbBatiments : 1,
         corpsMetiers: Array.from(selectedCorps),
-        corpsLibre: corpsLibre || undefined,
         budgetPrevisionnelMAD: budgetPrev ?? undefined,
         quoteSnapshot: quote,
       },
@@ -406,7 +318,7 @@ export default function P3Home() {
           <FichesPrestations porte="P3" />
         </section>
         <div className="cit-porte-p3-grid" style={S.grid}>
-          {SECTION_IDS.map(id => (
+          {P3_SECTIONS.map(id => (
             <button key={id} type="button"
               style={{ ...cardStyle(false), color: "inherit", font: "inherit", textAlign: "left", width: "100%" }}
               onClick={() => { setSection(id); setStep("category"); }}>
@@ -438,25 +350,6 @@ export default function P3Home() {
               <div style={S.catCost}>{fmtMAD(c.costPerM2)}/m²</div>
             </div>
           ))}
-          {categories.length === 0 && !categoriesKo && (
-            <div style={{ color: "#9ca3af", fontSize: 13, margin: "10px 0" }} role="status">{t("portes.p2.category.loading")}</div>
-          )}
-          {categories.length === 0 && categoriesKo && (
-            // Catalogue injoignable : parcours court (description libre → coordonnées).
-            <div style={{ ...S.quoteWrap, marginTop: 8 }}>
-              <h2 style={{ fontSize: 19, fontWeight: 800, margin: "0 0 6px", color: "#fff" }}>{txt.courtTitre}</h2>
-              <p style={{ color: "#9ca3af", fontSize: 14, margin: "0 0 14px", lineHeight: 1.6 }}>{txt.courtSub}</p>
-              <label htmlFor="p3f_libre" style={S.label}>{t("portes.p3.identity.nature")}</label>
-              <textarea id="p3f_libre" style={{ ...S.inp, minHeight: 96, fontFamily: "inherit" }} value={categoryLibre} onChange={e => setCategoryLibre(e.target.value)} placeholder={txt.courtPh} />
-              <button type="button" style={S.btn} onClick={parcoursCourt}>{t("lead.porte.continue")}</button>
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginTop: 14 }}>
-                <a href={lienWhatsApp(WA_MSG_P3)} target="_blank" rel="noopener noreferrer"
-                  style={{ background: "#128C7E", color: "#fff", padding: "11px 18px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>{txt.wa}</a>
-                <a href={lienTel}
-                  style={{ border: "1px solid #374151", color: "#e8eaf0", padding: "11px 18px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>{t("portes.p1.dashboard.canal.call")} {CONTACT.telAffiche}</a>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     );
@@ -475,7 +368,7 @@ export default function P3Home() {
             <div className="cit-porte-p3-row2">
               <div>
                 <label style={S.label}>{t("portes.p3.measures.surface_per_bldg")}</label>
-                <input type="number" style={S.inp} value={surfacePlancher} onChange={e => setSurfacePlancher(e.target.value)} placeholder={t("portes.p3.measures.surface_per_bldg_ph")} />
+                <input type="number" style={S.inp} value={surfacePlancher} onChange={e => { setSurfacePlancher(e.target.value); setError(""); }} placeholder={t("portes.p3.measures.surface_per_bldg_ph")} />
               </div>
               <div>
                 <label style={S.label}>{t("portes.p3.measures.nb_bldg")}</label>
@@ -485,10 +378,11 @@ export default function P3Home() {
           ) : (
             <>
               <label style={S.label}>{t("portes.p3.measures.surface_total")}</label>
-              <input type="number" style={S.inp} value={surfacePlancher} onChange={e => setSurfacePlancher(e.target.value)} placeholder={t("portes.p3.measures.surface_ph")} />
+              <input type="number" style={S.inp} value={surfacePlancher} onChange={e => { setSurfacePlancher(e.target.value); setError(""); }} placeholder={t("portes.p3.measures.surface_ph")} />
             </>
           )}
-          <button style={S.btn} onClick={() => setStep("corps")}>{t("portes.p3.measures.next_corps")}</button>
+          {error && <div style={S.err} role="alert">⚠ {error}</div>}
+          <button style={S.btn} onClick={measuresContinue}>{t("portes.p3.measures.next_corps")}</button>
         </div>
       </div>
     );
@@ -506,12 +400,7 @@ export default function P3Home() {
           <div style={S.formSub} dangerouslySetInnerHTML={{ __html: t("portes.p3.corps.progress", { n: `<strong>${selectedCorps.size}</strong>`, total: `<strong>${totalCorps}</strong>` }) }} />
           {error && <div style={S.err}>⚠ {error}</div>}
 
-          {corpsKo && corpsGroupes.length === 0 && (
-            <>
-              <label htmlFor="p3f_corps" style={{ color: "#9ca3af", fontSize: 13, marginBottom: 10, display: "block" }}>{txt.corpsLibre}</label>
-              <textarea id="p3f_corps" style={{ ...S.inp, minHeight: 90 }} value={corpsLibre} onChange={e => setCorpsLibre(e.target.value)} placeholder={t("lead.porte.free_ph")} />
-            </>
-          )}
+          <div style={{ color: "#9ca3af", fontSize: 13, marginBottom: 14 }}>{t("portes.p3.corps.optional")}</div>
 
           {corpsGroupes.map(g => (
             <div key={g.groupe} style={S.groupeBox}>
@@ -575,12 +464,15 @@ export default function P3Home() {
             </div>
 
             <div style={{ marginTop: 14, color: "#6b7280", fontSize: 11, lineHeight: 1.6 }}>
+              <div>• {t("portes.p3.quote.local_note")}</div>
               {quote.notes.map((n, i) => <div key={i}>• {n}</div>)}
             </div>
 
-            <div style={{ marginTop: 14, color: "#9ca3af", fontSize: 12 }}>
-              {t("portes.p3.quote.coordination_count", { n: selectedCorps.size })}
-            </div>
+            {selectedCorps.size > 0 && (
+              <div style={{ marginTop: 14, color: "#9ca3af", fontSize: 12 }}>
+                {t("portes.p3.quote.coordination_count", { n: selectedCorps.size })}
+              </div>
+            )}
           </div>
 
           <button style={S.btn} onClick={() => setStep("identity")}>{t("portes.p3.quote.continue_identity")}</button>
@@ -596,11 +488,15 @@ export default function P3Home() {
       <div style={S.root}>
         <style>{P3_RESPONSIVE_CSS}</style>
         <div className="cit-porte-p3-wrap">
-          <button style={S.btnBack} onClick={() => setStep(quote ? "quote" : categoryCode === "LIBRE" && categoriesKo ? "category" : "corps")}>{t("portes.p3.back_quote")}</button>
+          <button style={S.btnBack} onClick={() => setStep(quote ? "quote" : "corps")}>{quote ? t("portes.p3.back_estimate") : t("portes.p3.back")}</button>
           <Stepper />
           <div style={S.formTitle}>{t("portes.p3.identity.title")}</div>
-          <div style={S.formSub}>{t("portes.p3.identity.sub")}</div>
-          {!quote && quoteLater && <div style={S.noteBox}>{t("lead.porte.quote_later")}</div>}
+          <div style={S.formSub}>{t("portes.p3.identity.sub_light")}</div>
+          {quote && (
+            <div style={{ ...S.noteBox, marginTop: 0, marginBottom: 18 }}>
+              {quote.meta.categoryLabel} — <strong>{fmtMAD(quote.honoraires.totalTTC)}</strong> {t("portes.p3.quote.ttc")}
+            </div>
+          )}
           {error && !errField && <div style={S.err} role="alert">⚠ {error}</div>}
 
           <div className="cit-porte-p3-row2">
@@ -617,6 +513,11 @@ export default function P3Home() {
           </div>
           <label htmlFor="p3f_email" style={S.label}>{t("portes.p3.identity.email")}</label>
           <input id="p3f_email" style={S.inp} type="email" inputMode="email" autoComplete="email" value={identity.clientEmail} onChange={f("clientEmail")} placeholder={t("portes.p3.identity.email_ph")} />
+          <label htmlFor="p3f_commune" style={S.label}>{t("portes.p3.identity.commune")}</label>
+          <input id="p3f_commune" style={S.inp} autoComplete="address-level2" value={identity.commune} onChange={e => setIdentity({...identity, commune: e.target.value})} placeholder={t("portes.p3.identity.commune_ph")} {...erreurSur("commune")} />
+          {errSous("commune")}
+          <details style={{ marginBottom: 14 }}>
+            <summary style={{ cursor: "pointer", color: "#9ca3af", fontSize: 13, fontWeight: 600, marginBottom: 12 }}>{t("portes.p3.identity.company_toggle")}</summary>
           <div className="cit-porte-p3-row2">
             <div><label style={S.label}>{t("portes.p3.identity.raison")}</label><input style={S.inp} value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
             <div><label style={S.label}>{t("portes.p3.identity.representant")}</label><input style={S.inp} value={identity.representant} onChange={f("representant")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
@@ -625,9 +526,7 @@ export default function P3Home() {
             <div><label style={S.label}>{t("portes.p3.identity.rc")}</label><input style={S.inp} value={identity.rc} onChange={f("rc")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
             <div><label style={S.label}>{t("portes.p3.identity.ice")}</label><input style={S.inp} value={identity.ice} onChange={f("ice")} placeholder={t("portes.p3.identity.dash_ph")} /></div>
           </div>
-          <label htmlFor="p3f_commune" style={S.label}>{t("portes.p3.identity.commune")}</label>
-          <input id="p3f_commune" style={S.inp} autoComplete="address-level2" value={identity.commune} onChange={e => setIdentity({...identity, commune: e.target.value})} placeholder={t("portes.p3.identity.commune_ph")} {...erreurSur("commune")} />
-          {errSous("commune")}
+          </details>
           <label htmlFor="p3f_nature" style={S.label}>{t("portes.p3.identity.nature")}</label>
           <input id="p3f_nature" style={S.inp} value={identity.natureProjet} onChange={e => setIdentity({...identity, natureProjet: e.target.value})} placeholder={t("portes.p3.identity.nature_ph")} />
           <BudgetPrevisionnelField

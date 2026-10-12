@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { apiBase } from "../../../tome4/apiClient";
 import { useAuth } from "../../../tome5/AuthProvider";
@@ -10,6 +10,7 @@ import TitleFoncierInput from "../../../../features/geo/TitleFoncierInput";
 import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
 import { captureFromIntake, montantDevis, submitLead, telephoneEnvoyable } from "../../../../features/lead-funnel/leadBridge";
 import BudgetPrevisionnelField from "../../../../features/lead-funnel/BudgetPrevisionnelField";
+import { computeP5Quote } from "../../../../domain/p5/quoteLocal";
 import proj4 from "proj4";
 
 // Définitions Lambert Maroc — déjà enregistrées dans MapPicker, on duplique
@@ -24,18 +25,16 @@ if (!proj4.defs("EPSG:26191")) {
 /**
  * P5Home — Rapports & Expertises (refonte v2 — UI premium niveau P2)
  *
- * Doctrine : trois rapports au pourcentage.
- *   - EXPERTISE_PRIX     = 1.0 % du prix foncier        (min 5 000 DH)
- *   - EXPERTISE_URBA     = 0.5 % du coût de construction (min 6 000 DH)
- *   - READY_TO_INVEST    = 1.0 % du montant total invest (min 18 000 DH)
+ * Tarifs calculés dans le navigateur (domain/p5/quoteLocal, copie conforme de
+ * l'API tome-6/p5, éteinte en production) : Estimation Express forfait 990 DH HT,
+ * expertises au tarif dégressif sur une assiette estimée, coefficient de délai.
  *
- * Séquence stricte (alignée P1/P2) :
- *   Étape 1 — Qui êtes-vous (identité MOA + localisation)
- *   Étape 2 — Choix du rapport (3 cartes premium type P1)
- *   Étape 3 — Caractéristiques financières (prix foncier / coût constr. / invest. total)
- *   Étape 4 — Délai souhaité
- *   Bouton final → si non connecté : signup + double OTP → P5Finalize
- *                  si connecté : intake direct + devis livré dans dossier identifié
+ * Séquence (le prix s'affiche AVANT les coordonnées) :
+ *   Étape 1 — Choix du rapport
+ *   Étape 2 — Description et commune du bien (précisions cartographiques repliées, facultatives)
+ *   Étape 3 — Délai souhaité + prix du rapport
+ *   Étape 4 — Coordonnées (nom, téléphone, e-mail facultatif ; société repliée)
+ *   Envoi → mode "lead" : capture + dossier si l'API répond ; sinon signup → P5Finalize
  */
 
 const P5_PENDING_KEY = "citurbarea:p5:pending_intake:v1";
@@ -198,7 +197,7 @@ function P5HomeInner() {
   const expertiseHint = searchParams.get("expertise") === "1";
 
   const [screen, setScreen] = useState<"flow" | "success">("flow");
-  const [phase, setPhase] = useState<Phase>("identity");
+  const [phase, setPhase] = useState<Phase>("report");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
@@ -233,10 +232,6 @@ function P5HomeInner() {
   const [montantInvest, setMontantInvest] = useState<string>("");
 
   const [delayMode, setDelayMode] = useState<DelayMode>("STANDARD");
-
-  // Aperçu en transparence de l'estimation sommaire calculée par notre backend
-  const [preview, setPreview] = useState<any | null>(null);
-  const [previewBusy, setPreviewBusy] = useState(false);
 
   // Sprint 1 SIG — géoréférencement + document foncier
   const [geoCoords, setGeoCoords] = useState<{ lat: number; lng: number; source?: string } | null>(null);
@@ -313,12 +308,11 @@ function P5HomeInner() {
     .filter(p => p.x.trim() !== "" && p.y.trim() !== "" && Number.isFinite(+p.x) && Number.isFinite(+p.y))
     .map(p => ({ x: +p.x, y: +p.y }));
 
-  const [quote, setQuote] = useState<Quote | null>(null);
   const [dossierId, setDossierId] = useState<string | null>(null);
   // Budget prévisionnel de construction déclaré (facultatif) — jamais les honoraires.
   const [budgetPrev, setBudgetPrev] = useState<number | null>(null);
 
-  const PHASES: Phase[] = ["identity", "report", "details", "delay"];
+  const PHASES: Phase[] = ["report", "details", "delay", "identity"];
   const reached = (p: Phase) => PHASES.indexOf(phase) >= PHASES.indexOf(p);
 
   // Pré-remplissage automatique du montant d'investissement pour Ready-to-Invest
@@ -343,11 +337,7 @@ function P5HomeInner() {
     if (!telephoneEnvoyable(identity.clientTel)) {
       errs.push({ field: "tel", msg: identity.clientTel.trim() ? t("lead.porte.err_contact") : "Indiquez un numéro de téléphone pour être rappelé." });
     }
-    if (errs.length) return errs;
-    if (moaType === "morale" && !identity.raisonSociale) return [{ field: "raison", msg: "Raison sociale obligatoire pour une personne morale." }];
-    if (moaType === "morale" && !identity.representant) return [{ field: "repr", msg: "Représentant légal obligatoire pour une personne morale." }];
-    if (!identity.region || !identity.province || !identity.commune) return [{ field: "loc", msg: "Région, province et commune obligatoires." }];
-    return [];
+    return errs;
   };
 
   // Signale les erreurs : message sous chaque champ + résumé près du bouton.
@@ -395,6 +385,8 @@ function P5HomeInner() {
     if (bienFamily === "AMENAGEMENT" && +surfacePlancherM2 <= 0) {
       return "Indiquez la surface du local à aménager (m²).";
     }
+    // Seule la commune est exigée : région / province facultatives (liste officielle parfois indisponible).
+    if (!identity.commune.trim()) return "Indiquez la commune du bien.";
     // Si le client a coché « je connais les valeurs », au moins une doit être saisie
     if (knowsValues) {
       const hasAny = +prixFoncier > 0 || +coutConstruction > 0 || +montantInvest > 0;
@@ -404,23 +396,23 @@ function P5HomeInner() {
   };
 
   // ── Transitions ────────────────────────────────────────────────────
-  const identityContinue = () => {
-    setError("");
-    const errs = validateIdentity();
-    if (errs.length) { signalerIdentite(errs); return; }
-    setIdErrs(null);
-    setPhase("report");
-  };
   const pickReport = (code: ReportType) => {
     setError("");
     setReportType(code);
-    setPhase("details");
+    setPhase(prev => (PHASES.indexOf(prev) < PHASES.indexOf("details") ? "details" : prev));
+    setTimeout(() => document.getElementById("p5-details")?.scrollIntoView({ behavior: "smooth", block: "start" }), 30);
   };
   const detailsContinue = () => {
     setError("");
     const err = validateDetails();
     if (err) { setError(err); return; }
     setPhase("delay");
+    setTimeout(() => document.getElementById("p5-delay")?.scrollIntoView({ behavior: "smooth", block: "start" }), 30);
+  };
+  const delayContinue = () => {
+    setError("");
+    setPhase("identity");
+    setTimeout(() => document.getElementById("p5-identity")?.scrollIntoView({ behavior: "smooth", block: "start" }), 30);
   };
 
   // ── Calcul du devis ────────────────────────────────────────────────
@@ -441,18 +433,12 @@ function P5HomeInner() {
     return body;
   };
 
-  const computeQuote = async (): Promise<Quote | null> => {
+  // Prix du rapport, recalculé à chaque saisie (même règle que POST /p5/quote).
+  const quote: Quote | null = useMemo(() => {
     if (!reportType) return null;
-    const res = await fetch(`${apiBase()}/p5/quote`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(buildQuoteBody()),
-    });
-    const data = await res.json();
-    if (!data.ok) throw new Error(data.error || "Erreur de calcul du devis");
-    setQuote(data);
-    return data;
-  };
+    try { return computeP5Quote(buildQuoteBody()) as Quote; } catch { return null; }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reportType, delayMode, bienFamily, surfaceTerrainM2, surfacePlancherM2, rLevel, nbBatiments, standing, zoneTier, knowsValues, prixFoncier, coutConstruction, montantInvest]);
 
   // Charge le catalogue DGI de la ville quand la commune sélectionnée est supportée.
   // Aujourd'hui : Rabat (49 zones extraites du PDF DGI 2017). Casa/Marrakech/Tanger à venir.
@@ -514,29 +500,6 @@ function P5HomeInner() {
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [identity.commune, identity.region, identity.adresseBien, geoCoords?.lat, geoCoords?.lng, bienFamily]);
-
-  // Aperçu d'estimation sommaire en temps réel (transparence côté client).
-  useEffect(() => {
-    if (phase !== "details" || !reportType) { setPreview(null); return; }
-    const t = setTimeout(async () => {
-      const hasInputs = +surfaceTerrainM2 > 0 || +surfacePlancherM2 > 0
-                      || +prixFoncier > 0 || +coutConstruction > 0 || +montantInvest > 0;
-      if (!hasInputs) { setPreview(null); return; }
-      setPreviewBusy(true);
-      try {
-        const res = await fetch(`${apiBase()}/p5/quote`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(buildQuoteBody()),
-        });
-        const data = await res.json();
-        if (data.ok) setPreview(data);
-      } catch { /* silent */ }
-      finally { setPreviewBusy(false); }
-    }, 400);
-    return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase, reportType, bienFamily, surfaceTerrainM2, surfacePlancherM2, rLevel, nbBatiments, standing, zoneTier, delayMode, knowsValues, prixFoncier, coutConstruction, montantInvest]);
 
   // ── Construction du payload intake ─────────────────────────────────
   const buildIntakePayload = (clientEmailOverride?: string) => {
@@ -807,7 +770,7 @@ function P5HomeInner() {
                 {t("p5.bankable_notice")}
               </p>
               <button className="btn btn-gold" onClick={() => {
-                const el = document.getElementById("p5-identity");
+                const el = document.getElementById("p5-report");
                 if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
               }}>
                 {t("p5.start_qualification")} →
@@ -842,223 +805,15 @@ function P5HomeInner() {
         </div>
       </header>
 
-      {/* BLOC 1 — IDENTITÉ (style P2) */}
-      {reached("identity") && (
-        <section className="section" id="p5-identity" style={{ order: -1 }}>
-          <div className="container-max">
-            <div className="eyebrow">Étape 1</div>
-            <h2 className="section-title">{t("p5.who_are_you")}</h2>
-            <p className="sub" style={{ marginBottom: 24 }}>
-              On commence par vous identifier : statut, contact et localisation du bien.
-            </p>
-
-            <div className="pill" style={{ marginBottom: 14 }}>1) Type de maître d'ouvrage <span className="req">*</span></div>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 22 }}>
-              {[
-                { id: "physique", label: "Personne physique", sub: "Particulier — Nom + CIN" },
-                { id: "morale",   label: "Personne morale",   sub: "Société — Raison sociale + RC/ICE" },
-              ].map(o => (
-                <button
-                  key={o.id} type="button"
-                  onClick={() => setMoaType(o.id as any)}
-                  style={{
-                    flex: "1 1 240px", textAlign: "left", cursor: "pointer", padding: 14,
-                    border: moaType === o.id ? "2px solid #C9A227" : "1px solid rgba(11,27,58,0.18)",
-                    background: moaType === o.id ? "#fff8e1" : "#fff",
-                    borderRadius: 14, fontFamily: "inherit",
-                  }}
-                >
-                  <div style={{ fontWeight: 700, color: "#0B1B3A", fontSize: 14.5 }}>{o.label}</div>
-                  <div className="muted" style={{ fontSize: 12, marginTop: 4 }}>{o.sub}</div>
-                </button>
-              ))}
-            </div>
-
-            <div className="pill" style={{ marginBottom: 14 }}>2) Contact <span className="req">*</span></div>
-            <div className="form-grid">
-              <div className="field"><label className="label" htmlFor="p5f_nom">Nom complet <span className="req">*</span></label><input id="p5f_nom" className="control" autoComplete="name" value={identity.clientNom} onChange={f("clientNom")} placeholder="Prénom Nom" {...invalide("nom")} />{errSous("nom")}</div>
-              <div className="field"><label className="label" htmlFor="p5f_tel">Téléphone <span className="req">*</span></label><input id="p5f_tel" className="control" type="tel" inputMode="tel" autoComplete="tel" value={identity.clientTel} onChange={f("clientTel")} placeholder="+212 6XX XXX XXX" {...invalide("tel")} />{errSous("tel")}</div>
-              <div className="field"><label className="label" htmlFor="p5f_email">Email</label><input id="p5f_email" className="control" type="email" inputMode="email" autoComplete="email" value={identity.clientEmail} onChange={f("clientEmail")} placeholder="contact@exemple.ma" /></div>
-            </div>
-            <p className="muted" style={{ fontSize: 12.5, marginTop: 8, lineHeight: 1.5 }}>{t("lead.legal")}</p>
-
-            {moaType === "morale" && (
-              <>
-                <div className="blk-title">3) Société</div>
-                <div className="form-grid">
-                  <div className="field"><label className="label" htmlFor="p5f_raison">Raison sociale <span className="req">*</span></label><input id="p5f_raison" className="control" autoComplete="organization" value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder="SARL / SA / SNC…" {...invalide("raison")} />{errSous("raison")}</div>
-                  <div className="field"><label className="label" htmlFor="p5f_repr">Représentant légal <span className="req">*</span></label><input id="p5f_repr" className="control" value={identity.representant} onChange={f("representant")} placeholder="Gérant / DG" {...invalide("repr")} />{errSous("repr")}</div>
-                  <div className="field"><label className="label">RC</label><input className="control" value={identity.rc} onChange={f("rc")} placeholder="12345" /></div>
-                  <div className="field"><label className="label">ICE</label><input className="control" value={identity.ice} onChange={f("ice")} placeholder="000000000000000" /></div>
-                </div>
-              </>
-            )}
-
-            <div className="blk-title">{moaType === "morale" ? "4" : "3"}) Localisation du bien</div>
-            <div className="muted" style={{ fontSize: 12.5, marginBottom: 10, maxWidth: 720 }}>
-              Sélection officielle issue du découpage HCP — 14 régions / 77 provinces / 1 505 communes.
-            </div>
-            <div id="p5f_loc">
-            <AdminLocationSelect
-              required
-              value={{ region: identity.region, province: identity.province, commune: identity.commune }}
-              onChange={({ region, province, commune, codes }) => {
-                setIdentity(prev => ({ ...prev, region, province, commune }));
-                setAdminCodes(codes);
-              }}
-            />
-            {errSous("loc")}
-            </div>
-            <div className="form-grid" style={{ marginTop: 14 }}>
-              <div className="field" style={{ gridColumn: "1 / -1" }}>
-                <label className="label">Adresse précise du bien (optionnel)</label>
-                <input className="control" value={identity.adresseBien} onChange={f("adresseBien")} placeholder="ex. Avenue Mohammed VI, secteur 4" />
-                <div className="muted" style={{ fontSize: 11.5, marginTop: 4, fontStyle: "italic" }}>
-                  Le repère se pose automatiquement sur la carte 600 ms après votre dernière frappe.
-                </div>
-              </div>
-            </div>
-
-            {/* Coordonnées Lambert Maroc — multi-points (PV de bornage / sommets de parcelle) */}
-            <details style={{ marginTop: 18, padding: "14px 18px", background: "rgba(11,27,58,0.04)", border: "1px solid rgba(11,27,58,0.10)", borderRadius: 10 }}>
-              <summary style={{ cursor: "pointer", fontSize: 13, fontWeight: 700, color: "#0B1B3A" }}>
-                📐 Vous avez des coordonnées Lambert Maroc ? <span style={{ fontWeight: 500, color: "rgba(11,27,58,0.55)" }}>(option, pas obligatoire)</span>
-              </summary>
-              <div className="muted" style={{ fontSize: 12, lineHeight: 1.55, margin: "10px 0 12px" }}>
-                Saisie en système géodésique officiel ANCFCC. Si vous avez le PV de bornage ou
-                le titre foncier avec coordonnées Lambert, cela permet une localisation millimétrique.
-                <strong> Ajoutez autant de sommets que nécessaire</strong> — 1 point pose un repère,
-                3 sommets et plus dessinent le polygone exact de la parcelle sur la carte.
-              </div>
-              <div className="field" style={{ marginBottom: 14 }}>
-                <label className="label">Zone Lambert (commune à tous les sommets)</label>
-                <select className="control" value={lambertZone} onChange={(e) => setLambertZone(e.target.value as LambertZone)}>
-                  <option value="EPSG:26191">Nord Maroc — Tanger / Rabat / Casa / Fès</option>
-                  <option value="EPSG:26192">Sud Maroc — Marrakech / Agadir / Béni Mellal</option>
-                  <option value="EPSG:26194">Sahara Nord — Tan-Tan / Laâyoune nord</option>
-                  <option value="EPSG:26195">Sahara Sud — Dakhla / Aousserd</option>
-                </select>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {lambertPoints.map((p, idx) => (
-                  <div key={p.id} style={{ display: "grid", gridTemplateColumns: "48px 1fr 1fr 80px", gap: 10, alignItems: "center" }}>
-                    <div style={{ fontSize: 12, fontWeight: 800, color: "rgba(11,27,58,0.65)", textAlign: "center", background: "rgba(201,162,39,0.10)", padding: "8px 0", borderRadius: 8 }}>
-                      #{idx + 1}
-                    </div>
-                    <input
-                      className="control" type="number" placeholder="X (m) ex. 350 000"
-                      value={p.x} onChange={(e) => updateLambertPoint(p.id, "x", e.target.value)}
-                    />
-                    <input
-                      className="control" type="number" placeholder="Y (m) ex. 380 000"
-                      value={p.y} onChange={(e) => updateLambertPoint(p.id, "y", e.target.value)}
-                    />
-                    <button
-                      type="button" onClick={() => removeLambertPoint(p.id)}
-                      disabled={lambertPoints.length <= 1}
-                      style={{
-                        padding: "9px 0", borderRadius: 8,
-                        background: lambertPoints.length <= 1 ? "rgba(11,27,58,0.06)" : "rgba(220,38,38,0.08)",
-                        border: lambertPoints.length <= 1 ? "1px solid rgba(11,27,58,0.10)" : "1px solid rgba(220,38,38,0.30)",
-                        color: lambertPoints.length <= 1 ? "rgba(11,27,58,0.35)" : "#b91c1c",
-                        fontSize: 12, fontWeight: 700,
-                        cursor: lambertPoints.length <= 1 ? "not-allowed" : "pointer",
-                        fontFamily: "inherit",
-                      }}
-                    >
-                      ✕ Retirer
-                    </button>
-                  </div>
-                ))}
-              </div>
-              <button
-                type="button" onClick={addLambertPoint}
-                style={{
-                  marginTop: 12, padding: "9px 16px", borderRadius: 8,
-                  background: "rgba(201,162,39,0.12)", border: "1px solid rgba(201,162,39,0.45)",
-                  color: "#0B1B3A", fontSize: 12.5, fontWeight: 700,
-                  cursor: "pointer", fontFamily: "inherit",
-                }}
-              >
-                + Ajouter un sommet
-              </button>
-              {validLambertPoints.length > 0 && (() => {
-                const converted = validLambertPoints.map(pt => {
-                  try {
-                    const [lng, lat] = proj4(lambertZone, "EPSG:4326", [pt.x, pt.y]);
-                    const inMA = Number.isFinite(lat) && Number.isFinite(lng) && lat > 20 && lat < 36 && lng > -18 && lng < -1;
-                    return { lat, lng, inMA };
-                  } catch { return null; }
-                }).filter((v): v is { lat: number; lng: number; inMA: boolean } => v !== null);
-                const allInMA = converted.length > 0 && converted.every(c => c.inMA);
-                return (
-                  <div style={{
-                    marginTop: 12, fontSize: 12, fontFamily: "ui-monospace, Menlo, Consolas, monospace",
-                    background: allInMA ? "rgba(201,162,39,0.08)" : "rgba(220,38,38,0.07)",
-                    border: `1px solid ${allInMA ? "rgba(201,162,39,0.30)" : "rgba(220,38,38,0.22)"}`,
-                    color: allInMA ? "rgba(11,27,58,0.85)" : "#b91c1c",
-                    padding: "8px 12px", borderRadius: 8, lineHeight: 1.6,
-                  }}>
-                    {allInMA ? (
-                      <>
-                        ↪ <strong>{converted.length} sommet{converted.length > 1 ? "s" : ""} converti{converted.length > 1 ? "s" : ""} en WGS84</strong>
-                        {converted.length === 1 && <> : {converted[0].lat.toFixed(5)}, {converted[0].lng.toFixed(5)}</>}
-                        {converted.length >= 3 && <> → polygone dessiné sur la carte.</>}
-                        {converted.length === 2 && <> → ligne dessinée sur la carte.</>}
-                      </>
-                    ) : (
-                      <>⚠ Coordonnées hors Maroc — vérifiez la zone Lambert sélectionnée.</>
-                    )}
-                  </div>
-                );
-              })()}
-            </details>
-
-            {/* Sprint 1 SIG — géoréférencement du bien sur carte */}
-            <div className="blk-title" style={{ marginTop: 28 }}>{moaType === "morale" ? "5" : "4"}) Géoréférencement (recommandé)</div>
-            <div className="muted" style={{ fontSize: 12.5, marginBottom: 12, maxWidth: 720 }}>
-              Localisez précisément votre bien sur la carte — cela permet à l'expert de croiser
-              automatiquement les références cadastrales, les comparables ventes et les zonages
-              urbanistiques (Plans d'Aménagement TAAMIR).
-            </div>
-            <MapPicker
-              region={identity.region}
-              province={identity.province}
-              commune={identity.commune}
-              adresse={identity.adresseBien}
-              onChange={(c) => setGeoCoords(c)}
-              height={360}
-              highlightRegionCode={adminCodes.regionCode}
-              highlightProvinceCode={adminCodes.provinceCode}
-              highlightCommuneCode={adminCodes.communeCode}
-              autoGeocodeAddress
-              externalLambert={validLambertPoints.length > 0 ? { zone: lambertZone, points: validLambertPoints } : undefined}
-            />
-
-            {/* Sprint 1 — upload extrait Mohafadati (workaround ANCFCC) */}
-            <MohafadatiUpload onChange={(d) => setMohafadatiDoc(d)} />
-
-            {/* Sprint 1 — N° de titre foncier (validation format + conservation) */}
-            <TitleFoncierInput onChange={(d) => setTitleFoncier(d)} />
-
-            {error && phase === "identity" && <div className="err">⚠ {error}</div>}
-            <div style={{ marginTop: 28 }}>
-              <button className="btn btn-gold" onClick={identityContinue}>Continuer : choisir mon rapport →</button>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* BLOC 2 — TYPE DE RAPPORT (3 cartes premium) */}
       {reached("report") && (
-        <section className="section" id="p5-report" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
+        <section className="section" id="p5-report">
           <div className="container-max">
-            <div className="eyebrow">Étape 2</div>
+            <div className="eyebrow">Étape 1</div>
             <h2 className="section-title">Quel rapport souhaitez-vous ?</h2>
             <p className="sub" style={{ marginBottom: 30 }}>
-              Trois niveaux d'expertise — du simple avis de valeur au business plan complet pour
-              investisseurs institutionnels. Le tarif s'applique au pourcentage sur l'assiette
-              naturelle du rapport.
+              De l'avis de valeur rapide au dossier complet pour investisseur. Le prix s'affiche
+              dès que vous avez décrit votre bien.
             </p>
             <div className="grid-3">
               {REPORT_CARDS.map(r => {
@@ -1116,13 +871,11 @@ function P5HomeInner() {
       {reached("details") && reportType && (
         <section className="section" id="p5-details" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
           <div className="container-max">
-            <div className="eyebrow">Étape 3</div>
-            <h2 className="section-title">Décrivez votre bien — nous calculons l'estimation</h2>
+            <div className="eyebrow">Étape 2</div>
+            <h2 className="section-title">Décrivez votre bien</h2>
             <p className="sub" style={{ marginBottom: 24 }}>
-              Vous venez justement pour obtenir une expertise — nous ne vous demandons pas
-              de connaître les chiffres financiers. Donnez-nous quelques caractéristiques
-              du bien, et nous calculons en interne une estimation sommaire qui servira de
-              base au devis du rapport (le rapport l'affinera ensuite précisément).
+              Quelques caractéristiques suffisent : nous calculons le prix du rapport.
+              Pas besoin de connaître la valeur de votre bien.
             </p>
 
             {/* Type de bien — pictos clairs */}
@@ -1206,44 +959,147 @@ function P5HomeInner() {
                   </select>
                 </div>
               )}
-              {/* DOCTRINE : aucune donnée urbanisme / fourchette de prix / référentiel
-                  DGI/ANCFCC affichée AVANT création de compte + validation email + OTP SMS.
-                  Le panneau complet (zone DGI réelle, fourchette, auto-détection PA, devis
-                  détaillé) s'affiche dans P5Finalize après identification complète. */}
-              <div className="field" style={{ gridColumn: "1 / -1" }}>
-                <div style={{
-                  padding: "16px 18px",
-                  background: "linear-gradient(135deg, rgba(11,27,58,0.04), rgba(201,162,39,0.06))",
-                  border: "1px solid rgba(201,162,39,0.30)",
-                  borderLeft: "4px solid #C9A227",
-                  borderRadius: 12,
-                  fontSize: 13, color: "rgba(11,27,58,0.85)", lineHeight: 1.65,
-                }}>
-                  <div style={{ fontWeight: 800, color: "#0B1B3A", marginBottom: 6, display: "flex", alignItems: "center", gap: 8 }}>
-                    🔒 Estimation urbanistique + fourchette DGI/ANCFCC réservées
-                  </div>
-                  <div>
-                    Pour des raisons de protection des données et de qualité d'expertise, les
-                    informations suivantes ne s'affichent qu'<strong>après création de votre compte</strong>
-                    {" "}(validation email + SMS) :
-                    <ul style={{ margin: "6px 0 0 22px", padding: 0, lineHeight: 1.8 }}>
-                      <li>Détection automatique du zonage urbanistique depuis le Plan d'Aménagement</li>
-                      <li>Référentiel DGI officiel par voie et destination (terrain, villa, immeuble)</li>
-                      <li>Référentiel ANCFCC valeurs vénales par zone</li>
-                      <li>Fourchette de prix marché ajustée à votre projet</li>
-                      <li>Devis personnalisé du rapport d'expertise</li>
-                    </ul>
-                    <div style={{ marginTop: 8, fontSize: 11.5, color: "rgba(11,27,58,0.65)", fontStyle: "italic" }}>
-                      Création gratuite — vos données projet restent confidentielles, conformes à la loi 09-08.
-                    </div>
-                  </div>
+            </div>
+
+            <div className="blk-title">Où se trouve le bien ?</div>
+            <div id="p5f_loc">
+              <AdminLocationSelect
+                value={{ region: identity.region, province: identity.province, commune: identity.commune }}
+                onChange={({ region, province, commune, codes }) => {
+                  setIdentity(prev => ({ ...prev, region: region || "", province: province || "", commune: commune || "" }));
+                  setAdminCodes(codes);
+                }}
+              />
+              <div className="muted" style={{ fontSize: 12, marginTop: 6 }}>Seule la commune est obligatoire.</div>
+            </div>
+
+            <details style={{ marginTop: 18, padding: "14px 18px", background: "rgba(11,27,58,0.04)", border: "1px solid rgba(11,27,58,0.10)", borderRadius: 10 }}>
+              <summary style={{ cursor: "pointer", fontSize: 13, fontWeight: 700, color: "#0B1B3A" }}>
+                Précisions sur le terrain <span style={{ fontWeight: 500, color: "rgba(11,27,58,0.55)" }}>(facultatif : adresse, carte, titre foncier)</span>
+              </summary>
+              <div className="form-grid" style={{ marginTop: 14 }}>
+                <div className="field" style={{ gridColumn: "1 / -1" }}>
+                  <label className="label">Adresse du bien</label>
+                  <input className="control" value={identity.adresseBien} onChange={f("adresseBien")} placeholder="ex. Avenue Mohammed VI, secteur 4" />
                 </div>
               </div>
-            </div>
+              <div className="muted" style={{ fontSize: 12.5, margin: "14px 0 10px" }}>
+                Vous pouvez placer le bien sur la carte : cela aide l'expert à préparer sa visite.
+              </div>
+              <MapPicker
+                region={identity.region}
+                province={identity.province}
+                commune={identity.commune}
+                adresse={identity.adresseBien}
+                onChange={(c) => setGeoCoords(c)}
+                height={360}
+                highlightRegionCode={adminCodes.regionCode}
+                highlightProvinceCode={adminCodes.provinceCode}
+                highlightCommuneCode={adminCodes.communeCode}
+                autoGeocodeAddress
+                externalLambert={validLambertPoints.length > 0 ? { zone: lambertZone, points: validLambertPoints } : undefined}
+              />
+  
+              {/* Sprint 1 — upload extrait Mohafadati (workaround ANCFCC) */}
+              <MohafadatiUpload onChange={(d) => setMohafadatiDoc(d)} />
+  
+              {/* Sprint 1 — N° de titre foncier (validation format + conservation) */}
+              <TitleFoncierInput onChange={(d) => setTitleFoncier(d)} />
+  
+  
+              <details style={{ marginTop: 14 }}>
+                <summary style={{ cursor: "pointer", fontSize: 12.5, fontWeight: 700, color: "#0B1B3A" }}>Coordonnées du plan de bornage (géomètre)</summary>
+                <div className="muted" style={{ fontSize: 12, lineHeight: 1.55, margin: "10px 0 12px" }}>
+                  Si votre plan de bornage indique des coordonnées X / Y, saisissez-les ici.
+                </div>
+              <div className="field" style={{ marginBottom: 14 }}>
+                <label className="label">Zone Lambert (commune à tous les sommets)</label>
+                <select className="control" value={lambertZone} onChange={(e) => setLambertZone(e.target.value as LambertZone)}>
+                  <option value="EPSG:26191">Nord Maroc — Tanger / Rabat / Casa / Fès</option>
+                  <option value="EPSG:26192">Sud Maroc — Marrakech / Agadir / Béni Mellal</option>
+                  <option value="EPSG:26194">Sahara Nord — Tan-Tan / Laâyoune nord</option>
+                  <option value="EPSG:26195">Sahara Sud — Dakhla / Aousserd</option>
+                </select>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {lambertPoints.map((p, idx) => (
+                  <div key={p.id} style={{ display: "grid", gridTemplateColumns: "48px 1fr 1fr 80px", gap: 10, alignItems: "center" }}>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: "rgba(11,27,58,0.65)", textAlign: "center", background: "rgba(201,162,39,0.10)", padding: "8px 0", borderRadius: 8 }}>
+                      #{idx + 1}
+                    </div>
+                    <input
+                      className="control" type="number" placeholder="X (m) ex. 350 000"
+                      value={p.x} onChange={(e) => updateLambertPoint(p.id, "x", e.target.value)}
+                    />
+                    <input
+                      className="control" type="number" placeholder="Y (m) ex. 380 000"
+                      value={p.y} onChange={(e) => updateLambertPoint(p.id, "y", e.target.value)}
+                    />
+                    <button
+                      type="button" onClick={() => removeLambertPoint(p.id)}
+                      disabled={lambertPoints.length <= 1}
+                      style={{
+                        padding: "9px 0", borderRadius: 8,
+                        background: lambertPoints.length <= 1 ? "rgba(11,27,58,0.06)" : "rgba(220,38,38,0.08)",
+                        border: lambertPoints.length <= 1 ? "1px solid rgba(11,27,58,0.10)" : "1px solid rgba(220,38,38,0.30)",
+                        color: lambertPoints.length <= 1 ? "rgba(11,27,58,0.35)" : "#b91c1c",
+                        fontSize: 12, fontWeight: 700,
+                        cursor: lambertPoints.length <= 1 ? "not-allowed" : "pointer",
+                        fontFamily: "inherit",
+                      }}
+                    >
+                      ✕ Retirer
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <button
+                type="button" onClick={addLambertPoint}
+                style={{
+                  marginTop: 12, padding: "9px 16px", borderRadius: 8,
+                  background: "rgba(201,162,39,0.12)", border: "1px solid rgba(201,162,39,0.45)",
+                  color: "#0B1B3A", fontSize: 12.5, fontWeight: 700,
+                  cursor: "pointer", fontFamily: "inherit",
+                }}
+              >
+                + Ajouter un sommet
+              </button>
+              {validLambertPoints.length > 0 && (() => {
+                const converted = validLambertPoints.map(pt => {
+                  try {
+                    const [lng, lat] = proj4(lambertZone, "EPSG:4326", [pt.x, pt.y]);
+                    const inMA = Number.isFinite(lat) && Number.isFinite(lng) && lat > 20 && lat < 36 && lng > -18 && lng < -1;
+                    return { lat, lng, inMA };
+                  } catch { return null; }
+                }).filter((v): v is { lat: number; lng: number; inMA: boolean } => v !== null);
+                const allInMA = converted.length > 0 && converted.every(c => c.inMA);
+                return (
+                  <div style={{
+                    marginTop: 12, fontSize: 12, fontFamily: "ui-monospace, Menlo, Consolas, monospace",
+                    background: allInMA ? "rgba(201,162,39,0.08)" : "rgba(220,38,38,0.07)",
+                    border: `1px solid ${allInMA ? "rgba(201,162,39,0.30)" : "rgba(220,38,38,0.22)"}`,
+                    color: allInMA ? "rgba(11,27,58,0.85)" : "#b91c1c",
+                    padding: "8px 12px", borderRadius: 8, lineHeight: 1.6,
+                  }}>
+                    {allInMA ? (
+                      <>
+                        ↪ <strong>{converted.length} sommet{converted.length > 1 ? "s" : ""} converti{converted.length > 1 ? "s" : ""} en WGS84</strong>
+                        {converted.length === 1 && <> : {converted[0].lat.toFixed(5)}, {converted[0].lng.toFixed(5)}</>}
+                        {converted.length >= 3 && <> → polygone dessiné sur la carte.</>}
+                        {converted.length === 2 && <> → ligne dessinée sur la carte.</>}
+                      </>
+                    ) : (
+                      <>⚠ Coordonnées hors Maroc — vérifiez la zone Lambert sélectionnée.</>
+                    )}
+                  </div>
+                );
+              })()}
+              </details>
+            </details>
 
             {error && phase === "details" && <div className="err">⚠ {error}</div>}
             <div style={{ marginTop: 26 }}>
-              <button className="btn btn-gold" onClick={detailsContinue}>Continuer : délai →</button>
+              <button className="btn btn-gold" onClick={detailsContinue}>Continuer : délai et prix →</button>
             </div>
           </div>
         </section>
@@ -1254,10 +1110,10 @@ function P5HomeInner() {
       {reached("delay") && (
         <section className="section" id="p5-delay" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
           <div className="container-max">
-            <div className="eyebrow">Étape 4</div>
-            <h2 className="section-title">Délai souhaité</h2>
+            <div className="eyebrow">Étape 3</div>
+            <h2 className="section-title">Délai et prix</h2>
             <p className="sub" style={{ marginBottom: 30 }}>
-              Délai de livraison à compter de la réception du paiement et des documents nécessaires.
+              Délai compté à partir du paiement et de la réception des documents utiles.
             </p>
             <div className="grid-3">
               {DELAY_CARDS.map(d => {
@@ -1297,19 +1153,73 @@ function P5HomeInner() {
                 controlClassName="control"
               />
             </div>
+            {quote && (
+              <div className="lux-card" style={{ marginTop: 26, maxWidth: 720 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 18, flexWrap: "wrap" }}>
+                  <div>
+                    <div style={{ color: "rgba(201,162,39,0.95)", fontSize: 13, fontWeight: 800 }}>{selectedReport ? t(selectedReport.titleKey) : quote.meta.reportLabel}</div>
+                    <div className="muted" style={{ fontSize: 13, marginTop: 4 }}>{quote.meta.delayLabel}</div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontFamily: '"Playfair Display", Georgia, serif', fontSize: 30, fontWeight: 800, color: "#0B1B3A", lineHeight: 1 }}>{fmtMAD(quote.amounts.totalHT)} HT</div>
+                    <div className="muted" style={{ fontSize: 12, marginTop: 5 }}>{fmtMAD(quote.amounts.totalTTC)} TTC</div>
+                  </div>
+                </div>
+                <div className="muted" style={{ marginTop: 12, fontSize: 12, lineHeight: 1.6 }}>
+                  Prix indicatif calculé à partir de votre description ; un expert le confirme après examen de votre demande.
+                  {quote.notes.map((n, i) => <div key={i}>• {n}</div>)}
+                </div>
+              </div>
+            )}
             {error && phase === "delay" && <div className="err">⚠ {error}</div>}
-            <div style={{ marginTop: 30 }}>
+            <div style={{ marginTop: 26 }}>
+              <button className="btn btn-gold" onClick={delayContinue}>Continuer : vos coordonnées →</button>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* BLOC 4 — COORDONNÉES (après le prix) */}
+      {reached("identity") && (
+        <section className="section" id="p5-identity" style={{ borderTop: "1px solid rgba(201,162,39,0.22)" }}>
+          <div className="container-max">
+            <div className="eyebrow">Étape 4</div>
+            <h2 className="section-title">Vos coordonnées</h2>
+            <p className="sub" style={{ marginBottom: 24 }}>
+              Pour vous rappeler et vous envoyer la proposition. Le lien de paiement vous est transmis après validation de votre demande.
+            </p>
+            {quote && (
+              <div className="mini-note" style={{ marginBottom: 20, maxWidth: 720 }}>
+                {selectedReport ? t(selectedReport.titleKey) : quote.meta.reportLabel} — <strong>{fmtMAD(quote.amounts.totalHT)} HT</strong> ({fmtMAD(quote.amounts.totalTTC)} TTC) · {quote.meta.delayLabel}
+              </div>
+            )}
+            <div className="form-grid">
+              <div className="field"><label className="label" htmlFor="p5f_nom">Nom complet <span className="req">*</span></label><input id="p5f_nom" className="control" autoComplete="name" value={identity.clientNom} onChange={f("clientNom")} placeholder="Prénom Nom" {...invalide("nom")} />{errSous("nom")}</div>
+              <div className="field"><label className="label" htmlFor="p5f_tel">Téléphone <span className="req">*</span></label><input id="p5f_tel" className="control" type="tel" inputMode="tel" autoComplete="tel" value={identity.clientTel} onChange={f("clientTel")} placeholder="+212 6XX XXX XXX" {...invalide("tel")} />{errSous("tel")}</div>
+              <div className="field"><label className="label" htmlFor="p5f_email">E-mail (facultatif)</label><input id="p5f_email" className="control" type="email" inputMode="email" autoComplete="email" value={identity.clientEmail} onChange={f("clientEmail")} placeholder="contact@exemple.ma" /></div>
+            </div>
+
+            <details style={{ marginTop: 18 }} onToggle={(e) => setMoaType((e.currentTarget as HTMLDetailsElement).open ? "morale" : "physique")}>
+              <summary style={{ cursor: "pointer", fontSize: 13, fontWeight: 700, color: "#0B1B3A" }}>Vous êtes une société ? <span style={{ fontWeight: 500, color: "rgba(11,27,58,0.55)" }}>(facultatif)</span></summary>
+              <div className="form-grid" style={{ marginTop: 12 }}>
+                <div className="field"><label className="label" htmlFor="p5f_raison">Raison sociale</label><input id="p5f_raison" className="control" autoComplete="organization" value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder="SARL / SA…" /></div>
+                <div className="field"><label className="label" htmlFor="p5f_repr">Représentant légal</label><input id="p5f_repr" className="control" value={identity.representant} onChange={f("representant")} placeholder="Gérant / DG" /></div>
+                <div className="field"><label className="label">RC</label><input className="control" value={identity.rc} onChange={f("rc")} placeholder="12345" /></div>
+                <div className="field"><label className="label">ICE</label><input className="control" value={identity.ice} onChange={f("ice")} placeholder="000000000000000" /></div>
+              </div>
+            </details>
+
+            {error && phase === "identity" && <div className="err">⚠ {error}</div>}
+            <div style={{ marginTop: 28 }}>
               <button className="btn btn-gold" disabled={busy} onClick={submitIntake}>
                 {busy
                   ? "Envoi…"
-                  : (auth.isAuthed ? "Créer mon dossier et obtenir le devis →" : "Créer mon compte + dossier → recevoir le devis")}
+                  : (SIGNUP_MODE === "lead" && !auth.isAuthed)
+                    ? "Envoyer ma demande →"
+                    : (auth.isAuthed ? "Créer mon dossier →" : "Créer mon compte et envoyer ma demande →")}
               </button>
             </div>
-            <div className="muted" style={{ marginTop: 14, fontSize: 12.5, maxWidth: 720, lineHeight: 1.6 }}>
-              Votre devis personnalisé est calculé après la création du dossier — un dossier
-              identifié, rattaché à votre compte client.
-            </div>
-            <p className="muted" style={{ marginTop: 8, fontSize: 12.5, maxWidth: 720, lineHeight: 1.5 }}>{t("lead.legal")}</p>
+            <p className="muted" style={{ marginTop: 12, fontSize: 12.5, maxWidth: 720, lineHeight: 1.5 }}>{t("lead.legal")}</p>
           </div>
         </section>
       )}
