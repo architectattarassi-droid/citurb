@@ -850,22 +850,50 @@ const GUIDES = [
   },
 ];
 
+// Guides rédigés en fichiers séparés : seo/guides/<slug>.json (un fichier par
+// guide, mêmes champs que ci-dessus + facultatifs : lang "fr"|"ar", majLe
+// "AAAA-MM-JJ", sources [{ titre, url }], categorie). Fichier invalide →
+// build en échec (mieux qu'une page cassée en ligne).
+const GUIDES_DIR = path.join(SEO_DIR, "guides");
+if (fs.existsSync(GUIDES_DIR)) {
+  for (const f of fs.readdirSync(GUIDES_DIR).filter((x) => x.endsWith(".json")).sort()) {
+    const g = JSON.parse(fs.readFileSync(path.join(GUIDES_DIR, f), "utf8"));
+    for (const k of ["slug", "title", "h1", "desc", "intro", "body"]) {
+      if (typeof g[k] !== "string" || !g[k].trim()) throw new Error(`seo/guides/${f} : champ « ${k} » manquant`);
+    }
+    if (!/^[a-z0-9-]+$/.test(g.slug)) throw new Error(`seo/guides/${f} : slug invalide`);
+    if (GUIDES.some((x) => x.slug === g.slug)) throw new Error(`seo/guides/${f} : slug déjà utilisé`);
+    if (!Array.isArray(g.faq)) g.faq = [];
+    GUIDES.push(g);
+  }
+}
+
 function guidePageHtml(g) {
   const url = `${business.baseUrl}/guide/${g.slug}`;
   const faqHtml = g.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
-  const articleSchema = { "@context": "https://schema.org", "@type": "Article", headline: g.h1, description: g.desc, inLanguage: "fr-MA", mainEntityOfPage: url, author: { "@type": "Person", name: business.founder, jobTitle: "Architecte DENA", sameAs: business.sameAs }, publisher: { "@type": "Organization", name: "CITURBAREA", logo: { "@type": "ImageObject", url: business.logo } } };
+  const ar = g.lang === "ar";
+  const maj = /^\d{4}-\d{2}-\d{2}$/.test(g.majLe || "") ? g.majLe : null;
+  const sources = Array.isArray(g.sources) ? g.sources.filter((s) => s && s.titre && /^https?:\/\//.test(s.url || "")) : [];
+  const articleSchema = { "@context": "https://schema.org", "@type": "Article", headline: g.h1, description: g.desc, inLanguage: ar ? "ar-MA" : "fr-MA", mainEntityOfPage: url, ...(maj ? { dateModified: maj } : {}), ...(sources.length ? { citation: sources.map((s) => s.url) } : {}), author: { "@type": "Person", name: business.founder, jobTitle: "Architecte DENA", sameAs: business.sameAs }, publisher: { "@type": "Organization", name: "CITURBAREA", logo: { "@type": "ImageObject", url: business.logo } } };
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: g.faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) };
   const breadcrumb = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Accueil", item: business.baseUrl }, { "@type": "ListItem", position: 2, name: "Guides", item: `${business.baseUrl}/guide` }, { "@type": "ListItem", position: 3, name: g.h1, item: url }] };
-  const otherGuides = GUIDES.filter((x) => x.slug !== g.slug).map((x) => `<li><a href="/guide/${x.slug}">${esc(x.title)}</a></li>`).join("");
+  // Maillage : guides de la même catégorie et de la même langue d'abord, 8 au plus.
+  const autres = GUIDES.filter((x) => x.slug !== g.slug && (x.lang === "ar") === ar);
+  const otherGuides = [...autres.filter((x) => g.categorie && x.categorie === g.categorie), ...autres.filter((x) => !g.categorie || x.categorie !== g.categorie)]
+    .slice(0, 8).map((x) => `<li><a href="/guide/${x.slug}">${esc(x.title)}</a></li>`).join("");
+  const sourcesHtml = sources.length
+    ? `<h2>${ar ? "المصادر" : "Sources"}</h2><ul class="sources">${sources.map((s) => `<li><a href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.titre)}</a></li>`).join("")}</ul>`
+    : "";
+  const auteurHtml = `<aside class="auteur"><strong>${esc(business.founder)}</strong> — ${ar ? "مهندس معماري، " : "architecte, "}${esc(business.name)} (${esc(business.hq.locality)}).${maj ? ` ${ar ? "آخر تحديث:" : "Mis à jour le"} ${maj.split("-").reverse().join("/")}.` : ""} ${ar ? "معلومات عامة لا تغني عن دراسة ملفكم." : "Information générale : elle ne remplace pas l'étude de votre dossier."}</aside>`;
   return `<!DOCTYPE html>
-<html lang="fr">
+<html lang="${ar ? "ar" : "fr"}"${ar ? ' dir="rtl"' : ""}>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${esc(g.title)} | CITURBAREA</title>
 <meta name="description" content="${esc(couper(g.desc))}">
 <link rel="canonical" href="${url}">
-<link rel="alternate" hreflang="fr" href="${url}">
+<link rel="alternate" hreflang="${ar ? "ar" : "fr"}" href="${url}">
 <link rel="alternate" hreflang="x-default" href="${url}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${esc(g.title)}">
@@ -892,19 +920,26 @@ function guidePageHtml(g) {
   details{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:8px}
   details summary{cursor:pointer;font-weight:700}
   footer{border-top:1px solid #e2e8f0;margin-top:44px;padding-top:22px;color:#64748b;font-size:13px}
+  .enbref{background:#fff8e1;border:1px solid #f0d27a;border-radius:12px;padding:14px 16px;margin:0 0 20px}
+  .auteur{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;margin:24px 0 0;font-size:14px;color:#334155}
+  .sources{font-size:14px}
+  .table-wrap{overflow-x:auto}
+  [dir="rtl"] ul,[dir="rtl"] ol{padding-left:0;padding-right:22px}
+  [dir="rtl"] th,[dir="rtl"] td{text-align:right}
 </style>
 </head>
 <body>
 <main>
-  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › <a href="/guide">Guides</a> › ${esc(g.h1)}</nav>
+  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › <a href="/guide">${ar ? "الأدلة" : "Guides"}</a> › ${esc(g.h1)}</nav>
   <h1>${esc(g.h1)}</h1>
   <p class="lead">${g.intro}</p>
   ${g.body}
-  <h2>Questions fréquentes</h2>
-  ${faqHtml}
-  <div style="margin-top:24px">${ctaContact("Discuter de mon projet avec un architecte", g.title || "")}</div>
+  ${faqHtml ? `<h2>${ar ? "أسئلة شائعة" : "Questions fréquentes"}</h2>\n  ${faqHtml}` : ""}
+  ${sourcesHtml}
+  ${auteurHtml}
+  <div style="margin-top:24px">${ctaContact(ar ? "ناقش مشروعك مع مهندس معماري" : "Discuter de mon projet avec un architecte", g.title || "")}</div>
   <footer>
-    <strong>Autres guides :</strong>
+    <strong>${ar ? "أدلة أخرى:" : "Autres guides :"}</strong>
     <ul>${otherGuides}</ul>
     <strong style="color:#0f172a">${esc(business.name)}</strong> — ${esc(business.founder)}, architecte à Kénitra · <a href="${business.baseUrl}">citurbarea.com</a>
   </footer>

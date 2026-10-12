@@ -26,6 +26,13 @@ interface Env {
   BING_SITE_VERIFICATION?: string;
 }
 
+// Fourni par le runtime Cloudflare (Workers / Pages Functions).
+declare const HTMLRewriter: {
+  new (): {
+    on(sel: string, h: { element?(el: { append(c: string, o?: { html?: boolean }): void }): void }): { transform(r: Response): Response };
+  };
+};
+
 const jeton = (v: string | undefined) => (v && /^[\w-]{6,120}$/.test(v.trim()) ? v.trim() : "");
 
 /**
