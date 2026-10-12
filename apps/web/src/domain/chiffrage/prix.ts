@@ -5,7 +5,7 @@
  */
 import { OUVRAGES, type Ouvrage } from "./ouvrages";
 import {
-  COEF_K, K_PRIVE, MAIN_OEUVRE, MATERIAUX, PETIT_MATERIEL_MO, REGIMES,
+  CHARGES_SOCIALES, COEF_K, K_PRIVE, MAIN_OEUVRE, MATERIAUX, PETIT_MATERIEL_MO, REGIMES,
   coutHoraire, prixHT, type Fiabilite, type Regime,
 } from "./referentiel";
 
@@ -41,6 +41,8 @@ export type PrixOuvrage = {
   repartition: Debourse;
   /** Part du déboursé sec par niveau de fiabilité des prix d'intrants. */
   partFiabilite: Record<Fiabilite, number>;
+  /** Part du PU soumise à TVA (1 en entreprise ; fournitures seules en tâcheron). */
+  assietteTVA: number;
 };
 
 const cache = new Map<string, Debourse & { lignes: LigneSousDetail[]; fiab: Record<Fiabilite, number> }>();
@@ -108,12 +110,28 @@ export function coefK(o: Ouvrage, borne: Borne, regime: Regime = "ENTREPRISE"): 
   return (borne === "ref" ? K_PRIVE : COEF_K[borne]) * r.facteurK[borne];
 }
 
+/**
+ * Prix de vente d'un déboursé selon le régime. Tâcheron (hors ouvrages
+ * sous-traités) : fournitures au coût + (MO sans charges CNSS + petit matériel)
+ * × marge du tâcheron.
+ */
+function prixRegime(d: Debourse, o: Ouvrage, borne: Borne, regime: Regime): { pu: number; assiette: number } {
+  const marge = REGIMES[regime].margeMO;
+  if (marge && !o.sousTraite) {
+    const mo = (d.mainOeuvre / (1 + CHARGES_SOCIALES.taux) + d.materiel) * marge[borne];
+    const pu = d.materiaux + mo;
+    return { pu, assiette: pu ? d.materiaux / pu : 0 };
+  }
+  return { pu: d.total * coefK(o, borne, regime), assiette: 1 };
+}
+
 /** Prix unitaire de vente HT (posé), régionalisé, avec fourchette. */
 export function prixOuvrage(code: string, region: CoefsRegion = SANS_REGION, regime: Regime = "ENTREPRISE"): PrixOuvrage {
   const o = OUVRAGES[code];
   if (!o) throw new Error(`Ouvrage inconnu : ${code}`);
   const ref = debourse(code, "ref", region);
-  const k = coefK(o, "ref", regime);
+  const vente = prixRegime(ref, o, "ref", regime);
+  const k = ref.total ? vente.pu / ref.total : coefK(o, "ref", regime);
   const tot = ref.total || 1;
   const partFiabilite = vide();
   for (const f of Object.keys(partFiabilite) as Fiabilite[]) partFiabilite[f] = ref.fiab[f] / tot;
@@ -122,11 +140,12 @@ export function prixOuvrage(code: string, region: CoefsRegion = SANS_REGION, reg
     ouvrage: o,
     debourseSec: ref.total,
     k,
-    pu: ref.total * k,
-    min: debourse(code, "min", region).total * coefK(o, "min", regime),
-    max: debourse(code, "max", region).total * coefK(o, "max", regime),
+    pu: vente.pu,
+    min: prixRegime(debourse(code, "min", region), o, "min", regime).pu,
+    max: prixRegime(debourse(code, "max", region), o, "max", regime).pu,
     sousDetail: ref.lignes,
     repartition: { materiaux: ref.materiaux, mainOeuvre: ref.mainOeuvre, materiel: ref.materiel, total: ref.total },
     partFiabilite,
+    assietteTVA: vente.assiette,
   };
 }

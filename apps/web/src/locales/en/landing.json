@@ -259,8 +259,8 @@
   "landing.lead_modal.callback_title": "Get a call back from an architect",
   "landing.lead_modal.callback_intro": "Name and phone are enough: a CITURBAREA architect calls you back within 24 h, with no commitment.",
 
-  "landing.chiffrage.titre": "How much will your villa cost?",
-  "landing.chiffrage.texte": "Estimate it item by item in 2 minutes, free and with no commitment: foundations, structure, finishes.",
+  "landing.chiffrage.titre": "How much will your build cost?",
+  "landing.chiffrage.texte": "Villa, house or building: estimate your project item by item in 2 minutes, free and with no commitment, and see what your budget allows.",
   "landing.chiffrage.cta": "Estimate my build, free",
   "landing.nav.chiffrage": "Estimate my build"
 }

@@ -308,9 +308,18 @@ export const K_SOUS_TRAITANCE = { ref: 1.12, min: 1.08, max: 1.18, source: hyp("
  * l'entreprise » (marche-prive-main-oeuvre.md §4.3, op-tache-go-aqar,
  * op-tache-go-mawtini) ; les fournitures fabriquées (menuiseries, sanitaires,
  * équipements) sont achetées par le client, sans coefficient de coordination.
+ *
+ * Tâcheron (révision 12/10/2026) : le client achète les fournitures au prix du
+ * négoce (aucun frais ni marge d'entreprise dessus) ; le tâcheron facture sa
+ * main-d'œuvre sans charges patronales CNSS, avec sa propre marge (`margeMO`),
+ * calée sur la main-d'œuvre seule de gros œuvre relevée à 230-450 DH/m²
+ * (op-tache-go-aqar, op-tache-go-mawtini, op-tache-go-expat). La TVA ne porte
+ * que sur les fournitures (le tâcheron, artisan ou auto-entrepreneur, ne
+ * facture pas de TVA sur sa main-d'œuvre — hypothèse à confirmer, voir TVA).
  */
 export type Regime = "ENTREPRISE" | "TACHERON";
-export const REGIMES: Record<Regime, { libelle: string; facteurK: { min: number; ref: number; max: number }; kSousTraite: { min: number; ref: number; max: number }; source: SourceRef }> = {
+type Fourchette = { min: number; ref: number; max: number };
+export const REGIMES: Record<Regime, { libelle: string; facteurK: Fourchette; kSousTraite: Fourchette; margeMO?: Fourchette; source: SourceRef }> = {
   ENTREPRISE: {
     libelle: "Entreprise générale (HT, frais et marge compris)",
     facteurK: { min: 1, ref: 1, max: 1 },
@@ -321,6 +330,7 @@ export const REGIMES: Record<Regime, { libelle: string; facteurK: { min: number;
     libelle: "Tâcheron / artisans (fournitures achetées par le client)",
     facteurK: { min: 0.8, ref: 0.83, max: 0.85 },
     kSousTraite: { min: 1, ref: 1, max: 1 },
+    margeMO: { min: 1, ref: 1.1, max: 1.25 },
     source: src(M, ["op-tache-go-aqar", "op-tache-go-mawtini"], "C", "2024-07/2026-04", "Tâcheron 15 à 20 % moins cher que l'entreprise (marche-prive-main-oeuvre.md §4.3)"),
   },
 };
@@ -354,7 +364,7 @@ export const TVA = {
     "https://reaconsult.ma/tendances-et-conseils-en-immobilier/tva-immobilier-neuf-maroc-acheteur-promoteur",
   ],
   fiabilite: "B" as Fiabilite,
-  note: "Taux normal 20 % sur les travaux d'entreprise. Livraison à soi-même d'une habitation personnelle ≤ 300 m² exonérée (autoconstruction). À confirmer sur le CGI 2026.",
+  note: "Taux normal 20 % sur les travaux d'entreprise. Livraison à soi-même d'une habitation personnelle ≤ 300 m² exonérée (autoconstruction). Régime tâcheron : TVA sur les seules fournitures, la main-d'œuvre d'un artisan ou auto-entrepreneur n'étant pas soumise à TVA (hypothèse à confirmer). À confirmer sur le CGI 2026.",
 };
 
 /**

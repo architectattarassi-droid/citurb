@@ -14,6 +14,7 @@ import { resoudreProjet } from "./parcelle";
 import { coefK, prixOuvrage, type PrixOuvrage } from "./prix";
 import { COEF_K, K_PRIVE, REGIMES, TVA, coefsRegionaux, regimeParDefaut, type Regime, type SourceRef } from "./referentiel";
 import type { DecompositionSP } from "../../command-center/modules/dossiers/parcelleSP";
+import { FORMULES_CONCEPTION, honorairesConception } from "./conception";
 
 export type Origine = "ratio" | "parametrique" | "saisie";
 
@@ -66,6 +67,8 @@ export type Resultat = {
   aleasHT: number;
   totalHT: number;
   tva: number;
+  /** Part des travaux soumise à TVA (1 en entreprise ; fournitures seules en tâcheron). */
+  assietteTVA: number;
   totalTTC: number;
   coutM2HT: number;
   coutM2HorsSolHT: number;
@@ -147,7 +150,9 @@ export function chiffrer(brut: ProjetInput, options: OptionsChiffrage = {}): Res
 
   const aleasHT = travauxHT * h("frais.aleas");
   const totalHT = travauxHT + aleasHT;
-  const tva = totalHT * TVA.taux;
+  // Assiette de TVA : 1 en entreprise ; en tâcheron, part des fournitures (et des ouvrages sous-traités).
+  const assietteTVA = ouvragesHT ? lignes.reduce((s, l) => s + l.montant * l.prix.assietteTVA, 0) / ouvragesHT : 1;
+  const tva = totalHT * assietteTVA * TVA.taux;
   const totalTTC = totalHT + tva;
 
   // Bâtiment seul : hors extérieurs, réseaux et options (base de la grille costRangesMA).
@@ -159,10 +164,17 @@ export function chiffrer(brut: ProjetInput, options: OptionsChiffrage = {}): Res
 
   // Honoraires (taux costRangesMA, bureau de contrôle par défaut en collectif seulement).
   const collectif = COLLECTIF(input);
+  // Architecte et BET selon la formule de conception choisie (plan type ou plan personnalisé, packs P1).
+  const conception = input.conception ?? "COMPLET";
+  const hc = honorairesConception(conception, travauxHT, geometrie.surfaceTotale, collectif);
   const hon = INTERVENANTS_DEFAULT.map((i) => {
+    const parFormule = i.code === "ARCH" ? hc.architecte : i.code === "BET" ? hc.bet : null;
+    if (parFormule != null && options.honoraires?.[i.code] == null) {
+      return { code: i.code, libelle: i.code === "ARCH" ? `Architecte — ${FORMULES_CONCEPTION[conception].libelle}` : i.label, taux: travauxHT ? parFormule / travauxHT : 0, montant: r0(parFormule), base: conception === "PLAN_TYPE" && i.code === "ARCH" ? "forfait" : "% des travaux HT", source: "Packs P1 (domain/p1)" };
+    }
     const taux = options.honoraires?.[i.code] ?? (i.code === "CTRL" && !collectif ? 0 : i.rate);
     return { code: i.code, libelle: i.label, taux, montant: r0(taux * travauxHT), base: "% des travaux HT", source: "costRangesMA (INTERVENANTS_DEFAULT)" };
-  }).filter((x) => x.taux > 0);
+  }).filter((x) => x.montant > 0);
   const honHT = hon.reduce((s, x) => s + x.montant, 0);
 
   const dureeMois = collectif ? 18 + 2 * input.niveaux : 12;
@@ -189,7 +201,7 @@ export function chiffrer(brut: ProjetInput, options: OptionsChiffrage = {}): Res
     region: { ville: input.ville ?? "", coef, mat: reg.mat, mo: reg.mo },
     k: coefK({ sousTraite: false } as never, "ref", regime),
     lots, lignes,
-    ouvragesHT, installationHT, travauxHT, aleasHT, totalHT, tva, totalTTC,
+    ouvragesHT, installationHT, travauxHT, aleasHT, totalHT, tva, assietteTVA, totalTTC,
     coutM2HT: travauxHT / geometrie.surfaceTotale,
     coutM2HorsSolHT: travauxHT / input.surfacePlancher,
     coutM2BatimentHT: batimentHT / geometrie.surfaceTotale,

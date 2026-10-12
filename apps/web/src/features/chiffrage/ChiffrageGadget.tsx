@@ -19,6 +19,7 @@ import {
 import type { Standing, TypeProjet } from "../../command-center/modules/dossiers/costRangesMA";
 import { GAMMES_LIBELLES, VILLES, texte } from "./textes";
 import DqeImprimable from "./DqeImprimable";
+import AideDecision from "./AideDecision";
 
 const GOLD = "#C9A227";
 export const fmtDH = (n: number) => `${Math.round(n).toLocaleString("fr-FR").replace(/\s/g, " ")} DH`;
@@ -388,6 +389,10 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
 
       {/* ── Détail ── */}
       <div className="mt-8 grid gap-6 print:hidden">
+        <Section titre={t("decisionTitre")}>
+          <AideDecision projet={projet} onChange={maj} t={t} />
+        </Section>
+
         <Section titre={t("quantitatifGeneral")} action={variante === "cc" ? (
           <button type="button" onClick={() => ouvrirCps(res)} className="min-h-[40px] whitespace-nowrap rounded-lg bg-[#0B1B3A] px-3 text-sm font-semibold text-white">{t("genererCps")}</button>
         ) : undefined}>
@@ -627,7 +632,7 @@ function Resume({ res, t }: { res: Resultat; t: T }) {
   const lignesBudget: [string, number][] = [
     [t("travauxHT"), res.travauxHT],
     [t("aleas"), res.aleasHT],
-    [t("tva"), res.tva],
+    [res.assietteTVA < 0.999 ? t("tvaFournitures") : t("tva"), res.tva],
     [t("honoraires"), res.honoraires.totalTTC],
     [t("taxes"), res.taxes.total],
     [t("raccordements"), res.fraisAnnexes.total],
@@ -640,7 +645,7 @@ function Resume({ res, t }: { res: Resultat; t: T }) {
         <p className="text-3xl font-bold tabular-nums sm:text-4xl" aria-live="polite">{fmtDH(res.totalTTC)}</p>
         <p className="mt-1 text-sm text-slate-300">{t("coutM2", { v: Math.round(res.coutM2BatimentHT).toLocaleString("fr-FR") })}</p>
         <p className="mt-1 text-xs text-slate-400">{REGIMES[res.regime].libelle}</p>
-        <p className="mt-1 text-sm text-slate-300">{t("fourchette", { min: fmtDH(res.fourchette.min * (1 + TVA.taux)), max: fmtDH(res.fourchette.max * (1 + TVA.taux)) })}</p>
+        <p className="mt-1 text-sm text-slate-300">{t("fourchette", { min: fmtDH(res.fourchette.min * (1 + TVA.taux * res.assietteTVA)), max: fmtDH(res.fourchette.max * (1 + TVA.taux * res.assietteTVA)) })}</p>
 
         <div className="mt-4 rounded-xl bg-white/10 p-3">
           <div className="flex items-center justify-between gap-2">

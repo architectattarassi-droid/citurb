@@ -69,6 +69,8 @@ export type ProjetInput = {
    * tâcheron en très économique, entreprise sinon.
    */
   regime?: Regime;
+  /** Formule de conception (honoraires d'architecte et de BET), défaut : plan personnalisé complet. */
+  conception?: import("./conception").FormuleConception;
   /** Cuisine aménagée au forfait selon le standing (défaut : oui ; cuisineMl la remplace par un linéaire). */
   cuisine?: boolean;
   /** Édicule de terrasse (cage, buanderie) inclus dans la surface plancher : murs, enduits et toiture métrés à part. */

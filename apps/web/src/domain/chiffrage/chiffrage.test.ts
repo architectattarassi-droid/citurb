@@ -88,10 +88,27 @@ describe("villa R+1 de 150 m² à Kénitra, bon sol, sans sous-sol", () => {
     expect(g.ok, `${Math.round(g.coutM2RSK)}`).toBe(true);
     expect(g.coutM2RSK).toBeGreaterThan(2700);
     expect(g.coutM2RSK).toBeLessThan(3500);
-    // En entreprise générale, le même projet coûte 15 à 20 % de plus.
+    // Entreprise générale vs tâcheron : 15 à 25 % annoncés (LCH-MAALEM), davantage ici car
+    // le client achète les fournitures au coût (sans frais ni marge d'entreprise).
     const e = chiffrer({ ...VILLA, standing: "ULTRA_ECO", regime: "ENTREPRISE" }, { impacts: false });
-    expect(e.travauxHT / r.travauxHT).toBeGreaterThan(1.12);
-    expect(e.travauxHT / r.travauxHT).toBeLessThan(1.25);
+    expect(e.travauxHT / r.travauxHT).toBeGreaterThan(1.15);
+    expect(e.travauxHT / r.travauxHT).toBeLessThan(1.4);
+    // TVA sur les seules fournitures en régime tâcheron.
+    expect(r.assietteTVA).toBeGreaterThan(0.6);
+    expect(r.assietteTVA).toBeLessThan(0.85);
+    expect(e.assietteTVA).toBe(1);
+  });
+
+  it("repère praticien : villa jumelée très économique, terrain 300 m² + sous-sol ≈ 1,2 M DH TTC hors aléas", () => {
+    const r = chiffrer({ ...VILLA, ville: "Kénitra", surfacePlancher: 0, surfaceTerrain: 300, parcelle: { villaType: "jumelee" }, sousSol: { profondeur: 3 }, standing: "ULTRA_ECO" }, { impacts: false });
+    const horsAleas = r.totalTTC * (r.travauxHT / r.totalHT);
+    expect(horsAleas).toBeGreaterThan(1_100_000);
+    expect(horsAleas).toBeLessThan(1_320_000);
+    // Main-d'œuvre seule du tâcheron en gros œuvre : 230-450 DH/m² (op-tache-go-*).
+    const go = r.lignes.filter((l) => ["TER", "FON", "STR", "MAC", "ETA"].includes(l.lot));
+    const mo = go.reduce((s, l) => s + l.qte * (l.pu - l.prix.repartition.materiaux), 0) / r.geometrie.surfaceTotale;
+    expect(mo).toBeGreaterThan(230);
+    expect(mo).toBeLessThan(470);
   });
 
   it("surfaces calculées depuis la parcelle : villa jumelée 294 m², R+1 + sous-sol = 376,8 m² (règle parcelleSP)", () => {

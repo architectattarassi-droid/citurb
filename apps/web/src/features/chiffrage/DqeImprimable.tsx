@@ -66,7 +66,7 @@ export default function DqeImprimable({ res, ecran = false, flou = false }: { re
           {([
             ["Total travaux HT", res.travauxHT],
             ["Provision pour aléas", res.aleasHT],
-            [`TVA ${Math.round(TVA.taux * 100)} %`, res.tva],
+            [`TVA ${Math.round(TVA.taux * 100)} %${res.assietteTVA < 0.999 ? " sur fournitures seules (main-d'œuvre du tâcheron hors TVA)" : ""}`, res.tva],
             ["Total travaux TTC", res.totalTTC],
             ["Honoraires et études TTC", res.honoraires.totalTTC],
             ["Taxes et autorisations", res.taxes.total],

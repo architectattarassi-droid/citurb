@@ -10,6 +10,8 @@ export * from "./ouvrages";
 export * from "./prix";
 export * from "./hypotheses";
 export * from "./metre";
+export * from "./conception";
+export * from "./decision";
 export * from "./dqe";
 export * from "./coherence";
 export * from "./correspondanceCIT";
