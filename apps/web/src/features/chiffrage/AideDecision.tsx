@@ -6,9 +6,10 @@
 import React, { useDeferredValue, useMemo, useState } from "react";
 import { FORMULES_CONCEPTION, aideDecision, type FormuleConception, type ProjetInput } from "../../domain/chiffrage";
 import type { texte } from "./textes";
+import type { Libelles } from "./libelles";
 import { evenement } from "../../lib/marketing";
 
-const dh = (n: number) => `${Math.round(n).toLocaleString("fr-FR").replace(/\s/g, " ")} DH`;
+const dh = (n: number) => `${String.fromCharCode(0x2066)}${Math.round(n).toLocaleString("fr-FR").replace(/\s/g, " ")} DH${String.fromCharCode(0x2069)}`;
 const signe = (n: number) => `${n > 0 ? "+" : n < 0 ? "−" : ""}${dh(Math.abs(n))}`;
 const BUDGET_CLE = "citurbarea:chiffrage:budget";
 
@@ -16,9 +17,9 @@ function lireBudget(): number {
   try { return Number(localStorage.getItem(BUDGET_CLE)) || 0; } catch { return 0; }
 }
 
-type Props = { projet: ProjetInput; onChange: (p: Partial<ProjetInput>) => void; t: ReturnType<typeof texte> };
+type Props = { projet: ProjetInput; onChange: (p: Partial<ProjetInput>) => void; t: ReturnType<typeof texte>; L: Libelles };
 
-export default function AideDecision({ projet, onChange, t }: Props) {
+export default function AideDecision({ projet, onChange, t, L }: Props) {
   const [budget, setBudget] = useState<number>(lireBudget);
   const p = useDeferredValue(projet);
   const b = useDeferredValue(budget);
@@ -42,16 +43,16 @@ export default function AideDecision({ projet, onChange, t }: Props) {
         <label className="grid gap-1 text-sm font-semibold text-slate-700">
           {t("decisionBudget")}
           <input inputMode="numeric" value={budget ? budget.toLocaleString("fr-FR").replace(/\s/g, " ") : ""} onChange={(e) => majBudget(e.target.value)}
-            placeholder="ex. 1 200 000" className="min-h-[48px] rounded-lg border border-slate-300 px-3 text-base font-normal" />
+            placeholder={t("decisionExemple")} className="min-h-[48px] rounded-lg border border-slate-300 px-3 text-base font-normal" />
           <span className="text-xs font-normal text-slate-500">{t("decisionBudgetAide")}</span>
         </label>
         <label className="grid gap-1 text-sm font-semibold text-slate-700">
           {t("decisionFormule")}
           <select value={conception} onChange={(e) => onChange({ conception: e.target.value as FormuleConception })}
             className="min-h-[48px] rounded-lg border border-slate-300 bg-white px-3 text-base font-normal">
-            {(Object.keys(FORMULES_CONCEPTION) as FormuleConception[]).map((f) => <option key={f} value={f}>{FORMULES_CONCEPTION[f].libelle}</option>)}
+            {(Object.keys(FORMULES_CONCEPTION) as FormuleConception[]).map((f) => <option key={f} value={f}>{L.formule(f, FORMULES_CONCEPTION[f].libelle)}</option>)}
           </select>
-          <span className="text-xs font-normal text-slate-500">{FORMULES_CONCEPTION[conception].description}.</span>
+          <span className="text-xs font-normal text-slate-500">{L.formuleDesc(conception, FORMULES_CONCEPTION[conception].description)}.</span>
         </label>
       </div>
 
@@ -61,7 +62,7 @@ export default function AideDecision({ projet, onChange, t }: Props) {
             {depasse > 0 ? t("decisionDepasse", { montant: dh(depasse) }) : t("decisionDansBudget", { montant: dh(-depasse) })}
           </p>
           {a.meilleurStanding && !a.meilleurStanding.actuel && (
-            <p className="mt-1 text-slate-700">{t("decisionMeilleur", { standing: a.meilleurStanding.libelle.toLowerCase(), montant: dh(a.meilleurStanding.budgetTTC) })}</p>
+            <p className="mt-1 text-slate-700">{t("decisionMeilleur", { standing: L.scenario(a.meilleurStanding.cle, a.meilleurStanding.libelle, projet.niveaux).toLowerCase(), montant: dh(a.meilleurStanding.budgetTTC) })}</p>
           )}
           {a.optionsDansBudget.length > 0 && (
             <>
@@ -69,7 +70,7 @@ export default function AideDecision({ projet, onChange, t }: Props) {
               <ul className="mt-1 grid list-none gap-2 p-0">
                 {a.optionsDansBudget.slice(0, 3).map((s) => (
                   <li key={s.cle} className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-white px-3 py-2">
-                    <span className="text-slate-800">{s.libelle} : <b>{dh(s.budgetTTC)}</b></span>
+                    <span className="text-slate-800">{L.scenario(s.cle, s.libelle, projet.niveaux)} : <b>{dh(s.budgetTTC)}</b></span>
                     <button type="button" onClick={() => onChange(s.projet)} className="min-h-[44px] rounded-lg border border-emerald-600 bg-white px-3 text-sm font-semibold text-emerald-700">{t("decisionChoisir")}</button>
                   </li>
                 ))}
@@ -79,8 +80,8 @@ export default function AideDecision({ projet, onChange, t }: Props) {
           {a.leviers.length > 0 && (
             <>
               <p className="mt-3 font-semibold text-[#0B1B3A]">{t("decisionLeviers")}</p>
-              <ol className="mt-1 list-decimal pl-5 text-slate-700">
-                {a.leviers.map((l) => <li key={l.libelle}>{l.libelle} : <b>{signe(-l.economie)}</b></li>)}
+              <ol className="mt-1 list-decimal ps-5 text-slate-700">
+                {a.leviers.map((l) => <li key={l.libelle}>{L.levier(l.libelle)} : <b>{signe(-l.economie)}</b></li>)}
               </ol>
               {a.projetAjuste && (
                 <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -101,11 +102,11 @@ export default function AideDecision({ projet, onChange, t }: Props) {
           return (
             <li key={s.cle} className={`rounded-xl border p-3 text-sm ${s.actuel ? "border-[#C9A227] bg-[#FFF8E1]" : "border-slate-200 bg-white"}`}>
               <div className="flex items-start justify-between gap-2">
-                <span className="font-semibold text-slate-800">{s.libelle}</span>
+                <span className="font-semibold text-slate-800">{L.scenario(s.cle, s.libelle, projet.niveaux)}</span>
                 {ok != null && <span className={`shrink-0 text-xs ${ok ? "text-emerald-700" : "text-amber-700"}`}>{ok ? t("decisionOk") : t("decisionHors")}</span>}
               </div>
               <div className="mt-1 flex items-center justify-between gap-2">
-                <span className="tabular-nums"><b>{dh(s.budgetTTC)}</b>{!s.actuel && <span className={`ml-2 ${s.ecart < 0 ? "text-emerald-700" : "text-amber-700"}`}>{signe(s.ecart)}</span>}</span>
+                <span className="tabular-nums"><b>{dh(s.budgetTTC)}</b>{!s.actuel && <span className={`ms-2 ${s.ecart < 0 ? "text-emerald-700" : "text-amber-700"}`}>{signe(s.ecart)}</span>}</span>
                 {!s.actuel && <button type="button" onClick={() => onChange(s.projet)} className="min-h-[44px] rounded-lg border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-700">{t("decisionChoisir")}</button>}
               </div>
             </li>
@@ -115,18 +116,18 @@ export default function AideDecision({ projet, onChange, t }: Props) {
 
       <div className="hidden overflow-x-auto rounded-xl border border-slate-200 sm:block">
         <table className="w-full min-w-[520px] text-sm">
-          <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
-            <tr><th className="px-3 py-2">{t("decisionScenario")}</th><th className="px-3 py-2 text-right">{t("decisionBudgetTotal")}</th><th className="px-3 py-2 text-right">{t("decisionEcart")}</th><th className="px-3 py-2" /></tr>
+          <thead className="bg-slate-50 text-start text-xs uppercase tracking-wide text-slate-500">
+            <tr><th className="px-3 py-2">{t("decisionScenario")}</th><th className="px-3 py-2 text-end">{t("decisionBudgetTotal")}</th><th className="px-3 py-2 text-end">{t("decisionEcart")}</th><th className="px-3 py-2" /></tr>
           </thead>
           <tbody>
             {[a.actuel, ...a.scenarios].map((s) => {
               const ok = a.budget ? s.budgetTTC <= a.budget : null;
               return (
                 <tr key={s.cle} className={`border-t border-slate-100 ${s.actuel ? "bg-[#FFF8E1] font-semibold" : ""}`}>
-                  <td className="px-3 py-2">{s.libelle}{ok != null && <span className={`ml-2 text-xs ${ok ? "text-emerald-700" : "text-amber-700"}`}>{ok ? t("decisionOk") : t("decisionHors")}</span>}</td>
-                  <td className="px-3 py-2 text-right tabular-nums">{dh(s.budgetTTC)}</td>
-                  <td className={`px-3 py-2 text-right tabular-nums ${s.ecart < 0 ? "text-emerald-700" : s.ecart > 0 ? "text-amber-700" : ""}`}>{s.actuel ? "—" : signe(s.ecart)}</td>
-                  <td className="px-3 py-2 text-right">
+                  <td className="px-3 py-2">{L.scenario(s.cle, s.libelle, projet.niveaux)}{ok != null && <span className={`ms-2 text-xs ${ok ? "text-emerald-700" : "text-amber-700"}`}>{ok ? t("decisionOk") : t("decisionHors")}</span>}</td>
+                  <td className="px-3 py-2 text-end tabular-nums">{dh(s.budgetTTC)}</td>
+                  <td className={`px-3 py-2 text-end tabular-nums ${s.ecart < 0 ? "text-emerald-700" : s.ecart > 0 ? "text-amber-700" : ""}`}>{s.actuel ? "—" : signe(s.ecart)}</td>
+                  <td className="px-3 py-2 text-end">
                     {!s.actuel && <button type="button" onClick={() => onChange(s.projet)} className="min-h-[40px] rounded-lg border border-slate-300 bg-white px-3 text-xs font-semibold text-slate-700">{t("decisionChoisir")}</button>}
                   </td>
                 </tr>

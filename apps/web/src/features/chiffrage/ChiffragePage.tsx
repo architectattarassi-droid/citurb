@@ -12,7 +12,7 @@ import LeadCaptureForm from "../lead-funnel/LeadCaptureForm";
 import { lienWhatsApp } from "../../config/contact";
 import { evenement } from "../../lib/marketing";
 import { STANDINGS, type ProjetInput, type Resultat, type TypeBatiment } from "../../domain/chiffrage";
-import ChiffrageGadget, { fmtDH, parcelleParDefaut } from "./ChiffrageGadget";
+import ChiffrageGadget, { fmtDHBrut, parcelleParDefaut } from "./ChiffrageGadget";
 import { texte } from "./textes";
 
 const TYPES: Record<string, TypeBatiment> = { villa: "VILLA", maison: "MAISON", immeuble: "IMMEUBLE", mixte: "MIXTE" };
@@ -78,7 +78,7 @@ export default function ChiffragePage() {
         <p className="mt-3 text-sm font-semibold text-[#0B1B3A]">{t("assurance")}</p>
       </header>
       <ChiffrageGadget variante="public" initial={initial} renderCta={(r) => <Cta r={r} t={t} />} />
-      <Argumentaire t={t} lang={lang} />
+      <Argumentaire t={t} />
     </main>
   );
 }
@@ -111,7 +111,7 @@ export function Cta({ r, t, ouvertParDefaut = false }: { r: Resultat; t: ReturnT
         porteType={porte}
         variante="whatsapp"
         withEmail
-        initial={{ projet: `Chiffrage ${p.type.toLowerCase()} ${Math.round(r.geometrie.surfaceTotale)} m²${r.geometrie.surfaceSousSol ? " (sous-sol compris)" : ""} ${p.niveaux === 1 ? "RDC" : `R+${p.niveaux - 1}`}${p.ville ? `, ${p.ville}` : ""} : ${fmtDH(r.totalTTC)} TTC (niveau ${r.precision.niveau})` }}
+        initial={{ projet: `Chiffrage ${p.type.toLowerCase()} ${Math.round(r.geometrie.surfaceTotale)} m²${r.geometrie.surfaceSousSol ? " (sous-sol compris)" : ""} ${p.niveaux === 1 ? "RDC" : `R+${p.niveaux - 1}`}${p.ville ? `, ${p.ville}` : ""} : ${fmtDHBrut(r.totalTTC)} TTC (niveau ${r.precision.niveau})` }}
         extraCapture={() => ({ budget: Math.round(r.budgetTTC), ville: p.ville || undefined, surface: Math.round(r.geometrie.surfaceTotale) })}
         extraMeta={resumeLead(r)}
       />
@@ -119,8 +119,8 @@ export function Cta({ r, t, ouvertParDefaut = false }: { r: Resultat; t: ReturnT
   );
 }
 
-/** Argumentaire de la page officielle : étapes, bénéfices, FAQ (FAQ en français et en anglais). */
-function Argumentaire({ t, lang }: { t: ReturnType<typeof texte>; lang: string }) {
+/** Argumentaire de la page officielle : étapes, bénéfices, FAQ (français, anglais, arabe). */
+function Argumentaire({ t }: { t: ReturnType<typeof texte> }) {
   const etapes = [1, 2, 3] as const;
   const benefices = [1, 2, 3, 4] as const;
   const faq = [1, 2, 3, 4, 5, 6, 7, 8] as const;
@@ -138,35 +138,31 @@ function Argumentaire({ t, lang }: { t: ReturnType<typeof texte>; lang: string }
           ))}
         </ol>
       </section>
-      {lang !== "ar" && (
-        <section aria-labelledby="benefices-titre">
-          <h2 id="benefices-titre" className="text-2xl font-bold text-[#0B1B3A]">{t("beneficesTitre")}</h2>
-          <ul className="mt-4 grid list-none gap-4 p-0 sm:grid-cols-2">
-            {benefices.map((i) => (
-              <li key={i} className="rounded-2xl border border-slate-200 bg-white p-4">
-                <h3 className="font-bold text-[#0B1B3A]">{t(`benefice${i}T` as Parameters<typeof t>[0])}</h3>
-                <p className="mt-1 text-sm text-slate-600">{t(`benefice${i}` as Parameters<typeof t>[0])}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-      {lang !== "ar" && (
-        <section aria-labelledby="faq-titre" className="max-w-3xl">
-          <h2 id="faq-titre" className="text-2xl font-bold text-[#0B1B3A]">{t("faqTitre")}</h2>
-          <div className="mt-4 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white">
-            {faq.map((i) => (
-              <details key={i} className="group px-4 py-3">
-                <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 font-semibold text-[#0B1B3A]">
-                  {t(`faq${i}Q` as Parameters<typeof t>[0])}
-                  <span aria-hidden className="text-slate-400 transition group-open:rotate-45">+</span>
-                </summary>
-                <p className="mt-2 text-sm text-slate-600">{t(`faq${i}R` as Parameters<typeof t>[0])}</p>
-              </details>
-            ))}
-          </div>
-        </section>
-      )}
+      <section aria-labelledby="benefices-titre">
+        <h2 id="benefices-titre" className="text-2xl font-bold text-[#0B1B3A]">{t("beneficesTitre")}</h2>
+        <ul className="mt-4 grid list-none gap-4 p-0 sm:grid-cols-2">
+          {benefices.map((i) => (
+            <li key={i} className="rounded-2xl border border-slate-200 bg-white p-4">
+              <h3 className="font-bold text-[#0B1B3A]">{t(`benefice${i}T` as Parameters<typeof t>[0])}</h3>
+              <p className="mt-1 text-sm text-slate-600">{t(`benefice${i}` as Parameters<typeof t>[0])}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+      <section aria-labelledby="faq-titre" className="max-w-3xl">
+        <h2 id="faq-titre" className="text-2xl font-bold text-[#0B1B3A]">{t("faqTitre")}</h2>
+        <div className="mt-4 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white">
+          {faq.map((i) => (
+            <details key={i} className="group px-4 py-3">
+              <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 font-semibold text-[#0B1B3A]">
+                {t(`faq${i}Q` as Parameters<typeof t>[0])}
+                <span aria-hidden className="text-slate-400 transition group-open:rotate-45">+</span>
+              </summary>
+              <p className="mt-2 text-sm text-slate-600">{t(`faq${i}R` as Parameters<typeof t>[0])}</p>
+            </details>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
