@@ -16,7 +16,7 @@ type Meta = { titre: string; index?: boolean };
 
 /** Par préfixe ; le plus long qui correspond l'emporte. */
 const ROUTES: Record<string, Meta> = {
-  "/": { titre: "CITURBAREA — Expertise BTP & Immobilier Maroc", index: true },
+  "/": { titre: "Architecte au Maroc : permis de construire, chiffrage et coût | CITURBAREA", index: true },
   "/p1": { titre: "Construire sa maison au Maroc : architecte, plans et permis" + SUFFIXE, index: true },
   "/p2": { titre: "Promoteurs : honoraires d'architecte au barème CNOA" + SUFFIXE, index: true },
   "/p3": { titre: "Maîtrise d'ouvrage déléguée au Maroc" + SUFFIXE, index: true },
