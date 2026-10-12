@@ -881,9 +881,28 @@ function guidePageHtml(g) {
   const autres = GUIDES.filter((x) => x.slug !== g.slug && (x.lang === "ar") === ar);
   const otherGuides = [...autres.filter((x) => g.categorie && x.categorie === g.categorie), ...autres.filter((x) => !g.categorie || x.categorie !== g.categorie)]
     .slice(0, 8).map((x) => `<li><a href="/guide/${x.slug}">${esc(x.title)}</a></li>`).join("");
+  // Sources officielles citées (confiance Google / IA), repliées en bas de page :
+  // le lecteur reste sur le site, rien n'est proposé au téléchargement.
   const sourcesHtml = sources.length
-    ? `<h2>${ar ? "المصادر" : "Sources"}</h2><ul class="sources">${sources.map((s) => `<li><a href="${esc(s.url)}" rel="noopener" target="_blank">${esc(s.titre)}</a></li>`).join("")}</ul>`
+    ? `<details class="sources"><summary>${ar ? `النصوص المرجعية (${sources.length})` : `Textes de référence (${sources.length})`}</summary><ul>${sources.map((s) => `<li><a href="${esc(s.url)}" rel="noopener nofollow" target="_blank">${esc(s.titre)}</a></li>`).join("")}</ul></details>`
     : "";
+  // « Commencer mon dossier » : après l'encadré « En bref », au milieu de l'article,
+  // en fin d'article et dans une barre fixe en bas d'écran.
+  const dossier = `${business.baseUrl}/creer-compte`;
+  const chiffrage = `${business.baseUrl}/chiffrage`;
+  const L = ar
+    ? { dossier: "ابدأ ملفك", chiffrer: "احسب تكلفة مشروعك", titre: "مشروعكم يحتاج إلى رخصة أو تقدير للتكلفة؟", texte: "مهندس معماري مسجل في الهيئة يدرس ملفكم: التصاميم، الرخصة، تتبع الأوراش. بدون التزام.", wa: "واتساب" }
+    : { dossier: "Commencer mon dossier", chiffrer: "Chiffrer mon projet", titre: g.categorie === "couts" ? "Votre budget, calculé pour votre projet" : "Votre autorisation, préparée par un architecte", texte: g.categorie === "couts" ? "Estimation lot par lot en 2 minutes, puis un architecte inscrit à l'Ordre vérifie votre devis. Gratuit, sans engagement." : "Un architecte inscrit à l'Ordre étudie votre terrain, prépare les plans et dépose votre dossier. Premier échange sans engagement.", wa: "WhatsApp" };
+  const [cta1, cta2] = g.categorie === "couts" ? [[chiffrage, L.chiffrer], [dossier, L.dossier]] : [[dossier, L.dossier], [chiffrage, L.chiffrer]];
+  const carteDossier = `<div class="carte-dossier"><p class="carte-titre">${esc(L.titre)}</p><p>${esc(L.texte)}</p><p class="cta-row"><a class="cta" href="${cta1[0]}">${esc(cta1[1])} →</a> <a class="cta-sec" href="${cta2[0]}">${esc(cta2[1])}</a></p></div>`;
+  // Après l'encadré « En bref » (premier </div>) et avant le 3e intertitre.
+  let corps = String(g.body);
+  const finEnBref = corps.indexOf("</div>", corps.indexOf('class="enbref"'));
+  if (corps.includes('class="enbref"') && finEnBref > 0) corps = `${corps.slice(0, finEnBref + 6)}${carteDossier}${corps.slice(finEnBref + 6)}`;
+  const h2s = [...corps.matchAll(/<h2[\s>]/g)].map((m) => m.index);
+  if (h2s.length >= 4) corps = `${corps.slice(0, h2s[2])}${carteDossier}${corps.slice(h2s[2])}`;
+  const waMsg = encodeURIComponent(`Bonjour, je viens de lire « ${g.h1} » sur citurbarea.com et je souhaite commencer mon dossier.`);
+  const barre = `<div class="barre-dossier" role="complementary"><a class="cta" href="${cta1[0]}">${esc(cta1[1])} →</a><a class="wa" href="https://wa.me/${waDigits}?text=${waMsg}" rel="noopener">${L.wa}</a></div>`;
   const auteurHtml = `<aside class="auteur"><strong>${esc(business.founder)}</strong> — ${ar ? "مهندس معماري، " : "architecte, "}${esc(business.name)} (${esc(business.hq.locality)}).${maj ? ` ${ar ? "آخر تحديث:" : "Mis à jour le"} ${maj.split("-").reverse().join("/")}.` : ""} ${ar ? "معلومات عامة لا تغني عن دراسة ملفكم." : "Information générale : elle ne remplace pas l'étude de votre dossier."}</aside>`;
   return `<!DOCTYPE html>
 <html lang="${ar ? "ar" : "fr"}"${ar ? ' dir="rtl"' : ""}>
@@ -922,8 +941,19 @@ function guidePageHtml(g) {
   footer{border-top:1px solid #e2e8f0;margin-top:44px;padding-top:22px;color:#64748b;font-size:13px}
   .enbref{background:#fff8e1;border:1px solid #f0d27a;border-radius:12px;padding:14px 16px;margin:0 0 20px}
   .auteur{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;margin:24px 0 0;font-size:14px;color:#334155}
-  .sources{font-size:14px}
+  details.sources{font-size:14px;background:transparent;border:none;padding:0;margin:20px 0 0}
+  details.sources summary{font-weight:600;color:#64748b}
   .table-wrap{overflow-x:auto}
+  .carte-dossier{background:#0B1B3A;color:#fff;border-radius:14px;padding:18px 18px 8px;margin:22px 0}
+  .carte-dossier .carte-titre{font-size:18px;font-weight:800;margin:0 0 6px;color:#fff}
+  .carte-dossier p{color:#dbe3f0}
+  .carte-dossier .cta{background:#C9A227;color:#0B1B3A;min-height:44px}
+  .cta-sec{display:inline-block;padding:11px 18px;border-radius:10px;border:1px solid rgba(255,255,255,.5);color:#fff;text-decoration:none;font-weight:600;margin:8px 0}
+  .barre-dossier{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;gap:10px;justify-content:center;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,.96);border-top:1px solid #e2e8f0;box-shadow:0 -6px 20px rgba(11,27,58,.08)}
+  .barre-dossier .cta{margin:0;flex:1 1 auto;max-width:360px;text-align:center;min-height:44px;background:#0B1B3A}
+  .barre-dossier .wa{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 16px;border-radius:10px;background:#16a34a;color:#fff;font-weight:700;text-decoration:none}
+  body{padding-bottom:84px}
+  @media print{.barre-dossier,.carte-dossier{display:none}}
   [dir="rtl"] ul,[dir="rtl"] ol{padding-left:0;padding-right:22px}
   [dir="rtl"] th,[dir="rtl"] td{text-align:right}
 </style>
@@ -933,17 +963,18 @@ function guidePageHtml(g) {
   <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › <a href="/guide">${ar ? "الأدلة" : "Guides"}</a> › ${esc(g.h1)}</nav>
   <h1>${esc(g.h1)}</h1>
   <p class="lead">${g.intro}</p>
-  ${g.body}
+  ${corps}
   ${faqHtml ? `<h2>${ar ? "أسئلة شائعة" : "Questions fréquentes"}</h2>\n  ${faqHtml}` : ""}
   ${sourcesHtml}
   ${auteurHtml}
-  <div style="margin-top:24px">${ctaContact(ar ? "ناقش مشروعك مع مهندس معماري" : "Discuter de mon projet avec un architecte", g.title || "")}</div>
+  <div style="margin-top:16px">${ctaContact(ar ? "ابدأ ملفك" : "Commencer mon dossier", g.title || "")}</div>
   <footer>
     <strong>${ar ? "أدلة أخرى:" : "Autres guides :"}</strong>
     <ul>${otherGuides}</ul>
     <strong style="color:#0f172a">${esc(business.name)}</strong> — ${esc(business.founder)}, architecte à Kénitra · <a href="${business.baseUrl}">citurbarea.com</a>
   </footer>
 </main>
+${barre}
 </body>
 </html>`;
 }
