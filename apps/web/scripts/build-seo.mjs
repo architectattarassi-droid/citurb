@@ -892,57 +892,116 @@ if (fs.existsSync(GUIDES_DIR)) {
   }
 }
 
+// Textes de la page guide par langue (fr / ar / en).
+const TXT_GUIDE = {
+  fr: {
+    accueil: "Accueil", guides: "Guides", faq: "Questions fréquentes", autres: "Autres guides :",
+    sources: (n) => `Textes de référence (${n})`, metier: "architecte, ", maj: "Mis à jour le",
+    avert: "Information générale : elle ne remplace pas l'étude de votre dossier.", lieu: "architecte à Kénitra",
+    dossier: "Commencer mon dossier", chiffrer: "Chiffrer mon projet", wa: "WhatsApp", langue: "Langue",
+    titreCouts: "Votre budget, calculé pour votre projet",
+    texteCouts: "Estimation lot par lot en 2 minutes, puis un architecte inscrit à l'Ordre vérifie votre devis. Gratuit, sans engagement.",
+    titreAutres: "Votre autorisation, préparée par un architecte",
+    texteAutres: "Un architecte inscrit à l'Ordre étudie votre terrain, prépare les plans et dépose votre dossier. Premier échange sans engagement.",
+    waMsg: (t) => `Bonjour, je viens de lire « ${t} » sur citurbarea.com et je souhaite commencer mon dossier.`,
+    existe: "Ce guide existe aussi en :",
+  },
+  ar: {
+    accueil: "الرئيسية", guides: "الأدلة", faq: "أسئلة شائعة", autres: "أدلة أخرى:",
+    sources: (n) => `النصوص المرجعية (${n})`, metier: "مهندس معماري، ", maj: "آخر تحديث:",
+    avert: "معلومات عامة لا تغني عن دراسة ملفكم.", lieu: "مهندس معماري بالقنيطرة",
+    dossier: "ابدأ ملفك", chiffrer: "احسب تكلفة مشروعك", wa: "واتساب", langue: "اللغة",
+    titreCouts: "ميزانيتكم محسوبة لمشروعكم", texteCouts: "تقدير مفصل حسب الأشغال في دقيقتين، ثم يراجع مهندس معماري مسجل في الهيئة عرض الأثمان. مجانا وبدون التزام.",
+    titreAutres: "مشروعكم يحتاج إلى رخصة أو تقدير للتكلفة؟", texteAutres: "مهندس معماري مسجل في الهيئة يدرس ملفكم: التصاميم، الرخصة، تتبع الأوراش. بدون التزام.",
+    waMsg: (t) => `السلام عليكم، قرأت « ${t} » على citurbarea.com وأريد بدء ملفي.`,
+    existe: "هذا الدليل متوفر أيضا بـ:",
+  },
+  en: {
+    accueil: "Home", guides: "Guides", faq: "Frequently asked questions", autres: "Other guides:",
+    sources: (n) => `Reference texts (${n})`, metier: "architect, ", maj: "Updated on",
+    avert: "General information: it does not replace a review of your own file.", lieu: "architect in Kenitra",
+    dossier: "Start my file", chiffrer: "Estimate my project", wa: "WhatsApp", langue: "Language",
+    titreCouts: "Your budget, calculated for your project", texteCouts: "Item-by-item estimate in 2 minutes, then a registered architect checks your quote. Free, no commitment.",
+    titreAutres: "Your permit, prepared by an architect", texteAutres: "A registered architect studies your plot, draws the plans and files your application. First call with no commitment.",
+    waMsg: (t) => `Hello, I just read "${t}" on citurbarea.com and I would like to start my file.`,
+    existe: "This guide is also available in:",
+  },
+};
+const NOM_LANGUE = { fr: "Français", ar: "العربية", en: "English" };
+const LOCALE = { fr: "fr-MA", ar: "ar-MA", en: "en" };
+
+/** Versions d'un même guide dans les autres langues (champ « groupe »). */
+function traductions(g) {
+  if (!g.groupe) return [];
+  return GUIDES.filter((x) => x.groupe === g.groupe && x.slug !== g.slug && (x.lang || "fr") !== (g.lang || "fr"));
+}
+
 function guidePageHtml(g) {
+  const lang = ["ar", "en"].includes(g.lang) ? g.lang : "fr";
+  const T = TXT_GUIDE[lang];
+  const ar = lang === "ar";
   const url = `${business.baseUrl}/guide/${g.slug}`;
   const faqHtml = g.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
-  const ar = g.lang === "ar";
   const maj = /^\d{4}-\d{2}-\d{2}$/.test(g.majLe || "") ? g.majLe : null;
   const sources = Array.isArray(g.sources) ? g.sources.filter((s) => s && s.titre && /^https?:\/\//.test(s.url || "")) : [];
-  const articleSchema = { "@context": "https://schema.org", "@type": "Article", headline: g.h1, description: g.desc, inLanguage: ar ? "ar-MA" : "fr-MA", mainEntityOfPage: url, ...(maj ? { dateModified: maj } : {}), ...(sources.length ? { citation: sources.map((s) => s.url) } : {}), author: { "@type": "Person", name: business.founder, jobTitle: "Architecte DENA", sameAs: business.sameAs }, publisher: { "@type": "Organization", name: "CITURBAREA", logo: { "@type": "ImageObject", url: business.logo } } };
+  const trads = traductions(g);
+  const versions = [{ lang, slug: g.slug }, ...trads.map((x) => ({ lang: ["ar", "en"].includes(x.lang) ? x.lang : "fr", slug: x.slug }))];
+  const versionFr = versions.find((v) => v.lang === "fr");
+  const hreflang = versions.map((v) => `<link rel="alternate" hreflang="${v.lang}" href="${business.baseUrl}/guide/${v.slug}">`).join("\n")
+    + `\n<link rel="alternate" hreflang="x-default" href="${business.baseUrl}/guide/${(versionFr || versions[0]).slug}">`;
+  const articleSchema = { "@context": "https://schema.org", "@type": "Article", headline: g.h1, description: g.desc, inLanguage: LOCALE[lang], mainEntityOfPage: url, ...(maj ? { dateModified: maj } : {}), ...(sources.length ? { citation: sources.map((s) => s.url) } : {}), ...(trads.length ? { workTranslation: trads.map((x) => ({ "@type": "Article", url: `${business.baseUrl}/guide/${x.slug}`, inLanguage: LOCALE[x.lang] || "fr-MA" })) } : {}), author: { "@type": "Person", name: business.founder, jobTitle: "Architecte DENA", sameAs: business.sameAs }, publisher: { "@type": "Organization", name: "CITURBAREA", logo: { "@type": "ImageObject", url: business.logo } } };
   const faqSchema = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: g.faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) };
-  const breadcrumb = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Accueil", item: business.baseUrl }, { "@type": "ListItem", position: 2, name: "Guides", item: `${business.baseUrl}/guide` }, { "@type": "ListItem", position: 3, name: g.h1, item: url }] };
-  // Maillage : guides de la même catégorie et de la même langue d'abord, 8 au plus.
-  const autres = GUIDES.filter((x) => x.slug !== g.slug && (x.lang === "ar") === ar);
+  const breadcrumb = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: T.accueil, item: business.baseUrl }, { "@type": "ListItem", position: 2, name: T.guides, item: `${business.baseUrl}/guide` }, { "@type": "ListItem", position: 3, name: g.h1, item: url }] };
+  // Maillage : guides de la même langue, même catégorie d'abord, 8 au plus.
+  const autres = GUIDES.filter((x) => x.slug !== g.slug && (["ar", "en"].includes(x.lang) ? x.lang : "fr") === lang);
   const otherGuides = [...autres.filter((x) => g.categorie && x.categorie === g.categorie), ...autres.filter((x) => !g.categorie || x.categorie !== g.categorie)]
     .slice(0, 8).map((x) => `<li><a href="/guide/${x.slug}">${esc(x.title)}</a></li>`).join("");
   // Sources officielles citées (confiance Google / IA), repliées en bas de page :
   // le lecteur reste sur le site, rien n'est proposé au téléchargement.
   const sourcesHtml = sources.length
-    ? `<details class="sources"><summary>${ar ? `النصوص المرجعية (${sources.length})` : `Textes de référence (${sources.length})`}</summary><ul>${sources.map((s) => `<li><a href="${esc(s.url)}" rel="noopener nofollow" target="_blank">${esc(s.titre)}</a></li>`).join("")}</ul></details>`
+    ? `<details class="sources"><summary>${T.sources(sources.length)}</summary><ul>${sources.map((s) => `<li><a href="${esc(s.url)}" rel="noopener nofollow" target="_blank">${esc(s.titre)}</a></li>`).join("")}</ul></details>`
     : "";
   // « Commencer mon dossier » : après l'encadré « En bref », au milieu de l'article,
   // en fin d'article et dans une barre fixe en bas d'écran.
   const dossier = `${business.baseUrl}/creer-compte`;
   const chiffrage = `${business.baseUrl}/chiffrage`;
-  const L = ar
-    ? { dossier: "ابدأ ملفك", chiffrer: "احسب تكلفة مشروعك", titre: "مشروعكم يحتاج إلى رخصة أو تقدير للتكلفة؟", texte: "مهندس معماري مسجل في الهيئة يدرس ملفكم: التصاميم، الرخصة، تتبع الأوراش. بدون التزام.", wa: "واتساب" }
-    : { dossier: "Commencer mon dossier", chiffrer: "Chiffrer mon projet", titre: g.categorie === "couts" ? "Votre budget, calculé pour votre projet" : "Votre autorisation, préparée par un architecte", texte: g.categorie === "couts" ? "Estimation lot par lot en 2 minutes, puis un architecte inscrit à l'Ordre vérifie votre devis. Gratuit, sans engagement." : "Un architecte inscrit à l'Ordre étudie votre terrain, prépare les plans et dépose votre dossier. Premier échange sans engagement.", wa: "WhatsApp" };
-  const [cta1, cta2] = g.categorie === "couts" ? [[chiffrage, L.chiffrer], [dossier, L.dossier]] : [[dossier, L.dossier], [chiffrage, L.chiffrer]];
-  const carteDossier = `<div class="carte-dossier"><p class="carte-titre">${esc(L.titre)}</p><p>${esc(L.texte)}</p><p class="cta-row"><a class="cta" href="${cta1[0]}">${esc(cta1[1])} →</a> <a class="cta-sec" href="${cta2[0]}">${esc(cta2[1])}</a></p></div>`;
+  const couts = g.categorie === "couts";
+  const [cta1, cta2] = couts ? [[chiffrage, T.chiffrer], [dossier, T.dossier]] : [[dossier, T.dossier], [chiffrage, T.chiffrer]];
+  const carteDossier = `<div class="carte-dossier"><p class="carte-titre">${esc(couts ? T.titreCouts : T.titreAutres)}</p><p>${esc(couts ? T.texteCouts : T.texteAutres)}</p><p class="cta-row"><a class="cta" href="${cta1[0]}">${esc(cta1[1])} →</a> <a class="cta-sec" href="${cta2[0]}">${esc(cta2[1])}</a></p></div>`;
   // Après l'encadré « En bref » (premier </div>) et avant le 3e intertitre.
   let corps = String(g.body);
   const finEnBref = corps.indexOf("</div>", corps.indexOf('class="enbref"'));
   if (corps.includes('class="enbref"') && finEnBref > 0) corps = `${corps.slice(0, finEnBref + 6)}${carteDossier}${corps.slice(finEnBref + 6)}`;
   const h2s = [...corps.matchAll(/<h2[\s>]/g)].map((m) => m.index);
   if (h2s.length >= 4) corps = `${corps.slice(0, h2s[2])}${carteDossier}${corps.slice(h2s[2])}`;
-  const waMsg = encodeURIComponent(`Bonjour, je viens de lire « ${g.h1} » sur citurbarea.com et je souhaite commencer mon dossier.`);
-  const barre = `<div class="barre-dossier" role="complementary"><a class="cta" href="${cta1[0]}">${esc(cta1[1])} →</a><a class="wa" href="https://wa.me/${waDigits}?text=${waMsg}" rel="noopener">${L.wa}</a></div>`;
-  const auteurHtml = `<aside class="auteur"><strong>${esc(business.founder)}</strong> — ${ar ? "مهندس معماري، " : "architecte, "}${esc(business.name)} (${esc(business.hq.locality)}).${maj ? ` ${ar ? "آخر تحديث:" : "Mis à jour le"} ${maj.split("-").reverse().join("/")}.` : ""} ${ar ? "معلومات عامة لا تغني عن دراسة ملفكم." : "Information générale : elle ne remplace pas l'étude de votre dossier."}</aside>`;
+  const barre = `<div class="barre-dossier" role="complementary"><a class="cta" href="${cta1[0]}">${esc(cta1[1])} →</a><a class="wa" href="https://wa.me/${waDigits}?text=${encodeURIComponent(T.waMsg(g.h1))}" rel="noopener">${T.wa}</a></div>`;
+  const auteurHtml = `<aside class="auteur"><strong>${esc(business.founder)}</strong> — ${T.metier}${esc(business.name)} (${esc(business.hq.locality)}).${maj ? ` ${T.maj} ${maj.split("-").reverse().join("/")}.` : ""} ${T.avert}</aside>`;
+  // Sélecteur de langue : toujours visible quand des traductions existent ; le choix
+  // est mémorisé avec la même clé que le reste du site (citurbarea.lang).
+  const selecteur = trads.length
+    ? `<nav class="langues" aria-label="${T.langue}">${versions.slice().sort((a, b) => ["fr", "ar", "en"].indexOf(a.lang) - ["fr", "ar", "en"].indexOf(b.lang)).map((v) => v.lang === lang
+      ? `<span aria-current="page" lang="${v.lang}">${NOM_LANGUE[v.lang]}</span>`
+      : `<a href="/guide/${v.slug}" hreflang="${v.lang}" lang="${v.lang}" data-langue="${v.lang}">${NOM_LANGUE[v.lang]}</a>`).join("")}</nav>`
+    : "";
+  // Lecteur qui a déjà choisi une autre langue et arrive par un lien interne :
+  // on l'envoie vers sa langue. Arrivée depuis Google : on propose seulement
+  // (les robots n'ont pas de préférence enregistrée, la page reste indexée telle quelle).
+  const scriptLangue = trads.length ? `<script>(function(){var K="citurbarea.lang",V=${JSON.stringify(Object.fromEntries(versions.map((v) => [v.lang, "/guide/" + v.slug])))},ici=${JSON.stringify(lang)};document.querySelectorAll("[data-langue]").forEach(function(a){a.addEventListener("click",function(){try{localStorage.setItem(K,a.getAttribute("data-langue"))}catch(e){}})});var p=null;try{p=localStorage.getItem(K)}catch(e){}if(!p||p===ici||!V[p])return;var interne=false;try{interne=!!document.referrer&&new URL(document.referrer).host===location.host}catch(e){}if(interne){location.replace(V[p]);}})();</script>` : "";
   return `<!DOCTYPE html>
-<html lang="${ar ? "ar" : "fr"}"${ar ? ' dir="rtl"' : ""}>
+<html lang="${lang}"${ar ? ' dir="rtl"' : ""}>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${esc(g.title)} | CITURBAREA</title>
 <meta name="description" content="${esc(couper(g.desc))}">
 <link rel="canonical" href="${url}">
-<link rel="alternate" hreflang="${ar ? "ar" : "fr"}" href="${url}">
-<link rel="alternate" hreflang="x-default" href="${url}">
+${hreflang}
 <meta property="og:type" content="article">
 <meta property="og:title" content="${esc(g.title)}">
 <meta property="og:description" content="${esc(couper(g.desc))}">
 <meta property="og:url" content="${url}">
 <meta property="og:site_name" content="CITURBAREA">
+<meta property="og:locale" content="${lang === "ar" ? "ar_MA" : lang === "en" ? "en_US" : "fr_MA"}">
 <meta property="og:image" content="${business.image || business.baseUrl + "/og-default.png"}">
 <script type="application/ld+json">${JSON.stringify(articleSchema)}</script>
 <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>
@@ -963,6 +1022,9 @@ function guidePageHtml(g) {
   details{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:12px 16px;margin-bottom:8px}
   details summary{cursor:pointer;font-weight:700}
   footer{border-top:1px solid #e2e8f0;margin-top:44px;padding-top:22px;color:#64748b;font-size:13px}
+  .langues{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+  .langues a,.langues span{display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid #cbd5e1;font-size:14px;font-weight:600;text-decoration:none;color:#0B1B3A;background:#fff}
+  .langues span{background:#0B1B3A;color:#fff;border-color:#0B1B3A}
   .enbref{background:#fff8e1;border:1px solid #f0d27a;border-radius:12px;padding:14px 16px;margin:0 0 20px}
   .auteur{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:12px 16px;margin:24px 0 0;font-size:14px;color:#334155}
   details.sources{font-size:14px;background:transparent;border:none;padding:0;margin:20px 0 0}
@@ -984,21 +1046,23 @@ function guidePageHtml(g) {
 </head>
 <body>
 <main>
-  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › <a href="/guide">${ar ? "الأدلة" : "Guides"}</a> › ${esc(g.h1)}</nav>
+  <nav aria-label="fil"><a href="${business.baseUrl}">CITURBAREA</a> › <a href="/guide">${T.guides}</a> › ${esc(g.h1)}</nav>
+  ${selecteur}
   <h1>${esc(g.h1)}</h1>
   <p class="lead">${g.intro}</p>
   ${corps}
-  ${faqHtml ? `<h2>${ar ? "أسئلة شائعة" : "Questions fréquentes"}</h2>\n  ${faqHtml}` : ""}
+  ${faqHtml ? `<h2>${T.faq}</h2>\n  ${faqHtml}` : ""}
   ${sourcesHtml}
   ${auteurHtml}
-  <div style="margin-top:16px">${ctaContact(ar ? "ابدأ ملفك" : "Commencer mon dossier", g.title || "")}</div>
+  <div style="margin-top:16px">${ctaContact(T.dossier, g.title || "")}</div>
   <footer>
-    <strong>${ar ? "أدلة أخرى:" : "Autres guides :"}</strong>
+    <strong>${T.autres}</strong>
     <ul>${otherGuides}</ul>
-    <strong style="color:#0f172a">${esc(business.name)}</strong> — ${esc(business.founder)}, architecte à Kénitra · <a href="${business.baseUrl}">citurbarea.com</a>
+    <strong style="color:#0f172a">${esc(business.name)}</strong> — ${esc(business.founder)}, ${T.lieu} · <a href="${business.baseUrl}">citurbarea.com</a>
   </footer>
 </main>
 ${barre}
+${scriptLangue}
 ${PROTECTION}
 </body>
 </html>`;
@@ -1080,7 +1144,13 @@ ${PROTECTION}
 }
 
 const villesLiens = VILLE_HUBS.map((v) => ({ href: `/architecte-${v.slug}`, label: `Architecte à ${v.name}`, sous: v.region }));
-const guidesLiens = GUIDES.map((g) => ({ href: `/guide/${g.slug}`, label: g.h1, sous: g.desc.slice(0, 110) + "…" }));
+const lienGuide = (g) => ({ href: `/guide/${g.slug}`, label: g.h1, sous: couper(g.desc, 110) });
+const langueGuide = (g) => (g.lang === "ar" || g.lang === "en" ? g.lang : "fr");
+// Liens « français » réutilisés sur les pages FR (services, villes) ; le hub /guide
+// présente aussi les guides en arabe et en anglais dans leur propre section.
+const guidesLiens = GUIDES.filter((g) => langueGuide(g) === "fr").map(lienGuide);
+const guidesAr = GUIDES.filter((g) => langueGuide(g) === "ar").map(lienGuide);
+const guidesEn = GUIDES.filter((g) => langueGuide(g) === "en").map(lienGuide);
 const portesLiens = PORTES.map((p) => ({ href: `/fr/${p.slugFr}`, label: p.titleFr }));
 const servicesLiens = published.map((p) => ({ href: p.url, label: `${p.service} à ${p.locality}` }));
 
@@ -1090,9 +1160,11 @@ const hubGuide = {
   desc: "Guides pratiques pour construire au Maroc : prix au m², permis de construire, honoraires d'architecte, étapes de A à Z. Rédigés par un architecte.",
   h1: "Guides pour construire au Maroc",
   intro: "Prix de construction, autorisation de construire, honoraires d'architecte, étapes du chantier : l'essentiel pour décider en connaissance de cause, rédigé par un architecte qui dépose des dossiers chaque semaine.",
-  items: guidesLiens.map((l) => ({ url: `${business.baseUrl}${l.href}`, name: l.label })),
+  items: [...guidesLiens, ...guidesAr, ...guidesEn].map((l) => ({ url: `${business.baseUrl}${l.href}`, name: l.label })),
   sections: [
     { titre: "Tous les guides", liens: guidesLiens },
+    ...(guidesAr.length ? [{ titre: "أدلة باللغة العربية", liens: guidesAr }] : []),
+    ...(guidesEn.length ? [{ titre: "Guides in English", liens: guidesEn }] : []),
     { titre: "Trouver un architecte dans votre ville", liens: villesLiens },
   ],
 };

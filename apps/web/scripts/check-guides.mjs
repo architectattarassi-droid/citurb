@@ -27,7 +27,8 @@ for (const f of fichiers) {
   if (slugs.has(g.slug)) err(f, "slug en double"); else slugs.add(g.slug);
   if (g.title && g.title.length > 70) err(f, `title trop long (${g.title.length} > 70 ; « | CITURBAREA » est ajouté)`);
   if (g.desc && (g.desc.length < 110 || g.desc.length > 165)) err(f, `desc : 110 à 165 caractères (${g.desc.length})`);
-  if (g.lang && !["fr", "ar"].includes(g.lang)) err(f, "lang : fr ou ar");
+  if (g.lang && !["fr", "ar", "en"].includes(g.lang)) err(f, "lang : fr, ar ou en");
+  if (g.groupe && !/^[a-z0-9-]+$/.test(g.groupe)) err(f, "groupe : minuscules, chiffres et tirets");
   if (g.majLe && !/^\d{4}-\d{2}-\d{2}$/.test(g.majLe)) err(f, "majLe : AAAA-MM-JJ");
   if (!Array.isArray(g.faq) || g.faq.length < 4) err(f, "faq : au moins 4 paires [question, réponse]");
   else for (const q of g.faq) if (!Array.isArray(q) || q.length !== 2 || !q[0] || !q[1]) err(f, "faq : chaque entrée = [question, réponse]");
