@@ -166,7 +166,8 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
       const id = out.status === "sent" || out.status === "already" ? out.leadId || "" : "";
       const sc = out.status === "sent" ? out.score || 0 : 0;
       if (out.status === "sent" && out.cle) setCapture({ leadId: out.leadId, cle: out.cle });
-      evenement("lead_submit", { source: body.source, porte: body.projetType, whatsapp: wa && whatsapp });
+      // Conversion Google : envoyée par captureLead (leadBridge), pour toutes les portes.
+      evenement("formulaire_envoye", { source: body.source, porte: body.projetType, whatsapp: wa && whatsapp });
       setQueued(out.status === "queued");
       setStatus("success");
       onCaptured?.(id, sc);

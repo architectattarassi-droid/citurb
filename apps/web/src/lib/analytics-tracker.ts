@@ -5,6 +5,7 @@
  * fingerprint. Si user connecté + opt-in, on attache userId.
  */
 import { apiBase } from "../tomes/tome4/apiClient";
+import { dernierContact } from "./attribution";
 
 type PorteId = "P1" | "P2" | "P3" | "P4" | "P5" | "P6";
 type EventType =
@@ -68,6 +69,7 @@ export function porteFromPath(path: string): PorteId | undefined {
 }
 
 let premiereVue = true;
+let premiereVueCanal = true;
 
 /** Auto-track une vue de page (à appeler sur change de route). La première
  *  vue du chargement porte la provenance (origine du référent seulement). */
@@ -80,7 +82,11 @@ export function trackView(path: string): void {
       if (r && r.hostname !== location.hostname) referrer = r.hostname;
     } catch { /* référent illisible */ }
   }
-  track("view", { path, porte: porteFromPath(path), meta: referrer ? { referrer } : undefined });
+  // Canal de la visite (google_ads, google_organique, youtube…) sur la première vue seulement.
+  const canal = premiereVueCanal ? dernierContact()?.canal : undefined;
+  premiereVueCanal = false;
+  const meta = { ...(referrer ? { referrer } : {}), ...(canal ? { canal } : {}) };
+  track("view", { path, porte: porteFromPath(path), meta: Object.keys(meta).length ? meta : undefined });
 }
 
 /**

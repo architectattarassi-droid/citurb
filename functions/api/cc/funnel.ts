@@ -17,7 +17,7 @@ export type Sql = (strings: TemplateStringsArray, ...values: unknown[]) => Promi
 
 export async function synthese(sql: Sql, jours: number) {
   const depuis = new Date(Date.now() - jours * 86_400_000).toISOString();
-  const [totaux, pages, abandons] = await Promise.all([
+  const [totaux, pages, abandons, visiteursCanal, leadsCanal] = await Promise.all([
     sql`SELECT count(DISTINCT "sessionId")::int AS sessions,
           count(DISTINCT "sessionId") FILTER (WHERE "type" IN ('wizard_start','wizard_step'))::int AS demarres,
           count(DISTINCT "sessionId") FILTER (WHERE "type" = 'intake_submit')::int AS envoyes,
@@ -43,8 +43,33 @@ export async function synthese(sql: Sql, jours: number) {
           AND NOT EXISTS (SELECT 1 FROM "FunnelEvent" s
                           WHERE s."sessionId" = e."sessionId" AND s."type" = 'intake_submit')
         GROUP BY e."sessionId" ORDER BY fin DESC LIMIT 100`,
+    // Canal d'arrivée du visiteur (première vue : meta.canal, cf. lib/attribution).
+    sql`WITH s AS (
+          SELECT "sessionId",
+            (array_agg(COALESCE("meta"->>'canal', CASE WHEN "meta" ? 'referrer' THEN 'referent' END) ORDER BY "createdAt")
+               FILTER (WHERE "type" = 'view'))[1] AS canal,
+            bool_or("type" IN ('wizard_start','wizard_step')) AS demarre,
+            bool_or("type" = 'intake_submit') AS envoye
+          FROM "FunnelEvent" WHERE "createdAt" >= ${depuis}::timestamp GROUP BY "sessionId")
+        SELECT COALESCE(canal, 'direct') AS canal, count(*)::int AS sessions,
+          count(*) FILTER (WHERE demarre)::int AS demarres, count(*) FILTER (WHERE envoye)::int AS envoyes
+        FROM s GROUP BY 1 ORDER BY sessions DESC LIMIT 20`,
+    // Leads par canal (colonne utm du lead) : la vraie mesure d'acquisition.
+    sql`SELECT COALESCE("utm"->>'canal', 'non renseigné') AS canal, count(*)::int AS leads,
+          count(*) FILTER (WHERE "stage" IN ('QUALIFIED','WON','DOSSIER_OPENED','PAID'))::int AS qualifies,
+          count(*) FILTER (WHERE "utm" ? 'gclid' OR "utm" ? 'gbraid' OR "utm" ? 'wbraid')::int AS clics_google
+        FROM "Lead" WHERE "createdAt" >= ${depuis}::timestamp GROUP BY 1 ORDER BY leads DESC LIMIT 20`,
   ]);
-  return { jours, totaux: totaux[0], pages, abandons };
+  return { jours, totaux: totaux[0], pages, abandons, canaux: fusionCanaux(visiteursCanal, leadsCanal) };
+}
+
+/** Une ligne par canal : visiteurs (FunnelEvent) + leads (Lead). */
+export function fusionCanaux(visiteurs: Record<string, unknown>[], leads: Record<string, unknown>[]) {
+  const m = new Map<string, { canal: string; sessions: number; demarres: number; leads: number; qualifies: number; clicsGoogle: number }>();
+  const ligne = (c: string) => m.get(c) ?? (m.set(c, { canal: c, sessions: 0, demarres: 0, leads: 0, qualifies: 0, clicsGoogle: 0 }), m.get(c)!);
+  for (const v of visiteurs) { const l = ligne(String(v.canal)); l.sessions = Number(v.sessions) || 0; l.demarres = Number(v.demarres) || 0; }
+  for (const v of leads) { const l = ligne(String(v.canal)); l.leads = Number(v.leads) || 0; l.qualifies = Number(v.qualifies) || 0; l.clicsGoogle = Number(v.clics_google) || 0; }
+  return [...m.values()].sort((a, b) => b.leads - a.leads || b.sessions - a.sessions);
 }
 
 export async function onRequestGet(ctx: { request: Request; env: Env }): Promise<Response> {

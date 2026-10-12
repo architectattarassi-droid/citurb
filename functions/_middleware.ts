@@ -18,7 +18,38 @@ import type { Sql } from "./_lib/terrains";
 
 const HOTE_INDEXABLE = "citurbarea.com";
 
-export async function onRequest(ctx: { request: Request; next: () => Promise<Response>; env?: { DATABASE_URL?: string } }): Promise<Response> {
+interface Env {
+  DATABASE_URL?: string;
+  /** Jeton « Balise HTML » de Google Search Console (contenu de google-site-verification). */
+  GOOGLE_SITE_VERIFICATION?: string;
+  /** Jeton de Bing Webmaster Tools (contenu de msvalidate.01). */
+  BING_SITE_VERIFICATION?: string;
+}
+
+const jeton = (v: string | undefined) => (v && /^[\w-]{6,120}$/.test(v.trim()) ? v.trim() : "");
+
+/**
+ * Ajoute dans <head> :
+ *  - le pays du visiteur (Cloudflare) : le front décide du consentement par
+ *    défaut (Europe : refusé jusqu'à accord ; ailleurs : accordé) ;
+ *  - sur citurbarea.com seulement, les balises de vérification Google Search
+ *    Console et Bing (variables d'environnement, aucune recompilation).
+ */
+function balisesHead(res: Response, req: Request, env: Env | undefined, indexable: boolean): Response {
+  const pays = ((req as Request & { cf?: { country?: string } }).cf?.country || "").replace(/[^A-Z]/gi, "").slice(0, 2).toUpperCase();
+  const google = indexable ? jeton(env?.GOOGLE_SITE_VERIFICATION) : "";
+  const bing = indexable ? jeton(env?.BING_SITE_VERIFICATION) : "";
+  if (!pays && !google && !bing) return res;
+  return new HTMLRewriter().on("head", {
+    element(e) {
+      if (pays) e.append(`<meta name="cf-pays" content="${pays}">`, { html: true });
+      if (google) e.append(`<meta name="google-site-verification" content="${google}">`, { html: true });
+      if (bing) e.append(`<meta name="msvalidate.01" content="${bing}">`, { html: true });
+    },
+  }).transform(res);
+}
+
+export async function onRequest(ctx: { request: Request; next: () => Promise<Response>; env?: Env }): Promise<Response> {
   let res = await ctx.next();
   const url = new URL(ctx.request.url);
   // Pages de l'application à référencer : titre, description, canonique et contenu dans le HTML servi.
@@ -40,6 +71,7 @@ export async function onRequest(ctx: { request: Request; next: () => Promise<Res
       headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store" },
     });
   }
+  if (estHtml) res = balisesHead(res, ctx.request, ctx.env, url.hostname === HOTE_INDEXABLE);
   if (url.hostname === HOTE_INDEXABLE) return res;
   const out = new Response(res.body, res);
   out.headers.set("x-robots-tag", "noindex, nofollow");

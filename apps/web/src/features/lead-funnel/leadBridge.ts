@@ -22,6 +22,8 @@ import { useEffect, useState } from "react";
 import { apiBase } from "../../tomes/tome4/apiClient";
 import { getStoredLang } from "../../i18n/i18n";
 import { track } from "../../lib/analytics-tracker";
+import { attributionLead } from "../../lib/attribution";
+import { conversionLead } from "../../lib/marketing";
 
 export type Porte = "P1" | "P2" | "P3" | "P4" | "P5" | "P6";
 
@@ -236,6 +238,8 @@ export async function captureLead(key: string, body: CaptureBody): Promise<Captu
       dequeue(key);
       markSent(key, r.leadId);
       track("intake_submit", { meta: { source: body.source } });
+      // Conversion Google Ads / GA4 (generate_lead), une seule fois par lead, pour toutes les portes.
+      void conversionLead({ source: body.source, porte: body.projetType, whatsapp: (body.meta as Record<string, unknown> | undefined)?.whatsapp === true, transaction_id: r.leadId }, { email: body.email, telephone: body.telephone });
       return { status: "sent", leadId: r.leadId, score: r.score, cle: body.idempotencyKey };
     }
     if (r.kind === "invalid") {
@@ -267,7 +271,11 @@ export async function replayLeadQueue(): Promise<void> {
       inflight.add(it.key);
       try {
         const r = await postCapture(it.body);
-        if (r.kind === "sent") { dequeue(it.key); markSent(it.key, r.leadId); }
+        if (r.kind === "sent") {
+          dequeue(it.key);
+          markSent(it.key, r.leadId);
+          void conversionLead({ source: it.body.source, porte: it.body.projetType, reprise: true, transaction_id: r.leadId }, { email: it.body.email, telephone: it.body.telephone });
+        }
         else if (r.kind === "invalid") dequeue(it.key);
         else { bumpTries(it.key); break; } // réseau toujours absent : inutile d'insister
       } finally {
@@ -311,6 +319,7 @@ export function useApiStatus(): "unknown" | "up" | "down" {
  * null si aucun des deux n'a créé de dossier (le lead, lui, est déjà capturé).
  */
 export async function sendIntake(payload: Record<string, unknown>, token?: string | null): Promise<IntakeOutcome | null> {
+  if (!payload.utm) { const utm = currentUtm(); if (utm) payload = { ...payload, utm }; }
   try {
     const res = await fetchWithTimeout("/api/intake", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }, INTAKE_TIMEOUT_MS);
     const data: any = await res.json().catch(() => null);
@@ -363,12 +372,16 @@ export function rememberUtm(): void {
 
 export function currentUtm(): Record<string, string> | undefined {
   rememberUtm();
+  let utm: Record<string, string> | undefined;
   try {
     const raw = sessionStorage.getItem(UTM_KEY);
-    return raw ? JSON.parse(raw) : undefined;
+    utm = raw ? JSON.parse(raw) : undefined;
   } catch {
-    return undefined;
+    utm = undefined;
   }
+  // Canal, identifiant de clic (gclid…) et premier contact : lib/attribution.
+  const a = attributionLead();
+  return a || utm ? { ...(utm || {}), ...(a || {}) } : undefined;
 }
 
 function contexte(): Pick<CaptureBody, "lang" | "pageContext" | "utm"> {

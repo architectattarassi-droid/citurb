@@ -98,8 +98,12 @@ function sansPieces(v: unknown, profondeur = 0): unknown {
 function utmPropre(v: unknown): Record<string, string> | null {
   if (!v || typeof v !== "object" || Array.isArray(v)) return null;
   const o: Record<string, string> = {};
-  for (const k of ["source", "medium", "campaign", "term", "content"]) {
-    const x = clip((v as Record<string, unknown>)[k], 200);
+  // utm_* + attribution (apps/web/src/lib/attribution.ts) : canal, identifiants
+  // de clic (gclid… pour l'import des conversions Google Ads hors ligne), domaine
+  // référent, page d'arrivée, premier contact.
+  for (const k of ["source", "medium", "campaign", "term", "content", "canal", "referrer", "landing", "at",
+    "premier_canal", "premier_at", "clic_at", "gclid", "gbraid", "wbraid", "fbclid", "ttclid"]) {
+    const x = clip((v as Record<string, unknown>)[k], 300);
     if (x) o[k] = x;
   }
   return Object.keys(o).length ? o : null;

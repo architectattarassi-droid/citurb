@@ -54,6 +54,8 @@ export async function enregistrer(body: unknown, pays: string | null, sql: Sql):
   const source = court(m.source, 40);
   if (source) meta.source = source;
   if (typeof m.durationMs === "number" && Number.isFinite(m.durationMs)) meta.durationMs = Math.min(Math.max(0, Math.round(m.durationMs)), 86_400_000);
+  const canal = court(m.canal, 30);
+  if (canal && /^[a-z_]+$/.test(canal)) meta.canal = canal;
   const ref = court(m.referrer, 200);
   if (ref) meta.referrer = ref;
 

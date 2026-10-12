@@ -423,7 +423,16 @@ function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow, isMobile }: {
         {lead.raisonSociale && <Field k="Raison sociale" v={lead.raisonSociale} />}
         {lead.gestionMode && <Field k="Mode gestion" v={lead.gestionMode} />}
         <Field k="Source" v={lead.source} />
-        <Field k="Reçu" v={fmtDate(lead.createdAt) + " · " + timeSince(lead.createdAt)} />
+        {lead.brief?.utm?.canal && (
+          <Field k="Canal" v={[
+            lead.brief.utm.canal,
+            lead.brief.utm.campaign && `campagne « ${lead.brief.utm.campaign} »`,
+            lead.brief.utm.term && `mot-clé « ${lead.brief.utm.term} »`,
+            (lead.brief.utm.gclid || lead.brief.utm.gbraid || lead.brief.utm.wbraid) && "clic Google Ads ✓",
+            lead.brief.utm.premier_canal && lead.brief.utm.premier_canal !== lead.brief.utm.canal && `1er contact : ${lead.brief.utm.premier_canal}`,
+          ].filter(Boolean).join(" · ")} />
+        )}
+        <Field k="Reçu"v={fmtDate(lead.createdAt) + " · " + timeSince(lead.createdAt)} />
       </Section>
 
       {(lead.qualification || lead.wizard) && (

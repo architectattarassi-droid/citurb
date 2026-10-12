@@ -10,7 +10,15 @@ import { apiBase } from "../../../tomes/tome4/apiClient";
 
 type Ligne = { path: string; sessions: number; demarres: number; envoyes: number };
 type Abandon = { sessionId: string; debut: string; fin: string; pages: string[]; champs: string[]; pays: string | null; provenance: string | null };
-type Synthese = { jours: number; totaux: { sessions: number; demarres: number; envoyes: number; vues: number }; pages: Ligne[]; abandons: Abandon[] };
+type Canal = { canal: string; sessions: number; demarres: number; leads: number; qualifies: number; clicsGoogle: number };
+type Synthese = { jours: number; totaux: { sessions: number; demarres: number; envoyes: number; vues: number }; pages: Ligne[]; abandons: Abandon[]; canaux?: Canal[] };
+
+const CANAUX: Record<string, string> = {
+  google_ads: "Google Ads", google_organique: "Google (recherche)", youtube: "YouTube", bing: "Bing",
+  facebook: "Facebook", instagram: "Instagram", tiktok: "TikTok", whatsapp: "WhatsApp", linkedin: "LinkedIn",
+  email: "E-mail", ia: "Assistants IA", referent: "Autres sites", direct: "Direct", "non renseigné": "Non renseigné (anciens leads)",
+};
+const pct = (a: number, b: number) => (b > 0 ? `${Math.round((a / b) * 100)} %` : "—");
 
 const fmt = (iso: string) =>
   new Date(iso).toLocaleString("fr-MA", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
@@ -37,9 +45,15 @@ export default function FunnelPanel() {
     <section style={S.box}>
       <div style={S.head}>
         <button style={S.toggle} onClick={() => setOuvert(o => !o)}>{ouvert ? "▾" : "▸"} Visiteurs & formulaires abandonnés</button>
-        <select value={jours} onChange={e => setJours(Number(e.target.value))} style={S.select}>
-          {[1, 7, 30, 90].map(j => <option key={j} value={j}>{j === 1 ? "24 h" : `${j} jours`}</option>)}
-        </select>
+        <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+          <a href={`${apiBase()}/api/cc/leads/conversions-google?jours=90`} style={S.lien}
+            title="Leads qualifiés / signés venus d'un clic Google Ads, au format d'import des conversions hors ligne">
+            Export conversions Google Ads (CSV)
+          </a>
+          <select value={jours} onChange={e => setJours(Number(e.target.value))} style={S.select}>
+            {[1, 7, 30, 90].map(j => <option key={j} value={j}>{j === 1 ? "24 h" : `${j} jours`}</option>)}
+          </select>
+        </div>
       </div>
       <div style={S.kpis}>
         <Kpi v={t.sessions} l="sessions" />
@@ -50,6 +64,24 @@ export default function FunnelPanel() {
       </div>
       {ouvert && (
         <>
+          {data.canaux && data.canaux.length > 0 && (
+            <table style={S.table}>
+              <thead><tr><th style={S.th}>Canal d'acquisition</th><th style={S.th}>Visiteurs</th><th style={S.th}>Formulaires commencés</th><th style={S.th}>Leads</th><th style={S.th}>Taux visiteur → lead</th><th style={S.th}>Leads qualifiés</th><th style={S.th}>Leads avec clic Google</th></tr></thead>
+              <tbody>
+                {data.canaux.map(c => (
+                  <tr key={c.canal}>
+                    <td style={S.td}>{CANAUX[c.canal] || c.canal}</td>
+                    <td style={S.td}>{c.sessions}</td>
+                    <td style={S.td}>{c.demarres}</td>
+                    <td style={S.td}><b>{c.leads}</b></td>
+                    <td style={S.td}>{pct(c.leads, c.sessions)}</td>
+                    <td style={S.td}>{c.qualifies}</td>
+                    <td style={S.td}>{c.clicsGoogle || "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
           {data.abandons.length > 0 && (
             <table style={S.table}>
               <thead><tr><th style={S.th}>Dernière activité</th><th style={S.th}>Pages</th><th style={S.th}>Champs touchés</th><th style={S.th}>Pays</th><th style={S.th}>Provenance</th></tr></thead>
@@ -104,5 +136,6 @@ const S: Record<string, React.CSSProperties> = {
   table: { width: "100%", borderCollapse: "collapse", fontSize: 12, marginTop: 8, display: "block", overflowX: "auto" },
   th: { textAlign: "left", color: "#9ca3af", fontWeight: 500, padding: "6px 8px", borderBottom: "1px solid #1e2330", whiteSpace: "nowrap" },
   td: { padding: "6px 8px", borderBottom: "1px solid #151922", verticalAlign: "top" },
+  lien: { fontSize: 12, color: "#C9A227", textDecoration: "underline" },
   vide: { fontSize: 12, color: "#9ca3af", margin: 0 },
 };
