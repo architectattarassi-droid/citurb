@@ -41,6 +41,14 @@ for (const f of fs.readdirSync(PAGES_DIR)) {
 }
 
 const esc = (s = "") => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+/** Meta description ≤ 158 car. coupée sur un mot entier (jamais « accompagnemen »), avec « … ». */
+const couper = (s = "", max = 160) => {
+  const t = String(s).replace(/\s+/g, " ").trim();
+  if (t.length <= max) return t;
+  const c = t.slice(0, max - 1);
+  const i = c.lastIndexOf(" ");
+  return `${(i > max * 0.6 ? c.slice(0, i) : c).replace(/[\s,;:—–-]+$/, "")}…`;
+};
 // Sans « .html » : Cloudflare Pages redirige (308) x.html → x ; l'URL du
 // sitemap, la canonical et les liens doivent être l'URL servie en 200.
 const urlFor = (svc, loc) => `${business.pathPrefix}/${svc.slug}-${loc.slug}`;
@@ -132,7 +140,7 @@ function relatedLinks(svc, loc) {
 // ─────────────────────────── template HTML ───────────────────────────
 function pageHtml(svc, loc, ov) {
   const title = `${svc.name} à ${loc.name} | ${business.founder} — Architecte`;
-  const desc = `${svc.summary} ${ov.localContext.slice(0, 130)}`.slice(0, 158);
+  const desc = couper(`${svc.summary} ${ov.localContext}`);
   const { otherSvcPersonalized, otherLocPersonalized } = relatedLinks(svc, loc);
   const villeReactUrl = `${business.baseUrl}/architecte-${loc.slug}`;
 
@@ -150,6 +158,7 @@ function pageHtml(svc, loc, ov) {
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:url" content="${fullUrl(svc, loc)}">
 <meta property="og:locale" content="fr_MA">
+<meta property="og:image" content="${business.image || business.baseUrl + "/og-default.png"}">
 <script type="application/ld+json">${JSON.stringify(localBusinessSchema(svc, loc, ov))}</script>
 <script type="application/ld+json">${JSON.stringify(faqSchema(svc, loc))}</script>
 <style>
@@ -338,7 +347,7 @@ function portePageHtml(p, allPortes) {
   // Meta description 90–158 car. : on complète si le sous-titre est court.
   let d = String(p.subtitleFr || "").trim();
   if (d.length < 90) d = `${d} — CITURBAREA, plateforme marocaine d'architecture, d'urbanisme et de gestion de projets BTP au Maroc.`.trim();
-  const desc = esc(d.slice(0, 158));
+  const desc = esc(couper(d));
   const otherPortes = allPortes
     .filter((o) => o.num !== p.num)
     .map((o) => `<li><a href="/fr/${o.slugFr}">${o.icon} ${esc(o.titleFr)}</a></li>`)
@@ -537,7 +546,7 @@ function villeHubFaq(h) {
 function villeHubHtml(h, portes) {
   const url = `${business.baseUrl}/architecte-${h.slug}`;
   const title = `Architecte à ${h.name} | CITURBAREA`;
-  const desc = esc(`Architecte à ${h.name} : conception, permis de construire, suivi de chantier et expertise. ${business.founder}, région ${h.region}. Devis et accompagnement de A à Z.`.slice(0, 158));
+  const desc = esc(couper(`Architecte à ${h.name} inscrit à l'Ordre : conception, permis de construire, suivi de chantier. ${business.founder}, ${h.region}. Estimation gratuite.`));
   const portesLi = portes.map((p) => `<li><a href="/fr/${p.slugFr}">${p.icon} ${esc(p.titleFr)}</a></li>`).join("");
   const otherVilles = VILLE_HUBS.filter((v) => v.slug !== h.slug).map((v) => `<a href="/architecte-${v.slug}">${esc(v.name)}</a>`).join(" · ");
   return `<!DOCTYPE html>
@@ -854,13 +863,13 @@ function guidePageHtml(g) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${esc(g.title)} | CITURBAREA</title>
-<meta name="description" content="${esc(g.desc.slice(0, 158))}">
+<meta name="description" content="${esc(couper(g.desc))}">
 <link rel="canonical" href="${url}">
 <link rel="alternate" hreflang="fr" href="${url}">
 <link rel="alternate" hreflang="x-default" href="${url}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="${esc(g.title)}">
-<meta property="og:description" content="${esc(g.desc.slice(0, 158))}">
+<meta property="og:description" content="${esc(couper(g.desc))}">
 <meta property="og:url" content="${url}">
 <meta property="og:site_name" content="CITURBAREA">
 <meta property="og:image" content="${business.image || business.baseUrl + "/og-default.png"}">
@@ -937,11 +946,11 @@ function hubHtml({ url, title, desc, h1, intro, items, sections }) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${esc(title)}</title>
-<meta name="description" content="${esc(desc.slice(0, 158))}">
+<meta name="description" content="${esc(couper(desc))}">
 <link rel="canonical" href="${url}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${esc(title)}">
-<meta property="og:description" content="${esc(desc.slice(0, 158))}">
+<meta property="og:description" content="${esc(couper(desc))}">
 <meta property="og:url" content="${url}">
 <meta property="og:site_name" content="CITURBAREA">
 <meta property="og:image" content="${business.image}">

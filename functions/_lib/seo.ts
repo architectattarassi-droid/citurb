@@ -39,6 +39,19 @@ ${FAQ.map(([q, r]) => `<h3>${esc(q)}</h3><p>${esc(r)}</p>`).join("\n")}
 export const PAGES_SEO: Record<string, PageSeo> = {
   "/chiffrage": CHIFFRAGE,
   "/chiffrage/devis": { titre: "Votre devis estimatif | CITURBAREA", description: "Devis estimatif CITURBAREA.", canonique: "https://citurbarea.com/chiffrage", noindex: true },
+  // Présente dans sitemap-terrains.xml : sans entrée ici, Google recevait le titre et la canonique de l'accueil.
+  "/p4/terrains/deposer": {
+    titre: "Vendre son terrain au Maroc : annonce gratuite vérifiée | CITURBAREA",
+    description: "Propriétaire ou intermédiaire mandaté : déposez gratuitement votre terrain. Annonce vérifiée avant publication, vue par des acheteurs qui préparent un projet de construction.",
+    canonique: "https://citurbarea.com/p4/terrains/deposer",
+    contenu: `
+<h1>Déposer mon terrain</h1>
+<p>Vous vendez un terrain au Maroc ? Déposez gratuitement votre annonce : elle est vérifiée par notre équipe avant publication et présentée à des acheteurs qui préparent un projet de construction (villa, immeuble, commerce).</p>
+<p>Vos coordonnées ne sont jamais publiées : les acheteurs passent par CITURBAREA, et un architecte inscrit à l'Ordre peut joindre une étude de faisabilité pour rassurer l'acheteur et justifier le prix.</p>
+<h2>Ce qu'il faut indiquer</h2>
+<ul><li>Ville, quartier ou lotissement, surface.</li><li>Situation foncière : titré, titre en cours (réquisition) ou non titré (melk).</li><li>Type : terrain à villa, à immeuble, commercial ou agricole ; prix demandé (facultatif).</li></ul>
+<p><a href="/p4/terrains">Voir les terrains à vendre</a> · <a href="/chiffrage">Chiffrer une construction</a></p>`,
+  },
 };
 
 /** Données structurées FAQ (utile aux moteurs et aux réponses IA, même sans résultat enrichi). */

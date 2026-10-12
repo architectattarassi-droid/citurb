@@ -49,9 +49,40 @@ function balisesHead(res: Response, req: Request, env: Env | undefined, indexabl
   }).transform(res);
 }
 
+/**
+ * Premiers segments d'URL que l'application (React Router) sait afficher
+ * (apps/web/src/tomes/tome1/router/routes.tsx + routeRegistry.ts). Une autre
+ * adresse reçoit index.html (repli SPA) : sans correction, Google y voit une
+ * copie de l'accueil en 200 (« soft 404 »). À tenir à jour avec les routes.
+ */
+const SEGMENTS_APP = new Set([
+  "", "_dev", "admin", "ar", "auth", "cabinet", "calculateur", "cc", "cercles", "chantier", "chiffrage",
+  "confirmer-email", "cps", "creer-compte", "docs", "dossier", "dossiers", "en", "enterprise", "faq", "forbidden",
+  "foncier", "fr", "guide", "inscription", "login", "mandataires", "materiaux", "media", "metrics", "mon-espace",
+  "mon-parcours", "mot-de-passe-oublie", "mre", "notifications", "opci", "p1", "p2", "p3", "p4", "p5", "p6",
+  "payment", "permis-construire", "portal", "post", "prestataires", "projet", "pv-chantier", "services",
+  "share-target", "sig", "simulateur", "terriscan", "upgrade", "verify-phone",
+]);
+
+export function adresseConnue(chemin: string): boolean {
+  const seg = chemin.split("/")[1] ?? "";
+  return SEGMENTS_APP.has(seg) || seg.startsWith("architecte-") || /\.[a-z0-9]{2,5}$/i.test(seg);
+}
+
 export async function onRequest(ctx: { request: Request; next: () => Promise<Response>; env?: Env }): Promise<Response> {
   let res = await ctx.next();
   const url = new URL(ctx.request.url);
+  // Adresse inconnue servie par le repli SPA (marqueur propre à index.html) : vrai 404,
+  // la page « introuvable » de l'application s'affiche quand même.
+  if (res.status === 200 && (res.headers.get("content-type") || "").includes("text/html") && !adresseConnue(url.pathname)) {
+    const html = await res.text();
+    const r404 = new Response(html, { status: html.includes("data-seo-prerender") ? 404 : 200, headers: res.headers });
+    if (r404.status === 404) {
+      r404.headers.set("x-robots-tag", "noindex");
+      r404.headers.set("cache-control", "no-store");
+    }
+    res = r404;
+  }
   // Pages de l'application à référencer : titre, description, canonique et contenu dans le HTML servi.
   const chemin = url.pathname.replace(/\/+$/, "") || "/";
   const estHtml = (res.headers.get("content-type") || "").includes("text/html");
