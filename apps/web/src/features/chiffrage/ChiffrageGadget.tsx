@@ -238,7 +238,7 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
                         const c = comp.find((x) => x.standing === s);
                         const actif = projet.standing === s;
                         return (
-                          <button key={s} type="button" aria-pressed={actif} onClick={() => maj({ standing: s, finitions: undefined })}
+                          <button key={s} type="button" aria-pressed={actif} onClick={() => maj({ standing: s, finitions: undefined, regime: undefined })}
                             className={`min-h-[64px] rounded-lg border px-2 py-2 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A227] ${actif ? "border-[#0B1B3A] bg-[#0B1B3A] text-white" : "border-slate-300 bg-white hover:border-slate-400"}`}>
                             <span className="block text-sm font-semibold leading-tight">{libelleStanding(s)}</span>
                             {c && <span className={`mt-1 block text-xs ${actif ? "text-[#E8D59A]" : "text-slate-500"}`}>≈ {Math.round(c.coutM2BatimentHT).toLocaleString("fr-FR")} DH/m²{c.regime === "TACHERON" ? ` · ${t("parTacheron")}` : ""}</span>}
@@ -475,8 +475,8 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
       {/* Barre mobile : total toujours visible */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/95 px-4 pt-2 backdrop-blur lg:hidden print:hidden" style={{ paddingBottom: "calc(0.5rem + env(safe-area-inset-bottom, 0px))" }}>
         <a href="#resultat-chiffrage" style={{ textDecoration: "none" }} className="flex min-h-[44px] items-center justify-between gap-3">
-          <span className="text-xs text-slate-500">{t("travauxTTC")}<br /><span className="text-xs">±{Math.round(res.precision.global * 100)} %</span></span>
-          <span className="text-lg font-bold tabular-nums text-[#0B1B3A]" aria-live="polite">{fmtDH(res.totalTTC)}</span>
+          <span className="text-xs text-slate-500">{t("budgetTotalBarre")}<br /><span className="text-xs">±{Math.round(res.precision.global * 100)} %</span></span>
+          <span className="text-lg font-bold tabular-nums text-[#0B1B3A]" aria-live="polite">{fmtDH(res.budgetTTC)}</span>
         </a>
       </div>
       <div className="h-16 lg:hidden print:hidden" aria-hidden />
@@ -734,7 +734,7 @@ const ORIGINE: Record<string, string> = { ratio: "ratio", parametrique: "métré
 /** Prix masqué : chiffres factices floutés, le vrai montant n'est pas écrit dans la page. */
 function PrixMasque({ n }: { n: number }) {
   const nb = String(Math.round(Math.abs(n))).length;
-  return <span aria-label="prix réservé au devis" style={{ filter: "blur(4px)", userSelect: "none" }}>{fmtDH(Number("48273915604827".slice(0, nb)))}</span>;
+  return <span aria-hidden="true" title="Prix réservé au devis" style={{ filter: "blur(4px)", userSelect: "none" }}>{fmtDH(Number("48273915604827".slice(0, nb)))}</span>;
 }
 
 function LigneOuvrage({ li, t, onQte, masquer = false }: { li: LigneDQE; t: T; onQte: (q: number) => void; masquer?: boolean }) {

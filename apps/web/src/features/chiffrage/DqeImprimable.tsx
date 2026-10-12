@@ -19,7 +19,7 @@ const FACTICE = "4827391560";
 function Flou({ n, i }: { n: number; i: number }) {
   const nb = String(Math.round(Math.abs(n))).length;
   const faux = Array.from({ length: nb }, (_, k) => FACTICE[(k + i * 3) % FACTICE.length]).join("");
-  return <span aria-label="prix masqué" style={{ filter: "blur(4px)", userSelect: "none", WebkitUserSelect: "none" }}>{Number(faux).toLocaleString("fr-FR").replace(/ /g, " ")}</span>;
+  return <span aria-hidden="true" title="Prix réservé au devis" style={{ filter: "blur(4px)", userSelect: "none", WebkitUserSelect: "none" }}>{Number(faux).toLocaleString("fr-FR").replace(/ /g, " ")}</span>;
 }
 
 export default function DqeImprimable({ res, ecran = false, flou = false }: { res: Resultat; ecran?: boolean; flou?: boolean }) {

@@ -24,7 +24,7 @@ import {
 import { quoteLocal } from "../../../../domain/p1/quote.engine";
 import LeadCaptureForm from "../../../../features/lead-funnel/LeadCaptureForm";
 import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
-import { captureFromP1, hasSubmittedLead, leadKey, telephoneEnvoyable } from "../../../../features/lead-funnel/leadBridge";
+import { captureFromP1, hasSubmittedLead, leadKey, sendIntake, telephoneEnvoyable } from "../../../../features/lead-funnel/leadBridge";
 
 /**
  * P1 Packs — Page 3 du tunnel (doctrine)
@@ -425,6 +425,16 @@ export default function P1Packs() {
     // Sprint S2 — persist pack selection to API (non-blocking, best-effort)
     const packApiMap: Record<string, string> = { type: "ESSENTIEL", custom: "AVANCE", premium: "COMPLET" };
     const packPriceMAD = (quoteMap as any)?.[packApiMap[pack]]?.amounts?.totalMADRounded ?? null;
+    // Production : le choix de pack crée ou complète le dossier dans le back-office (/api/intake).
+    {
+      const d: any = data || {};
+      const tel = telephoneEnvoyable(String(d.phone || ""));
+      if (tel) void sendIntake({
+        porteType: "P1", clientNom: [d.firstname, d.lastname].filter(Boolean).join(" ") || String(d.name || "Client P1"), clientTel: tel,
+        clientEmail: d.email || undefined, commune: d.commune || undefined, title: offerTitle, packSelected: packApiMap[pack], packPriceMAD,
+        projectType, constructionLevel, caseId, brief: qual, source: "WEB_P1_PACK",
+      });
+    }
     apiFetch('/p2/dossier/create', {
       method: 'POST',
       body: {

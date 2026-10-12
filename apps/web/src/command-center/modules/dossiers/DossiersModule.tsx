@@ -94,8 +94,14 @@ export default function DossiersModule() {
     setLoading(true);
     setError(null);
     try {
-      const res = await apiFetch<Dossier[]>("/p2/dossier/ops/all");
-      setItems(Array.isArray(res) ? res : []);
+      // Production : Pages Function /api/cc/dossiers (Neon, session back-office). Local : API NestJS.
+      let res: unknown = null;
+      try {
+        const r = await fetch("/api/cc/dossiers", { credentials: "include", cache: "no-store" });
+        if (r.ok && (r.headers.get("content-type") || "").includes("json")) res = await r.json();
+      } catch { /* pas de fonction : repli API */ }
+      if (!Array.isArray(res)) res = await apiFetch<Dossier[]>("/p2/dossier/ops/all");
+      setItems(Array.isArray(res) ? (res as Dossier[]) : []);
     } catch (e: any) {
       setError(e?.message ?? "Erreur chargement");
     } finally {

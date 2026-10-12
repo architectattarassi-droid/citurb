@@ -39,3 +39,21 @@ describe("aide à la décision", () => {
     expect(a.scenarios.every((s) => Number.isFinite(s.budgetTTC) && s.budgetTTC > 0)).toBe(true);
   });
 });
+
+describe("aide à la décision : corrections du test client du 12/10/2026", () => {
+  const PETIT: ProjetInput = { type: "VILLA", ville: "Salé", surfacePlancher: 0, niveaux: 2, surfaceTerrain: 120, parcelle: { villaType: "bande" }, sol: "BON", standing: "ULTRA_ECO", etapes: { terrain: true, finitions: true } };
+
+  it("un scénario qui tient seul dans le budget est proposé (ex. un niveau de moins)", () => {
+    const a = aideDecision(PETIT, 520_000);
+    if (a.actuel.budgetTTC > 520_000) {
+      const tient = a.scenarios.filter((s) => s.budgetTTC <= 520_000);
+      expect(a.optionsDansBudget.map((s) => s.cle)).toEqual(expect.arrayContaining(tient.map((s) => s.cle)));
+      if (tient.length) expect(a.projetAjuste?.dansBudget).toBe(true);
+    }
+  });
+
+  it("les scénarios de standing gardent le régime automatique (pas de tâcheron hérité)", () => {
+    const a = aideDecision({ ...VILLA, standing: "ULTRA_ECO", regime: "TACHERON" });
+    for (const s of a.scenarios.filter((x) => x.groupe === "standing")) expect(s.projet.regime).toBeUndefined();
+  });
+});

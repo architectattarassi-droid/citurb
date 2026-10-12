@@ -305,8 +305,17 @@ export function useApiStatus(): "unknown" | "up" | "down" {
   return status;
 }
 
-/** Crée le Dossier via /p2/intake. null si l'API est absente ou refuse. */
+/**
+ * Crée le Dossier. Production : /api/intake (Pages Function → Neon, back-office
+ * admin.citurbarea.com). Sinon (local, API NestJS) : /p2/intake si l'API répond.
+ * null si aucun des deux n'a créé de dossier (le lead, lui, est déjà capturé).
+ */
 export async function sendIntake(payload: Record<string, unknown>, token?: string | null): Promise<IntakeOutcome | null> {
+  try {
+    const res = await fetchWithTimeout("/api/intake", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }, INTAKE_TIMEOUT_MS);
+    const data: any = await res.json().catch(() => null);
+    if (res.ok && data?.ok && data.dossierId) return { dossierId: String(data.dossierId) };
+  } catch { /* pas de fonction (local) : repli sur l'API */ }
   if (!(await apiAvailable())) return null;
   try {
     const res = await fetchWithTimeout(

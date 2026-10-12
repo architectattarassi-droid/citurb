@@ -39,6 +39,8 @@ export type AideDecision = {
   leviers: Levier[];
   /** Projet obtenu en cumulant les leviers, et son budget. */
   projetAjuste?: { projet: ProjetInput; budgetTTC: number; dansBudget: boolean };
+  /** Scénarios qui tiennent SEULS dans le budget, du moins au plus éloigné du projet (budget décroissant). */
+  optionsDansBudget: Scenario[];
 };
 
 /** Libellés uniques des standings, pour tous les types de projets. */
@@ -62,8 +64,7 @@ export function aideDecision(projet: ProjetInput, budget?: number): AideDecision
   // Standing : régime par défaut de chaque standing (tâcheron en très économique, maisons et villas).
   for (const s of STANDINGS_ORDRE) {
     if (s === projet.standing) continue;
-    const reg = individuel(projet) ? regimeParDefaut(s) : "ENTREPRISE";
-    sc.push(scenario(`standing:${s}`, "standing", LIB_STANDING[s], { ...projet, standing: s, regime: reg, quantites: undefined }, base));
+    sc.push(scenario(`standing:${s}`, "standing", LIB_STANDING[s], { ...projet, standing: s, regime: undefined, quantites: undefined }, base));
   }
   // Mode de réalisation (villa, maison).
   if (individuel(projet)) {
@@ -81,9 +82,10 @@ export function aideDecision(projet: ProjetInput, budget?: number): AideDecision
     sc.push(scenario(`conception:${f}`, "conception", FORMULES_CONCEPTION[f].libelle, { ...projet, conception: f }, base));
   }
 
-  const res: AideDecision = { actuel, scenarios: sc.map(({ r: _r, ...s }) => s), leviers: [] };
+  const res: AideDecision = { actuel, scenarios: sc.map(({ r: _r, ...s }) => s), leviers: [], optionsDansBudget: [] };
   if (!budget || budget <= 0) return res;
   res.budget = budget;
+  if (base.budgetTTC > budget) res.optionsDansBudget = res.scenarios.filter((s) => s.budgetTTC <= budget).sort((a, b) => b.budgetTTC - a.budgetTTC);
 
   // Standing le plus élevé dans le budget (autres options inchangées).
   const parStanding = [actuel, ...res.scenarios.filter((s) => s.groupe === "standing")]
@@ -98,16 +100,21 @@ export function aideDecision(projet: ProjetInput, budget?: number): AideDecision
     const candidats = (p: ProjetInput): { libelle: string; projet: ProjetInput }[] => {
       const out: { libelle: string; projet: ProjetInput }[] = [];
       const i = STANDINGS_ORDRE.indexOf(p.standing as Standing);
-      if (i > 0) { const s = STANDINGS_ORDRE[i - 1]; out.push({ libelle: `Passer en ${LIB_STANDING[s].toLowerCase()}`, projet: { ...p, standing: s, regime: individuel(p) ? (p.regime === "TACHERON" ? "TACHERON" : regimeParDefaut(s)) : "ENTREPRISE", quantites: undefined } }); }
+      if (i > 0) { const s = STANDINGS_ORDRE[i - 1]; out.push({ libelle: `Passer en ${LIB_STANDING[s].toLowerCase()}`, projet: { ...p, standing: s, regime: p.regime === "TACHERON" ? "TACHERON" : undefined, quantites: undefined } }); }
       if (individuel(p) && (p.regime ?? regimeParDefaut(p.standing, p.type)) !== "TACHERON") out.push({ libelle: "Réaliser avec un tâcheron (fournitures achetées par vous)", projet: { ...p, regime: "TACHERON" } });
       if (p.sousSol) out.push({ libelle: "Renoncer au sous-sol", projet: { ...p, sousSol: undefined, nappe: false, quantites: undefined } });
       if ((p.conception ?? "COMPLET") !== "PLAN_TYPE") out.push({ libelle: "Choisir un plan type", projet: { ...p, conception: "PLAN_TYPE" } });
+      if (p.niveaux > 1) out.push({ libelle: "Construire un niveau de moins", projet: { ...p, niveaux: p.niveaux - 1, quantites: undefined } });
       return out;
     };
     for (let tour = 0; tour < 6 && cout > budget; tour++) {
       const essais = candidats(courant).map((c) => ({ ...c, cout: chiffrer(c.projet, { impacts: false }).budgetTTC })).filter((c) => c.cout < cout);
       if (!essais.length) break;
-      const m = essais.reduce((a, b) => (b.cout < a.cout ? b : a));
+      const suffisants = essais.filter((c) => c.cout <= budget);
+      const sansNiveau = essais.filter((c) => !c.libelle.startsWith("Construire un niveau"));
+      const m = suffisants.length
+        ? suffisants.reduce((a, b) => (b.cout > a.cout ? b : a))
+        : (sansNiveau.length ? sansNiveau : essais).reduce((a, b) => (b.cout < a.cout ? b : a));
       res.leviers.push({ libelle: m.libelle, economie: cout - m.cout, projet: m.projet });
       courant = m.projet;
       cout = m.cout;

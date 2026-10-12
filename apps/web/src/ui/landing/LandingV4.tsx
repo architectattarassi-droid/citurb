@@ -96,8 +96,8 @@ const STYLES = `
 
   /* Socials: vitrine => pas de sortie (anti-fuite) */
   .socials{ display:flex; align-items:center; gap:10px; flex:0 0 auto; }
-  .socials button{
-    width:34px;height:34px;border-radius:10px;
+  .socials button, .socials a{
+    width:44px;height:44px;text-decoration:none;border-radius:10px;
     display:flex;align-items:center;justify-content:center;
     border:1px solid var(--line);
     background:var(--soft);
@@ -106,7 +106,7 @@ const STYLES = `
     font-weight:900;
     color:#0f172a;
   }
-  .socials button:hover{ transform:translateY(-1px); box-shadow:0 10px 20px rgba(15,23,42,.08); }
+  .socials button:hover, .socials a:hover{ transform:translateY(-1px); box-shadow:0 10px 20px rgba(15,23,42,.08); }
 
   .chip{
     background:#e6ebf5;
@@ -804,8 +804,9 @@ function buildPreHtml(t: T, lang: string): string {
   <div class="container">
     <div class="header-top">
       <div class="socials" aria-label="${attr(t("landing.socials.aria"))}">
-        <button type="button" onclick="window.open('https://web.facebook.com/yassineattarassi','_blank')">f</button>
-        <button type="button" onclick="window.open('https://www.instagram.com/arc_bati_architecture','_blank')">ig</button>
+        <a href="https://www.youtube.com/@citiestalkmaroc" target="_blank" rel="noopener" aria-label="YouTube">▶</a>
+        <a href="https://www.facebook.com/yassineattarassi" target="_blank" rel="noopener" aria-label="Facebook">f</a>
+        <a href="https://www.tiktok.com/@yassine.attarassi" target="_blank" rel="noopener" aria-label="TikTok">♪</a>
       </div>
 
       <div class="chip" onclick="window.location.href='/p1'">${esc(t("landing.chip.design"))}</div>
