@@ -35,11 +35,11 @@ export function controlerCps(r: Resultat, d: DocumentCps): PointControle[] {
     lotsFaux.length ? `Lots en écart : ${lotsFaux.map((l) => l.numero).join(", ")}` : `${d.bpde.length} lots vérifiés`);
   const somme = c2(d.bpde.reduce((s, l) => s + l.total, 0));
   const recap = md.match(/\| \| \*\*Total HT\*\* \| \*\*([\d\s  ,]+)\*\* \|/);
-  const tvaL = md.match(/\| \| TVA (\d+) % \| ([\d\s  ,]+) \|/);
+  const tvaL = md.match(/\| \| TVA (\d+) %[^|]*\| ([\d\s  ,]+) \|/);
   const ttcL = md.match(/\| \| \*\*Total TTC\*\* \| \*\*([\d\s  ,]+)\*\* \|/);
   const ht = recap ? lireDh(recap[1]) : NaN, tva = tvaL ? lireDh(tvaL[2]) : NaN, ttc = ttcL ? lireDh(ttcL[1]) : NaN;
   add("BPDE-3", "Récapitulatif = somme des lots ; TVA et TTC exacts",
-    Math.abs(ht - somme) < 0.005 && Math.abs(tva - c2(somme * TVA.taux)) < 0.005 && Math.abs(ttc - c2(ht + tva)) < 0.005 && Math.abs(ttc - d.totalTTC) < 0.005,
+    Math.abs(ht - somme) < 0.005 && Math.abs(tva - c2(somme * TVA.taux * (r.assietteTVA ?? 1))) < 0.005 && Math.abs(ttc - c2(ht + tva)) < 0.005 && Math.abs(ttc - d.totalTTC) < 0.005,
     `Somme des lots ${dh(somme)} ; récapitulatif ${dh(ht)} HT ; TVA ${TVA.taux * 100} % ${dh(tva)} ; TTC ${dh(ttc)} (= HT + TVA). Écart d'arrondi BPDE / calcul : ${dh(somme - r.travauxHT)} DH`);
   const garde = md.match(/Montant estimatif \| ([\d\s  ,]+) DH HT — ([\d\s  ,]+) DH TTC/);
   add("BPDE-4", "Page de garde cohérente avec le Titre IV", !!garde && lireDh(garde[1]) === ht && lireDh(garde[2]) === ttc,
@@ -62,11 +62,14 @@ export function controlerCps(r: Resultat, d: DocumentCps): PointControle[] {
   const herisson = !postes.some(({ p }) => p.ouvrages.includes("FON.07")) && /hérisson compris/i.test(md);
   add("OUV-3", "Hérisson compris dans le PU du dallage (pas de poste séparé)", herisson,
     herisson ? "FON.07 absent du BPDE ; mention « PU hérisson compris » au poste du dallage" : "Hérisson facturé séparément ou mention absente");
-  const wc = /WC invités du RDC/.test(md);
-  add("OUV-4", "WC invités : périmètre précisé au poste", wc, wc ? lignes(md, /WC invités du RDC/)[0].replace(/^\|\s*/, "").replace(/\s*\|\s*/g, " — ").slice(0, 200) : "Mention absente");
+  // Sans objet quand aucun WC invités n'est métré (collectif).
+  const wcMetre = r.lignes.some((l) => l.ouvrage === "PLO.09");
+  const wc = !wcMetre || /WC invités du RDC/.test(md);
+  add("OUV-4", "WC invités : périmètre précisé au poste", wc, !wcMetre ? "Sans objet (aucun WC invités dans ce projet)" : wc ? lignes(md, /WC invités du RDC/)[0].replace(/^\|\s*/, "").replace(/\s*\|\s*/g, " — ").slice(0, 200) : "Mention absente");
 
   // ── Clauses ───────────────────────────────────────────────────────────
-  const r770 = lignes(md, /\b770\b|769 bis/);
+  // Références au DOC seulement : un montant « 9 770,20 » n'est pas un article.
+  const r770 = lignes(md, /art(?:icle)?s?\.?\s*\**\s*(?:769\s*(?:et|\/|-)\s*)?770\b|\b770\**\s*du\s*(?:DOC|Dahir)|769 bis/i);
   add("CL-1", "Aucune référence à l'art. 770 ni à un « 769 bis » du DOC", r770.length === 0,
     r770.length ? r770.map((l) => l.slice(0, 120)).join(" / ") : "0 occurrence dans les Titres I à IV et annexes");
   const assOblig = lignes(md, /assurances?[^\n]{0,60}obligatoires?(?! T)/i).filter((l) => !/n'est pas assujetti|ne visant que|n'y étant pas/.test(l));
@@ -123,9 +126,10 @@ export function controlerCps(r: Resultat, d: DocumentCps): PointControle[] {
     fisc.materiaux.length ? "PROVISOIRE" : "CORRIGE");
 
   // ── Réserves techniques ───────────────────────────────────────────────
-  const a3 = /ANNEXE 3 — RÉSERVES TECHNIQUES/.test(md) && /non structurelle/.test(md);
+  // L'annexe suffit ; « non structurelle » n'apparaît que pour des semelles allégées sous sous-sol.
+  const a3 = /ANNEXE 3 — RÉSERVES TECHNIQUES/.test(md);
   add("RT-1", "Réserves BET / géotechnique maintenues (Annexe 3)", a3,
-    a3 ? "Annexe 3 présente ; réduction des semelles qualifiée de non structurelle ; quantités par ratio à remplacer par les plans d'exécution" : "Annexe absente", "PROVISOIRE");
+    a3 ? "Annexe 3 présente ; quantités par ratio à remplacer par les plans d'exécution" : "Annexe absente", "PROVISOIRE");
   const mat = /Principaux postes consommateurs/.test(md);
   add("RT-2", "Rapprochement matériaux ↔ postes du BPDE", mat, mat ? "Colonne présente au Titre III" : "Colonne absente", "PROVISOIRE");
   return out;

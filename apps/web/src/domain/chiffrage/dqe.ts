@@ -116,7 +116,7 @@ export function taxesAutorisation(surfaceCouverte: number, collectif: boolean, f
 
 export function chiffrer(brut: ProjetInput, options: OptionsChiffrage = {}): Resultat {
   const { projet: input, decomposition } = resoudreProjet(brut);
-  const regime = input.regime ?? regimeParDefaut(input.standing);
+  const regime = input.regime ?? regimeParDefaut(input.standing, input.type);
   const { lignes: lm, geometrie, hypotheses } = metre(input);
   const coef = coefRegional(input.ville);
   const reg = coefsRegionaux(coef);
@@ -203,7 +203,7 @@ export function chiffrer(brut: ProjetInput, options: OptionsChiffrage = {}): Res
     lots, lignes,
     ouvragesHT, installationHT, travauxHT, aleasHT, totalHT, tva, assietteTVA, totalTTC,
     coutM2HT: travauxHT / geometrie.surfaceTotale,
-    coutM2HorsSolHT: travauxHT / input.surfacePlancher,
+    coutM2HorsSolHT: travauxHT / (input.surfacePlancher || geometrie.surfaceTotale || 1),
     coutM2BatimentHT: batimentHT / geometrie.surfaceTotale,
     batimentHT, partGrosOeuvre,
     honoraires: { lignes: hon, totalHT: honHT, tva: honHT * TVA.taux, totalTTC: honHT * (1 + TVA.taux) },

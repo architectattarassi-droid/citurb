@@ -40,7 +40,7 @@ export function PublicLayout() {
     <div style={{ minHeight: "100vh", fontFamily: "var(--font-body)", background: "var(--c-bg)" }}>
       {!isHome && (
         <header style={{ background: "var(--c-card)", borderBottom: "1px solid var(--c-line)", position: "sticky", top: 0, zIndex: 100 }}>
-          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 60, gap: 8, flexWrap: "wrap" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto", padding: "8px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 60, gap: 8, flexWrap: "wrap" }}>
             <Link to="/" style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 17, color: "var(--c-blue)", whiteSpace: "nowrap" }}>
               CITU<span style={{ color: "var(--c-gold)" }}>RBAREA</span>
             </Link>

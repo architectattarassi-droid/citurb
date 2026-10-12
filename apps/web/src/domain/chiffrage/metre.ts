@@ -65,7 +65,7 @@ export type ProjetInput = {
   parcelle?: ParcelleChiffrage | null;
   /**
    * Mode de réalisation : entreprise générale (K 1,38) ou tâcheron / artisans
-   * (15 à 20 % moins cher, fournitures achetées par le client). Défaut :
+   * (fournitures achetées par le client au coût, main-d'œuvre hors TVA). Défaut :
    * tâcheron en très économique, entreprise sinon.
    */
   regime?: Regime;
@@ -237,10 +237,17 @@ export function metre(input: ProjetInput): { lignes: LigneMetre[]; geometrie: Ge
     }
     if (!ss) pleineMasse += Efond * ep;
   } else {
-    const r = h(`fon.ratio.${sol}`);
+    // Argile / remblai avec semelles forcées : ratio du sol moyen et purge-substitution sous l'emprise.
+    const solRatio = sol === "ARGILE_REMBLAI" ? "MOYEN" : sol;
+    const r = h(`fon.ratio.${solRatio}`);
+    if (sol === "ARGILE_REMBLAI") {
+      purge = Efond * h("fon.purge");
+      add("TER.purge", "TER.02", purge, `${fmt(Efond)} m² × purge ${h("fon.purge")} m (semelles sur argile / remblai)`, "terrain", ["fon.purge"], ["sol"]);
+      add("TER.substitution", "TER.06", purge, "substitution compactée en tout-venant", "terrain", ["fon.purge"], ["sol"]);
+    }
     const allegement = ss ? h("ss.reductionSemelles") : 0;
     volFond = r * Stot * (1 + surcoutPente) * (1 - allegement);
-    add("FON.semelles", fondation === "SEMELLES_FILANTES" ? "FON.03" : "FON.02", volFond, `${r} m³/m² × ${fmt(Stot)} m²${surcoutPente ? ` × (1 + ${fmt(surcoutPente)} redans)` : ""}${allegement ? ` × (1 − ${allegement} repris par le voile)` : ""}`, "terrain", [`fon.ratio.${sol}`, ...(allegement ? ["ss.reductionSemelles"] : [])], tagsSol);
+    add("FON.semelles", fondation === "SEMELLES_FILANTES" ? "FON.03" : "FON.02", volFond, `${r} m³/m² × ${fmt(Stot)} m²${surcoutPente ? ` × (1 + ${fmt(surcoutPente)} redans)` : ""}${allegement ? ` × (1 − ${allegement} repris par le voile)` : ""}`, "terrain", [`fon.ratio.${solRatio}`, ...(allegement ? ["ss.reductionSemelles"] : [])], tagsSol);
     volLongrines = h("fon.longrines") * Efond;
     add("FON.longrines", "FON.05", volLongrines, `${h("fon.longrines")} m³/m² × emprise`, "terrain", ["fon.longrines"]);
     add("FON.proprete", "FON.01", volFond / h("fon.hauteurSemelle") + volLongrines / 0.4, "volume des semelles ÷ hauteur + longrines", "terrain", ["fon.hauteurSemelle"], tagsSol);

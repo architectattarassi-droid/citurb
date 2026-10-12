@@ -72,7 +72,10 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   const p = (s = "") => L.push(s);
   // Montants contractuels : ceux du BPDE (quantités et PU arrondis au centime, montants recalculés).
   const totalHT = Math.round(bpde.reduce((s, l) => s + l.total, 0) * 100) / 100;
-  const totalTTC = Math.round(totalHT * (1 + TVA.taux) * 100) / 100;
+  // Régime tâcheron : TVA sur les seules fournitures (assiette du chiffrage).
+  const tauxTVA = TVA.taux * (r.assietteTVA ?? 1);
+  const tvaHT = Math.round(totalHT * tauxTVA * 100) / 100;
+  const totalTTC = Math.round((totalHT + tvaHT) * 100) / 100;
   const arb: ArbitragesCps = { ...ARBITRAGES_DEFAUT, ...o.arbitrages };
   const prive = clausesPrive(arb, Number(vars.DELAI_AMIABLE_JOURS), Number(vars.DELAI_EXECUTION_JOURS));
   const ouvertes = variablesNonArretees(arb);
@@ -249,7 +252,7 @@ export function genererCps(r: Resultat, o: OptionsCps): DocumentCps {
   p("|:--|:--|--:|");
   for (const lot of bpde) p(`| ${String(lot.numero).padStart(2, "0")} | ${lot.intitule} | ${dh2(lot.total)} |`);
   p(`| | **Total HT** | **${dh2(totalHT)}** |`);
-  p(`| | TVA ${Math.round(TVA.taux * 100)} % | ${dh2(Math.round(totalHT * TVA.taux * 100) / 100)} |`);
+  p(`| | TVA ${Math.round(TVA.taux * 100)} %${(r.assietteTVA ?? 1) < 0.999 ? ` sur fournitures seules (${Math.round((r.assietteTVA ?? 1) * 100)} % du montant, main-d'œuvre du tâcheron hors TVA)` : ""} | ${dh2(tvaHT)} |`);
   p(`| | **Total TTC** | **${dh2(totalTTC)}** |`);
   p();
   p(`Arrêté le présent détail estimatif à la somme de **${dh2(totalTTC)} DH TTC** (estimation ; provision pour aléas non comprise : ${dh(r.aleasHT)} DH HT).`);

@@ -41,7 +41,10 @@ export type AideDecision = {
   projetAjuste?: { projet: ProjetInput; budgetTTC: number; dansBudget: boolean };
 };
 
-const LIB_STANDING: Record<Standing, string> = { ULTRA_ECO: "Très économique", ECONOMIQUE: "Moyen standing", STANDARD: "Standing", STANDING: "Haut standing", PREMIUM: "Luxe" };
+/** Libellés uniques des standings, pour tous les types de projets. */
+export const LIBELLES_STANDING: Record<Standing, string> = { ULTRA_ECO: "Très économique", ECONOMIQUE: "Moyen standing", STANDARD: "Standing", STANDING: "Haut standing", PREMIUM: "Luxe" };
+export const libelleStanding = (s: string): string => LIBELLES_STANDING[s as Standing] ?? s;
+const LIB_STANDING = LIBELLES_STANDING;
 const individuel = (p: ProjetInput) => p.type === "VILLA" || p.type === "MAISON";
 
 function scenario(cle: string, groupe: Scenario["groupe"], libelle: string, projet: ProjetInput, base?: Resultat): Scenario & { r: Resultat } {
@@ -50,7 +53,7 @@ function scenario(cle: string, groupe: Scenario["groupe"], libelle: string, proj
 }
 
 export function aideDecision(projet: ProjetInput, budget?: number): AideDecision {
-  const regime: Regime = projet.regime ?? regimeParDefaut(projet.standing);
+  const regime: Regime = projet.regime ?? regimeParDefaut(projet.standing, projet.type);
   const conception: FormuleConception = projet.conception ?? "COMPLET";
   const base = chiffrer(projet, { impacts: false });
   const actuel: Scenario = { cle: "actuel", groupe: "standing", libelle: "Votre projet", projet, travauxTTC: base.totalTTC, budgetTTC: base.budgetTTC, surface: base.geometrie.surfaceTotale, ecart: 0, actuel: true };
@@ -96,7 +99,7 @@ export function aideDecision(projet: ProjetInput, budget?: number): AideDecision
       const out: { libelle: string; projet: ProjetInput }[] = [];
       const i = STANDINGS_ORDRE.indexOf(p.standing as Standing);
       if (i > 0) { const s = STANDINGS_ORDRE[i - 1]; out.push({ libelle: `Passer en ${LIB_STANDING[s].toLowerCase()}`, projet: { ...p, standing: s, regime: individuel(p) ? (p.regime === "TACHERON" ? "TACHERON" : regimeParDefaut(s)) : "ENTREPRISE", quantites: undefined } }); }
-      if (individuel(p) && (p.regime ?? regimeParDefaut(p.standing)) !== "TACHERON") out.push({ libelle: "Réaliser avec un tâcheron (fournitures achetées par vous)", projet: { ...p, regime: "TACHERON" } });
+      if (individuel(p) && (p.regime ?? regimeParDefaut(p.standing, p.type)) !== "TACHERON") out.push({ libelle: "Réaliser avec un tâcheron (fournitures achetées par vous)", projet: { ...p, regime: "TACHERON" } });
       if (p.sousSol) out.push({ libelle: "Renoncer au sous-sol", projet: { ...p, sousSol: undefined, nappe: false, quantites: undefined } });
       if ((p.conception ?? "COMPLET") !== "PLAN_TYPE") out.push({ libelle: "Choisir un plan type", projet: { ...p, conception: "PLAN_TYPE" } });
       return out;

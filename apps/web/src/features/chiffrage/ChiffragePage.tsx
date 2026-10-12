@@ -5,7 +5,7 @@
  *   &standing=STANDARD&ville=Rabat (ou surface=200 pour une surface plancher saisie)
  * Appel à l'action : LeadCaptureForm (source WEB_CHIFFRAGE), DQE résumé en meta.wizard.
  */
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useLang } from "../../i18n/i18n";
 import LeadCaptureForm from "../lead-funnel/LeadCaptureForm";
@@ -62,6 +62,10 @@ export default function ChiffragePage() {
   const { lang } = useLang();
   const t = texte(lang);
   const initial = useMemo(() => projetDepuisUrl(search), [search]);
+  // Les paramètres d'URL ne servent qu'à l'arrivée : ensuite le brouillon fait foi (un rechargement ne réinitialise plus le projet).
+  useEffect(() => {
+    if (search) window.history.replaceState(window.history.state, "", window.location.pathname);
+  }, [search]);
 
   return (
     <main className="mx-auto max-w-6xl px-4 pb-16 pt-6 sm:pt-10">
@@ -99,7 +103,7 @@ export function Cta({ r, t, ouvertParDefaut = false }: { r: Resultat; t: ReturnT
         source="WEB_CHIFFRAGE"
         porteType={porte}
         withEmail
-        initial={{ projet: `Chiffrage ${p.type.toLowerCase()} ${p.surfacePlancher} m² ${p.niveaux === 1 ? "RDC" : `R+${p.niveaux - 1}`}${p.ville ? `, ${p.ville}` : ""} : ${fmtDH(r.totalTTC)} TTC (niveau ${r.precision.niveau})` }}
+        initial={{ projet: `Chiffrage ${p.type.toLowerCase()} ${Math.round(r.geometrie.surfaceTotale)} m²${r.geometrie.surfaceSousSol ? " (sous-sol compris)" : ""} ${p.niveaux === 1 ? "RDC" : `R+${p.niveaux - 1}`}${p.ville ? `, ${p.ville}` : ""} : ${fmtDH(r.totalTTC)} TTC (niveau ${r.precision.niveau})` }}
         extraCapture={() => ({ budget: Math.round(r.budgetTTC), ville: p.ville || undefined, surface: Math.round(r.geometrie.surfaceTotale) })}
         extraMeta={resumeLead(r)}
       />

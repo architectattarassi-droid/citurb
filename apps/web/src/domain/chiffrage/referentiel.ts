@@ -327,7 +327,7 @@ export const REGIMES: Record<Regime, { libelle: string; facteurK: Fourchette; kS
     source: COEF_K.source,
   },
   TACHERON: {
-    libelle: "Tâcheron / artisans (fournitures achetées par le client)",
+    libelle: "Tâcheron / artisans (fournitures achetées par le client, main-d'œuvre hors TVA)",
     facteurK: { min: 0.8, ref: 0.83, max: 0.85 },
     kSousTraite: { min: 1, ref: 1, max: 1 },
     margeMO: { min: 1, ref: 1.1, max: 1.25 },
@@ -335,9 +335,9 @@ export const REGIMES: Record<Regime, { libelle: string; facteurK: Fourchette; kS
   },
 };
 
-/** Régime par défaut : tâcheron pour le très économique, entreprise sinon. */
-export function regimeParDefaut(standing: string): Regime {
-  return standing === "ULTRA_ECO" ? "TACHERON" : "ENTREPRISE";
+/** Régime par défaut : tâcheron pour une villa ou une maison très économique, entreprise sinon (immeubles toujours en entreprise). */
+export function regimeParDefaut(standing: string, type?: string): Regime {
+  return standing === "ULTRA_ECO" && (!type || type === "VILLA" || type === "MAISON") ? "TACHERON" : "ENTREPRISE";
 }
 
 /** Petit matériel et consommables, en % de la main-d'œuvre (hypothèse ; CYPE n'applique que 2 % de coûts directs complémentaires). */

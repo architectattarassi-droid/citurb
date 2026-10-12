@@ -67,7 +67,6 @@ const SousTraitantsPage = lazy(() => import("../../../features/sous-traitants/So
 const ReceptionPage = lazy(() => import("../../../features/reception-conformite/ReceptionPage"));
 const IncidentsChantierPage = lazy(() => import("../../../features/incidents-chantier/IncidentsChantierPage"));
 const EstimationPage = lazy(() => import("../../../features/zillow-ma/EstimationPage"));
-const RoiCalculator = lazy(() => import("../../../features/lead-funnel/RoiCalculator"));
 const ChiffragePage = lazy(() => import("../../../features/chiffrage/ChiffragePage"));
 const ChiffrageDevis = lazy(() => import("../../../features/chiffrage/ChiffrageDevis"));
 const NotificationsCenterPage = lazy(() => import("../../../features/notifications/NotificationsCenterPage"));
@@ -379,7 +378,8 @@ export const router = createBrowserRouter([
       { path: '/opci', element: <OpciOfferingsPage /> },
       { path: '/cercles/diaspora', element: <DiasporaHubPage /> },
       { path: '/metrics', element: <AdminHostBlock><MetricsDashboardPage /></AdminHostBlock> },
-      { path: '/calculateur', element: <RoiCalculator /> },
+      // Un seul moteur de chiffrage : l'ancien calculateur renvoie vers /chiffrage.
+      { path: '/calculateur', element: <Navigate to="/chiffrage" replace /> },
       { path: '/chiffrage', element: <ChiffragePage /> },
       { path: '/chiffrage/devis', element: <ChiffrageDevis /> },
       { path: '/notifications', element: <AdminHostBlock><NotificationsCenterPage /></AdminHostBlock> },

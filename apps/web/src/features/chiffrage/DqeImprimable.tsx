@@ -4,9 +4,11 @@
  * `ecran` : affiché à l'écran (page /chiffrage/devis, filigranée).
  */
 import React from "react";
-import { standingLabel } from "../../command-center/modules/dossiers/costRangesMA";
+import { libelleStanding } from "../../domain/chiffrage/decision";
 import { CHIFFRAGE_VERSION, TYPE_GRILLE, TVA, type Resultat } from "../../domain/chiffrage";
 
+const SOL: Record<string, string> = { ROCHER: "rocheux", BON: "bon", MOYEN: "moyen", ARGILE_REMBLAI: "argileux / remblai" };
+const FONDATION: Record<string, string> = { SEMELLES_ISOLEES: "semelles isolées", SEMELLES_FILANTES: "semelles filantes", RADIER: "radier général" };
 const dh = (n: number) => Math.round(n).toLocaleString("fr-FR").replace(/ /g, " ");
 const q = (n: number) => (+n.toFixed(2)).toLocaleString("fr-FR");
 const FACTICE = "4827391560";
@@ -33,7 +35,7 @@ export default function DqeImprimable({ res, ecran = false, flou = false }: { re
       <p>
         {p.type === "VILLA" ? "Villa" : p.type === "MAISON" ? "Maison" : p.type === "IMMEUBLE" ? "Immeuble" : "Immeuble mixte"} {p.niveaux === 1 ? "RDC" : `R+${p.niveaux - 1}`},
         {" "}{dh(p.surfacePlancher)} m² de plancher{g.surfaceSousSol ? ` + sous-sol ${dh(g.surfaceSousSol)} m² (${(p.sousSol?.profondeur ?? 0).toLocaleString("fr-FR")} m)` : ""}, {p.ville || "ville non précisée"} (coefficient {res.region.coef.toLocaleString("fr-FR")}),
-        {" "}standing {standingLabel(TYPE_GRILLE[p.type], p.standing)}, sol {g.sol.toLowerCase().replace("_", " / ")}, pente {p.pente ?? 0} %, fondation {g.fondation.toLowerCase().replace("_", " ")}.
+        {" "}standing : {libelleStanding(p.standing).toLowerCase()}, sol {SOL[g.sol] ?? g.sol.toLowerCase()}, pente {p.pente ?? 0} %, fondation {FONDATION[g.fondation] ?? g.fondation.toLowerCase()}.
       </p>
       <p>Édité le {date} — référentiel de prix {CHIFFRAGE_VERSION} — précision : niveau {res.precision.niveau} ({res.precision.libelle}), ±{Math.round(res.precision.global * 100)} %.</p>
 
@@ -78,7 +80,7 @@ export default function DqeImprimable({ res, ecran = false, flou = false }: { re
         </tfoot>
       </table>
       <p className="mt-2">
-        Prix 2026 base Rabat-Salé-Kénitra, sous-détail matériaux + main-d'œuvre chargée + petit matériel × K {res.k} (privé), sources : docs/prix/recherche (fiabilité A/B/C) et hypothèses CITURBAREA (H).
+        Prix 2026 base Rabat-Salé-Kénitra, établis par sous-détail (matériaux, main-d'œuvre, petit matériel, frais et marge), à partir de prix relevés et datés et d'hypothèses CITURBAREA signalées.
         Estimation indicative hors terrain, mobilier, électroménager et luminaires ; ne vaut pas offre d'entreprise. Quantités à confirmer sur plans d'exécution et étude de sol.
       </p>
     </div>

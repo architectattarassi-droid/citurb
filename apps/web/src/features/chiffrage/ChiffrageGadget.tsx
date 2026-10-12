@@ -20,6 +20,7 @@ import type { Standing, TypeProjet } from "../../command-center/modules/dossiers
 import { GAMMES_LIBELLES, VILLES, texte } from "./textes";
 import DqeImprimable from "./DqeImprimable";
 import AideDecision from "./AideDecision";
+import { libelleStanding } from "../../domain/chiffrage/decision";
 
 const GOLD = "#C9A227";
 export const fmtDH = (n: number) => `${Math.round(n).toLocaleString("fr-FR").replace(/\s/g, " ")} DH`;
@@ -85,14 +86,15 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
   // Un changement de sous-type redonne la mitoyenneté par défaut (jumelée = 1 côté…).
   const majParcelle = (patch: Partial<ParcelleChiffrage>) => setProjet((p) => ({ ...p, parcelle: { ...p.parcelle, ...patch }, mitoyennete: undefined }));
   const differe = useDeferredValue(projet);
-  const res = useMemo(() => chiffrer(differe), [differe]);
-  const comp = useMemo(() => comparerStandings(differe), [differe]);
+  const res = useMemo(() => { try { return chiffrer(differe); } catch { return chiffrer(PROJET_DEFAUT); } }, [differe]);
+  const comp = useMemo(() => { try { return comparerStandings(differe); } catch { return comparerStandings(PROJET_DEFAUT); } }, [differe]);
   const coh = useMemo(() => coherence(res), [res]);
 
   const allerA = (e: 1 | 2 | 3) => {
     // Passer une étape la valide : ses valeurs comptent comme renseignées.
     if (etape === 2 && e > 2 && !projet.etapes?.terrain) maj({ etapes: { ...projet.etapes, terrain: true } });
     setEtape(e);
+    requestAnimationFrame(() => document.getElementById("etapes-chiffrage")?.scrollIntoView({ behavior: "smooth", block: "start" }));
   };
 
   const typeGrille = TYPE_GRILLE[projet.type];
@@ -105,7 +107,7 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px] print:hidden">
         {/* ── Formulaire ── */}
         <div>
-          <ol className="mb-4 grid list-none grid-cols-3 gap-2 p-0" aria-label="Étapes">
+          <ol id="etapes-chiffrage" className="mb-4 grid scroll-mt-24 list-none grid-cols-3 gap-2 p-0" aria-label="Étapes">
             {([1, 2, 3] as const).map((e) => (
               <li key={e}>
                 <button type="button" onClick={() => allerA(e)} aria-current={etape === e ? "step" : undefined}
@@ -231,7 +233,7 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
                         return (
                           <button key={s} type="button" aria-pressed={actif} onClick={() => maj({ standing: s, finitions: undefined })}
                             className={`min-h-[64px] rounded-lg border px-2 py-2 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A227] ${actif ? "border-[#0B1B3A] bg-[#0B1B3A] text-white" : "border-slate-300 bg-white hover:border-slate-400"}`}>
-                            <span className="block text-sm font-semibold leading-tight">{standingLabel(typeGrille, s)}</span>
+                            <span className="block text-sm font-semibold leading-tight">{libelleStanding(s)}</span>
                             {c && <span className={`mt-1 block text-xs ${actif ? "text-[#E8D59A]" : "text-slate-500"}`}>≈ {Math.round(c.coutM2BatimentHT).toLocaleString("fr-FR")} DH/m²{c.regime === "TACHERON" ? ` · ${t("parTacheron")}` : ""}</span>}
                           </button>
                         );
@@ -242,7 +244,7 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
                 <Champ label={t("regime")} aide={t("regimeAide")}>
                   {(id) => (
                     <select id={id} className={INPUT} value={projet.regime ?? ""} onChange={(e) => maj({ regime: (e.target.value || undefined) as Regime | undefined })}>
-                      <option value="">{t("regimeAuto")} ({REGIMES[regimeParDefaut(projet.standing)].libelle.toLowerCase()})</option>
+                      <option value="">{t("regimeAuto")} — {REGIMES[regimeParDefaut(projet.standing, projet.type)].libelle}</option>
                       {(Object.keys(REGIMES) as Regime[]).map((r) => <option key={r} value={r}>{REGIMES[r].libelle}</option>)}
                     </select>
                   )}
@@ -345,7 +347,7 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
                         {(id) => (
                           <select id={id} value={val} className={`${INPUT} ${projet.finitions?.[lot] ? "border-[#C9A227] bg-[#FBF6E7]" : ""}`}
                             onChange={(e) => maj({ finitions: { ...projet.finitions, [lot]: e.target.value as Standing } as Partial<Record<LotFinition, Standing>> })}>
-                            {STANDINGS.map((s, i) => <option key={s} value={s}>{GAMMES_LIBELLES[lot].gammes[i]} — {standingLabel(typeGrille, s)}</option>)}
+                            {STANDINGS.map((s, i) => <option key={s} value={s}>{GAMMES_LIBELLES[lot].gammes[i]} — {libelleStanding(s)}</option>)}
                           </select>
                         )}
                       </Champ>
@@ -429,7 +431,7 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
                     <div className="bg-slate-50 px-3 pb-3">
                       {l.lot.code === "INS"
                         ? <p className="py-2 text-sm text-slate-600">{pct(res.input.hypotheses?.["frais.installation"] ?? HYPOTHESES["frais.installation"].valeur)} des travaux (hypothèse frais.installation, poids INS de costRangesMA).</p>
-                        : l.lignes.map((li) => <LigneOuvrage key={li.id} li={li} t={t} onQte={(q) => maj({ quantites: { ...projet.quantites, [li.id]: q } })} />)}
+                        : l.lignes.map((li) => <LigneOuvrage key={li.id} li={li} t={t} masquer={variante === "public"} onQte={(q) => maj({ quantites: { ...projet.quantites, [li.id]: q } })} />)}
                     </div>
                   )}
                 </div>
@@ -448,7 +450,7 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
           {voirHyp && <Hypotheses projet={projet} onChange={(h) => maj({ hypotheses: h })} t={t} />}
         </Section>
 
-        <Section titre={t("controles")}>
+        {variante === "cc" && <Section titre={t("controles")}>
           <ul className="grid list-none gap-2 p-0 text-sm">
             <li>
               <Pastille ok={coh.grille.ok} /> Coût du bâtiment ramené à Rabat-Salé-Kénitra : <b>{Math.round(coh.grille.coutM2RSK).toLocaleString("fr-FR")} DH/m²</b>
@@ -456,9 +458,9 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
             </li>
             <li><Pastille ok={coh.partGrosOeuvre > 0.2 && coh.partGrosOeuvre < 0.65} /> Part du gros œuvre : <b>{pct(coh.partGrosOeuvre)}</b> (repères : 55-60 % en économique, 45-50 % en standard, 35-40 % en haut de gamme — EnginLoc 2026 ; cloisons, enduits intérieurs et chapes comptés en second œuvre)</li>
             <li><Pastille ok={coh.recoupements.every((r) => r.ok)} /> Prix d'ouvrage recoupés avec les prix posés du marché (règle des ±20 % du décret 2-22-431) : <b>{coh.recoupements.filter((r) => r.ok).length}/{coh.recoupements.length}</b> dans la tolérance.</li>
-            {variante === "cc" && coh.alertes.map((a) => <li key={a} className="text-amber-800">⚠ {a}</li>)}
+            {coh.alertes.map((a) => <li key={a} className="text-amber-800">⚠ {a}</li>)}
           </ul>
-        </Section>
+        </Section>}
 
         <p className="text-xs leading-relaxed text-slate-500">{t("avertissement")} TVA : {TVA.note}</p>
       </div>
@@ -706,7 +708,7 @@ function BarresStandings({ comp, actif, typeGrille }: { comp: ReturnType<typeof 
     <ul className="grid list-none gap-2 p-0">
       {comp.map((c) => (
         <li key={c.standing} className="grid grid-cols-[minmax(0,9rem)_1fr_auto] items-center gap-2 text-sm sm:grid-cols-[minmax(0,15rem)_1fr_10rem]">
-          <span className={`truncate ${c.standing === actif ? "font-bold text-[#0B1B3A]" : "text-slate-700"}`}>{standingLabel(typeGrille, c.standing)}</span>
+          <span className={`truncate ${c.standing === actif ? "font-bold text-[#0B1B3A]" : "text-slate-700"}`}>{libelleStanding(c.standing)}</span>
           <span className="h-3 rounded-full bg-slate-100">
             <span className="block h-3 rounded-full" style={{ width: `${(c.travauxHT / max) * 100}%`, background: c.standing === actif ? GOLD : "#94A3B8" }} />
           </span>
@@ -720,7 +722,13 @@ function BarresStandings({ comp, actif, typeGrille }: { comp: ReturnType<typeof 
 const TAGS: Record<string, string> = { sous_sol: "sous-sol", soutenement: "soutènement", sol: "sol", pente: "pente", option: "option" };
 const ORIGINE: Record<string, string> = { ratio: "ratio", parametrique: "métré", saisie: "saisi" };
 
-function LigneOuvrage({ li, t, onQte }: { li: LigneDQE; t: T; onQte: (q: number) => void }) {
+/** Prix masqué : chiffres factices floutés, le vrai montant n'est pas écrit dans la page. */
+function PrixMasque({ n }: { n: number }) {
+  const nb = String(Math.round(Math.abs(n))).length;
+  return <span aria-label="prix réservé au devis" style={{ filter: "blur(4px)", userSelect: "none" }}>{fmtDH(Number("48273915604827".slice(0, nb)))}</span>;
+}
+
+function LigneOuvrage({ li, t, onQte, masquer = false }: { li: LigneDQE; t: T; onQte: (q: number) => void; masquer?: boolean }) {
   const [sd, setSd] = useState(false);
   const id = useId();
   return (
@@ -740,11 +748,11 @@ function LigneOuvrage({ li, t, onQte }: { li: LigneDQE; t: T; onQte: (q: number)
             className="w-full min-h-[40px] rounded-md border border-slate-300 bg-white px-2 text-right text-base tabular-nums focus:border-[#0B1B3A] focus:outline-none focus:ring-2 focus:ring-[#C9A227]/40" />
           <span className="w-8 text-xs text-slate-500">{li.unite}</span>
         </div>
-        <p className="text-sm tabular-nums text-slate-600 sm:text-right">× {fmtDH(li.pu)}</p>
-        <p className="text-right text-sm font-semibold tabular-nums">{fmtDH(li.montant)}</p>
+        <p className="text-sm tabular-nums text-slate-600 sm:text-right">× {masquer ? <PrixMasque n={li.pu} /> : fmtDH(li.pu)}</p>
+        <p className="text-right text-sm font-semibold tabular-nums">{masquer ? <PrixMasque n={li.montant} /> : fmtDH(li.montant)}</p>
       </div>
-      <button type="button" aria-expanded={sd} onClick={() => setSd((v) => !v)} style={LIEN} className="mt-1 text-xs font-semibold text-[#0B1B3A] underline">{t("sousDetail")} ({li.ouvrage})</button>
-      {sd && (
+      {masquer ? <p className="mt-1 text-xs text-slate-500">{t("prixReserves")}</p> : <button type="button" aria-expanded={sd} onClick={() => setSd((v) => !v)} style={LIEN} className="mt-1 text-xs font-semibold text-[#0B1B3A] underline">{t("sousDetail")} ({li.ouvrage})</button>}
+      {sd && !masquer && (
         <div className="mt-2 overflow-x-auto rounded-lg border border-slate-200 bg-white">
           <table className="w-full min-w-[520px] text-xs">
             <thead className="bg-slate-50 text-slate-600">
