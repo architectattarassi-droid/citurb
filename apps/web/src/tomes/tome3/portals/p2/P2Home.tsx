@@ -438,6 +438,15 @@ function P2HomeInner() {
       submitIntake();
       return;
     }
+    // Niveau de prestation (rendu dans le bloc identité) : facultatif à l'étape
+    // 1, mais il commande la catégorie du barème — exigé avant le devis.
+    if (niveauxProposes.length > 0 && !niveau) {
+      setError(`${t("portes.p2.niveau.label")} : ${t("portes.p2.niveau.select")}`);
+      const box = document.getElementById("p2f_niveau");
+      box?.scrollIntoView({ behavior: "smooth", block: "center" });
+      (box?.querySelector("select") as HTMLSelectElement | null)?.focus({ preventScroll: true });
+      return;
+    }
     if (isAMG) {
       if (!surfacePlancher || +surfacePlancher <= 0) { setError(t("portes.p2.measures.err_amg")); return; }
       setPhase("follow");
@@ -638,22 +647,16 @@ function P2HomeInner() {
     }
     if (errs.length) return errs;
     const une = (field: string, msg: string) => [{ field, msg }];
-    if (!identity.region || !identity.province || !identity.commune) return une("loc", t("portes.p2.identity.err_loc"));
-    if (moaType === "morale" && !identity.raisonSociale) return une("raison", t("portes.p2.identity.err_moral"));
-    if (moaType === "morale" && !identity.representant) return une("repr", t("portes.p2.identity.err_moral"));
+    // Profilage progressif : à cette étape, seuls nom, téléphone et nature du
+    // projet sont exigés (le type de maître d'ouvrage a toujours une valeur).
+    // Raison sociale, représentant, RC, ICE, localisation, statut du terrain et
+    // délai sont facultatifs ; les mesures (niveaux, bâtiments, hectares,
+    // plancher) sont redemandées et validées à l'étape « mesures », le niveau
+    // de prestation avant le devis (measuresContinue).
     if (!natureCode) return une("nature", t("portes.p2.identity.err_nature"));
     if (natureCode === "autre" && !natureAutre.trim()) {
       return une("autre", t("portes.p2.identity.err_autre"));
     }
-    // Sous-champs contextuels (n'apparaissent que pour certaines familles).
-    if (askRLevel && !rLevel) return une("rlevel", t("portes.p2.identity.err_rlevel"));
-    if (askNbBatiments && (!nbBatiments || +nbBatiments < 1)) return une("nb", t("portes.p2.identity.err_nb_bat"));
-    if (askTerrainHa && (!surfaceTerrainHa || +surfaceTerrainHa <= 0)) return une("ha", t("portes.p2.identity.err_ha"));
-    if (askPlancher && (!surfacePlancher || +surfacePlancher <= 0)) return une("plancher", t("portes.p2.identity.err_plancher"));
-    // Le niveau commande la catégorie du barème : sans lui, pas de devis.
-    if (niveauxProposes.length > 0 && !niveau) return une("niveau", t("portes.p2.niveau.select"));
-    if (!ownerStatus) return une("owner", t("portes.p2.identity.err_owner"));
-    if (!timeline) return une("timeline", t("portes.p2.identity.err_timeline"));
     return [];
   };
 
@@ -702,12 +705,27 @@ function P2HomeInner() {
     if (errs.length) { signalerIdentite(errs); return; }
     setIdErrs(null);
     // Mission d'expertise : pas d'étapes projet (section/catégorie/mesures) —
-    // le rapport facturable est créé directement à partir de l'identité.
+    // le rapport facturable est créé directement à partir de l'identité
+    // (submitIntake envoie lui-même la capture du lead).
     if (isExpertise) {
       submitIntake();
       return;
     }
+    capturerLeadIdentite();
     setPhase("section");
+  };
+
+  // Lead capturé dès l'étape identité validée (comme P1 à l'analyse) : la
+  // coordonnée n'est plus perdue si le visiteur abandonne avant le devis.
+  // Une seule fois par session et par téléphone ; leadKey("P2", tél) dédoublonne
+  // aussi côté leadBridge (24 h). submitIntake reste inchangé.
+  const capturerLeadIdentite = () => {
+    try {
+      const { key, body } = captureFromIntake("P2", buildIntakePayload(), { budget: budgetPrev, delaiMois: delaiMoisDepuis(timeline) });
+      const marque = `citurbarea:p2:lead-identite:${key}`;
+      try { if (sessionStorage.getItem(marque)) return; sessionStorage.setItem(marque, "1"); } catch { /* stockage indisponible */ }
+      void submitLead({ key, capture: { ...body, source: "WEB_P2_IDENTITE" } }).capture.catch(() => {});
+    } catch { /* capture best-effort : ne bloque jamais le parcours */ }
   };
 
   const submitIntake = async () => {
@@ -1314,7 +1332,7 @@ function P2HomeInner() {
                 {errSous("tel")}
               </div>
               <div className="field">
-                <label className="label" htmlFor="p2f_email">{t("portes.p2.identity.email")}</label>
+                <label className="label" htmlFor="p2f_email">{t("portes.p2.identity.email")} <span className="muted" style={{ fontWeight: 500 }}>({t("lead.porte.optional")})</span></label>
                 <input id="p2f_email" className="control" type="email" inputMode="email" autoComplete="email" value={identity.clientEmail} onChange={f("clientEmail")} placeholder={t("portes.p2.identity.email_ph")} />
               </div>
             </div>
@@ -1326,21 +1344,21 @@ function P2HomeInner() {
                 <div className="blk-title">3) {t("portes.p2.identity.company")}</div>
                 <div className="form-grid">
                   <div className="field">
-                    <label className="label" htmlFor="p2f_raison">{t("portes.p2.identity.raison")} <span className="req">*</span></label>
+                    <label className="label" htmlFor="p2f_raison">{t("portes.p2.identity.raison")} <span className="muted" style={{ fontWeight: 500 }}>({t("lead.porte.optional")})</span></label>
                     <input id="p2f_raison" className="control" autoComplete="organization" value={identity.raisonSociale} onChange={f("raisonSociale")} placeholder={t("portes.p2.identity.raison_ph")} {...invalide("raison")} />
                     {errSous("raison")}
                   </div>
                   <div className="field">
-                    <label className="label" htmlFor="p2f_repr">{t("portes.p2.identity.repr")} <span className="req">*</span></label>
+                    <label className="label" htmlFor="p2f_repr">{t("portes.p2.identity.repr")} <span className="muted" style={{ fontWeight: 500 }}>({t("lead.porte.optional")})</span></label>
                     <input id="p2f_repr" className="control" value={identity.representant} onChange={f("representant")} placeholder={t("portes.p2.identity.repr_ph")} {...invalide("repr")} />
                     {errSous("repr")}
                   </div>
                   <div className="field">
-                    <label className="label">{t("portes.p2.identity.rc")}</label>
+                    <label className="label">{t("portes.p2.identity.rc")} <span className="muted" style={{ fontWeight: 500 }}>({t("lead.porte.optional")})</span></label>
                     <input className="control" value={identity.rc} onChange={f("rc")} placeholder="12345" />
                   </div>
                   <div className="field">
-                    <label className="label">{t("portes.p2.identity.ice")}</label>
+                    <label className="label">{t("portes.p2.identity.ice")} <span className="muted" style={{ fontWeight: 500 }}>({t("lead.porte.optional")})</span></label>
                     <input className="control" value={identity.ice} onChange={f("ice")} placeholder="000000000000000" />
                   </div>
                 </div>
@@ -1348,13 +1366,12 @@ function P2HomeInner() {
             )}
 
             {/* 4) Localisation — sélection officielle HCP (14 régions / 77 prov / 1505 communes) */}
-            <div className="blk-title">{moaType === "morale" ? "4" : "3"}) {t("portes.p2.identity.location")}</div>
+            <div className="blk-title">{moaType === "morale" ? "4" : "3"}) {t("portes.p2.identity.location")} <span className="muted" style={{ fontWeight: 500 }}>({t("lead.porte.optional")})</span></div>
             <div className="muted cit-porte-p2-help" style={{ fontSize: 12.5, marginBottom: 10 }}>
               {t("portes.p2.identity.location_sub")}
             </div>
             <div id="p2f_loc">
             <AdminLocationSelect
-              required
               value={{ region: identity.region, province: identity.province, commune: identity.commune }}
               onChange={({ region, province, commune }) => {
                 setIdentity(prev => ({
@@ -1512,7 +1529,7 @@ function P2HomeInner() {
               {/* Sous-champs contextuels — apparaissent selon le type de projet choisi */}
               {askRLevel && (
                 <div className="field" id="p2f_rlevel">
-                  <label className="label">{t("portes.p2.identity.r_level")} <span className="req">*</span></label>
+                  <label className="label">{t("portes.p2.identity.r_level")}</label>
                   {errSous("rlevel")}
                   <select className="control" value={rLevel} onChange={(e) => setRLevel(e.target.value)}>
                     <option value="">{t("portes.p2.identity.r_select")}</option>
@@ -1530,7 +1547,7 @@ function P2HomeInner() {
               )}
               {askNbBatiments && (
                 <div className="field" id="p2f_nb">
-                  <label className="label">{t("portes.p2.identity.nb_bat")} <span className="req">*</span></label>
+                  <label className="label">{t("portes.p2.identity.nb_bat")}</label>
                   {errSous("nb")}
                   <input className="control" type="number" min={1} step={1}
                     value={nbBatiments} onChange={(e) => setNbBatiments(e.target.value)}
@@ -1547,7 +1564,7 @@ function P2HomeInner() {
               )}
               {askTerrainHa && (
                 <div className="field" id="p2f_ha">
-                  <label className="label">{t("portes.p2.identity.terrain_ha")} <span className="req">*</span></label>
+                  <label className="label">{t("portes.p2.identity.terrain_ha")}</label>
                   {errSous("ha")}
                   <input className="control" type="number" min={0} step="0.01"
                     value={surfaceTerrainHa} onChange={(e) => setSurfaceTerrainHa(e.target.value)}
@@ -1556,7 +1573,7 @@ function P2HomeInner() {
               )}
               {askPlancher && (
                 <div className="field" id="p2f_plancher">
-                  <label className="label">{t("portes.p2.identity.plancher")} <span className="req">*</span></label>
+                  <label className="label">{t("portes.p2.identity.plancher")}</label>
                   {errSous("plancher")}
                   <input className="control" type="number" min={0} step={1}
                     value={surfacePlancher} onChange={(e) => setSurfacePlancher(e.target.value)}
@@ -1577,7 +1594,7 @@ function P2HomeInner() {
                   grille des coûts réels. Aucun prix n'est écrit ici. */}
               {niveauxProposes.length > 0 && (
                 <div className="field" id="p2f_niveau">
-                  <label className="label">{t("portes.p2.niveau.label")} <span className="req">*</span></label>
+                  <label className="label">{t("portes.p2.niveau.label")}</label>
                   {errSous("niveau")}
                   <select className="control" value={niveau} onChange={(e) => { setNiveau(e.target.value); setQuote(null); }}>
                     <option value="">{t("portes.p2.niveau.select")}</option>
@@ -1595,7 +1612,7 @@ function P2HomeInner() {
                 </div>
               )}
               <div className="field" id="p2f_owner">
-                <label className="label">{t("portes.p2.identity.owner")} <span className="req">*</span></label>
+                <label className="label">{t("portes.p2.identity.owner")} <span className="muted" style={{ fontWeight: 500 }}>({t("lead.porte.optional")})</span></label>
                 {errSous("owner")}
                 <select className="control" value={ownerStatus} onChange={(e) => setOwnerStatus(e.target.value)}>
                   <option value="">{t("portes.p2.identity.r_select")}</option>
@@ -1607,7 +1624,7 @@ function P2HomeInner() {
                 </select>
               </div>
               <div className="field" id="p2f_timeline">
-                <label className="label">{t("portes.p2.identity.timeline")} <span className="req">*</span></label>
+                <label className="label">{t("portes.p2.identity.timeline")} <span className="muted" style={{ fontWeight: 500 }}>({t("lead.porte.optional")})</span></label>
                 {errSous("timeline")}
                 <select className="control" value={timeline} onChange={(e) => setTimeline(e.target.value)}>
                   <option value="">{t("portes.p2.identity.r_select")}</option>

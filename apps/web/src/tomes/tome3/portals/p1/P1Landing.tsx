@@ -338,50 +338,23 @@ export default function P1Landing() {
       }
     };
 
-    // ---------- Identité: personne physique / morale (affichage conditionnel) ----------
+    // ---------- Identité: particulier / société (affichage conditionnel) ----------
+    // Profilage progressif : la page publique ne demande plus de pièces
+    // (CIN/passeport, ICE, RC, forme juridique, n° titre foncier, lot) — elles
+    // sont collectées à la signature du contrat. Société : raison sociale facultative.
     const syncPersonTypeVisibility = () => {
       const pt = (byId('q_person_type') as HTMLSelectElement | null)?.value || '';
-      const showPhys = pt === 'physique';
-      const showMoral = pt === 'morale';
-
-      const phys = byId('phys_id_wrap');
-      const physNum = byId('phys_id_number_wrap');
       const moralName = byId('moral_name_wrap');
-      const moralForm = byId('moral_form_wrap');
-      const moralIce = byId('moral_ice_wrap');
-      const moralRc = byId('moral_rc_wrap');
-
-      if (phys) phys.style.display = showPhys ? 'block' : 'none';
-      // le numéro n'apparaît que si type pièce choisi
-      const idType = (byId('q_phys_id_type') as HTMLSelectElement | null)?.value || '';
-      if (physNum) physNum.style.display = (showPhys && !!idType) ? 'block' : 'none';
-
-      if (moralName) moralName.style.display = showMoral ? 'block' : 'none';
-      if (moralForm) moralForm.style.display = showMoral ? 'block' : 'none';
-      if (moralIce) moralIce.style.display = showMoral ? 'block' : 'none';
-      if (moralRc) moralRc.style.display = showMoral ? 'block' : 'none';
+      if (moralName) moralName.style.display = pt === 'morale' ? 'block' : 'none';
     };
 
     // initial + listeners
     const personTypeEl = byId('q_person_type') as HTMLSelectElement | null;
-    const physIdTypeEl = byId('q_phys_id_type') as HTMLSelectElement | null;
     if (personTypeEl) {
+      if (draft.personType && !personTypeEl.value) personTypeEl.value = String(draft.personType);
       personTypeEl.addEventListener('change', () => {
         draft.personType = personTypeEl.value || undefined;
-        // reset champs selon type
-        if (draft.personType === 'physique') {
-          draft.companyName = undefined; draft.companyForm = undefined; draft.companyICE = undefined; draft.companyRC = undefined;
-        }
-        if (draft.personType === 'morale') {
-          draft.physIdType = undefined; draft.physIdNumber = undefined;
-        }
-        save(draft);
-        syncPersonTypeVisibility();
-      });
-    }
-    if (physIdTypeEl) {
-      physIdTypeEl.addEventListener('change', () => {
-        draft.physIdType = physIdTypeEl.value || undefined;
+        if (draft.personType !== 'morale') draft.companyName = undefined;
         save(draft);
         syncPersonTypeVisibility();
       });
@@ -643,14 +616,118 @@ export default function P1Landing() {
     // and the relevant fields are bound.
     refreshBudgetOptions();
 
-    // Personne physique
-    bindInput('q_phys_id_number', 'physIdNumber');
-
-    // Personne morale (ICE/RC are NOT mandatory)
+    // Société : raison sociale seule, facultative (pièces à la signature).
     bindInput('q_company_name', 'companyName');
-    bindInput('q_company_form', 'companyForm');
-    bindInput('q_company_ice', 'companyICE');
-    bindInput('q_company_rc', 'companyRC');
+
+    // Champs « projet en bref » et bloc repliable : persistés au fil de la
+    // saisie (un retour sur la page les retrouve ; le préremplissage depuis le
+    // simulateur ne les écrase jamais).
+    bindInput('q_commune', 'commune');
+    bindInput('q_region', 'region');
+    bindInput('q_province', 'province');
+    bindSelect('q_timeline', 'timeline');
+    bindSelect('q_owner_status', 'ownerStatus');
+    bindSelect('q_tf_status', 'tfStatus');
+    bindSelect('q_lot_status', 'lotStatus');
+
+    // ── Préremplissage depuis l'URL ou le brouillon du simulateur ─────────
+    // Sources : paramètres d'URL (?type=&ville=&surface=&niveaux=&sousSol=&villaType=)
+    // puis brouillon du simulateur (localStorage "citurbarea:chiffrage:v2",
+    // ProjetInput). Règle : on ne remplit QUE ce qui est vide (draft P1 et
+    // champ affiché) — jamais d'écrasement d'une saisie. Lecture best-effort.
+    const prefillDepuisSimulateur = () => {
+      type Source = { type?: string; ville?: string; surface?: number; niveaux?: number; sousSol?: boolean; villaType?: string };
+      const sources: Source[] = [];
+      try {
+        const p = new URLSearchParams(window.location.search);
+        const num = (k: string) => { const n = Number(p.get(k)); return Number.isFinite(n) && n > 0 ? n : undefined; };
+        const ss = p.get('sousSol');
+        sources.push({
+          type: p.get('type') || undefined,
+          ville: p.get('ville') || p.get('commune') || undefined,
+          surface: num('surface') ?? num('surfaceTerrain'),
+          niveaux: num('niveaux'),
+          sousSol: ss == null || ss === '' ? undefined : /^(1|true|oui|yes)$/i.test(ss),
+          villaType: p.get('villaType') || undefined,
+        });
+      } catch { /* URL illisible */ }
+      try {
+        const raw = localStorage.getItem('citurbarea:chiffrage:v2');
+        const pj = raw ? JSON.parse(raw) : null;
+        if (pj && typeof pj === 'object' && !Array.isArray(pj)) {
+          const n = (x: unknown) => { const v = Number(x); return Number.isFinite(v) && v > 0 ? v : undefined; };
+          sources.push({
+            type: typeof pj.type === 'string' ? pj.type : undefined,
+            ville: typeof pj.ville === 'string' ? pj.ville : undefined,
+            surface: n(pj.surfaceTerrain),
+            niveaux: n(pj.niveaux),
+            sousSol: pj.sousSol === null ? false : (pj.sousSol && typeof pj.sousSol === 'object' ? true : undefined),
+            villaType: typeof pj.parcelle?.villaType === 'string' ? pj.parcelle.villaType : undefined,
+          });
+        }
+      } catch { /* brouillon absent ou corrompu */ }
+      if (!sources.length) return;
+      const pick = <K extends keyof Source>(k: K): Source[K] | undefined => {
+        for (const s of sources) if (s[k] !== undefined && s[k] !== '') return s[k];
+        return undefined;
+      };
+
+      // Type de projet : VILLA → villa ; IMMEUBLE / MAISON / MIXTE → immeuble.
+      const typeBrut = String(pick('type') || '').toLowerCase();
+      const typeP1: Draft['type'] | undefined =
+        typeBrut === 'villa' ? 'villa'
+        : ['immeuble', 'maison', 'mixte'].includes(typeBrut) ? 'immeuble'
+        : typeBrut === 'renovation' ? 'renovation'
+        : undefined;
+      let changed = false;
+      if (typeP1 && !draft.type) {
+        draft.type = typeP1;
+        if (typeP1 === 'immeuble' && !draft.immeubleType) {
+          if (typeBrut === 'maison') draft.immeubleType = 'maison_ville';
+          else if (typeBrut === 'mixte') draft.immeubleType = 'rdc_commercial';
+        }
+        changed = true;
+        const card = qsa('[data-p1type]').find((b) => b.getAttribute('data-p1type') === typeP1);
+        if (card) markSelected('[data-p1type]', card);
+        if (draft.immeubleType) {
+          const imt = qsa('[data-imt]').find((b) => b.getAttribute('data-imt') === draft.immeubleType);
+          if (imt) markSelected('[data-imt]', imt);
+        }
+      }
+
+      // Typologie villa : rejoue le clic (façades auto, budget) sans défilement.
+      const vt = String(pick('villaType') || '').toLowerCase();
+      if (draft.type === 'villa' && !draft.villaType && ['bande', 'jumelee', 'isolee'].includes(vt)) {
+        qsa('[data-villa]').find((b) => b.getAttribute('data-villa') === vt)?.click();
+      }
+
+      // Niveaux (immeuble) : n niveaux = R+(n-1), boutons R+1 à R+4.
+      const niv = pick('niveaux');
+      if (draft.type === 'immeuble' && !draft.rLevel && niv && niv >= 2 && niv <= 5) {
+        qsa('[data-r]').find((b) => b.getAttribute('data-r') === `R${Math.round(niv) - 1}`)?.click();
+      }
+
+      const setSiVide = (id: string, key: string, val: string | undefined) => {
+        if (!val) return;
+        const el = byId(id) as HTMLInputElement | HTMLSelectElement | null;
+        if ((draft as any)[key] || (el && el.value)) return;
+        (draft as any)[key] = val;
+        if (el) el.value = val;
+        changed = true;
+      };
+      const surf = pick('surface');
+      setSiVide('q_area', 'terrainArea', surf ? String(Math.round(surf)) : undefined);
+      const ss = pick('sousSol');
+      setSiVide('q_basement', 'basement', ss === undefined ? undefined : ss ? 'yes' : 'no');
+      const ville = pick('ville');
+      setSiVide('q_commune', 'commune', ville ? String(ville).trim().slice(0, 80) : undefined);
+
+      if (changed) {
+        save(draft);
+        applyVisibility();
+      }
+    };
+    // (appelé plus bas, une fois les boutons de typologie câblés)
 
 // ---------- Bindings (remplace les anciens onclick) ----------
     // 1) Sélection villa typologie
@@ -835,6 +912,10 @@ export default function P1Landing() {
     };
     bindBudgetSelect();
 
+    // Préremplissage URL / simulateur : après le câblage des boutons (les clics
+    // rejoués doivent trouver leurs écouteurs), avant le calcul des budgets.
+    try { prefillDepuisSimulateur(); } catch { /* préremplissage facultatif */ }
+
     // Init budgets once after all bindings
     refreshBudgetOptions();
 
@@ -929,12 +1010,7 @@ export default function P1Landing() {
         draft.email = v('q_email') || undefined;
         draft.personType = v('q_person_type') || draft.personType;
         draft.legalSituation = v('q_legal_situation') || draft.legalSituation;
-        draft.physIdType = v('q_phys_id_type') || draft.physIdType;
-        draft.physIdNumber = v('q_phys_id_number') || draft.physIdNumber;
         draft.companyName = v('q_company_name') || draft.companyName;
-        draft.companyForm = v('q_company_form') || draft.companyForm;
-        draft.companyICE = v('q_company_ice') || draft.companyICE;
-        draft.companyRC = v('q_company_rc') || draft.companyRC;
 
         // Budget (MAD) — persist selection for packs + welcome
         const bSel = byId('q_budget') as HTMLSelectElement | null;
@@ -965,13 +1041,7 @@ export default function P1Landing() {
         if (label("q_person_type")) lines.push([tt("portes.p1.recap.f.person"), label("q_person_type")]);
         if (label("q_legal_situation")) lines.push([tt("portes.p1.recap.f.legal"), label("q_legal_situation")]);
 
-        if (label("q_phys_id_type")) lines.push([tt("portes.p1.recap.f.id_type"), label("q_phys_id_type")]);
-        if (v("q_phys_id_number")) lines.push([tt("portes.p1.recap.f.id_number"), v("q_phys_id_number")]);
-
         if (v("q_company_name")) lines.push([tt("portes.p1.recap.f.company"), v("q_company_name")]);
-        if (v("q_company_form")) lines.push([tt("portes.p1.recap.f.company_form"), v("q_company_form")]);
-        if (v("q_company_ice")) lines.push([tt("portes.p1.recap.f.ice"), v("q_company_ice")]);
-        if (v("q_company_rc")) lines.push([tt("portes.p1.recap.f.rc"), v("q_company_rc")]);
 
         // 1) Récap — Projet
         lines.push([tt("portes.p1.recap.section.project"), "__section__"]);
@@ -1006,10 +1076,7 @@ export default function P1Landing() {
         if (label("q_budget")) lines.push([tt("portes.p1.recap.f.budget"), label("q_budget")]);
         if (label("q_owner_status")) lines.push([tt("portes.p1.recap.f.owner"), label("q_owner_status")]);
         if (label("q_tf_status")) lines.push([tt("portes.p1.recap.f.tf_status"), label("q_tf_status")]);
-        if (v("q_tf_number")) lines.push([tt("portes.p1.recap.f.tf_number"), v("q_tf_number")]);
         if (label("q_lot_status")) lines.push([tt("portes.p1.recap.f.lot_status"), label("q_lot_status")]);
-        if (v("q_lot_name")) lines.push([tt("portes.p1.recap.f.lot_name"), v("q_lot_name")]);
-        if (v("q_lot_number")) lines.push([tt("portes.p1.recap.f.lot_number"), v("q_lot_number")]);
 
 
         // Rendu type "fiche projet" : grands titres, sections, et paires clé/valeur.
@@ -1140,46 +1207,8 @@ export default function P1Landing() {
 
     
 
-    // 5bis) Affichage conditionnel: Titre foncier / Lotissement
-    const toggleTf = () => {
-      const tfSel = byId("q_tf_status") as HTMLSelectElement | null;
-      const tfWrap = byId("tf_number_wrap") as HTMLDivElement | null;
-      if (!tfSel || !tfWrap) return;
-      const show = tfSel.value === "exists";
-      tfWrap.style.display = show ? "block" : "none";
-      if (!show) {
-        const inp = byId("q_tf_number") as HTMLInputElement | null;
-        if (inp) inp.value = "";
-      }
-    };
-
-    const toggleLot = () => {
-      const lotSel = byId("q_lot_status") as HTMLSelectElement | null;
-      const nameWrap = byId("lot_name_wrap") as HTMLDivElement | null;
-      const numWrap = byId("lot_number_wrap") as HTMLDivElement | null;
-      if (!lotSel || !nameWrap || !numWrap) return;
-      const show = lotSel.value === "yes";
-      nameWrap.style.display = show ? "block" : "none";
-      numWrap.style.display = show ? "block" : "none";
-      if (!show) {
-        const n = byId("q_lot_name") as HTMLInputElement | null;
-        const m = byId("q_lot_number") as HTMLInputElement | null;
-        if (n) n.value = "";
-        if (m) m.value = "";
-      }
-    };
-
-    const onChange = (e: Event) => {
-      const t = e.target as HTMLElement | null;
-      if (!t) return;
-      if (t.id === "q_tf_status") toggleTf();
-      if (t.id === "q_lot_status") toggleLot();
-    };
-
-    document.addEventListener("change", onChange);
-    // init
-    toggleTf();
-    toggleLot();
+    // 5bis) (supprimé) N° de titre foncier et nom / n° de lot : demandés à la
+    // signature du contrat, plus sur la page publique.
 
 // 6) Chatbot minimal (évite bouton mort)
     const chatSend = byId("chat_send_btn");
@@ -1267,6 +1296,7 @@ export default function P1Landing() {
     // Cleanup listeners: (best-effort)
     return () => {
       document.removeEventListener('change', onSelectChange);
+      document.removeEventListener('input', onSelectChange);
       document.removeEventListener("input", onSaisieIdentite);
       window.removeEventListener(LANG_CHANGE_EVENT, onLangChange);
     };
@@ -1661,6 +1691,10 @@ export default function P1Landing() {
       font-size:12px; font-weight:800; color:rgba(11,27,58,0.78);
     }
     .req{ color:rgba(201,162,39,0.95); font-weight:900; }
+    .opt{ color:rgba(11,27,58,0.55); font-weight:600; text-transform:none; letter-spacing:0; }
+    .p1-more{ border:1px solid rgba(201,162,39,0.28); border-radius:14px; padding:12px 14px; background:rgba(255,255,255,0.7); }
+    .p1-more-summary{ cursor:pointer; font-weight:900; color:#0B1B3A; padding:10px 0; }
+    .p1-more[open] .p1-more-summary{ margin-bottom:4px; }
 
   
     .bar-row{ display:flex; flex-wrap:wrap; gap:10px; max-width:100%; }
@@ -2039,7 +2073,9 @@ export default function P1Landing() {
         <div className="gold-divider" style={{ margin: "16px 0" }}></div>
 
 
-        <div className="pill" style={{ marginBottom: "12px" }}>{t("p1.lp.sec.identity")} <span className="req">*</span></div>
+        {/* Profilage progressif : seuls le nom et le téléphone sont exigés (validerIdentite).
+            Les pièces (CIN, titre foncier, ICE, RC, lot…) sont demandées à la signature du contrat. */}
+        <div className="pill" style={{ marginBottom: "12px" }}>{t("p1.lp.sec.identity")}</div>
         <div className="form-grid">
           <div className="field">
             <label className="label" htmlFor="q_lastname">{t("p1.lp.f.lastname")} <span className="req">*</span></label>
@@ -2047,7 +2083,7 @@ export default function P1Landing() {
             <p id="q_lastname_err" className="field-err" role="alert" aria-live="assertive" hidden></p>
           </div>
           <div className="field">
-            <label className="label" htmlFor="q_firstname">{t("p1.lp.f.firstname")} <span className="req">*</span></label>
+            <label className="label" htmlFor="q_firstname">{t("p1.lp.f.firstname")}</label>
             <input className="control" id="q_firstname" type="text" autoComplete="given-name" placeholder={t("p1.lp.f.firstname_ph")}/>
           </div>
           <div className="field">
@@ -2056,92 +2092,31 @@ export default function P1Landing() {
             <p id="q_phone_err" className="field-err" role="alert" aria-live="assertive" hidden></p>
           </div>
           <div className="field">
-            <label className="label" htmlFor="q_email">{t("p1.lp.f.email")}</label>
+            <label className="label" htmlFor="q_email">{t("p1.lp.f.email")} <span className="opt">({t("lead.porte.optional")})</span></label>
             <input className="control" id="q_email" type="email" inputMode="email" autoComplete="email" placeholder={t("p1.lp.f.email_ph")}/>
           </div>
-          <div className="field">
-            <label className="label">{t("p1.lp.f.person_type")} <span className="req">*</span></label>
-            <select className="control" id="q_person_type">
-              <option value="">{t("p1.lp.f.choose")}</option>
-              <option value="physique">{t("p1.lp.f.physical")}</option>
-              <option value="morale">{t("p1.lp.f.moral")}</option>
-            </select>
-          </div>
-          <div className="field">
-            <label className="label">{t("p1.lp.f.legal_situation")} <span className="req">*</span></label>
-            <select className="control" id="q_legal_situation">
-              <option value="">{t("p1.lp.f.choose")}</option>
-              <option value="owner_major">{t("p1.lp.f.owner_major")}</option>
-              <option value="heir">{t("p1.lp.f.heir")}</option>
-              <option value="tenant">{t("p1.lp.f.tenant")}</option>
-              <option value="shareholder">{t("p1.lp.f.shareholder")}</option>
-            </select>
-          </div>
-
-          {/* Personne physique */}
-          <div className="field" id="phys_id_wrap" style={{ display: "none" }}>
-            <label className="label">{t("p1.lp.f.id_type")} <span className="req">*</span></label>
-            <select className="control" id="q_phys_id_type">
-              <option value="">{t("p1.lp.f.choose")}</option>
-              <option value="cin">{t("p1.lp.f.cin")}</option>
-              <option value="passport">{t("p1.lp.f.passport")}</option>
-            </select>
-          </div>
-          <div className="field" id="phys_id_number_wrap" style={{ display: "none" }}>
-            <label className="label">{t("p1.lp.f.id_number")} <span className="req">*</span></label>
-            <input className="control" id="q_phys_id_number" type="text" placeholder={t("p1.lp.f.id_number_ph")}/>
-          </div>
-
-          {/* Personne morale */}
-          <div className="field" id="moral_name_wrap" style={{ display: "none" }}>
-            <label className="label">{t("p1.lp.f.company_name")} <span className="req">*</span></label>
-            <input className="control" id="q_company_name" type="text" placeholder={t("p1.lp.f.company_name_ph")}/>
-          </div>
-          <div className="field" id="moral_form_wrap" style={{ display: "none" }}>
-            <label className="label">{t("p1.lp.f.company_form")} <span className="req">*</span></label>
-            <input className="control" id="q_company_form" type="text" placeholder={t("p1.lp.f.company_form_ph")}/>
-          </div>
-          <div className="field" id="moral_ice_wrap" style={{ display: "none" }}>
-            <label className="label">{t("p1.lp.f.ice")} <span className="req">*</span></label>
-            <input className="control" id="q_company_ice" type="text" placeholder={t("p1.lp.f.ice_ph")}/>
-          </div>
-          <div className="field" id="moral_rc_wrap" style={{ display: "none" }}>
-            <label className="label">{t("p1.lp.f.rc")} <span className="req">*</span></label>
-            <input className="control" id="q_company_rc" type="text" placeholder={t("p1.lp.f.rc_ph")}/>
-          </div>
         </div>
 
         <div className="gold-divider" style={{ margin: "18px 0" }}></div>
 
 
-        <div className="pill" style={{ marginBottom: "12px" }}>{t("p1.lp.sec.localisation")} <span className="req">*</span></div>
+        <div className="pill" style={{ marginBottom: "12px" }}>{t("p1.lp.sec.projet_essentiel")}</div>
         <div className="form-grid">
           <div className="field">
-            <label className="label">{t("p1.lp.f.region")} <span className="req">*</span></label>
-            <input className="control" id="q_region" type="text" placeholder={t("p1.lp.f.region_ph")}/>
+            <label className="label" htmlFor="q_commune">{t("p1.lp.f.commune")} <span className="opt">({t("lead.porte.optional")})</span></label>
+            <input className="control" id="q_commune" type="text" autoComplete="address-level2" placeholder={t("p1.lp.f.commune_ph")}/>
+          </div>
+          <div className="field" id="owner_status_wrap" style={{ display: "block" }}>
+            <label className="label" htmlFor="q_owner_status">{t("p1.lp.f.owner_q")} <span className="opt">({t("lead.porte.optional")})</span></label>
+            <select className="control" id="q_owner_status">
+              <option value="">{t("p1.lp.f.choose")}</option>
+              <option value="yes">{t("p1.lp.f.owner.yes")}</option>
+              <option value="acquiring">{t("p1.lp.f.owner.acquiring")}</option>
+              <option value="searching">{t("p1.lp.f.owner.searching")}</option>
+            </select>
           </div>
           <div className="field">
-            <label className="label">{t("p1.lp.f.province")} <span className="req">*</span></label>
-            <input className="control" id="q_province" type="text" placeholder={t("p1.lp.f.province_ph")}/>
-          </div>
-          <div className="field">
-            <label className="label">{t("p1.lp.f.commune")} <span className="req">*</span></label>
-            <input className="control" id="q_commune" type="text" placeholder={t("p1.lp.f.commune_ph")}/>
-          </div>
-        </div>
-
-        <div className="gold-divider" style={{ margin: "18px 0" }}></div>
-
-
-        <div className="pill" style={{ marginBottom: "12px" }}>{t("p1.lp.sec.foncier")} <span className="req">*</span></div>
-        <div className="form-grid">
-          <div className="field">
-            <label className="label">{t("p1.lp.f.surface")} <span className="req">*</span></label>
-            <input className="control" id="q_area" type="number" min="0" placeholder={t("p1.lp.f.surface_ph")}/>
-          </div>
-
-          <div className="field">
-            <label className="label">{t("p1.lp.f.timeline")} <span className="req">*</span></label>
+            <label className="label" htmlFor="q_timeline">{t("p1.lp.f.timeline")} <span className="opt">({t("lead.porte.optional")})</span></label>
             <select className="control" id="q_timeline">
               <option value="">{t("p1.lp.f.choose")}</option>
               <option value="immediate">{t("p1.lp.f.timeline.immediate")}</option>
@@ -2151,55 +2126,70 @@ export default function P1Landing() {
               <option value="flexible">{t("p1.lp.f.timeline.flexible")}</option>
             </select>
           </div>
-          <div className="field" id="owner_status_wrap" style={{ display: "block" }}>
-            <label className="label">{t("p1.lp.f.owner_q")} <span className="req">*</span></label>
-            <select className="control" id="q_owner_status">
-              <option value="">{t("p1.lp.f.choose")}</option>
-              <option value="yes">{t("p1.lp.f.owner.yes")}</option>
-              <option value="acquiring">{t("p1.lp.f.owner.acquiring")}</option>
-              <option value="searching">{t("p1.lp.f.owner.searching")}</option>
-            </select>
-          </div>
+          {/* Surface terrain : gardée visible, elle alimente l'estimation de budget (computeSP). */}
           <div className="field">
-            <label className="label">{t("p1.lp.f.tf")} <span className="req">*</span></label>
-            <select className="control" id="q_tf_status">
-              <option value="">{t("p1.lp.f.choose")}</option>
-              <option value="exists">{t("p1.lp.f.tf.exists")}</option>
-              <option value="pending">{t("p1.lp.f.tf.pending")}</option>
-              <option value="none">{t("p1.lp.f.tf.none")}</option>
-              <option value="na">{t("p1.lp.f.tf.na")}</option>
-            </select>
-          </div>
-          <div className="field" id="tf_number_wrap" style={{ display: "none" }}>
-            <label className="label">{t("p1.lp.f.tf_number")} <span className="req">*</span></label>
-            <input className="control" id="q_tf_number" type="text" placeholder={t("p1.lp.f.tf_number_ph")}/>
-          </div>
-          <div className="field">
-            <label className="label">{t("p1.lp.f.lot")} <span className="req">*</span></label>
-            <select className="control" id="q_lot_status">
-              <option value="">{t("p1.lp.f.choose")}</option>
-              <option value="yes">{t("p1.lp.f.lot.yes")}</option>
-              <option value="no">{t("p1.lp.f.lot.no")}</option>
-              <option value="na">{t("p1.lp.f.lot.na")}</option>
-            </select>
-          </div>
-          <div className="field" id="lot_name_wrap" style={{ display: "none" }}>
-            <label className="label">{t("p1.lp.f.lot_name")} <span className="req">*</span></label>
-            <input className="control" id="q_lot_name" type="text" placeholder={t("p1.lp.f.lot_name_ph")}/>
-          </div>
-          <div className="field" id="lot_number_wrap" style={{ display: "none" }}>
-            <label className="label">{t("p1.lp.f.lot_number")} <span className="req">*</span></label>
-            <input className="control" id="q_lot_number" type="text" placeholder={t("p1.lp.f.lot_number_ph")}/>
-          </div>
-          <div className="field" id="lot_r_wrap" style={{ display: "none" }}>
-            <label className="label">{t("p1.lp.f.lot_type")}</label>
-            <select className="control" id="q_lot_r_type">
-              <option value="">{t("p1.lp.f.lot_unknown")}</option>
-              <option value="R0">R+0</option><option value="R1">R+1</option>
-              <option value="R2">R+2</option><option value="R3">R+3</option><option value="R4">R+4</option>
-            </select>
+            <label className="label" htmlFor="q_area">{t("p1.lp.f.surface")} <span className="opt">({t("lead.porte.optional")})</span></label>
+            <input className="control" id="q_area" type="number" min="0" inputMode="numeric" placeholder={t("p1.lp.f.surface_ph")}/>
           </div>
         </div>
+        <p className="muted" style={{ marginTop: "10px", fontSize: "12px" }}>{t("p1.lp.f.pieces_note")}</p>
+
+        <details id="p1_more" className="p1-more" style={{ marginTop: "16px" }}>
+          <summary className="p1-more-summary">{t("p1.lp.more.toggle")}</summary>
+          <p className="muted" style={{ margin: "8px 0 12px", fontSize: "12.5px" }}>{t("p1.lp.more.sub")}</p>
+          <div className="form-grid">
+            <div className="field">
+              <label className="label" htmlFor="q_person_type">{t("p1.lp.f.person_type")}</label>
+              <select className="control" id="q_person_type">
+                <option value="">{t("p1.lp.f.choose")}</option>
+                <option value="physique">{t("p1.lp.f.particulier")}</option>
+                <option value="morale">{t("p1.lp.f.societe")}</option>
+              </select>
+            </div>
+            {/* Société : raison sociale seulement, facultative (forme juridique, ICE, RC à la signature). */}
+            <div className="field" id="moral_name_wrap" style={{ display: "none" }}>
+              <label className="label" htmlFor="q_company_name">{t("p1.lp.f.company_name")} <span className="opt">({t("lead.porte.optional")})</span></label>
+              <input className="control" id="q_company_name" type="text" autoComplete="organization" placeholder={t("p1.lp.f.company_name_ph")}/>
+            </div>
+            <div className="field">
+              <label className="label" htmlFor="q_legal_situation">{t("p1.lp.f.legal_situation")}</label>
+              <select className="control" id="q_legal_situation">
+                <option value="">{t("p1.lp.f.choose")}</option>
+                <option value="owner_major">{t("p1.lp.f.owner_major")}</option>
+                <option value="heir">{t("p1.lp.f.heir")}</option>
+                <option value="tenant">{t("p1.lp.f.tenant")}</option>
+                <option value="shareholder">{t("p1.lp.f.shareholder")}</option>
+              </select>
+            </div>
+            <div className="field">
+              <label className="label" htmlFor="q_region">{t("p1.lp.f.region")}</label>
+              <input className="control" id="q_region" type="text" placeholder={t("p1.lp.f.region_ph")}/>
+            </div>
+            <div className="field">
+              <label className="label" htmlFor="q_province">{t("p1.lp.f.province")}</label>
+              <input className="control" id="q_province" type="text" placeholder={t("p1.lp.f.province_ph")}/>
+            </div>
+            <div className="field">
+              <label className="label" htmlFor="q_tf_status">{t("p1.lp.f.tf")}</label>
+              <select className="control" id="q_tf_status">
+                <option value="">{t("p1.lp.f.choose")}</option>
+                <option value="exists">{t("p1.lp.f.tf.exists")}</option>
+                <option value="pending">{t("p1.lp.f.tf.pending")}</option>
+                <option value="none">{t("p1.lp.f.tf.none")}</option>
+                <option value="na">{t("p1.lp.f.tf.na")}</option>
+              </select>
+            </div>
+            <div className="field">
+              <label className="label" htmlFor="q_lot_status">{t("p1.lp.f.lot")}</label>
+              <select className="control" id="q_lot_status">
+                <option value="">{t("p1.lp.f.choose")}</option>
+                <option value="yes">{t("p1.lp.f.lot.yes")}</option>
+                <option value="no">{t("p1.lp.f.lot.no")}</option>
+                <option value="na">{t("p1.lp.f.lot.na")}</option>
+              </select>
+            </div>
+          </div>
+        </details>
 
         <div className="gold-divider" style={{ margin: "18px 0" }}></div>
 
@@ -2214,16 +2204,16 @@ export default function P1Landing() {
             Donc on affiche d'abord le bloc rénovation, puis les typologies villa/immeuble. */}
 
         <div id="bar_reno" style={{ display: "none", marginBottom: "14px" }}>
-          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.reno.title")} <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.reno.title")}</div>
 
-          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.reno.type")} <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.reno.type")}</div>
           <div className="bar-row" style={{ marginBottom: "12px" }}>
             <button className="btn btn-dark" type="button" data-reno-kind="renovation">{t("p1.lp.reno.kind.renovation")}</button>
             <button className="btn btn-dark" type="button" data-reno-kind="decoration">{t("p1.lp.reno.kind.decoration")}</button>
             <button className="btn btn-dark" type="button" data-reno-kind="transformation">{t("p1.lp.reno.kind.transformation")}</button>
           </div>
 
-          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.reno.support")} <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.reno.support")}</div>
           <div className="bar-row" style={{ marginBottom: "12px" }}>
             <button className="btn btn-dark" type="button" data-reno-base="villa">{t("p1.lp.reno.support.villa")}</button>
             <button className="btn btn-dark" type="button" data-reno-base="immeuble">{t("p1.lp.reno.support.imm")}</button>
@@ -2231,7 +2221,7 @@ export default function P1Landing() {
 
           <div className="form-grid">
             <div className="field">
-              <label className="label">{t("p1.lp.reno.plan_q")} <span className="req">*</span></label>
+              <label className="label">{t("p1.lp.reno.plan_q")}</label>
               <select className="control" id="q_reno_authorized_plan">
                 <option value="">{t("p1.lp.reno.plan.unknown")}</option>
                 <option value="yes">{t("p1.lp.reno.plan.yes")}</option>
@@ -2240,7 +2230,7 @@ export default function P1Landing() {
               </select>
             </div>
             <div className="field">
-              <label className="label">{t("p1.lp.reno.conform_q")} <span className="req">*</span></label>
+              <label className="label">{t("p1.lp.reno.conform_q")}</label>
               <select className="control" id="q_reno_conform">
                 <option value="">{t("p1.lp.reno.plan.unknown")}</option>
                 <option value="yes">{t("p1.lp.reno.plan.yes")}</option>
@@ -2256,7 +2246,7 @@ export default function P1Landing() {
         </div>
 
         <div id="bar_villa" style={{ display: "none", marginBottom: "14px" }}>
-          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.villa.title")} <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.villa.title")}</div>
           <div className="bar-row">
             <button className="btn btn-dark" type="button" data-villa="bande">{t("p1.lp.villa.bande")}</button>
             <button className="btn btn-dark" type="button" data-villa="jumelee">{t("p1.lp.villa.jumelee")}</button>
@@ -2278,7 +2268,7 @@ export default function P1Landing() {
         </div>
 
         <div id="bar_immeuble" style={{ display: "none", marginBottom: "14px" }}>
-          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.lot_type")} <span className="req">*</span></div>
+          <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.lot_type")}</div>
           <div className="bar-row" style={{ marginBottom: "12px" }}>
             <button className="btn btn-dark" type="button" data-imt="economique">{t("p1.lp.imm.lot.eco")}</button>
             <button className="btn btn-dark" type="button" data-imt="rdc_commercial">{t("p1.lp.imm.lot.rdc")}</button>
@@ -2286,7 +2276,7 @@ export default function P1Landing() {
           </div>
 
           <div id="facades_wrap" style={{ display: "none", marginTop: "12px" }}>
-            <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.fac_title")} <span className="req">*</span></div>
+            <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.fac_title")}</div>
             <div className="bar-row">
               <button className="btn btn-dark" type="button" data-fac="1">{t("p1.lp.imm.fac.1")}</button>
               <button className="btn btn-dark" type="button" data-fac="2">{t("p1.lp.imm.fac.angle2")}</button>
@@ -2296,7 +2286,7 @@ export default function P1Landing() {
           </div>
 
           <div style={{ marginTop: "14px" }}>
-            <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.r_title")} <span className="req">*</span></div>
+            <div className="pill" style={{ marginBottom: "10px" }}>{t("p1.lp.imm.r_title")}</div>
             <div className="bar-row">
               <button className="btn btn-dark" type="button" data-r="R1">{t("p1.lp.imm.r1")}</button>
               <button className="btn btn-dark" type="button" data-r="R2">{t("p1.lp.imm.r2")}</button>
@@ -2348,7 +2338,7 @@ export default function P1Landing() {
           <div id="immeuble_common_wrap" style={{ display: "none", marginTop: "14px" }}>
             <div className="form-grid">
               <div className="field" id="rdc_commercial_wrap" style={{ display: "none" }}>
-                <label className="label">{t("p1.lp.imm.rdc_q")} <span className="req">*</span></label>
+                <label className="label">{t("p1.lp.imm.rdc_q")}</label>
                 <select className="control" id="q_rdc_commercial">
                   <option value="">{t("p1.lp.villa.unknown")}</option>
                   <option value="no">{t("p1.lp.reno.plan.no")}</option>
@@ -2356,7 +2346,7 @@ export default function P1Landing() {
                 </select>
               </div>
               <div className="field">
-                <label className="label">{t("p1.lp.imm.basement_q")} <span className="req">*</span></label>
+                <label className="label">{t("p1.lp.imm.basement_q")}</label>
                 <select className="control" id="q_basement">
                   <option value="">{t("p1.lp.villa.unknown")}</option>
                   <option value="no">{t("p1.lp.imm.basement.no")}</option>
@@ -2388,7 +2378,7 @@ export default function P1Landing() {
         
         <div className="form-grid" style={{ marginTop: "14px" }}>
           <div className="field" style={{ gridColumn: "1 / -1" }}>
-            <label className="label">{t("p1.lp.f.budget")} <span className="req">*</span></label>
+            <label className="label">{t("p1.lp.f.budget")}</label>
             <select className="control" id="q_budget">
               <option value="">{t("p1.lp.f.budget_default")}</option>
             </select>
