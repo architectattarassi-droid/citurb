@@ -25,6 +25,8 @@ const ROUTES: Record<string, Meta> = {
   "/creer-compte": { titre: "Parlez-nous de votre projet" + SUFFIXE, index: true },
   "/chiffrage": { titre: "Prix construction Maroc 2026 : villa, maison, immeuble" + SUFFIXE, index: true },
   "/chiffrage/devis": { titre: "Votre devis estimatif" + SUFFIXE },
+  "/p4/terrains": { titre: "Terrains à vendre au Maroc, vérifiés par un architecte" + SUFFIXE, index: true },
+  "/p4/terrains/deposer": { titre: "Déposer un terrain à vendre gratuitement" + SUFFIXE, index: true },
   "/calculateur": { titre: "Calculateur de coût de construction" + SUFFIXE, index: true },
   "/simulateur": { titre: "Simulateur de constructibilité d'un terrain" + SUFFIXE, index: true },
   "/cercles": { titre: "Cercles — le réseau des professionnels du BTP" + SUFFIXE, index: true },

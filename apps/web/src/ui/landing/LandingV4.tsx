@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import TerrainsAccueil from "../../features/terrains/TerrainsAccueil";
 
 import { listPublished } from "../../features/media/articles/store";
 import type { Article } from "../../features/media/articles/types";
@@ -1510,6 +1511,9 @@ export default function LandingV4() {
     <div>
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
       <div dangerouslySetInnerHTML={{ __html: preHtml }} />
+
+      {/* Annonces de terrains (porte P4) : contenu vivant de l'accueil. */}
+      <TerrainsAccueil />
 
       <section id="medias" style={{ scrollMarginTop: 140, padding: "32px 0 48px" }}>
         <div style={{ maxWidth: 1300, margin: "0 auto", padding: "0 20px" }}>

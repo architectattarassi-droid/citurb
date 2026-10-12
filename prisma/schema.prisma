@@ -2334,3 +2334,36 @@ model ParametrePlateforme {
   updatedAt DateTime @default(now()) @updatedAt
   auteur    String?
 }
+
+/// Annonces de terrains déposées par des propriétaires ou des intermédiaires (porte P4).
+/// Publiées seulement après validation dans le back-office ; les coordonnées du déposant
+/// ne sont jamais publiques (contact via CITURBAREA). Table créée par docs/sql/terrains-neon.sql.
+model TerrainAnnonce {
+  id          String   @id
+  slug        String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  /// EN_ATTENTE | PUBLIE | REFUSE | VENDU
+  statut      String   @default("EN_ATTENTE")
+  /// PROPRIETAIRE | INTERMEDIAIRE
+  deposant    String
+  mandat      Boolean  @default(false)
+  nom         String
+  telephone   String
+  email       String?
+  ville       String
+  quartier    String?
+  surface     Float
+  prix        Float?
+  /// TITRE | EN_COURS | NON_TITRE
+  titre       String
+  /// VILLA | IMMEUBLE | COMMERCIAL | AGRICOLE | AUTRE
+  usage       String
+  description String?
+  noteAdmin   String?
+  publieAt    DateTime?
+  leadId      String?
+
+  @@index([statut, createdAt])
+  @@index([ville])
+}

@@ -9,6 +9,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import TerrainsModule from "./modules/terrains/TerrainsModule";
 import { Routes, Route, Navigate } from 'react-router-dom';
 import CCLayout from './layout/CCLayout';
 import CCDashboard from './modules/dashboard/CCDashboard';
@@ -86,6 +87,7 @@ export default function CommandCenterApp() {
               <Route path="territorial/*" element={<TerritorialModule />} />
               <Route path="business/*" element={<BusinessModule />} />
               <Route path="dossiers" element={<DossiersModule />} />
+              <Route path="terrains" element={<TerrainsModule />} />
               <Route path="devis" element={<DevisLibre />} />
               <Route path="simulateur" element={<CCSimulateur />} />
               <Route path="dossiers/:id" element={<PhaseWorkspace />} />

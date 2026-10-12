@@ -70,3 +70,40 @@ export function reecrire(res: Response, p: PageSeo, jsonLd?: string): Response {
   if (p.contenu) rw = rw.on("[data-seo-prerender] main", { element: (el) => el.setInnerContent(p.contenu!, { html: true }) });
   return rw.transform(res);
 }
+
+// ── Annonces de terrains (porte P4) : contenu servi dans le HTML pour les moteurs ──
+import { LIB_TITRE, LIB_USAGE, annonceParSlug, annoncesPubliees, type Sql } from "./terrains";
+
+const dhSeo = (n: number) => `${Math.round(n).toLocaleString("fr-FR")} DH`;
+
+/** Métadonnées et contenu de /p4/terrains et /p4/terrains/:slug, lus dans Neon. */
+export async function pageTerrains(sql: Sql, chemin: string): Promise<PageSeo | null> {
+  if (chemin === "/p4/terrains") {
+    const l = await annoncesPubliees(sql, { limite: 100 });
+    const items = l.filter((t) => t.statut === "PUBLIE").map((t) => `<li><a href="/p4/terrains/${esc(t.slug)}">Terrain ${t.surface} m² à ${esc(t.quartier ? `${t.quartier}, ` : "")}${esc(t.ville)}${t.prix ? ` — ${dhSeo(t.prix)}` : ""}</a> (${esc(LIB_USAGE[t.usage] ?? "terrain")}, ${esc(LIB_TITRE[t.titre] ?? "")})</li>`).join("");
+    return {
+      titre: "Terrains à vendre au Maroc, vérifiés par un architecte | CITURBAREA",
+      description: "Terrains à vendre déposés par des propriétaires et des intermédiaires mandatés, vérifiés avant publication. Estimation du coût de construction et étude de faisabilité par un architecte inscrit à l'Ordre.",
+      canonique: "https://citurbarea.com/p4/terrains",
+      contenu: `<h1>Terrains à vendre au Maroc</h1><p>Annonces vérifiées avant publication. Avant d'acheter, faites vérifier la constructibilité et chiffrez votre future construction avec un architecte inscrit à l'Ordre.</p>${items ? `<ul>${items}</ul>` : "<p>Aucune annonce publiée pour le moment.</p>"}<p><a href="/p4/terrains/deposer">Déposer un terrain gratuitement</a> · <a href="/chiffrage">Chiffrer une construction</a></p>`,
+    };
+  }
+  const m = chemin.match(/^\/p4\/terrains\/([a-z0-9-]{8,90})$/);
+  if (!m || m[1] === "deposer") return null;
+  const t = await annonceParSlug(sql, m[1]);
+  if (!t) return null;
+  const titre = `Terrain ${t.surface.toLocaleString("fr-FR")} m² à ${t.ville}${t.prix ? ` — ${dhSeo(t.prix)}` : ""}`;
+  return {
+    titre: `${titre} | CITURBAREA`,
+    description: `${LIB_USAGE[t.usage] ?? "Terrain"} de ${t.surface} m² ${t.quartier ? `à ${t.quartier}, ` : "à "}${t.ville}, ${LIB_TITRE[t.titre] ?? ""}${t.prixM2 ? `, ${dhSeo(t.prixM2)}/m²` : ""}. Vérification et estimation du coût de construction par un architecte.`.slice(0, 160),
+    canonique: `https://citurbarea.com/p4/terrains/${t.slug}`,
+    contenu: `<h1>${esc(titre)}</h1><p>${esc(LIB_USAGE[t.usage] ?? "Terrain")} · ${esc(LIB_TITRE[t.titre] ?? "")}${t.prixM2 ? ` · ${dhSeo(t.prixM2)}/m²` : ""}</p>${t.description ? `<p>${esc(t.description)}</p>` : ""}<p><a href="/chiffrage?terrain=${Math.round(t.surface)}&amp;ville=${encodeURIComponent(t.ville)}">Combien coûterait la construction sur ce terrain ?</a> · <a href="/p4/terrains">Tous les terrains</a></p>`,
+  };
+}
+
+/** Sitemap des annonces publiées. */
+export async function sitemapTerrains(sql: Sql): Promise<string> {
+  const l = await annoncesPubliees(sql, { limite: 200 });
+  const urls = [`https://citurbarea.com/p4/terrains`, `https://citurbarea.com/p4/terrains/deposer`, ...l.filter((t) => t.statut === "PUBLIE").map((t) => `https://citurbarea.com/p4/terrains/${t.slug}`)];
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${u}</loc><changefreq>daily</changefreq></url>`).join("\n")}\n</urlset>\n`;
+}

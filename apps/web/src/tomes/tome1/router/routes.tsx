@@ -67,6 +67,9 @@ const SousTraitantsPage = lazy(() => import("../../../features/sous-traitants/So
 const ReceptionPage = lazy(() => import("../../../features/reception-conformite/ReceptionPage"));
 const IncidentsChantierPage = lazy(() => import("../../../features/incidents-chantier/IncidentsChantierPage"));
 const EstimationPage = lazy(() => import("../../../features/zillow-ma/EstimationPage"));
+const TerrainsPage = lazy(() => import("../../../features/terrains/TerrainsPage"));
+const TerrainFiche = lazy(() => import("../../../features/terrains/TerrainFiche"));
+const DeposerTerrain = lazy(() => import("../../../features/terrains/DeposerTerrain"));
 const AvecVideos = lazy(() => import("../../../features/social/AvecVideos"));
 const ChiffragePage = lazy(() => import("../../../features/chiffrage/ChiffragePage"));
 const ChiffrageDevis = lazy(() => import("../../../features/chiffrage/ChiffrageDevis"));
@@ -322,6 +325,9 @@ export const router = createBrowserRouter([
       { path: '/p2/result', element: <AdminHostBlock><P2Home /></AdminHostBlock> },
       { path: '/p2/finalize', element: <AdminHostBlock><P2Finalize /></AdminHostBlock> },
       { path: '/p3', element: <AdminHostBlock><AvecVideos theme="p3"><P3Home /></AvecVideos></AdminHostBlock> },
+      { path: '/p4/terrains', element: <AdminHostBlock><TerrainsPage /></AdminHostBlock> },
+      { path: '/p4/terrains/deposer', element: <AdminHostBlock><DeposerTerrain /></AdminHostBlock> },
+      { path: '/p4/terrains/:slug', element: <AdminHostBlock><TerrainFiche /></AdminHostBlock> },
       { path: '/p4', element: <AdminHostBlock><AvecVideos theme="p4"><P4Home /></AvecVideos></AdminHostBlock> },
       { path: '/p5', element: <AdminHostBlock><P5Home /></AdminHostBlock> },
       { path: '/p5/finalize', element: <AdminHostBlock><P5Finalize /></AdminHostBlock> },
