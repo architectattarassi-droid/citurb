@@ -4,18 +4,24 @@
  * Modération Cercles servie par les Pages Functions (Neon) :
  *   - Inscrits : approuver / refuser (motif) / suspendre, commission %,
  *     code d'accès à transmettre (mode sans e-mail), export CSV ;
- *   - Fiches de prix en attente ou signalées (hors ±50 % de la référence).
+ *   - Fiches de prix en attente ou signalées (hors ±50 % de la référence) ;
+ *   - Fiche société (score de complétude/confiance), documents à vérifier,
+ *     formule (abonnement préparé, sans paiement) ;
+ *   - Fiches produit et prestations à modérer (ModerationCatalogue.tsx).
  * Endpoints : /api/cc/fournisseurs, /api/cc/fournisseurs/:id[/code],
  * /api/cc/fiches-prix[/:id] (garde functions/api/cc/_middleware.ts).
  */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { DOCUMENTS, type DocumentPro, type Score } from "../../../domain/cercles/gabarits";
 import { CC } from "../../theme/tokens";
+import { ProduitsAModerer, ServicesAModerer } from "./ModerationCatalogue";
 
 interface Fournisseur {
   id: string; slug: string; raisonSociale: string; metier: string; metierLibelle: string; ville: string; region: string | null;
   zonesLivraison: string[]; categories: string[]; statut: string; contactNom: string | null; telephone: string; email: string; ice: string | null;
   siteWeb: string | null; description: string | null; createdAt: string; commissionPct: number | null; motifRejet: string | null;
   derniereConnexion: string | null; nbFiches: number; codeDemandeLe: string | null; fictif: boolean;
+  raisonSocialeAr: string | null; score: Score; documents: DocumentPro[]; formule: string; fiche: Record<string, unknown>;
 }
 interface FicheModeration {
   id: string; materiauCode: string; libelle: string; uniteRef: string | null; uniteVenteLibelle: string; prixHT: number; prixRefHT: number;
@@ -70,16 +76,21 @@ function Badge({ statut }: { statut: string }) {
 }
 
 export default function FournisseursModule() {
-  const [onglet, setOnglet] = useState<"inscrits" | "fiches">("inscrits");
+  const [onglet, setOnglet] = useState<"inscrits" | "fiches" | "produits" | "services">("inscrits");
   return (
     <div style={S.page}>
       <h1 style={S.titre}>Fournisseurs & prix</h1>
       <p style={{ color: CC.color.inkMid, margin: "0 0 12px" }}>Inscrits Cercles, fiches de prix et modération.</p>
       <div style={{ display: "flex", gap: 4, borderBottom: `1px solid ${CC.color.border}`, marginBottom: 16 }}>
         <button style={S.onglet(onglet === "inscrits")} onClick={() => setOnglet("inscrits")}>Inscrits</button>
-        <button style={S.onglet(onglet === "fiches")} onClick={() => setOnglet("fiches")}>Fiches signalées</button>
+        <button style={S.onglet(onglet === "produits")} onClick={() => setOnglet("produits")}>Produits à modérer</button>
+        <button style={S.onglet(onglet === "services")} onClick={() => setOnglet("services")}>Prestations à modérer</button>
+        <button style={S.onglet(onglet === "fiches")} onClick={() => setOnglet("fiches")}>Fiches de prix signalées</button>
       </div>
-      {onglet === "inscrits" ? <Inscrits /> : <FichesSignalees />}
+      {onglet === "inscrits" && <Inscrits />}
+      {onglet === "produits" && <ProduitsAModerer />}
+      {onglet === "services" && <ServicesAModerer />}
+      {onglet === "fiches" && <FichesSignalees />}
     </div>
   );
 }
@@ -119,6 +130,16 @@ function Inscrits() {
     try { await appel(`/api/cc/fournisseurs/${f.id}`, { method: "PATCH", body: JSON.stringify({ statut: f.statut, commissionPct: v.trim() === "" ? null : v.replace(",", ".") }) }); void charger(); }
     catch (e) { setErreur((e as Error).message); }
   }
+  async function formule(f: Fournisseur, v: string) {
+    try { await appel(`/api/cc/fournisseurs/${f.id}`, { method: "PATCH", body: JSON.stringify({ statut: f.statut, formule: v }) }); void charger(); }
+    catch (e) { setErreur((e as Error).message); }
+  }
+  async function verifierDoc(f: Fournisseur, d: DocumentPro, statut: "VERIFIE" | "REFUSE") {
+    const motif = statut === "REFUSE" ? window.prompt(`Motif du refus (${DOCUMENTS[d.type]?.fr || d.type}) :`) : null;
+    if (statut === "REFUSE" && !motif) return;
+    try { await appel(`/api/cc/fournisseurs/${f.id}/documents/${d.id}`, { method: "PATCH", body: JSON.stringify({ statut, motif }) }); void charger(); }
+    catch (e) { setErreur((e as Error).message); }
+  }
   async function genererCode(f: Fournisseur) {
     try { const r = await appel<{ code: string; expire: string }>(`/api/cc/fournisseurs/${f.id}/code`, { method: "POST" }); setCode({ id: f.id, ...r }); void charger(); }
     catch (e) { setErreur((e as Error).message); }
@@ -149,7 +170,7 @@ function Inscrits() {
       {liste === null ? <div>Chargement…</div> : !visibles.length ? <div style={S.carte}>Aucun inscrit dans cette vue.</div> : (
         <div style={{ ...S.carte, padding: 0, overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
-            <thead><tr><th style={S.th}>Entreprise</th><th style={S.th}>Métier</th><th style={S.th}>Ville</th><th style={S.th}>Contact</th><th style={S.th}>Fiches</th><th style={S.th}>Statut</th><th style={S.th}>Actions</th></tr></thead>
+            <thead><tr><th style={S.th}>Entreprise</th><th style={S.th}>Métier</th><th style={S.th}>Ville</th><th style={S.th}>Contact</th><th style={S.th}>Fiches</th><th style={S.th}>Score</th><th style={S.th}>Statut</th><th style={S.th}>Actions</th></tr></thead>
             <tbody>
               {visibles.map((f) => (
                 <React.Fragment key={f.id}>
@@ -163,6 +184,7 @@ function Inscrits() {
                     <td style={S.td}>{f.ville}</td>
                     <td style={S.td}>{f.contactNom && <div>{f.contactNom}</div>}<a href={`tel:${f.telephone}`}>{f.telephone}</a><div><a href={`mailto:${f.email}`}>{f.email}</a></div></td>
                     <td style={S.td}>{f.nbFiches}</td>
+                    <td style={S.td} title={f.score ? `complétude ${f.score.completude}/50 · confiance ${f.score.confiance}/35 · activité ${f.score.activite}/15` : ""}><strong>{f.score?.total ?? "—"}</strong>{f.score?.documentsManquants.length ? <div style={{ fontSize: 11, color: CC.color.warn }}>{f.score.documentsManquants.length} doc. à vérifier</div> : null}</td>
                     <td style={S.td}><Badge statut={f.statut} />{f.codeDemandeLe && <div style={{ color: CC.color.warn, fontSize: 12, marginTop: 4 }}>Code demandé le {new Date(f.codeDemandeLe).toLocaleString("fr-FR")}</div>}</td>
                     <td style={S.td}>
                       <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
@@ -175,12 +197,32 @@ function Inscrits() {
                     </td>
                   </tr>
                   {ouvert === f.id && (
-                    <tr><td colSpan={7} style={{ ...S.td, background: CC.color.bgSoft }}>
+                    <tr><td colSpan={8} style={{ ...S.td, background: CC.color.bgSoft }}>
                       <div style={{ display: "grid", gap: 4 }}>
                         <div><strong>Zones :</strong> {f.zonesLivraison.join(", ") || "—"} · <strong>Catégories :</strong> {f.categories.join(", ") || "—"}</div>
                         <div><strong>ICE :</strong> {f.ice || "—"} · <strong>Site :</strong> {f.siteWeb || "—"} · <strong>Dernière connexion :</strong> {date(f.derniereConnexion)}</div>
                         {f.description && <div><strong>Présentation :</strong> {f.description}</div>}
                         {f.motifRejet && <div><strong>Motif :</strong> {f.motifRejet}</div>}
+                        {f.raisonSocialeAr && <div dir="rtl" lang="ar"><strong>الاسم بالعربية :</strong> {f.raisonSocialeAr}</div>}
+                        {f.fiche && Object.keys(f.fiche).length > 0 && <div style={{ fontSize: 12 }}><strong>Fiche :</strong> {Object.entries(f.fiche).filter(([k]) => k !== "references").map(([k, v]) => `${k} : ${Array.isArray(v) ? v.join(", ") : String(v)}`).join(" · ")}{Array.isArray(f.fiche.references) && f.fiche.references.length ? ` · ${f.fiche.references.length} référence(s)` : ""}</div>}
+                        <div><strong>Formule :</strong>{" "}
+                          <select value={f.formule || "GRATUIT"} onChange={(e) => formule(f, e.target.value)} style={{ ...S.btnGhost, padding: 4 }}>
+                            <option value="GRATUIT">Gratuit</option><option value="PRO">Pro</option><option value="PREMIUM">Premium</option>
+                          </select> <span style={{ color: CC.color.inkMuted, fontSize: 12 }}>(préparée, aucun paiement)</span>
+                        </div>
+                        <div><strong>Documents :</strong> {!(f.documents || []).length ? "aucun" : null}</div>
+                        {(f.documents || []).map((d) => (
+                          <div key={d.id} style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", fontSize: 13 }}>
+                            <span>{DOCUMENTS[d.type]?.fr || d.type}</span>
+                            <span style={{ color: d.statut === "VERIFIE" ? CC.color.success : d.statut === "REFUSE" ? CC.color.danger : CC.color.warn, fontWeight: 600 }}>{d.statut}</span>
+                            {d.url && <a href={d.url} target="_blank" rel="noreferrer noopener">ouvrir</a>}
+                            {d.note && <span style={{ color: CC.color.inkMid }}>{d.note}</span>}
+                            {d.expireLe && <span>expire le {date(d.expireLe)}</span>}
+                            {d.statut !== "VERIFIE" && <button style={S.btn} onClick={() => verifierDoc(f, d, "VERIFIE")}>Vérifié</button>}
+                            {d.statut !== "REFUSE" && <button style={S.btnGhost} onClick={() => verifierDoc(f, d, "REFUSE")}>Refuser</button>}
+                          </div>
+                        ))}
+                        {f.score && <div style={{ fontSize: 12, color: CC.color.inkMid }}>Score {f.score.total}/100 — à compléter : {f.score.manquants.join(", ") || "rien"}{f.score.documentsManquants.length ? ` · documents : ${f.score.documentsManquants.map((d) => DOCUMENTS[d]?.fr || d).join(", ")}` : ""}</div>}
                         {f.statut === "APPROVED" && <a href={`/cercles/pro/${f.slug}`} target="_blank" rel="noreferrer">Fiche publique</a>}
                       </div>
                     </td></tr>
