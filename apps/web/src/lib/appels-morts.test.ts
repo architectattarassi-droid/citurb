@@ -4,13 +4,17 @@ import { CLIQUET, analyser, estVivante, normaliser, parFichier } from "../../scr
 
 /**
  * Cliquet « plus jamais de nouveau branchement mort » : l'API NestJS est éteinte,
- * le seul back-end est functions/ (Cloudflare Pages Functions + Neon). Le nombre
- * d'appels du front vers une route absente de functions/ ne doit jamais augmenter.
+ * le seul back-end est functions/ (Cloudflare Pages Functions + Neon).
+ *  - atteignables : appels morts dans un fichier importé depuis main.tsx (donc livrés
+ *    aux visiteurs) — doit rester à 0 : une page ne dépend jamais d'une route absente ;
+ *  - total : appels morts dans tout le code source (modules en sommeil compris) —
+ *    ne doit jamais augmenter.
  * Après un rebranchement : node apps/web/scripts/appels-morts.mjs --write (le chiffre baisse).
  */
 describe("appels réseau du front", () => {
-  const ref = JSON.parse(readFileSync(CLIQUET, "utf8")) as { total: number; parFichier: Record<string, number> };
-  const { morts } = analyser();
+  const ref = JSON.parse(readFileSync(CLIQUET, "utf8")) as { total: number; atteignables: number; parFichier: Record<string, number> };
+  const { morts, atteignables } = analyser();
+  const detail = (liste: typeof morts) => liste.map((a) => `${a.fichier}:${a.ligne} → ${a.chemin}`);
 
   it("reconnaît les routes servies par functions/ (avec [param])", () => {
     expect(estVivante("/api/cc/leads")).toBe(true);
@@ -19,6 +23,11 @@ describe("appels réseau du front", () => {
     expect(estVivante("/p2/categories")).toBe(false);
     expect(normaliser("\u0000/api/cc/leads/\u0000?x=1")).toBe("/api/cc/leads/:");
     expect(normaliser("/chiffrage")).toBeNull();
+  });
+
+  it("aucune page livrée ne dépend d'une route absente de functions/", () => {
+    expect(detail(atteignables), "Appel vers une route absente de functions/ dans du code livré — créez la Function ou retirez l'appel").toEqual([]);
+    expect(atteignables.length).toBeLessThanOrEqual(ref.atteignables);
   });
 
   it("aucun appel mort de plus que la référence docs/architecture/appels-morts.json", () => {
