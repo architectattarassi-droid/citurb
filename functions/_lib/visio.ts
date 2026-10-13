@@ -16,7 +16,8 @@
 
 export interface VisioEnv { JAAS_APP_ID?: string; JAAS_KEY_ID?: string; JAAS_PRIVATE_KEY_PEM?: string }
 
-export const CONTEXTES = ["rdv", "chantier", "reunion"] as const;
+/** Préfixes de salle ; les appels sur demande (functions/_lib/appels.ts) utilisent leur propre contexte. */
+export const CONTEXTES = ["rdv", "chantier", "reunion", "dossier", "cercles", "fournisseur"] as const;
 export type Contexte = (typeof CONTEXTES)[number];
 export const DOMAINE_JAAS = "8x8.vc";
 export const DUREE_JETON_S = 2 * 3600;

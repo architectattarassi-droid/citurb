@@ -2665,3 +2665,41 @@ model ProjetEvenement {
 
   @@index([projetId, createdAt], map: "ProjetEvenement_projet_date_idx")
 }
+
+/// Appel vidéo SUR DEMANDE (accord de toutes les parties) — functions/_lib/appels.ts.
+/// SQL Neon : docs/sql/appels-video-neon.sql (index GIN sur "cles" et "jetons", que
+/// Prisma ne sait pas décrire : à conserver). La salle n'existe qu'à la confirmation.
+model DemandeAppel {
+  id            String    @id
+  /// dossier | chantier | reunion | cercles | fournisseur | rdv
+  contexte      String
+  objetId       String
+  /// admin:cabinet, frn:<id>, usr:<id>, membre:<id>, rdv:<id>, vis:<empreinte>
+  demandeurCle  String
+  /// EN_ATTENTE | CONFIRMEE | REFUSEE | ANNULEE | EXPIREE | TERMINEE
+  statut        String    @default("EN_ATTENTE")
+  creneauRetenu DateTime? @db.Timestamptz(3)
+  expireLe      DateTime  @db.Timestamptz(3)
+  /// Clés des participants
+  cles          String[]  @default([])
+  /// Empreintes SHA-256 des liens personnels (jamais les liens)
+  jetons        String[]  @default([])
+  /// Demande complète : participants (statut, créneaux), créneaux proposés, message, salle, historique
+  donnees       Json
+  version       Int       @default(1)
+  rappelEnvoye  Boolean   @default(false)
+  createdAt     DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime  @default(now()) @db.Timestamptz(3)
+
+  @@index([demandeurCle, createdAt], map: "DemandeAppel_demandeur_idx")
+  @@index([statut, creneauRetenu], map: "DemandeAppel_statut_idx")
+}
+
+/// « Ne plus recevoir de demandes d'appel de cette personne ».
+model BlocageAppel {
+  destinataireCle String
+  demandeurCle    String
+  createdAt       DateTime @default(now()) @db.Timestamptz(3)
+
+  @@id([destinataireCle, demandeurCle])
+}
