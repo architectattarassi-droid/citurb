@@ -101,7 +101,7 @@ Routes dans `apps/web/src/features/cercles/routes.tsx` :
 - `/cercles/:slug` → CercleDetailPage
 - `/cercles/:slug/posts/:postId` → PostDetailPage
 - `/cercles/:slug/rooms/:roomSlug` → LiveRoomLobbyPage
-- `/cercles/:slug/rooms/:roomSlug/live` → LiveRoomPage
+- `/cercles/:slug/rooms/:roomSlug/live` → redirigé vers l'annuaire (salle LiveKit supprimée ; visios entre pros : « Demander un appel vidéo », docs/architecture/contrat-appels-video.md)
 
 App Desktop dédiée : `CITURBAREA Cercles.exe` (variant `cercles`, ouvre `/cercles`).
 
