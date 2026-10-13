@@ -1,15 +1,22 @@
 /**
- * Client des Pages Functions Cercles fournisseurs (même origine, cookie
- * frn_session HttpOnly posé par /api/cercles/acces/verifier).
+ * Client des Pages Functions Cercles (même origine ; cookie frn_session
+ * HttpOnly posé par /api/cercles/acces/verifier pour l'espace pro).
+ * Contrat : docs/architecture/contrat-catalogue.md. Les messages d'erreur
+ * lisibles (FR/AR/EN) sont dans textes.ts (`useTextes().erreur(code)`).
  */
+import type { DocumentPro, ReferenceChantier, Score } from "../../domain/cercles/gabarits";
+
+/** Champs du gabarit du métier (domain/cercles/gabarits.ts) ; `references` : chantiers. */
+export type FicheSociete = Record<string, unknown> & { references?: ReferenceChantier[] };
 
 export interface FournisseurPublic {
-  slug: string; raisonSociale: string; metier: string; metierLibelle: string; ville: string; region: string | null;
-  zonesLivraison: string[]; categories: string[]; logoUrl: string | null; description: string | null; verifie: boolean; membreDepuis: string | null;
+  slug: string; raisonSociale: string; raisonSocialeAr: string | null; metier: string; metierLibelle: string; ville: string; region: string | null;
+  zonesLivraison: string[]; categories: string[]; logoUrl: string | null; description: string | null; descriptionAr: string | null;
+  verifie: boolean; documentsVerifies: boolean; fiche: FicheSociete; membreDepuis: string | null;
 }
 export interface FournisseurPrive extends FournisseurPublic {
   id: string; statut: "PENDING" | "APPROVED" | "REJECTED" | "SUSPENDED"; contactNom: string | null; telephone: string; email: string;
-  ice: string | null; siteWeb: string | null; motifRejet: string | null;
+  ice: string | null; siteWeb: string | null; motifRejet: string | null; documents: DocumentPro[]; formule: string;
 }
 export interface Livraison { zone: string; frais: number; delaiJours: number | null }
 export interface Degressif { aPartirDe: number; prixHT: number }
@@ -23,10 +30,35 @@ export interface FicheSaisie {
   materiauCode: string; uniteVente: string; prixHT: number | string; tvaPct?: number; quantiteMin?: number | string | null;
   degressifs?: Degressif[]; livraison?: Livraison[]; disponibilite?: string; validiteJusquau?: string; marque?: string; note?: string;
 }
+export type StatutOffre = "PENDING" | "APPROVED" | "REJECTED" | "ARCHIVED";
+/** Fiche produit : vue publique (sans prix ni statut) ; champs facultatifs = vue propriétaire. */
+export interface Produit {
+  id: string; slug: string; famille: string; categorie: string; designationFr: string | null; designationAr: string | null;
+  descriptionFr: string | null; descriptionAr: string | null; marque: string | null; modele: string | null; gamme: string | null;
+  caracteristiques: Record<string, unknown>; uniteVente: string; conditionnement: string | null; uniteRef: string; facteur: number;
+  quantiteMin: number | null; delaiJours: number | null; zones: string[]; disponibilite: string; validiteJusquau: string | null;
+  photos: string[]; ficheTechniqueUrl: string | null; materiauCode: string | null; misAJour: string | null;
+  prixHT?: number; tvaPct?: number; prixTTC?: number; prixRefHT?: number; degressifs?: Degressif[];
+  statut?: StatutOffre; codePropose?: string | null; signalement?: string | null; ecartRef?: number | null; motifRejet?: string | null;
+}
+export interface Service {
+  id: string; nature: string; ouvrageCode: string | null; prestationCode: string | null; designationFr: string | null; designationAr: string | null;
+  descriptionFr: string | null; descriptionAr: string | null; unite: string; zones: string[]; delaiJours: number | null; conditions: string | null;
+  validiteJusquau: string | null; photos: string[]; misAJour: string | null;
+  prixHT?: number; tvaPct?: number; prixTTC?: number; statut?: StatutOffre; signalement?: string | null; ecartRef?: number | null; motifRejet?: string | null;
+}
+export interface Moi { ok: true; fournisseur: FournisseurPrive; fiches: Fiche[]; peutPublierFiches: boolean; produits: Produit[]; services: Service[]; score: Score }
+export interface ProAnnuaire extends FournisseurPublic { nbProduits: number; nbServices: number; nbFiches: number; codesCouverts?: string[] }
+export interface FichePro {
+  ok: true; fournisseur: FournisseurPublic; produits: Produit[]; services: Service[];
+  materiauxChiffres: { materiauCode: string; libelle: string; uniteVenteLibelle: string; disponibilite: string; marque: string | null; majLe: string | null }[];
+}
 
 export class ErreurApi extends Error {
   constructor(public status: number, public code: string, public extra: Record<string, unknown> = {}) { super(code); }
 }
+/** Code d'erreur des Pages Functions (null : réseau). */
+export const codeErreur = (e: unknown): string | null => (e instanceof ErreurApi ? e.code : null);
 
 async function appel<T>(chemin: string, init: RequestInit = {}): Promise<T> {
   const r = await fetch(chemin, {
@@ -41,51 +73,33 @@ async function appel<T>(chemin: string, init: RequestInit = {}): Promise<T> {
 }
 
 const post = <T,>(chemin: string, corps: unknown, methode = "POST") => appel<T>(chemin, { method: methode, body: JSON.stringify(corps) });
+const id_ = (id: string) => encodeURIComponent(id);
 
 export const apiFournisseurs = {
   inscrire: (corps: Record<string, unknown>) => post<{ ok: true; message: string }>("/api/cercles/inscription", corps),
   demanderCode: (email: string) => post<{ ok: true; envoi: "email" | "admin"; message: string }>("/api/cercles/acces/demande", { email }),
   verifierCode: (email: string, code: string) => post<{ ok: true }>("/api/cercles/acces/verifier", { email, code }),
   deconnexion: () => post<{ ok: true }>("/api/cercles/acces/deconnexion", {}),
-  moi: () => appel<{ ok: true; fournisseur: FournisseurPrive; fiches: Fiche[]; peutPublierFiches: boolean }>("/api/cercles/espace/moi"),
+  moi: () => appel<Moi>("/api/cercles/espace/moi"),
   majProfil: (corps: Record<string, unknown>) => post<{ ok: true; fournisseur: FournisseurPrive }>("/api/cercles/espace/moi", corps, "PUT"),
   enregistrerFiche: (f: FicheSaisie) => post<{ ok: true; fiche: Fiche }>("/api/cercles/espace/fiches", f),
   importer: (lignes: FicheSaisie[]) =>
     post<{ ok: true; importees: number; erreurs: number; resultats: { ligne: number; ok: boolean; materiauCode?: string; error?: string; signalement?: string | null }[] }>(
       "/api/cercles/espace/fiches/import", { lignes }),
-  supprimerFiche: (id: string) => appel<{ ok: true }>(`/api/cercles/espace/fiches/${encodeURIComponent(id)}`, { method: "DELETE" }),
+  supprimerFiche: (id: string) => appel<{ ok: true }>(`/api/cercles/espace/fiches/${id_(id)}`, { method: "DELETE" }),
   historique: (id: string) => appel<{ ok: true; historique: { at: string; action: string; prixHT: number; uniteVente: string; prixRefHT: number }[] }>(
-    `/api/cercles/espace/fiches/${encodeURIComponent(id)}`),
+    `/api/cercles/espace/fiches/${id_(id)}`),
+  deposerDocument: (corps: { type: string; url?: string; note?: string; expireLe?: string }) =>
+    post<{ ok: true; documents: DocumentPro[] }>("/api/cercles/espace/documents", corps),
+  retirerDocument: (id: string) => appel<{ ok: true; documents: DocumentPro[] }>(`/api/cercles/espace/documents/${id_(id)}`, { method: "DELETE" }),
+  enregistrerProduit: (id: string | null, corps: Record<string, unknown>) =>
+    post<{ ok: true; produit: Produit }>(id ? `/api/cercles/espace/produits/${id_(id)}` : "/api/cercles/espace/produits", corps, id ? "PUT" : "POST"),
+  retirerProduit: (id: string) => appel<{ ok: true }>(`/api/cercles/espace/produits/${id_(id)}`, { method: "DELETE" }),
+  enregistrerService: (id: string | null, corps: Record<string, unknown>) =>
+    post<{ ok: true; service: Service }>(id ? `/api/cercles/espace/services/${id_(id)}` : "/api/cercles/espace/services", corps, id ? "PUT" : "POST"),
+  retirerService: (id: string) => appel<{ ok: true }>(`/api/cercles/espace/services/${id_(id)}`, { method: "DELETE" }),
+  annuaire: (params: Record<string, string>) =>
+    appel<{ ok: true; total: number; fournisseurs: ProAnnuaire[] }>(`/api/cercles/annuaire?${new URLSearchParams(Object.entries(params).filter(([, v]) => v))}`),
+  fichePro: (slug: string) => appel<FichePro>(`/api/cercles/pro/${id_(slug)}`),
+  contacter: (corps: Record<string, unknown>) => post<{ ok: true; message: string }>("/api/cercles/contact", corps),
 };
-
-/** Messages lisibles pour les codes d'erreur des fonctions. */
-export const MESSAGES_ERREUR: Record<string, string> = {
-  metier_invalid: "Choisissez votre métier.",
-  raison_sociale_invalid: "Indiquez la raison sociale (2 caractères minimum).",
-  ville_invalid: "Indiquez votre ville.",
-  phone_invalid: "Numéro de téléphone invalide (ex. 06 12 34 56 78).",
-  email_invalid: "Adresse e-mail invalide.",
-  ice_invalid: "L'ICE compte 15 chiffres.",
-  conditions_required: "Merci d'accepter les conditions de mise en relation.",
-  logo_invalid: "Le logo doit être une adresse https://…",
-  too_many_requests: "Trop de tentatives. Réessayez dans quelques minutes.",
-  code_invalid: "Code incorrect.",
-  code_expired: "Code expiré ou trop d'essais : demandez un nouveau code.",
-  unauthenticated: "Session expirée : reconnectez-vous.",
-  materiau_inconnu: "Matériau inconnu du catalogue.",
-  unite_invalide: "Unité de vente non prévue pour ce matériau.",
-  prix_invalide: "Prix HT invalide.",
-  tva_invalide: "TVA : 0, 7, 10, 14 ou 20 %.",
-  quantite_min_invalide: "Quantité minimale invalide.",
-  degressif_invalide: "Prix dégressifs : quantités croissantes, prix décroissants et inférieurs au prix de base.",
-  livraison_invalide: "Frais ou délai de livraison invalide.",
-  disponibilite_invalide: "Disponibilité invalide.",
-  validite_invalide: "Date de validité invalide (aujourd'hui à 13 mois).",
-  metier_sans_fiches: "Les fiches de prix matériaux sont réservées aux fournisseurs, entreprises et artisans.",
-  doublon: "Matériau en double dans le fichier.",
-  storage_unavailable: "Service momentanément indisponible. Réessayez plus tard.",
-  not_installed: "Le service fournisseurs est en cours d'ouverture. Réessayez bientôt.",
-  access_not_configured: "Le service fournisseurs est en cours d'ouverture. Réessayez bientôt.",
-};
-export const messageErreur = (e: unknown): string =>
-  e instanceof ErreurApi ? MESSAGES_ERREUR[e.code] || `Erreur (${e.code}).` : "Connexion impossible. Vérifiez votre réseau.";

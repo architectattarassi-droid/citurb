@@ -1,40 +1,46 @@
 /**
- * /cercles/espace — espace du fournisseur : connexion par code à usage unique
- * (lien magique : #email=…&code=…), fiches de prix, import tableur, profil.
+ * /cercles/espace — espace du pro : connexion par code à usage unique (lien
+ * magique : #email=…&code=…), fiche société prédisposée par métier, fiches
+ * produit, prestations, prix des matériaux du référentiel, import tableur,
+ * documents justificatifs, coordonnées. Trilingue (FR / AR / EN).
  */
 import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { CHAMPS_FICHE, DOCUMENTS, type Score } from "../../domain/cercles/gabarits";
+import { CATEGORIES_L3, REGIONS_L3 } from "../../domain/cercles/libelles";
 import { CATALOGUE } from "../../domain/materiaux/catalogue";
 import { lignesImport, lireTableau, modeleCsv } from "../../domain/materiaux/csv";
-import { REGIONS_MA, VILLES_MA, nomRegion } from "../../domain/materiaux/regions";
-import { CATEGORIES, type Categorie } from "../../domain/materiaux/types";
-import { apiFournisseurs, ErreurApi, messageErreur, MESSAGES_ERREUR, type Fiche, type FicheSaisie, type FournisseurPrive } from "./api";
+import { REGIONS_MA, VILLES_MA } from "../../domain/materiaux/regions";
+import { apiFournisseurs, codeErreur, ErreurApi, type Fiche, type FicheSaisie, type FournisseurPrive, type Moi } from "./api";
+import DocumentsPro from "./DocumentsPro";
 import FicheForm from "./FicheForm";
-import { BadgeStatut, Champ, fmtDH, PageFournisseurs, Puces, T } from "./ui";
+import FicheSocieteForm from "./FicheSocieteForm";
+import ProduitsPro from "./ProduitsPro";
+import ServicesPro from "./ServicesPro";
+import { useTextes, type CleTexte } from "./textes";
+import { BadgeStatut, Champ, PageFournisseurs, Puces, T } from "./ui";
 
-type Etat = { phase: "chargement" } | { phase: "connexion" } | { phase: "connecte"; f: FournisseurPrive; fiches: Fiche[]; peutPublierFiches: boolean };
+type Etat = { phase: "chargement" } | { phase: "connexion" } | { phase: "connecte"; m: Moi };
 
 export default function EspaceFournisseurPage() {
+  const x = useTextes();
   const [etat, setEtat] = useState<Etat>({ phase: "chargement" });
   const charger = useCallback(async () => {
-    try {
-      const r = await apiFournisseurs.moi();
-      setEtat({ phase: "connecte", f: r.fournisseur, fiches: r.fiches, peutPublierFiches: r.peutPublierFiches });
-    } catch { setEtat({ phase: "connexion" }); }
+    try { setEtat({ phase: "connecte", m: await apiFournisseurs.moi() }); } catch { setEtat({ phase: "connexion" }); }
   }, []);
   useEffect(() => { void charger(); }, [charger]);
 
   return (
     <PageFournisseurs>
-      {etat.phase === "chargement" && <p>Chargement…</p>}
+      {etat.phase === "chargement" && <p>{x.t("chargement")}</p>}
       {etat.phase === "connexion" && <Connexion onConnecte={charger} />}
-      {etat.phase === "connecte" && <Espace f={etat.f} fiches={etat.fiches} peutPublierFiches={etat.peutPublierFiches} recharger={charger}
-        onDeconnecte={() => setEtat({ phase: "connexion" })} />}
+      {etat.phase === "connecte" && <Espace m={etat.m} recharger={charger} onDeconnecte={() => setEtat({ phase: "connexion" })} />}
     </PageFournisseurs>
   );
 }
 
 function Connexion({ onConnecte }: { onConnecte: () => void }) {
+  const x = useTextes();
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [etape, setEtape] = useState<"email" | "code">("email");
@@ -45,8 +51,8 @@ function Connexion({ onConnecte }: { onConnecte: () => void }) {
   const verifier = useCallback(async (e: string, c: string) => {
     setErreur(""); setEnvoi(true);
     try { await apiFournisseurs.verifierCode(e, c); onConnecte(); }
-    catch (err) { setErreur(messageErreur(err)); } finally { setEnvoi(false); }
-  }, [onConnecte]);
+    catch (err) { setErreur(x.erreur(codeErreur(err))); } finally { setEnvoi(false); }
+  }, [onConnecte]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Lien magique reçu par e-mail : le code est dans le fragment (#), jamais envoyé au serveur dans l'URL.
   useEffect(() => {
@@ -62,68 +68,105 @@ function Connexion({ onConnecte }: { onConnecte: () => void }) {
   async function demander(ev: React.FormEvent) {
     ev.preventDefault();
     setErreur(""); setEnvoi(true);
-    try { const r = await apiFournisseurs.demanderCode(email); setInfo(r.message); setEtape("code"); }
-    catch (err) { setErreur(messageErreur(err)); } finally { setEnvoi(false); }
+    try { const r = await apiFournisseurs.demanderCode(email); setInfo(x.t(r.envoi === "email" ? "codeEnvoyeEmail" : "codeEnvoyeAdmin")); setEtape("code"); }
+    catch (err) { setErreur(x.erreur(codeErreur(err))); } finally { setEnvoi(false); }
   }
 
   return (
-    <div style={{ maxWidth: 520 }}>
-      <h1 className="frn-titre">Mon espace fournisseur</h1>
-      <p className="frn-chapo">Pas de mot de passe : indiquez l'e-mail de votre inscription, vous recevez un code à usage unique.</p>
+    <div style={{ maxWidth: 540 }}>
+      <h1 className="frn-titre">{x.t("cnxTitre")}</h1>
+      <p className="frn-chapo">{x.t("cnxChapo")}</p>
       {etape === "email" ? (
         <form className="frn-carte" onSubmit={demander} style={{ display: "grid", gap: 14 }}>
-          <Champ label="E-mail"><input className="frn-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" /></Champ>
+          <Champ label={x.t("email")}><input className="frn-input" type="email" dir="ltr" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" /></Champ>
           {erreur && <div className="frn-alerte frn-ko" role="alert">{erreur}</div>}
-          <button className="frn-btn" disabled={envoi}>{envoi ? "Envoi…" : "Recevoir mon code"}</button>
-          <small>Pas encore inscrit ? <Link to="/cercles/inscription">Inscrire mon entreprise</Link></small>
+          <button className="frn-btn" disabled={envoi}>{envoi ? x.t("envoi") : x.t("recevoirCode")}</button>
+          <small>{x.t("pasInscrit")} <Link to="/cercles/inscription">{x.t("navInscription")}</Link></small>
         </form>
       ) : (
         <form className="frn-carte" onSubmit={(e) => { e.preventDefault(); void verifier(email, code); }} style={{ display: "grid", gap: 14 }}>
           {info && <div className="frn-alerte frn-info">{info}</div>}
-          <Champ label="Code à 6 chiffres">
-            <input className="frn-input" value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))} inputMode="numeric"
+          <Champ label={x.t("code6")}>
+            <input className="frn-input" dir="ltr" value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))} inputMode="numeric"
               autoComplete="one-time-code" required style={{ letterSpacing: 6, fontSize: 22, textAlign: "center" }} />
           </Champ>
           {erreur && <div className="frn-alerte frn-ko" role="alert">{erreur}</div>}
-          <button className="frn-btn" disabled={envoi || code.length !== 6}>{envoi ? "Vérification…" : "Ouvrir mon espace"}</button>
-          <button type="button" className="frn-btn frn-btn-ghost" onClick={() => { setEtape("email"); setCode(""); setErreur(""); }}>Changer d'adresse ou renvoyer un code</button>
+          <button className="frn-btn" disabled={envoi || code.length !== 6}>{envoi ? x.t("verification") : x.t("ouvrirEspace")}</button>
+          <button type="button" className="frn-btn frn-btn-ghost" onClick={() => { setEtape("email"); setCode(""); setErreur(""); }}>{x.t("changerAdresse")}</button>
         </form>
       )}
     </div>
   );
 }
 
-const LIBELLES_FICHE = { PENDING: "En vérification", APPROVED: "Publiée", REJECTED: "Refusée" };
-const DISPO: Record<string, string> = { EN_STOCK: "En stock", SUR_COMMANDE: "Sur commande", RUPTURE: "Rupture" };
+type Onglet = "fiche" | "produits" | "services" | "prix" | "import" | "documents" | "profil";
 
-function Espace({ f, fiches, peutPublierFiches, recharger, onDeconnecte }: {
-  f: FournisseurPrive; fiches: Fiche[]; peutPublierFiches: boolean; recharger: () => void; onDeconnecte: () => void;
-}) {
-  const [onglet, setOnglet] = useState<"fiches" | "import" | "profil">(peutPublierFiches ? "fiches" : "profil");
+function libelleManquant(cle: string, x: ReturnType<typeof useTextes>): string {
+  if (cle === "description") return x.t("presentation");
+  if (cle === "logoUrl") return x.t("logo");
+  if (cle === "zonesLivraison") return x.t("zonesIntervention");
+  if (cle === "categories") return x.t("categories");
+  return x.l3(CHAMPS_FICHE[cle]?.libelle) || cle;
+}
+
+function PanneauScore({ s }: { s: Score }) {
+  const x = useTextes();
+  return (
+    <div className="frn-carte" style={{ display: "grid", gap: 8, padding: 16 }}>
+      <strong>{x.t("scoreTitre", { n: s.total })}</strong>
+      <div className="frn-barre" role="progressbar" aria-valuenow={s.total} aria-valuemin={0} aria-valuemax={100}><i style={{ width: `${s.total}%` }} /></div>
+      <small style={{ color: T.inkMid }}>{x.t("scoreAide")}</small>
+      {!!s.manquants.length && <small>{x.t("scoreManquants", { liste: s.manquants.slice(0, 8).map((c) => libelleManquant(c, x)).join(", ") })}{s.manquants.length > 8 ? "…" : ""}</small>}
+      {!!s.documentsManquants.length && <small>{x.t("scoreDocs", { liste: s.documentsManquants.map((d) => x.l3(DOCUMENTS[d])).join(", ") })}</small>}
+    </div>
+  );
+}
+
+function Espace({ m, recharger, onDeconnecte }: { m: Moi; recharger: () => void; onDeconnecte: () => void }) {
+  const x = useTextes();
+  const f = m.fournisseur;
+  const [onglet, setOnglet] = useState<Onglet>("fiche");
+  const onglets: [Onglet, CleTexte, number?][] = [
+    ["fiche", "tab_fiche"],
+    ...(m.peutPublierFiches ? [["produits", "tab_produits", m.produits.length] as [Onglet, CleTexte, number]] : []),
+    ["services", "tab_services", m.services.length],
+    ...(m.peutPublierFiches ? [["prix", "tab_prix", m.fiches.length] as [Onglet, CleTexte, number], ["import", "tab_import"] as [Onglet, CleTexte]] : []),
+    ["documents", "tab_documents"],
+    ["profil", "tab_profil"],
+  ];
   return (
     <>
       <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-        <h1 className="frn-titre" style={{ marginRight: "auto" }}>{f.raisonSociale}</h1>
+        <h1 className="frn-titre" style={{ marginInlineEnd: "auto" }}>{x.lang === "ar" && f.raisonSocialeAr ? f.raisonSocialeAr : f.raisonSociale}</h1>
         <BadgeStatut statut={f.statut} />
-        <button className="frn-btn frn-btn-ghost frn-btn-petit" onClick={async () => { try { await apiFournisseurs.deconnexion(); } finally { onDeconnecte(); } }}>Se déconnecter</button>
+        <button className="frn-btn frn-btn-ghost frn-btn-petit" onClick={async () => { try { await apiFournisseurs.deconnexion(); } finally { onDeconnecte(); } }}>{x.t("deconnexion")}</button>
       </div>
-      {f.statut === "PENDING" && <div className="frn-alerte frn-warn">Profil en cours de vérification par l'équipe CITURBAREA. Vous pouvez préparer vos fiches : elles seront visibles dès la validation.</div>}
-      {f.statut === "APPROVED" && <div className="frn-alerte frn-ok">Profil vérifié. <Link to={`/cercles/pro/${f.slug}`}>Voir ma fiche publique</Link></div>}
+      {f.statut === "PENDING" && <div className="frn-alerte frn-warn">{x.t("alerteAttente")}</div>}
+      {f.statut === "APPROVED" && <div className="frn-alerte frn-ok">{x.t("alerteVerifie")} <Link to={`${x.lang === "ar" ? "/ar" : ""}/cercles/pro/${f.slug}`}>{x.t("voirFiche")}</Link></div>}
+      {f.statut === "REJECTED" && f.motifRejet && <div className="frn-alerte frn-ko">{x.t("motif", { m: f.motifRejet })}</div>}
+      <div style={{ marginTop: 14 }}><PanneauScore s={m.score} /></div>
 
       <div className="frn-onglets" role="tablist">
-        {peutPublierFiches && <button role="tab" aria-selected={onglet === "fiches"} className={`frn-onglet${onglet === "fiches" ? " frn-onglet-on" : ""}`} onClick={() => setOnglet("fiches")}>Mes fiches de prix ({fiches.length})</button>}
-        {peutPublierFiches && <button role="tab" aria-selected={onglet === "import"} className={`frn-onglet${onglet === "import" ? " frn-onglet-on" : ""}`} onClick={() => setOnglet("import")}>Importer un tableur</button>}
-        <button role="tab" aria-selected={onglet === "profil"} className={`frn-onglet${onglet === "profil" ? " frn-onglet-on" : ""}`} onClick={() => setOnglet("profil")}>Mon profil</button>
+        {onglets.map(([k, cle, n]) => (
+          <button key={k} role="tab" aria-selected={onglet === k} className={`frn-onglet${onglet === k ? " frn-onglet-on" : ""}`} onClick={() => setOnglet(k)}>
+            {x.t(cle, { n: n ?? 0 })}
+          </button>
+        ))}
       </div>
 
-      {onglet === "fiches" && <Fiches f={f} fiches={fiches} recharger={recharger} />}
+      {onglet === "fiche" && <FicheSocieteForm f={f} recharger={recharger} />}
+      {onglet === "produits" && <ProduitsPro f={f} produits={m.produits} recharger={recharger} />}
+      {onglet === "services" && <ServicesPro f={f} services={m.services} recharger={recharger} />}
+      {onglet === "prix" && <Fiches f={f} fiches={m.fiches} recharger={recharger} />}
       {onglet === "import" && <Import f={f} recharger={recharger} />}
+      {onglet === "documents" && <DocumentsPro f={f} recharger={recharger} />}
       {onglet === "profil" && <Profil f={f} recharger={recharger} />}
     </>
   );
 }
 
 function Fiches({ f, fiches, recharger }: { f: FournisseurPrive; fiches: Fiche[]; recharger: () => void }) {
+  const x = useTextes();
   const [edition, setEdition] = useState<Fiche | "nouvelle" | null>(null);
   const [historique, setHistorique] = useState<{ id: string; lignes: { at: string; action: string; prixHT: number; uniteVente: string }[] } | null>(null);
   const [erreur, setErreur] = useState("");
@@ -135,39 +178,39 @@ function Fiches({ f, fiches, recharger }: { f: FournisseurPrive; fiches: Fiche[]
   return (
     <div style={{ display: "grid", gap: 14 }}>
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-        <button className="frn-btn frn-btn-or" onClick={() => setEdition("nouvelle")}>+ Ajouter une fiche</button>
-        <small style={{ color: T.inkMid }}>Une fiche par matériau ; chaque mise à jour est datée et conservée.</small>
+        <button className="frn-btn frn-btn-or" onClick={() => setEdition("nouvelle")}>{x.t("ajouterFiche")}</button>
+        <small style={{ color: T.inkMid }}>{x.t("unParMateriau")}</small>
       </div>
       {erreur && <div className="frn-alerte frn-ko">{erreur}</div>}
       {!fiches.length ? (
-        <div className="frn-carte">Aucune fiche pour l'instant. Ajoutez vos prix un par un ou importez un tableur.</div>
+        <div className="frn-carte">{x.t("aucuneFiche")}</div>
       ) : (
         <div className="frn-defil">
           <table className="frn-table frn-cartes-mobile">
-            <thead><tr><th>Matériau</th><th>Prix HT</th><th>Pour le chiffrage</th><th>Disponibilité</th><th>Valable jusqu'au</th><th>Statut</th><th /></tr></thead>
+            <thead><tr><th>{x.t("col_materiau")}</th><th>{x.t("col_prixHT")}</th><th>{x.t("col_chiffrage")}</th><th>{x.t("col_dispo")}</th><th>{x.t("col_validite")}</th><th>{x.t("col_statut")}</th><th /></tr></thead>
             <tbody>
-              {fiches.map((x) => (
-                <tr key={x.id}>
-                  <td data-l="Matériau"><strong>{x.libelle}</strong><br /><small style={{ color: T.inkMuted }}>{x.materiauCode}</small></td>
-                  <td data-l="Prix HT">{fmtDH(x.prixHT)} / {x.uniteVenteLibelle}</td>
-                  <td data-l="Chiffrage">{fmtDH(x.prixRefHT, 3)} / {x.uniteRef}</td>
-                  <td data-l="Disponibilité">{DISPO[x.disponibilite] || x.disponibilite}</td>
-                  <td data-l="Validité">{x.validiteJusquau ? new Date(x.validiteJusquau).toLocaleDateString("fr-FR") : "—"}</td>
-                  <td data-l="Statut"><BadgeStatut statut={x.statut} libelles={LIBELLES_FICHE} />{x.signalement && <><br /><small style={{ color: T.warn }}>Écart {Math.round((x.ecartRef || 0) * 100)} % / référence</small></>}</td>
+              {fiches.map((y) => (
+                <tr key={y.id}>
+                  <td data-l={x.t("col_materiau")}><strong lang="fr">{y.libelle}</strong><br /><small style={{ color: T.inkMuted }}>{y.materiauCode}</small></td>
+                  <td data-l={x.t("col_prixHT")}>{x.dh(y.prixHT)} / {y.uniteVenteLibelle}</td>
+                  <td data-l={x.t("col_chiffrage")}>{x.dh(y.prixRefHT, 3)} / {y.uniteRef}</td>
+                  <td data-l={x.t("col_dispo")}>{x.t(`dispo_${y.disponibilite}` as CleTexte) || y.disponibilite}</td>
+                  <td data-l={x.t("col_validite")}>{x.date(y.validiteJusquau)}</td>
+                  <td data-l={x.t("col_statut")}><BadgeStatut statut={y.statut} offre />{y.signalement && <><br /><small style={{ color: T.warn }}>{x.t("ecart", { n: Math.round((y.ecartRef || 0) * 100) })}</small></>}</td>
                   <td data-l="">
                     <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                      <button className="frn-btn frn-btn-ghost frn-btn-petit" onClick={() => setEdition(x)}>Modifier</button>
+                      <button className="frn-btn frn-btn-ghost frn-btn-petit" onClick={() => setEdition(y)}>{x.t("modifier")}</button>
                       <button className="frn-btn frn-btn-ghost frn-btn-petit" onClick={async () => {
-                        try { const h = await apiFournisseurs.historique(x.id); setHistorique({ id: x.id, lignes: h.historique }); } catch (e) { setErreur(messageErreur(e)); }
-                      }}>Historique</button>
+                        try { const h = await apiFournisseurs.historique(y.id); setHistorique({ id: y.id, lignes: h.historique }); } catch (e) { setErreur(x.erreur(codeErreur(e))); }
+                      }}>{x.t("historique")}</button>
                       <button className="frn-btn frn-btn-ghost frn-btn-petit" onClick={async () => {
-                        if (!window.confirm(`Retirer la fiche « ${x.libelle} » ?`)) return;
-                        try { await apiFournisseurs.supprimerFiche(x.id); recharger(); } catch (e) { setErreur(messageErreur(e)); }
-                      }}>Retirer</button>
+                        if (!window.confirm(x.t("confirmerRetrait", { x: y.libelle }))) return;
+                        try { await apiFournisseurs.supprimerFiche(y.id); recharger(); } catch (e) { setErreur(x.erreur(codeErreur(e))); }
+                      }}>{x.t("retirer")}</button>
                     </div>
-                    {historique?.id === x.id && (
-                      <ul style={{ margin: "8px 0 0", paddingLeft: 18, fontSize: 13, color: T.inkMid }}>
-                        {historique.lignes.map((h, i) => <li key={i}>{new Date(h.at).toLocaleString("fr-FR")} — {h.action.toLowerCase().replace("_", " ")}{h.prixHT != null ? ` : ${fmtDH(h.prixHT)} / ${h.uniteVente}` : ""}</li>)}
+                    {historique?.id === y.id && (
+                      <ul className="frn-liste" style={{ margin: "8px 0 0", fontSize: 13, color: T.inkMid }}>
+                        {historique.lignes.map((h, i) => <li key={i}>{x.date(h.at)} — {h.action.toLowerCase().replace("_", " ")}{h.prixHT != null ? ` : ${x.dh(h.prixHT)} / ${h.uniteVente}` : ""}</li>)}
                       </ul>
                     )}
                   </td>
@@ -182,6 +225,7 @@ function Fiches({ f, fiches, recharger }: { f: FournisseurPrive; fiches: Fiche[]
 }
 
 function Import({ f, recharger }: { f: FournisseurPrive; recharger: () => void }) {
+  const x = useTextes();
   const [texte, setTexte] = useState("");
   const [resultat, setResultat] = useState<{ importees: number; erreurs: number; resultats: { ligne: number; ok: boolean; materiauCode?: string; error?: string; signalement?: string | null }[] } | null>(null);
   const [erreur, setErreur] = useState("");
@@ -201,37 +245,37 @@ function Import({ f, recharger }: { f: FournisseurPrive; recharger: () => void }
     if (!apercu || !apercu.lignes.length) return;
     setErreur(""); setEnvoi(true);
     try { const r = await apiFournisseurs.importer(apercu.lignes as FicheSaisie[]); setResultat(r); recharger(); }
-    catch (e) { setErreur(e instanceof ErreurApi && e.code === "trop_de_lignes" ? "300 lignes maximum par import." : messageErreur(e)); }
+    catch (e) { setErreur(e instanceof ErreurApi && e.code === "trop_de_lignes" ? x.t("max300") : x.erreur(codeErreur(e))); }
     finally { setEnvoi(false); }
   }
 
   return (
     <div className="frn-carte" style={{ display: "grid", gap: 14 }}>
-      <ol style={{ margin: 0, paddingLeft: 20, lineHeight: 1.7, fontSize: 14 }}>
-        <li>Téléchargez le modèle (une ligne par matériau de vos catégories) et ouvrez-le dans Excel.</li>
-        <li>Remplissez <strong>prix_ht</strong> pour ce que vous vendez (laissez vide le reste), ajustez l'unité de vente, la validité (jj/mm/aaaa), les frais et délais de livraison ({nomRegion(zone)}).</li>
-        <li>Choisissez le fichier enregistré en CSV, ou copiez les cellules dans Excel et collez-les ci-dessous.</li>
+      <ol className="frn-liste">
+        <li>{x.t("imp1")}</li>
+        <li>{x.t("imp2", { zone: x.l3(REGIONS_L3[zone]) })}</li>
+        <li>{x.t("imp3")}</li>
       </ol>
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-        <button className="frn-btn frn-btn-ghost" type="button" onClick={telechargerModele}>Télécharger le modèle CSV</button>
+        <button className="frn-btn frn-btn-ghost" type="button" onClick={telechargerModele}>{x.t("telechargerModele")}</button>
         <label className="frn-btn frn-btn-ghost">
-          Choisir un fichier CSV
+          {x.t("choisirCsv")}
           <input type="file" accept=".csv,.txt,text/csv" style={{ display: "none" }} onChange={async (e) => { const fi = e.target.files?.[0]; if (fi) setTexte(await fi.text()); }} />
         </label>
       </div>
-      <textarea className="frn-input" rows={8} placeholder="…ou collez ici les cellules copiées depuis Excel (avec la ligne d'en-tête)" value={texte} onChange={(e) => { setTexte(e.target.value); setResultat(null); }} />
+      <textarea className="frn-input" dir="ltr" rows={8} placeholder={x.t("coller")} value={texte} onChange={(e) => { setTexte(e.target.value); setResultat(null); }} />
       {apercu && (apercu.enteteManquante
-        ? <div className="frn-alerte frn-ko">Ligne d'en-tête introuvable : gardez la première ligne du modèle (code, unite_vente, prix_ht…).</div>
-        : <div className="frn-alerte frn-info">{apercu.lignes.length} ligne(s) avec un prix, {apercu.ignorees} ligne(s) sans prix ignorée(s).</div>)}
+        ? <div className="frn-alerte frn-ko">{x.t("enteteManquante")}</div>
+        : <div className="frn-alerte frn-info">{x.t("lignesAvecPrix", { n: apercu.lignes.length, m: apercu.ignorees })}</div>)}
       {erreur && <div className="frn-alerte frn-ko">{erreur}</div>}
-      <div><button className="frn-btn" disabled={envoi || !apercu?.lignes.length} onClick={envoyer}>{envoi ? "Import…" : "Importer"}</button></div>
+      <div><button className="frn-btn" disabled={envoi || !apercu?.lignes.length} onClick={envoyer}>{envoi ? x.t("importEnCours") : x.t("importer")}</button></div>
       {resultat && (
         <div className={`frn-alerte ${resultat.erreurs ? "frn-warn" : "frn-ok"}`}>
-          {resultat.importees} fiche(s) enregistrée(s), {resultat.erreurs} erreur(s).
+          {x.t("resultatImport", { n: resultat.importees, m: resultat.erreurs })}
           {resultat.resultats.some((r) => !r.ok || r.signalement) && (
-            <ul style={{ margin: "6px 0 0", paddingLeft: 18 }}>
+            <ul className="frn-liste" style={{ marginTop: 6 }}>
               {resultat.resultats.filter((r) => !r.ok || r.signalement).map((r) => (
-                <li key={r.ligne}>Ligne {r.ligne + 1} ({r.materiauCode}) : {r.ok ? "écart de plus de 50 % avec la référence, vérification par l'équipe" : MESSAGES_ERREUR[r.error || ""] || r.error}</li>
+                <li key={r.ligne}>{x.t("ligneErreur", { n: r.ligne + 1, code: r.materiauCode || "", msg: r.ok ? x.t("ecartVerif") : x.erreur(r.error || null) })}</li>
               ))}
             </ul>
           )}
@@ -242,35 +286,35 @@ function Import({ f, recharger }: { f: FournisseurPrive; recharger: () => void }
 }
 
 function Profil({ f, recharger }: { f: FournisseurPrive; recharger: () => void }) {
-  const [v, setV] = useState({ contactNom: f.contactNom || "", ville: f.ville, telephone: f.telephone, ice: f.ice || "", logoUrl: f.logoUrl || "", siteWeb: f.siteWeb || "", description: f.description || "" });
+  const x = useTextes();
+  const [v, setV] = useState({ contactNom: f.contactNom || "", ville: f.ville, telephone: f.telephone, ice: f.ice || "", logoUrl: f.logoUrl || "", siteWeb: f.siteWeb || "" });
   const [zones, setZones] = useState<string[]>(f.zonesLivraison);
-  const [categories, setCategories] = useState<Categorie[]>(f.categories as Categorie[]);
+  const [categories, setCategories] = useState<string[]>(f.categories);
   const [msg, setMsg] = useState<{ ok: boolean; t: string } | null>(null);
   const maj = (k: keyof typeof v) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setV({ ...v, [k]: e.target.value });
   async function enregistrer(e: React.FormEvent) {
     e.preventDefault();
-    try { await apiFournisseurs.majProfil({ ...v, zonesLivraison: zones, categories }); setMsg({ ok: true, t: "Profil enregistré." }); recharger(); }
-    catch (err) { setMsg({ ok: false, t: messageErreur(err) }); }
+    try { await apiFournisseurs.majProfil({ ...v, zonesLivraison: zones, categories }); setMsg({ ok: true, t: x.t("enregistre") }); recharger(); }
+    catch (err) { setMsg({ ok: false, t: x.erreur(codeErreur(err)) }); }
   }
   return (
     <form className="frn-carte" onSubmit={enregistrer} style={{ display: "grid", gap: 14 }}>
       <div className="frn-grille2">
-        <Champ label="Raison sociale" aide="modifiable par l'équipe"><input className="frn-input" value={f.raisonSociale} disabled /></Champ>
-        <Champ label="E-mail" aide="identifiant de connexion"><input className="frn-input" value={f.email} disabled /></Champ>
-        <Champ label="Nom du contact"><input className="frn-input" value={v.contactNom} onChange={maj("contactNom")} /></Champ>
-        <Champ label="Ville"><input className="frn-input" value={v.ville} onChange={maj("ville")} list="frn-villes-p" /><datalist id="frn-villes-p">{VILLES_MA.map((x) => <option key={x} value={x} />)}</datalist></Champ>
-        <Champ label="Téléphone"><input className="frn-input" type="tel" value={v.telephone} onChange={maj("telephone")} /></Champ>
-        <Champ label="ICE"><input className="frn-input" value={v.ice} onChange={maj("ice")} inputMode="numeric" /></Champ>
-        <Champ label="Logo (https)"><input className="frn-input" type="url" value={v.logoUrl} onChange={maj("logoUrl")} /></Champ>
-        <Champ label="Site web (https)"><input className="frn-input" type="url" value={v.siteWeb} onChange={maj("siteWeb")} /></Champ>
+        <Champ label={x.t("raisonSociale")} aide={x.t("modifiableEquipe")}><input className="frn-input" value={f.raisonSociale} disabled /></Champ>
+        <Champ label={x.t("email")} aide={x.t("identifiantConnexion")}><input className="frn-input" dir="ltr" value={f.email} disabled /></Champ>
+        <Champ label={x.t("contactNom")}><input className="frn-input" value={v.contactNom} onChange={maj("contactNom")} /></Champ>
+        <Champ label={x.t("ville")}><input className="frn-input" value={v.ville} onChange={maj("ville")} list="frn-villes-p" /><datalist id="frn-villes-p">{VILLES_MA.map((y) => <option key={y} value={y} />)}</datalist></Champ>
+        <Champ label={x.t("telephone")} aide={x.t("telAide")}><input className="frn-input" type="tel" dir="ltr" value={v.telephone} onChange={maj("telephone")} /></Champ>
+        <Champ label={x.t("ice")} aide={x.t("iceAide")}><input className="frn-input" dir="ltr" value={v.ice} onChange={maj("ice")} inputMode="numeric" /></Champ>
+        <Champ label={x.t("logo")} aide={x.t("logoAide")}><input className="frn-input" type="url" dir="ltr" value={v.logoUrl} onChange={maj("logoUrl")} /></Champ>
+        <Champ label={x.t("siteWeb")} aide={x.t("facultatif")}><input className="frn-input" type="url" dir="ltr" value={v.siteWeb} onChange={maj("siteWeb")} /></Champ>
       </div>
-      <Champ label="Zones de livraison / d'intervention">
-        <Puces options={[["national", "Tout le Maroc"], ...REGIONS_MA.map((r) => [r.code, r.nom] as [string, string])]} valeurs={zones} onChange={setZones} />
+      <Champ label={x.t("zonesIntervention")}>
+        <Puces options={[["national", x.t("toutMaroc")], ...REGIONS_MA.map((r) => [r.code, x.l3(REGIONS_L3[r.code])] as [string, string])]} valeurs={zones} onChange={setZones} />
       </Champ>
-      <Champ label="Catégories"><Puces options={Object.entries(CATEGORIES) as [Categorie, string][]} valeurs={categories} onChange={setCategories} /></Champ>
-      <Champ label="Présentation"><textarea className="frn-input" rows={4} value={v.description} onChange={maj("description")} maxLength={1000} /></Champ>
+      <Champ label={x.t("categories")}><Puces options={Object.entries(CATEGORIES_L3).map(([c, l]) => [c, x.l3(l)] as [string, string])} valeurs={categories} onChange={setCategories} /></Champ>
       {msg && <div className={`frn-alerte ${msg.ok ? "frn-ok" : "frn-ko"}`}>{msg.t}</div>}
-      <div><button className="frn-btn">Enregistrer</button></div>
+      <div><button className="frn-btn">{x.t("enregistrer")}</button></div>
     </form>
   );
 }
