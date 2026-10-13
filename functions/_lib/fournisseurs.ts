@@ -11,6 +11,7 @@
 
 import { CATALOGUE, materiau } from "../../apps/web/src/domain/materiaux/catalogue";
 import { ecartReference, prixAberrant, prixParUniteRef, uniteVente } from "../../apps/web/src/domain/materiaux/conversions";
+import { prixReference } from "../../apps/web/src/domain/materiaux/reference";
 import { REGIONS_MA, regionDe } from "../../apps/web/src/domain/materiaux/regions";
 import { CATEGORIES } from "../../apps/web/src/domain/materiaux/types";
 import {
@@ -410,7 +411,7 @@ export async function fichesAModerer(depot: Depot): Promise<Reponse> {
       fiches: lignes.map((p) => {
         const ref = materiau(String(p.materiauCode));
         return { ...vueFiche(p), fournisseurId: String(p.fournisseurId), raisonSociale: String(p.raisonSociale), ville: String(p.ville),
-          statutFournisseur: String(p.statutFournisseur), prixReference: ref ? ref.prix.ref : null };
+          statutFournisseur: String(p.statutFournisseur), prixReference: ref ? prixReference(ref.code)?.ref ?? ref.prix.ref : null };
       }),
     },
   };

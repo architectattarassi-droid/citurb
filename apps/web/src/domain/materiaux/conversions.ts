@@ -3,6 +3,7 @@
  * Fonctions pures, partagées par le front ET les Pages Functions (functions/).
  */
 import { materiau } from "./catalogue";
+import { prixReference } from "./reference";
 import type { MaterialRef, UniteVente } from "./types";
 
 const arrondi = (x: number, n = 4) => Math.round(x * 10 ** n) / 10 ** n;
@@ -47,11 +48,14 @@ export function mediane(valeurs: number[]): number | null {
   return v.length % 2 ? v[k] : (v[k - 1] + v[k]) / 2;
 }
 
-/** Écart relatif d'un prix (par uniteRef) à la référence de recherche : 0,6 = +60 %. */
+/**
+ * Écart relatif d'un prix (par uniteRef) au prix de référence public
+ * (reference.ts : prix du moteur de chiffrage, sinon du catalogue) : 0,6 = +60 %.
+ */
 export function ecartReference(code: string, prixRef: number): number | null {
-  const ref = materiau(code);
-  if (!ref || !ref.prix.ref) return null;
-  return arrondi(prixRef / ref.prix.ref - 1, 3);
+  const ref = prixReference(code);
+  if (!ref || !ref.ref) return null;
+  return arrondi(prixRef / ref.ref - 1, 3);
 }
 
 /** Seuil de signalement à la modération (hors ±50 % de la référence) : signalé, jamais bloqué. */

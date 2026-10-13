@@ -6,6 +6,7 @@
 import React, { useMemo, useState } from "react";
 import { CATALOGUE, materiau } from "../../domain/materiaux/catalogue";
 import { prixAberrant, prixParUniteRef, unitesVente } from "../../domain/materiaux/conversions";
+import { prixReference } from "../../domain/materiaux/reference";
 import { REGIONS_MA } from "../../domain/materiaux/regions";
 import { CATEGORIES, UNITES_REF, type Categorie, type MaterialRef } from "../../domain/materiaux/types";
 import { apiFournisseurs, messageErreur, type Degressif, type Fiche, type Livraison } from "./api";
@@ -36,7 +37,7 @@ export function ChoixMateriau({ categories, valeur, onChange }: { categories: st
       </select>
       {choisi && (
         <small style={{ color: T.inkMid }}>
-          {choisi.libelle} · compté au chiffrage en <strong>{UNITES_REF[choisi.uniteRef]}</strong> · prix de référence {fmtDH(choisi.prix.ref)} / {choisi.uniteRef} (fiabilité {choisi.prix.fiabilite})
+          {choisi.libelle} · compté au chiffrage en <strong>{UNITES_REF[choisi.uniteRef]}</strong> · prix de référence {fmtDH(prixReference(choisi.code)?.ref ?? choisi.prix.ref)} / {choisi.uniteRef} (fiabilité {prixReference(choisi.code)?.fiabilite ?? choisi.prix.fiabilite})
         </small>
       )}
     </div>
@@ -108,7 +109,7 @@ export default function FicheForm({ categories, regionParDefaut, initiale, onEnr
         {prixRef !== null && (
           <div className={`frn-alerte ${aberrant ? "frn-warn" : "frn-info"}`}>
             Soit {fmtDH(prixNum * (1 + tva / 100))} TTC, et {fmtDH(prixRef, 3)} HT par {ref.uniteRef} pour le chiffrage
-            {aberrant ? ` — écart de plus de 50 % avec la référence (${fmtDH(ref.prix.ref)}) : la fiche sera vérifiée par l'équipe avant publication.` : "."}
+            {aberrant ? ` — écart de plus de 50 % avec la référence (${fmtDH(prixReference(ref.code)?.ref ?? ref.prix.ref)}) : la fiche sera vérifiée par l'équipe avant publication.` : "."}
           </div>
         )}
         <div className="frn-grille3">
