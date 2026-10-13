@@ -15,6 +15,7 @@ import { useT, useLang } from "../../i18n/i18n";
 import { captureLead, currentUtm, leadKey, qualifierLead, sanitizeWizard, telephoneEnvoyable, type CaptureBody } from "./leadBridge";
 import { lienTel, lienWhatsApp } from "../../config/contact";
 import { evenement } from "../../lib/marketing";
+import { HONEYPOT_STYLE } from "../../lib/honeypot";
 
 /** Indicatifs proposés (Maroc + pays de résidence des MRE). */
 const INDICATIFS = [
@@ -403,7 +404,7 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
           tabIndex={-1}
           autoComplete="off"
           aria-hidden="true"
-          style={{ position: "absolute", left: "-10000px", width: 1, height: 1, opacity: 0 }}
+          style={HONEYPOT_STYLE}
         />
 
         {status === "error" && errMsg && (

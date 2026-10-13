@@ -9,6 +9,7 @@ import { REGIONS_MA, VILLES_MA } from "../../domain/materiaux/regions";
 import { CATEGORIES, type Categorie } from "../../domain/materiaux/types";
 import { apiFournisseurs, messageErreur } from "./api";
 import { Champ, PageFournisseurs, Puces } from "./ui";
+import { HONEYPOT_STYLE } from "../../lib/honeypot";
 
 export const METIERS: [string, string][] = [
   ["FOURNISSEUR_MATERIAUX", "Fournisseur / négociant de matériaux"],
@@ -83,7 +84,7 @@ export default function InscriptionProPage() {
       <form className="frn-carte" onSubmit={soumettre} noValidate style={{ display: "grid", gap: 16 }}>
         {/* Pot de miel : invisible pour un humain. */}
         <input type="text" name="website" value={f.website} onChange={maj("website")} tabIndex={-1} autoComplete="off"
-          aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }} />
+          aria-hidden="true" style={HONEYPOT_STYLE} />
 
         <div className="frn-grille2">
           <Champ label="Métier">

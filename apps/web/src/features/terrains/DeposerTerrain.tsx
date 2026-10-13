@@ -8,6 +8,7 @@ import { deposerTerrain, type DepotTerrain } from "./api";
 import { telephoneEnvoyable } from "../lead-funnel/leadBridge";
 import { lienWhatsApp } from "../../config/contact";
 import { evenement } from "../../lib/marketing";
+import { HONEYPOT_STYLE } from "../../lib/honeypot";
 
 const ERREURS: Record<string, string> = {
   mandat_requis: "Un intermédiaire doit confirmer disposer d'un mandat du propriétaire.",
@@ -113,7 +114,7 @@ export default function DeposerTerrain() {
           <label className="grid gap-1 text-sm font-semibold text-slate-700 sm:col-span-2">E-mail <span className="font-normal text-slate-400">(facultatif)</span><input type="email" value={f.email ?? ""} onChange={(e) => maj({ email: e.target.value })} className={champ} autoComplete="email" /></label>
         </div>
 
-        <input type="text" name="website" value={f.website ?? ""} onChange={(e) => maj({ website: e.target.value })} tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, opacity: 0 }} />
+        <input type="text" name="website" value={f.website ?? ""} onChange={(e) => maj({ website: e.target.value })} tabIndex={-1} autoComplete="off" aria-hidden="true" style={HONEYPOT_STYLE} />
 
         <label className="flex items-start gap-2 text-sm text-slate-700">
           <input type="checkbox" checked={f.consentement} onChange={(e) => maj({ consentement: e.target.checked })} className="mt-1 h-5 w-5" />
