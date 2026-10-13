@@ -11,6 +11,7 @@
 import React, { useEffect, useState } from 'react';
 import TerrainsModule from "./modules/terrains/TerrainsModule";
 import RendezVousModule from "./modules/rendezvous/RendezVousModule";
+import ProjetsModule from "./modules/projets/ProjetsModule";
 import { Routes, Route, Navigate } from 'react-router-dom';
 import CCLayout from './layout/CCLayout';
 import CCDashboard from './modules/dashboard/CCDashboard';
@@ -92,6 +93,7 @@ export default function CommandCenterApp() {
               <Route path="dossiers" element={<DossiersModule />} />
               <Route path="terrains" element={<TerrainsModule />} />
               <Route path="rendez-vous" element={<RendezVousModule />} />
+              <Route path="projets/*" element={<ProjetsModule />} />
               <Route path="devis" element={<DevisLibre />} />
               <Route path="simulateur" element={<CCSimulateur />} />
               <Route path="dossiers/:id" element={<PhaseWorkspace />} />
