@@ -461,7 +461,7 @@ export async function modererService(id: string, body: unknown, auteur: string, 
 // publiés seulement agrégés à partir de 3 fournisseurs distincts.
 
 /** Lecture publique : fournisseurs fictifs inclus seulement en aperçu (hôtes de prévisualisation). */
-export interface OptionsLecture { inclureFictifs?: boolean }
+export interface OptionsLecture { inclureFictifs?: boolean; /** https://hôte de la requête, pour des URL d'images absolues. */ origine?: string }
 export type Texte = { fr: string; ar?: string; en?: string };
 
 const normaliser = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
@@ -550,8 +550,8 @@ function variante(cle: string, g: Ligne[], images: Map<string, ReturnType<typeof
 }
 
 /** Images publiques par objet (« PRODUIT:id », « SERVICE:id », « SOCIETE:id ») ; table absente → aucune image. */
-async function imagesPubliques(depot: DepotC, fictifs: boolean) {
-  try { return imagesParObjet(await depot.imPubliques(fictifs)); } catch { return new Map<string, ReturnType<typeof vueImagePublique>[]>(); }
+async function imagesPubliques(depot: DepotC, fictifs: boolean, origine = "") {
+  try { return imagesParObjet(await depot.imPubliques(fictifs), origine); } catch { return new Map<string, ReturnType<typeof vueImagePublique>[]>(); }
 }
 const MAX_IMAGES_VARIANTE = 8;
 
@@ -566,7 +566,7 @@ export async function catalogueProduits(q: URLSearchParams, depot: DepotC | null
   if (!depot) return vide(false);
   let lignes: Ligne[], dyn: Ligne[];
   try { [lignes, dyn] = await Promise.all([depot.prPublics(!!opts.inclureFictifs), depot.refLister()]); } catch { return vide(false); }
-  const images = await imagesPubliques(depot, !!opts.inclureFictifs);
+  const images = await imagesPubliques(depot, !!opts.inclureFictifs, opts.origine);
   const region = regionParam(q.get("region"));
   const categorie = q.get("categorie"), famille = q.get("famille"), gamme = q.get("gamme"), fournisseur = q.get("fournisseur");
   const code = (q.get("code") || "").toUpperCase(), recherche = q.get("q") || "";
@@ -592,7 +592,7 @@ export async function catalogueServices(q: URLSearchParams, depot: DepotC | null
   if (!depot) return { status: 200, json: { ok: true, disponible: false, total: 0, services: [] }, entetes };
   let lignes: Ligne[];
   try { lignes = await depot.svPublics(!!opts.inclureFictifs); } catch { return { status: 200, json: { ok: true, disponible: false, total: 0, services: [] }, entetes }; }
-  const images = await imagesPubliques(depot, !!opts.inclureFictifs);
+  const images = await imagesPubliques(depot, !!opts.inclureFictifs, opts.origine);
   const region = regionParam(q.get("region"));
   const nature = q.get("nature"), ouvrage = q.get("ouvrage") || q.get("code"), prestation = q.get("prestation"), lot = q.get("lot"), fournisseur = q.get("fournisseur");
   const duLot = lot ? codesDuLot(lot) : null;
@@ -712,7 +712,7 @@ export async function annuaire(q: URLSearchParams, depot: DepotC, opts: OptionsL
 export async function fichePro(slug: string, depot: DepotC, opts: OptionsLecture = {}): Promise<Reponse> {
   const f = await depot.fParSlug(slug);
   if (!f || f.statut !== "APPROVED" || (jsonObj(f.meta).fictif === true && !opts.inclureFictifs)) return erreur(404, "not_found");
-  const [produits, services, fiches, images] = await Promise.all([depot.prPublics(true), depot.svPublics(true), depot.fichesApprouvees(String(f.id)), imagesPubliques(depot, true)]);
+  const [produits, services, fiches, images] = await Promise.all([depot.prPublics(true), depot.svPublics(true), depot.fichesApprouvees(String(f.id)), imagesPubliques(depot, true, opts.origine)]);
   return {
     status: 200,
     json: {
@@ -752,7 +752,7 @@ export async function catalogueFournisseurs(q: URLSearchParams, depot: DepotC | 
   if (!depot) return vide(false);
   let pros: Ligne[], produits: Ligne[];
   try { [pros, produits] = await Promise.all([depot.annuaire(!!opts.inclureFictifs), depot.prPublics(!!opts.inclureFictifs)]); } catch { return vide(false); }
-  const images = await imagesPubliques(depot, !!opts.inclureFictifs);
+  const images = await imagesPubliques(depot, !!opts.inclureFictifs, opts.origine);
   const region = regionParam(q.get("region"));
   const categorie = q.get("categorie"), famille = q.get("famille"), metier = q.get("metier"), recherche = q.get("q") || "";
   const parPro = new Map<string, Ligne[]>();
@@ -792,7 +792,7 @@ export async function catalogueFournisseur(slug: string, depot: DepotC | null, o
   if (!depot) return { status: 200, json: { ok: true, disponible: false, fournisseur: null, familles: [], services: [] }, entetes };
   const f = await depot.fParSlug(slug);
   if (!f || f.statut !== "APPROVED" || (jsonObj(f.meta).fictif === true && !opts.inclureFictifs)) return erreur(404, "not_found");
-  const [produits, services, dyn, images] = await Promise.all([depot.prPublics(true), depot.svPublics(true), depot.refLister(), imagesPubliques(depot, true)]);
+  const [produits, services, dyn, images] = await Promise.all([depot.prPublics(true), depot.svPublics(true), depot.refLister(), imagesPubliques(depot, true, opts.origine)]);
   const parents = parentsCrees(dyn);
   const siens = produits.filter((p) => p.fournisseurId === f.id && p.materiauCode && valideAujourdhui(p.validiteJusquau));
   const familles = new Map<string, ReturnType<typeof variante>[]>();

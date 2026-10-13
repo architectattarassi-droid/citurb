@@ -21,13 +21,14 @@ const obj = (v: unknown): Ligne => (v && typeof v === "object" && !Array.isArray
 const txt = (v: unknown) => (typeof v === "string" && v ? v : null);
 
 /** Adresse publique d'une image (empreinte dans l'URL : cache immuable, nouvelle URL si l'image change). */
-export const urlImage = (id: string, emp: string, vignette = false) => `/api/catalogue/images/${id}?v=${emp}${vignette ? "&taille=vignette" : ""}`;
+export const urlImage = (id: string, emp: string, vignette = false, origine = "") => `${origine}/api/catalogue/images/${id}?v=${emp}${vignette ? "&taille=vignette" : ""}`;
 
-export function vueImagePublique(i: Ligne) {
+/** `origine` : https://hôte de la requête — URL absolues attendues par la matériauthèque (contrat catalogue). */
+export function vueImagePublique(i: Ligne, origine = "") {
   const id = String(i.id), emp = String(i.empreinte);
   const fr = txt(i.legendeFr), ar = txt(i.legendeAr);
   return {
-    id, url: urlImage(id, emp), vignette: urlImage(id, emp, true), principale: i.principale === true, ordre: Number(i.ordre ?? 0),
+    id, url: urlImage(id, emp, false, origine), vignette: urlImage(id, emp, true, origine), principale: i.principale === true, ordre: Number(i.ordre ?? 0),
     legende: fr || ar ? { fr: fr || ar!, ...(ar ? { ar } : {}) } : null, largeur: Number(i.largeur), hauteur: Number(i.hauteur),
   };
 }
@@ -43,11 +44,11 @@ export function vueImageProprietaire(i: Ligne) {
 }
 
 /** Images publiques regroupées par objet (principale d'abord, puis ordre). */
-export function imagesParObjet(l: Ligne[]): Map<string, ReturnType<typeof vueImagePublique>[]> {
+export function imagesParObjet(l: Ligne[], origine = ""): Map<string, ReturnType<typeof vueImagePublique>[]> {
   const m = new Map<string, ReturnType<typeof vueImagePublique>[]>();
   for (const i of l) {
     const cle = `${i.objetType}:${i.objetId}`;
-    m.set(cle, [...(m.get(cle) || []), vueImagePublique(i)]);
+    m.set(cle, [...(m.get(cle) || []), vueImagePublique(i, origine)]);
   }
   for (const v of m.values()) v.sort((a, b) => Number(b.principale) - Number(a.principale) || a.ordre - b.ordre);
   return m;

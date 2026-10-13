@@ -104,6 +104,9 @@ describe("cycle de vie d'une image", () => {
     const cat = json(await catalogueProduits(new URLSearchParams("code=CIT-MA-007"), m.depot));
     const v = (cat.produits as J[])[0];
     expect(v.photoUrl).toBe(`/api/catalogue/images/${im.id}?v=${o!.empreinte}`);
+    const abs = ((json(await catalogueProduits(new URLSearchParams("code=CIT-MA-007"), m.depot, { origine: "https://citurbarea.com" })).produits as J[])[0].images as J[])[0];
+    expect(abs.url).toBe(`https://citurbarea.com/api/catalogue/images/${im.id}?v=${o!.empreinte}`);
+    expect(String(abs.vignette)).toMatch(/^https://citurbarea.com/.*taille=vignette$/);
     expect((v.images as J[])[0]).toMatchObject({ principale: true, legende: { fr: "Pose en damier", ar: "تركيب بالتناوب" }, largeur: 1600, hauteur: 1200 });
 
     // Légende modifiée : repasse en vérification et disparaît du public.
