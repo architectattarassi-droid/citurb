@@ -1,10 +1,16 @@
 /**
  * Cloudflare Pages Function — GET /api/prix/materiaux?region=<code|ville>&codes=CIT-GO-008,…
- * Public, sans authentification, cache 1 h. Contrat :
+ * Public, sans authentification, cache 5 min. Contrat :
  * docs/prix/contrat-fournisseurs-chiffrage.md §2. Ne crée jamais de table.
+ * Offres : fiches de prix (SupplierPrice) + fiches produit approuvées et
+ * rattachées à un code (ProduitFournisseur, functions/_lib/catalogue.ts).
  */
 import { lireFichesMarche, lirePrixManuels, reponsePrix, type DonneesPrix } from "../../_lib/prixMateriaux";
 import type { Sql } from "../../_lib/cercles";
+import { fichesMarcheProduits } from "../../_lib/catalogue";
+import { depotCatalogueNeon } from "../../_lib/catalogueDepot";
+import { depotNeon } from "../../_lib/fournisseursDepot";
+import { apercu } from "../../_lib/lecturePublique";
 
 interface Env { DATABASE_URL?: string }
 
@@ -19,14 +25,21 @@ export async function onRequestGet(ctx: { request: Request; env: Env }): Promise
     const { neon } = await import("@neondatabase/serverless");
     const sql = neon(ctx.env.DATABASE_URL) as unknown as Sql;
     // Chaque lecture est indépendante : une table absente (SQL pas encore collé) n'empêche pas les autres.
-    try { Object.assign(d, await lireFichesMarche(sql)); marcheEtat = "ok"; } catch (e) {
+    const fictifs = apercu(ctx.request);
+    try { Object.assign(d, await lireFichesMarche(sql, fictifs)); marcheEtat = "ok"; } catch (e) {
       const code = (e as { code?: string })?.code;
       if (code === "42P01") marcheEtat = "not_installed";
       console.error(`[prix/materiaux] marché indisponible (${code || "sans code"})`);
     }
     try { d.manuels = await lirePrixManuels(sql); } catch { /* table "PrixReferenceManuel" absente : prix du référentiel */ }
+    // Fiches produit rattachées : tables du catalogue absentes → seules les fiches de prix comptent.
+    try {
+      const p = await fichesMarcheProduits({ ...depotNeon(sql), ...depotCatalogueNeon(sql) }, { inclureFictifs: fictifs });
+      if (d.fiches) d.fiches = [...d.fiches, ...p.fiches];
+      d.parents = p.parents;
+    } catch { /* docs/prix/sql/cercles-fiches-catalogue.sql pas encore collé */ }
   }
   return new Response(JSON.stringify({ ...reponsePrix(d, region, codes.length ? codes : null), marcheEtat }), {
-    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=3600" },
+    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=300" },
   });
 }

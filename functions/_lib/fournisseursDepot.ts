@@ -6,6 +6,7 @@
  */
 
 import type { Sql } from "./cercles";
+import { depotCatalogueNeon, type DepotCatalogue } from "./catalogueDepot";
 
 export type Ligne = Record<string, unknown>;
 
@@ -24,6 +25,8 @@ export interface FournisseurEcrit {
 export interface ProfilModifiable {
   contactNom: string | null; ville: string; region: string | null; zonesLivraison: string[]; categories: string[];
   telephone: string; logoUrl: string | null; siteWeb: string | null; description: string | null; ice: string | null;
+  /** Fiche détaillée (docs/prix/sql/cercles-fiches-catalogue.sql). */
+  raisonSocialeAr: string | null; descriptionAr: string | null; fiche: Ligne;
 }
 
 export interface Depot {
@@ -37,7 +40,10 @@ export interface Depot {
   fConnecte(id: string): Promise<void>;
   fMajProfil(id: string, p: ProfilModifiable): Promise<Ligne | null>;
   fModerer(id: string, statut: string, motif: string | null, commissionPct: number | null | undefined, evenement: Ligne): Promise<Ligne | null>;
+  /** Avec nbFiches, nbOffresApprouvees et derniereOffre (activité, pour le score). */
   fLister(statut: string | null): Promise<Ligne[]>;
+  fMajDocuments(id: string, documents: unknown[], evenement: Ligne | null): Promise<Ligne | null>;
+  fMajFormule(id: string, formule: string): Promise<Ligne | null>;
 
   pLister(fournisseurId: string): Promise<Ligne[]>;
   pParMateriau(fournisseurId: string, code: string): Promise<Ligne | null>;
@@ -79,16 +85,27 @@ export function depotNeon(sql: Sql): Depot {
     fMajProfil: (id, p) => un(sql`UPDATE "Fournisseur" SET "contactNom" = ${p.contactNom}, "ville" = ${p.ville}, "region" = ${p.region},
         "zonesLivraison" = ${p.zonesLivraison}::text[], "categories" = ${p.categories}::text[], "telephone" = ${p.telephone},
         "logoUrl" = ${p.logoUrl}, "siteWeb" = ${p.siteWeb}, "description" = ${p.description}, "ice" = ${p.ice},
+        "raisonSocialeAr" = ${p.raisonSocialeAr}, "descriptionAr" = ${p.descriptionAr}, "fiche" = ${j(p.fiche)}::jsonb,
         "updatedAt" = CURRENT_TIMESTAMP WHERE "id" = ${id} RETURNING *`),
+    fMajFormule: (id, formule) => un(sql`UPDATE "Fournisseur" SET "formule" = ${formule}, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" = ${id} RETURNING *`),
+    fMajDocuments: (id, documents, evenement) => un(sql`UPDATE "Fournisseur" SET "documents" = ${j(documents)}::jsonb,
+        "events" = COALESCE("events", '[]'::jsonb) || ${j(evenement ? [evenement] : [])}::jsonb, "updatedAt" = CURRENT_TIMESTAMP
+        WHERE "id" = ${id} RETURNING *`),
     fModerer: (id, statut, motif, commissionPct, evenement) => un(sql`UPDATE "Fournisseur" SET "statut" = ${statut}, "motifRejet" = ${motif},
         "commissionPct" = CASE WHEN ${commissionPct === undefined}::boolean THEN "commissionPct" ELSE ${commissionPct ?? null}::double precision END,
         "events" = COALESCE("events", '[]'::jsonb) || ${j([evenement])}::jsonb, "updatedAt" = CURRENT_TIMESTAMP
         WHERE "id" = ${id} RETURNING *`),
-    fLister: (statut) => statut
-      ? sql`SELECT f.*, (SELECT count(*)::int FROM "SupplierPrice" p WHERE p."fournisseurId" = f."id") AS "nbFiches"
-            FROM "Fournisseur" f WHERE f."statut" = ${statut} ORDER BY f."createdAt" DESC LIMIT 500`
-      : sql`SELECT f.*, (SELECT count(*)::int FROM "SupplierPrice" p WHERE p."fournisseurId" = f."id") AS "nbFiches"
-            FROM "Fournisseur" f ORDER BY f."createdAt" DESC LIMIT 500`,
+    fLister: (statut) => sql`SELECT f.*, a."nbFiches", a."nbOffresApprouvees", a."derniereOffre" FROM "Fournisseur" f
+        CROSS JOIN LATERAL (
+          SELECT (SELECT count(*)::int FROM "SupplierPrice" p WHERE p."fournisseurId" = f."id") AS "nbFiches",
+            ((SELECT count(*) FROM "SupplierPrice" p WHERE p."fournisseurId" = f."id" AND p."statut" = 'APPROVED')
+              + (SELECT count(*) FROM "ProduitFournisseur" r WHERE r."fournisseurId" = f."id" AND r."statut" = 'APPROVED')
+              + (SELECT count(*) FROM "ServiceFournisseur" s WHERE s."fournisseurId" = f."id" AND s."statut" = 'APPROVED'))::int AS "nbOffresApprouvees",
+            GREATEST((SELECT max(p."updatedAt") FROM "SupplierPrice" p WHERE p."fournisseurId" = f."id" AND p."statut" = 'APPROVED'),
+              (SELECT max(r."updatedAt") FROM "ProduitFournisseur" r WHERE r."fournisseurId" = f."id" AND r."statut" = 'APPROVED'),
+              (SELECT max(s."updatedAt") FROM "ServiceFournisseur" s WHERE s."fournisseurId" = f."id" AND s."statut" = 'APPROVED')) AS "derniereOffre"
+        ) a
+        WHERE (${statut}::text IS NULL OR f."statut" = ${statut}) ORDER BY f."createdAt" DESC LIMIT 500`,
 
     pLister: (fid) => sql`SELECT * FROM "SupplierPrice" WHERE "fournisseurId" = ${fid} ORDER BY "materiauCode"`,
     pParMateriau: (fid, code) => un(sql`SELECT * FROM "SupplierPrice" WHERE "fournisseurId" = ${fid} AND "materiauCode" = ${code} LIMIT 1`),
@@ -119,23 +136,27 @@ export function depotNeon(sql: Sql): Depot {
   };
 }
 
+/** Dépôt complet : fournisseurs et fiches de prix + catalogue (produits, services, référentiel, annuaire). */
+export type DepotComplet = Depot & DepotCatalogue;
+
 /**
- * Exécute une action sur le dépôt Neon : base non configurée, table absente
- * (SQL pas encore collé) ou erreur → 503 propre, jamais de CREATE TABLE.
+ * Exécute une action sur le dépôt Neon : base non configurée, table ou
+ * colonne absente (SQL pas encore collé) ou erreur → 503 propre, jamais de
+ * CREATE TABLE.
  */
 export async function avecDepot(
   env: { DATABASE_URL?: string },
-  action: (depot: Depot, sql: Sql) => Promise<import("./cercles").Reponse>,
+  action: (depot: DepotComplet, sql: Sql) => Promise<import("./cercles").Reponse>,
   nom: string,
 ): Promise<import("./cercles").Reponse> {
   if (!env.DATABASE_URL) return { status: 503, json: { ok: false, error: "storage_unavailable" } };
   const { neon } = await import("@neondatabase/serverless");
   const sql = neon(env.DATABASE_URL) as unknown as Sql;
   try {
-    return await action(depotNeon(sql), sql);
+    return await action({ ...depotNeon(sql), ...depotCatalogueNeon(sql) }, sql);
   } catch (e) {
     const code = (e as { code?: string })?.code;
     console.error(`[${nom}] base indisponible (${code || "sans code"})`);
-    return { status: 503, json: { ok: false, error: code === "42P01" ? "not_installed" : "storage_unavailable" } };
+    return { status: 503, json: { ok: false, error: code === "42P01" || code === "42703" ? "not_installed" : "storage_unavailable" } };
   }
 }

@@ -9,7 +9,7 @@ export const onRequestGet = async (ctx: Ctx): Promise<Response> =>
   repondre(await avecDepot(ctx.env, (d) => moi(String(ctx.data.fournisseurId), d), "cercles/espace/moi"));
 
 export async function onRequestPut(ctx: Ctx): Promise<Response> {
-  const body = await lireJson(ctx.request, 16 * 1024);
+  const body = await lireJson(ctx.request, 64 * 1024);
   if (body === null) return repondre(erreur(400, "payload_invalid"));
   return repondre(await avecDepot(ctx.env, (d) => majProfil(String(ctx.data.fournisseurId), body, d), "cercles/espace/moi"));
 }

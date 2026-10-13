@@ -1,18 +1,10 @@
 /**
- * Cloudflare Pages Function — GET /api/catalogue/produits
- *
- * Contrat : docs/architecture/contrat-catalogue.md. Version d'attente : les
- * tables des produits fournisseurs (session « Cercles : fiches société,
- * produit et service ») n'existent pas encore, donc aucun produit approuvé.
- * Le contrat prévoit précisément cette réponse quand la base n'est pas prête :
- * 200 { ok: true, disponible: false, produits: [] }. La matériauthèque reste
- * correcte et la requête n'échoue plus en 404 (règle « zéro impasse »,
- * docs/architecture/plan-rebranchement.md). À remplacer par l'implémentation
- * complète (lecture Neon, agrégat ≥ 3 fournisseurs).
+ * GET /api/catalogue/produits?code=&region=&categorie=&famille=&gamme=&q=&fournisseur= — produits approuvés de pros vérifiés, variantes groupées, prix agrégé à partir de 3 fournisseurs.
+ * Contrat : docs/architecture/contrat-catalogue.md. Toujours 200 : base indisponible → { disponible: false }.
  */
+import { repondre, type EnvCercles } from "../../_lib/cercles";
+import { catalogueProduits } from "../../_lib/catalogue";
+import { apercu, depotOuNull } from "../../_lib/lecturePublique";
 
-export const onRequestGet = async (): Promise<Response> =>
-  new Response(JSON.stringify({ ok: true, disponible: false, produits: [] }), {
-    status: 200,
-    headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=3600" },
-  });
+export const onRequestGet = async (ctx: { request: Request; env: EnvCercles }): Promise<Response> =>
+  repondre(await catalogueProduits(new URL(ctx.request.url).searchParams, await depotOuNull(ctx.env), { inclureFictifs: apercu(ctx.request) }));

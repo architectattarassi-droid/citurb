@@ -28,14 +28,15 @@ export async function lirePrixManuels(sql: Sql): Promise<Record<string, PrixManu
   return out;
 }
 
-export async function lireFichesMarche(sql: Sql): Promise<{ fiches: FicheMarche[]; fournisseurs: { region: string | null; zonesLivraison: string[]; categories: string[] }[] }> {
+/** `fictifs` : inclure les fournisseurs marqués fictifs (aperçu sur les hôtes de prévisualisation seulement). */
+export async function lireFichesMarche(sql: Sql, fictifs = false): Promise<{ fiches: FicheMarche[]; fournisseurs: { region: string | null; zonesLivraison: string[]; categories: string[] }[] }> {
   const fiches = await sql`SELECT p."materiauCode", p."prixRefHT", p."updatedAt", p."validiteJusquau", f."id" AS "fournisseurId",
       f."region" AS "fournisseurRegion", f."zonesLivraison"
     FROM "SupplierPrice" p JOIN "Fournisseur" f ON f."id" = p."fournisseurId"
-    WHERE p."statut" = 'APPROVED' AND f."statut" = 'APPROVED' AND COALESCE(f."meta"->>'fictif', 'false') <> 'true'
+    WHERE p."statut" = 'APPROVED' AND f."statut" = 'APPROVED' AND (${fictifs}::boolean OR COALESCE(f."meta"->>'fictif', 'false') <> 'true')
       AND p."updatedAt" > now() - interval '120 days'`;
   const fournisseurs = await sql`SELECT "region", "zonesLivraison", "categories" FROM "Fournisseur"
-    WHERE "statut" = 'APPROVED' AND COALESCE("meta"->>'fictif', 'false') <> 'true'`;
+    WHERE "statut" = 'APPROVED' AND (${fictifs}::boolean OR COALESCE("meta"->>'fictif', 'false') <> 'true')`;
   return {
     fiches: fiches.map((l) => ({
       materiauCode: String(l.materiauCode), prixRefHT: Number(l.prixRefHT), updatedAt: iso(l.updatedAt),
@@ -50,12 +51,14 @@ export interface DonneesPrix {
   fiches: FicheMarche[] | null;
   fournisseurs: { region: string | null; zonesLivraison: string[]; categories: string[] }[] | null;
   manuels: Record<string, PrixManuel>;
+  /** Parents des codes créés à la modération (CIT-<PFX>-9NN → code générique), functions/_lib/catalogue.ts. */
+  parents?: Record<string, string>;
 }
 
 /** Corps de la réponse publique (pur, testable). */
 export function reponsePrix(d: DonneesPrix, regionBrute: string | null, codes: string[] | null, maintenant = Date.now()) {
   const region = regionBrute ? regionDe(regionBrute) : null;
-  const marche: Record<string, Marche> = d.fiches ? agregerMarche(d.fiches, region, maintenant) : {};
+  const marche: Record<string, Marche> = d.fiches ? agregerMarche(d.fiches, region, maintenant, (c) => d.parents?.[c]) : {};
   const voulus = codes?.length ? new Set(codes) : null;
   return {
     ok: true,

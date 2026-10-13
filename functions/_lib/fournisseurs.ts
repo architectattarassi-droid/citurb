@@ -4,9 +4,12 @@
  * Indépendante du runtime : chaque fonction reçoit un `Depot`
  * (fournisseursDepot.ts) et renvoie une `Reponse`.
  *
- * Champs privés (téléphone, e-mail, ICE, code, idempotence, meta, events) :
- * jamais dans vuePublique ; seulement dans vueProprietaire (le fournisseur
- * connecté) et vueAdmin (back-office).
+ * Champs privés (téléphone, e-mail, ICE, code, idempotence, meta, events,
+ * champs « privés » du gabarit, documents) : jamais dans vuePublique ;
+ * seulement dans vueProprietaire (le fournisseur connecté) et vueAdmin.
+ *
+ * Fiche société prédisposée par métier : domain/cercles/gabarits.ts
+ * (colonnes "fiche" et "documents", docs/prix/sql/cercles-fiches-catalogue.sql).
  */
 
 import { CATALOGUE, materiau } from "../../apps/web/src/domain/materiaux/catalogue";
@@ -15,26 +18,21 @@ import { prixReference } from "../../apps/web/src/domain/materiaux/reference";
 import { REGIONS_MA, regionDe } from "../../apps/web/src/domain/materiaux/regions";
 import { CATEGORIES } from "../../apps/web/src/domain/materiaux/types";
 import {
+  CHAMPS_FICHE, DOCUMENTS, PHOTOS_PAR_REFERENCE, REFERENCES_MAX, TYPES_SOCIETE, champsDuType, documentsVerifies, scoreProfil,
+  type DocumentPro,
+} from "../../apps/web/src/domain/cercles/gabarits";
+import {
   accepter, clip, codeAcces, destinatairesAdmin, echapperHtml, envoyerEmail, erreur, hacherCode, ipDe, maintenantIso,
   nombre, nouvelId, RE_EMAIL, slugifier, telephone, urlHttps, type EnvCercles, type Reponse,
 } from "./cercles";
-import type { Depot, FicheEcrite, Ligne } from "./fournisseursDepot";
+import { vueProduitProprietaire, vueServiceProprietaire } from "./catalogueVues";
+import type { Depot, DepotComplet, FicheEcrite, Ligne } from "./fournisseursDepot";
 
-/** Métiers acceptés (sous-ensemble de l'enum ProMetier de prisma/schema.prisma). */
-export const METIERS_PRO: Record<string, string> = {
-  FOURNISSEUR_MATERIAUX: "Fournisseur / négociant de matériaux",
-  ENTREPRISE_GO: "Entreprise de gros œuvre",
-  ENTREPRISE_SECOND_OEUVRE: "Entreprise de second œuvre",
-  ARTISAN_QUALIFIE: "Artisan qualifié",
-  BET_STRUCTURE: "BET structure",
-  BET_FLUIDES: "BET fluides",
-  BET_VRD: "BET VRD",
-  LABORATOIRE: "Laboratoire",
-  TOPOGRAPHE: "Topographe",
-  GEOMETRE: "Géomètre",
-  CONTROLE_TECHNIQUE: "Bureau de contrôle",
-};
-export const METIERS_AVEC_FICHES = new Set(["FOURNISSEUR_MATERIAUX", "ENTREPRISE_GO", "ENTREPRISE_SECOND_OEUVRE", "ARTISAN_QUALIFIE"]);
+/** Métiers acceptés (types de société de domain/cercles/gabarits.ts), libellé français. */
+export const METIERS_PRO: Record<string, string> = Object.fromEntries(Object.entries(TYPES_SOCIETE).map(([k, t]) => [k, t.libelle.fr]));
+/** Métiers qui chiffrent des matériaux (fiches de prix et fiches produit). */
+export const METIERS_AVEC_FICHES = new Set(Object.entries(TYPES_SOCIETE).filter(([, t]) => t.produits).map(([k]) => k));
+export const FORMULES = ["GRATUIT", "PRO", "PREMIUM"];
 export const STATUTS_FOURNISSEUR = ["PENDING", "APPROVED", "REJECTED", "SUSPENDED"];
 const CODES_REGION = new Set<string>(REGIONS_MA.map((r) => r.code));
 
@@ -42,27 +40,42 @@ const CODE_TTL_MS = 15 * 60_000;
 const CODE_ESSAIS = 5;
 const ISO_JOUR = /^\d{4}-\d{2}-\d{2}$/;
 
-const liste = (v: unknown): string[] => (Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : []);
-const jsonObj = (v: unknown): Ligne => (v && typeof v === "object" && !Array.isArray(v) ? (v as Ligne) : {});
-const iso = (v: unknown): string | null => (v instanceof Date ? v.toISOString() : v == null ? null : String(v));
-const jour = (v: unknown): string | null => { const s = iso(v); return s ? s.slice(0, 10) : null; };
+export const liste = (v: unknown): string[] => (Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : []);
+export const jsonObj = (v: unknown): Ligne => (v && typeof v === "object" && !Array.isArray(v) ? (v as Ligne) : {});
+export const iso = (v: unknown): string | null => (v instanceof Date ? v.toISOString() : v == null ? null : String(v));
+export const jour = (v: unknown): string | null => { const s = iso(v); return s ? s.slice(0, 10) : null; };
 
-function zonesValides(v: unknown, region: string | null): string[] {
+export function zonesValides(v: unknown, region: string | null): string[] {
   const z = [...new Set(liste(v).map((x) => (x === "national" ? x : regionDe(x) || "")).filter(Boolean))].slice(0, 12);
   if (z.includes("national")) return ["national"];
   return z.length ? z : region ? [region] : [];
 }
 const categoriesValides = (v: unknown): string[] => [...new Set(liste(v).filter((c) => c in CATEGORIES))];
 
+export const documentsDe = (f: Ligne): DocumentPro[] => (Array.isArray(f.documents) ? (f.documents as DocumentPro[]) : []);
+
+/** Fiche du gabarit sans les champs privés (n° RC…) ni le nom des clients des références. */
+export function fichePublique(f: Ligne): Ligne {
+  const out: Ligne = {};
+  for (const [k, v] of Object.entries(jsonObj(f.fiche))) {
+    const c = CHAMPS_FICHE[k];
+    if (!c || c.prive) continue;
+    out[k] = k === "references" && Array.isArray(v) ? v.map((r) => { const { client: _c, ...reste } = jsonObj(r); void _c; return reste; }) : v;
+  }
+  return out;
+}
+
 // ───────────────────────── vues ─────────────────────────
 
-/** Ce que tout visiteur peut voir : aucune coordonnée. */
+/** Ce que tout visiteur peut voir : aucune coordonnée, aucun document. */
 export function vuePublique(f: Ligne) {
   return {
-    slug: String(f.slug), raisonSociale: String(f.raisonSociale), metier: String(f.metier), metierLibelle: METIERS_PRO[String(f.metier)] || String(f.metier),
+    slug: String(f.slug), raisonSociale: String(f.raisonSociale), raisonSocialeAr: (f.raisonSocialeAr as string) || null,
+    metier: String(f.metier), metierLibelle: METIERS_PRO[String(f.metier)] || String(f.metier),
     ville: String(f.ville), region: (f.region as string) || null, zonesLivraison: liste(f.zonesLivraison), categories: liste(f.categories),
-    logoUrl: (f.logoUrl as string) || null, description: (f.description as string) || null, verifie: f.statut === "APPROVED",
-    membreDepuis: jour(f.createdAt),
+    logoUrl: (f.logoUrl as string) || null, description: (f.description as string) || null, descriptionAr: (f.descriptionAr as string) || null,
+    verifie: f.statut === "APPROVED", documentsVerifies: f.statut === "APPROVED" && documentsVerifies(String(f.metier), documentsDe(f)),
+    fiche: fichePublique(f), membreDepuis: jour(f.createdAt),
   };
 }
 
@@ -71,8 +84,14 @@ export function vueProprietaire(f: Ligne) {
     ...vuePublique(f), id: String(f.id), statut: String(f.statut), contactNom: (f.contactNom as string) || null,
     telephone: String(f.telephone), email: String(f.email), ice: (f.ice as string) || null, siteWeb: (f.siteWeb as string) || null,
     motifRejet: f.statut === "REJECTED" ? (f.motifRejet as string) || null : null,
+    fiche: jsonObj(f.fiche), documents: documentsDe(f), formule: (f.formule as string) || "GRATUIT",
   };
 }
+
+const profilScore = (f: Ligne) => ({
+  metier: String(f.metier), statut: String(f.statut), description: f.description as string | null, descriptionAr: f.descriptionAr as string | null,
+  logoUrl: f.logoUrl as string | null, zonesLivraison: liste(f.zonesLivraison), categories: liste(f.categories), fiche: jsonObj(f.fiche), documents: documentsDe(f),
+});
 
 export function vueAdmin(f: Ligne) {
   const meta = jsonObj(f.meta);
@@ -81,6 +100,7 @@ export function vueAdmin(f: Ligne) {
     motifRejet: (f.motifRejet as string) || null, derniereConnexion: iso(f.derniereConnexion), nbFiches: Number(f.nbFiches ?? 0),
     codeDemandeLe: (meta.codeDemandeLe as string) || null, events: Array.isArray(f.events) ? f.events : [],
     fictif: meta.fictif === true,
+    score: scoreProfil(profilScore(f), { offresApprouvees: Number(f.nbOffresApprouvees ?? 0), plusRecente: iso(f.derniereOffre) }),
   };
 }
 
@@ -226,11 +246,61 @@ export async function codePourAdmin(id: string, depot: Depot, secret: string): P
 
 // ───────────────────────── espace fournisseur ─────────────────────────
 
-export async function moi(id: string, depot: Depot): Promise<Reponse> {
+export async function moi(id: string, depot: DepotComplet): Promise<Reponse> {
   const f = await depot.fParId(id);
   if (!accesOuvert(f)) return erreur(401, "unauthenticated");
   const fiches = (await depot.pLister(id)).map(vueFiche);
-  return { status: 200, json: { ok: true, fournisseur: vueProprietaire(f), fiches, peutPublierFiches: METIERS_AVEC_FICHES.has(String(f.metier)) } };
+  const [produits, services, activite] = await Promise.all([depot.prLister(id), depot.svLister(id), depot.activite(id)]);
+  return {
+    status: 200,
+    json: {
+      ok: true, fournisseur: vueProprietaire(f), fiches, peutPublierFiches: METIERS_AVEC_FICHES.has(String(f.metier)),
+      produits: produits.map(vueProduitProprietaire), services: services.map(vueServiceProprietaire),
+      score: scoreProfil(profilScore(f), activite),
+    },
+  };
+}
+
+type Resultat<T> = { ok: true; valeur: T } | { ok: false; error: string; champ?: string };
+
+/** Valide la fiche détaillée selon le gabarit du métier : champs inconnus ignorés, types et listes contrôlés. */
+export function validerFicheSociete(metier: string, v: unknown): Resultat<Ligne> {
+  const b = jsonObj(v);
+  const fiche: Ligne = {};
+  const annee = new Date().getFullYear();
+  for (const c of champsDuType(metier)) {
+    const x = b[c.cle];
+    if (x === undefined || x === null || x === "") continue;
+    if (c.cle === "references") {
+      if (!Array.isArray(x)) return { ok: false, error: "references_invalides" };
+      const refs = [];
+      for (const r of x.slice(0, REFERENCES_MAX)) {
+        const o = jsonObj(r);
+        const titre = clip(o.titre, 120);
+        if (titre.length < 2) return { ok: false, error: "references_invalides" };
+        const an = nombre(o.annee);
+        if (an !== null && (an < 1950 || an > annee + 1)) return { ok: false, error: "references_invalides" };
+        const photos = liste(o.photos).slice(0, PHOTOS_PAR_REFERENCE).map((u) => urlHttps(u));
+        if (photos.some((u) => !u)) return { ok: false, error: "photo_invalide" };
+        refs.push({ titre, ville: clip(o.ville, 80), annee: an, client: clip(o.client, 80) || null, description: clip(o.description, 600) || null, photos });
+      }
+      fiche.references = refs;
+      continue;
+    }
+    if (c.type === "texte") fiche[c.cle] = clip(x, c.max ?? 200);
+    else if (c.type === "nombre") {
+      const n = nombre(x);
+      const [min, max] = c.cle === "anneeCreation" ? [1900, annee] : c.cle === "acomptePct" ? [0, 100] : [0, 1e9];
+      if (n === null || n < min || n > max) return { ok: false, error: "champ_invalide", champ: c.cle };
+      fiche[c.cle] = n;
+    } else if (c.type === "choix") {
+      if (!c.options?.some(([k]) => k === String(x))) return { ok: false, error: "champ_invalide", champ: c.cle };
+      fiche[c.cle] = String(x);
+    } else if (c.type === "multi") fiche[c.cle] = [...new Set(liste(x).filter((k) => c.options?.some(([o]) => o === k)))];
+    else if (c.type === "liste") fiche[c.cle] = [...new Set(liste(x).map((s) => clip(s, 80)).filter(Boolean))].slice(0, c.max ?? 20);
+    else if (c.type === "oui_non" && typeof x === "boolean") fiche[c.cle] = x;
+  }
+  return { ok: true, valeur: fiche };
 }
 
 export async function majProfil(id: string, body: unknown, depot: Depot): Promise<Reponse> {
@@ -246,14 +316,74 @@ export async function majProfil(id: string, body: unknown, depot: Depot): Promis
   const logoUrl = b.logoUrl === undefined ? ((f.logoUrl as string) || null) : b.logoUrl ? urlHttps(b.logoUrl) : null;
   if (b.logoUrl && !logoUrl) return erreur(400, "logo_invalid");
   const region = regionDe(ville);
+  let fiche = jsonObj(f.fiche);
+  if (b.fiche !== undefined) {
+    const v = validerFicheSociete(String(f.metier), b.fiche);
+    if (!v.ok) return erreur(400, v.error, { champ: v.champ ?? null });
+    fiche = v.valeur;
+  }
   const maj = await depot.fMajProfil(id, {
+    raisonSocialeAr: b.raisonSocialeAr === undefined ? ((f.raisonSocialeAr as string) || null) : clip(b.raisonSocialeAr, 120) || null,
+    descriptionAr: b.descriptionAr === undefined ? ((f.descriptionAr as string) || null) : clip(b.descriptionAr, 2000) || null,
+    fiche,
     contactNom: b.contactNom === undefined ? ((f.contactNom as string) || null) : clip(b.contactNom, 80) || null,
     ville, region, zonesLivraison: b.zonesLivraison === undefined ? liste(f.zonesLivraison) : zonesValides(b.zonesLivraison, region),
     categories: b.categories === undefined ? liste(f.categories) : categoriesValides(b.categories), telephone: tel, logoUrl,
     siteWeb: b.siteWeb === undefined ? ((f.siteWeb as string) || null) : urlHttps(b.siteWeb),
-    description: b.description === undefined ? ((f.description as string) || null) : clip(b.description, 1000) || null, ice,
+    description: b.description === undefined ? ((f.description as string) || null) : clip(b.description, 2000) || null, ice,
   });
   return { status: 200, json: { ok: true, fournisseur: vueProprietaire(maj || f) } };
+}
+
+// ───────────────────────── documents ─────────────────────────
+
+export const DOCUMENTS_MAX = 20;
+
+/** Dépôt d'un document par le pro : lien https ou note (« transmis à l'équipe »), statut DEPOSE jusqu'à vérification. */
+export async function ajouterDocument(id: string, body: unknown, depot: Depot): Promise<Reponse> {
+  const f = await depot.fParId(id);
+  if (!accesOuvert(f)) return erreur(401, "unauthenticated");
+  const b = jsonObj(body);
+  const type = clip(b.type, 40);
+  if (!(type in DOCUMENTS)) return erreur(400, "document_type_invalide");
+  const url = b.url ? urlHttps(b.url) : null;
+  if (b.url && !url) return erreur(400, "document_url_invalide");
+  const note = clip(b.note, 300) || null;
+  if (!url && !note) return erreur(400, "document_vide");
+  const expireLe = clip(b.expireLe, 10) || null;
+  if (expireLe && (!ISO_JOUR.test(expireLe) || Number.isNaN(Date.parse(expireLe)))) return erreur(400, "document_date_invalide");
+  // Un nouveau dépôt remplace le précédent du même type tant qu'il n'est pas vérifié.
+  const docs = documentsDe(f).filter((d) => !(d.type === type && d.statut !== "VERIFIE"));
+  if (docs.length >= DOCUMENTS_MAX) return erreur(400, "trop_de_documents");
+  const doc: DocumentPro = { id: nouvelId("doc"), type, url, note, expireLe, statut: "DEPOSE", deposeLe: maintenantIso(), verifieLe: null, verifiePar: null, motif: null };
+  const maj = await depot.fMajDocuments(id, [...docs, doc], { at: maintenantIso(), kind: "DOCUMENT_DEPOSE", payload: { type } });
+  return { status: 200, json: { ok: true, documents: documentsDe(maj || f) } };
+}
+
+export async function supprimerDocument(id: string, docId: string, depot: Depot): Promise<Reponse> {
+  const f = await depot.fParId(id);
+  if (!accesOuvert(f)) return erreur(401, "unauthenticated");
+  const docs = documentsDe(f);
+  if (!docs.some((d) => d.id === docId)) return erreur(404, "not_found");
+  const maj = await depot.fMajDocuments(id, docs.filter((d) => d.id !== docId), null);
+  return { status: 200, json: { ok: true, documents: documentsDe(maj || f) } };
+}
+
+/** Back-office : document vérifié ou refusé (motif obligatoire). */
+export async function verifierDocument(fid: string, docId: string, body: unknown, auteur: string, depot: Depot): Promise<Reponse> {
+  const f = await depot.fParId(fid);
+  if (!f) return erreur(404, "not_found");
+  const b = jsonObj(body);
+  const statut = clip(b.statut, 10);
+  if (statut !== "VERIFIE" && statut !== "REFUSE") return erreur(400, "statut_invalide");
+  const motif = clip(b.motif, 300) || null;
+  if (statut === "REFUSE" && !motif) return erreur(400, "motif_requis");
+  const docs = documentsDe(f);
+  const d = docs.find((x) => x.id === docId);
+  if (!d) return erreur(404, "not_found");
+  const nouveau: DocumentPro = { ...d, statut, verifieLe: maintenantIso(), verifiePar: auteur, motif: statut === "REFUSE" ? motif : null };
+  const maj = await depot.fMajDocuments(fid, docs.map((x) => (x.id === docId ? nouveau : x)), { at: maintenantIso(), kind: `DOCUMENT_${statut}`, payload: { type: d.type, auteur, motif } });
+  return { status: 200, json: { ok: true, fournisseur: vueAdmin(maj || f) } };
 }
 
 // ───────────────────────── fiches de prix ─────────────────────────
@@ -397,8 +527,12 @@ export async function modererFournisseur(id: string, body: unknown, auteur: stri
     commissionPct = b.commissionPct === null || b.commissionPct === "" ? null : nombre(b.commissionPct);
     if (commissionPct !== null && (commissionPct === undefined || commissionPct < 0 || commissionPct > 30)) return erreur(400, "commission_invalide");
   }
-  const f = await depot.fModerer(id, statut, statut === "APPROVED" ? null : motif, commissionPct, { at: maintenantIso(), kind: "MODERATION", payload: { statut, motif, auteur } });
+  // Formule d'abonnement préparée (aucun paiement) : GRATUIT | PRO | PREMIUM.
+  const formule = b.formule === undefined ? undefined : clip(b.formule, 20);
+  if (formule !== undefined && !FORMULES.includes(formule)) return erreur(400, "formule_invalide");
+  let f = await depot.fModerer(id, statut, statut === "APPROVED" ? null : motif, commissionPct, { at: maintenantIso(), kind: "MODERATION", payload: { statut, motif, auteur, ...(formule ? { formule } : {}) } });
   if (!f) return erreur(404, "not_found");
+  if (formule !== undefined) f = (await depot.fMajFormule(id, formule)) || f;
   return { status: 200, json: { ok: true, fournisseur: vueAdmin(f) } };
 }
 
