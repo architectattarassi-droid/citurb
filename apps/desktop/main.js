@@ -18,11 +18,14 @@ try {
 log('VARIANT=' + VARIANT);
 
 // CIT_LOCAL=1 → pointe sur localhost (npm run dev:web). Pratique pour tester
-// les refontes UI immédiatement sans attendre un déploiement Railway.
+// les refontes UI immédiatement sans attendre un déploiement Cloudflare Pages.
 const LOCAL_MODE = process.env.CIT_LOCAL === '1' || process.env.CIT_LOCAL === 'true';
-const PROD_BASE  = 'https://citurb-web-production.up.railway.app';
+// Production : Cloudflare Pages (site public) ; le back-office est servi sur admin.citurbarea.com.
+const PROD_BASE  = 'https://citurbarea.com';
+const PROD_ADMIN = 'https://admin.citurbarea.com';
 const LOCAL_BASE = process.env.CIT_LOCAL_URL || 'http://localhost:5173';
 const BASE = LOCAL_MODE ? LOCAL_BASE : PROD_BASE;
+const ADMIN_BASE = LOCAL_MODE ? LOCAL_BASE : PROD_ADMIN;
 log('LOCAL_MODE=' + LOCAL_MODE + ' BASE=' + BASE);
 
 const CONFIG_PORTAL = {
@@ -39,7 +42,7 @@ const CONFIG_BACK = {
   badge: 'COMMAND CENTER ADMIN' + (LOCAL_MODE ? ' · LOCAL' : ''),
   email: 'admin@citurbarea.test',
   password: 'Admin123!',
-  url: BASE + '/cc/login',
+  url: ADMIN_BASE + '/cc/login',
 };
 const CONFIG_DOC = {
   title: 'CITURBAREA — Documentation' + (LOCAL_MODE ? ' (LOCAL)' : ''),
@@ -55,7 +58,7 @@ const CONFIG_ARCHIVE = {
   badge: 'ARCHIVE · CONSULTATION DOSSIERS' + (LOCAL_MODE ? ' · LOCAL' : ''),
   email: 'admin@citurbarea.test',
   password: 'Admin123!',
-  url: BASE + '/cc/archive',
+  url: ADMIN_BASE + '/cc/archive',
 };
 const CONFIG_CERCLES = {
   title: 'CITURBAREA — Cercles' + (LOCAL_MODE ? ' (LOCAL)' : ''),
@@ -209,7 +212,7 @@ app.whenReady().then(async () => {
           log('AT: after login URL = ' + win.webContents.getURL());
 
           // Wait longer for React to render
-          await win.webContents.loadURL('https://citurb-web-production.up.railway.app/');
+          await win.webContents.loadURL(BASE + '/');
           await new Promise(r => setTimeout(r, 4000));
           log('AT-1: at home URL = ' + win.webContents.getURL());
 
@@ -236,16 +239,14 @@ app.whenReady().then(async () => {
               try {
                 var token = localStorage.getItem('citurbarea.token');
                 if (!token) return 'NO_TOKEN';
-                var r = await fetch('https://citurb-production.up.railway.app/auth/me', { headers: { Authorization: 'Bearer ' + token } });
-                var t = await r.text();
-                return r.status + ' ' + t.slice(0, 200);
+                return 'API NestJS éteinte';
               } catch (e) { return 'ERR ' + e.message; }
             })();
           `);
           log('AT-4: /auth/me = ' + meResp);
 
           // Re-load home to apply patch
-          await win.webContents.loadURL('https://citurb-web-production.up.railway.app/');
+          await win.webContents.loadURL(BASE + '/');
           await new Promise(r => setTimeout(r, 3500));
           var btn = await win.webContents.executeJavaScript(`
             (function () {
@@ -261,7 +262,7 @@ app.whenReady().then(async () => {
           log('AT-6: after Mon espace click, URL = ' + win.webContents.getURL());
 
           // Test SHADOW VIEW navigation
-          await win.webContents.loadURL('https://citurb-web-production.up.railway.app/cc/dossiers');
+          await win.webContents.loadURL(ADMIN_BASE + '/cc/dossiers');
           await new Promise(r => setTimeout(r, 3000));
           log('AT-SHADOW: /cc/dossiers URL = ' + win.webContents.getURL());
           var dossierIds = await win.webContents.executeJavaScript(`
@@ -271,7 +272,7 @@ app.whenReady().then(async () => {
           `);
           log('AT-SHADOW: dossier ids button shadow found = ' + dossierIds);
 
-          await win.webContents.loadURL('https://citurb-web-production.up.railway.app/cc/dossiers/cmolqfb5b0001swwk5haj2eze/shadow');
+          await win.webContents.loadURL(ADMIN_BASE + '/cc/dossiers/cmolqfb5b0001swwk5haj2eze/shadow');
           await new Promise(r => setTimeout(r, 8000));
           log('AT-SHADOW: shadow page URL = ' + win.webContents.getURL());
           var bodyContent = await win.webContents.executeJavaScript(`(document.body.innerText || '').slice(0, 1500).replace(/\\n+/g, ' | ')`);
@@ -281,9 +282,7 @@ app.whenReady().then(async () => {
               var token = localStorage.getItem('citurbarea.token');
               if (!token) return 'NO_TOKEN';
               try {
-                var r = await fetch('https://citurb-production.up.railway.app/p2/dossier/cmolqfb5b0001swwk5haj2eze/complet', { headers: { Authorization: 'Bearer ' + token } });
-                var t = await r.text();
-                return r.status + ' | ' + t.slice(0, 200);
+                return 'API NestJS éteinte';
               } catch (e) { return 'FETCH_ERR ' + e.message; }
             })();
           `);

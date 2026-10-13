@@ -217,7 +217,7 @@ const CONTENT: Record<Section, Record<"fr" | "ar" | "en", () => React.ReactNode>
         <p>Pour toute question :</p>
         <ul>
           <li>📧 Email : <a href="mailto:contact@citurbarea.ma">contact@citurbarea.ma</a></li>
-          <li>🌐 Site : <a href="https://citurb-web-production.up.railway.app">citurbarea.ma</a></li>
+          <li>🌐 Site : <a href="https://citurbarea.com">citurbarea.com</a></li>
           <li>💼 Backoffice : <a href="/cc">cc.citurbarea.ma</a></li>
         </ul>
         <h3>Liens utiles</h3>
@@ -237,7 +237,7 @@ const CONTENT: Record<Section, Record<"fr" | "ar" | "en", () => React.ReactNode>
         <p>لأي سؤال:</p>
         <ul>
           <li>📧 البريد الإلكتروني: <a href="mailto:contact@citurbarea.ma">contact@citurbarea.ma</a></li>
-          <li>🌐 الموقع: <a href="https://citurb-web-production.up.railway.app">citurbarea.ma</a></li>
+          <li>🌐 الموقع: <a href="https://citurbarea.com">citurbarea.com</a></li>
           <li>💼 الإدارة الخلفية: <a href="/cc">cc.citurbarea.ma</a></li>
         </ul>
       </>
@@ -248,7 +248,7 @@ const CONTENT: Record<Section, Record<"fr" | "ar" | "en", () => React.ReactNode>
         <p>For any question:</p>
         <ul>
           <li>📧 Email: <a href="mailto:contact@citurbarea.ma">contact@citurbarea.ma</a></li>
-          <li>🌐 Website: <a href="https://citurb-web-production.up.railway.app">citurbarea.ma</a></li>
+          <li>🌐 Website: <a href="https://citurbarea.com">citurbarea.com</a></li>
           <li>💼 Backoffice: <a href="/cc">cc.citurbarea.ma</a></li>
         </ul>
       </>
