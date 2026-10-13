@@ -898,7 +898,7 @@ const TXT_GUIDE = {
     accueil: "Accueil", guides: "Guides", faq: "Questions fréquentes", autres: "Autres guides :",
     sources: (n) => `Textes de référence (${n})`, metier: "architecte, ", maj: "Mis à jour le",
     avert: "Information générale : elle ne remplace pas l'étude de votre dossier.", lieu: "architecte à Kénitra",
-    dossier: "Commencer mon dossier", chiffrer: "Chiffrer mon projet", wa: "WhatsApp", langue: "Langue",
+    dossier: "Commencer mon dossier", chiffrer: "Chiffrer mon projet", wa: "WhatsApp", langue: "Langue", rdv: "Appel vidéo gratuit avec l'architecte",
     titreCouts: "Votre budget, calculé pour votre projet",
     texteCouts: "Estimation lot par lot en 2 minutes, puis un architecte inscrit à l'Ordre vérifie votre devis. Gratuit, sans engagement.",
     titreAutres: "Votre autorisation, préparée par un architecte",
@@ -910,7 +910,7 @@ const TXT_GUIDE = {
     accueil: "الرئيسية", guides: "الأدلة", faq: "أسئلة شائعة", autres: "أدلة أخرى:",
     sources: (n) => `النصوص المرجعية (${n})`, metier: "مهندس معماري، ", maj: "آخر تحديث:",
     avert: "معلومات عامة لا تغني عن دراسة ملفكم.", lieu: "مهندس معماري بالقنيطرة",
-    dossier: "ابدأ ملفك", chiffrer: "احسب تكلفة مشروعك", wa: "واتساب", langue: "اللغة",
+    dossier: "ابدأ ملفك", chiffrer: "احسب تكلفة مشروعك", wa: "واتساب", langue: "اللغة", rdv: "مكالمة فيديو مجانية مع المهندس",
     titreCouts: "ميزانيتكم محسوبة لمشروعكم", texteCouts: "تقدير مفصل حسب الأشغال في دقيقتين، ثم يراجع مهندس معماري مسجل في الهيئة عرض الأثمان. مجانا وبدون التزام.",
     titreAutres: "مشروعكم يحتاج إلى رخصة أو تقدير للتكلفة؟", texteAutres: "مهندس معماري مسجل في الهيئة يدرس ملفكم: التصاميم، الرخصة، تتبع الأوراش. بدون التزام.",
     waMsg: (t) => `السلام عليكم، قرأت « ${t} » على citurbarea.com وأريد بدء ملفي.`,
@@ -920,7 +920,7 @@ const TXT_GUIDE = {
     accueil: "Home", guides: "Guides", faq: "Frequently asked questions", autres: "Other guides:",
     sources: (n) => `Reference texts (${n})`, metier: "architect, ", maj: "Updated on",
     avert: "General information: it does not replace a review of your own file.", lieu: "architect in Kenitra",
-    dossier: "Start my file", chiffrer: "Estimate my project", wa: "WhatsApp", langue: "Language",
+    dossier: "Start my file", chiffrer: "Estimate my project", wa: "WhatsApp", langue: "Language", rdv: "Free video call with the architect",
     titreCouts: "Your budget, calculated for your project", texteCouts: "Item-by-item estimate in 2 minutes, then a registered architect checks your quote. Free, no commitment.",
     titreAutres: "Your permit, prepared by an architect", texteAutres: "A registered architect studies your plot, draws the plans and files your application. First call with no commitment.",
     waMsg: (t) => `Hello, I just read "${t}" on citurbarea.com and I would like to start my file.`,
@@ -967,7 +967,7 @@ function guidePageHtml(g) {
   const chiffrage = `${business.baseUrl}/chiffrage`;
   const couts = g.categorie === "couts";
   const [cta1, cta2] = couts ? [[chiffrage, T.chiffrer], [dossier, T.dossier]] : [[dossier, T.dossier], [chiffrage, T.chiffrer]];
-  const carteDossier = `<div class="carte-dossier"><p class="carte-titre">${esc(couts ? T.titreCouts : T.titreAutres)}</p><p>${esc(couts ? T.texteCouts : T.texteAutres)}</p><p class="cta-row"><a class="cta" href="${cta1[0]}">${esc(cta1[1])} →</a> <a class="cta-sec" href="${cta2[0]}">${esc(cta2[1])}</a></p></div>`;
+  const carteDossier = `<div class="carte-dossier"><p class="carte-titre">${esc(couts ? T.titreCouts : T.titreAutres)}</p><p>${esc(couts ? T.texteCouts : T.texteAutres)}</p><p class="cta-row"><a class="cta" href="${cta1[0]}">${esc(cta1[1])} →</a> <a class="cta-sec" href="${cta2[0]}">${esc(cta2[1])}</a></p><p class="rdv"><a href="${business.baseUrl}/rendez-vous">📹 ${esc(T.rdv)} →</a></p></div>`;
   // Après l'encadré « En bref » (premier </div>) et avant le 3e intertitre.
   let corps = String(g.body);
   const finEnBref = corps.indexOf("</div>", corps.indexOf('class="enbref"'));
@@ -1033,6 +1033,7 @@ ${hreflang}
   .carte-dossier{background:#0B1B3A;color:#fff;border-radius:14px;padding:18px 18px 8px;margin:22px 0}
   .carte-dossier .carte-titre{font-size:18px;font-weight:800;margin:0 0 6px;color:#fff}
   .carte-dossier p{color:#dbe3f0}
+  .carte-dossier .rdv a{color:#f0d27a;font-weight:600}
   .carte-dossier .cta{background:#C9A227;color:#0B1B3A;min-height:44px}
   .cta-sec{display:inline-block;padding:11px 18px;border-radius:10px;border:1px solid rgba(255,255,255,.5);color:#fff;text-decoration:none;font-weight:600;margin:8px 0}
   .barre-dossier{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;gap:10px;justify-content:center;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,.96);border-top:1px solid #e2e8f0;box-shadow:0 -6px 20px rgba(11,27,58,.08)}

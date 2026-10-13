@@ -36,6 +36,10 @@ const GUIDES = [
   { slug: "etapes-construction-maison-maroc", titre: "Construire sa maison au Maroc : les étapes de A à Z", resume: "Du terrain à la réception : architecte, permis, chantier et suivi.", min: 1, icone: "etapes" },
   { slug: "bureau-etudes-techniques-bet-maroc", titre: "Bureau d'études techniques (BET) : à quoi sert-il ?", resume: "Structure, fluides, géotechnique : son rôle à côté de l'architecte et comment le choisir.", min: 2, icone: "bet" },
   { slug: "choisir-entreprise-construction-maroc", titre: "Comment choisir une entreprise de construction au Maroc ?", resume: "Comparer les devis sur un même descriptif, vérifier les références, sécuriser le contrat.", min: 2, icone: "entreprise" },
+  // Guides de seo/guides/*.json (temps de lecture ≈ 200 mots/min).
+  { slug: "prix-construction-maison-maroc-m2", titre: "Prix de construction d'une maison au m² au Maroc en 2026", resume: "Prix au m² par standing et par surface, tâcheron ou entreprise, sous-sol, villes.", min: 8, icone: "cout" },
+  { slug: "procedure-autorisation-construire-maroc", titre: "Autorisation de construire : étapes, commissions et délais légaux", resume: "Petits ou grands projets, guichet unique, avis de l'agence urbaine, délais fixés par les textes.", min: 10, icone: "permis" },
+  { slug: "permis-habiter-certificat-conformite-maroc", titre: "Permis d'habiter et certificat de conformité : comment les obtenir ?", resume: "Différence entre les deux, dossier, délais, recours et sanctions.", min: 7, icone: "etapes" },
 ] as const;
 
 /** Pages villes publiées (scripts/build-seo.mjs → VILLE_HUBS). */
