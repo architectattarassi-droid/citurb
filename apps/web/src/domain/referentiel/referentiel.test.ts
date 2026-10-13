@@ -33,6 +33,17 @@ describe("référentiel des jalons", () => {
     expect(jalonsDuProjet({ type: "VILLA", sousSol: true }, r)[0].exigencesDetail.map((e) => e.id)).toEqual(["E1", "E2"]);
     expect(applicable({ types: ["IMMEUBLE"] }, { type: "VILLA" })).toBe(false);
   });
+  it("démultiplie les jalons par niveau (sous-sols, planchers)", () => {
+    const pl = { ...MINI.jalons[0], code: "86_PLANCHER.STR.01", phase: "86_PLANCHER", prerequis: [] as string[] };
+    const pl2 = { ...pl, code: "86_PLANCHER.STR.02", ordre: 2, prerequis: ["86_PLANCHER.STR.01"] };
+    const r = fusionner([{ ...MINI, jalons: [pl, pl2] }]);
+    const js = jalonsDuProjet({ type: "VILLA", etagesHorsSol: 1 }, r);
+    expect(js.map((j) => j.code)).toEqual(["86_PLANCHER_RDC.STR.01", "86_PLANCHER_RDC.STR.02", "86_PLANCHER_R1.STR.01", "86_PLANCHER_R1.STR.02"]);
+    expect(js.find((j) => j.code === "86_PLANCHER_R1.STR.02")!.prerequis).toEqual(["86_PLANCHER_R1.STR.01"]);
+    const ss = fusionner([{ ...MINI, jalons: [{ ...pl, code: "85_SOUS_SOL.STR.01", phase: "85_SOUS_SOL" }] }]);
+    expect(jalonsDuProjet({ type: "IMMEUBLE", sousSols: 2 }, ss).map((j) => j.phase)).toEqual(["85_SOUS_SOL_1", "85_SOUS_SOL_2"]);
+    expect(jalonsDuProjet({ type: "VILLA" }, ss)).toEqual([]);
+  });
   it("les données du dépôt sont intègres", () => {
     const r = referentiel();
     expect(controler(r)).toEqual([]);

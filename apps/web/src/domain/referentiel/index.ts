@@ -80,6 +80,10 @@ export interface Projet {
   type: NonNullable<Conditions["types"]>[number];
   zoneSismique?: number;
   sousSol?: boolean;
+  /** Nombre de sous-sols (défaut : 1 si sousSol). */
+  sousSols?: number;
+  /** Étages au-dessus du RDC (R+1 → 1). Défaut 0. */
+  etagesHorsSol?: number;
   hauteurM?: number;
   erp?: boolean;
   ascenseur?: boolean;
@@ -99,11 +103,43 @@ export function applicable(c: Conditions | undefined, p: Projet): boolean {
   return true;
 }
 
+/**
+ * Phases « gabarit » répétées par niveau, comme packages/contracts/src/phases.catalog.ts :
+ * 85_SOUS_SOL → 85_SOUS_SOL_1…n ; 86_PLANCHER → 86_PLANCHER_RDC, _R1…_Rn
+ * (86_PLANCHER_TERRASSE a ses propres jalons).
+ */
+export const PHASES_PAR_NIVEAU: Record<string, (p: Projet) => { phase: string; niveau: string }[]> = {
+  "85_SOUS_SOL": (p) => {
+    const n = p.sousSols ?? (p.sousSol ? 1 : 0);
+    return Array.from({ length: n }, (_, i) => ({ phase: `85_SOUS_SOL_${i + 1}`, niveau: `Sous-sol −${i + 1}` }));
+  },
+  "86_PLANCHER": (p) => [
+    { phase: "86_PLANCHER_RDC", niveau: "RDC" },
+    ...Array.from({ length: Math.max(0, p.etagesHorsSol ?? 0) }, (_, i) => ({ phase: `86_PLANCHER_R${i + 1}`, niveau: `R+${i + 1}` })),
+  ],
+};
+
+/** Démultiplie les jalons des phases gabarit, un exemplaire par niveau du projet. */
+export type JalonDeplie = Jalon & { niveau?: string; rangNiveau?: number; phaseGabarit?: string };
+
+export function deplierNiveaux(jalons: Jalon[], p: Projet): JalonDeplie[] {
+  const out: JalonDeplie[] = [];
+  for (const j of jalons) {
+    const gen = PHASES_PAR_NIVEAU[j.phase];
+    if (!gen) { out.push(j); continue; }
+    for (const [rangNiveau, { phase, niveau }] of gen(p).entries()) {
+      const renomme = (c: string) => (c.startsWith(`${j.phase}.`) ? `${phase}${c.slice(j.phase.length)}` : c);
+      out.push({ ...j, phase, niveau, rangNiveau, phaseGabarit: j.phase, code: renomme(j.code), titre: `${j.titre} — ${niveau}`, prerequis: j.prerequis?.map(renomme) });
+    }
+  }
+  return out;
+}
+
 /** Jalons du projet, triés par phase puis ordre, avec leurs exigences applicables. */
 export function jalonsDuProjet(p: Projet, r: Referentiel = referentiel()) {
-  return r.jalons
+  return deplierNiveaux(r.jalons, p)
     .filter((j) => applicable(j.conditions, p))
-    .sort((a, b) => a.phase.localeCompare(b.phase, "fr", { numeric: true }) || a.ordre - b.ordre)
+    .sort((a, b) => (a.phaseGabarit ?? a.phase).localeCompare(b.phaseGabarit ?? b.phase, "fr", { numeric: true }) || (a.rangNiveau ?? 0) - (b.rangNiveau ?? 0) || a.ordre - b.ordre)
     .map((j) => ({
       ...j,
       exigencesDetail: j.exigences.map((id) => r.exigences.get(id)!).filter((e) => e && applicable(e.conditions, p)),
