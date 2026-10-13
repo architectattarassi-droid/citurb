@@ -16,7 +16,18 @@ import {
   fmtMad,
   livraisonsApi,
 } from "./livraisons-materiaux.api";
-import { searchMaterials, MaterialWithPrice } from "../materials/materials.api";
+import { MATERIAUX_PUBLICS, prixReference } from "../../domain/materiaux/reference";
+
+// Recherche locale dans la matériauthèque (prix de référence HT par unité de référence),
+// en remplacement de /api/materials/* (API NestJS éteinte).
+type MaterialWithPrice = { code: string; label: string; unit: string; currentPrice: { prixMoyen: number } | null };
+const sansAccent = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+function searchMaterials(q: string): Promise<{ results: MaterialWithPrice[] }> {
+  const k = sansAccent(q.trim());
+  const results = MATERIAUX_PUBLICS.filter((r) => sansAccent(`${r.libelle} ${r.code} ${(r.motsCles || []).join(" ")}`).includes(k))
+    .map((r) => ({ code: r.code, label: r.libelle, unit: r.uniteRef, currentPrice: prixReference(r.code) ? { prixMoyen: prixReference(r.code)!.ref } : null }));
+  return Promise.resolve({ results });
+}
 
 type Props = {
   dossierId: string;
