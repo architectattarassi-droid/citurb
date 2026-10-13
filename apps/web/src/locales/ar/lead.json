@@ -105,5 +105,9 @@
   "p1conf.cta_rdv": "حجز موعد بالفيديو",
   "p1conf.cta_whatsapp": "راسلنا فواتساب",
   "p1conf.wa_message": "السلام، يالاه ختارت باقة للمشروع ديالي (الباب 1).",
-  "p1conf.back": "الرجوع للصفحة الرئيسية"
+  "p1conf.back": "الرجوع للصفحة الرئيسية",
+  "sommeil.alt.espace_fournisseur": "فضاء المورد",
+  "sommeil.alt.guide_permis": "دليل رخصة البناء",
+  "sommeil.alt.inscription": "سجل المقاولة ديالي",
+  "sommeil.alt.p4": "الباب 4 — تحليل العقار"
 }

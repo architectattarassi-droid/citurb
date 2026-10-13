@@ -112,7 +112,7 @@ export default function ProjectDetailsForm({ projectType, onSubmit, initialData 
         
         <div style={{ marginBottom: '32px' }}>
           <div style={{ fontSize: '12px', color: 'rgba(11,27,58,0.6)', fontStyle: 'italic', marginBottom: '10px' }}>
-            Sélection officielle issue du découpage HCP — 14 régions / 77 provinces / 1 505 communes.
+            Indiquez la région, la province et la commune du projet.
           </div>
           <AdminLocationSelect
             required

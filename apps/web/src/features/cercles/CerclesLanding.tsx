@@ -50,7 +50,7 @@ export default function CerclesLanding() {
               <Link to="/cercles" style={S.navCta}>{t("cercles.landing.nav_my_feed")}</Link>
             ) : (
               <>
-                <Link to="/login" style={S.navLink}>{t("cercles.landing.nav_login")}</Link>
+                <Link to="/cercles/espace" style={S.navLink}>{t("cercles.landing.nav_login")}</Link>
                 <Link to="/inscription" style={S.navCta}>{t("cercles.landing.nav_signup")}</Link>
               </>
             )}
@@ -73,7 +73,7 @@ export default function CerclesLanding() {
             ) : (
               <>
                 <Link to="/inscription" style={S.btnPrimary}>{t("cercles.landing.hero_cta_join")}</Link>
-                <Link to="/login" style={S.btnGhost}>{t("cercles.landing.hero_cta_login")}</Link>
+                <Link to="/cercles/espace" style={S.btnGhost}>{t("cercles.landing.hero_cta_login")}</Link>
               </>
             )}
           </div>
@@ -101,7 +101,7 @@ export default function CerclesLanding() {
                   {t("cercles.landing.partners_fee_note")}
                 </span>
               </div>
-              <Link to="/cercles/snasp-architectes-prive/rejoindre" style={S.partnerCta}>
+              <Link to="/inscription" style={S.partnerCta}>
                 {t("cercles.landing.partners_cta_snasp")}
               </Link>
             </article>
@@ -118,7 +118,7 @@ export default function CerclesLanding() {
                   {t("cercles.landing.partners_fee_note")}
                 </span>
               </div>
-              <Link to="/cercles/anjaum-jeunes-architectes/rejoindre" style={S.partnerCta}>
+              <Link to="/inscription" style={S.partnerCta}>
                 {t("cercles.landing.partners_cta_anjaum")}
               </Link>
             </article>
@@ -187,7 +187,7 @@ export default function CerclesLanding() {
             ) : (
               <>
                 <Link to="/inscription" style={S.btnPrimary}>{t("cercles.landing.cta_create")}</Link>
-                <Link to="/login" style={{ ...S.btnGhost, borderColor: "rgba(250,247,242,0.3)", color: CC_THEME.inkOnDark }}>
+                <Link to="/cercles/espace" style={{ ...S.btnGhost, borderColor: "rgba(250,247,242,0.3)", color: CC_THEME.inkOnDark }}>
                   {t("cercles.landing.cta_have_account")}
                 </Link>
               </>
@@ -201,7 +201,7 @@ export default function CerclesLanding() {
           <div style={S.footerBrand}>{t("cercles.landing.footer_brand", { year: new Date().getFullYear() })}</div>
           <div style={S.footerLinks}>
             <a href="https://citurbarea.com" style={S.footerLink}>{t("cercles.landing.footer_site")}</a>
-            <Link to="/login" style={S.footerLink}>{t("cercles.landing.footer_login")}</Link>
+            <Link to="/cercles/espace" style={S.footerLink}>{t("cercles.landing.footer_login")}</Link>
             <Link to="/inscription" style={S.footerLink}>{t("cercles.landing.footer_signup")}</Link>
           </div>
         </div>

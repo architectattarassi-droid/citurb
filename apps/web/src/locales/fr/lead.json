@@ -105,5 +105,9 @@
   "p1conf.cta_rdv": "Réserver un rendez-vous visio",
   "p1conf.cta_whatsapp": "Écrire sur WhatsApp",
   "p1conf.wa_message": "Bonjour, je viens de choisir un pack pour mon projet (Porte 1).",
-  "p1conf.back": "Retour à l'accueil"
+  "p1conf.back": "Retour à l'accueil",
+  "sommeil.alt.espace_fournisseur": "Espace fournisseur",
+  "sommeil.alt.guide_permis": "Guide du permis de construire",
+  "sommeil.alt.inscription": "Inscrire mon entreprise",
+  "sommeil.alt.p4": "Porte 4 — analyse foncière"
 }

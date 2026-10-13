@@ -18,7 +18,7 @@ type Props = {
   /** Nom du module (FR) : titre côté admin, contexte du message WhatsApp côté public. */
   module?: string;
   variante?: "public" | "admin";
-  /** Lien de remplacement déjà disponible (ex. espace fournisseur). */
+  /** Lien de remplacement déjà disponible. Public : `libelle` est une clé i18n (sommeil.alt.*) ; admin : texte. */
   alternative?: { to: string; libelle: string };
 };
 
@@ -63,7 +63,7 @@ export default function EnSommeil({ module, variante = "public", alternative }: 
       <h1 style={{ fontSize: 28, margin: "8px 0 12px", lineHeight: 1.25 }}>{t("sommeil.title")}</h1>
       <p style={{ color: "#475569", lineHeight: 1.6, margin: "0 0 28px" }}>{t("sommeil.text")}</p>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" }}>
-        {alternative && <Link to={alternative.to} style={{ ...bouton, background: "#C9A227", color: "#0b1b3a" }}>{alternative.libelle}</Link>}
+        {alternative && <Link to={alternative.to} style={{ ...bouton, background: "#C9A227", color: "#0b1b3a" }}>{t(alternative.libelle)}</Link>}
         <Link to="/creer-compte" style={{ ...bouton, background: "#0b1b3a", color: "#fff" }}>{t("sommeil.cta_projet")}</Link>
         <a href={lienWhatsApp(t("sommeil.wa_message", { page: module ?? "" }))} target="_blank" rel="noopener noreferrer"
            style={{ ...bouton, background: "#16a34a", color: "#fff" }}>{t("sommeil.cta_whatsapp")}</a>

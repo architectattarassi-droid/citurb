@@ -105,5 +105,9 @@
   "p1conf.cta_rdv": "Book a video appointment",
   "p1conf.cta_whatsapp": "Message us on WhatsApp",
   "p1conf.wa_message": "Hello, I have just chosen a pack for my project (Door 1).",
-  "p1conf.back": "Back to home"
+  "p1conf.back": "Back to home",
+  "sommeil.alt.espace_fournisseur": "Supplier space",
+  "sommeil.alt.guide_permis": "Building permit guide",
+  "sommeil.alt.inscription": "Register my company",
+  "sommeil.alt.p4": "Door 4 — land analysis"
 }

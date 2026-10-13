@@ -212,10 +212,10 @@ export const router = createBrowserRouter([
   // complète (AccountTypeChooser / ClientSignup) visait l'API NestJS éteinte.
   { path: '/creer-compte',                          element: <AdminHostBlock><LeadCapturePage /></AdminHostBlock> },
   { path: '/creer-compte/client',                   element: <AdminHostBlock><LeadCapturePage /></AdminHostBlock> },
-  { path: '/post/:id',                             element: <AdminHostBlock><EnSommeil module="Réseau Cercles" alternative={{ to: "/inscription", libelle: "Inscrire mon entreprise" }} /></AdminHostBlock> },
+  { path: '/post/:id',                             element: <AdminHostBlock><EnSommeil module="Réseau Cercles" alternative={{ to: "/inscription", libelle: "sommeil.alt.inscription" }} /></AdminHostBlock> },
   { path: '/cercles',                              element: <AdminHostBlock><CerclesHome /></AdminHostBlock> },
   { path: '/cercles/bienvenue',                    element: <Redirect to="/cercles" /> },
-  { path: '/cercles/annuaire',                     element: <AdminHostBlock><EnSommeil module="Annuaire Cercles" alternative={{ to: "/inscription", libelle: "Inscrire mon entreprise" }} /></AdminHostBlock> },
+  { path: '/cercles/annuaire',                     element: <AdminHostBlock><EnSommeil module="Annuaire Cercles" alternative={{ to: "/inscription", libelle: "sommeil.alt.inscription" }} /></AdminHostBlock> },
   { path: '/cercles/inscription',                  element: <AdminHostBlock><InscriptionProPage /></AdminHostBlock> },
   { path: '/cercles/espace',                       element: <AdminHostBlock><EspaceFournisseurPage /></AdminHostBlock> },
   { path: '/cercles/me/edit',                      element: <Redirect to="/cercles/espace" /> },
@@ -286,9 +286,9 @@ export const router = createBrowserRouter([
       { path: '/materiaux/:slug', element: <AdminHostBlock><MateriauPage /></AdminHostBlock> },
 
       // ── Tarifs Contractuels Prestataires P6 (Phase 3) ──
-      { path: '/prestataires/tarifs', element: <AdminHostBlock><EnSommeil module="Tarifs prestataires" alternative={{ to: "/cercles/espace", libelle: "Espace fournisseur" }} /></AdminHostBlock> },
-      { path: '/prestataires/tarifs/editor', element: <AdminHostBlock><EnSommeil module="Tarifs prestataires" alternative={{ to: "/cercles/espace", libelle: "Espace fournisseur" }} /></AdminHostBlock> },
-      { path: '/prestataires/tarifs/:tarifId', element: <AdminHostBlock><EnSommeil module="Tarifs prestataires" alternative={{ to: "/cercles/espace", libelle: "Espace fournisseur" }} /></AdminHostBlock> },
+      { path: '/prestataires/tarifs', element: <AdminHostBlock><EnSommeil module="Tarifs prestataires" alternative={{ to: "/cercles/espace", libelle: "sommeil.alt.espace_fournisseur" }} /></AdminHostBlock> },
+      { path: '/prestataires/tarifs/editor', element: <AdminHostBlock><EnSommeil module="Tarifs prestataires" alternative={{ to: "/cercles/espace", libelle: "sommeil.alt.espace_fournisseur" }} /></AdminHostBlock> },
+      { path: '/prestataires/tarifs/:tarifId', element: <AdminHostBlock><EnSommeil module="Tarifs prestataires" alternative={{ to: "/cercles/espace", libelle: "sommeil.alt.espace_fournisseur" }} /></AdminHostBlock> },
 
       // ── Calendrier Projet (Gantt + CPM + Kanban) ──
       { path: '/projet/:dossierId/calendrier', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
@@ -308,7 +308,7 @@ export const router = createBrowserRouter([
       { path: '/dossiers/:id/phases/:phaseSlug', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
       { path: '/dossier/:dossierId/reception', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
       { path: '/dossier/:dossierId/cps', element: <AdminHostBlock><EnSommeil module="Générateur de CPS" /></AdminHostBlock> },
-      { path: '/permis-construire/:dossierId', element: <AdminHostBlock><EnSommeil module="Permis de construire" alternative={{ to: "/guide/permis-de-construire-maroc", libelle: "Guide du permis de construire" }} /></AdminHostBlock> },
+      { path: '/permis-construire/:dossierId', element: <AdminHostBlock><EnSommeil module="Permis de construire" alternative={{ to: "/guide/permis-de-construire-maroc", libelle: "sommeil.alt.guide_permis" }} /></AdminHostBlock> },
       { path: '/chantier/:dossierId/sous-traitants', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
       { path: '/chantier/:dossierId/incidents', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
       { path: '/chantier/:dossierId/copilote', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
@@ -318,7 +318,7 @@ export const router = createBrowserRouter([
       { path: '/pv-chantier/dossier/:dossierId/new', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
       { path: '/pv-chantier/:pvId/edit', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
       { path: '/pv-chantier/:pvId', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
-      { path: '/foncier/estimation', element: <AdminHostBlock><EnSommeil module="Estimation foncière" alternative={{ to: "/p4", libelle: "Porte 4 — analyse foncière" }} /></AdminHostBlock> },
+      { path: '/foncier/estimation', element: <AdminHostBlock><EnSommeil module="Estimation foncière" alternative={{ to: "/p4", libelle: "sommeil.alt.p4" }} /></AdminHostBlock> },
       { path: '/mre', element: <MreDiasporaLanding /> },
       { path: '/mandataires', element: <AdminHostBlock><EnSommeil module="Mandataires" /></AdminHostBlock> },
       { path: '/opci', element: <AdminHostBlock><EnSommeil module="OPCI" /></AdminHostBlock> },
