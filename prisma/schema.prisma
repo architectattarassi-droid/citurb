@@ -2234,6 +2234,7 @@ model Fournisseur {
   reponses ReponsePrix[]
   produits ProduitFournisseur[]
   services ServiceFournisseur[]
+  images   ImageCatalogue[]
 
   @@index([statut])
   @@index([region])
@@ -2323,6 +2324,39 @@ model ServiceFournisseur {
   @@index([statut], map: "ServiceFournisseur_statut_idx")
   @@index([ouvrageCode, statut], map: "ServiceFournisseur_ouvrage_idx")
   @@index([fournisseurId], map: "ServiceFournisseur_fournisseur_idx")
+}
+
+/// Image d'une fiche produit, prestation ou société (galerie), redimensionnée dans le navigateur, EXIF retiré,
+/// stockée en bytea en attendant R2 (docs/prix/sql/cercles-images.sql). Publique seulement si APPROVED.
+model ImageCatalogue {
+  id             String      @id
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @default(now()) @updatedAt
+  fournisseurId  String
+  fournisseur    Fournisseur @relation(fields: [fournisseurId], references: [id], onDelete: Cascade)
+  objetType      String // PRODUIT SERVICE SOCIETE
+  objetId        String
+  ordre          Int         @default(0)
+  principale     Boolean     @default(false)
+  legendeFr      String?
+  legendeAr      String?
+  statut         String      @default("PENDING") // PENDING APPROVED REJECTED
+  type           String
+  largeur        Int
+  hauteur        Int
+  taille         Int
+  octets         Bytes
+  vignetteType   String
+  vignetteTaille Int
+  vignette       Bytes
+  empreinte      String
+  motifRejet     String?
+  moderePar      String?
+  modereLe       DateTime?
+
+  @@index([objetType, objetId, statut], map: "ImageCatalogue_objet_idx")
+  @@index([fournisseurId], map: "ImageCatalogue_fournisseur_idx")
+  @@index([statut], map: "ImageCatalogue_statut_idx")
 }
 
 /// Code du référentiel matériaux créé à la modération d'une fiche produit (CIT-<PFX>-9NN),

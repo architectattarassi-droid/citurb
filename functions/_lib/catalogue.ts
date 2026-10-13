@@ -16,7 +16,7 @@ import { ecartReference } from "../../apps/web/src/domain/materiaux/conversions"
 import { agregerMarche, livreRegion, type FicheMarche } from "../../apps/web/src/domain/materiaux/marche";
 import { regionDe } from "../../apps/web/src/domain/materiaux/regions";
 import { CATEGORIES, UNITES_REF } from "../../apps/web/src/domain/materiaux/types";
-import { TYPES_SOCIETE } from "../../apps/web/src/domain/cercles/gabarits";
+import { TYPES_SOCIETE, libelleMetier } from "../../apps/web/src/domain/cercles/gabarits";
 import { FAMILLES_PRODUIT, GAMMES, NATURES_SERVICE, PRESTATIONS, UNITES_SERVICE } from "../../apps/web/src/domain/cercles/offres";
 import { LOT_PAR_CODE, type CodeLot } from "../../apps/web/src/domain/chiffrage/lots";
 import { OUVRAGES } from "../../apps/web/src/domain/chiffrage/ouvrages";
@@ -31,8 +31,10 @@ import {
 } from "./catalogueVues";
 import { DISPONIBILITES, METIERS_AVEC_FICHES, TAUX_TVA, iso, jour, jsonObj, liste, vueFiche, vuePublique, zonesValides } from "./fournisseurs";
 import type { Depot, Ligne } from "./fournisseursDepot";
+import { imagesParObjet, vueImagePublique } from "./imagesCatalogue";
+import type { DepotImages } from "./imagesDepot";
 
-type DepotC = Depot & DepotCatalogue;
+type DepotC = Depot & DepotCatalogue & DepotImages;
 const ISO_JOUR = /^\d{4}-\d{2}-\d{2}$/;
 const STATUTS_OFFRE = ["PENDING", "APPROVED", "REJECTED", "ARCHIVED"];
 export const PRODUITS_MAX = 500;
@@ -405,7 +407,9 @@ export async function modererProduit(id: string, body: unknown, auteur: string, 
     statut: "APPROVED", materiauCode: code, uniteRef: ref.uniteRef, facteur, prixRefHT, ecartRef: ecart,
     signalement: ecart !== null && Math.abs(ecart) > 0.5 ? (ecart > 0 ? "ABERRANT_HAUT" : "ABERRANT_BAS") : null, motifRejet: null, auteur,
   }, ev({ materiauCode: code, codeCree: cree, facteur }));
-  return { status: 200, json: { ok: true, produit: vueProduitAdmin(r || p), codeCree: cree } };
+  // Les images en attente de la fiche sont approuvées avec elle (l'admin les a vues dans la même carte).
+  const images = await depot.imApprouverObjet("PRODUIT", id, auteur);
+  return { status: 200, json: { ok: true, produit: vueProduitAdmin(r || p), codeCree: cree, imagesApprouvees: images } };
 }
 
 export async function servicesAModerer(statut: string | null, depot: DepotC): Promise<Reponse> {
@@ -445,6 +449,7 @@ export async function modererService(id: string, body: unknown, auteur: string, 
   } else return erreur(400, "action_invalide");
   const r = await depot.svModerer(id, { statut, ouvrageCode, prestationCode, motifRejet: motif, auteur },
     { at: maintenantIso(), kind: "MODERATION", payload: { action, auteur, motif, ouvrageCode, prestationCode } });
+  if (statut === "APPROVED") await depot.imApprouverObjet("SERVICE", id, auteur);
   return { status: 200, json: { ok: true, service: vueServiceAdmin(r || s) } };
 }
 
@@ -505,6 +510,51 @@ function valeurCaracteristique(famille: string, cle: string, v: unknown): { libe
   return { libelle, valeur: { fr: s } };
 }
 
+/** Variantes : fiches d'un même code, d'une même marque et d'un même modèle (sinon même désignation). */
+function grouperVariantes(l: Ligne[]): Map<string, Ligne[]> {
+  const groupes = new Map<string, Ligne[]>();
+  for (const p of l) {
+    const cle = [p.materiauCode, normaliser(String(p.marque || "")), normaliser(String(p.modele || "")), p.marque || p.modele ? "" : normaliser(String(p.designationFr || p.designationAr || ""))].join("|");
+    groupes.set(cle, [...(groupes.get(cle) || []), p]);
+  }
+  return groupes;
+}
+
+/** Entrée publique d'une variante (forme du contrat catalogue), prix agrégé à partir de 3 fournisseurs. */
+function variante(cle: string, g: Ligne[], images: Map<string, ReturnType<typeof vueImagePublique>[]>, parents: Record<string, string>, region: string | null) {
+  const reference = (c: string) => parents[c] || c;
+  g.sort((a, b) => String(b.updatedAt).localeCompare(String(a.updatedAt)));
+  const p = g[0];
+  const m = agregerMarche(fichesMarche(g.map((x) => ({ prix: x.prixRefHT, misAJour: x.updatedAt, validiteJusquau: x.validiteJusquau, fournisseurId: x.fournisseurId,
+    regionFournisseur: x.fRegion, zones: zonesDe(x, x.fZones) })), () => cle), region)[cle];
+  const fournisseurs = [...new Map(g.map((x) => [String(x.fournisseurId), x])).values()];
+  const conditionnements = [...new Map(g.map((x) => [`${x.uniteVente}|${x.facteur}`, {
+    code: slugifier(String(x.uniteVente)).slice(0, 30), libelle: { fr: String(x.uniteVente) }, facteur: Number(x.facteur) }])).values()];
+  const car = jsonObj(p.caracteristiques);
+  // Galerie de la variante : images approuvées de ses fiches (la plus récente d'abord), sans doublon.
+  const galerie = [...new Map(g.flatMap((x) => images.get(`PRODUIT:${x.id}`) || []).map((i) => [i.id, i])).values()].slice(0, MAX_IMAGES_VARIANTE);
+  return {
+    id: String(p.id), codeReference: reference(String(p.materiauCode)),
+    ...(parents[String(p.materiauCode)] ? { codeVariante: String(p.materiauCode) } : {}),
+    marque: (p.marque as string) || null, modele: (p.modele as string) || null,
+    designation: texte(p.designationFr, p.designationAr)!, description: texte(p.descriptionFr, p.descriptionAr),
+    caracteristiques: Object.keys(car).map((k) => valeurCaracteristique(String(p.famille), k, car[k])).filter(Boolean),
+    conditionnements, photoUrl: galerie[0]?.url || liste(p.photos)[0] || null, vignetteUrl: galerie[0]?.vignette || null, images: galerie,
+    ficheTechniqueUrl: (p.ficheTechniqueUrl as string) || null,
+    gamme: (p.gamme as string) || null, famille: String(p.famille), categorie: String(p.categorie), uniteRef: String(p.uniteRef),
+    nbFournisseurs: fournisseurs.length,
+    prix: m && m.mediane != null ? { mediane: m.mediane, min: m.min, max: m.max, nbFournisseurs: m.nbFournisseurs, majLe: m.plusRecente } : null,
+    majLe: jour(p.updatedAt),
+    fournisseurs: fournisseurs.map((x) => { const f = fournisseurResume(x); return { slug: f.slug, nom: texte(f.raisonSociale, f.raisonSocialeAr), ville: f.ville, documentsVerifies: f.documentsVerifies }; }),
+  };
+}
+
+/** Images publiques par objet (« PRODUIT:id », « SERVICE:id », « SOCIETE:id ») ; table absente → aucune image. */
+async function imagesPubliques(depot: DepotC, fictifs: boolean) {
+  try { return imagesParObjet(await depot.imPubliques(fictifs)); } catch { return new Map<string, ReturnType<typeof vueImagePublique>[]>(); }
+}
+const MAX_IMAGES_VARIANTE = 8;
+
 /**
  * GET /api/catalogue/produits?code=&region=&categorie=&famille=&gamme=&q=&fournisseur= — forme du contrat
  * docs/architecture/contrat-catalogue.md : variantes groupées par (code, marque, modèle), textes bilingues,
@@ -516,6 +566,7 @@ export async function catalogueProduits(q: URLSearchParams, depot: DepotC | null
   if (!depot) return vide(false);
   let lignes: Ligne[], dyn: Ligne[];
   try { [lignes, dyn] = await Promise.all([depot.prPublics(!!opts.inclureFictifs), depot.refLister()]); } catch { return vide(false); }
+  const images = await imagesPubliques(depot, !!opts.inclureFictifs);
   const region = regionParam(q.get("region"));
   const categorie = q.get("categorie"), famille = q.get("famille"), gamme = q.get("gamme"), fournisseur = q.get("fournisseur");
   const code = (q.get("code") || "").toUpperCase(), recherche = q.get("q") || "";
@@ -527,34 +578,7 @@ export async function catalogueProduits(q: URLSearchParams, depot: DepotC | null
     && (!fournisseur || p.fSlug === fournisseur) && (!code || p.materiauCode === code || reference(String(p.materiauCode)) === code)
     && contient([p.designationFr as string, p.designationAr as string, p.marque as string, p.modele as string, p.descriptionFr as string], recherche));
 
-  const groupes = new Map<string, Ligne[]>();
-  for (const p of retenus) {
-    const cle = [p.materiauCode, normaliser(String(p.marque || "")), normaliser(String(p.modele || "")), p.marque || p.modele ? "" : normaliser(String(p.designationFr || p.designationAr || ""))].join("|");
-    groupes.set(cle, [...(groupes.get(cle) || []), p]);
-  }
-  const produits = [...groupes.entries()].map(([cle, g]) => {
-    g.sort((a, b) => String(b.updatedAt).localeCompare(String(a.updatedAt)));
-    const p = g[0];
-    const m = agregerMarche(fichesMarche(g.map((x) => ({ prix: x.prixRefHT, misAJour: x.updatedAt, validiteJusquau: x.validiteJusquau, fournisseurId: x.fournisseurId,
-      regionFournisseur: x.fRegion, zones: zonesDe(x, x.fZones) })), () => cle), region)[cle];
-    const fournisseurs = [...new Map(g.map((x) => [String(x.fournisseurId), x])).values()];
-    const conditionnements = [...new Map(g.map((x) => [`${x.uniteVente}|${x.facteur}`, {
-      code: slugifier(String(x.uniteVente)).slice(0, 30), libelle: { fr: String(x.uniteVente) }, facteur: Number(x.facteur) }])).values()];
-    const car = jsonObj(p.caracteristiques);
-    return {
-      id: String(p.id), codeReference: reference(String(p.materiauCode)),
-      ...(parents[String(p.materiauCode)] ? { codeVariante: String(p.materiauCode) } : {}),
-      marque: (p.marque as string) || null, modele: (p.modele as string) || null,
-      designation: texte(p.designationFr, p.designationAr)!, description: texte(p.descriptionFr, p.descriptionAr),
-      caracteristiques: Object.keys(car).map((k) => valeurCaracteristique(String(p.famille), k, car[k])).filter(Boolean),
-      conditionnements, photoUrl: liste(p.photos)[0] || null, ficheTechniqueUrl: (p.ficheTechniqueUrl as string) || null,
-      gamme: (p.gamme as string) || null, famille: String(p.famille), categorie: String(p.categorie), uniteRef: String(p.uniteRef),
-      nbFournisseurs: fournisseurs.length,
-      prix: m && m.mediane != null ? { mediane: m.mediane, min: m.min, max: m.max, nbFournisseurs: m.nbFournisseurs, majLe: m.plusRecente } : null,
-      majLe: jour(p.updatedAt),
-      fournisseurs: fournisseurs.map((x) => { const f = fournisseurResume(x); return { slug: f.slug, nom: texte(f.raisonSociale, f.raisonSocialeAr), ville: f.ville, documentsVerifies: f.documentsVerifies }; }),
-    };
-  });
+  const produits = [...grouperVariantes(retenus).entries()].map(([cle, g]) => variante(cle, g, images, parents, region));
   const offset = entier(q.get("offset"), 0, 10_000), limite = entier(q.get("limite"), 2000, 2000) || 2000;
   return { status: 200, json: { ok: true, disponible: true, region, total: produits.length, produits: produits.slice(offset, offset + limite) }, entetes };
 }
@@ -568,6 +592,7 @@ export async function catalogueServices(q: URLSearchParams, depot: DepotC | null
   if (!depot) return { status: 200, json: { ok: true, disponible: false, total: 0, services: [] }, entetes };
   let lignes: Ligne[];
   try { lignes = await depot.svPublics(!!opts.inclureFictifs); } catch { return { status: 200, json: { ok: true, disponible: false, total: 0, services: [] }, entetes }; }
+  const images = await imagesPubliques(depot, !!opts.inclureFictifs);
   const region = regionParam(q.get("region"));
   const nature = q.get("nature"), ouvrage = q.get("ouvrage") || q.get("code"), prestation = q.get("prestation"), lot = q.get("lot"), fournisseur = q.get("fournisseur");
   const duLot = lot ? codesDuLot(lot) : null;
@@ -590,7 +615,7 @@ export async function catalogueServices(q: URLSearchParams, depot: DepotC | null
           id: String(s.id), nature: String(s.nature), ouvrageCode: (s.ouvrageCode as string) || null, prestationCode: (s.prestationCode as string) || null,
           designation: texte(s.designationFr, s.designationAr)!, description: texte(s.descriptionFr, s.descriptionAr), unite: String(s.unite),
           delaiJours: s.delaiJours == null ? null : Number(s.delaiJours), conditions: (s.conditions as string) || null, zones: zonesDe(s, s.fZones),
-          photoUrl: liste(s.photos)[0] || null, majLe: jour(s.updatedAt),
+          photoUrl: images.get(`SERVICE:${s.id}`)?.[0]?.url || liste(s.photos)[0] || null, images: images.get(`SERVICE:${s.id}`) || [], majLe: jour(s.updatedAt),
           prix: m && m.mediane != null ? { mediane: m.mediane, min: m.min, max: m.max, nbFournisseurs: m.nbFournisseurs, majLe: m.plusRecente } : null,
           fournisseur: { slug: f.slug, nom: texte(f.raisonSociale, f.raisonSocialeAr), ville: f.ville, documentsVerifies: f.documentsVerifies },
         };
@@ -620,7 +645,7 @@ export async function referentielPublic(depot: DepotC | null): Promise<Reponse> 
  * Offres de produits rattachés, au format des fiches de marché, pour GET /api/prix/materiaux
  * (à ajouter aux fiches de prix lues par functions/_lib/prixMateriaux.ts).
  */
-export async function fichesMarcheProduits(depot: DepotC, opts: OptionsLecture = {}): Promise<{ fiches: FicheMarche[]; parents: Record<string, string> }> {
+export async function fichesMarcheProduits(depot: DepotCatalogue, opts: OptionsLecture = {}): Promise<{ fiches: FicheMarche[]; parents: Record<string, string> }> {
   const [offres, dyn] = await Promise.all([depot.offresProduits(!!opts.inclureFictifs), depot.refLister()]);
   return { fiches: fichesMarche(offres, (o) => String(o.code)), parents: parentsCrees(dyn) };
 }
@@ -687,19 +712,111 @@ export async function annuaire(q: URLSearchParams, depot: DepotC, opts: OptionsL
 export async function fichePro(slug: string, depot: DepotC, opts: OptionsLecture = {}): Promise<Reponse> {
   const f = await depot.fParSlug(slug);
   if (!f || f.statut !== "APPROVED" || (jsonObj(f.meta).fictif === true && !opts.inclureFictifs)) return erreur(404, "not_found");
-  const [produits, services, fiches] = await Promise.all([depot.prPublics(true), depot.svPublics(true), depot.fichesApprouvees(String(f.id))]);
+  const [produits, services, fiches, images] = await Promise.all([depot.prPublics(true), depot.svPublics(true), depot.fichesApprouvees(String(f.id)), imagesPubliques(depot, true)]);
   return {
     status: 200,
     json: {
-      ok: true, fournisseur: vuePublique(f),
-      produits: produits.filter((p) => p.fournisseurId === f.id && valideAujourdhui(p.validiteJusquau)).map(vueProduitPublique),
-      services: services.filter((s) => s.fournisseurId === f.id && valideAujourdhui(s.validiteJusquau)).map(vueServicePublique),
+      ok: true, fournisseur: vuePublique(f), imagesSociete: images.get(`SOCIETE:${f.id}`) || [],
+      produits: produits.filter((p) => p.fournisseurId === f.id && valideAujourdhui(p.validiteJusquau)).map((p) => ({ ...vueProduitPublique(p), images: images.get(`PRODUIT:${p.id}`) || [] })),
+      services: services.filter((s) => s.fournisseurId === f.id && valideAujourdhui(s.validiteJusquau)).map((s) => ({ ...vueServicePublique(s), images: images.get(`SERVICE:${s.id}`) || [] })),
       materiauxChiffres: fiches.filter((p) => valideAujourdhui(p.validiteJusquau)).map((p) => {
         const v = vueFiche(p);
         return { materiauCode: v.materiauCode, libelle: v.libelle, uniteVenteLibelle: v.uniteVenteLibelle, disponibilite: v.disponibilite, marque: v.marque, majLe: jour(p.updatedAt) };
       }),
     },
     entetes: { "cache-control": "public, max-age=60, s-maxage=300" },
+  };
+}
+
+// ───────────────────────── navigation par fournisseur ─────────────────────────
+
+/** Fiche société publique au format du contrat (textes bilingues, galerie, sans coordonnées ni documents). */
+function societePublique(f: Ligne, galerie: ReturnType<typeof vueImagePublique>[]) {
+  const v = vuePublique(f);
+  const m = libelleMetier(v.metier);
+  return {
+    slug: v.slug, nom: texte(v.raisonSociale, v.raisonSocialeAr)!, metier: v.metier, metierLibelle: { fr: m.fr, ar: m.ar, en: m.en },
+    ville: v.ville, region: v.region, zonesLivraison: v.zonesLivraison, categories: v.categories, description: texte(v.description, v.descriptionAr),
+    logoUrl: galerie.find((i) => i.principale)?.vignette || v.logoUrl, images: galerie, verifie: v.verifie, documentsVerifies: v.documentsVerifies,
+    fiche: v.fiche, membreDepuis: v.membreDepuis, url: `/cercles/pro/${v.slug}`,
+  };
+}
+
+/**
+ * GET /api/catalogue/fournisseurs?region=&categorie=&famille=&metier=&q= — pros vérifiés qui ont au moins
+ * un produit ou une prestation publiés, avec leurs familles de produits (nombre de variantes) et leur galerie.
+ */
+export async function catalogueFournisseurs(q: URLSearchParams, depot: DepotC | null, opts: OptionsLecture = {}): Promise<Reponse> {
+  const entetes = { "cache-control": "public, max-age=60, s-maxage=300" };
+  const vide = (disponible: boolean): Reponse => ({ status: 200, json: { ok: true, disponible, total: 0, fournisseurs: [] }, entetes });
+  if (!depot) return vide(false);
+  let pros: Ligne[], produits: Ligne[];
+  try { [pros, produits] = await Promise.all([depot.annuaire(!!opts.inclureFictifs), depot.prPublics(!!opts.inclureFictifs)]); } catch { return vide(false); }
+  const images = await imagesPubliques(depot, !!opts.inclureFictifs);
+  const region = regionParam(q.get("region"));
+  const categorie = q.get("categorie"), famille = q.get("famille"), metier = q.get("metier"), recherche = q.get("q") || "";
+  const parPro = new Map<string, Ligne[]>();
+  for (const p of produits) if (p.materiauCode && valideAujourdhui(p.validiteJusquau)) parPro.set(String(p.fournisseurId), [...(parPro.get(String(p.fournisseurId)) || []), p]);
+  const l = pros.filter((f) => Number(f.nbProduits ?? 0) + Number(f.nbServices ?? 0) > 0
+    && (!metier || f.metier === metier) && (!categorie || liste(f.categories).includes(categorie))
+    && livreRegion({ zonesLivraison: liste(f.zonesLivraison), fournisseurRegion: (f.region as string) || null }, region)
+    && (!famille || (parPro.get(String(f.id)) || []).some((p) => p.famille === famille))
+    && contient([f.raisonSociale as string, f.raisonSocialeAr as string, f.ville as string, ...liste(jsonObj(f.fiche).marques), ...(parPro.get(String(f.id)) || []).map((p) => String(p.marque || ""))], recherche));
+  return {
+    status: 200,
+    json: {
+      ok: true, disponible: true, region, total: l.length,
+      fournisseurs: l.slice(0, 500).map((f) => {
+        const familles = new Map<string, number>();
+        for (const cle of grouperVariantes(parPro.get(String(f.id)) || []).keys()) {
+          const fam = String((parPro.get(String(f.id)) || []).find((p) => cle.startsWith(`${p.materiauCode}|`))?.famille || "AUTRE");
+          familles.set(fam, (familles.get(fam) || 0) + 1);
+        }
+        return {
+          ...societePublique(f, images.get(`SOCIETE:${f.id}`) || []), nbProduits: Number(f.nbProduits ?? 0), nbServices: Number(f.nbServices ?? 0),
+          familles: [...familles].map(([k, nb]) => ({ famille: k, libelle: FAMILLES_PRODUIT[k]?.libelle || { fr: k, ar: k, en: k }, nb })),
+        };
+      }),
+    },
+    entetes,
+  };
+}
+
+/**
+ * GET /api/catalogue/fournisseurs/:slug/produits — fiche société publique, produits approuvés groupés par
+ * famille (même forme que /api/catalogue/produits : prix agrégé seulement à partir de 3 fournisseurs, donc
+ * null ici sauf variante partagée), prestations groupées par nature, galeries.
+ */
+export async function catalogueFournisseur(slug: string, depot: DepotC | null, opts: OptionsLecture = {}): Promise<Reponse> {
+  const entetes = { "cache-control": "public, max-age=60, s-maxage=300" };
+  if (!depot) return { status: 200, json: { ok: true, disponible: false, fournisseur: null, familles: [], services: [] }, entetes };
+  const f = await depot.fParSlug(slug);
+  if (!f || f.statut !== "APPROVED" || (jsonObj(f.meta).fictif === true && !opts.inclureFictifs)) return erreur(404, "not_found");
+  const [produits, services, dyn, images] = await Promise.all([depot.prPublics(true), depot.svPublics(true), depot.refLister(), imagesPubliques(depot, true)]);
+  const parents = parentsCrees(dyn);
+  const siens = produits.filter((p) => p.fournisseurId === f.id && p.materiauCode && valideAujourdhui(p.validiteJusquau));
+  const familles = new Map<string, ReturnType<typeof variante>[]>();
+  for (const [cle, g] of grouperVariantes(siens)) {
+    const v = variante(cle, g, images, parents, null);
+    familles.set(v.famille, [...(familles.get(v.famille) || []), v]);
+  }
+  const natures = new Map<string, Ligne[]>();
+  for (const s of services.filter((x) => x.fournisseurId === f.id && valideAujourdhui(x.validiteJusquau))) natures.set(String(s.nature), [...(natures.get(String(s.nature)) || []), s]);
+  return {
+    status: 200,
+    json: {
+      ok: true, disponible: true, fournisseur: societePublique(f, images.get(`SOCIETE:${f.id}`) || []),
+      familles: [...familles].map(([k, l]) => ({ famille: k, libelle: FAMILLES_PRODUIT[k]?.libelle || { fr: k, ar: k, en: k }, produits: l })),
+      services: [...natures].map(([n, l]) => ({
+        nature: n, libelle: NATURES_SERVICE[n] || { fr: n, ar: n, en: n },
+        services: l.map((s) => ({
+          id: String(s.id), ouvrageCode: (s.ouvrageCode as string) || null, prestationCode: (s.prestationCode as string) || null,
+          designation: texte(s.designationFr, s.designationAr)!, description: texte(s.descriptionFr, s.descriptionAr), unite: String(s.unite),
+          delaiJours: s.delaiJours == null ? null : Number(s.delaiJours), zones: zonesDe(s, s.fZones), images: images.get(`SERVICE:${s.id}`) || [], majLe: jour(s.updatedAt),
+        })),
+      })),
+    },
+    entetes,
   };
 }
 

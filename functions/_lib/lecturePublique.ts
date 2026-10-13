@@ -9,13 +9,14 @@
  */
 import type { Sql } from "./cercles";
 import { depotCatalogueNeon } from "./catalogueDepot";
+import { depotImagesNeon } from "./imagesDepot";
 import { depotNeon, type DepotComplet } from "./fournisseursDepot";
 
 export async function depotOuNull(env: { DATABASE_URL?: string }): Promise<DepotComplet | null> {
   if (!env.DATABASE_URL) return null;
   const { neon } = await import("@neondatabase/serverless");
   const sql = neon(env.DATABASE_URL) as unknown as Sql;
-  return { ...depotNeon(sql), ...depotCatalogueNeon(sql) };
+  return { ...depotNeon(sql), ...depotCatalogueNeon(sql), ...depotImagesNeon(sql) };
 }
 
 export function apercu(req: Request): boolean {

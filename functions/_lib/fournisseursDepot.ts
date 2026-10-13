@@ -7,6 +7,7 @@
 
 import type { Sql } from "./cercles";
 import { depotCatalogueNeon, type DepotCatalogue } from "./catalogueDepot";
+import { depotImagesNeon, type DepotImages } from "./imagesDepot";
 
 export type Ligne = Record<string, unknown>;
 
@@ -137,7 +138,7 @@ export function depotNeon(sql: Sql): Depot {
 }
 
 /** Dépôt complet : fournisseurs et fiches de prix + catalogue (produits, services, référentiel, annuaire). */
-export type DepotComplet = Depot & DepotCatalogue;
+export type DepotComplet = Depot & DepotCatalogue & DepotImages;
 
 /**
  * Exécute une action sur le dépôt Neon : base non configurée, table ou
@@ -153,7 +154,7 @@ export async function avecDepot(
   const { neon } = await import("@neondatabase/serverless");
   const sql = neon(env.DATABASE_URL) as unknown as Sql;
   try {
-    return await action({ ...depotNeon(sql), ...depotCatalogueNeon(sql) }, sql);
+    return await action({ ...depotNeon(sql), ...depotCatalogueNeon(sql), ...depotImagesNeon(sql) }, sql);
   } catch (e) {
     const code = (e as { code?: string })?.code;
     console.error(`[${nom}] base indisponible (${code || "sans code"})`);

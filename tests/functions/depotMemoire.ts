@@ -9,6 +9,18 @@ export function depotMemoire() {
   const services = new Map<string, Ligne>();
   const codes = new Map<string, Ligne>();
   const leads: Ligne[] = [];
+  const images = new Map<string, Ligne>();
+  /** Métadonnées sans les octets (comme les lectures Neon). */
+  const meta = (i: Ligne) => { const { octets: _o, vignette: _v, ...m } = i; void _o; void _v; return m; };
+  const hexB64 = (h: string) => btoa(String.fromCharCode(...(h.match(/../g) || []).map((x) => parseInt(x, 16))));
+  const octets = (i: Ligne, vignette: boolean) => ({ base64: hexB64(String(vignette ? i.vignette : i.octets)), type: String(vignette ? i.vignetteType : i.type), empreinte: String(i.empreinte) });
+  const imagePubliable = (i: Ligne, fictifs: boolean) => {
+    const f = fournisseurs.get(String(i.fournisseurId));
+    if (i.statut !== "APPROVED" || !f || f.statut !== "APPROVED" || (!fictifs && (f.meta as Ligne | undefined)?.fictif === true)) return false;
+    if (i.objetType === "PRODUIT") return produits.get(String(i.objetId))?.statut === "APPROVED";
+    if (i.objetType === "SERVICE") return services.get(String(i.objetId))?.statut === "APPROVED";
+    return i.objetType === "SOCIETE";
+  };
   const maintenant = () => new Date().toISOString();
   const approuve = (fid: unknown) => fournisseurs.get(String(fid))?.statut === "APPROVED";
   /** Fournisseur publiable : approuvé et, hors aperçu, non fictif (meta.fictif). */
@@ -145,6 +157,33 @@ export function depotMemoire() {
     fichesApprouvees: async (fid) => [...prix.values()].filter((p) => p.fournisseurId === fid && p.statut === "APPROVED"),
     activite: async (fid) => activite(fid),
     leadInserer: async (l) => { leads.push({ ...l, createdAt: maintenant() }); },
+
+    imInserer: async (i) => {
+      const { octetsHex, vignetteHex, ...m } = i;
+      const l = { ...m, octets: octetsHex, vignette: vignetteHex, statut: "PENDING", createdAt: maintenant(), updatedAt: maintenant(), motifRejet: null };
+      images.set(i.id, l);
+      return meta(l);
+    },
+    imParId: async (id) => (images.has(id) ? meta(images.get(id)!) : null),
+    imListerFournisseur: async (fid) => [...images.values()].filter((i) => i.fournisseurId === fid)
+      .sort((a, b) => Number(b.principale) - Number(a.principale) || Number(a.ordre) - Number(b.ordre)).map(meta),
+    imStats: async (fid) => {
+      const l = [...images.values()].filter((i) => i.fournisseurId === fid);
+      return { nb: l.length, octets: l.reduce((s, i) => s + Number(i.taille) + Number(i.vignetteTaille), 0) };
+    },
+    imMaj: async (id, p) => { const i = images.get(id); if (!i) return null; Object.assign(i, p, { updatedAt: maintenant() }); return meta(i); },
+    imPrincipale: async (id) => { const c = images.get(id); if (!c) return; for (const i of images.values()) if (i.objetType === c.objetType && i.objetId === c.objetId) i.principale = i.id === id; },
+    imSupprimer: async (fid, id) => { const i = images.get(id); if (!i || i.fournisseurId !== fid) return null; images.delete(id); return meta(i); },
+    imModerer: async (id, statut, motif, auteur) => { const i = images.get(id); if (!i) return null; Object.assign(i, { statut, motifRejet: motif, moderePar: auteur }); return meta(i); },
+    imApprouverObjet: async (type, oid, auteur) => {
+      let n = 0;
+      for (const i of images.values()) if (i.objetType === type && i.objetId === oid && i.statut === "PENDING") { Object.assign(i, { statut: "APPROVED", moderePar: auteur }); n++; }
+      return n;
+    },
+    imAModerer: async (statut) => [...images.values()].filter((i) => i.statut === (statut || "PENDING")).map((i) => ({ ...meta(i), raisonSociale: fournisseurs.get(String(i.fournisseurId))?.raisonSociale })),
+    imPubliques: async (fictifs) => [...images.values()].filter((i) => imagePubliable(i, fictifs)).map(meta),
+    imOctetsPublics: async (id, vignette, fictifs) => { const i = images.get(id); return i && imagePubliable(i, fictifs) ? octets(i, vignette) : null; },
+    imOctets: async (id, vignette) => { const i = images.get(id); return i ? octets(i, vignette) : null; },
   };
-  return { depot, fournisseurs, prix, historique, produits, services, codes, leads };
+  return { depot, fournisseurs, prix, historique, produits, services, codes, leads, images };
 }
