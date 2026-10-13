@@ -60,7 +60,9 @@ export default function MateriauPage() {
   const sources = sourcesCitees(r.code);
   const indices = indicesMateriau(r.code);
   const usages = usagesMateriau(r.code);
-  const voisins = MATERIAUX_PUBLICS.filter((x) => x.categorie === r.categorie && x.code !== r.code).slice(0, 8);
+  // Même famille du catalogue (liants, granulats…) d'abord, puis même catégorie.
+  const voisins = [...MATERIAUX_PUBLICS.filter((x) => x.famille === r.famille && x.code !== r.code),
+    ...MATERIAUX_PUBLICS.filter((x) => x.categorie === r.categorie && x.famille !== r.famille)].slice(0, 8);
   const nbFournisseurs = prix?.fournisseursParCategorie?.[r.categorie];
   const produits = produitsParCode.get(r.code) || [];
 
@@ -193,7 +195,7 @@ export default function MateriauPage() {
                 {s.url ? <a href={s.url} target="_blank" rel="noopener noreferrer nofollow" className="font-semibold text-[#0B1B3A] underline">{s.nom}</a> : <span className="font-semibold text-[#0B1B3A]">{s.nom}</span>}
                 {s.date && <span className="text-xs text-slate-500">{s.date}</span>}
               </div>
-              {(s.releve || s.region) && <p className="mt-0.5 text-xs text-slate-600">{s.releve ? `${t("sourceReleve")} : ${s.releve}` : ""}{s.region ? ` · ${s.region}` : ""}{s.taxes && s.taxes !== "inconnu" ? ` · ${s.taxes}` : ""}</p>}
+              {s.releve && <p className="mt-0.5 text-xs text-slate-600">{s.releve ? `${t("sourceReleve")} : ${s.releve}` : ""}{s.region && !/^(inconnu|national)$/i.test(s.region) ? ` · ${s.region}` : ""}{s.taxes && s.taxes !== "inconnu" ? ` · ${s.taxes}` : ""}</p>}
             </li>
           ))}
         </ul>

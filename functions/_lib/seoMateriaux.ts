@@ -101,7 +101,8 @@ export function pageMateriaux(chemin: string): PageMateriaux | null {
   const prixVente = v ? `, soit ${dh(Math.round(p.ref * v.facteur * 100) / 100)} HT ${v.libelle.toLowerCase()}` : "";
   const unites = unitesVente(r).map((x) => `<tr><td>${x.code === r.uniteRef ? `1 ${u(r.uniteRef)}` : esc(x.libelle)}</td><td>${dh(Math.round(p.ref * x.facteur * 100) / 100)} HT</td><td>${dh(prixTTC(p.ref * x.facteur))} TTC</td></tr>`).join("");
   const villes = VILLES_COEF.map((x) => `<tr><td>${esc(x.nom)}</td><td>${dh(Math.round(p.ref * coefMateriaux(x.nom).coef * 100) / 100)} HT / ${u(r.uniteRef)}</td></tr>`).join("");
-  const voisins = MATERIAUX_PUBLICS.filter((x) => x.categorie === r.categorie && x.code !== r.code).slice(0, 8);
+  const voisins = [...MATERIAUX_PUBLICS.filter((x) => x.famille === r.famille && x.code !== r.code),
+    ...MATERIAUX_PUBLICS.filter((x) => x.categorie === r.categorie && x.famille !== r.famille)].slice(0, 8);
   return {
     titre: `Prix ${enPhrase(r.libelle)} au Maroc ${ANNEE} | CITURBAREA`.slice(0, 90),
     description: `Prix ${enPhrase(r.libelle)} au Maroc (${MOIS} ${ANNEE}) : ${dh(p.ref)} HT / ${u(r.uniteRef)}${prixVente}. Fourchette ${dh(p.min)} – ${dh(p.max)}, prix par ville, sources citées.`.slice(0, 160),

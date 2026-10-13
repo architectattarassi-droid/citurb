@@ -19,6 +19,8 @@ import PanierDemande from "./PanierDemande";
 import { BadgeFiabilite, BlocPrix, fmtDH, prixAffiche, uniteCourte } from "./ui";
 
 const sansAccent = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+/** Ordre d'affichage : du gros œuvre aux équipements (ordre des grandes familles). */
+const ORDRE_CAT = Object.values(FAMILLES).flatMap((f) => f.categories as readonly string[]);
 const champ = "min-h-[44px] w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-[#0B1B3A]";
 
 export default function MateriauxPage() {
@@ -60,7 +62,7 @@ export default function MateriauxPage() {
     return l.sort((a, b) =>
       tri === "prixAsc" ? prixReference(a.code)!.ref - prixReference(b.code)!.ref
         : tri === "fiab" ? ordre[prixReference(a.code)!.fiabilite] - ordre[prixReference(b.code)!.fiabilite] || a.libelle.localeCompare(b.libelle, "fr")
-          : a.categorie.localeCompare(b.categorie) || a.famille.localeCompare(b.famille, "fr") || a.libelle.localeCompare(b.libelle, "fr"));
+          : ORDRE_CAT.indexOf(a.categorie) - ORDRE_CAT.indexOf(b.categorie) || a.famille.localeCompare(b.famille, "fr") || a.libelle.localeCompare(b.libelle, "fr"));
   }, [dq, famille, categorie, gamme, fiab, tri, produits]);
 
   const titre = categorieRoute
@@ -85,12 +87,12 @@ export default function MateriauxPage() {
             {(["", ...Object.keys(FAMILLES)] as (Famille | "")[]).map((f) => (
               <button key={f || "toutes"} type="button" onClick={() => { setFamille(f); setCategorie(""); }} aria-pressed={famille === f}
                 className={`min-h-[36px] shrink-0 rounded-full border px-3 text-sm font-semibold ${famille === f ? "border-[#0B1B3A] bg-[#0B1B3A] text-white" : "border-slate-300 bg-white text-[#0B1B3A]"}`}>
-                {f ? FAMILLES[f].libelle : t("toutes")}
+                {f ? t(`fam_${f}` as Parameters<T>[0]) : t("toutes")}
               </button>
             ))}
           </div>
         )}
-        <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-5">
+        <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
           {!categorieRoute && (
             <select className={champ} value={categorie} onChange={(e) => setCategorie(e.target.value as Categorie)} aria-label={t("categorie")}>
               <option value="">{t("categorie")} : {t("toutes")}</option>
