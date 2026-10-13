@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * Analyse statique des appels réseau du front (apps/web/src) et confrontation
  * aux routes réellement servies par les Cloudflare Pages Functions (functions/).
