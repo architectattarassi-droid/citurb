@@ -2,6 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Back-end : Cloudflare Pages Functions + Neon (l'API NestJS est éteinte)
+
+- Seul back-end en service : `functions/` (Cloudflare Pages Functions) + base Neon (`DATABASE_URL`). `apps/api` (NestJS) et sa base Railway sont **éteintes** et ne seront pas réhébergées ; les sections plus bas sur l'API NestJS sont historiques.
+- **Ne jamais ajouter d'appel du front vers une route absente de `functions/`.** Le test `apps/web/src/lib/appels-morts.test.ts` (lancé par `npm --prefix apps/web run test`) échoue si le nombre d'appels morts augmente par rapport à `docs/architecture/appels-morts.json`.
+- Après un rebranchement (nouvelle Function, appel retiré) : `node apps/web/scripts/appels-morts.mjs --write` pour faire baisser le cliquet ; `--detail` liste fichier:ligne → route.
+- Décisions module par module (fusionner / mettre en sommeil / rebrancher) : `docs/architecture/plan-rebranchement.md`. Page en sommeil : composant `EnSommeil` (aucun appel réseau, noindex).
+- Tables Neon de production : l'agent ne les crée pas ; il fournit le SQL à coller dans la console Neon.
+
 ## Commands
 
 ```bash
