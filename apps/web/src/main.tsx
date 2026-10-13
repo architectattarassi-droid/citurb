@@ -6,7 +6,6 @@ import "./styles/citurbarea.css";
 import "./styles/responsive-desktop.css";
 import "./styles/mobile-overrides.css";
 import { registerServiceWorker } from "./sw/register";
-import { startWebVitals } from "./lib/web-vitals";
 import { initLeadBridge } from "./features/lead-funnel/leadBridge";
 import { installChunkReloadHandler } from "./lib/chunkReload";
 import { startDeployWatch } from "./lib/deployWatch";
@@ -36,8 +35,6 @@ ReactDOM.createRoot(rootEl).render(
 // PWA: enregistrement du service worker (no-op en dev/http non sécurisé).
 registerServiceWorker();
 
-// Telemetry: collecte des Web Vitals et POST vers /api/telemetry/vitals.
-startWebVitals();
 
 // Lead funnel : mémorise les UTM et rejoue la file de reprise des captures.
 initLeadBridge();

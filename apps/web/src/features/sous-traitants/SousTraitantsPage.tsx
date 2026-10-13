@@ -27,7 +27,6 @@ import AssignSousTraitantModal from "./AssignSousTraitantModal";
 import ContratSousTraitanceForm from "./ContratSousTraitanceForm";
 import SituationTravauxForm from "./SituationTravauxForm";
 import EvaluationModal from "./EvaluationModal";
-import { me } from "../../tomes/tome4/apiClient";
 
 const S = {
   wrap: { padding: 12, maxWidth: 1080, margin: "0 auto", paddingBottom: 96 },
@@ -160,9 +159,8 @@ export default function SousTraitantsPage() {
 
   useEffect(() => {
     reload();
-    me()
-      .then((r) => setMe({ userId: r.user.userId, role: r.user.role }))
-      .catch(() => setMe(null));
+    // Identité de l'utilisateur : servie par /auth/me (API NestJS éteinte). Module en sommeil.
+    setMe(null);
   }, [reload]);
 
   const isChef = useMemo(() => {

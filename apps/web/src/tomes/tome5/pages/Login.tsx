@@ -1,282 +1,89 @@
-import React, { useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { useAuth } from "../AuthProvider";
+/**
+ * /login — page d'accès, sans mot de passe.
+ *
+ * L'ancienne connexion (POST /auth/login) visait l'API NestJS, éteinte. En
+ * attendant le compte client léger (lien/code, cookie signé — plan de
+ * rebranchement, lot 3a), la page oriente chacun vers ce qui fonctionne :
+ *   - client : lien personnel reçu (espace RDV /rdv/:jeton), sinon /creer-compte,
+ *     rendez-vous ou WhatsApp ;
+ *   - fournisseur : espace fournisseur par code (/cercles/espace) ;
+ *   - équipe : /cc/login.
+ * Les écrans protégés redirigent ici : personne ne reste bloqué.
+ * Aucun appel réseau.
+ */
+import React from "react";
+import { Link } from "react-router-dom";
 import { useT } from "../../../i18n/i18n";
+import { lienWhatsApp } from "../../../config/contact";
 
 export default function Login() {
   const t = useT();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const { loginWithPassword } = useAuth();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const redirectFromQuery = searchParams.get("redirect") || searchParams.get("next");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    try {
-      await loginWithPassword(email, password);
-      // Si redirect explicite dans l'URL → on respecte. Sinon, on regarde si
-      // l'user a un ProProfile (architecte/pro BTP) → redirige /cercles, sinon
-      // /p1/packs (client lambda flow dossier).
-      if (redirectFromQuery) {
-        navigate(redirectFromQuery);
-        return;
-      }
-      // Rôles backoffice → Command Center directement (même s'ils ont un ProProfile).
-      try {
-        const u = JSON.parse(localStorage.getItem("citurbarea_user") || "{}");
-        if (["ADMIN", "OWNER", "OPS"].includes(u?.role)) {
-          navigate("/cc/dashboard");
-          return;
-        }
-      } catch { /* fallthrough */ }
-      try {
-        const apiBase = (import.meta as any).env?.VITE_API_URL || "http://localhost:4000";
-        const tok = localStorage.getItem("citurbarea.token") || "";
-        const r = await fetch(`${apiBase}/api/cercles/me/profile`, {
-          headers: { Authorization: `Bearer ${tok}` },
-        });
-        if (r.ok) {
-          const j = await r.json();
-          if (j?.data) {
-            navigate("/cercles");
-            return;
-          }
-        }
-      } catch { /* fallthrough */ }
-      navigate("/p1/packs");
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div className="cit-auth-page">
-      <style>{`
-        .cit-auth-page {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: radial-gradient(1200px 520px at 18% 8%, rgba(201,162,39,0.10), transparent 60%), radial-gradient(900px 420px at 82% 30%, rgba(232,216,166,0.10), transparent 60%), linear-gradient(180deg, rgba(255,255,255,0.90), rgba(255,255,255,0.72));
-        }
-        .cit-auth-card {
-          width: 100%;
-          max-width: 520px;
-          padding: 40px;
-          margin-inline: 20px;
-          background: rgba(255,255,255,0.95);
-          border: 1px solid rgba(201,162,39,0.25);
-          border-radius: 20px;
-          box-shadow: 0 20px 60px rgba(11,27,58,0.12);
-        }
-        .cit-auth-header { text-align: center; margin-bottom: 32px; }
-        .cit-auth-back {
-          text-decoration: none;
-          color: rgba(11,27,58,0.68);
-          font-size: 14px;
-          display: inline-block;
-          margin-bottom: 16px;
-        }
-        .cit-auth-heading {
-          font-family: "Playfair Display", serif;
-          font-size: 32px;
-          font-weight: 700;
-          color: #0B1B3A;
-          margin: 0 0 8px;
-        }
-        .cit-auth-sub {
-          font-size: 15px;
-          color: rgba(11,27,58,0.68);
-          margin: 0;
-        }
-        .cit-auth-error {
-          padding: 14px 16px;
-          background: rgba(220,38,38,0.08);
-          border: 1px solid rgba(220,38,38,0.25);
-          border-radius: 12px;
-          color: #dc2626;
-          font-size: 14px;
-          margin-bottom: 24px;
-        }
-        .cit-auth-field { margin-bottom: 20px; }
-        .cit-auth-field--last { margin-bottom: 28px; }
-        .cit-auth-label {
-          display: block;
-          font-size: 13px;
-          font-weight: 700;
-          color: rgba(11,27,58,0.82);
-          margin-bottom: 8px;
-          letter-spacing: 0.03em;
-          text-transform: uppercase;
-        }
-        .cit-auth-input {
-          width: 100%;
-          padding: 14px 16px;
-          min-height: 44px;
-          font-size: 16px;
-          border: 1px solid rgba(201,162,39,0.25);
-          border-radius: 12px;
-          background: white;
-          outline: none;
-          box-sizing: border-box;
-        }
-        .cit-auth-submit {
-          width: 100%;
-          padding: 16px;
-          background: linear-gradient(135deg, #0B1B3A, #123A7A);
-          color: white;
-          border: none;
-          border-radius: 12px;
-          font-size: 16px;
-          font-weight: 700;
-          cursor: pointer;
-        }
-        .cit-auth-submit:disabled {
-          background: rgba(11,27,58,0.5);
-          cursor: not-allowed;
-        }
-        .cit-auth-forgot {
-          margin-top: 18px;
-          text-align: center;
-        }
-        .cit-auth-forgot a {
-          color: rgba(11,27,58,0.68);
-          font-size: 14px;
-          text-decoration: none;
-        }
-        .cit-auth-switch {
-          margin-top: 14px;
-          text-align: center;
-          font-size: 14px;
-          color: rgba(11,27,58,0.68);
-        }
-        .cit-auth-switch a {
-          color: #C9A227;
-          font-weight: 600;
-          text-decoration: none;
-        }
-        .cit-auth-dev {
-          margin-top: 28px;
-          padding: 16px;
-          background: rgba(201,162,39,0.06);
-          border-radius: 12px;
-          font-size: 13px;
-          color: rgba(11,27,58,0.68);
-          line-height: 1.6;
-        }
-        .cit-auth-dev code {
-          background: rgba(0,0,0,0.05);
-          padding: 2px 6px;
-          border-radius: 4px;
-        }
-        .cit-auth-dev-tip {
-          display: block;
-          margin-top: 8px;
-          opacity: 0.85;
-        }
-        @media (max-width: 480px) {
-          .cit-auth-card {
-            padding: 24px;
-            margin-inline: 12px;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(11,27,58,0.08);
-          }
-          .cit-auth-heading { font-size: 24px; }
-          .cit-auth-sub { font-size: 14px; }
-          .cit-auth-header { margin-bottom: 24px; }
-          .cit-auth-input { padding: 12px 14px; font-size: 16px; }
-          .cit-auth-submit { padding: 14px; font-size: 15px; }
-        }
-      `}</style>
-      <div className="cit-auth-card">
-        <div className="cit-auth-header">
-          <Link to="/" className="cit-auth-back">
-            ← {t("auth.back_home")}
-          </Link>
-          <h1 className="cit-auth-heading">
-            {t("auth.login_title")}
-          </h1>
-          <p className="cit-auth-sub">
-            {t("auth.login_subtitle")}
-          </p>
+    <div style={S.screen}>
+      <div style={S.wrap}>
+        <div style={S.head}>
+          <Link to="/" style={S.back}>← {t("acces.back")}</Link>
+          <h1 style={S.title}>{t("acces.title")}</h1>
+          <p style={S.sub}>{t("acces.subtitle")}</p>
         </div>
 
-        {error && (
-          <div className="cit-auth-error">
-            {error}
+        <section style={S.card}>
+          <h2 style={S.h2}>{t("acces.client.title")}</h2>
+          <p style={S.text}>{t("acces.client.text")}</p>
+          <div style={S.actions}>
+            <Link to="/creer-compte" style={{ ...S.btn, ...S.primary }}>{t("acces.client.cta")}</Link>
+            <Link to="/rendez-vous" style={{ ...S.btn, ...S.ghost }}>{t("acces.client.rdv")}</Link>
           </div>
-        )}
+        </section>
 
-        <form onSubmit={handleSubmit}>
-          <div className="cit-auth-field">
-            <label className="cit-auth-label">
-              {t("auth.email_label")}
-            </label>
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t("auth.login.email_placeholder")}
-              required
-              autoFocus
-              className="cit-auth-input"
-            />
+        <section style={S.card}>
+          <h2 style={S.h2}>{t("acces.pro.title")}</h2>
+          <p style={S.text}>{t("acces.pro.text")}</p>
+          <div style={S.actions}>
+            <Link to="/cercles/espace" style={{ ...S.btn, ...S.primary }}>{t("acces.pro.cta")}</Link>
+            <Link to="/inscription" style={{ ...S.btn, ...S.ghost }}>{t("acces.pro.inscription")}</Link>
           </div>
+        </section>
 
-          <div className="cit-auth-field cit-auth-field--last">
-            <label className="cit-auth-label">
-              {t("auth.password_label")}
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder={t("auth.login.password_placeholder")}
-              required
-              className="cit-auth-input"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="cit-auth-submit"
-          >
-            {loading ? t("auth.signing_in") : t("auth.sign_in_btn")}
-          </button>
-        </form>
-
-        <div className="cit-auth-forgot">
-          <Link to="/mot-de-passe-oublie">
-            {t("auth.forgot_password")}
-          </Link>
+        <div style={S.footer}>
+          <a href={lienWhatsApp(t("sommeil.wa_message", { page: "/login" }))} target="_blank" rel="noopener noreferrer" style={S.wa}>
+            {t("acces.whatsapp")}
+          </a>
+          <Link to="/cc/login" style={S.equipe}>{t("acces.equipe")}</Link>
         </div>
-
-        <div className="cit-auth-switch">
-          {t("auth.new_here")} <Link to={redirectFromQuery ? `/creer-compte?redirect=${encodeURIComponent(redirectFromQuery)}` : "/creer-compte"}>{t("auth.create_account")}</Link>
-        </div>
-
-        {import.meta.env.VITE_SHOW_DEV_CREDENTIALS === 'true' && (
-          <div className="cit-auth-dev">
-            <strong>{t("auth.login.dev_title")}</strong><br />
-            {t("auth.login.dev_intro")}<br />
-            • {t("auth.login.dev_email")}: <code>OWNER_EMAIL</code> / <code>ADMIN_EMAIL</code><br />
-            • {t("auth.login.dev_password")}: <code>OWNER_PASSWORD</code> / <code>ADMIN_PASSWORD</code><br />
-            <span className="cit-auth-dev-tip">{t("auth.login.dev_tip")}</span>
-          </div>
-        )}
-
       </div>
     </div>
   );
 }
+
+const NAVY = "#0B1B3A";
+const GOLD = "#C9A227";
+
+const S: Record<string, React.CSSProperties> = {
+  screen: {
+    minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 16px",
+    background:
+      "radial-gradient(1200px 520px at 18% 8%, rgba(201,162,39,0.10), transparent 60%), radial-gradient(900px 420px at 82% 30%, rgba(232,216,166,0.10), transparent 60%), linear-gradient(180deg, rgba(255,255,255,0.90), rgba(255,255,255,0.72))",
+  },
+  wrap: { width: "100%", maxWidth: 560 },
+  head: { textAlign: "center", marginBottom: 22 },
+  back: { textDecoration: "none", color: "rgba(11,27,58,0.68)", fontSize: 14, display: "inline-block", marginBottom: 14 },
+  title: { fontFamily: '"Playfair Display", serif', fontSize: 30, fontWeight: 700, color: NAVY, margin: "0 0 8px" },
+  sub: { fontSize: 15, color: "rgba(11,27,58,0.68)", margin: 0, lineHeight: 1.6 },
+  card: {
+    background: "rgba(255,255,255,0.95)", border: "1px solid rgba(201,162,39,0.25)", borderRadius: 16,
+    boxShadow: "0 12px 40px rgba(11,27,58,0.08)", padding: "20px 20px 18px", marginBottom: 14,
+  },
+  h2: { fontSize: 18, color: NAVY, margin: "0 0 6px" },
+  text: { fontSize: 14, color: "rgba(11,27,58,0.75)", lineHeight: 1.6, margin: "0 0 14px" },
+  actions: { display: "flex", flexWrap: "wrap", gap: 10 },
+  btn: {
+    display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 44, padding: "10px 16px",
+    borderRadius: 10, fontWeight: 600, fontSize: 15, textDecoration: "none",
+  },
+  primary: { background: NAVY, color: "#fff" },
+  ghost: { border: `1px solid ${NAVY}`, color: NAVY },
+  footer: { display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 12, marginTop: 8, fontSize: 14 },
+  wa: { color: "#15803d", fontWeight: 600, textDecoration: "none" },
+  equipe: { color: GOLD, fontWeight: 600, textDecoration: "none" },
+};

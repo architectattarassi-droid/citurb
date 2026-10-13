@@ -179,9 +179,12 @@ const TABS_VISITEUR: Tab[] = [
   TABS[3],
 ];
 
-const estConnecte = (): boolean => {
-  try { return !!localStorage.getItem("citurbarea.token"); } catch { return false; }
-};
+/**
+ * Les onglets « Dossiers » et « Profil » (TABS) supposaient un compte client
+ * de l'API NestJS, éteinte : tout le monde voit les onglets visiteur (contact
+ * direct, dépôt de projet, Cercles) jusqu'au compte client léger (lot 3a).
+ */
+const ONGLETS = TABS_VISITEUR;
 
 // Routes où on cache la nav (full-screen workflows : SIG, admin, login, etc.)
 // On masque aussi les pages qui ont leur propre barre d'action sticky en bas
@@ -309,7 +312,7 @@ export function BottomNav({ hidden }: BottomNavProps = {}) {
       role="navigation"
       aria-label="Navigation principale mobile"
     >
-      {(estConnecte() ? TABS : TABS_VISITEUR).map((tab) => {
+      {ONGLETS.map((tab) => {
         const active = tab.match(loc.pathname);
         const cls = `cit-bottomnav__tab${tab.highlight ? " cit-bottomnav__tab--fab" : ""}`;
         const label = t(tab.labelKey);

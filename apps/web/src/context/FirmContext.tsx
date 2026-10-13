@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { getCurrentFirmSlug, apiBase } from '../tomes/tome4/apiClient';
+import React, { createContext, useContext } from 'react';
 
 interface FirmCtx {
   slug: string | null;
@@ -8,29 +7,17 @@ interface FirmCtx {
   isMaster: boolean;
 }
 
-const FirmContext = createContext<FirmCtx>({
-  slug: null, name: null, firmId: null, isMaster: true,
-});
+const MASTER: FirmCtx = { slug: null, name: null, firmId: null, isMaster: true };
 
+const FirmContext = createContext<FirmCtx>(MASTER);
+
+/**
+ * Cabinets en marque blanche (sous-domaine → /firms/:slug) : servis par l'API
+ * NestJS, éteinte. Sans route équivalente dans functions/, tout le monde est
+ * « master » (module firms en sommeil, docs/architecture/plan-rebranchement.md).
+ */
 export function FirmProvider({ children }: { children: React.ReactNode }) {
-  const [ctx, setCtx] = useState<FirmCtx>({
-    slug: null, name: null, firmId: null, isMaster: true,
-  });
-
-  useEffect(() => {
-    const slug = getCurrentFirmSlug();
-    if (!slug) return; // master — pas de firm résolue
-    fetch(`${apiBase()}/firms/${slug}`)
-      .then(r => r.ok ? r.json() : null)
-      .then((firm: any) => {
-        if (firm?.id) {
-          setCtx({ slug: firm.slug, name: firm.name, firmId: firm.id, isMaster: false });
-        }
-      })
-      .catch(() => {});
-  }, []);
-
-  return <FirmContext.Provider value={ctx}>{children}</FirmContext.Provider>;
+  return <FirmContext.Provider value={MASTER}>{children}</FirmContext.Provider>;
 }
 
 export const useFirm = () => useContext(FirmContext);

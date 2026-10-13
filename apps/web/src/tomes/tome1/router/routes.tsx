@@ -5,6 +5,7 @@ import PageTracker from "../../../lib/PageTracker";
 import RouteMeta from "../../../lib/RouteMeta";
 import DeployWatcher from "../../../lib/DeployWatcher";
 import NotFound from "../../../ui/NotFound";
+import EnSommeil from "../../../ui/EnSommeil";
 import RouteError from "../../../ui/RouteError";
 import { VILLES_SEO } from "../../../ui/seo/portes.data";
 
@@ -31,44 +32,22 @@ function RootTracker() {
 
 const P1Home = lazy(() => import("../../tome3/portals/p1/P1Home"));
 const P1Packs = lazy(() => import("../../tome3/portals/p1/P1Packs"));
-const P1Dossier = lazy(() => import("../../tome3/portals/p1/P1Dossier"));
-const P1ClientPhases = lazy(() => import("../../tome3/portals/p1/P1ClientPhases"));
-const P1MyDossiers = lazy(() => import("../../tome3/portals/p1/P1MyDossiers"));
+const P1Confirmation = lazy(() => import("../../tome3/portals/p1/P1Confirmation"));
 const P2Home = lazy(() => import("../../tome3/portals/p2/P2Home"));
-const P2Finalize = lazy(() => import("../../tome3/portals/p2/P2Finalize"));
 const P3Home = lazy(() => import("../../tome3/portals/p3/P3Home"));
 const P4Home = lazy(() => import("../../tome3/portals/p4/P4Home"));
 const P5Home = lazy(() => import("../../tome3/portals/p5/P5Home"));
-const P5Finalize = lazy(() => import("../../tome3/portals/p5/P5Finalize"));
-const SigExplorer = lazy(() => import("../../../features/geo/SigExplorer"));
-const P6Dashboard = lazy(() => import("../../tome3/portals/p6/P6Dashboard"));
 
 // ── Nouveaux modules (Phase 3 push 7-agents v3) ──
 // Matériauthèque publique (prix de référence partagés avec le moteur de chiffrage).
 const MateriauxPage = lazy(() => import("../../../features/materiaux/MateriauxPage"));
 const MateriauPage = lazy(() => import("../../../features/materiaux/MateriauPage"));
 const CommandeMateriauxPage = lazy(() => import("../../../features/materiaux/CommandePage"));
-const PrestataireTarifsList = lazy(() => import("../../../features/prestataire-tarifs/PrestataireTarifsList"));
-const PrestataireTarifsEditor = lazy(() => import("../../../features/prestataire-tarifs/PrestataireTarifsEditor"));
-const TarifContractPublic = lazy(() => import("../../../features/prestataire-tarifs/TarifContractPublic"));
-const ProjectCalendarPage = lazy(() => import("../../../features/project-calendar/ProjectCalendarPage"));
-const LivraisonsPage = lazy(() => import("../../../features/livraisons-materiaux/LivraisonsPage"));
 
 // ── Phase 5 (parcours complet lead → manage → permit → site → delivery) ──
-const MonParcoursPage = lazy(() => import("../../../features/mon-parcours/MonParcoursPage"));
 // ── Sprint Articles 2026-06 : page article + middleware OG backend pour vignettes par article ──
-const ArticleDetailPage = lazy(() => import("../../../features/media/ArticleDetailPage"));
 // Vague 3 (migration v7) — page générique des phases DAG en lecture seule.
 // Additif strict : aucune route legacy modifiée.
-const DossierPhasesPage = lazy(() => import("../../../features/dossier-phases/DossierPhasesPage"));
-const DossierPhaseDetailPage = lazy(() => import("../../../features/dossier-phases/DossierPhaseDetailPage"));
-const DocumentsRepoPage = lazy(() => import("../../../features/documents-repo/DocumentsRepoPage"));
-const PcWizardPage = lazy(() => import("../../../features/permis-construire/PcWizardPage"));
-const RokhasTrackerPage = lazy(() => import("../../../features/rokhas-tracker/RokhasTrackerPage"));
-const SousTraitantsPage = lazy(() => import("../../../features/sous-traitants/SousTraitantsPage"));
-const ReceptionPage = lazy(() => import("../../../features/reception-conformite/ReceptionPage"));
-const IncidentsChantierPage = lazy(() => import("../../../features/incidents-chantier/IncidentsChantierPage"));
-const EstimationPage = lazy(() => import("../../../features/zillow-ma/EstimationPage"));
 const TerrainsPage = lazy(() => import("../../../features/terrains/TerrainsPage"));
 const TerrainFiche = lazy(() => import("../../../features/terrains/TerrainFiche"));
 const DeposerTerrain = lazy(() => import("../../../features/terrains/DeposerTerrain"));
@@ -78,29 +57,12 @@ const EspaceProjet = lazy(() => import("../../../features/projet/EspaceProjet"))
 const AvecVideos = lazy(() => import("../../../features/social/AvecVideos"));
 const ChiffragePage = lazy(() => import("../../../features/chiffrage/ChiffragePage"));
 const ChiffrageDevis = lazy(() => import("../../../features/chiffrage/ChiffrageDevis"));
-const NotificationsCenterPage = lazy(() => import("../../../features/notifications/NotificationsCenterPage"));
 const MreDiasporaLanding = lazy(() => import("../../../features/mre-diaspora/MreDiasporaLanding"));
-const MetricsDashboardPage = lazy(() => import("../../../features/analytics/MetricsDashboardPage"));
-const CopiloteChantierPage = lazy(() => import("../../../features/chef-copilote/CopiloteChantierPage"));
-const ChantierPvPage = lazy(() => import("../../../features/pv-chantier/ChantierPvPage"));
-const CpsGeneratorPage = lazy(() => import("../../../features/cps-generator/CpsGeneratorPage"));
-const DossierCpsPage = lazy(() => import("../../../features/cps-generator/DossierCpsPage"));
-const PvChantierEditor = lazy(() => import("../../../features/pv-chantier/PvChantierEditor"));
-const PvChantierViewer = lazy(() => import("../../../features/pv-chantier/PvChantierViewer"));
-const MandataireSearchPage = lazy(() => import("../../../features/mandataires-registry/MandataireSearchPage"));
-const OpciOfferingsPage = lazy(() => import("../../../features/opci-tokenise/OpciOfferingsPage"));
 const DiasporaHubPage = lazy(() => import("../../../features/cercles-diaspora/DiasporaHubPage"));
-import { PaymentSuccessPage, PaymentCancelPage, PaymentStartPage } from "../../tome3/portals/payment/PaymentPages";
 const DocsPage = lazy(() => import("../../../ui/docs/DocsPage"));
 
 const Login = lazy(() => import("../../tome5/pages/Login"));
-const VerifyPhone = lazy(() => import("../../tome5/pages/VerifyPhone"));
-const ConfirmEmail = lazy(() => import("../../tome5/pages/ConfirmEmail"));
-const ForgotPassword = lazy(() => import("../../tome5/pages/ForgotPassword"));
-const AccountTypeChooser = lazy(() => import("../../tome5/pages/AccountTypeChooser"));
-const ClientSignup = lazy(() => import("../../tome5/pages/ClientSignup"));
 const LeadCapturePage = lazy(() => import("../../../features/lead-funnel/LeadCapturePage"));
-import { SIGNUP_MODE } from "../../../features/lead-funnel/signupMode";
 
 import LandingPage from "../../../ui/landing/LandingPage";
 import { useAuth } from "../../tome5/AuthProvider";
@@ -113,39 +75,14 @@ const CommandCenterApp = lazy(() => import("../../../command-center/CommandCente
 import { PorteLanding, VilleLanding } from '../../../ui/seo';
 
 // Cercles — réseau pro BTP (Sprints C0-C3 + D1-D3 + E1-E3 chat)
-const FeedHomePage = lazy(() => import("../../../features/cercles/FeedHomePage"));
-const CerclesHomePage = lazy(() => import("../../../features/cercles/CerclesHomePage"));
-const CercleDetailPage = lazy(() => import("../../../features/cercles/CercleDetailPage"));
-const NewCerclePage = lazy(() => import("../../../features/cercles/NewCerclePage"));
-const PostDetailPage = lazy(() => import("../../../features/cercles/PostDetailPage"));
-const LiveRoomPage = lazy(() => import("../../../features/cercles/LiveRoomPage"));
-const AnnuairePage = lazy(() => import("../../../features/cercles/AnnuairePage"));
-const ProfilePage = lazy(() => import("../../../features/cercles/ProfilePage"));
-const CercleChatPage = lazy(() => import("../../../features/cercles/CercleChatPage"));
-const InscriptionPage = lazy(() => import("../../../features/cercles/InscriptionPage"));
-const EditProfilePage = lazy(() => import("../../../features/cercles/EditProfilePage"));
-const AssociationApplyPage = lazy(() => import("../../../features/cercles/AssociationApplyPage"));
-const AssociationManagePage = lazy(() => import("../../../features/cercles/AssociationManagePage"));
 const CerclesLanding = lazy(() => import("../../../features/cercles/CerclesLanding"));
-const PublicPostPage = lazy(() => import("../../../features/cercles/PublicPostPage"));
-const MarketplacePage = lazy(() => import("../../../features/cercles/marketplace/MarketplacePage"));
-const ProductDetailPage = lazy(() => import("../../../features/cercles/marketplace/ProductDetailPage"));
-const MyOffersPage = lazy(() => import("../../../features/cercles/marketplace/MyOffersPage"));
-const MarketplacePhotosPage = lazy(() => import("../../../features/cercles/marketplace/MarketplacePhotosPage"));
-const DirectMessagesPage = lazy(() => import("../../../features/cercles/DirectMessagesPage"));
 // Cercles fournisseurs (Pages Functions + Neon) : inscription pro, espace fiches de prix
 const InscriptionProPage = lazy(() => import("../../../features/fournisseurs/InscriptionProPage"));
 const EspaceFournisseurPage = lazy(() => import("../../../features/fournisseurs/EspaceFournisseurPage"));
 
 // Fiche cabinet d'architecte (ancrée sur ProProfile, cf. memory citurb-cabinet-portfolio-anchor)
-const CabinetPublicPage = lazy(() => import("../../../features/cabinet/CabinetPublicPage"));
-const CabinetProjectPage = lazy(() => import("../../../features/cabinet/CabinetProjectPage"));
-const CabinetManagePage = lazy(() => import("../../../features/cabinet/CabinetManagePage"));
 
 // Admin Vault (Sprint H — app admin ultra-sécurisée)
-const AdminLoginPage = lazy(() => import("../../../features/admin/AdminLoginPage"));
-const AdminDashboard = lazy(() => import("../../../features/admin/AdminDashboard"));
-const AdminRegisterPasskeyPage = lazy(() => import("../../../features/admin/AdminRegisterPasskeyPage"));
 
 /**
  * V152-B1 — Canonisation Routes (memo)
@@ -192,16 +129,11 @@ const LandingRoute = () => {
 };
 
 /**
- * CerclesHome — route /cercles, point d'entrée du réseau pro Cercles.
- * Visiteur non connecté → landing publique (CerclesLanding).
- * Pro connecté → fil d'actualité (FeedHomePage).
- * Depuis la fusion des domaines, cercles.citurbarea.com redirige vers /cercles :
- * cette route doit donc présenter la landing aux visiteurs (logique LinkedIn).
+ * CerclesHome — route /cercles : vitrine publique du réseau (CerclesLanding).
+ * Le fil d'actualité des pros connectés (FeedHomePage) dépendait de l'API
+ * NestJS éteinte ; l'espace fournisseur par code est /cercles/espace.
  */
-const CerclesHome = () => {
-  const isLoggedIn = typeof window !== "undefined" && !!localStorage.getItem("citurbarea.token");
-  return isLoggedIn ? <FeedHomePage /> : <CerclesLanding />;
-};
+const CerclesHome = () => <CerclesLanding />;
 
 const Redirect = ({ to }: { to: string }) => <Navigate to={to} replace />;
 
@@ -227,7 +159,7 @@ const PublicHostBlock = ({ children }: { children: React.ReactNode }) => {
 const AdminHostBlock = ({ children }: { children: React.ReactNode }) => {
   // Sur admin.citurbarea.com, on bloque les routes publiques (portes P1..P6, Cercles…)
   // et on renvoie vers le backoffice CC (les routes /cc/* et /admin/* restent accessibles).
-  if (currentHost() === HOST_ADMIN) return <Navigate to="/cc/dashboard" replace />;
+  if (currentHost() === HOST_ADMIN) return <Navigate to="/cc/leads" replace />;
   // Sur sig.citurbarea.com, on bloque tout sauf /sig + /login + /portal (pour créer dossier)
   // → cf SigHostGate ci-dessous
   if (currentHost() === HOST_SIG) return <Navigate to="/sig" replace />;
@@ -265,49 +197,49 @@ export const router = createBrowserRouter([
   { path: '/cc/*', element: <SigHostBlock><CommandCenterApp /></SigHostBlock> },
 
   // Admin Vault (Sprint H — app admin ultra-sécurisée) — bloqué sur les hôtes publics
-  { path: '/admin',                            element: <PublicHostBlock><Navigate to="/admin/login" replace /></PublicHostBlock> },
-  { path: '/admin/login',                      element: <PublicHostBlock><AdminLoginPage /></PublicHostBlock> },
-  { path: '/admin/dashboard',                  element: <PublicHostBlock><AdminDashboard /></PublicHostBlock> },
-  { path: '/admin/security/webauthn',          element: <PublicHostBlock><AdminRegisterPasskeyPage /></PublicHostBlock> },
+  { path: '/admin',                            element: <Redirect to="/cc/login" /> },
+  { path: '/admin/login',                      element: <Redirect to="/cc/login" /> },
+  { path: '/admin/dashboard',                  element: <Redirect to="/cc/login" /> },
+  { path: '/admin/security/webauthn',          element: <Redirect to="/cc/login" /> },
 
   // Cercles — réseau pro BTP marocain (auth requis côté API JWT)
   // Toutes ces routes sont bloquées sur admin.citurbarea.com (redirect vers /admin/login)
   // L'ancien formulaire (InscriptionPage) dépend de l'API NestJS éteinte : /inscription mène à l'inscription pro.
   { path: '/inscription',                          element: <AdminHostBlock><InscriptionProPage /></AdminHostBlock> },
-  { path: '/inscription/architecte',               element: <AdminHostBlock><InscriptionPage /></AdminHostBlock> },
-  // Phase récolte (VITE_SIGNUP_MODE=lead, défaut) : « Créer un compte » et les
-  // renvois des portes P2/P5 mènent au formulaire de capture, sans OTP.
-  // AccountTypeChooser / ClientSignup reprennent la main en mode "full".
-  { path: '/creer-compte',                          element: <AdminHostBlock>{SIGNUP_MODE === 'lead' ? <LeadCapturePage /> : <AccountTypeChooser />}</AdminHostBlock> },
-  { path: '/creer-compte/client',                   element: <AdminHostBlock>{SIGNUP_MODE === 'lead' ? <LeadCapturePage /> : <ClientSignup />}</AdminHostBlock> },
-  { path: '/post/:id',                             element: <PublicPostPage /> },
+  { path: '/inscription/architecte',               element: <Redirect to="/inscription" /> },
+  // « Créer un compte » et les renvois des portes P2/P5 mènent au formulaire de
+  // capture (/api/lead-funnel/capture), sans mot de passe : l'inscription
+  // complète (AccountTypeChooser / ClientSignup) visait l'API NestJS éteinte.
+  { path: '/creer-compte',                          element: <AdminHostBlock><LeadCapturePage /></AdminHostBlock> },
+  { path: '/creer-compte/client',                   element: <AdminHostBlock><LeadCapturePage /></AdminHostBlock> },
+  { path: '/post/:id',                             element: <AdminHostBlock><EnSommeil module="Réseau Cercles" alternative={{ to: "/inscription", libelle: "Inscrire mon entreprise" }} /></AdminHostBlock> },
   { path: '/cercles',                              element: <AdminHostBlock><CerclesHome /></AdminHostBlock> },
-  { path: '/cercles/bienvenue',                    element: <AdminHostBlock><CerclesHomePage /></AdminHostBlock> },
-  { path: '/cercles/annuaire',                     element: <AdminHostBlock><AnnuairePage /></AdminHostBlock> },
+  { path: '/cercles/bienvenue',                    element: <Redirect to="/cercles" /> },
+  { path: '/cercles/annuaire',                     element: <AdminHostBlock><EnSommeil module="Annuaire Cercles" alternative={{ to: "/inscription", libelle: "Inscrire mon entreprise" }} /></AdminHostBlock> },
   { path: '/cercles/inscription',                  element: <AdminHostBlock><InscriptionProPage /></AdminHostBlock> },
   { path: '/cercles/espace',                       element: <AdminHostBlock><EspaceFournisseurPage /></AdminHostBlock> },
-  { path: '/cercles/me/edit',                      element: <AdminHostBlock><EditProfilePage /></AdminHostBlock> },
-  { path: '/cercles/profile/:userIdOrId',          element: <AdminHostBlock><ProfilePage /></AdminHostBlock> },
-  { path: '/cercles/messages',                     element: <AdminHostBlock><DirectMessagesPage /></AdminHostBlock> },
-  { path: '/cercles/messages/new/:peerId',         element: <AdminHostBlock><DirectMessagesPage /></AdminHostBlock> },
-  { path: '/cercles/messages/:threadId',           element: <AdminHostBlock><DirectMessagesPage /></AdminHostBlock> },
-  { path: '/cercles/nouveau',                      element: <AdminHostBlock><NewCerclePage /></AdminHostBlock> },
-  { path: '/cercles/marketplace',                  element: <AdminHostBlock><MarketplacePage /></AdminHostBlock> },
-  { path: '/cercles/marketplace/produit/:id',      element: <AdminHostBlock><ProductDetailPage /></AdminHostBlock> },
-  { path: '/cercles/mes-offres',                   element: <AdminHostBlock><MyOffersPage /></AdminHostBlock> },
-  { path: '/cercles/marketplace/photos',           element: <AdminHostBlock><MarketplacePhotosPage /></AdminHostBlock> },
-  { path: '/cercles/:slug',                        element: <AdminHostBlock><CercleDetailPage /></AdminHostBlock> },
-  { path: '/cercles/:slug/chat',                   element: <AdminHostBlock><CercleChatPage /></AdminHostBlock> },
-  { path: '/cercles/:slug/rejoindre',              element: <AdminHostBlock><AssociationApplyPage /></AdminHostBlock> },
-  { path: '/cercles/:slug/applications',           element: <AdminHostBlock><AssociationManagePage /></AdminHostBlock> },
-  { path: '/cercles/:slug/posts/:postId',          element: <AdminHostBlock><PostDetailPage /></AdminHostBlock> },
-  { path: '/cercles/:slug/rooms/:roomSlug/live',   element: <AdminHostBlock><LiveRoomPage /></AdminHostBlock> },
-  { path: '/cercles/:slug/rooms/:roomSlug',        element: <AdminHostBlock><LiveRoomPage /></AdminHostBlock> },
+  { path: '/cercles/me/edit',                      element: <Redirect to="/cercles/espace" /> },
+  { path: '/cercles/profile/:userIdOrId',          element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
+  { path: '/cercles/messages',                     element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
+  { path: '/cercles/messages/new/:peerId',         element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
+  { path: '/cercles/messages/:threadId',           element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
+  { path: '/cercles/nouveau',                      element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
+  { path: '/cercles/marketplace',                  element: <Redirect to="/cercles/espace" /> },
+  { path: '/cercles/marketplace/produit/:id',      element: <Redirect to="/cercles/espace" /> },
+  { path: '/cercles/mes-offres',                   element: <Redirect to="/cercles/espace" /> },
+  { path: '/cercles/marketplace/photos',           element: <Redirect to="/cercles/espace" /> },
+  { path: '/cercles/:slug',                        element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
+  { path: '/cercles/:slug/chat',                   element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
+  { path: '/cercles/:slug/rejoindre',              element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
+  { path: '/cercles/:slug/applications',           element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
+  { path: '/cercles/:slug/posts/:postId',          element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
+  { path: '/cercles/:slug/rooms/:roomSlug/live',   element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
+  { path: '/cercles/:slug/rooms/:roomSlug',        element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
 
   // Fiche cabinet publique (architecte)
-  { path: '/cabinet/me/manage',                    element: <AdminHostBlock><CabinetManagePage /></AdminHostBlock> },
-  { path: '/cabinet/:slug',                        element: <AdminHostBlock><CabinetPublicPage /></AdminHostBlock> },
-  { path: '/cabinet/:slug/projet/:projectSlug',    element: <AdminHostBlock><CabinetProjectPage /></AdminHostBlock> },
+  { path: '/cabinet/me/manage',                    element: <AdminHostBlock><EnSommeil module="Fiche cabinet" /></AdminHostBlock> },
+  { path: '/cabinet/:slug',                        element: <AdminHostBlock><EnSommeil module="Fiche cabinet" /></AdminHostBlock> },
+  { path: '/cabinet/:slug/projet/:projectSlug',    element: <AdminHostBlock><EnSommeil module="Fiche cabinet" /></AdminHostBlock> },
 
   // Public routes
   {
@@ -315,38 +247,38 @@ export const router = createBrowserRouter([
     children: [
       // Canon — login reste accessible partout (admin login passe par /admin/login)
       { path: CANON.LOGIN, element: <Login /> },
-      { path: "/verify-phone", element: <VerifyPhone /> },
-      { path: "/confirmer-email", element: <ConfirmEmail /> },
-      { path: "/mot-de-passe-oublie", element: <ForgotPassword /> },
+      { path: "/verify-phone", element: <Redirect to="/login" /> },
+      { path: "/confirmer-email", element: <Redirect to="/login" /> },
+      { path: "/mot-de-passe-oublie", element: <Redirect to="/login" /> },
       // Portails publics P1-P6 → bloqués sur admin.citurbarea.com
       { path: CANON.P1, element: <AdminHostBlock><AvecVideos theme="p1"><P1Home /></AvecVideos></AdminHostBlock> },
       { path: CANON.P1_PACKS, element: <AdminHostBlock><P1Packs /></AdminHostBlock> },
-      { path: CANON.P1_DOSSIER, element: <AdminHostBlock><P1Dossier /></AdminHostBlock> },
-      { path: '/p1/dossier/phases', element: <AdminHostBlock><P1ClientPhases /></AdminHostBlock> },
-      { path: '/portal', element: <AdminHostBlock><P1MyDossiers /></AdminHostBlock> },
-      { path: '/mon-espace', element: <AdminHostBlock><P1MyDossiers /></AdminHostBlock> },
+      { path: CANON.P1_DOSSIER, element: <AdminHostBlock><P1Confirmation /></AdminHostBlock> },
+      { path: '/p1/dossier/phases', element: <AdminHostBlock><P1Confirmation /></AdminHostBlock> },
+      { path: '/portal', element: <AdminHostBlock><Login /></AdminHostBlock> },
+      { path: '/mon-espace', element: <AdminHostBlock><Login /></AdminHostBlock> },
       { path: '/p2', element: <AdminHostBlock><AvecVideos theme="p2"><P2Home /></AvecVideos></AdminHostBlock> },
       { path: '/p2/form', element: <AdminHostBlock><P2Home /></AdminHostBlock> },
       { path: '/p2/result', element: <AdminHostBlock><P2Home /></AdminHostBlock> },
-      { path: '/p2/finalize', element: <AdminHostBlock><P2Finalize /></AdminHostBlock> },
+      { path: '/p2/finalize', element: <Redirect to="/creer-compte" /> },
       { path: '/p3', element: <AdminHostBlock><AvecVideos theme="p3"><P3Home /></AvecVideos></AdminHostBlock> },
       { path: '/p4/terrains', element: <AdminHostBlock><TerrainsPage /></AdminHostBlock> },
       { path: '/p4/terrains/deposer', element: <AdminHostBlock><DeposerTerrain /></AdminHostBlock> },
       { path: '/p4/terrains/:slug', element: <AdminHostBlock><TerrainFiche /></AdminHostBlock> },
       { path: '/p4', element: <AdminHostBlock><AvecVideos theme="p4"><P4Home /></AvecVideos></AdminHostBlock> },
       { path: '/p5', element: <AdminHostBlock><P5Home /></AdminHostBlock> },
-      { path: '/p5/finalize', element: <AdminHostBlock><P5Finalize /></AdminHostBlock> },
+      { path: '/p5/finalize', element: <Redirect to="/creer-compte" /> },
 
       // Module SIG (post-login client) — explorateur des Plans d'Aménagement
-      { path: '/sig', element: <AdminHostBlock><SigExplorer mode="client" /></AdminHostBlock> },
+      { path: '/sig', element: <AdminHostBlock><EnSommeil module="Explorateur SIG" /></AdminHostBlock> },
 
       // Article public — vignette Open Graph dynamique servie par le middleware backend pour les bots sociaux (FB/WhatsApp/LinkedIn/Twitter)
-      { path: '/media/article/:slug', element: <AdminHostBlock><ArticleDetailPage /></AdminHostBlock> },
+      { path: '/media/article/:slug', element: <AdminHostBlock><EnSommeil module="Articles" /></AdminHostBlock> },
       // Porte 6 = réseau pro Cercles : /p6 redirige vers l'espace Cercles
       // P6 volontairement fermée (arbitrage du propriétaire) : /p6 renvoie vers
       // Cercles. P6Home reste branché sur leadBridge, dormant — pas un oubli.
       { path: '/p6', element: <Redirect to="/cercles" /> },
-      { path: '/p6/dashboard', element: <AdminHostBlock><P6Dashboard /></AdminHostBlock> },
+      { path: '/p6/dashboard', element: <Redirect to="/cercles/espace" /> },
       // ── Catalogue Matériaux BTP Maroc (Phase 3) ──
       { path: '/materiaux', element: <AdminHostBlock><MateriauxPage /></AdminHostBlock> },
       { path: '/materiaux/famille/:slug', element: <AdminHostBlock><MateriauxPage /></AdminHostBlock> },
@@ -354,44 +286,44 @@ export const router = createBrowserRouter([
       { path: '/materiaux/:slug', element: <AdminHostBlock><MateriauPage /></AdminHostBlock> },
 
       // ── Tarifs Contractuels Prestataires P6 (Phase 3) ──
-      { path: '/prestataires/tarifs', element: <AdminHostBlock><PrestataireTarifsList /></AdminHostBlock> },
-      { path: '/prestataires/tarifs/editor', element: <AdminHostBlock><PrestataireTarifsEditor /></AdminHostBlock> },
-      { path: '/prestataires/tarifs/:tarifId', element: <AdminHostBlock><TarifContractPublic /></AdminHostBlock> },
+      { path: '/prestataires/tarifs', element: <AdminHostBlock><EnSommeil module="Tarifs prestataires" alternative={{ to: "/cercles/espace", libelle: "Espace fournisseur" }} /></AdminHostBlock> },
+      { path: '/prestataires/tarifs/editor', element: <AdminHostBlock><EnSommeil module="Tarifs prestataires" alternative={{ to: "/cercles/espace", libelle: "Espace fournisseur" }} /></AdminHostBlock> },
+      { path: '/prestataires/tarifs/:tarifId', element: <AdminHostBlock><EnSommeil module="Tarifs prestataires" alternative={{ to: "/cercles/espace", libelle: "Espace fournisseur" }} /></AdminHostBlock> },
 
       // ── Calendrier Projet (Gantt + CPM + Kanban) ──
-      { path: '/projet/:dossierId/calendrier', element: <AdminHostBlock><ProjectCalendarPage /></AdminHostBlock> },
+      { path: '/projet/:dossierId/calendrier', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
       // Alias plus court (cohérent avec /dossier/:dossierId/{documents,rokhas,reception,cps})
-      { path: '/dossier/:dossierId/calendrier', element: <AdminHostBlock><ProjectCalendarPage /></AdminHostBlock> },
+      { path: '/dossier/:dossierId/calendrier', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
 
       // ── Générateur CPS (Cahier des Prescriptions Spéciales) ──
-      { path: '/cps', element: <AdminHostBlock><CpsGeneratorPage /></AdminHostBlock> },
+      { path: '/cps', element: <AdminHostBlock><EnSommeil module="Générateur de CPS" /></AdminHostBlock> },
 
       // ── Phase 5 — parcours complet lead → manage → permit → site → delivery ──
-      { path: '/mon-parcours/:dossierId', element: <AdminHostBlock><MonParcoursPage /></AdminHostBlock> },
-      { path: '/dossier/:dossierId/documents', element: <AdminHostBlock><DocumentsRepoPage /></AdminHostBlock> },
-      { path: '/dossier/:dossierId/rokhas', element: <AdminHostBlock><RokhasTrackerPage /></AdminHostBlock> },
+      { path: '/mon-parcours/:dossierId', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
+      { path: '/dossier/:dossierId/documents', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
+      { path: '/dossier/:dossierId/rokhas', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
       // Vague 3 — page générique des phases v7. Pluriel `/dossiers/:id` selon spec migration.
       // Routes additives : ne remplacent ni /dossier/:dossierId/* ni /cc/dossiers/:id/phases (PhaseWorkspace).
-      { path: '/dossiers/:id/phases', element: <AdminHostBlock><DossierPhasesPage /></AdminHostBlock> },
-      { path: '/dossiers/:id/phases/:phaseSlug', element: <AdminHostBlock><DossierPhaseDetailPage /></AdminHostBlock> },
-      { path: '/dossier/:dossierId/reception', element: <AdminHostBlock><ReceptionPage /></AdminHostBlock> },
-      { path: '/dossier/:dossierId/cps', element: <AdminHostBlock><DossierCpsPage /></AdminHostBlock> },
-      { path: '/permis-construire/:dossierId', element: <AdminHostBlock><PcWizardPage /></AdminHostBlock> },
-      { path: '/chantier/:dossierId/sous-traitants', element: <AdminHostBlock><SousTraitantsPage /></AdminHostBlock> },
-      { path: '/chantier/:dossierId/incidents', element: <AdminHostBlock><IncidentsChantierPage /></AdminHostBlock> },
-      { path: '/chantier/:dossierId/copilote', element: <AdminHostBlock><CopiloteChantierPage /></AdminHostBlock> },
+      { path: '/dossiers/:id/phases', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
+      { path: '/dossiers/:id/phases/:phaseSlug', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
+      { path: '/dossier/:dossierId/reception', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
+      { path: '/dossier/:dossierId/cps', element: <AdminHostBlock><EnSommeil module="Générateur de CPS" /></AdminHostBlock> },
+      { path: '/permis-construire/:dossierId', element: <AdminHostBlock><EnSommeil module="Permis de construire" alternative={{ to: "/guide/permis-de-construire-maroc", libelle: "Guide du permis de construire" }} /></AdminHostBlock> },
+      { path: '/chantier/:dossierId/sous-traitants', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
+      { path: '/chantier/:dossierId/incidents', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
+      { path: '/chantier/:dossierId/copilote', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
 
       // ── PV de chantier (Tome 2 — cadence obligatoire 1 PV / 15 jours) ──
-      { path: '/chantier/:dossierId/pv', element: <AdminHostBlock><ChantierPvPage /></AdminHostBlock> },
-      { path: '/pv-chantier/dossier/:dossierId/new', element: <AdminHostBlock><PvChantierEditor mode="new" /></AdminHostBlock> },
-      { path: '/pv-chantier/:pvId/edit', element: <AdminHostBlock><PvChantierEditor mode="edit" /></AdminHostBlock> },
-      { path: '/pv-chantier/:pvId', element: <AdminHostBlock><PvChantierViewer /></AdminHostBlock> },
-      { path: '/foncier/estimation', element: <EstimationPage /> },
+      { path: '/chantier/:dossierId/pv', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
+      { path: '/pv-chantier/dossier/:dossierId/new', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
+      { path: '/pv-chantier/:pvId/edit', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
+      { path: '/pv-chantier/:pvId', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
+      { path: '/foncier/estimation', element: <AdminHostBlock><EnSommeil module="Estimation foncière" alternative={{ to: "/p4", libelle: "Porte 4 — analyse foncière" }} /></AdminHostBlock> },
       { path: '/mre', element: <MreDiasporaLanding /> },
-      { path: '/mandataires', element: <MandataireSearchPage /> },
-      { path: '/opci', element: <OpciOfferingsPage /> },
+      { path: '/mandataires', element: <AdminHostBlock><EnSommeil module="Mandataires" /></AdminHostBlock> },
+      { path: '/opci', element: <AdminHostBlock><EnSommeil module="OPCI" /></AdminHostBlock> },
       { path: '/cercles/diaspora', element: <DiasporaHubPage /> },
-      { path: '/metrics', element: <AdminHostBlock><MetricsDashboardPage /></AdminHostBlock> },
+      { path: '/metrics', element: <AdminHostBlock><EnSommeil module="Métriques" /></AdminHostBlock> },
       // Un seul moteur de chiffrage : l'ancien calculateur renvoie vers /chiffrage.
       { path: '/calculateur', element: <Navigate to="/chiffrage" replace /> },
       { path: '/chiffrage', element: <ChiffragePage /> },
@@ -401,15 +333,15 @@ export const router = createBrowserRouter([
       { path: '/rdv/:jeton', element: <AdminHostBlock><EspaceRdv /></AdminHostBlock> },
       // Espace projet des membres invités (Pages Functions /api/projets) : /projet/<jeton> échange le lien contre une session puis devient /projet (noindex).
       { path: '/projet/:jeton?', element: <AdminHostBlock><EspaceProjet /></AdminHostBlock> },
-      { path: '/notifications', element: <AdminHostBlock><NotificationsCenterPage /></AdminHostBlock> },
+      { path: '/notifications', element: <AdminHostBlock><EnSommeil module="Notifications" /></AdminHostBlock> },
 
       // ── Livraisons Matériaux (Tome 5 — chef chantier + fournisseur) ──
-      { path: '/chantier/:dossierId/livraisons', element: <AdminHostBlock><LivraisonsPage /></AdminHostBlock> },
+      { path: '/chantier/:dossierId/livraisons', element: <AdminHostBlock><EnSommeil module="Espace projet" /></AdminHostBlock> },
 
-      { path: '/payment/start', element: <AdminHostBlock><PaymentStartPage /></AdminHostBlock> },
+      { path: '/payment/start', element: <AdminHostBlock><EnSommeil module="Paiement en ligne" /></AdminHostBlock> },
       { path: '/docs', element: <AdminHostBlock><DocsPage /></AdminHostBlock> },
-      { path: '/payment/success', element: <AdminHostBlock><PaymentSuccessPage /></AdminHostBlock> },
-      { path: '/payment/cancel', element: <AdminHostBlock><PaymentCancelPage /></AdminHostBlock> },
+      { path: '/payment/success', element: <AdminHostBlock><EnSommeil module="Paiement en ligne" /></AdminHostBlock> },
+      { path: '/payment/cancel', element: <AdminHostBlock><EnSommeil module="Paiement en ligne" /></AdminHostBlock> },
       { path: CANON.DEV_ROUTES, element: <DevRoutesPage /> },
       { path: '/simulateur', element: <AdminHostBlock><SimulatorPage /></AdminHostBlock> },
 
