@@ -151,7 +151,7 @@ export default function MateriauxPage() {
       </ul>
 
       {m.compare.length > 0 && (
-        <div className="fixed bottom-20 z-40 flex gap-2" style={{ insetInlineStart: 16 }}>
+        <div className="fixed bottom-40 z-40 flex gap-2 sm:bottom-20" style={{ insetInlineStart: 16 }}>
           <button type="button" onClick={() => setComparer(true)} className="min-h-[44px] rounded-full border border-[#0B1B3A] bg-white px-4 text-sm font-bold text-[#0B1B3A] shadow">
             {t("comparerN", { n: m.compare.length })}
           </button>

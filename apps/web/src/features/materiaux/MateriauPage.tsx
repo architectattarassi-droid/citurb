@@ -38,7 +38,7 @@ export default function MateriauPage() {
 
   useEffect(() => {
     if (r) document.title = `Prix ${enPhrase(r.libelle)} au Maroc ${MATERIAUTHEQUE_MAJ.slice(0, 4)} | CITURBAREA`;
-  }, [r]);
+  }, [r, slug]);
 
   if (!r) {
     return (

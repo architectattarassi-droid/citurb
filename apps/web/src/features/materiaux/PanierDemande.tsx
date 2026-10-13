@@ -84,7 +84,7 @@ export default function PanierDemande() {
     <>
       {n > 0 && !ouvert && (
         <button type="button" onClick={() => setOuvert(true)}
-          className="fixed bottom-4 z-40 min-h-[48px] rounded-full bg-[#0B1B3A] px-5 text-sm font-bold text-white shadow-lg hover:bg-[#13285a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A227]"
+          className="fixed bottom-24 z-40 min-h-[48px] sm:bottom-4 rounded-full bg-[#0B1B3A] px-5 text-sm font-bold text-white shadow-lg hover:bg-[#13285a] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A227]"
           style={{ insetInlineEnd: 16 }}>
           {t("monPanier", { n })}
         </button>
