@@ -144,11 +144,7 @@ Les fiches Cercles ne créent **aucune** visio. Le module générique « appels 
 
 **Image de référence d'un code du catalogue** (matériauthèque, indépendante des fournisseurs) : `apps/web/src/domain/materiaux/images.json` — fichier hébergé dans `apps/web/public/materiaux/img/`, licence et source obligatoires (test `images.test.ts`), rempli par `apps/web/scripts/images-materiaux.mjs` (Pixabay Content License, image téléchargée et hébergée, relecture humaine avant commit) ou un visuel maison ; jamais une image copiée d'un site commercial. Sans image : icône de catégorie (SVG maison).
 
-**Par fournisseur** — la matériauthèque lit les routes publiques déjà en service (aucune route absente de `functions/`) :
-- liste : `GET /api/cercles/annuaire?groupe=MATERIAUX&region=<ville>&limite=200` (champs utilisés : `slug`, `raisonSociale`, `raisonSocialeAr`, `ville`, `zonesLivraison`, `categories`, `verifie`, `documentsVerifies`, `nbProduits`, `logoUrl`, `metierLibelle`) ;
-- page fournisseur : `GET /api/cercles/pro/:slug` (`fournisseur` + `produits` : `id`, `designationFr/Ar`, `descriptionFr/Ar`, `marque`, `modele`, `famille`, `materiauCode`, `conditionnement`, `photos` ou `images`, `ficheTechniqueUrl`) ;
-- « Proposé aussi par » : `fournisseurs` des variantes de `GET /api/catalogue/produits`.
-Si la session Cercles publie `GET /api/catalogue/fournisseurs` et `/api/catalogue/fournisseurs/:slug/produits`, le front pourra y basculer (mêmes champs) ; jusque-là, rien à faire. Aucune coordonnée n'est lue ni affichée (normalisation qui ne retient que les champs listés) : contact via `/cercles/pro/:slug` (mise en relation par la plateforme) et demande de prix.
+**Par fournisseur** — la matériauthèque (`/materiaux/fournisseurs`, `/materiaux/fournisseurs/:slug`, `apps/web/src/features/materiaux/fournisseursCatalogue.ts`) lit `GET /api/catalogue/fournisseurs?region=` et `GET /api/catalogue/fournisseurs/:slug/produits` (section « Navigation par fournisseur » ci-dessus) ; base pas prête, 404 ou réponse inattendue → état vide propre. « Proposé aussi par » : `fournisseurs` des variantes de `GET /api/catalogue/produits`. Aucune coordonnée n'est lue ni affichée (normalisation qui ne retient que les champs listés, test `images.test.ts`) : seuls gestes « Demander un prix » et « Demander un appel vidéo ».
 
 ## Images des fiches (produits, prestations, société)
 

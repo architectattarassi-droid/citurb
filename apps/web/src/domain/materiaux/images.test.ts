@@ -54,3 +54,25 @@ describe("tout passe par CITURBAREA : aucune coordonnée dans la matériauthèqu
     }
   });
 });
+
+describe("routes /api/catalogue/fournisseurs (forme du contrat)", () => {
+  it("fournisseur : nom et métier bilingues, familles ; images principale d'abord puis par ordre", async () => {
+    const { normaliserFournisseur, normaliserImages, normaliserPageFournisseur } = await import("../../features/materiaux/fournisseursCatalogue");
+    const f = normaliserFournisseur({ slug: "atlas", nom: { fr: "Atlas", ar: "أطلس" }, metierLibelle: { fr: "Négociant", ar: "تاجر" }, ville: "Rabat",
+      familles: [{ famille: "CARRELAGE", libelle: { fr: "Carrelage", ar: "زليج" }, nb: 3 }], nbProduits: 3, verifie: true })!;
+    expect(f).toMatchObject({ nom: { fr: "Atlas", ar: "أطلس" }, metier: { fr: "Négociant", ar: "تاجر" }, familles: [{ famille: "CARRELAGE", nb: 3 }] });
+    expect(normaliserImages({ images: [
+      { url: "https://c/b.jpg", ordre: 2 }, { url: "https://c/a.jpg", ordre: 1 }, { url: "https://c/p.jpg", ordre: 5, principale: true },
+    ] }).map((i) => i.url)).toEqual(["https://c/p.jpg", "https://c/a.jpg", "https://c/b.jpg"]);
+    const page = normaliserPageFournisseur({ ok: true, fournisseur: { slug: "atlas", nom: { fr: "Atlas" } }, familles: [
+      { famille: "CARRELAGE", libelle: { fr: "Carrelage" }, produits: [{ id: "v1", codeReference: "CIT-REV-020", designation: { fr: "Grès 60×60", ar: "خزف" }, marque: "X",
+        conditionnements: [{ libelle: { fr: "Carton 1,44 m²" }, facteur: 1.44 }], images: [{ url: "https://c/1.jpg", principale: true }] }] },
+      { famille: "VIDE", libelle: { fr: "Vide" }, produits: [] },
+    ] })!;
+    expect(page.groupes).toHaveLength(1);
+    expect(page.produits[0]).toMatchObject({ materiauCode: "CIT-REV-020", conditionnement: "Carton 1,44 m²", designation: { fr: "Grès 60×60", ar: "خزف" } });
+    expect(page.fournisseur.nbProduits).toBe(1);
+    expect(normaliserPageFournisseur({ ok: true, disponible: false })).toBeNull();
+    expect(normaliserPageFournisseur(null)).toBeNull();
+  });
+});

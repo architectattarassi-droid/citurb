@@ -1,8 +1,9 @@
 /**
- * Navigation « Par fournisseur » de la matériauthèque. Lectures publiques
- * existantes de la session Cercles (functions/) :
- *   GET /api/cercles/annuaire?groupe=MATERIAUX&region=  → fournisseurs approuvés (vue publique, nombre de produits)
- *   GET /api/cercles/pro/:slug                           → société + produits (photos), sans prix nominatif ni coordonnées
+ * Navigation « Par fournisseur » de la matériauthèque (contrat
+ * docs/architecture/contrat-catalogue.md, « Navigation par fournisseur ») :
+ *   GET /api/catalogue/fournisseurs?region=               → pros vérifiés ayant des produits publiés
+ *   GET /api/catalogue/fournisseurs/:slug/produits        → fournisseur + produits groupés par famille
+ * Textes {fr, ar}, images modérées ; ni coordonnées ni prix nominatif.
  * Normalisation défensive : champ inattendu ignoré, URL non https ignorée,
  * aucune coordonnée conservée même si elle était renvoyée par erreur.
  * Endpoint absent, hors ligne ou base vide → listes vides (état vide propre).
@@ -22,7 +23,9 @@ export interface FournisseurResume {
   documentsVerifies: boolean;
   nbProduits: number;
   logoUrl: string | null;
-  metier: string | null;
+  metier: Texte | null;
+  /** Familles de produits publiées (libellé bilingue, nombre). */
+  familles: { famille: string; libelle: Texte; nb: number }[];
 }
 
 export interface ProduitFournisseur {
@@ -42,6 +45,9 @@ export interface ProduitFournisseur {
 const https = (u: unknown): string | null => (typeof u === "string" && /^https:\/\/[^\s"'<>]+$/.test(u) ? u : null);
 const txt = (v: unknown): string | null => (typeof v === "string" && v.trim() ? v.trim() : null);
 const liste = (v: unknown): string[] => (Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : []);
+const estTexte = (v: unknown): v is Texte => !!v && typeof v === "object" && typeof (v as Texte).fr === "string" && !!(v as Texte).fr.trim();
+const texteOuChaine = (v: unknown, ar?: unknown): Texte | null =>
+  estTexte(v) ? { fr: v.fr, ...(typeof v.ar === "string" && v.ar ? { ar: v.ar } : {}) } : texteDe(v, ar);
 const texteDe = (fr: unknown, ar: unknown): Texte | null => {
   const f = txt(fr), a = txt(ar);
   return f || a ? { fr: (f || a)!, ...(a ? { ar: a } : {}) } : null;
@@ -50,8 +56,13 @@ const texteDe = (fr: unknown, ar: unknown): Texte | null => {
 /** Images d'un produit : `images` [{url, vignette, legende}] (contrat catalogue), sinon `photos` [url] ou `photoUrl`. */
 export function normaliserImages(p: Record<string, unknown>): ImageProduit[] {
   const out: ImageProduit[] = [];
-  if (Array.isArray(p.images))
-    for (const i of p.images as Record<string, unknown>[]) {
+  // Principale d'abord, puis par ordre (contrat : images [{url, vignette, principale, ordre, legende}]).
+  const brutes = Array.isArray(p.images)
+    ? [...(p.images as Record<string, unknown>[])].filter((i) => i && typeof i === "object")
+      .sort((a, b) => Number(b.principale === true) - Number(a.principale === true) || (Number(a.ordre) || 0) - (Number(b.ordre) || 0))
+    : [];
+  if (brutes.length)
+    for (const i of brutes) {
       const url = https(i?.url);
       if (!url) continue;
       const leg = i.legende as Texte | undefined;
@@ -63,24 +74,29 @@ export function normaliserImages(p: Record<string, unknown>): ImageProduit[] {
 
 export function normaliserFournisseur(f: Record<string, unknown>): FournisseurResume | null {
   const slug = txt(f.slug);
-  const nom = texteDe(f.raisonSociale, f.raisonSocialeAr);
+  const nom = texteOuChaine(f.nom) || texteDe(f.raisonSociale, f.raisonSocialeAr);
   if (!slug || !/^[a-z0-9-]{2,80}$/.test(slug) || !nom) return null;
   return {
     slug, nom, ville: txt(f.ville), zonesLivraison: liste(f.zonesLivraison), categories: liste(f.categories),
     verifie: f.verifie === true, documentsVerifies: f.documentsVerifies === true, nbProduits: Number(f.nbProduits) || 0,
-    logoUrl: https(f.logoUrl), metier: txt(f.metierLibelle) || txt(f.metier),
+    logoUrl: https(f.logoUrl), metier: texteOuChaine(f.metierLibelle) || texteOuChaine(f.metier),
+    familles: (Array.isArray(f.familles) ? (f.familles as Record<string, unknown>[]) : [])
+      .map((x) => ({ famille: txt(x?.famille) || "", libelle: texteOuChaine(x?.libelle) || { fr: txt(x?.famille) || "" }, nb: Number(x?.nb) || 0 }))
+      .filter((x) => x.famille),
   };
 }
 
+/** Produit d'un fournisseur : variante du catalogue (codeReference, designation {fr, ar}) ou ancienne vue (designationFr/Ar, materiauCode). */
 export function normaliserProduitFournisseur(p: Record<string, unknown>): ProduitFournisseur | null {
   const id = txt(p.id);
-  const designation = texteDe(p.designationFr, p.designationAr) || (p.designation as Texte | undefined) || null;
-  if (!id || !designation || typeof designation.fr !== "string") return null;
-  const code = txt(p.materiauCode);
+  const designation = texteOuChaine(p.designation) || texteDe(p.designationFr, p.designationAr);
+  if (!id || !designation) return null;
+  const code = txt(p.codeReference) || txt(p.materiauCode);
+  const cond = Array.isArray(p.conditionnements) ? (p.conditionnements as Record<string, unknown>[])[0] : null;
   return {
-    id, designation, description: texteDe(p.descriptionFr, p.descriptionAr), marque: txt(p.marque), modele: txt(p.modele),
+    id, designation, description: texteOuChaine(p.description) || texteDe(p.descriptionFr, p.descriptionAr), marque: txt(p.marque), modele: txt(p.modele),
     famille: txt(p.famille), categorie: txt(p.categorie), materiauCode: code && /^CIT-[A-Z]{2,3}-\d{3}$/.test(code) ? code : null,
-    conditionnement: txt(p.conditionnement), images: normaliserImages(p), ficheTechniqueUrl: https(p.ficheTechniqueUrl),
+    conditionnement: txt(p.conditionnement) || (cond ? texteOuChaine(cond.libelle)?.fr ?? null : null), images: normaliserImages(p), ficheTechniqueUrl: https(p.ficheTechniqueUrl),
   };
 }
 
@@ -97,7 +113,7 @@ export function useFournisseurs(ville: string): FournisseurResume[] | null {
   useEffect(() => {
     let vivant = true;
     setL(null);
-    json(`/api/cercles/annuaire?groupe=MATERIAUX&limite=200${ville ? `&region=${encodeURIComponent(ville)}` : ""}`).then((j) => {
+    json(`/api/catalogue/fournisseurs${ville ? `?region=${encodeURIComponent(ville)}` : ""}`).then((j) => {
       if (!vivant) return;
       const brut = Array.isArray(j?.fournisseurs) ? (j!.fournisseurs as Record<string, unknown>[]) : [];
       setL(brut.map(normaliserFournisseur).filter((x): x is FournisseurResume => !!x));
@@ -107,18 +123,29 @@ export function useFournisseurs(ville: string): FournisseurResume[] | null {
   return l;
 }
 
-/** Fiche d'un fournisseur et ses produits ; undefined pendant le chargement, null si introuvable. */
-export function useFournisseur(slug: string): { fournisseur: FournisseurResume; produits: ProduitFournisseur[] } | null | undefined {
-  const [d, setD] = useState<{ fournisseur: FournisseurResume; produits: ProduitFournisseur[] } | null | undefined>(undefined);
+export interface GroupeProduits { famille: string; libelle: Texte; produits: ProduitFournisseur[] }
+export interface PageFournisseur { fournisseur: FournisseurResume; groupes: GroupeProduits[]; produits: ProduitFournisseur[] }
+
+/** Réponse de GET /api/catalogue/fournisseurs/:slug/produits (pure, testée). */
+export function normaliserPageFournisseur(j: Record<string, unknown> | null): PageFournisseur | null {
+  const f = j?.fournisseur && typeof j.fournisseur === "object" ? normaliserFournisseur(j.fournisseur as Record<string, unknown>) : null;
+  if (!f) return null;
+  const groupes: GroupeProduits[] = (Array.isArray(j!.familles) ? (j!.familles as Record<string, unknown>[]) : []).map((g) => ({
+    famille: txt(g?.famille) || "", libelle: texteOuChaine(g?.libelle) || { fr: txt(g?.famille) || "" },
+    produits: (Array.isArray(g?.produits) ? (g.produits as Record<string, unknown>[]) : [])
+      .map(normaliserProduitFournisseur).filter((x): x is ProduitFournisseur => !!x),
+  })).filter((g) => g.produits.length);
+  const produits = groupes.flatMap((g) => g.produits);
+  return { fournisseur: { ...f, nbProduits: f.nbProduits || produits.length }, groupes, produits };
+}
+
+/** Page d'un fournisseur ; undefined pendant le chargement, null si introuvable ou base pas prête. */
+export function useFournisseur(slug: string): PageFournisseur | null | undefined {
+  const [d, setD] = useState<PageFournisseur | null | undefined>(undefined);
   useEffect(() => {
     let vivant = true;
     setD(undefined);
-    json(`/api/cercles/pro/${encodeURIComponent(slug)}`).then((j) => {
-      if (!vivant) return;
-      const f = j?.fournisseur && typeof j.fournisseur === "object" ? normaliserFournisseur(j.fournisseur as Record<string, unknown>) : null;
-      const produits = Array.isArray(j?.produits) ? (j!.produits as Record<string, unknown>[]).map(normaliserProduitFournisseur).filter((x): x is ProduitFournisseur => !!x) : [];
-      setD(f ? { fournisseur: { ...f, nbProduits: f.nbProduits || produits.length }, produits } : null);
-    });
+    json(`/api/catalogue/fournisseurs/${encodeURIComponent(slug)}/produits`).then((j) => { if (vivant) setD(normaliserPageFournisseur(j)); });
     return () => { vivant = false; };
   }, [slug]);
   return d;

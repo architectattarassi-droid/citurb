@@ -65,7 +65,7 @@ export function FournisseursPage() {
                   {f.logoUrl ? <img src={f.logoUrl} alt="" loading="lazy" className="h-12 w-12 shrink-0 rounded object-contain" /> : <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded bg-slate-100 text-lg font-bold text-[#0B1B3A]">{texteLocal(f.nom, lang).charAt(0)}</span>}
                   <div className="min-w-0">
                     <h2 className="text-base font-bold text-[#0B1B3A]"><Link to={`/materiaux/fournisseurs/${f.slug}`} className="text-[#0B1B3A] hover:underline">{texteLocal(f.nom, lang)}</Link></h2>
-                    <p className="text-sm text-slate-600">{f.ville || "—"}{f.metier ? ` · ${f.metier}` : ""}</p>
+                    <p className="text-sm text-slate-600">{f.ville || "—"}{f.metier ? ` · ${texteLocal(f.metier, lang)}` : ""}</p>
                   </div>
                 </div>
                 <div className="mt-2"><Badges f={f} t={t} /></div>
@@ -147,14 +147,8 @@ export function FournisseurPage() {
       <Link to="/materiaux/fournisseurs" className="mt-3 inline-flex min-h-[44px] items-center font-semibold text-[#0B1B3A] underline">{t("retourFournisseurs")}</Link>
     </main>
   );
-  const { fournisseur: f, produits } = d;
-  // Groupés par catégorie du catalogue (code de référence), sinon par famille déclarée.
-  const groupes = new Map<string, ProduitFournisseur[]>();
-  for (const p of produits) {
-    const r = p.materiauCode ? materiau(p.materiauCode) : undefined;
-    const cle = r ? CATEGORIES[r.categorie] : p.famille || t("autresFamilles");
-    groupes.set(cle, [...(groupes.get(cle) || []), p]);
-  }
+  // Familles fournies par le catalogue (libellés FR/AR).
+  const { fournisseur: f, produits, groupes } = d;
   return (
     <main className="mx-auto max-w-6xl px-4 pb-24 pt-6 sm:pt-10">
       <nav className="mb-3 text-sm text-slate-500"><Link to="/materiaux" className="underline">{t("fil")}</Link> › <Link to="/materiaux/fournisseurs" className="underline">{t("parFournisseur")}</Link></nav>
@@ -162,7 +156,7 @@ export function FournisseurPage() {
         {f.logoUrl && <img src={f.logoUrl} alt="" className="h-16 w-16 rounded object-contain" />}
         <div className="min-w-0">
           <h1 className="text-2xl font-bold text-[#0B1B3A] sm:text-3xl">{texteLocal(f.nom, lang)}</h1>
-          <p className="text-sm text-slate-600">{f.ville || "—"}{f.metier ? ` · ${f.metier}` : ""} · {t("livre", { zones: zones(f, t) })}</p>
+          <p className="text-sm text-slate-600">{f.ville || "—"}{f.metier ? ` · ${texteLocal(f.metier, lang)}` : ""} · {t("livre", { zones: zones(f, t) })}</p>
           <div className="mt-1"><Badges f={f} t={t} /></div>
         </div>
         {/* Tout passe par CITURBAREA : aucune coordonnée ; demande de prix ou appel vidéo sur accord de chacun. */}
@@ -170,9 +164,9 @@ export function FournisseurPage() {
           <DemanderAppelVideo contexte="fournisseur" objetId={f.slug} invites={[{ type: "pro", slug: f.slug }]} avecNom={texteLocal(f.nom, lang)} langue={lang === "ar" ? "ar" : "fr"} variante="navy" />
         </div>
       </div>
-      {produits.length === 0 ? <p className="mt-6 text-slate-600">{t("aucunProduit")}</p> : [...groupes].map(([g, l]) => (
-        <section key={g} className="mt-6">
-          <h2 className="text-lg font-bold text-[#0B1B3A]">{g} <span className="text-sm font-normal text-slate-500">({l.length})</span></h2>
+      {produits.length === 0 ? <p className="mt-6 text-slate-600">{t("aucunProduit")}</p> : groupes.map(({ famille: cle, libelle, produits: l }) => (
+        <section key={cle} className="mt-6">
+          <h2 className="text-lg font-bold text-[#0B1B3A]">{texteLocal(libelle, lang)} <span className="text-sm font-normal text-slate-500">({l.length})</span></h2>
           <ul className="mt-2 grid gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3">
             {l.map((p) => <CarteProduit key={p.id} p={p} t={t} lang={lang} slugFournisseur={f.slug} />)}
           </ul>
