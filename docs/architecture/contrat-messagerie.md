@@ -34,7 +34,7 @@ Le chantier garde sa **discussion par jalon** (espace projet, membres) : pas de 
 
 ## Règles garanties (testées)
 
-1. **Aucune coordonnée** : e-mails, numéros (MA et internationaux), liens, wa.me / t.me, domaines, pseudos `@…` masqués dans les messages, le sujet, le nom d'un visiteur et les motifs de signalement. Les vues d'un participant ne contiennent ni les coordonnées des autres, ni identifiant interne (`Fournisseur.id`), ni jeton, ni sel. Les e-mails partent de CITURBAREA, sans coordonnée de l'autre partie.
+1. **Aucune coordonnée** : moteur commun du site (`functions/_lib/coordonnees.ts` : numéros MA et internationaux y compris en chiffres arabes, e-mails y compris « (at) », liens, domaines, messageries et réseaux) complété par les pseudos `@…` ; masquage dans les messages, le sujet, le nom d'un visiteur et les motifs de signalement. Les vues d'un participant ne contiennent ni les coordonnées des autres, ni identifiant interne (`Fournisseur.id`), ni jeton, ni sel. Les e-mails partent de CITURBAREA, sans coordonnée de l'autre partie.
 2. Un seul fil **ouvert** par groupe de personnes et par sujet. Sans session, un deuxième « premier message » ne révèle rien : le lien du fil existant est renvoyé à l'adresse du titulaire (409 `conversation_existante`).
 3. Accès : participant par session ou par son lien personnel (HMAC, empreinte seule stockée) ; un tiers ne voit rien (404). Le back-office lit tout (modération) mais n'écrit que s'il est invité.
 4. Lu / non lu par participant ; e-mail au plus une fois par quart d'heure et par fil tant que rien n'est lu.

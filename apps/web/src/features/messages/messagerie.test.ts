@@ -5,7 +5,7 @@
  * modération, boîte de réception par lien signé.
  */
 import { describe, expect, it } from "vitest";
-import { masquerCoordonnees, type Identite } from "../../../../../functions/_lib/appels";
+import { MASQUE, masquerCoordonnees, type Identite } from "../../../../../functions/_lib/appels";
 import { depotAppelsMemoire } from "../../../../../functions/_lib/appelsDepot";
 import { routeur as routeurAppels, type ActeurConnecte, type Resolveur } from "../../../../../functions/_lib/appelsService";
 import { jetonBoite } from "../../../../../functions/_lib/messagerie";
@@ -66,7 +66,7 @@ describe("messagerie : client ↔ pro, tout passe par CITURBAREA", () => {
     const auPro = mails.find((m) => m.to[0] === "contact@atlas.ma")!;
     expect(auPro.subject).toContain("Amina");
     expect(auPro.text + auPro.html).not.toMatch(INTERDIT);
-    expect(auPro.text).toContain("[coordonnées masquées]");
+    expect(auPro.text).toContain(MASQUE);
   });
 
   it("le pro lit (non lu → lu), répond ; le visiteur voit le fil ; aucune coordonnée dans les vues", async () => {
@@ -185,6 +185,6 @@ describe("messagerie : client ↔ pro, tout passe par CITURBAREA", () => {
     expect((await messages("POST", null, [], premier({ texte: "  " }))).json.error).toBe("message_vide");
     expect((await messages("POST", null, [], premier({ invites: [{ type: "client", dossierId: "d1" }] }))).json.error).toBe("invite_interdit");
     expect((await messages("POST", { genre: "membre", membreId: "pm_x", projetId: "prj_x" }, [], premier())).json.error).toBe("contexte_interdit");
-    expect(masquerCoordonnees("insta @amina.deco").texte).toBe("insta [coordonnées masquées]");
+    expect(masquerCoordonnees("insta @amina.deco").texte).toBe(MASQUE);
   });
 });

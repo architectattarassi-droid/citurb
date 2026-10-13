@@ -5,7 +5,7 @@
  */
 import { describe, expect, it } from "vitest";
 import {
-  appliquer, autoriserCreation, controlerAccesSalle, creneauCommun, masquerCoordonnees, MAX_JETONS_VISIO, nouvelleDemande, statutEffectif,
+  MASQUE, appliquer, autoriserCreation, controlerAccesSalle, creneauCommun, masquerCoordonnees, MAX_JETONS_VISIO, nouvelleDemande, statutEffectif,
   validerCreation, verifierDebit, vueParticipant, type Demande, type EntreeCreation, type Identite,
 } from "../../../../../functions/_lib/appels";
 import { depotAppelsMemoire } from "../../../../../functions/_lib/appelsDepot";
@@ -173,7 +173,7 @@ describe("appels : règles d'invitation, débit, coordonnées", () => {
     expect(validerCreation({ ...base, creneaux: [iso(T0 - H)] }, T0)).toMatchObject({ ok: false, erreur: "creneau_invalide" });
     expect(validerCreation({ ...base, creneaux: [C1], dureeMin: 37 }, T0)).toMatchObject({ ok: false, erreur: "duree_invalide" });
     const v = validerCreation({ ...base, creneaux: [C1], message: "mon mail x@y.com" }, T0) as EntreeCreation;
-    expect(v.message).toBe("mon mail [coordonnées masquées]");
+    expect(v.message).toBe(`mon mail ${MASQUE}`);
     expect(v.messageMasque).toBe(true);
   });
   it("vue d'un participant : aucune coordonnée, aucun secret, aucun nom de salle", () => {
@@ -325,7 +325,7 @@ describe("appels : parcours demande → accord des deux parties → appel", () =
     const vueVisiteur = JSON.stringify((await appel("GET", null, ["lien", String(r.json.jeton)])).json);
     const auVisiteur = mails.find((m) => m.to[0] === "amina@gmail.com")! as { text: string; html?: string };
     for (const texte of [vueVisiteur, auVisiteur.text, auVisiteur.html || ""]) expect(texte).not.toMatch(/contact@atlas\.ma|661234567/);
-    expect(depot.lignes.get(id)!.participants[0].nom).toBe("Amina [coordonnées masquées]");
+    expect(depot.lignes.get(id)!.participants[0].nom).toBe(`Amina ${MASQUE}`);
   });
 
   it("visiteur : contact et consentement requis ; pot de miel ; pas d'invitation d'un client", async () => {

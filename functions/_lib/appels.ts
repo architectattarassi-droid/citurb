@@ -19,6 +19,8 @@
  * Contrat d'intégration : docs/architecture/contrat-appels-video.md.
  */
 import { nouvelleSalle, type Contexte as ContexteSalle } from "./visio";
+import { MASQUE, masquerCoordonnees as masquerCommun } from "./coordonnees";
+export { MASQUE };
 
 export const CONTEXTES_APPEL = ["dossier", "chantier", "reunion", "cercles", "fournisseur", "rdv"] as const;
 export type ContexteAppel = (typeof CONTEXTES_APPEL)[number];
@@ -121,25 +123,23 @@ const SURROGATE_ISOLE = /[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])
 export const clip = (v: unknown, n: number): string =>
   typeof v === "string" ? Array.from(v.replace(CONTROLE, "").replace(SURROGATE_ISOLE, "�").trim()).slice(0, n).join("") : "";
 
-const MASQUE = "[coordonnées masquées]";
-const MOTIFS_COORDONNEES: RegExp[] = [
-  /[^\s@<>"']+@[^\s@<>"']+\.[a-z]{2,}/gi, // e-mails
-  /\b(?:https?:\/\/|www\.)\S+/gi, // liens
-  /\b(?:wa\.me|t\.me|chat\.whatsapp\.com|signal\.me)\/\S*/gi, // messageries
-  /\b[a-z0-9-]+\.(?:com|ma|fr|net|org|io|me|co)\b(?:\/\S*)?/gi, // domaines nus
-  /(?:\+|00)[1-9](?:[\s.\-()]*\d){7,13}/g, // numéros internationaux
-  /\b0[5-7](?:[\s.\-]*\d){8}\b/g, // numéros marocains (les montants et dates restent lisibles)
-  /(?<![\w.])@[a-z0-9_.]{3,30}/gi, // pseudos (Instagram, Telegram…)
+/**
+ * Anti-désintermédiation : un seul moteur pour tout le site (functions/_lib/coordonnees.ts :
+ * téléphones MA et internationaux, chiffres arabes, e-mails y compris « (at) », liens,
+ * domaines, messageries et réseaux), complété ici par les pseudos « @… » et les
+ * numéros espacés de bout en bout. Les montants et les dates restent lisibles.
+ */
+const MOTIFS_EN_PLUS: RegExp[] = [
+  /\b(?:wa\.me|t\.me|chat\.whatsapp\.com|signal\.me)\/\S*/gi,
+  /(?:\+|00)[1-9](?:[\s.\-()]*\d){7,13}/g,
+  /\b0[5-7](?:[\s.\-]*\d){8}\b/g,
+  /(?<![\w.])@[a-z0-9_.]{3,30}/gi,
 ];
 
-/**
- * Anti-désintermédiation : la demande passe par la plateforme, pas
- * d'échange de coordonnées. E-mails, numéros, liens et pseudos de messagerie
- * sont remplacés avant enregistrement.
- */
 export function masquerCoordonnees(texte: string): { texte: string; masque: boolean } {
-  let t = texte, masque = false;
-  for (const m of MOTIFS_COORDONNEES) t = t.replace(m, () => { masque = true; return MASQUE; });
+  let t = masquerCommun(texte);
+  let masque = t !== texte;
+  for (const m of MOTIFS_EN_PLUS) t = t.replace(m, () => { masque = true; return MASQUE; });
   return { texte: t, masque };
 }
 
