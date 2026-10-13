@@ -18,7 +18,7 @@ import {
   type Role, type Signature, type StatutJalon,
 } from "./projets";
 import { accepter, envoyerMail, hacherJeton, JETON_RE, nouveauJeton, telephoneRdv, type EnvMail } from "./rdv";
-import { acces, nouvelleSalle, visioConfiguree, type VisioEnv } from "./visio";
+import { visioConfiguree, type VisioEnv } from "./visio";
 
 // ── Stockage R2 (types minimaux, sans dépendance à @cloudflare/workers-types) ──
 
@@ -224,7 +224,7 @@ async function routeProjet(c: Contexte, a: Acteur, projetId: string, reste: stri
       if (m === "GET") return ok({ documents: await depot.documents(projetId, code) });
       if (m === "POST") return creerDocument(c, a, projet, j);
     }
-    if (sous[0] === "visio" && sous.length === 1 && m === "POST") return visioJalon(c, a, j);
+    if (sous[0] === "visio" && sous.length === 1 && m === "POST") return visioJalon();
   }
   return ko(404, "route_inconnue");
 }
@@ -451,13 +451,13 @@ async function modifierDocument(c: Contexte, a: Acteur, p: ProjetLigne, did: str
 
 // ── Visio ───────────────────────────────────────────────────────────────
 
-async function visioJalon(c: Contexte, a: Acteur, j: JalonLigne): Promise<Response> {
-  if (!visioConfiguree(c.env)) return ko(503, "visio_non_configuree");
-  const salle = j.salle || (await c.depot.salle(j.projetId, j.code, nouvelleSalle("chantier")));
-  const r = await acces(c.env, "chantier", salle, { id: libelleAuteur(a).replace(/[^a-z0-9_:-]/gi, "-"), nom: `${nomDe(a)} (${roleDe(a)})` }, superviseur(a));
-  if (!r.ok) return ko(503, r.error);
-  await journaliser(c, j.projetId, a, "visio", j.code);
-  return ok({ config: r.config });
+/**
+ * Ancienne salle permanente du jalon : fermée. Une visio de chantier passe
+ * désormais par une DEMANDE d'appel acceptée par toutes les personnes invitées
+ * (functions/_lib/appels.ts, /api/projets/appels) — aucune salle sans accord.
+ */
+async function visioJalon(): Promise<Response> {
+  return ko(410, "appel_sur_demande");
 }
 
 // ── Membres ─────────────────────────────────────────────────────────────

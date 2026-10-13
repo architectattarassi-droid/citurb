@@ -3,19 +3,21 @@
  * preuve photo prise depuis le téléphone + commentaire), Exigences (normes
  * citées, badge « à vérifier »), Documents / PV types (formulaire, signature,
  * impression A4), Discussion (rafraîchie toutes les 10 s), Photos / vidéos.
- * Bouton « Réunion visio » (salle du jalon, module visio partagé).
+ * Bouton « Demander un appel vidéo » (features/appels) : la salle n'ouvre
+ * qu'une fois que chaque personne invitée a accepté le même créneau.
  */
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import type { PointChecklist } from "../../domain/referentiel/types";
 import {
-  changerStatut, cocher, deposer, lireJalon, lireMessages, masquerMessage, ouvrirVisio, posterMessage, reduirePhoto, urlFichier,
+  changerStatut, cocher, deposer, lireJalon, lireMessages, masquerMessage, posterMessage, reduirePhoto, urlFichier,
   type DetailJalon, type Fichier, type Message, type StatutJalon, type VueProjetDonnees,
 } from "./api";
 import { COULEUR_STATUT, dateHeure, erreur, role, T, taille } from "./libelles";
-import type { ConfigVisio } from "../visio/SalleVisio";
+import DemanderAppelVideo from "../appels/DemanderAppelVideo";
+import type { Invite } from "../appels/api";
 
 const Documents = lazy(() => import("./Documents"));
-const SalleVisio = lazy(() => import("../visio/SalleVisio"));
+const MesAppels = lazy(() => import("../appels/MesAppels"));
 
 type Onglet = "checklist" | "exigences" | "documents" | "discussion" | "photos";
 const BTN = "inline-flex min-h-[44px] items-center justify-center rounded-lg px-4 text-sm font-semibold disabled:opacity-50";
@@ -27,7 +29,6 @@ export default function PageJalon({ base, projetId, code, projet, onRetour, onOu
   const [err, setErr] = useState("");
   const [msg, setMsg] = useState("");
   const [onglet, setOnglet] = useState<Onglet>("checklist");
-  const [visio, setVisio] = useState<ConfigVisio | null>(null);
 
   const charger = useCallback(async () => {
     const r = await lireJalon(base, projetId, code);
@@ -48,10 +49,12 @@ export default function PageJalon({ base, projetId, code, projet, onRetour, onOu
     await charger();
   };
 
-  const lancerVisio = async () => {
-    const r = await ouvrirVisio(base, projetId, code);
-    if (r.ok) setVisio(r.data.config); else setMsg(erreur(r.error));
-  };
+  // Personnes qu'on peut inviter à un appel sur ce jalon : le cabinet (pour un membre) et les autres membres actifs.
+  const moiAdmin = projet.moi.kind === "admin";
+  const candidats: { invite: Invite; nom: string }[] = [
+    ...(moiAdmin ? [] : [{ invite: { type: "admin" } as Invite, nom: "Architecte CITURBAREA" }]),
+    ...projet.membres.filter((m) => m.actif && m.id !== projet.moi.membreId).map((m) => ({ invite: { type: "membre", id: m.id } as Invite, nom: `${m.nom} (${role(m.role)})` })),
+  ];
 
   const onglets: [Onglet, string][] = [
     ["checklist", `Checklist (${j.checklist.filter((p) => j.checklistEtat[p.id]?.fait).length}/${j.checklist.length})`],
@@ -101,18 +104,16 @@ export default function PageJalon({ base, projetId, code, projet, onRetour, onOu
             <button key={s} type="button" onClick={() => void statut(s)}
               className={`${BTN} ${s === "VALIDE" ? "bg-emerald-600 text-white" : s === "BLOQUE" ? "border border-red-300 bg-white text-red-700" : "border border-slate-300 bg-white text-slate-800"}`}>{T.actionsStatut[s]}</button>
           ))}
-          <button type="button" onClick={() => void lancerVisio()} className={`${BTN} bg-[#0B1B3A] text-white`} disabled={!d.visio} title={d.visio ? "" : T.erreurs.visio_non_configuree}>Réunion visio</button>
+          {candidats.length > 0 && <DemanderAppelVideo porte={moiAdmin ? "admin" : "membre"} contexte="chantier" objetId={`${projetId}:${code}`.slice(0, 120)} sujet={j.titre} invites={[]} candidats={candidats} langue="fr" variante="navy" />}
         </section>
       )}
       {msg && <p role="alert" className="mb-3 rounded-lg bg-amber-50 p-3 text-sm text-amber-900">{msg}</p>}
 
-      {visio && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-[#0B1B3A]">
-          <div className="flex items-center justify-between p-2 text-white"><span className="text-sm">Réunion — {j.titre}</span><button type="button" className={`${BTN} bg-white text-[#0B1B3A]`} onClick={() => setVisio(null)}>Quitter</button></div>
-          <Suspense fallback={<p className="p-4 text-white">Ouverture…</p>}>
-            <SalleVisio config={visio} nomAffiche={`${projet.moi.nom} (${role(projet.moi.role)})`} onQuitter={() => setVisio(null)} className="flex-1" />
-          </Suspense>
-        </div>
+      {!moiAdmin && (
+        <details className="mb-3 rounded-lg border border-slate-200 bg-white p-3">
+          <summary className="cursor-pointer text-sm font-semibold text-[#0B1B3A]">Mes appels vidéo (demandes reçues et envoyées)</summary>
+          <div className="mt-3"><Suspense fallback={<p className="text-sm text-slate-500">Chargement…</p>}><MesAppels espace={{ type: "membre" }} l="fr" titre={null} /></Suspense></div>
+        </details>
       )}
 
       <nav className="sticky top-0 z-10 -mx-3 mb-3 flex gap-1 overflow-x-auto bg-[#f8fafc]/95 px-3 py-2 backdrop-blur" aria-label="Sections du jalon">

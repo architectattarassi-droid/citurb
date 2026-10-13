@@ -9,6 +9,7 @@ import { TYPES_SOCIETE, libelleMetier } from "../../domain/cercles/gabarits";
 import { REGIONS_L3 } from "../../domain/cercles/libelles";
 import { REGIONS_MA } from "../../domain/materiaux/regions";
 import { apiFournisseurs, codeErreur, type ProAnnuaire } from "./api";
+import DemanderAppelVideo from "../appels/DemanderAppelVideo";
 import { GROUPES } from "./InscriptionProPage";
 import { useTextes, type CleTexte } from "./textes";
 import { PageFournisseurs, T, TexteSaisi } from "./ui";
@@ -80,7 +81,10 @@ export default function AnnuaireProPage({ langue }: { langue?: "ar" }) {
                     {f.nbServices > 0 && <span className="frn-etiquette">{x.t("anServices", { n: f.nbServices })}</span>}
                   </div>
                   <TexteSaisi fr={(f.description || "").slice(0, 220)} ar={(f.descriptionAr || "").slice(0, 220)} style={{ margin: 0, fontSize: 14, color: T.inkMid, lineHeight: 1.5 }} />
-                  <div><Link className="frn-btn frn-btn-ghost frn-btn-petit" to={`${prefixe}/cercles/pro/${f.slug}`}>{x.t("anVoir")}</Link></div>
+                  <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+                    <Link className="frn-btn frn-btn-ghost frn-btn-petit" to={`${prefixe}/cercles/pro/${f.slug}`}>{x.t("anVoir")}</Link>
+                    <DemanderAppelVideo contexte="cercles" objetId={f.slug} invites={[{ type: "pro", slug: f.slug }]} avecNom={x.bi(f.raisonSociale, f.raisonSocialeAr).texte} variante="lien" className="text-sm" />
+                  </div>
                 </article>
               ))}
             </div>

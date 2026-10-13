@@ -11,6 +11,7 @@ import { champsDuType, libelleMetier, type ReferenceChantier } from "../../domai
 import { CATEGORIES_L3, REGIONS_L3, unite3 } from "../../domain/cercles/libelles";
 import { DISPONIBILITES_L3, FAMILLES_PRODUIT, GAMMES, NATURES_SERVICE } from "../../domain/cercles/offres";
 import { HONEYPOT_STYLE } from "../../lib/honeypot";
+import DemanderAppelVideo from "../appels/DemanderAppelVideo";
 import { apiFournisseurs, codeErreur, type FichePro, type Produit, type Service } from "./api";
 import { useLangueForcee } from "./langue";
 import { useTextes, type Textes } from "./textes";
@@ -74,7 +75,11 @@ export default function FicheProPage({ langue }: { langue?: "ar" }) {
             {f.documentsVerifies && <span className="frn-badge" style={{ background: T.infoBg, color: T.info }}>{x.t("anDocsVerifies")}</span>}
           </div>
         </div>
-        <button className="frn-btn frn-btn-or" style={{ marginInlineStart: "auto" }} onClick={() => demander(null)}>{x.t("fpContacter")}</button>
+        <div style={{ marginInlineStart: "auto", display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <button className="frn-btn frn-btn-or" onClick={() => demander(null)}>{x.t("fpContacter")}</button>
+          {/* Demande d'appel vidéo : rien ne démarre sans l'accord du pro (features/appels). */}
+          <DemanderAppelVideo contexte="cercles" objetId={f.slug} invites={[{ type: "pro", slug: f.slug }]} avecNom={x.bi(f.raisonSociale, f.raisonSocialeAr).texte} variante="contour" />
+        </div>
       </header>
       <style>{`.frn-page h1{font-family:inherit;font-size:clamp(24px,4.5vw,34px);color:${T.navy};line-height:1.2}`}</style>
 
@@ -97,14 +102,14 @@ export default function FicheProPage({ langue }: { langue?: "ar" }) {
       {!!d.produits.length && (
         <section style={{ marginTop: 22 }}>
           <h2 style={{ color: T.navy, fontSize: 20 }}>{x.t("fpProduits")}</h2>
-          <div className="frn-cartes">{d.produits.map((p) => <CarteProduit key={p.id} p={p} onDemander={demander} />)}</div>
+          <div className="frn-cartes">{d.produits.map((p) => <CarteProduit key={p.id} p={p} onDemander={demander} slug={f.slug} nomPro={x.bi(f.raisonSociale, f.raisonSocialeAr).texte} />)}</div>
         </section>
       )}
 
       {!!d.services.length && (
         <section style={{ marginTop: 22 }}>
           <h2 style={{ color: T.navy, fontSize: 20 }}>{x.t("fpServices")}</h2>
-          <div className="frn-cartes">{d.services.map((s) => <CarteService key={s.id} s={s} onDemander={demander} />)}</div>
+          <div className="frn-cartes">{d.services.map((s) => <CarteService key={s.id} s={s} onDemander={demander} slug={f.slug} nomPro={x.bi(f.raisonSociale, f.raisonSocialeAr).texte} />)}</div>
         </section>
       )}
 
@@ -146,7 +151,7 @@ export default function FicheProPage({ langue }: { langue?: "ar" }) {
   );
 }
 
-function CarteProduit({ p, onDemander }: { p: Produit; onDemander: (o: Objet) => void }) {
+function CarteProduit({ p, onDemander, slug, nomPro }: { p: Produit; onDemander: (o: Objet) => void; slug: string; nomPro: string }) {
   const x = useTextes();
   const fam = FAMILLES_PRODUIT[p.famille];
   const car = Object.entries(p.caracteristiques).map(([k, v]) => {
@@ -168,12 +173,13 @@ function CarteProduit({ p, onDemander }: { p: Produit; onDemander: (o: Objet) =>
       <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
         <span className="frn-etiquette">{x.t("fpPrixSurDemande")}</span>
         <button className="frn-btn frn-btn-ghost frn-btn-petit" onClick={() => onDemander({ type: "produit", id: p.id, libelle: nom })}>{x.t("fpDemanderPrix")}</button>
+        <DemanderAppelVideo contexte="fournisseur" objetId={`produit:${p.id}`} sujet={nom} invites={[{ type: "pro", slug }]} avecNom={nomPro} variante="lien" className="text-sm" />
       </div>
     </article>
   );
 }
 
-function CarteService({ s, onDemander }: { s: Service; onDemander: (o: Objet) => void }) {
+function CarteService({ s, onDemander, slug, nomPro }: { s: Service; onDemander: (o: Objet) => void; slug: string; nomPro: string }) {
   const x = useTextes();
   const nom = x.bi(s.designationFr, s.designationAr).texte;
   return (
@@ -185,6 +191,7 @@ function CarteService({ s, onDemander }: { s: Service; onDemander: (o: Objet) =>
       <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
         <span className="frn-etiquette">{x.t("fpPrixSurDemande")}</span>
         <button className="frn-btn frn-btn-ghost frn-btn-petit" onClick={() => onDemander({ type: "service", id: s.id, libelle: nom })}>{x.t("fpDemanderPrix")}</button>
+        <DemanderAppelVideo contexte="cercles" objetId={`service:${s.id}`} sujet={nom} invites={[{ type: "pro", slug }]} avecNom={nomPro} variante="lien" className="text-sm" />
       </div>
     </article>
   );

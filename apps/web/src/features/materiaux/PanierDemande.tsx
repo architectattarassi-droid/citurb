@@ -5,6 +5,7 @@
  */
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import DemanderAppelVideo from "../appels/DemanderAppelVideo";
 import { useLang } from "../../i18n/i18n";
 import { HONEYPOT_STYLE } from "../../lib/honeypot";
 import { ACHAT_EN_LIGNE } from "../../config/fonctionnalites";
@@ -105,6 +106,8 @@ export default function PanierDemande() {
               <div className="space-y-3">
                 <p className="rounded-lg bg-emerald-50 p-3 text-sm text-emerald-900">{etatEnvoi === "file" ? t("demandeFile") : t("demandeEnvoyee", { ville: envoye.ville })}</p>
                 {envoye.aucunFournisseur && <p className="rounded-lg bg-amber-50 p-3 text-sm text-amber-900">{t("aucunFournisseur", { ville: envoye.ville })}</p>}
+                {/* Demande de prix : appel vidéo avec le cabinet, sur demande (rien ne démarre sans son accord). */}
+                <DemanderAppelVideo contexte="fournisseur" objetId="demande-prix" sujet={lang === "ar" ? "طلب أسعار المواد" : "Demande de prix matériaux"} invites={[{ type: "admin" }]} avecNom="CITURBAREA" variante="contour" className="w-full" />
                 <div className="rounded-lg border border-slate-200 p-3 text-sm">
                   <p className="text-slate-700">{t("vousFournisseur")}</p>
                   <Link to="/cercles/inscription" className="mt-2 inline-flex min-h-[44px] items-center font-semibold text-[#0B1B3A] underline">{t("inscrire")}</Link>
