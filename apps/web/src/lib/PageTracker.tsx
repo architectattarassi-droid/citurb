@@ -18,7 +18,8 @@ import { trackView, trackPageLeave, suivreFormulaires } from "./analytics-tracke
 function isTracked(path: string): boolean {
   // On ne suit pas le backoffice ni les assets ; uniquement la plateforme publique.
   // /rdv/<jeton> : lien secret d'un espace client, jamais transmis aux statistiques.
-  return !path.startsWith("/cc") && !path.startsWith("/admin") && !path.startsWith("/rdv/");
+  // /projet/<jeton> : lien d'accès à l'espace projet, idem.
+  return !path.startsWith("/cc") && !path.startsWith("/admin") && !path.startsWith("/rdv/") && path !== "/projet" && !path.startsWith("/projet/");
 }
 
 export default function PageTracker() {

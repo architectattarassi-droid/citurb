@@ -74,6 +74,7 @@ const TerrainFiche = lazy(() => import("../../../features/terrains/TerrainFiche"
 const DeposerTerrain = lazy(() => import("../../../features/terrains/DeposerTerrain"));
 const RendezVousPage = lazy(() => import("../../../features/rdv/RendezVousPage"));
 const EspaceRdv = lazy(() => import("../../../features/rdv/EspaceRdv"));
+const EspaceProjet = lazy(() => import("../../../features/projet/EspaceProjet"));
 const AvecVideos = lazy(() => import("../../../features/social/AvecVideos"));
 const ChiffragePage = lazy(() => import("../../../features/chiffrage/ChiffragePage"));
 const ChiffrageDevis = lazy(() => import("../../../features/chiffrage/ChiffrageDevis"));
@@ -398,6 +399,8 @@ export const router = createBrowserRouter([
       // Rendez-vous en visio avec l'architecte (Pages Functions /api/rdv) ; /rdv/:jeton = espace client privé (noindex).
       { path: '/rendez-vous', element: <AdminHostBlock><RendezVousPage /></AdminHostBlock> },
       { path: '/rdv/:jeton', element: <AdminHostBlock><EspaceRdv /></AdminHostBlock> },
+      // Espace projet des membres invités (Pages Functions /api/projets) : /projet/<jeton> échange le lien contre une session puis devient /projet (noindex).
+      { path: '/projet/:jeton?', element: <AdminHostBlock><EspaceProjet /></AdminHostBlock> },
       { path: '/notifications', element: <AdminHostBlock><NotificationsCenterPage /></AdminHostBlock> },
 
       // ── Livraisons Matériaux (Tome 5 — chef chantier + fournisseur) ──

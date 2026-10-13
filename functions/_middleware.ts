@@ -114,6 +114,12 @@ export async function onRequest(ctx: { request: Request; next: () => Promise<Res
         res.headers.set("cache-control", "no-store");
       }
     }
+  } else if (estHtml && (chemin === "/projet" || /^\/projet\/[A-Za-z0-9_-]{43}$/.test(chemin))) {
+    // Espace projet : lien d'accès secret, jamais indexé, jamais transmis en référent.
+    res = new Response(res.body, res);
+    res.headers.set("x-robots-tag", "noindex, nofollow");
+    res.headers.set("referrer-policy", "no-referrer");
+    res.headers.set("cache-control", "no-store");
   } else if (estHtml && chemin.startsWith("/p4/terrains") && ctx.env?.DATABASE_URL) {
     // Annonces de terrains : contenu réel (Neon) servi aux moteurs.
     try {
