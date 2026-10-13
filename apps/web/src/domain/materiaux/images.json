@@ -1,0 +1,5 @@
+{
+  "_doc": "Images de référence de la matériauthèque. Fichiers hébergés par CITURBAREA dans apps/web/public/materiaux/img/ (jamais de lien vers un site tiers, jamais d'image copiée d'un site commercial). Chaque entrée documente sa licence et sa source. Remplir avec apps/web/scripts/images-materiaux.mjs (Pixabay Content License) ou un visuel maison. Sans entrée : icône de famille.",
+  "familles": {},
+  "codes": {}
+}
