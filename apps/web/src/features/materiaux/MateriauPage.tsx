@@ -23,6 +23,7 @@ import { medianeProduits, texteLocal, useCodesModeres, useProduits, type CodeMod
 import PanierDemande from "./PanierDemande";
 import { OngletEtude, OngletRealisation } from "./PhasesFiche";
 import Variantes from "./Variantes";
+import DemanderAppelVideo from "../appels/DemanderAppelVideo";
 import { VisuelMateriau } from "./IconeFamille";
 import { imageReference } from "../../domain/materiaux/images";
 import { moisLisible, texte, type T } from "./textes";
@@ -128,6 +129,9 @@ export default function MateriauPage() {
               : <p className="text-slate-600">{marche?.nbFournisseurs ? t("offresEnCours", { n: marche.nbFournisseurs }) : t("fournisseursAucun")}</p>}
             {nbFournisseurs ? <p className="mt-1 text-xs text-slate-500">{t("fournisseursN", { n: nbFournisseurs })}</p> : null}
             <Link to="/cercles/inscription" className="mt-1 inline-block text-xs text-[#0B1B3A] underline">{t("vousFournisseur")}</Link>
+          </div>
+          <div>
+            <DemanderAppelVideo contexte="fournisseur" objetId={r.code} invites={[{ type: "admin" }]} sujet={r.libelle} langue={lang === "ar" ? "ar" : "fr"} variante="contour" className="w-full" />
           </div>
         </aside>
       </div>

@@ -12,6 +12,7 @@ import { texteLocal, type ProduitCatalogue } from "./catalogueProduits";
 import type { T } from "./textes";
 import { fmtDH, uniteCourte } from "./ui";
 import Visionneuse from "./Visionneuse";
+import DemanderAppelVideo from "../appels/DemanderAppelVideo";
 
 export default function Variantes({ produits, r, t, lang }: { produits: ProduitCatalogue[]; r: MaterialRef; t: T; lang: Lang }) {
   const [vue, setVue] = useState<{ p: ProduitCatalogue; i: number } | null>(null);
@@ -42,6 +43,8 @@ export default function Variantes({ produits, r, t, lang }: { produits: ProduitC
                   ))}</p>
                 ) : null}
                 {x.ficheTechniqueUrl && <a href={x.ficheTechniqueUrl} target="_blank" rel="noopener noreferrer nofollow" className="text-xs underline">{t("ficheTechnique")}</a>}
+                {/* Appel vidéo avec le cabinet, qui relaie auprès des fournisseurs (aucune coordonnée échangée). */}
+                <DemanderAppelVideo contexte="fournisseur" objetId={`produit:${x.id}`} invites={[{ type: "admin" }]} sujet={nom} langue={lang === "ar" ? "ar" : "fr"} variante="lien" />
               </div>
             </li>
           );

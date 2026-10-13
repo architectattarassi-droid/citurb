@@ -41,3 +41,16 @@ describe("galeries et fournisseurs (lectures publiques Cercles)", () => {
     expect(c[0].fournisseurs).toEqual([{ slug: "atlas", nom: { fr: "Atlas" }, ville: "Rabat", documentsVerifies: true }]);
   });
 });
+
+describe("tout passe par CITURBAREA : aucune coordonnée dans la matériauthèque", () => {
+  it("aucun lien tel:, mailto:, wa.me ni champ de coordonnées dans les écrans matériaux", async () => {
+    const { readdirSync, readFileSync } = await import("node:fs");
+    const dir = new URL("../../features/materiaux/", import.meta.url);
+    for (const f of readdirSync(dir).filter((x) => /\.tsx?$/.test(x))) {
+      const src = readFileSync(new URL(f, dir), "utf8");
+      expect(src, f).not.toMatch(/tel:|mailto:|wa\.me|api\.whatsapp|siteWeb/);
+      // Lectures des fournisseurs : aucun champ de coordonnées n'est repris.
+      if (f === "fournisseursCatalogue.ts") expect(src).not.toMatch(/\.(telephone|email|adresse|siteWeb)\b/);
+    }
+  });
+});
