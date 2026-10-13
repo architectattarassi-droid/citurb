@@ -15,6 +15,8 @@
 import { neon } from "@neondatabase/serverless";
 import { PAGES_SEO, PAGE_ESPACE_RDV, jsonLdChiffrage, pageTerrains, reecrire } from "./_lib/seo";
 import { pageMateriaux } from "./_lib/seoMateriaux";
+import { CHEMIN_CERCLES, pageCercles } from "./_lib/seoCercles";
+import { apercu } from "./_lib/lecturePublique";
 import type { Sql } from "./_lib/terrains";
 
 const HOTE_INDEXABLE = "citurbarea.com";
@@ -120,6 +122,19 @@ export async function onRequest(ctx: { request: Request; next: () => Promise<Res
     res.headers.set("x-robots-tag", "noindex, nofollow");
     res.headers.set("referrer-policy", "no-referrer");
     res.headers.set("cache-control", "no-store");
+  } else if (estHtml && CHEMIN_CERCLES.test(chemin) && ctx.env?.DATABASE_URL) {
+    // Annuaire et fiches des pros Cercles : contenu réel (Neon), hreflang FR/AR quand la version arabe existe.
+    try {
+      const p = await pageCercles(neon(ctx.env.DATABASE_URL) as unknown as Sql, chemin, apercu(ctx.request));
+      if (p) {
+        res = reecrire(res, p);
+        if (p.introuvable) {
+          res = new Response(res.body, { status: 404, headers: res.headers });
+          res.headers.set("x-robots-tag", "noindex");
+          res.headers.set("cache-control", "no-store");
+        }
+      }
+    } catch { /* tables absentes ou base indisponible : la page reste servie telle quelle */ }
   } else if (estHtml && chemin.startsWith("/p4/terrains") && ctx.env?.DATABASE_URL) {
     // Annonces de terrains : contenu réel (Neon) servi aux moteurs.
     try {

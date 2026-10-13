@@ -79,6 +79,8 @@ const CerclesLanding = lazy(() => import("../../../features/cercles/CerclesLandi
 // Cercles fournisseurs (Pages Functions + Neon) : inscription pro, espace fiches de prix
 const InscriptionProPage = lazy(() => import("../../../features/fournisseurs/InscriptionProPage"));
 const EspaceFournisseurPage = lazy(() => import("../../../features/fournisseurs/EspaceFournisseurPage"));
+const AnnuaireProPage = lazy(() => import("../../../features/fournisseurs/AnnuaireProPage"));
+const FicheProPage = lazy(() => import("../../../features/fournisseurs/FicheProPage"));
 
 // Fiche cabinet d'architecte (ancrée sur ProProfile, cf. memory citurb-cabinet-portfolio-anchor)
 
@@ -215,7 +217,10 @@ export const router = createBrowserRouter([
   { path: '/post/:id',                             element: <AdminHostBlock><EnSommeil module="Réseau Cercles" alternative={{ to: "/inscription", libelle: "sommeil.alt.inscription" }} /></AdminHostBlock> },
   { path: '/cercles',                              element: <AdminHostBlock><CerclesHome /></AdminHostBlock> },
   { path: '/cercles/bienvenue',                    element: <Redirect to="/cercles" /> },
-  { path: '/cercles/annuaire',                     element: <AdminHostBlock><EnSommeil module="Annuaire Cercles" alternative={{ to: "/inscription", libelle: "sommeil.alt.inscription" }} /></AdminHostBlock> },
+  { path: '/cercles/annuaire',                     element: <AdminHostBlock><AnnuaireProPage /></AdminHostBlock> },
+  { path: '/ar/cercles/annuaire',                  element: <AdminHostBlock><AnnuaireProPage langue="ar" /></AdminHostBlock> },
+  { path: '/cercles/pro/:slug',                    element: <AdminHostBlock><FicheProPage /></AdminHostBlock> },
+  { path: '/ar/cercles/pro/:slug',                 element: <AdminHostBlock><FicheProPage langue="ar" /></AdminHostBlock> },
   { path: '/cercles/inscription',                  element: <AdminHostBlock><InscriptionProPage /></AdminHostBlock> },
   { path: '/cercles/espace',                       element: <AdminHostBlock><EspaceFournisseurPage /></AdminHostBlock> },
   { path: '/cercles/me/edit',                      element: <Redirect to="/cercles/espace" /> },

@@ -6,7 +6,13 @@
  * que React efface au montage.
  */
 
-export type PageSeo = { titre: string; description: string; canonique: string; noindex?: boolean; contenu?: string };
+export type PageSeo = {
+  titre: string; description: string; canonique: string; noindex?: boolean; contenu?: string;
+  /** Langue de la page (attributs lang/dir de <html>), si elle n'est pas le français par défaut. */
+  lang?: "fr" | "ar" | "en";
+  /** Versions linguistiques réciproques (link rel=alternate hreflang), seulement quand elles existent. */
+  alternates?: { hreflang: string; href: string }[];
+};
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
@@ -80,7 +86,7 @@ export const jsonLdChiffrage = JSON.stringify({
 
 declare const HTMLRewriter: {
   new (): {
-    on(sel: string, h: { element?(el: { setAttribute(n: string, v: string): void; setInnerContent(c: string, o?: { html?: boolean }): void; append(c: string, o?: { html?: boolean }): void; getAttribute(n: string): string | null }): void }): ReturnType<typeof nouveau>;
+    on(sel: string, h: { element?(el: { setAttribute(n: string, v: string): void; setInnerContent(c: string, o?: { html?: boolean }): void; append(c: string, o?: { html?: boolean }): void; getAttribute(n: string): string | null; remove(): void }): void }): ReturnType<typeof nouveau>;
     transform(r: Response): Response;
   };
 };
@@ -95,6 +101,13 @@ export function reecrire(res: Response, p: PageSeo, jsonLd?: string): Response {
     .on('meta[property="og:title"]', { element: (el) => el.setAttribute("content", p.titre) })
     .on('meta[property="og:description"]', { element: (el) => el.setAttribute("content", p.description) })
     .on('meta[property="og:url"]', { element: (el) => el.setAttribute("content", p.canonique) });
+  if (p.lang) rw = rw.on("html", { element: (el) => { el.setAttribute("lang", p.lang!); el.setAttribute("dir", p.lang === "ar" ? "rtl" : "ltr"); } });
+  // index.html porte les hreflang de l'accueil : une page qui déclare ses versions les remplace (ou les retire si elle n'en a pas).
+  if (p.alternates) rw = rw.on('link[rel="alternate"][hreflang]', { element: (el) => el.remove() });
+  if (p.alternates?.length) {
+    const liens = p.alternates.map((a) => `<link rel="alternate" hreflang="${esc(a.hreflang)}" href="${esc(a.href)}" />`).join("");
+    rw = rw.on("head", { element: (el) => el.append(liens, { html: true }) });
+  }
   if (p.noindex) rw = rw.on("head", { element: (el) => el.append('<meta name="robots" content="noindex, follow" />', { html: true }) });
   if (jsonLd) rw = rw.on("head", { element: (el) => el.append(`<script type="application/ld+json">${jsonLd}</script>`, { html: true }) });
   if (p.contenu) rw = rw.on("[data-seo-prerender] main", { element: (el) => el.setInnerContent(p.contenu!, { html: true }) });
