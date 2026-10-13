@@ -120,3 +120,12 @@ Codes du référentiel créés à la modération d'une fiche produit (table `Mat
 - Fiche matériau : section « Marques et variantes » affichée dès qu'un produit approuvé existe pour le code — **aucune liste figée côté front**.
 - Catalogue : badge « N marques » par matériau ; la recherche porte aussi sur les marques, modèles et désignations FR/AR des produits.
 - Normalisation défensive (`normaliserProduits`) : produit sans code CIT valide ou sans `designation.fr` ignoré, URL non https ignorée, `prix` ignoré sous 3 fournisseurs.
+
+## Appels vidéo sur demande (module d'une autre session)
+
+Les fiches Cercles ne créent **aucune** visio. Le module générique « appels vidéo sur demande, avec accord des deux parties » (composant `<DemanderAppelVideo contexte objetId invites />`, `functions/_lib/visio.ts`) s'y branche avec :
+
+- **Identifiant public du pro** : `slug` (vue publique, annuaire et `GET /api/cercles/pro/:slug`). **Identifiant interne** : `Fournisseur.id` (jamais exposé au public ; disponible côté serveur par `depot.fParSlug(slug)`, dans `GET /api/cercles/espace/moi` pour le pro connecté et dans les vues admin).
+- **Accès du pro à son espace** : session `frn_session` (cookie HttpOnly, `Path=/api/cercles`, vérifiée par `functions/api/cercles/espace/_middleware.ts`, qui pose `ctx.data.fournisseurId`). Pour que le pro accepte une demande depuis son espace, exposer les routes sous `/api/cercles/espace/appels/*` (le cookie n'est pas envoyé ailleurs) ou réutiliser `lireSessionFournisseur` (`functions/_lib/cercles.ts`).
+- **Emplacements prévus** : fiche publique `apps/web/src/features/fournisseurs/FicheProPage.tsx` (à côté du bouton « Contacter ce professionnel », en-tête, et sur chaque carte produit / prestation : `contexte` = `cercles-pro` | `cercles-produit` | `cercles-service`, `objetId` = slug du pro ou id du produit / de la prestation), cartes de l'annuaire `AnnuaireProPage.tsx`, et onglet de l'espace pro `EspaceFournisseurPage.tsx` pour accepter ou refuser.
+- **Anti-désintermédiation** : comme le contact (`POST /api/cercles/contact`), la demande passe par la plateforme ; les coordonnées du pro ne sont jamais renvoyées au client.
