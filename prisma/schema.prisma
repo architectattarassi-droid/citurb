@@ -2221,13 +2221,128 @@ model Fournisseur {
   idempotencyKey    String?   @unique
   events            Json      @default("[]")
   meta              Json?
+  /// Fiche détaillée (docs/prix/sql/cercles-fiches-catalogue.sql) : gabarit selon le métier (apps/web/src/domain/cercles/gabarits.ts).
+  raisonSocialeAr   String?
+  descriptionAr     String?
+  fiche             Json      @default("{}")
+  /// [{ id, type, url, note, expireLe, statut: DEPOSE|VERIFIE|REFUSE, deposeLe, verifieLe, verifiePar, motif }]
+  documents         Json      @default("[]")
+  /// Abonnement préparé (aucun paiement) : GRATUIT | PRO | PREMIUM.
+  formule           String    @default("GRATUIT")
 
   prix     SupplierPrice[]
   reponses ReponsePrix[]
+  produits ProduitFournisseur[]
+  services ServiceFournisseur[]
 
   @@index([statut])
   @@index([region])
   @@index([metier])
+}
+
+/// Fiche produit (matériau, équipement) listée par un fournisseur ; publiée après modération
+/// (rattachement à un code du référentiel). Prix par uniteRef = prixHT / facteur.
+model ProduitFournisseur {
+  id                String      @id
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @default(now()) @updatedAt
+  fournisseurId     String
+  fournisseur       Fournisseur @relation(fields: [fournisseurId], references: [id], onDelete: Cascade)
+  slug              String      @unique
+  statut            String      @default("PENDING") // PENDING APPROVED REJECTED ARCHIVED
+  famille           String
+  categorie         String
+  designationFr     String?
+  designationAr     String?
+  descriptionFr     String?
+  descriptionAr     String?
+  marque            String?
+  modele            String?
+  gamme             String?
+  caracteristiques  Json        @default("{}")
+  uniteVente        String
+  conditionnement   String?
+  uniteRef          String
+  facteur           Float
+  prixHT            Float
+  tvaPct            Float       @default(20)
+  prixRefHT         Float
+  quantiteMin       Float?
+  degressifs        Json        @default("[]")
+  delaiJours        Int?
+  zones             String[]    @default([])
+  disponibilite     String      @default("EN_STOCK")
+  validiteJusquau   DateTime?   @db.Date
+  photos            Json        @default("[]")
+  ficheTechniqueUrl String?
+  codePropose       String?
+  materiauCode      String?
+  ecartRef          Float?
+  signalement       String?
+  motifRejet        String?
+  moderePar         String?
+  modereLe          DateTime?
+  events            Json        @default("[]")
+
+  @@index([statut], map: "ProduitFournisseur_statut_idx")
+  @@index([materiauCode, statut], map: "ProduitFournisseur_materiau_idx")
+  @@index([fournisseurId], map: "ProduitFournisseur_fournisseur_idx")
+}
+
+/// Fiche service (pose, fourni-posé, étude, essai, topographie, contrôle, location, transport),
+/// rattachée à un ouvrage du chiffrage ou à une prestation hors ouvrage (apps/web/src/domain/cercles/offres.ts).
+model ServiceFournisseur {
+  id              String      @id
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @default(now()) @updatedAt
+  fournisseurId   String
+  fournisseur     Fournisseur @relation(fields: [fournisseurId], references: [id], onDelete: Cascade)
+  statut          String      @default("PENDING") // PENDING APPROVED REJECTED ARCHIVED
+  nature          String
+  ouvrageCode     String?
+  prestationCode  String?
+  designationFr   String?
+  designationAr   String?
+  descriptionFr   String?
+  descriptionAr   String?
+  unite           String
+  prixHT          Float
+  tvaPct          Float       @default(20)
+  zones           String[]    @default([])
+  delaiJours      Int?
+  conditions      String?
+  validiteJusquau DateTime?   @db.Date
+  photos          Json        @default("[]")
+  ecartRef        Float?
+  signalement     String?
+  motifRejet      String?
+  moderePar       String?
+  modereLe        DateTime?
+  events          Json        @default("[]")
+
+  @@index([statut], map: "ServiceFournisseur_statut_idx")
+  @@index([ouvrageCode, statut], map: "ServiceFournisseur_ouvrage_idx")
+  @@index([fournisseurId], map: "ServiceFournisseur_fournisseur_idx")
+}
+
+/// Code du référentiel matériaux créé à la modération d'une fiche produit (CIT-<PFX>-9NN),
+/// en complément du catalogue statique (apps/web/src/domain/materiaux/catalogue.ts).
+model MateriauReferentiel {
+  code             String   @id
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now()) @updatedAt
+  libelleFr        String
+  libelleAr        String?
+  libelleEn        String?
+  categorie        String
+  famille          String
+  uniteRef         String
+  parent           String?
+  lots             String[] @default([])
+  gamme            String?
+  actif            Boolean  @default(true)
+  auteur           String?
+  origineProduitId String?
 }
 
 /// Fiche de prix d'un fournisseur pour un matériau du catalogue (une par matériau).
