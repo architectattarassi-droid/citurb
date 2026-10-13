@@ -266,6 +266,15 @@ const STANDING_LIBELLE: Record<string, string> = { ULTRA_ECO: "très économique
 
 /** Résumé lisible du chiffrage joint par /chiffrage (meta.wizard.chiffrage), pour l'alerte e-mail. */
 export function resumeEstimation(wizard: unknown): string | undefined {
+  // Demande de prix de la matériauthèque (/materiaux) : lignes du panier.
+  const dp = (wizard as { demandePrix?: { ville?: unknown; lignes?: unknown; estimationHT?: unknown } } | undefined)?.demandePrix;
+  if (dp && typeof dp === "object" && Array.isArray(dp.lignes)) {
+    const l = (dp.lignes as Record<string, unknown>[]).slice(0, 30).map((x) => `${String(x.libelle ?? x.code ?? "?")} × ${String(x.quantite ?? "?")} ${String(x.uniteLibelle ?? x.unite ?? "")}`.trim());
+    const est = typeof dp.estimationHT === "number" ? ` (≈ ${new Intl.NumberFormat("fr-FR").format(Math.round(dp.estimationHT))} DH HT au prix de référence)` : "";
+    return `Demande de prix matériaux, livraison ${String(dp.ville || "?")}${est} : ${l.join(" ; ")}`.slice(0, 1500);
+  }
+  const sp = (wizard as { signalementPrix?: Record<string, unknown> } | undefined)?.signalementPrix;
+  if (sp && typeof sp === "object") return `Prix signalé — ${String(sp.libelle ?? sp.code)} : ${String(sp.prixSignale ?? "?")} DH (référence ${String(sp.referenceHT ?? "?")} DH HT). ${String(sp.source ?? "")}`.slice(0, 800);
   const c = (wizard as { chiffrage?: Record<string, unknown> } | undefined)?.chiffrage;
   if (!c || typeof c !== "object") return undefined;
   const n = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? new Intl.NumberFormat("fr-FR").format(Math.round(v)) : "?");

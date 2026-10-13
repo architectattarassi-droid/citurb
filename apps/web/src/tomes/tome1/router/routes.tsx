@@ -44,8 +44,10 @@ const SigExplorer = lazy(() => import("../../../features/geo/SigExplorer"));
 const P6Dashboard = lazy(() => import("../../tome3/portals/p6/P6Dashboard"));
 
 // ── Nouveaux modules (Phase 3 push 7-agents v3) ──
-const MaterialsCatalogPage = lazy(() => import("../../../features/materials/MaterialsCatalogPage"));
-const MaterialDetail = lazy(() => import("../../../features/materials/MaterialDetail"));
+// Matériauthèque publique (prix de référence partagés avec le moteur de chiffrage).
+const MateriauxPage = lazy(() => import("../../../features/materiaux/MateriauxPage"));
+const MateriauPage = lazy(() => import("../../../features/materiaux/MateriauPage"));
+const CommandeMateriauxPage = lazy(() => import("../../../features/materiaux/CommandePage"));
 const PrestataireTarifsList = lazy(() => import("../../../features/prestataire-tarifs/PrestataireTarifsList"));
 const PrestataireTarifsEditor = lazy(() => import("../../../features/prestataire-tarifs/PrestataireTarifsEditor"));
 const TarifContractPublic = lazy(() => import("../../../features/prestataire-tarifs/TarifContractPublic"));
@@ -345,8 +347,10 @@ export const router = createBrowserRouter([
       { path: '/p6', element: <Redirect to="/cercles" /> },
       { path: '/p6/dashboard', element: <AdminHostBlock><P6Dashboard /></AdminHostBlock> },
       // ── Catalogue Matériaux BTP Maroc (Phase 3) ──
-      { path: '/materiaux', element: <AdminHostBlock><MaterialsCatalogPage /></AdminHostBlock> },
-      { path: '/materiaux/:code', element: <AdminHostBlock><MaterialDetail /></AdminHostBlock> },
+      { path: '/materiaux', element: <AdminHostBlock><MateriauxPage /></AdminHostBlock> },
+      { path: '/materiaux/famille/:slug', element: <AdminHostBlock><MateriauxPage /></AdminHostBlock> },
+      { path: '/materiaux/commande', element: <AdminHostBlock><CommandeMateriauxPage /></AdminHostBlock> },
+      { path: '/materiaux/:slug', element: <AdminHostBlock><MateriauPage /></AdminHostBlock> },
 
       // ── Tarifs Contractuels Prestataires P6 (Phase 3) ──
       { path: '/prestataires/tarifs', element: <AdminHostBlock><PrestataireTarifsList /></AdminHostBlock> },
