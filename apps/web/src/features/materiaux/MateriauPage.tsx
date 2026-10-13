@@ -19,6 +19,7 @@ import { indicesMateriau, sourcesCitees } from "../../domain/materiaux/sources";
 import { usagesMateriau } from "../../domain/materiaux/usages";
 import { captureLead, currentUtm, leadKey, telephoneEnvoyable } from "../lead-funnel/leadBridge";
 import { ouvrirPanier, useMateriaux, usePrixPublics } from "./etat";
+import { texteLocal, useProduits } from "./catalogueProduits";
 import PanierDemande from "./PanierDemande";
 import { moisLisible, texte, type T } from "./textes";
 import { BadgeFiabilite, BlocPrix, fmtDH, prixAffiche, uniteCourte } from "./ui";
@@ -33,6 +34,7 @@ export default function MateriauPage() {
   const m = useMateriaux();
   const r = materiauParSlug(slug);
   const prix = usePrixPublics(m.ville);
+  const produitsParCode = useProduits();
 
   useEffect(() => {
     if (r) document.title = `Prix ${enPhrase(r.libelle)} au Maroc ${MATERIAUTHEQUE_MAJ.slice(0, 4)} | CITURBAREA`;
@@ -60,6 +62,7 @@ export default function MateriauPage() {
   const usages = usagesMateriau(r.code);
   const voisins = MATERIAUX_PUBLICS.filter((x) => x.categorie === r.categorie && x.code !== r.code).slice(0, 8);
   const nbFournisseurs = prix?.fournisseursParCategorie?.[r.categorie];
+  const produits = produitsParCode.get(r.code) || [];
 
   return (
     <main className="mx-auto max-w-5xl px-4 pb-24 pt-6 sm:pt-10">
@@ -155,6 +158,29 @@ export default function MateriauPage() {
           </table>
         </section>
       </div>
+
+      {produits.length > 0 && (
+        <section className={`${carte} mt-4`} aria-labelledby="variantes-titre">
+          <h2 id="variantes-titre" className={h2}>{t("variantes")}</h2>
+          <p className="mt-1 text-xs text-slate-500">{t("variantesAide")}</p>
+          <ul className="mt-2 grid gap-2 p-0 sm:grid-cols-2">
+            {produits.map((x) => (
+              <li key={x.id} className="flex list-none gap-3 rounded-lg border border-slate-200 p-2">
+                {x.photoUrl && <img src={x.photoUrl} alt="" loading="lazy" className="h-16 w-16 shrink-0 rounded object-cover" />}
+                <div className="min-w-0 text-sm">
+                  <p className="font-semibold text-[#0B1B3A]">{[x.marque, x.modele].filter(Boolean).join(" · ") || texteLocal(x.designation, lang)}</p>
+                  <p className="text-slate-600">{texteLocal(x.designation, lang)}</p>
+                  {x.conditionnements?.length ? <p className="text-xs text-slate-500">{x.conditionnements.map((c) => texteLocal(c.libelle, lang)).join(" · ")}</p> : null}
+                  {x.caracteristiques?.slice(0, 4).map((c, i) => <p key={i} className="text-xs text-slate-500">{texteLocal(c.libelle, lang)} : {texteLocal(c.valeur, lang)}</p>)}
+                  {x.prix ? <p className="mt-0.5 text-emerald-800">{t("medianeFournisseurs", { n: x.prix.nbFournisseurs })} : <strong>{fmtDH(x.prix.mediane, lang)}</strong> {t("ht")} / {uniteCourte(r.uniteRef)}</p>
+                    : x.nbFournisseurs ? <p className="text-xs text-slate-500">{t("proposeParN", { n: x.nbFournisseurs })}</p> : null}
+                  {x.ficheTechniqueUrl && <a href={x.ficheTechniqueUrl} target="_blank" rel="noopener noreferrer nofollow" className="text-xs underline">{t("ficheTechnique")}</a>}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section className={`${carte} mt-4`} aria-labelledby="sources-titre">
         <h2 id="sources-titre" className={h2}>{t("sources")}</h2>

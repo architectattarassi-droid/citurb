@@ -13,14 +13,20 @@ export async function onRequestGet(ctx: { request: Request; env: Env }): Promise
   const region = (url.searchParams.get("region") || "").slice(0, 60) || null;
   const codes = (url.searchParams.get("codes") || "").split(",").map((c) => c.trim().toUpperCase()).filter((c) => /^CIT-[A-Z]{2,3}-\d{3}$/.test(c)).slice(0, 300);
   const d: DonneesPrix = { fiches: null, fournisseurs: null, manuels: {} };
+  // Diagnostic sans donnée sensible : base absente, tables pas encore créées, ou disponible.
+  let marcheEtat: "ok" | "not_installed" | "storage_unavailable" = "storage_unavailable";
   if (ctx.env.DATABASE_URL) {
     const { neon } = await import("@neondatabase/serverless");
     const sql = neon(ctx.env.DATABASE_URL) as unknown as Sql;
     // Chaque lecture est indépendante : une table absente (SQL pas encore collé) n'empêche pas les autres.
-    try { Object.assign(d, await lireFichesMarche(sql)); } catch (e) { console.error(`[prix/materiaux] marché indisponible (${(e as { code?: string })?.code || "sans code"})`); }
+    try { Object.assign(d, await lireFichesMarche(sql)); marcheEtat = "ok"; } catch (e) {
+      const code = (e as { code?: string })?.code;
+      if (code === "42P01") marcheEtat = "not_installed";
+      console.error(`[prix/materiaux] marché indisponible (${code || "sans code"})`);
+    }
     try { d.manuels = await lirePrixManuels(sql); } catch { /* table "PrixReferenceManuel" absente : prix du référentiel */ }
   }
-  return new Response(JSON.stringify(reponsePrix(d, region, codes.length ? codes : null)), {
+  return new Response(JSON.stringify({ ...reponsePrix(d, region, codes.length ? codes : null), marcheEtat }), {
     headers: { "content-type": "application/json; charset=utf-8", "cache-control": "public, max-age=3600" },
   });
 }

@@ -14,6 +14,7 @@ import {
 } from "../../domain/materiaux/reference";
 import { moisLisible, texte, type T } from "./textes";
 import { useMateriaux, usePrixPublics } from "./etat";
+import { useProduits } from "./catalogueProduits";
 import PanierDemande from "./PanierDemande";
 import { BadgeFiabilite, BlocPrix, fmtDH, prixAffiche, uniteCourte } from "./ui";
 
@@ -35,6 +36,7 @@ export default function MateriauxPage() {
   const [tri, setTri] = useState<"nom" | "prixAsc" | "fiab">("nom");
   const [comparer, setComparer] = useState(false);
   const prix = usePrixPublics(m.ville);
+  const produits = useProduits();
   const coef = coefMateriaux(m.ville).coef;
 
   useEffect(() => { setCategorie(categorieRoute || ""); setFamille(""); }, [categorieRoute]);
@@ -50,7 +52,8 @@ export default function MateriauxPage() {
       if (categorie && r.categorie !== categorie) return false;
       if (gamme && gammeDe(r) !== gamme) return false;
       if (fiab && prixReference(r.code)!.fiabilite !== fiab) return false;
-      if (k && !sansAccent(`${r.libelle} ${r.famille} ${CATEGORIES[r.categorie]} ${(r.motsCles || []).join(" ")} ${r.code}`).includes(k)) return false;
+      const marques = (produits.get(r.code) || []).map((x) => `${x.marque || ""} ${x.modele || ""} ${x.designation.fr} ${x.designation.ar || ""}`).join(" ");
+      if (k && !sansAccent(`${r.libelle} ${r.famille} ${CATEGORIES[r.categorie]} ${(r.motsCles || []).join(" ")} ${r.code} ${marques}`).includes(k)) return false;
       return true;
     });
     const ordre = { A: 0, B: 1, C: 2 };
@@ -58,7 +61,7 @@ export default function MateriauxPage() {
       tri === "prixAsc" ? prixReference(a.code)!.ref - prixReference(b.code)!.ref
         : tri === "fiab" ? ordre[prixReference(a.code)!.fiabilite] - ordre[prixReference(b.code)!.fiabilite] || a.libelle.localeCompare(b.libelle, "fr")
           : a.categorie.localeCompare(b.categorie) || a.famille.localeCompare(b.famille, "fr") || a.libelle.localeCompare(b.libelle, "fr"));
-  }, [dq, famille, categorie, gamme, fiab, tri]);
+  }, [dq, famille, categorie, gamme, fiab, tri, produits]);
 
   const titre = categorieRoute
     ? `${CATEGORIES[categorieRoute]} — ${t("titre", { mois: moisLisible(MATERIAUTHEQUE_MAJ, lang) }).split(" — ")[0]}`
@@ -126,7 +129,10 @@ export default function MateriauxPage() {
               <h2 className="mt-0.5 text-base font-bold leading-snug text-[#0B1B3A]">
                 <Link to={`/materiaux/${slugMateriau(r.code)}`} className="text-[#0B1B3A] hover:underline">{r.libelle}</Link>
               </h2>
-              <div className="mt-1"><BadgeFiabilite f={p.fiabilite} t={t} /></div>
+              <div className="mt-1 flex flex-wrap gap-1">
+                <BadgeFiabilite f={p.fiabilite} t={t} />
+                {produits.get(r.code)?.length ? <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">{t("marquesN", { n: new Set(produits.get(r.code)!.map((x) => x.marque || x.id)).size })}</span> : null}
+              </div>
               <div className="mt-2 flex-1"><BlocPrix r={r} prix={p} marche={prix?.marche[r.code]} t={t} lang={lang} /></div>
               <div className="mt-3 flex flex-wrap gap-2">
                 <button type="button" onClick={() => { m.ajouter({ code: r.code, quantite: 1, unite: r.ventes[0]?.code || r.uniteRef }); }}

@@ -159,6 +159,26 @@ describe("achat en ligne (phase 2, modèle)", () => {
     expect(peutPasser("BROUILLON", "PAYEE")).toBe(false);
     expect(peutPasser("PAYEE", "EN_PREPARATION")).toBe(true);
     const t = totaux([{ quantite: 10, prixUnitaireHT: 80, tvaPct: 20 }], 100, 4);
-    expect(t).toEqual({ marchandisesHT: 800, totalHT: 900, totalTVA: 180, totalTTC: 1080, commissionHT: 32 });
+    expect(t).toEqual({ marchandisesHT: 800, totalHT: 900, totalTVA: 180, totalTTC: 1080, commissionHT: 32, margeHT: null });
+    // Négoce : CITURBAREA vend en son nom, marge = ventes − achats, pas de commission
+    const n = totaux([{ quantite: 10, prixUnitaireHT: 80, tvaPct: 20, prixAchatHT: 70 }], 0, 4, "NEGOCE");
+    expect(n).toMatchObject({ marchandisesHT: 800, commissionHT: 0, margeHT: 100 });
+  });
+});
+
+describe("produits fournisseurs (contrat catalogue)", () => {
+  it("normalisation défensive et repli bilingue", async () => {
+    const { normaliserProduits, texteLocal } = await import("../../features/materiaux/catalogueProduits");
+    const l = normaliserProduits({ produits: [
+      { id: "p1", codeReference: "CIT-GO-008", marque: "X", modele: null, designation: { fr: "Ciment", ar: "إسمنت" }, photoUrl: "javascript:alert(1)", prix: { mediane: 1.5, min: 1.4, max: 1.6, nbFournisseurs: 2 } },
+      { id: "p2", codeReference: "pas-un-code", designation: { fr: "?" } },
+      { id: "p3", codeReference: "CIT-GO-008", designation: { ar: "sans fr" } },
+    ] });
+    expect(l.map((p) => p.id)).toEqual(["p1"]);
+    expect(l[0].photoUrl).toBeNull();
+    expect(l[0].prix).toBeNull();
+    expect(texteLocal(l[0].designation, "ar")).toBe("إسمنت");
+    expect(texteLocal(l[0].designation, "en")).toBe("Ciment");
+    expect(normaliserProduits("<html>")).toEqual([]);
   });
 });
