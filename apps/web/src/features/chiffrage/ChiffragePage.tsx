@@ -100,6 +100,10 @@ export function Cta({ r, t, ouvertParDefaut = false }: { r: Resultat; t: ReturnT
           className="mt-3 flex min-h-[44px] items-center justify-center rounded-lg border border-emerald-600 px-3 text-sm font-semibold text-emerald-700 hover:bg-emerald-50" style={{ textDecoration: "none" }}>
           {t("ctaWhatsapp")}
         </a>
+        <a href="/rendez-vous" onClick={() => evenement("cta_rdv", { emplacement: "chiffrage" })}
+          className="mt-2 flex min-h-[44px] items-center justify-center rounded-lg border border-slate-300 px-3 text-sm font-semibold text-[#0B1B3A] hover:bg-slate-50" style={{ textDecoration: "none" }}>
+          {t("ctaRdv")}
+        </a>
       </div>
     );
   }

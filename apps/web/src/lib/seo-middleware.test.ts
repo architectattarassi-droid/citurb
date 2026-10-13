@@ -23,3 +23,17 @@ describe("SEO servi : page de dépôt de terrain", () => {
     expect(p.noindex).toBeFalsy();
   });
 });
+
+describe("SEO servi : rendez-vous visio", () => {
+  it("/rendez-vous et /rdv/<jeton> sont des adresses de l'application", () => {
+    expect(adresseConnue("/rendez-vous")).toBe(true);
+    expect(adresseConnue("/rdv/AbCdEfGhIjKlMnOpQrStUvWxYz0123456789_-abcde")).toBe(true);
+  });
+  it("/rendez-vous est indexable, avec titre et description bornés", () => {
+    const p = PAGES_SEO["/rendez-vous"];
+    expect(p.canonique).toBe("https://citurbarea.com/rendez-vous");
+    expect(p.titre.length).toBeLessThanOrEqual(70);
+    expect(p.description.length).toBeLessThanOrEqual(200);
+    expect(p.noindex).toBeFalsy();
+  });
+});

@@ -17,6 +17,7 @@
 
 import { neon } from "@neondatabase/serverless";
 import { telephoneLead, type Sql } from "./lead-funnel/capture";
+import { creerDossier, tablesDossierPresentes, trouverOuCreerClient } from "../_lib/clientDossier";
 
 interface Env { DATABASE_URL?: string; RESEND_API_KEY?: string; LEAD_NOTIFY_TO?: string; LEAD_NOTIFY_FROM?: string }
 type Reponse = { status: number; json: Record<string, unknown>; nouveau?: { id: string; porte: string; nom: string; tel: string; titre: string } };
@@ -46,8 +47,6 @@ function accepter(cle: string, max: number, fenetreMs: number): boolean {
   return true;
 }
 
-const id = (p: string) => `${p}${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`;
-
 export async function traiterIntake(body: unknown, sql: Sql, ip = "inconnue"): Promise<Reponse> {
   if (!accepter(`ip:${ip}`, 5, 10 * 60_000)) return { status: 429, json: { ok: false, error: "too_many_requests" } };
   if (!body || typeof body !== "object" || Array.isArray(body)) return { status: 400, json: { ok: false, error: "payload_invalid" } };
@@ -59,8 +58,7 @@ export async function traiterIntake(body: unknown, sql: Sql, ip = "inconnue"): P
   if (nom.length < 2) return { status: 400, json: { ok: false, error: "nom_invalid" } };
   if (!tel) return { status: 400, json: { ok: false, error: "phone_invalid" } };
 
-  const tables = await sql`SELECT to_regclass('public."Dossier"') IS NOT NULL AS d, to_regclass('public."User"') IS NOT NULL AS u`;
-  if (!tables[0]?.d || !tables[0]?.u) return { status: 503, json: { ok: false, error: "dossier_unavailable" } };
+  if (!(await tablesDossierPresentes(sql))) return { status: 503, json: { ok: false, error: "dossier_unavailable" } };
 
   // Même client, même porte, moins de 24 h : on renvoie le dossier existant.
   const deja = await sql`SELECT "id" FROM "Dossier" WHERE "clientTel" = ${tel} AND "porteType" = ${porte} AND "createdAt" > now() - interval '24 hours' ORDER BY "createdAt" DESC LIMIT 1`;
@@ -73,14 +71,7 @@ export async function traiterIntake(body: unknown, sql: Sql, ip = "inconnue"): P
 
   const maintenant = new Date().toISOString();
   // Compte client : retrouvé par e-mail ou téléphone, sinon créé sans mot de passe utilisable.
-  const existant = await sql`SELECT "id" FROM "User" WHERE (${email}::text IS NOT NULL AND lower("email") = ${email}::text) OR "phone" = ${tel} ORDER BY "createdAt" ASC LIMIT 1`;
-  let ownerId = existant.length ? String(existant[0].id) : "";
-  if (!ownerId) {
-    ownerId = typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : id("usr_");
-    const mail = email || `lead-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}@citurbarea.unknown`;
-    await sql`INSERT INTO "User" ("id", "email", "passwordHash", "role", "plan", "isActive", "createdAt", "updatedAt", "username", "phone")
-      VALUES (${ownerId}, ${mail}, '!sans-mot-de-passe:a-activer', 'CLIENT', 'PRO', true, ${maintenant}::timestamp(3), ${maintenant}::timestamp(3), ${nom}, ${tel})`;
-  }
+  const ownerId = await trouverOuCreerClient(sql, { nom, tel, email }, maintenant);
 
   const brief = propre(b.brief);
   const payload = propre({
@@ -88,22 +79,16 @@ export async function traiterIntake(body: unknown, sql: Sql, ip = "inconnue"): P
     utm: b.utm, lang: clip(b.lang, 5) || "fr", via: "pages-function",
   });
   const titre = clip(b.title, 200) || `${porte} — ${nom}${clip(b.commune, 60) ? ` (${clip(b.commune, 60)})` : ""}`;
-  const dossierId = id("dos_");
-  await sql`INSERT INTO "Dossier" (
-      "id", "ownerId", "title", "commune", "payload", "createdAt", "updatedAt",
-      "porteType", "gestionMode", "phase", "clientNom", "clientTel", "clientEmail", "raisonSociale", "representant",
-      "sousTypeP2", "natureProjet", "surfaceTerrain", "surfacePlancher", "nbNiveaux", "budgetEstime",
-      "packSelected", "packPriceMAD", "projectType", "constructionLevel", "caseId"
-    ) VALUES (
-      ${dossierId}, ${ownerId}, ${titre}, ${clip(b.commune, 120) || null}, ${JSON.stringify(payload)}::jsonb, ${maintenant}::timestamp(3), ${maintenant}::timestamp(3),
-      ${porte}, ${clip(b.gestionMode, 30) || "AUTONOME"}, '00_BRIEF', ${nom}, ${tel}, ${email}, ${clip(b.raisonSociale, 200) || null}, ${clip(b.representant, 120) || null},
-      ${clip(b.sousTypeP2 ?? b.sousType, 60) || null}, ${clip(b.natureProjet, 80) || null}, ${nombre(b.surfaceTerrain)}, ${nombre(b.surfacePlancher)},
-      ${nombre(b.nbNiveaux) != null ? Math.round(nombre(b.nbNiveaux)!) : null}, ${nombre((brief as Record<string, unknown> | undefined)?.budgetPrevisionnelMAD)},
-      ${pack}, ${nombre(b.packPriceMAD)}, ${clip(b.projectType, 40) || null}, ${clip(b.constructionLevel, 40) || null}, ${clip(b.caseId, 80) || null}
-    )`;
-  // Rattache le lead le plus récent de ce téléphone au dossier.
-  await sql`UPDATE "Lead" SET "convertedDossierId" = ${dossierId}, "updatedAt" = ${maintenant}::timestamp(3)
-    WHERE "id" = (SELECT "id" FROM "Lead" WHERE "telephone" = ${tel} ORDER BY "createdAt" DESC LIMIT 1)`.catch(() => []);
+  const nb = nombre(b.nbNiveaux);
+  const dossierId = await creerDossier(sql, {
+    ownerId, titre, porte, nom, tel, email, payload, commune: clip(b.commune, 120) || null, gestionMode: clip(b.gestionMode, 30) || "AUTONOME",
+    raisonSociale: clip(b.raisonSociale, 200) || null, representant: clip(b.representant, 120) || null,
+    sousTypeP2: clip(b.sousTypeP2 ?? b.sousType, 60) || null, natureProjet: clip(b.natureProjet, 80) || null,
+    surfaceTerrain: nombre(b.surfaceTerrain), surfacePlancher: nombre(b.surfacePlancher), nbNiveaux: nb != null ? Math.round(nb) : null,
+    budgetEstime: nombre((brief as Record<string, unknown> | undefined)?.budgetPrevisionnelMAD),
+    packSelected: pack, packPriceMAD: nombre(b.packPriceMAD), projectType: clip(b.projectType, 40) || null,
+    constructionLevel: clip(b.constructionLevel, 40) || null, caseId: clip(b.caseId, 80) || null,
+  }, maintenant);
   return { status: 201, json: { ok: true, dossierId }, nouveau: { id: dossierId, porte, nom, tel, titre } };
 }
 

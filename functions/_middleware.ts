@@ -13,7 +13,7 @@
  */
 
 import { neon } from "@neondatabase/serverless";
-import { PAGES_SEO, jsonLdChiffrage, pageTerrains, reecrire } from "./_lib/seo";
+import { PAGES_SEO, PAGE_ESPACE_RDV, jsonLdChiffrage, pageTerrains, reecrire } from "./_lib/seo";
 import type { Sql } from "./_lib/terrains";
 
 const HOTE_INDEXABLE = "citurbarea.com";
@@ -67,7 +67,7 @@ const SEGMENTS_APP = new Set([
   "confirmer-email", "cps", "creer-compte", "docs", "dossier", "dossiers", "en", "enterprise", "faq", "forbidden",
   "foncier", "fr", "guide", "inscription", "login", "mandataires", "materiaux", "media", "metrics", "mon-espace",
   "mon-parcours", "mot-de-passe-oublie", "mre", "notifications", "opci", "p1", "p2", "p3", "p4", "p5", "p6",
-  "payment", "permis-construire", "portal", "post", "prestataires", "projet", "pv-chantier", "services",
+  "payment", "permis-construire", "portal", "post", "prestataires", "projet", "pv-chantier", "rdv", "rendez-vous", "services",
   "share-target", "sig", "simulateur", "terriscan", "upgrade", "verify-phone",
 ]);
 
@@ -96,6 +96,12 @@ export async function onRequest(ctx: { request: Request; next: () => Promise<Res
   const page = PAGES_SEO[chemin];
   if (page && estHtml) {
     res = reecrire(res, page, chemin.startsWith("/chiffrage") && !page.noindex ? jsonLdChiffrage : undefined);
+  } else if (estHtml && chemin.startsWith("/rdv/")) {
+    // Espace client d'un rendez-vous : lien secret, jamais indexé, jamais transmis en référent.
+    res = new Response(reecrire(res, PAGE_ESPACE_RDV).body, res);
+    res.headers.set("x-robots-tag", "noindex, nofollow");
+    res.headers.set("referrer-policy", "no-referrer");
+    res.headers.set("cache-control", "no-store");
   } else if (estHtml && chemin.startsWith("/p4/terrains") && ctx.env?.DATABASE_URL) {
     // Annonces de terrains : contenu réel (Neon) servi aux moteurs.
     try {

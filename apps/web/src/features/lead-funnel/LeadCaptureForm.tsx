@@ -15,6 +15,7 @@ import { useT, useLang } from "../../i18n/i18n";
 import { captureLead, currentUtm, leadKey, qualifierLead, sanitizeWizard, telephoneEnvoyable, type CaptureBody } from "./leadBridge";
 import { lienTel, lienWhatsApp } from "../../config/contact";
 import { evenement } from "../../lib/marketing";
+<<<<<<< HEAD
 import { HONEYPOT_STYLE } from "../../lib/honeypot";
 
 /** Indicatifs proposés (Maroc + pays de résidence des MRE). */
@@ -32,6 +33,9 @@ function numeroComplet(indicatif: string, saisi: string): string {
   if (t.startsWith("+") || t.startsWith("00")) return t;
   return indicatif + t.replace(/[^0-9]/g, "").replace(/^0+/, "");
 }
+=======
+import { INDICATIFS, numeroComplet } from "./indicatifs";
+>>>>>>> 88c7174 (feat(rdv): rendez-vous visio avec l'architecte — réservation, espace client avec visio intégrée (JaaS) et dossier en direct, back-office)
 
 const QUESTIONS = [
   { cle: "terrain", options: ["TITRE", "EN_COURS", "CHERCHE"] },
@@ -194,6 +198,10 @@ const LeadCaptureForm: React.FC<LeadCaptureFormProps> = ({
         <a href={lienWhatsApp(messageWa)} target="_blank" rel="noopener noreferrer" onClick={() => evenement("whatsapp_click", { emplacement: "apres_lead" })}
           className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700">
           {t("lead.wa.ecrire")}
+        </a>
+        <a href="/rendez-vous" onClick={() => evenement("cta_rdv", { emplacement: "apres_lead" })}
+          className="mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-md border border-emerald-600 bg-white px-4 py-2 text-sm font-semibold text-emerald-800 hover:bg-emerald-100">
+          {t("lead.wa.rdv")}
         </a>
         {capture && (
           <div className="mt-5 rounded-lg border border-emerald-200 bg-white p-4 text-slate-800">

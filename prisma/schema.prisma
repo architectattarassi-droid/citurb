@@ -2367,3 +2367,47 @@ model TerrainAnnonce {
   @@index([statut, createdAt])
   @@index([ville])
 }
+
+/// Rendez-vous en visio avec l'architecte (Pages Functions /api/rdv, /api/cc/rdv).
+/// SQL Neon : docs/sql/rendezvous-neon.sql — qui ajoute aussi l'index unique PARTIEL
+/// "RendezVous_debut_confirme_key" ON ("debut") WHERE statut = 'CONFIRME' (anti double
+/// réservation), que Prisma ne sait pas décrire : à conserver.
+model RendezVous {
+  id             String   @id
+  /// SHA-256 (hex) du jeton d'accès client ; le jeton n'est jamais stocké
+  jetonHash      String   @unique
+  /// Salle visio JaaS non devinable (« rdv- » + 24 caractères)
+  salle          String   @unique
+  /// Instant UTC, affiché à l'heure du Maroc
+  debut          DateTime @db.Timestamptz(3)
+  dureeMin       Int      @default(30)
+  /// CONFIRME | ANNULE | TERMINE | ABSENT
+  statut         String   @default("CONFIRME")
+  nom            String
+  telephone      String
+  email          String?
+  porte          String?
+  /// MAISON | PERMIS | CHIFFRAGE | TERRAIN | AUTRE
+  objet          String?
+  message        String?
+  dossierId      String?
+  userId         String?
+  leadId         String?
+  leadSource     String?
+  utm            Json?
+  /// Réponses du dossier rempli pendant l'appel (liste blanche), avec majLe
+  dossierRdv     Json     @default("{}")
+  noteArchitecte String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @updatedAt
+
+  @@index([debut])
+  @@index([statut, debut])
+}
+
+/// Paramètres clé → valeur JSON (clé « rdv » : lien visio de secours, durée, plages horaires, fermetures).
+model Parametre {
+  cle       String   @id
+  valeur    Json
+  updatedAt DateTime @default(now()) @updatedAt
+}

@@ -54,6 +54,23 @@ export const PAGES_SEO: Record<string, PageSeo> = {
   },
 };
 
+// Prise de rendez-vous en visio (même FAQ que la page, en résumé).
+PAGES_SEO["/rendez-vous"] = {
+  titre: "Rendez-vous visio gratuit avec un architecte au Maroc | CITURBAREA",
+  description: "Réservez un appel vidéo gratuit de 30 min avec un architecte inscrit à l'Ordre : maison, permis de construire, chiffrage, terrain. Créneaux en ligne, heure du Maroc, MRE bienvenus.",
+  canonique: "https://citurbarea.com/rendez-vous",
+  contenu: `
+<h1>Réservez un appel vidéo gratuit de 30 min avec l'architecte</h1>
+<p>Construire une maison, obtenir un permis de construire ou une autorisation, chiffrer un projet, vérifier un terrain : parlez-en directement avec un architecte inscrit à l'Ordre, en visio, depuis le Maroc ou l'étranger.</p>
+<h2>Comment ça marche</h2>
+<ol><li>Choisissez le sujet de l'appel.</li><li>Choisissez un créneau libre (heure du Maroc ; l'heure de votre pays est affichée si vous êtes à l'étranger).</li><li>Indiquez votre nom et votre téléphone : vous recevez le lien de votre espace rendez-vous.</li></ol>
+<p>Pendant l'appel, vous remplissez votre dossier dans votre espace (terrain, programme, budget, documents disponibles) : l'architecte le voit en direct. Gratuit et sans engagement.</p>
+<p><a href="/chiffrage">Chiffrer une construction</a> · <a href="/guide/prix-construction-villa-maroc">Prix de construction d'une villa au Maroc</a></p>`,
+};
+
+/** Espace client d'un rendez-vous (/rdv/<jeton>) : jamais indexé. */
+export const PAGE_ESPACE_RDV: PageSeo = { titre: "Mon rendez-vous | CITURBAREA", description: "Espace rendez-vous CITURBAREA.", canonique: "https://citurbarea.com/rendez-vous", noindex: true, contenu: "<h1>Mon rendez-vous</h1>" };
+
 /** Données structurées FAQ (utile aux moteurs et aux réponses IA, même sans résultat enrichi). */
 export const jsonLdChiffrage = JSON.stringify({
   "@context": "https://schema.org",
@@ -117,6 +134,6 @@ export async function pageTerrains(sql: Sql, chemin: string): Promise<PageSeo | 
 /** Sitemap des annonces publiées. */
 export async function sitemapTerrains(sql: Sql): Promise<string> {
   const l = await annoncesPubliees(sql, { limite: 200 });
-  const urls = [`https://citurbarea.com/p4/terrains`, `https://citurbarea.com/p4/terrains/deposer`, ...l.filter((t) => t.statut === "PUBLIE").map((t) => `https://citurbarea.com/p4/terrains/${t.slug}`)];
+  const urls = [`https://citurbarea.com/p4/terrains`, `https://citurbarea.com/p4/terrains/deposer`, `https://citurbarea.com/rendez-vous`, ...l.filter((t) => t.statut === "PUBLIE").map((t) => `https://citurbarea.com/p4/terrains/${t.slug}`)];
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${u}</loc><changefreq>daily</changefreq></url>`).join("\n")}\n</urlset>\n`;
 }

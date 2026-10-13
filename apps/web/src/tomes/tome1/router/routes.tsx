@@ -70,6 +70,8 @@ const EstimationPage = lazy(() => import("../../../features/zillow-ma/Estimation
 const TerrainsPage = lazy(() => import("../../../features/terrains/TerrainsPage"));
 const TerrainFiche = lazy(() => import("../../../features/terrains/TerrainFiche"));
 const DeposerTerrain = lazy(() => import("../../../features/terrains/DeposerTerrain"));
+const RendezVousPage = lazy(() => import("../../../features/rdv/RendezVousPage"));
+const EspaceRdv = lazy(() => import("../../../features/rdv/EspaceRdv"));
 const AvecVideos = lazy(() => import("../../../features/social/AvecVideos"));
 const ChiffragePage = lazy(() => import("../../../features/chiffrage/ChiffragePage"));
 const ChiffrageDevis = lazy(() => import("../../../features/chiffrage/ChiffrageDevis"));
@@ -389,6 +391,9 @@ export const router = createBrowserRouter([
       { path: '/calculateur', element: <Navigate to="/chiffrage" replace /> },
       { path: '/chiffrage', element: <ChiffragePage /> },
       { path: '/chiffrage/devis', element: <ChiffrageDevis /> },
+      // Rendez-vous en visio avec l'architecte (Pages Functions /api/rdv) ; /rdv/:jeton = espace client privé (noindex).
+      { path: '/rendez-vous', element: <AdminHostBlock><RendezVousPage /></AdminHostBlock> },
+      { path: '/rdv/:jeton', element: <AdminHostBlock><EspaceRdv /></AdminHostBlock> },
       { path: '/notifications', element: <AdminHostBlock><NotificationsCenterPage /></AdminHostBlock> },
 
       // ── Livraisons Matériaux (Tome 5 — chef chantier + fournisseur) ──

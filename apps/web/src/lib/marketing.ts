@@ -204,7 +204,8 @@ export const balisesConfigurees = !!(GTM || GA4 || GADS || META);
 
 /** Charge les balises configurées (appelé une fois au démarrage, hors back-office). */
 export function chargerBalises(): void {
-  if (typeof window === "undefined" || window.location.pathname.startsWith("/cc")) return;
+  // Ni back-office, ni espace rendez-vous (/rdv/<jeton> : l'adresse contient un jeton secret).
+  if (typeof window === "undefined" || window.location.pathname.startsWith("/cc") || window.location.pathname.startsWith("/rdv/")) return;
   const w = window as Fenetre;
   if (GTM || GA4 || GADS) {
     const g = gtagFn();

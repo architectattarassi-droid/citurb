@@ -109,6 +109,7 @@ const TXT = {
     finTexte: "Une question sur un terrain, un permis ou un budget ? Écrivez-moi sur WhatsApp, je vous réponds personnellement.",
     finWa: "Écrire sur WhatsApp",
     finChiffrage: "Chiffrer mon projet",
+    finRdv: "Réserver un appel vidéo",
     finAppel: "Appeler",
     waMessage: "Bonjour, je vous ai découvert sur citurbarea.com et j'ai un projet.",
     piedServices: "Services",
@@ -179,6 +180,7 @@ const TXT = {
     finTexte: "A question about a plot, a permit or a budget? Message me on WhatsApp, I answer personally.",
     finWa: "Message on WhatsApp",
     finChiffrage: "Estimate my project",
+    finRdv: "Book a video call",
     finAppel: "Call",
     waMessage: "Hello, I found you on citurbarea.com and I have a project.",
     piedServices: "Services",
@@ -249,6 +251,7 @@ const TXT = {
     finTexte: "عندك سؤال على أرض، رخصة ولا ميزانية؟ كتب ليا فواتساب، كنجاوبك شخصيا.",
     finWa: "كتب ليا فواتساب",
     finChiffrage: "قدّر تكلفة مشروعي",
+    finRdv: "احجز مكالمة فيديو",
     finAppel: "عيّط",
     waMessage: "السلام، لقيتكم فـ citurbarea.com وعندي مشروع.",
     piedServices: "الخدمات",
@@ -572,9 +575,10 @@ function SectionFinale({ t }: { t: Textes }) {
         <div className="rounded-3xl border border-[#C9A227]/40 bg-white p-6 text-center shadow-sm sm:p-10">
           <h2 id="fin-titre" className="m-0 text-[26px] font-extrabold text-[#0B1B3A] sm:text-[32px]">{t.finTitre}</h2>
           <p className="mx-auto m-0 mt-3 max-w-xl text-base leading-relaxed text-slate-600">{t.finTexte}</p>
-          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
             <a href={lienWhatsApp(t.waMessage)} target="_blank" rel="noopener noreferrer" onClick={() => evenement("whatsapp_click", { emplacement: "accueil_final" })} className={btnWa} style={sansSoulignement}>{t.finWa}</a>
             <Link to="/chiffrage" onClick={() => evenement("cta_chiffrage", { emplacement: "accueil_final" })} className={btnOr} style={sansSoulignement}>{t.finChiffrage}</Link>
+            <Link to="/rendez-vous" onClick={() => evenement("cta_rdv", { emplacement: "accueil_final" })} className={btnContour} style={sansSoulignement}>{t.finRdv}</Link>
             <a href={lienTel} onClick={() => evenement("tel_click", { emplacement: "accueil_final" })} className={btnContour} style={sansSoulignement}>{t.finAppel} · <span dir="ltr">{CONTACT.telAffiche}</span></a>
           </div>
         </div>
