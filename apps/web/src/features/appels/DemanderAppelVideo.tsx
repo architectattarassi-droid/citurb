@@ -54,6 +54,8 @@ type Props = {
   variante?: "or" | "navy" | "contour" | "lien";
   className?: string;
   onCree?: (r: ReponseCreation) => void;
+  /** Création par une autre porte (ex. fil de messagerie : les invités sont les participants du fil, déjà identifiés). */
+  creerVia?: (corps: Record<string, unknown>) => Promise<{ ok: true } | { ok: false; error: string }>;
 };
 
 type Formulaire = {
@@ -61,7 +63,7 @@ type Formulaire = {
   nom: string; email: string; telephone: string; consentement: boolean; website: string;
 };
 
-export default function DemanderAppelVideo({ contexte, objetId, invites, candidats, avecNom, sujet, porte = "public", langue, libelle, variante = "or", className = "", onCree }: Props) {
+export default function DemanderAppelVideo({ contexte, objetId, invites, candidats, avecNom, sujet, porte = "public", langue, libelle, variante = "or", className = "", onCree, creerVia }: Props) {
   const l = useLangueAppel(langue);
   const t = TEXTES[l];
   const [ouvert, setOuvert] = useState(false);
@@ -71,12 +73,12 @@ export default function DemanderAppelVideo({ contexte, objetId, invites, candida
       <button type="button" className={`${classe} ${className}`} onClick={() => setOuvert(true)} aria-haspopup="dialog">
         <IconeCamera />{libelle ?? t.demander}
       </button>
-      {ouvert && <Dialogue {...{ contexte, objetId, invites, candidats, avecNom, sujet, porte, l, onCree }} onFermer={() => setOuvert(false)} />}
+      {ouvert && <Dialogue {...{ contexte, objetId, invites, candidats, avecNom, sujet, porte: creerVia ? "admin" : porte, l, onCree, creerVia }} onFermer={() => setOuvert(false)} />}
     </>
   );
 }
 
-function Dialogue({ contexte, objetId, invites, candidats = [], avecNom, sujet, porte, l, onCree, onFermer }: Omit<Props, "langue" | "libelle" | "variante" | "className"> & { porte: PorteCreation; l: LangueAppel; onFermer: () => void }) {
+function Dialogue({ contexte, objetId, invites, candidats = [], avecNom, sujet, porte, l, onCree, creerVia, onFermer }: Omit<Props, "langue" | "libelle" | "variante" | "className"> & { porte: PorteCreation; l: LangueAppel; onFermer: () => void }) {
   const t = TEXTES[l];
   const titreId = useId();
   const boite = useRef<HTMLDivElement>(null);
@@ -116,13 +118,20 @@ function Dialogue({ contexte, objetId, invites, candidats = [], avecNom, sujet, 
     const creneaux = f.mode === "dqp" ? [] : f.creneaux.map(localVersIso).filter((x): x is string => !!x);
     if (f.mode === "creneaux" && !creneaux.length) { setErreur(t.erreurs.creneaux_invalides); return; }
     const tous = [...invites, ...coches.map((i) => candidats[i].invite)];
-    if (!tous.length) { setErreur(t.choisirInvites); return; }
+    if (!tous.length && !creerVia) { setErreur(t.choisirInvites); return; }
     setEnvoi(true);
     const corps: Record<string, unknown> = {
       contexte, objetId, invites: tous, sujet: sujet || undefined, creneaux, desQuePossible: f.mode === "dqp", dureeMin: f.dureeMin,
       audioSeul: f.audioSeul, message: f.message || undefined, langue: l,
       ...(porte === "public" ? { demandeur: { nom: f.nom, email: f.email || undefined, telephone: f.telephone || undefined, langue: l }, consentement: f.consentement, website: f.website } : {}),
     };
+    if (creerVia) {
+      const v = await creerVia(corps);
+      setEnvoi(false);
+      if (!v.ok) { setErreur(erreurLisible(t, v.error)); return; }
+      setFait({ demande: null });
+      return;
+    }
     const r = await apiAppels.creer(porte, corps);
     setEnvoi(false);
     if (!r.ok) { setErreur(erreurLisible(t, r.error)); return; }

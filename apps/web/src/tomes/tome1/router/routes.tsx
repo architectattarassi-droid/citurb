@@ -57,6 +57,7 @@ const DeposerTerrain = lazy(() => import("../../../features/terrains/DeposerTerr
 const RendezVousPage = lazy(() => import("../../../features/rdv/RendezVousPage"));
 const EspaceRdv = lazy(() => import("../../../features/rdv/EspaceRdv"));
 const AppelPage = lazy(() => import("../../../features/appels/AppelPage"));
+const MessagesPage = lazy(() => import("../../../features/messages/MessagesPage"));
 const EspaceProjet = lazy(() => import("../../../features/projet/EspaceProjet"));
 const AvecVideos = lazy(() => import("../../../features/social/AvecVideos"));
 const ChiffragePage = lazy(() => import("../../../features/chiffrage/ChiffragePage"));
@@ -229,9 +230,10 @@ export const router = createBrowserRouter([
   { path: '/cercles/espace',                       element: <AdminHostBlock><EspaceFournisseurPage /></AdminHostBlock> },
   { path: '/cercles/me/edit',                      element: <Redirect to="/cercles/espace" /> },
   { path: '/cercles/profile/:userIdOrId',          element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
-  { path: '/cercles/messages',                     element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
-  { path: '/cercles/messages/new/:peerId',         element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
-  { path: '/cercles/messages/:threadId',           element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
+  // Ancienne messagerie Cercles (API éteinte) : la messagerie de la plateforme est dans l'espace pro (onglet Messages).
+  { path: '/cercles/messages',                     element: <Redirect to="/cercles/espace" /> },
+  { path: '/cercles/messages/new/:peerId',         element: <Redirect to="/cercles/espace" /> },
+  { path: '/cercles/messages/:threadId',           element: <Redirect to="/cercles/espace" /> },
   { path: '/cercles/nouveau',                      element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
   { path: '/cercles/marketplace',                  element: <Redirect to="/cercles/espace" /> },
   { path: '/cercles/marketplace/produit/:id',      element: <Redirect to="/cercles/espace" /> },
@@ -347,6 +349,11 @@ export const router = createBrowserRouter([
       // Appels vidéo sur demande : lien personnel d'un participant (sans mot de passe, noindex) — accepter, proposer, refuser, rejoindre.
       { path: '/appel/:jeton', element: <AdminHostBlock><AppelPage /></AdminHostBlock> },
       { path: '/ar/appel/:jeton', element: <AdminHostBlock><AppelPage langue="ar" /></AdminHostBlock> },
+      // Messagerie (tout passe par CITURBAREA) : un fil, ou la boîte d'un visiteur / client sans compte (liens personnels, noindex).
+      { path: '/messages/boite/:jeton', element: <AdminHostBlock><MessagesPage boite /></AdminHostBlock> },
+      { path: '/ar/messages/boite/:jeton', element: <AdminHostBlock><MessagesPage boite langue="ar" /></AdminHostBlock> },
+      { path: '/messages/:jeton', element: <AdminHostBlock><MessagesPage /></AdminHostBlock> },
+      { path: '/ar/messages/:jeton', element: <AdminHostBlock><MessagesPage langue="ar" /></AdminHostBlock> },
       // Espace projet des membres invités (Pages Functions /api/projets) : /projet/<jeton> échange le lien contre une session puis devient /projet (noindex).
       { path: '/projet/:jeton?', element: <AdminHostBlock><EspaceProjet /></AdminHostBlock> },
       { path: '/notifications', element: <AdminHostBlock><EnSommeil module="Notifications" /></AdminHostBlock> },
