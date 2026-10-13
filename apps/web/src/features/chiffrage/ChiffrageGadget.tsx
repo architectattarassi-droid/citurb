@@ -24,6 +24,8 @@ import AideDecision from "./AideDecision";
 import { evenement } from "../../lib/marketing";
 import { VideosYoutube, videosPourProjet } from "../social/VideosYoutube";
 import { libelleStanding } from "../../domain/chiffrage/decision";
+import type { InfoMarche } from "../../domain/chiffrage/marche";
+import { chargerPrixMarche } from "../../domain/materiaux/prixMarche";
 
 const GOLD = "#C9A227";
 /** Espace insécable (évite les caractères invisibles dans le source). */
@@ -102,8 +104,16 @@ export default function ChiffrageGadget({ variante = "public", initial, renderCt
   // Un changement de sous-type redonne la mitoyenneté par défaut (jumelée = 1 côté…).
   const majParcelle = (patch: Partial<ParcelleChiffrage>) => setProjet((p) => ({ ...p, parcelle: { ...p.parcelle, ...patch }, mitoyennete: undefined }));
   const differe = useDeferredValue(projet);
-  const res = useMemo(() => { try { return chiffrer(differe); } catch { return chiffrer(PROJET_DEFAUT); } }, [differe]);
-  const comp = useMemo(() => { try { return comparerStandings(differe); } catch { return comparerStandings(PROJET_DEFAUT); } }, [differe]);
+  // Prix des fournisseurs Cercles de la région (GET /api/prix/*) : dès 3 fournisseurs vérifiés, ils remplacent
+  // les prix de recherche du sous-détail ; sinon le nombre d'offres est affiché à côté.
+  const [versionMarche, setVersionMarche] = useState(0);
+  useEffect(() => {
+    let vivant = true;
+    void chargerPrixMarche(differe.ville || null).then(() => { if (vivant) setVersionMarche((v) => v + 1); });
+    return () => { vivant = false; };
+  }, [differe.ville]);
+  const res = useMemo(() => { try { return chiffrer(differe); } catch { return chiffrer(PROJET_DEFAUT); } }, [differe, versionMarche]); // eslint-disable-line react-hooks/exhaustive-deps
+  const comp = useMemo(() => { try { return comparerStandings(differe); } catch { return comparerStandings(PROJET_DEFAUT); } }, [differe, versionMarche]); // eslint-disable-line react-hooks/exhaustive-deps
   const coh = useMemo(() => coherence(res), [res]);
 
   const allerA = (e: 1 | 2 | 3) => {
@@ -761,6 +771,7 @@ function PrixMasque({ n, titre }: { n: number; titre: string }) {
 function LigneOuvrage({ li, t, L, onQte, masquer = false }: { li: LigneDQE; t: T; L: Libelles; onQte: (q: number) => void; masquer?: boolean }) {
   const [sd, setSd] = useState(false);
   const id = useId();
+  const { lang } = useLang();
   const unite = L.unite(li.unite);
   return (
     <div className="border-b border-slate-200 py-3 last:border-0">
@@ -796,7 +807,8 @@ function LigneOuvrage({ li, t, L, onQte, masquer = false }: { li: LigneDQE; t: T
                   <td className="p-2 text-end tabular-nums">{c.nature === "PM" ? "5 %" : iso(`${(+c.qte.toFixed(3)).toLocaleString("fr-FR")} ${L.unite(c.unite)}`)}</td>
                   <td className="p-2 text-end tabular-nums">{c.nature === "PM" ? "" : dec(c.pu)}</td>
                   <td className="p-2 text-end tabular-nums">{dec(c.montant)}</td>
-                  <td className="p-2"><Fiab f={c.fiabilite} t={t} /> <span className="text-slate-500">{c.sourceIds.join(", ") || (c.nature === "OUV" ? t("sdSousOuvrage") : "")}</span></td>
+                  <td className="p-2"><Fiab f={c.fiabilite} t={t} /> <span className="text-slate-500">{c.sourceIds.includes("cercles-fournisseurs") ? MARCHE_LIBELLES[lang].source : c.sourceIds.join(", ") || (c.nature === "OUV" ? t("sdSousOuvrage") : "")}</span>
+                    {c.marche && !c.marche.applique && <span className="block text-slate-400">{offresMarche(c.marche, lang)}</span>}</td>
                 </tr>
               ))}
               <tr className="border-t border-slate-200 font-semibold"><td className="p-2" colSpan={3}>{t("sdDebourse")}</td><td className="p-2 text-end tabular-nums">{dec(li.prix.debourseSec)}</td><td /></tr>
@@ -809,6 +821,14 @@ function LigneOuvrage({ li, t, L, onQte, masquer = false }: { li: LigneDQE; t: T
     </div>
   );
 }
+
+/** Prix fournisseurs Cercles dans le sous-détail (trilingue). */
+const MARCHE_LIBELLES = {
+  fr: { source: "Fournisseurs Cercles vérifiés", offres: "{n} fournisseur(s) Cercles vérifié(s) — prix publié à partir de 3" },
+  ar: { source: "موردو دوائر سيتوربارية الموثقون", offres: "{n} مورد(ين) موثق(ين) — يُنشر السعر ابتداءً من 3" },
+  en: { source: "Verified Cercles suppliers", offres: "{n} verified Cercles supplier(s) — price published from 3" },
+};
+const offresMarche = (m: InfoMarche, lang: "fr" | "ar" | "en") => MARCHE_LIBELLES[lang].offres.replace("{n}", String(m.nbFournisseurs));
 
 function Fiab({ f, t }: { f: string; t: T }) {
   const c = f === "A" ? "bg-emerald-100 text-emerald-800" : f === "B" ? "bg-sky-100 text-sky-800" : f === "C" ? "bg-slate-200 text-slate-700" : "bg-amber-100 text-amber-900";
