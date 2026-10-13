@@ -4,6 +4,15 @@ Décision du fondateur (« option B ») : l'API NestJS (`apps/api`) et sa base R
 
 Référence : [inventaire-api-morte.md](inventaire-api-morte.md) (inventaire initial) et le cliquet [appels-morts.json](appels-morts.json), mesuré par `node apps/web/scripts/appels-morts.mjs` (`--detail` : fichier:ligne → route ; `--atteignables` : seulement le code livré).
 
+## Règle produit pour tout module réveillé ou rebranché : aucune coordonnée entre parties
+
+Décision du fondateur (CLAUDE.md, « Principe produit : tout passe par CITURBAREA ») : aucun téléphone, e-mail, adresse ou lien externe d'un tiers n'est affiché entre clients, prestataires et fournisseurs ; seules les coordonnées de CITURBAREA / HSE DECO apparaissent.
+
+- Avant de réveiller un module en sommeil, retirer l'affichage des coordonnées de tiers : notamment `features/cabinet/CabinetPublicPage.tsx` (phonePublic/emailPublic), `features/cercles/EditProfilePage.tsx`, `InscriptionPage.tsx`, `ProfilePage.tsx`, annuaire Cercles.
+- Espace dossier client (lot 3b) : le client ne voit jamais les coordonnées des prestataires/fournisseurs, et inversement.
+- Back-office : l'équipe CITURBAREA voit les coordonnées (c'est elle qui fait l'intermédiaire) ; elles ne sont jamais renvoyées par une route publique ou client.
+- Geste de contact entre parties : « Demander un appel vidéo » (`docs/architecture/contrat-appels-video.md`) ou échange via la plateforme.
+
 ## Trois règles
 
 1. **Zéro impasse** : aucune page accessible (visiteur ou admin) ne dépend d'un appel mort. Mesure : *appels morts atteignables depuis `main.tsx`* = **0** (test `apps/web/src/lib/appels-morts.test.ts`).
