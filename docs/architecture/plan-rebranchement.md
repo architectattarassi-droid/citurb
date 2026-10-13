@@ -98,9 +98,10 @@ Priorité : 1 = prochain lot … 4 = seulement sur demande. Effort : S (< ½ j),
 
 Un lot à la fois, validé par le fondateur avant le suivant.
 
-1. **Lot 3a — compte client léger** : lien magique / code envoyé par e-mail ou WhatsApp, cookie signé (modèle `functions/_lib/adminSession.ts` et `functions/api/cercles/acces/*`), sans mot de passe. Table `ClientAcces` (ou colonnes sur `Lead`). Remplace la page d'accès `/login` côté client.
+1. **Lot 3a — compte client léger** : lien magique / code envoyé par e-mail ou WhatsApp, cookie signé (modèle `functions/_lib/adminSession.ts` et `functions/api/cercles/acces/*`), sans mot de passe. Table `ClientAcces` (ou colonnes sur `Lead`). Remplace la page d'accès `/login` côté client. **Session client réutilisable** : un helper unique (`functions/_lib/clientSession.ts` : `lireSessionClient(request, env) → { clientId, dossierIds } | null`) pour que d'autres modules (appels vidéo, espace projet) authentifient le client sans dupliquer le cookie.
 2. **Lot 3b — espace dossier client minimal** (`/mon-espace`) : mes dossiers (table `Dossier` existante, reliée aux `Lead` et `RendezVous`), estimation/devis (moteurs locaux), RDV (déjà en Functions), documents. À **coordonner avec la session « espace projet »** (tables `Projet*`, fichiers sur R2) pour ne pas créer deux espaces.
-3. **Lot 3c — back-office dossiers** : actions sur `/cc/dossiers` (statut, note, invitation du client par lien, devis PDF) sur les mêmes tables.
+   - **Appels vidéo** : pas de visio développée ici. Un emplacement est laissé dans l'écran dossier (contexte « dossier », identifiant du dossier, participants : client + architecte/admin) ; le module générique « appel vidéo sur demande, accord de toutes les parties » (autre session, `functions/_lib/visio.ts`) s'y branche — interface dans `docs/architecture/contrat-appels-video.md`.
+3. **Lot 3c — back-office dossiers** : actions sur `/cc/dossiers` (statut, note, invitation du client par lien, devis PDF) sur les mêmes tables ; même emplacement « demander un appel vidéo » côté admin, sans visio propre.
 4. Outils de chantier (PV, livraisons, réception) — via l'espace projet.
 5. Paiement manuel déclaratif (virement + justificatif, validation admin) ; validations de packs.
 6. Catalogue produits fournisseurs (`/api/catalogue/produits` complet, session Cercles), annuaire Cercles, CPS (session DCE), module geo (JSON statique HCP).
