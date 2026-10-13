@@ -20,4 +20,6 @@ apps/web/dist/
 backups/
 exports/
 data/
+# Référentiel des jalons : données versionnées, pas des données runtime.
+!apps/web/src/domain/referentiel/data/
 storage/

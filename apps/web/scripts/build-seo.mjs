@@ -682,6 +682,7 @@ fs.writeFileSync(path.join(PUBLIC_DIR, "sitemap-villes.xml"), sitemapVilles);
 const GUIDES = [
   {
     slug: "prix-construction-villa-maroc",
+    groupe: "prix-construction-villa-maroc",
     title: "Prix de construction d'une villa au Maroc (2026) — coût au m²",
     h1: "Combien coûte la construction d'une villa au Maroc en 2026 ?",
     desc: "Prix de construction d'une villa au Maroc en 2026 : coût au m² par niveau de standing (de 2 500 à 14 000 DH/m²), ce qui fait varier le budget et ce qu'il n'inclut pas.",
@@ -717,6 +718,7 @@ const GUIDES = [
   },
   {
     slug: "permis-de-construire-maroc",
+    groupe: "permis-de-construire-maroc",
     title: "Permis de construire au Maroc : documents, étapes, délais et coût",
     h1: "Permis de construire au Maroc : documents, étapes et délais",
     desc: "Comment obtenir un permis de construire (autorisation de construire) au Maroc : documents à fournir, étapes du dépôt, délais d'instruction et taxes à prévoir.",
@@ -749,6 +751,7 @@ const GUIDES = [
   },
   {
     slug: "honoraires-architecte-maroc",
+    groupe: "honoraires-architecte-maroc",
     title: "Honoraires d'architecte au Maroc : combien ça coûte ?",
     h1: "Combien coûte un architecte au Maroc ? Honoraires et barème",
     desc: "Honoraires d'architecte au Maroc : mode de calcul (pourcentage du coût des travaux, barème CNOA), ce qu'ils couvrent et comment estimer votre budget d'accompagnement.",
@@ -772,6 +775,7 @@ const GUIDES = [
   },
   {
     slug: "etapes-construction-maison-maroc",
+    groupe: "etapes-construction-maison-maroc",
     title: "Construire sa maison au Maroc : les étapes de A à Z",
     h1: "Construire sa maison au Maroc : les étapes de A à Z",
     desc: "Les étapes pour construire sa maison ou sa villa au Maroc : du terrain à la réception, en passant par l'architecte, le permis, le chantier et le suivi.",
@@ -797,6 +801,7 @@ const GUIDES = [
   },
   {
     slug: "bureau-etudes-techniques-bet-maroc",
+    groupe: "bureau-etudes-techniques-bet-maroc",
     title: "Bureau d'études techniques (BET) au Maroc : rôle, missions et coût",
     h1: "Bureau d'études techniques (BET) au Maroc : à quoi sert-il et comment le choisir ?",
     desc: "Le BET au Maroc : études structure (béton armé), fluides, géotechnique, rôle à côté de l'architecte, coût indicatif et comment choisir un bureau d'études pour votre construction.",
@@ -836,6 +841,7 @@ const GUIDES = [
   },
   {
     slug: "choisir-entreprise-construction-maroc",
+    groupe: "choisir-entreprise-construction-maroc",
     title: "Choisir une entreprise de construction au Maroc : méthode et pièges à éviter",
     h1: "Comment choisir une entreprise de construction au Maroc ?",
     desc: "Choisir une entreprise de BTP au Maroc : consulter plusieurs entreprises, comparer les devis sur un même descriptif, vérifier les références, sécuriser le contrat et les paiements.",
