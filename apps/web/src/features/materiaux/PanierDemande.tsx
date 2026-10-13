@@ -90,7 +90,7 @@ export default function PanierDemande() {
         </button>
       )}
       {ouvert && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-black/40" onClick={() => setOuvert(false)} role="presentation">
+        <div className="fixed inset-0 flex justify-end bg-black/40" style={{ zIndex: 2000 }} onClick={() => setOuvert(false)} role="presentation">
           <aside role="dialog" aria-modal="true" aria-label={t("panierTitre")} onClick={(e) => e.stopPropagation()}
             className="flex h-full w-full max-w-md flex-col overflow-y-auto bg-white p-4 shadow-xl">
             <div className="mb-3 flex items-center justify-between gap-2">
@@ -111,13 +111,13 @@ export default function PanierDemande() {
               <p className="text-sm text-slate-600">{t("panierVide")}</p>
             ) : (
               <form onSubmit={envoyer} className="relative space-y-3" noValidate>
-                <ul className="space-y-2">
+                <ul className="list-none space-y-2 p-0">
                   {m.panier.map((l, i) => {
                     const r = materiau(l.code);
                     const d = demande.lignes.find((x) => x.code === l.code && x.unite === l.unite);
                     if (!r) return null;
                     return (
-                      <li key={`${l.code}-${l.unite}`} className="rounded-lg border border-slate-200 p-2">
+                      <li key={`${l.code}-${l.unite}`} className="list-none rounded-lg border border-slate-200 p-2">
                         <div className="flex items-start justify-between gap-2">
                           <span className="text-sm font-semibold text-[#0B1B3A]">{r.libelle}</span>
                           <button type="button" onClick={() => m.retirerLigne(i)} className="min-h-[32px] shrink-0 px-2 text-xs text-slate-500 underline">{t("retirer")}</button>

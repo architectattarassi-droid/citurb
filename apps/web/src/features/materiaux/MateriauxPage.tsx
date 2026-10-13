@@ -201,7 +201,7 @@ function Comparateur({ t, lang, fermer }: { t: T; lang: string; fermer: () => vo
     [t("fournisseurs"), (r) => { const x = prix?.marche[r.code]; return x?.mediane != null ? fmtDH(x.mediane, lang) : t("indicatif"); }],
   ];
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center" onClick={fermer} role="presentation">
+    <div className="fixed inset-0 flex items-end justify-center bg-black/40 sm:items-center" style={{ zIndex: 2000 }} onClick={fermer} role="presentation">
       <div role="dialog" aria-modal="true" aria-label={t("comparateur")} onClick={(e) => e.stopPropagation()} className="max-h-[90vh] w-full max-w-4xl overflow-auto rounded-t-2xl bg-white p-4 sm:rounded-2xl">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-lg font-bold text-[#0B1B3A]">{t("comparateur")}</h2>
