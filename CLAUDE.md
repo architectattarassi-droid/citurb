@@ -10,6 +10,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Décisions module par module (fusionner / mettre en sommeil / rebrancher) : `docs/architecture/plan-rebranchement.md`. Page en sommeil : composant `EnSommeil` (aucun appel réseau, noindex).
 - Tables Neon de production : l'agent ne les crée pas ; il fournit le SQL à coller dans la console Neon.
 
+## Principe produit : tout passe par CITURBAREA (aucune coordonnée échangée)
+
+- Décision du fondateur : clients, prestataires et fournisseurs ne voient **jamais** les coordonnées les uns des autres (téléphone, e-mail, WhatsApp, adresse, site, réseaux). Le contact passe uniquement par la plateforme : demande de prix / mise en relation (lead), messagerie de la plateforme, et **demande d'appel vidéo** (`docs/architecture/contrat-appels-video.md`) qui ne démarre qu'après accord des deux parties. Les appels vidéo **remplacent** l'échange de coordonnées.
+- Seules coordonnées publiques autorisées : celles de CITURBAREA / HSE DECO (`apps/web/src/config/contact.ts`).
+- Les Functions publiques ne renvoient jamais téléphone, e-mail ou ICE d'un tiers ; les formulaires les stockent pour le back-office uniquement. Tout module réveillé ou nouveau qui afficherait `phonePublic`, `emailPublic`, un `tel:`/`mailto:`/`wa.me` de tiers doit être corrigé (ex. anciens `features/cabinet/CabinetPublicPage.tsx`, `features/cercles/EditProfilePage.tsx` / `InscriptionPage.tsx`, aujourd'hui en sommeil).
+- Textes libres (descriptions de fiches, messages, annonces) : masquer ou refuser à la modération les numéros, e-mails et liens de contact (voir aussi « Tome 2 — Anti-désintermédiation » ci-dessous).
+
 ## Commands
 
 ```bash
