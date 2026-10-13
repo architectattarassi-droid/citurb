@@ -7,6 +7,7 @@
 import React, { useState } from "react";
 import { SECTIONS, TYPES_SOCIETE, champsDuType, type ChampFiche, type ReferenceChantier, type Section } from "../../domain/cercles/gabarits";
 import { apiFournisseurs, codeErreur, type FournisseurPrive } from "./api";
+import GalerieImages from "./GalerieImages";
 import { useTextes } from "./textes";
 import { Champ, Puces, T } from "./ui";
 
@@ -122,6 +123,7 @@ export default function FicheSocieteForm({ f, recharger }: { f: FournisseurPrive
         </fieldset>
       ))}
 
+      <GalerieImages objetType="SOCIETE" objetId={f.id} titre={x.t("imgGalerieSociete")} />
       {msg && <div className={`frn-alerte ${msg.ok ? "frn-ok" : "frn-ko"}`} role="status">{msg.t}</div>}
       <div><button className="frn-btn" disabled={envoi}>{envoi ? x.t("enregistrement") : x.t("enregistrer")}</button></div>
     </form>

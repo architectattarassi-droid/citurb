@@ -14,6 +14,7 @@ import { OUVRAGES } from "../../domain/chiffrage/ouvrages";
 import { coefK, prixOuvrage } from "../../domain/chiffrage/prix";
 import { REGIONS_MA } from "../../domain/materiaux/regions";
 import { apiFournisseurs, codeErreur, type FournisseurPrive, type Service } from "./api";
+import GalerieImages from "./GalerieImages";
 import { useTextes } from "./textes";
 import { BadgeStatut, Champ, Puces, T, TexteSaisi } from "./ui";
 
@@ -204,6 +205,7 @@ function ServiceForm({ f, initial, onFini, onAnnuler }: { f: FournisseurPrive; i
       </div>
       <Champ label={x.t("zonesIntervention")} aide={x.t("zonesProduitAide")}><Puces options={zonesOptions} valeurs={zones} onChange={setZones} /></Champ>
       <Champ label={x.t("photos")}><textarea className="frn-input" dir="ltr" rows={2} value={v.photos} onChange={maj("photos")} placeholder="https://…" /></Champ>
+      <GalerieImages objetType="SERVICE" objetId={initial?.id || null} />
 
       {erreur && <div className="frn-alerte frn-ko" role="alert">{erreur}</div>}
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>

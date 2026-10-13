@@ -14,6 +14,7 @@ import { HONEYPOT_STYLE } from "../../lib/honeypot";
 import DemanderAppelVideo from "../appels/DemanderAppelVideo";
 import { apiFournisseurs, codeErreur, type FichePro, type Produit, type Service } from "./api";
 import { useLangueForcee } from "./langue";
+import type { ImagePublique } from "./api";
 import { useTextes, type Textes } from "./textes";
 import { Champ, PageFournisseurs, T, TexteSaisi } from "./ui";
 
@@ -66,7 +67,7 @@ export default function FicheProPage({ langue }: { langue?: "ar" }) {
           : <Link to={`/ar/cercles/pro/${f.slug}`} hrefLang="ar">{x.t("fpEnArabe")}</Link>)}
       </p>
       <header style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
-        {f.logoUrl && <img src={f.logoUrl} alt="" width={72} height={72} style={{ borderRadius: 12, objectFit: "contain", background: "#fff", border: `1px solid ${T.borderSoft}` }} />}
+        {(d.imagesSociete?.find((i) => i.principale)?.vignette || f.logoUrl) && <img src={d.imagesSociete?.find((i) => i.principale)?.vignette || f.logoUrl!} alt="" width={72} height={72} style={{ borderRadius: 12, objectFit: "contain", background: "#fff", border: `1px solid ${T.borderSoft}` }} />}
         <div style={{ minWidth: 0 }}>
           <TexteSaisi as="h1" fr={f.raisonSociale} ar={f.raisonSocialeAr} style={{ margin: 0 }} />
           <div style={{ color: T.inkMid }}>{x.l3(libelleMetier(f.metier))} · {f.ville}{f.membreDepuis ? ` · ${x.t("fpMembreDepuis", { d: x.date(f.membreDepuis) })}` : ""}</div>
@@ -83,6 +84,7 @@ export default function FicheProPage({ langue }: { langue?: "ar" }) {
       </header>
       <style>{`.frn-page h1{font-family:inherit;font-size:clamp(24px,4.5vw,34px);color:${T.navy};line-height:1.2}`}</style>
 
+      {!!d.imagesSociete?.length && <Galerie images={d.imagesSociete} />}
       <section className="frn-carte" style={{ marginTop: 18, display: "grid", gap: 10 }}>
         <TexteSaisi fr={f.description} ar={f.descriptionAr} style={{ margin: 0, lineHeight: 1.6 }} />
         <div style={{ fontSize: 14 }}><strong>{x.t("fpZones")} : </strong>{f.zonesLivraison.map((z) => x.l3(REGIONS_L3[z])).join(" · ") || "—"}</div>
@@ -163,7 +165,7 @@ function CarteProduit({ p, onDemander, slug, nomPro }: { p: Produit; onDemander:
   const nom = x.bi(p.designationFr, p.designationAr).texte;
   return (
     <article className="frn-carte" style={{ display: "grid", gap: 8, alignContent: "start" }}>
-      {p.photos[0] && <img src={p.photos[0]} alt="" loading="lazy" style={{ width: "100%", aspectRatio: "4 / 3", objectFit: "cover", borderRadius: 8 }} />}
+      {p.images?.length ? <Galerie images={p.images} compacte /> : p.photos[0] && <img src={p.photos[0]} alt="" loading="lazy" style={{ width: "100%", aspectRatio: "4 / 3", objectFit: "cover", borderRadius: 8 }} />}
       <TexteSaisi as="strong" fr={p.designationFr} ar={p.designationAr} />
       <small style={{ color: T.inkMid }}>{[p.marque, p.modele].filter(Boolean).join(" · ")}{fam ? ` · ${x.l3(fam.libelle)}` : ""}{p.gamme ? ` · ${x.l3(GAMMES[p.gamme])}` : ""}</small>
       {!!car.length && <ul style={{ margin: 0, paddingInlineStart: 18, fontSize: 13 }}>{car.slice(0, 6).map(([l, v]) => <li key={l}>{l} : {v}</li>)}</ul>}
@@ -230,5 +232,28 @@ function Contact({ slug, objet }: { slug: string; objet: Objet }) {
       {erreur && <div className="frn-alerte frn-ko" role="alert">{erreur}</div>}
       <div><button className="frn-btn frn-btn-or" disabled={etat === "envoi"}>{etat === "envoi" ? x.t("envoi") : x.t("fpEnvoyer")}</button></div>
     </form>
+  );
+}
+
+/** Galerie publique : image principale + vignettes cliquables, légende dans la langue du visiteur. */
+function Galerie({ images, compacte = false }: { images: ImagePublique[]; compacte?: boolean }) {
+  const x = useTextes();
+  const [i, setI] = useState(0);
+  const im = images[Math.min(i, images.length - 1)];
+  const leg = im.legende ? x.bi(im.legende.fr, im.legende.ar) : null;
+  return (
+    <figure style={{ margin: compacte ? 0 : "16px 0 0", display: "grid", gap: 6 }}>
+      <img src={im.url} alt={leg?.texte || ""} loading="lazy" width={im.largeur} height={im.hauteur} style={{ width: "100%", height: "auto", aspectRatio: compacte ? "4 / 3" : undefined, maxHeight: compacte ? undefined : 420, objectFit: "cover", borderRadius: 8, background: T.bgSoft }} />
+      {leg && <figcaption lang={leg.langue} style={{ fontSize: 13, color: T.inkMid }}>{leg.texte}</figcaption>}
+      {images.length > 1 && (
+        <div style={{ display: "flex", gap: 6, overflowX: "auto" }}>
+          {images.map((y, k) => (
+            <button key={y.id} type="button" onClick={() => setI(k)} aria-label={String(k + 1)} style={{ padding: 0, border: `2px solid ${k === i ? T.or : "transparent"}`, borderRadius: 6, background: "none", cursor: "pointer", flex: "0 0 auto" }}>
+              <img src={y.vignette} alt="" loading="lazy" width={64} height={48} style={{ width: 64, height: 48, objectFit: "cover", borderRadius: 4, display: "block" }} />
+            </button>
+          ))}
+        </div>
+      )}
+    </figure>
   );
 }

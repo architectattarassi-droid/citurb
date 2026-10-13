@@ -37,22 +37,30 @@ export interface Produit {
   descriptionFr: string | null; descriptionAr: string | null; marque: string | null; modele: string | null; gamme: string | null;
   caracteristiques: Record<string, unknown>; uniteVente: string; conditionnement: string | null; uniteRef: string; facteur: number;
   quantiteMin: number | null; delaiJours: number | null; zones: string[]; disponibilite: string; validiteJusquau: string | null;
-  photos: string[]; ficheTechniqueUrl: string | null; materiauCode: string | null; misAJour: string | null;
+  photos: string[]; ficheTechniqueUrl: string | null; materiauCode: string | null; misAJour: string | null; images?: ImagePublique[];
   prixHT?: number; tvaPct?: number; prixTTC?: number; prixRefHT?: number; degressifs?: Degressif[];
   statut?: StatutOffre; codePropose?: string | null; signalement?: string | null; ecartRef?: number | null; motifRejet?: string | null;
 }
 export interface Service {
   id: string; nature: string; ouvrageCode: string | null; prestationCode: string | null; designationFr: string | null; designationAr: string | null;
   descriptionFr: string | null; descriptionAr: string | null; unite: string; zones: string[]; delaiJours: number | null; conditions: string | null;
-  validiteJusquau: string | null; photos: string[]; misAJour: string | null;
+  validiteJusquau: string | null; photos: string[]; misAJour: string | null; images?: ImagePublique[];
   prixHT?: number; tvaPct?: number; prixTTC?: number; statut?: StatutOffre; signalement?: string | null; ecartRef?: number | null; motifRejet?: string | null;
 }
 export interface Moi { ok: true; fournisseur: FournisseurPrive; fiches: Fiche[]; peutPublierFiches: boolean; produits: Produit[]; services: Service[]; score: Score }
 export interface ProAnnuaire extends FournisseurPublic { nbProduits: number; nbServices: number; nbFiches: number; codesCouverts?: string[] }
 export interface FichePro {
-  ok: true; fournisseur: FournisseurPublic; produits: Produit[]; services: Service[];
+  ok: true; fournisseur: FournisseurPublic; produits: Produit[]; services: Service[]; imagesSociete?: ImagePublique[];
   materiauxChiffres: { materiauCode: string; libelle: string; uniteVenteLibelle: string; disponibilite: string; marque: string | null; majLe: string | null }[];
 }
+
+/** Image d'une fiche (vue propriétaire) ; publique : url / vignette en /api/catalogue/images/… */
+export interface ImagePro {
+  id: string; objetType: "PRODUIT" | "SERVICE" | "SOCIETE"; objetId: string; ordre: number; principale: boolean; legendeFr: string | null; legendeAr: string | null;
+  statut: "PENDING" | "APPROVED" | "REJECTED"; motifRejet: string | null; largeur: number; hauteur: number; taille: number; url: string; vignette: string;
+}
+export interface ImagePublique { id: string; url: string; vignette: string; principale: boolean; ordre: number; legende: { fr: string; ar?: string } | null; largeur: number; hauteur: number }
+export interface QuotaImages { nb: number; octets: number; maxNb: number; maxOctets: number; parFiche: number }
 
 export class ErreurApi extends Error {
   constructor(public status: number, public code: string, public extra: Record<string, unknown> = {}) { super(code); }
@@ -101,5 +109,11 @@ export const apiFournisseurs = {
   annuaire: (params: Record<string, string>) =>
     appel<{ ok: true; total: number; fournisseurs: ProAnnuaire[] }>(`/api/cercles/annuaire?${new URLSearchParams(Object.entries(params).filter(([, v]) => v))}`),
   fichePro: (slug: string) => appel<FichePro>(`/api/cercles/pro/${id_(slug)}`),
+  images: () => appel<{ ok: true; images: ImagePro[]; quota: QuotaImages }>("/api/cercles/espace/images"),
+  deposerImage: (corps: { objetType: string; objetId: string; image: string; vignette: string; legendeFr?: string; legendeAr?: string }) =>
+    post<{ ok: true; image: ImagePro }>("/api/cercles/espace/images", corps),
+  majImage: (id: string, corps: { ordre?: number; legendeFr?: string; legendeAr?: string; principale?: true }) =>
+    post<{ ok: true; image: ImagePro }>(`/api/cercles/espace/images/${id_(id)}`, corps, "PATCH"),
+  retirerImage: (id: string) => appel<{ ok: true }>(`/api/cercles/espace/images/${id_(id)}`, { method: "DELETE" }),
   contacter: (corps: Record<string, unknown>) => post<{ ok: true; message: string }>("/api/cercles/contact", corps),
 };

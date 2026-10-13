@@ -48,12 +48,20 @@ export function ProduitsAModerer() {
   const [statut, setStatut] = useState("PENDING");
   const [liste, setListe] = useState<ProduitAdmin[] | null>(null);
   const [codes, setCodes] = useState<CodeCree[]>([]);
+  const [vignettes, setVignettes] = useState<Record<string, { id: string; vignette: string; url: string }[]>>({});
   const [erreur, setErreur] = useState("");
   const [ouvert, setOuvert] = useState<string | null>(null);
   const charger = useCallback(async () => {
     setErreur("");
     try { const r = await appel<{ produits: ProduitAdmin[]; codesCrees: CodeCree[] }>(`/api/cc/produits?statut=${statut}`); setListe(r.produits); setCodes(r.codesCrees); }
-    catch (e) { setErreur((e as Error).message); setListe([]); }
+    catch (e) { setErreur((e as Error).message); setListe([]); return; }
+    // Photos en attente : approuvées avec la fiche, donc montrées ici avant la décision.
+    try {
+      const im = await appel<{ images: { id: string; objetId: string; vignette: string; url: string }[] }>("/api/cc/images?statut=PENDING");
+      const m: Record<string, { id: string; vignette: string; url: string }[]> = {};
+      for (const i of im.images) (m[i.objetId] ??= []).push(i);
+      setVignettes(m);
+    } catch { setVignettes({}); }
   }, [statut]);
   useEffect(() => { void charger(); }, [charger]);
 
@@ -91,6 +99,12 @@ export function ProduitsAModerer() {
             {p.photos.map((u, i) => <a key={u} href={u} target="_blank" rel="noreferrer">photo {i + 1}</a>)}
             {p.ficheTechniqueUrl && <a href={p.ficheTechniqueUrl} target="_blank" rel="noreferrer">fiche technique</a>}
           </div>
+          {!!vignettes[p.id]?.length && (
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
+              <span style={{ fontSize: 12, color: CC.color.inkMid }}>Photos en attente (approuvées avec la fiche ; refus individuel dans l'onglet Images) :</span>
+              {vignettes[p.id].map((i) => <a key={i.id} href={i.url} target="_blank" rel="noreferrer"><img src={i.vignette} alt="" width={64} height={48} style={{ objectFit: "cover", borderRadius: 4 }} /></a>)}
+            </div>
+          )}
           {p.motifRejet && <div style={{ fontSize: 12, color: CC.color.danger }}>Motif : {p.motifRejet}</div>}
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             <button style={S.btn} onClick={() => setOuvert(ouvert === p.id ? null : p.id)}>Approuver…</button>
@@ -209,6 +223,58 @@ export function ServicesAModerer() {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
+interface ImageAdmin {
+  id: string; objetType: string; objetId: string; principale: boolean; legendeFr: string | null; legendeAr: string | null; statut: string; motifRejet: string | null;
+  largeur: number; hauteur: number; taille: number; url: string; vignette: string; raisonSociale: string | null; ville: string | null; objetLibelle: string | null;
+  statutObjet: string | null; statutFournisseur: string | null;
+}
+
+/** Images déposées par les pros : approuver ou refuser (motif). Les images d'une fiche sont aussi approuvées avec elle. */
+export function ImagesAModerer() {
+  const [statut, setStatut] = useState("PENDING");
+  const [liste, setListe] = useState<ImageAdmin[] | null>(null);
+  const [erreur, setErreur] = useState("");
+  const charger = useCallback(async () => {
+    setErreur("");
+    try { setListe((await appel<{ images: ImageAdmin[] }>(`/api/cc/images?statut=${statut}`)).images); }
+    catch (e) { setErreur((e as Error).message.replace("cercles-fiches-catalogue.sql", "cercles-images.sql")); setListe([]); }
+  }, [statut]);
+  useEffect(() => { void charger(); }, [charger]);
+  async function moderer(id: string, corps: Record<string, unknown>) {
+    try { await appel(`/api/cc/images/${id}`, { method: "PATCH", body: JSON.stringify(corps) }); void charger(); }
+    catch (e) { setErreur((e as Error).message); }
+  }
+  return (
+    <div style={{ display: "grid", gap: 12 }}>
+      <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+        <select value={statut} onChange={(e) => setStatut(e.target.value)} style={{ ...S.btnGhost, padding: 8 }}>
+          <option value="PENDING">À modérer</option><option value="APPROVED">Publiées</option><option value="REJECTED">Refusées</option>
+        </select>
+        <button style={S.btnGhost} onClick={() => void charger()}>Actualiser</button>
+        <span style={{ color: CC.color.inkMid, fontSize: 13 }}>Publiques seulement si l'image, sa fiche et son pro sont approuvés. Métadonnées (GPS) déjà retirées.</span>
+      </div>
+      {erreur && <div style={{ ...S.carte, background: CC.color.dangerBg, color: CC.color.danger }}>{erreur}</div>}
+      {liste === null ? <div>Chargement…</div> : !liste.length ? <div style={S.carte}>Rien dans cette vue.</div> : (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
+          {liste.map((i) => (
+            <div key={i.id} style={{ ...S.carte, padding: 10, display: "grid", gap: 6 }}>
+              <a href={i.url} target="_blank" rel="noreferrer"><img src={i.vignette} alt="" loading="lazy" style={{ width: "100%", aspectRatio: "4 / 3", objectFit: "cover", borderRadius: 6 }} /></a>
+              <div style={{ fontSize: 12 }}><strong>{i.objetLibelle}</strong> · {i.objetType.toLowerCase()} {i.statutObjet && i.statutObjet !== "APPROVED" ? `(${i.statutObjet})` : ""}</div>
+              <div style={{ fontSize: 12, color: CC.color.inkMid }}>{i.raisonSociale} ({i.ville}) · {i.largeur}×{i.hauteur} · {fmt(i.taille / 1024, 0)} Ko{i.principale ? " · principale" : ""}</div>
+              {(i.legendeFr || i.legendeAr) && <div style={{ fontSize: 12 }}>{i.legendeFr}{i.legendeAr && <span dir="rtl" lang="ar"> · {i.legendeAr}</span>}</div>}
+              {i.motifRejet && <div style={{ fontSize: 12, color: CC.color.danger }}>Motif : {i.motifRejet}</div>}
+              <div style={{ display: "flex", gap: 6 }}>
+                {i.statut !== "APPROVED" && <button style={S.btn} onClick={() => moderer(i.id, { statut: "APPROVED" })}>Approuver</button>}
+                {i.statut !== "REJECTED" && <button style={S.btnGhost} onClick={() => { const m = window.prompt("Motif du refus (visible par le pro) :"); if (m) void moderer(i.id, { statut: "REJECTED", motif: m }); }}>Refuser</button>}
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>

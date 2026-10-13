@@ -13,6 +13,7 @@ import { REGIONS_MA } from "../../domain/materiaux/regions";
 import { UNITES_REF } from "../../domain/materiaux/types";
 import { apiFournisseurs, codeErreur, type Degressif, type FournisseurPrive, type Produit } from "./api";
 import { ChoixMateriau } from "./FicheForm";
+import GalerieImages from "./GalerieImages";
 import { useTextes } from "./textes";
 import { BadgeStatut, Champ, Puces, T, TexteSaisi } from "./ui";
 
@@ -241,6 +242,7 @@ function ProduitForm({ f, initial, onFini, onAnnuler }: { f: FournisseurPrive; i
         <button className="frn-btn" type="submit" disabled={envoi}>{envoi ? x.t("enregistrement") : x.t("enregistrer")}</button>
         <button className="frn-btn frn-btn-ghost" type="button" onClick={onAnnuler}>{x.t("annuler")}</button>
       </div>
+      <GalerieImages objetType="PRODUIT" objetId={initial?.id || null} />
       <small style={{ color: T.inkMuted }}>{f.raisonSociale}</small>
     </form>
   );

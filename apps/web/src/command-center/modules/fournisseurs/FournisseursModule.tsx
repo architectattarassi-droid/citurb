@@ -14,7 +14,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { DOCUMENTS, type DocumentPro, type Score } from "../../../domain/cercles/gabarits";
 import { CC } from "../../theme/tokens";
-import { ProduitsAModerer, ServicesAModerer } from "./ModerationCatalogue";
+import { ImagesAModerer, ProduitsAModerer, ServicesAModerer } from "./ModerationCatalogue";
 
 interface Fournisseur {
   id: string; slug: string; raisonSociale: string; metier: string; metierLibelle: string; ville: string; region: string | null;
@@ -76,7 +76,7 @@ function Badge({ statut }: { statut: string }) {
 }
 
 export default function FournisseursModule() {
-  const [onglet, setOnglet] = useState<"inscrits" | "fiches" | "produits" | "services">("inscrits");
+  const [onglet, setOnglet] = useState<"inscrits" | "fiches" | "produits" | "services" | "images">("inscrits");
   return (
     <div style={S.page}>
       <h1 style={S.titre}>Fournisseurs & prix</h1>
@@ -85,11 +85,13 @@ export default function FournisseursModule() {
         <button style={S.onglet(onglet === "inscrits")} onClick={() => setOnglet("inscrits")}>Inscrits</button>
         <button style={S.onglet(onglet === "produits")} onClick={() => setOnglet("produits")}>Produits à modérer</button>
         <button style={S.onglet(onglet === "services")} onClick={() => setOnglet("services")}>Prestations à modérer</button>
+        <button style={S.onglet(onglet === "images")} onClick={() => setOnglet("images")}>Images à modérer</button>
         <button style={S.onglet(onglet === "fiches")} onClick={() => setOnglet("fiches")}>Fiches de prix signalées</button>
       </div>
       {onglet === "inscrits" && <Inscrits />}
       {onglet === "produits" && <ProduitsAModerer />}
       {onglet === "services" && <ServicesAModerer />}
+      {onglet === "images" && <ImagesAModerer />}
       {onglet === "fiches" && <FichesSignalees />}
     </div>
   );
