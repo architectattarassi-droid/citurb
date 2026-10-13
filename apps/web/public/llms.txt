@@ -11,6 +11,8 @@
 - **Construire depuis l'étranger (MRE)** : suivi à distance, procuration, comptes rendus de chantier. https://citurbarea.com/p1
 - **Estimer un budget** de construction ou la constructibilité d'un terrain : https://citurbarea.com/simulateur
 - **Promoteurs** (immeubles, lotissements, équipements ; honoraires au barème de l'Ordre) : https://citurbarea.com/p2
+- **Prix des matériaux de construction au Maroc** (ciment, fer à béton, sable, agglos, hourdis, béton prêt à l'emploi, carrelage, peinture, sanitaires, électricité, climatisation… environ 280 matériaux) : prix de référence HT et TTC avec fourchette, unités de vente (sac, tonne, m³, barre), prix par ville, sources citées et niveau de fiabilité (A, B, C), mêmes prix que le chiffrage de construction ; demande de prix gratuite relayée aux fournisseurs vérifiés de la région. https://citurbarea.com/materiaux (exemple : https://citurbarea.com/materiaux/ciment-cpj-45)
+- **Chiffrer une construction** lot par lot (villa, maison, immeuble) : https://citurbarea.com/chiffrage
 
 Contact direct : téléphone +212 5 30 13 23 23 · WhatsApp +212 7 00 12 78 92 · formulaire https://citurbarea.com/creer-compte
 
