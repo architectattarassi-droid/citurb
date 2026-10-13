@@ -2411,3 +2411,142 @@ model Parametre {
   valeur    Json
   updatedAt DateTime @default(now()) @updatedAt
 }
+
+// ── Espace projet (lot 1) — docs/sql/espace-projet-neon.sql ─────────────
+// Tables lues/écrites par les Pages Functions (functions/_lib/projets*.ts).
+
+/// Projet rattaché à un Dossier, décomposé en jalons générés depuis le référentiel.
+model Projet {
+  id                 String   @id
+  dossierId          String?
+  titre              String
+  /// { type, sousSols, etagesHorsSol, hauteurM, zoneSismique, erp, ascenseur, piscine }
+  caracteristiques   Json     @default("{}")
+  /// « domaine@version » des fichiers du référentiel à la création
+  referentielVersion String
+  /// Instantané des exigences, normes, modèles et phases utilisés
+  referentiel        Json     @default("{}")
+  creePar            String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @default(now()) @updatedAt
+
+  membres    ProjetMembre[]
+  jalons     ProjetJalon[]
+  messages   ProjetMessage[]
+  fichiers   ProjetFichier[]
+  documents  ProjetDocument[]
+  evenements ProjetEvenement[]
+
+  @@index([dossierId])
+}
+
+model ProjetMembre {
+  id           String    @id
+  projetId     String
+  /// Role du référentiel (CLIENT, ARCHITECTE, BET_STRUCTURE…)
+  role         String
+  nom          String
+  telephone    String?
+  email        String?
+  entreprise   String?
+  /// SHA-256 (hex) du jeton d'accès ; le jeton n'est jamais stocké
+  jetonHash    String    @unique
+  actif        Boolean   @default(true)
+  invitePar    String?
+  createdAt    DateTime  @default(now())
+  dernierAcces DateTime?
+  projet       Projet    @relation(fields: [projetId], references: [id], onDelete: Cascade)
+
+  @@index([projetId])
+}
+
+model ProjetJalon {
+  projetId   String
+  code       String
+  phase      String
+  rang       Int       @default(0)
+  /// Définition figée à la création
+  definition Json
+  /// A_FAIRE | EN_COURS | EN_ATTENTE_VALIDATION | VALIDE | BLOQUE | SANS_OBJET
+  statut     String    @default("A_FAIRE")
+  /// { pointId: { fait, par, role, le, preuveIds[], commentaire } }
+  checklist  Json      @default("{}")
+  validePar  String?
+  valideLe   DateTime?
+  /// Salle visio JaaS « chantier-… »
+  salle      String?
+  updatedAt  DateTime  @default(now()) @updatedAt
+  projet     Projet    @relation(fields: [projetId], references: [id], onDelete: Cascade)
+
+  @@id([projetId, code])
+  @@index([projetId, rang])
+}
+
+/// Append-only ; suppression = masquage par l'administration.
+model ProjetMessage {
+  id             String   @id
+  projetId       String
+  jalonCode      String
+  auteurMembreId String?
+  auteurNom      String
+  auteurRole     String
+  texte          String
+  pieceIds       Json?
+  masque         Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  projet         Projet   @relation(fields: [projetId], references: [id], onDelete: Cascade)
+
+  @@index([projetId, jalonCode, createdAt], map: "ProjetMessage_projet_jalon_date_idx")
+}
+
+model ProjetFichier {
+  id             String   @id
+  projetId       String
+  jalonCode      String?
+  pointId        String?
+  auteurMembreId String?
+  auteurNom      String
+  nom            String
+  type           String
+  taille         BigInt
+  /// Clé R2 (binding FICHIERS)
+  cleR2          String
+  /// PHOTO | VIDEO | DOCUMENT | PLAN | PV
+  nature         String
+  createdAt      DateTime @default(now())
+  projet         Projet   @relation(fields: [projetId], references: [id], onDelete: Cascade)
+
+  @@index([projetId, jalonCode, createdAt], map: "ProjetFichier_projet_jalon_idx")
+}
+
+model ProjetDocument {
+  id         String   @id
+  projetId   String
+  jalonCode  String
+  modeleId   String
+  valeurs    Json     @default("{}")
+  /// BROUILLON | SIGNE
+  statut     String   @default("BROUILLON")
+  /// [{ membreId, nom, role, le }]
+  signatures Json     @default("[]")
+  auteurNom  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+  projet     Projet   @relation(fields: [projetId], references: [id], onDelete: Cascade)
+
+  @@index([projetId, jalonCode], map: "ProjetDocument_projet_jalon_idx")
+}
+
+/// Journal du projet (traçabilité), jamais modifié.
+model ProjetEvenement {
+  id        String   @id
+  projetId  String
+  auteur    String
+  action    String
+  cible     String?
+  details   Json?
+  createdAt DateTime @default(now())
+  projet    Projet   @relation(fields: [projetId], references: [id], onDelete: Cascade)
+
+  @@index([projetId, createdAt], map: "ProjetEvenement_projet_date_idx")
+}
