@@ -12,15 +12,6 @@ import { createDossier as createCase } from "../../../../application/p1/createDo
 import { selectPack } from "../../../../application/p1/selectPack";
 import { canAccessPacksPage, canShowPacks, unlockPacks } from "../../../../application/p1/enterPacks";
 import { recommendPack } from "../../../../application/p1/packRecommendationService";
-import { setToken } from "../../../tome4/apiClient";
-import {
-  apiFetch,
-  quoteP1Packs,
-  requestP1PacksEmailCode,
-  verifyP1PacksEmailCode,
-  requestP1PacksSmsCode,
-  verifyP1PacksSmsCode,
-} from "../../../tome4/apiClient";
 import { quoteLocal } from "../../../../domain/p1/quote.engine";
 import LeadCaptureForm from "../../../../features/lead-funnel/LeadCaptureForm";
 import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
@@ -186,22 +177,14 @@ export default function P1Packs() {
     (async () => {
       setQuoteErr(null);
       let qE: any, qA: any, qC: any;
+      // Calcul local (domain/p1/quote.engine) : l'API /p1/packs/quote est éteinte.
       try {
-        [qE, qA, qC] = await Promise.all([
-          quoteP1Packs(mkInput("ESSENTIEL", addRemoteFollow)),
-          quoteP1Packs(mkInput("AVANCE", addRemoteFollow)),
-          quoteP1Packs(mkInput("COMPLET", false)),
-        ]);
-      } catch {
-        // Backend offline → fallback local engine (exact same formulas)
-        try {
-          qE = quoteLocal(mkInput("ESSENTIEL", addRemoteFollow));
-          qA = quoteLocal(mkInput("AVANCE", addRemoteFollow));
-          qC = quoteLocal(mkInput("COMPLET", false));
-        } catch (e2: any) {
-          if (!cancelled) { setQuoteMap(null); setQuoteErr(e2?.message || t("portes.p1.packs.sim.calc_error")); }
-          return;
-        }
+        qE = quoteLocal(mkInput("ESSENTIEL", addRemoteFollow));
+        qA = quoteLocal(mkInput("AVANCE", addRemoteFollow));
+        qC = quoteLocal(mkInput("COMPLET", false));
+      } catch (e2: any) {
+        if (!cancelled) { setQuoteMap(null); setQuoteErr(e2?.message || t("portes.p1.packs.sim.calc_error")); }
+        return;
       }
       if (!cancelled) {
         setQuoteMap({ ESSENTIEL: qE, AVANCE: qA, COMPLET: qC });
@@ -231,148 +214,8 @@ export default function P1Packs() {
     }
   }, [auth.isAuthed, auth.loading, auth.userId, navigate, params]);
 
-  const doUnlock = async () => {
-		const caseId = params.get("case") || (auth.userId ? `${auth.userId}-${Date.now()}` : `anon-${Date.now()}`);
-		setActiveCaseId(caseId);
-		if (!auth.userId && !caseId) return;
-    if (!truthOk || !termsOk) return;
-		const email = (emailForCode || "").trim();
-    const phone = (phoneForCode || "").trim();
-    if (unlockChannel === "email") {
-			if (!email || !email.includes("@")) {
-				setUnlockMsg(t("portes.p1.packs.unlock.msg.email_invalid"));
-				return;
-			}
-    } else {
-      if (!telephoneEnvoyable(phone)) {
-        setUnlockMsg(t("portes.p1.packs.unlock.msg.phone_invalid"));
-        return;
-      }
-    }
-    setBusy(true);
-    setUnlockMsg(unlockChannel === "email" ? t("portes.p1.packs.unlock.msg.sending_email") : t("portes.p1.packs.unlock.msg.sending_sms"));
-    setDevCode(null);
-    try {
-      const ts = Date.now();
-      const q = (quoteMap as any)?.[pack] || null;
-			const res: any = unlockChannel === "email" ? await requestP1PacksEmailCode({
-				caseId,
-				email,
-        order: {
-          door: "P1",
-				requester: {
-					displayName: ((data as any)?.firstname || (data as any)?.firstName || null) as any,
-					email: email as any,
-				},
-          project: {
-            type: (data as any)?.type || (data as any)?.projectType,
-            city: (data as any)?.city || (data as any)?.commune || (data as any)?.province || null,
-            surfaceM2: derived.surfaceM2,
-            constructionLevel,
-            hasBasement: isVilla ? hasBasement : false,
-          },
-          pricing: {
-            pack,
-            packLabel: pack === "ESSENTIEL" ? t("portes.p1.packs.card.essentiel.badge") : pack === "AVANCE" ? t("portes.p1.packs.card.avance.badge") : t("portes.p1.packs.card.complet.badge"),
-            packMAD: q?.amounts?.packMAD ?? null,
-            remoteFollowMAD: q?.amounts?.remoteFollowMAD ?? null,
-            betMAD: q?.amounts?.betMAD ?? null,
-            modMAD: q?.amounts?.modMAD ?? null,
-            decoMAD: q?.amounts?.decoMAD ?? null,
-            totalMAD: q?.amounts?.totalMAD ?? null,
-            totalMADRounded: q?.amounts?.totalMADRounded ?? null,
-            currency: "MAD",
-          },
-          services: {
-            addRemoteFollow,
-            betMode,
-            mandateEntreprise,
-            modEnabled,
-            decoEnabled,
-          },
-          clientConfirmations: { truthOk: true, termsOk: true },
-          ts,
-        },
-			}) : await requestP1PacksSmsCode({ caseId, phone });
-
-			if (!res?.ok) {
-				setUnlockMsg(res?.message || t("portes.p1.packs.unlock.msg.action_impossible"));
-				return;
-			}
-
-      setCodeRequested(true);
-      setUnlockMsg(
-        unlockChannel === "email"
-          ? t("portes.p1.packs.unlock.msg.sent_email", { min: Math.round(res.expiresInSec / 60) })
-          : t("portes.p1.packs.unlock.msg.sent_sms", { min: Math.round(res.expiresInSec / 60) })
-      );
-
-      // LEAD CAPTURE — dès la demande du code, on crée le dossier EN BASE + le compte
-      // + on notifie l'owner via l'intake PUBLIC (le client anonyme n'a pas de session ;
-      // /p2/dossier/create exige une auth, d'où des dossiers invisibles côté admin).
-      // Capturé tôt pour ne PAS perdre le lead si le client n'achève pas la vérification.
-      // Idempotent par case.
-      try {
-        const doneKey = `citurbarea:p1:intake_done:${caseId}`;
-        if (!localStorage.getItem(doneKey)) {
-          const d: any = data || {};
-          const nom = displayNameSafe || [d.firstname || d.firstName, d.lastname || d.lastName].filter(Boolean).join(" ") || undefined;
-          const resp: any = await apiFetch("/p2/intake", {
-            method: "POST",
-            body: {
-              porteType: "P1",
-              clientEmail: (email || d.email || "").trim() || undefined,
-              clientTel: ((d.phone || phoneForCode || "").trim()) || undefined,
-              clientNom: nom,
-              title: `P1 — ${d.city || d.commune || d.province || "Projet"}`,
-              commune: d.commune || d.city || d.province || undefined,
-              natureProjet: d.type || d.projectType || undefined,
-              surfaceTerrain: Number(d.terrainArea) || undefined,
-              surfacePlancher: derived.surfaceM2 || undefined,
-              source: "P1",
-              lang,
-            },
-          });
-          if (resp?.dossierId) localStorage.setItem(`citurbarea:p1:dossierId:${caseId}`, resp.dossierId);
-          if (resp?.access_token) setToken(resp.access_token);
-          localStorage.setItem(doneKey, "1");
-        }
-      } catch { /* non-bloquant : ne pas casser la demande de code si l'intake échoue */ }
-			if (res.devCode) setDevCode(res.devCode);
-    } catch (e: any) {
-      setUnlockMsg(e?.message ? `${t("portes.p1.packs.unlock.msg.error_prefix")} ${e.message}` : t("portes.p1.packs.unlock.msg.send_error"));
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const doVerifyCode = async () => {
-		const caseId = activeCaseId || params.get("case") || "";
-		if (!auth.userId && !caseId) return;
-    const code = (emailCode || "").trim();
-    if (code.length < 4) {
-      setUnlockMsg(t("portes.p1.packs.unlock.msg.code_invalid"));
-      return;
-    }
-    setBusy(true);
-    setUnlockMsg(t("portes.p1.packs.unlock.msg.verifying"));
-    try {
-			const r: any = unlockChannel === "email"
-				? await verifyP1PacksEmailCode(code, caseId)
-				: await verifyP1PacksSmsCode(code, caseId);
-			if (!r?.ok) {
-				setUnlockMsg(r?.message || t("portes.p1.packs.unlock.msg.code_wrong"));
-				return;
-			}
-			unlockPacks(auth.userId || `case:${caseId}`, Date.now());
-      setUnlockMsg(t("portes.p1.packs.unlock.msg.validated"));
-      setTimeout(() => packsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
-    } catch (e: any) {
-      setUnlockMsg(e?.message ? `${t("portes.p1.packs.unlock.msg.error_prefix")} ${e.message}` : t("portes.p1.packs.unlock.msg.code_wrong"));
-    } finally {
-      setBusy(false);
-    }
-  };
+  // Mode "full" (déverrouillage par code e-mail/SMS via l'API NestJS, éteinte) retiré :
+  // les packs se déverrouillent par le formulaire de capture (LeadCaptureForm).
 
   const rec = useMemo(() => {
     const planMode = (data as any)?.planMode === "personnalise" ? "personnalise" : "type";
@@ -435,23 +278,6 @@ export default function P1Packs() {
         projectType, constructionLevel, caseId, brief: qual, source: "WEB_P1_PACK",
       });
     }
-    apiFetch('/p2/dossier/create', {
-      method: 'POST',
-      body: {
-        title: offerTitle,
-        caseId,
-        packSelected: packApiMap[pack],
-        packPriceMAD,
-        projectType: projectType,
-        constructionLevel,
-        payload: qual,
-      },
-    }).then((resp: any) => {
-      const dbId = resp?.dossier?.id;
-      if (dbId && auth.userId) {
-        localStorage.setItem(`citurbarea:p1:dossierId:${auth.userId}:v1`, dbId);
-      }
-    }).catch(() => { /* non-blocking */ });
 
     // Legacy dossier store (keeps P1Dossier functional until B7)
     createDossier(userId, qual, pack, offerTitle);
@@ -838,105 +664,6 @@ ${sections}
             />
           </div>
         )}
-
-        {!packsVisible && SIGNUP_MODE === "full" && (<>
-          <div className="card" style={{ marginTop: 18 }}>
-            <div className="lux" style={{ fontSize: 18, marginBottom: 10 }}>{t("portes.p1.packs.unlock.title")}</div>
-            <div className="muted" style={{ fontSize: 13, lineHeight: 1.7 }}>
-              {t("portes.p1.packs.unlock.intro")}
-            </div>
-            <div style={{ marginTop: 14, display: "grid", gap: 10 }}>
-              {/* Consentement implicite à l'action (les cases pré-cochées rendaient le client méfiant). */}
-              <div className="muted" style={{ fontSize: 12, lineHeight: 1.6 }}>
-                En recevant votre code de confirmation, vous certifiez l'exactitude des informations saisies et acceptez les conditions d'utilisation de la plateforme.
-              </div>
-	              <div style={{ display: "grid", gap: 6 }}>
-	                <div className="muted" style={{ fontSize: 12 }}>{t("portes.p1.packs.unlock.channel")}</div>
-                  <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                    <label style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 800, color: "rgba(11,18,32,0.78)", fontSize: 13 }}>
-                      <input type="radio" checked={unlockChannel === "email"} onChange={() => setUnlockChannel("email")} />
-                      {t("portes.p1.packs.unlock.email_label")}
-                    </label>
-                    {/* SMS désactivé (Twilio en instance) — validation par email uniquement. */}
-                  </div>
-	              </div>
-	              {unlockChannel === "email" ? (
-	                <div style={{ display: "grid", gap: 6 }}>
-	                  <div className="muted" style={{ fontSize: 12 }}>{t("portes.p1.packs.unlock.email_field")}</div>
-	                  <input
-	                    type="email"
-	                    inputMode="email"
-	                    autoComplete="email"
-	                    aria-label={t("portes.p1.packs.unlock.email_field")}
-	                    value={emailForCode}
-	                    onChange={(e) => setEmailForCode(e.target.value)}
-	                    placeholder={t("portes.p1.packs.unlock.email_placeholder")}
-	                    style={{ padding: "10px 12px", borderRadius: 12, border: "1px solid rgba(15,23,42,0.18)", fontSize: 16 }}
-	                  />
-	                </div>
-	              ) : (
-	                <div style={{ display: "grid", gap: 6 }}>
-	                  <div className="muted" style={{ fontSize: 12 }}>{t("portes.p1.packs.unlock.phone_field")}</div>
-	                  <input
-	                    type="tel"
-	                    inputMode="tel"
-	                    autoComplete="tel"
-	                    aria-label={t("portes.p1.packs.unlock.phone_field")}
-	                    value={phoneForCode}
-	                    onChange={(e) => setPhoneForCode(e.target.value)}
-	                    placeholder={t("portes.p1.packs.unlock.phone_placeholder")}
-	                    style={{ padding: "10px 12px", borderRadius: 12, border: "1px solid rgba(15,23,42,0.18)", fontSize: 16 }}
-	                  />
-	                </div>
-	              )}
-	              </div>
-	            </div>
-
-	          <div style={{ marginTop: 14, display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <button
-                className="btn btn-dark"
-                type="button"
-                onClick={doUnlock}
-                disabled={!truthOk || !termsOk}
-                style={{ opacity: (!truthOk || !termsOk) ? 0.55 : 1.0 }}
-              >
-                {busy ? t("portes.p1.packs.unlock.cta_busy") : (unlockChannel === "email" ? t("portes.p1.packs.unlock.cta_email") : t("portes.p1.packs.unlock.cta_sms"))}
-              </button>
-              <Link className="link" to="/p1" style={{ alignSelf: "center" }}>{t("portes.p1.packs.unlock.edit_info")}</Link>
-            </div>
-
-            {codeRequested && (
-              <div style={{ marginTop: 14, display: "grid", gap: 10 }}>
-                <div className="muted" style={{ fontSize: 13, lineHeight: 1.6 }}>
-                  {unlockChannel === "email" ? t("portes.p1.packs.unlock.code_prompt_email") : t("portes.p1.packs.unlock.code_prompt_sms")}
-                  {devCode ? (
-                    <>
-                      <br />
-                      <span style={{ fontWeight: 900 }}>{t("portes.p1.packs.unlock.code_dev")}</span> <span style={{ fontWeight: 900 }}>{devCode}</span>
-                    </>
-                  ) : null}
-                </div>
-                <input
-                  value={emailCode}
-                  onChange={(e) => setEmailCode(e.target.value)}
-                  placeholder={t("portes.p1.packs.unlock.code_placeholder")}
-                  style={{
-                    padding: "12px 14px",
-                    borderRadius: 12,
-                    border: "1px solid rgba(11,27,58,0.20)",
-                    outline: "none",
-                    fontWeight: 900,
-                    letterSpacing: "0.12em",
-                  }}
-                />
-                <button className="btn btn-gold" type="button" onClick={doVerifyCode} disabled={busy}>
-                  {busy ? t("portes.p1.packs.unlock.cta_busy") : t("portes.p1.packs.unlock.verify_cta")}
-                </button>
-		          </div>
-		        )}
-            {unlockMsg && <div style={{ marginTop: 10, fontWeight: 800, color: "rgba(11,18,32,0.78)" }}>{unlockMsg}</div>}
-	          </>
-	        )}
 
         {packsVisible && (
           <>

@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { apiBase } from "../../../tome4/apiClient";
 import { useAuth } from "../../../tome5/AuthProvider";
 import { getStoredLang, useT } from "../../../../i18n/i18n";
 import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
 import FichesPrestations from "../../../../components/fiches-prestations/FichesPrestations";
 import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
-import { apiAvailable, captureFromIntake, delaiMoisDepuis, montantDevis, submitLead, telephoneEnvoyable } from "../../../../features/lead-funnel/leadBridge";
+import { captureFromIntake, delaiMoisDepuis, montantDevis, submitLead, telephoneEnvoyable } from "../../../../features/lead-funnel/leadBridge";
 import BudgetPrevisionnelField from "../../../../features/lead-funnel/BudgetPrevisionnelField";
 import {
   BAREME_CNOA_2021,
+  ErreurDevis,
   FAMILLES,
+  GRILLE_REELLE,
+  categoriesDeSection,
   computeQuote as computeQuoteLocal,
   estCategorieConnue,
   fourchetteDe,
@@ -20,6 +22,7 @@ import {
   sousTypeDe,
   sousTypesDeFamille,
   type CategoryCode,
+  type P2Section as SectionCnoa,
   type DevisResult,
   type FamilleCode,
 } from "@citurbarea/pricing-cnoa";
@@ -255,7 +258,6 @@ const HERO_POINT_IDS = ["bareme", "phases", "devis", "contract"] as const;
 const PREFILL_KEY = "citurbarea:prefill";
 
 /** Délai maximal de chargement du catalogue avant bascule en saisie libre. */
-const CATALOGUE_TIMEOUT_MS = 5000;
 
 /** Erreur d'un champ de l'étape identité ; field = suffixe de l'id DOM « p2f_<field> ». */
 type ErreurChamp = { field: string; msg: string };
@@ -387,23 +389,19 @@ function P2HomeInner() {
   useEffect(() => {
     if (!section || section === "LOT") { setCategories([]); return; }
     setCategoriesKo(false);
-    // Délai maximal : sans réponse JSON en 5 s, on passe en saisie libre.
-    let actif = true;
-    const ac = new AbortController();
-    const timer = setTimeout(() => ac.abort(), CATALOGUE_TIMEOUT_MS);
-    fetch(`${apiBase()}/p2/categories?section=${section}`, { signal: ac.signal })
-      .then(r => r.json())
-      .then(d => {
-        if (!d.ok) { setCategoriesKo(true); return; }
-        const items: Category[] = (d.items || []).filter((c: Category) =>
-          (section === "IMM" || section === "GR") ? !/villa/i.test(c.label) : true
-        );
-        setCategories(items);
-      })
-      // API injoignable : saisie libre dans le bloc catégorie, le parcours continue.
-      .catch(() => { if (actif) setCategoriesKo(true); })
-      .finally(() => clearTimeout(timer));
-    return () => { actif = false; clearTimeout(timer); ac.abort(); };
+    // Catalogue du barème, calculé ici (paquet partagé) : l'API NestJS est éteinte.
+    const items: Category[] = categoriesDeSection(section as SectionCnoa).map((code) => {
+      const cat = BAREME_CNOA_2021[code];
+      return {
+        code, label: cat.label, costPerM2: cat.costPerM2, plancherM2: cat.costPerM2,
+        photoOptionAvailable: cat.photoOptionAvailable, notes: cat.notes,
+        niveaux: niveauxDe(code).map((cle) => {
+          const [bas, haut] = GRILLE_REELLE[code].niveaux[cle];
+          return { cle, bas, haut };
+        }),
+      };
+    });
+    setCategories((section === "IMM" || section === "GR") ? items.filter((c) => !/villa/i.test(c.label)) : items);
   }, [section]);
 
   // Défilement doux vers le bloc qui vient de se révéler.
@@ -509,8 +507,8 @@ function P2HomeInner() {
     }
   }, [niveau, niveauxProposes.join("|")]);
 
-  // Devis. L'API répond → elle fait foi. Injoignable → le MÊME calcul tourne
-  // ici (paquet partagé) : le visiteur voit son devis, API éteinte.
+  // Devis : calcul du paquet partagé @citurbarea/pricing-cnoa, fait ici
+  // (l'API NestJS qui servait /p2/quote est éteinte).
   const computeQuote = async (): Promise<Quote | null> => {
     setError("");
     if (categoryCode === "LIBRE") { setQuoteLater(true); return null; }
@@ -525,36 +523,17 @@ function P2HomeInner() {
       body.surfacePlancherM2 = isAMG ? +surfacePlancher : (computedSPPerBuilding ?? 0);
       body.nbBatiments = section === "GR" ? +nbBatiments : 1;
     }
-    if (!(await apiAvailable())) {
-      try {
-        const local = computeQuoteLocal(body);
-        setQuote(local);
-        setPhase("quote");
-        return local;
-      } catch {
-        setQuoteLater(true);
-        return null;
-      }
-    }
-    setBusy(true);
     try {
-      const res = await fetch(`${apiBase()}/p2/quote`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      const data = await res.json();
-      // 400 = saisie refusée (niveau inconnu, surface manquante…) : on le dit,
-      // on ne replie pas sur une valeur par défaut.
-      if (!res.ok || !data.ok) { setError(data.error || data.message || t("portes.p2.identity.err_calc")); return null; }
-      setQuote(data);
+      const local = computeQuoteLocal(body);
+      setQuote(local);
       setPhase("quote");
-      return data;
-    } catch {
+      return local;
+    } catch (e) {
+      // Saisie refusée (niveau inconnu, surface manquante…) : on le dit,
+      // on ne replie pas sur une valeur par défaut.
+      if (e instanceof ErreurDevis) { setError(e.message || t("portes.p2.identity.err_calc")); return null; }
       setQuoteLater(true);
       return null;
-    } finally {
-      setBusy(false);
     }
   };
 
@@ -923,7 +902,6 @@ function P2HomeInner() {
             )}
 
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <a className="btn btn-gold" href={`/payment/start?dossier=${dossierId}`}>{t("portes.p2.recap.pay_now")}</a>
               <a className="btn btn-dark" href="/portal">{t("portes.p2.recap.my_dossiers")}</a>
               <a className="btn" href="/" style={{ background: "transparent", border: "1px solid rgba(11,27,58,0.18)", color: "#0B1B3A" }}>{t("portes.p2.recap.home")}</a>
             </div>

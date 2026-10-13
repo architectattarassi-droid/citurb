@@ -3,7 +3,6 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import proj4 from "proj4";
 import exifr from "exifr";
-import { apiBase } from "../../tomes/tome4/apiClient";
 
 /**
  * Couches SIG disponibles via notre proxy /api/sig/... — proviennent des
@@ -242,10 +241,9 @@ export default function MapPicker({
     setSigBusy(b => ({ ...b, [key]: true }));
     setSigError(e => ({ ...e, [key]: "" }));
     try {
-      const url = `${apiBase()}/api/sig/${def.source}/${def.layer}.geojson`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const geojson = await res.json();
+      // Couches servies par le proxy SIG de l'API NestJS, éteinte (aucune route
+      // dans functions/) : module geo du plan de rebranchement.
+      const geojson: any = await Promise.reject(new Error("Couches SIG momentanément indisponibles"));
       if (!map.getSource(sourceId)) {
         map.addSource(sourceId, { type: "geojson", data: geojson });
       }
@@ -806,12 +804,9 @@ export default function MapPicker({
   const layerCacheRef = useRef<Record<string, any>>({});
   const loadLayer = async (layerId: "0" | "1" | "2"): Promise<any[]> => {
     if (layerCacheRef.current[layerId]) return layerCacheRef.current[layerId].features || [];
-    try {
-      const res = await fetch(`${apiBase()}/api/sig/maroc-admin/${layerId}.geojson`);
-      const data = await res.json();
-      layerCacheRef.current[layerId] = data;
-      return data.features || [];
-    } catch { return []; }
+    // Découpage HCP servi par l'API SIG NestJS, éteinte : pas de surbrillance
+    // (module geo du plan de rebranchement).
+    return [];
   };
 
   // Effet 1 : highlight COMMUNE (or vif — niveau le plus fin)

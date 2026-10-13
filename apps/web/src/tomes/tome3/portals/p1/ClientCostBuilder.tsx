@@ -17,7 +17,6 @@ import {
   COST_RANGES_MA, estimateLots, type Standing, type TypeProjet,
 } from "../../../../command-center/modules/dossiers/costRangesMA";
 import { FINITIONS, defaultFinition } from "./finitionsCatalog";
-import SponsoredMaterials from "./SponsoredMaterials";
 
 const NAVY = "#0B1B3A";
 const GOLD = "#C9A227";
@@ -227,7 +226,7 @@ export default function ClientCostBuilder({
           </div>
 
           {/* Régie native : fournisseurs matériaux sponsorisés, au contexte des finitions */}
-          <SponsoredMaterials lots={composeLots.filter((l) => FINITIONS[l.code]).map((l) => l.code)} />
+          {/* Matériaux sponsorisés (régie pub de l API éteinte) : en sommeil. */}
         </div>
       )}
 

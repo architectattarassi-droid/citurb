@@ -260,7 +260,6 @@ export default function P4Home() {
             <span style={{ color: "#6b7280", fontSize: 12 }}>{t("portes.p4.recap.ref_dossier")} {dossierId?.slice(0, 12)}…</span>
           </div>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href={`/payment/start?dossier=${dossierId}`} style={{ background: "#dc2626", color: "#fff", padding: "12px 24px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>{t("portes.p4.recap.pay_now")}</a>
             <a href="/portal" style={{ background: "#1d4ed8", color: "#fff", padding: "12px 24px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>{t("portes.p4.recap.my_dossiers")}</a>
             <a href="/" style={{ color: "#9ca3af", textDecoration: "none", fontSize: 13, fontWeight: 600, padding: "12px 16px" }}>{t("portes.p4.recap.home")}</a>
           </div>

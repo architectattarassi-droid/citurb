@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { apiBase } from "../../../tome4/apiClient";
 import { useAuth } from "../../../tome5/AuthProvider";
 import { getStoredLang, useT } from "../../../../i18n/i18n";
 import MapPicker from "../../../../features/geo/MapPicker";
-import MohafadatiUpload, { UploadedDoc } from "../../../../features/geo/MohafadatiUpload";
+import type { UploadedDoc } from "../../../../features/geo/MohafadatiUpload";
 import AdminLocationSelect from "../../../../features/geo/AdminLocationSelect";
 import TitleFoncierInput from "../../../../features/geo/TitleFoncierInput";
 import { SIGNUP_MODE } from "../../../../features/lead-funnel/signupMode";
@@ -459,47 +458,13 @@ function P5HomeInner() {
     }
     if (!cityId) { setDgiCity(null); setSelectedDgiZoneCode(""); return; }
 
-    fetch(`${apiBase()}/api/sig/dgi-zones/${cityId}`)
-      .then(r => r.json())
-      .then(d => { if (d?.ok) setDgiCity(d as DgiCityData); })
-      .catch(() => { /* silent — on garde le dropdown abstrait */ });
+    // Zones DGI servies par l'API SIG NestJS, éteinte (aucune route dans
+    // functions/) : le dropdown abstrait reste proposé.
+    setDgiCity(null);
   }, [identity.commune]);
 
-  // Auto-détection zoning depuis PA AURS + axes routiers reconnus + signature
-  // prix par arrondissement. Déclenchée dès qu'on a au moins une commune OU
-  // des coordonnées GPS, avec un debounce 600 ms.
-  useEffect(() => {
-    const hasInput = (identity.commune && identity.commune.length > 1) ||
-                     (geoCoords && Number.isFinite(geoCoords.lat) && Number.isFinite(geoCoords.lng));
-    if (!hasInput) { setAutoDetection(null); return; }
-
-    const t = setTimeout(async () => {
-      setAutoDetectBusy(true);
-      try {
-        const params = new URLSearchParams();
-        if (geoCoords?.lat) params.set("lat", String(geoCoords.lat));
-        if (geoCoords?.lng) params.set("lng", String(geoCoords.lng));
-        if (identity.commune) params.set("commune", identity.commune);
-        if (identity.region) params.set("region", identity.region);
-        if (bienFamily) params.set("bienFamily", bienFamily);
-        // L'adresse texte est CRUCIALE — c'est elle qui permet de matcher des
-        // axes routiers haute valeur (Mohammed VI, Abtal, Bd d'Anfa, etc.)
-        // plus précis que l'arrondissement seul.
-        if (identity.adresseBien) params.set("address", identity.adresseBien);
-        const res = await fetch(`${apiBase()}/api/sig/auto-detect-zone?${params.toString()}`);
-        const data = await res.json();
-        if (data?.ok) {
-          setAutoDetection(data);
-          if (!zoneTierManuallySet && data.suggested?.zoneTier) {
-            setZoneTier(data.suggested.zoneTier);
-          }
-        }
-      } catch { /* silent — l'utilisateur peut toujours choisir manuellement */ }
-      finally { setAutoDetectBusy(false); }
-    }, 600);
-    return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [identity.commune, identity.region, identity.adresseBien, geoCoords?.lat, geoCoords?.lng, bienFamily]);
+  // (Auto-détection retirée : servie par l'API SIG NestJS, éteinte — module geo
+  // du plan de rebranchement. Le visiteur choisit la zone lui-même.)
 
   // ── Construction du payload intake ─────────────────────────────────
   const buildIntakePayload = (clientEmailOverride?: string) => {
@@ -741,7 +706,6 @@ function P5HomeInner() {
             )}
 
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <a className="btn btn-gold" href={`/payment/start?dossier=${dossierId}`}>💳 Payer maintenant</a>
               <a className="btn btn-dark" href="/portal">📁 Mes dossiers</a>
               <a className="btn" href="/" style={{ background: "transparent", border: "1px solid rgba(11,27,58,0.18)", color: "#0B1B3A" }}>← Accueil</a>
             </div>
@@ -1001,7 +965,8 @@ function P5HomeInner() {
               />
   
               {/* Sprint 1 — upload extrait Mohafadati (workaround ANCFCC) */}
-              <MohafadatiUpload onChange={(d) => setMohafadatiDoc(d)} />
+              {/* Téléversement de la note de renseignements (Mohafadati) : servi par l'API éteinte,
+                  en sommeil — le document se transmet à l'architecte (WhatsApp / rendez-vous). */}
   
               {/* Sprint 1 — N° de titre foncier (validation format + conservation) */}
               <TitleFoncierInput onChange={(d) => setTitleFoncier(d)} />

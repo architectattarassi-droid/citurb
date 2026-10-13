@@ -2,11 +2,9 @@
  * leadBridge.ts — seul endroit du front qui décide où part un lead.
  *
  * submitLead(input) :
- *   1. POST /api/lead-funnel/capture   TOUJOURS, en premier. Chemin relatif :
- *      l'API en dev (proxy Vite), la Pages Function Cloudflare en production —
- *      donc disponible même API éteinte.
- *   2. POST <apiBase>/p2/intake         best-effort, seulement si la sonde dit
- *      que l'API répond : apporte le Dossier et le compte client.
+ *   1. POST /api/lead-funnel/capture   TOUJOURS, en premier (Pages Function).
+ *   2. POST /api/intake                best-effort : crée le Dossier dans Neon.
+ *   (L'API NestJS et son /p2/intake sont éteints.)
  *
  * Garanties :
  *   - non bloquant : les deux envois sont des promesses séparées, la capture
@@ -19,7 +17,6 @@
  */
 
 import { useEffect, useState } from "react";
-import { apiBase } from "../../tomes/tome4/apiClient";
 import { getStoredLang } from "../../i18n/i18n";
 import { track } from "../../lib/analytics-tracker";
 import { attributionLead } from "../../lib/attribution";
@@ -72,7 +69,6 @@ const QUEUE_MAX = 20;
 const QUEUE_TTL_MS = 60 * 86400_000;
 const CAPTURE_TIMEOUT_MS = 10_000;
 const INTAKE_TIMEOUT_MS = 20_000;
-const PROBE_TIMEOUT_MS = 3_000;
 const WIZARD_MAX_BYTES = 8 * 1024;
 const WIZARD_STR_MAX = 500;
 
@@ -287,20 +283,12 @@ export async function replayLeadQueue(): Promise<void> {
   }
 }
 
-let probe: Promise<boolean> | null = null;
-
-/** Sonde légère de l'API, faite une fois et mémorisée pour la page. */
+/**
+ * L'API NestJS est éteinte (seul back-end : functions/ + Neon). Gardé pour les
+ * appelants qui choisissaient entre API et calcul local : toujours « absente ».
+ */
 export function apiAvailable(): Promise<boolean> {
-  if (!probe) {
-    probe = fetchWithTimeout(`${apiBase()}/health`, { cache: "no-store" }, PROBE_TIMEOUT_MS)
-      .then(async (r) => {
-        if (!r.ok) return false;
-        const j = await r.json().catch(() => null);
-        return !!(j && j.ok === true);
-      })
-      .catch(() => false);
-  }
-  return probe;
+  return Promise.resolve(false);
 }
 
 export function useApiStatus(): "unknown" | "up" | "down" {
@@ -314,34 +302,18 @@ export function useApiStatus(): "unknown" | "up" | "down" {
 }
 
 /**
- * Crée le Dossier. Production : /api/intake (Pages Function → Neon, back-office
- * admin.citurbarea.com). Sinon (local, API NestJS) : /p2/intake si l'API répond.
+ * Crée le Dossier : /api/intake (Pages Function → Neon, back-office
+ * admin.citurbarea.com).
  * null si aucun des deux n'a créé de dossier (le lead, lui, est déjà capturé).
  */
-export async function sendIntake(payload: Record<string, unknown>, token?: string | null): Promise<IntakeOutcome | null> {
+export async function sendIntake(payload: Record<string, unknown>, _token?: string | null): Promise<IntakeOutcome | null> {
   if (!payload.utm) { const utm = currentUtm(); if (utm) payload = { ...payload, utm }; }
   try {
     const res = await fetchWithTimeout("/api/intake", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }, INTAKE_TIMEOUT_MS);
     const data: any = await res.json().catch(() => null);
     if (res.ok && data?.ok && data.dossierId) return { dossierId: String(data.dossierId) };
-  } catch { /* pas de fonction (local) : repli sur l'API */ }
-  if (!(await apiAvailable())) return null;
-  try {
-    const res = await fetchWithTimeout(
-      `${apiBase()}/p2/intake`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-        body: JSON.stringify(payload),
-      },
-      INTAKE_TIMEOUT_MS,
-    );
-    const data: any = await res.json().catch(() => null);
-    if (!res.ok || !data?.ok) return null;
-    return { dossierId: data.dossierId || undefined, accessToken: data.access_token || undefined, message: data.message };
-  } catch {
-    return null;
-  }
+  } catch { /* fonction injoignable (dev local sans wrangler) : la capture du lead suffit */ }
+  return null;
 }
 
 /**
