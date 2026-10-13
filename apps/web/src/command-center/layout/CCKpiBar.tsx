@@ -1,34 +1,34 @@
 /**
  * CCKpiBar.tsx — Bandeau KPI atelier
  *
- * 6 métriques essentielles, présentées comme des chiffres gravés sur papier.
- * Source : /api/cc/snapshot/current.
+ * 6 compteurs réels lus dans Neon (GET /api/cc/snapshot/current, Pages
+ * Function). Compteur indisponible → « — », jamais de valeur inventée.
  */
 
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { CC } from "../theme/tokens";
-import { getToken } from "../../tomes/tome4/apiClient";
 
 // ─── Types ───────────────────────────────────────────────────
 
 interface CCKpis {
-  ytSubscribers: number;
-  emailsCollected: number;
-  leadsNew: number;
-  consultationsDone: number;
-  projectsActive: number;
-  revenueMois: number;
+  leads7j: number | null;
+  leadsTotal: number | null;
+  rdvAVenir: number | null;
+  dossiers: number | null;
+  fournisseursEnAttente: number | null;
+  terrainsEnAttente: number | null;
 }
 
 // ─── KPI config ──────────────────────────────────────────────
 
-const buildKpis = (d: CCKpis) => [
-  { id: "leads",    mark: "I",   label: "Leads", value: fmtNum(d.leadsNew),               accent: CC.color.or },
-  { id: "consult",  mark: "II",  label: "Consultations", value: fmtNum(d.consultationsDone), accent: CC.color.info },
-  { id: "projects", mark: "III", label: "Projets actifs", value: fmtNum(d.projectsActive),   accent: CC.color.success },
-  { id: "revenue",  mark: "IV",  label: "Revenus du mois", value: fmtDH(d.revenueMois),      accent: CC.color.navy },
-  { id: "emails",   mark: "V",   label: "Emails collectés", value: fmtNum(d.emailsCollected), accent: CC.color.inkMid },
-  { id: "subs",     mark: "VI",  label: "Abonnés YouTube", value: fmtNum(d.ytSubscribers),    accent: CC.color.warn },
+const buildKpis = (d: CCKpis | null) => [
+  { id: "leads7",   mark: "I",   label: "Leads 7 jours",        value: fmtNum(d?.leads7j),               accent: CC.color.or,      to: "/cc/leads" },
+  { id: "leads",    mark: "II",  label: "Leads au total",       value: fmtNum(d?.leadsTotal),            accent: CC.color.info,    to: "/cc/leads" },
+  { id: "rdv",      mark: "III", label: "RDV à venir",          value: fmtNum(d?.rdvAVenir),             accent: CC.color.success, to: "/cc/rendez-vous" },
+  { id: "dossiers", mark: "IV",  label: "Dossiers",             value: fmtNum(d?.dossiers),              accent: CC.color.navy,    to: "/cc/dossiers" },
+  { id: "fourn",    mark: "V",   label: "Fournisseurs à valider", value: fmtNum(d?.fournisseursEnAttente), accent: CC.color.inkMid,  to: "/cc/fournisseurs" },
+  { id: "terrains", mark: "VI",  label: "Terrains à valider",   value: fmtNum(d?.terrainsEnAttente),     accent: CC.color.warn,    to: "/cc/terrains" },
 ];
 
 // ─── Composant ───────────────────────────────────────────────
@@ -41,36 +41,30 @@ export default function CCKpiBar() {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch("/api/cc/snapshot/current", { headers: { Authorization: `Bearer ${getToken() ?? ""}` } });
-        if (!res.ok) throw new Error("fetch failed");
-        const data: CCKpis = await res.json();
-        if (!cancelled) setKpis(data);
-      } catch {
-        if (!cancelled) {
-          setKpis({ ytSubscribers: 0, emailsCollected: 0, leadsNew: 0, consultationsDone: 0, projectsActive: 0, revenueMois: 0 });
-        }
-      } finally {
+        const res = await fetch("/api/cc/snapshot/current", { credentials: "same-origin" });
+        const data = await res.json().catch(() => null);
+        if (!cancelled && res.ok && data?.ok) setKpis(data as CCKpis);
+      } catch { /* compteurs « — » */ } finally {
         if (!cancelled) setLoading(false);
       }
     })();
     return () => { cancelled = true; };
   }, []);
 
-  const items = kpis ? buildKpis(kpis) : [];
-
   return (
-    <div style={S.bar}>
+    <div style={S.bar} className="cc-kpi-bar">
       {loading
         ? Array.from({ length: 6 }).map((_, i) => <div key={i} style={S.skeleton} />)
-        : items.map(kpi => <KpiCard key={kpi.id} {...kpi} />)}
+        : buildKpis(kpis).map(kpi => <KpiCard key={kpi.id} {...kpi} />)}
     </div>
   );
 }
 
-function KpiCard({ mark, label, value, accent }: { mark: string; label: string; value: string; accent: string }) {
+function KpiCard({ mark, label, value, accent, to }: { mark: string; label: string; value: string; accent: string; to: string }) {
   const [hovered, setHovered] = useState(false);
   return (
-    <div
+    <Link
+      to={to}
       style={{ ...S.card, background: hovered ? CC.color.bgRaised : "transparent" }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -80,22 +74,17 @@ function KpiCard({ mark, label, value, accent }: { mark: string; label: string; 
         <div style={S.cardValue}>{value}</div>
         <div style={S.cardLabel}>{label}</div>
       </div>
-    </div>
+    </Link>
   );
 }
 
 // ─── Helpers ─────────────────────────────────────────────────
 
-function fmtNum(n: number): string {
+function fmtNum(n: number | null | undefined): string {
+  if (n == null) return "—";
   if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + " M";
   if (n >= 1_000) return (n / 1_000).toFixed(1) + " k";
   return n.toString();
-}
-
-function fmtDH(n: number): string {
-  if (n >= 1_000_000) return (n / 1_000_000).toFixed(2) + " M DH";
-  if (n >= 1_000) return (n / 1_000).toFixed(0) + " k DH";
-  return n + " DH";
 }
 
 // ─── Styles ──────────────────────────────────────────────────
@@ -115,7 +104,9 @@ const S: Record<string, React.CSSProperties> = {
     gap: 14,
     padding: "16px 24px",
     borderRight: `1px solid ${CC.color.border}`,
-    cursor: "default",
+    cursor: "pointer",
+    textDecoration: "none",
+    color: "inherit",
     transition: `background 0.18s ${CC.ease}`,
     minHeight: 76,
   },

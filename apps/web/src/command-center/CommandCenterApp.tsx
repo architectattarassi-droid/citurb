@@ -14,53 +14,25 @@ import RendezVousModule from "./modules/rendezvous/RendezVousModule";
 import ProjetsModule from "./modules/projets/ProjetsModule";
 import { Routes, Route, Navigate } from 'react-router-dom';
 import CCLayout from './layout/CCLayout';
-import CCDashboard from './modules/dashboard/CCDashboard';
-import MediaModule from './modules/media/MediaModule';
 import LeadsModule from './modules/leads/LeadsModule';
-import VisitorsModule from './modules/visitors/VisitorsModule';
-import AdsModule from './modules/ads/AdsModule';
-import SeoModule from './modules/seo/SeoModule';
-import InscritsModule from './modules/inscrits/InscritsModule';
 import FournisseursModule from './modules/fournisseurs/FournisseursModule';
 import MateriauxModule from './modules/materiaux/MateriauxModule';
-import ProjectsModule from './modules/projects/ProjectsModule';
-import TerritorialModule from './modules/territorial/TerritorialModule';
-import BusinessModule from './modules/business/BusinessModule';
-import DossiersModule from './modules/dossiers/DossiersModule';
-import DossierDetail from './modules/dossiers/DossierDetail';
-import PhaseWorkspace from './modules/dossiers/PhaseWorkspace';
-import DossierShadowView from './modules/dossiers/DossierShadowView';
-import DevisEditor from './modules/dossiers/DevisEditor';
-import DevisLibre from './modules/dossiers/DevisLibre';
-import ValidationsModule from './modules/validations/ValidationsModule';
-import ArchiveModule from './modules/archive/ArchiveModule';
-import ArchiveDossierView from './modules/archive/ArchiveDossierView';
-import OwnerLive from './pages/OwnerLive';
-import FirmsModule from './modules/firms/FirmsModule';
 import CCLogin from './pages/CCLogin';
-import SigExplorer from '../features/geo/SigExplorer';
 import CCSimulateur from './modules/dossiers/CCSimulateur';
-import { apiBase, getToken } from '../tomes/tome4/apiClient';
-
-export type CCModule =
-  | 'dashboard'
-  | 'media'
-  | 'leads'
-  | 'projects'
-  | 'territorial'
-  | 'business'
-  | 'dossiers';
+import DossiersListe from './modules/dossiers/DossiersListe';
+import EnSommeil from '../ui/EnSommeil';
 
 /**
- * Sans JWT de l'API, on demande à la Pages Function /api/cc/session si la
- * requête est passée par Cloudflare Access (admin.citurbarea.com) : c'est
- * l'accès au back-office tant que l'API NestJS n'est pas hébergée.
+ * Accès au back-office : la Pages Function /api/cc/session dit si la requête
+ * est passée par Cloudflare Access (admin.citurbarea.com) ou porte le cookie
+ * de session posé par /api/cc/login. (Les jetons de l'API NestJS éteinte ne
+ * sont plus acceptés.)
  */
 function CCGuard({ children }: { children: React.ReactNode }) {
-  const [etat, setEtat] = useState<'verif' | 'ok' | 'refuse'>(getToken() ? 'ok' : 'verif');
+  const [etat, setEtat] = useState<'verif' | 'ok' | 'refuse'>('verif');
   useEffect(() => {
     if (etat !== 'verif') return;
-    fetch(`${apiBase()}/api/cc/session`, { credentials: 'include' })
+    fetch('/api/cc/session', { credentials: 'include' })
       .then(r => setEtat(r.ok ? 'ok' : 'refuse'))
       .catch(() => setEtat('refuse'));
   }, [etat]);
@@ -77,35 +49,36 @@ export default function CommandCenterApp() {
         <CCGuard>
           <CCLayout>
             <Routes>
-              <Route index element={<Navigate to="dashboard" replace />} />
-              <Route path="dashboard" element={<CCDashboard />} />
-              <Route path="media/*" element={<MediaModule />} />
+              <Route index element={<Navigate to="leads" replace />} />
+              <Route path="dashboard" element={<Navigate to="/cc/leads" replace />} />
               <Route path="leads/*" element={<LeadsModule />} />
-              <Route path="visites" element={<VisitorsModule />} />
-              <Route path="publicite" element={<AdsModule />} />
-              <Route path="seo" element={<SeoModule />} />
-              <Route path="inscrits" element={<InscritsModule />} />
-              <Route path="fournisseurs" element={<FournisseursModule />} />
-              <Route path="materiaux" element={<MateriauxModule />} />
-              <Route path="projects/*" element={<ProjectsModule />} />
-              <Route path="territorial/*" element={<TerritorialModule />} />
-              <Route path="business/*" element={<BusinessModule />} />
-              <Route path="dossiers" element={<DossiersModule />} />
-              <Route path="terrains" element={<TerrainsModule />} />
               <Route path="rendez-vous" element={<RendezVousModule />} />
+              <Route path="fournisseurs" element={<FournisseursModule />} />
+              <Route path="inscrits" element={<Navigate to="/cc/fournisseurs" replace />} />
+              <Route path="validations" element={<Navigate to="/cc/fournisseurs" replace />} />
+              <Route path="dossiers" element={<DossiersListe />} />
+              <Route path="terrains" element={<TerrainsModule />} />
+              <Route path="materiaux" element={<MateriauxModule />} />
               <Route path="projets/*" element={<ProjetsModule />} />
-              <Route path="devis" element={<DevisLibre />} />
               <Route path="simulateur" element={<CCSimulateur />} />
-              <Route path="dossiers/:id" element={<PhaseWorkspace />} />
-              <Route path="dossiers/:id/shadow" element={<DossierShadowView />} />
-              <Route path="dossiers/:id/devis" element={<DevisEditor />} />
-              <Route path="validations" element={<ValidationsModule />} />
-              <Route path="archive" element={<ArchiveModule />} />
-              <Route path="archive/:id" element={<ArchiveDossierView />} />
-              <Route path="live" element={<OwnerLive />} />
-              <Route path="firms/*" element={<FirmsModule />} />
-              <Route path="sig" element={<SigExplorer mode="admin" />} />
-              <Route path="*" element={<Navigate to="dashboard" replace />} />
+              {/* En sommeil : modules de l'API NestJS éteinte (docs/architecture/plan-rebranchement.md). */}
+              <Route path="visites" element={<EnSommeil variante="admin" module="Visites" alternative={{ to: "/cc/leads", libelle: "Formulaires abandonnés (onglet des leads)" }} />} />
+              <Route path="seo" element={<EnSommeil variante="admin" module="SEO / GEO" />} />
+              <Route path="media/*" element={<EnSommeil variante="admin" module="Médias" />} />
+              <Route path="publicite" element={<EnSommeil variante="admin" module="Régie publicitaire" />} />
+              <Route path="projects/*" element={<EnSommeil variante="admin" module="Projets" alternative={{ to: "/cc/dossiers", libelle: "Dossiers" }} />} />
+              <Route path="territorial/*" element={<EnSommeil variante="admin" module="Intelligence territoire" />} />
+              <Route path="business/*" element={<EnSommeil variante="admin" module="Business" />} />
+              <Route path="devis" element={<EnSommeil variante="admin" module="Devis libre" alternative={{ to: "/cc/simulateur", libelle: "Simulateur (honoraires et chiffrage)" }} />} />
+              <Route path="dossiers/:id" element={<EnSommeil variante="admin" module="Fiche dossier" alternative={{ to: "/cc/dossiers", libelle: "Liste des dossiers" }} />} />
+              <Route path="dossiers/:id/shadow" element={<EnSommeil variante="admin" module="Vue client du dossier" alternative={{ to: "/cc/dossiers", libelle: "Liste des dossiers" }} />} />
+              <Route path="dossiers/:id/devis" element={<EnSommeil variante="admin" module="Devis du dossier" alternative={{ to: "/cc/simulateur", libelle: "Simulateur" }} />} />
+              <Route path="archive" element={<EnSommeil variante="admin" module="Archive" />} />
+              <Route path="archive/:id" element={<EnSommeil variante="admin" module="Archive" />} />
+              <Route path="live" element={<EnSommeil variante="admin" module="Live" />} />
+              <Route path="firms/*" element={<EnSommeil variante="admin" module="Cabinets" />} />
+              <Route path="sig" element={<EnSommeil variante="admin" module="SIG · PA" />} />
+              <Route path="*" element={<Navigate to="leads" replace />} />
             </Routes>
           </CCLayout>
         </CCGuard>

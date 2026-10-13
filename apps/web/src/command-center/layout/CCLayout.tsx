@@ -10,13 +10,12 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import CCKpiBar from "./CCKpiBar";
 import { CC } from "../theme/tokens";
-import { apiBase, getToken, setToken } from "../../tomes/tome4/apiClient";
-import { getSessionToken, getAdminJwt } from "../../features/admin/adminApi";
 
 // ─── Types ───────────────────────────────────────────────────
 
 type NavGroup = { id: string; title: string; items: NavItem[] };
-type NavItem = { id: string; label: string; path: string; mark: string };
+/** sommeil : module de l'API NestJS éteinte, entrée grisée (docs/architecture/plan-rebranchement.md). */
+type NavItem = { id: string; label: string; path: string; mark: string; sommeil?: boolean };
 
 // ─── Navigation, regroupée par intention métier ─────────────
 
@@ -25,41 +24,38 @@ const NAV_GROUPS: NavGroup[] = [
     id: "atelier",
     title: "Atelier",
     items: [
-      { id: "dashboard",   label: "Tableau de bord", path: "/cc/dashboard",   mark: "I"   },
-      { id: "visites",     label: "Visites",         path: "/cc/visites",     mark: "Ib"  },
-      { id: "seo",         label: "SEO / GEO",       path: "/cc/seo",         mark: "Ic"  },
-      { id: "leads",       label: "Leads",           path: "/cc/leads",       mark: "II"  },
-      { id: "rendez-vous", label: "Rendez-vous",    path: "/cc/rendez-vous", mark: "IIb" },
-      { id: "inscrits",    label: "Inscrits Cercles",path: "/cc/inscrits",    mark: "III" },
-      { id: "fournisseurs",label: "Fournisseurs & prix", path: "/cc/fournisseurs", mark: "IIIb" },
-      { id: "materiaux",   label: "Matériaux & demandes", path: "/cc/materiaux", mark: "IIIc" },
-      { id: "validations", label: "Validations",     path: "/cc/validations", mark: "IV"  },
+      { id: "leads",       label: "Leads",           path: "/cc/leads",       mark: "I"   },
+      { id: "rendez-vous", label: "Rendez-vous",     path: "/cc/rendez-vous", mark: "II"  },
+      { id: "fournisseurs",label: "Fournisseurs & prix", path: "/cc/fournisseurs", mark: "III" },
+      { id: "materiaux",   label: "Matériaux & demandes", path: "/cc/materiaux", mark: "IIIa" },
+      { id: "visites",     label: "Visites",         path: "/cc/visites",     mark: "IIIb", sommeil: true },
+      { id: "seo",         label: "SEO / GEO",       path: "/cc/seo",         mark: "IIIc", sommeil: true },
     ],
   },
   {
     id: "production",
     title: "Production",
     items: [
-      { id: "dossiers", label: "Dossiers",  path: "/cc/dossiers", mark: "V"  },
-      { id: "projets",  label: "Projets (espaces jalons)", path: "/cc/projets", mark: "V+" },
-      { id: "terrains", label: "Terrains",  path: "/cc/terrains", mark: "Va" },
-      { id: "devis",    label: "Devis",     path: "/cc/devis",    mark: "Vb" },
-      { id: "simulateur", label: "Simulateur", path: "/cc/simulateur", mark: "Vc" },
-      { id: "projects", label: "Projets",   path: "/cc/projects", mark: "VI" },
-      { id: "archive",  label: "Archive",   path: "/cc/archive",  mark: "VII"},
-      { id: "sig",      label: "SIG · PA",  path: "/cc/sig",      mark: "VIIb"},
+      { id: "dossiers",   label: "Dossiers",   path: "/cc/dossiers",   mark: "IV" },
+      { id: "projets",    label: "Projets (espaces jalons)", path: "/cc/projets", mark: "IVb" },
+      { id: "terrains",   label: "Terrains",   path: "/cc/terrains",   mark: "V"  },
+      { id: "simulateur", label: "Simulateur", path: "/cc/simulateur", mark: "VI" },
+      { id: "devis",      label: "Devis",      path: "/cc/devis",      mark: "VIb", sommeil: true },
+      { id: "projects",   label: "Projets",    path: "/cc/projects",   mark: "VIc", sommeil: true },
+      { id: "archive",    label: "Archive",    path: "/cc/archive",    mark: "VId", sommeil: true },
+      { id: "sig",        label: "SIG · PA",   path: "/cc/sig",        mark: "VIe", sommeil: true },
     ],
   },
   {
     id: "rayonnement",
     title: "Rayonnement",
     items: [
-      { id: "media",       label: "Médias",                 path: "/cc/media",       mark: "VIII" },
-      { id: "territorial", label: "Intelligence territoire", path: "/cc/territorial", mark: "IX"   },
-      { id: "business",    label: "Business",                path: "/cc/business",    mark: "X"    },
-      { id: "publicite",   label: "Régie pub",               path: "/cc/publicite",   mark: "Xb"   },
-      { id: "firms",       label: "Cabinets",                path: "/cc/firms",       mark: "XI"   },
-      { id: "live",        label: "Live",                    path: "/cc/live",        mark: "XII"  },
+      { id: "media",       label: "Médias",                  path: "/cc/media",       mark: "VII",  sommeil: true },
+      { id: "territorial", label: "Intelligence territoire", path: "/cc/territorial", mark: "VIII", sommeil: true },
+      { id: "business",    label: "Business",                path: "/cc/business",    mark: "IX",   sommeil: true },
+      { id: "publicite",   label: "Régie pub",               path: "/cc/publicite",   mark: "X",    sommeil: true },
+      { id: "firms",       label: "Cabinets",                path: "/cc/firms",       mark: "XI",   sommeil: true },
+      { id: "live",        label: "Live",                    path: "/cc/live",        mark: "XII",  sommeil: true },
     ],
   },
 ];
@@ -84,45 +80,11 @@ export default function CCLayout({ children }: { children: React.ReactNode }) {
     document.head.appendChild(link);
   }, []);
 
-  // ── Bridge vault → User JWT ─────────────────────────────────
-  // Si l'utilisateur arrive sur /cc/* via le vault admin (AdminUser SUPER_ADMIN)
-  // mais n'a pas de User JWT classique, les endpoints /api/cc/* renvoient 401
-  // (RolesGuard exige User.role ∈ ADMIN/OWNER/OPS). On échange ici une session
-  // vault valide contre un User JWT temporaire (User shadow créé/upserté côté
-  // backend). Idempotent : si déjà un userToken, on ne fait rien.
-  useEffect(() => {
-    if (getToken()) return;
-    // Priorité au JWT admin (post-FULLY_AUTH). Fallback sur sessionToken si
-    // l'utilisateur est en cours de login multi-étape.
-    const adminToken = getAdminJwt() || getSessionToken();
-    if (!adminToken) return;
-    let cancelled = false;
-    (async () => {
-      try {
-        const r = await fetch(`${apiBase()}/api/admin/bridge/to-user`, {
-          method: "POST",
-          headers: { Authorization: `Bearer ${adminToken}` },
-        });
-        const j = await r.json();
-        if (!cancelled && r.ok && j?.access_token) {
-          setToken(j.access_token);
-          // Recharge la page pour que les modules /cc/* refetch avec le nouveau token.
-          window.location.reload();
-        }
-      } catch {
-        /* silencieux : l'écran restera en 401 sur /cc/*, le user verra le bouton login */
-      }
-    })();
-    return () => { cancelled = true; };
-  }, []);
-
-  // Déconnexion : efface le cookie de session des Pages Functions (mode mot de
-  // passe) et le JWT de l'API s'il existe (développement local).
+  // Déconnexion : efface le cookie de session des Pages Functions (mode mot de passe).
   const seDeconnecter = async () => {
     try {
-      await fetch(`${apiBase()}/api/cc/logout`, { method: "POST", credentials: "include" });
+      await fetch("/api/cc/logout", { method: "POST", credentials: "include" });
     } catch { /* hors ligne : on quitte quand même l'écran */ }
-    setToken(null);
     navigate("/cc/login", { replace: true });
   };
 
@@ -156,11 +118,14 @@ export default function CCLayout({ children }: { children: React.ReactNode }) {
                 return (
                   <button
                     key={item.id}
-                    onClick={() => navigate(item.path)}
-                    title={collapsed ? item.label : undefined}
+                    onClick={item.sommeil ? undefined : () => navigate(item.path)}
+                    disabled={item.sommeil}
+                    aria-disabled={item.sommeil || undefined}
+                    title={item.sommeil ? `${item.label} — en cours de rebranchement` : collapsed ? item.label : undefined}
                     style={{
                       ...S.navItem,
                       ...(isActive ? S.navItemActive : {}),
+                      ...(item.sommeil ? S.navItemSommeil : {}),
                       justifyContent: collapsed ? "center" : "flex-start",
                       padding: collapsed ? "10px 0" : "9px 14px",
                     }}
@@ -169,6 +134,7 @@ export default function CCLayout({ children }: { children: React.ReactNode }) {
                       {item.mark}
                     </span>
                     {!collapsed && <span style={S.navLabel}>{item.label}</span>}
+                    {!collapsed && item.sommeil && <span style={S.navSommeil}>en cours de rebranchement</span>}
                   </button>
                 );
               })}
@@ -221,6 +187,8 @@ export default function CCLayout({ children }: { children: React.ReactNode }) {
 // ─── Styles ──────────────────────────────────────────────────
 
 const S: Record<string, React.CSSProperties> = {
+  navItemSommeil: { opacity: 0.45, cursor: "not-allowed", flexWrap: "wrap", rowGap: 0 },
+  navSommeil: { flexBasis: "100%", paddingLeft: 32, fontSize: 9.5, letterSpacing: "0.04em", textTransform: "uppercase", color: CC.color.inkMuted, textAlign: "left" },
   root: {
     display: "flex",
     height: "100vh",

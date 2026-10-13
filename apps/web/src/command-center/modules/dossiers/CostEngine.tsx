@@ -1,5 +1,5 @@
 /**
- * CostEngine — moteur de coût UNIFIÉ P1/P2 (source de vérité = back).
+ * CostEngine — moteur de coût UNIFIÉ P1/P2, calculé ici (mêmes moteurs que les portes).
  *
  * Utilisé À L'IDENTIQUE par :
  *   - le simulateur (/cc/simulateur)  → sans onApply (consultation)
@@ -8,13 +8,17 @@
  * Inputs complets :
  *   - P1 : surface (directe OU auto = emprise RDC × niveaux + sous-sol),
  *          niveau de construction (Économique→Luxe), pack, BET, MOD, Déco,
- *          suivi à distance, mandat entreprise → POST /p1/packs/quote.
+ *          suivi à distance, mandat entreprise → quoteLocal (domain/p1/quote.engine).
  *   - P2 : section, catégorie (barème CNOA), surface, nb bâtiments,
- *          surface terrain (LOT), mode de suivi → POST /p2/quote.
+ *          surface terrain (LOT), mode de suivi → computeQuote (@citurbarea/pricing-cnoa).
+ *
+ * L'API NestJS qui exposait /p1/packs/quote, /p2/categories et /p2/quote est
+ * éteinte ; elle appelait ces mêmes fonctions.
  */
 
 import React, { useEffect, useState } from "react";
-import { apiFetch } from "../../../tomes/tome4/apiClient";
+import { quoteLocal } from "../../../domain/p1/quote.engine";
+import { BAREME_CNOA_2021, categoriesDeSection, computeQuote, fourchetteDe, niveauxDe, type CategoryCode, type P2Section } from "@citurbarea/pricing-cnoa";
 import { CC } from "../../theme/tokens";
 import SurfaceHelper from "./SurfaceHelper";
 
@@ -49,19 +53,19 @@ export default function CostEngine({ onApply }: { onApply?: (lignes: CalcLigne[]
   const [preview, setPreview] = useState<{ lignes: CalcLigne[]; titre: string; sousTexte: string; detail: { l: string; v: number }[] } | null>(null);
 
   const [p1, setP1] = useState({ surfaceM2: 300, hasBasement: false, constructionLevel: "STANDING", pack: "AVANCE", betMode: "PLATFORM", addRemoteFollow: false, modEnabled: false, decoEnabled: false, mandateEntreprise: false, blackBudgetMAD: 0 });
-  const [p2, setP2] = useState({ section: "IMM", categoryCode: "", surfacePlancherM2: 300, nbBatiments: 1, surfaceTerrainHa: 0, followMode: "ON_SITE" });
+  const [p2, setP2] = useState({ section: "IMM", categoryCode: "", niveau: "", surfacePlancherM2: 300, nbBatiments: 1, surfaceTerrainHa: 0, followMode: "ON_SITE" });
   const [cats, setCats] = useState<{ code: string; label: string }[]>([]);
 
   useEffect(() => {
     if (porte !== "P2" || p2.section === "LOT") { setCats([]); return; }
-    apiFetch<{ ok: boolean; items: { code: string; label: string }[] }>(`/p2/categories?section=${p2.section}`)
-      .then((r) => { const items = r?.items ?? []; setCats(items); setP2((s) => ({ ...s, categoryCode: items[0]?.code ?? "" })); })
-      .catch(() => setCats([]));
+    const items = categoriesDeSection(p2.section as P2Section).map((code) => ({ code, label: BAREME_CNOA_2021[code].label }));
+    setCats(items);
+    setP2((s) => ({ ...s, categoryCode: items[0]?.code ?? "", niveau: "" }));
   }, [porte, p2.section]);
 
   const calcP1 = async () => {
     const body: any = { ...p1, blackBudgetMAD: p1.constructionLevel === "BLACK" && p1.blackBudgetMAD > 0 ? p1.blackBudgetMAD : null };
-    const r: any = await apiFetch(`/p1/packs/quote`, { method: "POST", body: { input: body } });
+    const r: any = quoteLocal(body);
     const a = r?.amounts; if (!a) throw new Error("Calcul P1 indisponible");
     const detail = [
       { l: "Pack conception", v: a.packMAD },
@@ -86,7 +90,7 @@ export default function CostEngine({ onApply }: { onApply?: (lignes: CalcLigne[]
   const calcP2 = async () => {
     if (p2.section === "LOT") throw new Error("Lotissement : grille en cours — devis personnalisé (saisie manuelle).");
     if (!p2.categoryCode) throw new Error("Choisis une catégorie.");
-    const r: any = await apiFetch(`/p2/quote`, { method: "POST", body: { section: p2.section, categoryCode: p2.categoryCode, surfacePlancherM2: Number(p2.surfacePlancherM2), nbBatiments: Number(p2.nbBatiments), followMode: p2.followMode } });
+    const r: any = computeQuote({ section: p2.section, categoryCode: p2.categoryCode, niveau: p2.niveau || undefined, surfacePlancherM2: Number(p2.surfacePlancherM2), nbBatiments: Number(p2.nbBatiments), followMode: p2.followMode } as any);
     if (r?.ok === false) throw new Error(r?.error || "Calcul P2 refusé");
     const h = r?.honoraires; if (!h || h.totalHT == null) throw new Error("Calcul P2 indisponible");
     const bd = h.breakdown;
@@ -143,7 +147,13 @@ export default function CostEngine({ onApply }: { onApply?: (lignes: CalcLigne[]
       ) : (
         <div style={S.grid}>
           <F l="Section"><select style={S.in} value={p2.section} onChange={(e) => setP2({ ...p2, section: e.target.value })}>{SECTIONS.map((n) => <option key={n.v} value={n.v}>{n.l}</option>)}</select></F>
-          {p2.section !== "LOT" && <F l="Catégorie (barème CNOA)"><select style={S.in} value={p2.categoryCode} onChange={(e) => setP2({ ...p2, categoryCode: e.target.value })}>{cats.map((c) => <option key={c.code} value={c.code}>{c.code} — {c.label}</option>)}</select></F>}
+          {p2.section !== "LOT" && <F l="Catégorie (barème CNOA)"><select style={S.in} value={p2.categoryCode} onChange={(e) => setP2({ ...p2, categoryCode: e.target.value, niveau: "" })}>{cats.map((c) => <option key={c.code} value={c.code}>{c.code} — {c.label}</option>)}</select></F>}
+          {p2.section !== "LOT" && p2.categoryCode && niveauxDe(p2.categoryCode as CategoryCode).length > 1 && (
+            <F l="Niveau (grille des coûts réels)"><select style={S.in} value={p2.niveau} onChange={(e) => setP2({ ...p2, niveau: e.target.value })}>
+              <option value="">— Choisir —</option>
+              {niveauxDe(p2.categoryCode as CategoryCode).map((n) => { const f = fourchetteDe(p2.categoryCode as CategoryCode, n); return <option key={n} value={n}>{n}{f ? ` — ${fmtMAD(f[0])}${f[1] ? ` à ${fmtMAD(f[1])}` : "+"}/m²` : ""}</option>; })}
+            </select></F>
+          )}
           {p2.section === "LOT"
             ? <F l="Surface terrain (ha)"><input type="number" min="0" step="0.1" style={S.in} value={p2.surfaceTerrainHa} onChange={(e) => setP2({ ...p2, surfaceTerrainHa: Number(e.target.value) })} /></F>
             : <SurfaceHelper value={p2.surfacePlancherM2} onChange={(m2) => setP2((s) => ({ ...s, surfacePlancherM2: m2 }))} />}
