@@ -49,10 +49,10 @@ export function FooterSection() {
           </div>
         </div>
         <div style={{ borderTop:"1px solid rgba(255,255,255,.08)",paddingTop:24,display:"flex",flexWrap:"wrap",justifyContent:"space-between",gap:12,fontSize:12 }}>
-          <span style={{ color:"rgba(255,255,255,.35)" }}>© {new Date().getFullYear()} CITURBAREA — Arc Bati Architecture. {t("landing.footer.rights")}</span>
+          <span style={{ color:"rgba(255,255,255,.35)" }}>© {new Date().getFullYear()} CITURBAREA — HSE DECO. {t("landing.footer.rights")}</span>
           <div style={{ display:"flex",gap:16 }}>
-            {[t("landing.footer.legal"),t("landing.footer.privacy"),t("landing.footer.terms")].map(l => (
-              <a key={l} href="/confidentialite" style={{ color:"rgba(255,255,255,.35)" }}>{l}</a>
+            {([[t("landing.footer.legal"), "/mentions-legales"], [t("landing.footer.privacy"), "/confidentialite"], [t("landing.footer.terms"), "/mentions-legales#conditions"]] as const).map(([l, href]) => (
+              <a key={href} href={href} style={{ color:"rgba(255,255,255,.35)" }}>{l}</a>
             ))}
           </div>
         </div>
