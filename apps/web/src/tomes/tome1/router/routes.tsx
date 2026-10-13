@@ -53,6 +53,7 @@ const TerrainFiche = lazy(() => import("../../../features/terrains/TerrainFiche"
 const DeposerTerrain = lazy(() => import("../../../features/terrains/DeposerTerrain"));
 const RendezVousPage = lazy(() => import("../../../features/rdv/RendezVousPage"));
 const EspaceRdv = lazy(() => import("../../../features/rdv/EspaceRdv"));
+const AppelPage = lazy(() => import("../../../features/appels/AppelPage"));
 const EspaceProjet = lazy(() => import("../../../features/projet/EspaceProjet"));
 const AvecVideos = lazy(() => import("../../../features/social/AvecVideos"));
 const ChiffragePage = lazy(() => import("../../../features/chiffrage/ChiffragePage"));
@@ -238,7 +239,8 @@ export const router = createBrowserRouter([
   { path: '/cercles/:slug/rejoindre',              element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
   { path: '/cercles/:slug/applications',           element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
   { path: '/cercles/:slug/posts/:postId',          element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
-  { path: '/cercles/:slug/rooms/:roomSlug/live',   element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
+  // Ancienne salle LiveKit (supprimée) : les visios entre pros passent par « Demander un appel vidéo » (features/appels).
+  { path: '/cercles/:slug/rooms/:roomSlug/live',   element: <Redirect to="/cercles/annuaire" /> },
   { path: '/cercles/:slug/rooms/:roomSlug',        element: <AdminHostBlock><EnSommeil module="Réseau Cercles" /></AdminHostBlock> },
 
   // Fiche cabinet publique (architecte)
@@ -336,6 +338,9 @@ export const router = createBrowserRouter([
       // Rendez-vous en visio avec l'architecte (Pages Functions /api/rdv) ; /rdv/:jeton = espace client privé (noindex).
       { path: '/rendez-vous', element: <AdminHostBlock><RendezVousPage /></AdminHostBlock> },
       { path: '/rdv/:jeton', element: <AdminHostBlock><EspaceRdv /></AdminHostBlock> },
+      // Appels vidéo sur demande : lien personnel d'un participant (sans mot de passe, noindex) — accepter, proposer, refuser, rejoindre.
+      { path: '/appel/:jeton', element: <AdminHostBlock><AppelPage /></AdminHostBlock> },
+      { path: '/ar/appel/:jeton', element: <AdminHostBlock><AppelPage langue="ar" /></AdminHostBlock> },
       // Espace projet des membres invités (Pages Functions /api/projets) : /projet/<jeton> échange le lien contre une session puis devient /projet (noindex).
       { path: '/projet/:jeton?', element: <AdminHostBlock><EspaceProjet /></AdminHostBlock> },
       { path: '/notifications', element: <AdminHostBlock><EnSommeil module="Notifications" /></AdminHostBlock> },

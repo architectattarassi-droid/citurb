@@ -66,7 +66,7 @@ function balisesHead(res: Response, req: Request, env: Env | undefined, indexabl
  * copie de l'accueil en 200 (« soft 404 »). À tenir à jour avec les routes.
  */
 const SEGMENTS_APP = new Set([
-  "", "_dev", "admin", "ar", "auth", "cabinet", "calculateur", "cc", "cercles", "chantier", "chiffrage",
+  "", "_dev", "admin", "appel", "ar", "auth", "cabinet", "calculateur", "cc", "cercles", "chantier", "chiffrage",
   "confirmer-email", "cps", "creer-compte", "docs", "dossier", "dossiers", "en", "enterprise", "faq", "forbidden",
   "foncier", "fr", "guide", "inscription", "login", "mandataires", "materiaux", "media", "metrics", "mon-espace",
   "mon-parcours", "mot-de-passe-oublie", "mre", "notifications", "opci", "p1", "p2", "p3", "p4", "p5", "p6",
@@ -116,6 +116,12 @@ export async function onRequest(ctx: { request: Request; next: () => Promise<Res
         res.headers.set("cache-control", "no-store");
       }
     }
+  } else if (estHtml && /^(\/ar)?\/appel\/[A-Za-z0-9_-]{43}$/.test(chemin)) {
+    // Demande d'appel vidéo : lien personnel secret, jamais indexé, jamais transmis en référent.
+    res = new Response(res.body, res);
+    res.headers.set("x-robots-tag", "noindex, nofollow");
+    res.headers.set("referrer-policy", "no-referrer");
+    res.headers.set("cache-control", "no-store");
   } else if (estHtml && (chemin === "/projet" || /^\/projet\/[A-Za-z0-9_-]{43}$/.test(chemin))) {
     // Espace projet : lien d'accès secret, jamais indexé, jamais transmis en référent.
     res = new Response(res.body, res);

@@ -10,7 +10,7 @@
  * JitsiMeetExternalAPI dans le conteneur ; les permissions caméra/micro sont
  * demandées par le navigateur à ce moment-là (après le clic « Rejoindre »).
  * Pas de repli meet.jit.si (son intégration n'est plus autorisée).
- * Adapté de features/cercles/JitsiEmbed.tsx, sans dépendance à Cercles.
+ * (Remplace l'ancienne salle Cercles LiveKit/JitsiEmbed, supprimée.)
  */
 import { useEffect, useRef, useState } from "react";
 
@@ -37,8 +37,11 @@ function chargerScript(src: string): Promise<void> {
   });
 }
 
-export default function SalleVisio({ config, nomAffiche, email, onQuitter, onErreur, className }: {
+export default function SalleVisio({ config, nomAffiche, email, onQuitter, onErreur, className, audioSeul = false, langue = "fr" }: {
   config: ConfigVisio;
+  /** Entrer caméra coupée (appel audio) ; la caméra reste activable dans la salle. */
+  audioSeul?: boolean;
+  langue?: "fr" | "ar";
   nomAffiche: string;
   email?: string;
   onQuitter?: () => void;
@@ -69,9 +72,9 @@ export default function SalleVisio({ config, nomAffiche, email, onQuitter, onErr
             parentNode: conteneur.current,
             width: "100%",
             height: "100%",
-            lang: "fr",
+            lang: langue,
             userInfo: { displayName: nomAffiche, email: email || "" },
-            configOverwrite: { prejoinPageEnabled: false, disableDeepLinking: true, startWithAudioMuted: false, startWithVideoMuted: false, subject: "CITURBAREA" },
+            configOverwrite: { prejoinPageEnabled: false, disableDeepLinking: true, startWithAudioMuted: false, startWithVideoMuted: audioSeul, startAudioOnly: audioSeul, subject: "CITURBAREA" },
             interfaceConfigOverwrite: {
               SHOW_JITSI_WATERMARK: false,
               MOBILE_APP_PROMO: false,
@@ -91,13 +94,13 @@ export default function SalleVisio({ config, nomAffiche, email, onQuitter, onErr
       try { api.current?.dispose(); } catch { /* déjà fermée */ }
       api.current = null;
     };
-  }, [config.domain, config.appId, config.roomName, config.jwt, nomAffiche, email]);
+  }, [config.domain, config.appId, config.roomName, config.jwt, nomAffiche, email, audioSeul, langue]);
 
   return (
     <div className={"relative h-full w-full overflow-hidden bg-[#0B1B3A] " + (className || "")}>
       <div ref={conteneur} className="h-full w-full" />
       {etat === "chargement" && (
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center text-base text-white/85">Ouverture de la salle…</div>
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center text-base text-white/85">{langue === "ar" ? "جارٍ فتح القاعة…" : "Ouverture de la salle…"}</div>
       )}
       {etat === "erreur" && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-6 text-center text-white" role="alert">

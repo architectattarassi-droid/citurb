@@ -26,6 +26,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { id: "leads",       label: "Leads",           path: "/cc/leads",       mark: "I"   },
       { id: "rendez-vous", label: "Rendez-vous",     path: "/cc/rendez-vous", mark: "II"  },
+      { id: "appels",      label: "Appels vidéo",    path: "/cc/appels",      mark: "IIb" },
       { id: "fournisseurs",label: "Fournisseurs & prix", path: "/cc/fournisseurs", mark: "III" },
       { id: "materiaux",   label: "Matériaux & demandes", path: "/cc/materiaux", mark: "IIIa" },
       { id: "visites",     label: "Visites",         path: "/cc/visites",     mark: "IIIb", sommeil: true },
