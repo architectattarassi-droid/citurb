@@ -127,6 +127,7 @@ const MOTIFS_COORDONNEES: RegExp[] = [
   /\b[a-z0-9-]+\.(?:com|ma|fr|net|org|io|me|co)\b(?:\/\S*)?/gi, // domaines nus
   /(?:\+|00)[1-9](?:[\s.\-()]*\d){7,13}/g, // numéros internationaux
   /\b0[5-7](?:[\s.\-]*\d){8}\b/g, // numéros marocains (les montants et dates restent lisibles)
+  /(?<![\w.])@[a-z0-9_.]{3,30}/gi, // pseudos (Instagram, Telegram…)
 ];
 
 /**

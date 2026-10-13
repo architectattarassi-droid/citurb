@@ -308,6 +308,26 @@ describe("appels : parcours demande → accord des deux parties → appel", () =
     expect((await b2.appel("POST", null, [], visiteur())).json.error).toBe("trop_de_demandes");
   });
 
+  it("aucune coordonnée transmise à l'autre partie : nom, message, vues, e-mails de notification", async () => {
+    const { depot, mails, appel } = banc();
+    const r = await appel("POST", null, [], visiteur({
+      demandeur: { nom: "Amina 06 61 23 45 67", email: "amina@gmail.com", telephone: "0661234567" },
+      message: "Écrivez-moi : amina@gmail.com, insta @amina.deco, https://wa.me/212661234567",
+    }));
+    expect(r.status).toBe(201);
+    const id = (r.json.demande as { id: string }).id;
+    const vuePro = JSON.stringify((await appel("GET", ATLAS, [id])).json);
+    const auPro = mails.find((m) => m.to[0] === "contact@atlas.ma")! as { text: string; html?: string };
+    for (const texte of [vuePro, auPro.text, auPro.html || ""]) {
+      expect(texte).not.toMatch(/61 23 45 67|0661234567|amina@gmail|@amina\.deco|wa\.me/);
+    }
+    // Le visiteur ne reçoit pas non plus les coordonnées du pro.
+    const vueVisiteur = JSON.stringify((await appel("GET", null, ["lien", String(r.json.jeton)])).json);
+    const auVisiteur = mails.find((m) => m.to[0] === "amina@gmail.com")! as { text: string; html?: string };
+    for (const texte of [vueVisiteur, auVisiteur.text, auVisiteur.html || ""]) expect(texte).not.toMatch(/contact@atlas\.ma|661234567/);
+    expect(depot.lignes.get(id)!.participants[0].nom).toBe("Amina [coordonnées masquées]");
+  });
+
   it("visiteur : contact et consentement requis ; pot de miel ; pas d'invitation d'un client", async () => {
     const { depot, appel } = banc();
     expect((await appel("POST", null, [], visiteur({ demandeur: { nom: "Amina" } }))).json.error).toBe("contact_requis");

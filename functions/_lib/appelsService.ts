@@ -13,7 +13,7 @@
  * (préfixe « appel| » : domaines séparés). Absent → 503 appels_non_configures.
  */
 import {
-  actualiser, appliquer, autoriserCreation, CLE_CABINET, controlerAccesSalle, estModerateur, lireAction, nouvelIdDemande,
+  masquerCoordonnees, actualiser, appliquer, autoriserCreation, CLE_CABINET, controlerAccesSalle, estModerateur, lireAction, nouvelIdDemande,
   nouvelIdParticipant, nouveauSel, nouvelleDemande, RAPPEL_AVANT_MS, resume, validerCreation, verifierDebit, vueAdmin, vueParticipant,
   clip, ID_DEMANDE_RE, ID_PARTICIPANT_RE, JETON_APPEL_RE,
   type DescripteurInvite, type Demande, type Erreur, type GenreActeur, type Identite, type Langue, type Participant,
@@ -143,7 +143,8 @@ const langue = (v: unknown): Langue => (v === "ar" ? "ar" : "fr");
 /** Visiteur sans compte : nom + e-mail ou téléphone, consentement, pot de miel. Identité stable par empreinte du contact. */
 async function identiteVisiteur(b: Record<string, unknown>): Promise<Identite | Erreur> {
   const o = (b.demandeur && typeof b.demandeur === "object" ? b.demandeur : {}) as Record<string, unknown>;
-  const nom = clip(o.nom, 80);
+  // Le nom est montré à l'autre partie : aucune coordonnée ne doit s'y glisser (CLAUDE.md, « tout passe par CITURBAREA »).
+  const nom = masquerCoordonnees(clip(o.nom, 80)).texte;
   if (nom.length < 2) return { ok: false, status: 400, erreur: "nom_invalide" };
   const email = clip(o.email, 200).toLowerCase() || null;
   if (email && !RE_EMAIL.test(email)) return { ok: false, status: 400, erreur: "email_invalide" };

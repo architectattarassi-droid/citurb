@@ -62,7 +62,7 @@ Qui peut inviter qui (vérifié côté serveur, `autoriserCreation`) :
 4. Jeton JaaS : participant seulement (cookie ou lien personnel), demande `CONFIRMEE`, fenêtre **[début − 10 min ; début + 2 h]**, 20 jetons au plus par participant. Le back-office ne rejoint que s'il est invité.
 5. Lien personnel : 256 bits dérivés `HMAC(APPELS_SECRET, appel|demande|participant|sel)`, seule l'empreinte SHA-256 est stockée ; il n'ouvre que cette demande. Les liens « Accepter / Proposer / Refuser » des e-mails ouvrent la page avec l'action **présélectionnée** : rien ne change sans clic (les antivirus de messagerie ouvrent les liens).
 6. Anti-harcèlement : 5 demandes / 24 h par demandeur (60 pour le cabinet), une seule demande en attente par paire, 3 par paire / 7 jours, 20 reçues / 24 h par destinataire ; « Ne plus recevoir de demandes de cette personne » (refus silencieux : `destinataire_indisponible`). Filet par IP sur la porte publique, pot de miel.
-7. Anti-désintermédiation : e-mails, numéros, liens et messageries masqués dans le message ; une vue participant ne contient jamais les coordonnées des autres, ni jeton, sel ou nom de salle.
+7. Anti-désintermédiation (CLAUDE.md, « tout passe par CITURBAREA ») : e-mails, numéros, liens, messageries et pseudos (@…) masqués dans le message, le sujet et le nom saisi par un visiteur ; les notifications partent de CITURBAREA sans coordonnée de l'autre partie (le seul wa.me prérempli est celui du back-office vers le participant lui-même) ; une vue participant ne contient jamais les coordonnées des autres, ni jeton, sel ou nom de salle.
 
 ## Variables Cloudflare
 
