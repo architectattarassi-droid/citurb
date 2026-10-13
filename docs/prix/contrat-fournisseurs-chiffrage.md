@@ -42,11 +42,14 @@ Si le moteur a déjà ses propres codes de composants, il suffit d'une table de 
 Règles :
 - Prix **HT par `uniteRef`** (le fournisseur saisit dans son unité de vente ; la conversion est faite à l'enregistrement).
 - `marche` = médiane des fiches **approuvées**, **valides** (date de validité non dépassée) et mises à jour depuis **moins de 120 jours**, des fournisseurs **approuvés** qui livrent la région (ou toutes régions). Les déclinaisons (`parent`) comptent pour le matériau générique.
-- `fiabilite` du marché : **A** si au moins 3 fournisseurs distincts, **B** si 1 ou 2. `marche` vaut `null` sans offre.
+- `fiabilite` du marché : **A** si au moins 3 fournisseurs distincts. **Sous 3 fournisseurs, aucun prix n'est publié** (`mediane`, `min`, `max` et `fiabilite` à `null`, seuls `nbOffres`/`nbFournisseurs` restent) : une médiane de 1 ou 2 offres révélerait le tarif d'un fournisseur (confidentialité, loi 104-12). `marche` vaut `null` sans offre.
+- `fournisseursParCategorie` : nombre de fournisseurs approuvés qui livrent la région, par catégorie (sans identité).
+- `recherche.manuel` : mise à jour manuelle du back-office (`PrixReferenceManuel`, source et date), prioritaire sur le prix de recherche.
+- Implémentation : `functions/api/prix/materiaux.ts`, logique pure `apps/web/src/domain/materiaux/marche.ts` et `functions/_lib/prixMateriaux.ts`.
 - `retenu` : marché si fiabilité A, sinon prix de recherche (`source: "recherche"`, fiabilité B ou C). Le moteur peut afficher les deux.
 - Table absente ou base indisponible : la fonction répond quand même (200) avec `marche: null` partout et `"marcheDisponible": false`.
 
-Adaptateur prêt à l'emploi côté front : `apps/web/src/domain/materiaux/prixMarche.ts` (`chargerPrixMarche(region)`, `prixRetenu(code, donnees)`), avec repli sur `prix.ref` du catalogue hors ligne.
+Adaptateur côté front : `apps/web/src/features/materiaux/etat.ts` (`usePrixPublics(ville)`), avec repli sur le prix de référence (`domain/materiaux/reference.ts`) hors ligne. Prix de recherche = `prixReference(code)` : prix du moteur de chiffrage quand le code CIT y correspond (CORRESPONDANCE_CIT), sinon catalogue.
 
 ## 3. Demande de prix depuis le DQE (RFQ)
 
@@ -57,4 +60,4 @@ import { ouvrirDemandePrix } from "@/domain/materiaux/demandePrix"; // à venir 
 ouvrirDemandePrix({ lot: "LOT_02_GO_BETON", ville: "Rabat", lignes: [{ code: "CIT-GO-008", quantite: 840 /* en uniteRef */ }, …] });
 ```
 
-Le bordereau est envoyé aux fournisseurs approuvés de la région qui couvrent ces matériaux ; ils répondent ligne à ligne sur le même bordereau ; le client compare. Chaque demande crée un Lead (`/cc/leads`). Contrat détaillé ajouté à l'étape 4.
+Le bordereau est envoyé aux fournisseurs approuvés de la région qui couvrent ces matériaux ; ils répondent ligne à ligne sur le même bordereau ; le client compare. Chaque demande crée un Lead (`/cc/leads`). **Implémenté côté matériauthèque** (`/materiaux`, panier multi-matériaux) : `apps/web/src/domain/materiaux/demandePrix.ts` (`construireDemande`, `wizardDemande`) → lead P6, source `MATERIAUX`, `meta.wizard.demandePrix`. Le relais automatique aux fournisseurs (tables `DemandePrix` / `ReponsePrix`) reste à brancher ; voir docs/achat-en-ligne.md.
