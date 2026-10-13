@@ -11,6 +11,7 @@ import { CC } from "../../theme/tokens";
 import SalleVisio, { type ConfigVisio } from "../../../features/visio/SalleVisio";
 import { ResumeDossier } from "../../../features/rdv/DossierRdv";
 import DemanderAppelVideo from "../../../features/appels/DemanderAppelVideo";
+import EcrireMessage from "../../../features/messages/EcrireMessage";
 
 type Rdv = {
   id: string; debut: string; dureeMin: number; statut: string; nom: string; telephone: string; email: string | null; porte: string | null;
@@ -162,7 +163,7 @@ function Fiche({ id, visioIntegree, onRetour }: { id: string; visioIntegree: boo
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
         {visioIntegree && r.statut !== "ANNULE" && !visio && <button onClick={() => void lancer()} style={btn(CC.color.navy, true)}>Lancer l'appel</button>}
         {/* Appel de suivi : nouvelle demande, le client accepte (ou propose) un créneau avant toute salle. */}
-        <DemanderAppelVideo porte="admin" contexte="rdv" objetId={r.id} invites={[{ type: "rdv", id: r.id }]} avecNom={r.nom} langue="fr" variante="contour" libelle="Demander un appel de suivi" />
+        <DemanderAppelVideo porte="admin" contexte="rdv" objetId={r.id} invites={[{ type: "rdv", id: r.id }]} avecNom={r.nom} langue="fr" variante="contour" libelle="Demander un appel de suivi" /> <EcrireMessage porte="admin" contexte="rdv" objetId={r.id} invites={[{ type: "rdv", id: r.id }]} avecNom={r.nom} langue="fr" variante="contour" />
         {(["TERMINE", "ABSENT", "ANNULE", "CONFIRME"] as const).filter((s) => s !== r.statut).map((s) => (
           <button key={s} onClick={() => void patch({ statut: s })} style={btn(STATUTS[s].couleur)}>{s === "CONFIRME" ? "Remettre confirmé" : `Marquer ${STATUTS[s].libelle.toLowerCase()}`}</button>
         ))}

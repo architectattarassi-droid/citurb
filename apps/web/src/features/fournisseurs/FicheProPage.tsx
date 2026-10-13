@@ -12,6 +12,7 @@ import { CATEGORIES_L3, REGIONS_L3, unite3 } from "../../domain/cercles/libelles
 import { DISPONIBILITES_L3, FAMILLES_PRODUIT, GAMMES, NATURES_SERVICE } from "../../domain/cercles/offres";
 import { HONEYPOT_STYLE } from "../../lib/honeypot";
 import DemanderAppelVideo from "../appels/DemanderAppelVideo";
+import EcrireMessage from "../messages/EcrireMessage";
 import { apiFournisseurs, codeErreur, type FichePro, type Produit, type Service } from "./api";
 import { useLangueForcee } from "./langue";
 import type { ImagePublique } from "./api";
@@ -79,7 +80,7 @@ export default function FicheProPage({ langue }: { langue?: "ar" }) {
         <div style={{ marginInlineStart: "auto", display: "flex", gap: 8, flexWrap: "wrap" }}>
           <button className="frn-btn frn-btn-or" onClick={() => demander(null)}>{x.t("fpContacter")}</button>
           {/* Demande d'appel vidéo : rien ne démarre sans l'accord du pro (features/appels). */}
-          <DemanderAppelVideo contexte="cercles" objetId={f.slug} invites={[{ type: "pro", slug: f.slug }]} avecNom={x.bi(f.raisonSociale, f.raisonSocialeAr).texte} variante="contour" />
+          <DemanderAppelVideo contexte="cercles" objetId={f.slug} invites={[{ type: "pro", slug: f.slug }]} avecNom={x.bi(f.raisonSociale, f.raisonSocialeAr).texte} variante="contour" /> <EcrireMessage contexte="cercles" objetId={f.slug} invites={[{ type: "pro", slug: f.slug }]} avecNom={x.bi(f.raisonSociale, f.raisonSocialeAr).texte} variante="contour" />
         </div>
       </header>
       <style>{`.frn-page h1{font-family:inherit;font-size:clamp(24px,4.5vw,34px);color:${T.navy};line-height:1.2}`}</style>
@@ -175,7 +176,7 @@ function CarteProduit({ p, onDemander, slug, nomPro }: { p: Produit; onDemander:
       <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
         <span className="frn-etiquette">{x.t("fpPrixSurDemande")}</span>
         <button className="frn-btn frn-btn-ghost frn-btn-petit" onClick={() => onDemander({ type: "produit", id: p.id, libelle: nom })}>{x.t("fpDemanderPrix")}</button>
-        <DemanderAppelVideo contexte="fournisseur" objetId={`produit:${p.id}`} sujet={nom} invites={[{ type: "pro", slug }]} avecNom={nomPro} variante="lien" className="text-sm" />
+        <DemanderAppelVideo contexte="fournisseur" objetId={`produit:${p.id}`} sujet={nom} invites={[{ type: "pro", slug }]} avecNom={nomPro} variante="lien" className="text-sm" /> <EcrireMessage contexte="fournisseur" objetId={`produit:${p.id}`} sujet={nom} invites={[{ type: "pro", slug }]} avecNom={nomPro} variante="lien" />
       </div>
     </article>
   );
@@ -193,7 +194,7 @@ function CarteService({ s, onDemander, slug, nomPro }: { s: Service; onDemander:
       <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
         <span className="frn-etiquette">{x.t("fpPrixSurDemande")}</span>
         <button className="frn-btn frn-btn-ghost frn-btn-petit" onClick={() => onDemander({ type: "service", id: s.id, libelle: nom })}>{x.t("fpDemanderPrix")}</button>
-        <DemanderAppelVideo contexte="cercles" objetId={`service:${s.id}`} sujet={nom} invites={[{ type: "pro", slug }]} avecNom={nomPro} variante="lien" className="text-sm" />
+        <DemanderAppelVideo contexte="cercles" objetId={`service:${s.id}`} sujet={nom} invites={[{ type: "pro", slug }]} avecNom={nomPro} variante="lien" className="text-sm" /> <EcrireMessage contexte="cercles" objetId={`service:${s.id}`} sujet={nom} invites={[{ type: "pro", slug }]} avecNom={nomPro} variante="lien" />
       </div>
     </article>
   );

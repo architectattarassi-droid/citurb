@@ -10,6 +10,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { CC } from "../../theme/tokens";
 import DemanderAppelVideo from "../../../features/appels/DemanderAppelVideo";
+import EcrireMessage from "../../../features/messages/EcrireMessage";
 
 type Dossier = {
   id: string; title: string | null; commune: string | null; status: string; createdAt: string | null; submittedAt: string | null;
@@ -106,7 +107,7 @@ export default function DossiersListe() {
                       <td colSpan={6} style={{ ...S.td, background: CC.color.bgSoft }}>
                         <div style={S.petit}>Réf. {d.id}{d.surfacePlancher ? ` · ${d.surfacePlancher} m² plancher` : ""}{d.opsNote ? ` · Note : ${d.opsNote}` : ""}</div>
                         {/* Appel vidéo sur demande avec le client du dossier : rien ne démarre sans son accord (suivi dans /cc/appels). */}
-                        <div style={{ margin: "8px 0" }}><DemanderAppelVideo porte="admin" contexte="dossier" objetId={d.id} sujet={d.title || undefined} invites={[{ type: "client", dossierId: d.id }]} avecNom={d.clientNom || "le client"} langue="fr" variante="navy" /></div>
+                        <div style={{ margin: "8px 0" }}><DemanderAppelVideo porte="admin" contexte="dossier" objetId={d.id} sujet={d.title || undefined} invites={[{ type: "client", dossierId: d.id }]} avecNom={d.clientNom || "le client"} langue="fr" variante="navy" /> <EcrireMessage porte="admin" contexte="dossier" objetId={d.id} sujet={d.title || undefined} invites={[{ type: "client", dossierId: d.id }]} avecNom={d.clientNom || "le client"} langue="fr" variante="contour" /></div>
                         <pre style={S.pre}>{JSON.stringify(d.payload ?? {}, null, 2)}</pre>
                       </td>
                     </tr>

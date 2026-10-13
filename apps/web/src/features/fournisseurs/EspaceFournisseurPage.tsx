@@ -21,6 +21,8 @@ import { useTextes, type CleTexte } from "./textes";
 import { BadgeStatut, Champ, PageFournisseurs, Puces, T } from "./ui";
 import MesAppels from "../appels/MesAppels";
 import DemanderAppelVideo from "../appels/DemanderAppelVideo";
+import BoiteMessages from "../messages/BoiteMessages";
+import EcrireMessage from "../messages/EcrireMessage";
 
 type Etat = { phase: "chargement" } | { phase: "connexion" } | { phase: "connecte"; m: Moi };
 
@@ -101,7 +103,7 @@ function Connexion({ onConnecte }: { onConnecte: () => void }) {
   );
 }
 
-type Onglet = "fiche" | "produits" | "services" | "prix" | "import" | "documents" | "appels" | "profil";
+type Onglet = "fiche" | "produits" | "services" | "prix" | "import" | "documents" | "messages" | "appels" | "profil";
 
 function libelleManquant(cle: string, x: ReturnType<typeof useTextes>): string {
   if (cle === "description") return x.t("presentation");
@@ -135,6 +137,8 @@ function Espace({ m, recharger, onDeconnecte }: { m: Moi; recharger: () => void;
     ...(m.peutPublierFiches ? [["prix", "tab_prix", m.fiches.length] as [Onglet, CleTexte, number], ["import", "tab_import"] as [Onglet, CleTexte]] : []),
     ["documents", "tab_documents"],
     // Demandes d'appel vidéo reçues et envoyées (features/appels, /api/cercles/espace/appels).
+    // Messagerie de la plateforme (aucune coordonnée échangée) : /api/cercles/espace/messages.
+    ["messages", "tab_messages"],
     ["appels", "tab_appels"],
     ["profil", "tab_profil"],
   ];
@@ -164,6 +168,12 @@ function Espace({ m, recharger, onDeconnecte }: { m: Moi; recharger: () => void;
       {onglet === "prix" && <Fiches f={f} fiches={m.fiches} recharger={recharger} />}
       {onglet === "import" && <Import f={f} recharger={recharger} />}
       {onglet === "documents" && <DocumentsPro f={f} recharger={recharger} />}
+      {onglet === "messages" && (
+        <div style={{ marginTop: 14, display: "grid", gap: 14 }}>
+          <div><EcrireMessage porte="pro" contexte="cercles" objetId={f.slug} invites={[{ type: "admin" }]} avecNom="CITURBAREA" libelle={x.lang === "ar" ? "مراسلة المكتب" : "Écrire au cabinet"} variante="navy" /></div>
+          <BoiteMessages source={{ type: "pro" }} l={x.lang === "ar" ? "ar" : "fr"} />
+        </div>
+      )}
       {onglet === "appels" && (
         <div style={{ marginTop: 14, display: "grid", gap: 14 }}>
           <div><DemanderAppelVideo porte="pro" contexte="cercles" objetId={f.slug} invites={[{ type: "admin" }]} avecNom="CITURBAREA" libelle={x.lang === "ar" ? "طلب مكالمة فيديو مع المكتب" : "Demander un appel vidéo au cabinet"} variante="navy" /></div>

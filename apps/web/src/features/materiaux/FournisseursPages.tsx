@@ -19,6 +19,7 @@ import PanierDemande from "./PanierDemande";
 import { texte, type T } from "./textes";
 import Visionneuse from "./Visionneuse";
 import DemanderAppelVideo from "../appels/DemanderAppelVideo";
+import EcrireMessage from "../messages/EcrireMessage";
 
 const carte = "rounded-2xl border border-slate-200 bg-white p-4 shadow-sm";
 
@@ -123,7 +124,7 @@ function CarteProduit({ p, t, lang, slugFournisseur }: { p: ProduitFournisseur; 
         ))}</p>
       )}
       <div className="mt-2">
-        <DemanderAppelVideo contexte="fournisseur" objetId={`produit:${p.id}`} invites={[{ type: "pro", slug: slugFournisseur }]} sujet={nom} langue={lang === "ar" ? "ar" : "fr"} variante="lien" />
+        <DemanderAppelVideo contexte="fournisseur" objetId={`produit:${p.id}`} invites={[{ type: "pro", slug: slugFournisseur }]} sujet={nom} langue={lang === "ar" ? "ar" : "fr"} variante="lien" /> <EcrireMessage contexte="fournisseur" objetId={`produit:${p.id}`} invites={[{ type: "pro", slug: slugFournisseur }]} sujet={nom} langue={lang === "ar" ? "ar" : "fr"} variante="lien" />
       </div>
       {ref && (
         <button type="button" onClick={() => m.ajouter({ code: ref.code, quantite: 1, unite: ref.ventes[0]?.code || ref.uniteRef })}
@@ -161,7 +162,7 @@ export function FournisseurPage() {
         </div>
         {/* Tout passe par CITURBAREA : aucune coordonnée ; demande de prix ou appel vidéo sur accord de chacun. */}
         <div className="ms-auto">
-          <DemanderAppelVideo contexte="fournisseur" objetId={f.slug} invites={[{ type: "pro", slug: f.slug }]} avecNom={texteLocal(f.nom, lang)} langue={lang === "ar" ? "ar" : "fr"} variante="navy" />
+          <DemanderAppelVideo contexte="fournisseur" objetId={f.slug} invites={[{ type: "pro", slug: f.slug }]} avecNom={texteLocal(f.nom, lang)} langue={lang === "ar" ? "ar" : "fr"} variante="navy" /> <EcrireMessage contexte="fournisseur" objetId={f.slug} invites={[{ type: "pro", slug: f.slug }]} avecNom={texteLocal(f.nom, lang)} langue={lang === "ar" ? "ar" : "fr"} variante="contour" />
         </div>
       </div>
       {produits.length === 0 ? <p className="mt-6 text-slate-600">{t("aucunProduit")}</p> : groupes.map(({ famille: cle, libelle, produits: l }) => (
