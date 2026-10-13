@@ -44,6 +44,8 @@ const MateriauxPage = lazy(() => import("../../../features/materiaux/MateriauxPa
 const MateriauPage = lazy(() => import("../../../features/materiaux/MateriauPage"));
 const CommandeMateriauxPage = lazy(() => import("../../../features/materiaux/CommandePage"));
 const PlanningAchatPage = lazy(() => import("../../../features/materiaux/PlanningAchatPage"));
+const FournisseursMateriauxPage = lazy(() => import("../../../features/materiaux/FournisseursPages").then((m) => ({ default: m.FournisseursPage })));
+const FournisseurMateriauxPage = lazy(() => import("../../../features/materiaux/FournisseursPages").then((m) => ({ default: m.FournisseurPage })));
 
 // ── Phase 5 (parcours complet lead → manage → permit → site → delivery) ──
 // ── Sprint Articles 2026-06 : page article + middleware OG backend pour vignettes par article ──
@@ -292,6 +294,8 @@ export const router = createBrowserRouter([
       { path: '/materiaux/famille/:slug', element: <AdminHostBlock><MateriauxPage /></AdminHostBlock> },
       { path: '/materiaux/commande', element: <AdminHostBlock><CommandeMateriauxPage /></AdminHostBlock> },
       { path: '/materiaux/planning', element: <AdminHostBlock><PlanningAchatPage /></AdminHostBlock> },
+      { path: '/materiaux/fournisseurs', element: <AdminHostBlock><FournisseursMateriauxPage /></AdminHostBlock> },
+      { path: '/materiaux/fournisseurs/:slug', element: <AdminHostBlock><FournisseurMateriauxPage /></AdminHostBlock> },
       { path: '/materiaux/:slug', element: <AdminHostBlock><MateriauPage /></AdminHostBlock> },
 
       // ── Tarifs Contractuels Prestataires P6 (Phase 3) ──

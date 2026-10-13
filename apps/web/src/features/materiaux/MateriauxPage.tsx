@@ -16,6 +16,7 @@ import { moisLisible, texte, type T } from "./textes";
 import { useMateriaux, usePrixPublics } from "./etat";
 import { PHASES_ETUDE, PHASES_REALISATION, phasesMateriau, type PhaseEtude, type PhaseReal } from "../../domain/materiaux/phases";
 import { medianeProduits, texteLocal, useCodesModeres, useProduits } from "./catalogueProduits";
+import { VisuelMateriau } from "./IconeFamille";
 import PanierDemande from "./PanierDemande";
 import { BadgeFiabilite, BlocPrix, fmtDH, prixAffiche, uniteCourte } from "./ui";
 
@@ -99,7 +100,10 @@ export default function MateriauxPage() {
         <h1 className="mt-1 text-2xl font-bold leading-tight text-[#0B1B3A] sm:text-4xl">{titre}</h1>
         <p className="mt-2 text-base text-slate-600">{t("sousTitre", { n: MATERIAUX_PUBLICS.length })}</p>
         <p className="mt-2 text-xs text-slate-500">{t("tvaAide")}</p>
-        <Link to="/materiaux/planning" className="mt-3 inline-flex min-h-[44px] items-center rounded-lg border border-[#0B1B3A] px-4 text-sm font-semibold text-[#0B1B3A]" style={{ textDecoration: "none" }}>{t("planningLien")}</Link>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Link to="/materiaux/planning" className="inline-flex min-h-[44px] items-center rounded-lg border border-[#0B1B3A] px-4 text-sm font-semibold text-[#0B1B3A]" style={{ textDecoration: "none" }}>{t("planningLien")}</Link>
+          <Link to="/materiaux/fournisseurs" className="inline-flex min-h-[44px] items-center rounded-lg border border-[#0B1B3A] px-4 text-sm font-semibold text-[#0B1B3A]" style={{ textDecoration: "none" }}>{t("parFournisseur")}</Link>
+        </div>
       </header>
 
       <section aria-label={t("trier")} className="sticky top-0 z-30 -mx-4 mb-4 border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur">
@@ -154,10 +158,15 @@ export default function MateriauxPage() {
           const dansPanier = m.panier.some((l) => l.code === r.code);
           return (
             <li key={r.code} className="flex flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+              <div className="flex items-start gap-3">
+              <VisuelMateriau code={r.code} categorie={r.categorie} taille={48} lang={lang} />
+              <div className="min-w-0">
               <p className="text-xs text-slate-500">{CATEGORIES[r.categorie]} · {r.famille}</p>
               <h2 className="mt-0.5 text-base font-bold leading-snug text-[#0B1B3A]">
                 <Link to={`/materiaux/${slugMateriau(r.code)}${phase ? `?phase=${phase.startsWith("E:") ? "etude" : "realisation"}` : ""}`} className="text-[#0B1B3A] hover:underline">{r.libelle}</Link>
               </h2>
+              </div>
+              </div>
               <div className="mt-1 flex flex-wrap gap-1">
                 <BadgeFiabilite f={p.fiabilite} t={t} />
                 {produits.get(r.code)?.length ? <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">{t("marquesN", { n: new Set(produits.get(r.code)!.map((x) => x.marque || x.id)).size })}</span> : null}

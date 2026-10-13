@@ -129,3 +129,23 @@ Les fiches Cercles ne créent **aucune** visio. Le module générique « appels 
 - **Accès du pro à son espace** : session `frn_session` (cookie HttpOnly, `Path=/api/cercles`, vérifiée par `functions/api/cercles/espace/_middleware.ts`, qui pose `ctx.data.fournisseurId`). Pour que le pro accepte une demande depuis son espace, exposer les routes sous `/api/cercles/espace/appels/*` (le cookie n'est pas envoyé ailleurs) ou réutiliser `lireSessionFournisseur` (`functions/_lib/cercles.ts`).
 - **Emplacements prévus** : fiche publique `apps/web/src/features/fournisseurs/FicheProPage.tsx` (à côté du bouton « Contacter ce professionnel », en-tête, et sur chaque carte produit / prestation : `contexte` = `cercles-pro` | `cercles-produit` | `cercles-service`, `objetId` = slug du pro ou id du produit / de la prestation), cartes de l'annuaire `AnnuaireProPage.tsx`, et onglet de l'espace pro `EspaceFournisseurPage.tsx` pour accepter ou refuser.
 - **Anti-désintermédiation** : comme le contact (`POST /api/cercles/contact`), la demande passe par la plateforme ; les coordonnées du pro ne sont jamais renvoyées au client.
+
+## Images et navigation par fournisseur (matériauthèque, 2026-10-13)
+
+**Images des produits** — forme attendue par le front (`normaliserImages`, `apps/web/src/features/materiaux/fournisseursCatalogue.ts`), sur chaque produit de `GET /api/catalogue/produits` et de `GET /api/cercles/pro/:slug` :
+
+```json
+"images": [ { "url": "https://…/principale.webp", "vignette": "https://…/principale-320.webp", "legende": { "fr": "Sac de 50 kg", "ar": "كيس 50 كلغ" }, "principale": true } ]
+```
+
+- Première image = principale ; `vignette` facultative (sinon `url`) ; légende bilingue facultative ; 12 images au plus ; **https uniquement** (autre schéma ignoré). Repli accepté : `photos: [url]` (vue actuelle de `/api/cercles/pro/:slug`) et `photoUrl`.
+- Seules les images **modérées** sont publiées (photos fournies par le fournisseur, droits garantis par lui à l'inscription).
+- Front : vignette cliquable → visionneuse plein écran (glisser, zoom, vignettes, légendes FR/AR, chargement paresseux) sur la fiche matériau (« Marques et variantes ») et la page fournisseur.
+
+**Image de référence d'un code du catalogue** (matériauthèque, indépendante des fournisseurs) : `apps/web/src/domain/materiaux/images.json` — fichier hébergé dans `apps/web/public/materiaux/img/`, licence et source obligatoires (test `images.test.ts`), rempli par `apps/web/scripts/images-materiaux.mjs` (Pixabay Content License, image téléchargée et hébergée, relecture humaine avant commit) ou un visuel maison ; jamais une image copiée d'un site commercial. Sans image : icône de catégorie (SVG maison).
+
+**Par fournisseur** — la matériauthèque lit les routes publiques déjà en service (aucune route absente de `functions/`) :
+- liste : `GET /api/cercles/annuaire?groupe=MATERIAUX&region=<ville>&limite=200` (champs utilisés : `slug`, `raisonSociale`, `raisonSocialeAr`, `ville`, `zonesLivraison`, `categories`, `verifie`, `documentsVerifies`, `nbProduits`, `logoUrl`, `metierLibelle`) ;
+- page fournisseur : `GET /api/cercles/pro/:slug` (`fournisseur` + `produits` : `id`, `designationFr/Ar`, `descriptionFr/Ar`, `marque`, `modele`, `famille`, `materiauCode`, `conditionnement`, `photos` ou `images`, `ficheTechniqueUrl`) ;
+- « Proposé aussi par » : `fournisseurs` des variantes de `GET /api/catalogue/produits`.
+Si la session Cercles publie `GET /api/catalogue/fournisseurs` et `/api/catalogue/fournisseurs/:slug/produits`, le front pourra y basculer (mêmes champs) ; jusque-là, rien à faire. Aucune coordonnée n'est lue ni affichée (normalisation qui ne retient que les champs listés) : contact via `/cercles/pro/:slug` (mise en relation par la plateforme) et demande de prix.

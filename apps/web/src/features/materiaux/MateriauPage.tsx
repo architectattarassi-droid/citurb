@@ -22,6 +22,9 @@ import { ouvrirPanier, useMateriaux, usePrixPublics } from "./etat";
 import { medianeProduits, texteLocal, useCodesModeres, useProduits, type CodeModere, type ProduitCatalogue } from "./catalogueProduits";
 import PanierDemande from "./PanierDemande";
 import { OngletEtude, OngletRealisation } from "./PhasesFiche";
+import Variantes from "./Variantes";
+import { VisuelMateriau } from "./IconeFamille";
+import { imageReference } from "../../domain/materiaux/images";
 import { moisLisible, texte, type T } from "./textes";
 import { BadgeFiabilite, BlocPrix, fmtDH, prixAffiche, uniteCourte } from "./ui";
 
@@ -79,10 +82,16 @@ export default function MateriauPage() {
         <Link to="/materiaux" className="underline">{t("fil")}</Link> ›{" "}
         <Link to={`/materiaux/famille/${SLUG_CATEGORIE[r.categorie]}`} className="underline">{CATEGORIES[r.categorie]}</Link>
       </nav>
-      <h1 className="text-2xl font-bold leading-tight text-[#0B1B3A] sm:text-3xl">
-        {lang === "fr" ? `Prix ${enPhrase(r.libelle)} au Maroc (${moisLisible(MATERIAUTHEQUE_MAJ, "fr")})` : r.libelle}
-      </h1>
-      <p className="mt-1 text-sm text-slate-500">{r.famille} · {r.code}</p>
+      <div className="flex items-start gap-3">
+        <VisuelMateriau code={r.code} categorie={r.categorie} taille={72} lang={lang} />
+        <div className="min-w-0">
+          <h1 className="text-2xl font-bold leading-tight text-[#0B1B3A] sm:text-3xl">
+            {lang === "fr" ? `Prix ${enPhrase(r.libelle)} au Maroc (${moisLisible(MATERIAUTHEQUE_MAJ, "fr")})` : r.libelle}
+          </h1>
+          <p className="mt-1 text-sm text-slate-500">{r.famille} · {r.code}</p>
+          {imageReference(r.code) && <p className="text-[11px] text-slate-400">{t("credit", { licence: `${imageReference(r.code)!.licence}${imageReference(r.code)!.auteur ? ` — ${imageReference(r.code)!.auteur}` : ""}` })}</p>}
+        </div>
+      </div>
 
       <div className="mt-5 grid gap-4 lg:grid-cols-3">
         <section className={`${carte} lg:col-span-2`} aria-labelledby="prix-titre">
@@ -181,22 +190,7 @@ export default function MateriauPage() {
         <section className={`${carte} mt-4`} aria-labelledby="variantes-titre">
           <h2 id="variantes-titre" className={h2}>{t("variantes")}</h2>
           <p className="mt-1 text-xs text-slate-500">{t("variantesAide")}</p>
-          <ul className="mt-2 grid gap-2 p-0 sm:grid-cols-2">
-            {produits.map((x) => (
-              <li key={x.id} className="flex list-none gap-3 rounded-lg border border-slate-200 p-2">
-                {x.photoUrl && <img src={x.photoUrl} alt="" loading="lazy" className="h-16 w-16 shrink-0 rounded object-cover" />}
-                <div className="min-w-0 text-sm">
-                  <p className="font-semibold text-[#0B1B3A]">{[x.marque, x.modele].filter(Boolean).join(" · ") || texteLocal(x.designation, lang)}</p>
-                  <p className="text-slate-600">{texteLocal(x.designation, lang)}</p>
-                  {x.conditionnements?.length ? <p className="text-xs text-slate-500">{x.conditionnements.map((c) => texteLocal(c.libelle, lang)).join(" · ")}</p> : null}
-                  {x.caracteristiques?.slice(0, 4).map((c, i) => <p key={i} className="text-xs text-slate-500">{texteLocal(c.libelle, lang)} : {texteLocal(c.valeur, lang)}</p>)}
-                  {x.prix ? <p className="mt-0.5 text-emerald-800">{t("medianeFournisseurs", { n: x.prix.nbFournisseurs })} : <strong>{fmtDH(x.prix.mediane, lang)}</strong> {t("ht")} / {uniteCourte(r.uniteRef)}</p>
-                    : x.nbFournisseurs ? <p className="text-xs text-slate-500">{t("proposeParN", { n: x.nbFournisseurs })}</p> : null}
-                  {x.ficheTechniqueUrl && <a href={x.ficheTechniqueUrl} target="_blank" rel="noopener noreferrer nofollow" className="text-xs underline">{t("ficheTechnique")}</a>}
-                </div>
-              </li>
-            ))}
-          </ul>
+          <Variantes produits={produits} r={r} t={t} lang={lang} />
         </section>
       )}
 

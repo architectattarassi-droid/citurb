@@ -10,6 +10,7 @@ import type { Lang } from "../../i18n/i18n";
 import { CATEGORIES, type Categorie, type MaterialRef, type UniteRef } from "../../domain/materiaux/types";
 import { enregistrerCodesModeres, estCodeModere } from "../../domain/materiaux/catalogue";
 import { slugifier } from "../../domain/materiaux/reference";
+import { normaliserImages, type ImageProduit } from "./fournisseursCatalogue";
 
 export type Texte = { fr: string; ar?: string; en?: string };
 
@@ -27,6 +28,10 @@ export interface ProduitCatalogue {
   nbFournisseurs?: number;
   prix?: { mediane: number; min: number; max: number; nbFournisseurs: number; majLe?: string } | null;
   majLe?: string;
+  /** Galerie (images principale, galerie, vignettes) — normalisée par normaliserImages. */
+  images?: ImageProduit[];
+  /** Fournisseurs qui proposent la variante (lien fiche publique, jamais de coordonnées). */
+  fournisseurs?: { slug: string; nom: Texte; ville: string | null; documentsVerifies: boolean }[];
 }
 
 /** Texte dans la langue demandée, repli sur le français. */
@@ -46,7 +51,11 @@ export function normaliserProduits(j: unknown): ProduitCatalogue[] {
   return l.filter((p): p is ProduitCatalogue => !!p && typeof p === "object" && typeof p.id === "string"
     && typeof p.codeReference === "string" && /^CIT-[A-Z]{2,3}-\d{3}$/.test(p.codeReference) && estTexte(p.designation))
     .map((p) => ({ ...p, photoUrl: urlSure(p.photoUrl), ficheTechniqueUrl: urlSure(p.ficheTechniqueUrl),
-      prix: p.prix && p.prix.nbFournisseurs >= 3 && p.prix.mediane > 0 ? p.prix : null }));
+      prix: p.prix && p.prix.nbFournisseurs >= 3 && p.prix.mediane > 0 ? p.prix : null,
+      images: normaliserImages(p as unknown as Record<string, unknown>),
+      fournisseurs: (Array.isArray(p.fournisseurs) ? p.fournisseurs : [])
+        .filter((x) => x && typeof x.slug === "string" && /^[a-z0-9-]{2,80}$/.test(x.slug) && estTexte(x.nom))
+        .map((x) => ({ slug: x.slug, nom: x.nom, ville: typeof x.ville === "string" ? x.ville : null, documentsVerifies: x.documentsVerifies === true })) }));
 }
 
 /** Médiane fournisseurs la mieux étayée parmi les produits d'un code (≥ 3 fournisseurs, sinon null). */
