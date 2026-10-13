@@ -10,6 +10,7 @@ import { currentUtm, telephoneEnvoyable } from "../lead-funnel/leadBridge";
 import { INDICATIFS, numeroComplet } from "../lead-funnel/indicatifs";
 import { fuseauLocalDifferent, heureLocale, heureMaroc, jourLong, jourParDefaut, lienAgenda, lireCreneaux, OBJETS, reserver, type Creneaux } from "./api";
 import ChoixCreneau from "./ChoixCreneau";
+import { HONEYPOT_STYLE } from "../../lib/honeypot";
 
 const ERREURS: Record<string, string> = {
   nom_invalide: "Indiquez votre nom.",
@@ -145,7 +146,7 @@ export default function RendezVousPage() {
         <label className="grid gap-1 text-sm font-semibold text-slate-700">Message <span className="font-normal text-slate-500">(facultatif)</span>
           <textarea value={f.message} onChange={(e) => maj({ message: e.target.value })} rows={3} maxLength={1500} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-base" />
         </label>
-        <input type="text" name="website" value={f.website} onChange={(e) => maj({ website: e.target.value })} tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, opacity: 0 }} />
+        <input type="text" name="website" value={f.website} onChange={(e) => maj({ website: e.target.value })} tabIndex={-1} autoComplete="off" aria-hidden="true" style={HONEYPOT_STYLE} />
         <label className="flex items-start gap-2 text-sm text-slate-700">
           <input type="checkbox" checked={f.consentement} onChange={(e) => maj({ consentement: e.target.checked })} className="mt-1 h-5 w-5 shrink-0" />
           J'accepte que CITURBAREA utilise ces informations pour organiser ce rendez-vous et me recontacter à son sujet (loi 09-08). Elles ne sont jamais revendues.
