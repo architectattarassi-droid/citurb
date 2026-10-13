@@ -16,10 +16,10 @@ import { texte } from "./textes";
 import { Bientot, fmtDH } from "./ui";
 
 const ETAPES = [
-  "Panier confirmé par le fournisseur (prix, stock, frais et délai de livraison)",
-  "Paiement sécurisé en ligne (CMI ou établissement de paiement agréé), versé au fournisseur après livraison",
+  "Panier confirmé par le vendeur — CITURBAREA ou un fournisseur partenaire (prix, stock, frais et délai de livraison)",
+  "Paiement sécurisé en ligne (CMI ou établissement de paiement agréé)",
   "Préparation et livraison sur chantier, suivi en temps réel",
-  "Réception signée : le fournisseur est payé ; la commission de CITURBAREA est à sa charge, jamais à celle du client",
+  "Réception signée sur chantier ; facture du vendeur",
 ];
 
 export default function CommandePage() {

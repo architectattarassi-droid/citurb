@@ -7,8 +7,21 @@ Matériauthèque publique : `citurbarea.com/materiaux`. Ce document décrit ce q
 | Phase | Statut | Ce que fait le client | Ce que gagne la société (HSE DECO) |
 |---|---|---|---|
 | **1. Demande de prix (RFQ)** | **En ligne** | Panier multi-matériaux (quantités, unités de vente, ville) → une demande gratuite, sans engagement | Rien sur le client. Le fournisseur paie l'abonnement Cercles et, à partir de la phase 2 du modèle économique, une **commission de 3 à 5 % (modèle : 3,5 %)** sur les commandes issues des demandes, facturée chaque mois au fournisseur |
-| **2. Commande + paiement en ligne** | Écrans « bientôt disponible », drapeau désactivé | Commande ferme, paiement en ligne, suivi de livraison | Même commission, prélevée automatiquement (paiement scindé chez un établissement de paiement agréé) |
-| **3. Négoce en propre** | Hors périmètre du code actuel | Achète à la société | Marge de négoce (second œuvre d'abord), à partir de M18 selon le modèle économique |
+| **2. Commande + paiement en ligne** | Écrans « bientôt disponible », drapeau désactivé ; modèle de données prêt pour les **deux modes** ci-dessous | Commande ferme, paiement en ligne, suivi de livraison | Mode **place de marché** : commission payée par le fournisseur. Mode **négoce** : marge commerciale de CITURBAREA |
+
+### Deux modes de vente (phase 2)
+
+CITURBAREA est une **société commerciale indépendante** du cabinet d'architecte : elle peut **vendre des matériaux elle-même** et faire de la **mise en relation** rémunérée par commission. Le modèle (`achat.ts` : `ModeVente`, `Vendeur`) porte les deux, commande par commande :
+
+| | **NEGOCE** — CITURBAREA vend | **MARKETPLACE** — un fournisseur partenaire vend |
+|---|---|---|
+| Vendeur, facture au client | CITURBAREA (HSE DECO) | Le fournisseur |
+| Approvisionnement | Achat auprès d'un négociant (`prixAchatHT`, `approvisionnementFournisseurId` par ligne, internes) | Stock du fournisseur |
+| Revenu de CITURBAREA | Marge commerciale (`margeHT` = ventes HT − achats HT) | Commission 3-5 % (modèle 3,5 %) payée par le fournisseur |
+| Encaissement | Sur le compte marchand de CITURBAREA (CMI / NAPS) | Établissement de paiement agréé avec paiement scindé, ou paiement direct au fournisseur et commission facturée chaque mois |
+| Points d'attention | BFR, logistique, retours, TVA collectée | Contrat de référencement, anti-contournement |
+
+Selon le modèle économique, le négoce démarre de préférence après la phase de commission et sur le second œuvre ; le code ne l'empêche pas. **Déontologie** : aucune vente n'est présentée sous le nom d'un architecte ; sur les chantiers suivis par le cabinet, prescription neutre (« ou équivalent »), information écrite du client sur le lien capitalistique et liberté d'acheter ailleurs. Les pages publiques ne disent ni que la vente est interdite, ni qu'elle est réservée aux partenaires.
 
 ## 2. Phase 1 — en ligne
 
@@ -35,24 +48,26 @@ BROUILLON ──► DEVIS_CONFIRME ──► PAIEMENT_EN_COURS ──► PAYEE �
 ```
 
 - **BROUILLON** : panier converti ; prix de référence indicatifs.
-- **DEVIS_CONFIRME** : le fournisseur confirme prix, stock, frais et délai de livraison (réponse à la demande de prix, table `ReponsePrix`).
-- **PAYEE** : fonds reçus par le **prestataire de paiement agréé**, jamais sur un compte de la société pour le compte du fournisseur.
+- **DEVIS_CONFIRME** : le vendeur (CITURBAREA en négoce, le fournisseur en place de marché) confirme prix, stock, frais et délai de livraison (réponse à la demande de prix, table `ReponsePrix` en place de marché).
+- **PAYEE** : négoce — fonds reçus sur le compte marchand de CITURBAREA ; place de marché — fonds reçus par l'**établissement de paiement agréé**, jamais sur un compte de la société pour le compte du fournisseur.
 - **LIVREE** : bon de livraison signé (photo jointe : `livraison.preuve`).
-- **CLOTUREE** : fonds reversés au fournisseur, commission prélevée (paiement scindé).
-- Commission = `commissionPct` × total HT des marchandises (hors livraison), figée à la commande. Valeur par défaut : `ParametrePlateforme.commissionPctDefaut` (4 % à l'installation ; le modèle économique retient 3,5 %, fourchette 3-5 %) ; valeur propre au fournisseur : `Fournisseur.commissionPct` (réglable dans `/cc/fournisseurs`).
+- **CLOTUREE** : place de marché — fonds reversés au fournisseur, commission prélevée (paiement scindé) ; négoce — fournisseur d'approvisionnement payé selon ses conditions.
+- Place de marché : commission = `commissionPct` × total HT des marchandises (hors livraison), figée à la commande. Valeur par défaut : `ParametrePlateforme.commissionPctDefaut` (4 % à l'installation ; le modèle économique retient 3,5 %, fourchette 3-5 %) ; valeur propre au fournisseur : `Fournisseur.commissionPct` (réglable dans `/cc/fournisseurs`).
 
 ### Ce qu'il reste à coder au lancement
 
 1. Pages Functions `POST /api/commandes` (depuis une `ReponsePrix` acceptée), `GET /api/commandes/:jeton` (suivi client par lien secret, comme `/rdv/<jeton>`), `PATCH /api/cercles/espace/commandes/:id` (fournisseur : préparation, expédition), `/api/cc/commandes` (back-office, litiges).
 2. Intégration du prestataire : création de la session de paiement, **webhook signé** (`PAYEE`), remboursement ; aucun numéro de carte ne transite par CITURBAREA.
 3. Notifications (e-mail / WhatsApp) à chaque changement de statut.
-4. Facturation : facture du fournisseur au client ; facture de commission de HSE DECO au fournisseur.
+4. Facturation : négoce — facture de HSE DECO au client (et factures d'achat des négociants) ; place de marché — facture du fournisseur au client et facture de commission de HSE DECO au fournisseur.
+5. Back-office négoce : choix du négociant d'approvisionnement par ligne, prix d'achat, marge, bons de commande fournisseurs.
 
 ## 4. Ce qu'il faut réunir avant d'activer (hors code)
 
 | Sujet | Décision / action | Référence |
 |---|---|---|
 | **Entité** | HSE DECO (SARL) facture abonnements et commissions ; le cabinet d'architecte ne facture que ses honoraires | modèle économique, mise à jour du 13/10/2026 |
+| **Contrat négociant (négoce)** | Conditions d'achat de CITURBAREA : prix, délais de paiement (BFR), livraison directe chez le client (dropshipping), retours | modèle économique (rang 7) |
 | **Contrat fournisseur** | Contrat de référencement + mandat de commission (3-5 %) + clause anti-contournement proportionnée, sans exclusivité ; engagement sur les délais et la qualité | modèle économique c.3 ; loi 104-12 |
 | **Compte marchand** | TPE virtuel **CMI** ou **NAPS** au nom de la société (cartes marocaines et étrangères pour les MRE). Stripe n'est pas le socle au Maroc | modèle économique (paiement en ligne) |
 | **Fonds de tiers** | Ne pas détenir l'argent des fournisseurs : soit le client paie le fournisseur directement et la commission est facturée chaque mois (phase 1 du modèle), soit un **établissement de paiement agréé BAM** avec paiement scindé (marketplace) | modèle économique c.3 |

@@ -1,6 +1,7 @@
 -- Achat en ligne de matériaux (PHASE 2) — NE PAS EXÉCUTER avant le lancement.
 -- Modèle : apps/web/src/domain/materiaux/achat.ts ; architecture : docs/achat-en-ligne.md.
 -- Prérequis : tables Cercles (docs/prix/sql/cercles-fournisseurs.sql).
+-- Deux modes : NEGOCE (CITURBAREA, société commerciale, vend en son nom) et MARKETPLACE (fournisseur partenaire, commission).
 
 CREATE TABLE IF NOT EXISTS "Commande" (
   "id"                TEXT PRIMARY KEY,
@@ -10,7 +11,8 @@ CREATE TABLE IF NOT EXISTS "Commande" (
   "statut"            TEXT NOT NULL DEFAULT 'BROUILLON', -- BROUILLON | DEVIS_CONFIRME | PAIEMENT_EN_COURS | PAYEE | EN_PREPARATION | EXPEDIEE | LIVREE | CLOTUREE | LITIGE | ANNULEE | REMBOURSEE
   "leadId"            TEXT,                              -- "Lead"."id" (demande de prix d'origine)
   "demandePrixId"     TEXT REFERENCES "DemandePrix"("id") ON DELETE SET NULL,
-  "fournisseurId"     TEXT NOT NULL REFERENCES "Fournisseur"("id"),
+  "mode"              TEXT NOT NULL,                     -- NEGOCE (CITURBAREA vend et facture) | MARKETPLACE (le fournisseur vend, commission)
+  "fournisseurId"     TEXT REFERENCES "Fournisseur"("id"), -- vendeur en MARKETPLACE ; NULL en NEGOCE (vendeur = CITURBAREA)
   "clientNom"         TEXT NOT NULL,
   "clientTelephone"   TEXT NOT NULL,
   "clientEmail"       TEXT,
@@ -21,8 +23,9 @@ CREATE TABLE IF NOT EXISTS "Commande" (
   "totalHT"           DOUBLE PRECISION NOT NULL,
   "totalTVA"          DOUBLE PRECISION NOT NULL,
   "totalTTC"          DOUBLE PRECISION NOT NULL,
-  "commissionPct"     DOUBLE PRECISION NOT NULL,         -- figé à la commande (ParametrePlateforme / Fournisseur."commissionPct")
-  "commissionHT"      DOUBLE PRECISION NOT NULL,
+  "commissionPct"     DOUBLE PRECISION NOT NULL DEFAULT 0, -- MARKETPLACE : figé à la commande (ParametrePlateforme / Fournisseur."commissionPct")
+  "commissionHT"      DOUBLE PRECISION NOT NULL DEFAULT 0, -- MARKETPLACE seulement
+  "margeHT"           DOUBLE PRECISION,                  -- NEGOCE : ventes HT − achats HT
   "paiement"          JSONB NOT NULL DEFAULT '{}'::jsonb, -- { prestataire, transactionId, payeLe } — jamais de numéro de carte
   "livraison"         JSONB NOT NULL DEFAULT '{}'::jsonb, -- { transporteur, suivi, livreLe, preuve }
   "evenements"        JSONB NOT NULL DEFAULT '[]'::jsonb, -- [{ at, statut, auteur, note }]
@@ -41,6 +44,8 @@ CREATE TABLE IF NOT EXISTS "LigneCommande" (
   "prixUnitaireHT"  DOUBLE PRECISION NOT NULL,           -- confirmé par le fournisseur
   "tvaPct"          DOUBLE PRECISION NOT NULL DEFAULT 20,
   "totalHT"         DOUBLE PRECISION NOT NULL,
-  "totalTTC"        DOUBLE PRECISION NOT NULL
+  "totalTTC"        DOUBLE PRECISION NOT NULL,
+  "prixAchatHT"     DOUBLE PRECISION,                    -- NEGOCE : coût d'achat de CITURBAREA (interne)
+  "approvisionnementFournisseurId" TEXT REFERENCES "Fournisseur"("id")  -- NEGOCE : négociant d'approvisionnement
 );
 CREATE INDEX IF NOT EXISTS "LigneCommande_commande_idx" ON "LigneCommande" ("commandeId");

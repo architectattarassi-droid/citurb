@@ -1,8 +1,9 @@
 /**
  * Demande de prix multi-matériaux (phase 1 de l'achat, gratuite) : le panier
  * de la matériauthèque devient UN lead (porte P6, source MATERIAUX) visible
- * dans /cc/leads. Les coordonnées des fournisseurs ne sont jamais exposées :
- * CITURBAREA relaie la demande aux fournisseurs approuvés de la région.
+ * dans /cc/leads. CITURBAREA répond par sa propre offre (négoce) ou relaie la
+ * demande aux fournisseurs approuvés de la région (place de marché) ; les
+ * coordonnées des fournisseurs ne sont jamais exposées.
  * Fonctions pures (tests : demandePrix.test.ts).
  */
 import { materiau } from "./catalogue";
