@@ -16,8 +16,8 @@
     { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
   ],
   "shortcuts": [
-    { "name": "Nouveau dossier", "short_name": "Nouveau", "url": "/portail", "icons": [{ "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }] },
-    { "name": "Mes dossiers", "short_name": "Dossiers", "url": "/dossiers", "icons": [{ "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }] },
+    { "name": "Nouveau projet", "short_name": "Projet", "url": "/creer-compte", "icons": [{ "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }] },
+    { "name": "Mes dossiers", "short_name": "Dossiers", "url": "/portal", "icons": [{ "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }] },
     { "name": "Cercles", "short_name": "Cercles", "url": "/cercles", "icons": [{ "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }] },
     { "name": "Explorateur SIG", "short_name": "SIG", "url": "/sig", "icons": [{ "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }] }
   ],
