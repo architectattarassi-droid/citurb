@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 /**
  * Référentiel des jalons : fusion des fichiers data/*.json (un par domaine),
  * contrôle d'intégrité et sélection des jalons applicables à un projet.
