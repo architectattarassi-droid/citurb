@@ -2737,3 +2737,47 @@ model BlocageAppel {
 
   @@id([destinataireCle, demandeurCle])
 }
+
+/// Fil de messagerie (tout passe par CITURBAREA) — functions/_lib/messagerie.ts.
+/// SQL Neon : docs/sql/messagerie-neon.sql (index GIN sur "cles" et "jetons" : à conserver).
+model Conversation {
+  id               String   @id
+  /// dossier | chantier | reunion | cercles | fournisseur | rdv
+  contexte         String
+  objetId          String
+  /// OUVERTE | FERMEE | SIGNALEE
+  statut           String   @default("OUVERTE")
+  empreinte        String
+  createurCle      String
+  cles             String[] @default([])
+  jetons           String[] @default([])
+  donnees          Json
+  version          Int      @default(1)
+  dernierMessageLe DateTime @db.Timestamptz(3)
+  createdAt        DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt        DateTime @default(now()) @db.Timestamptz(3)
+  messages         MessageConversation[]
+
+  @@index([empreinte], map: "Conversation_empreinte_idx")
+  @@index([createurCle, createdAt], map: "Conversation_createur_idx")
+  @@index([statut, dernierMessageLe], map: "Conversation_statut_idx")
+}
+
+/// Message d'un fil (texte masqué, jamais supprimé : modération par « modere »).
+model MessageConversation {
+  id             String       @id
+  conversationId String
+  auteurId       String
+  auteurCle      String
+  /// TEXTE | APPEL | SYSTEME
+  type           String       @default("TEXTE")
+  texte          String       @default("")
+  masque         Boolean      @default(false)
+  meta           Json         @default("{}")
+  modere         Boolean      @default(false)
+  createdAt      DateTime     @default(now()) @db.Timestamptz(3)
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Restrict, map: "MessageConversation_conversation_fkey")
+
+  @@index([conversationId, createdAt], map: "MessageConversation_fil_idx")
+  @@index([auteurCle, createdAt], map: "MessageConversation_auteur_idx")
+}

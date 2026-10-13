@@ -9,9 +9,9 @@
  *   POST …/appels/<id>/bloquer    ne plus recevoir de demandes de ce demandeur
  */
 import { neon } from "@neondatabase/serverless";
-import { depotAppelsNeon, type Sql } from "../../../../_lib/appelsDepot";
-import { resolveurNeon } from "../../../../_lib/appelsResolveur";
-import { envoyeurResend, indisponible, rappels, repondre, routeur, segments, type EnvAppels } from "../../../../_lib/appelsService";
+import type { Sql } from "../../../../_lib/appelsDepot";
+import { contexteNeon } from "../../../../_lib/contexteNeon";
+import { indisponible, rappels, repondre, routeur, segments, type EnvAppels } from "../../../../_lib/appelsService";
 
 export async function onRequest(ctx: { request: Request; env: EnvAppels; params: { chemin?: string | string[] }; data?: Record<string, unknown>; waitUntil?: (p: Promise<unknown>) => void }): Promise<Response> {
   const fournisseurId = String(ctx.data?.fournisseurId || "");
@@ -19,7 +19,7 @@ export async function onRequest(ctx: { request: Request; env: EnvAppels; params:
   if (!ctx.env.DATABASE_URL) return repondre(indisponible());
   try {
     const sql = neon(ctx.env.DATABASE_URL) as unknown as Sql;
-    const c = { depot: depotAppelsNeon(sql), resolveur: resolveurNeon(sql), env: ctx.env, maintenant: Date.now(), envoyer: envoyeurResend(ctx.env) };
+    const c = contexteNeon(ctx.env, sql);
     const chemin = segments(ctx.params.chemin);
     if (chemin[0] === "rappels") return repondre({ status: 404, json: { ok: false, error: "route_inconnue" } });
     if (!chemin.length && ctx.request.method === "GET") ctx.waitUntil?.(rappels(c).catch(() => null));

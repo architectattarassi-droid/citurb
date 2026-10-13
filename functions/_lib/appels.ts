@@ -102,6 +102,8 @@ export type Demande = {
   salle: string | null;
   expireLe: string;
   rappelEnvoye: boolean;
+  /** Fil de messagerie d'où vient la demande (ses étapes y sont inscrites). */
+  conversationId?: string | null;
   historique: Evenement[];
   participants: Participant[];
   version: number;
@@ -207,7 +209,7 @@ export type EntreeCreation = {
 
 const ID_LIBRE = /^[A-Za-z0-9_.\-]{1,80}$/;
 
-function lireInvite(v: unknown): DescripteurInvite | null {
+export function lireInvite(v: unknown): DescripteurInvite | null {
   if (!v || typeof v !== "object" || Array.isArray(v)) return null;
   const o = v as Record<string, unknown>;
   const id = (k: string) => (typeof o[k] === "string" && ID_LIBRE.test(o[k] as string) ? (o[k] as string) : null);

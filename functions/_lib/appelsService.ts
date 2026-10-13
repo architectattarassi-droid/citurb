@@ -16,7 +16,7 @@ import {
   masquerCoordonnees, actualiser, appliquer, autoriserCreation, CLE_CABINET, controlerAccesSalle, estModerateur, lireAction, nouvelIdDemande,
   nouvelIdParticipant, nouveauSel, nouvelleDemande, RAPPEL_AVANT_MS, resume, validerCreation, verifierDebit, vueAdmin, vueParticipant,
   clip, ID_DEMANDE_RE, ID_PARTICIPANT_RE, JETON_APPEL_RE,
-  type DescripteurInvite, type Demande, type Erreur, type GenreActeur, type Identite, type Langue, type Participant,
+  type DescripteurInvite, type Demande, type EntreeCreation, type Erreur, type GenreActeur, type Identite, type Langue, type Participant,
 } from "./appels";
 import type { DepotAppels } from "./appelsDepot";
 import { composer, lienPersonnel, lienWhatsApp, texteWhatsApp, type Evenement, type Message } from "./appelsNotif";
@@ -61,7 +61,15 @@ export type Ctx = {
   env: EnvAppels;
   maintenant: number;
   envoyer: (m: Message & { to: string[] }) => Promise<boolean>;
+  /** Appel demandé depuis un fil de messagerie : chaque étape y est inscrite (messagerieService). */
+  journal?: (d: Demande, ev: Evenement | "terminee" | "expiree", auteurId: string | null) => Promise<void>;
 };
+
+/** Inscrit l'événement dans le fil d'origine ; n'échoue jamais. */
+async function journaliser(c: Ctx, d: Demande, ev: Evenement | "terminee" | "expiree", auteurId: string | null) {
+  if (!d.conversationId || !c.journal) return;
+  try { await c.journal(d, ev, auteurId); } catch { /* le fil n'est qu'un reflet */ }
+}
 
 // ── Lien personnel ──────────────────────────────────────────────────────
 
@@ -125,7 +133,10 @@ async function ecrire(c: Ctx, id: string, modifier: (d: Demande) => { ok: true; 
 /** Expire / termine à la lecture si c'est dû (écriture best-effort). */
 async function lireActuelle(c: Ctx, d: Demande): Promise<Demande> {
   const v = d.version;
-  if (actualiser(d, c.maintenant)) await c.depot.enregistrer(d, v).catch(() => false);
+  if (actualiser(d, c.maintenant) && (await c.depot.enregistrer(d, v).catch(() => false))) {
+    d.version = v + 1;
+    await journaliser(c, d, d.statut === "TERMINEE" ? "terminee" : "expiree", null);
+  }
   return d;
 }
 
@@ -141,7 +152,7 @@ function telephone(t: unknown): string | null {
 const langue = (v: unknown): Langue => (v === "ar" ? "ar" : "fr");
 
 /** Visiteur sans compte : nom + e-mail ou téléphone, consentement, pot de miel. Identité stable par empreinte du contact. */
-async function identiteVisiteur(b: Record<string, unknown>): Promise<Identite | Erreur> {
+export async function identiteVisiteur(b: Record<string, unknown>): Promise<Identite | Erreur> {
   const o = (b.demandeur && typeof b.demandeur === "object" ? b.demandeur : {}) as Record<string, unknown>;
   // Le nom est montré à l'autre partie : aucune coordonnée ne doit s'y glisser (CLAUDE.md, « tout passe par CITURBAREA »).
   const nom = masquerCoordonnees(clip(o.nom, 80)).texte;
@@ -182,7 +193,26 @@ export async function creer(c: Ctx, a: ActeurConnecte | null, corps: unknown): P
     if (r.cle === moi.cle) return ko(400, "auto_invitation");
     if (!invites.some((x) => x.cle === r.cle)) invites.push(r);
   }
+  const f = await finaliserCreation(c, e, moi, invites, null);
+  if (!f.ok) return f.reponse;
+  return ok({
+    demande: a?.genre === "admin" ? vueAdmin(f.d, c.maintenant) : vueParticipant(f.d, f.demandeurId, c.maintenant),
+    // Le demandeur sans session reçoit SON lien (c'est le seul moyen de suivre sa demande).
+    ...(a ? {} : { lien: lienPersonnel(origine(c.env), f.jeton, moi.langue), jeton: f.jeton }),
+    messageMasque: e.messageMasque,
+    notifications: f.notifications,
+  }, 201);
+}
 
+/**
+ * Fin commune de la création : débit, blocages, liens personnels, écriture,
+ * notifications. Utilisée aussi par la messagerie (appel demandé depuis un
+ * fil : identités déjà connues, `conversationId` renseigné).
+ */
+export async function finaliserCreation(c: Ctx, e: EntreeCreation, moi: Identite, invites: Identite[], conversationId: string | null):
+  Promise<{ ok: true; d: Demande; demandeurId: string; jeton: string; notifications: number } | { ok: false; reponse: Reponse }> {
+  const secret = secretAppels(c.env);
+  if (!secret) return { ok: false, reponse: ko(503, "appels_non_configures") };
   // Débit et blocages (anti-harcèlement).
   const iso = (ms: number) => new Date(c.maintenant - ms).toISOString();
   const maintenantIso = new Date(c.maintenant).toISOString();
@@ -194,7 +224,7 @@ export async function creer(c: Ctx, a: ActeurConnecte | null, corps: unknown): P
     recues24h: await Promise.all(cles.map((k) => c.depot.compterRecues(k, iso(24 * 3600_000)))),
     bloque: await Promise.all(cles.map((k) => c.depot.bloque(k, moi.cle))),
   });
-  if (!debit.ok) return deErreur(debit);
+  if (!debit.ok) return { ok: false, reponse: deErreur(debit) };
 
   const id = nouvelIdDemande();
   const avecLien = async (x: Identite) => {
@@ -205,15 +235,11 @@ export async function creer(c: Ctx, a: ActeurConnecte | null, corps: unknown): P
   const dem = await avecLien(moi);
   const inv = await Promise.all(invites.map(avecLien));
   const d = nouvelleDemande(e, dem, inv, id, c.maintenant);
+  d.conversationId = conversationId;
   await c.depot.creer(d);
-  const envoyes = await notifier(c, d, "demande", dem.id);
-  return ok({
-    demande: a?.genre === "admin" ? vueAdmin(d, c.maintenant) : vueParticipant(d, dem.id, c.maintenant),
-    // Le demandeur sans session reçoit SON lien (c'est le seul moyen de suivre sa demande).
-    ...(a ? {} : { lien: lienPersonnel(origine(c.env), dem.jeton, dem.langue), jeton: dem.jeton }),
-    messageMasque: e.messageMasque,
-    notifications: envoyes,
-  }, 201);
+  const notifications = await notifier(c, d, "demande", dem.id);
+  await journaliser(c, d, "demande", dem.id);
+  return { ok: true, d, demandeurId: dem.id, jeton: dem.jeton, notifications };
 }
 
 // ── Accès d'un participant ──────────────────────────────────────────────
@@ -266,7 +292,7 @@ export async function agir(c: Ctx, x: Acces, corps: unknown): Promise<Reponse> {
     return res.ok ? { ok: true, d: res.demande, ev: res.evenement } : res;
   });
   if (!r.ok) return deErreur(r);
-  if (r.ev) await notifier(c, r.d, r.ev, r.ev === "confirmee" ? null : pid);
+  if (r.ev) { await notifier(c, r.d, r.ev, r.ev === "confirmee" ? null : pid); await journaliser(c, r.d, r.ev, pid); }
   return ok({ demande: vue(c, { ...x, d: r.d }), evenement: r.ev });
 }
 
@@ -283,7 +309,7 @@ export async function bloquer(c: Ctx, x: Acces): Promise<Reponse> {
     });
     if (r.ok) { d = r.d; ev = r.ev; }
   }
-  if (ev) await notifier(c, d, ev, x.p.id);
+  if (ev) { await notifier(c, d, ev, x.p.id); await journaliser(c, d, ev, x.p.id); }
   return ok({ demande: vue(c, { ...x, d }), bloque: true });
 }
 const statutOuvert = (d: Demande) => d.statut === "EN_ATTENTE";

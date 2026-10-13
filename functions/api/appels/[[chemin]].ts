@@ -9,9 +9,9 @@
  * Logique : functions/_lib/appelsService.ts ; tables : docs/sql/appels-video-neon.sql.
  */
 import { neon } from "@neondatabase/serverless";
-import { depotAppelsNeon, type Sql } from "../../_lib/appelsDepot";
-import { resolveurNeon } from "../../_lib/appelsResolveur";
-import { envoyeurResend, indisponible, repondre, routeur, segments, type EnvAppels } from "../../_lib/appelsService";
+import type { Sql } from "../../_lib/appelsDepot";
+import { contexteNeon } from "../../_lib/contexteNeon";
+import { indisponible, repondre, routeur, segments, type EnvAppels } from "../../_lib/appelsService";
 
 /** Filet par adresse IP (en mémoire, par isolat) : la vraie limite est en base. */
 const passages = new Map<string, number[]>();
@@ -32,7 +32,7 @@ export async function onRequest(ctx: { request: Request; env: EnvAppels; params:
   if (!accepter(`${creation ? "c" : "l"}:${ip}`, creation ? 6 : 120, creation ? 3600_000 : 600_000)) return repondre({ status: 429, json: { ok: false, error: "trop_de_requetes" } });
   try {
     const sql = neon(ctx.env.DATABASE_URL) as unknown as Sql;
-    const c = { depot: depotAppelsNeon(sql), resolveur: resolveurNeon(sql), env: ctx.env, maintenant: Date.now(), envoyer: envoyeurResend(ctx.env) };
+    const c = contexteNeon(ctx.env, sql);
     return repondre(await routeur(c, ctx.request, null, chemin));
   } catch (e) {
     console.error(`[appels] erreur (${(e as { code?: string })?.code || "sans code"})`);
