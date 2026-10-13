@@ -19,7 +19,7 @@ import { indicesMateriau, sourcesCitees } from "../../domain/materiaux/sources";
 import { usagesMateriau } from "../../domain/materiaux/usages";
 import { captureLead, currentUtm, leadKey, telephoneEnvoyable } from "../lead-funnel/leadBridge";
 import { ouvrirPanier, useMateriaux, usePrixPublics } from "./etat";
-import { texteLocal, useProduits } from "./catalogueProduits";
+import { medianeProduits, texteLocal, useCodesModeres, useProduits, type CodeModere, type ProduitCatalogue } from "./catalogueProduits";
 import PanierDemande from "./PanierDemande";
 import { moisLisible, texte, type T } from "./textes";
 import { BadgeFiabilite, BlocPrix, fmtDH, prixAffiche, uniteCourte } from "./ui";
@@ -35,11 +35,15 @@ export default function MateriauPage() {
   const r = materiauParSlug(slug);
   const prix = usePrixPublics(m.ville);
   const produitsParCode = useProduits();
+  const codesModeres = useCodesModeres();
+  const modere = !r ? codesModeres?.find((c) => c.slug === slug) : undefined;
 
   useEffect(() => {
     if (r) document.title = `Prix ${enPhrase(r.libelle)} au Maroc ${MATERIAUTHEQUE_MAJ.slice(0, 4)} | CITURBAREA`;
   }, [r, slug]);
 
+  if (!r && modere) return <FicheModeree c={modere} produits={produitsParCode.get(modere.ref.code) || []} t={t} lang={lang} />;
+  if (!r && codesModeres === null) return <main className="mx-auto max-w-3xl px-4 py-12" aria-busy="true" />;
   if (!r) {
     return (
       <main className="mx-auto max-w-3xl px-4 py-12">
@@ -290,5 +294,49 @@ function Signaler({ code, libelle, t, lang }: { code: string; libelle: string; t
         </form>
       )}
     </div>
+  );
+}
+
+/** Fiche d'un code créé en modération : pas de prix de référence, seulement les produits et prix agrégés des fournisseurs. */
+function FicheModeree({ c, produits, t, lang }: { c: CodeModere; produits: ProduitCatalogue[]; t: T; lang: "fr" | "ar" | "en" }) {
+  const m = useMateriaux();
+  const r = c.ref;
+  const pf = medianeProduits(produits);
+  const nom = texteLocal(c.libelle, lang);
+  useEffect(() => { document.title = `Prix ${enPhrase(c.libelle.fr)} au Maroc | CITURBAREA`; }, [c]);
+  return (
+    <main className="mx-auto max-w-5xl px-4 pb-24 pt-6 sm:pt-10">
+      <nav aria-label="fil" className="mb-3 text-sm text-slate-500">
+        <Link to="/materiaux" className="underline">{t("fil")}</Link> ›{" "}
+        <Link to={`/materiaux/famille/${SLUG_CATEGORIE[r.categorie]}`} className="underline">{CATEGORIES[r.categorie]}</Link>
+      </nav>
+      <h1 className="text-2xl font-bold leading-tight text-[#0B1B3A] sm:text-3xl">{nom}</h1>
+      <p className="mt-1 text-sm text-slate-500">{r.famille} · {r.code}</p>
+      <p className="mt-2"><span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-semibold text-violet-800">{t("nouveau")}</span></p>
+      <section className={`${carte} mt-4`}>
+        {pf ? <p className="text-emerald-800"><strong className="text-3xl text-[#0B1B3A]">{fmtDH(pf.mediane, lang)}</strong> {t("ht")} / {uniteCourte(r.uniteRef)} · {t("medianeFournisseurs", { n: pf.nbFournisseurs })}</p>
+          : <p className="text-xl font-bold text-slate-700">{t("prixSurDemande")}</p>}
+        <p className="mt-2 text-xs text-slate-500">{t("nouveauAide")}</p>
+        <button type="button" onClick={() => { m.ajouter({ code: r.code, quantite: 1, unite: r.uniteRef }); ouvrirPanier(); }}
+          className="mt-3 min-h-[48px] w-full rounded-lg bg-[#C9A227] px-4 text-base font-bold text-[#0B1B3A] hover:bg-[#d6b23c] sm:w-auto">{t("demander")}</button>
+        <p className="mt-2 text-xs text-slate-500">{t("demanderAide")}</p>
+      </section>
+      {produits.length > 0 && (
+        <section className={`${carte} mt-4`}>
+          <h2 className={h2}>{t("variantes")}</h2>
+          <ul className="mt-2 grid gap-2 p-0 sm:grid-cols-2">
+            {produits.map((x) => (
+              <li key={x.id} className="list-none rounded-lg border border-slate-200 p-2 text-sm">
+                <p className="font-semibold text-[#0B1B3A]">{[x.marque, x.modele].filter(Boolean).join(" · ") || texteLocal(x.designation, lang)}</p>
+                <p className="text-slate-600">{texteLocal(x.designation, lang)}</p>
+                {x.conditionnements?.length ? <p className="text-xs text-slate-500">{x.conditionnements.map((k) => texteLocal(k.libelle, lang)).join(" · ")}</p> : null}
+                {x.caracteristiques?.slice(0, 4).map((k, i) => <p key={i} className="text-xs text-slate-500">{texteLocal(k.libelle, lang)} : {texteLocal(k.valeur, lang)}</p>)}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+      <PanierDemande />
+    </main>
   );
 }

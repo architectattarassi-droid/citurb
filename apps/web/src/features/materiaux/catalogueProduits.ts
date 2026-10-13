@@ -7,6 +7,9 @@
  */
 import { useEffect, useState } from "react";
 import type { Lang } from "../../i18n/i18n";
+import { CATEGORIES, type Categorie, type MaterialRef, type UniteRef } from "../../domain/materiaux/types";
+import { enregistrerCodesModeres, estCodeModere } from "../../domain/materiaux/catalogue";
+import { slugifier } from "../../domain/materiaux/reference";
 
 export type Texte = { fr: string; ar?: string; en?: string };
 
@@ -46,6 +49,12 @@ export function normaliserProduits(j: unknown): ProduitCatalogue[] {
       prix: p.prix && p.prix.nbFournisseurs >= 3 && p.prix.mediane > 0 ? p.prix : null }));
 }
 
+/** Médiane fournisseurs la mieux étayée parmi les produits d'un code (≥ 3 fournisseurs, sinon null). */
+export function medianeProduits(l: ProduitCatalogue[] | undefined): { mediane: number; nbFournisseurs: number } | null {
+  const p = (l || []).filter((x) => x.prix).sort((a, b) => b.prix!.nbFournisseurs - a.prix!.nbFournisseurs)[0];
+  return p?.prix ? { mediane: p.prix.mediane, nbFournisseurs: p.prix.nbFournisseurs } : null;
+}
+
 let requete: Promise<Map<string, ProduitCatalogue[]>> | null = null;
 
 function charger(): Promise<Map<string, ProduitCatalogue[]>> {
@@ -69,4 +78,52 @@ export function useProduits(): Map<string, ProduitCatalogue[]> {
     return () => { vivant = false; };
   }, []);
   return m;
+}
+
+// ─────────────── codes créés en modération (GET /api/catalogue/referentiel) ───────────────
+// Seuls les codes SANS parent sont ajoutés ici : ceux qui ont un parent sont
+// publiés comme variantes du code générique (produits, codeReference = parent).
+// Aucun prix de référence : prix fournisseurs agrégés (≥ 3) ou « prix sur demande ».
+
+
+export interface CodeModere { ref: MaterialRef; libelle: Texte; slug: string }
+
+const UNITES: UniteRef[] = ["kg", "t", "m3", "m2", "ml", "u", "l", "ens"];
+
+/** Slug d'un code modéré : désignation + suffixe du code (jamais en collision avec le catalogue statique). */
+export const slugModere = (code: string, libelleFr: string) => `${slugifier(libelleFr)}-${code.slice(4).toLowerCase()}`;
+
+export function normaliserReferentiel(j: unknown): CodeModere[] {
+  const l = (j as { codes?: unknown })?.codes;
+  if (!Array.isArray(l)) return [];
+  const out: CodeModere[] = [];
+  for (const c of l as Record<string, unknown>[]) {
+    if (!c || typeof c.code !== "string" || !estCodeModere(c.code) || c.parent) continue;
+    if (!estTexte(c.libelle) || !(typeof c.categorie === "string" && c.categorie in CATEGORIES)) continue;
+    const uniteRef = UNITES.includes(c.uniteRef as UniteRef) ? (c.uniteRef as UniteRef) : "u";
+    const ref: MaterialRef = {
+      code: c.code, libelle: c.libelle.fr, categorie: c.categorie as Categorie, famille: typeof c.famille === "string" ? c.famille : CATEGORIES[c.categorie as Categorie],
+      lots: Array.isArray(c.lots) ? c.lots.filter((x): x is string => typeof x === "string") : [], uniteRef, ventes: [],
+      prix: { min: 0, ref: 0, max: 0, fiabilite: "C", source: "Code créé à la modération d'une fiche fournisseur (sans prix de recherche)" }, alias: {},
+    };
+    out.push({ ref, libelle: c.libelle, slug: slugModere(c.code, c.libelle.fr) });
+  }
+  return out;
+}
+
+let requeteRef: Promise<CodeModere[]> | null = null;
+
+/** Codes modérés sans parent ; null tant que la lecture n'est pas terminée. */
+export function useCodesModeres(): CodeModere[] | null {
+  const [l, setL] = useState<CodeModere[] | null>(null);
+  useEffect(() => {
+    let vivant = true;
+    requeteRef ||= fetch("/api/catalogue/referentiel")
+      .then((r) => (r.ok && (r.headers.get("content-type") || "").includes("json") ? r.json() : null))
+      .then((j) => { const c = normaliserReferentiel(j); enregistrerCodesModeres(c.map((x) => x.ref)); return c; })
+      .catch(() => []);
+    requeteRef.then((x) => vivant && setL(x));
+    return () => { vivant = false; };
+  }, []);
+  return l;
 }

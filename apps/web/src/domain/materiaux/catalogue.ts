@@ -519,6 +519,18 @@ export function materiau(code: string): MaterialRef | undefined {
   return PAR_CODE.get(code);
 }
 
+/** Code créé à la modération d'une fiche produit (plage CIT-<PFX>-9NN, table MateriauReferentiel). */
+export const estCodeModere = (code: string) => /^CIT-[A-Z]{2,3}-9\d\d$/.test(code);
+
+/**
+ * Enregistre côté client les codes créés en modération (GET /api/catalogue/referentiel)
+ * pour que materiau(), les unités et la demande de prix les connaissent. N'écrase
+ * jamais un code du catalogue statique ; sans prix de recherche (prix.ref = 0).
+ */
+export function enregistrerCodesModeres(refs: MaterialRef[]): void {
+  for (const r of refs) if (estCodeModere(r.code) && !PAR_CODE.has(r.code)) PAR_CODE.set(r.code, r);
+}
+
 /** Codes du matériau et de ses déclinaisons (Ø12 → compte aussi pour l'acier HA générique). */
 export function famillePrix(code: string): string[] {
   return [code, ...CATALOGUE.filter((r) => r.parent === code).map((r) => r.code)];

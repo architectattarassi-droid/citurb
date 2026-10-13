@@ -89,6 +89,8 @@ export function pageMateriaux(chemin: string): PageMateriaux | null {
   }
   const m = chemin.match(/^\/materiaux\/([A-Za-z0-9-]{2,90})$/);
   if (!m || m[1] === "commande") return null;
+  // Code créé en modération (slug terminé par « -rev-901 ») : page dynamique servie par l'application.
+  if (/-[a-z]{2,3}-9\d\d$/.test(m[1])) return null;
   const r = materiauParSlug(m[1]);
   if (!r) return { titre: "Matériau introuvable | CITURBAREA", description: "Ce matériau n'est pas au catalogue.", canonique: `${BASE}/materiaux`, noindex: true, contenu: `<h1>Matériau introuvable</h1><p><a href="/materiaux">Tous les matériaux</a></p>`, jsonLd: "", introuvable: true };
   const slug = slugMateriau(r.code);

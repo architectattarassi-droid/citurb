@@ -100,7 +100,7 @@ Codes du référentiel créés à la modération d'une fiche produit (table `Mat
                "famille": "Carrelage", "uniteRef": "m2", "parent": "CIT-REV-020", "lots": ["LOT_11_REVETEMENTS_SOLS"], "gamme": "MOYEN" } ] }
 ```
 
-- Un code créé avec `parent` : ses offres comptent aussi pour le code générique (prix marché, chiffrage) et ses produits sont publiés sous `codeReference = parent` (avec `codeVariante`). Sans `parent` : produits publiés sous le nouveau code ; la matériauthèque ne l'affiche que si elle intègre ces codes (à faire côté matériauthèque, voir « Suite »).
+- Un code créé avec `parent` : ses offres comptent aussi pour le code générique (prix marché, chiffrage) et ses produits sont publiés sous `codeReference = parent` (avec `codeVariante`). Sans `parent` : produits publiés sous le nouveau code ; **la matériauthèque l'affiche** (`useCodesModeres()` dans `apps/web/src/features/materiaux/catalogueProduits.ts`) : carte « Nouveau — référencé par un fournisseur » dans le catalogue, fiche `/materiaux/<désignation>-<pfx>-9NN` (servie par l'application, hors sitemap), **sans prix de référence** (médiane fournisseurs ≥ 3 ou « prix sur demande »), ajout possible à la demande de prix (`enregistrerCodesModeres` dans `domain/materiaux/catalogue.ts`).
 
 ## Annuaire et fiches publiques des pros
 

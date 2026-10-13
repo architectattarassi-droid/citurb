@@ -14,6 +14,7 @@ import { SOURCE_DEMANDE, construireDemande, resumeDemande, wizardDemande } from 
 import { VILLES_MA } from "../../domain/materiaux/regions";
 import { captureLead, currentUtm, leadKey, telephoneEnvoyable } from "../lead-funnel/leadBridge";
 import { EVT_PANIER, useMateriaux, usePrixPublics } from "./etat";
+import { useCodesModeres } from "./catalogueProduits";
 import { texte } from "./textes";
 import { Bientot, fmtDH, uniteCourte } from "./ui";
 
@@ -49,7 +50,9 @@ export default function PanierDemande() {
     return () => document.removeEventListener("keydown", esc);
   }, [ouvert]);
 
-  const demande = useMemo(() => construireDemande(m.panier, ville), [m.panier, ville]);
+  // Codes créés en modération : enregistrés au chargement, la demande est recalculée ensuite.
+  const codesModeres = useCodesModeres();
+  const demande = useMemo(() => construireDemande(m.panier, ville), [m.panier, ville, codesModeres]); // eslint-disable-line react-hooks/exhaustive-deps
   // Fournisseurs inscrits qui livrent la ville pour les catégories du panier (null : inconnu).
   const nbFournisseurs = useMemo(() => {
     if (!prix?.fournisseursParCategorie || !demande.lignes.length) return null;

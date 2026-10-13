@@ -80,3 +80,27 @@ describe("alerte e-mail du lead", () => {
     expect(resumeEstimation(wizardDemande(d, 0))).toMatch(/^Demande de prix matériaux, livraison Rabat .*Ciment CPJ 45 × 20 Sac 50 kg/);
   });
 });
+
+describe("codes créés en modération (sans parent)", () => {
+  it("fiche dynamique non réécrite par le middleware (pas de 404)", () => {
+    expect(pageMateriaux("/materiaux/gres-cerame-effet-marbre-rev-901")).toBeNull();
+  });
+  it("lecture du référentiel : sans parent seulement, enregistrés pour la demande de prix, sans prix de référence", async () => {
+    const { normaliserReferentiel } = await import("../../features/materiaux/catalogueProduits");
+    const { enregistrerCodesModeres, materiau } = await import("./catalogue");
+    const { prixReference } = await import("./reference");
+    const c = normaliserReferentiel({ codes: [
+      { code: "CIT-REV-901", libelle: { fr: "Grès cérame effet marbre", ar: "خزف" }, categorie: "REVETEMENT", famille: "Carrelage", uniteRef: "m2" },
+      { code: "CIT-REV-902", libelle: { fr: "Variante" }, categorie: "REVETEMENT", uniteRef: "m2", parent: "CIT-REV-020" },
+      { code: "CIT-GO-008", libelle: { fr: "Collision" }, categorie: "GROS_OEUVRE", uniteRef: "kg" },
+    ] });
+    expect(c.map((x) => x.ref.code)).toEqual(["CIT-REV-901"]);
+    expect(c[0].slug).toBe("gres-ceramique-effet-marbre-rev-901".replace("ceramique", "cerame"));
+    enregistrerCodesModeres(c.map((x) => x.ref));
+    expect(materiau("CIT-REV-901")?.libelle).toBe("Grès cérame effet marbre");
+    expect(prixReference("CIT-REV-901")).toBeNull();
+    const d = construireDemande([{ code: "CIT-REV-901", quantite: 40, unite: "m2" }], "Rabat");
+    expect(d.lignes[0]).toMatchObject({ libelle: "Grès cérame effet marbre", quantiteRef: 40, estimationHT: null });
+    expect(d.estimationHT).toBeNull();
+  });
+});

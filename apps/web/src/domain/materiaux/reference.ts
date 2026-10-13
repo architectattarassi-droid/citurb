@@ -76,7 +76,8 @@ export function prixReference(code: string): ReferencePrix | null {
         fiabilite: f, origine: "chiffrage", date: p.source.date, libelleSource: p.source.note || "", sourceIds: p.source.ids,
         fichier: p.source.fichier, composant: p.id, regime: regimeFiscal(p),
       };
-    } else {
+    } else if (r.prix.ref > 0) {
+      // Code créé en modération (prix.ref = 0) : aucun prix de référence publié.
       out = {
         code, min: r.prix.min, ref: r.prix.ref, max: r.prix.max, fiabilite: r.prix.fiabilite, origine: "catalogue",
         date: dateCatalogue(r.prix.source), libelleSource: r.prix.source, sourceIds: [],

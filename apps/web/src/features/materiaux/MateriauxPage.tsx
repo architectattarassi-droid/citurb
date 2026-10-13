@@ -14,7 +14,7 @@ import {
 } from "../../domain/materiaux/reference";
 import { moisLisible, texte, type T } from "./textes";
 import { useMateriaux, usePrixPublics } from "./etat";
-import { useProduits } from "./catalogueProduits";
+import { medianeProduits, texteLocal, useCodesModeres, useProduits } from "./catalogueProduits";
 import PanierDemande from "./PanierDemande";
 import { BadgeFiabilite, BlocPrix, fmtDH, prixAffiche, uniteCourte } from "./ui";
 
@@ -39,6 +39,7 @@ export default function MateriauxPage() {
   const [comparer, setComparer] = useState(false);
   const prix = usePrixPublics(m.ville);
   const produits = useProduits();
+  const codesModeres = useCodesModeres();
   const coef = coefMateriaux(m.ville).coef;
 
   useEffect(() => { setCategorie(categorieRoute || ""); setFamille(""); }, [categorieRoute]);
@@ -64,6 +65,19 @@ export default function MateriauxPage() {
         : tri === "fiab" ? ordre[prixReference(a.code)!.fiabilite] - ordre[prixReference(b.code)!.fiabilite] || a.libelle.localeCompare(b.libelle, "fr")
           : ORDRE_CAT.indexOf(a.categorie) - ORDRE_CAT.indexOf(b.categorie) || a.famille.localeCompare(b.famille, "fr") || a.libelle.localeCompare(b.libelle, "fr"));
   }, [dq, famille, categorie, gamme, fiab, tri, produits]);
+
+  // Codes créés en modération (sans prix de référence) : affichés après le catalogue,
+  // masqués quand un filtre de gamme ou de fiabilité est actif.
+  const nouveaux = useMemo(() => {
+    if (!codesModeres || gamme || fiab) return [];
+    const k = sansAccent(dq.trim());
+    return codesModeres.filter(({ ref: r, libelle }) => {
+      if (famille && familleDe(r.categorie) !== famille) return false;
+      if (categorie && r.categorie !== categorie) return false;
+      const marques = (produits.get(r.code) || []).map((x) => `${x.marque || ""} ${x.modele || ""} ${x.designation.fr}`).join(" ");
+      return !k || sansAccent(`${libelle.fr} ${libelle.ar || ""} ${r.famille} ${CATEGORIES[r.categorie]} ${r.code} ${marques}`).includes(k);
+    });
+  }, [codesModeres, dq, famille, categorie, gamme, fiab, produits]);
 
   const titre = categorieRoute
     ? `${CATEGORIES[categorieRoute]} — ${t("titre", { mois: moisLisible(MATERIAUTHEQUE_MAJ, lang) }).split(" — ")[0]}`
@@ -117,8 +131,8 @@ export default function MateriauxPage() {
         </div>
       </section>
 
-      <p className="mb-3 text-sm text-slate-600" aria-live="polite">{t("resultats", { n: liste.length })}</p>
-      {liste.length === 0 && <p className="rounded-xl bg-amber-50 p-4 text-sm text-amber-900">{t("aucun")}</p>}
+      <p className="mb-3 text-sm text-slate-600" aria-live="polite">{t("resultats", { n: liste.length + nouveaux.length })}</p>
+      {liste.length + nouveaux.length === 0 && <p className="rounded-xl bg-amber-50 p-4 text-sm text-amber-900">{t("aucun")}</p>}
 
       <ul className="grid list-none gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3">
         {liste.map((r) => {
@@ -145,6 +159,26 @@ export default function MateriauxPage() {
                   <input type="checkbox" checked={dansCompare} onChange={() => m.basculerCompare(r.code)} /> {t("comparer")}
                 </label>
               </div>
+            </li>
+          );
+        })}
+        {nouveaux.map(({ ref: r, libelle, slug }) => {
+          const pf = medianeProduits(produits.get(r.code));
+          return (
+            <li key={r.code} className="flex flex-col rounded-2xl border border-dashed border-slate-300 bg-white p-4 shadow-sm">
+              <p className="text-xs text-slate-500">{CATEGORIES[r.categorie]} · {r.famille}</p>
+              <h2 className="mt-0.5 text-base font-bold leading-snug text-[#0B1B3A]">
+                <Link to={`/materiaux/${slug}`} className="text-[#0B1B3A] hover:underline">{texteLocal(libelle, lang)}</Link>
+              </h2>
+              <div className="mt-1"><span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-semibold text-violet-800">{t("nouveau")}</span></div>
+              <div className="mt-2 flex-1 text-sm">
+                {pf ? <p className="text-emerald-800"><strong className="text-xl text-[#0B1B3A]">{fmtDH(pf.mediane, lang)}</strong> {t("ht")} / {uniteCourte(r.uniteRef)}<br />{t("medianeFournisseurs", { n: pf.nbFournisseurs })}</p>
+                  : <p className="font-semibold text-slate-600">{t("prixSurDemande")}</p>}
+              </div>
+              <button type="button" onClick={() => m.ajouter({ code: r.code, quantite: 1, unite: r.uniteRef })}
+                className="mt-3 min-h-[44px] rounded-lg bg-[#C9A227] px-3 text-sm font-bold text-[#0B1B3A] hover:bg-[#d6b23c]">
+                {m.panier.some((l) => l.code === r.code) ? t("ajoute") : t("ajouter")}
+              </button>
             </li>
           );
         })}
