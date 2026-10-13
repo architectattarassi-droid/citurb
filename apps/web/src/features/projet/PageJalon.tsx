@@ -84,7 +84,7 @@ export default function PageJalon({ base, projetId, code, projet, onRetour, onOu
               const t = projet.jalons.find((x) => x.code === p.code)?.titre ?? p.code;
               return (
                 <li key={p.code}>
-                  <button type="button" onClick={() => onOuvrir(p.code)} className="flex min-h-[44px] w-full items-center justify-between gap-2 text-left text-sm">
+                  <button type="button" onClick={() => onOuvrir(p.code)} className="flex min-h-[44px] w-full items-center justify-between gap-2 border-0 bg-transparent text-left text-sm">
                     <span>{p.pointArret && <span className="mr-1 font-bold text-red-700">⛔</span>}{t}</span>
                     {p.statut && <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs ${COULEUR_STATUT[p.statut]}`}>{T.statuts[p.statut]}</span>}
                   </button>

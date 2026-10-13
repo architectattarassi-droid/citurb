@@ -125,7 +125,7 @@ export default function VueProjet({ base, projetId, entete }: { base: string; pr
               <ul className="m-0 grid list-none gap-2 p-0">
                 {d.derniersMessages.slice(0, 4).map((m) => (
                   <li key={m.id}>
-                    <button type="button" onClick={() => ouvrir(m.jalonCode)} className="w-full text-left">
+                    <button type="button" onClick={() => ouvrir(m.jalonCode)} className="w-full border-0 bg-transparent p-0 text-left">
                       <span className="block text-xs text-slate-500">{m.auteurNom} · {dateHeure(m.createdAt)} · {m.jalonTitre}</span>
                       <span className="line-clamp-2 block text-sm text-slate-800">{m.texte || "(pièce jointe)"}</span>
                     </button>
@@ -159,7 +159,7 @@ export default function VueProjet({ base, projetId, entete }: { base: string; pr
                 className={`min-h-[44px] rounded-full border px-4 text-sm font-semibold ${filtre === k ? "border-[#0B1B3A] bg-[#0B1B3A] text-white" : "border-slate-300 bg-white text-slate-700"}`}>{l}</button>
             ))}
             <input type="search" value={recherche} onChange={(e) => setRecherche(e.target.value)} placeholder="Rechercher un jalon…" aria-label="Rechercher un jalon"
-              className="min-h-[44px] min-w-0 flex-1 rounded-full border border-slate-300 bg-white px-4 text-base" />
+              className="min-h-[44px] w-full min-w-0 basis-full rounded-full border border-slate-300 bg-white px-4 text-base sm:basis-0 sm:flex-1" />
           </div>
           {!filtres.length && <p className="text-slate-500">Aucun jalon ne correspond.</p>}
           <div className="grid gap-2">
@@ -175,7 +175,7 @@ export default function VueProjet({ base, projetId, entete }: { base: string; pr
                   <ul className="m-0 list-none divide-y divide-slate-100 p-0">
                     {js.map((j) => (
                       <li key={j.code}>
-                        <button type="button" onClick={() => ouvrir(j.code)} className="flex min-h-[52px] w-full items-center gap-3 px-3 py-2 text-left hover:bg-slate-50">
+                        <button type="button" onClick={() => ouvrir(j.code)} className="flex min-h-[52px] w-full items-center gap-3 border-0 bg-white px-3 py-2 text-left hover:bg-slate-50">
                           <span className="min-w-0 flex-1">
                             <span className="block text-sm font-medium text-slate-900">{j.pointArret && <span className="mr-1 rounded bg-red-600 px-1 text-[10px] font-bold uppercase text-white">Arrêt</span>}{j.titre}</span>
                             <span className="block text-xs text-slate-500">{j.nbFaits}/{j.nbPoints} points · {j.acteurs.map(role).join(", ")}{j.maPart ? " · ma part" : ""}</span>
