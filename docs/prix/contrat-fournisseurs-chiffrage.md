@@ -19,7 +19,7 @@ Si le moteur a déjà ses propres codes de composants, il suffit d'une table de 
 
 - `region` : code de région (`casablanca-settat`, `rabat-sale-kenitra`, `marrakech-safi`, `tanger-tetouan-al-hoceima`, `fes-meknes`, `oriental`, `souss-massa`, `beni-mellal-khenifra`, `draa-tafilalet`, `guelmim-oued-noun`, `laayoune-sakia-el-hamra`, `dakhla-oued-ed-dahab`) ou nom de ville (converti en région). Absent → national.
 - `codes` : facultatif (sinon tout le catalogue).
-- Réponse (cache public 1 h) :
+- Réponse (cache public 5 min : une offre approuvée compte au plus 5 minutes après la modération) :
 
 ```json
 {
@@ -48,6 +48,10 @@ Règles :
 - Implémentation : `functions/api/prix/materiaux.ts`, logique pure `apps/web/src/domain/materiaux/marche.ts` et `functions/_lib/prixMateriaux.ts`.
 - `retenu` : marché si fiabilité A, sinon prix de recherche (`source: "recherche"`, fiabilité B ou C). Le moteur peut afficher les deux.
 - Table absente ou base indisponible : la fonction répond quand même (200) avec `marche: null` partout et `"marcheDisponible": false`.
+
+Offres comptées : fiches de prix (`SupplierPrice`) **et fiches produit approuvées rattachées à un code** (`ProduitFournisseur.prixRefHT` = prix de vente ÷ facteur de conversion ; un fournisseur = une voix par code). Codes créés à la modération (`CIT-<PFX>-9NN`, `MateriauReferentiel`) : leurs offres comptent aussi pour leur `parent`. Prix des ouvrages (pose, fourni-posé) : `GET /api/prix/ouvrages`, voir `docs/architecture/contrat-catalogue.md`.
+
+Chiffrage : `apps/web/src/domain/chiffrage/marche.ts` (`definirPrixMarche`) — chargé par `apps/web/src/domain/materiaux/prixMarche.ts` (`chargerPrixMarche(ville)`) ; à partir de 3 fournisseurs, la médiane remplace le prix de recherche du composant dans le sous-détail (fiabilité A, source et date dans la note de la ligne).
 
 Adaptateur côté front : `apps/web/src/features/materiaux/etat.ts` (`usePrixPublics(ville)`), avec repli sur le prix de référence (`domain/materiaux/reference.ts`) hors ligne. Prix de recherche = `prixReference(code)` : prix du moteur de chiffrage quand le code CIT y correspond (CORRESPONDANCE_CIT), sinon catalogue.
 

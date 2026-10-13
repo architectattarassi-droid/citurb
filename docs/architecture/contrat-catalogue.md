@@ -2,7 +2,9 @@
 
 Lecture publique (sans authentification, Pages Functions + Neon, **jamais l'API NestJS**) des produits et services saisis par les fournisseurs Cercles et **approuvés** en modération. Consommateurs : la matériauthèque `/materiaux` (fiches matériaux, variantes et marques) et le chiffrage. Ce document fixe l'interface attendue par le front ; la session « Cercles : fiches société, produit et service » implémente les Functions et les tables, et complète ce fichier.
 
-Prix existants : `GET /api/prix/materiaux` — voir `docs/prix/contrat-fournisseurs-chiffrage.md` §2 (implémenté).
+Prix existants : `GET /api/prix/materiaux` — voir `docs/prix/contrat-fournisseurs-chiffrage.md` §2 (implémenté ; compte aussi les fiches produit rattachées depuis la session Cercles).
+
+**Implémentation** (session Cercles, 2026-10-13) : logique `functions/_lib/catalogue.ts` (dépôt Neon `catalogueDepot.ts`, vues `catalogueVues.ts`), tables `docs/prix/sql/cercles-fiches-catalogue.sql` (`ProduitFournisseur`, `ServiceFournisseur`, `MateriauReferentiel`, colonnes `fiche`/`documents`/`formule` du `Fournisseur`), test de la chaîne `apps/web/src/features/fournisseurs/catalogue.chaine.test.ts` (fiche produit approuvée → catalogue public → prix marché → prix d'un ouvrage).
 
 ## Règles communes
 
@@ -10,12 +12,12 @@ Prix existants : `GET /api/prix/materiaux` — voir `docs/prix/contrat-fournisse
 - **Bilingue** : tout texte affiché est un objet `Texte = { fr: string; ar?: string; en?: string }`. Le front affiche la langue demandée et **retombe sur `fr`** (`texteLocal()` dans `apps/web/src/features/materiaux/catalogueProduits.ts`).
 - **Unités** : le conditionnement donne son `facteur` = quantité d'unité de référence du code CIT contenue dans une unité de vente (sac 50 kg de ciment → 50, unité de référence kg). Même convention que `UniteVente` (`domain/materiaux/types.ts`).
 - **Prix** : HT, par **unité de référence** du code CIT. Publiés **seulement agrégés et à partir de 3 fournisseurs distincts** (sinon `prix: null`) — confidentialité et loi 104-12. Aucun prix nominatif d'un fournisseur, aucune coordonnée.
-- **Statut** : seuls les éléments `APPROVED` de fournisseurs `APPROVED` non fictifs sont renvoyés.
-- Réponse `200` même base indisponible : `{ ok: true, disponible: false, produits: [] }`. Cache public 1 h.
+- **Statut** : seuls les éléments `APPROVED` de fournisseurs `APPROVED` non fictifs sont renvoyés, valides à la date du jour (`validiteJusquau`). **Aperçu** : sur les hôtes de prévisualisation (`*.pages.dev`, `localhost`), les fournisseurs fictifs (`meta.fictif`, données de test) sont inclus pour vérifier l'affichage ; jamais sur citurbarea.com.
+- Réponse `200` même base indisponible : `{ ok: true, disponible: false, produits: [] }`. Cache public **5 min** (`s-maxage=300`) : un produit approuvé apparaît au plus 5 minutes après la modération.
 
 ## `GET /api/catalogue/produits?code=CIT-GO-008&region=<code|ville>`
 
-- `code` facultatif (sinon tous les produits approuvés, au plus 2 000) ; `region` facultative (filtre sur les zones de livraison des fournisseurs).
+- `code` facultatif (sinon tous les produits approuvés, au plus 2 000) ; `region` facultative (filtre sur les zones de livraison des fournisseurs). Filtres facultatifs en plus : `categorie`, `famille` (gabarit technique, `domain/cercles/offres.ts`), `gamme` (ECO, MOYEN, HAUT, LUXE), `q` (désignation FR/AR, marque, modèle), `fournisseur` (slug).
 
 ```json
 {
@@ -42,11 +44,75 @@ Prix existants : `GET /api/prix/materiaux` — voir `docs/prix/contrat-fournisse
 ```
 
 - `prix` : `null` sous 3 fournisseurs distincts.
+- Une entrée = une **variante** : les fiches produit de plusieurs fournisseurs ayant le même code, la même marque et le même modèle sont regroupées (`nbFournisseurs`, `prix` agrégé par unité de référence). `id` = la fiche la plus récente du groupe.
+- Champs **en plus** (facultatifs, ignorés par `normaliserProduits`) : `codeVariante` (code créé à la modération, `CIT-<PFX>-9NN`, quand le produit est une déclinaison : `codeReference` porte alors le code générique), `gamme`, `famille`, `categorie`, `uniteRef`, `fournisseurs: [{ slug, nom: Texte, ville, documentsVerifies }]` (lien vers la fiche publique `/cercles/pro/<slug>` et le contact via la plateforme ; **jamais de prix ni de coordonnées**), `total`, `region`.
+- Désignation saisie seulement en arabe : `designation.fr` reprend le texte arabe (le contrat exige `fr`).
 - Plusieurs produits peuvent partager un `codeReference` : ce sont les **variantes / marques** d'un même matériau de référence ; la matériauthèque les affiche sous la fiche du code (section « Marques et variantes »).
 
-## `GET /api/catalogue/services?code=<ouvrage>&region=` et `GET /api/prix/ouvrages?region=`
+## `GET /api/catalogue/services?ouvrage=&prestation=&nature=&lot=&region=&q=&fournisseur=`
 
-Fiches de pose / main-d'œuvre rattachées aux codes d'ouvrages du chiffrage (`apps/web/src/domain/chiffrage/ouvrages.ts`). Même conventions (Texte bilingue, agrégat ≥ 3, statut APPROVED). Forme à préciser par la session Cercles ; la matériauthèque ne les consomme pas encore.
+Fiches de service approuvées : pose / main-d'œuvre seule (`POSE`) ou fourni-posé (`FOURNI_POSE`) rattachées à un **ouvrage du chiffrage** (`apps/web/src/domain/chiffrage/ouvrages.ts`, unité imposée = celle de l'ouvrage), ou **prestation hors ouvrage** (`PRESTATIONS` de `apps/web/src/domain/cercles/offres.ts` : étude BET au m², essai de laboratoire à l'unité, levé topographique à l'hectare, location à la journée, évacuation au m³…), ou libre (`AUTRE`). `lot` accepte le code de lot du chiffrage (`RSO`) ou du CPS (`LOT_11_…`).
+
+```json
+{
+  "ok": true, "disponible": true, "region": "rabat-sale-kenitra", "total": 1,
+  "services": [
+    {
+      "id": "svc_…", "nature": "POSE", "ouvrageCode": "RSO.02", "prestationCode": null,
+      "designation": { "fr": "Carrelage grès cérame 60×60 collé — pose seule", "ar": "تركيب البلاط 60×60" },
+      "description": null, "unite": "m²", "delaiJours": 7, "conditions": "Acompte 30 %", "zones": ["rabat-sale-kenitra"],
+      "photoUrl": null, "majLe": "2026-10-13",
+      "prix": { "mediane": 60, "min": 55, "max": 70, "nbFournisseurs": 3, "majLe": "2026-10-13" },
+      "fournisseur": { "slug": "…", "nom": { "fr": "…", "ar": "…" }, "ville": "Rabat", "documentsVerifies": true }
+    }
+  ]
+}
+```
+
+- `prix` : agrégat de toutes les offres approuvées pour le même `(ouvrage ou prestation, nature)` dans la région, **à partir de 3 pros** ; sinon `null`. Jamais le prix de l'offre elle-même.
+
+## `GET /api/prix/ouvrages?region=&codes=RSO.02,MAC.01`
+
+Prix d'ouvrage du chiffrage (prix de recherche, régime entreprise, base Rabat) et agrégats des offres de services, par nature. Toujours `200` ; sans base : `marcheDisponible: false`.
+
+```json
+{
+  "ok": true, "region": "rabat-sale-kenitra", "genereLe": "…", "marcheDisponible": true,
+  "ouvrages": [
+    { "code": "RSO.02", "lot": "RSO", "unite": "m²", "libelle": "Carrelage grès cérame 60×60 collé, joints compris",
+      "recherche": { "pu": 342.1, "min": 280.4, "max": 455.9 },
+      "marche": { "POSE": { "mediane": 60, "min": 55, "max": 70, "nbOffres": 3, "nbFournisseurs": 3, "fiabilite": "A", "plusRecente": "2026-10-13" } } }
+  ],
+  "prestations": [ { "code": "LEVE_TOPOGRAPHIQUE", "unite": "ha", "nature": "TOPO", "libelle": { "fr": "…", "ar": "…", "en": "…" }, "marche": null } ]
+}
+```
+
+- `marche.<NATURE>` : même forme et mêmes règles que `marche` de `/api/prix/materiaux` (`agregerMarche`, `domain/materiaux/marche.ts`) : `mediane`/`min`/`max`/`fiabilite` à `null` sous 3 fournisseurs.
+- **Chiffrage** (`apps/web/src/domain/chiffrage/marche.ts`, `definirPrixMarche`) : à partir de 3 pros, `FOURNI_POSE` remplace le prix unitaire de l'ouvrage ; `POSE` remplace la main-d'œuvre et le petit matériel du déboursé (fournitures inchangées, K appliqué). Les matériaux du sous-détail prennent la médiane de `/api/prix/materiaux` (× facteur de `CORRESPONDANCE_CIT`) dès 3 fournisseurs. Sous 3 : la ligne garde le prix de recherche et porte le nombre d'offres (`marche.applique: false`).
+
+## `GET /api/catalogue/referentiel`
+
+Codes du référentiel créés à la modération d'une fiche produit (table `MateriauReferentiel`, plage `CIT-<PFX>-901` et suivants pour ne jamais heurter la numérotation du catalogue statique). Le catalogue statique est déjà dans le front.
+
+```json
+{ "ok": true, "disponible": true, "catalogueVersion": "2026-10.1",
+  "codes": [ { "code": "CIT-REV-901", "libelle": { "fr": "Grès cérame 60×60 effet marbre", "ar": "…" }, "categorie": "REVETEMENT",
+               "famille": "Carrelage", "uniteRef": "m2", "parent": "CIT-REV-020", "lots": ["LOT_11_REVETEMENTS_SOLS"], "gamme": "MOYEN" } ] }
+```
+
+- Un code créé avec `parent` : ses offres comptent aussi pour le code générique (prix marché, chiffrage) et ses produits sont publiés sous `codeReference = parent` (avec `codeVariante`). Sans `parent` : produits publiés sous le nouveau code ; la matériauthèque ne l'affiche que si elle intègre ces codes (à faire côté matériauthèque, voir « Suite »).
+
+## Annuaire et fiches publiques des pros
+
+- `GET /api/cercles/annuaire?metier=&groupe=MATERIAUX|TRAVAUX|ETUDES|SERVICES&region=&categorie=&q=&codes=&lot=` : pros vérifiés (vue publique : raison sociale FR/AR, métier, ville, zones, catégories, description FR/AR, fiche du gabarit sans champs privés, badges `verifie` et `documentsVerifies`, nombres d'offres). `codes` / `lot` : **ciblage des demandes de prix (RFQ) par lot** — renvoie aussi `codesCouverts`.
+- `GET /api/cercles/pro/:slug` : société + produits + services + matériaux chiffrés, **sans prix nominatif ni coordonnées**.
+- `POST /api/cercles/contact` `{ slug, nom, telephone, email?, ville?, message, objet?: { type: "produit"|"service"|"fiche", id, libelle }, lang }` : mise en relation **via la plateforme** (lead `P6_CONTACT_PRO`, source `cercles-pro`, dans `/cc/leads`) ; pot de miel `website`, limite de débit. Les coordonnées du pro ne sont jamais renvoyées (anti-désintermédiation, commission préparée : `Fournisseur.commissionPct`, `Fournisseur.formule`).
+
+## Espace pro et back-office (authentifiés)
+
+- Pro (cookie `frn_session`, `functions/api/cercles/espace/_middleware.ts`) : `GET|PUT /api/cercles/espace/moi` (fiche société selon le gabarit du métier, `raisonSocialeAr`, `descriptionAr`, `fiche`), `POST /api/cercles/espace/documents`, `DELETE …/documents/:id`, `POST /api/cercles/espace/produits`, `PUT|DELETE …/produits/:id`, `POST /api/cercles/espace/services`, `PUT|DELETE …/services/:id`.
+- Admin (`/api/cc/_middleware.ts`) : `GET /api/cc/produits?statut=`, `PATCH /api/cc/produits/:id` `{ action: "APPROUVER", materiauCode | nouveauCode: { libelleFr, libelleAr?, categorie?, famille?, uniteRef?, parent?, lots? }, facteur? } | { action: "REJETER", motif } | { action: "ARCHIVER" }`, `GET /api/cc/services`, `PATCH /api/cc/services/:id`, `PATCH /api/cc/fournisseurs/:id/documents/:docId` `{ statut: "VERIFIE"|"REFUSE", motif? }`, `PATCH /api/cc/fournisseurs/:id` accepte aussi `formule`.
+- Un produit approuvé **reste approuvé** si seuls le prix, le stock, les délais ou les zones changent (et que le prix reste dans ±50 % de la référence) ; si sa désignation, sa marque, son modèle, sa famille ou sa conversion changent, il repasse en vérification.
 
 ## Côté front (déjà prêt)
 
