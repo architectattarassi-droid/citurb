@@ -1,9 +1,9 @@
 {
   "_doc": "Cliquet des appels du front vers des routes absentes de functions/ (API NestJS éteinte). total = dans le code source ; atteignables = dans un fichier importé depuis main.tsx (donc livré aux visiteurs). Ne doit que baisser : node apps/web/scripts/appels-morts.mjs --write après un rebranchement.",
-  "total": 394,
+  "total": 388,
   "atteignables": 0,
   "parFichier": {
-    "features/cercles/api.ts": 70,
+    "features/cercles/api.ts": 64,
     "features/admin/adminApi.ts": 26,
     "command-center/modules/dossiers/DossierShadowView.tsx": 19,
     "features/reception-conformite/reception-conformite.api.ts": 14,
