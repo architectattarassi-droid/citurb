@@ -3,6 +3,7 @@
  *   déboursé sec (matériaux + MO chargée + petit matériel) × K.
  * min = intrants au bas de leur fourchette × K min ; max = haut × K max.
  */
+import { marcheMateriau, marcheOuvrage, noteMarche, valeurBorne, versionMarche, type InfoMarche } from "./marche";
 import { OUVRAGES, type Ouvrage } from "./ouvrages";
 import {
   CHARGES_SOCIALES, COEF_K, K_PRIVE, MAIN_OEUVRE, MATERIAUX, PETIT_MATERIEL_MO, REGIMES,
@@ -24,6 +25,8 @@ export type LigneSousDetail = {
   fiabilite: Fiabilite;
   sourceIds: string[];
   note?: string;
+  /** Prix fournisseurs Cercles de la région : appliqué (fiabilité A) ou affiché à côté. */
+  marche?: InfoMarche;
 };
 
 export type Debourse = { materiaux: number; mainOeuvre: number; materiel: number; total: number };
@@ -43,34 +46,48 @@ export type PrixOuvrage = {
   partFiabilite: Record<Fiabilite, number>;
   /** Part du PU soumise à TVA (1 en entreprise ; fournitures seules en tâcheron). */
   assietteTVA: number;
+  /** Prix fournisseurs Cercles de l'ouvrage (fourni-posé, pose seule) : appliqués ou affichés à côté. */
+  marche?: { fourniPose?: InfoMarche; pose?: InfoMarche };
 };
 
-const cache = new Map<string, Debourse & { lignes: LigneSousDetail[]; fiab: Record<Fiabilite, number> }>();
+type ResultatDebourse = Debourse & { lignes: LigneSousDetail[]; fiab: Record<Fiabilite, number>; fiabMat: Record<Fiabilite, number> };
+const cache = new Map<string, ResultatDebourse>();
 
 function vide(): Record<Fiabilite, number> {
   return { A: 0, B: 0, C: 0, H: 0 };
 }
 
 /** Déboursé sec d'une unité d'ouvrage (récursif sur les sous-ouvrages). */
-export function debourse(code: string, borne: Borne = "ref", region: CoefsRegion = SANS_REGION) {
-  const cle = `${code}|${borne}|${region.mat}|${region.mo}`;
+export function debourse(code: string, borne: Borne = "ref", region: CoefsRegion = SANS_REGION): ResultatDebourse {
+  const cle = `${code}|${borne}|${region.mat}|${region.mo}|${versionMarche()}`;
   const hit = cache.get(cle);
   if (hit) return hit;
   const o = OUVRAGES[code];
   if (!o) throw new Error(`Ouvrage inconnu : ${code}`);
   let materiaux = 0, mainOeuvre = 0, materiel = 0, moDirecte = 0;
   const fiab = vide();
+  const fiabMat = vide();
   const lignes: LigneSousDetail[] = [];
   for (const c of o.composants) {
     if (c.type === "mat") {
       const p = MATERIAUX[c.ref];
       if (!p) throw new Error(`Matériau inconnu : ${c.ref} (ouvrage ${code})`);
       const q = c.qte * (1 + (c.perte ?? 0));
-      const pu = prixHT(p, borne) * region.mat;
+      // Prix fournisseurs vérifiés de la région (≥ 3 offres) à la place du prix de recherche.
+      const mm = marcheMateriau(c.ref);
+      const pu = mm?.applique ? valeurBorne(mm, borne) : prixHT(p, borne) * region.mat;
+      const fi: Fiabilite = mm?.applique ? "A" : p.source.fiabilite;
       const m = q * pu;
       materiaux += m;
-      fiab[p.source.fiabilite] += m;
-      lignes.push({ nature: "MAT", ref: p.id, libelle: p.libelle, unite: p.unite, qte: q, pu, montant: m, fiabilite: p.source.fiabilite, sourceIds: p.source.ids, note: c.note ?? (c.perte ? `pertes ${Math.round(c.perte * 100)} %` : undefined) });
+      fiab[fi] += m;
+      fiabMat[fi] += m;
+      const notePerte = c.note ?? (c.perte ? `pertes ${Math.round(c.perte * 100)} %` : undefined);
+      lignes.push({
+        nature: "MAT", ref: p.id, libelle: p.libelle, unite: p.unite, qte: q, pu, montant: m, fiabilite: fi,
+        sourceIds: mm?.applique ? ["cercles-fournisseurs"] : p.source.ids,
+        note: mm?.applique ? [noteMarche(mm), notePerte].filter(Boolean).join(" ; ") : notePerte,
+        ...(mm ? { marche: mm } : {}),
+      });
     } else if (c.type === "mo") {
       const t = MAIN_OEUVRE[c.metier];
       const pu = coutHoraire(c.metier, borne) * region.mo;
@@ -84,7 +101,7 @@ export function debourse(code: string, borne: Borne = "ref", region: CoefsRegion
       materiaux += d.materiaux * c.qte;
       mainOeuvre += d.mainOeuvre * c.qte;
       materiel += d.materiel * c.qte;
-      for (const f of Object.keys(fiab) as Fiabilite[]) fiab[f] += d.fiab[f] * c.qte;
+      for (const f of Object.keys(fiab) as Fiabilite[]) { fiab[f] += d.fiab[f] * c.qte; fiabMat[f] += d.fiabMat[f] * c.qte; }
       const so = OUVRAGES[c.ref];
       lignes.push({ nature: "OUV", ref: c.ref, libelle: so.libelle, unite: so.unite, qte: c.qte, pu: d.total, montant: d.total * c.qte, fiabilite: dominante(d.fiab), sourceIds: [], note: c.note });
     }
@@ -95,7 +112,27 @@ export function debourse(code: string, borne: Borne = "ref", region: CoefsRegion
     fiab.H += pm;
     lignes.push({ nature: "PM", ref: "PM", libelle: "Petit matériel et consommables (5 % de la MO)", unite: "%", qte: PETIT_MATERIEL_MO, pu: moDirecte, montant: pm, fiabilite: "H", sourceIds: [] });
   }
-  const res = { materiaux, mainOeuvre, materiel, total: materiaux + mainOeuvre + materiel, lignes, fiab };
+  // Pose seule par des artisans vérifiés (≥ 3 offres) : remplace main-d'œuvre et petit matériel.
+  const mp = o.interne ? null : marcheOuvrage(code, "POSE");
+  if (mp?.applique) {
+    const pose = valeurBorne(mp, borne);
+    const fournitures = lignes.flatMap((li): LigneSousDetail[] => {
+      if (li.nature === "MAT") return [li];
+      if (li.nature !== "OUV") return [];
+      const d = debourse(li.ref, borne, region);
+      return d.materiaux ? [{ ...li, pu: d.materiaux, montant: d.materiaux * li.qte, fiabilite: dominante(d.fiabMat), note: "fournitures seules (pose au prix des artisans)" }] : [];
+    });
+    const res: ResultatDebourse = {
+      materiaux, mainOeuvre: pose, materiel: 0, total: materiaux + pose, fiab: { ...fiabMat, A: fiabMat.A + pose }, fiabMat,
+      lignes: [...fournitures, {
+        nature: "MO", ref: "POSE", libelle: "Pose (main-d'œuvre et petit matériel)", unite: o.unite, qte: 1, pu: pose, montant: pose,
+        fiabilite: "A", sourceIds: ["cercles-fournisseurs"], note: noteMarche(mp), marche: mp,
+      }],
+    };
+    cache.set(cle, res);
+    return res;
+  }
+  const res: ResultatDebourse = { materiaux, mainOeuvre, materiel, total: materiaux + mainOeuvre + materiel, lignes, fiab, fiabMat };
   cache.set(cle, res);
   return res;
 }
@@ -135,6 +172,19 @@ export function prixOuvrage(code: string, region: CoefsRegion = SANS_REGION, reg
   const tot = ref.total || 1;
   const partFiabilite = vide();
   for (const f of Object.keys(partFiabilite) as Fiabilite[]) partFiabilite[f] = ref.fiab[f] / tot;
+  const fourniPose = marcheOuvrage(code, "FOURNI_POSE");
+  const pose = marcheOuvrage(code, "POSE");
+  const marche = fourniPose || pose ? { ...(fourniPose ? { fourniPose } : {}), ...(pose ? { pose } : {}) } : undefined;
+  // Fourni-posé par des entreprises vérifiées (≥ 3 offres) : prix de vente constaté, à la place du calcul.
+  if (fourniPose?.applique) {
+    const pu = valeurBorne(fourniPose, "ref");
+    return {
+      code, ouvrage: o, debourseSec: ref.total, k: ref.total ? pu / ref.total : 1,
+      pu, min: valeurBorne(fourniPose, "min"), max: valeurBorne(fourniPose, "max"), sousDetail: ref.lignes,
+      repartition: { materiaux: ref.materiaux, mainOeuvre: ref.mainOeuvre, materiel: ref.materiel, total: ref.total },
+      partFiabilite: { A: 1, B: 0, C: 0, H: 0 }, assietteTVA: 1, marche,
+    };
+  }
   return {
     code,
     ouvrage: o,
@@ -147,5 +197,6 @@ export function prixOuvrage(code: string, region: CoefsRegion = SANS_REGION, reg
     repartition: { materiaux: ref.materiaux, mainOeuvre: ref.mainOeuvre, materiel: ref.materiel, total: ref.total },
     partFiabilite,
     assietteTVA: vente.assiette,
+    ...(marche ? { marche } : {}),
   };
 }

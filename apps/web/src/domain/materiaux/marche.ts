@@ -51,7 +51,13 @@ export function livreRegion(f: Pick<FicheMarche, "fournisseurRegion" | "zonesLiv
 const PARENT = new Map(CATALOGUE.filter((r) => r.parent).map((r) => [r.code, r.parent!]));
 const arrondi = (x: number) => Math.round(x * 100) / 100;
 
-export function agregerMarche(fiches: FicheMarche[], regionDemandee: string | null, maintenant = Date.now()): Record<string, Marche> {
+/**
+ * `parentDe` (facultatif) : parent des codes absents du catalogue statique
+ * (codes créés à la modération, CIT-<PFX>-9NN, table "MateriauReferentiel").
+ * Sert aussi aux offres de services : `materiauCode` porte alors le code
+ * d'ouvrage ou de prestation (functions/_lib/catalogue.ts).
+ */
+export function agregerMarche(fiches: FicheMarche[], regionDemandee: string | null, maintenant = Date.now(), parentDe?: (code: string) => string | null | undefined): Record<string, Marche> {
   const region = regionDemandee ? regionDe(regionDemandee) : null;
   const limite = maintenant - FRAICHEUR_JOURS * 86_400_000;
   const jour = new Date(maintenant).toISOString().slice(0, 10);
@@ -61,7 +67,7 @@ export function agregerMarche(fiches: FicheMarche[], regionDemandee: string | nu
     if (!(f.prixRefHT > 0) || Date.parse(f.updatedAt) < limite) continue;
     if (f.validiteJusquau && f.validiteJusquau.slice(0, 10) < jour) continue;
     if (!livreRegion(f, region)) continue;
-    for (const code of [f.materiauCode, PARENT.get(f.materiauCode)].filter(Boolean) as string[]) {
+    for (const code of [f.materiauCode, PARENT.get(f.materiauCode) ?? parentDe?.(f.materiauCode)].filter(Boolean) as string[]) {
       const m = parCode.get(code) || new Map<string, FicheMarche>();
       const d = m.get(f.fournisseurId);
       if (!d || d.updatedAt < f.updatedAt) m.set(f.fournisseurId, f);

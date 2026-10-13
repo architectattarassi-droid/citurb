@@ -17,4 +17,5 @@ export * from "./coherence";
 export * from "./correspondanceCIT";
 export * from "./parcelle";
 export * from "./quantitatif";
+export * from "./marche";
 export const CHIFFRAGE_VERSION = "2026-10";
