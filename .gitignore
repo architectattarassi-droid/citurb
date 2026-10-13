@@ -5,6 +5,8 @@ node_modules/
 apps/api/data/dgi-pdfs/
 .env
 .env.*
+# Secrets locaux (jamais versionnés)
+secrets/
 !.env.example
 
 # Build artifacts (régénérables)
