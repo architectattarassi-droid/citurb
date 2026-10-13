@@ -6,7 +6,7 @@
  * functions/_lib/seoMateriaux.ts.
  */
 import React, { useEffect, useMemo, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
 import { useLang } from "../../i18n/i18n";
 import { HONEYPOT_STYLE } from "../../lib/honeypot";
 import { CATEGORIES } from "../../domain/materiaux/types";
@@ -21,6 +21,7 @@ import { captureLead, currentUtm, leadKey, telephoneEnvoyable } from "../lead-fu
 import { ouvrirPanier, useMateriaux, usePrixPublics } from "./etat";
 import { medianeProduits, texteLocal, useCodesModeres, useProduits, type CodeModere, type ProduitCatalogue } from "./catalogueProduits";
 import PanierDemande from "./PanierDemande";
+import { OngletEtude, OngletRealisation } from "./PhasesFiche";
 import { moisLisible, texte, type T } from "./textes";
 import { BadgeFiabilite, BlocPrix, fmtDH, prixAffiche, uniteCourte } from "./ui";
 
@@ -29,6 +30,8 @@ const h2 = "text-lg font-bold text-[#0B1B3A]";
 
 export default function MateriauPage() {
   const { slug = "" } = useParams();
+  const [params, setParams] = useSearchParams();
+  const onglet = params.get("phase") === "etude" ? "etude" : params.get("phase") === "realisation" ? "realisation" : "prix";
   const { lang } = useLang();
   const t = useMemo(() => texte(lang), [lang]);
   const m = useMateriaux();
@@ -120,6 +123,15 @@ export default function MateriauPage() {
         </aside>
       </div>
 
+      <div role="tablist" aria-label={t("phase")} className="mt-5 flex gap-1 border-b border-slate-200">
+        {(["prix", "etude", "realisation"] as const).map((o) => (
+          <button key={o} type="button" role="tab" aria-selected={onglet === o} onClick={() => setParams(o === "prix" ? {} : { phase: o }, { replace: true })}
+            className={`min-h-[44px] px-4 text-sm font-semibold ${onglet === o ? "border-b-2 border-[#C9A227] text-[#0B1B3A]" : "text-slate-500"}`}>
+            {t(o === "prix" ? "ongletPrix" : o === "etude" ? "ongletEtude" : "ongletRealisation")}
+          </button>
+        ))}
+      </div>
+      {onglet === "prix" && (<>
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
         <section className={carte} aria-labelledby="unites-titre">
           <h2 id="unites-titre" className={h2}>{t("unitesVente")}</h2>
@@ -251,6 +263,9 @@ export default function MateriauPage() {
           </ul>
         </section>
       )}
+      </>)}
+      {onglet === "etude" && <OngletEtude r={r} t={t} lang={lang} />}
+      {onglet === "realisation" && <OngletRealisation r={r} t={t} lang={lang} />}
       <PanierDemande />
     </main>
   );

@@ -14,6 +14,7 @@ import {
 } from "../../domain/materiaux/reference";
 import { moisLisible, texte, type T } from "./textes";
 import { useMateriaux, usePrixPublics } from "./etat";
+import { PHASES_ETUDE, PHASES_REALISATION, phasesMateriau, type PhaseEtude, type PhaseReal } from "../../domain/materiaux/phases";
 import { medianeProduits, texteLocal, useCodesModeres, useProduits } from "./catalogueProduits";
 import PanierDemande from "./PanierDemande";
 import { BadgeFiabilite, BlocPrix, fmtDH, prixAffiche, uniteCourte } from "./ui";
@@ -35,6 +36,8 @@ export default function MateriauxPage() {
   const [categorie, setCategorie] = useState<Categorie | "">(categorieRoute || "");
   const [gamme, setGamme] = useState<Gamme | "">("");
   const [fiab, setFiab] = useState("");
+  /** Filtre de phase : « E:<phase d'étude> » ou « R:<phase de réalisation> ». */
+  const [phase, setPhase] = useState("");
   const [tri, setTri] = useState<"nom" | "prixAsc" | "fiab">("nom");
   const [comparer, setComparer] = useState(false);
   const prix = usePrixPublics(m.ville);
@@ -55,6 +58,10 @@ export default function MateriauxPage() {
       if (categorie && r.categorie !== categorie) return false;
       if (gamme && gammeDe(r) !== gamme) return false;
       if (fiab && prixReference(r.code)!.fiabilite !== fiab) return false;
+      if (phase) {
+        const ph = phasesMateriau(r.code);
+        if (!ph || (phase.startsWith("E:") ? !ph.etude.includes(phase.slice(2) as PhaseEtude) : !ph.realisation.includes(phase.slice(2) as PhaseReal))) return false;
+      }
       const marques = (produits.get(r.code) || []).map((x) => `${x.marque || ""} ${x.modele || ""} ${x.designation.fr} ${x.designation.ar || ""}`).join(" ");
       if (k && !sansAccent(`${r.libelle} ${r.famille} ${CATEGORIES[r.categorie]} ${(r.motsCles || []).join(" ")} ${r.code} ${marques}`).includes(k)) return false;
       return true;
@@ -64,12 +71,12 @@ export default function MateriauxPage() {
       tri === "prixAsc" ? prixReference(a.code)!.ref - prixReference(b.code)!.ref
         : tri === "fiab" ? ordre[prixReference(a.code)!.fiabilite] - ordre[prixReference(b.code)!.fiabilite] || a.libelle.localeCompare(b.libelle, "fr")
           : ORDRE_CAT.indexOf(a.categorie) - ORDRE_CAT.indexOf(b.categorie) || a.famille.localeCompare(b.famille, "fr") || a.libelle.localeCompare(b.libelle, "fr"));
-  }, [dq, famille, categorie, gamme, fiab, tri, produits]);
+  }, [dq, famille, categorie, gamme, fiab, tri, produits, phase]);
 
   // Codes créés en modération (sans prix de référence) : affichés après le catalogue,
   // masqués quand un filtre de gamme ou de fiabilité est actif.
   const nouveaux = useMemo(() => {
-    if (!codesModeres || gamme || fiab) return [];
+    if (!codesModeres || gamme || fiab || phase) return [];
     const k = sansAccent(dq.trim());
     return codesModeres.filter(({ ref: r, libelle }) => {
       if (famille && familleDe(r.categorie) !== famille) return false;
@@ -77,7 +84,7 @@ export default function MateriauxPage() {
       const marques = (produits.get(r.code) || []).map((x) => `${x.marque || ""} ${x.modele || ""} ${x.designation.fr}`).join(" ");
       return !k || sansAccent(`${libelle.fr} ${libelle.ar || ""} ${r.famille} ${CATEGORIES[r.categorie]} ${r.code} ${marques}`).includes(k);
     });
-  }, [codesModeres, dq, famille, categorie, gamme, fiab, produits]);
+  }, [codesModeres, dq, famille, categorie, gamme, fiab, produits, phase]);
 
   const titre = categorieRoute
     ? `${CATEGORIES[categorieRoute]} — ${t("titre", { mois: moisLisible(MATERIAUTHEQUE_MAJ, lang) }).split(" — ")[0]}`
@@ -92,6 +99,7 @@ export default function MateriauxPage() {
         <h1 className="mt-1 text-2xl font-bold leading-tight text-[#0B1B3A] sm:text-4xl">{titre}</h1>
         <p className="mt-2 text-base text-slate-600">{t("sousTitre", { n: MATERIAUX_PUBLICS.length })}</p>
         <p className="mt-2 text-xs text-slate-500">{t("tvaAide")}</p>
+        <Link to="/materiaux/planning" className="mt-3 inline-flex min-h-[44px] items-center rounded-lg border border-[#0B1B3A] px-4 text-sm font-semibold text-[#0B1B3A]" style={{ textDecoration: "none" }}>{t("planningLien")}</Link>
       </header>
 
       <section aria-label={t("trier")} className="sticky top-0 z-30 -mx-4 mb-4 border-b border-slate-200 bg-white/95 px-4 py-3 backdrop-blur">
@@ -106,7 +114,7 @@ export default function MateriauxPage() {
             ))}
           </div>
         )}
-        <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
           {!categorieRoute && (
             <select className={champ} value={categorie} onChange={(e) => setCategorie(e.target.value as Categorie)} aria-label={t("categorie")}>
               <option value="">{t("categorie")} : {t("toutes")}</option>
@@ -124,6 +132,11 @@ export default function MateriauxPage() {
           <select className={champ} value={fiab} onChange={(e) => setFiab(e.target.value)} aria-label={t("fiabilite")}>
             <option value="">{t("fiabilite")} : {t("toutes")}</option>
             {(["A", "B", "C"] as const).map((f) => <option key={f} value={f}>{t(`fiab_${f}`)}</option>)}
+          </select>
+          <select className={champ} value={phase} onChange={(e) => setPhase(e.target.value)} aria-label={t("phase")}>
+            <option value="">{t("phase")} : {t("toutes")}</option>
+            <optgroup label={t("phasesEtude")}>{PHASES_ETUDE.map((p) => <option key={p.id} value={`E:${p.id}`}>{p.libelle[lang]}</option>)}</optgroup>
+            <optgroup label={t("phasesRealisation")}>{PHASES_REALISATION.map((p) => <option key={p.id} value={`R:${p.id}`}>{p.libelle[lang]}</option>)}</optgroup>
           </select>
           <select className={champ} value={tri} onChange={(e) => setTri(e.target.value as typeof tri)} aria-label={t("trier")}>
             {(["nom", "prixAsc", "fiab"] as const).map((x) => <option key={x} value={x}>{t("trier")} : {t(`tri_${x}`)}</option>)}
@@ -143,7 +156,7 @@ export default function MateriauxPage() {
             <li key={r.code} className="flex flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
               <p className="text-xs text-slate-500">{CATEGORIES[r.categorie]} · {r.famille}</p>
               <h2 className="mt-0.5 text-base font-bold leading-snug text-[#0B1B3A]">
-                <Link to={`/materiaux/${slugMateriau(r.code)}`} className="text-[#0B1B3A] hover:underline">{r.libelle}</Link>
+                <Link to={`/materiaux/${slugMateriau(r.code)}${phase ? `?phase=${phase.startsWith("E:") ? "etude" : "realisation"}` : ""}`} className="text-[#0B1B3A] hover:underline">{r.libelle}</Link>
               </h2>
               <div className="mt-1 flex flex-wrap gap-1">
                 <BadgeFiabilite f={p.fiabilite} t={t} />

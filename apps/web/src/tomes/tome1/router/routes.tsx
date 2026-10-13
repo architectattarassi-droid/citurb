@@ -43,6 +43,7 @@ const P5Home = lazy(() => import("../../tome3/portals/p5/P5Home"));
 const MateriauxPage = lazy(() => import("../../../features/materiaux/MateriauxPage"));
 const MateriauPage = lazy(() => import("../../../features/materiaux/MateriauPage"));
 const CommandeMateriauxPage = lazy(() => import("../../../features/materiaux/CommandePage"));
+const PlanningAchatPage = lazy(() => import("../../../features/materiaux/PlanningAchatPage"));
 
 // ── Phase 5 (parcours complet lead → manage → permit → site → delivery) ──
 // ── Sprint Articles 2026-06 : page article + middleware OG backend pour vignettes par article ──
@@ -290,6 +291,7 @@ export const router = createBrowserRouter([
       { path: '/materiaux', element: <AdminHostBlock><MateriauxPage /></AdminHostBlock> },
       { path: '/materiaux/famille/:slug', element: <AdminHostBlock><MateriauxPage /></AdminHostBlock> },
       { path: '/materiaux/commande', element: <AdminHostBlock><CommandeMateriauxPage /></AdminHostBlock> },
+      { path: '/materiaux/planning', element: <AdminHostBlock><PlanningAchatPage /></AdminHostBlock> },
       { path: '/materiaux/:slug', element: <AdminHostBlock><MateriauPage /></AdminHostBlock> },
 
       // ── Tarifs Contractuels Prestataires P6 (Phase 3) ──

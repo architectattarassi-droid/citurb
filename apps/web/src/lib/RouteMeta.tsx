@@ -31,6 +31,7 @@ const ROUTES: Record<string, Meta> = {
   "/simulateur": { titre: "Simulateur de constructibilité d'un terrain" + SUFFIXE, index: true },
   "/materiaux": { titre: "Prix des matériaux de construction au Maroc 2026" + SUFFIXE, index: true },
   "/materiaux/commande": { titre: "Commander des matériaux" + SUFFIXE },
+  "/materiaux/planning": { titre: "Planning d'achat des matériaux" + SUFFIXE },
   "/cercles": { titre: "Cercles — le réseau des professionnels du BTP" + SUFFIXE, index: true },
   "/login": { titre: "Connexion" + SUFFIXE },
   "/portal": { titre: "Mes dossiers" + SUFFIXE },

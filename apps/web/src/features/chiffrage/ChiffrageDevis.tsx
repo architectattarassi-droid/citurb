@@ -17,6 +17,7 @@ import { PROJET_DEFAUT } from "./ChiffrageGadget";
 import { Cta } from "./ChiffragePage";
 import DqeImprimable from "./DqeImprimable";
 import { texte } from "./textes";
+import { texte as texteMateriaux } from "../materiaux/textes";
 
 function lireProjet(hash: string): ProjetInput | null {
   const m = hash.match(/^#p=(.+)$/);
@@ -38,6 +39,7 @@ export default function ChiffrageDevis() {
   const { hash } = useLocation();
   const { lang } = useLang();
   const t = texte(lang);
+  const tm = texteMateriaux(lang);
   const res = useMemo(() => {
     const p = lireProjet(hash);
     if (!p) return null;
@@ -84,6 +86,12 @@ export default function ChiffrageDevis() {
         <div className="overflow-x-auto">
           <DqeImprimable res={res} ecran flou />
         </div>
+
+        {/* Matériaux du DQE : quoi acheter, quand et combien, phase par phase (matériauthèque). */}
+        <Link to={`/materiaux/planning${hash}`} className="relative z-30 mt-6 flex flex-col rounded-2xl border border-[#0B1B3A] bg-white p-4 text-[#0B1B3A] print:hidden" style={{ textDecoration: "none" }}>
+          <span className="font-bold">{tm("planningLien")} →</span>
+          <span className="text-sm text-slate-600">{tm("planningLienAide")}</span>
+        </Link>
 
         <section id="inscription-devis" className="relative z-30 mx-auto mt-8 max-w-xl scroll-mt-24 print:hidden">
           {inscription
