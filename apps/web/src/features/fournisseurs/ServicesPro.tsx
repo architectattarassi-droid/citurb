@@ -55,7 +55,8 @@ export default function ServicesPro({ f, services, recharger }: { f: Fournisseur
                   <td data-l={x.t("col_statut")}>
                     <BadgeStatut statut={s.statut || "PENDING"} offre />
                     {s.motifRejet && <div style={{ fontSize: 12, color: T.danger }}>{x.t("motif", { m: s.motifRejet })}</div>}
-                    {s.signalement && <div style={{ fontSize: 12, color: T.warn }}>{x.t("ecart", { n: Math.round((s.ecartRef || 0) * 100) })}</div>}
+                    {s.signalement === "COORDONNEES" ? <div style={{ fontSize: 12, color: T.danger }}>{x.t("coordonneesSignal")}</div>
+                      : s.signalement && <div style={{ fontSize: 12, color: T.warn }}>{x.t("ecart", { n: Math.round((s.ecartRef || 0) * 100) })}</div>}
                   </td>
                   <td data-l="">
                     <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>

@@ -149,7 +149,9 @@ describe("fiches produit et service", () => {
     const r1 = json(await enregistrerProduit(id, String(p.id), { ...base, prixHT: 7.2 }, m.depot)).produit as J;
     expect(r1).toMatchObject({ statut: "APPROVED", materiauCode: "CIT-GO-003" });
     const r2 = json(await enregistrerProduit(id, String(p.id), { ...base, designationFr: "Autre produit TEST" }, m.depot)).produit as J;
-    expect(r2).toMatchObject({ statut: "PENDING", materiauCode: null });
+    expect(r2).toMatchObject({ statut: "PENDING", materiauCode: "CIT-GO-003" });
+    const r3 = json(await enregistrerProduit(id, String(p.id), { ...base, uniteRef: "m2", facteur: 2 }, m.depot)).produit as J;
+    expect(r3).toMatchObject({ statut: "PENDING", materiauCode: null });
     // Un autre fournisseur ne peut ni modifier ni supprimer ce produit.
     const autre = await pro(m, "FABRICANT", 4);
     expect((await enregistrerProduit(autre, String(p.id), base, m.depot)).status).toBe(404);

@@ -26,6 +26,7 @@ import {
   nombre, nouvelId, RE_EMAIL, slugifier, telephone, urlHttps, type EnvCercles, type Reponse,
 } from "./cercles";
 import { vueProduitProprietaire, vueServiceProprietaire } from "./catalogueVues";
+import { coordonneesDans, masquerCoordonnees as m_ } from "./coordonnees";
 import type { Depot, DepotComplet, FicheEcrite, Ligne } from "./fournisseursDepot";
 
 /** Métiers acceptés (types de société de domain/cercles/gabarits.ts), libellé français. */
@@ -55,12 +56,16 @@ const categoriesValides = (v: unknown): string[] => [...new Set(liste(v).filter(
 export const documentsDe = (f: Ligne): DocumentPro[] => (Array.isArray(f.documents) ? (f.documents as DocumentPro[]) : []);
 
 /** Fiche du gabarit sans les champs privés (n° RC…) ni le nom des clients des références. */
+const masquerTout = (x: unknown): unknown =>
+  typeof x === "string" ? m_(x) : Array.isArray(x) ? x.map(masquerTout) : x && typeof x === "object" ? Object.fromEntries(Object.entries(x).map(([a, b]) => [a, masquerTout(b)])) : x;
+
 export function fichePublique(f: Ligne): Ligne {
   const out: Ligne = {};
   for (const [k, v] of Object.entries(jsonObj(f.fiche))) {
     const c = CHAMPS_FICHE[k];
     if (!c || c.prive) continue;
-    out[k] = k === "references" && Array.isArray(v) ? v.map((r) => { const { client: _c, ...reste } = jsonObj(r); void _c; return reste; }) : v;
+    // Références sans nom de client ; tous les textes publiés passent par le masque des coordonnées.
+    out[k] = masquerTout(k === "references" && Array.isArray(v) ? v.map((r) => { const { client: _c, ...reste } = jsonObj(r); void _c; return reste; }) : v);
   }
   return out;
 }
@@ -70,10 +75,10 @@ export function fichePublique(f: Ligne): Ligne {
 /** Ce que tout visiteur peut voir : aucune coordonnée, aucun document. */
 export function vuePublique(f: Ligne) {
   return {
-    slug: String(f.slug), raisonSociale: String(f.raisonSociale), raisonSocialeAr: (f.raisonSocialeAr as string) || null,
+    slug: String(f.slug), raisonSociale: m_(String(f.raisonSociale)), raisonSocialeAr: m_((f.raisonSocialeAr as string) || null),
     metier: String(f.metier), metierLibelle: METIERS_PRO[String(f.metier)] || String(f.metier),
     ville: String(f.ville), region: (f.region as string) || null, zonesLivraison: liste(f.zonesLivraison), categories: liste(f.categories),
-    logoUrl: (f.logoUrl as string) || null, description: (f.description as string) || null, descriptionAr: (f.descriptionAr as string) || null,
+    logoUrl: (f.logoUrl as string) || null, description: m_((f.description as string) || null), descriptionAr: m_((f.descriptionAr as string) || null),
     verifie: f.statut === "APPROVED", documentsVerifies: f.statut === "APPROVED" && documentsVerifies(String(f.metier), documentsDe(f)),
     fiche: fichePublique(f), membreDepuis: jour(f.createdAt),
   };
@@ -82,6 +87,10 @@ export function vuePublique(f: Ligne) {
 export function vueProprietaire(f: Ligne) {
   return {
     ...vuePublique(f), id: String(f.id), statut: String(f.statut), contactNom: (f.contactNom as string) || null,
+    // Le pro et l'admin voient leurs textes tels que saisis (le public les voit masqués s'ils contiennent des coordonnées).
+    raisonSociale: String(f.raisonSociale), raisonSocialeAr: (f.raisonSocialeAr as string) || null,
+    description: (f.description as string) || null, descriptionAr: (f.descriptionAr as string) || null,
+    alerteCoordonnees: coordonneesDans({ raisonSocialeAr: f.raisonSocialeAr, description: f.description, descriptionAr: f.descriptionAr, fiche: jsonObj(f.fiche) }),
     telephone: String(f.telephone), email: String(f.email), ice: (f.ice as string) || null, siteWeb: (f.siteWeb as string) || null,
     motifRejet: f.statut === "REJECTED" ? (f.motifRejet as string) || null : null,
     fiche: jsonObj(f.fiche), documents: documentsDe(f), formule: (f.formule as string) || "GRATUIT",

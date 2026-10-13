@@ -12,12 +12,13 @@ import { libelleMetier, TYPES_SOCIETE } from "../../apps/web/src/domain/cercles/
 import { REGIONS_L3 } from "../../apps/web/src/domain/cercles/libelles";
 import type { Sql } from "./cercles";
 import { depotCatalogueNeon } from "./catalogueDepot";
+import { masquerCoordonnees } from "./coordonnees";
 import type { PageSeo } from "./seo";
 
 const BASE = "https://citurbarea.com";
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const court = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1).trimEnd()}…` : s);
-const txt = (v: unknown) => (typeof v === "string" ? v.trim() : "");
+const txt = (v: unknown) => (typeof v === "string" ? masquerCoordonnees(v.trim()) : "");
 const fictif = (f: Record<string, unknown>) => (f.meta as Record<string, unknown> | null)?.fictif === true;
 const alternes = (chemin: string) => [
   { hreflang: "fr", href: `${BASE}${chemin}` }, { hreflang: "ar", href: `${BASE}/ar${chemin}` }, { hreflang: "x-default", href: `${BASE}${chemin}` },

@@ -6,6 +6,7 @@
  * docs/architecture/contrat-catalogue.md, « Images ».
  */
 import { clip, erreur, nombre, type Reponse } from "./cercles";
+import { masquerCoordonnees as m_ } from "./coordonnees";
 import type { DepotCatalogue } from "./catalogueDepot";
 import type { Depot, Ligne } from "./fournisseursDepot";
 import {
@@ -26,7 +27,7 @@ export const urlImage = (id: string, emp: string, vignette = false, origine = ""
 /** `origine` : https://hôte de la requête — URL absolues attendues par la matériauthèque (contrat catalogue). */
 export function vueImagePublique(i: Ligne, origine = "") {
   const id = String(i.id), emp = String(i.empreinte);
-  const fr = txt(i.legendeFr), ar = txt(i.legendeAr);
+  const fr = m_(txt(i.legendeFr)), ar = m_(txt(i.legendeAr));
   return {
     id, url: urlImage(id, emp, false, origine), vignette: urlImage(id, emp, true, origine), principale: i.principale === true, ordre: Number(i.ordre ?? 0),
     legende: fr || ar ? { fr: fr || ar!, ...(ar ? { ar } : {}) } : null, largeur: Number(i.largeur), hauteur: Number(i.hauteur),

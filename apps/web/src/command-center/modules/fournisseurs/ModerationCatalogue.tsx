@@ -91,7 +91,8 @@ export function ProduitsAModerer() {
           <div style={{ fontSize: 13 }}>
             {fmt(p.prixHT)} DH HT / {p.uniteVente} → <strong>{fmt(p.prixRefHT, 3)} DH / {unite3(p.uniteRef).fr}</strong> (facteur {fmt(p.facteur, 4)})
             {p.codePropose && <> · code proposé <strong>{p.codePropose}</strong> ({materiau(p.codePropose)?.libelle || "créé"}, réf. {fmt(materiau(p.codePropose)?.prix.ref, 3)} DH)</>}
-            {p.signalement && <span style={{ color: CC.color.warn, fontWeight: 600 }}> · écart {Math.round((p.ecartRef || 0) * 100)} %</span>}
+            {p.signalement === "COORDONNEES" ? <span style={{ color: CC.color.danger, fontWeight: 600 }}> · coordonnées détectées dans les textes (masquées au public) — faire corriger ou refuser</span>
+              : p.signalement && <span style={{ color: CC.color.warn, fontWeight: 600 }}> · écart {Math.round((p.ecartRef || 0) * 100)} %</span>}
             {p.materiauCode && <> · rattaché à <strong>{p.materiauCode}</strong></>}
           </div>
           {!!Object.keys(p.caracteristiques).length && <div style={{ fontSize: 12, color: CC.color.inkMid }}>{Object.entries(p.caracteristiques).map(([k, v]) => `${k} : ${String(v)}`).join(" · ")}</div>}
@@ -208,7 +209,8 @@ export function ServicesAModerer() {
               {liste.map((s) => (
                 <tr key={s.id}>
                   <td style={{ padding: 8, verticalAlign: "top" }}>{s.raisonSociale}<div style={{ color: CC.color.inkMuted, fontSize: 12 }}>{s.ville}</div></td>
-                  <td style={{ padding: 8, verticalAlign: "top" }}>{s.designationFr || s.designationAr}<div style={{ color: CC.color.inkMuted, fontSize: 12 }}>{NATURES_SERVICE[s.nature]?.fr || s.nature}</div></td>
+                  <td style={{ padding: 8, verticalAlign: "top" }}>{s.designationFr || s.designationAr}<div style={{ color: CC.color.inkMuted, fontSize: 12 }}>{NATURES_SERVICE[s.nature]?.fr || s.nature}</div>
+                    {s.signalement === "COORDONNEES" && <div style={{ color: CC.color.danger, fontSize: 12, fontWeight: 600 }}>Coordonnées détectées (masquées au public)</div>}</td>
                   <td style={{ padding: 8, verticalAlign: "top" }}>{s.ouvrageCode ? `${s.ouvrageCode} — ${OUVRAGES[s.ouvrageCode]?.libelle || ""}` : s.prestationCode ? PRESTATIONS[s.prestationCode]?.libelle.fr || s.prestationCode : "libre"}</td>
                   <td style={{ padding: 8, verticalAlign: "top" }}>{fmt(s.prixHT)} DH / {unite3(s.unite).fr}</td>
                   <td style={{ padding: 8, verticalAlign: "top", color: s.signalement ? CC.color.warn : undefined }}>{s.reference ? `${fmt(s.reference)} DH` : "—"}{s.ecartRef != null ? ` (${s.ecartRef > 0 ? "+" : ""}${Math.round(s.ecartRef * 100)} %)` : ""}</td>

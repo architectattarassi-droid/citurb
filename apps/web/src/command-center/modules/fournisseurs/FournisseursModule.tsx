@@ -21,7 +21,7 @@ interface Fournisseur {
   zonesLivraison: string[]; categories: string[]; statut: string; contactNom: string | null; telephone: string; email: string; ice: string | null;
   siteWeb: string | null; description: string | null; createdAt: string; commissionPct: number | null; motifRejet: string | null;
   derniereConnexion: string | null; nbFiches: number; codeDemandeLe: string | null; fictif: boolean;
-  raisonSocialeAr: string | null; score: Score; documents: DocumentPro[]; formule: string; fiche: Record<string, unknown>;
+  raisonSocialeAr: string | null; alerteCoordonnees?: Record<string, string[]>; score: Score; documents: DocumentPro[]; formule: string; fiche: Record<string, unknown>;
 }
 interface FicheModeration {
   id: string; materiauCode: string; libelle: string; uniteRef: string | null; uniteVenteLibelle: string; prixHT: number; prixRefHT: number;
@@ -205,6 +205,9 @@ function Inscrits() {
                         <div><strong>ICE :</strong> {f.ice || "—"} · <strong>Site :</strong> {f.siteWeb || "—"} · <strong>Dernière connexion :</strong> {date(f.derniereConnexion)}</div>
                         {f.description && <div><strong>Présentation :</strong> {f.description}</div>}
                         {f.motifRejet && <div><strong>Motif :</strong> {f.motifRejet}</div>}
+                        {f.alerteCoordonnees && Object.keys(f.alerteCoordonnees).length > 0 && (
+                          <div style={{ color: CC.color.danger, fontWeight: 600 }}>Coordonnées détectées (masquées au public, à faire retirer) : {Object.entries(f.alerteCoordonnees).map(([k, v]) => `${k} (${v.join(", ")})`).join(" · ")}</div>
+                        )}
                         {f.raisonSocialeAr && <div dir="rtl" lang="ar"><strong>الاسم بالعربية :</strong> {f.raisonSocialeAr}</div>}
                         {f.fiche && Object.keys(f.fiche).length > 0 && <div style={{ fontSize: 12 }}><strong>Fiche :</strong> {Object.entries(f.fiche).filter(([k]) => k !== "references").map(([k, v]) => `${k} : ${Array.isArray(v) ? v.join(", ") : String(v)}`).join(" · ")}{Array.isArray(f.fiche.references) && f.fiche.references.length ? ` · ${f.fiche.references.length} référence(s)` : ""}</div>}
                         <div><strong>Formule :</strong>{" "}

@@ -47,7 +47,8 @@ export default function ProduitsPro({ f, produits, recharger }: { f: Fournisseur
                     <BadgeStatut statut={p.statut || "PENDING"} offre />
                     {p.materiauCode && <div style={{ fontSize: 12, color: T.inkMid }}>{x.t("rattacheA", { code: p.materiauCode })}</div>}
                     {p.motifRejet && <div style={{ fontSize: 12, color: T.danger }}>{x.t("motif", { m: p.motifRejet })}</div>}
-                    {p.signalement && <div style={{ fontSize: 12, color: T.warn }}>{x.t("ecart", { n: Math.round((p.ecartRef || 0) * 100) })}</div>}
+                    {p.signalement === "COORDONNEES" ? <div style={{ fontSize: 12, color: T.danger }}>{x.t("coordonneesSignal")}</div>
+                      : p.signalement && <div style={{ fontSize: 12, color: T.warn }}>{x.t("ecart", { n: Math.round((p.ecartRef || 0) * 100) })}</div>}
                   </td>
                   <td data-l="">
                     <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>

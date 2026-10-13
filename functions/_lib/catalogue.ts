@@ -31,6 +31,7 @@ import {
 } from "./catalogueVues";
 import { DISPONIBILITES, METIERS_AVEC_FICHES, TAUX_TVA, iso, jour, jsonObj, liste, vueFiche, vuePublique, zonesValides } from "./fournisseurs";
 import type { Depot, Ligne } from "./fournisseursDepot";
+import { coordonneesDans, masquerCoordonnees as m_ } from "./coordonnees";
 import { imagesParObjet, vueImagePublique } from "./imagesCatalogue";
 import type { DepotImages } from "./imagesDepot";
 
@@ -193,7 +194,12 @@ export function validerProduit(b: Ligne, codes: Map<string, CodeRef>, regionSieg
 }
 
 /** Champs dont la modification renvoie un produit approuvé en modération (son identité change). */
-const IDENTITE_PRODUIT = ["famille", "uniteRef", "facteur", "designationFr", "designationAr", "marque", "modele"] as const;
+/** Champs dont la modification renvoie un produit approuvé en modération (identité, textes publiés, liens externes). */
+const IDENTITE_PRODUIT = ["famille", "uniteRef", "facteur", "designationFr", "designationAr", "descriptionFr", "descriptionAr", "marque", "modele",
+  "conditionnement", "uniteVente", "ficheTechniqueUrl", "photos"] as const;
+const identique = (a: unknown, b: unknown) => JSON.stringify(a ?? null) === JSON.stringify(b ?? null) || String(a ?? "") === String(b ?? "");
+/** « Tout passe par CITURBAREA » : coordonnées dans les textes d'une fiche → signalement à l'admin, fiche en vérification. */
+const COORDONNEES = "COORDONNEES";
 
 export async function enregistrerProduit(fid: string, produitId: string | null, body: unknown, depot: DepotC): Promise<Reponse> {
   const f = await depot.fParId(fid);
@@ -215,9 +221,13 @@ export async function enregistrerProduit(fid: string, produitId: string | null, 
     ecartRef = ecartReference(materiauCode, v.p.prixRefHT);
     signalement = ecartRef !== null && Math.abs(ecartRef) > 0.5 ? (ecartRef > 0 ? "ABERRANT_HAUT" : "ABERRANT_BAS") : null;
   }
-  if (avant?.statut === "APPROVED" && materiauCode && !signalement
-    && IDENTITE_PRODUIT.every((k) => String(avant[k] ?? "") === String(v.p[k] ?? ""))) statut = "APPROVED";
-  if (statut === "PENDING" && avant && !IDENTITE_PRODUIT.every((k) => String(avant[k] ?? "") === String(v.p[k] ?? ""))) materiauCode = null;
+  const coord = coordonneesDans({ designationFr: v.p.designationFr, designationAr: v.p.designationAr, descriptionFr: v.p.descriptionFr, descriptionAr: v.p.descriptionAr,
+    marque: v.p.marque, modele: v.p.modele, conditionnement: v.p.conditionnement, uniteVente: v.p.uniteVente, caracteristiques: v.p.caracteristiques });
+  if (Object.keys(coord).length) signalement = COORDONNEES;
+  const memeIdentite = !!avant && IDENTITE_PRODUIT.every((k) => identique(avant[k], v.p[k]));
+  if (avant?.statut === "APPROVED" && materiauCode && !signalement && memeIdentite) statut = "APPROVED";
+  // Le rattachement au code tient tant que la nature du produit (famille, unité, conversion) ne change pas.
+  if (statut === "PENDING" && avant && !IDENTITE_PRODUIT.slice(0, 3).every((k) => identique(avant[k], v.p[k]))) materiauCode = null;
 
   let slug = (avant?.slug as string) || "";
   if (!slug) {
@@ -229,7 +239,7 @@ export async function enregistrerProduit(fid: string, produitId: string | null, 
     { id: (avant?.id as string) || nouvelId("prd"), fournisseurId: fid, slug, statut, materiauCode, motifRejet: null, ...v.p, ecartRef, signalement },
     { at: maintenantIso(), kind: avant ? "MISE_A_JOUR" : "CREATION", payload: { statut, prixHT: v.p.prixHT, auteur: `fournisseur:${fid}` } },
   );
-  return { status: 200, json: { ok: true, produit: vueProduitProprietaire(ligne) } };
+  return { status: 200, json: { ok: true, produit: vueProduitProprietaire(ligne), ...(Object.keys(coord).length ? { avertissement: "coordonnees", champs: Object.keys(coord) } : {}) } };
 }
 
 export async function supprimerProduit(fid: string, id: string, depot: DepotC): Promise<Reponse> {
@@ -301,7 +311,7 @@ export function validerService(b: Ligne): { ok: true; s: ServiceValide } | { ok:
   };
 }
 
-const IDENTITE_SERVICE = ["nature", "ouvrageCode", "prestationCode", "unite", "designationFr", "designationAr"] as const;
+const IDENTITE_SERVICE = ["nature", "ouvrageCode", "prestationCode", "unite", "designationFr", "designationAr", "descriptionFr", "descriptionAr", "conditions", "photos"] as const;
 
 export async function enregistrerService(fid: string, serviceId: string | null, body: unknown, depot: DepotC): Promise<Reponse> {
   const f = await depot.fParId(fid);
@@ -313,12 +323,14 @@ export async function enregistrerService(fid: string, serviceId: string | null, 
   const v = validerService(b);
   if (!v.ok) return erreur(400, v.error);
   v.s.zones = zonesValides(b.zones, (f.region as string) || null);
-  const statut = avant?.statut === "APPROVED" && !v.s.signalement && IDENTITE_SERVICE.every((k) => String(avant[k] ?? "") === String(v.s[k] ?? "")) ? "APPROVED" : "PENDING";
+  const coord = coordonneesDans({ designationFr: v.s.designationFr, designationAr: v.s.designationAr, descriptionFr: v.s.descriptionFr, descriptionAr: v.s.descriptionAr, conditions: v.s.conditions });
+  if (Object.keys(coord).length) v.s.signalement = COORDONNEES;
+  const statut = avant?.statut === "APPROVED" && !v.s.signalement && IDENTITE_SERVICE.every((k) => identique(avant[k], v.s[k])) ? "APPROVED" : "PENDING";
   const ligne = await depot.svEnregistrer(
     { id: (avant?.id as string) || nouvelId("svc"), fournisseurId: fid, statut, motifRejet: null, ...v.s },
     { at: maintenantIso(), kind: avant ? "MISE_A_JOUR" : "CREATION", payload: { statut, prixHT: v.s.prixHT, auteur: `fournisseur:${fid}` } },
   );
-  return { status: 200, json: { ok: true, service: vueServiceProprietaire(ligne) } };
+  return { status: 200, json: { ok: true, service: vueServiceProprietaire(ligne), ...(Object.keys(coord).length ? { avertissement: "coordonnees", champs: Object.keys(coord) } : {}) } };
 }
 
 export async function supprimerService(fid: string, id: string, depot: DepotC): Promise<Reponse> {
@@ -474,7 +486,8 @@ const valideAujourdhui = (v: unknown) => { const j = jour(v); return !j || j >= 
 const entier = (v: string | null, def: number, max: number) => { const n = Number(v); return Number.isFinite(n) && n >= 0 ? Math.min(Math.floor(n), max) : def; };
 /** Texte bilingue d'un contenu saisi : `fr` toujours rempli (repli sur l'arabe), `ar` si saisi. */
 const texte = (fr: unknown, ar: unknown): Texte | null => {
-  const f = typeof fr === "string" ? fr.trim() : "", a = typeof ar === "string" ? ar.trim() : "";
+  // Textes publiés : coordonnées masquées (défense en profondeur ; la fiche est aussi signalée à l'enregistrement).
+  const f = typeof fr === "string" ? m_(fr.trim()) : "", a = typeof ar === "string" ? m_(ar.trim()) : "";
   return f || a ? { fr: f || a, ...(a ? { ar: a } : {}) } : null;
 };
 const zonesDe = (l: Ligne, zonesF: unknown) => (liste(l.zones).length ? liste(l.zones) : liste(zonesF));
@@ -506,7 +519,7 @@ function valeurCaracteristique(famille: string, cle: string, v: unknown): { libe
   const libelle = { fr: c.libelle.fr, ar: c.libelle.ar, en: c.libelle.en };
   if (c.type === "choix") { const o = c.options?.find(([k]) => k === v)?.[1]; return o ? { libelle, valeur: { fr: o.fr, ar: o.ar, en: o.en } } : null; }
   if (c.type === "oui_non") return { libelle, valeur: v === true ? { fr: "Oui", ar: "نعم", en: "Yes" } : { fr: "Non", ar: "لا", en: "No" } };
-  const s = `${v}${c.unite ? ` ${c.unite}` : ""}`;
+  const s = m_(`${v}${c.unite ? ` ${c.unite}` : ""}`);
   return { libelle, valeur: { fr: s } };
 }
 
@@ -529,14 +542,14 @@ function variante(cle: string, g: Ligne[], images: Map<string, ReturnType<typeof
     regionFournisseur: x.fRegion, zones: zonesDe(x, x.fZones) })), () => cle), region)[cle];
   const fournisseurs = [...new Map(g.map((x) => [String(x.fournisseurId), x])).values()];
   const conditionnements = [...new Map(g.map((x) => [`${x.uniteVente}|${x.facteur}`, {
-    code: slugifier(String(x.uniteVente)).slice(0, 30), libelle: { fr: String(x.uniteVente) }, facteur: Number(x.facteur) }])).values()];
+    code: slugifier(String(x.uniteVente)).slice(0, 30), libelle: { fr: m_(String(x.uniteVente)) }, facteur: Number(x.facteur) }])).values()];
   const car = jsonObj(p.caracteristiques);
   // Galerie de la variante : images approuvées de ses fiches (la plus récente d'abord), sans doublon.
   const galerie = [...new Map(g.flatMap((x) => images.get(`PRODUIT:${x.id}`) || []).map((i) => [i.id, i])).values()].slice(0, MAX_IMAGES_VARIANTE);
   return {
     id: String(p.id), codeReference: reference(String(p.materiauCode)),
     ...(parents[String(p.materiauCode)] ? { codeVariante: String(p.materiauCode) } : {}),
-    marque: (p.marque as string) || null, modele: (p.modele as string) || null,
+    marque: m_((p.marque as string) || null), modele: m_((p.modele as string) || null),
     designation: texte(p.designationFr, p.designationAr)!, description: texte(p.descriptionFr, p.descriptionAr),
     caracteristiques: Object.keys(car).map((k) => valeurCaracteristique(String(p.famille), k, car[k])).filter(Boolean),
     conditionnements, photoUrl: galerie[0]?.url || liste(p.photos)[0] || null, vignetteUrl: galerie[0]?.vignette || null, images: galerie,
@@ -614,7 +627,7 @@ export async function catalogueServices(q: URLSearchParams, depot: DepotC | null
         return {
           id: String(s.id), nature: String(s.nature), ouvrageCode: (s.ouvrageCode as string) || null, prestationCode: (s.prestationCode as string) || null,
           designation: texte(s.designationFr, s.designationAr)!, description: texte(s.descriptionFr, s.descriptionAr), unite: String(s.unite),
-          delaiJours: s.delaiJours == null ? null : Number(s.delaiJours), conditions: (s.conditions as string) || null, zones: zonesDe(s, s.fZones),
+          delaiJours: s.delaiJours == null ? null : Number(s.delaiJours), conditions: m_((s.conditions as string) || null), zones: zonesDe(s, s.fZones),
           photoUrl: images.get(`SERVICE:${s.id}`)?.[0]?.url || liste(s.photos)[0] || null, images: images.get(`SERVICE:${s.id}`) || [], majLe: jour(s.updatedAt),
           prix: m && m.mediane != null ? { mediane: m.mediane, min: m.min, max: m.max, nbFournisseurs: m.nbFournisseurs, majLe: m.plusRecente } : null,
           fournisseur: { slug: f.slug, nom: texte(f.raisonSociale, f.raisonSocialeAr), ville: f.ville, documentsVerifies: f.documentsVerifies },
