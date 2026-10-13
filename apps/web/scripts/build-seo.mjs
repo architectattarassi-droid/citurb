@@ -560,7 +560,7 @@ function villeHubFaq(h) {
   return { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [
     { "@type": "Question", name: `Faut-il un architecte pour construire à ${h.name} ?`, acceptedAnswer: { "@type": "Answer", text: `Oui. Au Maroc, le recours à un architecte inscrit à l'Ordre national (CNOA) est obligatoire pour toute demande d'autorisation de construire, y compris à ${h.name}.` } },
     { "@type": "Question", name: `Combien coûte un architecte à ${h.name} ?`, acceptedAnswer: { "@type": "Answer", text: `Les honoraires d'architecte se calculent en pourcentage du coût des travaux (barème CNOA), généralement autour de 5%. Le montant exact dépend de la surface, du standing et de la mission. Vous pouvez estimer votre budget avec le simulateur CITURBAREA avant tout engagement.` } },
-    { "@type": "Question", name: `Combien de temps pour obtenir un permis de construire à ${h.name} ?`, acceptedAnswer: { "@type": "Answer", text: `À ${h.name}, le délai d'instruction d'une autorisation de construire varie selon la nature du projet et la commune, généralement de 1 à 3 mois après dépôt d'un dossier complet et conforme au plan d'aménagement.` } },
+    { "@type": "Question", name: `Combien de temps pour obtenir un permis de construire à ${h.name} ?`, acceptedAnswer: { "@type": "Answer", text: `À ${h.name}, les textes fixent l'instruction à 15 jours pour un petit projet et 30 jours pour un grand projet (arrêté conjoint 1839-23), à compter d'un dossier complet ; en pratique le délai est souvent plus long, notamment quand des modifications de plans sont demandées.` } },
     { "@type": "Question", name: `Quels documents pour construire à ${h.name} ?`, acceptedAnswer: { "@type": "Answer", text: `Titre foncier ou attestation de propriété, plan cadastral, note de renseignements, et le dossier d'architecte (plans + formulaires). L'architecte constitue et dépose le dossier auprès des services de la commune de ${h.name}.` } },
     { "@type": "Question", name: `Quels quartiers de ${h.name} couvrez-vous ?`, acceptedAnswer: { "@type": "Answer", text: `J'interviens dans tous les quartiers de ${h.name}${q ? ` : ${q}` : ""}, ainsi que dans la région ${h.region}.` } },
     { "@type": "Question", name: `Intervenez-vous sur tout ${h.region} ?`, acceptedAnswer: { "@type": "Answer", text: `Oui, j'interviens à ${h.name} et dans toute la région ${h.region}, en présentiel ou avec un suivi à distance selon vos besoins.` } },
@@ -642,7 +642,7 @@ function villeHubHtml(h, portes) {
 
   <h2>Questions fréquentes — architecte à ${esc(h.name)}</h2>
   <details><summary>Faut-il un architecte pour construire à ${esc(h.name)} ?</summary><p>Oui : au Maroc, l'architecte inscrit à l'Ordre (CNOA) est obligatoire pour toute autorisation de construire, y compris à ${esc(h.name)}.</p></details>
-  <details><summary>Combien de temps pour un permis de construire à ${esc(h.name)} ?</summary><p>Généralement 1 à 3 mois après dépôt d'un dossier complet et conforme au plan d'aménagement de ${esc(h.name)}.</p></details>
+  <details><summary>Combien de temps pour un permis de construire à ${esc(h.name)} ?</summary><p>Les textes fixent 15 jours pour un petit projet et 30 jours pour un grand projet (arrêté conjoint 1839-23), à compter d'un dossier complet et conforme au plan d'aménagement de ${esc(h.name)}. En pratique, comptez souvent davantage si des modifications de plans sont demandées.</p></details>
   <details><summary>Quels documents faut-il fournir ?</summary><p>Titre foncier, plan cadastral, note de renseignements et le dossier d'architecte. Je constitue et dépose le tout auprès de la commune de ${esc(h.name)}.</p></details>
   <details><summary>Intervenez-vous dans tous les quartiers de ${esc(h.name)} ?</summary><p>Oui${QUARTIERS[h.slug] ? ` — ${esc(QUARTIERS[h.slug])}` : ""}, et dans toute la région ${esc(h.region)}, en présentiel ou à distance.</p></details>
 
@@ -685,35 +685,49 @@ const GUIDES = [
     groupe: "prix-construction-villa-maroc",
     title: "Prix de construction d'une villa au Maroc (2026) — coût au m²",
     h1: "Combien coûte la construction d'une villa au Maroc en 2026 ?",
-    desc: "Prix de construction d'une villa au Maroc en 2026 : coût au m² par niveau de standing (de 2 500 à 14 000 DH/m²), ce qui fait varier le budget et ce qu'il n'inclut pas.",
-    intro: "Le coût de construction d'une villa au Maroc dépend surtout du <strong>niveau de finition (standing)</strong>, de la <strong>surface plancher</strong> et de la région. En 2026, comptez entre <strong>2 500 et 14 000 DH/m²</strong>. Voici une grille claire pour cadrer votre budget avant de vous lancer.",
+    desc: "Prix de construction d'une villa au Maroc en 2026 : de 4 040 à 14 760 DH/m² TTC selon le standing (simulateur CITURBAREA), ce qui est inclus et ce qui ne l'est pas.",
+    majLe: "2026-10-13",
+    intro: "Le coût de construction d'une villa au Maroc dépend surtout du <strong>niveau de finition (standing)</strong>, de la <strong>surface plancher</strong> et de la région. Pour une villa isolée R+1 de 150 m² à Kénitra, le <a href=\"/chiffrage\">simulateur CITURBAREA</a> donne en 2026 de <strong>4 040 à 14 760 DH/m² TTC</strong> de travaux. Voici la grille, avec ce qu'elle inclut et ce qu'elle exclut.",
     body: `
-      <h2>Coût de construction au m² par standing</h2>
+      <h2>Coût de construction d'une villa au m² par standing</h2>
+      <p>Chiffres du simulateur CITURBAREA (version 2026-10) : villa isolée R+1, 150 m² de plancher, emprise 75 m², Kénitra, bon sol (semelles isolées), sans sous-sol, clôture maçonnée et portail compris. Montants <strong>TTC de travaux</strong> : installation de chantier, aléas 5 % et TVA 20 % compris.</p>
       <table>
-        <tr><th>Standing</th><th>DH / m²</th><th>Villa 150 m²</th></tr>
-        <tr><td>Très économique</td><td>2 500 – 3 500</td><td>375 000 – 525 000 DH</td></tr>
-        <tr><td>Moyen standing</td><td>4 000 – 5 200</td><td>600 000 – 780 000 DH</td></tr>
-        <tr><td>Standing</td><td>5 500 – 7 000</td><td>825 000 – 1 050 000 DH</td></tr>
-        <tr><td>Haut standing</td><td>7 500 – 9 500</td><td>1 125 000 – 1 425 000 DH</td></tr>
-        <tr><td>Luxe / Premium</td><td>10 000 – 14 000</td><td>1 500 000 – 2 100 000 DH</td></tr>
+        <tr><th>Standing</th><th>DH TTC / m²</th><th>Villa 150 m² (travaux TTC)</th><th>DH HT / m² (hors aléas)</th></tr>
+        <tr><td>Très économique (tâcheron)</td><td>4 044</td><td>606 557 DH</td><td>3 360</td></tr>
+        <tr><td>Moyen standing</td><td>6 616</td><td>992 370 DH</td><td>5 251</td></tr>
+        <tr><td>Standing</td><td>8 542</td><td>1 281 313 DH</td><td>6 779</td></tr>
+        <tr><td>Haut standing</td><td>11 215</td><td>1 682 297 DH</td><td>8 901</td></tr>
+        <tr><td>Luxe</td><td>14 761</td><td>2 214 144 DH</td><td>11 715</td></tr>
       </table>
+      <p><small>Le très économique est chiffré en régime tâcheron (vous achetez les fournitures ; TVA sur les fournitures seulement, hypothèse), les autres standings en entreprise générale. Précision sans plans : environ ±13 à 15 %.</small></p>
+      <p>La colonne HT hors aléas est celle à comparer aux « prix au m² » annoncés par la plupart des entreprises, qui parlent rarement de TVA. Avant de comparer deux prix au m², demandez toujours ce qu'ils contiennent.</p>
       <p><a class="cta" href="/chiffrage">Estimer précisément mon budget →</a></p>
+
+      <h2>Ce que comprend ce prix, et ce qu'il n'inclut pas</h2>
+      <ul>
+        <li><strong>Inclus :</strong> installation de chantier (2 % des travaux, hypothèse), terrassements, fondations, structure béton armé, maçonnerie et enduits, étanchéité, façades, menuiseries, cuisine aménagée au forfait selon le standing, revêtements, peinture, plomberie, électricité, assainissement extérieur, clôture et portail, <strong>aléas 5 %</strong> et <strong>TVA 20 %</strong>.</li>
+        <li><strong>Exclus :</strong> le terrain, les honoraires d'architecte et de BET (et étude de sol, topographe, laboratoire), les taxes et frais d'autorisation (taxe sur les opérations de construction, agence urbaine, occupation du domaine public), les raccordements officiels (eau, électricité, égout), l'électroménager, le mobilier, le sous-sol, la piscine et les VRD lourds.</li>
+      </ul>
+      <p>Avec ces postes, le simulateur porte la villa de 150 m² en moyen standing de 992 370 DH de travaux TTC à <strong>1 091 433 DH de budget total hors terrain</strong> (honoraires, taxes et raccordements estimés ; barèmes locaux à confirmer).</p>
+
+      <h2>Pourquoi une villa coûte-t-elle plus cher qu'une maison mitoyenne ?</h2>
+      <p>Quatre façades à enduire et à percer, des plafonds plus hauts, une clôture et un portail : à surface égale, la villa isolée coûte plus cher qu'une maison mitoyenne. Les chiffres de la maison mitoyenne (839 190 DH TTC pour 150 m² en moyen standing) sont dans notre guide <a href="/guide/prix-construction-maison-maroc-m2">prix de construction d'une maison au m²</a>.</p>
 
       <h2>Ce qui fait varier le prix</h2>
       <ul>
         <li><strong>Les finitions</strong> (carrelage, menuiserie, façade, sanitaire) : le principal levier — un marbre ou une façade en pierre double certains lots.</li>
         <li><strong>Un sous-sol</strong> : excavation + structure = surface supplémentaire facturée.</li>
         <li><strong>Le terrain</strong> : pente forte, mauvais sol → fondations et voile de soutènement plus lourds.</li>
-        <li><strong>La région</strong> : coût de la main-d'œuvre et des matériaux variable (corridor Rabat-Kénitra, Casablanca, Tanger…).</li>
+        <li><strong>La région</strong> : le simulateur applique un coefficient régional, de 0,92 à Fès et 0,93 à Kénitra à 1,06 à Casablanca et 1,07 à Rabat.</li>
       </ul>
-
-      <h2>Ce que ce prix n'inclut PAS</h2>
-      <p>Le prix au m² couvre le gros œuvre et le second œuvre, mais <strong>pas</strong> : le terrain, les honoraires d'architecte et de BET, les taxes et frais d'autorisation (taxe sur opérations de construction, agence urbaine, occupation du domaine public), les raccordements officiels (eau, électricité, égout), la cuisine équipée, le mobilier et les VRD lourds.</p>
     `,
     faq: [
-      ["Combien coûte une villa de 200 m² au Maroc ?", "Pour 200 m² de plancher, comptez de 500 000 DH (très économique) à plus de 2 000 000 DH (luxe), hors terrain et honoraires. Le standard/haut standing se situe autour de 1,1 à 1,9 million de DH."],
-      ["Le prix inclut-il l'architecte ?", "Non. Les honoraires d'architecte (≈ 5 % du coût des travaux, barème CNOA) s'ajoutent au coût de construction, tout comme le BET et les taxes."],
+      ["Combien coûte une villa de 200 m² au Maroc ?", "Pour une villa isolée R+1 de 200 m² à Kénitra, le simulateur CITURBAREA estime les travaux TTC (aléas 5 % et TVA compris) à 754 070 DH en très économique, 1 233 282 DH en moyen standing, 1 584 569 DH en standing, 2 080 302 DH en haut standing et 2 721 978 DH en luxe, hors terrain, honoraires, taxes et raccordements."],
+      ["Le prix inclut-il l'architecte ?", "Non. Les honoraires d'architecte (≈ 5 % du coût des travaux, barème CNOA) s'ajoutent au coût de construction, tout comme le BET, les taxes et les raccordements."],
       ["Comment réduire le coût de construction ?", "En choisissant un standing de finition adapté, en optimisant la surface et le plan, et en composant les lots (le simulateur CITURBAREA permet de tester chaque option et de voir le budget en direct)."],
+    ],
+    sources: [
+      { titre: "Simulateur CITURBAREA (moteur de chiffrage, prix 2026)", url: "https://citurbarea.com/chiffrage" },
     ],
   },
   {
@@ -722,7 +736,8 @@ const GUIDES = [
     title: "Permis de construire au Maroc : documents, étapes, délais et coût",
     h1: "Permis de construire au Maroc : documents, étapes et délais",
     desc: "Comment obtenir un permis de construire (autorisation de construire) au Maroc : documents à fournir, étapes du dépôt, délais d'instruction et taxes à prévoir.",
-    intro: "Au Maroc, toute construction neuve nécessite une <strong>autorisation de construire</strong> délivrée par la commune, sur la base d'un dossier établi par un <strong>architecte inscrit à l'Ordre (CNOA)</strong>. Voici le parcours complet.",
+    majLe: "2026-10-13",
+    intro: "Au Maroc, toute construction neuve dans les zones couvertes par la loi 12-90 nécessite une <strong>autorisation de construire</strong> délivrée par le président de la commune. Dans les communes urbaines, les centres délimités et leurs zones périphériques, le dossier est établi par un <strong>architecte inscrit à l'Ordre (CNOA)</strong> (loi 12-90, art. 50). Voici le parcours complet.",
     body: `
       <h2>Documents à fournir</h2>
       <ul>
@@ -736,17 +751,24 @@ const GUIDES = [
       <ol>
         <li><strong>Conception</strong> par l'architecte + validation avec vous.</li>
         <li><strong>Dépôt</strong> du dossier auprès des services de la commune (guichet unique / agence urbaine).</li>
-        <li><strong>Instruction</strong> par les services (voirie, régie, protection civile…) : généralement <strong>1 à 3 mois</strong> pour un dossier complet et conforme au plan d'aménagement.</li>
+        <li><strong>Instruction</strong> par une commission où siègent la province ou préfecture, la commune et l'agence urbaine, dont l'avis s'impose au président de la commune (RGC, décret 2-18-577, art. 39).</li>
         <li><strong>Obtention</strong> de l'autorisation, puis démarrage du chantier.</li>
       </ol>
+      <p><strong>Délais réglementaires</strong> (arrêté conjoint n° 1839-23 du 10 juillet 2023), du récépissé à la délivrance, pour un dossier complet : <strong>15 jours</strong> pour les « petits projets » (habitation jusqu'à 15,50 m et R+3) et <strong>30 jours</strong> pour les « grands projets ». En pratique, le délai constaté est souvent plus long : les délais repartent à zéro lorsque la commune demande des plans modifiés (RGC, art. 41), et ils varient selon la commune. Renseignez-vous auprès de la commune avant de fixer votre calendrier.</p>
 
       <h2>Taxes et frais à prévoir</h2>
-      <p>Taxe sur les opérations de construction (≈ 20 à 40 DH/m² selon la commune), participation à l'agence urbaine (≈ 3,6 DH/m²), occupation du domaine public pour le chantier, avis de la protection civile. <strong>Important :</strong> réglez votre <strong>taxe sur le terrain non bâti (TNB)</strong> en amont — un arriéré peut bloquer l'obtention de l'autorisation.</p>
+      <p>Taxe sur les opérations de construction, payée à la commune par m² couvert : chaque commune fixe son taux par arrêté fiscal dans la fourchette légale de <strong>20 à 30 DH/m²</strong> pour l'habitat individuel et de <strong>10 à 20 DH/m²</strong> pour l'habitat collectif ou les locaux d'activité, avec un minimum de <strong>1 000 DH</strong> (loi 47-06 modifiée par la loi 07-20 ; barème consolidé à vérifier, taux à vérifier auprès de votre commune). Rémunération de l'agence urbaine : <strong>barème fixé par chaque agence</strong> (le simulateur CITURBAREA retient 3,6 DH/m² à titre d'hypothèse). S'y ajoutent l'occupation du domaine public pour le chantier et, le cas échéant, l'avis de la protection civile. <strong>Important :</strong> réglez votre <strong>taxe sur le terrain non bâti (TNB)</strong> en amont — un arriéré peut bloquer l'obtention de l'autorisation.</p>
     `,
     faq: [
-      ["Peut-on construire sans architecte au Maroc ?", "Non. Le recours à un architecte inscrit à l'Ordre national (CNOA) est obligatoire pour toute demande d'autorisation de construire."],
-      ["Combien de temps pour obtenir un permis de construire ?", "En général 1 à 3 mois après dépôt d'un dossier complet, selon la commune et la nature du projet."],
+      ["Peut-on construire sans architecte au Maroc ?", "Non, dans les communes urbaines, les centres délimités et leurs zones périphériques : le recours à un architecte inscrit à l'Ordre national (CNOA) est une condition du permis de construire (loi 12-90, art. 50). Lorsque la surface de planchers cumulée ne dépasse pas 150 m², l'architecte n'est obligatoire que pour la conception (art. 54). Hors de ces zones, il est exigé pour les bâtiments publics ou recevant du public (art. 51)."],
+      ["Combien de temps pour obtenir un permis de construire ?", "Les délais réglementaires sont de 15 jours pour les petits projets et de 30 jours pour les grands projets, du récépissé à la délivrance, pour un dossier complet (arrêté conjoint n° 1839-23). En pratique, le délai constaté est souvent plus long, notamment quand la commune demande des plans modifiés : les délais repartent alors à zéro (RGC, art. 41)."],
       ["Que risque-t-on à construire sans autorisation ?", "Une construction sans autorisation est illégale : arrêt de chantier, amendes, voire démolition, et impossibilité de régulariser ou de raccorder officiellement."],
+    ],
+    sources: [
+      { titre: "Loi n° 12-90 relative à l'urbanisme, dahir n° 1-92-31 du 15 hija 1412 (17 juin 1992), BO n° 4159 du 15 juillet 1992", url: "http://www.auks.ma/wp-content/uploads/2019/11/dahir1-92-31.pdf" },
+      { titre: "Décret n° 2-18-577 du 8 chaoual 1440 (12 juin 2019) approuvant le règlement général de construction — BO n° 6874 du 16 avril 2020 (édition française)", url: "http://www.auks.ma/wp-content/uploads/2019/11/decret%20RGC%202019.pdf" },
+      { titre: "Arrêté conjoint n° 1839-23 du 10 juillet 2023 fixant les délais de chaque intervenant pour certaines décisions d'urbanisme délivrées par les communes — BO n° 7212 du 13 juillet 2023 (édition arabe)", url: "http://www.auks.ma/wp-content/uploads/2023/07/Arrete-conjoint-n%C2%B01839.23.pdf" },
+      { titre: "Loi n° 47-06 relative à la fiscalité des collectivités locales, articles 50 à 63 et 168 (eRegulations Rabat)", url: "https://rabat.eregulations.org/media/Loi%2047-06%20relative%20aux%20collectivit%C3%A9s%20locales.pdf" },
     ],
   },
   {
@@ -844,6 +866,7 @@ const GUIDES = [
     groupe: "choisir-entreprise-construction-maroc",
     title: "Choisir une entreprise de construction au Maroc : méthode et pièges à éviter",
     h1: "Comment choisir une entreprise de construction au Maroc ?",
+    majLe: "2026-10-13",
     desc: "Choisir une entreprise de BTP au Maroc : consulter plusieurs entreprises, comparer les devis sur un même descriptif, vérifier les références, sécuriser le contrat et les paiements.",
     intro: "L'entreprise de construction réalise ce que l'architecte et le BET ont conçu. Bien la choisir, c'est <strong>comparer des offres sur une même base</strong>, <strong>vérifier sa solidité</strong> et <strong>encadrer le contrat</strong>. Voici la méthode.",
     body: `
@@ -866,7 +889,7 @@ const GUIDES = [
         <li>Un contrat écrit : prix (global et forfaitaire, ou au bordereau des prix), délais, pénalités de retard.</li>
         <li>Des paiements <strong>échelonnés selon l'avancement constaté</strong> (situations de travaux validées), jamais très en avance sur le chantier.</li>
         <li>Une <strong>retenue de garantie</strong> conservée jusqu'à la réception définitive.</li>
-        <li>La responsabilité décennale de l'entrepreneur et de l'architecte sur la solidité de l'ouvrage (article 769 du Dahir des obligations et contrats).</li>
+        <li>La responsabilité décennale de l'entrepreneur et de l'architecte sur la solidité de l'ouvrage, prévue par le Dahir des obligations et contrats (article 769 du DOC ; texte non relu dans notre référentiel réglementaire : à vérifier sur la version en vigueur avant de vous en prévaloir).</li>
       </ul>
 
       <h2>5. Faire suivre le chantier</h2>

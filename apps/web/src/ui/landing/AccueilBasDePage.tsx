@@ -42,6 +42,25 @@ const GUIDES = [
   { slug: "permis-habiter-certificat-conformite-maroc", titre: "Permis d'habiter et certificat de conformité : comment les obtenir ?", resume: "Différence entre les deux, dossier, délais, recours et sanctions.", min: 7, icone: "etapes" },
 ] as const;
 
+/** Versions EN / AR des guides (seo/guides/*.json, champs légers seulement). */
+const G_SLUG = import.meta.glob<string>("../../../seo/guides/*.json", { eager: true, import: "slug" });
+const G_LANG = import.meta.glob<string | undefined>("../../../seo/guides/*.json", { eager: true, import: "lang" });
+const G_GROUPE = import.meta.glob<string | undefined>("../../../seo/guides/*.json", { eager: true, import: "groupe" });
+const G_H1 = import.meta.glob<string>("../../../seo/guides/*.json", { eager: true, import: "h1" });
+const G_DESC = import.meta.glob<string>("../../../seo/guides/*.json", { eager: true, import: "desc" });
+
+/** Guide FR → sa version dans la langue du lecteur (titre et résumé dans cette langue). */
+function guideTraduit(slugFr: string, lang: Lang): { slug: string; titre: string; resume: string } | null {
+  if (lang === "fr") return null;
+  for (const f of Object.keys(G_SLUG)) {
+    if (G_LANG[f] === lang && G_GROUPE[f] === slugFr) {
+      const d = G_DESC[f] || "";
+      return { slug: G_SLUG[f], titre: G_H1[f], resume: d.length > 120 ? d.slice(0, d.lastIndexOf(" ", 118)) + "…" : d };
+    }
+  }
+  return null;
+}
+
 /** Pages villes publiées (scripts/build-seo.mjs → VILLE_HUBS). */
 const VILLES = [
   { slug: "kenitra", nom: "Kénitra" },
@@ -81,7 +100,7 @@ const TXT = {
     chiffrageTitre: "Combien coûtera votre projet ?",
     chiffrageTexte: "Villa, maison ou immeuble : chiffrez votre construction lot par lot en 2 minutes, gratuitement et sans engagement.",
     chiffrageCta: "Chiffrer mon projet",
-    chiffrageGuide: "Lire le guide des prix",
+    chiffrageGuide: "Lire le guide des prix", chiffrageGuideHref: "/guide/prix-construction-villa-maroc",
     realKicker: "Réalisations",
     realTitre: "Projets du cabinet",
     realChantierTitre: "Sur le chantier, avec l'architecte",
@@ -105,7 +124,7 @@ const TXT = {
     faq: [
       { q: "Faut-il obligatoirement un architecte pour construire au Maroc ?", r: "Oui. Toute autorisation de construire exige un dossier établi et signé par un architecte inscrit à l'Ordre." },
       { q: "Combien coûte un architecte ?", r: "Les honoraires se calculent en pourcentage du coût des travaux (barème CNOA, environ 5 % selon la mission). Le chiffrage vous donne d'abord le coût des travaux.", lien: { href: "/guide/honoraires-architecte-maroc", label: "Lire le guide des honoraires" } },
-      { q: "Combien de temps pour obtenir le permis de construire ?", r: "Généralement 1 à 3 mois après le dépôt d'un dossier complet et conforme au plan d'aménagement.", lien: { href: "/guide/permis-de-construire-maroc", label: "Lire le guide du permis" } },
+      { q: "Combien de temps pour obtenir le permis de construire ?", r: "Les textes fixent 15 jours (petit projet) ou 30 jours (grand projet) à compter d'un dossier complet et conforme ; en pratique, souvent plus si des modifications de plans sont demandées.", lien: { href: "/guide/permis-de-construire-maroc", label: "Lire le guide du permis" } },
       { q: "Où intervenez-vous ?", r: "Kénitra et toute la région Rabat-Salé-Kénitra, ainsi que Casablanca, Mohammedia et Tanger — en présentiel ou à distance." },
       { q: "Le chiffrage en ligne est-il gratuit ?", r: "Oui, gratuit et sans engagement. Il donne une estimation lot par lot que nous affinons ensemble ensuite." },
     ],
@@ -152,7 +171,7 @@ const TXT = {
     chiffrageTitre: "How much will your project cost?",
     chiffrageTexte: "Villa, house or building: estimate your construction item by item in 2 minutes, free and with no commitment.",
     chiffrageCta: "Estimate my project",
-    chiffrageGuide: "Read the price guide (FR)",
+    chiffrageGuide: "Read the price guide", chiffrageGuideHref: "/guide/villa-construction-cost-morocco",
     realKicker: "Projects",
     realTitre: "Our work",
     realChantierTitre: "On site, with the architect",
@@ -175,8 +194,8 @@ const TXT = {
     faqTitre: "Frequently asked questions",
     faq: [
       { q: "Is an architect mandatory to build in Morocco?", r: "Yes. Every building permit requires a file prepared and signed by an architect registered with the Order." },
-      { q: "How much does an architect cost?", r: "Fees are a percentage of the construction cost (CNOA scale, about 5% depending on the assignment). The estimate first gives you the construction cost.", lien: { href: "/guide/honoraires-architecte-maroc", label: "Read the fees guide (FR)" } },
-      { q: "How long does a building permit take?", r: "Usually 1 to 3 months after filing a complete file that complies with the zoning plan.", lien: { href: "/guide/permis-de-construire-maroc", label: "Read the permit guide (FR)" } },
+      { q: "How much does an architect cost?", r: "Fees are a percentage of the construction cost (CNOA scale, about 5% depending on the assignment). The estimate first gives you the construction cost.", lien: { href: "/guide/architect-fees-morocco", label: "Read the fees guide" } },
+      { q: "How long does a building permit take?", r: "The regulations set 15 days (small project) or 30 days (large project) from a complete, compliant file; in practice it often takes longer when plan changes are requested.", lien: { href: "/guide/building-permit-morocco", label: "Read the permit guide" } },
       { q: "Where do you work?", r: "Kénitra and the whole Rabat-Salé-Kénitra region, as well as Casablanca, Mohammedia and Tangier — on site or remotely." },
       { q: "Is the online estimate free?", r: "Yes, free and with no commitment. It gives an item-by-item estimate that we then refine together." },
     ],
@@ -223,7 +242,7 @@ const TXT = {
     chiffrageTitre: "شحال غادي يكلفك المشروع ديالك؟",
     chiffrageTexte: "فيلا، دار ولا عمارة: قدّر تكلفة البناء حصة بحصة ف 2 دقايق، بالمجان وبلا التزام.",
     chiffrageCta: "قدّر تكلفة مشروعي",
-    chiffrageGuide: "دليل الأثمنة (بالفرنسية)",
+    chiffrageGuide: "دليل الأثمنة", chiffrageGuideHref: "/guide/thaman-bina-villa-maghrib",
     realKicker: "إنجازات",
     realTitre: "مشاريع المكتب",
     realChantierTitre: "فالورش، مع المهندس المعماري",
@@ -239,15 +258,15 @@ const TXT = {
     voirChaine: "شوف القناة فيوتيوب",
     guidesKicker: "أدلة",
     guidesTitre: "وجد البناء ديالك مزيان",
-    guidesTexte: "أجوبة واضحة كتبها المهندس المعماري (بالفرنسية).",
+    guidesTexte: "أجوبة واضحة كتبها المهندس المعماري.",
     lecture: "دقايق ديال القراءة",
     guideLangue: "FR",
     tousGuides: "← جميع الأدلة",
     faqTitre: "أسئلة متكررة",
     faq: [
       { q: "واش المهندس المعماري ضروري باش تبني فالمغرب؟", r: "إيه. كل رخصة بناء خاصها ملف موجد وموقع من طرف مهندس معماري مسجل فالهيئة." },
-      { q: "شحال كيكلف المهندس المعماري؟", r: "الأتعاب كتحسب بنسبة من تكلفة الأشغال (سلم الهيئة، تقريبا 5 % حسب المهمة). التقدير كيعطيك أولا تكلفة الأشغال.", lien: { href: "/guide/honoraires-architecte-maroc", label: "دليل الأتعاب (بالفرنسية)" } },
-      { q: "شحال كتاخد رخصة البناء؟", r: "عادة من شهر حتى 3 شهور من بعد إيداع ملف كامل ومطابق لتصميم التهيئة.", lien: { href: "/guide/permis-de-construire-maroc", label: "دليل الرخصة (بالفرنسية)" } },
+      { q: "شحال كيكلف المهندس المعماري؟", r: "الأتعاب كتحسب بنسبة من تكلفة الأشغال (سلم الهيئة، تقريبا 5 % حسب المهمة). التقدير كيعطيك أولا تكلفة الأشغال.", lien: { href: "/guide/ajr-al-muhandis-al-miamari-maghrib", label: "دليل أتعاب المهندس المعماري" } },
+      { q: "شحال كتاخد رخصة البناء؟", r: "النصوص كتحدد 15 يوم للمشاريع الصغرى و30 يوم للمشاريع الكبرى من بعد إيداع ملف كامل ومطابق؛ ففالواقع كتطول المدة إلا طلبو تعديل التصاميم.", lien: { href: "/guide/rukhsat-al-bina-maghrib", label: "دليل رخصة البناء" } },
       { q: "فين كتخدمو؟", r: "القنيطرة وجهة الرباط-سلا-القنيطرة كاملة، وكذلك الدار البيضاء، المحمدية وطنجة — حضوريا أو عن بعد." },
       { q: "واش التقدير فالموقع بالمجان؟", r: "إيه، بالمجان وبلا التزام. كيعطيك تقدير حصة بحصة ومن بعد كندققوه مع بعض." },
     ],
@@ -388,7 +407,7 @@ function SectionChiffrage({ t }: { t: Textes }) {
           </div>
           <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
             <Link to="/chiffrage" onClick={() => evenement("cta_chiffrage", { emplacement: "accueil_bloc_cout" })} className={btnOr} style={sansSoulignement}>{t.chiffrageCta} →</Link>
-            <a href="/guide/prix-construction-villa-maroc" className={`${btn} border border-white/30 text-white hover:border-[#C9A227]`} style={sansSoulignement}>{t.chiffrageGuide}</a>
+            <a href={t.chiffrageGuideHref} className={`${btn} border border-white/30 text-white hover:border-[#C9A227]`} style={sansSoulignement}>{t.chiffrageGuide}</a>
           </div>
         </div>
       </div>
@@ -517,7 +536,7 @@ function SectionVideos({ t }: { t: Textes }) {
 
 // ── 7. Guides ───────────────────────────────────────────────────────────
 
-function SectionGuides({ t }: { t: Textes }) {
+function SectionGuides({ t, lang }: { t: Textes; lang: Lang }) {
   return (
     <section id="medias" aria-labelledby="guides-titre" className="bg-white py-12 sm:py-16" style={{ scrollMarginTop: 140 }}>
       <div className={conteneur}>
@@ -526,18 +545,23 @@ function SectionGuides({ t }: { t: Textes }) {
           <a href="/guide" className={btnContour} style={sansSoulignement}>{t.tousGuides}</a>
         </div>
         <ul className="m-0 mt-8 grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3">
-          {GUIDES.map((g) => (
-            <li key={g.slug}>
-              <a href={`/guide/${g.slug}`} lang="fr" dir="ltr" className="group flex h-full gap-4 rounded-2xl border border-slate-200 bg-[#fbfaf6] p-4 transition hover:border-[#C9A227] hover:bg-white" style={sansSoulignement}>
+          {GUIDES.map((g0) => {
+            const tr = guideTraduit(g0.slug, lang);
+            const g = { ...g0, ...(tr ?? {}) };
+            const langue = tr ? lang : "fr";
+            return (
+            <li key={g0.slug}>
+              <a href={`/guide/${g.slug}`} lang={langue} dir={langue === "ar" ? "rtl" : "ltr"} className="group flex h-full gap-4 rounded-2xl border border-slate-200 bg-[#fbfaf6] p-4 transition hover:border-[#C9A227] hover:bg-white" style={sansSoulignement}>
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0B1B3A] text-[#C9A227]"><Icone nom={g.icone} /></span>
                 <span className="flex min-w-0 flex-col">
                   <span className="text-base font-bold leading-snug text-[#0B1B3A] group-hover:underline">{g.titre}</span>
                   <span className="mt-1 text-[15px] leading-snug text-slate-600">{g.resume}</span>
-                  <span dir="auto" className="mt-2 text-sm font-semibold text-slate-500">{g.min} {t.lecture}{t.guideLangue ? ` · ${t.guideLangue}` : ""}</span>
+                  <span dir="auto" className="mt-2 text-sm font-semibold text-slate-500">{g.min} {t.lecture}{!tr && t.guideLangue ? ` · ${t.guideLangue}` : ""}</span>
                 </span>
               </a>
             </li>
-          ))}
+            );
+          })}
         </ul>
       </div>
     </section>
@@ -649,7 +673,7 @@ export default function AccueilBasDePage() {
       <SectionRealisations t={t} />
       <SectionVideos t={t} />
       <TerrainsAccueil />
-      <SectionGuides t={t} />
+      <SectionGuides t={t} lang={lang} />
       <SectionFaq t={t} />
       <SectionFinale t={t} />
       <PiedDePage t={t} />
