@@ -290,7 +290,7 @@ export default function P3Home() {
             <span style={{ color: "#6b7280", fontSize: 12 }}>{t("portes.p3.recap.ref_dossier")} {dossierId?.slice(0, 12)}…</span>
           </div>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="/portal" style={{ background: "#1d4ed8", color: "#fff", padding: "12px 24px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>{t("portes.p3.recap.my_dossiers")}</a>
+            <a href="/rendez-vous" style={{ background: "#1d4ed8", color: "#fff", padding: "12px 24px", borderRadius: 8, textDecoration: "none", fontSize: 14, fontWeight: 700 }}>{t("portes.p3.recap.my_dossiers")}</a>
             <a href="/" style={{ color: "#9ca3af", textDecoration: "none", fontSize: 13, fontWeight: 600, padding: "12px 16px" }}>{t("portes.p3.recap.home")}</a>
           </div>
         </div>

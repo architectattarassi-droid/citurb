@@ -1,0 +1,33 @@
+# SQL à coller dans Neon — une seule fois, tout ensemble
+
+Le fondateur colle **un seul fichier** : `docs/sql/TOUT-NEON.sql`, dans
+console.neon.tech → projet citurbarea → branche production → SQL Editor → Run.
+
+Tous les fichiers sont rejouables (`IF NOT EXISTS`, contraintes dans un bloc
+`DO … EXCEPTION`) : coller `TOUT-NEON.sql` plusieurs fois n'efface ni ne
+modifie aucune donnée. On peut donc le recoller à chaque fois que la liste
+s'allonge.
+
+Régénérer le fichier après avoir ajouté une ligne :
+
+```bash
+node scripts/sql-neon.mjs
+```
+
+## Ordre d'exécution (une ligne par fichier, dépendances d'abord)
+
+Chaque session ajoute **sa ligne** ici (chemin entre accents graves), à la
+bonne place si son SQL dépend d'une table d'un autre fichier, puis relance
+le script. Aucune table de production n'est créée par un agent.
+
+1. `docs/sql/dossiers-neon.sql` — User, Dossier
+2. `docs/sql/rendezvous-neon.sql` — RendezVous, Parametre
+3. `docs/sql/terrains-neon.sql` — TerrainAnnonce
+4. `docs/sql/espace-projet-neon.sql` — Projet et tables Projet*
+5. `docs/prix/sql/cercles-fournisseurs.sql` — Fournisseur, DemandePrix…
+6. `docs/prix/sql/cercles-fiches-catalogue.sql` — fiches société, produit, service
+7. `docs/prix/sql/cercles-images.sql` — images des fiches (après 5 et 6)
+8. `docs/prix/sql/prix-reference-manuel.sql` — prix de référence saisis à la main
+9. `docs/prix/sql/achat-en-ligne.sql` — Commande (après 5)
+10. `docs/sql/appels-video-neon.sql` — DemandeAppel, BlocageAppel
+11. `docs/sql/messagerie-neon.sql` — Conversation, MessageConversation (après 10)

@@ -208,7 +208,7 @@ export default function P5Finalize() {
             {dossierId && (
               <a href={`/payment/start?dossier=${dossierId}`} style={S.btnGold}>💳 Payer maintenant</a>
             )}
-            <a href="/portal" style={S.btnDark}>📁 Mes dossiers</a>
+            <a href="/rendez-vous" style={S.btnDark}>📅 Fixer mon rendez-vous visio</a>
             <a href="/sig" style={{ ...S.btnDark, background: "transparent", border: "1px solid rgba(11,27,58,0.18)", color: "#0B1B3A" }}>🗺 Explorer carte SIG</a>
           </div>
         </div>
@@ -495,7 +495,7 @@ export default function P5Finalize() {
             {dossierId && (
               <a href={`/payment/start?dossier=${dossierId}`} style={S.btnGold}>💳 Payer maintenant</a>
             )}
-            <a href="/portal" style={S.btnDark}>📁 Mes dossiers</a>
+            <a href="/rendez-vous" style={S.btnDark}>📅 Fixer mon rendez-vous visio</a>
           </div>
         </div>
       </div>

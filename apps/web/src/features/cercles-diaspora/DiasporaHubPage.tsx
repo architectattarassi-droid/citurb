@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function DiasporaHubPage() {
   const nav = useNavigate();
   const tiles = [
-    { emoji: "📊", title: "Estimer un bien", desc: "Valeur réelle 48h (Zillow MA)", to: "/foncier/estimation" },
+    { emoji: "📊", title: "Estimer un bien", desc: "Valeur réelle 48h (Zillow MA)", to: "/p4" },
     { emoji: "⚖️", title: "Trouver un mandataire", desc: "Avocats & adouls agréés", to: "/mandataires" },
     { emoji: "🏘️", title: "Investir en OPCI", desc: "Immobilier fractionné AMMC", to: "/opci" },
     { emoji: "🗂️", title: "Mon parcours MRE", desc: "Procurations & escrow", to: "/mre" },

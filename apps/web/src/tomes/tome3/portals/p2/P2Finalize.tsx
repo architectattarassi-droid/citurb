@@ -106,7 +106,7 @@ export default function P2Finalize() {
                   💳 Payer maintenant
                 </a>
               )}
-              <a href="/portal" style={S.btnDark}>📁 Mes dossiers</a>
+              <a href="/rendez-vous" style={S.btnDark}>📅 Fixer mon rendez-vous visio</a>
             </div>
           </>
         )}

@@ -106,7 +106,7 @@ export default function DossierCpsPage() {
                   <Link to="/p1" style={{ ...cta, background: "#0B1B3A" }}>🏠 Particulier (P1)</Link>
                   <Link to="/p2" style={{ ...cta, background: "#0B1B3A" }}>🏢 Promoteur (P2)</Link>
                   <Link to="/p3" style={{ ...cta, background: "#0B1B3A" }}>🛠️ MOD délégué (P3)</Link>
-                  <Link to="/portal" style={{ ...cta, background: "#eef2f7", color: "#0B1B3A" }}>📁 Mes dossiers</Link>
+                  <Link to="/rendez-vous" style={{ ...cta, background: "#eef2f7", color: "#0B1B3A" }}>📅 Fixer mon rendez-vous visio</Link>
                 </div>
               </div>
             )}

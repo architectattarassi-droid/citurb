@@ -655,7 +655,12 @@ function PiedDePage({ t }: { t: Textes }) {
           </ul>
         </div>
       </div>
-      <p className={`${conteneur} m-0 mt-8 border-t border-white/10 pt-6 text-sm text-slate-400`}>© {new Date().getFullYear()} CITURBAREA · citurbarea.com</p>
+      <p className={`${conteneur} m-0 mt-8 border-t border-white/10 pt-6 text-sm text-slate-400`}>
+        © {new Date().getFullYear()} CITURBAREA · HSE DECO ·{" "}
+        <a href="/mentions-legales" className="text-slate-300 hover:text-white">Mentions légales</a> ·{" "}
+        <a href="/confidentialite" className="text-slate-300 hover:text-white">Confidentialité</a> ·{" "}
+        <a href="/mentions-legales#conditions" className="text-slate-300 hover:text-white">Conditions d'utilisation</a>
+      </p>
     </footer>
   );
 }

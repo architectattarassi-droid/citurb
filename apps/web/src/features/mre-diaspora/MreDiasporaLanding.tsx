@@ -26,8 +26,8 @@ export default function MreDiasporaLanding() {
             qui protège votre argent à chaque jalon validé.
           </p>
           <div style={{ marginTop: 28, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <button onClick={() => nav("/mre/dashboard")} style={ctaPrimary}>Créer mon compte MRE</button>
-            <button onClick={() => nav("/foncier/estimation")} style={ctaSecondary}>Estimer mon bien</button>
+            <button onClick={() => nav("/creer-compte")} style={ctaPrimary}>Créer mon compte MRE</button>
+            <button onClick={() => nav("/p4")} style={ctaSecondary}>Estimer mon bien</button>
           </div>
         </div>
       </div>

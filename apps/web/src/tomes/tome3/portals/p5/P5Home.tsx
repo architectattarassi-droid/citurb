@@ -706,7 +706,7 @@ function P5HomeInner() {
             )}
 
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <a className="btn btn-dark" href="/portal">📁 Mes dossiers</a>
+              <a className="btn btn-dark" href="/rendez-vous">📅 Fixer mon rendez-vous visio</a>
               <a className="btn" href="/" style={{ background: "transparent", border: "1px solid rgba(11,27,58,0.18)", color: "#0B1B3A" }}>← Accueil</a>
             </div>
           </div>
