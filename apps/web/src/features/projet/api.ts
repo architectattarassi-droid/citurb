@@ -14,7 +14,7 @@ export type StatutJalon = "A_FAIRE" | "EN_COURS" | "EN_ATTENTE_VALIDATION" | "VA
 export type ResumeJalon = {
   code: string; phase: string; phaseGabarit: string | null; niveau: string | null; titre: string; ordre: number; lot: string | null;
   pointArret: boolean; acteurs: Role[]; validateurs: Role[]; prerequis: string[]; statut: StatutJalon;
-  nbPoints: number; nbFaits: number; nbDocuments: number; valideLe: string | null; maPart: boolean; aValider: boolean;
+  nbPoints: number; nbFaits: number; nbDocuments: number; valideLe: string | null; maPart: boolean; aValider: boolean; debloque?: boolean;
 };
 export type Membre = { id: string; role: Role; nom: string; entreprise: string | null; actif: boolean; telephone?: string | null; email?: string | null; dernierAcces?: string | null; createdAt?: string };
 export type Message = { id: string; jalonCode: string; jalonTitre?: string; auteurNom: string; auteurRole: string; createdAt: string; masque: boolean; texte: string; pieceIds: string[] };
@@ -41,9 +41,17 @@ export type DetailJalon = {
   exigences: Exigence[]; normes: Norme[]; modeles: ModeleDocument[]; documents: DocumentRempli[]; fichiers: Fichier[];
   droits: { contribuer: boolean; rediger: boolean; signerModeles: string[]; cocher: string[]; statuts: StatutJalon[]; moderateur: boolean };
   stockage: boolean; visio: boolean;
+  /** PV de chantier exigés par ce point d'arrêt (GP3) et leur état. */
+  pvRequis?: { code: string; titre: string; etat: "ABSENT" | "BROUILLON" | "REFUSE" | "LEVE" }[];
+  deblocage?: { par: string; le: string; motif: string; pvManquants: string[] } | null;
+  peutDebloquer?: boolean;
 };
 
 export type Resultat<T> = { ok: true; data: T } | { ok: false; error: string; status: number; data?: Record<string, unknown> };
+
+/** Déblocage d'un point d'arrêt par l'administrateur (motif écrit obligatoire). */
+export const debloquerJalon = (base: string, id: string, code: string, motif: string) =>
+  appel<{ statut: StatutJalon }>(`${base}/${encodeURIComponent(id)}/jalons/${encodeURIComponent(code)}`, { method: "PATCH", body: JSON.stringify({ debloquer: { motif } }) });
 
 export async function appel<T>(url: string, init?: RequestInit): Promise<Resultat<T>> {
   try {

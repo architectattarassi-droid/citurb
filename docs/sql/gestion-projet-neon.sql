@@ -51,3 +51,11 @@ EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
   ALTER TABLE "DossierPiece" ADD CONSTRAINT "DossierPiece_dossierId_fkey" FOREIGN KEY ("dossierId") REFERENCES "Dossier"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+-- 3. Points d'arrêt de chantier débloqués par l'administrateur (GP3) : { par, le, motif, pvManquants }.
+--    Sans cette colonne, le déblocage fonctionne et le motif reste dans le journal du projet.
+DO $$ BEGIN
+  IF to_regclass('public."ProjetJalon"') IS NOT NULL THEN
+    ALTER TABLE "ProjetJalon" ADD COLUMN IF NOT EXISTS "deblocage" JSONB;
+  END IF;
+END $$;

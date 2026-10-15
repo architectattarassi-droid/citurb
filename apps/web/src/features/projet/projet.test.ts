@@ -115,13 +115,13 @@ const ORIGINE = "https://citurbarea.test";
 const SECRET = "s".repeat(40);
 
 /** Banc d'essai : un projet créé par l'admin, des membres invités, des requêtes simulées. */
-async function banc(avecR2 = true) {
+async function banc(avecR2 = true, ref: { r: typeof R; mini: FichierReferentiel } = { r: R, mini: MINI }, journalDossier?: (d: string, a: string, action: string, det: Record<string, unknown>) => void) {
   const mem = depotMemoire();
   const r2 = fauxR2();
   const env: EnvProjets = { PROJET_SESSION_SECRET: SECRET, PUBLIC_WEB_URL: ORIGINE, ...(avecR2 ? { FICHIERS: r2.bucket } : {}) };
   let t = Date.parse("2026-10-13T08:00:00Z");
   const maintenant = () => new Date((t += 1000)).toISOString();
-  const ctx = (req: Request): Contexte => ({ req, env, depot: mem.depot, maintenant });
+  const ctx = (req: Request): Contexte => ({ req, env, depot: mem.depot, maintenant, ...(journalDossier ? { gestion: { pieces: async () => new Response(null, { status: 404 }), journalDossier: async (d: string, a: string, x: string, det: Record<string, unknown>) => journalDossier(d, a, x, det) } } : {}) });
   const requete = (methode: string, chemin: string, o: { corps?: unknown; cookie?: string; entetes?: Record<string, string>; brut?: BodyInit } = {}) =>
     new Request(`${ORIGINE}${chemin}`, {
       method: methode,
@@ -140,8 +140,8 @@ async function banc(avecR2 = true) {
     return { status: r.status, json: (type.includes("json") ? await r.json() : null) as Record<string, any>, res: r };
   };
 
-  const inst = instantane(VILLA, R, { "84_FONDATIONS": "Fondations", "86_PLANCHER": "Plancher" });
-  const cree = await admin("POST", "", { dossierId: "dos_test", titre: "Villa Test QA", caracteristiques: VILLA, referentielVersion: versionReferentiel([MINI]), ...inst });
+  const inst = instantane(VILLA, ref.r, { "84_FONDATIONS": "Fondations", "86_PLANCHER": "Plancher" });
+  const cree = await admin("POST", "", { dossierId: "dos_test", titre: "Villa Test QA", caracteristiques: VILLA, referentielVersion: versionReferentiel([ref.mini]), ...inst });
   expect(cree.status).toBe(200);
   const projetId = cree.json.id as string;
 
@@ -149,7 +149,8 @@ async function banc(avecR2 = true) {
     const r = await admin("POST", `${projetId}/membres`, { role, nom, telephone: "+212600000000", email: "qa-test@example.test" });
     expect(r.status).toBe(200);
     const jeton = String(r.json.lien).split("/projet/")[1];
-    const acces = await routeurMembre(ctx(requete("POST", "/api/projets/acces", { corps: { jeton } })), ["acces"]);
+    // Adresse IP distincte par invitation : la limite de 20 accès / 10 min par IP ne gêne pas les tests.
+    const acces = await routeurMembre(ctx(requete("POST", "/api/projets/acces", { corps: { jeton }, entetes: { "cf-connecting-ip": `test-${jeton.slice(0, 12)}` } })), ["acces"]);
     expect(acces.status).toBe(200);
     const cookie = (acces.headers.get("set-cookie") || "").split(";")[0];
     return { id: r.json.membre.id as string, cookie, jeton, lien: r.json.lien as string };
@@ -440,5 +441,64 @@ describe("espace projet : back-office", () => {
     const r = await b.membre(archi.cookie, "POST", `${b.projetId}/membres`, { corps: { role: "ENTREPRISE", nom: "Test QA BTP" } });
     expect(r.status).toBe(200);
     expect(r.json.emailEnvoye).toBe(false); // pas de RESEND_API_KEY : aucun e-mail
+  });
+});
+
+// ── GP3 : checklists de chantier = PV numériques, points d'arrêt déblocables ──
+
+const PORTE = "84_FONDATIONS.FON.10";
+const MINI_GP3: FichierReferentiel = {
+  ...MINI,
+  jalons: [{ code: PORTE, phase: "84_FONDATIONS", lot: "FON", ordre: 10, titre: "Réception des armatures avant bétonnage", objectif: "O", acteurs: ["ENTREPRISE", "BET_STRUCTURE"], validateurs: ["ARCHITECTE"], exigences: [], checklist: [{ id: "c1", texte: "t", moment: "EXECUTION", responsable: "ENTREPRISE" }], documents: [], pointArret: true }],
+};
+
+describe("GP3 — PV de chantier et points d'arrêt", () => {
+  it("le PV de la checklist est proposé dans le jalon, avec critère, norme, méthode, contrôleur, verdict, photos, réserves, décision", async () => {
+    const b = await banc(true, { r: fusionner([MINI_GP3]), mini: MINI_GP3 });
+    const j = await b.admin("GET", `${b.projetId}/jalons/${PORTE}`);
+    expect(j.status).toBe(200);
+    const pv = (j.json.modeles as Array<Record<string, any>>).find((m) => m.id === "CL04_FONDATIONS_AVANT_COULAGE")!;
+    expect(pv).toBeTruthy();
+    const champs = pv.sections.flatMap((x: any) => x.champs);
+    expect(champs.find((c: any) => c.id.endsWith(".verdict")).libelle).toMatch(/Critère.*Norme.*Méthode.*Contrôleur/);
+    expect(champs.some((c: any) => c.type === "photo")).toBe(true);
+    expect(champs.some((c: any) => c.id === "reserves" && c.type === "tableau")).toBe(true);
+    expect(champs.some((c: any) => c.id === "decision")).toBe(true);
+    expect(pv.signataires).toEqual(expect.arrayContaining(["ENTREPRISE", "BET_STRUCTURE", "BUREAU_CONTROLE", "ARCHITECTE"]));
+    expect(j.json.pvRequis).toEqual([expect.objectContaining({ code: "CL04_FONDATIONS_AVANT_COULAGE", etat: "ABSENT" })]);
+  });
+
+  it("point d'arrêt : pas de validation sans PV signé non refusé ; signé « autorisé » → validation possible", async () => {
+    const b = await banc(true, { r: fusionner([MINI_GP3]), mini: MINI_GP3 });
+    const archi = await b.inviter("ARCHITECTE");
+    const url = `${b.projetId}/jalons/${PORTE}`;
+    const refus = await b.membre(archi.cookie, "PATCH", url, { corps: { statut: "VALIDE" } });
+    expect(refus.status).toBe(409);
+    expect(refus.json).toMatchObject({ error: "pv_point_arret_manquant", pv: ["CL04_FONDATIONS_AVANT_COULAGE"] });
+    const cree = await b.membre(archi.cookie, "POST", `${url}/documents`, { corps: { modeleId: "CL04_FONDATIONS_AVANT_COULAGE", valeurs: { date: "2026-10-15", decision: "Autorisé à poursuivre (point d'arrêt levé)", "CL04_FONDATIONS_AVANT_COULAGE.01.verdict": "Conforme" } } });
+    expect(cree.status).toBe(200);
+    const id = cree.json.document.id;
+    for (const role of ["ENTREPRISE", "BET_STRUCTURE", "BUREAU_CONTROLE"]) {
+      const m = await b.inviter(role);
+      expect((await b.membre(m.cookie, "PATCH", `${b.projetId}/documents/${id}`, { corps: { signer: true } })).status).toBe(200);
+    }
+    expect((await b.membre(archi.cookie, "PATCH", `${b.projetId}/documents/${id}`, { corps: { signer: true } })).json.document.statut).toBe("SIGNE");
+    expect((await b.membre(archi.cookie, "PATCH", url, { corps: { statut: "VALIDE" } })).status).toBe(200);
+  });
+
+  it("déblocage par l'administrateur seulement, motif écrit obligatoire, journalisé (projet et dossier)", async () => {
+    const dossier: Array<{ action: string; det: Record<string, unknown> }> = [];
+    const b = await banc(true, { r: fusionner([MINI_GP3]), mini: MINI_GP3 }, (_d, _a, action, det) => dossier.push({ action, det }));
+    const archi = await b.inviter("ARCHITECTE");
+    const url = `${b.projetId}/jalons/${PORTE}`;
+    expect((await b.membre(archi.cookie, "PATCH", url, { corps: { debloquer: { motif: "PV papier signé" } } })).status).toBe(403);
+    expect((await b.admin("PATCH", url, { debloquer: { motif: "  " } })).status).toBe(400);
+    const ok = await b.admin("PATCH", url, { debloquer: { motif: "Visite faite, PV signé sur papier le 14/10 (appelez 0612345678)" } });
+    expect(ok.status).toBe(200);
+    expect(ok.json.deblocage.motif).not.toMatch(/0612345678/);
+    expect(b.mem.jalons.get(`${b.projetId}|${PORTE}`)!.statut).toBe("VALIDE");
+    const ev = b.mem.journal.find((e) => e.action === "point_arret_debloque")!;
+    expect(ev.details).toMatchObject({ pvManquants: ["CL04_FONDATIONS_AVANT_COULAGE"] });
+    expect(dossier).toEqual([expect.objectContaining({ action: "POINT_ARRET_DEBLOQUE" })]);
   });
 });

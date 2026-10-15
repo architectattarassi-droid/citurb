@@ -24,6 +24,7 @@ const membre = (r: Record<string, unknown>): MembreLigne => ({
 const jalon = (r: Record<string, unknown>): JalonLigne => ({
   projetId: String(r.projetId), code: String(r.code), phase: String(r.phase), rang: Number(r.rang) || 0, definition: objet(r.definition, {} as DefJalon),
   statut: String(r.statut) as JalonLigne["statut"], checklist: objet(r.checklist, {}), validePar: txt(r.validePar), valideLe: isoN(r.valideLe), salle: txt(r.salle), updatedAt: iso(r.updatedAt),
+  deblocage: r.deblocage && typeof r.deblocage === "object" ? (r.deblocage as JalonLigne["deblocage"]) : null,
 });
 const message = (r: Record<string, unknown>): MessageLigne => ({
   id: String(r.id), projetId: String(r.projetId), jalonCode: String(r.jalonCode), auteurMembreId: txt(r.auteurMembreId), auteurNom: String(r.auteurNom),
@@ -122,6 +123,13 @@ export function depotNeon(sql: Sql): Depot {
       const r = await sql`SELECT "code", "statut", COALESCE(("definition"->>'pointArret')::boolean, false) AS "pointArret"
         FROM "ProjetJalon" WHERE "projetId" = ${projetId} AND "code" = ANY(${codes}::text[])`;
       return r.map((x) => ({ code: String(x.code), statut: String(x.statut) as JalonLigne["statut"], definition: { pointArret: x.pointArret === true } }));
+    },
+    async debloquer(projetId, code, d) {
+      // Colonne ajoutée par docs/sql/gestion-projet-neon.sql : absente → faux (le journal garde le motif).
+      const ok = (await sql`SELECT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'ProjetJalon' AND column_name = 'deblocage') AS ok`)[0]?.ok;
+      if (!ok) return false;
+      await sql`UPDATE "ProjetJalon" SET "deblocage" = ${J(d)}::jsonb WHERE "projetId" = ${projetId} AND "code" = ${code}`;
+      return true;
     },
     async majStatut(projetId, code, de, vers, validePar, le) {
       const valide = vers === "VALIDE";

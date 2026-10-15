@@ -9,7 +9,7 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import type { PointChecklist } from "../../domain/referentiel/types";
 import {
-  changerStatut, cocher, deposer, lireJalon, lireMessages, masquerMessage, posterMessage, reduirePhoto, urlFichier,
+  changerStatut, cocher, debloquerJalon, deposer, lireJalon, lireMessages, masquerMessage, posterMessage, reduirePhoto, urlFichier,
   type DetailJalon, type Fichier, type Message, type StatutJalon, type VueProjetDonnees,
 } from "./api";
 import { COULEUR_STATUT, dateHeure, erreur, role, T, taille } from "./libelles";
@@ -43,7 +43,7 @@ export default function PageJalon({ base, projetId, code, projet, onRetour, onOu
   const statut = async (s: StatutJalon) => {
     const r = await changerStatut(base, projetId, code, s);
     if (!r.ok) {
-      const bl = (r.data?.bloquants as string[] | undefined)?.map((c) => projet.jalons.find((x) => x.code === c)?.titre ?? c);
+      const bl = ((r.data?.bloquants ?? r.data?.pv) as string[] | undefined)?.map((c) => projet.jalons.find((x) => x.code === c)?.titre ?? d?.pvRequis?.find((x) => x.code === c)?.titre ?? c);
       setMsg(erreur(r.error) + (bl?.length ? ` (${bl.join(", ")})` : ""));
     } else setMsg("");
     await charger();
@@ -74,7 +74,9 @@ export default function PageJalon({ base, projetId, code, projet, onRetour, onOu
           <span className={`rounded-full px-3 py-1 text-sm font-semibold ${COULEUR_STATUT[j.statut]}`}>{T.statuts[j.statut]}</span>
           {j.pointArret && <span className="rounded-full bg-red-600 px-3 py-1 text-sm font-semibold text-white">Point d'arrêt</span>}
           {j.valideLe && <span className="text-xs text-slate-500">Validé le {dateHeure(j.valideLe)}{j.validePar ? ` par ${j.validePar}` : ""}</span>}
+          {d.deblocage && <span className="rounded-full bg-amber-500 px-3 py-1 text-sm font-semibold text-white">Débloqué par l'administrateur</span>}
         </div>
+        {d.deblocage && <p className="mb-0 mt-2 rounded-lg bg-amber-50 p-2 text-sm text-amber-900">Motif du déblocage ({dateHeure(d.deblocage.le)}) : {d.deblocage.motif}</p>}
         <p className="mb-0 mt-3 text-base text-slate-800">{j.objectif}</p>
         <p className="mb-0 mt-2 text-sm text-slate-600">Intervenants : {j.acteurs.map(role).join(", ") || "—"} · Validation : {j.validateurs.map(role).join(", ") || "—"}</p>
       </header>
@@ -95,6 +97,34 @@ export default function PageJalon({ base, projetId, code, projet, onRetour, onOu
               );
             })}
           </ul>
+        </section>
+      )}
+
+      {(d.pvRequis?.length ?? 0) > 0 && (
+        <section className="mb-3 rounded-xl border border-red-200 bg-red-50 p-3">
+          <h2 className="m-0 mb-1 text-sm font-semibold text-red-800">PV de contrôle exigés avant de continuer</h2>
+          <ul className="m-0 grid list-none gap-1 p-0 text-sm">
+            {d.pvRequis!.map((p) => (
+              <li key={p.code} className="flex flex-wrap justify-between gap-2">
+                <span>{p.titre}</span>
+                <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${p.etat === "LEVE" ? "bg-emerald-100 text-emerald-800" : "bg-red-100 text-red-800"}`}>
+                  {{ ABSENT: "PV non rempli", BROUILLON: "PV à signer", REFUSE: "PV refusé : reprise", LEVE: "PV signé — point levé" }[p.etat]}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <button type="button" onClick={() => setOnglet("documents")} className="mt-2 min-h-[44px] rounded-lg border border-red-300 bg-white px-4 text-sm font-semibold text-red-800">Remplir le PV</button>
+        </section>
+      )}
+      {d.peutDebloquer && (
+        <section className="mb-3">
+          <button type="button" className={`${BTN} border border-amber-400 bg-amber-50 text-amber-900`} onClick={async () => {
+            const motif = window.prompt("Débloquer ce point d'arrêt : écrivez le motif (obligatoire, gardé au journal et visible des intervenants)");
+            if (!motif || !motif.trim()) return;
+            const r = await debloquerJalon(base, projetId, code, motif.trim());
+            setMsg(r.ok ? "" : erreur(r.error));
+            await charger();
+          }}>Débloquer (administrateur, avec motif)</button>
         </section>
       )}
 

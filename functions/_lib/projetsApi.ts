@@ -20,6 +20,7 @@ import {
 import { accepter, envoyerMail, hacherJeton, JETON_RE, nouveauJeton, telephoneRdv, type EnvMail } from "./rdv";
 import { visioConfiguree, type VisioEnv } from "./visio";
 import { detecterCoordonnees, masquerCoordonnees } from "./coordonnees";
+import { checklistsBloquantes, checklistsDuJalon, estChecklist, etatPV, modeleChecklist } from "../../packages/contracts/src/gestion/checklists";
 
 // ── Stockage R2 (types minimaux, sans dépendance à @cloudflare/workers-types) ──
 
@@ -46,9 +47,12 @@ export type MembreLigne = {
   id: string; projetId: string; role: Role; nom: string; telephone: string | null; email: string | null; entreprise: string | null;
   jetonHash: string; actif: boolean; invitePar: string | null; createdAt: string; dernierAcces: string | null;
 };
+export type Deblocage = { par: string; le: string; motif: string; pvManquants: string[] };
 export type JalonLigne = {
   projetId: string; code: string; phase: string; rang: number; definition: DefJalon; statut: StatutJalon;
   checklist: Record<string, EtatPoint>; validePar: string | null; valideLe: string | null; salle: string | null; updatedAt: string;
+  /** Point d'arrêt débloqué par l'administrateur (motif écrit) — colonne GP3, absente avant le SQL. */
+  deblocage?: Deblocage | null;
 };
 export type MessageLigne = {
   id: string; projetId: string; jalonCode: string; auteurMembreId: string | null; auteurNom: string; auteurRole: string;
@@ -85,6 +89,8 @@ export interface Depot {
   etats(projetId: string, codes: string[]): Promise<EtatJalon[]>;
   /** UPDATE conditionnel (statut courant = de) ; faux si le statut a changé entre-temps. */
   majStatut(projetId: string, code: string, de: StatutJalon, vers: StatutJalon, validePar: string | null, le: string): Promise<boolean>;
+  /** Enregistre le déblocage d'un point d'arrêt (faux si la colonne n'existe pas encore : le journal garde le motif). */
+  debloquer?(projetId: string, code: string, d: Deblocage): Promise<boolean>;
   majPoint(projetId: string, code: string, pointId: string, etat: EtatPoint, le: string): Promise<void>;
   /** Salle visio du jalon (créée avec `nouvelle` si absente). */
   salle(projetId: string, code: string, nouvelle: string): Promise<string>;
@@ -137,7 +143,14 @@ const LECTURE = new Set(["GET", "HEAD"]);
  */
 export interface GestionProjet {
   pieces(c: Contexte, a: Acteur, p: ProjetLigne, reste: string[]): Promise<Response>;
+  /** Journal du dossier rattaché ("DossierEvenement", via journaliser()). */
+  journalDossier?(dossierId: string, auteur: string, action: string, details: Record<string, unknown>, le: string): Promise<void>;
 }
+
+/** Modèle d'un document : référentiel figé du projet, sinon PV de chantier du référentiel de gestion (GP3). */
+const modeleDe = (p: ProjetLigne, id: string): ModeleDocument | null => p.referentiel.modeles?.[id] ?? (estChecklist(id) ? modeleChecklist(id) : null);
+const caracPV = (p: ProjetLigne) => ({ piscine: p.caracteristiques.piscine, sousSols: p.caracteristiques.sousSols });
+const modelesDuJalon = (p: ProjetLigne, d: DefJalon) => [...d.documents, ...checklistsDuJalon(d, caracPV(p)).filter((x) => !d.documents.includes(x))];
 export type Contexte = { req: Request; env: EnvProjets; depot: Depot; maintenant: () => string; gestion?: GestionProjet };
 
 async function journaliser(c: Contexte, projetId: string, a: Acteur, action: string, cible: string | null, details: Record<string, unknown> | null = null) {
@@ -164,7 +177,7 @@ function resumeJalon(j: JalonLigne, a: Acteur) {
   return {
     code: j.code, phase: d.phase, phaseGabarit: d.phaseGabarit ?? null, niveau: d.niveau ?? null, titre: d.titre, ordre: d.ordre, lot: d.lot ?? null,
     pointArret: d.pointArret, acteurs: d.acteurs, validateurs: d.validateurs, prerequis: d.prerequis,
-    statut: j.statut, nbPoints: d.checklist.length, nbFaits: faits, nbDocuments: d.documents.length, valideLe: j.valideLe,
+    statut: j.statut, nbPoints: d.checklist.length, nbFaits: faits, nbDocuments: d.documents.length, valideLe: j.valideLe, debloque: !!j.deblocage,
     maPart: !superviseur(a) && participe(a, d),
     aValider: j.statut === "EN_ATTENTE_VALIDATION" && peutChangerStatut(a, d, j.statut, "VALIDE"),
   };
@@ -250,12 +263,14 @@ async function lireJalon(c: Contexte, a: Acteur, p: ProjetLigne, j: JalonLigne):
   ]);
   const exigences = d.exigences.map((id) => dico.exigences?.[id]).filter(Boolean);
   const normes = [...new Set(exigences.flatMap((e) => e!.normes ?? []))].map((id) => dico.normes?.[id]).filter(Boolean);
-  const modeles = d.documents.map((id) => dico.modeles?.[id]).filter(Boolean) as ModeleDocument[];
+  const modeles = modelesDuJalon(p, d).map((id) => modeleDe(p, id)).filter(Boolean) as ModeleDocument[];
   const etatsMap = new Map(etats.map((e) => [e.code, e]));
+  const pvRequis = checklistsBloquantes(d, caracPV(p)).map((code) => ({ code, titre: modeleChecklist(code)?.titre ?? code, etat: etatPV(documents, code) }));
   return ok({
     jalon: { ...d, statut: j.statut, checklistEtat: j.checklist, validePar: j.validePar, valideLe: j.valideLe, updatedAt: j.updatedAt, phaseTitre: dico.phases?.[d.phaseGabarit ?? d.phase] ?? null },
     prerequisEtat: d.prerequis.map((code) => ({ code, statut: etatsMap.get(code)?.statut ?? null, pointArret: !!etatsMap.get(code)?.definition.pointArret })),
     exigences, normes, modeles, documents, fichiers: fichiers.map(vueFichier),
+    pvRequis, deblocage: j.deblocage ?? null, peutDebloquer: a.kind === "admin" && j.statut !== "VALIDE" && (d.pointArret || pvRequis.length > 0),
     droits: {
       contribuer: peutContribuer(a, d),
       rediger: peutRediger(a, d),
@@ -275,12 +290,39 @@ async function modifierJalon(c: Contexte, a: Acteur, p: ProjetLigne, j: JalonLig
   const d = j.definition;
   const le = c.maintenant();
 
+  // Déblocage d'un point d'arrêt par l'administrateur, motif écrit obligatoire (GP3).
+  if (b.debloquer !== undefined) {
+    if (a.kind !== "admin") return ko(403, "interdit");
+    const motif = masquerCoordonnees(nettoyer((b.debloquer as Record<string, unknown> | null)?.motif, 500));
+    if (!motif) return ko(400, "motif_obligatoire");
+    if (j.statut === "VALIDE") return ko(409, "deja_valide");
+    const docs = await c.depot.documents(p.id, j.code);
+    const pvManquants = checklistsBloquantes(d, caracPV(p)).filter((code) => etatPV(docs, code) !== "LEVE");
+    const deb: Deblocage = { par: libelleAuteur(a), le, motif, pvManquants };
+    if (!(await c.depot.majStatut(p.id, j.code, j.statut, "VALIDE", `Déblocage administrateur — ${motif}`.slice(0, 300), le))) return ko(409, "conflit");
+    const enregistre = c.depot.debloquer ? await c.depot.debloquer(p.id, j.code, deb).catch(() => false) : false;
+    await journaliser(c, p.id, a, "point_arret_debloque", j.code, { motif, pvManquants, de: j.statut, colonne: enregistre });
+    if (p.dossierId && c.gestion?.journalDossier) {
+      await c.gestion.journalDossier(p.dossierId, libelleAuteur(a), "POINT_ARRET_DEBLOQUE", { projetId: p.id, jalon: j.code, titre: d.titre, motif, pvManquants }, le).catch(() => undefined);
+    }
+    return ok({ statut: "VALIDE", deblocage: deb });
+  }
+
   if (b.statut !== undefined) {
     const vers = String(b.statut) as StatutJalon;
     if (vers === j.statut) return ok({ statut: vers });
     const etats = new Map((await c.depot.etats(p.id, d.prerequis)).map((e) => [e.code, e]));
     const v = verifierTransition(a, d, j.statut, vers, etats);
     if (!v.ok) return ko(v.status, v.erreur, v.bloquants ? { bloquants: v.bloquants } : {});
+    // Point d'arrêt de chantier : le PV de contrôle doit être signé et non refusé (sinon : déblocage admin motivé).
+    if (vers === "VALIDE") {
+      const exiges = checklistsBloquantes(d, caracPV(p));
+      if (exiges.length) {
+        const docs = await c.depot.documents(p.id, j.code);
+        const manquants = exiges.filter((code) => etatPV(docs, code) !== "LEVE");
+        if (manquants.length) return ko(409, "pv_point_arret_manquant", { pv: manquants });
+      }
+    }
     if (!(await c.depot.majStatut(p.id, j.code, j.statut, vers, vers === "VALIDE" ? `${nomDe(a)} (${roleDe(a)})` : null, le))) return ko(409, "conflit");
     await journaliser(c, p.id, a, "statut", j.code, { de: j.statut, vers });
     return ok({ statut: vers });
@@ -422,8 +464,8 @@ async function servirFichier(c: Contexte, p: ProjetLigne, fid: string): Promise<
 async function creerDocument(c: Contexte, a: Acteur, p: ProjetLigne, j: JalonLigne): Promise<Response> {
   if (!peutRediger(a, j.definition)) return ko(403, "interdit");
   const b = await lireJson(c.req);
-  if (!b || typeof b.modeleId !== "string" || !j.definition.documents.includes(b.modeleId)) return ko(400, "modele_invalide");
-  const modele = p.referentiel.modeles?.[b.modeleId];
+  if (!b || typeof b.modeleId !== "string" || !modelesDuJalon(p, j.definition).includes(b.modeleId)) return ko(400, "modele_invalide");
+  const modele = modeleDe(p, b.modeleId);
   if (!modele) return ko(400, "modele_invalide");
   const valeurs = filtrerValeurs(modele, b.valeurs ?? {});
   if (!valeurs) return ko(400, "valeurs_invalides");
@@ -438,7 +480,7 @@ async function modifierDocument(c: Contexte, a: Acteur, p: ProjetLigne, did: str
   if (!ID_DOCUMENT_RE.test(did)) return ko(400, "id_invalid");
   const d = await c.depot.document(p.id, did);
   if (!d) return ko(404, "not_found");
-  const modele = p.referentiel.modeles?.[d.modeleId];
+  const modele = modeleDe(p, d.modeleId);
   const j = await c.depot.jalon(p.id, d.jalonCode);
   if (!modele || !j) return ko(409, "modele_absent");
   const b = await lireJson(c.req);

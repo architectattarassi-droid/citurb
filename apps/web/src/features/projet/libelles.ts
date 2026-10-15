@@ -27,6 +27,8 @@ const FR = {
     non_connecte: "Votre session a expiré : rouvrez le lien d'accès reçu par message.",
     interdit: "Votre rôle ne permet pas cette action.",
     point_arret_non_leve: "Un point d'arrêt prérequis n'est pas encore levé par l'architecte.",
+    pv_point_arret_manquant: "Point d'arrêt : le PV de contrôle doit être rempli, signé par tous et non refusé (onglet Documents). Sinon, seul l'administrateur peut débloquer avec un motif.",
+    motif_obligatoire: "Écrivez le motif du déblocage.",
     stockage_non_active: "Le dépôt de fichiers n'est pas encore activé (stockage Cloudflare R2).",
     type_refuse: "Type de fichier refusé : photos (JPEG, PNG, WebP, HEIC), vidéos (MP4, MOV, WebM, 3GP), PDF, Word, Excel.",
     trop_gros: "Fichier trop lourd (photos 15 Mo, vidéos 200 Mo, documents 30 Mo).",
