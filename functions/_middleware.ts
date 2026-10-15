@@ -69,7 +69,7 @@ function balisesHead(res: Response, req: Request, env: Env | undefined, indexabl
 const SEGMENTS_APP = new Set([
   "", "_dev", "admin", "appel", "ar", "auth", "cabinet", "calculateur", "cc", "cercles", "chantier", "chiffrage",
   "confirmer-email", "cps", "creer-compte", "docs", "dossier", "dossiers", "en", "enterprise", "faq", "forbidden",
-  "foncier", "fr", "guide", "inscription", "login", "mandataires", "materiaux", "media", "messages", "metrics", "mon-espace",
+  "foncier", "fr", "guide", "inscription", "login", "mandataires", "materiaux", "media", "messages", "metrics", "mon-dossier", "mon-espace",
   "mon-parcours", "mot-de-passe-oublie", "mre", "notifications", "opci", "p1", "p2", "p3", "p4", "p5", "p6",
   "payment", "permis-construire", "portal", "post", "prestataires", "projet", "pv-chantier", "rdv", "rendez-vous", "services",
   "share-target", "sig", "simulateur", "terriscan", "upgrade", "verify-phone",
@@ -120,8 +120,8 @@ export async function onRequest(ctx: { request: Request; next: () => Promise<Res
         res.headers.set("cache-control", "no-store");
       }
     }
-  } else if (estHtml && (/^(\/ar)?\/appel\/[A-Za-z0-9_-]{43}$/.test(chemin) || /^(\/ar)?\/messages\/(boite\/)?[A-Za-z0-9_.-]{20,400}$/.test(chemin))) {
-    // Demande d'appel vidéo ou messagerie : lien personnel secret, jamais indexé, jamais transmis en référent.
+  } else if (estHtml && (/^(\/ar)?\/appel\/[A-Za-z0-9_-]{43}$/.test(chemin) || /^(\/ar)?\/messages\/(boite\/)?[A-Za-z0-9_.-]{20,400}$/.test(chemin) || /^(\/ar)?\/mon-dossier\/[A-Za-z0-9_.-]{20,300}$/.test(chemin))) {
+    // Demande d'appel vidéo, messagerie ou dossier client (lien d'invitation) : lien personnel secret, jamais indexé, jamais transmis en référent.
     res = new Response(res.body, res);
     res.headers.set("x-robots-tag", "noindex, nofollow");
     res.headers.set("referrer-policy", "no-referrer");

@@ -1,5 +1,5 @@
 /**
- * Cloudflare Pages Function — GET /api/cc/dossiers
+ * Cloudflare Pages Function — GET /api/cc/dossiers (liste) et POST (création admin, en bas)
  *
  * Liste des dossiers pour le back-office (DossiersModule), en remplacement de
  * GET /p2/dossier/ops/all de l'API NestJS éteinte. Même forme que
@@ -10,6 +10,8 @@
  */
 
 import { neon } from "@neondatabase/serverless";
+import { lireJson } from "../../../_lib/cercles";
+import { RefusCreation, creerDossierAdmin, jetonDossier, journaliser, schemaPret, secretLien, validerCreation, type LienEnv } from "../../../_lib/dossierAdmin";
 
 interface Env { DATABASE_URL?: string }
 type Sql = (strings: TemplateStringsArray, ...values: unknown[]) => Promise<Record<string, unknown>[]>;
@@ -44,6 +46,42 @@ export async function onRequestGet(ctx: { env: Env }): Promise<Response> {
     return json(200, await listerDossiers(neon(ctx.env.DATABASE_URL) as unknown as Sql));
   } catch (e) {
     console.error(`[cc/dossiers] lecture impossible (${(e as { code?: string })?.code || "sans code"})`);
+    return json(503, { ok: false, error: "storage_unavailable" });
+  }
+}
+
+/**
+ * POST /api/cc/dossiers — création d'un dossier par l'admin (client existant,
+ * dossier neuf ou déjà avancé). Logique : functions/_lib/dossierAdmin.ts.
+ * SQL devis-facturation non collé → 503 sql_a_coller (l'écran l'explique).
+ */
+export async function onRequestPost(ctx: { request: Request; env: Env & LienEnv; data: Record<string, unknown> }): Promise<Response> {
+  if (!ctx.env.DATABASE_URL) return json(503, { ok: false, error: "storage_unavailable" });
+  const brut = await lireJson(ctx.request, 64 * 1024);
+  if (!brut || typeof brut !== "object" || Array.isArray(brut)) return json(400, { ok: false, error: "corps_invalide" });
+  const v = validerCreation(brut as Record<string, unknown>);
+  if (!v.ok) return json(400, { ok: false, error: "validation", erreurs: v.erreurs });
+  const admin = String(ctx.data.adminEmail || "admin");
+  try {
+    const sql = neon(ctx.env.DATABASE_URL) as unknown as Sql;
+    const schema = await schemaPret(sql);
+    if (!schema.dossier || !schema.devisFacturation) return json(503, { ok: false, error: "sql_a_coller", fichier: "docs/sql/devis-facturation-neon.sql" });
+    const maintenant = new Date().toISOString();
+    const r = await creerDossierAdmin(sql, v.d, admin, maintenant);
+    let lienInvitation: string | null = null;
+    const avertissements = [...v.avertissements];
+    if (v.d.inviter) {
+      const secret = secretLien(ctx.env);
+      if (!secret) avertissements.push("Lien d'invitation non généré : secret DOSSIER_LIEN_SECRET (ou ADMIN_SESSION_SECRET) absent");
+      else {
+        lienInvitation = `${new URL(ctx.request.url).origin}/mon-dossier/${await jetonDossier(secret, r.dossierId)}`;
+        await journaliser(sql, r.dossierId, admin, "INVITATION_GENEREE", { dureeJours: 90 }, maintenant);
+      }
+    }
+    return json(201, { ok: true, ...r, lienInvitation, avertissements });
+  } catch (e) {
+    if (e instanceof RefusCreation) return json(e.status, { ok: false, error: e.code, message: e.message });
+    console.error(`[cc/dossiers] création impossible (${(e as { code?: string })?.code || "sans code"})`);
     return json(503, { ok: false, error: "storage_unavailable" });
   }
 }
