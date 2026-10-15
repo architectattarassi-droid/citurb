@@ -63,17 +63,15 @@ const waDigits = business.whatsapp.replace(/[^0-9]/g, "");
  *    vers la page en ligne s'imprime ; Ctrl+P et Ctrl+S sont interceptés ;
  *  - copie : au-delà de 160 caractères, seul un extrait part, suivi du lien de
  *    la page (les citations courtes restent possibles, avec la source) ;
- *  - filigrane discret « citurbarea.com » : une capture d'écran porte la marque
- *    (aucun site ne peut empêcher une capture d'écran : c'est le système de
- *    l'appareil qui la fait) ;
+ *  - pas de filigrane : ce sont des pages commerciales, pas des documents de
+ *    référence (décision du fondateur, 15/10/2026) ;
  *  - images non glissables.
  * Le HTML reste lisible par Google et les assistants IA (référencement intact).
  */
 const PROTECTION = `<style>
-  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:40;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='160'%3E%3Ctext x='10' y='100' transform='rotate(-24 130 80)' font-family='Arial' font-size='20' font-weight='700' fill='%230B1B3A'%3Eciturbarea.com%3C/text%3E%3C/svg%3E")}
   img{-webkit-user-drag:none;user-select:none}
   .protege-impression{display:none}
-  @media print{body>*{display:none!important}body::after{display:none}.protege-impression{display:block!important;font:16px/1.5 Arial,sans-serif;padding:40px;color:#0B1B3A}}
+  @media print{body>*{display:none!important}.protege-impression{display:block!important;font:16px/1.5 Arial,sans-serif;padding:40px;color:#0B1B3A}}
 </style>
 <div class="protege-impression">Ce contenu est consultable uniquement en ligne sur citurbarea.com. هذا المحتوى متاح فقط على الموقع citurbarea.com</div>
 <script>(function(){var u=location.origin+location.pathname;document.addEventListener("copy",function(e){var s=String(window.getSelection()||"");if(!s||!e.clipboardData)return;e.preventDefault();var t=s.length>160?s.slice(0,160).trim()+"… ":s+" ";e.clipboardData.setData("text/plain",t+"— Source : "+u);});document.addEventListener("keydown",function(e){var k=(e.key||"").toLowerCase();if((e.ctrlKey||e.metaKey)&&(k==="p"||k==="s")){e.preventDefault();}});document.addEventListener("dragstart",function(e){if(e.target&&e.target.tagName==="IMG")e.preventDefault();});})();</script>`;
