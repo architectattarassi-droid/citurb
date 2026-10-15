@@ -12,6 +12,7 @@
  * /api/cc/fiches-prix[/:id] (garde functions/api/cc/_middleware.ts).
  */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { LISTE_OUTILS, OUTILS_PRO, type OutilPro } from "../../../domain/cercles/accesPro";
 import { DOCUMENTS, type DocumentPro, type Score } from "../../../domain/cercles/gabarits";
 import { CC } from "../../theme/tokens";
 import { ImagesAModerer, ProduitsAModerer, ServicesAModerer } from "./ModerationCatalogue";
@@ -21,7 +22,8 @@ interface Fournisseur {
   zonesLivraison: string[]; categories: string[]; statut: string; contactNom: string | null; telephone: string; email: string; ice: string | null;
   siteWeb: string | null; description: string | null; createdAt: string; commissionPct: number | null; motifRejet: string | null;
   derniereConnexion: string | null; nbFiches: number; codeDemandeLe: string | null; fictif: boolean;
-  raisonSocialeAr: string | null; alerteCoordonnees?: Record<string, string[]>; score: Score; documents: DocumentPro[]; formule: string; fiche: Record<string, unknown>;
+  raisonSocialeAr: string | null; alerteCoordonnees?: Record<string, string[]>; score: Score;
+  acces?: { outils: { outil: OutilPro; actif: boolean; source: "accord" | "premium" | null; retire: boolean; depuis: string | null; expireLe: string | null; demandeLe: string | null }[]; premium: boolean }; documents: DocumentPro[]; formule: string; fiche: Record<string, unknown>;
 }
 interface FicheModeration {
   id: string; materiauCode: string; libelle: string; uniteRef: string | null; uniteVenteLibelle: string; prixHT: number; prixRefHT: number;
@@ -132,6 +134,12 @@ function Inscrits() {
     try { await appel(`/api/cc/fournisseurs/${f.id}`, { method: "PATCH", body: JSON.stringify({ statut: f.statut, commissionPct: v.trim() === "" ? null : v.replace(",", ".") }) }); void charger(); }
     catch (e) { setErreur((e as Error).message); }
   }
+  async function basculerOutil(f: Fournisseur, outil: OutilPro, actif: boolean) {
+    const motif = actif ? null : window.prompt(`Retirer « ${OUTILS_PRO[outil].libelle.fr} » à ${f.raisonSociale} : motif (facultatif)`);
+    if (!actif && motif === null) return;
+    try { await appel(`/api/cc/fournisseurs/${f.id}/acces`, { method: "PATCH", body: JSON.stringify({ outil, actif, motif }) }); void charger(); }
+    catch (e) { setErreur((e as Error).message); }
+  }
   async function formule(f: Fournisseur, v: string) {
     try { await appel(`/api/cc/fournisseurs/${f.id}`, { method: "PATCH", body: JSON.stringify({ statut: f.statut, formule: v }) }); void charger(); }
     catch (e) { setErreur((e as Error).message); }
@@ -215,6 +223,22 @@ function Inscrits() {
                             <option value="GRATUIT">Gratuit</option><option value="PRO">Pro</option><option value="PREMIUM">Premium</option>
                           </select> <span style={{ color: CC.color.inkMuted, fontSize: 12 }}>(préparée, aucun paiement)</span>
                         </div>
+                        <div><strong>Outils pro</strong> (ouverts par la formule Premium ou par un accord ; tout changement est daté et tracé) :</div>
+                        {LISTE_OUTILS.map((o) => {
+                          const e = f.acces?.outils.find((y) => y.outil === o);
+                          return (
+                            <div key={o} style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", fontSize: 13 }}>
+                              <span style={{ minWidth: 260 }}>{OUTILS_PRO[o].libelle.fr}</span>
+                              <span style={{ color: e?.actif ? CC.color.success : CC.color.inkMuted, fontWeight: 600 }}>
+                                {e?.actif ? (e.source === "premium" ? "ouvert (Premium)" : `accordé le ${date(e.depuis)}`) : e?.retire ? "retiré" : "fermé"}
+                              </span>
+                              {e?.demandeLe && <span style={{ color: CC.color.warn, fontWeight: 600 }}>demande du {date(e.demandeLe)}</span>}
+                              {e?.actif
+                                ? <button style={S.btnGhost} onClick={() => basculerOutil(f, o, false)}>Retirer</button>
+                                : <button style={S.btn} disabled={f.statut !== "APPROVED"} onClick={() => basculerOutil(f, o, true)}>Accorder</button>}
+                            </div>
+                          );
+                        })}
                         <div><strong>Documents :</strong> {!(f.documents || []).length ? "aucun" : null}</div>
                         {(f.documents || []).map((d) => (
                           <div key={d.id} style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", fontSize: 13 }}>

@@ -4,7 +4,18 @@
  * Contrat : docs/architecture/contrat-catalogue.md. Les messages d'erreur
  * lisibles (FR/AR/EN) sont dans textes.ts (`useTextes().erreur(code)`).
  */
+import type { DemandeAcces, OutilPro, SourceAcces } from "../../domain/cercles/accesPro";
 import type { DocumentPro, ReferenceChantier, Score } from "../../domain/cercles/gabarits";
+
+/** Outils pro (Premium ou accord de l'admin) : état par outil et demandes en attente. */
+export interface AccesPro {
+  outils: { outil: OutilPro; actif: boolean; source: SourceAcces; retire: boolean; depuis: string | null; expireLe: string | null; demandeLe: string | null }[];
+  demandes: DemandeAcces[]; premium: boolean;
+}
+export interface LignePositionPrix {
+  code: string; libelle: string; uniteRef: string | null; monPrix: number; prixReference: number | null; ecartMediane: number | null;
+  marche: { mediane: number | null; min: number | null; max: number | null; nbFournisseurs: number; plusRecente: string | null } | null;
+}
 
 /** Champs du gabarit du métier (domain/cercles/gabarits.ts) ; `references` : chantiers. */
 export type FicheSociete = Record<string, unknown> & { references?: ReferenceChantier[] };
@@ -16,7 +27,7 @@ export interface FournisseurPublic {
 }
 export interface FournisseurPrive extends FournisseurPublic {
   id: string; statut: "PENDING" | "APPROVED" | "REJECTED" | "SUSPENDED"; contactNom: string | null; telephone: string; email: string;
-  ice: string | null; siteWeb: string | null; motifRejet: string | null; documents: DocumentPro[]; formule: string;
+  ice: string | null; siteWeb: string | null; motifRejet: string | null; documents: DocumentPro[]; formule: string; acces: AccesPro;
 }
 export interface Livraison { zone: string; frais: number; delaiJours: number | null }
 export interface Degressif { aPartirDe: number; prixHT: number }
@@ -115,5 +126,8 @@ export const apiFournisseurs = {
   majImage: (id: string, corps: { ordre?: number; legendeFr?: string; legendeAr?: string; principale?: true }) =>
     post<{ ok: true; image: ImagePro }>(`/api/cercles/espace/images/${id_(id)}`, corps, "PATCH"),
   retirerImage: (id: string) => appel<{ ok: true }>(`/api/cercles/espace/images/${id_(id)}`, { method: "DELETE" }),
+  demanderAcces: (outil: OutilPro, message?: string) => post<{ ok: true; acces: AccesPro }>("/api/cercles/espace/acces/demande", { outil, message }),
+  positionPrix: (region?: string) =>
+    appel<{ ok: true; region: string | null; lignes: LignePositionPrix[] }>(`/api/cercles/espace/outils/materiautheque-pro/prix${region ? `?region=${encodeURIComponent(region)}` : ""}`),
   contacter: (corps: Record<string, unknown>) => post<{ ok: true; message: string }>("/api/cercles/contact", corps),
 };

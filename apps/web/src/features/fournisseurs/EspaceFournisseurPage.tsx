@@ -13,6 +13,7 @@ import { lignesImport, lireTableau, modeleCsv } from "../../domain/materiaux/csv
 import { REGIONS_MA, VILLES_MA } from "../../domain/materiaux/regions";
 import { apiFournisseurs, codeErreur, ErreurApi, type Fiche, type FicheSaisie, type FournisseurPrive, type Moi } from "./api";
 import DocumentsPro from "./DocumentsPro";
+import OutilsPro from "./OutilsPro";
 import FicheForm from "./FicheForm";
 import FicheSocieteForm from "./FicheSocieteForm";
 import ProduitsPro from "./ProduitsPro";
@@ -103,7 +104,7 @@ function Connexion({ onConnecte }: { onConnecte: () => void }) {
   );
 }
 
-type Onglet = "fiche" | "produits" | "services" | "prix" | "import" | "documents" | "messages" | "appels" | "profil";
+type Onglet = "fiche" | "produits" | "services" | "prix" | "import" | "documents" | "messages" | "appels" | "profil" | "outils";
 
 function libelleManquant(cle: string, x: ReturnType<typeof useTextes>): string {
   if (cle === "description") return x.t("presentation");
@@ -135,6 +136,8 @@ function Espace({ m, recharger, onDeconnecte }: { m: Moi; recharger: () => void;
     ...(m.peutPublierFiches ? [["produits", "tab_produits", m.produits.length] as [Onglet, CleTexte, number]] : []),
     ["services", "tab_services", m.services.length],
     ...(m.peutPublierFiches ? [["prix", "tab_prix", m.fiches.length] as [Onglet, CleTexte, number], ["import", "tab_import"] as [Onglet, CleTexte]] : []),
+    // Outils réservés aux membres Premium ou agréés (contrôle serveur : docs/architecture/contrat-acces-pro.md).
+    ["outils", "tab_outils"],
     ["documents", "tab_documents"],
     // Demandes d'appel vidéo reçues et envoyées (features/appels, /api/cercles/espace/appels).
     // Messagerie de la plateforme (aucune coordonnée échangée) : /api/cercles/espace/messages.
@@ -167,6 +170,7 @@ function Espace({ m, recharger, onDeconnecte }: { m: Moi; recharger: () => void;
       {onglet === "services" && <ServicesPro f={f} services={m.services} recharger={recharger} />}
       {onglet === "prix" && <Fiches f={f} fiches={m.fiches} recharger={recharger} />}
       {onglet === "import" && <Import f={f} recharger={recharger} />}
+      {onglet === "outils" && <OutilsPro f={f} recharger={recharger} />}
       {onglet === "documents" && <DocumentsPro f={f} recharger={recharger} />}
       {onglet === "messages" && (
         <div style={{ marginTop: 14, display: "grid", gap: 14 }}>
