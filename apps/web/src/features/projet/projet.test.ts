@@ -329,6 +329,11 @@ describe("espace projet : discussion", () => {
     const liste = await b.membre(client.cookie, "GET", chemin);
     expect(liste.json.messages[0]).toMatchObject({ masque: true, texte: "" });
     expect(b.mem.messages).toHaveLength(1); // append-only : rien n'est supprimé
+    // Coordonnées écrites par un membre : masquées, jamais stockées en clair (tout passe par CITURBAREA).
+    const contact = await b.membre(client.cookie, "POST", chemin, { corps: { texte: "Appelez-moi au 06 12 34 56 78 ou ecrivez a moi@exemple.ma" } });
+    expect(contact.json.coordonneesMasquees).toBe(true);
+    expect(contact.json.message.texte).not.toMatch(/12 34|moi@exemple/);
+    expect(b.mem.messages[1].texte).not.toMatch(/12 34|moi@exemple/);
   });
 });
 

@@ -19,6 +19,7 @@ import {
 } from "./projets";
 import { accepter, envoyerMail, hacherJeton, JETON_RE, nouveauJeton, telephoneRdv, type EnvMail } from "./rdv";
 import { visioConfiguree, type VisioEnv } from "./visio";
+import { detecterCoordonnees, masquerCoordonnees } from "./coordonnees";
 
 // ── Stockage R2 (types minimaux, sans dépendance à @cloudflare/workers-types) ──
 
@@ -316,13 +317,17 @@ async function posterMessage(c: Contexte, a: Acteur, j: JalonLigne): Promise<Res
   if (!x) return ko(400, "message_invalide");
   if (x.pieceIds.length && (await c.depot.fichiers(j.projetId, { ids: x.pieceIds, limite: x.pieceIds.length })).length !== x.pieceIds.length) return ko(400, "piece_inconnue");
   if (a.kind === "membre" && !accepter(`msg:${a.id}`, 30, 60_000)) return ko(429, "trop_de_messages");
+  // « Tout passe par CITURBAREA » : les coordonnées écrites par un membre sont masquées et la tentative est journalisée.
+  const coordonnees = a.kind === "membre" ? detecterCoordonnees(x.texte) : [];
+  if (coordonnees.length) x.texte = masquerCoordonnees(x.texte);
   const msg: MessageLigne = {
     id: nouvelId("pmsg_"), projetId: j.projetId, jalonCode: j.code, auteurMembreId: a.kind === "membre" ? a.id : null,
     auteurNom: nomDe(a), auteurRole: roleDe(a), texte: x.texte, pieceIds: x.pieceIds, masque: false, createdAt: c.maintenant(),
   };
   await c.depot.insererMessage(msg);
   await journaliser(c, j.projetId, a, "message", j.code, { id: msg.id });
-  return ok({ message: vueMessage(msg, a.kind === "admin") });
+  if (coordonnees.length) await journaliser(c, j.projetId, a, "coordonnees_masquees", j.code, { id: msg.id, types: coordonnees });
+  return ok({ message: vueMessage(msg, a.kind === "admin"), coordonneesMasquees: coordonnees.length > 0 });
 }
 
 // ── Fichiers (R2) ───────────────────────────────────────────────────────
