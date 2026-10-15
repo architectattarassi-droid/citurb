@@ -10,7 +10,7 @@
  *   - vue client (ce que voit le client) ; échanges : message / appel vidéo au client ;
  *   - journal de toutes les actions (DossierEvenement).
  * Serveur : GET/PATCH /api/cc/dossiers/:id, POST …/lien, GET …/vue-client.
- * Devis et Factures : onglets fournis par la session « Devis & facturation »
+ * Devis (devis/OngletDevis.tsx) et Factures : onglets fournis par la session « Devis & facturation »
  * (docs/architecture/contrat-devis-facturation.md) ; Documents : dépôt commun à venir.
  */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -19,6 +19,7 @@ import { CC } from "../../theme/tokens";
 import DemanderAppelVideo from "../../../features/appels/DemanderAppelVideo";
 import EcrireMessage from "../../../features/messages/EcrireMessage";
 import { VueDossierClient, type DossierClient } from "../../../features/mon-dossier/MonDossierPage";
+import OngletDevis from "./devis/OngletDevis";
 
 type Etape = { code: string; titre: string; famille: string; conditionnelle: boolean; statut: string; source: "saisie" | "deduite"; date: string | null; note: string | null; saisiPar: string | null };
 type Fiche = {
@@ -218,9 +219,16 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
         </section>
       )}
 
-      {(onglet === "devis" || onglet === "factures") && (
+      {onglet === "devis" && (
         <section style={S.carte}>
-          <h2 style={S.h2}>{onglet === "devis" ? "Devis" : "Factures et encaissements"}</h2>
+          <h2 style={S.h2}>Devis</h2>
+          <OngletDevis dossierId={id} />
+        </section>
+      )}
+
+      {onglet === "factures" && (
+        <section style={S.carte}>
+          <h2 style={S.h2}>Factures et encaissements</h2>
           <p style={S.sous}>Fourni par le module « Devis & facturation » (docs/architecture/contrat-devis-facturation.md). Missions déjà réglées : voir l'onglet Données (payload.missionsReglees).</p>
         </section>
       )}

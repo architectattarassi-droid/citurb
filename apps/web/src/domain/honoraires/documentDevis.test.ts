@@ -150,3 +150,19 @@ describe("rendus PDF et DOCX", () => {
     expect(await empreinteDocument(autre)).not.toBe(await empreinteDocument(d));
   });
 });
+
+describe("saisie en cours de frappe", () => {
+  it("champs vides ou illisibles : questions, jamais d'exception ni de zéro implicite", () => {
+    const base: EntreeDevisComplet = {
+      type: "MISSION_COMPLETE", presentation: "DETAILLEE", modalitesPaiement: "PAR_TRANCHES", validiteJours: 30,
+      metre: { superficieTerrain: "", deductionEmprise: "", surfaceCour: "", niveaux: parserGabarit("R+1")! },
+      puElevation: "", fondations: { incluses: true }, lignes: [{ code: "HON_AUTORISATION" }], exclusions: ["", "  "],
+    };
+    const c = calculerDevisComplet(base, G, { typologie: null, commune: "X", missionsDejaReglees: [] });
+    expect(c.ok).toBe(false);
+    if (!c.ok) expect(c.questions.join()).toMatch(/Superficie du terrain.*Prix unitaire/);
+    const illisible = calculerDevisComplet({ ...base, metre: { ...base.metre!, superficieTerrain: "12a" }, puElevation: "2500" }, G, { typologie: null, commune: "X", missionsDejaReglees: [] });
+    expect(illisible.ok).toBe(false);
+    if (!illisible.ok) expect(illisible.questions[0]).toMatch(/illisible/);
+  });
+});

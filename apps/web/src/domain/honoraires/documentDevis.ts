@@ -220,9 +220,10 @@ export function construireDocument(e: EntreeDevisComplet, calc: Extract<CalculCo
 
   // 4. Exclusions / missions sur demande.
   const surDemande = r.lignes.filter((l) => l.groupe === "D_SUR_DEMANDE");
-  if (e.exclusions.length || surDemande.length) {
+  const exclusions = e.exclusions.map((x) => x.trim()).filter(Boolean);
+  if (exclusions.length || surDemande.length) {
     blocs.push({ t: "section", titre: `${n++}. EXCLUSIONS ET MISSIONS SUR DEMANDE` });
-    if (e.exclusions.length) blocs.push({ t: "paragraphe", texte: "Ne sont pas compris dans le présent devis :" }, { t: "liste", items: e.exclusions });
+    if (exclusions.length) blocs.push({ t: "paragraphe", texte: "Ne sont pas compris dans le présent devis :" }, { t: "liste", items: exclusions });
     if (surDemande.length) blocs.push({ t: "paragraphe", texte: "Missions réalisables sur demande :" }, { t: "liste", items: surDemande.map((l) => `${l.libelle} (${INTERVENANT[l.intervenant].toLowerCase()}) : ${montant(l)}`) });
   }
 

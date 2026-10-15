@@ -39,13 +39,15 @@ export interface ContexteDevis {
   missionsDejaReglees: string[];
   document: Omit<ContexteDocument, "numero" | "dateEmission">;
   autorisationExpiration: string | null;
+  /** Surfaces déjà connues du dossier (chiffrage, formulaire), importables dans le métré — à confirmer. */
+  importMetre: { superficieTerrain: string | null; gabarit: string | null };
 }
 
 /** Données du dossier utiles au devis. Aucune coordonnée (téléphone, e-mail) n'entre dans le document. */
 export async function contexteDevis(sql: Sql, dossierId: string): Promise<ContexteDevis | null> {
   const r = (await sql`SELECT d."clientNom", d."raisonSociale", d."ice", d."payload", d."title", d."gabarit", d."lot", d."lotissement", d."commune", d."prefecture",
       d."titreFoncier", d."autorisationNum", to_char(d."autorisationDate", 'YYYY-MM-DD') AS "autDate", to_char(d."autorisationExpiration", 'YYYY-MM-DD') AS "autExp",
-      d."etatChantier", d."typologie", c."nom" AS "cabNom", c."architecte" AS "cabArchi", c."titre" AS "cabTitre", c."numeroOrdre" AS "cabOrdre",
+      d."etatChantier", d."typologie", d."surfaceTerrain", c."nom" AS "cabNom", c."architecte" AS "cabArchi", c."titre" AS "cabTitre", c."numeroOrdre" AS "cabOrdre",
       (u."passwordHash" IS NOT NULL AND u."passwordHash" NOT LIKE '!sans-mot-de-passe%') AS "compteActif"
     FROM "Dossier" d LEFT JOIN "Cabinet" c ON c."id" = d."cabinetId" LEFT JOIN "User" u ON u."id" = d."ownerId" WHERE d."id" = ${dossierId}`)[0];
   if (!r) return null;
@@ -57,6 +59,7 @@ export async function contexteDevis(sql: Sql, dossierId: string): Promise<Contex
     commune: s(r.commune) ?? "",
     missionsDejaReglees: reglees.map((m) => m.code).filter((c) => c && c !== "AUTRE"),
     autorisationExpiration: s(r.autExp),
+    importMetre: { superficieTerrain: typeof r.surfaceTerrain === "number" && r.surfaceTerrain > 0 ? String(r.surfaceTerrain) : null, gabarit: s(r.gabarit) },
     document: {
       client: { nomAffiche: (societe ? s(r.raisonSociale) : s(r.clientNom)) ?? "", type: societe ? "SOCIETE" : "PERSONNE", ice: s(r.ice) },
       projet: {

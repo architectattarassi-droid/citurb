@@ -48,7 +48,38 @@ export type CalculComplet =
     }
   | { ok: false; questions: string[] };
 
-export function calculerDevisComplet(e: EntreeDevisComplet, grille: GrilleTarifaire, ctx: ContexteProjet): CalculComplet {
+const vide = (v: unknown) => v == null || (typeof v === "string" && !v.trim());
+
+/** Saisie en cours de frappe : champs vides → absents (jamais « 0 » implicite). */
+function nettoyer(e: EntreeDevisComplet): EntreeDevisComplet {
+  const m = e.metre;
+  return {
+    ...e,
+    puElevation: vide(e.puElevation) ? undefined : e.puElevation,
+    tauxHonoraires: vide(e.tauxHonoraires) ? undefined : e.tauxHonoraires,
+    lignes: e.lignes.map((l) => ({ ...l, quantite: vide(l.quantite) ? undefined : l.quantite, prix: vide(l.prix) ? undefined : l.prix })),
+    exclusions: e.exclusions.map((x) => x.trim()).filter(Boolean),
+    metre: m && {
+      ...m,
+      deductionEmprise: vide(m.deductionEmprise) ? undefined : m.deductionEmprise,
+      surfaceCour: vide(m.surfaceCour) ? undefined : m.surfaceCour,
+      encorbellementProfondeur: vide(m.encorbellementProfondeur) ? undefined : m.encorbellementProfondeur,
+      empriseEtageAvecEncorbellement: vide(m.empriseEtageAvecEncorbellement) ? undefined : m.empriseEtageAvecEncorbellement,
+      niveaux: m.niveaux.map((n) => (vide(n.surface) ? { code: n.code, rang: n.rang, usage: n.usage } : n)),
+    },
+  };
+}
+
+export function calculerDevisComplet(brute: EntreeDevisComplet, grille: GrilleTarifaire, ctx: ContexteProjet): CalculComplet {
+  try {
+    return calculer(nettoyer(brute), grille, ctx);
+  } catch (err) {
+    if (err instanceof DevisInvalide) return { ok: false, questions: err.erreurs };
+    return { ok: false, questions: [`Valeur numérique illisible : ${(err as Error).message.replace(/^Décimal invalide : /, "")}`] };
+  }
+}
+
+function calculer(e: EntreeDevisComplet, grille: GrilleTarifaire, ctx: ContexteProjet): CalculComplet {
   const avecPourcentage = e.lignes.some((l) => {
     const p = grille.prestations.find((x) => x.code === l.code);
     return p?.modeTarification === "POURCENTAGE_HONORAIRES" || p?.modeTarification === "POURCENTAGE_TRAVAUX";
@@ -60,6 +91,7 @@ export function calculerDevisComplet(e: EntreeDevisComplet, grille: GrilleTarifa
   if (avecPourcentage) {
     const q: string[] = [];
     if (!e.metre) q.push("Métré requis : la mission est au pourcentage du coût des travaux.");
+    else if (vide(e.metre.superficieTerrain)) q.push("Superficie du terrain à saisir.");
     if (!e.puElevation) q.push("Prix unitaire d'élévation (DH/m²) à saisir.");
     if (!e.fondations) q.push("Fondations : poste chiffré à part, ou comprises dans le prix d'élévation ?");
     if (q.length || !e.metre) return { ok: false, questions: q };
