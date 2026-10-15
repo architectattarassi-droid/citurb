@@ -168,6 +168,7 @@ describe("dépôt : parcours", () => {
     const id = (r.json.document as { id: string; statut: string }).id;
     expect((r.json.document as { statut: string }).statut).toBe("A_MODERER");
     expect(await liste(CLIENT)).toEqual([]);
+    expect((await appel(CABINET, "GET", ["a-moderer"])).json.documents).toEqual([]); // un brouillon n'est pas « à vérifier »
     expect((await appel(CABINET, "POST", [id, "moderer"], { decision: "VISIBLE" })).status).toBe(200);
     expect((await liste(CLIENT)).map((d) => d.id)).toEqual([id]);
     const c = await deposer(CLIENT, "photo.png", "image/png", png(false), undefined, true);

@@ -92,7 +92,7 @@ export function depotFichiersNeon(sql: Sql): DepotFichiers {
     aModerer: (limite) => select((s) => s`SELECT "id","contexte","objetId","proprietaire","deposantNom","nom","nomNormalise","type","taille","empreinte","support","cleR2","largeur","hauteur","meta","version","statut","motif",
       "moderePar","modereLe","supprimePar","supprimeLe","televersement","driveId","createdAt","updatedAt",
       ("vignette" IS NOT NULL OR "televersement"->>'vignette' = 'oui') AS "aVignette"
-      FROM "DocumentDepose" WHERE "statut" = 'PENDING' ORDER BY "createdAt" ASC LIMIT ${limite}`),
+      FROM "DocumentDepose" WHERE "statut" = 'PENDING' AND COALESCE("televersement"->>'brouillon', 'false') <> 'true' ORDER BY "createdAt" ASC LIMIT ${limite}`),
     async compterContexte(contexte, objetId) {
       const r = await sql`SELECT count(*)::int AS n, COALESCE(sum(CASE WHEN COALESCE("support", 'NEON') = 'NEON' THEN "taille" ELSE 0 END), 0)::bigint AS o
         FROM "DocumentDepose" WHERE "contexte" = ${contexte} AND "objetId" = ${objetId} AND "statut" NOT IN ('SUPPRIME', 'REJECTED')`;
@@ -132,7 +132,7 @@ export function depotFichiersMemoire(): DepotFichiers & { lignes: Map<string, Li
     ecrireOctets: async (id, hex, vHex) => { const d = lignes.get(id); if (!d) return; if (vHex !== undefined) d.vignette = vHex ? hexB64(vHex) : null; else d.octets = hex ? hexB64(hex) : null; },
     lireOctets: async (id, v) => { const d = lignes.get(id); return (v ? d?.vignette : d?.octets) ?? null; },
     lister: async (ctx, obj) => vivants().filter((d) => d.contexte === ctx && d.objetId === obj && d.statut !== "EN_COURS").sort((a, b) => b.createdAt.localeCompare(a.createdAt) || b.version - a.version).map(cp),
-    aModerer: async (n) => vivants().filter((d) => d.statut === "A_MODERER").slice(0, n).map(cp),
+    aModerer: async (n) => vivants().filter((d) => d.statut === "A_MODERER" && !d.televersement?.brouillon).slice(0, n).map(cp),
     compterContexte: async (ctx, obj) => {
       const l = vivants().filter((d) => d.contexte === ctx && d.objetId === obj && d.statut !== "SUPPRIME" && d.statut !== "REFUSE");
       return { n: l.length, octetsNeon: l.filter((d) => d.support === "NEON").reduce((s, d) => s + d.taille, 0) };
