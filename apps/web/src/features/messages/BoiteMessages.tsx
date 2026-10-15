@@ -51,7 +51,7 @@ export default function BoiteMessages({ source, l, titre, extra, filtres }: Prop
       )}
       {filtres && (
         <div className="flex flex-wrap gap-2" role="tablist">
-          {[["", "Toutes"], ["SIGNALEE", "Signalées"], ["FERMEE", "Fermées"]].map(([k, lib]) => (
+          {[["", "Toutes"], ["ALERTES", "Tentatives de contact direct"], ["SIGNALEE", "Signalées"], ["FERMEE", "Fermées"]].map(([k, lib]) => (
             <button key={k} type="button" role="tab" aria-selected={statut === k} onClick={() => setStatut(k)}
               className={`min-h-[40px] rounded-full border px-3 text-sm font-semibold ${statut === k ? "border-[#0B1B3A] bg-[#0B1B3A] text-white" : "border-slate-300 bg-white"}`}>{lib}</button>
           ))}
@@ -71,6 +71,7 @@ export default function BoiteMessages({ source, l, titre, extra, filtres }: Prop
               <span className="mt-1 block font-semibold text-[#0B1B3A]">{t.avecQui} {x.avec.join(", ")}
                 {x.nonLus > 0 && <span className="ms-2 rounded-full bg-[#C9A227] px-2 text-xs">{t.nonLus(x.nonLus)}</span>}
                 {x.signale && <span className="ms-2 rounded-full bg-rose-100 px-2 text-xs text-rose-900">{t.statut.SIGNALEE}</span>}
+                {!!x.alertes && <span className="ms-2 rounded-full bg-rose-700 px-2 text-xs font-bold text-white" title="Tentatives de contact direct (coordonnées masquées)">⚑ {x.alertes}{x.suspendus ? " · suspendu" : ""}</span>}
                 {x.participe === false && <span className="ms-2 text-xs font-normal text-slate-500">(modération)</span>}
               </span>
               <span className="block truncate text-sm text-slate-600" dir="auto">{x.apercu}</span>

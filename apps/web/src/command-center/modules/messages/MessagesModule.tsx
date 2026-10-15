@@ -22,6 +22,20 @@ function Moderation({ f, recharger }: { f: FilVue; recharger: () => void }) {
       <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 4, fontSize: 13 }}>
         {c.participants.map((p) => <li key={p.id}><strong>{p.nom}</strong> · {p.email || "—"} · <span dir="ltr">{p.telephone || "—"}</span></li>)}
       </ul>
+      {!!c.alertes?.length && (
+        <div style={{ display: "grid", gap: 6, padding: 10, borderRadius: 8, border: "1px solid #fecaca", background: "#fef2f2" }}>
+          <strong style={{ fontSize: 13, color: "#991b1b" }}>⚑ Tentatives de contact direct (coordonnées masquées, jamais transmises)</strong>
+          {c.alertes.map((a) => (
+            <div key={a.participantId} style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", fontSize: 13 }}>
+              <span><strong>{a.nom}</strong> · {a.tentatives} tentative(s) · {a.types.join(", ")}{a.derniere ? ` · dernière : ${new Date(a.derniere).toLocaleString("fr-FR")}` : ""}{a.leveeLe ? ` · levée le ${new Date(a.leveeLe).toLocaleString("fr-FR")}` : ""}</span>
+              {a.suspendu
+                ? <button type="button" style={{ ...btn, borderColor: "#047857", color: "#047857" }} onClick={async () => { await apiMessages.moderer(c.id, { participantId: a.participantId, lever: true }); recharger(); }}>Lever la suspension</button>
+                : <span style={{ fontSize: 12, color: "#9f1239" }}>écriture autorisée</span>}
+            </div>
+          ))}
+          <span style={{ fontSize: 12, color: CC.color.inkMid }}>À 3 tentatives en 7 jours, l'écriture est suspendue automatiquement pour la personne concernée ; l'autre partie peut toujours répondre et demander un appel vidéo.</span>
+        </div>
+      )}
       {!!c.signalements?.length && (
         <div style={{ fontSize: 13, color: "#9f1239" }}>
           <strong>Signalements :</strong>

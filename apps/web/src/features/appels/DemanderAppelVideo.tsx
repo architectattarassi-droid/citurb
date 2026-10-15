@@ -17,6 +17,7 @@ import { HONEYPOT_STYLE } from "../../lib/honeypot";
 import { apiAppels, type Contexte, type Invite, type PorteCreation, type ReponseCreation } from "./api";
 import { bornesSaisie, dateHeure, demainDixHeures, fuseauLocal, heureLocaleDiffere, localVersIso } from "./heures";
 import { erreurLisible, TEXTES, type LangueAppel } from "./textes";
+import AvertissementCoordonnees from "../messages/AvertissementCoordonnees";
 
 export function useLangueAppel(force?: LangueAppel): LangueAppel {
   const { lang } = useLang();
@@ -237,12 +238,13 @@ function Dialogue({ contexte, objetId, invites, candidats = [], avecNom, sujet, 
             <label className="text-sm font-semibold">{t.message}
               <textarea className={`${CHAMP} min-h-[88px] py-2`} maxLength={1000} value={f.message} onChange={(e) => maj("message", e.target.value)} />
               <span className="mt-1 block text-xs font-normal text-slate-500">{t.messageAide}</span>
+              <AvertissementCoordonnees texte={f.message} l={l} discret />
             </label>
 
             {porte === "public" && (
               <fieldset className="m-0 grid gap-3 border-0 p-0">
                 <legend className="mb-1 text-sm font-bold">{t.vous}</legend>
-                <label className="text-sm font-semibold">{t.nom}<input className={CHAMP} value={f.nom} onChange={(e) => maj("nom", e.target.value)} autoComplete="name" required maxLength={80} /></label>
+                <label className="text-sm font-semibold">{t.nom}<input className={CHAMP} value={f.nom} onChange={(e) => maj("nom", e.target.value)} autoComplete="name" required maxLength={80} /><AvertissementCoordonnees texte={f.nom} l={l} discret /></label>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <label className="text-sm font-semibold">{t.email}<input className={CHAMP} type="email" dir="ltr" value={f.email} onChange={(e) => maj("email", e.target.value)} autoComplete="email" /></label>
                   <label className="text-sm font-semibold">{t.telephone}<input className={CHAMP} type="tel" dir="ltr" inputMode="tel" value={f.telephone} onChange={(e) => maj("telephone", e.target.value)} autoComplete="tel" /></label>

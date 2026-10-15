@@ -13,6 +13,7 @@ import { BTN_CONTOUR, BTN_NAVY, BTN_OR, CHAMP, useLangueAppel } from "../appels/
 import type { LangueAppel } from "../appels/textes";
 import { apiMessages, type CreationFil, type PorteMsg } from "./api";
 import { erreurMsg, TEXTES_MSG } from "./textes";
+import AvertissementCoordonnees from "./AvertissementCoordonnees";
 
 export function IconeMessage({ className = "h-4 w-4" }: { className?: string }) {
   return (
@@ -122,11 +123,12 @@ function Dialogue({ contexte, objetId, invites, avecNom, sujet, porte = "public"
             <p className="m-0 rounded-lg bg-[#0B1B3A]/5 p-3 text-sm leading-relaxed">{t.principe}</p>
             <label className="text-sm font-semibold">{t.message}
               <textarea className={`${CHAMP} min-h-[120px] py-2`} maxLength={4000} value={f.texte} onChange={(e) => maj("texte", e.target.value)} required />
+              <AvertissementCoordonnees texte={f.texte} l={l} />
             </label>
             {porte === "public" && (
               <fieldset className="m-0 grid gap-3 border-0 p-0">
                 <legend className="mb-1 text-sm font-bold">{t.vous}</legend>
-                <label className="text-sm font-semibold">{t.nom}<input className={CHAMP} value={f.nom} onChange={(e) => maj("nom", e.target.value)} autoComplete="name" maxLength={80} required /></label>
+                <label className="text-sm font-semibold">{t.nom}<input className={CHAMP} value={f.nom} onChange={(e) => maj("nom", e.target.value)} autoComplete="name" maxLength={80} required /><AvertissementCoordonnees texte={f.nom} l={l} discret /></label>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <label className="text-sm font-semibold">{t.email}<input className={CHAMP} type="email" dir="ltr" value={f.email} onChange={(e) => maj("email", e.target.value)} autoComplete="email" /></label>
                   <label className="text-sm font-semibold">{t.telephone}<input className={CHAMP} type="tel" dir="ltr" inputMode="tel" value={f.telephone} onChange={(e) => maj("telephone", e.target.value)} autoComplete="tel" /></label>

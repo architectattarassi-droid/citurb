@@ -13,6 +13,7 @@ import { dateHeure } from "../appels/heures";
 import type { LangueAppel } from "../appels/textes";
 import { apiMessages, type EspaceMsg, type FilVue, type MessageVue } from "./api";
 import { erreurMsg, TEXTES_MSG } from "./textes";
+import AvertissementCoordonnees from "./AvertissementCoordonnees";
 
 type Props = { espace: EspaceMsg; id?: string; l: LangueAppel; extra?: (f: FilVue, recharger: () => void) => ReactNode; onChange?: () => void };
 
@@ -50,7 +51,8 @@ export default function FilConversation({ espace, id = "", l, extra, onChange }:
     const r = await apiMessages.ecrire(espace, convId, texte);
     setEnvoi(false);
     if (!r.ok) { setErreur(erreurMsg(l, r.error)); return; }
-    if (r.data.messageMasque) setInfo(t.masque);
+    if (r.data.suspendu) { setErreur(t.erreurs.ecriture_suspendue); await charger(); return; }
+    if (r.data.messageMasque) setInfo(t.masqueSignale);
     setTexte("");
     await charger();
     onChange?.();
@@ -104,6 +106,7 @@ export default function FilConversation({ espace, id = "", l, extra, onChange }:
           <label className="sr-only" htmlFor={`msg-${convId}`}>{t.message}</label>
           <textarea id={`msg-${convId}`} className={`${CHAMP} min-h-[80px] py-2`} maxLength={4000} placeholder={t.repondre} value={texte} onChange={(e) => setTexte(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) void envoyer(e as unknown as FormEvent); }} />
+          <AvertissementCoordonnees texte={texte} l={l} />
           <div className="flex flex-wrap items-center gap-2">
             <button type="submit" className={BTN_NAVY} disabled={envoi || !texte.trim()}>{envoi ? t.envoi : t.envoyerMessage}</button>
             {f.peut.appeler && (
@@ -112,7 +115,8 @@ export default function FilConversation({ espace, id = "", l, extra, onChange }:
             )}
           </div>
         </form>
-      ) : c.statut === "FERMEE" ? <p className="m-0 text-sm text-slate-600">{t.ferme}</p> : null}
+      ) : c.moi?.suspendu ? <p className="m-0 rounded-lg border border-rose-300 bg-rose-50 p-3 text-sm text-rose-900" role="alert">{t.erreurs.ecriture_suspendue}</p>
+        : c.statut === "FERMEE" ? <p className="m-0 text-sm text-slate-600">{t.ferme}</p> : null}
 
       {(f.peut.signaler || f.peut.bloquer) && (
         <div className="flex flex-wrap gap-3 border-t border-slate-200 pt-2 text-xs">
@@ -159,6 +163,7 @@ function Bulle({ m, l, moderer }: { m: MessageVue; l: LangueAppel; moderer?: (mo
         {!m.moi && <p className="m-0 text-xs font-bold opacity-80">{m.auteur}</p>}
         <p className="m-0 whitespace-pre-wrap break-words" dir="auto">{m.texte}</p>
         <p className="m-0 mt-1 text-[11px] opacity-70" dir="ltr">{dateHeure(m.createdAt, l)}{m.masque ? " · 🔒" : ""}{m.modere ? ` · ${t.modere}` : ""}</p>
+        {moderer && Array.isArray(m.meta.coordonnees) && <p className="m-0 mt-1 inline-block rounded bg-rose-700 px-1.5 text-[11px] font-bold text-white">⚑ coordonnées masquées : {(m.meta.coordonnees as string[]).join(", ")}</p>}
         {moderer && <button type="button" className="mt-1 text-[11px] underline" onClick={() => void moderer(!m.modere)}>{m.modere ? "Rétablir" : "Retirer (modération)"}</button>}
       </div>
     </li>

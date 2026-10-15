@@ -66,7 +66,22 @@ const ALL_ITEMS = NAV_GROUPS.flatMap(g => g.items);
 
 // ─── Composant ───────────────────────────────────────────────
 
+/** Tentatives de contact direct en attente de décision (badge rouge sur « Messages »). */
+function useAlertesMessages(): number {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    let vivant = true;
+    const lire = () => fetch("/api/cc/messages/alertes", { credentials: "include", cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null)).then((j) => { if (vivant && j?.ok) setN(Number(j.fils) || 0); }).catch(() => undefined);
+    void lire();
+    const t = setInterval(lire, 120_000);
+    return () => { vivant = false; clearInterval(t); };
+  }, []);
+  return n;
+}
+
 export default function CCLayout({ children }: { children: React.ReactNode }) {
+  const alertesMessages = useAlertesMessages();
   const location = useLocation();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
@@ -136,6 +151,9 @@ export default function CCLayout({ children }: { children: React.ReactNode }) {
                       {item.mark}
                     </span>
                     {!collapsed && <span style={S.navLabel}>{item.label}</span>}
+                    {item.id === "messages" && alertesMessages > 0 && (
+                      <span title="Tentatives de contact direct à examiner" style={{ marginInlineStart: 6, minWidth: 20, padding: "0 6px", borderRadius: 999, background: "#b91c1c", color: "#fff", fontSize: 11, fontWeight: 700, textAlign: "center" }}>{alertesMessages}</span>
+                    )}
                     {!collapsed && item.sommeil && <span style={S.navSommeil}>en cours de rebranchement</span>}
                   </button>
                 );

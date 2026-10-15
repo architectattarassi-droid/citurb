@@ -18,9 +18,11 @@ export type MessageVue = {
 };
 export type ConversationVue = {
   id: string; contexte: string; objetId: string; sujet: string | null; statut: string; createdAt: string; dernierMessageLe: string;
-  moi: { id: string; nom: string; type: string; langue: "fr" | "ar" } | null;
+  moi: { id: string; nom: string; type: string; langue: "fr" | "ar"; suspendu?: boolean } | null;
   participants: { id: string; type: string; nom: string; moi: boolean; luJusqua: string | null; cle?: string; email?: string | null; telephone?: string | null }[];
   signalements?: { le: string; par: string; motif: string }[];
+  /** Back-office : tentatives de contact direct par participant (types seulement). */
+  alertes?: { participantId: string; nom: string; tentatives: number; derniere: string | null; types: string[]; suspendu: boolean; leveeLe: string | null }[];
 };
 export type FilVue = {
   conversation: ConversationVue; messages: MessageVue[];
@@ -29,7 +31,7 @@ export type FilVue = {
 };
 export type ResumeFil = {
   id: string; contexte: string; objetId: string; sujet: string | null; statut: string; dernierMessageLe: string; avec: string[]; apercu: string; nonLus: number;
-  jeton?: string; participe?: boolean; signale?: boolean;
+  jeton?: string; participe?: boolean; signale?: boolean; alertes?: number; suspendus?: number;
 };
 export type CreationFil = { conversation: ConversationVue | null; conversationId?: string; messageMasque?: boolean; jeton?: string; lien?: string; boite?: string; lienBoite?: string };
 
@@ -69,9 +71,10 @@ export const apiMessages = {
     return appeler<{ conversations: ResumeFil[] }>(url);
   },
   lire: (e: EspaceMsg, id = "") => appeler<FilVue>(chemin(e, id)),
-  ecrire: (e: EspaceMsg, id: string, texte: string) => appeler<{ message: MessageVue; messageMasque: boolean }>(chemin(e, id, "messages"), "POST", { texte }),
+  ecrire: (e: EspaceMsg, id: string, texte: string) => appeler<{ message: MessageVue; messageMasque: boolean; suspendu?: boolean; tentatives?: number }>(chemin(e, id, "messages"), "POST", { texte }),
   appel: (e: EspaceMsg, id: string, corps: Record<string, unknown>) => appeler<{ appelId: string; jetonAppel: string }>(chemin(e, id, "appel"), "POST", corps),
   signaler: (e: EspaceMsg, id: string, motif: string) => appeler<{ signale: boolean }>(chemin(e, id, "signaler"), "POST", { motif }),
   bloquer: (e: EspaceMsg, id: string) => appeler<{ bloque: boolean }>(chemin(e, id, "bloquer"), "POST", {}),
-  moderer: (id: string, corps: { messageId: string; modere: boolean } | { statut: "OUVERTE" | "FERMEE" }) => appeler<Record<string, unknown>>(chemin({ type: "admin" }, id, "moderer"), "POST", corps),
+  alertes: () => appeler<{ fils: number; suspendus: number }>("/api/cc/messages/alertes"),
+  moderer: (id: string, corps: { messageId: string; modere: boolean } | { statut: "OUVERTE" | "FERMEE" } | { participantId: string; lever: true }) => appeler<Record<string, unknown>>(chemin({ type: "admin" }, id, "moderer"), "POST", corps),
 };
