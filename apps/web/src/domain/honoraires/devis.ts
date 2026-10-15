@@ -220,7 +220,7 @@ export const TEXTES_MODALITES: Record<ModalitePaiement, string> = {
 
 export const MENTIONS_SYSTEMATIQUES = [
   "Les frais et taxes communaux sont à la charge du maître d'ouvrage.",
-  "Les délais de délivrance dépendent des services instructeurs et ne sont pas garantis par le cabinet.",
+  "Les délais de délivrance dépendent des services instructeurs et ne sont garantis ni par CITURBAREA ni par l'architecte.",
   "Montants en dirhams ; TVA applicable selon la réglementation en vigueur.",
   "Devis valable 30 jours ; son acceptation vaut ordre de service.",
 ];
