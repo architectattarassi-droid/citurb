@@ -5,7 +5,7 @@
 import { describe, expect, it } from "vitest";
 import { documentsParPhase, normesDeLaPhase, piecesDeLaPhase, pieceConnue, type EtatPiece } from "../../../../../packages/contracts/src/gestion/pieces";
 import { ordreRegional } from "../../../../../packages/contracts/src/gestion/ordres";
-import { validerDocument, nomDocument, depotDocumentsMemoire } from "../../../../../functions/_lib/documents";
+import { validerDocument, nomDocument } from "../../../../../functions/_lib/documents";
 import { appliquerActionPiece, lireActionPiece, lirePieces, peutDeposer } from "../../../../../functions/_lib/dossierPieces";
 
 const VILLA = { type: "VILLA" as const, budgetMDH: 3, etagesHorsSol: 1, sousSols: 0, surfacePlancherM2: 300 };
@@ -87,7 +87,8 @@ describe("GP2 — dépôt commun", () => {
 });
 
 type Ligne = Record<string, unknown>;
-function fauxSql(tables: { pieces: boolean }) {
+const DOC = "doc_" + "a".repeat(32);
+function fauxSql(tables: { pieces: boolean }, document: Ligne | null = { id: DOC, contexte: "dossier", objetId: "dos_1", proprietaire: "usr:u1", statut: "PENDING", nom: "p.pdf", type: "application/pdf", taille: 10 }) {
   const lignes = new Map<string, Ligne>();
   const journal: string[] = [];
   const sql = (async (strings: TemplateStringsArray, ...v: unknown[]) => {
@@ -95,41 +96,46 @@ function fauxSql(tables: { pieces: boolean }) {
     journal.push(q);
     if (q.includes("to_regclass")) return [{ p: tables.pieces, d: tables.pieces, j: true }];
     if (q.startsWith('SELECT * FROM "Dossier"')) return [{ id: "dos_1", typologie: "VILLA", commune: "Kénitra", phase: "30_DOSSIER_AUTORISATION", budgetEstime: 2_000_000, payload: {} }];
+    if (q.includes('FROM "DocumentDepose" WHERE "id"')) return document ? [document] : [];
+    if (q.includes('"documentIds" ?')) return [...lignes.values()].filter((l) => (l.documentIds as string[]).includes(String(v[1])));
     if (q.includes('FROM "DossierPiece" WHERE "dossierId"') && q.startsWith("SELECT")) return [...lignes.values()];
-    if (q.startsWith('INSERT INTO "DossierPiece"')) { lignes.set(String(v[1]), { cle: v[1], statut: q.includes("'DEPOSE'") ? "DEPOSE" : v[2], documentIds: typeof v[4] === "string" && v[4].startsWith("[") ? JSON.parse(v[4]) : [] }); return []; }
+    if (q.startsWith('INSERT INTO "DossierPiece"')) { lignes.set(String(v[1]), { cle: v[1], statut: q.includes("'DEPOSE'") ? "DEPOSE" : v[2], documentIds: typeof v[2] === "string" && v[2].startsWith("[") ? JSON.parse(v[2]) : [] }); return []; }
     return [];
   }) as never;
   return { sql, lignes, journal };
 }
 
-describe("GP2 — dossier (base simulée)", () => {
-  it("sans le SQL collé : lecture complète (tout manquant), dépôt refusé proprement", async () => {
+describe("GP2 — dossier (base simulée, envoi par le dépôt commun)", () => {
+  it("sans le SQL collé : lecture complète (tout manquant), rattachement refusé proprement", async () => {
     const { sql } = fauxSql({ pieces: false });
     const r = await lirePieces(sql, "dos_1");
     expect(r?.sqlACollerGestion).toBe(true);
     expect(r?.phaseActuelle).toBe("P04_AUTORISATION");
     expect(r?.phases.flatMap((p) => p.pieces).every((p) => p.statut === "MANQUANT")).toBe(true);
-    const a = lireActionPiece({ action: "deposer", cle: "P04_AUTORISATION:PLANS_AUTORISATION", nom: "p.pdf", contenu: btoa("%PDF-1.4\n%%EOF") });
-    if ("erreur" in a) throw new Error(a.erreur);
-    expect(await appliquerActionPiece(sql, "dos_1", a, { kind: "admin", email: "a" })).toEqual({ status: 503, json: { ok: false, error: "sql_a_coller", fichier: "docs/sql/gestion-projet-neon.sql" } });
+    expect(await appliquerActionPiece(sql, "dos_1", { action: "rattacher", cle: "P04_AUTORISATION:PLANS_AUTORISATION", documentId: DOC }, { kind: "admin", email: "a" }))
+      .toEqual({ status: 503, json: { ok: false, error: "sql_a_coller", fichier: "docs/sql/gestion-projet-neon.sql" } });
   });
-  it("dépôt par l'admin : document enregistré, pièce « déposée », journal", async () => {
+  it("l'ancien envoi direct est fermé : un seul système d'envoi", () => {
+    expect(lireActionPiece({ action: "deposer", cle: "P04_AUTORISATION:PLANS_AUTORISATION", contenu: "x" })).toEqual({ erreur: "envoi_par_le_depot_commun" });
+  });
+  it("rattachement par le cabinet : pièce « déposée », journal ; deux fois le même document refusé", async () => {
     const { sql, lignes, journal } = fauxSql({ pieces: true });
-    const docs = depotDocumentsMemoire();
-    const a = lireActionPiece({ action: "deposer", cle: "P04_AUTORISATION:PLANS_AUTORISATION", nom: "plans.pdf", contenu: btoa("%PDF-1.4\n%%EOF") });
-    if ("erreur" in a) throw new Error(a.erreur);
-    const r = await appliquerActionPiece(sql, "dos_1", a, { kind: "admin", email: "a@b" }, { documents: docs, maintenant: "2026-10-15T10:00:00.000Z" });
-    expect(r.status).toBe(200);
-    expect(docs.lignes.size).toBe(1);
+    const a = { action: "rattacher" as const, cle: "P04_AUTORISATION:PLANS_AUTORISATION", documentId: DOC };
+    expect((await appliquerActionPiece(sql, "dos_1", a, { kind: "admin", email: "a@b" }, { maintenant: "2026-10-15T10:00:00.000Z" })).status).toBe(200);
     expect(lignes.get("P04_AUTORISATION:PLANS_AUTORISATION")?.statut).toBe("DEPOSE");
     expect(journal.some((q) => q.includes('INSERT INTO "DossierEvenement"'))).toBe(true);
+    expect((await appliquerActionPiece(sql, "dos_1", a, { kind: "admin", email: "a@b" })).status).toBe(409);
   });
-  it("le client ne dépose pas une pièce de l'architecte et ne valide rien", async () => {
+  it("client : seulement ses propres documents, pour ses pièces, et rien à valider", async () => {
+    const cle = documentsParPhase(VILLA, new Map()).flatMap((p) => p.pieces).find((p) => p.producteur === "MAITRE_OUVRAGE" && !p.backOffice)!.cle;
     const { sql } = fauxSql({ pieces: true });
-    const a = lireActionPiece({ action: "deposer", cle: "P04_AUTORISATION:PLANS_AUTORISATION", nom: "p.pdf", contenu: btoa("%PDF-1.4\n%%EOF") });
-    if ("erreur" in a) throw new Error(a.erreur);
-    expect((await appliquerActionPiece(sql, "dos_1", a, { kind: "client", userId: "u" }, { documents: depotDocumentsMemoire() })).status).toBe(403);
-    expect((await appliquerActionPiece(sql, "dos_1", { action: "valider", cle: "P04_AUTORISATION:PLANS_AUTORISATION" }, { kind: "client", userId: "u" })).status).toBe(403);
+    expect((await appliquerActionPiece(sql, "dos_1", { action: "rattacher", cle, documentId: DOC }, { kind: "client", userId: "u1" })).status).toBe(200);
+    const autre = fauxSql({ pieces: true }, { id: DOC, contexte: "dossier", objetId: "dos_1", proprietaire: "usr:intrus", statut: "PENDING", nom: "x", type: "application/pdf", taille: 1 });
+    expect((await appliquerActionPiece(autre.sql, "dos_1", { action: "rattacher", cle, documentId: DOC }, { kind: "client", userId: "u1" })).status).toBe(403);
+    const ailleurs = fauxSql({ pieces: true }, { id: DOC, contexte: "dossier", objetId: "dos_AUTRE", proprietaire: "usr:u1", statut: "PENDING", nom: "x", type: "application/pdf", taille: 1 });
+    expect((await appliquerActionPiece(ailleurs.sql, "dos_1", { action: "rattacher", cle, documentId: DOC }, { kind: "client", userId: "u1" })).status).toBe(404);
+    expect((await appliquerActionPiece(sql, "dos_1", { action: "rattacher", cle: "P04_AUTORISATION:PLANS_AUTORISATION", documentId: DOC }, { kind: "client", userId: "u1" })).status).toBe(403);
+    expect((await appliquerActionPiece(sql, "dos_1", { action: "valider", cle: "P04_AUTORISATION:PLANS_AUTORISATION" }, { kind: "client", userId: "u1" })).status).toBe(403);
   });
   it("une pièce absente du profil (bureau de contrôle sous 5 MDH) est inconnue", () => {
     const tous = documentsParPhase(IMMEUBLE, new Map()).flatMap((p) => p.pieces).filter((p) => /CONTROLE/.test(p.code));

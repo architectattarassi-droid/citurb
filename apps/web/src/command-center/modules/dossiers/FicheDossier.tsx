@@ -224,7 +224,7 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
         <section style={S.carte}>
           <h2 style={S.h2}>Documents attendus, normes et contrôles — phase par phase</h2>
           <p style={S.petit}>Chaque pièce absente est marquée « Document manquant ». Les pièces conditionnelles dépendent du profil du projet (onglet Parcours).</p>
-          <DocumentsParPhase base={`/api/cc/dossiers/${encodeURIComponent(id)}/pieces`} mode="admin" />
+          <DocumentsParPhase base={`/api/cc/dossiers/${encodeURIComponent(id)}/pieces`} mode="admin" depot={{ porte: PORTE_ADMIN, contexte: "dossier", objetId: id }} />
         </section>
       )}
 

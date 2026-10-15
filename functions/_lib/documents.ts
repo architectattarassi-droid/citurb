@@ -1,4 +1,10 @@
 /**
+ * HISTORIQUE — le dépôt de documents commun est functions/_lib/depot*.ts (contrat v2,
+ * docs/architecture/contrat-depot-fichiers.md). Ce fichier ne sert plus à ENVOYER : les pièces
+ * du dossier rattachent l'id d'un document du dépôt commun (dossierPieces.ts, action « rattacher »).
+ * Il garde la lecture des fichiers déjà déposés par l'ancien chemin (même table "DocumentDepose")
+ * et les contrôles purs (validerDocument, nomDocument), testés.
+ *
  * Dépôt de documents commun (PDF et images) — contrat docs/architecture/contrat-depot-fichiers.md.
  * Table "DocumentDepose" (docs/sql/gestion-projet-neon.sql). Premier usage : pièces
  * du dossier (GP2) ; réutilisable par les appels vidéo, la messagerie et les Cercles.

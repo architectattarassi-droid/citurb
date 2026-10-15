@@ -137,7 +137,7 @@ export default function MonEspacePage() {
               <section style={S.carte}>
                 <h2 style={S.h2}>{t("espace.documents")}</h2>
                 <Suspense fallback={<p style={S.doux}>{t("espace.charge")}</p>}>
-                  <DocumentsParPhase base={`/api/client/dossiers/${encodeURIComponent(choisi)}/pieces`} mode="client" langue={l === "ar" ? "ar" : "fr"} />
+                  <DocumentsParPhase base={`/api/client/dossiers/${encodeURIComponent(choisi)}/pieces`} mode="client" langue={l === "ar" ? "ar" : "fr"} depot={{ porte: PORTE_CLIENT, contexte: "dossier", objetId: choisi }} />
                 </Suspense>
               </section>
             </>

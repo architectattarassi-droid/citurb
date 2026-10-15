@@ -1,7 +1,8 @@
 /**
  * /api/cc/dossiers/<id>/pieces — documents attendus du dossier, phase par phase (lot GP2).
  *   GET   phases, pièces (« Document manquant »…), compteurs, normes par lot, checklists de chantier
- *   POST  { action: "deposer" | "valider" | "refuser" | "sans_objet" | "reinitialiser", cle, … }
+ *   POST  { action: "rattacher" | "valider" | "refuser" | "sans_objet" | "reinitialiser", cle, … }
+ *         (rattacher : documentId d'un fichier envoyé au dépôt commun /api/cc/depot, contexte « dossier »)
  * Logique : functions/_lib/dossierPieces.ts. Garde : functions/api/cc/_middleware.ts.
  */
 import { neon } from "@neondatabase/serverless";

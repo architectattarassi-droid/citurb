@@ -1,7 +1,8 @@
 /**
  * /api/client/dossiers/<id>/pieces — documents du dossier vus par le client (lot GP2).
  *   GET   phases et pièces (sans les pièces réservées au back-office ni les normes)
- *   POST  { action: "deposer", cle, nom, contenu } — seulement les pièces dont le client est le producteur
+ *   POST  { action: "rattacher", cle, documentId } — le fichier est envoyé d'abord au dépôt commun
+ *         (/api/client/depot, contexte « dossier ») ; seulement les pièces dont le client est le producteur
  * Un dossier d'un autre compte répond 404. Logique : functions/_lib/dossierPieces.ts.
  */
 import { neon } from "@neondatabase/serverless";
@@ -37,7 +38,7 @@ export async function onRequestPost(ctx: Ctx): Promise<Response> {
   if (!corps) return json(413, { ok: false, error: "fichier_trop_lourd" });
   const a = lireActionPiece(corps);
   if ("erreur" in a) return json(400, { ok: false, error: a.erreur });
-  if (a.action !== "deposer") return json(403, { ok: false, error: "interdit" });
+  if (a.action !== "rattacher") return json(403, { ok: false, error: "interdit" });
   try {
     const r = await appliquerActionPiece(neon(ctx.env.DATABASE_URL!) as unknown as Sql, id, a, { kind: "client", userId: ctx.data.client!.clientId });
     return json(r.status, r.json);

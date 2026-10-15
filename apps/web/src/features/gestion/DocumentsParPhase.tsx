@@ -4,8 +4,10 @@
  * (/mon-espace) et l'espace projet (/projet) : seule l'URL de base et le mode changent.
  *
  *   GET  <base>            phases, pièces, compteurs, normes, checklists
- *   POST <base>            { action, cle, … } (dépôt : contenu en base64)
- *   GET  <base>/<docId>    fichier déposé
+ *   POST <base>            { action, cle, … } (« rattacher » : id d'un document du dépôt commun)
+ *   GET  <base>/<docId>    fichier déposé par l'ancien chemin (avant le dépôt commun)
+ * Envoi des fichiers : dépôt de documents commun (contrat v2, apiDepot.televerser), puis
+ * rattachement à la pièce — un seul système d'envoi pour toute la plateforme.
  *
  * Une pièce absente s'affiche « Document manquant », bien en évidence, avec le
  * compteur de la phase. Images réduites dans le navigateur avant l'envoi (sans
@@ -13,6 +15,10 @@
  */
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import { preparerImage } from "../fournisseurs/imagesNavigateur";
+import { apiDepot, type PorteDepot } from "../documents/api";
+
+/** Où envoyer les fichiers dans le dépôt commun : porte de l'acteur, contexte (dossier ou projet) et objet. */
+export type DepotCible = { porte: PorteDepot; contexte: "dossier" | "projet"; objetId: string };
 
 type Lib = { fr: string; ar: string };
 type Piece = {
@@ -73,14 +79,14 @@ const COULEUR: Record<Piece["statut"], { fond: string; texte: string }> = {
   VALIDE: { fond: "#E7F6EC", texte: "#067647" }, SANS_OBJET: { fond: "#F2F4F7", texte: "#667085" },
 };
 
-const lireBase64 = (f: File) => new Promise<string>((ok, ko) => {
-  const r = new FileReader();
-  r.onload = () => ok(String(r.result).replace(/^data:[^,]*,/, ""));
-  r.onerror = () => ko(r.error);
-  r.readAsDataURL(f);
-});
+const b64VersBlob = (b64: string) => { const s = atob(b64); const o = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) o[i] = s.charCodeAt(i); return new Blob([o], { type: o[0] === 0x52 ? "image/webp" : "image/jpeg" }); };
+const ERREURS_DEPOT: Record<string, string> = {
+  fichier_trop_lourd: "Fichier trop lourd pour le stockage actuel (images 1,5 Mo, PDF 2 Mo).", type_refuse: "Type refusé : PDF, JPEG, PNG ou WebP.",
+  type_incoherent: "Le contenu du fichier ne correspond pas à son type.", pdf_contenu_actif: "PDF refusé : il contient du code ou un fichier joint.",
+  quota_contexte: "Nombre ou volume maximal de documents atteint pour ce dossier.", stockage_plein: "Stockage de la plateforme plein.", trop_de_depots: "Trop d'envois aujourd'hui : réessayez demain.",
+};
 
-export default function DocumentsParPhase({ base, mode, langue = "fr", phaseInitiale }: { base: string; mode: Mode; langue?: "fr" | "ar"; phaseInitiale?: string | null }) {
+export default function DocumentsParPhase({ base, mode, langue = "fr", phaseInitiale, depot }: { base: string; mode: Mode; langue?: "fr" | "ar"; phaseInitiale?: string | null; depot: DepotCible }) {
   const t = T[langue], ar = langue === "ar";
   const [r, setR] = useState<Reponse | null>(null);
   const [erreur, setErreur] = useState<string | null>(null);
@@ -116,17 +122,30 @@ export default function DocumentsParPhase({ base, mode, langue = "fr", phaseInit
   };
 
   const deposer = async (p: Piece, f: File) => {
+    if (f.type !== "application/pdf" && !/^image\/(jpeg|png|webp)$/.test(f.type)) { setErreur(t.typeRefuse); return; }
+    setOccupe(p.cle); setErreur(null);
     try {
-      let contenu: string, nom = f.name;
-      if (f.type === "application/pdf") {
-        if (f.size > 4 * 1024 * 1024) { setErreur(t.fichierTrop); return; }
-        contenu = await lireBase64(f);
-      } else if (/^image\//.test(f.type)) {
-        contenu = (await preparerImage(f)).image;
-        nom = nom.replace(/\.[a-z0-9]+$/i, "") + ".webp";
-      } else { setErreur(t.typeRefuse); return; }
-      await agir({ action: "deposer", cle: p.cle, nom, contenu });
-    } catch { setErreur(t.typeRefuse); }
+      // Photos et scans lourds réduits dans le navigateur (sans métadonnées) ; PDF et images légères gardés tels quels.
+      let octets: Blob = f, type = f.type, ext = f.type === "application/pdf" ? "pdf" : f.type === "image/png" ? "png" : f.type === "image/webp" ? "webp" : "jpg";
+      if (/^image\//.test(f.type) && f.size > 1.4 * 1024 * 1024) {
+        octets = b64VersBlob((await preparerImage(f)).image); type = octets.type; ext = type === "image/webp" ? "webp" : "jpg";
+      }
+      // Nom fixé par la pièce : un nouvel envoi devient une nouvelle version dans le dépôt commun.
+      const r = await apiDepot.televerser(depot.porte, {
+        contexte: depot.contexte, objetId: depot.objetId, nom: `${p.phase.slice(0, 3)}-${p.code.toLowerCase()}.${ext}`, type, octets,
+        meta: { phase: p.phase.slice(0, 3), categorie: "piece-dossier", legende: p.libelleFr },
+      });
+      if (!r.ok) { setErreur(ERREURS_DEPOT[r.error] || ERREURS[r.error] || t.erreur); return; }
+      await agir({ action: "rattacher", cle: p.cle, documentId: r.data.document.id });
+    } catch { setErreur(t.typeRefuse); } finally { setOccupe(null); }
+  };
+  /** Ouvre un fichier : lien signé du dépôt commun, sinon ancien chemin (fichiers déposés avant le dépôt commun). */
+  const ouvrir = async (id: string) => {
+    const fenetre = window.open("", "_blank");
+    if (fenetre) fenetre.opener = null;
+    const r = await apiDepot.lien(depot.porte, id);
+    const url = r.ok ? r.data.url : `${base}/${encodeURIComponent(id)}`;
+    if (fenetre) fenetre.location.href = url; else window.location.href = url;
   };
 
   if (erreur && !r) return <p style={S.erreur}>{erreur}</p>;
@@ -161,7 +180,7 @@ export default function DocumentsParPhase({ base, mode, langue = "fr", phaseInit
                     <h4 style={S.h4}>{ar ? pieces[0].lotTitre.ar : pieces[0].lotTitre.fr}</h4>
                     {pieces.map((p) => (
                       <LignePiece key={p.cle} p={p} mode={mode} ar={ar} t={t} libStatut={libStatut} fichiers={r.fichiers} base={base}
-                        occupe={occupe === p.cle} agir={agir} deposer={deposer} />
+                        occupe={occupe === p.cle} agir={agir} deposer={deposer} ouvrir={ouvrir} />
                     ))}
                   </div>
                 ))}
@@ -199,9 +218,9 @@ export default function DocumentsParPhase({ base, mode, langue = "fr", phaseInit
   );
 }
 
-function LignePiece({ p, mode, ar, t, libStatut, fichiers, base, occupe, agir, deposer }: {
+function LignePiece({ p, mode, ar, t, libStatut, fichiers, occupe, agir, deposer, ouvrir }: {
   p: Piece; mode: Mode; ar: boolean; t: (typeof T)["fr"]; libStatut: (s: Piece["statut"]) => string; fichiers: Reponse["fichiers"]; base: string; occupe: boolean;
-  agir: (c: Record<string, unknown>) => Promise<void>; deposer: (p: Piece, f: File) => Promise<void>;
+  agir: (c: Record<string, unknown>) => Promise<void>; deposer: (p: Piece, f: File) => Promise<void>; ouvrir: (id: string) => Promise<void>;
 }) {
   const c = COULEUR[p.statut];
   const peutDeposer = mode !== "client" || p.producteur === "MAITRE_OUVRAGE";
@@ -231,7 +250,7 @@ function LignePiece({ p, mode, ar, t, libStatut, fichiers, base, occupe, agir, d
       {p.motif && <div style={{ ...S.petit, color: "#B42318" }}>{t.motif} : {p.motif}</div>}
       {p.documentIds.length > 0 && (
         <div style={S.petit}>
-          {p.documentIds.map((id) => fichiers[id] ? <a key={id} href={`${base}/${id}`} target="_blank" rel="noopener noreferrer" style={{ marginInlineEnd: 10 }}>{fichiers[id].nom}</a> : null)}
+          {p.documentIds.map((id) => fichiers[id] ? <button key={id} type="button" onClick={() => void ouvrir(id)} style={{ ...S.lienBtn, marginInlineEnd: 10 }}>{fichiers[id].nom}</button> : null)}
         </div>
       )}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 4 }}>

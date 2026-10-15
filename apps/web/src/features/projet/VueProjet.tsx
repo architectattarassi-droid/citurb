@@ -156,7 +156,8 @@ export default function VueProjet({ base, projetId, entete }: { base: string; pr
         <summary className="cursor-pointer text-sm font-bold text-[#0B1B3A]">Documents du dossier, normes et contrôles — phase par phase</summary>
         <div className="mt-3">
           <Suspense fallback={<p className="text-sm text-slate-500">Chargement…</p>}>
-            <DocumentsParPhase base={`${base}/${encodeURIComponent(projetId)}/pieces`} mode={base.startsWith("/api/cc/") ? "admin" : d.moi.superviseur ? "superviseur" : d.moi.role === "CLIENT" ? "client" : "intervenant"} />
+            <DocumentsParPhase base={`${base}/${encodeURIComponent(projetId)}/pieces`}
+              depot={{ porte: base.startsWith("/api/cc/") ? { type: "admin" } : { type: "membre" }, contexte: "projet", objetId: projetId }} mode={base.startsWith("/api/cc/") ? "admin" : d.moi.superviseur ? "superviseur" : d.moi.role === "CLIENT" ? "client" : "intervenant"} />
           </Suspense>
         </div>
       </details>

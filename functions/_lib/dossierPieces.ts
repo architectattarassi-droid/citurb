@@ -12,8 +12,8 @@
  * l'espace projet dépose les pièces de son rôle, l'architecte valide.
  * Chaque action est journalisée (journaliser(), "DossierEvenement").
  */
-import { depuisBase64 } from "./images";
-import { depotDocumentsNeon, OCTETS_PAR_OBJET, validerDocument, type DepotDocuments, type MetaDocument, type Sql } from "./documents";
+import { depotDocumentsNeon, type Sql } from "./documents";
+import { CLE_CABINET } from "./appels";
 import { journaliser } from "./dossierAdmin";
 import { masquerCoordonnees } from "./coordonnees";
 import { phaseDuCatalogue, typeProjetDepuis, rolesEspaceProjet } from "../../packages/contracts/src/gestion/referentiel";
@@ -87,7 +87,8 @@ export async function lirePieces(sql: Sql, dossierId: string, o: { client?: bool
 // ── Actions ─────────────────────────────────────────────────────────────
 
 export type ActionPiece =
-  | { action: "deposer"; cle: string; nom: string; octets: Uint8Array }
+  /** Le fichier est d'abord envoyé au dépôt de documents commun (contrat v2) ; la pièce référence son id. */
+  | { action: "rattacher"; cle: string; documentId: string }
   | { action: "valider"; cle: string }
   | { action: "refuser"; cle: string; motif: string }
   | { action: "sans_objet"; cle: string; motif: string }
@@ -101,11 +102,11 @@ export function lireActionPiece(b: unknown): ActionPiece | { erreur: string } {
   const cle = String(o.cle ?? "");
   if (!CLE_RE.test(cle)) return { erreur: "piece_invalide" };
   switch (o.action) {
-    case "deposer": {
-      const octets = typeof o.contenu === "string" && o.contenu.length <= 6_000_000 ? depuisBase64(o.contenu) : null;
-      if (!octets || !octets.length) return { erreur: "fichier_invalide" };
-      return { action: "deposer", cle, nom: String(o.nom ?? "document"), octets };
-    }
+    case "rattacher":
+      return typeof o.documentId === "string" && /^doc_[0-9a-f]{32}$/.test(o.documentId) ? { action: "rattacher", cle, documentId: o.documentId } : { erreur: "document_invalide" };
+    case "deposer":
+      // Ancien envoi direct (octets en base64) retiré : un seul système d'envoi, le dépôt commun.
+      return { erreur: "envoi_par_le_depot_commun" };
     case "valider": return { action: "valider", cle };
     case "refuser": { const m = motifDe(o.motif); return m ? { action: "refuser", cle, motif: m } : { erreur: "motif_obligatoire" }; }
     case "sans_objet": { const m = motifDe(o.motif); return m ? { action: "sans_objet", cle, motif: m } : { erreur: "motif_obligatoire" }; }
@@ -117,7 +118,10 @@ export function lireActionPiece(b: unknown): ActionPiece | { erreur: string } {
 export type Resultat = { status: number; json: Record<string, unknown> };
 const ko = (status: number, error: string, extra: Record<string, unknown> = {}): Resultat => ({ status, json: { ok: false, error, ...extra } });
 
-export async function appliquerActionPiece(sql: Sql, dossierId: string, a: ActionPiece, acteur: ActeurPiece, o: { maintenant?: string; documents?: DepotDocuments } = {}): Promise<Resultat> {
+/** Clé du déposant dans le dépôt commun (functions/api/{cc,client,projets}/depot). */
+export const cleDepot = (a: ActeurPiece) => (a.kind === "admin" ? CLE_CABINET : a.kind === "client" ? `usr:${a.userId}` : `membre:${a.id}`);
+
+export async function appliquerActionPiece(sql: Sql, dossierId: string, a: ActionPiece, acteur: ActeurPiece, o: { maintenant?: string } = {}): Promise<Resultat> {
   const maintenant = o.maintenant ?? new Date().toISOString();
   const c = await contexte(sql, dossierId);
   if (!c) return ko(404, "not_found");
@@ -129,15 +133,21 @@ export async function appliquerActionPiece(sql: Sql, dossierId: string, a: Actio
   const qui = auteur(acteur);
   const tracer = (action: string, details: Record<string, unknown>) => (t.journal ? journaliser(sql, dossierId, qui, action, { cle: a.cle, ...details }, maintenant) : Promise.resolve());
 
-  if (a.action === "deposer") {
+  if (a.action === "rattacher") {
     if (!peutDeposer(acteur, piece)) return ko(403, "interdit");
-    const v = validerDocument(a.octets, a.nom);
-    if (!v.ok) return ko(400, v.error);
-    const depot = o.documents ?? depotDocumentsNeon(sql);
-    if ((await depot.occupe("dossier", dossierId)) + v.doc.octets.length > OCTETS_PAR_OBJET) return ko(413, "quota_depasse");
+    // Le document doit venir du dépôt commun, pour CE dossier (ou un espace projet de ce dossier), déposé par cet acteur,
+    // contrôlé (envoi terminé, ni refusé ni supprimé).
+    const doc = (await sql`SELECT "id", "contexte", "objetId", "proprietaire", "statut", "nom", "type", "taille" FROM "DocumentDepose" WHERE "id" = ${a.documentId} LIMIT 1`)[0];
+    if (!doc || ["EN_COURS", "SUPPRIME", "REJECTED"].includes(String(doc.statut))) return ko(404, "document_inconnu");
+    const duDossier = (doc.contexte === "dossier" && doc.objetId === dossierId)
+      || (doc.contexte === "projet" && (await sql`SELECT 1 FROM "Projet" WHERE "id" = ${String(doc.objetId)} AND "dossierId" = ${dossierId} LIMIT 1`.catch(() => [])).length > 0);
+    if (!duDossier) return ko(404, "document_inconnu");
+    if (acteur.kind !== "admin" && doc.proprietaire !== cleDepot(acteur)) return ko(403, "interdit");
+    const deja = await sql`SELECT 1 FROM "DossierPiece" WHERE "dossierId" = ${dossierId} AND "documentIds" ? ${a.documentId} LIMIT 1`;
+    if (deja.length) return ko(409, "document_deja_rattache");
     const revision = PIECES_REVISION_PERMIS.test(a.cle)
       && Number((await sql`SELECT jsonb_array_length("documentIds") AS n FROM "DossierPiece" WHERE "dossierId" = ${dossierId} AND "cle" = ${a.cle}`)[0]?.n ?? 0) > 0;
-    const m: MetaDocument = await depot.inserer({ contexte: "dossier", objetId: dossierId, proprietaire: qui, doc: v.doc }, maintenant);
+    const m = { id: String(doc.id), nom: String(doc.nom), type: String(doc.type), taille: Number(doc.taille) || 0 };
     await sql`INSERT INTO "DossierPiece" ("dossierId", "cle", "statut", "motif", "documentIds", "deposePar", "deposeLe", "updatedAt")
       VALUES (${dossierId}, ${a.cle}, 'DEPOSE', NULL, ${JSON.stringify([m.id])}::jsonb, ${qui}, ${maintenant}::timestamp(3), ${maintenant}::timestamp(3))
       ON CONFLICT ("dossierId", "cle") DO UPDATE SET "statut" = 'DEPOSE', "motif" = NULL,
