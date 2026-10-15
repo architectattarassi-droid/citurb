@@ -131,7 +131,14 @@ async function lireJson(req: Request, max = 128 * 1024): Promise<Record<string, 
 const origineOk = (req: Request) => req.headers.get("origin") === new URL(req.url).origin;
 const LECTURE = new Set(["GET", "HEAD"]);
 
-export type Contexte = { req: Request; env: EnvProjets; depot: Depot; maintenant: () => string };
+/**
+ * Gestion de projet (lots GP2-GP3, functions/_lib/projetsGestion.ts) : pièces du dossier
+ * rattaché et PV de chantier. Absent (tests, base sans dossier) : routes 404.
+ */
+export interface GestionProjet {
+  pieces(c: Contexte, a: Acteur, p: ProjetLigne, reste: string[]): Promise<Response>;
+}
+export type Contexte = { req: Request; env: EnvProjets; depot: Depot; maintenant: () => string; gestion?: GestionProjet };
 
 async function journaliser(c: Contexte, projetId: string, a: Acteur, action: string, cible: string | null, details: Record<string, unknown> | null = null) {
   await c.depot.journaliser({ id: nouvelId("pev_"), projetId, auteur: libelleAuteur(a), action, cible, details, createdAt: c.maintenant() });
@@ -192,6 +199,9 @@ async function routeProjet(c: Contexte, a: Acteur, projetId: string, reste: stri
 
   // Membres (architecte du projet ou administration)
   if (reste[0] === "membres") return routeMembres(c, a, projet, reste.slice(1));
+
+  // Documents attendus du dossier rattaché, phase par phase (GP2).
+  if (reste[0] === "pieces") return c.gestion ? c.gestion.pieces(c, a, projet, reste.slice(1)) : ko(404, "not_found");
 
   if (reste[0] === "journal" && reste.length === 1 && m === "GET") {
     if (!superviseur(a)) return ko(403, "interdit");

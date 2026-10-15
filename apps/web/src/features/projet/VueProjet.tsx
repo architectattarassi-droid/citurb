@@ -10,6 +10,7 @@ import { lireProjet, urlFichier, type ResumeJalon, type VueProjetDonnees } from 
 import { COULEUR_STATUT, dateHeure, erreur, role, T } from "./libelles";
 
 const PageJalon = lazy(() => import("./PageJalon"));
+const DocumentsParPhase = lazy(() => import("../gestion/DocumentsParPhase"));
 
 type Filtre = "tout" | "maPart" | "aValider";
 
@@ -150,6 +151,15 @@ export default function VueProjet({ base, projetId, entete }: { base: string; pr
           )}
         </section>
       )}
+
+      <details className="mb-4 rounded-xl border border-slate-200 bg-white p-3">
+        <summary className="cursor-pointer text-sm font-bold text-[#0B1B3A]">Documents du dossier, normes et contrôles — phase par phase</summary>
+        <div className="mt-3">
+          <Suspense fallback={<p className="text-sm text-slate-500">Chargement…</p>}>
+            <DocumentsParPhase base={`${base}/${encodeURIComponent(projetId)}/pieces`} mode={base.startsWith("/api/cc/") ? "admin" : d.moi.superviseur ? "superviseur" : d.moi.role === "CLIENT" ? "client" : "intervenant"} />
+          </Suspense>
+        </div>
+      </details>
 
       {total > 0 && (
         <section aria-label="Jalons">

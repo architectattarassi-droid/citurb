@@ -15,6 +15,7 @@ import React, { Suspense, lazy, useCallback, useEffect, useState } from "react";
 import { useLang, useT } from "../../i18n/i18n";
 import Login from "../../tomes/tome5/pages/Login";
 import { VueDossierClient, type DossierClient } from "../mon-dossier/MonDossierPage";
+const DocumentsParPhase = lazy(() => import("../gestion/DocumentsParPhase"));
 
 const EcrireMessage = lazy(() => import("../messages/EcrireMessage"));
 const DemanderAppelVideo = lazy(() => import("../appels/DemanderAppelVideo"));
@@ -117,7 +118,9 @@ export default function MonEspacePage() {
 
               <section style={S.carte}>
                 <h2 style={S.h2}>{t("espace.documents")}</h2>
-                <p style={{ ...S.doux, margin: 0 }}>{t("espace.documents.texte")}</p>
+                <Suspense fallback={<p style={S.doux}>{t("espace.charge")}</p>}>
+                  <DocumentsParPhase base={`/api/client/dossiers/${encodeURIComponent(choisi)}/pieces`} mode="client" langue={l === "ar" ? "ar" : "fr"} />
+                </Suspense>
               </section>
             </>
           )}

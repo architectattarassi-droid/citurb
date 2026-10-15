@@ -21,6 +21,7 @@ import EcrireMessage from "../../../features/messages/EcrireMessage";
 import { VueDossierClient, type DossierClient } from "../../../features/mon-dossier/MonDossierPage";
 import OngletDevis from "./devis/OngletDevis";
 import PanneauProfil, { type Profil } from "./PanneauProfil";
+import DocumentsParPhase from "../../../features/gestion/DocumentsParPhase";
 
 type Etape = {
   code: string; titre: string; famille: string; conditionnelle: boolean; statut: string; source: "saisie" | "deduite"; date: string | null; note: string | null; saisiPar: string | null;
@@ -74,7 +75,7 @@ async function appel<T>(url: string, init: RequestInit = {}): Promise<T> {
   return j as T;
 }
 
-type Onglet = "parcours" | "echanges" | "journal" | "devis" | "factures" | "donnees";
+type Onglet = "parcours" | "documents" | "echanges" | "journal" | "devis" | "factures" | "donnees";
 
 export default function FicheDossier({ vueClientInitiale = false }: { vueClientInitiale?: boolean }) {
   const { id = "" } = useParams();
@@ -176,7 +177,7 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
       )}
 
       <div style={S.onglets} role="tablist">
-        {([["parcours", "Parcours A → Z"], ["echanges", "Échanges"], ["journal", `Journal (${f.journal.length})`], ["devis", "Devis"], ["factures", "Factures"], ["donnees", "Données"]] as [Onglet, string][]).map(([k, l]) => (
+        {([["parcours", "Parcours A → Z"], ["documents", "Documents par phase"], ["echanges", "Échanges"], ["journal", `Journal (${f.journal.length})`], ["devis", "Devis"], ["factures", "Factures"], ["donnees", "Données"]] as [Onglet, string][]).map(([k, l]) => (
           <button key={k} role="tab" aria-selected={onglet === k} style={S.onglet(onglet === k)} onClick={() => setOnglet(k)}>{l}</button>
         ))}
       </div>
@@ -196,6 +197,14 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
         </>
       )}
 
+      {onglet === "documents" && (
+        <section style={S.carte}>
+          <h2 style={S.h2}>Documents attendus, normes et contrôles — phase par phase</h2>
+          <p style={S.petit}>Chaque pièce absente est marquée « Document manquant ». Les pièces conditionnelles dépendent du profil du projet (onglet Parcours).</p>
+          <DocumentsParPhase base={`/api/cc/dossiers/${encodeURIComponent(id)}/pieces`} mode="admin" />
+        </section>
+      )}
+
       {onglet === "echanges" && (
         <>
           <section style={S.carte}>
@@ -210,7 +219,8 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
           </section>
           <section style={S.carte}>
             <h2 style={S.h2}>Documents</h2>
-            <p style={S.petit}>Le dépôt de documents commun (plans, pièces, photos) s'affichera ici (docs/architecture/contrat-depot-fichiers.md).</p>
+            <p style={S.petit}>Pièces du dossier, phase par phase : onglet « Documents par phase ».</p>
+            <button style={S.btnGhost} onClick={() => setOnglet("documents")}>Ouvrir les documents</button>
           </section>
           <section style={S.carte}>
             <h2 style={S.h2}>Historique commercial</h2>

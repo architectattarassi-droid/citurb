@@ -54,9 +54,33 @@ const oui = (v: boolean | null | undefined): Applicabilite => (v == null ? "A_CO
 /** Condition remplie si `fort` ; sinon « recommandé » → à confirmer par l'admin. */
 const ouConfirmer = (fort: boolean): Applicabilite => (fort ? "EXIGE" : "A_CONFIRMER");
 const evenement: Applicabilite = "NON";
+/** Équipement : la pièce n'apparaît que si la case est cochée dans le profil du projet. */
+const equipement = (v: boolean | null | undefined): Applicabilite => (v ? "EXIGE" : "NON");
 
 type Regle = (p: ProfilProjet) => Applicabilite;
+const typeEst = (...t: TypeProjetRef[]): Regle => (p) => (p.type == null ? "A_CONFIRMER" : t.includes(p.type) ? "EXIGE" : "NON");
+const sousSol = (p: ProfilProjet) => (p.sousSols == null ? null : p.sousSols > 0);
+
 const REGLES: Array<[RegExp, Regle]> = [
+  // Phrases des livrables d'études (docs/gestion-projet/livrables-par-lot.md).
+  [/^visa du bureau de contrôle si budget/i, () => "EXIGE"], // la pièce existe toujours : visée par le contrôle ou par l'architecte
+  [/^synthèse obligatoire au-delà de R\+2/i, (p) => ((p.etagesHorsSol ?? 0) > 2 || (p.budgetMDH ?? 0) > SEUIL_BUREAU_CONTROLE_MDH ? "EXIGE" : "A_CONFIRMER")],
+  [/^sous-sol ou sol difficile/i, (p) => (sousSol(p) ? "EXIGE" : "A_CONFIRMER")],
+  [/^sous-sol ou mitoyenneté/i, (p) => (sousSol(p) || p.mitoyennete ? "EXIGE" : "A_CONFIRMER")],
+  [/^sous-sol$/i, (p) => oui(sousSol(p))],
+  [/^lotissement ou équipement/i, typeEst("LOTISSEMENT", "EQUIPEMENT")],
+  [/^lotissement, immeuble, équipement/i, typeEst("LOTISSEMENT", "IMMEUBLE", "EQUIPEMENT")],
+  [/^lotissement ou réseau public créé/i, typeEst("LOTISSEMENT")],
+  [/^immeuble ou équipement/i, typeEst("IMMEUBLE", "EQUIPEMENT")],
+  [/^immeuble, ERP, équipement/i, (p) => (grand(p) || p.erp ? "EXIGE" : p.type == null ? "A_CONFIRMER" : "NON")],
+  [/^climatisation prévue$/i, (p) => equipement(p.climatisation)],
+  [/^solaire prévu$/i, (p) => equipement(p.solaire)],
+  [/^extérieurs ou piscine|^piscine ou clôture/i, (p) => (p.piscine ? "EXIGE" : "A_CONFIRMER")],
+  [/^bâtiment neuf soumis au RTCM/i, (p) => (p.type === "RENOVATION_EXTENSION" ? "A_CONFIRMER" : "EXIGE")],
+  [/^Produits soumis à norme obligatoire/i, () => "EXIGE"],
+  [/^Accident$/i, () => evenement],
+  [/^pièce complémentaire|^pas de réseau public/i, () => "A_CONFIRMER"],
+  // Phrases des documents des jalons.
   [/^Terrain non immatricul/i, (p) => oui(p.terrainNonImmatricule)],
   [/^Indivision$/i, (p) => oui(p.indivision)],
   [/lotissement autoris/i, (p) => oui(p.lotissementAutorise)],
@@ -73,12 +97,12 @@ const REGLES: Array<[RegExp, Regle]> = [
   [/^Mitoyenneté, sous-sol, immeuble/i, (p) => (p.mitoyennete || (p.sousSols ?? 0) > 0 || p.type === "IMMEUBLE" ? "EXIGE" : "A_CONFIRMER")],
   [/^Immeuble, équipement, chantier à plusieurs/i, (p) => ouConfirmer(grand(p))],
   [/^Immeuble, terrain en pente/i, (p) => ouConfirmer(p.type === "IMMEUBLE")],
-  [/^Climatisation$/i, (p) => oui(p.climatisation)],
-  [/^Installation gaz$/i, (p) => oui(p.gaz)],
-  [/^Ascenseur$/i, (p) => oui(p.ascenseur)],
+  [/^Climatisation$/i, (p) => equipement(p.climatisation)],
+  [/^Installation gaz$/i, (p) => equipement(p.gaz)],
+  [/^Ascenseur$/i, (p) => equipement(p.ascenseur)],
   [/^Immeuble, ERP$/i, (p) => (grand(p) || p.erp ? "EXIGE" : p.type == null ? "A_CONFIRMER" : "NON")],
-  [/^Piscine$/i, (p) => oui(p.piscine)],
-  [/^Solaire$/i, (p) => oui(p.solaire)],
+  [/^Piscine$/i, (p) => equipement(p.piscine)],
+  [/^Solaire$/i, (p) => equipement(p.solaire)],
   [/^Immeuble en copropriété/i, (p) => oui(p.copropriete ?? (p.type === "IMMEUBLE" ? true : p.type ? false : null))],
   // Pièces liées à un événement du chantier : absentes tant que l'admin ne les active pas.
   [/^(Si prévue au marché|Avance prévue|Cautions remises|Retenue pratiquée|Carence de l'entreprise|Désordre grave|Avis avec réserves)$/i, () => evenement],
@@ -89,11 +113,13 @@ const REGLES: Array<[RegExp, Regle]> = [
 /** Une condition du référentiel (phrase) appliquée au profil. */
 export function evaluerCondition(texte: string | null | undefined, p: ProfilProjet): Applicabilite {
   if (!texte) return "EXIGE";
+  const t = /^type de projet ([A-Z_]+)$/i.exec(texte.trim());
+  if (t) return p.type == null ? "A_CONFIRMER" : p.type === t[1].toUpperCase() ? "EXIGE" : "NON";
   for (const [re, f] of REGLES) if (re.test(texte.trim())) return f(p);
   return "A_CONFIRMER";
 }
 /** La phrase est-elle connue (traduite en règle) ? Sert au test de couverture du référentiel. */
-export const conditionConnue = (texte: string) => REGLES.some(([re]) => re.test(texte.trim()));
+export const conditionConnue = (texte: string) => /^type de projet [A-Z_]+$/i.test(texte.trim()) || REGLES.some(([re]) => re.test(texte.trim()));
 
 /** Applicabilité d'un document : obligatoire, facultatif (« NON » sauf activation) ou conditionnel. */
 export function applicabiliteDocument(d: { code: string; obligatoire: true | false | "CONDITIONNEL"; condition?: string }, p: ProfilProjet): Applicabilite {

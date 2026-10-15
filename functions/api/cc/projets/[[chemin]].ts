@@ -9,12 +9,14 @@
 import { neon } from "@neondatabase/serverless";
 import { indisponible, routeurAdmin, segments, type EnvProjets } from "../../../_lib/projetsApi";
 import { depotNeon, type Sql } from "../../../_lib/projetsNeon";
+import { gestionNeon } from "../../../_lib/projetsGestion";
 
 export async function onRequest(ctx: { request: Request; env: EnvProjets; params: { chemin?: string | string[] }; data?: Record<string, unknown> }): Promise<Response> {
   if (!ctx.env.DATABASE_URL) return indisponible();
   try {
-    const depot = depotNeon(neon(ctx.env.DATABASE_URL) as unknown as Sql);
-    return await routeurAdmin({ req: ctx.request, env: ctx.env, depot, maintenant: () => new Date().toISOString() }, segments(ctx.params.chemin), String(ctx.data?.adminEmail || ""));
+    const sql = neon(ctx.env.DATABASE_URL) as unknown as Sql;
+    const depot = depotNeon(sql);
+    return await routeurAdmin({ req: ctx.request, env: ctx.env, depot, gestion: gestionNeon(sql as never), maintenant: () => new Date().toISOString() }, segments(ctx.params.chemin), String(ctx.data?.adminEmail || ""));
   } catch (e) {
     console.error(`[cc/projets] erreur (${(e as { code?: string })?.code || "sans code"})`);
     return indisponible();
