@@ -9,12 +9,62 @@ import { roleDe, superviseur, type Acteur } from "./projets";
 import { depotDocumentsNeon, reponseDocument, type Sql } from "./documents";
 import { appliquerActionPiece, documentDuDossier, lireActionPiece, lirePieces, tablesPieces, type ActeurPiece } from "./dossierPieces";
 import { journaliser } from "./dossierAdmin";
+import { nouvelId } from "./projets";
+import { ordreCatalogue, phaseCourante } from "../../packages/contracts/src/gestion/frise";
+
+const FAITS = new Set(["FAITE", "FAITE_HORS_PLATEFORME", "DEBLOQUEE"]);
 
 const acteurPiece = (a: Acteur): ActeurPiece =>
   a.kind === "admin" ? { kind: "admin", email: a.email } : { kind: "membre", id: a.id, role: a.role, nom: a.nom, superviseur: superviseur(a) };
 
 export function gestionNeon(sql: Sql): GestionProjet {
   return {
+    /**
+     * La phase du dossier suit l'espace projet : phase du premier jalon non terminé.
+     * Elle n'avance que vers l'avant ; l'ancienne phase devient « faite » ; journal du dossier.
+     */
+    async synchroDossier(c, p, auteur) {
+      if (!p.dossierId) return;
+      const js = await c.depot.jalons(p.id);
+      const cur = phaseCourante(js.map((j) => ({ phase: j.definition.phase, phaseGabarit: j.definition.phaseGabarit ?? null, statut: j.statut, rang: j.rang })));
+      if (!cur) return;
+      const d = (await sql`SELECT "phase", "payload" FROM "Dossier" WHERE "id" = ${p.dossierId} LIMIT 1`)[0];
+      if (!d) return;
+      const payload = (d.payload && typeof d.payload === "object" ? d.payload : {}) as Record<string, unknown>;
+      const gestion = (payload.gestion && typeof payload.gestion === "object" ? payload.gestion : {}) as Record<string, unknown>;
+      const avance = ordreCatalogue(cur.catalogue) > ordreCatalogue(d.phase == null ? null : String(d.phase));
+      if (!avance && gestion.phaseRef === cur.phaseRef) return;
+      const le = c.maintenant();
+      const nouveau = { ...payload, gestion: { ...gestion, phaseRef: cur.phaseRef } };
+      if (avance) await sql`UPDATE "Dossier" SET "phase" = ${cur.catalogue}, "payload" = ${JSON.stringify(nouveau)}::jsonb, "updatedAt" = ${le}::timestamp(3) WHERE "id" = ${p.dossierId}`;
+      else await sql`UPDATE "Dossier" SET "payload" = ${JSON.stringify(nouveau)}::jsonb WHERE "id" = ${p.dossierId}`;
+      const t = await tablesPieces(sql);
+      if (avance && t.journal) {
+        if (d.phase) await sql`INSERT INTO "DossierEtape" ("dossierId", "phaseCode", "statut", "saisiPar", "updatedAt") VALUES (${p.dossierId}, ${String(d.phase)}, 'FAITE', ${auteur}, ${le}::timestamp(3))
+          ON CONFLICT ("dossierId", "phaseCode") DO UPDATE SET "statut" = 'FAITE', "saisiPar" = EXCLUDED."saisiPar", "updatedAt" = EXCLUDED."updatedAt"
+          WHERE "DossierEtape"."statut" IN ('EN_COURS', 'A_FAIRE')`;
+        await sql`INSERT INTO "DossierEtape" ("dossierId", "phaseCode", "statut", "saisiPar", "updatedAt") VALUES (${p.dossierId}, ${cur.catalogue}, 'EN_COURS', ${auteur}, ${le}::timestamp(3))
+          ON CONFLICT ("dossierId", "phaseCode") DO NOTHING`;
+      }
+      if (t.journal) await journaliser(sql, p.dossierId, auteur, avance ? "PHASE_SYNCHRONISEE" : "PHASE_REF_SYNCHRONISEE",
+        { projetId: p.id, de: d.phase ?? null, vers: avance ? cur.catalogue : d.phase ?? null, phaseRef: cur.phaseRef }, le);
+    },
+    /** Étapes du dossier déjà faites (hors plateforme, débloquées) ou sans objet → jalons validés / sans objet. */
+    async apresCreation(c, projetId, dossierId, auteur) {
+      const t = await tablesPieces(sql);
+      if (!t.journal) return;
+      const etapes = new Map((await sql`SELECT "phaseCode", "statut" FROM "DossierEtape" WHERE "dossierId" = ${dossierId}`).map((r) => [String(r.phaseCode), String(r.statut)]));
+      if (!etapes.size) return;
+      const le = c.maintenant();
+      let n = 0;
+      for (const j of await c.depot.jalons(projetId)) {
+        const s = etapes.get(j.definition.phaseGabarit ?? j.definition.phase) ?? etapes.get(j.definition.phase);
+        if (!s || j.statut !== "A_FAIRE") continue;
+        if (FAITS.has(s) && (await c.depot.majStatut(projetId, j.code, "A_FAIRE", "VALIDE", "Fait hors plateforme (étape du dossier)", le))) n++;
+        else if (s === "SANS_OBJET" && (await c.depot.majStatut(projetId, j.code, "A_FAIRE", "SANS_OBJET", null, le))) n++;
+      }
+      if (n) await c.depot.journaliser({ id: nouvelId("pev_"), projetId, auteur, action: "etapes_dossier_reportees", cible: dossierId, details: { jalons: n }, createdAt: le });
+    },
     async journalDossier(dossierId, auteur, action, details, le) {
       if ((await tablesPieces(sql)).journal) await journaliser(sql, dossierId, auteur, action, details, le);
     },

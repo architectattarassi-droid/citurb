@@ -145,6 +145,10 @@ export interface GestionProjet {
   pieces(c: Contexte, a: Acteur, p: ProjetLigne, reste: string[]): Promise<Response>;
   /** Journal du dossier rattaché ("DossierEvenement", via journaliser()). */
   journalDossier?(dossierId: string, auteur: string, action: string, details: Record<string, unknown>, le: string): Promise<void>;
+  /** Après la validation d'un jalon : phase du dossier recalculée (GP5). */
+  synchroDossier?(c: Contexte, p: ProjetLigne, auteur: string): Promise<void>;
+  /** Après la création d'un projet depuis un dossier : étapes faites hors plateforme reportées sur les jalons (GP5). */
+  apresCreation?(c: Contexte, projetId: string, dossierId: string, auteur: string): Promise<void>;
 }
 
 /** Modèle d'un document : référentiel figé du projet, sinon PV de chantier du référentiel de gestion (GP3). */
@@ -305,6 +309,7 @@ async function modifierJalon(c: Contexte, a: Acteur, p: ProjetLigne, j: JalonLig
     if (p.dossierId && c.gestion?.journalDossier) {
       await c.gestion.journalDossier(p.dossierId, libelleAuteur(a), "POINT_ARRET_DEBLOQUE", { projetId: p.id, jalon: j.code, titre: d.titre, motif, pvManquants }, le).catch(() => undefined);
     }
+    await c.gestion?.synchroDossier?.(c, p, libelleAuteur(a)).catch(() => undefined);
     return ok({ statut: "VALIDE", deblocage: deb });
   }
 
@@ -325,6 +330,7 @@ async function modifierJalon(c: Contexte, a: Acteur, p: ProjetLigne, j: JalonLig
     }
     if (!(await c.depot.majStatut(p.id, j.code, j.statut, vers, vers === "VALIDE" ? `${nomDe(a)} (${roleDe(a)})` : null, le))) return ko(409, "conflit");
     await journaliser(c, p.id, a, "statut", j.code, { de: j.statut, vers });
+    if (vers === "VALIDE" || vers === "SANS_OBJET") await c.gestion?.synchroDossier?.(c, p, libelleAuteur(a)).catch(() => undefined);
     return ok({ statut: vers });
   }
 
@@ -612,6 +618,7 @@ async function creerProjet(c: Contexte, a: Acteur): Promise<Response> {
   const id = nouvelId("prj_");
   await c.depot.creerProjet({ id, dossierId, titre, caracteristiques, referentielVersion: version, referentiel: inst.dictionnaire, creePar: libelleAuteur(a) }, inst.jalons, c.maintenant());
   await journaliser(c, id, a, "projet_cree", dossierId, { jalons: inst.jalons.length, version });
+  if (dossierId) await c.gestion?.apresCreation?.(c, id, dossierId, libelleAuteur(a)).catch(() => undefined);
   return ok({ id, jalons: inst.jalons.length });
 }
 

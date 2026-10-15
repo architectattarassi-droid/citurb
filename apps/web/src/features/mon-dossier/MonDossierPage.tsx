@@ -18,6 +18,9 @@ export type DossierClient = {
   autorisation: { numero: string | null; date: string | null; expiration: string | null; niveauAlerte: "EXPIREE" | "J90" | null; joursRestants: number | null } | null;
   etatChantier: string | null; client: { nom: string | null }; cabinet: { nom: string | null; architecte: string | null } | null;
   phaseActuelle: { code: string; titre: string } | null; etapes: Etape[]; missionsReglees: Array<{ libelle: string; date: string | null }>;
+  frise?: Array<{ code: string; ordre: number; titre: string; titreAr: string; statut: "FAIT" | "EN_COURS" | "A_VENIR"; dureeSemaines: [number, number] | null }>;
+  dureeTotaleMois?: [number, number] | null; libelleDuree?: string | null;
+  piecesClient?: Array<{ phase: string; libelleFr: string; libelleAr: string }>;
 };
 
 const T = {
@@ -29,6 +32,9 @@ const T = {
     question: "Une question ? Tout passe par CITURBAREA :", ecrire: "Écrire sur WhatsApp", invalide: "Ce lien n'est plus valable. Demandez un nouveau lien au cabinet ou à CITURBAREA.",
     charge: "Chargement…", indispo: "Service momentanément indisponible. Réessayez dans quelques minutes.", langue: "العربية", lot: "Lot", lotissement: "Lotissement",
     espace: "Mon espace : messages, appels vidéo et tous mes dossiers",
+    frise: "Avancement de mon projet", semaines: (a: number, b: number) => (a === b ? `environ ${a} semaine(s)` : `${a} à ${b} semaines`),
+    total: (a: number, b: number) => `Durée habituelle d'un projet comme le vôtre : ${a} à ${b} mois.`, indicatif: "Durées indicatives : elles dépendent des décisions, de l'administration et du chantier.",
+    attendu: "Ce que nous attendons de vous", attenduTexte: "Documents à fournir (déposez-les dans « Mon espace », rubrique Documents) :",
   },
   ar: {
     titre: "ملفي", bonjour: "مرحباً", suivi: "الملف يتابعه", phase: "المرحلة الحالية", projet: "المشروع", situation: "الموقع",
@@ -38,6 +44,9 @@ const T = {
     question: "لديكم سؤال؟ كل شيء يمر عبر CITURBAREA:", ecrire: "راسلونا عبر واتساب", invalide: "هذا الرابط لم يعد صالحاً. اطلبوا رابطاً جديداً من المكتب أو من CITURBAREA.",
     charge: "جارٍ التحميل…", indispo: "الخدمة غير متاحة مؤقتاً. أعيدوا المحاولة بعد دقائق.", langue: "Français", lot: "البقعة", lotissement: "التجزئة",
     espace: "فضائي: الرسائل، مكالمات الفيديو وجميع ملفاتي",
+    frise: "تقدم مشروعي", semaines: (a: number, b: number) => (a === b ? `حوالي ${a} أسبوع` : `من ${a} إلى ${b} أسابيع`),
+    total: (a: number, b: number) => `المدة المعتادة لمشروع مثل مشروعكم: من ${a} إلى ${b} شهراً.`, indicatif: "مدد تقريبية: تتعلق بالقرارات والإدارة والورش.",
+    attendu: "ما ننتظره منكم", attenduTexte: "الوثائق المطلوبة (أودعوها في «فضائي»، قسم الوثائق):",
   },
 };
 
@@ -137,7 +146,38 @@ export function VueDossierClient({ d, langue = "fr" }: { d: DossierClient; langu
       </section>
     )}
 
-    <section style={S.carte}>
+    {d.frise && d.frise.length > 0 && (
+      <section style={S.carte}>
+        <h2 style={S.h2}>{t.frise}</h2>
+        {d.dureeTotaleMois && <p style={{ ...S.petit, margin: "0 0 8px" }}>{t.total(d.dureeTotaleMois[0], d.dureeTotaleMois[1])}</p>}
+        <ol style={{ listStyle: "none", margin: 0, padding: 0 }}>
+          {d.frise.map((p) => {
+            const fait = p.statut === "FAIT", cours = p.statut === "EN_COURS";
+            return (
+              <li key={p.code} style={{ ...S.etape, alignItems: "flex-start", ...(cours ? { background: "#EEF1F7", borderRadius: 8, padding: "8px 6px" } : {}) }}>
+                <span style={{ ...S.puce, marginTop: 4, background: fait ? "#6B7F5C" : cours ? "#1F3864" : "#D9D9D9" }} aria-hidden />
+                <span style={{ flex: 1 }}>
+                  <span style={{ display: "block", fontWeight: cours ? 700 : 400, color: fait || cours ? "#1A1F2E" : "#8B91A1" }}>{ar ? p.titreAr : p.titre}</span>
+                  {p.dureeSemaines && !fait && <span style={S.petit}>{t.semaines(p.dureeSemaines[0], p.dureeSemaines[1])}</span>}
+                </span>
+                <span style={S.petit}>{fait ? t.fait : cours ? t.enCours : t.aVenir}</span>
+              </li>
+            );
+          })}
+        </ol>
+        <p style={{ ...S.petit, margin: "8px 0 0" }}>{t.indicatif}</p>
+      </section>
+    )}
+
+    {d.piecesClient && d.piecesClient.length > 0 && (
+      <section style={S.carte}>
+        <h2 style={S.h2}>{t.attendu}</h2>
+        <p style={{ ...S.petit, margin: "0 0 6px" }}>{t.attenduTexte}</p>
+        <ul style={{ margin: 0, paddingInlineStart: 18 }}>{d.piecesClient.slice(0, 12).map((x) => <li key={`${x.phase}-${x.libelleFr}`}>{ar ? x.libelleAr : x.libelleFr}</li>)}</ul>
+      </section>
+    )}
+
+    {!d.frise?.length && <section style={S.carte}>
       <h2 style={S.h2}>{t.parcours}</h2>
       <ol style={{ listStyle: "none", margin: 0, padding: 0 }}>
         {d.etapes.map((e) => {
@@ -151,7 +191,7 @@ export function VueDossierClient({ d, langue = "fr" }: { d: DossierClient; langu
           );
         })}
       </ol>
-    </section>
+    </section>}
     </>
   );
 }
