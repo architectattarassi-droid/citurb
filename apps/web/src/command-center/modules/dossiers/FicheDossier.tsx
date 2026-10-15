@@ -20,8 +20,13 @@ import DemanderAppelVideo from "../../../features/appels/DemanderAppelVideo";
 import EcrireMessage from "../../../features/messages/EcrireMessage";
 import { VueDossierClient, type DossierClient } from "../../../features/mon-dossier/MonDossierPage";
 import OngletDevis from "./devis/OngletDevis";
+import PanneauProfil, { type Profil } from "./PanneauProfil";
 
-type Etape = { code: string; titre: string; famille: string; conditionnelle: boolean; statut: string; source: "saisie" | "deduite"; date: string | null; note: string | null; saisiPar: string | null };
+type Etape = {
+  code: string; titre: string; famille: string; conditionnelle: boolean; statut: string; source: "saisie" | "deduite"; date: string | null; note: string | null; saisiPar: string | null;
+  phaseRef?: string; retiree?: boolean; aide?: string;
+};
+type EntetePhase = { code: string; ordre: number; titre: string; titreAr: string };
 type Fiche = {
   dossier: Record<string, unknown> & { id: string; title?: string; status?: string; phase?: string; clientNom?: string; clientTel?: string; clientEmail?: string; porteType?: string; opsNote?: string | null; payload?: unknown; createdAt?: string };
   compteClient: { id: string; email: string | null; telephone: string | null; nom: string | null; actif: boolean; motDePasse: boolean } | null;
@@ -30,6 +35,9 @@ type Fiche = {
   rendezVous: Array<{ id: string; debut: string | null; statut: string | null }>;
   projets: Array<{ id: string; titre: string | null; createdAt: string | null }>;
   parcours: Etape[];
+  phasesRef?: EntetePhase[];
+  profil?: Profil;
+  ordreRegional?: { conseil: string; antenne?: string; aVerifier: boolean; via: string; libelle: string } | null;
   journal: Array<{ id: string; auteur: string | null; action: string | null; details: unknown; createdAt: string | null }>;
   sqlACollerDevisFacturation: boolean;
   statutsDossier: string[];
@@ -107,10 +115,15 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
     catch (e) { setVueClient(null); setErreur((e as Error).message); }
   };
 
-  const groupes = useMemo(() => {
+  // Regroupement par phase du référentiel (P00 → P14), dans l'ordre chronologique :
+  // premier contact → conception → autorisation → exécution → marchés → chantier → réception → permis d'habiter.
+  const groupes = useMemo((): Array<[string, string, string, Etape[]]> => {
     const m = new Map<string, Etape[]>();
-    for (const e of f?.parcours ?? []) m.set(e.famille, [...(m.get(e.famille) ?? []), e]);
-    return [...m.entries()];
+    for (const e of f?.parcours ?? []) { const k = e.phaseRef || e.famille; m.set(k, [...(m.get(k) ?? []), e]); }
+    const entetes = f?.phasesRef ?? [];
+    const connus = entetes.filter((p) => m.has(p.code)).map((p): [string, string, string, Etape[]] => [p.code, `${String(p.ordre).padStart(2, "0")} — ${p.titre}`, p.titreAr, m.get(p.code)!]);
+    const autres = [...m.entries()].filter(([k]) => !entetes.some((p) => p.code === k)).map(([k, v]): [string, string, string, Etape[]] => [k, LIB_FAMILLE[k] || k, "", v]);
+    return [...connus, ...autres];
   }, [f]);
 
   if (!f) return <div style={S.page}>{erreur ? <div style={S.erreur}>{erreur}</div> : <p style={S.sous}>Chargement…</p>}<Link to="/cc/dossiers" style={S.lien}>← Liste des dossiers</Link></div>;
@@ -133,8 +146,9 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
           <button style={S.btnGhost} onClick={basculerVueClient}>{vueClient ? "Fermer la vue client" : "Vue client"}</button>
           <button style={S.btnGhost} disabled={occupe} onClick={genererLien}>Lien d'accès du client</button>
           <button style={S.btn} disabled={occupe} onClick={() => {
-            const motif = window.prompt("Débloquer le dossier : motif (facultatif)") ;
-            if (motif !== null) void agir({ action: "debloquer", motif }, "Dossier débloqué.");
+            const motif = window.prompt("Débloquer le dossier : écrivez le motif (obligatoire, gardé au journal)");
+            if (motif && motif.trim()) void agir({ action: "debloquer", motif: motif.trim() }, "Dossier débloqué.");
+            else if (motif !== null) setErreur("Le motif est obligatoire pour débloquer.");
           }}>Débloquer</button>
         </div>
       </div>
@@ -170,9 +184,12 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
       {onglet === "parcours" && (
         <>
           <PanneauPilotage f={f} occupe={occupe} agir={agir} />
-          {groupes.map(([famille, etapes]) => (
-            <section key={famille} style={S.carte}>
-              <h2 style={S.h2}>{LIB_FAMILLE[famille] || famille}</h2>
+          {f.profil && <PanneauProfil profil={f.profil} ordre={f.ordreRegional ?? null} occupe={occupe} agir={agir} />}
+          {groupes.map(([code, titre, titreAr, etapes]) => (
+            <section key={code} style={S.carte}>
+              <h2 style={{ ...S.h2, display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                <span>{titre}</span>{titreAr && <span dir="rtl" lang="ar" style={{ fontWeight: 400, color: CC.color.inkMid }}>{titreAr}</span>}
+              </h2>
               {etapes.map((e) => <LigneEtape key={e.code} e={e} actuelle={e.code === d.phase} statuts={f.statutsEtape} occupe={occupe} agir={agir} />)}
             </section>
           ))}
@@ -284,6 +301,8 @@ function LigneEtape({ e, actuelle, statuts, occupe, agir }: { e: Etape; actuelle
         <span style={{ ...S.puce, background: COULEUR_ETAPE[e.statut] || CC.color.border }} aria-hidden />
         <span style={{ flex: 1, fontWeight: actuelle ? 700 : 400 }}>
           {e.titre}{actuelle ? " — phase actuelle" : ""}{e.conditionnelle ? <span style={S.petit}> (selon le projet)</span> : null}
+          {e.retiree ? <span style={S.petit}> (étape retirée — historique conservé)</span> : null}
+          {e.aide ? <span style={{ ...S.petit, display: "block" }}>{e.aide}</span> : null}
         </span>
         <span style={S.petit}>{LIB_STATUT_ETAPE[e.statut] || e.statut}{e.date ? ` · ${dateFr(e.date)}` : ""}{e.source === "saisie" && e.saisiPar ? ` · ${e.saisiPar}` : ""}</span>
         <button style={S.lienBtn} onClick={(ev) => { ev.stopPropagation(); setOuvert(!ouvert); }}>{ouvert ? "Fermer" : "Modifier"}</button>
@@ -297,7 +316,9 @@ function LigneEtape({ e, actuelle, statuts, occupe, agir }: { e: Etape; actuelle
           </select>
           <input type="date" style={S.input} value={date} onChange={(ev) => setDate(ev.target.value)} />
           <input style={{ ...S.input, flex: "1 1 200px" }} placeholder="Note (facultatif)" value={note} onChange={(ev) => setNote(ev.target.value)} />
-          <button style={S.btn} disabled={occupe || !statuts.includes(statut)} onClick={() => void agir({ action: "etape", code: e.code, statut, date: date || null, note: note || null }, `Étape « ${e.titre} » mise à jour.`)}>Enregistrer</button>
+          <button style={S.btn} disabled={occupe || !statuts.includes(statut) || (statut === "DEBLOQUEE" && !note.trim())} title={statut === "DEBLOQUEE" && !note.trim() ? "Débloquer : écrire le motif dans la note" : undefined}
+            onClick={() => void agir({ action: "etape", code: e.code, statut, date: date || null, note: note || null }, `Étape « ${e.titre} » mise à jour.`)}>Enregistrer</button>
+          {statut === "DEBLOQUEE" && !note.trim() && <span style={{ ...S.petit, color: CC.color.danger }}>Motif obligatoire pour débloquer (dans la note).</span>}
           <button style={S.btnGhost} disabled={occupe} onClick={() => void agir({ action: "rouvrir", code: e.code }, `Étape « ${e.titre} » rouverte.`)}>Rouvrir</button>
           {estPhase && !actuelle && <button style={S.btnGhost} disabled={occupe} onClick={() => void agir({ action: "phase", phase: e.code }, `Phase actuelle : ${e.titre}.`)}>En faire la phase actuelle</button>}
         </div>

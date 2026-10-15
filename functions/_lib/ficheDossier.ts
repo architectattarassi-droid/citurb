@@ -14,6 +14,10 @@
  */
 import { PHASES, journaliser, schemaPret, type Sql } from "./dossierAdmin";
 import { STATUTS_FAITS } from "./vueDossierClient";
+import { PHASES_RETIREES } from "../../packages/contracts/src/phases.catalog";
+import { PHASES_REF, phaseDuCatalogue, ordrePhase, typeProjetDepuis, VERSION_REFERENTIEL } from "../../packages/contracts/src/gestion/referentiel";
+import { bureauControleObligatoire, profilDuDossier, validerProfil, SEUIL_BUREAU_CONTROLE_MDH, type ProfilProjet } from "../../packages/contracts/src/gestion/profil";
+import { libelleOrdre, ordreRegional, type OrdreRegional } from "../../packages/contracts/src/gestion/ordres";
 
 const s = (v: unknown) => (v == null || v === "" ? null : String(v));
 const iso = (v: unknown) => (v instanceof Date ? v.toISOString() : s(v));
@@ -32,10 +36,20 @@ export const PRE_ETAPES = [
   { code: "PRE_CONTRAT", titre: "Contrat signé" },
   { code: "PRE_PAIEMENT", titre: "Paiement / acompte" },
 ] as const;
-const CODES_ETAPES = new Set<string>([...PRE_ETAPES.map((p) => p.code), ...PHASES.map((p) => p.code)]);
+const CODES_ETAPES = new Set<string>([...PRE_ETAPES.map((p) => p.code), ...PHASES.map((p) => p.code), ...PHASES_RETIREES.map((p) => p.code)]);
+/** Le bureau de contrôle (18, 42) dépend du budget : obligatoire au-delà de 5 MDH (décision du 15/10/2026). */
+const CODES_BUREAU_CONTROLE = new Set(["18_MANDAT_BUREAU_CONTROLE", "42_VISA_STRUCTURE_CONTROLE"]);
+/** Le visa : conseil régional de l'Ordre déduit de la commune. */
+const CODE_VISA = "32_VISA_CNOA";
 
 export type EtapeParcours = {
   code: string; titre: string; famille: string; conditionnelle: boolean;
+  /** Phase du référentiel (P00…P14) : regroupement et ordre chronologique de l'affichage. */
+  phaseRef: string;
+  /** Étape retirée du catalogue (historique d'un dossier ancien), gardée avec son statut. */
+  retiree?: boolean;
+  /** Explication courte (condition, ordre compétent…). */
+  aide?: string;
   /** FAITE | FAITE_HORS_PLATEFORME | EN_COURS | A_FAIRE | SANS_OBJET | DEBLOQUEE | ANTERIEURE (avant la phase actuelle, non saisie) | A_VENIR */
   statut: string; source: "saisie" | "deduite"; date: string | null; note: string | null; saisiPar: string | null;
 };
@@ -47,6 +61,10 @@ export type Faits = {
   devisPropose: boolean;
   etapes: Map<string, { statut: string; date: string | null; note: string | null; saisiPar: string | null }>;
   maintenant: string;
+  /** Profil du projet (budget, niveaux…) : étapes conditionnelles. */
+  profil?: ProfilProjet;
+  /** Conseil régional de l'Ordre compétent (visa) ; undefined = non calculé. */
+  ordre?: OrdreRegional | null;
 };
 
 /** Parcours complet A → Z : rien n'est masqué ni verrouillé, chaque étape reste modifiable par l'admin. */
@@ -54,7 +72,7 @@ export function construireParcours(f: Faits): EtapeParcours[] {
   const saisie = (code: string) => f.etapes.get(code);
   const pre = PRE_ETAPES.map((p): EtapeParcours => {
     const e = saisie(p.code);
-    if (e) return { code: p.code, titre: p.titre, famille: "PRE_DOSSIER", conditionnelle: false, statut: e.statut, source: "saisie", date: e.date, note: e.note, saisiPar: e.saisiPar };
+    if (e) return { code: p.code, titre: p.titre, famille: "PRE_DOSSIER", phaseRef: "P00_IDEE_PROGRAMME", conditionnelle: false, statut: e.statut, source: "saisie", date: e.date, note: e.note, saisiPar: e.saisiPar };
     let statut = "A_FAIRE", date: string | null = null;
     if (p.code === "PRE_LEAD" && f.leads.length) { statut = "FAITE"; date = f.leads[f.leads.length - 1].createdAt; }
     if (p.code === "PRE_RDV") {
@@ -64,17 +82,44 @@ export function construireParcours(f: Faits): EtapeParcours[] {
     }
     if (p.code === "PRE_QUALIFICATION" && f.createdAt) { statut = "FAITE"; date = f.createdAt; }
     if (p.code === "PRE_DEVIS" && f.devisPropose) statut = "EN_COURS";
-    return { code: p.code, titre: p.titre, famille: "PRE_DOSSIER", conditionnelle: false, statut, source: "deduite", date: date ? date.slice(0, 10) : null, note: null, saisiPar: null };
+    return { code: p.code, titre: p.titre, famille: "PRE_DOSSIER", phaseRef: "P00_IDEE_PROGRAMME", conditionnelle: false, statut, source: "deduite", date: date ? date.slice(0, 10) : null, note: null, saisiPar: null };
   });
-  const ordreActuel = PHASES.find((p) => p.code === f.phase)?.ordre ?? -1;
+  // Phase actuelle ancienne (étape retirée) : son rang dans le catalogue sert encore à déduire « antérieure ».
+  const ordreActuel = PHASES.find((p) => p.code === f.phase)?.ordre ?? PHASES_RETIREES.find((p) => p.code === f.phase)?.order ?? -1;
+  const ctc = f.profil ? bureauControleObligatoire(f.profil) : null;
+  const visa = f.ordre !== undefined ? libelleOrdre(f.ordre) : null;
   const phases = PHASES.map((p): EtapeParcours => {
     const e = saisie(p.code);
-    if (e) return { code: p.code, titre: p.titre, famille: p.famille, conditionnelle: p.conditionnelle, statut: e.statut, source: "saisie", date: e.date, note: e.note, saisiPar: e.saisiPar };
-    const statut = p.code === f.phase ? "EN_COURS" : p.ordre < ordreActuel ? "ANTERIEURE" : "A_VENIR";
-    return { code: p.code, titre: p.titre, famille: p.famille, conditionnelle: p.conditionnelle, statut, source: "deduite", date: null, note: null, saisiPar: null };
+    const estCtc = CODES_BUREAU_CONTROLE.has(p.code);
+    const titre = p.code === CODE_VISA && f.ordre ? `Visa de l'ordre régional — ${f.ordre.conseil}${f.ordre.antenne ? ` (antenne de ${f.ordre.antenne})` : ""}` : p.titre;
+    const aide = estCtc
+      ? `Obligatoire si le budget de travaux dépasse ${SEUIL_BUREAU_CONTROLE_MDH} MDH (${ctc === null ? "budget à renseigner" : ctc ? "c'est le cas" : "non obligatoire ici, recommandé"})`
+      : p.code === CODE_VISA && visa ? visa.fr : undefined;
+    const commun = { code: p.code, titre, famille: p.famille, phaseRef: phaseDuCatalogue(p.code) ?? "P00_IDEE_PROGRAMME", conditionnelle: p.conditionnelle || estCtc, ...(aide ? { aide } : {}) };
+    if (e) return { ...commun, statut: e.statut, source: "saisie", date: e.date, note: e.note, saisiPar: e.saisiPar };
+    let statut = p.code === f.phase ? "EN_COURS" : p.ordre < ordreActuel ? "ANTERIEURE" : "A_VENIR";
+    if (estCtc && ctc === false && statut !== "EN_COURS") statut = "SANS_OBJET";
+    return { ...commun, statut, source: "deduite", date: null, note: null, saisiPar: null };
   });
-  return [...pre, ...phases];
+  // Étapes retirées du catalogue : affichées seulement si elles portent un statut (migration sans perte).
+  const retirees = PHASES_RETIREES.filter((p) => saisie(p.code) || f.phase === p.code).map((p): EtapeParcours => {
+    const e = saisie(p.code);
+    return {
+      code: p.code, titre: p.title, famille: p.famille, phaseRef: phaseDuCatalogue(p.code) ?? "P04_AUTORISATION", conditionnelle: false, retiree: true, aide: p.motif,
+      statut: e?.statut ?? "EN_COURS", source: e ? "saisie" : "deduite", date: e?.date ?? null, note: e?.note ?? null, saisiPar: e?.saisiPar ?? null,
+    };
+  });
+  // Ordre chronologique : phase du référentiel (P00 → P14), puis ordre du catalogue.
+  const rang = new Map<string, number>([
+    ...PRE_ETAPES.map((p, i): [string, number] => [p.code, i - 100]),
+    ...PHASES.map((p): [string, number] => [p.code, p.ordre]),
+    ...PHASES_RETIREES.map((p): [string, number] => [p.code, p.order]),
+  ]);
+  return [...pre, ...phases, ...retirees].sort((a, b) => ordrePhase(a.phaseRef) - ordrePhase(b.phaseRef) || (rang.get(a.code) ?? 0) - (rang.get(b.code) ?? 0));
 }
+
+/** Phases du référentiel (en-têtes de la fiche et de la frise), FR/AR. */
+export const ENTETES_PHASES = PHASES_REF.map((p) => ({ code: p.code, ordre: p.ordre, titre: p.libelleFr, titreAr: p.libelleAr }));
 
 // ── Actions admin ───────────────────────────────────────────────────────
 
@@ -84,7 +129,8 @@ export type Action =
   | { action: "etape"; code: string; statut: (typeof STATUTS_ETAPE_ADMIN)[number]; date: string | null; note: string | null }
   | { action: "rouvrir"; code: string; motif: string | null }
   | { action: "note"; note: string | null }
-  | { action: "debloquer"; motif: string | null };
+  | { action: "debloquer"; motif: string }
+  | { action: "profil"; profil: ProfilProjet };
 
 const texte = (v: unknown, n: number) => (typeof v === "string" && v.trim() ? v.trim().slice(0, n) : null);
 
@@ -101,14 +147,19 @@ export function lireAction(b: unknown): Action | { erreur: string } {
       if (!CODES_ETAPES.has(String(o.code))) return { erreur: "etape_invalide" };
       if (!(STATUTS_ETAPE_ADMIN as readonly string[]).includes(String(o.statut))) return { erreur: "statut_etape_invalide" };
       const date = typeof o.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(o.date) ? o.date : null;
-      return { action: "etape", code: String(o.code), statut: o.statut as (typeof STATUTS_ETAPE_ADMIN)[number], date, note: texte(o.note, 1000) };
+      const note = texte(o.note, 1000) ?? motif;
+      // Déblocage d'une étape : motif écrit obligatoire (GP3), gardé dans la note et le journal.
+      if (o.statut === "DEBLOQUEE" && !note) return { erreur: "motif_obligatoire" };
+      return { action: "etape", code: String(o.code), statut: o.statut as (typeof STATUTS_ETAPE_ADMIN)[number], date, note };
     }
     case "rouvrir":
       return CODES_ETAPES.has(String(o.code)) ? { action: "rouvrir", code: String(o.code), motif } : { erreur: "etape_invalide" };
     case "note":
       return { action: "note", note: texte(o.note, 4000) };
     case "debloquer":
-      return { action: "debloquer", motif };
+      return motif ? { action: "debloquer", motif } : { erreur: "motif_obligatoire" };
+    case "profil":
+      return { action: "profil", profil: validerProfil(o.profil, null) };
     default:
       return { erreur: "action_inconnue" };
   }
@@ -144,7 +195,7 @@ export async function appliquerAction(sql: Sql, dossierId: string, a: Action, ad
       break;
     case "etape":
       await ecrireEtape(sql, dossierId, a.code, a.statut, a.date, a.note, admin, maintenant);
-      await tracer("ETAPE_MAJ", { code: a.code, statut: a.statut, date: a.date });
+      await tracer(a.statut === "DEBLOQUEE" ? "ETAPE_DEBLOQUEE" : "ETAPE_MAJ", { code: a.code, statut: a.statut, date: a.date, ...(a.statut === "DEBLOQUEE" ? { motif: a.note } : {}) });
       break;
     case "rouvrir":
       await ecrireEtape(sql, dossierId, a.code, "EN_COURS", null, null, admin, maintenant);
@@ -154,6 +205,14 @@ export async function appliquerAction(sql: Sql, dossierId: string, a: Action, ad
       await sql`UPDATE "Dossier" SET "opsNote" = ${a.note}, "updatedAt" = ${maintenant}::timestamp(3) WHERE "id" = ${dossierId}`;
       await tracer("NOTE_OPS", { longueur: a.note?.length ?? 0 });
       break;
+    case "profil": {
+      // Profil du projet (budget, niveaux, équipements) : payload.gestion.profil — aucune table nouvelle.
+      const payload = { ...((d.payload && typeof d.payload === "object" ? d.payload : {}) as Record<string, unknown>) };
+      const gestion = { ...((payload.gestion && typeof payload.gestion === "object" ? payload.gestion : {}) as Record<string, unknown>), profil: a.profil };
+      await sql`UPDATE "Dossier" SET "payload" = ${JSON.stringify({ ...payload, gestion })}::jsonb, "updatedAt" = ${maintenant}::timestamp(3) WHERE "id" = ${dossierId}`;
+      await tracer("PROFIL_PROJET", { profil: a.profil });
+      break;
+    }
     case "debloquer": {
       // Lève tout ce qui peut arrêter le client : statut de refus / corrections, archivage, blocage posé dans le payload.
       const avant = s(d.status);
@@ -197,7 +256,10 @@ export async function lireFiche(sql: Sql, dossierId: string, maintenant = new Da
   ]);
   const payload = (d.payload && typeof d.payload === "object" ? d.payload : {}) as Record<string, unknown>;
   const mapEtapes = new Map(etapes.map((e) => [String(e.phaseCode), { statut: String(e.statut), date: s(e.date), note: s(e.note), saisiPar: s(e.saisiPar) }]));
+  const profil = profilDuDossier(d, typeProjetDepuis(s(d.typologie)));
+  const ordre = ordreRegional({ prefecture: s(d.prefecture), commune: s(d.commune) });
   const parcours = construireParcours({
+    profil, ordre,
     phase: s(d.phase), createdAt: iso(d.createdAt),
     leads: leads.map((l) => ({ createdAt: iso(l.createdAt) })),
     rdv: rdv.map((r) => ({ debut: iso(r.debut), statut: s(r.statut) })),
@@ -214,6 +276,10 @@ export async function lireFiche(sql: Sql, dossierId: string, maintenant = new Da
     rendezVous: rdv.map((r) => ({ id: String(r.id), debut: iso(r.debut), statut: s(r.statut) })),
     projets: projets.map((p) => ({ id: String(p.id), titre: s(p.titre), createdAt: iso(p.createdAt) })),
     parcours,
+    phasesRef: ENTETES_PHASES,
+    referentielVersion: VERSION_REFERENTIEL,
+    profil,
+    ordreRegional: ordre ? { ...ordre, libelle: libelleOrdre(ordre).fr } : null,
     journal: journal.map((j) => ({ id: String(j.id), auteur: s(j.auteur), action: s(j.action), details: j.details ?? null, createdAt: iso(j.createdAt) })),
     sqlACollerDevisFacturation: !schema.devisFacturation,
     statutsDossier: STATUTS_DOSSIER, statutsEtape: STATUTS_ETAPE_ADMIN, statutsFaits: [...STATUTS_FAITS],

@@ -216,10 +216,17 @@ export interface DossierFlags {
   terrainNonBorne: boolean;      // terrain individuel non encore borné/immatriculé → phase 08
   chantierComplexe: boolean;     // déclenche OPC + mission SPS — TODO Yassine: seuils RGC exacts ?
   demolitionExistant: boolean;   // construction existante à démolir → phase 27 permis démolir
+  // GP1 (décisions du 15/10/2026) — facultatifs, absents = comportement par défaut.
+  /** Budget ≤ 5 MDH : bureau de contrôle non obligatoire → 18 et 42 retirés. */
+  sansBureauControle?: boolean;
+  /** Paramètre ouvert : raccordements définitifs exigés AVANT le permis d'habiter (défaut : après, non bloquants). */
+  raccordementsAvantPermisHabiter?: boolean;
+  /** Paramètre ouvert : levée de TOUTES les réserves exigée avant la conformité / le permis d'habiter (défaut : non). */
+  leveeReservesAvantPermisHabiter?: boolean;
 }
-// NOTE doctrine v4+ : le bureau de contrôle (CTC) est OBLIGATOIRE pour tout
-// dossier chantier (positionnement premium qualité). Pas de flag : les phases
-// 18_MANDAT_BUREAU_CONTROLE et 42_VISA_STRUCTURE_CONTROLE sont FIXES.
+// NOTE GP1 (décision du fondateur, 15/10/2026) : le bureau de contrôle (CTC) est
+// obligatoire au-delà de 5 MDH de budget de travaux, recommandé en dessous.
+// flags.sansBureauControle (budget connu ≤ 5 MDH) retire 18 et 42 ; absent = présents.
 //
 // La branche foncière est pilotée par DossierShape.typeOperationFoncier :
 //   'aucun'           → pas de branche lotissement
@@ -443,37 +450,34 @@ export const PHASES_FIXES: PhaseDef[] = [
     marketplace: { mode: 'PRIORITAIRE', cercle: 'CERCLE_AUTORISATION', categories: ['ASSISTANCE_ADMIN', 'ARCHITECTE'], commandeMateriaux: false, commandeService: true, suiviRetour: false },
     paiementMilestone: true,
   },
-  // ── Vague A C8 — VISA_CNOA (fixe, confirmé requis 2026) ──
+  // ── Visa de l'ordre régional compétent (décision du fondateur, 15/10/2026) ──
+  // Code historique conservé (dossiers existants) ; ce n'est PAS le CNOA : le conseil
+  // régional est déduit de la commune (packages/contracts/src/gestion/ordres.ts).
   {
-    code: '32_VISA_CNOA', slug: 'visa-cnoa', title: 'Visa du dossier par le CNOA', famille: 'AUTORISATION', order: 3200,
-    objectif: "Suivre et archiver le visa du dossier d'autorisation par le Conseil National de l'Ordre des Architectes.", // TODO Yassine: confirmer formulation
+    code: '32_VISA_CNOA', slug: 'visa-ordre-regional', title: "Visa de l'ordre régional compétent", famille: 'AUTORISATION', order: 3200,
+    objectif: "Faire viser le dossier d'autorisation par le conseil régional de l'Ordre des architectes compétent pour la commune du projet.",
     acteurs: ['ARCHITECTE', 'CNOA'],
     validateurs: ['CNOA'],
     prerequis: ['30_DOSSIER_AUTORISATION'],
-    documentsAttendus: [{ nature: 'Visa CNOA', formats: ['PDF'] }],
+    documentsAttendus: [{ nature: "Visa du conseil régional de l'Ordre des architectes", formats: ['PDF'] }],
     pv: [], generation: 'FIXE', marketplace: NO_MARKET, paiementMilestone: false,
   },
   {
     code: '34_PERMIS_CONSTRUIRE', slug: 'permis-construire', title: 'Décision relative au permis de construire', famille: 'AUTORISATION', order: 3400,
     objectif: "Suivre et archiver la décision administrative relative au permis de construire (la décision appartient à l'autorité compétente).",
-    // Vague A : prereq mis à jour pour consommer le visa CNOA 32 (qui dépend lui-même de 30).
     acteurs: ['ADMINISTRATION', 'ARCHITECTE', 'CLIENT'], validateurs: ['ADMINISTRATION'], prerequis: ['32_VISA_CNOA'],
     documentsAttendus: [{ nature: 'Permis de construire', formats: ['PDF'], obligatoire: true }],
     pv: [], generation: 'FIXE', marketplace: NO_MARKET, paiementMilestone: false,
   },
-  {
-    code: '36_AFFICHAGE_RECOURS', slug: 'affichage-recours', title: 'Affichage & délai de recours', famille: 'AUTORISATION', order: 3600,
-    objectif: "Constater l'affichage réglementaire du permis et la purge du délai de recours.",
-    acteurs: ['CLIENT', 'ARCHITECTE', 'ADMINISTRATION'], validateurs: ['ARCHITECTE'], prerequis: ['34_PERMIS_CONSTRUIRE'],
-    documentsAttendus: [{ nature: 'PV affichage / constat huissier', formats: ['PDF'] }],
-    pv: ['PV_AFFICHAGE'], generation: 'FIXE', marketplace: NO_MARKET, paiementMilestone: false,
-  },
+  // 36_AFFICHAGE_RECOURS supprimé (GP1) : la « purge du délai de recours » est une notion
+  // française. Le panneau de chantier (loi 66-12) est un point de la préparation du
+  // chantier, jamais bloquant. Voir PHASES_RETIREES pour l'historique des dossiers.
 
   // ════════════════ D. ÉTUDES D'EXÉCUTION ════════════════
   {
     code: '40_DOSSIER_EXECUTION', slug: 'dossier-execution', title: 'Dossier d\'exécution (DEXE)', famille: 'EXECUTION_ETUDES', order: 4000,
     objectif: "Produire les plans et notes d'exécution structure et fluides.",
-    acteurs: ['BET_STRUCTURE', 'BET_FLUIDES', 'ARCHITECTE'], validateurs: ['BET_STRUCTURE', 'ARCHITECTE'], prerequis: ['36_AFFICHAGE_RECOURS'],
+    acteurs: ['BET_STRUCTURE', 'BET_FLUIDES', 'ARCHITECTE'], validateurs: ['BET_STRUCTURE', 'ARCHITECTE'], prerequis: ['34_PERMIS_CONSTRUIRE'],
     documentsAttendus: [
       { nature: 'Plans d\'exécution BA', formats: ['PDF', 'DWG'] },
       { nature: 'Notes de calcul', formats: ['PDF'] },
@@ -670,7 +674,7 @@ export const PHASES_FIXES: PhaseDef[] = [
   {
     code: '95A_CONFORMITE_SECURITE_INCENDIE', slug: 'conformite-securite-incendie', title: 'Conformité sécurité incendie', famille: 'RECEPTION', order: 9500,
     objectif: "Faire constater la conformité sécurité incendie en fin de chantier (protection civile).",
-    acteurs: ['ADMINISTRATION', 'BUREAU_CONTROLE', 'BET_FLUIDES', 'ARCHITECTE'], validateurs: ['ADMINISTRATION'], prerequis: ['94_LEVEE_RESERVES'],
+    acteurs: ['ADMINISTRATION', 'BUREAU_CONTROLE', 'BET_FLUIDES', 'ARCHITECTE'], validateurs: ['ADMINISTRATION'], prerequis: ['93_RECEPTION_PROVISOIRE'],
     documentsAttendus: [{ nature: 'PV conformité sécurité incendie', formats: ['PDF'] }],
     pv: ['PV_CONFORMITE_INCENDIE'], generation: 'FIXE', conditionFlag: 'securiteIncendie',
     marketplace: NO_MARKET, paiementMilestone: false,
@@ -678,15 +682,17 @@ export const PHASES_FIXES: PhaseDef[] = [
   {
     code: '95C_CONFORMITE_ASCENSEUR', slug: 'conformite-ascenseur', title: 'Conformité ascenseur', famille: 'RECEPTION', order: 9510,
     objectif: "Faire constater la conformité finale de l'ascenseur avant mise en service.",
-    acteurs: ['BUREAU_CONTROLE_ASCENSEUR', 'ASCENSORISTE', 'ARCHITECTE'], validateurs: ['BUREAU_CONTROLE_ASCENSEUR'], prerequis: ['94_LEVEE_RESERVES'],
+    acteurs: ['BUREAU_CONTROLE_ASCENSEUR', 'ASCENSORISTE', 'ARCHITECTE'], validateurs: ['BUREAU_CONTROLE_ASCENSEUR'], prerequis: ['93_RECEPTION_PROVISOIRE'],
     documentsAttendus: [{ nature: 'PV conformité ascenseur', formats: ['PDF'] }],
     pv: ['PV_CONFORMITE_ASCENSEUR'], generation: 'FIXE', conditionFlag: 'ascenseur',
     marketplace: { ...NO_MARKET, cercle: 'CERCLE_RECEPTION' }, paiementMilestone: false,
   },
   {
-    code: '95B_RACCORDEMENTS_DEFINITIFS', slug: 'raccordements-definitifs', title: 'Raccordements définitifs', famille: 'RECEPTION', order: 9520,
+    code: '95B_RACCORDEMENTS_DEFINITIFS', slug: 'raccordements-definitifs', title: 'Raccordements définitifs', famille: 'RECEPTION', order: 9650,
     objectif: "Constituer et suivre les branchements définitifs eau / électricité / assainissement / télécom auprès des concessionnaires.",
-    acteurs: ['CLIENT', 'CONCESSIONNAIRE', 'ARCHITECTE', 'ENTREPRISE_LOT'], validateurs: ['ARCHITECTE'], prerequis: ['94_LEVEE_RESERVES'],
+    // GP1 : ne bloque pas le permis d'habiter (le distributeur demande souvent le permis pour l'abonnement définitif).
+    // Paramètre flags.raccordementsAvantPermisHabiter : remis avant le permis (order 9520) et prérequis de 95.
+    acteurs: ['CLIENT', 'CONCESSIONNAIRE', 'ARCHITECTE', 'ENTREPRISE_LOT'], validateurs: ['ARCHITECTE'], prerequis: ['93_RECEPTION_PROVISOIRE'],
     documentsAttendus: [{ nature: 'Contrats branchements définitifs + PV essais réseaux', formats: ['PDF'] }],
     pv: ['PV_ESSAIS_RESEAUX_FINAUX', 'PV_RACCORDEMENT_DEFINITIF'], generation: 'FIXE', conditionFlag: 'raccordementsDefinitifs',
     marketplace: { mode: 'STRICT', cercle: 'CERCLE_RECEPTION', categories: ['SUIVI_CONCESSIONNAIRE'], commandeMateriaux: false, commandeService: true, suiviRetour: true },
@@ -695,7 +701,7 @@ export const PHASES_FIXES: PhaseDef[] = [
   {
     code: '95_CONFORMITE_ADMINISTRATIVE', slug: 'conformite-administrative', title: 'Conformité administrative', famille: 'RECEPTION', order: 9550,
     objectif: "Constituer le dossier de conformité pour l'administration avant délivrance du permis d'habiter.",
-    acteurs: ['ARCHITECTE', 'ADMINISTRATION', 'BUREAU_CONTROLE', 'CLIENT'], validateurs: ['ARCHITECTE'], prerequis: ['94_LEVEE_RESERVES'], // recâblé dynamiquement sur conformités conditionnelles
+    acteurs: ['ARCHITECTE', 'ADMINISTRATION', 'BUREAU_CONTROLE', 'CLIENT'], validateurs: ['ARCHITECTE'], prerequis: ['93_RECEPTION_PROVISOIRE'], // GP1 : la levée des réserves (contractuelle) ne bloque plus le permis d'habiter (administratif) ; recâblé dynamiquement sur conformités conditionnelles
     documentsAttendus: [
       { nature: 'Dossier de conformité (plans conformes, urbanisme)', formats: ['PDF'] },
       { nature: 'PV conformité sécurité incendie', formats: ['PDF'], conditionFlag: 'securiteIncendie' },
@@ -713,10 +719,19 @@ export const PHASES_FIXES: PhaseDef[] = [
   {
     code: '97_RECEPTION_DEFINITIVE', slug: 'reception-definitive', title: 'Réception définitive', famille: 'RECEPTION', order: 9700,
     objectif: "Prononcer la réception définitive contractuelle après la période de garantie.",
-    acteurs: ['ARCHITECTE', 'CLIENT', 'ENTREPRISE_GO', 'ENTREPRISE_LOT'], validateurs: ['ARCHITECTE', 'CLIENT'], prerequis: ['96_PERMIS_HABITER'],
+    acteurs: ['ARCHITECTE', 'CLIENT', 'ENTREPRISE_GO', 'ENTREPRISE_LOT'], validateurs: ['ARCHITECTE', 'CLIENT'], prerequis: ['96_PERMIS_HABITER', '94_LEVEE_RESERVES'],
     documentsAttendus: [{ nature: 'PV réception définitive', formats: ['PDF'] }],
     pv: ['PV_RECEPTION_DEFINITIVE'], generation: 'FIXE', marketplace: { ...NO_MARKET, cercle: 'CERCLE_RECEPTION' }, paiementMilestone: true,
   },
+];
+
+/**
+ * Phases retirées du catalogue (GP1) — gardées pour l'historique des dossiers
+ * existants (étapes déjà saisies, phase actuelle ancienne) : jamais générées.
+ */
+export const PHASES_RETIREES: Array<Pick<PhaseDef, 'code' | 'title' | 'famille' | 'order'> & { motif: string }> = [
+  { code: '36_AFFICHAGE_RECOURS', title: 'Panneau de chantier (ancienne étape « Affichage & délai de recours »)', famille: 'AUTORISATION', order: 3600,
+    motif: "La purge du délai de recours est une notion française ; le panneau de chantier est un point non bloquant de la préparation du chantier." },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -844,6 +859,7 @@ function planchersHorsSol(nbEtagesHorsSol: number): { title: string; slugPart: s
  */
 function _generatePhasesInternal(dossier: DossierShape): PhaseDef[] {
   const fixes = PHASES_FIXES.filter((p) => {
+    if (dossier.flags.sansBureauControle && (p.code === '18_MANDAT_BUREAU_CONTROLE' || p.code === '42_VISA_STRUCTURE_CONTROLE')) return false;
     if (p.conditionFlag && !dossier.flags[p.conditionFlag]) return false;
     if (p.conditionFoncier && !p.conditionFoncier.includes(dossier.typeOperationFoncier)) return false;
     return true;
@@ -970,8 +986,23 @@ function _generatePhasesInternal(dossier: DossierShape): PhaseDef[] {
     const pre = new Set(conf.prerequis);
     if (dossier.flags.securiteIncendie && out.some((x) => x.code === '95A_CONFORMITE_SECURITE_INCENDIE')) pre.add('95A_CONFORMITE_SECURITE_INCENDIE');
     if (dossier.flags.ascenseur && out.some((x) => x.code === '95C_CONFORMITE_ASCENSEUR')) pre.add('95C_CONFORMITE_ASCENSEUR');
-    if (dossier.flags.raccordementsDefinitifs && out.some((x) => x.code === '95B_RACCORDEMENTS_DEFINITIFS')) pre.add('95B_RACCORDEMENTS_DEFINITIFS');
+    if (dossier.flags.raccordementsDefinitifs && dossier.flags.raccordementsAvantPermisHabiter && out.some((x) => x.code === '95B_RACCORDEMENTS_DEFINITIFS')) {
+      pre.add('95B_RACCORDEMENTS_DEFINITIFS');
+      const racc = out.find((x) => x.code === '95B_RACCORDEMENTS_DEFINITIFS');
+      if (racc) racc.order = 9520;
+    } else if (out.some((x) => x.code === '95B_RACCORDEMENTS_DEFINITIFS')) {
+      // Par défaut : raccordements après le permis d'habiter, avant la réception définitive.
+      const def = out.find((x) => x.code === '97_RECEPTION_DEFINITIVE');
+      if (def) def.prerequis = [...new Set([...def.prerequis, '95B_RACCORDEMENTS_DEFINITIFS'])];
+    }
+    if (dossier.flags.leveeReservesAvantPermisHabiter && out.some((x) => x.code === '94_LEVEE_RESERVES')) pre.add('94_LEVEE_RESERVES');
     conf.prerequis = [...pre];
+  }
+
+  // GP1 : sans bureau de contrôle, le métré suit directement le dossier d'exécution.
+  if (dossier.flags.sansBureauControle) {
+    const metre = out.find((x) => x.code === '48_METRE_QUANTITATIF');
+    if (metre) metre.prerequis = metre.prerequis.map((c) => (c === '42_VISA_STRUCTURE_CONTROLE' ? '40_DOSSIER_EXECUTION' : c));
   }
 
   // P0 audit-3 : le DCE dépend du métré (lui-même dépendant de 42 transitivement).

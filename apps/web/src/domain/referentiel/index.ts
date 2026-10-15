@@ -135,9 +135,26 @@ export function deplierNiveaux(jalons: Jalon[], p: Projet): JalonDeplie[] {
   return out;
 }
 
+/**
+ * Corrections GP1 des prérequis (décisions du 15/10/2026) : la levée des réserves
+ * (contractuelle) ne bloque plus la conformité ni le permis d'habiter (administratifs) ;
+ * ces jalons suivent la réception provisoire. Réglage : paramètre
+ * « leveeReservesAvantPermisHabiter » (packages/contracts/src/gestion/parametres.ts).
+ */
+export const CORRECTIONS_PREREQUIS: Array<{ phases: RegExp; de: string; vers: string }> = [
+  { phases: /^9[56][A-C]?_/, de: "94_LEVEE_RESERVES.GEN.03", vers: "93_RECEPTION_PROVISOIRE.GEN.02" },
+];
+export function corrigerPrerequis<T extends { phase: string; prerequis?: string[] }>(j: T, leveeReservesAvantPermisHabiter = false): T {
+  if (leveeReservesAvantPermisHabiter || !j.prerequis) return j;
+  const c = CORRECTIONS_PREREQUIS.filter((x) => x.phases.test(j.phase));
+  if (!c.length) return j;
+  return { ...j, prerequis: [...new Set(j.prerequis.map((p) => c.find((x) => x.de === p)?.vers ?? p))] };
+}
+
 /** Jalons du projet, triés par phase puis ordre, avec leurs exigences applicables. */
 export function jalonsDuProjet(p: Projet, r: Referentiel = referentiel()) {
   return deplierNiveaux(r.jalons, p)
+    .map((j) => corrigerPrerequis(j))
     .filter((j) => applicable(j.conditions, p))
     .sort((a, b) => (a.phaseGabarit ?? a.phase).localeCompare(b.phaseGabarit ?? b.phase, "fr", { numeric: true }) || (a.rangNiveau ?? 0) - (b.rangNiveau ?? 0) || a.ordre - b.ordre)
     .map((j) => ({
