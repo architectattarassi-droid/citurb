@@ -126,6 +126,7 @@ export async function creerFil(c: CtxMsg, a: ActeurConnecte | null, corps: unkno
   if ("erreur" in e) return ko(400, e.erreur!);
   const genre = a ? a.genre : "public";
   if (genre === "membre") return ko(403, "contexte_interdit"); // le chantier a déjà sa discussion par jalon (espace projet)
+  if (a?.genre === "client" && !a.dossierIds.includes(e.objetId)) return ko(403, "contexte_interdit"); // client : SON dossier seulement
   const permis = autoriserCreation(genre, e);
   if (!permis.ok) return ko(permis.status, permis.erreur);
   const texte = preparerTexte(b.texte);
@@ -194,7 +195,7 @@ export async function filParJeton(c: CtxMsg, jeton: string): Promise<AccesFil | 
   return conv && p ? { conv, p, admin: false, viaLien: true } : ko(404, "lien_invalide");
 }
 
-const cleDe = (a: ActeurConnecte) => (a.genre === "admin" ? CLE_CABINET : a.genre === "pro" ? `frn:${a.fournisseurId}` : `membre:${a.membreId}`);
+const cleDe = (a: ActeurConnecte) => (a.genre === "admin" ? CLE_CABINET : a.genre === "pro" ? `frn:${a.fournisseurId}` : a.genre === "client" ? `usr:${a.clientId}` : `membre:${a.membreId}`);
 
 export async function filParSession(c: CtxMsg, a: ActeurConnecte, id: string): Promise<AccesFil | Reponse> {
   if (!secretAppels(c.env)) return ko(503, "messagerie_non_configuree");

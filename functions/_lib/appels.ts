@@ -256,8 +256,8 @@ export function validerCreation(b: unknown, maintenant: number): EntreeCreation 
   return { contexte: o.contexte as ContexteAppel, objetId, sujet, invites, creneaux, desQuePossible, dureeMin, message: texte || null, messageMasque: masque, audioSeul: o.audioSeul === true };
 }
 
-/** Qui demande : back-office, pro connecté (Cercles), membre d'un projet (chantier), visiteur / client sans session. */
-export type GenreActeur = "admin" | "pro" | "membre" | "public";
+/** Qui demande : back-office, pro connecté (Cercles), membre d'un projet (chantier), client connecté (espace client), visiteur / client sans session. */
+export type GenreActeur = "admin" | "pro" | "membre" | "client" | "public";
 
 const PERMIS: Record<GenreActeur, { contextes: readonly ContexteAppel[]; invites: readonly DescripteurInvite["type"][]; max: number }> = {
   // Le cabinet peut inviter tout le monde, sauf lui-même.
@@ -266,6 +266,8 @@ const PERMIS: Record<GenreActeur, { contextes: readonly ContexteAppel[]; invites
   pro: { contextes: ["cercles", "fournisseur", "reunion"], invites: ["admin", "pro"], max: MAX_INVITES },
   // Un membre de projet : le cabinet ou les autres membres de SON projet.
   membre: { contextes: ["chantier", "reunion"], invites: ["admin", "membre"], max: MAX_INVITES },
+  // Un client connecté (espace client, lot 3a) : le cabinet seulement, au sujet de SON dossier.
+  client: { contextes: ["dossier"], invites: ["admin"], max: 1 },
   // Un visiteur : un pro de l'annuaire (par son slug public) et/ou le cabinet.
   public: { contextes: ["cercles", "fournisseur", "reunion"], invites: ["admin", "pro"], max: 2 },
 };

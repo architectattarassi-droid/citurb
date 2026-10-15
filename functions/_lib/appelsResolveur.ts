@@ -38,6 +38,14 @@ export function resolveurNeon(sql: Sql): Resolveur {
         const f = await fournisseur("id", a.fournisseurId);
         return f && f.statut === "APPROVED" ? deFournisseur(f) : null;
       }
+      if (a.genre === "client") {
+        // Client connecté (espace client) : même clé que lorsqu'il est invité par le cabinet (usr:<User.id>).
+        const u = (await sql`SELECT u."id", u."email", u."phone", u."username", u."role", u."isActive",
+            (SELECT d."clientNom" FROM "Dossier" d WHERE d."ownerId" = u."id" ORDER BY d."createdAt" DESC LIMIT 1) AS "nom"
+          FROM "User" u WHERE u."id" = ${a.clientId} LIMIT 1`)[0];
+        if (!u || String(u.role) !== "CLIENT" || u.isActive === false) return null;
+        return { type: "client", cle: `usr:${u.id}`, nom: s(u.nom) || s(u.username) || "Client", email: vraiEmail(u.email), telephone: s(u.phone), langue: "fr" };
+      }
       const m = await membre(a.membreId);
       return m && m.actif && m.projetId === a.projetId ? deMembre(m) : null;
     },

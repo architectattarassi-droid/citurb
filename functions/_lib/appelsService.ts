@@ -45,7 +45,9 @@ export const indisponible = (): Reponse => ko(503, "appels_indisponibles");
 export type ActeurConnecte =
   | { genre: "admin"; email: string }
   | { genre: "pro"; fournisseurId: string }
-  | { genre: "membre"; membreId: string; projetId: string };
+  | { genre: "membre"; membreId: string; projetId: string }
+  /** Client connecté à son espace (cookie cli_session, functions/_lib/clientSession.ts). */
+  | { genre: "client"; clientId: string; dossierIds: string[] };
 
 /** Résolution des personnes (Neon en production, faux en test). */
 export interface Resolveur {
@@ -180,6 +182,7 @@ export async function creer(c: Ctx, a: ActeurConnecte | null, corps: unknown): P
   const permis = autoriserCreation(genreDe(a), e);
   if (!permis.ok) return deErreur(permis);
   if (a?.genre === "membre" && !e.objetId.startsWith(a.projetId)) return ko(403, "contexte_interdit");
+  if (a?.genre === "client" && !a.dossierIds.includes(e.objetId)) return ko(403, "contexte_interdit");
 
   const moi = a ? await c.resolveur.acteur(a) : await identiteVisiteur(b);
   if (!moi) return ko(401, "unauthenticated");
@@ -272,6 +275,7 @@ export async function parSession(c: Ctx, a: ActeurConnecte, id: string): Promise
 async function cleDe(c: Ctx, a: ActeurConnecte): Promise<string | null> {
   if (a.genre === "admin") return CLE_CABINET;
   if (a.genre === "pro") return `frn:${a.fournisseurId}`;
+  if (a.genre === "client") return `usr:${a.clientId}`;
   return `membre:${a.membreId}`;
 }
 
