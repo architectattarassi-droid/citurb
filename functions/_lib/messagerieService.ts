@@ -26,9 +26,11 @@ import {
   type Conversation, type Message, type ParticipantConv,
 } from "./messagerie";
 import type { DepotMessagerie } from "./messagerieDepot";
+import type { DepotFichiers } from "./depotStockage";
 
 export { repondre, segments };
-export type CtxMsg = CtxAppels & { msg: DepotMessagerie };
+/** `docs` : dépôt de documents commun (pièces jointes = références à des documents déposés dans le fil). */
+export type CtxMsg = CtxAppels & { msg: DepotMessagerie; docs?: DepotFichiers };
 
 const ok = (json: Record<string, unknown> = {}, status = 200): Reponse => ({ status, json: { ok: true, ...json } });
 const ko = (status: number, error: string, extra: Record<string, unknown> = {}): Reponse => ({ status, json: { ok: false, error, ...extra } });
@@ -243,18 +245,27 @@ export async function lireFil(c: CtxMsg, x: AccesFil): Promise<Reponse> {
   });
 }
 
-async function posterMessage(c: CtxMsg, conv: Conversation, p: ParticipantConv, brut: unknown): Promise<Reponse> {
+async function posterMessage(c: CtxMsg, conv: Conversation, p: ParticipantConv, brut: unknown, documentIds: unknown = []): Promise<Reponse> {
   const droit = peutEcrire(conv, p.id);
   if (!droit.ok) return ko(droit.status, droit.erreur);
   for (const autre of conv.participants) if (autre.id !== p.id && (await c.msg.bloque(autre.cle, p.cle))) return ko(403, "destinataire_indisponible");
-  const texte = preparerTexte(brut);
+  // Pièces jointes : RÉFÉRENCES à des documents déposés par l'auteur dans ce fil (dépôt commun), jamais les fichiers.
+  const ids = Array.isArray(documentIds) ? documentIds.filter((x): x is string => typeof x === "string").slice(0, 5) : [];
+  const documents: { id: string; nom: string; type: string }[] = [];
+  for (const id of ids) {
+    const d = c.docs ? await c.docs.lire(id) : null;
+    if (!d || d.contexte !== "conversation" || d.objetId !== conv.id || d.deposantCle !== p.cle || (d.statut !== "A_MODERER" && d.statut !== "VISIBLE")) return ko(400, "document_invalide");
+    documents.push({ id: d.id, nom: d.nom, type: d.type });
+  }
+  const vide = documents.length > 0 && !(typeof brut === "string" && brut.trim());
+  const texte = vide ? { ok: true as const, texte: "", masque: false, types: [] } : preparerTexte(brut);
   if (!texte.ok) return ko(400, texte.erreur);
   const debit = verifierDebitMessages({ auteur10min: await c.msg.compterMessagesAuteur(p.cle, iso(c, 600_000)), auteur24h: await c.msg.compterMessagesAuteur(p.cle, iso(c, 24 * 3600_000)) });
   if (!debit.ok) return ko(debit.status, debit.erreur);
-  const m: Message = { id: nouvelIdMessage(), conversationId: conv.id, auteurId: p.id, auteurCle: p.cle, type: "TEXTE", texte: texte.texte, masque: texte.masque, meta: texte.types.length ? { coordonnees: texte.types } : {}, modere: false, createdAt: iso(c) };
+  const m: Message = { id: nouvelIdMessage(), conversationId: conv.id, auteurId: p.id, auteurCle: p.cle, type: "TEXTE", texte: texte.texte, masque: texte.masque, meta: { ...(texte.types.length ? { coordonnees: texte.types } : {}), ...(documents.length ? { documents } : {}) }, modere: false, createdAt: iso(c) };
   await c.msg.ajouterMessage(m);
   const alerte = texte.types.length ? await signalerTentative(c, conv.id, p, texte.types) : null;
-  const prevenus = await prevenir(c, conv, p, texte.texte);
+  const prevenus = await prevenir(c, conv, p, texte.texte || documents.map((d) => `📎 ${d.nom}`).join(", "));
   const maj = await majConversation(c, conv.id, (v) => {
     v.dernierMessageLe = m.createdAt;
     for (const y of v.participants) {
@@ -385,7 +396,11 @@ export async function routeurMessages(c: CtxMsg, req: Request, acteur: ActeurCon
   const actions = async (x: AccesFil, action: string | undefined): Promise<Reponse> => {
     if (!action && m === "GET") return lireFil(c, x);
     if (m !== "POST") return ko(405, "methode");
-    if (action === "messages") return x.p ? posterMessage(c, x.conv, x.p, (await lireJson(req) as Record<string, unknown> | null)?.texte) : ko(403, "non_participant");
+    if (action === "messages") {
+      if (!x.p) return ko(403, "non_participant");
+      const b = (await lireJson(req)) as Record<string, unknown> | null;
+      return posterMessage(c, x.conv, x.p, b?.texte, b?.documents);
+    }
     if (action === "appel") return appelDepuisFil(c, x, await lireJson(req));
     if (action === "signaler") return signaler(c, x, await lireJson(req));
     if (action === "bloquer") return bloquerFil(c, x);

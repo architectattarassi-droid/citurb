@@ -14,6 +14,11 @@ import type { LangueAppel } from "../appels/textes";
 import { apiMessages, type EspaceMsg, type FilVue, type MessageVue } from "./api";
 import { erreurMsg, TEXTES_MSG } from "./textes";
 import AvertissementCoordonnees from "./AvertissementCoordonnees";
+import DepotDocuments from "../documents/DepotDocuments";
+import { ouvrirDocument, type PorteDepot } from "../documents/api";
+
+/** Porte du dépôt de documents correspondant à l'accès au fil. */
+export const porteDepotDe = (e: EspaceMsg): PorteDepot => (e.type === "lien" ? { type: "lien", acces: `messages:${e.jeton}` } : e);
 
 type Props = { espace: EspaceMsg; id?: string; l: LangueAppel; extra?: (f: FilVue, recharger: () => void) => ReactNode; onChange?: () => void };
 
@@ -25,6 +30,7 @@ export default function FilConversation({ espace, id = "", l, extra, onChange }:
   const [texte, setTexte] = useState("");
   const [envoi, setEnvoi] = useState(false);
   const [mode, setMode] = useState<null | "signaler" | "bloquer">(null);
+  const [joindre, setJoindre] = useState(false);
   const [motif, setMotif] = useState("");
   const bas = useRef<HTMLDivElement>(null);
   const cle = JSON.stringify(espace);
@@ -84,7 +90,7 @@ export default function FilConversation({ espace, id = "", l, extra, onChange }:
       </header>
 
       <ol className="m-0 grid max-h-[60vh] list-none gap-2 overflow-y-auto rounded-xl bg-slate-50 p-3 sm:max-h-[55vh]" aria-live="polite">
-        {f.messages.map((m) => <Bulle key={m.id} m={m} l={l} moderer={f.peut.moderer ? async (modere) => { await apiMessages.moderer(convId, { messageId: m.id, modere }); void charger(); } : undefined} />)}
+        {f.messages.map((m) => <Bulle key={m.id} m={m} l={l} porte={porteDepotDe(espace)} moderer={f.peut.moderer ? async (modere) => { await apiMessages.moderer(convId, { messageId: m.id, modere }); void charger(); } : undefined} />)}
         <div ref={bas} />
       </ol>
 
@@ -107,7 +113,12 @@ export default function FilConversation({ espace, id = "", l, extra, onChange }:
           <textarea id={`msg-${convId}`} className={`${CHAMP} min-h-[80px] py-2`} maxLength={4000} placeholder={t.repondre} value={texte} onChange={(e) => setTexte(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) void envoyer(e as unknown as FormEvent); }} />
           <AvertissementCoordonnees texte={texte} l={l} />
+          {joindre && (
+            <DepotDocuments porte={porteDepotDe(espace)} contexte="conversation" objetId={convId} l={l} compact
+              onDepose={async (d) => { setJoindre(false); const r = await apiMessages.ecrire(espace, convId, texte, [d.id]); if (r.ok) setTexte(""); else setErreur(erreurMsg(l, r.error)); await charger(); }} />
+          )}
           <div className="flex flex-wrap items-center gap-2">
+            <button type="button" className={BTN_CONTOUR} onClick={() => setJoindre((x) => !x)} aria-expanded={joindre}>📎 {l === "ar" ? "إرفاق وثيقة" : "Joindre un document"}</button>
             <button type="submit" className={BTN_NAVY} disabled={envoi || !texte.trim()}>{envoi ? t.envoi : t.envoyerMessage}</button>
             {f.peut.appeler && (
               <DemanderAppelVideo contexte={c.contexte as never} objetId={c.objetId} invites={[]} avecNom={autres} sujet={c.sujet ?? undefined} langue={l} variante="or"
@@ -143,7 +154,9 @@ export default function FilConversation({ espace, id = "", l, extra, onChange }:
   );
 }
 
-function Bulle({ m, l, moderer }: { m: MessageVue; l: LangueAppel; moderer?: (modere: boolean) => Promise<void> }) {
+function Bulle({ m, l, porte, moderer }: { m: MessageVue; l: LangueAppel; porte: PorteDepot; moderer?: (modere: boolean) => Promise<void> }) {
+  const [info, setInfo] = useState<string | null>(null);
+  const docs = Array.isArray(m.meta.documents) ? (m.meta.documents as { id: string; nom: string }[]) : [];
   const t = TEXTES_MSG[l];
   if (m.type === "APPEL") {
     const ev = String(m.meta.evenement || "");
@@ -161,7 +174,14 @@ function Bulle({ m, l, moderer }: { m: MessageVue; l: LangueAppel; moderer?: (mo
     <li className={`flex ${m.moi ? "justify-end" : "justify-start"}`}>
       <div className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm shadow-sm ${m.moi ? "bg-[#0B1B3A] text-white" : "bg-white text-[#0B1B3A]"} ${m.modere ? "opacity-60" : ""}`}>
         {!m.moi && <p className="m-0 text-xs font-bold opacity-80">{m.auteur}</p>}
-        <p className="m-0 whitespace-pre-wrap break-words" dir="auto">{m.texte}</p>
+        {m.texte && <p className="m-0 whitespace-pre-wrap break-words" dir="auto">{m.texte}</p>}
+        {docs.map((d) => (
+          <button key={d.id} type="button" className="mt-1 block max-w-full truncate text-start text-sm font-semibold underline underline-offset-2"
+            onClick={async () => { const e = await ouvrirDocument(porte, d.id); setInfo(e ? (l === "ar" ? "الوثيقة قيد التحقق من طرف CITURBAREA." : "Document en cours de vérification par CITURBAREA.") : null); }}>
+            📎 <span dir="auto">{d.nom}</span>
+          </button>
+        ))}
+        {info && <p className="m-0 mt-1 text-xs opacity-80">{info}</p>}
         <p className="m-0 mt-1 text-[11px] opacity-70" dir="ltr">{dateHeure(m.createdAt, l)}{m.masque ? " · 🔒" : ""}{m.modere ? ` · ${t.modere}` : ""}</p>
         {moderer && Array.isArray(m.meta.coordonnees) && <p className="m-0 mt-1 inline-block rounded bg-rose-700 px-1.5 text-[11px] font-bold text-white">⚑ coordonnées masquées : {(m.meta.coordonnees as string[]).join(", ")}</p>}
         {moderer && <button type="button" className="mt-1 text-[11px] underline" onClick={() => void moderer(!m.modere)}>{m.modere ? "Rétablir" : "Retirer (modération)"}</button>}

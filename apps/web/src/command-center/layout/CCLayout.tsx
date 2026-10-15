@@ -28,6 +28,7 @@ const NAV_GROUPS: NavGroup[] = [
       { id: "rendez-vous", label: "Rendez-vous",     path: "/cc/rendez-vous", mark: "II"  },
       { id: "appels",      label: "Appels vidéo",    path: "/cc/appels",      mark: "IIb" },
       { id: "messages",    label: "Messages",        path: "/cc/messages",    mark: "IIc" },
+      { id: "documents",   label: "Documents à vérifier", path: "/cc/documents", mark: "IId" },
       { id: "fournisseurs",label: "Fournisseurs & prix", path: "/cc/fournisseurs", mark: "III" },
       { id: "materiaux",   label: "Matériaux & demandes", path: "/cc/materiaux", mark: "IIIa" },
       { id: "visites",     label: "Visites",         path: "/cc/visites",     mark: "IIIb", sommeil: true },

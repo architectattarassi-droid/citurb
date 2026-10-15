@@ -71,7 +71,7 @@ export const apiMessages = {
     return appeler<{ conversations: ResumeFil[] }>(url);
   },
   lire: (e: EspaceMsg, id = "") => appeler<FilVue>(chemin(e, id)),
-  ecrire: (e: EspaceMsg, id: string, texte: string) => appeler<{ message: MessageVue; messageMasque: boolean; suspendu?: boolean; tentatives?: number }>(chemin(e, id, "messages"), "POST", { texte }),
+  ecrire: (e: EspaceMsg, id: string, texte: string, documents?: string[]) => appeler<{ message: MessageVue; messageMasque: boolean; suspendu?: boolean; tentatives?: number }>(chemin(e, id, "messages"), "POST", { texte, ...(documents?.length ? { documents } : {}) }),
   appel: (e: EspaceMsg, id: string, corps: Record<string, unknown>) => appeler<{ appelId: string; jetonAppel: string }>(chemin(e, id, "appel"), "POST", corps),
   signaler: (e: EspaceMsg, id: string, motif: string) => appeler<{ signale: boolean }>(chemin(e, id, "signaler"), "POST", { motif }),
   bloquer: (e: EspaceMsg, id: string) => appeler<{ bloque: boolean }>(chemin(e, id, "bloquer"), "POST", {}),

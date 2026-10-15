@@ -11,6 +11,7 @@ import { Link, useParams } from "react-router-dom";
 import SalleVisio, { type ConfigVisio } from "../visio/SalleVisio";
 import ChoixCreneau from "./ChoixCreneau";
 import { FormulaireDossier } from "./DossierRdv";
+import DepotDocuments from "../documents/DepotDocuments";
 import { lienChiffrage } from "./dossier";
 import {
   annuler, deplacer, enregistrerDossier, fuseauLocalDifferent, heureLocale, heureMaroc, jourLong, jourParDefaut, LIB_OBJET, lienAgenda,
@@ -216,6 +217,8 @@ export default function EspaceRdv() {
       </div>
       <p className="m-0 text-sm text-slate-600">Remplissez ce que vous savez, pendant ou avant l'appel : l'architecte le voit en direct. Aucun numéro de pièce d'identité ou de titre n'est demandé.</p>
       <FormulaireDossier valeurs={valeurs} onChange={changer} desactive={rdv.statut === "ANNULE"} />
+      {/* Documents déposés sur la plateforme (plan cadastral, photos du terrain, note de renseignements…) : dépôt commun, lien personnel du RDV. */}
+      {rdv.statut !== "ANNULE" && <DepotDocuments porte={{ type: "lien", acces: `rdv:${jeton}` }} contexte="rdv" objetId={rdv.reference} l="fr" titre="Mes documents" />}
       {chiffrage && <a href={chiffrage} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-[#0B1B3A] underline">Estimer le coût de construction avec ces informations ↗</a>}
       {rdv.statut !== "ANNULE" && (
         <button type="button" onClick={() => changer("pret", true)} disabled={valeurs.pret === true}
