@@ -58,6 +58,7 @@ const RendezVousPage = lazy(() => import("../../../features/rdv/RendezVousPage")
 const EspaceRdv = lazy(() => import("../../../features/rdv/EspaceRdv"));
 const AppelPage = lazy(() => import("../../../features/appels/AppelPage"));
 const MessagesPage = lazy(() => import("../../../features/messages/MessagesPage"));
+const MonDossierPage = lazy(() => import("../../../features/mon-dossier/MonDossierPage"));
 const EspaceProjet = lazy(() => import("../../../features/projet/EspaceProjet"));
 const AvecVideos = lazy(() => import("../../../features/social/AvecVideos"));
 const ChiffragePage = lazy(() => import("../../../features/chiffrage/ChiffragePage"));
@@ -354,6 +355,9 @@ export const router = createBrowserRouter([
       { path: '/ar/messages/boite/:jeton', element: <AdminHostBlock><MessagesPage boite langue="ar" /></AdminHostBlock> },
       { path: '/messages/:jeton', element: <AdminHostBlock><MessagesPage /></AdminHostBlock> },
       { path: '/ar/messages/:jeton', element: <AdminHostBlock><MessagesPage langue="ar" /></AdminHostBlock> },
+      // Dossier client ouvert par le lien d'invitation du cabinet (Pages Function /api/mon-dossier, noindex), en attendant le compte client.
+      { path: '/mon-dossier/:jeton', element: <AdminHostBlock><MonDossierPage /></AdminHostBlock> },
+      { path: '/ar/mon-dossier/:jeton', element: <AdminHostBlock><MonDossierPage langue="ar" /></AdminHostBlock> },
       // Espace projet des membres invités (Pages Functions /api/projets) : /projet/<jeton> échange le lien contre une session puis devient /projet (noindex).
       { path: '/projet/:jeton?', element: <AdminHostBlock><EspaceProjet /></AdminHostBlock> },
       { path: '/notifications', element: <AdminHostBlock><EnSommeil module="Notifications" /></AdminHostBlock> },

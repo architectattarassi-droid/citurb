@@ -8,7 +8,7 @@
  * - Table avec filtres (porteType P1..P6, status, recherche)
  * - Drawer détail avec changeur de statut + ajout note (timeline)
  * - Bouton "Ouvrir vue dossier" → /cc/dossiers/:id/shadow
- * - Bouton "+ Nouveau dossier" → modal création manuelle (admin)
+ * - Bouton "+ Nouveau dossier" → /cc/dossiers/nouveau (création admin, dossier déjà avancé possible)
  */
 
 import React, { useEffect, useState, useCallback } from "react";
@@ -107,7 +107,6 @@ export default function LeadsModule() {
   const [search, setSearch] = useState("");
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const fetchLeads = useCallback(async () => {
     setLoading(true);
@@ -160,7 +159,7 @@ export default function LeadsModule() {
           <button style={S.btnSecondary} onClick={fetchLeads} disabled={loading}>
             {loading ? "..." : "↻ Refresh"}
           </button>
-          <button style={S.btnPrimary} onClick={() => setShowCreateModal(true)}>
+          <button style={S.btnPrimary} onClick={() => navigate("/cc/dossiers/nouveau")}>
             + Nouveau dossier
           </button>
         </div>
@@ -254,16 +253,6 @@ export default function LeadsModule() {
         />
       )}
 
-      {showCreateModal && (
-        <CreateDossierModal
-          onClose={() => setShowCreateModal(false)}
-          onCreated={(l) => {
-            setLeads(prev => [l, ...prev]);
-            setShowCreateModal(false);
-            setSelectedId(l.id);
-          }}
-        />
-      )}
     </div>
   );
 }
@@ -567,101 +556,6 @@ function LeadDrawer({ lead, onClose, onUpdated, onOpenShadow, isMobile }: {
   );
 }
 
-// ─── CreateDossierModal (admin manuel) ───────────────────────
-
-function CreateDossierModal({ onClose, onCreated }: {
-  onClose: () => void;
-  onCreated: (l: Lead) => void;
-}) {
-  const [form, setForm] = useState({
-    porteType: "P1" as PorteType,
-    gestionMode: "AUTONOME" as "AUTONOME" | "DELEGUE",
-    title: "",
-    commune: "",
-    clientNom: "",
-    clientEmail: "",
-    clientTel: "",
-    raisonSociale: "",
-  });
-  const [busy, setBusy] = useState(false);
-  const [err, setErr] = useState("");
-
-  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-    setForm(f => ({ ...f, [k]: e.target.value as any }));
-
-  async function submit() {
-    if (!form.clientNom.trim()) { setErr("Nom client requis"); return; }
-    setBusy(true);
-    setErr("");
-    try {
-      const res = await fetch(`${apiBase()}/api/cc/leads`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${getToken() ?? ""}` },
-        body: JSON.stringify(form),
-      });
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error(body.message || `HTTP ${res.status}`);
-      }
-      const data = await res.json();
-      onCreated(data);
-    } catch (e: any) {
-      setErr(e.message || "Erreur");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  return (
-    <div style={S.modalOverlay} onClick={onClose}>
-      <div style={S.modal} onClick={e => e.stopPropagation()}>
-        <div style={S.modalHeader}>
-          <h2 style={S.modalTitle}>Nouveau dossier (admin)</h2>
-          <button style={S.closeBtn} onClick={onClose}>✕</button>
-        </div>
-        <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 12 }}>
-          {err && <div style={S.errorMini}>⚠ {err}</div>}
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-            <div>
-              <label style={S.label}>Porte</label>
-              <select value={form.porteType} onChange={set("porteType")} style={{ ...S.select, width: "100%" }}>
-                {(Object.keys(PORTE_CONFIG) as PorteType[]).map(p => (
-                  <option key={p} value={p}>{PORTE_CONFIG[p].label}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label style={S.label}>Mode</label>
-              <select value={form.gestionMode} onChange={set("gestionMode")} style={{ ...S.select, width: "100%" }}>
-                <option value="AUTONOME">Autonome</option>
-                <option value="DELEGUE">Délégué</option>
-              </select>
-            </div>
-          </div>
-
-          <Field2 label="Titre dossier" v={form.title} onChange={set("title")} placeholder="Ex: Villa Bir Rami R+2" />
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-            <Field2 label="Nom client *" v={form.clientNom} onChange={set("clientNom")} placeholder="Karim Benali" />
-            <Field2 label="Téléphone" v={form.clientTel} onChange={set("clientTel")} placeholder="+212661234567" />
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-            <Field2 label="Email" v={form.clientEmail} onChange={set("clientEmail")} placeholder="email@exemple.ma" />
-            <Field2 label="Commune" v={form.commune} onChange={set("commune")} placeholder="Kénitra" />
-          </div>
-          <Field2 label="Raison sociale (si pro)" v={form.raisonSociale} onChange={set("raisonSociale")} placeholder="—" />
-        </div>
-        <div style={S.modalFooter}>
-          <button style={S.btnSecondary} onClick={onClose}>Annuler</button>
-          <button style={{ ...S.btnPrimary, opacity: busy || !form.clientNom ? 0.5 : 1 }} onClick={submit} disabled={busy || !form.clientNom}>
-            {busy ? "…" : "Créer le dossier"}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ─── Helpers ─────────────────────────────────────────────────
 
 /** Libellés des standings villa (costRangesMA, type VIL). */
@@ -700,17 +594,6 @@ function Field({ k, v }: { k: string; v?: string | null }) {
     <div style={S.fieldRow}>
       <span style={S.fieldKey}>{k}</span>
       <span style={S.fieldVal}>{v}</span>
-    </div>
-  );
-}
-
-function Field2({ label, v, onChange, placeholder }: {
-  label: string; v: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; placeholder?: string;
-}) {
-  return (
-    <div>
-      <label style={S.label}>{label}</label>
-      <input value={v} onChange={onChange} placeholder={placeholder} style={S.input} />
     </div>
   );
 }

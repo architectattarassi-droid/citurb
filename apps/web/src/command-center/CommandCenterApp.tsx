@@ -22,6 +22,7 @@ import MateriauxModule from './modules/materiaux/MateriauxModule';
 import CCLogin from './pages/CCLogin';
 import CCSimulateur from './modules/dossiers/CCSimulateur';
 import DossiersListe from './modules/dossiers/DossiersListe';
+import NouveauDossierAdmin from './modules/dossiers/creation/NouveauDossierAdmin';
 import EnSommeil from '../ui/EnSommeil';
 
 /**
@@ -61,6 +62,7 @@ export default function CommandCenterApp() {
               <Route path="inscrits" element={<Navigate to="/cc/fournisseurs" replace />} />
               <Route path="validations" element={<Navigate to="/cc/fournisseurs" replace />} />
               <Route path="dossiers" element={<DossiersListe />} />
+              <Route path="dossiers/nouveau" element={<NouveauDossierAdmin />} />
               <Route path="terrains" element={<TerrainsModule />} />
               <Route path="materiaux" element={<MateriauxModule />} />
               <Route path="projets/*" element={<ProjetsModule />} />
