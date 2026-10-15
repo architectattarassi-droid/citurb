@@ -45,6 +45,8 @@ export interface Depot {
   fLister(statut: string | null): Promise<Ligne[]>;
   fMajDocuments(id: string, documents: unknown[], evenement: Ligne | null): Promise<Ligne | null>;
   fMajFormule(id: string, formule: string): Promise<Ligne | null>;
+  /** Outils pro accordés et demandes en attente (docs/prix/sql/cercles-acces-pro.sql), avec trace dans events. */
+  fMajAcces(id: string, acces: Ligne, demandes: unknown[], evenement: Ligne | null): Promise<Ligne | null>;
 
   pLister(fournisseurId: string): Promise<Ligne[]>;
   pParMateriau(fournisseurId: string, code: string): Promise<Ligne | null>;
@@ -88,6 +90,8 @@ export function depotNeon(sql: Sql): Depot {
         "logoUrl" = ${p.logoUrl}, "siteWeb" = ${p.siteWeb}, "description" = ${p.description}, "ice" = ${p.ice},
         "raisonSocialeAr" = ${p.raisonSocialeAr}, "descriptionAr" = ${p.descriptionAr}, "fiche" = ${j(p.fiche)}::jsonb,
         "updatedAt" = CURRENT_TIMESTAMP WHERE "id" = ${id} RETURNING *`),
+    fMajAcces: (id, acces, demandes, evenement) => un(sql`UPDATE "Fournisseur" SET "acces" = ${j(acces)}::jsonb, "accesDemandes" = ${j(demandes)}::jsonb,
+        "events" = COALESCE("events", '[]'::jsonb) || ${j(evenement ? [evenement] : [])}::jsonb, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" = ${id} RETURNING *`),
     fMajFormule: (id, formule) => un(sql`UPDATE "Fournisseur" SET "formule" = ${formule}, "updatedAt" = CURRENT_TIMESTAMP WHERE "id" = ${id} RETURNING *`),
     fMajDocuments: (id, documents, evenement) => un(sql`UPDATE "Fournisseur" SET "documents" = ${j(documents)}::jsonb,
         "events" = COALESCE("events", '[]'::jsonb) || ${j(evenement ? [evenement] : [])}::jsonb, "updatedAt" = CURRENT_TIMESTAMP

@@ -27,7 +27,8 @@ le script. Aucune table de production n'est créée par un agent.
 5. `docs/prix/sql/cercles-fournisseurs.sql` — Fournisseur, DemandePrix…
 6. `docs/prix/sql/cercles-fiches-catalogue.sql` — fiches société, produit, service
 7. `docs/prix/sql/cercles-images.sql` — images des fiches (après 5 et 6)
-8. `docs/prix/sql/prix-reference-manuel.sql` — prix de référence saisis à la main
-9. `docs/prix/sql/achat-en-ligne.sql` — Commande (après 5)
-10. `docs/sql/appels-video-neon.sql` — DemandeAppel, BlocageAppel
-11. `docs/sql/messagerie-neon.sql` — Conversation, MessageConversation (après 10)
+8. `docs/prix/sql/cercles-acces-pro.sql` — outils pro accordés par l'admin (après 5)
+9. `docs/prix/sql/prix-reference-manuel.sql` — prix de référence saisis à la main
+10. `docs/prix/sql/achat-en-ligne.sql` — Commande (après 5)
+11. `docs/sql/appels-video-neon.sql` — DemandeAppel, BlocageAppel
+12. `docs/sql/messagerie-neon.sql` — Conversation, MessageConversation (après 11)

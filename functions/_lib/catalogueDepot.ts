@@ -66,6 +66,8 @@ export interface DepotCatalogue {
 
   /** Produits approuvés rattachés à un code : code, prix par uniteRef, zones (du produit, sinon du pro)… */
   offresProduits(fictifs: boolean): Promise<Ligne[]>;
+  /** Fiches de prix approuvées (SupplierPrice) au même format que offresProduits. */
+  offresFiches(fictifs: boolean): Promise<Ligne[]>;
   /** Offres de services approuvées rattachées à un ouvrage ou une prestation. */
   offresServices(fictifs: boolean): Promise<Ligne[]>;
   /** Fournisseurs APPROVED avec leurs codes couverts et le nombre d'offres approuvées. */
@@ -163,6 +165,11 @@ export function depotCatalogueNeon(sql: Sql): DepotCatalogue {
           ${c.lots}::text[], ${c.gamme}, ${c.auteur}, ${c.origineProduitId})`;
     },
 
+    offresFiches: (fictifs) => sql`SELECT p."materiauCode" AS "code", p."prixRefHT" AS "prix", p."fournisseurId", f."zonesLivraison" AS "zones",
+          f."region" AS "regionFournisseur", p."updatedAt" AS "misAJour", p."validiteJusquau"
+        FROM "SupplierPrice" p JOIN "Fournisseur" f ON f."id" = p."fournisseurId"
+        WHERE p."statut" = 'APPROVED' AND f."statut" = 'APPROVED' AND (${fictifs}::boolean OR COALESCE(f."meta"->>'fictif', 'false') <> 'true')
+          AND p."updatedAt" > now() - interval '120 days'`,
     offresProduits: (fictifs) => sql`SELECT r."materiauCode" AS "code", r."prixRefHT" AS "prix", r."fournisseurId",
           CASE WHEN cardinality(r."zones") > 0 THEN r."zones" ELSE f."zonesLivraison" END AS "zones", f."region" AS "regionFournisseur",
           r."updatedAt" AS "misAJour", r."validiteJusquau"

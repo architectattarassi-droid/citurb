@@ -26,6 +26,7 @@ import {
   nombre, nouvelId, RE_EMAIL, slugifier, telephone, urlHttps, type EnvCercles, type Reponse,
 } from "./cercles";
 import { vueProduitProprietaire, vueServiceProprietaire } from "./catalogueVues";
+import { vueAcces } from "./accesPro";
 import { coordonneesDans, masquerCoordonnees as m_ } from "./coordonnees";
 import type { Depot, DepotComplet, FicheEcrite, Ligne } from "./fournisseursDepot";
 
@@ -93,7 +94,7 @@ export function vueProprietaire(f: Ligne) {
     alerteCoordonnees: coordonneesDans({ raisonSocialeAr: f.raisonSocialeAr, description: f.description, descriptionAr: f.descriptionAr, fiche: jsonObj(f.fiche) }),
     telephone: String(f.telephone), email: String(f.email), ice: (f.ice as string) || null, siteWeb: (f.siteWeb as string) || null,
     motifRejet: f.statut === "REJECTED" ? (f.motifRejet as string) || null : null,
-    fiche: jsonObj(f.fiche), documents: documentsDe(f), formule: (f.formule as string) || "GRATUIT",
+    fiche: jsonObj(f.fiche), documents: documentsDe(f), formule: (f.formule as string) || "GRATUIT", acces: vueAcces(f),
   };
 }
 

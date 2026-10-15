@@ -41,7 +41,7 @@ export function depotMemoire() {
     fParIdempotence: async (cle) => [...fournisseurs.values()].find((f) => f.idempotencyKey === cle) ?? null,
     fSlugPris: async (slug) => [...fournisseurs.values()].some((f) => f.slug === slug),
     fInserer: async (f) => {
-      fournisseurs.set(f.id, { ...f, statut: "PENDING", createdAt: maintenant(), updatedAt: maintenant(), codeTentatives: 0, codeHash: null, codeExpire: null, fiche: {}, documents: [], formule: "GRATUIT" });
+      fournisseurs.set(f.id, { ...f, statut: "PENDING", createdAt: maintenant(), updatedAt: maintenant(), codeTentatives: 0, codeHash: null, codeExpire: null, fiche: {}, documents: [], formule: "GRATUIT", acces: {}, accesDemandes: [] });
     },
     fMajCode: async (id, hash, expire, meta) => {
       const f = fournisseurs.get(id)!;
@@ -71,6 +71,12 @@ export function depotMemoire() {
       const f = fournisseurs.get(id);
       if (!f) return null;
       Object.assign(f, { documents, events: [...((f.events as unknown[]) || []), ...(evenement ? [evenement] : [])] });
+      return f;
+    },
+    fMajAcces: async (id, acces, demandes, evenement) => {
+      const f = fournisseurs.get(id);
+      if (!f) return null;
+      Object.assign(f, { acces, accesDemandes: demandes, events: [...((f.events as unknown[]) || []), ...(evenement ? [evenement] : [])] });
       return f;
     },
     fMajFormule: async (id, formule) => { const f = fournisseurs.get(id); if (!f) return null; f.formule = formule; return f; },
@@ -133,6 +139,10 @@ export function depotMemoire() {
     refLister: async () => [...codes.values()],
     refCreer: async (c) => { codes.set(c.code, { ...c, actif: true, createdAt: maintenant() }); },
 
+    offresFiches: async (fictifs) => [...prix.values()].filter((p) => p.statut === "APPROVED" && publiable(p.fournisseurId, fictifs)).map((p) => {
+      const f = fournisseurs.get(String(p.fournisseurId))!;
+      return { code: p.materiauCode, prix: p.prixRefHT, fournisseurId: p.fournisseurId, zones: f.zonesLivraison, regionFournisseur: f.region, misAJour: p.updatedAt, validiteJusquau: p.validiteJusquau };
+    }),
     offresProduits: async (fictifs) => [...produits.values()].filter((p) => p.statut === "APPROVED" && p.materiauCode && publiable(p.fournisseurId, fictifs)).map((p) => {
       const f = fournisseurs.get(String(p.fournisseurId))!;
       return { code: p.materiauCode, prix: p.prixRefHT, fournisseurId: p.fournisseurId, zones: (p.zones as string[]).length ? p.zones : f.zonesLivraison, regionFournisseur: f.region, misAJour: p.updatedAt, validiteJusquau: p.validiteJusquau };
