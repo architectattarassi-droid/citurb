@@ -66,7 +66,13 @@ const b64url = (o: Uint8Array) => btoa(Array.from(o, (b) => String.fromCharCode(
 const b64urlJson = (v: unknown) => b64url(new TextEncoder().encode(JSON.stringify(v)));
 
 /** Jeton JaaS signé (RS256) pour UNE salle. */
-export async function signerJetonJaas(env: VisioEnv, salle: string, u: Utilisateur, moderateur: boolean, maintenant = Date.now()): Promise<string> {
+/**
+ * `enregistrement` : n'est vrai que si TOUS les participants y ont consenti
+ * (functions/_lib/appelsTrace.ts) ; sinon la salle n'offre pas l'enregistrement.
+ */
+export type OptionsJeton = { enregistrement?: boolean };
+
+export async function signerJetonJaas(env: VisioEnv, salle: string, u: Utilisateur, moderateur: boolean, maintenant = Date.now(), o: OptionsJeton = {}): Promise<string> {
   const appId = env.JAAS_APP_ID!.trim();
   const cle = env.JAAS_KEY_ID!.trim();
   const kid = cle.includes("/") ? cle : `${appId}/${cle}`;
@@ -76,7 +82,7 @@ export async function signerJetonJaas(env: VisioEnv, salle: string, u: Utilisate
     aud: "jitsi", iss: "chat", sub: appId, room: salle,
     nbf: s - 10, iat: s, exp: s + DUREE_JETON_S,
     context: {
-      features: { livestreaming: false, recording: false, transcription: false, "outbound-call": false },
+      features: { livestreaming: false, recording: !!o.enregistrement, transcription: false, "outbound-call": false },
       user: { "hidden-from-recorder": false, moderator: moderateur, name: u.nom, id: u.id, avatar: "", email: u.email || "" },
     },
   };
@@ -90,11 +96,11 @@ export async function signerJetonJaas(env: VisioEnv, salle: string, u: Utilisate
  * Accès à une salle : configuration à passer à SalleVisio (front).
  * `moderateur` : l'architecte (back-office) ; le client ne l'est jamais.
  */
-export async function acces(env: VisioEnv, contexte: Contexte, salle: string, utilisateur: Utilisateur, moderateur: boolean, maintenant = Date.now()): Promise<{ ok: true; config: ConfigVisio } | { ok: false; error: string }> {
+export async function acces(env: VisioEnv, contexte: Contexte, salle: string, utilisateur: Utilisateur, moderateur: boolean, maintenant = Date.now(), o: OptionsJeton = {}): Promise<{ ok: true; config: ConfigVisio } | { ok: false; error: string }> {
   if (!visioConfiguree(env)) return { ok: false, error: "visio_non_configuree" };
   if (!salleValide(contexte, salle)) return { ok: false, error: "salle_invalide" };
   try {
-    const jwt = await signerJetonJaas(env, salle, utilisateur, moderateur, maintenant);
+    const jwt = await signerJetonJaas(env, salle, utilisateur, moderateur, maintenant, o);
     const appId = env.JAAS_APP_ID!.trim();
     return { ok: true, config: { domain: DOMAINE_JAAS, roomName: `${appId}/${salle}`, jwt, appId, expire: new Date(maintenant + DUREE_JETON_S * 1000).toISOString() } };
   } catch {

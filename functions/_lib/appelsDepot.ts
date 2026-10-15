@@ -28,6 +28,8 @@ export interface DepotAppels {
   bloquer(destCle: string, demandeurCle: string, le: string): Promise<void>;
   /** Appels confirmés qui commencent dans [depuis, jusqua] et dont le rappel n'est pas parti. */
   aRappeler(depuis: string, jusqua: string): Promise<Demande[]>;
+  /** Demande dont la salle JaaS porte ce nom (webhook). */
+  parSalle(salle: string): Promise<Demande | null>;
 }
 
 const demande = (r: Record<string, unknown>): Demande => {
@@ -96,6 +98,10 @@ export function depotAppelsNeon(sql: Sql): DepotAppels {
     async bloquer(dest, dem, le) {
       await sql`INSERT INTO "BlocageAppel" ("destinataireCle", "demandeurCle", "createdAt") VALUES (${dest}, ${dem}, ${le}::timestamptz) ON CONFLICT DO NOTHING`;
     },
+    async parSalle(salle) {
+      const r = await sql`SELECT "donnees", "version" FROM "DemandeAppel" WHERE "donnees"->>'salle' = ${salle} LIMIT 1`;
+      return r.length ? demande(r[0]) : null;
+    },
     async aRappeler(depuis, jusqua) {
       const r = await sql`SELECT "donnees", "version" FROM "DemandeAppel" WHERE "statut" = 'CONFIRMEE' AND NOT "rappelEnvoye"
         AND "creneauRetenu" >= ${depuis}::timestamptz AND "creneauRetenu" <= ${jusqua}::timestamptz LIMIT 50`;
@@ -130,6 +136,7 @@ export function depotAppelsMemoire(): DepotAppels & { lignes: Map<string, Demand
     compterRecues: async (dest, depuis) => toutes().filter((d) => d.demandeurCle !== dest && d.participants.some((p) => p.cle === dest) && d.createdAt >= depuis).length,
     bloque: async (dest, dem) => blocages.has(`${dest}|${dem}`),
     bloquer: async (dest, dem) => { blocages.add(`${dest}|${dem}`); },
+    parSalle: async (salle) => { const d = toutes().find((x) => x.salle === salle); return d ? copie(d) : null; },
     aRappeler: async (depuis, jusqua) => toutes().filter((d) => d.statut === "CONFIRMEE" && !d.rappelEnvoye && d.creneauRetenu! >= depuis && d.creneauRetenu! <= jusqua).map(copie),
   };
 }

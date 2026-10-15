@@ -108,6 +108,8 @@ export type Demande = {
   conversationId?: string | null;
   /** Red flag : coordonnées détectées (et masquées) dans le message, le sujet ou le nom — types seulement. */
   alerteCoordonnees?: { types: string[]; le: string } | null;
+  /** Trace de l'appel : entrées, événements JaaS, consentements à l'enregistrement, compte rendu (appelsTrace.ts). */
+  trace?: import("./appelsTrace").TraceAppel;
   historique: Evenement[];
   participants: Participant[];
   version: number;

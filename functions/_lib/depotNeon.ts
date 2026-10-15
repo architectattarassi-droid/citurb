@@ -7,6 +7,7 @@ import { CLE_CABINET } from "./appels";
 import { empreinte as empreinteJeton } from "./appelsService";
 import type { ContexteDepot } from "./depotRegles";
 import { depotFichiersNeon, type Sql } from "./depotStockage";
+import { idDocument, nomNormalise } from "./depotRegles";
 import { archiverDrive, type EnvDrive } from "./depotDrive";
 import type { ActeurDepot, CtxDepot, EnvDepot, Gardien } from "./depotService";
 import { hacherJeton, JETON_RE } from "./rdv";
@@ -76,5 +77,32 @@ export function contexteDepotNeon(env: EnvDepotComplet, sql: Sql, attendre?: (p:
         body: JSON.stringify({ from: env.LEAD_NOTIFY_FROM || "CITURBAREA <no-reply@citurbarea.com>", to, subject: `Tentative de contact direct (document) : ${a.nom}`, text: texte, html: `<p>${echapper(texte)}</p>` }),
       }).catch(() => undefined);
     },
+  };
+}
+
+/**
+ * Enregistrement d'appel vidéo (webhook JaaS, consentement de tous déjà vérifié) → dépôt
+ * commun, contexte « appel ». Seulement avec R2 (une vidéo ne tient pas dans Neon) ;
+ * sinon null : la trace indique « non conservé » et le cabinet reçoit le lien 8x8 (24 h).
+ */
+export function deposerEnregistrementAppel(env: EnvDepotComplet, sql: Sql) {
+  return async (d: { id: string }, lien: string, dureeS: number | null): Promise<string | null> => {
+    if (!env.FICHIERS || !/^https:\/\//.test(lien)) return null;
+    const r = await fetch(lien);
+    if (!r.ok || !r.body) return null;
+    const id = idDocument();
+    const cleR2 = `depot/appel/${d.id}/${id}`;
+    await env.FICHIERS.put(cleR2, r.body, { httpMetadata: { contentType: "video/mp4" } });
+    const taille = Number(r.headers.get("content-length")) || (await env.FICHIERS.get(cleR2, { range: { offset: 0, length: 1 } }))?.size || 0;
+    const le = new Date().toISOString();
+    const nom = `Enregistrement de l'appel ${le.slice(0, 10)}.mp4`;
+    await depotFichiersNeon(sql).creer({
+      id, contexte: "appel", objetId: d.id, deposantCle: "admin:cabinet", deposantNom: "CITURBAREA", nom, nomNormalise: nomNormalise(nom), type: "video/mp4", taille,
+      empreinte: null, support: "R2", cleR2, largeur: null, hauteur: null,
+      meta: { categorie: "video", legende: `Enregistrement accepté par tous les participants${dureeS ? ` · ${Math.round(dureeS / 60)} min` : ""}` },
+      version: 1, statut: "VISIBLE", motif: null, moderePar: "consentement de tous", modereLe: le, supprimePar: null, supprimeLe: null, televersement: null,
+      aVignette: false, driveId: null, createdAt: le, updatedAt: le,
+    });
+    return id;
   };
 }

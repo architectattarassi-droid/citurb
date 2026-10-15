@@ -22,12 +22,15 @@ import type { DepotAppels } from "./appelsDepot";
 import { composer, lienPersonnel, lienWhatsApp, texteWhatsApp, type Evenement, type Message } from "./appelsNotif";
 import { acces, visioConfiguree, type VisioEnv } from "./visio";
 import { detecterCoordonnees } from "./coordonnees";
+import { consentir, donnerAvis, enregistrementAutorise, noterEntree, noterEvenement, proposerCompteRendu, trace, vueTrace } from "./appelsTrace";
 
 export interface EnvAppels extends VisioEnv {
   DATABASE_URL?: string;
   APPELS_SECRET?: string;
   ADMIN_SESSION_SECRET?: string;
   APPELS_CRON_CLE?: string;
+  /** Secret de signature du webhook JaaS (console JaaS → Webhooks → Reveal secret). */
+  JAAS_WEBHOOK_SECRET?: string;
   PUBLIC_WEB_URL?: string;
   RESEND_API_KEY?: string;
   LEAD_NOTIFY_TO?: string;
@@ -65,11 +68,13 @@ export type Ctx = {
   maintenant: number;
   envoyer: (m: Message & { to: string[] }) => Promise<boolean>;
   /** Appel demandé depuis un fil de messagerie : chaque étape y est inscrite (messagerieService). */
-  journal?: (d: Demande, ev: Evenement | "terminee" | "expiree", auteurId: string | null) => Promise<void>;
+  journal?: (d: Demande, ev: string, auteurId: string | null) => Promise<void>;
+  /** Enregistrement vidéo récupéré (webhook) → dépôt commun ; renvoie l'id du document, ou null sans stockage étendu (R2). */
+  deposerEnregistrement?: (d: Demande, lien: string, dureeS: number | null) => Promise<string | null>;
 };
 
 /** Inscrit l'événement dans le fil d'origine ; n'échoue jamais. */
-async function journaliser(c: Ctx, d: Demande, ev: Evenement | "terminee" | "expiree", auteurId: string | null) {
+async function journaliser(c: Ctx, d: Demande, ev: string, auteurId: string | null) {
   if (!d.conversationId || !c.journal) return;
   try { await c.journal(d, ev, auteurId); } catch { /* le fil n'est qu'un reflet */ }
 }
@@ -291,7 +296,7 @@ async function cleDe(c: Ctx, a: ActeurConnecte): Promise<string | null> {
   return `membre:${a.membreId}`;
 }
 
-export const vue = (c: Ctx, x: Acces) => (x.admin ? vueAdmin(x.d, c.maintenant) : vueParticipant(x.d, x.p!.id, c.maintenant));
+export const vue = (c: Ctx, x: Acces) => ({ ...(x.admin ? vueAdmin(x.d, c.maintenant) : vueParticipant(x.d, x.p!.id, c.maintenant)), trace: vueTrace(x.d) });
 
 export async function lire(c: Ctx, x: Acces): Promise<Reponse> {
   return ok({ demande: vue(c, x), visioIntegree: visioConfiguree(c.env) });
@@ -341,13 +346,16 @@ export async function visio(c: Ctx, x: Acces): Promise<Reponse> {
     const k = controlerAccesSalle(d, pid, c.maintenant);
     if (!k.ok) return k;
     k.participant.jetonsVisio += 1;
+    noterEntree(d, pid, c.maintenant);
     return { ok: true, d };
   });
   if (!r.ok) return deErreur(r);
   const p = r.d.participants.find((y) => y.id === pid)!;
-  const a = await acces(c.env, r.d.contexte, r.d.salle!, { id: p.id, nom: p.nom }, estModerateur(r.d, p), c.maintenant);
+  // Enregistrement possible SEULEMENT si tous y consentent ; chacun est alors modérateur pour pouvoir l'arrêter.
+  const enregistrement = enregistrementAutorise(r.d);
+  const a = await acces(c.env, r.d.contexte, r.d.salle!, { id: p.id, nom: p.nom }, enregistrement || estModerateur(r.d, p), c.maintenant, { enregistrement });
   if (!a.ok) return ko(503, a.error);
-  return ok({ config: a.config, audioSeul: r.d.audioSeul, nom: p.nom });
+  return ok({ config: a.config, audioSeul: r.d.audioSeul, nom: p.nom, enregistrement });
 }
 
 // ── Listes ──────────────────────────────────────────────────────────────
@@ -390,6 +398,126 @@ export async function lireJson(req: Request, max = 16 * 1024): Promise<unknown> 
   try { const t = await req.text(); return t.length > max ? null : JSON.parse(t); } catch { return null; }
 }
 
+// ── Trace de l'appel : consentement à l'enregistrement, compte rendu ────
+
+/** Donner / retirer son consentement à l'enregistrement vidéo (loi 09-08 : explicite, retirable). */
+export async function consentementEnregistrement(c: Ctx, x: Acces, corps: unknown): Promise<Reponse> {
+  if (!x.p) return ko(403, "non_participant");
+  const accepte = (corps as Record<string, unknown> | null)?.accepte;
+  if (typeof accepte !== "boolean") return ko(400, "payload_invalid");
+  const pid = x.p.id;
+  const r = await ecrire(c, x.d.id, (d) => { const k = consentir(d, pid, accepte, c.maintenant); return k.ok ? { ok: true, d } : k; });
+  if (!r.ok) return deErreur(r);
+  await journaliser(c, r.d, accepte ? "consentement_enregistrement" : "retrait_enregistrement", pid);
+  return ok({ demande: vue(c, { ...x, d: r.d }) });
+}
+
+/** Proposer le compte rendu écrit (remplace le précédent ; les autres participants le valident). */
+export async function compteRendu(c: Ctx, x: Acces, corps: unknown): Promise<Reponse> {
+  if (!x.p) return ko(403, "non_participant");
+  const pid = x.p.id;
+  let types: string[] = [];
+  const r = await ecrire(c, x.d.id, (d) => {
+    const k = proposerCompteRendu(d, pid, (corps as Record<string, unknown> | null)?.texte, c.maintenant);
+    if (!k.ok) return k;
+    types = k.types;
+    return { ok: true, d };
+  });
+  if (!r.ok) return deErreur(r);
+  if (types.length) await alerterCabinet(c, `Tentative de contact direct (compte rendu d'appel) : ${x.p.nom}`, `${x.p.nom} a écrit des coordonnées (${types.join(", ")}) dans le compte rendu de l'appel ${r.d.id}. Elles ont été masquées.`);
+  await journaliser(c, r.d, "compte_rendu_propose", pid);
+  await notifierCompteRendu(c, r.d, pid, "propose");
+  return ok({ demande: vue(c, { ...x, d: r.d }) });
+}
+
+/** Avis sur le compte rendu : d'accord, ou non avec une remarque. */
+export async function avisCompteRendu(c: Ctx, x: Acces, corps: unknown): Promise<Reponse> {
+  if (!x.p) return ko(403, "non_participant");
+  const b = (corps && typeof corps === "object" ? corps : {}) as Record<string, unknown>;
+  if (typeof b.accord !== "boolean") return ko(400, "payload_invalid");
+  const pid = x.p.id;
+  const r = await ecrire(c, x.d.id, (d) => { const k = donnerAvis(d, pid, b.accord as boolean, b.remarque, c.maintenant); return k.ok ? { ok: true, d } : k; });
+  if (!r.ok) return deErreur(r);
+  const statut = r.d.trace?.compteRendu?.statut;
+  if (statut === "VALIDE" || statut === "CONTESTE") {
+    await journaliser(c, r.d, statut === "VALIDE" ? "compte_rendu_valide" : "compte_rendu_conteste", pid);
+    await notifierCompteRendu(c, r.d, pid, statut === "VALIDE" ? "valide" : "conteste");
+  }
+  return ok({ demande: vue(c, { ...x, d: r.d }) });
+}
+
+async function alerterCabinet(c: Ctx, sujet: string, texte: string) {
+  const to = (c.env.LEAD_NOTIFY_TO || "").split(",").map((v) => v.trim()).filter(Boolean);
+  if (!to.length) return;
+  await c.envoyer({ to, subject: sujet, text: texte, html: `<p>${texte.replace(/[&<>"']/g, (v) => `&#${v.charCodeAt(0)};`)}</p>` }).catch(() => false);
+}
+
+/** Prévient les autres participants (lien personnel ; aucune coordonnée). */
+async function notifierCompteRendu(c: Ctx, d: Demande, auteurId: string, quoi: "propose" | "valide" | "conteste") {
+  const auteur = d.participants.find((p) => p.id === auteurId)?.nom ?? "CITURBAREA";
+  for (const p of d.participants) {
+    if (p.id === auteurId) continue;
+    const to = adresses(c, p);
+    if (!to.length) continue;
+    const lien = await lienDe(c, d, p);
+    const ar = p.langue === "ar";
+    const sujet = quoi === "propose" ? (ar ? `محضر المكالمة: ${auteur} يطلب موافقتك` : `Compte rendu de l'appel : ${auteur} vous demande de le valider`)
+      : quoi === "valide" ? (ar ? "تمت المصادقة على محضر المكالمة" : "Compte rendu de l'appel validé") : (ar ? "محضر المكالمة محل اعتراض" : "Compte rendu de l'appel contesté");
+    const texte = `${sujet}\n\n${ar ? "افتح" : "Ouvrir"} : ${lien}`;
+    await c.envoyer({ to, subject: sujet, text: texte, html: `<p>${sujet}</p><p><a href="${lien}">${ar ? "فتح" : "Ouvrir"}</a></p>` }).catch(() => false);
+  }
+}
+
+// ── Webhook JaaS (trace réelle, enregistrement) ─────────────────────────
+
+const b64 = (u: Uint8Array) => btoa(String.fromCharCode(...u));
+
+/** Vérifie X-Jaas-Signature : « t=<s>,v1=<base64 HMAC-SHA256(secret, t + "." + corps)> » (tolérance 10 min). */
+export async function signatureJaasValide(secret: string, entete: string | null, corps: string, maintenant: number): Promise<boolean> {
+  if (!entete || !secret) return false;
+  const parts = entete.split(",").map((x) => x.trim().split("="));
+  const t = parts.find(([k]) => k === "t")?.[1];
+  const sigs = parts.filter(([k]) => k === "v1").map(([, ...v]) => v.join("="));
+  if (!t || !/^\d+$/.test(t) || !sigs.length || Math.abs(maintenant / 1000 - Number(t)) > 600) return false;
+  const k = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const attendu = b64(new Uint8Array(await crypto.subtle.sign("HMAC", k, new TextEncoder().encode(`${t}.${corps}`))));
+  return sigs.some((s) => s.length === attendu.length && [...s].reduce((diff, ch, i) => diff | (ch.charCodeAt(0) ^ attendu.charCodeAt(i)), 0) === 0);
+}
+
+/** POST /api/appels/jaas : événements JaaS signés → trace de l'appel ; enregistrement déposé dans le dépôt commun. */
+export async function webhookJaas(c: Ctx, req: Request): Promise<Reponse> {
+  const secret = (c.env.JAAS_WEBHOOK_SECRET || "").trim();
+  if (!secret) return ko(503, "webhook_non_configure");
+  const corps = await req.text();
+  if (corps.length > 64 * 1024 || !(await signatureJaasValide(secret, req.headers.get("x-jaas-signature"), corps, c.maintenant))) return ko(401, "signature_invalide");
+  let e: Record<string, unknown>;
+  try { e = JSON.parse(corps); } catch { return ko(400, "payload_invalid"); }
+  const type = String(e.eventType || "");
+  const salle = String(e.fqn || "").split("/")[1] || "";
+  const donnees = (e.data && typeof e.data === "object" ? e.data : {}) as Record<string, unknown>;
+  const d0 = salle ? await c.depot.parSalle(salle) : null;
+  if (!d0) return ok({ ignore: true }); // salle d'un autre module (RDV, chantier) : rien à tracer ici
+  const cle = String(e.idempotencyKey || `${type}|${e.timestamp}|${donnees.id ?? ""}`);
+  const le = Number(e.timestamp) || c.maintenant;
+  const pid = typeof donnees.id === "string" ? donnees.id : null;
+  const r = await ecrire(c, d0.id, (d) => { noterEvenement(d, cle, type, le, pid, type); return { ok: true, d }; });
+  if (!r.ok) return deErreur(r);
+  let d = r.d;
+  if (type === "ROOM_DESTROYED") await journaliser(c, d, "fin_salle", null);
+  if (type === "RECORDING_UPLOADED" && typeof donnees.preAuthenticatedLink === "string") {
+    // Garde-fou : un enregistrement sans le consentement de TOUS n'est jamais conservé.
+    const autorise = enregistrementAutorise(d);
+    const dureeS = typeof donnees.durationSec === "number" ? donnees.durationSec : null;
+    const documentId = autorise && c.deposerEnregistrement ? await c.deposerEnregistrement(d, donnees.preAuthenticatedLink, dureeS).catch(() => null) : null;
+    const motif = !autorise ? "consentement manquant : non conservé" : documentId ? null : "stockage étendu (R2) non activé : non conservé";
+    const r2 = await ecrire(c, d.id, (x) => { trace(x).enregistrement = { statut: documentId ? "CONSERVE" : "NON_CONSERVE", documentId, dureeS, motif }; return { ok: true, d: x }; });
+    if (r2.ok) d = r2.d;
+    await journaliser(c, d, documentId ? "enregistrement_conserve" : "enregistrement_non_conserve", null);
+    if (!documentId && autorise) await alerterCabinet(c, `Enregistrement d'appel non conservé (${d.id})`, `L'enregistrement de l'appel ${d.id} n'a pas pu être conservé (${motif}). Le lien de 8x8 reste valable 24 h : ${donnees.preAuthenticatedLink}`);
+  }
+  return ok({ trace: true });
+}
+
 /** Envoi Resend (facultatif : sans RESEND_API_KEY, rien n'est envoyé et le lien reste affiché). */
 export function envoyeurResend(env: EnvAppels) {
   return async (m: Message & { to: string[] }): Promise<boolean> => {
@@ -421,6 +549,7 @@ export async function routeur(c: Ctx, req: Request, acteur: ActeurConnecte | nul
   }
 
   if (!acteur) {
+    if (chemin[0] === "jaas" && chemin.length === 1 && m === "POST") return webhookJaas(c, req);
     if (!chemin.length && m === "POST") return creer(c, null, await lireJson(req));
     if (chemin[0] === "lien" && chemin.length >= 2) {
       const x = await parJeton(c, chemin[1]);
@@ -430,6 +559,9 @@ export async function routeur(c: Ctx, req: Request, acteur: ActeurConnecte | nul
       if (m !== "POST") return ko(405, "methode");
       if (action === "repondre") return agir(c, x, await lireJson(req));
       if (action === "visio") return visio(c, x);
+      if (action === "enregistrement") return consentementEnregistrement(c, x, await lireJson(req));
+      if (action === "compte-rendu") return compteRendu(c, x, await lireJson(req));
+      if (action === "avis") return avisCompteRendu(c, x, await lireJson(req));
       if (action === "bloquer") return bloquer(c, x);
     }
     return ko(404, "route_inconnue");
@@ -447,6 +579,9 @@ export async function routeur(c: Ctx, req: Request, acteur: ActeurConnecte | nul
   if (m !== "POST") return ko(405, "methode");
   if (action === "repondre") return agir(c, x, await lireJson(req));
   if (action === "visio") return visio(c, x);
+  if (action === "enregistrement") return consentementEnregistrement(c, x, await lireJson(req));
+  if (action === "compte-rendu") return compteRendu(c, x, await lireJson(req));
+  if (action === "avis") return avisCompteRendu(c, x, await lireJson(req));
   if (action === "bloquer") return bloquer(c, x);
   if (action === "whatsapp") return whatsapp(c, x, await lireJson(req));
   return ko(404, "route_inconnue");

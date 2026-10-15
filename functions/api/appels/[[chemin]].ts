@@ -6,6 +6,7 @@
  *   POST /api/appels/lien/<jeton>/visio      jeton de salle (confirmée, dans la fenêtre, participant seulement)
  *   POST /api/appels/lien/<jeton>/bloquer    ne plus recevoir de demandes de ce demandeur
  *   POST /api/appels/rappels                 rappels (en-tête x-cle-cron = APPELS_CRON_CLE)
+ *   POST /api/appels/jaas                    webhook JaaS signé (JAAS_WEBHOOK_SECRET) : trace réelle et enregistrement
  * Logique : functions/_lib/appelsService.ts ; tables : docs/sql/appels-video-neon.sql.
  */
 import { neon } from "@neondatabase/serverless";
@@ -29,7 +30,8 @@ export async function onRequest(ctx: { request: Request; env: EnvAppels; params:
   const ip = ctx.request.headers.get("cf-connecting-ip") || "local";
   const chemin = segments(ctx.params.chemin);
   const creation = !chemin.length && ctx.request.method === "POST";
-  if (!accepter(`${creation ? "c" : "l"}:${ip}`, creation ? 6 : 120, creation ? 3600_000 : 600_000)) return repondre({ status: 429, json: { ok: false, error: "trop_de_requetes" } });
+  // Webhook JaaS : authentifié par sa signature (X-Jaas-Signature), pas par le filet IP.
+  if (chemin[0] !== "jaas" && !accepter(`${creation ? "c" : "l"}:${ip}`, creation ? 6 : 120, creation ? 3600_000 : 600_000)) return repondre({ status: 429, json: { ok: false, error: "trop_de_requetes" } });
   try {
     const sql = neon(ctx.env.DATABASE_URL) as unknown as Sql;
     const c = contexteNeon(ctx.env, sql);
