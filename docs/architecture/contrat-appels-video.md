@@ -75,3 +75,10 @@ Qui peut inviter qui (vérifié côté serveur, `autoriserCreation`) :
 | `RESEND_API_KEY`, `LEAD_NOTIFY_FROM`, `LEAD_NOTIFY_TO` | e-mails (le cabinet reçoit sur `LEAD_NOTIFY_TO`) |
 | `PUBLIC_WEB_URL` | domaine des liens (défaut `https://citurbarea.com`) |
 | `APPELS_CRON_CLE` (facultatif, ≥ 24 caractères) | rappels par un cron externe : `POST /api/appels/rappels` avec l'en-tête `x-cle-cron`. Sans cron, les rappels partent quand le back-office ou un espace pro ouvre sa liste. |
+
+## Trace des appels (functions/_lib/appelsTrace.ts)
+
+- **Toujours** : entrée en salle notée à chaque jeton délivré ; avec le webhook JaaS signé (`POST /api/appels/jaas`, `JAAS_WEBHOOK_SECRET`) : arrivées, départs, fin de salle, durée réelle. Vue `demande.trace` (noms seulement).
+- **Compte rendu** : `POST …/compte-rendu { texte }` (après le début de l'appel, coordonnées masquées + red flag), `POST …/avis { accord, remarque }` (remarque obligatoire pour contester) ; statut PROPOSE → VALIDE (tous d'accord) ou CONTESTE.
+- **Enregistrement vidéo** : `POST …/enregistrement { accepte }` par chaque participant ; jeton JaaS `recording` (et modérateur pour tous, afin que chacun puisse arrêter) seulement si **tous** ont accepté ; retrait possible à tout moment. `RECORDING_UPLOADED` : jamais conservé sans l'accord de tous ; avec, déposé dans le dépôt commun (contexte `appel`, R2) ; sans R2, « non conservé » et lien 8x8 (24 h) envoyé au cabinet.
+- Chaque étape (consentement, retrait, compte rendu proposé / validé / contesté, fin de salle, enregistrement conservé ou non) est inscrite dans le fil de messagerie d'origine.

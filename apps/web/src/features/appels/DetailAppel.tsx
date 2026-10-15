@@ -12,6 +12,7 @@ import { apiAppels, type DemandeVue, type Espace } from "./api";
 import { BTN_CONTOUR, BTN_NAVY, BTN_OR, CHAMP, IconeCamera } from "./DemanderAppelVideo";
 import { bornesSaisie, dateHeure, demainDixHeures, fuseauLocal, heure, heureLocaleDiffere, localVersIso } from "./heures";
 import { erreurLisible, TEXTES, type LangueAppel } from "./textes";
+import TraceAppel from "./TraceAppel";
 
 const SalleVisio = lazy(() => import("../visio/SalleVisio"));
 const BTN = "inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg px-4 text-sm font-bold disabled:opacity-50";
@@ -57,7 +58,7 @@ export default function DetailAppel({ espace, id = "", l, actionInitiale, extra,
   const [choix, setChoix] = useState<string[]>([]);
   const [propositions, setPropositions] = useState<string[]>([demainDixHeures()]);
   const [confirmer, setConfirmer] = useState<"refuser" | "annuler" | "bloquer" | null>(actionInitiale === "refuser" ? "refuser" : null);
-  const [salle, setSalle] = useState<{ config: ConfigVisio; audio: boolean; nom: string } | null>(null);
+  const [salle, setSalle] = useState<{ config: ConfigVisio; audio: boolean; nom: string; enregistrement: boolean } | null>(null);
   const [, tic] = useState(0);
   const zoneContre = useRef<HTMLDivElement>(null);
   const zoneAccepter = useRef<HTMLDivElement>(null);
@@ -108,7 +109,7 @@ export default function DetailAppel({ espace, id = "", l, actionInitiale, extra,
     const r = await apiAppels.visio(espace, d.id);
     setOccupe(false);
     if (!r.ok) { setErreur(erreurLisible(t, r.error)); return; }
-    setSalle({ config: r.data.config, audio: audio || r.data.audioSeul, nom: r.data.nom });
+    setSalle({ config: r.data.config, audio: audio || r.data.audioSeul, nom: r.data.nom, enregistrement: !!r.data.enregistrement });
   };
 
   if (erreur && !d) return <p className="rounded-lg bg-rose-50 p-4 text-rose-800" role="alert">{erreur}</p>;
@@ -225,6 +226,8 @@ export default function DetailAppel({ espace, id = "", l, actionInitiale, extra,
         </section>
       )}
 
+      <TraceAppel d={d} espace={espace} l={l} onMaj={setD} />
+
       {extra?.(d, () => void charger())}
 
       <details className="text-sm text-slate-600">
@@ -241,7 +244,7 @@ export default function DetailAppel({ espace, id = "", l, actionInitiale, extra,
             <button type="button" className={`${BTN} bg-white/10 text-white hover:bg-white/20`} onClick={() => setSalle(null)}>{t.quitter}</button>
           </div>
           <Suspense fallback={<p className="p-6 text-white">{t.ouvertureSalle}</p>}>
-            <SalleVisio config={salle.config} nomAffiche={salle.nom} audioSeul={salle.audio} langue={l} onQuitter={() => setSalle(null)} className="flex-1" />
+            <SalleVisio config={salle.config} nomAffiche={salle.nom} audioSeul={salle.audio} langue={l} enregistrement={salle.enregistrement} onQuitter={() => setSalle(null)} className="flex-1" />
           </Suspense>
         </div>
       )}

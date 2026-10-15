@@ -25,6 +25,17 @@ export type ParticipantVue = {
   id: string; role: "DEMANDEUR" | "INVITE"; type: string; nom: string; statut: string; creneaux: string[]; toutCreneau: boolean; moi: boolean;
   cle?: string; email?: string | null; telephone?: string | null; reponduLe?: string | null; jetonsVisio?: number;
 };
+export type TraceVue = {
+  consentements: { participantId: string; nom: string; accepte: boolean | null; le: string | null }[];
+  enregistrementAutorise: boolean;
+  enregistrement: { statut: "AUCUN" | "EN_COURS" | "TERMINE" | "CONSERVE" | "NON_CONSERVE"; documentId: string | null; dureeS: number | null; motif: string | null };
+  finalite: string; conservationMois: number;
+  entrees: { nom: string | null; le: string }[];
+  evenements: { type: string; nom: string | null; le: string }[];
+  duree: { debut: string | null; fin: string | null; minutes: number | null };
+  compteRendu: null | { auteurId: string; auteur: string | null; texte: string; masque: boolean; le: string; statut: "PROPOSE" | "VALIDE" | "CONTESTE";
+    avis: { participantId: string; nom: string | null; accord: boolean; remarque: string | null; le: string }[] };
+};
 export type DemandeVue = {
   id: string; contexte: Contexte; objetId: string; sujet: string | null; statut: string; creneaux: string[]; desQuePossible: boolean;
   dureeMin: number; message: string | null; audioSeul: boolean; creneauRetenu: string | null; fenetre: { ouverture: string; fermeture: string } | null;
@@ -33,6 +44,8 @@ export type DemandeVue = {
   participants: ParticipantVue[];
   historique: { le: string; action: string; par: string; detail?: string }[];
   peut: { accepter: boolean; contreProposer: boolean; refuser: boolean; annuler: boolean; bloquer: boolean; rejoindre: boolean };
+  /** Trace : consentements à l'enregistrement, entrées, événements, durée, compte rendu (functions/_lib/appelsTrace.ts). */
+  trace?: TraceVue;
   cabinetParticipe?: boolean;
 };
 export type ResumeAppel = {
@@ -61,7 +74,7 @@ async function appeler<T>(url: string, methode: "GET" | "POST" = "GET", corps?: 
 const enc = encodeURIComponent;
 
 /** Chemin d'une demande (et d'une action) selon la porte d'entrée. */
-function chemin(e: Espace, id: string, action?: "repondre" | "visio" | "bloquer" | "whatsapp"): string {
+function chemin(e: Espace, id: string, action?: "repondre" | "visio" | "bloquer" | "whatsapp" | "enregistrement" | "compte-rendu" | "avis"): string {
   const suite = action ? `/${action}` : "";
   switch (e.type) {
     case "lien": return `/api/appels/lien/${enc(e.jeton)}${suite}`;
@@ -87,7 +100,10 @@ export const apiAppels = {
   lire: (e: Espace, id = "") => appeler<{ demande: DemandeVue; visioIntegree: boolean }>(chemin(e, id)),
   repondre: (e: Espace, id: string, corps: { action: "accepter" | "contre" | "refuser" | "annuler"; creneaux?: string[] }) =>
     appeler<{ demande: DemandeVue; evenement?: string }>(chemin(e, id, "repondre"), "POST", corps),
-  visio: (e: Espace, id: string) => appeler<{ config: ConfigVisio; audioSeul: boolean; nom: string }>(chemin(e, id, "visio"), "POST", {}),
+  visio: (e: Espace, id: string) => appeler<{ config: ConfigVisio; audioSeul: boolean; nom: string; enregistrement?: boolean }>(chemin(e, id, "visio"), "POST", {}),
+  enregistrement: (e: Espace, id: string, accepte: boolean) => appeler<{ demande: DemandeVue }>(chemin(e, id, "enregistrement"), "POST", { accepte }),
+  compteRendu: (e: Espace, id: string, texte: string) => appeler<{ demande: DemandeVue }>(chemin(e, id, "compte-rendu"), "POST", { texte }),
+  avis: (e: Espace, id: string, accord: boolean, remarque?: string) => appeler<{ demande: DemandeVue }>(chemin(e, id, "avis"), "POST", { accord, remarque }),
   bloquer: (e: Espace, id: string) => appeler<{ demande: DemandeVue }>(chemin(e, id, "bloquer"), "POST", {}),
   whatsapp: (id: string, participantId: string) => appeler<{ url: string; avecNumero: boolean }>(chemin({ type: "admin" }, id, "whatsapp"), "POST", { participantId }),
 };

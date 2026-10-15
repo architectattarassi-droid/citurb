@@ -58,3 +58,20 @@ console.neon.tech → projet **citurbarea** → branche **production** → **SQL
 ## Rappels avant l'appel (facultatif)
 
 Les rappels partent quand le back-office ou un espace pro ouvre la liste des appels. Pour des rappels ponctuels sans dépendre de ces visites : créer `APPELS_CRON_CLE` (≥ 24 caractères, même méthode que `APPELS_SECRET`) puis un cron gratuit (ex. cron-job.org) toutes les 10 minutes : `POST https://citurbarea.com/api/appels/rappels` avec l'en-tête `x-cle-cron: <la valeur>`.
+
+## Trace et enregistrement des appels (facultatif)
+
+**Sans rien configurer**, chaque appel garde déjà une trace : qui est entré dans la salle et quand, les accords sur les créneaux, et un **compte rendu écrit** rédigé par un participant puis validé (ou contesté) par les autres. Rien n'est enregistré en vidéo.
+
+### Durée réelle de l'appel (webhook JaaS, gratuit)
+
+1. Console JaaS → **Webhooks** → **Add endpoint** → URL : `https://citurbarea.com/api/appels/jaas`.
+2. Cocher au moins : `PARTICIPANT_JOINED`, `PARTICIPANT_LEFT`, `ROOM_CREATED`, `ROOM_DESTROYED`, `RECORDING_STARTED`, `RECORDING_ENDED`, `RECORDING_UPLOADED`.
+3. **Reveal secret** → copier le secret → Cloudflare (Variables and secrets, Production) : `JAAS_WEBHOOK_SECRET` (type Secret) → **Retry deployment**.
+
+### Enregistrement vidéo (payant chez 8x8)
+
+- **Règle** : l'appel ne peut être enregistré que si **toutes** les personnes ont coché « J'accepte l'enregistrement » (finalité, conservation 12 mois et droits loi 09-08 affichés) ; chacune peut retirer son accord à tout moment et arrêter l'enregistrement dans la salle. Sans l'accord de tous, le bouton d'enregistrement n'existe pas, et un fichier reçu quand même n'est jamais conservé.
+- **Coût** : 8x8 facture l'enregistrement **0,01 $ par minute** (option « Recordings » de la grille JaaS) ; vérifiez dans la console JaaS qu'il est proposé sur votre offre (le plan gratuit « Dev » ne le garantit pas : si l'option est absente, il faut passer sur une offre payante, à partir de 99 $ / mois).
+- **Stockage** : 8x8 ne garde le fichier que **24 heures**. CITURBAREA le récupère automatiquement (webhook ci-dessus) et le range dans les documents de l'appel **si R2 est activé** (`docs/guides/configurer-google-drive.md`, dernière partie). Sans R2, vous recevez un e-mail avec le lien 8x8 à télécharger vous-même sous 24 h.
+- **À faire avant d'activer** : ajouter dans les CGU / la politique de confidentialité le paragraphe « Messagerie et appels vidéo » (`docs/architecture/contrat-messagerie.md`) complété de l'enregistrement, et vérifier la déclaration du traitement auprès de la CNDP.

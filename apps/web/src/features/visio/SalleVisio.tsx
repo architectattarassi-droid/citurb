@@ -37,11 +37,13 @@ function chargerScript(src: string): Promise<void> {
   });
 }
 
-export default function SalleVisio({ config, nomAffiche, email, onQuitter, onErreur, className, audioSeul = false, langue = "fr" }: {
+export default function SalleVisio({ config, nomAffiche, email, onQuitter, onErreur, className, audioSeul = false, langue = "fr", enregistrement = false }: {
   config: ConfigVisio;
   /** Entrer caméra coupée (appel audio) ; la caméra reste activable dans la salle. */
   audioSeul?: boolean;
   langue?: "fr" | "ar";
+  /** Tous les participants ont consenti : bouton d'enregistrement présent et bandeau visible en permanence. */
+  enregistrement?: boolean;
   nomAffiche: string;
   email?: string;
   onQuitter?: () => void;
@@ -78,7 +80,7 @@ export default function SalleVisio({ config, nomAffiche, email, onQuitter, onErr
             interfaceConfigOverwrite: {
               SHOW_JITSI_WATERMARK: false,
               MOBILE_APP_PROMO: false,
-              TOOLBAR_BUTTONS: ["microphone", "camera", "desktop", "fullscreen", "fodeviceselection", "hangup", "chat", "tileview", "settings", "videoquality"],
+              TOOLBAR_BUTTONS: ["microphone", "camera", "desktop", "fullscreen", "fodeviceselection", "hangup", "chat", "tileview", "settings", "videoquality", ...(enregistrement ? ["recording"] : [])],
             },
           });
           api.current.addEventListener("videoConferenceJoined", () => { if (!annule) setEtat("pret"); });
@@ -94,11 +96,16 @@ export default function SalleVisio({ config, nomAffiche, email, onQuitter, onErr
       try { api.current?.dispose(); } catch { /* déjà fermée */ }
       api.current = null;
     };
-  }, [config.domain, config.appId, config.roomName, config.jwt, nomAffiche, email, audioSeul, langue]);
+  }, [config.domain, config.appId, config.roomName, config.jwt, nomAffiche, email, audioSeul, langue, enregistrement]);
 
   return (
     <div className={"relative h-full w-full overflow-hidden bg-[#0B1B3A] " + (className || "")}>
       <div ref={conteneur} className="h-full w-full" />
+      {enregistrement && (
+        <p className="pointer-events-none absolute inset-x-0 top-0 m-0 bg-rose-700/90 px-3 py-1 text-center text-xs font-bold text-white" role="status">
+          {langue === "ar" ? "● وافق الجميع على التسجيل — يمكن لكل واحد إيقافه من زر التسجيل" : "● Tous ont accepté l'enregistrement — chacun peut l'arrêter avec le bouton d'enregistrement"}
+        </p>
+      )}
       {etat === "chargement" && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center text-base text-white/85">{langue === "ar" ? "جارٍ فتح القاعة…" : "Ouverture de la salle…"}</div>
       )}
