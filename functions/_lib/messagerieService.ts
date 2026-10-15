@@ -18,8 +18,9 @@ import {
   deriverJeton, empreinte, finaliserCreation, identiteVisiteur, lireJson, repondre, secretAppels, segments, vue as vueAppel,
   type ActeurConnecte, type Ctx as CtxAppels, type EnvAppels, type Reponse,
 } from "./appelsService";
+import { detecterCoordonnees, type TypeCoordonnee } from "./coordonnees";
 import {
-  aPrevenir, DEBIT_MESSAGES, empreinteConversation, ID_CONVERSATION_RE, ID_MESSAGE_RE, jetonBoite, lireJetonBoite, motifSignalement,
+  aDesAlertes, enregistrerTentative, leverSuspension, SEUIL_SUSPENSION, aPrevenir, DEBIT_MESSAGES, empreinteConversation, ID_CONVERSATION_RE, ID_MESSAGE_RE, jetonBoite, lireJetonBoite, motifSignalement,
   nouvelIdConversation, nouvelIdMessage, nouvelIdParticipantConv, nouvelleConversation, participantDe, peutEcrire, preparerTexte,
   resumeConversation, verifierDebitMessages, vueConversation, vueMessage,
   type Conversation, type Message, type ParticipantConv,
@@ -168,9 +169,10 @@ export async function creerFil(c: CtxMsg, a: ActeurConnecte | null, corps: unkno
   const createur = await nouveauParticipant(secret, id, moi, null);
   const autres = await Promise.all(invites.map((i) => nouveauParticipant(secret, id, i.x, i.d)));
   const conv = nouvelleConversation({ contexte: e.contexte, objetId: e.objetId, sujet: e.sujet }, createur.p, autres.map((x) => x.p), id, c.maintenant);
-  const m: Message = { id: nouvelIdMessage(), conversationId: id, auteurId: createur.p.id, auteurCle: moi.cle, type: "TEXTE", texte: texte.texte, masque: texte.masque, meta: {}, modere: false, createdAt: iso(c) };
+  const m: Message = { id: nouvelIdMessage(), conversationId: id, auteurId: createur.p.id, auteurCle: moi.cle, type: "TEXTE", texte: texte.texte, masque: texte.masque, meta: texte.types.length ? { coordonnees: texte.types } : {}, modere: false, createdAt: iso(c) };
   await c.msg.creer(conv);
   await c.msg.ajouterMessage(m);
+  if (texte.types.length) await signalerTentative(c, id, createur.p, texte.types);
   const prevenus = await prevenir(c, conv, createur.p, texte.texte);
   if (prevenus.length) await majConversation(c, id, (x) => { for (const p of x.participants) if (prevenus.includes(p.id)) p.notifieLe = iso(c); });
   const boite = a ? null : await jetonBoite(secret, moi.cle, c.maintenant);
@@ -249,8 +251,9 @@ async function posterMessage(c: CtxMsg, conv: Conversation, p: ParticipantConv, 
   if (!texte.ok) return ko(400, texte.erreur);
   const debit = verifierDebitMessages({ auteur10min: await c.msg.compterMessagesAuteur(p.cle, iso(c, 600_000)), auteur24h: await c.msg.compterMessagesAuteur(p.cle, iso(c, 24 * 3600_000)) });
   if (!debit.ok) return ko(debit.status, debit.erreur);
-  const m: Message = { id: nouvelIdMessage(), conversationId: conv.id, auteurId: p.id, auteurCle: p.cle, type: "TEXTE", texte: texte.texte, masque: texte.masque, meta: {}, modere: false, createdAt: iso(c) };
+  const m: Message = { id: nouvelIdMessage(), conversationId: conv.id, auteurId: p.id, auteurCle: p.cle, type: "TEXTE", texte: texte.texte, masque: texte.masque, meta: texte.types.length ? { coordonnees: texte.types } : {}, modere: false, createdAt: iso(c) };
   await c.msg.ajouterMessage(m);
+  const alerte = texte.types.length ? await signalerTentative(c, conv.id, p, texte.types) : null;
   const prevenus = await prevenir(c, conv, p, texte.texte);
   const maj = await majConversation(c, conv.id, (v) => {
     v.dernierMessageLe = m.createdAt;
@@ -259,7 +262,7 @@ async function posterMessage(c: CtxMsg, conv: Conversation, p: ParticipantConv, 
       if (prevenus.includes(y.id)) y.notifieLe = iso(c);
     }
   });
-  return ok({ conversationId: conv.id, message: vueMessage(m, maj ?? conv, p.id, false), messageMasque: texte.masque }, 201);
+  return ok({ conversationId: conv.id, message: vueMessage(m, maj ?? conv, p.id, false), messageMasque: texte.masque, ...(alerte ? { suspendu: alerte.suspendu || alerte.dejaSuspendu, tentatives: alerte.nombre } : {}) }, 201);
 }
 
 /** « Demander un appel vidéo » depuis le fil : les invités sont les autres participants. */
@@ -271,6 +274,8 @@ async function appelDepuisFil(c: CtxMsg, x: AccesFil, corps: unknown): Promise<R
   const e = validerCreation({ ...b, contexte: x.conv.contexte, objetId: x.conv.objetId, sujet: x.conv.sujet ?? undefined, invites: [{ type: "admin" }] }, c.maintenant);
   if ("ok" in e) return ko(e.status, e.erreur);
   const ident = (p: ParticipantConv): Identite => ({ type: p.type, cle: p.cle, nom: p.nom, email: p.email, telephone: p.telephone, langue: p.langue });
+  const types = detecterCoordonnees(typeof b.message === "string" ? b.message : "");
+  if (types.length) await signalerTentative(c, x.conv.id, x.p, types);
   const f = await finaliserCreation(c, e, ident(x.p), x.conv.participants.filter((p) => p.id !== x.p!.id).map(ident), x.conv.id);
   if (!f.ok) return f.reponse;
   return ok({ appelId: f.d.id, jetonAppel: f.jeton }, 201);
@@ -303,6 +308,12 @@ async function moderer(c: CtxMsg, x: AccesFil, corps: unknown): Promise<Reponse>
   if (typeof b.messageId === "string" && ID_MESSAGE_RE.test(b.messageId)) {
     return (await c.msg.modererMessage(b.messageId, x.conv.id, b.modere !== false)) ? ok({}) : ko(404, "not_found");
   }
+  if (typeof b.participantId === "string" && b.lever === true) {
+    const pid = b.participantId;
+    let leve = false;
+    const conv = await majConversation(c, x.conv.id, (v) => { leve = leverSuspension(v, pid, c.maintenant); });
+    return conv && leve ? ok({ conversation: vueConversation(conv, null, true) }) : ko(404, "not_found");
+  }
   if (b.statut === "OUVERTE" || b.statut === "FERMEE") {
     const conv = await majConversation(c, x.conv.id, (v) => { v.statut = b.statut as Conversation["statut"]; });
     return conv ? ok({ conversation: vueConversation(conv, null, true) }) : ko(409, "conflit");
@@ -314,7 +325,9 @@ async function moderer(c: CtxMsg, x: AccesFil, corps: unknown): Promise<Reponse>
 
 async function boite(c: CtxMsg, cle: string, avecLiens: boolean, toutes = false, statut: string | null = null): Promise<Reponse> {
   const secret = secretAppels(c.env)!;
-  const convs = await c.msg.lister({ cle: toutes ? undefined : cle, statut: statut && /^[A-Z]{5,10}$/.test(statut) ? statut : undefined, limite: 200 });
+  const alertes = statut === "ALERTES";
+  const convs = (await c.msg.lister({ cle: toutes ? undefined : cle, statut: !alertes && statut && /^[A-Z]{5,10}$/.test(statut) ? statut : undefined, limite: alertes ? 500 : 200 }))
+    .filter((x) => !alertes || aDesAlertes(x));
   const derniers = await c.msg.derniers(convs.map((x) => x.id));
   const nl = await c.msg.nonLus(convs.flatMap((x) => { const p = x.participants.find((y) => y.cle === cle); return p ? [{ conversationId: x.id, participantId: p.id, luJusqua: p.luJusqua }] : []; }));
   const l = [];
@@ -327,6 +340,41 @@ async function boite(c: CtxMsg, cle: string, avecLiens: boolean, toutes = false,
     });
   }
   return ok({ conversations: l });
+}
+
+// ── Red flag : tentatives de contact direct ────────────────────────────
+
+const libellesTypes: Record<TypeCoordonnee, string> = { telephone: "téléphone", email: "e-mail", lien: "lien", messagerie: "messagerie / réseau" };
+
+/**
+ * Compte une tentative pour ce participant (horodatage + types, jamais la
+ * coordonnée) ; prévient le cabinet à la première et à la suspension.
+ */
+async function signalerTentative(c: CtxMsg, convId: string, p: ParticipantConv, types: TypeCoordonnee[]) {
+  let res = { premiere: false, suspendu: false, nombre: 0 }, dejaSuspendu = false;
+  const conv = await majConversation(c, convId, (v) => { dejaSuspendu = !!v.alertes?.[p.id]?.suspendu; res = enregistrerTentative(v, p.id, types, c.maintenant); });
+  if (conv && (res.premiere || res.suspendu)) {
+    const to = (c.env.LEAD_NOTIFY_TO || "").split(",").map((y) => y.trim()).filter(Boolean);
+    const quoi = types.map((t) => libellesTypes[t]).join(", ");
+    const titre = res.suspendu
+      ? `Contact direct : ${p.nom} suspendu (${res.nombre} tentatives en 7 jours)`
+      : `Tentative de contact direct : ${p.nom} (${quoi})`;
+    const lien = `${origine(c.env).replace("://", "://admin.")}/cc/messages`;
+    const texte = [
+      `${p.nom} a tenté de transmettre des coordonnées (${quoi}) dans la conversation ${conv.id}${conv.sujet ? ` (« ${conv.sujet} »)` : ""}.`,
+      "Le message a été envoyé MASQUÉ : la coordonnée n'a pas été transmise ni conservée.",
+      res.suspendu ? `Seuil atteint (${SEUIL_SUSPENSION} en 7 jours) : fil signalé et écriture suspendue pour cette personne jusqu'à votre décision.` : `À ${SEUIL_SUSPENSION} tentatives en 7 jours, l'écriture sera suspendue automatiquement.`,
+      "", `Décider : ${lien} (filtre « Tentatives de contact direct »)`,
+    ].join("\n");
+    if (to.length) await c.envoyer({ to, subject: titre, text: texte, html: texte.split("\n").map((l) => `<p>${echapper(l)}</p>`).join("") }).catch(() => false);
+  }
+  return { ...res, dejaSuspendu };
+}
+
+/** Compteur pour le menu du back-office. */
+async function compteAlertes(c: CtxMsg): Promise<Reponse> {
+  const l = (await c.msg.lister({ limite: 500 })).filter(aDesAlertes);
+  return ok({ fils: l.length, suspendus: l.filter((x) => Object.values(x.alertes ?? {}).some((a) => a.suspendu)).length });
 }
 
 /** Routeur commun ; `acteur` null = porte publique (création par un visiteur, lien de fil, lien de boîte). */
@@ -357,6 +405,7 @@ export async function routeurMessages(c: CtxMsg, req: Request, acteur: ActeurCon
     }
     return ko(404, "route_inconnue");
   }
+  if (acteur.genre === "admin" && chemin[0] === "alertes" && chemin.length === 1 && m === "GET") return compteAlertes(c);
   if (!chemin.length) {
     if (m === "GET") return boite(c, cleDe(acteur), false, acteur.genre === "admin", new URL(req.url).searchParams.get("statut"));
     if (m === "POST") return creerFil(c, acteur, await lireJson(req));

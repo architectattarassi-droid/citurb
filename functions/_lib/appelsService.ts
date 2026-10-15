@@ -21,6 +21,7 @@ import {
 import type { DepotAppels } from "./appelsDepot";
 import { composer, lienPersonnel, lienWhatsApp, texteWhatsApp, type Evenement, type Message } from "./appelsNotif";
 import { acces, visioConfiguree, type VisioEnv } from "./visio";
+import { detecterCoordonnees } from "./coordonnees";
 
 export interface EnvAppels extends VisioEnv {
   DATABASE_URL?: string;
@@ -198,6 +199,17 @@ export async function creer(c: Ctx, a: ActeurConnecte | null, corps: unknown): P
   }
   const f = await finaliserCreation(c, e, moi, invites, null);
   if (!f.ok) return f.reponse;
+  // Red flag : coordonnées tentées dans le message, le sujet ou le nom (déjà masquées) → cabinet prévenu.
+  const demandeurNom = (b.demandeur as Record<string, unknown> | undefined)?.nom;
+  const types = [...new Set([b.message, b.sujet, demandeurNom].flatMap((v) => detecterCoordonnees(typeof v === "string" ? v : "")))];
+  if (types.length) {
+    f.d.alerteCoordonnees = { types, le: new Date(c.maintenant).toISOString() };
+    await c.depot.enregistrer(f.d, f.d.version).catch(() => false);
+    const to = (c.env.LEAD_NOTIFY_TO || "").split(",").map((x) => x.trim()).filter(Boolean);
+    const texte = `${moi.nom} a tenté de transmettre des coordonnées (${types.join(", ")}) dans une demande d'appel vidéo (${f.d.id}). Le texte a été masqué : rien n'a été transmis.\n\n${origine(c.env).replace("://", "://admin.")}/cc/appels`;
+    const html = texte.replace(/[&<>"']/g, (x) => `&#${x.charCodeAt(0)};`).replace(/\n/g, "<br>");
+    if (to.length) await c.envoyer({ to, subject: `Tentative de contact direct (appel vidéo) : ${moi.nom}`, text: texte, html: `<p>${html}</p>` }).catch(() => false);
+  }
   return ok({
     demande: a?.genre === "admin" ? vueAdmin(f.d, c.maintenant) : vueParticipant(f.d, f.demandeurId, c.maintenant),
     // Le demandeur sans session reçoit SON lien (c'est le seul moyen de suivre sa demande).

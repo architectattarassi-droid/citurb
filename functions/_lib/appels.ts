@@ -106,6 +106,8 @@ export type Demande = {
   rappelEnvoye: boolean;
   /** Fil de messagerie d'où vient la demande (ses étapes y sont inscrites). */
   conversationId?: string | null;
+  /** Red flag : coordonnées détectées (et masquées) dans le message, le sujet ou le nom — types seulement. */
+  alerteCoordonnees?: { types: string[]; le: string } | null;
   historique: Evenement[];
   participants: Participant[];
   version: number;
@@ -534,6 +536,7 @@ export function vueAdmin(d: Demande, maintenant: number) {
   return {
     ...(cabinet ? vueParticipant(d, cabinet.id, maintenant) : { ...vueParticipant(d, d.participants[0].id, maintenant), moi: null }),
     cabinetParticipe: !!cabinet,
+    alerteCoordonnees: d.alerteCoordonnees ?? null,
     participants: d.participants.map((x) => ({
       id: x.id, role: x.role, type: x.type, cle: x.cle, nom: x.nom, email: x.email, telephone: x.telephone, langue: x.langue,
       statut: x.statut, creneaux: x.creneaux, toutCreneau: x.toutCreneau, reponduLe: x.reponduLe, jetonsVisio: x.jetonsVisio, moi: x.cle === CLE_CABINET,
@@ -550,6 +553,7 @@ export function resume(d: Demande, cle: string | null, maintenant: number) {
     id: d.id, contexte: d.contexte, objetId: d.objetId, sujet: d.sujet, statut: statutEffectif(d, maintenant),
     creneaux: d.creneaux, desQuePossible: d.desQuePossible, creneauRetenu: d.creneauRetenu, dureeMin: d.dureeMin,
     avec: autres, monStatut: p?.statut ?? null, monRole: p?.role ?? null, createdAt: d.createdAt, updatedAt: d.updatedAt,
+    alerte: !!d.alerteCoordonnees,
     aRepondre: !!p && statutEffectif(d, maintenant) === "EN_ATTENTE" && p.statut === "EN_ATTENTE",
   };
 }

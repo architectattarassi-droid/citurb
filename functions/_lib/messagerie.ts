@@ -12,6 +12,7 @@
  * (autoriserCreation), même masquage des coordonnées, mêmes blocages.
  * Contrat : docs/architecture/contrat-messagerie.md.
  */
+import { detecterCoordonnees, type TypeCoordonnee } from "./coordonnees";
 import { clip, masquerCoordonnees, type ContexteAppel, type DescripteurInvite, type Identite, type Langue, type TypeParticipant } from "./appels";
 
 export const STATUTS_CONVERSATION = ["OUVERTE", "FERMEE", "SIGNALEE"] as const;
@@ -45,6 +46,18 @@ export type ParticipantConv = {
   notifieLe: string | null;
 };
 
+/**
+ * Red flag « tentative de contact direct » (décision du fondateur) : chaque
+ * message dont une coordonnée a été masquée compte une tentative pour son
+ * auteur — horodatage et TYPE seulement (téléphone, e-mail, lien,
+ * messagerie), jamais la coordonnée elle-même. Le cabinet est prévenu dès la
+ * première ; à SEUIL_SUSPENSION tentatives sur 7 jours, le fil passe
+ * « SIGNALEE » et l'auteur ne peut plus écrire jusqu'à la décision du cabinet.
+ */
+export type Alerte = { tentatives: string[]; types: TypeCoordonnee[]; suspendu: boolean; leveeLe: string | null };
+export const SEUIL_SUSPENSION = 3;
+export const FENETRE_ALERTE_MS = 7 * 24 * 3600_000;
+
 export type Conversation = {
   id: string;
   contexte: ContexteAppel;
@@ -56,6 +69,8 @@ export type Conversation = {
   createurCle: string;
   participants: ParticipantConv[];
   signalements: { le: string; par: string; motif: string }[];
+  /** Tentatives de contact direct, par participant (absent sur les fils anciens). */
+  alertes?: Record<string, Alerte>;
   dernierMessageLe: string;
   version: number;
   createdAt: string;
@@ -86,13 +101,53 @@ export const nouvelIdParticipantConv = () => `cpp_${aleatoire(12)}`;
 
 export const empreinteConversation = (contexte: string, objetId: string, cles: string[]) => `${contexte}|${objetId}|${[...cles].sort().join(",")}`;
 
-/** Texte d'un message : borné, coordonnées masquées. */
-export function preparerTexte(v: unknown): { ok: true; texte: string; masque: boolean } | { ok: false; erreur: string } {
+/** Texte d'un message : borné, coordonnées masquées ; `types` = ce qui a été détecté (jamais la valeur). */
+export function preparerTexte(v: unknown): { ok: true; texte: string; masque: boolean; types: TypeCoordonnee[] } | { ok: false; erreur: string } {
   const brut = clip(v, MESSAGE_MAX);
   if (!brut) return { ok: false, erreur: "message_vide" };
   const m = masquerCoordonnees(brut);
-  return { ok: true, texte: m.texte, masque: m.masque };
+  const types = detecterCoordonnees(brut);
+  return { ok: true, texte: m.texte, masque: m.masque || types.length > 0, types };
 }
+
+/** Tentatives comptées : dans les 7 derniers jours et après la dernière levée par le cabinet. */
+export function tentativesActives(a: Alerte | undefined, maintenant: number): number {
+  if (!a) return 0;
+  return a.tentatives.filter((t) => maintenant - Date.parse(t) <= FENETRE_ALERTE_MS && (!a.leveeLe || t > a.leveeLe)).length;
+}
+
+/**
+ * Enregistre une tentative (modifie la conversation). Renvoie si c'est la
+ * première du participant dans ce fil et s'il vient d'être suspendu.
+ */
+export function enregistrerTentative(c: Conversation, participantId: string, types: TypeCoordonnee[], maintenant: number): { premiere: boolean; suspendu: boolean; nombre: number } {
+  const le = new Date(maintenant).toISOString();
+  c.alertes ??= {};
+  const premiere = !c.alertes[participantId];
+  const a = (c.alertes[participantId] ??= { tentatives: [], types: [], suspendu: false, leveeLe: null });
+  a.tentatives = [...a.tentatives, le].slice(-50);
+  a.types = [...new Set([...a.types, ...types])];
+  const nombre = tentativesActives(a, maintenant);
+  let suspendu = false;
+  if (!a.suspendu && nombre >= SEUIL_SUSPENSION) {
+    a.suspendu = suspendu = true;
+    if (c.statut !== "FERMEE") c.statut = "SIGNALEE";
+    c.signalements.push({ le, par: "systeme", motif: `Tentatives répétées de contact direct (${a.types.join(", ")}) : écriture suspendue` });
+  }
+  return { premiere, suspendu, nombre };
+}
+
+/** Décision du cabinet : l'auteur peut de nouveau écrire ; le compteur repart de zéro. */
+export function leverSuspension(c: Conversation, participantId: string, maintenant: number): boolean {
+  const a = c.alertes?.[participantId];
+  if (!a) return false;
+  a.suspendu = false;
+  a.leveeLe = new Date(maintenant).toISOString();
+  if (c.statut === "SIGNALEE" && !Object.values(c.alertes!).some((x) => x.suspendu)) c.statut = "OUVERTE";
+  return true;
+}
+
+export const aDesAlertes = (c: Pick<Conversation, "alertes">) => !!c.alertes && Object.values(c.alertes).some((a) => a.tentatives.length > 0);
 
 export function nouvelleConversation(
   args: { contexte: ContexteAppel; objetId: string; sujet: string | null },
@@ -119,6 +174,7 @@ export const participantDe = (identite: Identite, extra: { id: string; sel: stri
 export function peutEcrire(c: Conversation, participantId: string | null): { ok: true } | { ok: false; status: number; erreur: string } {
   if (!participantId || !c.participants.some((p) => p.id === participantId)) return { ok: false, status: 403, erreur: "non_participant" };
   if (c.statut === "FERMEE") return { ok: false, status: 409, erreur: "conversation_fermee" };
+  if (c.alertes?.[participantId]?.suspendu) return { ok: false, status: 403, erreur: "ecriture_suspendue" };
   return { ok: true };
 }
 
@@ -160,12 +216,18 @@ export function vueConversation(c: Conversation, moiId: string | null, admin = f
   const moi = c.participants.find((p) => p.id === moiId) ?? null;
   return {
     id: c.id, contexte: c.contexte, objetId: c.objetId, sujet: c.sujet, statut: c.statut, createdAt: c.createdAt, dernierMessageLe: c.dernierMessageLe,
-    moi: moi ? { id: moi.id, nom: moi.nom, type: moi.type, langue: moi.langue } : null,
+    moi: moi ? { id: moi.id, nom: moi.nom, type: moi.type, langue: moi.langue, suspendu: !!c.alertes?.[moi.id]?.suspendu } : null,
     participants: c.participants.map((p) => ({
       id: p.id, type: p.type, nom: p.nom, moi: p.id === moiId, luJusqua: p.luJusqua,
       ...(admin ? { cle: p.cle, email: p.email, telephone: p.telephone } : {}),
     })),
-    ...(admin ? { signalements: c.signalements } : {}),
+    ...(admin ? {
+      signalements: c.signalements,
+      alertes: Object.entries(c.alertes ?? {}).map(([pid, a]) => ({
+        participantId: pid, nom: c.participants.find((p) => p.id === pid)?.nom ?? "—", tentatives: a.tentatives.length,
+        derniere: a.tentatives[a.tentatives.length - 1] ?? null, types: a.types, suspendu: a.suspendu, leveeLe: a.leveeLe,
+      })),
+    } : {}),
   };
 }
 
@@ -175,6 +237,8 @@ export function resumeConversation(c: Conversation, moiId: string | null, dernie
     avec: c.participants.filter((p) => p.id !== moiId).map((p) => p.nom),
     apercu: dernier ? (dernier.modere ? TEXTE_MODERE : dernier.texte.slice(0, 140)) : "",
     nonLus: nbNonLus,
+    alertes: Object.values(c.alertes ?? {}).reduce((n, a) => n + a.tentatives.length, 0),
+    suspendus: Object.values(c.alertes ?? {}).filter((a) => a.suspendu).length,
   };
 }
 
