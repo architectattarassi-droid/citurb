@@ -66,3 +66,35 @@ Statut d'un dossier créé par l'admin : `SUBMITTED` s'il est au brief, `APPROVE
 - **Rendu PDF et DOCX** : `apps/web/src/domain/honoraires/rendu/` — générateurs **sans dépendance** (PDF écrit à la main, polices standard Helvetica ; DOCX = XML Word dans un zip « stocké »), exécutés **dans le navigateur** (aucun service payant, aucune limite CPU de Function, aucun fichier de verrouillage npm touché). Les deux sortent du même modèle (`documentDevis.ts`), portent le même numéro et la même empreinte, et sont **déterministes** (même contenu → mêmes octets). Calibri : imposée dans le DOCX ; le PDF utilise Helvetica (Calibri n'est pas embarquable librement ; sa métrique libre Carlito pourra être embarquée plus tard).
 - **Écarts de texte avec la spec** (émetteur CITURBAREA) : « Les délais … ne sont garantis ni par CITURBAREA ni par l'architecte » (au lieu de « par le cabinet ») ; bandeau « CITURBAREA met à votre disposition… » ; QR code du bandeau §5.4 non fait (lien `/mon-espace` en texte).
 - **Fiche admin** : onglet Devis = `apps/web/src/command-center/modules/dossiers/devis/OngletDevis.tsx` (branché dans `FicheDossier.tsx`). Aperçu HTML réutilisable pour l'espace client : `devis/ApercuDocument.tsx`.
+
+## Acceptation, échéancier, factures et paiements par phase (étape 3, 15/10/2026)
+
+Décision du fondateur : **chaque phase P00…P14 démarre après paiement de son échéance**, selon le contrat (devis accepté) et ses modalités ; devis, factures et statut de paiement s'affichent dans la timeline du projet.
+
+- **Acceptation** (`EMIS` → `ACCEPTE`) : exactement un pack si présentation PACKS (règle 2) ; seules les prestations facultatives **commandées** sont facturées (règle 4) ; « Sur devis » jamais facturable ; prestations hors honoraires (BET, labo, géomètre) **exclues par défaut** (case à cocher, point à trancher). Preuve obligatoire : devis signé scanné (admin, dépôt commun contexte `facturation`) ou acceptation **en ligne horodatée** par le client (`preuveAcceptation = { type: "EN_LIGNE", horodatage, clientId, empreinteDevis }`). Devis expiré ou remplacé : refus. Colonnes `Devis.montantAccepte`, `Devis.lignesAcceptees`.
+- **Échéancier** (`EcheancePaiement`) : proposé à l'acceptation selon `modalitesPaiement` — `AVANCE_TOTALE` : 100 % à la signature ; `50_50` : acompte à la signature + solde avant la phase suivante ; `PAR_TRANCHES` / `PAR_VISITE` : chaque mission répartie à parts égales sur les phases qui la portent (référentiel : `PhaseRef.missions`), première tranche à la signature. Modifiable par l'admin (somme = montant accepté ; échéance facturée figée) ; chaque modification journalisée (`ECHEANCIER_MODIFIE`, avant / après).
+- **Factures** : une par échéance, `FAC-AAAA-NNNN` (type FORFAIT_UNIQUE, ACOMPTE, SITUATION ou SOLDE), émise par CITURBAREA / HSE DECO, TVA 20 % par défaut (modifiable), retenue à la source prévue, échéance J+15 par défaut, montant en lettres. Numéro alloué dans l'instruction `INSERT` même (aucun trou ; double facturation d'une échéance impossible : index unique partiel). Immuable ; correction par **avoir** `AVO-AAAA-NNNN` (montant négatif, motif obligatoire ; avoir total → facture `ANNULEE`, l'échéance redevient facturable).
+- **Encaissements** (`Encaissement`) : virement, chèque, espèces, effet ; référence ; justificatif dans le dépôt commun ; plafonnés au reste à payer ; statut facture `EMISE` → `PARTIELLEMENT_REGLEE` → `REGLEE`. Aucun paiement en ligne.
+- **Déblocage** (`DeblocagePaiement`) : l'admin lève le point d'arrêt d'une phase non payée avec un **motif écrit** (≥ 10 caractères), journalisé `PHASE_DEBLOQUEE_SANS_PAIEMENT`.
+
+### Interface pour la gestion de projet (timeline, blocage du démarrage)
+
+- **Côté serveur** : `etatPaiementPhasesDossier(sql, dossierId, aujourdhui)` — `functions/_lib/facturationDepot.ts` ; **HTTP admin** : `GET /api/cc/dossiers/<id>/paiements` → `{ phases }`. Tables absentes → `null` : ne rien bloquer.
+- Pour chacune des 15 phases (`PhasePaiement`, `apps/web/src/domain/honoraires/facturation.ts`) : `phase`, `ordre`, `libelle`, `devis[]` (id, numéro), `echeances[]` (id, libellé, montant HT, facturée), `factures[]` (numéro, type, statut, dû, payé, restant, échéance), `du` / `paye` / `restant` (TTC net d'avoirs ; `estime: true` si une échéance n'est pas encore facturée), `statut`, `datePaiementComplet`, **`bloquante`** (échéance non payée et pas de déblocage), `deblocage` (motif, par, le), `aucuneEcheance`.
+- **Statuts** : `NON_DUE` (pas encore exigible : phase au-delà de la suivante, ou aucune échéance), `A_EMETTRE` (exigible, facture pas encore émise), `EMISE`, `PARTIELLE`, `PAYEE`, `EN_RETARD` (date d'échéance de la facture dépassée). Plusieurs échéances sur une phase : le plus grave l'emporte (EN_RETARD > A_EMETTRE > PARTIELLE > EMISE > NON_DUE > PAYEE).
+- Règle d'usage : **ne pas démarrer une phase dont `bloquante === true`** ; proposer à l'admin le bouton de déblocage motivé (`POST /api/cc/dossiers/<id>/facturation { action: "debloquer", phase, motif }`).
+- La phase actuelle du dossier (code du catalogue) est ramenée au référentiel par `phaseDuCatalogue()`.
+
+### Routes de l'étape 3
+
+| Route | Rôle |
+|---|---|
+| `POST /api/cc/devis/<id> { action: "accepter", pack?, commandees[], inclureHorsHonoraires?, dateAcceptation, justificatif }` | acceptation admin (scan signé obligatoire) |
+| `GET /api/cc/dossiers/<id>/facturation` | état par phase, devis acceptés, échéancier, factures, encaissements |
+| `POST /api/cc/dossiers/<id>/facturation` | `echeancier`, `facturer`, `encaisser`, `avoir`, `debloquer` |
+| `GET /api/cc/dossiers/<id>/paiements` | état par phase seul (gestion de projet) |
+| `GET /api/cc/factures/<id>` | document figé + empreinte (PDF / DOCX générés dans le navigateur) |
+| `GET /api/cc/dossiers/<id>/justificatifs/<docId>` | scan signé / justificatif de paiement (dépôt commun, contexte `facturation`) |
+| `GET|POST /api/client/dossiers/<id>/facturation` | espace client : devis, factures, paiements par phase ; acceptation en ligne |
+
+Écrans : `devis/Acceptation.tsx`, `devis/OngletFactures.tsx` (fiche admin), `features/espace-client/DevisFactures.tsx` (/mon-espace, FR/AR).
