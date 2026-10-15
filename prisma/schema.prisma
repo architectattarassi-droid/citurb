@@ -2781,3 +2781,44 @@ model MessageConversation {
   @@index([conversationId, createdAt], map: "MessageConversation_fil_idx")
   @@index([auteurCle, createdAt], map: "MessageConversation_auteur_idx")
 }
+
+/// Dépôt de documents commun (pièces du dossier, messagerie, appels, RDV, projet) — table partagée.
+/// SQL : docs/sql/gestion-projet-neon.sql (base) puis docs/sql/documents-neon.sql (extension).
+model DocumentDepose {
+  id            String    @id
+  /// conversation | appel | dossier | rdv | projet | demande-prix
+  contexte      String
+  objetId       String
+  /// déposant : admin:…, usr:…, frn:…, membre:…, rdv:…, client:…
+  proprietaire  String
+  type          String
+  nom           String
+  taille        BigInt
+  octets        Bytes?
+  cleR2         String?
+  empreinte     String
+  /// PRIVE | PENDING | APPROVED | REJECTED | EN_COURS | SUPPRIME
+  statut        String    @default("PRIVE")
+  createdAt     DateTime  @default(now())
+  deposantNom   String?
+  nomNormalise  String    @default("")
+  /// NEON | R2
+  support       String    @default("NEON")
+  vignette      Bytes?
+  largeur       Int?
+  hauteur       Int?
+  meta          Json      @default("{}")
+  version       Int       @default(1)
+  motif         String?
+  moderePar     String?
+  modereLe      DateTime? @db.Timestamptz(3)
+  supprimePar   String?
+  supprimeLe    DateTime? @db.Timestamptz(3)
+  televersement Json?
+  driveId       String?
+  updatedAt     DateTime  @default(now()) @db.Timestamptz(3)
+
+  @@index([contexte, objetId], map: "DocumentDepose_contexte_objet_idx")
+  @@index([contexte, objetId, statut, createdAt], map: "DocumentDepose_contexte_statut_idx")
+  @@index([proprietaire, createdAt], map: "DocumentDepose_proprietaire_idx")
+}

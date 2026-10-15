@@ -2,7 +2,9 @@
 
 **Un seul** service de dépôt pour toute la plateforme : messagerie et appels vidéo, dossier client, rendez-vous, espace projet (pièces graphiques ESQ / APS / APD), demandes de prix. Les images publiques des fiches Cercles restent dans `ImageCatalogue` (en service, cache public) ; elles pourront migrer plus tard sans changer leurs URL.
 
-Code : `functions/_lib/documents.ts` (logique pure, testée), `functions/_lib/documentsDepot.ts` (Neon), `functions/_lib/documentsService.ts` (routes, droits, supports), `functions/_lib/documentsDrive.ts` (archive Google Drive). Tables : `docs/sql/documents-neon.sql` (`DocumentDepose`). Front : `apps/web/src/features/documents/` (`DepotDocuments` : liste + envoi + aperçu).
+Code : `functions/_lib/depotRegles.ts` (logique pure, testée), `depotStockage.ts` (Neon), `depotService.ts` (routes, droits, supports), `depotNeon.ts` (gardien, liens personnels, red flag), `depotDrive.ts` (archive Google Drive) ; tests `apps/web/src/features/documents/depot.test.ts`. Front : `apps/web/src/features/documents/` (`DepotDocuments` : liste + envoi + aperçu).
+
+**Une seule table** `DocumentDepose`, partagée avec les **pièces du dossier** de la session Gestion de projet (`functions/_lib/documents.ts`, routes `…/dossiers/:id/pieces`, statut `PRIVE`, droits propres via `DossierPiece`) : créée par `docs/sql/gestion-projet-neon.sql`, étendue par `docs/sql/documents-neon.sql` (colonnes ajoutées, rien de supprimé). Vocabulaire commun en base : `proprietaire` (déposant), statuts `PRIVE` | `PENDING` (à modérer) | `APPROVED` (visible) | `REJECTED` | `EN_COURS` (envoi) | `SUPPRIME` ; l'API ci-dessous les présente comme `A_MODERER` / `VISIBLE` / `REFUSE`. Une pièce `PRIVE` n'est montrée par ce service qu'au cabinet (le module des pièces garde ses propres règles).
 
 ## Règles (décisions du fondateur)
 
