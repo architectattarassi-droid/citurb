@@ -94,7 +94,7 @@ export default function DossiersListe() {
                   <tr onClick={() => setOuvert(ouvert === d.id ? null : d.id)} style={{ cursor: "pointer" }}>
                     <td style={S.td}>{date(d.submittedAt || d.createdAt)}</td>
                     <td style={S.td}><b>{d.porteType ?? "—"}</b></td>
-                    <td style={S.td}>{d.title || "Sans titre"}<div style={S.petit}>{d.commune ?? ""}</div></td>
+                    <td style={S.td}><Link to={`/cc/dossiers/${encodeURIComponent(d.id)}`} onClick={(e) => e.stopPropagation()} style={{ color: CC.color.navy, fontWeight: 600 }}>{d.title || "Sans titre"}</Link><div style={S.petit}>{d.commune ?? ""}</div></td>
                     <td style={S.td}>
                       {d.clientNom ?? "—"}
                       <div style={S.petit}>
@@ -111,6 +111,7 @@ export default function DossiersListe() {
                   {ouvert === d.id && (
                     <tr>
                       <td colSpan={6} style={{ ...S.td, background: CC.color.bgSoft }}>
+                        <div style={{ margin: "0 0 8px" }}><Link to={`/cc/dossiers/${encodeURIComponent(d.id)}`} style={S.btnNouveau}>Ouvrir la fiche (parcours A → Z, déblocage)</Link></div>
                         <div style={S.petit}>Réf. {d.id}{d.surfacePlancher ? ` · ${d.surfacePlancher} m² plancher` : ""}{d.opsNote ? ` · Note : ${d.opsNote}` : ""}</div>
                         {/* Appel vidéo sur demande avec le client du dossier : rien ne démarre sans son accord (suivi dans /cc/appels). */}
                         <div style={{ margin: "8px 0" }}><DemanderAppelVideo porte="admin" contexte="dossier" objetId={d.id} sujet={d.title || undefined} invites={[{ type: "client", dossierId: d.id }]} avecNom={d.clientNom || "le client"} langue="fr" variante="navy" /> <EcrireMessage porte="admin" contexte="dossier" objetId={d.id} sujet={d.title || undefined} invites={[{ type: "client", dossierId: d.id }]} avecNom={d.clientNom || "le client"} langue="fr" variante="contour" /></div>

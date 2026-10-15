@@ -22,6 +22,7 @@ import MateriauxModule from './modules/materiaux/MateriauxModule';
 import CCLogin from './pages/CCLogin';
 import CCSimulateur from './modules/dossiers/CCSimulateur';
 import DossiersListe from './modules/dossiers/DossiersListe';
+import FicheDossier from './modules/dossiers/FicheDossier';
 import NouveauDossierAdmin from './modules/dossiers/creation/NouveauDossierAdmin';
 import EnSommeil from '../ui/EnSommeil';
 
@@ -63,6 +64,9 @@ export default function CommandCenterApp() {
               <Route path="validations" element={<Navigate to="/cc/fournisseurs" replace />} />
               <Route path="dossiers" element={<DossiersListe />} />
               <Route path="dossiers/nouveau" element={<NouveauDossierAdmin />} />
+              {/* Fiche dossier (lot 3c) : parcours A → Z, déblocage, lien client, vue client. */}
+              <Route path="dossiers/:id" element={<FicheDossier />} />
+              <Route path="dossiers/:id/shadow" element={<FicheDossier vueClientInitiale />} />
               <Route path="terrains" element={<TerrainsModule />} />
               <Route path="materiaux" element={<MateriauxModule />} />
               <Route path="projets/*" element={<ProjetsModule />} />
@@ -76,8 +80,6 @@ export default function CommandCenterApp() {
               <Route path="territorial/*" element={<EnSommeil variante="admin" module="Intelligence territoire" />} />
               <Route path="business/*" element={<EnSommeil variante="admin" module="Business" />} />
               <Route path="devis" element={<EnSommeil variante="admin" module="Devis libre" alternative={{ to: "/cc/simulateur", libelle: "Simulateur (honoraires et chiffrage)" }} />} />
-              <Route path="dossiers/:id" element={<EnSommeil variante="admin" module="Fiche dossier" alternative={{ to: "/cc/dossiers", libelle: "Liste des dossiers" }} />} />
-              <Route path="dossiers/:id/shadow" element={<EnSommeil variante="admin" module="Vue client du dossier" alternative={{ to: "/cc/dossiers", libelle: "Liste des dossiers" }} />} />
               <Route path="dossiers/:id/devis" element={<EnSommeil variante="admin" module="Devis du dossier" alternative={{ to: "/cc/simulateur", libelle: "Simulateur" }} />} />
               <Route path="archive" element={<EnSommeil variante="admin" module="Archive" />} />
               <Route path="archive/:id" element={<EnSommeil variante="admin" module="Archive" />} />
