@@ -68,6 +68,8 @@ const DiasporaHubPage = lazy(() => import("../../../features/cercles-diaspora/Di
 const DocsPage = lazy(() => import("../../../ui/docs/DocsPage"));
 
 const Login = lazy(() => import("../../tome5/pages/Login"));
+// Espace client (lots 3a/3b) : session ouverte par le lien /mon-dossier ou « Recevoir mon lien ».
+const MonEspacePage = lazy(() => import("../../../features/espace-client/MonEspacePage"));
 const LeadCapturePage = lazy(() => import("../../../features/lead-funnel/LeadCapturePage"));
 
 import LandingPage from "../../../ui/landing/LandingPage";
@@ -268,8 +270,8 @@ export const router = createBrowserRouter([
       { path: CANON.P1_PACKS, element: <AdminHostBlock><P1Packs /></AdminHostBlock> },
       { path: CANON.P1_DOSSIER, element: <AdminHostBlock><P1Confirmation /></AdminHostBlock> },
       { path: '/p1/dossier/phases', element: <AdminHostBlock><P1Confirmation /></AdminHostBlock> },
-      { path: '/portal', element: <AdminHostBlock><Login /></AdminHostBlock> },
-      { path: '/mon-espace', element: <AdminHostBlock><Login /></AdminHostBlock> },
+      { path: '/portal', element: <AdminHostBlock><MonEspacePage /></AdminHostBlock> },
+      { path: '/mon-espace', element: <AdminHostBlock><MonEspacePage /></AdminHostBlock> },
       { path: '/p2', element: <AdminHostBlock><AvecVideos theme="p2"><P2Home /></AvecVideos></AdminHostBlock> },
       { path: '/p2/form', element: <AdminHostBlock><P2Home /></AdminHostBlock> },
       { path: '/p2/result', element: <AdminHostBlock><P2Home /></AdminHostBlock> },

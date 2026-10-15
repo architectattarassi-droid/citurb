@@ -4,12 +4,13 @@
  *   boite  /api/messages/boite/<jeton signé>   (tous les fils d'un visiteur / client sans compte)
  *   admin  /api/cc/messages                    (back-office, modération)
  *   pro    /api/cercles/espace/messages        (cookie de l'espace pro)
+ *   client /api/client/messages                (cookie de l'espace client, lot 3a)
  * Premier message d'un visiteur : POST /api/messages.
  */
 import type { DemandeVue, Resultat } from "../appels/api";
 
-export type EspaceMsg = { type: "lien"; jeton: string } | { type: "admin" } | { type: "pro" };
-export type PorteMsg = "public" | "admin" | "pro";
+export type EspaceMsg = { type: "lien"; jeton: string } | { type: "admin" } | { type: "pro" } | { type: "client" };
+export type PorteMsg = "public" | "admin" | "pro" | "client";
 
 export type MessageVue = {
   id: string; type: "TEXTE" | "APPEL" | "SYSTEME"; auteur: string; moi: boolean; texte: string; masque: boolean; modere: boolean; createdAt: string;
@@ -54,16 +55,17 @@ function chemin(e: EspaceMsg, id: string, action?: "messages" | "appel" | "signa
     case "lien": return `/api/messages/lien/${enc(e.jeton)}${suite}`;
     case "admin": return `/api/cc/messages/${enc(id)}${suite}`;
     case "pro": return `/api/cercles/espace/messages/${enc(id)}${suite}`;
+    case "client": return `/api/client/messages/${enc(id)}${suite}`;
   }
 }
 
 export const apiMessages = {
   creer(porte: PorteMsg, corps: Record<string, unknown>) {
-    const url = porte === "admin" ? "/api/cc/messages" : porte === "pro" ? "/api/cercles/espace/messages" : "/api/messages";
+    const url = porte === "admin" ? "/api/cc/messages" : porte === "pro" ? "/api/cercles/espace/messages" : porte === "client" ? "/api/client/messages" : "/api/messages";
     return appeler<CreationFil>(url, "POST", corps);
   },
-  boite(e: { type: "admin"; statut?: string } | { type: "pro" } | { type: "boite"; jeton: string }) {
-    const url = e.type === "admin" ? `/api/cc/messages${e.statut ? `?statut=${enc(e.statut)}` : ""}` : e.type === "pro" ? "/api/cercles/espace/messages" : `/api/messages/boite/${enc(e.jeton)}`;
+  boite(e: { type: "admin"; statut?: string } | { type: "pro" } | { type: "client" } | { type: "boite"; jeton: string }) {
+    const url = e.type === "admin" ? `/api/cc/messages${e.statut ? `?statut=${enc(e.statut)}` : ""}` : e.type === "pro" ? "/api/cercles/espace/messages" : e.type === "client" ? "/api/client/messages" : `/api/messages/boite/${enc(e.jeton)}`;
     return appeler<{ conversations: ResumeFil[] }>(url);
   },
   lire: (e: EspaceMsg, id = "") => appeler<FilVue>(chemin(e, id)),

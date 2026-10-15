@@ -5,6 +5,7 @@
  *   admin  /api/cc/appels                  (back-office)
  *   pro    /api/cercles/espace/appels      (cookie de l'espace pro)
  *   membre /api/projets/appels             (cookie de l'espace projet)
+ *   client /api/client/appels              (cookie de l'espace client, lot 3a)
  * Création par un visiteur sans compte : POST /api/appels.
  */
 import type { ConfigVisio } from "../visio/SalleVisio";
@@ -17,8 +18,8 @@ export type Invite =
   | { type: "membre"; id: string }
   | { type: "rdv"; id: string };
 
-export type Espace = { type: "lien"; jeton: string } | { type: "admin" } | { type: "pro" } | { type: "membre" };
-export type PorteCreation = "public" | "admin" | "pro" | "membre";
+export type Espace = { type: "lien"; jeton: string } | { type: "admin" } | { type: "pro" } | { type: "membre" } | { type: "client" };
+export type PorteCreation = "public" | "admin" | "pro" | "membre" | "client";
 
 export type ParticipantVue = {
   id: string; role: "DEMANDEUR" | "INVITE"; type: string; nom: string; statut: string; creneaux: string[]; toutCreneau: boolean; moi: boolean;
@@ -67,6 +68,7 @@ function chemin(e: Espace, id: string, action?: "repondre" | "visio" | "bloquer"
     case "admin": return `/api/cc/appels/${enc(id)}${suite}`;
     case "pro": return `/api/cercles/espace/appels/${enc(id)}${suite}`;
     case "membre": return `/api/projets/appels/${enc(id)}${suite}`;
+    case "client": return `/api/client/appels/${enc(id)}${suite}`;
   }
 }
 
@@ -74,12 +76,12 @@ export type ReponseCreation = { demande: DemandeVue | null; lien?: string; jeton
 
 export const apiAppels = {
   creer(porte: PorteCreation, corps: Record<string, unknown>) {
-    const url = porte === "admin" ? "/api/cc/appels" : porte === "pro" ? "/api/cercles/espace/appels" : porte === "membre" ? "/api/projets/appels" : "/api/appels";
+    const url = porte === "admin" ? "/api/cc/appels" : porte === "pro" ? "/api/cercles/espace/appels" : porte === "membre" ? "/api/projets/appels" : porte === "client" ? "/api/client/appels" : "/api/appels";
     return appeler<ReponseCreation>(url, "POST", corps);
   },
   lister(e: Exclude<Espace, { type: "lien" }>, statut?: string) {
     const q = statut ? `?statut=${enc(statut)}` : "";
-    const url = e.type === "admin" ? `/api/cc/appels${q}` : e.type === "pro" ? `/api/cercles/espace/appels${q}` : `/api/projets/appels${q}`;
+    const url = e.type === "admin" ? `/api/cc/appels${q}` : e.type === "pro" ? `/api/cercles/espace/appels${q}` : e.type === "client" ? `/api/client/appels${q}` : `/api/projets/appels${q}`;
     return appeler<{ demandes: ResumeAppel[] }>(url);
   },
   lire: (e: Espace, id = "") => appeler<{ demande: DemandeVue; visioIntegree: boolean }>(chemin(e, id)),

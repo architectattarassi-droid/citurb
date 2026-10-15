@@ -69,7 +69,7 @@ export default function FilConversation({ espace, id = "", l, extra, onChange }:
   };
   // Espace pour répondre à un appel né du fil : lien d'appel (accès par lien) ou session.
   const espaceAppel = (a: FilVue["appels"][number]): Espace | null =>
-    a.jetonAppel ? { type: "lien", jeton: a.jetonAppel } : espace.type === "pro" ? { type: "pro" } : espace.type === "admin" ? { type: "admin" } : null;
+    a.jetonAppel ? { type: "lien", jeton: a.jetonAppel } : espace.type === "pro" ? { type: "pro" } : espace.type === "admin" ? { type: "admin" } : espace.type === "client" ? { type: "client" } : null;
   const appelsActifs = f.appels.filter((a) => a.vue && (a.vue.statut === "EN_ATTENTE" || a.vue.statut === "CONFIRMEE"));
   const autres = c.participants.filter((p) => !p.moi).map((p) => p.nom).join(", ");
 

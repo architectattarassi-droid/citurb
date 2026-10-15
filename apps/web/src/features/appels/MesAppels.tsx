@@ -10,7 +10,7 @@ import { dateHeure } from "./heures";
 import { erreurLisible, TEXTES, type LangueAppel } from "./textes";
 
 type Props = {
-  espace: { type: "pro" } | { type: "membre" } | { type: "admin" };
+  espace: { type: "pro" } | { type: "membre" } | { type: "admin" } | { type: "client" };
   l: LangueAppel;
   /** Titre affiché (par défaut « Appels vidéo »). */
   titre?: string | null;

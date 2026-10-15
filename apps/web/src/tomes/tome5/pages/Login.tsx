@@ -1,11 +1,10 @@
 /**
  * /login — page d'accès, sans mot de passe.
  *
- * L'ancienne connexion (POST /auth/login) visait l'API NestJS, éteinte. En
- * attendant le compte client léger (lien/code, cookie signé — plan de
- * rebranchement, lot 3a), la page oriente chacun vers ce qui fonctionne :
- *   - client : lien personnel reçu (espace RDV /rdv/:jeton), sinon /creer-compte,
- *     rendez-vous ou WhatsApp ;
+ * L'ancienne connexion (POST /auth/login) visait l'API NestJS, éteinte. Compte
+ * client léger (lot 3a) : le lien personnel /mon-dossier/<jeton> ouvre l'espace
+ * /mon-espace ; « Recevoir mon lien » (e-mail ou téléphone) le renvoie. Orientation :
+ *   - client : son lien, sinon /creer-compte, rendez-vous ou WhatsApp ;
  *   - fournisseur : espace fournisseur par code (/cercles/espace) ;
  *   - équipe : /cc/login.
  * Les écrans protégés redirigent ici : personne ne reste bloqué.
@@ -15,6 +14,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useT } from "../../../i18n/i18n";
 import { lienWhatsApp } from "../../../config/contact";
+import RecevoirLien from "../../../features/espace-client/RecevoirLien";
 
 export default function Login() {
   const t = useT();
@@ -34,6 +34,9 @@ export default function Login() {
             <Link to="/creer-compte" style={{ ...S.btn, ...S.primary }}>{t("acces.client.cta")}</Link>
             <Link to="/rendez-vous" style={{ ...S.btn, ...S.ghost }}>{t("acces.client.rdv")}</Link>
           </div>
+          <h3 style={S.h3}>{t("espace.recevoir.titre")}</h3>
+          <p style={{ ...S.text, margin: 0 }}>{t("espace.recevoir.texte")}</p>
+          <RecevoirLien />
         </section>
 
         <section style={S.card}>
@@ -75,6 +78,7 @@ const S: Record<string, React.CSSProperties> = {
     boxShadow: "0 12px 40px rgba(11,27,58,0.08)", padding: "20px 20px 18px", marginBottom: 14,
   },
   h2: { fontSize: 18, color: NAVY, margin: "0 0 6px" },
+  h3: { fontSize: 15, color: NAVY, margin: "18px 0 4px" },
   text: { fontSize: 14, color: "rgba(11,27,58,0.75)", lineHeight: 1.6, margin: "0 0 14px" },
   actions: { display: "flex", flexWrap: "wrap", gap: 10 },
   btn: {

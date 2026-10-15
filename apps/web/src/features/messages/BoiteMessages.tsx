@@ -10,7 +10,7 @@ import { apiMessages, type EspaceMsg, type FilVue, type ResumeFil } from "./api"
 import FilConversation from "./FilConversation";
 import { erreurMsg, TEXTES_MSG } from "./textes";
 
-type Source = { type: "pro" } | { type: "admin" } | { type: "boite"; jeton: string };
+type Source = { type: "pro" } | { type: "admin" } | { type: "client" } | { type: "boite"; jeton: string };
 type Props = { source: Source; l: LangueAppel; titre?: string | null; extra?: (f: FilVue, recharger: () => void) => ReactNode; filtres?: boolean };
 
 export default function BoiteMessages({ source, l, titre, extra, filtres }: Props) {

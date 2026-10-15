@@ -1,16 +1,18 @@
 /**
  * /mon-dossier/:jeton (et /ar/mon-dossier/:jeton) — le client ouvre son dossier
- * par le lien d'invitation signé envoyé par le cabinet (en attendant le compte
- * client, lot 3a). Lecture seule, mobile d'abord, FR / AR.
+ * par le lien d'invitation signé envoyé par le cabinet. Lecture seule, mobile
+ * d'abord, FR / AR. Le même lien ouvre sa session d'espace client (lot 3a :
+ * POST /api/client/acces/lien) : bouton « Mon espace » (/mon-espace).
  * Données : GET /api/mon-dossier/<jeton> — aucune coordonnée de tiers ;
  * seul contact affiché : CITURBAREA (config/contact.ts).
+ * VueDossierClient est réutilisée par l'espace client et la vue « shadow » du back-office.
  */
 import { useEffect, useState, type CSSProperties } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { lienWhatsApp } from "../../config/contact";
 
 type Etape = { code: string; titre: string; statut: string; date: string | null };
-type Dossier = {
+export type DossierClient = {
   titre: string | null; commune: string | null; prefecture: string | null; lot: string | null; lotissement: string | null;
   titreFoncier: string | null; gabarit: string | null;
   autorisation: { numero: string | null; date: string | null; expiration: string | null; niveauAlerte: "EXPIREE" | "J90" | null; joursRestants: number | null } | null;
@@ -26,6 +28,7 @@ const T = {
     parcours: "Parcours du dossier", fait: "Fait", enCours: "En cours", aVenir: "À venir", etat: "État du chantier", reglees: "Missions déjà réalisées et réglées",
     question: "Une question ? Tout passe par CITURBAREA :", ecrire: "Écrire sur WhatsApp", invalide: "Ce lien n'est plus valable. Demandez un nouveau lien au cabinet ou à CITURBAREA.",
     charge: "Chargement…", indispo: "Service momentanément indisponible. Réessayez dans quelques minutes.", langue: "العربية", lot: "Lot", lotissement: "Lotissement",
+    espace: "Mon espace : messages, appels vidéo et tous mes dossiers",
   },
   ar: {
     titre: "ملفي", bonjour: "مرحباً", suivi: "الملف يتابعه", phase: "المرحلة الحالية", projet: "المشروع", situation: "الموقع",
@@ -34,6 +37,7 @@ const T = {
     parcours: "مراحل الملف", fait: "منجز", enCours: "جارٍ", aVenir: "قادم", etat: "حالة الورش", reglees: "مهام أُنجزت وتم أداؤها",
     question: "لديكم سؤال؟ كل شيء يمر عبر CITURBAREA:", ecrire: "راسلونا عبر واتساب", invalide: "هذا الرابط لم يعد صالحاً. اطلبوا رابطاً جديداً من المكتب أو من CITURBAREA.",
     charge: "جارٍ التحميل…", indispo: "الخدمة غير متاحة مؤقتاً. أعيدوا المحاولة بعد دقائق.", langue: "Français", lot: "البقعة", lotissement: "التجزئة",
+    espace: "فضائي: الرسائل، مكالمات الفيديو وجميع ملفاتي",
   },
 };
 
@@ -42,7 +46,8 @@ const date = (s: string | null, ar: boolean) => (s ? new Date(`${s}T00:00:00Z`).
 export default function MonDossierPage({ langue = "fr" }: { langue?: "fr" | "ar" }) {
   const { jeton = "" } = useParams();
   const ar = langue === "ar", t = T[langue];
-  const [d, setD] = useState<Dossier | null>(null);
+  const [d, setD] = useState<DossierClient | null>(null);
+  const [session, setSession] = useState(false);
   const [etat, setEtat] = useState<"charge" | "ok" | "invalide" | "indispo">("charge");
 
   useEffect(() => {
@@ -61,6 +66,9 @@ export default function MonDossierPage({ langue = "fr" }: { langue?: "fr" | "ar"
         const j = await r.json();
         if (!r.ok || !j.ok) { setEtat("indispo"); return; }
         setD(j.dossier); setEtat("ok");
+        // Le lien ouvre aussi la session de l'espace client (cookie, 30 jours) ; sans effet s'il n'y a pas de compte client.
+        const s = await fetch("/api/client/acces/lien", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jeton }) }).catch(() => null);
+        setSession(!!s?.ok);
       } catch { setEtat("indispo"); }
     })();
   }, [jeton]);
@@ -77,55 +85,8 @@ export default function MonDossierPage({ langue = "fr" }: { langue?: "fr" | "ar"
       {etat === "indispo" && <div style={S.carte}>{t.indispo}</div>}
       {etat === "ok" && d && (
         <>
-          <h1 style={S.h1}>{d.titre}</h1>
-          {d.client.nom && <p style={S.doux}>{t.bonjour} {d.client.nom}</p>}
-          {d.cabinet?.nom && <p style={S.doux}>{t.suivi} {d.cabinet.nom}{d.cabinet.architecte ? ` — ${d.cabinet.architecte}` : ""}</p>}
-
-          {d.autorisation?.niveauAlerte === "EXPIREE" && <div style={S.alerte}>{t.expiree} {date(d.autorisation.expiration, ar)}.</div>}
-          {d.autorisation?.niveauAlerte === "J90" && d.autorisation.joursRestants != null && <div style={S.alerte}>{t.j90(d.autorisation.joursRestants)}</div>}
-
-          {d.phaseActuelle && (
-            <div style={{ ...S.carte, borderInlineStart: "4px solid #1F3864" }}>
-              <div style={S.petit}>{t.phase}</div>
-              <div style={{ fontWeight: 600, fontSize: 17 }}>{d.phaseActuelle.titre}</div>
-            </div>
-          )}
-
-          <section style={S.carte}>
-            <h2 style={S.h2}>{t.projet}</h2>
-            <Ligne k={t.situation} v={[d.commune, d.prefecture].filter(Boolean).join(" — ")} />
-            <Ligne k={t.lot} v={d.lot} />
-            <Ligne k={t.lotissement} v={d.lotissement} />
-            <Ligne k={t.tf} v={d.titreFoncier} />
-            {d.autorisation && <Ligne k={t.aut} v={[d.autorisation.numero, d.autorisation.date ? date(d.autorisation.date, ar) : null].filter(Boolean).join(" · ")} />}
-            {d.autorisation?.expiration && <Ligne k={t.expire} v={date(d.autorisation.expiration, ar)} />}
-          </section>
-
-          {(d.etatChantier || d.missionsReglees.length > 0) && (
-            <section style={S.carte}>
-              {d.etatChantier && <><h2 style={S.h2}>{t.etat}</h2><p style={{ margin: "0 0 8px" }}>{d.etatChantier}</p></>}
-              {d.missionsReglees.length > 0 && <>
-                <div style={S.petit}>{t.reglees}</div>
-                <ul style={{ margin: "6px 0 0", paddingInlineStart: 18 }}>{d.missionsReglees.map((m, i) => <li key={i}>{m.libelle}{m.date ? ` (${date(m.date, ar)})` : ""}</li>)}</ul>
-              </>}
-            </section>
-          )}
-
-          <section style={S.carte}>
-            <h2 style={S.h2}>{t.parcours}</h2>
-            <ol style={{ listStyle: "none", margin: 0, padding: 0 }}>
-              {d.etapes.map((e) => {
-                const fait = e.statut === "FAITE_HORS_PLATEFORME" || e.statut === "FAITE", cours = e.statut === "EN_COURS";
-                return (
-                  <li key={e.code} style={S.etape}>
-                    <span style={{ ...S.puce, background: fait ? "#6B7F5C" : cours ? "#1F3864" : "#D9D9D9" }} aria-hidden />
-                    <span style={{ flex: 1, fontWeight: cours ? 600 : 400, color: fait || cours ? "#1A1F2E" : "#8B91A1" }}>{e.titre}</span>
-                    <span style={S.petit}>{fait ? `${t.fait}${e.date ? ` · ${date(e.date, ar)}` : ""}` : cours ? t.enCours : t.aVenir}</span>
-                  </li>
-                );
-              })}
-            </ol>
-          </section>
+          <VueDossierClient d={d} langue={langue} />
+          {session && <Link to="/mon-espace" style={{ ...S.bouton, display: "block", textAlign: "center", margin: "12px 0" }}>{t.espace}</Link>}
 
           <section style={{ ...S.carte, background: "#EEF1F7" }}>
             <p style={{ margin: "0 0 8px" }}>{t.question}</p>
@@ -134,6 +95,64 @@ export default function MonDossierPage({ langue = "fr" }: { langue?: "fr" | "ar"
         </>
       )}
     </main>
+  );
+}
+
+/** Le dossier tel que le voit le client (titre, alertes, phase, projet, parcours). */
+export function VueDossierClient({ d, langue = "fr" }: { d: DossierClient; langue?: "fr" | "ar" }) {
+  const ar = langue === "ar", t = T[langue];
+  return (
+    <>
+    <h1 style={S.h1}>{d.titre}</h1>
+    {d.client.nom && <p style={S.doux}>{t.bonjour} {d.client.nom}</p>}
+    {d.cabinet?.nom && <p style={S.doux}>{t.suivi} {d.cabinet.nom}{d.cabinet.architecte ? ` — ${d.cabinet.architecte}` : ""}</p>}
+
+    {d.autorisation?.niveauAlerte === "EXPIREE" && <div style={S.alerte}>{t.expiree} {date(d.autorisation.expiration, ar)}.</div>}
+    {d.autorisation?.niveauAlerte === "J90" && d.autorisation.joursRestants != null && <div style={S.alerte}>{t.j90(d.autorisation.joursRestants)}</div>}
+
+    {d.phaseActuelle && (
+      <div style={{ ...S.carte, borderInlineStart: "4px solid #1F3864" }}>
+        <div style={S.petit}>{t.phase}</div>
+        <div style={{ fontWeight: 600, fontSize: 17 }}>{d.phaseActuelle.titre}</div>
+      </div>
+    )}
+
+    <section style={S.carte}>
+      <h2 style={S.h2}>{t.projet}</h2>
+      <Ligne k={t.situation} v={[d.commune, d.prefecture].filter(Boolean).join(" — ")} />
+      <Ligne k={t.lot} v={d.lot} />
+      <Ligne k={t.lotissement} v={d.lotissement} />
+      <Ligne k={t.tf} v={d.titreFoncier} />
+      {d.autorisation && <Ligne k={t.aut} v={[d.autorisation.numero, d.autorisation.date ? date(d.autorisation.date, ar) : null].filter(Boolean).join(" · ")} />}
+      {d.autorisation?.expiration && <Ligne k={t.expire} v={date(d.autorisation.expiration, ar)} />}
+    </section>
+
+    {(d.etatChantier || d.missionsReglees.length > 0) && (
+      <section style={S.carte}>
+        {d.etatChantier && <><h2 style={S.h2}>{t.etat}</h2><p style={{ margin: "0 0 8px" }}>{d.etatChantier}</p></>}
+        {d.missionsReglees.length > 0 && <>
+          <div style={S.petit}>{t.reglees}</div>
+          <ul style={{ margin: "6px 0 0", paddingInlineStart: 18 }}>{d.missionsReglees.map((m, i) => <li key={i}>{m.libelle}{m.date ? ` (${date(m.date, ar)})` : ""}</li>)}</ul>
+        </>}
+      </section>
+    )}
+
+    <section style={S.carte}>
+      <h2 style={S.h2}>{t.parcours}</h2>
+      <ol style={{ listStyle: "none", margin: 0, padding: 0 }}>
+        {d.etapes.map((e) => {
+          const fait = e.statut === "FAITE_HORS_PLATEFORME" || e.statut === "FAITE", cours = e.statut === "EN_COURS";
+          return (
+            <li key={e.code} style={S.etape}>
+              <span style={{ ...S.puce, background: fait ? "#6B7F5C" : cours ? "#1F3864" : "#D9D9D9" }} aria-hidden />
+              <span style={{ flex: 1, fontWeight: cours ? 600 : 400, color: fait || cours ? "#1A1F2E" : "#8B91A1" }}>{e.titre}</span>
+              <span style={S.petit}>{fait ? `${t.fait}${e.date ? ` · ${date(e.date, ar)}` : ""}` : cours ? t.enCours : t.aVenir}</span>
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+    </>
   );
 }
 
