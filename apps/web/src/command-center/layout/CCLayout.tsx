@@ -39,6 +39,7 @@ const NAV_GROUPS: NavGroup[] = [
     title: "Production",
     items: [
       { id: "dossiers",   label: "Dossiers",   path: "/cc/dossiers",   mark: "IV" },
+      { id: "echeances",  label: "Échéances",  path: "/cc/dashboard",  mark: "IVa" },
       { id: "projets",    label: "Projets (espaces jalons)", path: "/cc/projets", mark: "IVb" },
       { id: "terrains",   label: "Terrains",   path: "/cc/terrains",   mark: "V"  },
       { id: "simulateur", label: "Simulateur", path: "/cc/simulateur", mark: "VI" },

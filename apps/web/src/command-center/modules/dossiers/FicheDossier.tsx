@@ -21,6 +21,7 @@ import EcrireMessage from "../../../features/messages/EcrireMessage";
 import { VueDossierClient, type DossierClient } from "../../../features/mon-dossier/MonDossierPage";
 import OngletDevis from "./devis/OngletDevis";
 import PanneauProfil, { type Profil } from "./PanneauProfil";
+import PanneauDates, { type Dates, type Echeance } from "./PanneauDates";
 import DocumentsParPhase from "../../../features/gestion/DocumentsParPhase";
 
 type Etape = {
@@ -39,6 +40,8 @@ type Fiche = {
   phasesRef?: EntetePhase[];
   profil?: Profil;
   ordreRegional?: { conseil: string; antenne?: string; aVerifier: boolean; via: string; libelle: string } | null;
+  dates?: Dates;
+  echeances?: Echeance[];
   journal: Array<{ id: string; auteur: string | null; action: string | null; details: unknown; createdAt: string | null }>;
   sqlACollerDevisFacturation: boolean;
   statutsDossier: string[];
@@ -186,6 +189,7 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
         <>
           <PanneauPilotage f={f} occupe={occupe} agir={agir} />
           {f.profil && <PanneauProfil profil={f.profil} ordre={f.ordreRegional ?? null} occupe={occupe} agir={agir} />}
+          {f.echeances && <PanneauDates dates={f.dates ?? {}} echeances={f.echeances} occupe={occupe} agir={agir} />}
           {groupes.map(([code, titre, titreAr, etapes]) => (
             <section key={code} style={S.carte}>
               <h2 style={{ ...S.h2, display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>

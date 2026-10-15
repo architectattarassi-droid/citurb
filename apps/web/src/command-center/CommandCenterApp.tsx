@@ -25,6 +25,7 @@ import DossiersListe from './modules/dossiers/DossiersListe';
 import FicheDossier from './modules/dossiers/FicheDossier';
 import NouveauDossierAdmin from './modules/dossiers/creation/NouveauDossierAdmin';
 import EnSommeil from '../ui/EnSommeil';
+import TableauDeBordGestion from './modules/gestion/TableauDeBordGestion';
 
 /**
  * Accès au back-office : la Pages Function /api/cc/session dit si la requête
@@ -54,7 +55,8 @@ export default function CommandCenterApp() {
           <CCLayout>
             <Routes>
               <Route index element={<Navigate to="leads" replace />} />
-              <Route path="dashboard" element={<Navigate to="/cc/leads" replace />} />
+              {/* Tableau de bord de gestion de projet (GP4) : échéances et rappels J−90 / J−30 / J−7. */}
+              <Route path="dashboard" element={<TableauDeBordGestion />} />
               <Route path="leads/*" element={<LeadsModule />} />
               <Route path="rendez-vous" element={<RendezVousModule />} />
               <Route path="appels" element={<AppelsModule />} />

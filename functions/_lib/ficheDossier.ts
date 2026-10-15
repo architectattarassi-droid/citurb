@@ -18,6 +18,7 @@ import { PHASES_RETIREES } from "../../packages/contracts/src/phases.catalog";
 import { PHASES_REF, phaseDuCatalogue, ordrePhase, typeProjetDepuis, VERSION_REFERENTIEL } from "../../packages/contracts/src/gestion/referentiel";
 import { bureauControleObligatoire, profilDuDossier, validerProfil, SEUIL_BUREAU_CONTROLE_MDH, type ProfilProjet } from "../../packages/contracts/src/gestion/profil";
 import { libelleOrdre, ordreRegional, type OrdreRegional } from "../../packages/contracts/src/gestion/ordres";
+import { echeancesDuDossier, validerDates, type DatesGestion } from "../../packages/contracts/src/gestion/echeances";
 
 const s = (v: unknown) => (v == null || v === "" ? null : String(v));
 const iso = (v: unknown) => (v instanceof Date ? v.toISOString() : s(v));
@@ -130,7 +131,8 @@ export type Action =
   | { action: "rouvrir"; code: string; motif: string | null }
   | { action: "note"; note: string | null }
   | { action: "debloquer"; motif: string }
-  | { action: "profil"; profil: ProfilProjet };
+  | { action: "profil"; profil: ProfilProjet }
+  | { action: "dates"; dates: DatesGestion };
 
 const texte = (v: unknown, n: number) => (typeof v === "string" && v.trim() ? v.trim().slice(0, n) : null);
 
@@ -160,6 +162,8 @@ export function lireAction(b: unknown): Action | { erreur: string } {
       return motif ? { action: "debloquer", motif } : { erreur: "motif_obligatoire" };
     case "profil":
       return { action: "profil", profil: validerProfil(o.profil, null) };
+    case "dates":
+      return { action: "dates", dates: validerDates(o.dates) };
     default:
       return { erreur: "action_inconnue" };
   }
@@ -205,12 +209,14 @@ export async function appliquerAction(sql: Sql, dossierId: string, a: Action, ad
       await sql`UPDATE "Dossier" SET "opsNote" = ${a.note}, "updatedAt" = ${maintenant}::timestamp(3) WHERE "id" = ${dossierId}`;
       await tracer("NOTE_OPS", { longueur: a.note?.length ?? 0 });
       break;
-    case "profil": {
-      // Profil du projet (budget, niveaux, équipements) : payload.gestion.profil — aucune table nouvelle.
+    case "profil":
+    case "dates": {
+      // Profil du projet et dates clés (GP1, GP4) : payload.gestion.{profil,dates} — aucune table nouvelle.
       const payload = { ...((d.payload && typeof d.payload === "object" ? d.payload : {}) as Record<string, unknown>) };
-      const gestion = { ...((payload.gestion && typeof payload.gestion === "object" ? payload.gestion : {}) as Record<string, unknown>), profil: a.profil };
+      const avant = (payload.gestion && typeof payload.gestion === "object" ? payload.gestion : {}) as Record<string, unknown>;
+      const gestion = a.action === "profil" ? { ...avant, profil: a.profil } : { ...avant, dates: a.dates };
       await sql`UPDATE "Dossier" SET "payload" = ${JSON.stringify({ ...payload, gestion })}::jsonb, "updatedAt" = ${maintenant}::timestamp(3) WHERE "id" = ${dossierId}`;
-      await tracer("PROFIL_PROJET", { profil: a.profil });
+      await tracer(a.action === "profil" ? "PROFIL_PROJET" : "DATES_CLES", a.action === "profil" ? { profil: a.profil } : { dates: a.dates });
       break;
     }
     case "debloquer": {
@@ -257,6 +263,7 @@ export async function lireFiche(sql: Sql, dossierId: string, maintenant = new Da
   const payload = (d.payload && typeof d.payload === "object" ? d.payload : {}) as Record<string, unknown>;
   const mapEtapes = new Map(etapes.map((e) => [String(e.phaseCode), { statut: String(e.statut), date: s(e.date), note: s(e.note), saisiPar: s(e.saisiPar) }]));
   const profil = profilDuDossier(d, typeProjetDepuis(s(d.typologie)));
+  const dates = validerDates(((payload.gestion && typeof payload.gestion === "object" ? payload.gestion : {}) as Record<string, unknown>).dates);
   const ordre = ordreRegional({ prefecture: s(d.prefecture), commune: s(d.commune) });
   const parcours = construireParcours({
     profil, ordre,
@@ -280,6 +287,12 @@ export async function lireFiche(sql: Sql, dossierId: string, maintenant = new Da
     referentielVersion: VERSION_REFERENTIEL,
     profil,
     ordreRegional: ordre ? { ...ordre, libelle: libelleOrdre(ordre).fr } : null,
+    dates,
+    echeances: echeancesDuDossier({
+      autorisationDate: iso(d.autorisationDate)?.slice(0, 10) ?? null, autorisationExpiration: iso(d.autorisationExpiration)?.slice(0, 10) ?? null, dates,
+      fondationsCommencees: (PHASES.find((p) => p.code === d.phase)?.ordre ?? -1) >= (PHASES.find((p) => p.code === "84_FONDATIONS")?.ordre ?? 8400)
+        || ["FAITE", "FAITE_HORS_PLATEFORME", "EN_COURS", "DEBLOQUEE"].includes(mapEtapes.get("84_FONDATIONS")?.statut ?? ""),
+    }, maintenant.slice(0, 10)),
     journal: journal.map((j) => ({ id: String(j.id), auteur: s(j.auteur), action: s(j.action), details: j.details ?? null, createdAt: iso(j.createdAt) })),
     sqlACollerDevisFacturation: !schema.devisFacturation,
     statutsDossier: STATUTS_DOSSIER, statutsEtape: STATUTS_ETAPE_ADMIN, statutsFaits: [...STATUTS_FAITS],
