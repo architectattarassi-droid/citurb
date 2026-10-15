@@ -1,7 +1,7 @@
 # Audit de l'existant et propositions — faire de CITURBAREA un vrai logiciel de gestion de projets de construction
 
 **Version du 15 octobre 2026 — branche `feat/backoffice-leads-local` (dernier commit lu : `375b00d`).**
-Document compagnon de `docs/gestion-projet/referentiel-phases.md` (le référentiel) et de `referentiel-phases.json` (les mêmes données pour le logiciel). Aucun code n'a été modifié, aucune table créée.
+Document compagnon de `docs/gestion-projet/referentiel-phases.md` (le référentiel), `livrables-par-lot.md` (livrables par lot et par phase), `normes-et-checklists-chantier.md` (normes et PV de chantier) et `referentiel-phases.json` (les mêmes données pour le logiciel). Aucun code n'a été modifié, aucune table créée.
 
 ---
 
@@ -78,11 +78,11 @@ Légende : ✅ couvert, 🟡 partiel, ❌ absent.
 
 ### 3.2 Étapes du catalogue qui peuvent bloquer à tort ou induire en erreur
 
-1. **`32_VISA_CNOA`** est un prérequis de `34_PERMIS_CONSTRUIRE`. Aucun texte lu n'impose un visa ordinal du dossier (à vérifier), et « CNOA » est le sigle de l'Ordre français ; les gabarits CPS parlent de « VISA_CROA » avec un « délai légal de 15 jours » non vérifié. Tant que ce visa n'est pas confirmé, il doit pouvoir être marqué « sans objet » sans bloquer.
+1. **`32_VISA_CNOA`** est un prérequis de `34_PERMIS_CONSTRUIRE`. Aucun texte lu n'impose un visa ordinal du dossier (à vérifier), et « CNOA » est le sigle de l'Ordre français ; les gabarits CPS parlent de « VISA_CROA » avec un « délai légal de 15 jours » non vérifié. **Décision du fondateur (15/10/2026)** : le visa relève du conseil régional de l'Ordre compétent pour la commune (Kénitra : Kénitra, Sidi Slimane, Sidi Kacem, Ouazzane ; Rabat : Rabat, Salé, Skhirat-Témara, Khémisset ; Agadir : le sud, antenne à Dakhla). À corriger dans le catalogue : renommer la phase (« visa du conseil régional de l'Ordre »), abandonner le sigle CNOA, et déterminer le conseil automatiquement depuis la commune du dossier.
 2. **`36_AFFICHAGE_RECOURS`** (« purge du délai de recours », constat d'huissier) reprend une notion française. Le panneau de chantier est bien obligatoire (loi 66-12), la « purge » n'est pas une étape réglementaire identifiée au Maroc.
 3. **Raccordements définitifs avant le permis d'habiter** (`95B` bloque `96`) : en pratique, les distributeurs demandent le permis d'habiter pour l'abonnement définitif. L'ordre est probablement inversé (à vérifier auprès de Redal / de la société régionale de Rabat-Salé-Kénitra).
 4. **`94_LEVEE_RESERVES` prérequis de la conformité et du permis d'habiter** : la levée des réserves est contractuelle (client et entreprise), le permis d'habiter est administratif. Une réserve mineure (une poignée à changer) ne doit pas retarder le permis d'habiter.
-5. **Bureau de contrôle fixe et obligatoire** (`18`, `42`) : c'est un choix de qualité défendable, mais la loi ne l'impose pas en général. Pour une petite villa, il faut pouvoir le déclarer sans objet sans fausser le parcours. Ne pas le confondre avec la prestation `CTRL_BET` (visites du bureau d'études).
+5. **Bureau de contrôle fixe et obligatoire** (`18`, `42`) : c'est un choix de qualité défendable, mais la loi ne l'impose pas en général. **Décision du fondateur** : obligatoire au-delà de 5 MDH de budget de travaux, recommandé en dessous ; le catalogue doit donc rendre les phases `18` et `42` conditionnelles à ce seuil. Ne pas le confondre avec la prestation `CTRL_BET` (visites du bureau d'études).
 6. **Assurances dans les gabarits CPS** : le type « villa » affirme que la TRC « conditionne le permis de construire » et que la décennale est obligatoire. Depuis le 30/12/2024, l'obligation ne vise que les bâtiments au-dessus des seuils (habitation de plus de 3 étages ou de plus de 800 m²…). `clausesPrive.ts` a déjà corrigé le générateur, mais les données `apps/api/data/cps-templates/project-types/*.json`, déclarées « encore valables », portent toujours l'ancienne affirmation.
 7. **Permis d'habiter partiel** : la spécification Devis cite un permis d'habiter partiel (cas de recette) et le forfait `PERMIS_HABITER` prévoit « total ou partiel » ; selon la presse, le ministère de l'Intérieur demande de ne plus en délivrer. À vérifier avant de le vendre.
 8. **Durée de chantier d'une villa** : 12 mois dans le chiffrage (`dqe.ts`, `dureeMois`), environ 33 semaines dans le calendrier des matériaux (`materiaux/phases.ts`), 540 jours dans le gabarit CPS villa. Le référentiel retient 10 à 14 mois pour une villa R+1 avec sous-sol. Il faut une seule source.
@@ -94,7 +94,7 @@ Légende : ✅ couvert, 🟡 partiel, ❌ absent.
 - **Discussion de l'espace projet** (`ProjetMessage`, `posterMessage` dans `functions/_lib/projetsApi.ts`) : les messages ne passent pas par le moteur commun de masquage (`functions/_lib/coordonnees.ts`), contrairement à la messagerie et au catalogue. Un membre peut y écrire un numéro de téléphone que le client lira. **C'est le seul écart actif trouvé.**
 - Les noms de fichiers et les PV types (champs texte libres) ne sont pas non plus contrôlés.
 - La liste des membres montre le nom et la raison sociale de l'entreprise à tous (sans coordonnées) : acceptable, mais à garder en tête (recherche possible hors plateforme).
-- **Devis et factures du cabinet** : la table `Cabinet` et le gabarit de devis portent le téléphone et l'e-mail de l'architecte, affichés au client. C'est cohérent avec un devis légal (mentions de l'émetteur) mais contraire à la lettre de la règle (« seules les coordonnées de CITURBAREA / HSE DECO sont publiques »). **À arbitrer par le fondateur.**
+- **Devis et factures du cabinet** : la table `Cabinet` et le gabarit de devis portent le téléphone et l'e-mail de l'architecte, affichés au client. **Tranché par le fondateur (15/10/2026) : toute la facturation passe par CITURBAREA / HSE DECO.** Cela contredit le contrat actuel (`docs/architecture/contrat-devis-facturation.md` : « émetteur = le cabinet, jamais HSE DECO ») et le gabarit de devis : le contrat, la table `Cabinet` et le gabarit sont à revoir par la session Devis & facturation.
 - Le référentiel proposé respecte la règle : pièces d'identité, attestations CNSS, registres de commerce et coordonnées sont marquées « back-office uniquement », et les intervenants sont désignés par leur rôle.
 
 ### 3.4 Manques structurels
@@ -289,9 +289,9 @@ S = une semaine, M = deux semaines, L = plus de deux semaines (à découper).
 
 ### 4.5 Questions à trancher par le fondateur
 
-1. Coordonnées du cabinet sur les devis et factures (3.3) : exception assumée ou passage par CITURBAREA ?
-2. Bureau de contrôle : obligatoire pour tous les projets CITURBAREA (choix qualité) ou seulement au-delà des seuils ?
-3. Visa ordinal du dossier d'autorisation : existe-t-il en pratique à Kénitra et Rabat (Rokhas) ? Sinon, le retirer.
+1. ~~Coordonnées du cabinet sur les devis~~ — tranché : facturation par CITURBAREA / HSE DECO.
+2. ~~Bureau de contrôle~~ — tranché : obligatoire au-delà de 5 MDH.
+3. ~~Visa ordinal~~ — tranché : conseil régional compétent selon la commune ; reste à compléter la liste des conseils et territoires hors Kénitra, Rabat et Agadir.
 4. Ordre réel des raccordements définitifs et du permis d'habiter chez Redal et la société régionale de Rabat-Salé-Kénitra.
 5. Délai de l'article 770 du DOC (30 jours ou non) : avis d'un juriste.
 6. Les budgets et situations sont-ils visibles par le client dès le premier jour, ou seulement après signature du marché ?

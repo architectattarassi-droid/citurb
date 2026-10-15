@@ -6,7 +6,7 @@ Ce document décrit, de l'idée du client jusqu'à la fin de la garantie décenn
 
 Les mêmes données existent en version structurée, réutilisable par le logiciel : `docs/gestion-projet/referentiel-phases.json` (les codes en majuscules de ce document y renvoient). L'audit de l'existant et les propositions sont dans `docs/gestion-projet/audit-et-ameliorations.md`.
 
-**En chiffres :** 15 phases, 59 jalons (plus 7 jalons propres au lotissement et à la rénovation), dont 36 points d'arrêt, 198 documents types, 38 textes de référence.
+**En chiffres :** 15 phases, 59 jalons (plus 7 jalons propres au lotissement et à la rénovation), dont 36 points d'arrêt, 199 documents types, 38 textes de référence ; 125 livrables d'études détaillés par lot et par phase (fichier livrables-par-lot.md), des durées pour 12 types de projets, 39 normes et règles techniques (86 exigences) et 21 checklists de chantier totalisant 142 points de contrôle (fichier normes-et-checklists-chantier.md).
 
 **Comment lire ce document.**
 - Une **phase** est une grande période du projet (exemple : « Autorisation de construire »).
@@ -74,6 +74,12 @@ Le client voit toujours le niveau atteint et la fourchette : un chiffre d'esquis
 ### 2.4 Tout passe par CITURBAREA
 
 Aucune pièce échangée entre client, professionnels et fournisseurs ne montre les coordonnées d'un tiers (téléphone, e-mail, adresse personnelle, réseaux). Les pièces d'identité, attestations CNSS, registres de commerce et coordonnées restent au back-office. Les intervenants sont désignés par leur rôle et leur raison sociale ; les échanges passent par la messagerie, les demandes d'appel vidéo et les documents de l'espace projet.
+
+### 2.5 Décisions du fondateur (15/10/2026)
+
+- **Bureau de contrôle** : Bureau de contrôle obligatoire pour tout projet dont le budget de travaux dépasse 5 MDH (cohérent avec les marchés publics et l'assurance décennale) ; recommandé en dessous.
+- **Visa de l'Ordre** : Le visa du dossier relève du conseil régional de l'Ordre des architectes compétent pour la commune du projet. Kénitra : Kénitra, Sidi Slimane, Sidi Kacem, Ouazzane ; Rabat : Rabat, Salé, Skhirat-Témara, Khémisset ; Agadir : Sud du Maroc (liste des provinces à compléter) (antenne à Dakhla). Liste fournie par le fondateur ; les autres conseils régionaux et leurs territoires sont à compléter (à vérifier auprès de l'Ordre).
+- **Facturation** : Toute la facturation passe par CITURBAREA / HSE DECO (aucun paiement direct entre client et professionnels). Contredit la règle du contrat Devis & Facturation (« émetteur = le cabinet, jamais HSE DECO ») : à réconcilier dans docs/architecture/contrat-devis-facturation.md.
 
 ## 3. Les phases en détail
 
@@ -301,7 +307,7 @@ Confier les études de structure (et de fluides si besoin) et, si nécessaire, l
 |---|---|---|---|---|---|
 | Contrat du bureau d'études structure `CONTRAT_BET_STRUCTURE` | oui | Bureau d'études structure | Maître d'ouvrage (client) | PDF signé (passé par CITURBAREA) | Missions : notes de calcul RPS, plans de coffrage et de ferraillage, visites avant coulage. |
 | Contrat du bureau d'études fluides `CONTRAT_BET_FLUIDES` | si condition (Immeuble, équipement, villa avec équipements importants) | Bureau d'études fluides | Maître d'ouvrage (client) | PDF signé | Plomberie, électricité, climatisation, sécurité incendie. |
-| Convention de contrôle technique `CONVENTION_BUREAU_CONTROLE` | si condition (Exigé par l'assurance construction ou la réglementation incendie ; recommandé dans tous les cas) | Bureau de contrôle technique | Maître d'ouvrage (client) | PDF signé | Missions (solidité, sécurité incendie, etc.), nombre de visites ; condition de l'assurance décennale en pratique. |
+| Convention de contrôle technique `CONVENTION_BUREAU_CONTROLE` | si condition (Obligatoire au-delà de 5 MDH de budget de travaux (décision du fondateur) ; recommandé en dessous) | Bureau de contrôle technique | Maître d'ouvrage (client) | PDF signé | Missions (solidité, sécurité incendie, etc.), nombre de visites ; ses réserves non levées peuvent exclure la garantie décennale. |
 
 #### ⛔ APD validé (`J03_02_APD_VALIDE`)
 
@@ -348,7 +354,7 @@ Arrêter le projet détaillé et les pièces techniques exigées au dépôt. **P
 | Agence urbaine | avis sur la conformité au document d'urbanisme | avis |
 | Protection civile | avis sécurité incendie (grands projets, ERP) | avis |
 | Distributeur d'eau et d'électricité (ONEE, société régionale multiservices ou délégataire) | avis réseaux si demandé par la commission | avis |
-| Ordre national des architectes | inscription de l'architecte vérifiée (visa ordinal : à vérifier) | — |
+| Ordre national des architectes | conseil régional compétent pour la commune : visa du dossier (décision du fondateur) | visa |
 
 **Jalons et documents**
 
@@ -360,6 +366,7 @@ Réunir les pièces principales (au dépôt) et préparer les pièces complémen
 |---|---|---|---|---|---|
 | Demande d'autorisation signée `DEMANDE_AUTORISATION_SIGNEE` | oui | Maître d'ouvrage (client) | Architecte (maître d'œuvre) | Formulaire Rokhas | Signée par le propriétaire ou son mandataire. |
 | Plans architecturaux du dossier `PLANS_AUTORISATION` | oui | Architecte (maître d'œuvre) | Commune (guichet unique, président du conseil communal) | PDF signé électroniquement (Rokhas) | Plan de situation, plan de masse, plans de tous les niveaux, coupes, façades, à l'échelle demandée par la commune ; signés par l'architecte. |
+| Visa du conseil régional de l'Ordre des architectes `VISA_ORDRE_REGIONAL` | oui | Ordre national des architectes | Architecte (maître d'œuvre) | Visa (forme dans Rokhas à confirmer) | Conseil compétent selon la commune du projet (décision du fondateur) : Kénitra pour Kénitra, Sidi Slimane, Sidi Kacem, Ouazzane ; Rabat pour Rabat, Salé, Skhirat-Témara, Khémisset ; Agadir pour le sud avec une antenne à Dakhla. Base légale non lue dans la loi 016-89 (à vérifier). |
 | Copie du contrat d'architecte `COPIE_CONTRAT_ARCHITECTE` | oui | Architecte (maître d'œuvre) | Commune (guichet unique, président du conseil communal) | PDF | Pièce principale exigée par l'arrêté 337-20. |
 | Certificat de propriété (au dépôt) `CERTIFICAT_PROPRIETE_DEPOT` | oui | Conservation foncière (ANCFCC) | Commune (guichet unique, président du conseil communal) | PDF | Même pièce qu'en P01, à jour au jour du dépôt. |
 | Levé topographique (au dépôt) `LEVE_TOPOGRAPHIQUE_DEPOT` | oui | Ingénieur géomètre-topographe | Commune (guichet unique, président du conseil communal) | PDF | Repris de P01. |
@@ -1363,7 +1370,410 @@ Mois            01234567890123456789012345678901234567890123
 
 **En résumé.** Environ 10 mois d'études et d'autorisation, 20 mois de chantier, 3 à 6 mois de conformité et d'éclatement des titres : de 30 à 38 mois de l'idée aux ventes définitives.
 
-## 8. Textes et réglementations
+## 8. Livrables par lot et par phase
+
+Le détail complet (125 pièces : contenu minimal, ce qui n'y figure pas encore, producteur, validateur) est dans **`docs/gestion-projet/livrables-par-lot.md`** et dans `livrables[]` du JSON. Carte d'ensemble : nombre de pièces par case (« — » = pas de livrable propre à ce stade).
+
+| Lot | ESQ | APS | APD | AUT | PRO/DCE | EXE | VISA | DOE |
+|---|---|---|---|---|---|---|---|---|
+| Architecture | 1 | 2 | 2 | 2 | 4 | 3 | 1 | 1 |
+| Structure béton armé | — | 1 | 2 | 1 | 3 | 4 | 1 | 1 |
+| Terrassement, fondations, soutènements, sous-sol | — | 1 | 1 | — | 2 | 3 | 1 | 1 |
+| Voirie et réseaux divers | 1 | 1 | 1 | 1 | 2 | 2 | 1 | 1 |
+| Plomberie sanitaire et assainissement | — | 1 | 1 | 1 | 3 | 3 | 1 | 1 |
+| Électricité courants forts | — | 1 | 2 | — | 2 | 4 | 1 | 1 |
+| Courants faibles et VDI | — | — | 1 | 1 | 1 | 1 | 1 | 1 |
+| Climatisation, chauffage, ventilation | — | 1 | 1 | — | 1 | 1 | 1 | 1 |
+| Sécurité incendie | — | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| Ascenseurs | — | 1 | 1 | — | 1 | 1 | 1 | 1 |
+| Menuiseries (alu, bois, métallerie) | — | — | 1 | — | 2 | 1 | 1 | 1 |
+| Étanchéité | — | — | 1 | — | 1 | 1 | 1 | 1 |
+| Revêtements et finitions | — | — | 1 | — | 1 | 1 | 1 | 1 |
+| Aménagements extérieurs et piscine | 1 | — | 1 | 1 | 1 | 1 | 1 | 1 |
+| Solaire et thermique (RTCM) | — | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+
+Précision de l'estimation : Esquisse ± 25 à 30 % ; Avant-projet sommaire ± 15 à 20 % ; Avant-projet détaillé ± 10 % ; Dossier d'autorisation (Rokhas) ± 10 % (inchangée : le dossier administratif n'apporte pas de précision technique) ; Projet et dossier de consultation (PRO/DCE) ± 5 % (DQE confidentiel) ; Exécution et plans d'atelier (EXE, PAC/PEO) ± 3 à 5 % puis prix du marché ; Visa des documents d'exécution et d'atelier prix du marché + avenants ; Dossier des ouvrages exécutés et plans de récolement coût réel (décompte).
+
+Chaque phase du JSON porte aussi `documentsAttendus[]` : la liste complète de ses pièces (documents des jalons, livrables d'études, documents récurrents des processus transversaux, pièces des parcours particuliers), chacune avec `obligatoire` et sa `condition` (exemple : « bureau de contrôle si budget > 5 MDH »). L'écran peut ainsi afficher « Document manquant » pour chaque pièce absente.
+
+## 9. Comparaison des phases d'études
+
+| Phase | Question à laquelle elle répond | Échelles | Ce qui est figé | Ce qui n'existe pas encore | Qui produit | Qui valide | Précision | Rokhas ou privé |
+|---|---|---|---|---|---|---|---|---|
+| **Esquisse** | Quoi construire et où sur la parcelle ? | 1/200, 1/500 | Implantation, organisation générale, volumétrie | Cotes, structure, réseaux, matériaux | Architecte | Maître d'ouvrage | ± 25 à 30 % | Privé (contrat d'architecte) |
+| **Avant-projet sommaire** | Le projet tient-il dans le règlement et le budget ? | 1/100 | Distribution, surfaces, nombre de niveaux, principe structurel | Cotes de détail, dimensions des réseaux, détails | Architecte (BET en avis) | Maître d'ouvrage | ± 15 à 20 % | Privé |
+| **Avant-projet détaillé** | Le projet est-il défini au point de pouvoir l'autoriser et le chiffrer ? | 1/100, 1/50 | Cotes, niveaux, trame et système porteur, matériaux par lot, performances thermiques et sécurité, gaines techniques | Armatures, réservations exactes, plans d'atelier, calepinages | Architecte + BET (prédimensionnement) | Maître d'ouvrage | ± 10 % | Privé ; sert de base au dossier Rokhas |
+| **Dossier d'autorisation (Rokhas)** | Le projet respecte-t-il les règles d'urbanisme ? | 1/2000 à 1/100 | Ce qui est autorisé : implantation, hauteur, surfaces, façades, affectations (plans « ne varietur ») | Rien de technique : la commune ne contrôle ni la structure ni les réseaux intérieurs | Architecte (signature électronique) | Commune après avis conforme de l'agence urbaine | ± 10 % | Rokhas : pièces de l'arrêté 337-20 modifié |
+| **Projet et dossier de consultation (PRO/DCE)** | Que doivent chiffrer les entreprises, à prestations égales ? | 1/50, détails 1/20 | Quantités, prescriptions techniques (CCTP), clauses administratives (CPS), cadre de prix | Méthodes et plans d'atelier des entreprises | Architecte + BET | Maître d'ouvrage | ± 5 % | Privé (marché de travaux) |
+| **Exécution et plans d'atelier (EXE, PAC/PEO)** | Comment construire exactement chaque élément ? | 1/50, 1/20, détails 1/10 à 1/5 | Ferraillage, réservations synthétisées, diamètres, calibres, plans d'atelier | — (seules les modifications de chantier viendront) | BET (structure, fluides), architecte (détails, synthèse), entreprises (plans d'atelier) | Bureau de contrôle (au-delà de 5 MDH), architecte | ± 3 à 5 % puis prix du marché | Privé ; plans de structure parfois demandés en pièce complémentaire |
+| **Visa des documents d'exécution et d'atelier** | Ce que l'entreprise va fabriquer est-il conforme ? | selon les plans visés | Accord avant fabrication | — | Architecte ; BET pour la structure et les fluides | Bureau de contrôle si mandaté | prix du marché + avenants | Privé |
+| **Dossier des ouvrages exécutés et plans de récolement** | Qu'a-t-on réellement construit ? | 1/50 et plus | Mémoire du bâtiment : plans conformes, notices, garanties, PV | — | Entreprises, contrôlées par l'architecte | Architecte, maître d'ouvrage | coût réel | Privé ; l'attestation de conformité de l'architecte sert au permis d'habiter |
+
+### 9.1 APD face au dossier d'exécution
+
+| Critère | APD | Exécution (synthèse, EXE, plans d'atelier) |
+|---|---|---|
+| Ce qui est figé | Programme, surfaces, cotes principales, niveaux, trame et système porteur, matériaux et gammes, performances (RTCM, incendie), gaines techniques | Tout ce qui permet de construire : sections et positions des armatures, réservations exactes, diamètres et pentes des réseaux, calibres électriques, détails de pose, plans d'atelier |
+| Structure | Prédimensionnement (sections approchées, type de fondation) | Note de calcul complète RPS, plans de coffrage et de ferraillage, nomenclature des aciers |
+| Réseaux | Implantation des appareils et des points, bilans de principe | Tracés cotés, diamètres, schémas unifilaires et isométriques, notes de calcul |
+| Synthèse | Gaines réservées dans les plans | Plan de synthèse : chaque trémie et fourreau reporté sur le coffrage avant coulage |
+| Plans d'atelier | Aucun | Menuiseries, métallerie, ascenseur, charpente, préfabriqués : dessinés par l'entreprise, visés par l'architecte ou le BET |
+| Échelles | 1/100, quelques 1/50 | 1/50, 1/20, détails 1/10 à 1/5 |
+| Estimation | ± 10 % (paramétrique) | ± 3 à 5 % (métré sur plans), puis prix du marché |
+| Qui est responsable | L'architecte de la conception ; le BET du principe structurel | Le BET de ses calculs et plans ; l'architecte de la synthèse et des détails ; l'entreprise de ses plans d'atelier et de l'exécution ; le bureau de contrôle donne un avis (il ne remplace pas le BET) |
+| Une modification coûte | Peu : on redessine | Cher : nouvelles notes, nouveaux plans, parfois avenant ; après coulage, démolition |
+
+### 9.2 Ce que demandent la commune et l'agence urbaine (Rokhas) face à ce qui relève du marché privé
+
+**Exigé par l'administration via Rokhas :**
+
+- Plans architecturaux réglementaires signés électroniquement par l'architecte (situation, masse, niveaux, façades, coupes)
+- Certificat de propriété, demande signée, fiche de renseignements, copie du contrat d'architecte
+- Levé topographique
+- Notice de sécurité incendie (visée par un bureau de contrôle au-delà des seuils de l'arrêté 1032-21)
+- Note de performance énergétique (RTCM)
+- Pièces complémentaires avant délivrance : plans de structure, dossier télécom, cahier de chantier, selon la procédure et la commune (à vérifier)
+- Visa du conseil régional de l'Ordre compétent pour la commune (décision du fondateur ; forme exacte dans Rokhas à confirmer)
+- Taxes communales payées en ligne
+- Au permis d'habiter : déclaration d'achèvement, attestation de conformité de l'architecte, attestation décennale si le bâtiment est assujetti, attestation télécom si besoin
+
+**Relève du contrat privé (maître d'ouvrage, architecte, BET, entreprises) :**
+
+- Esquisse, APS, APD et toutes les validations du client
+- Notes de calcul et plans d'exécution complets (structure, fluides), synthèse
+- CPS, CCTP, BPU, DQE, marché, avenants, ordres de service
+- Plans d'atelier et visas
+- PV de chantier (fonds de fouille, armatures, essais), situations, réception, DOE
+- Bureau de contrôle : obligatoire au-delà de 5 MDH (décision du fondateur), sinon choix du client
+
+> La commune et l'agence urbaine contrôlent la conformité urbanistique (où, combien, quelle hauteur, quel usage), pas la qualité constructive. La solidité relève du BET, de l'architecte, de l'entreprise et, au-delà de 5 MDH, du bureau de contrôle ; la loi 66-12 les rend tous responsables d'une infraction non signalée.
+
+## 10. Durées par type de projet
+
+Semaines, fourchette basse et haute, estimées par un chef de projet au Maroc (hypothèses à remplacer par le planning réel). Certaines étapes se chevauchent (études d'exécution pendant l'instruction, extérieurs pendant les finitions) : le total n'est pas la somme des lignes. Il va de l'idée aux clés, ou aux titres pour un lotissement.
+
+| Type | Total (mois) | Chemin critique |
+|---|---|---|
+| Villa R+1 sans sous-sol (200 à 300 m²) | 14 à 20 | APS → APD → permis → marché → fondations → 2 planchers → étanchéité → enduits → finitions → réception → permis d'habiter. |
+| Villa R+1 avec sous-sol (300 à 450 m²) | 17 à 24 | Géotechnique → APD → permis → marché → terrassement → sous-sol (soutènement, étanchéité) → planchers → hors d'eau → second œuvre → réception → permis d'habiter. |
+| Petit immeuble R+2 à R+4 (600 à 1 500 m²) | 26 à 38 | APD → permis → marché et assurances → fondations → structure niveau par niveau → maçonnerie → second œuvre étage par étage → réception → permis d'habiter → éclatement des titres. |
+| Immeuble R+5 à R+8 avec 1 à 2 sous-sols (2 000 à 6 000 m²) | 36 à 54 | APD → commission grands projets → marché → soutènement et sous-sols → structure (5 à 9 niveaux) → second œuvre en cascade et ascenseurs → réception → permis d'habiter → titres. |
+| Équipement public (école, centre de santé, 1 000 à 3 000 m²) | 30 à 48 | Programmation → désignation de l'architecte → APD approuvé → appel d'offres → approbation du marché → gros œuvre → lots techniques → réception par commission → certificat de conformité. |
+| Local commercial ou bureaux (aménagement ou petit bâtiment, 100 à 800 m²) | 5 à 14 | Relevé → APD (sécurité ERP) → autorisation → travaux techniques → certificat de conformité. |
+| Lotissement petit (moins de 5 ha, moins de 100 lots) | 18 à 32 | Découpage → APD VRD → autorisation de lotir → plans visés par les distributeurs → travaux d'équipement → réception provisoire → titres (ventes possibles). |
+| Lotissement moyen (5 à 30 ha, par tranches) | 30 à 60 | Plan d'ensemble → autorisation de lotir → réseaux structurants → tranche 1 → réception provisoire → titres, puis tranches suivantes. |
+| Rénovation légère (sans toucher à la structure ni à la façade) | 3 à 7 | Diagnostic → permis de réfection (valable 6 mois) → travaux → réception. |
+| Rénovation lourde ou surélévation | 12 à 24 | Diagnostic → note de renforcement → permis → renforcements → structure neuve → second œuvre → conformité. |
+| Extension (nouvelle partie accolée) | 8 à 16 | APD → permis → fondations désolidarisées → gros œuvre → second œuvre → permis d'habiter. |
+| Projet industriel ou hangar (charpente métallique, 1 000 à 5 000 m²) | 12 à 24 | APD → autorisation → plans d'atelier → fabrication de la charpente (pendant les fondations) → montage → couverture → lots techniques → certificat de conformité. |
+
+### Villa R+1 sans sous-sol (200 à 300 m²)
+
+Budget indicatif : 1.2 à 3 MDH. Bureau de contrôle : non obligatoire sous 5 MDH (recommandé). **Total : 14 à 20 mois.**
+
+| Étape | Nature | Semaines (bas – haut) | Ce qui fait varier |
+|---|---|---|---|
+| Esquisse et APS | Études | 2 – 6 | nombre de variantes, décisions du client |
+| APD et notices | Études | 2 – 4 | choix des matériaux |
+| Note de renseignements | Administratif | 0.5 – 3 | 2 jours ouvrables réglementaires ; agence urbaine |
+| Visa du conseil régional de l'Ordre | Administratif | 0.5 – 2 | conseil compétent selon la commune (à confirmer) |
+| Instruction Rokhas et permis (petit projet) | Administratif | 2 – 10 | observations, compléments, taxes |
+| Études d'exécution (en parallèle de l'instruction) | Études | 3 – 6 | disponibilité du BET |
+| Consultation et marché | Consultation | 3 – 6 | nombre d'entreprises, négociation |
+| Terrassement et fondations | Travaux | 4 – 6 | nature du sol, pluie |
+| Gros œuvre (2 planchers), maçonnerie, étanchéité | Travaux | 12 – 18 | main-d'œuvre, approvisionnement acier, Ramadan et été |
+| Second œuvre (réseaux, enduits, menuiseries) | Travaux | 10 – 16 | délais de fabrication des menuiseries |
+| Finitions et équipements | Travaux | 6 – 10 | choix tardifs du client |
+| Extérieurs et raccordements (en parallèle) | Travaux | 3 – 6 | piscine, clôture |
+| Réception et levée des réserves | Réception | 3 – 8 | réactivité de l'entreprise |
+| Permis d'habiter | Administratif | 4 – 10 | 1 mois réglementaire ; conformité au permis |
+
+**Chemin critique :** APS → APD → permis → marché → fondations → 2 planchers → étanchéité → enduits → finitions → réception → permis d'habiter.
+
+### Villa R+1 avec sous-sol (300 à 450 m²)
+
+Budget indicatif : 2 à 5 MDH. Bureau de contrôle : non obligatoire sous 5 MDH ; au-delà, obligatoire. **Total : 17 à 24 mois.**
+
+| Étape | Nature | Semaines (bas – haut) | Ce qui fait varier |
+|---|---|---|---|
+| Esquisse et APS | Études | 3 – 7 | décisions du client |
+| Étude géotechnique (en parallèle) | Études | 3 – 6 | laboratoire, nappe |
+| APD et notices | Études | 3 – 5 | principe de soutènement |
+| Note de renseignements | Administratif | 0.5 – 3 | agence urbaine |
+| Visa du conseil régional de l'Ordre | Administratif | 0.5 – 2 | à confirmer |
+| Instruction Rokhas et permis | Administratif | 3 – 12 | observations |
+| Études d'exécution | Études | 4 – 8 | soutènement, synthèse |
+| Consultation et marché | Consultation | 3 – 7 | négociation |
+| Terrassement, fondations, sous-sol, étanchéité enterrée | Travaux | 9 – 14 | nappe, mitoyens, évacuation des déblais |
+| Gros œuvre en élévation, maçonnerie, étanchéité | Travaux | 12 – 18 | main-d'œuvre |
+| Second œuvre | Travaux | 10 – 16 | menuiseries |
+| Finitions et équipements | Travaux | 6 – 10 | choix du client |
+| Extérieurs, piscine, raccordements | Travaux | 4 – 8 | piscine |
+| Réception et réserves | Réception | 3 – 8 | entreprise |
+| Permis d'habiter | Administratif | 4 – 10 | conformité |
+
+**Chemin critique :** Géotechnique → APD → permis → marché → terrassement → sous-sol (soutènement, étanchéité) → planchers → hors d'eau → second œuvre → réception → permis d'habiter.
+
+### Petit immeuble R+2 à R+4 (600 à 1 500 m²)
+
+Budget indicatif : 3 à 10 MDH. Bureau de contrôle : obligatoire au-delà de 5 MDH (décision du fondateur) ; décennale obligatoire au-delà de 3 étages ou 800 m². **Total : 26 à 38 mois.**
+
+| Étape | Nature | Semaines (bas – haut) | Ce qui fait varier |
+|---|---|---|---|
+| Esquisse, APS, bilan promoteur | Études | 4 – 8 | rendement plancher, parking |
+| APD avec BET et contrôle | Études | 4 – 8 | notice incendie, RTCM |
+| Visa du conseil régional de l'Ordre | Administratif | 0.5 – 2 | à confirmer |
+| Instruction Rokhas et permis | Administratif | 6 – 16 | petit ou grand projet selon la commune (à vérifier) ; observations |
+| Études d'exécution et visa du contrôle | Études | 6 – 12 | allers-retours avec le bureau de contrôle |
+| Consultation, marché, TRC et décennale | Consultation | 4 – 8 | assureur |
+| Terrassement, fondations (et sous-sol éventuel) | Travaux | 6 – 16 | sous-sol, mitoyens |
+| Structure (3 à 4 semaines par niveau), maçonnerie, étanchéité | Travaux | 16 – 28 | nombre de niveaux, rotation des coffrages |
+| Second œuvre en cascade par étage | Travaux | 20 – 32 | coordination des lots |
+| Finitions, parties communes, ascenseur | Travaux | 8 – 14 | ascenseur, choix des acquéreurs |
+| Raccordements et abords | Travaux | 4 – 8 | distributeur |
+| Réception et réserves (communs et logements) | Réception | 4 – 10 | nombre de logements |
+| Permis d'habiter, attestation décennale, éclatement des titres | Administratif | 8 – 26 | plans de copropriété, conservation foncière |
+
+**Chemin critique :** APD → permis → marché et assurances → fondations → structure niveau par niveau → maçonnerie → second œuvre étage par étage → réception → permis d'habiter → éclatement des titres.
+
+### Immeuble R+5 à R+8 avec 1 à 2 sous-sols (2 000 à 6 000 m²)
+
+Budget indicatif : 10 à 40 MDH. Bureau de contrôle : obligatoire. **Total : 36 à 54 mois.**
+
+| Étape | Nature | Semaines (bas – haut) | Ce qui fait varier |
+|---|---|---|---|
+| Esquisse, APS, bilan | Études | 6 – 12 | programme, montage financier |
+| APD complet (incendie, accessibilité, ascenseurs, parkings) | Études | 6 – 12 | bureau de contrôle |
+| Visa du conseil régional de l'Ordre | Administratif | 0.5 – 2 | à confirmer |
+| Commission grands projets, permis | Administratif | 10 – 24 | commission, avis, pièces complémentaires |
+| Études d'exécution, synthèse, visa du contrôle | Études | 10 – 16 | complexité, BIM |
+| Consultation, marché, assurances | Consultation | 6 – 10 | entreprise générale ou lots |
+| Terrassement, soutènement, 1 à 2 sous-sols | Travaux | 16 – 30 | nappe, parois, mitoyens |
+| Structure (3 à 4 semaines par niveau), maçonnerie | Travaux | 28 – 44 | grue, coffrages, main-d'œuvre |
+| Second œuvre en cascade | Travaux | 32 – 52 | coordination (OPC) |
+| Finitions, ascenseurs, sécurité incendie | Travaux | 10 – 18 | ascenseurs (fabrication 4 à 6 mois) |
+| Raccordements, poste de transformation | Travaux | 8 – 20 | distributeur |
+| Réception et réserves | Réception | 6 – 12 | nombre de logements |
+| Permis d'habiter, éclatement des titres | Administratif | 12 – 30 | conservation foncière |
+
+**Chemin critique :** APD → commission grands projets → marché → soutènement et sous-sols → structure (5 à 9 niveaux) → second œuvre en cascade et ascenseurs → réception → permis d'habiter → titres.
+
+### Équipement public (école, centre de santé, 1 000 à 3 000 m²)
+
+Budget indicatif : 5 à 30 MDH. Bureau de contrôle : obligatoire (marché public, au-delà de 5 MDH). **Total : 30 à 48 mois.**
+
+| Étape | Nature | Semaines (bas – haut) | Ce qui fait varier |
+|---|---|---|---|
+| Programmation et désignation de l'architecte (concours ou consultation) | Études | 8 – 24 | procédure du maître d'ouvrage public |
+| Esquisse et APS validés par le maître d'ouvrage | Études | 6 – 12 | commissions de validation |
+| APD | Études | 6 – 12 | normes du ministère de tutelle |
+| Autorisation (grand projet) | Administratif | 6 – 16 | commission |
+| Dossier d'appel d'offres (CPS conforme au CCAG-Travaux) | Études | 6 – 12 | contrôle des pièces |
+| Appel d'offres (décret 2-22-431), jugement, approbation, OS | Consultation | 8 – 16 | délais de publicité et d'approbation (à vérifier) |
+| Gros œuvre | Travaux | 20 – 36 | taille, attachements |
+| Second œuvre et lots techniques | Travaux | 20 – 32 | lots séparés |
+| VRD et abords | Travaux | 6 – 12 | réseaux |
+| Réception provisoire par commission | Réception | 2 – 8 | commission |
+| Certificat de conformité, visite de sécurité | Administratif | 4 – 12 | protection civile |
+
+**Chemin critique :** Programmation → désignation de l'architecte → APD approuvé → appel d'offres → approbation du marché → gros œuvre → lots techniques → réception par commission → certificat de conformité.
+
+### Local commercial ou bureaux (aménagement ou petit bâtiment, 100 à 800 m²)
+
+Budget indicatif : 0.3 à 5 MDH. Bureau de contrôle : selon budget (au-delà de 5 MDH) et ERP. **Total : 5 à 14 mois.**
+
+| Étape | Nature | Semaines (bas – haut) | Ce qui fait varier |
+|---|---|---|---|
+| Relevé, esquisse et APS | Études | 2 – 4 | existant |
+| APD, incendie et accessibilité si ERP | Études | 2 – 6 | classement ERP |
+| Autorisation (réfection, modificatif ou construire) | Administratif | 2 – 12 | nature des travaux |
+| Consultation | Consultation | 2 – 4 | corps d'état |
+| Travaux d'aménagement | Travaux | 8 – 24 | lots techniques, enseigne |
+| Réception | Réception | 1 – 4 | — |
+| Certificat de conformité | Administratif | 4 – 10 | visite de sécurité si ERP |
+
+**Chemin critique :** Relevé → APD (sécurité ERP) → autorisation → travaux techniques → certificat de conformité.
+
+### Lotissement petit (moins de 5 ha, moins de 100 lots)
+
+Budget indicatif : 3 à 20 MDH. Bureau de contrôle : selon budget (au-delà de 5 MDH). **Total : 18 à 32 mois.**
+
+| Étape | Nature | Semaines (bas – haut) | Ce qui fait varier |
+|---|---|---|---|
+| Plan de découpage, topographie, géotechnique | Études | 6 – 12 | terrain |
+| APD VRD et consultation des distributeurs | Études | 6 – 12 | capacité des réseaux |
+| Autorisation de lotir | Administratif | 8 – 24 | commission, avis des distributeurs |
+| Exécution VRD visée par les distributeurs | Études | 6 – 12 | distributeurs |
+| Marchés VRD | Consultation | 4 – 8 | lots |
+| Travaux d'équipement | Travaux | 26 – 52 | réseaux électriques, pluie |
+| Réception provisoire des équipements | Réception | 4 – 12 | commission convoquée dans les 30 jours |
+| Titres des lots | Administratif | 8 – 24 | conservation foncière |
+| Réception définitive (environ un an après) | Réception | 52 – 60 | malfaçons de l'année |
+
+**Chemin critique :** Découpage → APD VRD → autorisation de lotir → plans visés par les distributeurs → travaux d'équipement → réception provisoire → titres (ventes possibles).
+
+### Lotissement moyen (5 à 30 ha, par tranches)
+
+Budget indicatif : 20 à 150 MDH. Bureau de contrôle : obligatoire. **Total : 30 à 60 mois.**
+
+| Étape | Nature | Semaines (bas – haut) | Ce qui fait varier |
+|---|---|---|---|
+| Plan d'ensemble et tranches | Études | 10 – 20 | concertation agence urbaine |
+| APD VRD | Études | 8 – 16 | réseaux structurants |
+| Autorisation de lotir (validité selon superficie, loi 34-21) | Administratif | 12 – 36 | grandes opérations |
+| Exécution VRD par tranche | Études | 8 – 16 | distributeurs |
+| Marchés VRD | Consultation | 6 – 12 | tranches |
+| Travaux d'équipement par tranche | Travaux | 52 – 104 | postes, assainissement |
+| Réceptions provisoires par tranche | Réception | 8 – 16 | commission |
+| Titres | Administratif | 12 – 30 | volume |
+
+**Chemin critique :** Plan d'ensemble → autorisation de lotir → réseaux structurants → tranche 1 → réception provisoire → titres, puis tranches suivantes.
+
+### Rénovation légère (sans toucher à la structure ni à la façade)
+
+Budget indicatif : 0.1 à 1 MDH. Bureau de contrôle : non. **Total : 3 à 7 mois.**
+
+| Étape | Nature | Semaines (bas – haut) | Ce qui fait varier |
+|---|---|---|---|
+| Relevé et diagnostic | Études | 1 – 2 | accès |
+| Projet et descriptif | Études | 2 – 4 | choix du client |
+| Permis de réfection (10 jours ouvrables) | Administratif | 2 – 4 | commune |
+| Consultation | Consultation | 1 – 3 | — |
+| Travaux | Travaux | 4 – 16 | découvertes dans l'existant |
+| Réception | Réception | 1 – 2 | — |
+
+**Chemin critique :** Diagnostic → permis de réfection (valable 6 mois) → travaux → réception.
+
+### Rénovation lourde ou surélévation
+
+Budget indicatif : 0.8 à 6 MDH. Bureau de contrôle : au-delà de 5 MDH ; recommandé pour toute surélévation. **Total : 12 à 24 mois.**
+
+| Étape | Nature | Semaines (bas – haut) | Ce qui fait varier |
+|---|---|---|---|
+| Relevé, diagnostic structure, sondages | Études | 3 – 6 | accès aux fondations |
+| APS et APD | Études | 4 – 8 | capacité de l'existant |
+| Permis de construire ou modificatif (régularisation éventuelle) | Administratif | 6 – 16 | régularité de l'existant |
+| Études de renforcement | Études | 4 – 8 | reprises en sous-œuvre |
+| Consultation | Consultation | 3 – 6 | — |
+| Démolitions, renforcements, structure neuve | Travaux | 8 – 20 | étaiements, occupants |
+| Second œuvre et finitions | Travaux | 10 – 24 | raccords avec l'existant |
+| Réception | Réception | 2 – 6 | — |
+| Permis d'habiter ou certificat de conformité | Administratif | 4 – 12 | conformité |
+
+**Chemin critique :** Diagnostic → note de renforcement → permis → renforcements → structure neuve → second œuvre → conformité.
+
+### Extension (nouvelle partie accolée)
+
+Budget indicatif : 0.4 à 3 MDH. Bureau de contrôle : selon budget. **Total : 8 à 16 mois.**
+
+| Étape | Nature | Semaines (bas – haut) | Ce qui fait varier |
+|---|---|---|---|
+| Relevé et esquisse | Études | 2 – 4 | existant |
+| APD et structure | Études | 2 – 5 | joint avec l'existant |
+| Permis de construire | Administratif | 4 – 12 | COS, reculs |
+| Consultation | Consultation | 2 – 4 | — |
+| Fondations et gros œuvre | Travaux | 6 – 14 | accès |
+| Second œuvre et raccords | Travaux | 8 – 16 | — |
+| Réception | Réception | 1 – 4 | — |
+| Permis d'habiter | Administratif | 4 – 10 | — |
+
+**Chemin critique :** APD → permis → fondations désolidarisées → gros œuvre → second œuvre → permis d'habiter.
+
+### Projet industriel ou hangar (charpente métallique, 1 000 à 5 000 m²)
+
+Budget indicatif : 3 à 30 MDH. Bureau de contrôle : obligatoire au-delà de 5 MDH ; décennale (bâtiment industriel). **Total : 12 à 24 mois.**
+
+| Étape | Nature | Semaines (bas – haut) | Ce qui fait varier |
+|---|---|---|---|
+| Programme industriel et esquisse | Études | 3 – 6 | process |
+| APD, incendie, charpente | Études | 4 – 8 | classement de l'activité |
+| Autorisation (grand projet ; étude d'impact si activité classée, à vérifier) | Administratif | 8 – 24 | zone industrielle, CRI |
+| Exécution et plans d'atelier de charpente | Études | 6 – 12 | charpentier |
+| Consultation | Consultation | 4 – 8 | acier |
+| Fondations et dallage industriel (fabrication de la charpente en parallèle) | Travaux | 6 – 12 | planéité du dallage |
+| Montage charpente, couverture, bardage | Travaux | 8 – 16 | levage, vent |
+| Lots techniques (électricité, incendie, process) | Travaux | 8 – 16 | puissance électrique |
+| VRD, voiries lourdes | Travaux | 6 – 12 | réseaux |
+| Réception | Réception | 2 – 6 | — |
+| Certificat de conformité, visite de sécurité | Administratif | 4 – 12 | protection civile |
+
+**Chemin critique :** APD → autorisation → plans d'atelier → fabrication de la charpente (pendant les fondations) → montage → couverture → lots techniques → certificat de conformité.
+
+## 11. Normes et règles techniques
+
+39 normes et règles, 86 exigences concrètes (conception, exécution, essais), chacune rattachée à ses phases et à ses lots : voir **`docs/gestion-projet/normes-et-checklists-chantier.md`** et `normes[]` du JSON.
+
+| Norme | Statut | Phases | Lots |
+|---|---|---|---|
+| RPS 2000 version 2011 (décret 2-02-177 ; modificatif 2-12-682 à vérifier ; zonage révisé 2-24-766 à vérifier) | partiellement vérifié | P03, P05, P08, P09 | Structure béton armé, Terrassement, fondations, soutènements, sous-sol |
+| Décret 2-12-666 du 28/05/2013 (RPCTerre) | vérifié | P05 | Structure béton armé |
+| Décret 2-13-874 du 15/10/2014 (RTCM), loi 47-09 | vérifié | P02, P03, P04, P05, P10 | Solaire et thermique (RTCM), Menuiseries (alu, bois, métallerie), Étanchéité |
+| NM 10.1.008-2009 (norme d'application obligatoire) | vérifié | P05, P06, P08, P09 | Structure béton armé, Terrassement, fondations, soutènements, sous-sol |
+| NM 10.1.004-2019 (obligatoire) | vérifié | P05, P08, P09, P10 | Structure béton armé, Terrassement, fondations, soutènements, sous-sol, Revêtements et finitions |
+| NM 01.4.096, NM 01.4.097-2013, NM 01.4.095, NM 01.4.220 (obligatoires ; arrêtés à vérifier) | partiellement vérifié | P05, P08, P09 | Structure béton armé, Terrassement, fondations, soutènements, sous-sol |
+| NM 10.1.271 (granulats pour bétons, référence à vérifier) | à vérifier | P08, P09 | Structure béton armé |
+| Eau de gâchage : NM correspondante à EN 1008 (référence à vérifier) | à vérifier | P08, P09 | Structure béton armé |
+| BAEL 91 modifié 99 (règles françaises) | partiellement vérifié | P03, P05 | Structure béton armé, Terrassement, fondations, soutènements, sous-sol |
+| NF EN 1992-1-1 (Eurocode 2) | partiellement vérifié | P05 | Structure béton armé |
+| NF DTU 13.1 Fondations superficielles | partiellement vérifié | P08 | Terrassement, fondations, soutènements, sous-sol |
+| NF DTU 13.3 Dallages | partiellement vérifié | P08 | Terrassement, fondations, soutènements, sous-sol, Revêtements et finitions |
+| NF DTU 20.1 Maçonnerie de petits éléments | partiellement vérifié | P09 | Architecture |
+| NF DTU 21 Exécution des ouvrages en béton | partiellement vérifié | P08, P09 | Structure béton armé, Terrassement, fondations, soutènements, sous-sol |
+| NF DTU 26.1 Enduits aux mortiers | partiellement vérifié | P10 | Revêtements et finitions |
+| NF DTU 43.1 Étanchéité des toitures-terrasses | partiellement vérifié | P05, P09 | Étanchéité |
+| NF DTU 52.1 (revêtements scellés) et 52.2 (revêtements collés) | partiellement vérifié | P10 | Revêtements et finitions |
+| NF DTU 55.2 Revêtements muraux attachés en pierre mince | à vérifier | P10 | Revêtements et finitions |
+| NF DTU 59.1 Peinture | partiellement vérifié | P10 | Revêtements et finitions |
+| NF DTU 60.1 (plomberie sanitaire), 60.11 (dimensionnement), 60.33 (évacuations PVC) | partiellement vérifié | P05, P10 | Plomberie sanitaire et assainissement |
+| NF DTU 65 (chauffage) et NF DTU 68.3 (ventilation mécanique) | à vérifier | P05, P10 | Climatisation, chauffage, ventilation |
+| NF DTU 36.5 (menuiseries extérieures), NF DTU 39 (vitrerie), NF EN 14351-1 | partiellement vérifié | P05, P10 | Menuiseries (alu, bois, métallerie) |
+| NF DTU 25.41 (plaques de plâtre) et 58.1 (plafonds suspendus) | à vérifier | P10 | Revêtements et finitions |
+| NF P01-012 Garde-corps | partiellement vérifié | P05, P10 | Menuiseries (alu, bois, métallerie), Architecture |
+| NF C 15-100 (référence contractuelle) et norme marocaine des installations basse tension (NM 06.1.100 présumée, à vérifier) | à vérifier | P05, P08, P10 | Électricité courants forts, Aménagements extérieurs et piscine |
+| Règles du distributeur (ONEE, société régionale multiservices, Redal, Lydec, Amendis) et NF C 14-100 en référence | à vérifier | P05, P12 | Électricité courants forts, Voirie et réseaux divers |
+| Loi 24-09 (marquage CMIM) | vérifié | P10 | Électricité courants forts, Plomberie sanitaire et assainissement |
+| Décret 2-14-499 du 15/10/2014 et exigences de la protection civile | partiellement vérifié | P03, P04, P05, P10, P12 | Sécurité incendie, Architecture, Électricité courants forts, Climatisation, chauffage, ventilation |
+| Loi 10-03 et décret 2-11-246 (arrêté technique à vérifier) | partiellement vérifié | P03, P05, P11 | Architecture, Ascenseurs, Voirie et réseaux divers |
+| Règlements de service et cahiers des prescriptions des distributeurs (ONEE, sociétés régionales multiservices, Redal, Lydec, Amendis) | à vérifier | P05, P10, P12 | Voirie et réseaux divers, Plomberie sanitaire et assainissement |
+| Fascicule 70 du CCTG français (assainissement), catalogue marocain des structures de chaussées, normes NM EN des tuyaux (références à vérifier) | à vérifier | P05, P10 | Voirie et réseaux divers, Aménagements extérieurs et piscine |
+| NM EN 81-20 et 81-50 (construction et essais des ascenseurs), NM EN 81-70 (accessibilité) — homologation NM à vérifier | à vérifier | P03, P05, P10 | Ascenseurs |
+| NF P 94-500 (missions géotechniques), essais pressiométriques et pénétrométriques, Proctor et plaque (références françaises en usage, homologation NM à vérifier) | à vérifier | P01, P08 | Terrassement, fondations, soutènements, sous-sol, Voirie et réseaux divers |
+| Essais du béton frais et durci (NM et EN 12350 / 12390 homologuées NM, références à vérifier) et contrôle de conformité de la NM 10.1.008 | partiellement vérifié | P08, P09 | Structure béton armé, Terrassement, fondations, soutènements, sous-sol |
+| Essai de mise en eau des toitures et des bassins (DTU 43.1, CPS) | partiellement vérifié | P09, P10 | Étanchéité, Aménagements extérieurs et piscine |
+| Épreuve des réseaux d'eau (DTU 60.1, CPS) | à vérifier | P10 | Plomberie sanitaire et assainissement, Climatisation, chauffage, ventilation |
+| Mesure de la prise de terre (NF C 15-100) | à vérifier | P08, P10 | Électricité courants forts |
+| Code du travail (loi 65-99, hygiène et sécurité) et loi 18-12 | vérifié | P07, P08, P09, P10 | Architecture, Structure béton armé |
+| Règle de Blondel (règle de l'art) | vérifié | P03, P05, P09 | Architecture, Structure béton armé |
+
+## 12. Checklists de chantier (PV du logiciel)
+
+21 checklists, 142 points de contrôle numérotés dont 82 points d'arrêt : voir **`docs/gestion-projet/normes-et-checklists-chantier.md`** et `checklistsChantier[]` du JSON.
+
+| Checklist | Phase | Jalon | Points | Dont points d'arrêt |
+|---|---|---|---|---|
+| Installation de chantier (`CL01_INSTALLATION_CHANTIER`) | Préparation et ouverture du chantier | `J07_03_INSTALLATION` | 8 | 2 |
+| Implantation (`CL02_IMPLANTATION`) | Préparation et ouverture du chantier | `J07_05_IMPLANTATION` | 5 | 4 |
+| Terrassement et fonds de fouille (`CL03_TERRASSEMENT_FONDS_FOUILLE`) | Terrassement, fondations et sous-sol | `J08_02_FONDS_FOUILLE` | 6 | 4 |
+| Fondations : ferraillage avant coulage (`CL04_FONDATIONS_AVANT_COULAGE`) | Terrassement, fondations et sous-sol | `J08_03_FERRAILLAGE_FONDATIONS` | 9 | 8 |
+| Soutènements et sous-sol (drainage, étanchéité, cuvelage) (`CL05_SOUTENEMENT_SOUS_SOL`) | Terrassement, fondations et sous-sol | `J08_05_SOUS_SOL` | 7 | 7 |
+| Dallage et hérisson (`CL06_DALLAGE_HERISSON`) | Terrassement, fondations et sous-sol | `J08_06_FIN_INFRASTRUCTURE` | 6 | 2 |
+| Poteaux, poutres et planchers (par niveau) (`CL07_POTEAUX_POUTRES_PLANCHERS`) | Gros œuvre en élévation et mise hors d'eau | `J09_02_PLANCHER_NIVEAU` | 15 | 9 |
+| Maçonnerie (`CL08_MACONNERIE`) | Gros œuvre en élévation et mise hors d'eau | `J09_03_MACONNERIE` | 6 | 1 |
+| Réseaux encastrés (électricité, plomberie) avant enduits (`CL09_RESEAUX_AVANT_ENDUITS`) | Second œuvre, équipements et extérieurs | `J10_02_RESEAUX_AVANT_FERMETURE` | 8 | 8 |
+| Enduits (`CL10_ENDUITS`) | Second œuvre, équipements et extérieurs | `J10_03_ENDUITS_MENUISERIES` | 5 | 1 |
+| Étanchéité des terrasses (essai de mise en eau) (`CL11_ETANCHEITE_TERRASSE`) | Gros œuvre en élévation et mise hors d'eau | `J09_04_ETANCHEITE_TERRASSE` | 8 | 6 |
+| Menuiseries (`CL12_MENUISERIES`) | Second œuvre, équipements et extérieurs | `J10_03_ENDUITS_MENUISERIES` | 7 | 2 |
+| Revêtements (sols, murs, faux plafonds, peinture) (`CL13_REVETEMENTS`) | Second œuvre, équipements et extérieurs | `J10_04_FINITIONS` | 7 | 1 |
+| Climatisation, chauffage, ventilation (`CL14_CVC`) | Second œuvre, équipements et extérieurs | `J10_05_EQUIPEMENTS_ESSAYES` | 5 | 1 |
+| Essais des réseaux (avant réception) (`CL15_ESSAIS_RESEAUX`) | Second œuvre, équipements et extérieurs | `J10_05_EQUIPEMENTS_ESSAYES` | 9 | 6 |
+| VRD et raccordements (`CL16_VRD_RACCORDEMENTS`) | Second œuvre, équipements et extérieurs | `J10_06_EXTERIEURS` | 7 | 5 |
+| Piscine (`CL17_PISCINE`) | Second œuvre, équipements et extérieurs | `J10_06_EXTERIEURS` | 6 | 4 |
+| Pré-réception (opérations préalables) (`CL18_PRE_RECEPTION`) | Réception provisoire et levée des réserves | `J11_01_OPR` | 5 | 2 |
+| Réception provisoire avec réserves (`CL19_RECEPTION_PROVISOIRE`) | Réception provisoire et levée des réserves | `J11_02_RECEPTION_PROVISOIRE` | 5 | 3 |
+| Levée des réserves (`CL20_LEVEE_RESERVES`) | Réception provisoire et levée des réserves | `J11_03_LEVEE_RESERVES` | 3 | 2 |
+| Réception définitive (`CL21_RECEPTION_DEFINITIVE`) | Année de garantie et réception définitive | `J13_02_RECEPTION_DEFINITIVE` | 5 | 4 |
+
+## 13. Textes et réglementations
 
 Statut : **vérifié** = texte officiel lu ou référence confirmée par une source fiable ; **partiellement vérifié** = référence sûre mais détails tirés de la presse ou de la doctrine ; **à vérifier** = à relire avant tout usage contractuel. Vérification faite le 15/10/2026.
 
