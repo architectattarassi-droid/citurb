@@ -51,6 +51,7 @@ export default function NouveauDossierAdmin() {
   const [cabinets, setCabinets] = useState<Cabinet[]>([]);
   const [prestations, setPrestations] = useState<Prestation[]>([]);
   const [sqlAColler, setSqlAColler] = useState(false);
+  const [emetteurManquant, setEmetteurManquant] = useState<string[]>([]);
   const [erreurChargement, setErreurChargement] = useState<string | null>(null);
 
   const [cabinetId, setCabinetId] = useState("cab_arc_bati");
@@ -84,7 +85,7 @@ export default function NouveauDossierAdmin() {
         const r = await fetch("/api/cc/cabinets", { credentials: "include", cache: "no-store" });
         const j = await r.json().catch(() => ({}));
         if (!r.ok) throw new Error(ERREURS[j.error] || `Erreur ${r.status}`);
-        setPhases(j.phases || []); setCabinets(j.cabinets || []); setPrestations(j.prestations || []); setSqlAColler(!!j.sqlAColler);
+        setPhases(j.phases || []); setCabinets(j.cabinets || []); setPrestations(j.prestations || []); setSqlAColler(!!j.sqlAColler); setEmetteurManquant(j.emetteurManquant || []);
       } catch (e) { setErreurChargement((e as Error).message); }
     })();
   }, []);
@@ -108,7 +109,6 @@ export default function NouveauDossierAdmin() {
   const majEtape = (p: Phase, m: Partial<Etape>) => setEtapes((e) => ({ ...e, [p.code]: { ...etapeDe(p), ...m } }));
 
   const alerteAut = projet.autorisationExpiration && /^\d{4}-\d{2}-\d{2}$/.test(projet.autorisationExpiration) ? jours(projet.autorisationExpiration) : null;
-  const cabinet = cabinets.find((c) => c.id === cabinetId);
 
   const envoyer = async () => {
     setEnvoi(true); setErreurs([]);
@@ -135,7 +135,7 @@ export default function NouveauDossierAdmin() {
         {resultat.lienInvitation && (
           <div style={S.carte}>
             <div style={S.h2}>Invitation du client (lien personnel, 90 jours)</div>
-            <p style={S.aide}>À transmettre au client par le cabinet. Le lien donne accès à son dossier en lecture, sans aucune coordonnée de tiers.</p>
+            <p style={S.aide}>À transmettre au client par l'équipe CITURBAREA. Le lien donne accès à son dossier en lecture, sans aucune coordonnée de tiers.</p>
             <input readOnly value={resultat.lienInvitation} style={{ ...S.input, width: "100%" }} onFocus={(e) => e.currentTarget.select()} />
             <button style={{ ...S.btn, marginTop: 8 }} onClick={() => void navigator.clipboard?.writeText(resultat.lienInvitation as string)}>Copier le lien</button>
           </div>
@@ -175,9 +175,8 @@ export default function NouveauDossierAdmin() {
         <select value={cabinetId} onChange={(e) => setCabinetId(e.target.value)} style={S.input}>
           {cabinets.map((x) => <option key={x.id} value={x.id}>{x.nom}{x.architecte ? ` — ${x.architecte}` : ""}</option>)}
         </select>
-        {cabinet && cabinet.mentionsManquantes.length > 0 && (
-          <p style={S.aide}>Mentions légales à compléter pour facturer : {cabinet.mentionsManquantes.join(", ")}.</p>
-        )}
+        <p style={S.aide}>Architecte du projet. Les devis et factures sont émis par CITURBAREA / HSE DECO ; aucune coordonnée du cabinet n'y figure.</p>
+        {emetteurManquant.length > 0 && <p style={S.aide}>Identifiants HSE DECO à compléter avant la première facture : {emetteurManquant.join(", ")}.</p>}
         <AjoutCabinet onAjout={(x) => { setCabinets((l) => [...l, x]); setCabinetId(x.id); }} />
       </section>
 

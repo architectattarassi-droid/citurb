@@ -1,8 +1,10 @@
 /**
- * Cabinets d'architecture émetteurs des devis et factures d'honoraires
- * (ARC-BATI et autres). HSE DECO reste l'éditeur de la plateforme.
- * Mentions légales (ICE, IF, RC, patente) : saisies par le cabinet, jamais
- * inventées — vides, la facture affiche un bandeau « à compléter ».
+ * Cabinets d'architecture (ARC-BATI et autres) : architecte du projet et
+ * répartition interne des honoraires. L'ÉMETTEUR des devis et factures est
+ * CITURBAREA / HSE DECO (apps/web/src/domain/honoraires/emetteur.ts) : le
+ * téléphone, l'e-mail et l'adresse d'un cabinet restent au back-office et
+ * n'apparaissent sur aucun document. Identifiants (ICE, IF, RC, patente) :
+ * facultatifs, jamais inventés.
  */
 import type { Sql } from "./dossierAdmin";
 
@@ -11,15 +13,15 @@ export interface Cabinet {
   adresse: string | null; ville: string | null; telephone: string | null; email: string | null;
   ice: string | null; identifiantFiscal: string | null; rc: string | null; patente: string | null;
   logoUrl: string | null; grilleId: string | null; actif: boolean;
-  /** Mentions légales manquantes pour facturer (spec §5.2). */
+  /** Identifiants du cabinet non renseignés (information interne). */
   mentionsManquantes: string[];
 }
 
 /** Données de départ, servies tant que le SQL n'est pas collé (lecture seule). */
 export const CABINET_ARC_BATI: Omit<Cabinet, "mentionsManquantes"> = {
   id: "cab_arc_bati", nom: "ARC-BATI ARCHITECTURE", architecte: "Yassine ATTARASSI", titre: "Architecte DENA, Ordre des Architectes du Maroc",
-  numeroOrdre: null, adresse: "Bureau 6, Immeuble Meryam C — angle rue Chellah & Mbarek Doukkali", ville: "Kénitra",
-  telephone: "+212 700 127 892", email: "architectattarassi@gmail.com", ice: null, identifiantFiscal: null, rc: null, patente: null,
+  numeroOrdre: null, adresse: null, ville: "Kénitra",
+  telephone: null, email: null, ice: null, identifiantFiscal: null, rc: null, patente: null,
   logoUrl: null, grilleId: "arc-bati-2026-10", actif: true,
 };
 

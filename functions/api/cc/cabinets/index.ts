@@ -1,5 +1,6 @@
 /**
- * /api/cc/cabinets — cabinets émetteurs des devis et factures (multi-cabinets).
+ * /api/cc/cabinets — cabinets d'architecture (multi-cabinets) ; l'émetteur des
+ * devis et factures est CITURBAREA / HSE DECO (domain/honoraires/emetteur.ts).
  *   GET  : liste + référentiel du formulaire de création de dossier
  *          (phases de packages/contracts, prestations de la grille ARC-BATI).
  *   POST : ajoute un cabinet (nom, architecte, n° d'Ordre, mentions légales, logo).
@@ -11,6 +12,7 @@ import { lireJson } from "../../../_lib/cercles";
 import { listerCabinets, validerCabinet, versCabinet } from "../../../_lib/cabinets";
 import { PHASES, schemaPret, type Sql } from "../../../_lib/dossierAdmin";
 import { GRILLE_ARC_BATI_2026_10 } from "../../../../apps/web/src/domain/honoraires/grilleArcBati";
+import { mentionsEmetteurManquantes } from "../../../../apps/web/src/domain/honoraires/emetteur";
 
 interface Env { DATABASE_URL?: string }
 const PRESTATIONS = GRILLE_ARC_BATI_2026_10.prestations.map((p) => ({ code: p.code, libelle: p.libelle, famille: p.famille }));
@@ -20,7 +22,7 @@ export async function onRequestGet(ctx: { env: Env }): Promise<Response> {
   try {
     const sql = neon(ctx.env.DATABASE_URL) as unknown as Sql;
     const [l, s] = await Promise.all([listerCabinets(sql), schemaPret(sql)]);
-    return json(200, { ok: true, ...l, sqlAColler: l.sqlAColler || !s.devisFacturation, phases: PHASES, prestations: PRESTATIONS });
+    return json(200, { ok: true, ...l, sqlAColler: l.sqlAColler || !s.devisFacturation, phases: PHASES, prestations: PRESTATIONS, emetteurManquant: mentionsEmetteurManquantes() });
   } catch (e) {
     console.error(`[cc/cabinets] lecture impossible (${(e as { code?: string })?.code || "sans code"})`);
     return json(503, { ok: false, error: "storage_unavailable" });

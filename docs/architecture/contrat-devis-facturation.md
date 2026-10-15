@@ -7,7 +7,9 @@ Session responsable : « Devis & facturation + dossiers clients existants ».
 ## Principes
 
 - **Pas de modèle concurrent** : le « Projet » de la spec **est** le `Dossier` existant ; le « Client » de la spec **est** le `User` (rôle `CLIENT`) propriétaire du dossier + les colonnes `client*` du dossier. Les tables `Projet*` (espace projet de chantier, `docs/sql/espace-projet-neon.sql`) restent l'espace collaboratif, relié par `Projet.dossierId`.
-- **Émetteur** des devis et factures d'honoraires : le **cabinet** (`Cabinet`), jamais HSE DECO (éditeur de la plateforme). Mentions légales vides → bandeau « à compléter », rien n'est inventé.
+- **Émetteur** de tous les devis et factures, frais de cabinet compris : **CITURBAREA, porté par HSE DECO** (société de mise en relation et de gestion de projets) — décision du fondateur du 15/10/2026. Constante `EMETTEUR` (`apps/web/src/domain/honoraires/emetteur.ts`) : identifiants légaux HSE DECO (ICE, IF, RC, patente, siège) **vides tant que le fondateur ne les a pas fournis** → « à compléter » sur la facture ; coordonnées : uniquement `apps/web/src/config/contact.ts`.
+- Le **cabinet** (`Cabinet` : ARC-BATI ou autre) apparaît comme **architecte du projet** (nom, architecte, n° d'Ordre), **sans téléphone, e-mail ni adresse** ; il sert à la **répartition interne des honoraires**. Ses coordonnées restent au back-office.
+- **Écart avec la spec v1** : §5.1 plaçait le cabinet en en-tête (adresse, téléphone, e-mail) et §5.2 exigeait les mentions légales « du cabinet » ; §5.4 disait « ARC-BATI met à votre disposition… ». Remplacés par : en-tête CITURBAREA / HSE DECO, mentions légales de HSE DECO, bandeau « CITURBAREA met à votre disposition… » (`BANDEAU_SUIVI`), ligne « Architecte du projet : ARC-BATI ARCHITECTURE — Yassine ATTARASSI, architecte DENA ».
 - **Aucune coordonnée** du client n'est renvoyée hors de `/api/cc` ; le lien client ne renvoie aucune coordonnée de tiers (ni du cabinet).
 - Calculs d'argent : **décimal exact** (`apps/web/src/domain/honoraires/decimal.ts`), jamais de flottant ; stockage en `NUMERIC(14,2)` (tables Devis/Facture, étape suivante).
 
@@ -24,7 +26,7 @@ Session responsable : « Devis & facturation + dossiers clients existants ».
 | `Projet.typologie`, `gabarit`, `lot`, `lotissement`, `prefecture`, `titreFoncier` | colonnes du même nom sur `Dossier` | |
 | `Projet.autorisationNum/Date/Expiration` | `Dossier.autorisationNum`, `autorisationDate` (DATE), `autorisationExpiration` (DATE) | pilote l'alerte J−90 (§8.4) |
 | `Projet.etatChantier` | `Dossier.etatChantier` | contexte, jamais facturé |
-| Rattachement cabinet | `Dossier.cabinetId` → `Cabinet.id` | ARC-BATI = `cab_arc_bati` |
+| Architecte du projet (répartition interne) | `Dossier.cabinetId` → `Cabinet.id` | ARC-BATI = `cab_arc_bati` ; jamais émetteur |
 | Phase actuelle | `Dossier.phase` | codes de `packages/contracts/src/phases.catalog.ts` |
 | Étapes antérieures / en cours | `DossierEtape (dossierId, phaseCode, statut, dateRealisation, note, documentIds, saisiPar)` | statuts : `FAITE_HORS_PLATEFORME`, `SANS_OBJET`, `EN_COURS` ; le lot 3c peut ajouter `FAITE`, `A_FAIRE`, `DEBLOQUEE` |
 | Missions déjà réglées (§7 règle 8) | `Dossier.payload.missionsReglees[] = { code, libelle, montant ("3000.00"), date, note }` | `calculerDevis({ missionsDejaReglees })` refuse toute ligne de ces codes |

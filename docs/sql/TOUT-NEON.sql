@@ -831,8 +831,9 @@ SELECT table_name FROM information_schema.tables WHERE table_name IN ('Conversat
 -- Rejouable : n'efface ni ne modifie aucune donnée. Après dossiers-neon.sql (User, Dossier).
 -- Les tables Devis / Facture / Encaissement viendront dans ce même fichier à l'étape suivante.
 
--- 1. Cabinets (multi-cabinets : ARC-BATI et autres). Émetteur des devis et factures d'honoraires
---    (HSE DECO reste l'éditeur de la plateforme). Mentions légales vides = bandeau « à compléter ».
+-- 1. Cabinets d'architecture (ARC-BATI et autres) : architecte du projet et répartition interne des honoraires.
+--    L'ÉMETTEUR des devis et factures est CITURBAREA / HSE DECO (décision du 15/10/2026), jamais le cabinet ;
+--    téléphone, e-mail et adresse d'un cabinet ne figurent sur aucun document ni écran public.
 CREATE TABLE IF NOT EXISTS "Cabinet" (
     "id" TEXT NOT NULL,
     "nom" TEXT NOT NULL,
@@ -856,9 +857,8 @@ CREATE TABLE IF NOT EXISTS "Cabinet" (
     CONSTRAINT "Cabinet_pkey" PRIMARY KEY ("id")
 );
 
-INSERT INTO "Cabinet" ("id", "nom", "architecte", "titre", "adresse", "ville", "telephone", "email", "grilleId", "charte")
-VALUES ('cab_arc_bati', 'ARC-BATI ARCHITECTURE', 'Yassine ATTARASSI', 'Architecte DENA, Ordre des Architectes du Maroc',
-        'Bureau 6, Immeuble Meryam C — angle rue Chellah & Mbarek Doukkali', 'Kénitra', '+212 700 127 892', 'architectattarassi@gmail.com',
+INSERT INTO "Cabinet" ("id", "nom", "architecte", "titre", "ville", "grilleId", "charte")
+VALUES ('cab_arc_bati', 'ARC-BATI ARCHITECTURE', 'Yassine ATTARASSI', 'Architecte DENA, Ordre des Architectes du Maroc', 'Kénitra',
         'arc-bati-2026-10', '{"police":"Calibri","bleuNuit":"#1F3864","fondClair":"#EEF1F7"}'::jsonb)
 ON CONFLICT ("id") DO NOTHING;
 
