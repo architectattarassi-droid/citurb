@@ -84,6 +84,7 @@ Décision du fondateur : **chaque phase P00…P14 démarre après paiement de so
 - **Statuts** : `NON_DUE` (pas encore exigible : phase au-delà de la suivante, ou aucune échéance), `A_EMETTRE` (exigible, facture pas encore émise), `EMISE`, `PARTIELLE`, `PAYEE`, `EN_RETARD` (date d'échéance de la facture dépassée). Plusieurs échéances sur une phase : le plus grave l'emporte (EN_RETARD > A_EMETTRE > PARTIELLE > EMISE > NON_DUE > PAYEE).
 - Règle d'usage : **ne pas démarrer une phase dont `bloquante === true`** ; proposer à l'admin le bouton de déblocage motivé (`POST /api/cc/dossiers/<id>/facturation { action: "debloquer", phase, motif }`).
 - La phase actuelle du dossier (code du catalogue) est ramenée au référentiel par `phaseDuCatalogue()`.
+- **Champs figés (lus par `functions/_lib/gestionPhases.ts`, commit 427f641)** : `phase`, `bloquante`, `statut`, `du`, `paye`, `restant`, `estime`, `factures[]`, `devis[]`, `deblocage`, `datePaiementComplet`, `aucuneEcheance`. Toute modification de leur forme se coordonne d'abord avec la session « Gestion de projet BTP ». Usage en place : démarrage refusé si `bloquante` (fiche : 409 `phase_en_attente_paiement`, synchronisation de l'espace projet, jalons) ; date de démarrage affichée = `datePaiementComplet`, sinon `deblocage.le`.
 
 ### Routes de l'étape 3
 
