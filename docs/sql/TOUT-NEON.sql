@@ -915,3 +915,51 @@ EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 DO $$ BEGIN
   ALTER TABLE "DossierEvenement" ADD CONSTRAINT "DossierEvenement_dossierId_fkey" FOREIGN KEY ("dossierId") REFERENCES "Dossier"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+-- 5. Numérotation légale DEV / FAC / AVO (spec §6.1) : un compteur par type et par année,
+--    incrémenté dans la MÊME instruction que l'émission du document (pas de numéro au brouillon).
+CREATE TABLE IF NOT EXISTS "SequenceDocument" (
+    "type" TEXT NOT NULL,
+    "annee" INTEGER NOT NULL,
+    "dernier" INTEGER NOT NULL DEFAULT 0,
+    CONSTRAINT "SequenceDocument_pkey" PRIMARY KEY ("type", "annee")
+);
+
+-- 6. Devis (spec §1.7, §6.2). `entree` = saisie de l'éditeur ; à l'émission le serveur recalcule,
+--    fige `document` (modèle rendu en PDF et DOCX), `hashContenu` (SHA-256) et les montants.
+--    Une modification après émission crée une RÉVISION (DEV-2026-0043-R2), jamais une écriture en place.
+CREATE TABLE IF NOT EXISTS "Devis" (
+    "id" TEXT NOT NULL,
+    "dossierId" TEXT NOT NULL,
+    "numero" TEXT,
+    "numeroBase" TEXT,
+    "revision" INTEGER NOT NULL DEFAULT 1,
+    "devisOrigineId" TEXT,
+    "remplacePar" TEXT,
+    "type" TEXT NOT NULL,
+    "presentation" TEXT NOT NULL,
+    "statut" TEXT NOT NULL DEFAULT 'BROUILLON',
+    "grilleVersionId" TEXT NOT NULL,
+    "dateEmission" DATE,
+    "validiteJours" INTEGER NOT NULL DEFAULT 30,
+    "coutPrevisionnelTravaux" NUMERIC(14,2),
+    "tauxHonoraires" NUMERIC(6,3),
+    "assietteHonoraires" NUMERIC(14,2),
+    "montantTotal" NUMERIC(14,2),
+    "modalitesPaiement" TEXT,
+    "entree" JSONB NOT NULL,
+    "document" JSONB,
+    "hashContenu" TEXT,
+    "packChoisi" TEXT,
+    "dateAcceptation" TIMESTAMP(3),
+    "preuveAcceptation" JSONB,
+    "creePar" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "Devis_pkey" PRIMARY KEY ("id")
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "Devis_numero_key" ON "Devis"("numero");
+CREATE INDEX IF NOT EXISTS "Devis_dossierId_idx" ON "Devis"("dossierId", "createdAt");
+DO $$ BEGIN
+  ALTER TABLE "Devis" ADD CONSTRAINT "Devis_dossierId_fkey" FOREIGN KEY ("dossierId") REFERENCES "Dossier"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;

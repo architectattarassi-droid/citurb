@@ -32,4 +32,4 @@ le script. Aucune table de production n'est créée par un agent.
 10. `docs/prix/sql/achat-en-ligne.sql` — Commande (après 5)
 11. `docs/sql/appels-video-neon.sql` — DemandeAppel, BlocageAppel
 12. `docs/sql/messagerie-neon.sql` — Conversation, MessageConversation (après 11)
-13. `docs/sql/devis-facturation-neon.sql` — Cabinet, colonnes projet du Dossier, DossierEtape, DossierEvenement (après 1)
+13. `docs/sql/devis-facturation-neon.sql` — Cabinet, colonnes projet du Dossier, DossierEtape, DossierEvenement, SequenceDocument, Devis (après 1)
