@@ -29,7 +29,7 @@ Le chantier garde sa **discussion par jalon** (espace projet, membres) : pas de 
 
 ### À brancher par les autres sessions
 
-- **Espace dossier client** (lot 3a/3b) : ajouter le genre `client` dans `ActeurConnecte` et `cleDe` (`messagerieService.ts`), une route `<chemin du cookie client>/messages/[[chemin]].ts` sur le modèle de l'espace pro, puis `<BoiteMessages source={{ type: "client" }} />` et `<EcrireMessage porte="client" contexte="dossier" objetId={dossierId} invites={[{ type: "admin" }]} />`. En attendant, le client reçoit ses liens de fil et de **boîte** (`/messages/boite/<jeton signé>`, 180 jours) par e-mail.
+- **Espace dossier client** (lot 3a/3b) — **branché le 15/10** (`/api/client/messages/*`, genre `client`, clé `usr:<User.id>`, `/mon-espace`) : ajouter le genre `client` dans `ActeurConnecte` et `cleDe` (`messagerieService.ts`), une route `<chemin du cookie client>/messages/[[chemin]].ts` sur le modèle de l'espace pro, puis `<BoiteMessages source={{ type: "client" }} />` et `<EcrireMessage porte="client" contexte="dossier" objetId={dossierId} invites={[{ type: "admin" }]} />`. En attendant, le client reçoit ses liens de fil et de **boîte** (`/messages/boite/<jeton signé>`, 180 jours) par e-mail.
 - **Documents** (étape 2) : `MessageConversation.meta.documents = [{ id, nom }]` — le message ne porte qu'une **référence** à un document déposé.
 
 ## Règles garanties (testées)

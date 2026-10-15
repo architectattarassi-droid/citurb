@@ -49,7 +49,9 @@ Qui peut inviter qui (vérifié côté serveur, `autoriserCreation`) :
 - Back-office : `/cc/appels` (toutes les demandes, réponse au nom du cabinet, coordonnées, WhatsApp, rejoindre), `/cc/dossiers` (ligne dépliée : appel avec le client du dossier), `/cc/rendez-vous` (appel de suivi avec le client du RDV).
 - Rendez-vous `/rendez-vous` : déjà conforme — l'architecte publie ses créneaux (accord préalable), le client en choisit un (accord) ; la salle n'ouvre que de 15 min avant à 2 h après.
 
-### À brancher par les autres sessions (points d'accroche prêts)
+### À brancher par les autres sessions
+
+- **Client connecté (lot 3a) — branché le 15/10** : genre `client` dans `ActeurConnecte` (clé `usr:<User.id>`), règle `client` = contexte « dossier », invite le cabinet seulement, sur ses dossiers ; route `/api/client/appels/*` ; `<DemanderAppelVideo porte="client" …>` et `<MesAppels espace={{ type: "client" }}>` dans `/mon-espace`. (points d'accroche prêts)
 
 - **Espace dossier client** (session « Débrancher l'ancienne API », lot 3a/3b) : quand `functions/_lib/clientSession.ts` (`lireSessionClient`) existera, ajouter le genre d'acteur `client` dans `ActeurConnecte` (`appelsService.ts`) et une route `functions/api/<chemin du cookie client>/appels/[[chemin]].ts` sur le modèle de `functions/api/projets/appels`. Côté écran : `<DemanderAppelVideo porte="client" contexte="dossier" objetId={dossierId} invites={[{ type: "admin" }]} />` + `<MesAppels espace={{ type: "client" }} />`. En attendant, le client d'un dossier **reçoit** les demandes du cabinet et y répond par son lien personnel `/appel/<jeton>`.
 - **Demandes de prix reçues par un pro** (RFQ côté fournisseur) : un type d'invité `lead` (coordonnées du lead, jamais montrées au pro) se branche dans `appelsResolveur.ts`.
