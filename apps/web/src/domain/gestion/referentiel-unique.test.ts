@@ -122,7 +122,10 @@ describe("GP1 — étapes qui bloquaient à tort", () => {
   it("plus de « purge de recours » ; le visa n'est plus le CNOA", () => {
     const ps = gen();
     expect(ps.some((p) => p.code === "36_AFFICHAGE_RECOURS")).toBe(false);
-    expect(pre(ps, "40_DOSSIER_EXECUTION")).toEqual(["34_PERMIS_CONSTRUIRE"]);
+    // Décision du 15/10/2026 : DEXE en parallèle de l'instruction ; marchés et chantier attendent le permis.
+    expect(pre(ps, "40_DOSSIER_EXECUTION")).toEqual(["30_DOSSIER_AUTORISATION"]);
+    expect(pre(ps, "54_ATTRIBUTION_MARCHE")).toContain("34_PERMIS_CONSTRUIRE");
+    expect(pre(ps, "80_OUVERTURE_CHANTIER")).toContain("34_PERMIS_CONSTRUIRE");
     expect(ps.find((p) => p.code === "32_VISA_CNOA")!.title).toBe("Visa de l'ordre régional compétent");
     expect(ps.find((p) => p.code === "32_VISA_CNOA")!.title).not.toMatch(/CNOA/);
   });

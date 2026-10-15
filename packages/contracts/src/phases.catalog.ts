@@ -477,7 +477,7 @@ export const PHASES_FIXES: PhaseDef[] = [
   {
     code: '40_DOSSIER_EXECUTION', slug: 'dossier-execution', title: 'Dossier d\'exécution (DEXE)', famille: 'EXECUTION_ETUDES', order: 4000,
     objectif: "Produire les plans et notes d'exécution structure et fluides.",
-    acteurs: ['BET_STRUCTURE', 'BET_FLUIDES', 'ARCHITECTE'], validateurs: ['BET_STRUCTURE', 'ARCHITECTE'], prerequis: ['34_PERMIS_CONSTRUIRE'],
+    acteurs: ['BET_STRUCTURE', 'BET_FLUIDES', 'ARCHITECTE'], validateurs: ['BET_STRUCTURE', 'ARCHITECTE'], prerequis: ['30_DOSSIER_AUTORISATION'], // Décision du 15/10/2026 : le DEXE se prépare EN PARALLÈLE de l'instruction du permis, dès le dépôt.
     documentsAttendus: [
       { nature: 'Plans d\'exécution BA', formats: ['PDF', 'DWG'] },
       { nature: 'Notes de calcul', formats: ['PDF'] },
@@ -525,7 +525,7 @@ export const PHASES_FIXES: PhaseDef[] = [
   {
     code: '54_ATTRIBUTION_MARCHE', slug: 'attribution-marche', title: 'Attribution du marché travaux', famille: 'CPS_MARCHES', order: 5400,
     objectif: "Comparer les offres, sélectionner l'entreprise et mandater via escrow.",
-    acteurs: ['CLIENT', 'ARCHITECTE', 'ENTREPRISE_GO', 'CITURBAREA_OPS'], validateurs: ['CLIENT'], prerequis: ['50_DCE'],
+    acteurs: ['CLIENT', 'ARCHITECTE', 'ENTREPRISE_GO', 'CITURBAREA_OPS'], validateurs: ['CLIENT'], prerequis: ['50_DCE', '34_PERMIS_CONSTRUIRE'], // marché signé seulement permis obtenu
     documentsAttendus: [{ nature: 'Marché / mandat entreprise signé', formats: ['PDF'] }],
     pv: [], generation: 'FIXE',
     marketplace: { mode: 'PRIORITAIRE', cercle: 'CERCLE_APPEL_OFFRES', categories: ['ENTREPRISE_GO', 'ENTREPRISE_TCE', 'ENTREPRISE_LOT'], commandeMateriaux: false, commandeService: true, suiviRetour: true },
@@ -586,7 +586,7 @@ export const PHASES_FIXES: PhaseDef[] = [
   {
     code: '80_OUVERTURE_CHANTIER', slug: 'ouverture-chantier', title: 'Ouverture du chantier', famille: 'CHANTIER_GO', order: 8000,
     objectif: "Déclarer l'ouverture du chantier et implanter l'ouvrage.",
-    acteurs: ['ENTREPRISE_GO', 'TOPOGRAPHE', 'ARCHITECTE', 'BUREAU_CONTROLE', 'CLIENT'], validateurs: ['ARCHITECTE', 'TOPOGRAPHE'], prerequis: ['58_RACCORDEMENTS_PROVISOIRES'],
+    acteurs: ['ENTREPRISE_GO', 'TOPOGRAPHE', 'ARCHITECTE', 'BUREAU_CONTROLE', 'CLIENT'], validateurs: ['ARCHITECTE', 'TOPOGRAPHE'], prerequis: ['58_RACCORDEMENTS_PROVISOIRES', '34_PERMIS_CONSTRUIRE'], // chantier ouvert seulement permis obtenu
     documentsAttendus: [
       { nature: 'PV implantation', formats: ['PDF'] },
       { nature: 'Déclaration ouverture chantier', formats: ['PDF'] },

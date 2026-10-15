@@ -44,18 +44,20 @@ export function phaseCourante(jalons: JalonEtat[]): { catalogue: string; phaseRe
 export interface PhaseFrise {
   code: string; ordre: number; titre: string; titreAr: string;
   statut: "FAIT" | "EN_COURS" | "A_VENIR";
+  /** Phase menée en parallèle d'une autre (ex. DEXE pendant l'instruction du permis). */
+  parallele?: boolean;
   /** Durée type en semaines [min, max] pour ce type de projet. */
   dureeSemaines: [number, number] | null;
 }
 
 /** Frise des 15 phases pour le client. */
-export function frise(phaseRef: string | null, profil: Pick<ProfilProjet, "type" | "sousSols" | "etagesHorsSol">): { phases: PhaseFrise[]; dureeTotaleMois: [number, number] | null; libelleDuree: string | null } {
+export function frise(phaseRef: string | null, profil: Pick<ProfilProjet, "type" | "sousSols" | "etagesHorsSol">, paralleles: string[] = []): { phases: PhaseFrise[]; dureeTotaleMois: [number, number] | null; libelleDuree: string | null } {
   const o = ordrePhase(phaseRef);
-  const phases = PHASES_REF.map((p): PhaseFrise => ({
-    code: p.code, ordre: p.ordre, titre: p.libelleFr, titreAr: p.libelleAr,
-    statut: o < 0 ? (p.ordre === 0 ? "EN_COURS" : "A_VENIR") : p.ordre < o ? "FAIT" : p.ordre === o ? "EN_COURS" : "A_VENIR",
-    dureeSemaines: dureePhase(p, profil.type),
-  }));
+  const phases = PHASES_REF.map((p): PhaseFrise => {
+    const statut: PhaseFrise["statut"] = o < 0 ? (p.ordre === 0 ? "EN_COURS" : "A_VENIR") : p.ordre < o ? "FAIT" : p.ordre === o ? "EN_COURS" : "A_VENIR";
+    const parallele = statut === "A_VENIR" && paralleles.includes(p.code);
+    return { code: p.code, ordre: p.ordre, titre: p.libelleFr, titreAr: p.libelleAr, statut: parallele ? "EN_COURS" : statut, ...(parallele ? { parallele: true } : {}), dureeSemaines: dureePhase(p, profil.type) };
+  });
   const d = dureeType(profil);
   return { phases, dureeTotaleMois: d?.totalMois ?? null, libelleDuree: d?.libelle ?? null };
 }

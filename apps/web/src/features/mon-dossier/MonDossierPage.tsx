@@ -18,7 +18,11 @@ export type DossierClient = {
   autorisation: { numero: string | null; date: string | null; expiration: string | null; niveauAlerte: "EXPIREE" | "J90" | null; joursRestants: number | null } | null;
   etatChantier: string | null; client: { nom: string | null }; cabinet: { nom: string | null; architecte: string | null } | null;
   phaseActuelle: { code: string; titre: string } | null; etapes: Etape[]; missionsReglees: Array<{ libelle: string; date: string | null }>;
-  frise?: Array<{ code: string; ordre: number; titre: string; titreAr: string; statut: "FAIT" | "EN_COURS" | "A_VENIR"; dureeSemaines: [number, number] | null }>;
+  frise?: Array<{
+    code: string; ordre: number; titre: string; titreAr: string; statut: "FAIT" | "EN_COURS" | "A_VENIR"; dureeSemaines: [number, number] | null; parallele?: boolean; miseAJourPermis?: boolean;
+    paiement?: { statut: string; enAttente: boolean; restant: string; dateDemarrage: string | null; factures: Array<{ numero: string; statut: string; du: string; paye: string; restant: string; dateEcheance: string }> };
+  }>;
+  prochaineEcheance?: { phase: string; numero: string; restant: string; dateEcheance: string } | null;
   dureeTotaleMois?: [number, number] | null; libelleDuree?: string | null;
   piecesClient?: Array<{ phase: string; libelleFr: string; libelleAr: string }>;
   videos?: Array<{ id: string; phase: "ESQ" | "APS" | "APD" | "EXE"; titre: string; lien: string; integration: string; fournisseur: "youtube" | "vimeo"; version: number; publie: boolean; createdAt: string }>;
@@ -35,6 +39,8 @@ const T = {
     espace: "Mon espace : messages, appels vidéo et tous mes dossiers",
     frise: "Avancement de mon projet", semaines: (a: number, b: number) => (a === b ? `environ ${a} semaine(s)` : `${a} à ${b} semaines`),
     total: (a: number, b: number) => `Durée habituelle d'un projet comme le vôtre : ${a} à ${b} mois.`, indicatif: "Durées indicatives : elles dépendent des décisions, de l'administration et du chantier.",
+    parallele: "En parallèle de l'instruction du permis", majPermis: "Mise à jour suite au permis en cours", attentePaiement: "En attente de votre paiement",
+    payee: "Réglée", demarree: "Démarrée le", prochaine: "Prochaine échéance", facture: "Facture", reste: "reste à régler", avant: "avant le",
     attendu: "Ce que nous attendons de vous", attenduTexte: "Documents à fournir (déposez-les dans « Mon espace », rubrique Documents) :",
   },
   ar: {
@@ -47,6 +53,8 @@ const T = {
     espace: "فضائي: الرسائل، مكالمات الفيديو وجميع ملفاتي",
     frise: "تقدم مشروعي", semaines: (a: number, b: number) => (a === b ? `حوالي ${a} أسبوع` : `من ${a} إلى ${b} أسابيع`),
     total: (a: number, b: number) => `المدة المعتادة لمشروع مثل مشروعكم: من ${a} إلى ${b} شهراً.`, indicatif: "مدد تقريبية: تتعلق بالقرارات والإدارة والورش.",
+    parallele: "بالموازاة مع دراسة الرخصة", majPermis: "تحيين جارٍ بعد الرخصة", attentePaiement: "في انتظار أدائكم",
+    payee: "تم الأداء", demarree: "انطلقت في", prochaine: "الاستحقاق القادم", facture: "الفاتورة", reste: "المتبقي", avant: "قبل",
     attendu: "ما ننتظره منكم", attenduTexte: "الوثائق المطلوبة (أودعوها في «فضائي»، قسم الوثائق):",
   },
 };
@@ -160,6 +168,10 @@ export function VueDossierClient({ d, langue = "fr" }: { d: DossierClient; langu
                 <span style={{ flex: 1 }}>
                   <span style={{ display: "block", fontWeight: cours ? 700 : 400, color: fait || cours ? "#1A1F2E" : "#8B91A1" }}>{ar ? p.titreAr : p.titre}</span>
                   {p.dureeSemaines && !fait && <span style={S.petit}>{t.semaines(p.dureeSemaines[0], p.dureeSemaines[1])}</span>}
+                  {p.parallele && <span style={{ ...S.petit, display: "block" }}>{t.parallele}</span>}
+                  {p.miseAJourPermis && <span style={{ ...S.petit, display: "block", color: "#93370D" }}>{t.majPermis}</span>}
+                  {p.paiement?.enAttente && <span style={{ ...S.petit, display: "block", color: "#B42318", fontWeight: 700 }}>{t.attentePaiement}</span>}
+                  {p.paiement?.statut === "PAYEE" && <span style={{ ...S.petit, display: "block", color: "#067647" }}>{t.payee}{p.paiement.dateDemarrage ? ` · ${t.demarree} ${date(p.paiement.dateDemarrage, ar)}` : ""}</span>}
                 </span>
                 <span style={S.petit}>{fait ? t.fait : cours ? t.enCours : t.aVenir}</span>
               </li>
@@ -168,6 +180,15 @@ export function VueDossierClient({ d, langue = "fr" }: { d: DossierClient; langu
         </ol>
         <p style={{ ...S.petit, margin: "8px 0 0" }}>{t.indicatif}</p>
       </section>
+    )}
+
+    {d.prochaineEcheance && (
+      <div style={{ ...S.carte, borderInlineStart: "4px solid #B8860B" }}>
+        <div style={S.petit}>{t.prochaine}</div>
+        <div style={{ fontWeight: 600 }}>
+          {t.facture} {d.prochaineEcheance.numero} — {t.reste} {Number(d.prochaineEcheance.restant).toLocaleString(ar ? "ar-MA" : "fr-FR", { minimumFractionDigits: 2 })} DH {t.avant} {date(d.prochaineEcheance.dateEcheance.slice(0, 10), ar)}
+        </div>
+      </div>
     )}
 
     {d.piecesClient && d.piecesClient.length > 0 && (

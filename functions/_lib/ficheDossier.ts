@@ -21,6 +21,8 @@ import { libelleOrdre, ordreRegional, type OrdreRegional } from "../../packages/
 import { echeancesDuDossier, validerDates, type DatesGestion } from "../../packages/contracts/src/gestion/echeances";
 import { ajouterVideo, videosDe } from "../../packages/contracts/src/gestion/plans";
 import { masquerCoordonnees } from "./coordonnees";
+import { CODE_MAJ_DEXE, TITRE_MAJ_DEXE, cloturerMajDexe, dexeEnParallele, lireMajDexe, type MajDexe } from "../../packages/contracts/src/gestion/majDexe";
+import { dateDemarrage, ouvrirMajDexeDossier, paiementsDossier, phaseBloquee } from "./gestionPhases";
 
 const s = (v: unknown) => (v == null || v === "" ? null : String(v));
 const iso = (v: unknown) => (v instanceof Date ? v.toISOString() : s(v));
@@ -68,6 +70,8 @@ export type Faits = {
   profil?: ProfilProjet;
   /** Conseil régional de l'Ordre compétent (visa) ; undefined = non calculé. */
   ordre?: OrdreRegional | null;
+  /** Mise à jour du DEXE suite au permis (décision du 15/10/2026). */
+  majDexe?: MajDexe | null;
 };
 
 /** Parcours complet A → Z : rien n'est masqué ni verrouillé, chaque étape reste modifiable par l'admin. */
@@ -102,8 +106,21 @@ export function construireParcours(f: Faits): EtapeParcours[] {
     if (e) return { ...commun, statut: e.statut, source: "saisie", date: e.date, note: e.note, saisiPar: e.saisiPar };
     let statut = p.code === f.phase ? "EN_COURS" : p.ordre < ordreActuel ? "ANTERIEURE" : "A_VENIR";
     if (estCtc && ctc === false && statut !== "EN_COURS") statut = "SANS_OBJET";
+    // DEXE en parallèle de l'instruction du permis, dès le dépôt du dossier d'autorisation.
+    if (p.code === "40_DOSSIER_EXECUTION" && statut === "A_VENIR" && dexeEnParallele(f.phase, new Map([...f.etapes].map(([k, v]) => [k, v.statut])))) {
+      return { ...commun, aide: "En cours en parallèle de l'instruction du permis (décision du 15/10/2026)", statut: "EN_COURS", source: "deduite", date: null, note: null, saisiPar: null };
+    }
     return { ...commun, statut, source: "deduite", date: null, note: null, saisiPar: null };
   });
+  // Étape « Mise à jour du DEXE suite au permis » : ouverte automatiquement à la révision du permis.
+  if (f.majDexe) {
+    const m = f.majDexe;
+    phases.push({
+      code: CODE_MAJ_DEXE, titre: TITRE_MAJ_DEXE.fr, famille: "EXECUTION_ETUDES", phaseRef: "P05_ETUDES_EXECUTION", conditionnelle: true,
+      aide: `${m.ecarts.length} écart(s) au journal · ${m.piecesAReprendre.length} pièce(s) DEXE à reprendre${m.ouverte ? "" : ` · close le ${(m.clotureLe ?? "").slice(0, 10)}`}`,
+      statut: m.ouverte ? "EN_COURS" : "FAITE", source: "saisie", date: (m.ouverte ? m.ouverteLe : m.clotureLe ?? m.ouverteLe).slice(0, 10), note: m.declencheur, saisiPar: null,
+    });
+  }
   // Étapes retirées du catalogue : affichées seulement si elles portent un statut (migration sans perte).
   const retirees = PHASES_RETIREES.filter((p) => saisie(p.code) || f.phase === p.code).map((p): EtapeParcours => {
     const e = saisie(p.code);
@@ -116,6 +133,7 @@ export function construireParcours(f: Faits): EtapeParcours[] {
   const rang = new Map<string, number>([
     ...PRE_ETAPES.map((p, i): [string, number] => [p.code, i - 100]),
     ...PHASES.map((p): [string, number] => [p.code, p.ordre]),
+    [CODE_MAJ_DEXE, 4100],
     ...PHASES_RETIREES.map((p): [string, number] => [p.code, p.order]),
   ]);
   return [...pre, ...phases, ...retirees].sort((a, b) => ordrePhase(a.phaseRef) - ordrePhase(b.phaseRef) || (rang.get(a.code) ?? 0) - (rang.get(b.code) ?? 0));
@@ -136,7 +154,9 @@ export type Action =
   | { action: "profil"; profil: ProfilProjet }
   | { action: "dates"; dates: DatesGestion }
   | { action: "video_ajouter"; phase: string; titre: string; url: string; publie: boolean }
-  | { action: "video_publier"; id: string; publie: boolean };
+  | { action: "video_publier"; id: string; publie: boolean }
+  | { action: "revision_permis"; texte: string }
+  | { action: "maj_dexe_cloturer"; motif: string | null };
 
 const texte = (v: unknown, n: number) => (typeof v === "string" && v.trim() ? v.trim().slice(0, n) : null);
 
@@ -170,6 +190,12 @@ export function lireAction(b: unknown): Action | { erreur: string } {
       return { action: "dates", dates: validerDates(o.dates) };
     case "video_ajouter":
       return { action: "video_ajouter", phase: String(o.phase ?? ""), titre: masquerCoordonnees(texte(o.titre, 120) ?? ""), url: String(o.url ?? "").slice(0, 300), publie: o.publie === true };
+    case "revision_permis": {
+      const t = texte(o.texte, 1000);
+      return t ? { action: "revision_permis", texte: masquerCoordonnees(t) } : { erreur: "motif_obligatoire" };
+    }
+    case "maj_dexe_cloturer":
+      return { action: "maj_dexe_cloturer", motif: motif ? masquerCoordonnees(motif) : null };
     case "video_publier":
       return typeof o.id === "string" && /^vid_[a-z0-9]{6,40}$/.test(o.id) ? { action: "video_publier", id: o.id, publie: o.publie === true } : { erreur: "video_inconnue" };
     default:
@@ -193,6 +219,15 @@ export async function appliquerAction(sql: Sql, dossierId: string, a: Action, ad
   if (!d) return { status: 404, json: { ok: false, error: "not_found" } };
   const journal = (await schemaPret(sql)).devisFacturation;
   const besoinTables = a.action === "etape" || a.action === "rouvrir";
+  // Une phase dont l'échéance du contrat n'est pas payée reste « En attente de paiement » (décision du 15/10/2026) :
+  // on ne la démarre pas ; l'admin la débloque d'abord avec un motif (onglet Factures / bouton de la phase).
+  if (a.action === "phase" || (a.action === "etape" && a.statut === "EN_COURS")) {
+    const cible = a.action === "phase" ? a.phase : a.code;
+    const ref = phaseDuCatalogue(cible);
+    if (ref && ref !== phaseDuCatalogue(s(d.phase)) && phaseBloquee(await paiementsDossier(sql, dossierId, maintenant.slice(0, 10)), ref)) {
+      return { status: 409, json: { ok: false, error: "phase_en_attente_paiement", phase: ref } };
+    }
+  }
   if (besoinTables && !journal) return { status: 503, json: { ok: false, error: "sql_a_coller", fichier: "docs/sql/devis-facturation-neon.sql" } };
   const tracer = (action: string, details: unknown) => (journal ? journaliser(sql, dossierId, admin, action, details, maintenant) : Promise.resolve());
 
@@ -225,6 +260,19 @@ export async function appliquerAction(sql: Sql, dossierId: string, a: Action, ad
       const gestion = a.action === "profil" ? { ...avant, profil: a.profil } : { ...avant, dates: a.dates };
       await sql`UPDATE "Dossier" SET "payload" = ${JSON.stringify({ ...payload, gestion })}::jsonb, "updatedAt" = ${maintenant}::timestamp(3) WHERE "id" = ${dossierId}`;
       await tracer(a.action === "profil" ? "PROFIL_PROJET" : "DATES_CLES", a.action === "profil" ? { profil: a.profil } : { dates: a.dates });
+      break;
+    }
+    case "revision_permis":
+      // Révision du dossier d'autorisation ou de la décision : la mise à jour du DEXE s'ouvre.
+      await ouvrirMajDexeDossier(sql, dossierId, { le: maintenant, par: admin, texte: a.texte, source: "SAISIE" });
+      break;
+    case "maj_dexe_cloturer": {
+      const payload = { ...((d.payload && typeof d.payload === "object" ? d.payload : {}) as Record<string, unknown>) };
+      const m = lireMajDexe(payload);
+      if (!m?.ouverte) return { status: 409, json: { ok: false, error: "aucune_mise_a_jour_ouverte" } };
+      const gestion = { ...((payload.gestion && typeof payload.gestion === "object" ? payload.gestion : {}) as Record<string, unknown>), majDexe: cloturerMajDexe(m, admin, maintenant, a.motif) };
+      await sql`UPDATE "Dossier" SET "payload" = ${JSON.stringify({ ...payload, gestion })}::jsonb, "updatedAt" = ${maintenant}::timestamp(3) WHERE "id" = ${dossierId}`;
+      await tracer("MAJ_DEXE_CLOSE", { motif: a.motif, piecesAReprendre: m.piecesAReprendre });
       break;
     }
     case "video_ajouter":
@@ -292,8 +340,10 @@ export async function lireFiche(sql: Sql, dossierId: string, maintenant = new Da
   const profil = profilDuDossier(d, typeProjetDepuis(s(d.typologie)));
   const dates = validerDates(((payload.gestion && typeof payload.gestion === "object" ? payload.gestion : {}) as Record<string, unknown>).dates);
   const ordre = ordreRegional({ prefecture: s(d.prefecture), commune: s(d.commune) });
+  const majDexe = lireMajDexe(d.payload);
+  const paiements = await paiementsDossier(sql, dossierId, maintenant.slice(0, 10));
   const parcours = construireParcours({
-    profil, ordre,
+    profil, ordre, majDexe,
     phase: s(d.phase), createdAt: iso(d.createdAt),
     leads: leads.map((l) => ({ createdAt: iso(l.createdAt) })),
     rdv: rdv.map((r) => ({ debut: iso(r.debut), statut: s(r.statut) })),
@@ -316,6 +366,9 @@ export async function lireFiche(sql: Sql, dossierId: string, maintenant = new Da
     ordreRegional: ordre ? { ...ordre, libelle: libelleOrdre(ordre).fr } : null,
     dates,
     videos: videosDe(payload),
+    majDexe,
+    // État des paiements par phase (session Devis & facturation) ; null = tables absentes, rien ne bloque.
+    paiements: paiements?.map((p) => ({ ...p, dateDemarrage: dateDemarrage(p) })) ?? null,
     echeances: echeancesDuDossier({
       autorisationDate: iso(d.autorisationDate)?.slice(0, 10) ?? null, autorisationExpiration: iso(d.autorisationExpiration)?.slice(0, 10) ?? null, dates,
       fondationsCommencees: (PHASES.find((p) => p.code === d.phase)?.ordre ?? -1) >= (PHASES.find((p) => p.code === "84_FONDATIONS")?.ordre ?? 8400)

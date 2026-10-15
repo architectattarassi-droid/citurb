@@ -11,6 +11,8 @@ import { appliquerActionPiece, documentDuDossier, lireActionPiece, lirePieces, t
 import { journaliser } from "./dossierAdmin";
 import { nouvelId } from "./projets";
 import { ordreCatalogue, phaseCourante } from "../../packages/contracts/src/gestion/frise";
+import { phaseDuCatalogue } from "../../packages/contracts/src/gestion/referentiel";
+import { paiementsDossier, phaseBloquee } from "./gestionPhases";
 
 const FAITS = new Set(["FAITE", "FAITE_HORS_PLATEFORME", "DEBLOQUEE"]);
 
@@ -32,9 +34,16 @@ export function gestionNeon(sql: Sql): GestionProjet {
       if (!d) return;
       const payload = (d.payload && typeof d.payload === "object" ? d.payload : {}) as Record<string, unknown>;
       const gestion = (payload.gestion && typeof payload.gestion === "object" ? payload.gestion : {}) as Record<string, unknown>;
-      const avance = ordreCatalogue(cur.catalogue) > ordreCatalogue(d.phase == null ? null : String(d.phase));
+      let avance = ordreCatalogue(cur.catalogue) > ordreCatalogue(d.phase == null ? null : String(d.phase));
       if (!avance && gestion.phaseRef === cur.phaseRef) return;
       const le = c.maintenant();
+      // Phase suivante non payée : le dossier reste où il est (point d'arrêt « En attente de paiement »).
+      const refCible = phaseDuCatalogue(cur.catalogue);
+      if (avance && refCible !== phaseDuCatalogue(d.phase == null ? null : String(d.phase)) && phaseBloquee(await paiementsDossier(sql, p.dossierId, le.slice(0, 10)), refCible)) {
+        if ((await tablesPieces(sql)).journal) await journaliser(sql, p.dossierId, auteur, "PHASE_EN_ATTENTE_PAIEMENT", { projetId: p.id, phase: refCible, vers: cur.catalogue }, le);
+        avance = false;
+        if (gestion.phaseRef === cur.phaseRef) return;
+      }
       const nouveau = { ...payload, gestion: { ...gestion, phaseRef: cur.phaseRef } };
       if (avance) await sql`UPDATE "Dossier" SET "phase" = ${cur.catalogue}, "payload" = ${JSON.stringify(nouveau)}::jsonb, "updatedAt" = ${le}::timestamp(3) WHERE "id" = ${p.dossierId}`;
       else await sql`UPDATE "Dossier" SET "payload" = ${JSON.stringify(nouveau)}::jsonb WHERE "id" = ${p.dossierId}`;
@@ -64,6 +73,12 @@ export function gestionNeon(sql: Sql): GestionProjet {
         else if (s === "SANS_OBJET" && (await c.depot.majStatut(projetId, j.code, "A_FAIRE", "SANS_OBJET", null, le))) n++;
       }
       if (n) await c.depot.journaliser({ id: nouvelId("pev_"), projetId, auteur, action: "etapes_dossier_reportees", cible: dossierId, details: { jalons: n }, createdAt: le });
+    },
+    /** Jalon d'une phase « En attente de paiement » : pas de démarrage ni de validation. */
+    async phaseBloquee(p, phase) {
+      if (!p.dossierId) return null;
+      const ref = phaseDuCatalogue(phase);
+      return ref && phaseBloquee(await paiementsDossier(sql, p.dossierId, new Date().toISOString().slice(0, 10)), ref) ? ref : null;
     },
     async journalDossier(dossierId, auteur, action, details, le) {
       if ((await tablesPieces(sql)).journal) await journaliser(sql, dossierId, auteur, action, details, le);

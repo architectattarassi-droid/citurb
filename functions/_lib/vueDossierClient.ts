@@ -15,14 +15,30 @@ import { phaseDuCatalogue, typeProjetDepuis } from "../../packages/contracts/src
 import { profilDuDossier } from "../../packages/contracts/src/gestion/profil";
 import { documentsParPhase, type EtatPiece } from "../../packages/contracts/src/gestion/pieces";
 import { videosDe, type VideoLien } from "../../packages/contracts/src/gestion/plans";
+import { dexeEnParallele, lireMajDexe } from "../../packages/contracts/src/gestion/majDexe";
+import { dateDemarrage, paiementsDossier, type PhasePaiement } from "./gestionPhases";
 
 /** Frise (GP5) : phase du référentiel suivie par l'espace projet, sinon déduite de la phase du dossier. */
-function friseDuDossier(r: Record<string, unknown>, etats: Map<string, EtatPiece> = new Map()) {
+function friseDuDossier(r: Record<string, unknown>, etats: Map<string, EtatPiece> = new Map(), etapes: Map<string, string> = new Map(), paiements: PhasePaiement[] | null = null) {
   const payload = (r.payload && typeof r.payload === "object" ? r.payload : {}) as Record<string, unknown>;
   const gestion = (payload.gestion && typeof payload.gestion === "object" ? payload.gestion : {}) as Record<string, unknown>;
   const phaseRef = typeof gestion.phaseRef === "string" ? gestion.phaseRef : phaseDuCatalogue(r.phase == null ? null : String(r.phase));
   const profil = profilDuDossier(r, typeProjetDepuis(r.typologie == null ? null : String(r.typologie)));
-  const f = frise(phaseRef, profil);
+  const paralleles = dexeEnParallele(r.phase == null ? null : String(r.phase), etapes) ? ["P05_ETUDES_EXECUTION"] : [];
+  const f = frise(phaseRef, profil, paralleles);
+  const maj = lireMajDexe(payload);
+  // Paiements : le client voit ses propres factures (montants compris), phase par phase.
+  const parPhase = new Map((paiements ?? []).map((p) => [p.phase, p]));
+  const phases = f.phases.map((p) => {
+    const x = parPhase.get(p.code);
+    const paiement = x && !x.aucuneEcheance ? {
+      statut: x.statut, enAttente: x.bloquante, restant: x.restant, dateDemarrage: dateDemarrage(x),
+      factures: x.factures.map((fa) => ({ numero: fa.numero, statut: fa.statut, du: fa.du, paye: fa.paye, restant: fa.restant, dateEcheance: fa.dateEcheance })),
+    } : null;
+    return { ...p, ...(paiement ? { paiement } : {}), ...(p.code === "P05_ETUDES_EXECUTION" && maj?.ouverte ? { miseAJourPermis: true } : {}) };
+  });
+  const prochaine = (paiements ?? []).flatMap((p) => p.factures.filter((fa) => Number(fa.restant) > 0).map((fa) => ({ phase: p.phase, numero: fa.numero, restant: fa.restant, dateEcheance: fa.dateEcheance })))
+    .sort((a, b) => a.dateEcheance.localeCompare(b.dateEcheance))[0] ?? null;
   // Ce qui est attendu du client maintenant : ses pièces manquantes jusqu'à la phase en cours.
   const enCours = f.phases.find((p) => p.statut === "EN_COURS")?.ordre ?? 0;
   const aFournir = documentsParPhase(profil, etats, { client: true })
@@ -30,7 +46,7 @@ function friseDuDossier(r: Record<string, unknown>, etats: Map<string, EtatPiece
     .flatMap((p) => p.pieces.filter((x) => x.producteur === "MAITRE_OUVRAGE" && x.applicabilite === "EXIGE" && (x.statut === "MANQUANT" || x.statut === "REFUSE")).map((x) => ({ phase: p.code, libelleFr: x.libelleFr, libelleAr: x.libelleAr })));
   // Vidéos publiées seulement (liens YouTube / Vimeo, hébergées hors CITURBAREA), sans l'auteur.
   const videos = videosDe(payload).filter((v) => v.publie).map(({ auteur: _a, ...v }) => v);
-  return { frise: f.phases, dureeTotaleMois: f.dureeTotaleMois, libelleDuree: f.libelleDuree, piecesClient: aFournir, videos };
+  return { frise: phases, dureeTotaleMois: f.dureeTotaleMois, libelleDuree: f.libelleDuree, piecesClient: aFournir, videos, prochaineEcheance: prochaine };
 }
 
 const s = (v: unknown) => (v == null ? null : String(v));
@@ -53,6 +69,8 @@ export type VueDossierClient = {
   libelleDuree?: string | null;
   /** Pièces que le client doit fournir jusqu'à la phase en cours (l'état exact est dans l'onglet Documents). */
   piecesClient?: Array<{ phase: string; libelleFr: string; libelleAr: string }>;
+  /** Première facture restant à payer (le client voit ses propres factures). */
+  prochaineEcheance?: { phase: string; numero: string; restant: string; dateEcheance: string } | null;
   /** Liens vidéo publiés (pièces graphiques, en attendant R2). */
   videos?: Array<Omit<VideoLien, "auteur">>;
 };
@@ -90,6 +108,7 @@ export async function lireVueDossierClient(sql: Sql, dossierId: string, aujourdh
   if ((await sql`SELECT to_regclass(${"public.\"DossierPiece\""}) IS NOT NULL AS ok`)[0]?.ok) {
     for (const x of await sql`SELECT "cle", "statut" FROM "DossierPiece" WHERE "dossierId" = ${dossierId}`) etatsPieces.set(String(x.cle), { statut: String(x.statut) as EtatPiece["statut"], motif: null, documentIds: [], deposePar: null, deposeLe: null, validePar: null, valideLe: null });
   }
+  const paiements = await paiementsDossier(sql, dossierId, aujourdhui);
   const etapes = await sql`SELECT "phaseCode", "statut", to_char("dateRealisation", 'YYYY-MM-DD') AS "date" FROM "DossierEtape" WHERE "dossierId" = ${dossierId}`;
   const parCode = new Map(etapes.map((e) => [String(e.phaseCode), e]));
   const actuelle = PHASES.find((p) => p.code === r.phase);
@@ -110,6 +129,6 @@ export async function lireVueDossierClient(sql: Sql, dossierId: string, aujourdh
       return { code: p.code, titre: p.titre, statut: e ? String(e.statut) : "A_VENIR", date: e ? s(e.date) : null };
     }).filter((e) => e.statut !== "SANS_OBJET"),
     missionsReglees: (payload.missionsReglees || []).map((m) => ({ libelle: m.libelle, date: m.date })),
-    ...friseDuDossier(r, etatsPieces),
+    ...friseDuDossier(r, etatsPieces, new Map(etapes.map((e) => [String(e.phaseCode), String(e.statut)])), paiements),
   };
 }

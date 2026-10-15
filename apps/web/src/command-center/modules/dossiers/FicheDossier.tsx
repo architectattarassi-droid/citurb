@@ -25,6 +25,7 @@ import PanneauProfil, { type Profil } from "./PanneauProfil";
 import PanneauDates, { type Dates, type Echeance } from "./PanneauDates";
 import DocumentsParPhase from "../../../features/gestion/DocumentsParPhase";
 import GaleriePlans from "../../../features/gestion/GaleriePlans";
+import BlocPhase, { type MajDexe, type Paiement } from "./BlocPhase";
 import { niveauxDuProjet, type VideoLien } from "../../../../../../packages/contracts/src/gestion/plans";
 
 const PORTE_ADMIN = { type: "admin" } as const;
@@ -48,6 +49,8 @@ type Fiche = {
   dates?: Dates;
   echeances?: Echeance[];
   videos?: VideoLien[];
+  paiements?: Paiement[] | null;
+  majDexe?: MajDexe | null;
   journal: Array<{ id: string; auteur: string | null; action: string | null; details: unknown; createdAt: string | null }>;
   sqlACollerDevisFacturation: boolean;
   statutsDossier: string[];
@@ -72,6 +75,8 @@ const LIB_STATUT_DOSSIER: Record<string, string> = {
 };
 const ERREURS: Record<string, string> = {
   sql_a_coller: "Tables d'étapes absentes : coller docs/sql/devis-facturation-neon.sql (ou TOUT-NEON.sql) dans la console Neon.",
+  phase_en_attente_paiement: "Phase en attente de paiement : l'échéance du contrat n'est pas réglée. Débloquez-la d'abord (motif) dans l'en-tête de la phase.",
+  aucune_mise_a_jour_ouverte: "Aucune mise à jour du dossier d'exécution en cours.",
   storage_unavailable: "Base indisponible.", not_found: "Dossier introuvable.", access_not_configured: "Secret de lien absent (DOSSIER_LIEN_SECRET ou ADMIN_SESSION_SECRET).",
 };
 const dateFr = (s: string | null | undefined) => (s ? new Date(s.length === 10 ? `${s}T00:00:00Z` : s).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" }) : "—");
@@ -207,6 +212,8 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
               <h2 style={{ ...S.h2, display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
                 <span>{titre}</span>{titreAr && <span dir="rtl" lang="ar" style={{ fontWeight: 400, color: CC.color.inkMid }}>{titreAr}</span>}
               </h2>
+              <BlocPhase dossierId={id} phase={code} paiement={f.paiements?.find((p) => p.phase === code) ?? null} majDexe={f.majDexe ?? null}
+                occupe={occupe} agir={agir} recharger={charger} setErreur={setErreur} />
               {etapes.map((e) => <LigneEtape key={e.code} e={e} actuelle={e.code === d.phase} statuts={f.statutsEtape} occupe={occupe} agir={agir} />)}
             </section>
           ))}

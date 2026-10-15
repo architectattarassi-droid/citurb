@@ -38,7 +38,7 @@ const T = {
     pdfMobile: "Si le PDF ne s'affiche pas sur ce téléphone, utilisez « Télécharger ».", zoom: "Zoom",
     plafondNeon: "Stockage actuel : images jusqu'à 1,5 Mo et PDF jusqu'à 2 Mo. Vidéos : par lien en attendant le stockage étendu (R2).",
     plafondR2: "Stockage étendu actif : images jusqu'à 50 Mo, PDF jusqu'à 200 Mo, vidéos jusqu'à 5 Go (envoi en plusieurs morceaux).",
-    regleCabinet: "Une pièce déposée par CITURBAREA est visible du client dès l'envoi ; « Retirer » la masque (historique conservé).",
+    regleCabinet: "Une pièce déposée reste « non publiée » (invisible du client) jusqu'au bouton « Publier », sauf si « Publier tout de suite » est coché. « Retirer » la masque, l'historique est conservé.",
     erreur: "Action impossible.", lienInvalide: "Lien refusé : seulement YouTube ou Vimeo (https).",
   },
   ar: {
@@ -294,6 +294,7 @@ function Envoi({ porte, dossierId, phase, support, niveaux, t, onFini, agirVideo
   const [fichier, setFichier] = useState<File | null>(null);
   const [url, setUrl] = useState("");
   const [publierLien, setPublierLien] = useState(true);
+  const [publierFichier, setPublierFichier] = useState(false);
   const [progres, setProgres] = useState<number | null>(null);
   const [erreur, setErreur] = useState<string | null>(null);
   const liste = niveaux?.length ? niveaux : niveauxDuProjet(0, 1);
@@ -310,6 +311,8 @@ function Envoi({ porte, dossierId, phase, support, niveaux, t, onFini, agirVideo
     const r = await apiDepot.televerser(porte, {
       contexte: "dossier", objetId: dossierId, nom: nomCanonique(phase, categorie, n, ext, titre), type: fichier.type, octets: fichier,
       meta: { phase, categorie, ...(n ? { niveau: n } : {}), ...(titre.trim() ? { legende: titre.trim() } : {}) },
+      // Déposé non publié par défaut : l’architecte publie ensuite (bouton « Publier »).
+      brouillon: !publierFichier,
     }, setProgres);
     setProgres(null);
     if (!r.ok) { setErreur(ERREURS[r.error] || t.erreur); return; }
@@ -338,6 +341,7 @@ function Envoi({ porte, dossierId, phase, support, niveaux, t, onFini, agirVideo
       ) : (
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "flex-end" }}>
           <label style={S.champ}>{t.fichier}<input type="file" accept={accept} onChange={(e) => setFichier(e.target.files?.[0] ?? null)} /></label>
+          <label style={{ ...S.petit, display: "flex", gap: 4, alignItems: "center" }}><input type="checkbox" checked={publierFichier} onChange={(e) => setPublierFichier(e.target.checked)} /> {t.publierTout}</label>
           <button style={S.btn} disabled={!fichier || progres !== null} onClick={() => void envoyer()}>{progres !== null ? `${t.envoi} ${Math.round(progres * 100)} %` : t.envoyer}</button>
         </div>
       )}

@@ -20,6 +20,8 @@ import { phaseDuCatalogue, typeProjetDepuis, rolesEspaceProjet } from "../../pac
 import { profilDuDossier, type ProfilProjet } from "../../packages/contracts/src/gestion/profil";
 import { ordreRegional, type OrdreRegional } from "../../packages/contracts/src/gestion/ordres";
 import { documentsParPhase, pieceConnue, type EtatPiece, type PieceAttendue } from "../../packages/contracts/src/gestion/pieces";
+import { PIECES_REVISION_PERMIS, lireMajDexe } from "../../packages/contracts/src/gestion/majDexe";
+import { ouvrirMajDexeDossier } from "./gestionPhases";
 
 export const FICHIER_SQL_GESTION = "docs/sql/gestion-projet-neon.sql";
 const s = (v: unknown) => (v == null || v === "" ? null : String(v));
@@ -70,6 +72,9 @@ export async function lirePieces(sql: Sql, dossierId: string, o: { client?: bool
   const t = await tablesPieces(sql);
   const e = t.pieces ? await etats(sql, dossierId) : new Map<string, EtatPiece>();
   const phases = documentsParPhase(c.profil, e, { ordre: c.ordre, client: o.client });
+  // Permis modifié : les pièces DEXE déjà déposées sont « à reprendre » tant que la mise à jour est ouverte.
+  const maj = lireMajDexe(c.dossier.payload);
+  if (maj?.ouverte) for (const p of phases) for (const x of p.pieces) if (maj.piecesAReprendre.includes(x.cle)) (x as typeof x & { aReprendre?: boolean }).aReprendre = true;
   const ids = [...new Set(phases.flatMap((p) => p.pieces.flatMap((x) => x.documentIds)))];
   const metas = t.documents && ids.length ? await depotDocumentsNeon(sql).metas(ids) : [];
   const fichiers = Object.fromEntries(metas.map((m) => [m.id, { id: m.id, nom: m.nom, type: m.type, taille: m.taille, createdAt: m.createdAt }]));
@@ -130,6 +135,8 @@ export async function appliquerActionPiece(sql: Sql, dossierId: string, a: Actio
     if (!v.ok) return ko(400, v.error);
     const depot = o.documents ?? depotDocumentsNeon(sql);
     if ((await depot.occupe("dossier", dossierId)) + v.doc.octets.length > OCTETS_PAR_OBJET) return ko(413, "quota_depasse");
+    const revision = PIECES_REVISION_PERMIS.test(a.cle)
+      && Number((await sql`SELECT jsonb_array_length("documentIds") AS n FROM "DossierPiece" WHERE "dossierId" = ${dossierId} AND "cle" = ${a.cle}`)[0]?.n ?? 0) > 0;
     const m: MetaDocument = await depot.inserer({ contexte: "dossier", objetId: dossierId, proprietaire: qui, doc: v.doc }, maintenant);
     await sql`INSERT INTO "DossierPiece" ("dossierId", "cle", "statut", "motif", "documentIds", "deposePar", "deposeLe", "updatedAt")
       VALUES (${dossierId}, ${a.cle}, 'DEPOSE', NULL, ${JSON.stringify([m.id])}::jsonb, ${qui}, ${maintenant}::timestamp(3), ${maintenant}::timestamp(3))
@@ -137,6 +144,8 @@ export async function appliquerActionPiece(sql: Sql, dossierId: string, a: Actio
         "documentIds" = "DossierPiece"."documentIds" || EXCLUDED."documentIds", "deposePar" = EXCLUDED."deposePar", "deposeLe" = EXCLUDED."deposeLe",
         "validePar" = NULL, "valideLe" = NULL, "updatedAt" = EXCLUDED."updatedAt"`;
     await tracer("PIECE_DEPOSEE", { document: m.id, type: m.type, taille: m.taille });
+    // Nouvelle version d'une pièce d'autorisation = révision du permis : le DEXE suit (décision du 15/10/2026).
+    if (revision) await ouvrirMajDexeDossier(sql, dossierId, { le: maintenant, par: qui, texte: `Nouvelle version déposée : ${piece.libelleFr}`, source: "PIECE" }).catch(() => undefined);
     return { status: 200, json: { ok: true, document: { id: m.id, nom: m.nom, type: m.type, taille: m.taille } } };
   }
 

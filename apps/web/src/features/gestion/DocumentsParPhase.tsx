@@ -20,6 +20,8 @@ type Piece = {
   libelleFr: string; libelleAr: string; obligatoire: "OBLIGATOIRE" | "CONDITIONNEL"; applicabilite: "EXIGE" | "A_CONFIRMER"; condition: string | null;
   producteur: string | null; producteurLib: Lib; validateurLib: Lib; format: string | null; detail: string | null; backOffice: boolean; recurrent: boolean; pointArret: boolean;
   statut: "MANQUANT" | "DEPOSE" | "VALIDE" | "REFUSE" | "SANS_OBJET"; motif: string | null; documentIds: string[]; deposeLe: string | null; valideLe: string | null;
+  /** Permis modifié : pièce DEXE à reprendre (mise à jour du dossier d'exécution en cours). */
+  aReprendre?: boolean;
 };
 type Compteur = { attendues: number; manquantes: number; deposees: number; validees: number; refusees: number; sansObjet: number; aConfirmer: number };
 type Norme = { code: string; reference: string; objet: string; statut: string; preparation: string[]; execution: string[] };
@@ -216,7 +218,10 @@ function LignePiece({ p, mode, ar, t, libStatut, fichiers, base, occupe, agir, d
           {p.obligatoire === "CONDITIONNEL" && <span style={S.petit}> ({p.applicabilite === "A_CONFIRMER" ? t.aConfirmer : t.conditionnel})</span>}
           {p.backOffice && mode === "admin" && <span style={S.petit}> ({t.reservee})</span>}
         </span>
-        <span style={{ ...S.statut, background: c.fond, color: c.texte, fontWeight: p.statut === "MANQUANT" ? 800 : 600 }}>{libStatut(p.statut)}</span>
+        <span style={{ display: "inline-flex", gap: 6, flexWrap: "wrap" }}>
+          {p.aReprendre && <span style={{ ...S.statut, background: "#FFF6E0", color: "#93370D", fontWeight: 700 }}>{ar ? "يجب تحيينها (تعديل الرخصة)" : "À reprendre (permis modifié)"}</span>}
+          <span style={{ ...S.statut, background: c.fond, color: c.texte, fontWeight: p.statut === "MANQUANT" ? 800 : 600 }}>{libStatut(p.statut)}</span>
+        </span>
       </div>
       <div style={S.petit}>
         {t.fournitPar} : {ar ? p.producteurLib.ar : p.producteurLib.fr}{p.validateurLib ? ` · ${t.validePar} : ${ar ? p.validateurLib.ar : p.validateurLib.fr}` : ""}

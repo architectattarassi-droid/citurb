@@ -145,6 +145,8 @@ export interface GestionProjet {
   pieces(c: Contexte, a: Acteur, p: ProjetLigne, reste: string[]): Promise<Response>;
   /** Journal du dossier rattaché ("DossierEvenement", via journaliser()). */
   journalDossier?(dossierId: string, auteur: string, action: string, details: Record<string, unknown>, le: string): Promise<void>;
+  /** Phase P.. du jalon en attente de paiement (point d'arrêt), sinon null. */
+  phaseBloquee?(p: ProjetLigne, phase: string): Promise<string | null>;
   /** Après la validation d'un jalon : phase du dossier recalculée (GP5). */
   synchroDossier?(c: Contexte, p: ProjetLigne, auteur: string): Promise<void>;
   /** Après la création d'un projet depuis un dossier : étapes faites hors plateforme reportées sur les jalons (GP5). */
@@ -319,6 +321,11 @@ async function modifierJalon(c: Contexte, a: Acteur, p: ProjetLigne, j: JalonLig
     const etats = new Map((await c.depot.etats(p.id, d.prerequis)).map((e) => [e.code, e]));
     const v = verifierTransition(a, d, j.statut, vers, etats);
     if (!v.ok) return ko(v.status, v.erreur, v.bloquants ? { bloquants: v.bloquants } : {});
+    // Phase non payée : « En attente de paiement » (décision du 15/10/2026) ; déblocage motivé côté facturation.
+    if ((vers === "EN_COURS" || vers === "EN_ATTENTE_VALIDATION" || vers === "VALIDE") && c.gestion?.phaseBloquee) {
+      const ref = await c.gestion.phaseBloquee(p, d.phaseGabarit ?? d.phase).catch(() => null);
+      if (ref) return ko(409, "phase_en_attente_paiement", { phase: ref });
+    }
     // Point d'arrêt de chantier : le PV de contrôle doit être signé et non refusé (sinon : déblocage admin motivé).
     if (vers === "VALIDE") {
       const exiges = checklistsBloquantes(d, caracPV(p));
