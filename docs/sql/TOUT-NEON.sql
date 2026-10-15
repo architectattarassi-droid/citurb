@@ -964,6 +964,99 @@ DO $$ BEGIN
   ALTER TABLE "Devis" ADD CONSTRAINT "Devis_dossierId_fkey" FOREIGN KEY ("dossierId") REFERENCES "Dossier"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
+-- 7. Acceptation du devis (spec §6.2) : pack retenu, prestations commandées et montant engagé.
+ALTER TABLE "Devis" ADD COLUMN IF NOT EXISTS "montantAccepte" NUMERIC(14,2);
+ALTER TABLE "Devis" ADD COLUMN IF NOT EXISTS "lignesAcceptees" JSONB;
+
+-- 8. Échéancier par phase (décision du 15/10/2026 : chaque phase P00…P14 démarre après paiement).
+--    Une échéance déjà facturée est figée ; les autres sont modifiables par l'admin (journalisé).
+CREATE TABLE IF NOT EXISTS "EcheancePaiement" (
+    "id" TEXT NOT NULL,
+    "dossierId" TEXT NOT NULL,
+    "devisId" TEXT NOT NULL,
+    "phaseCode" TEXT NOT NULL,
+    "ordre" INTEGER NOT NULL,
+    "libelle" TEXT NOT NULL,
+    "montantHT" NUMERIC(14,2) NOT NULL,
+    "declencheur" TEXT NOT NULL DEFAULT 'DEBUT_PHASE',
+    "prestations" JSONB NOT NULL DEFAULT '[]'::jsonb,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "EcheancePaiement_pkey" PRIMARY KEY ("id")
+);
+CREATE INDEX IF NOT EXISTS "EcheancePaiement_dossier_idx" ON "EcheancePaiement"("dossierId", "phaseCode");
+
+-- 9. Factures et avoirs (spec §1.9, §6.1) : FAC-AAAA-NNNN / AVO-AAAA-NNNN alloués dans l'instruction
+--    même qui crée la facture émise (jamais au brouillon) ; immuables, correction par avoir.
+CREATE TABLE IF NOT EXISTS "Facture" (
+    "id" TEXT NOT NULL,
+    "dossierId" TEXT NOT NULL,
+    "devisId" TEXT,
+    "echeanceId" TEXT,
+    "factureOrigineId" TEXT,
+    "numero" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "statut" TEXT NOT NULL DEFAULT 'EMISE',
+    "dateEmission" DATE NOT NULL,
+    "dateEcheance" DATE NOT NULL,
+    "montantHT" NUMERIC(14,2) NOT NULL,
+    "tauxTVA" NUMERIC(6,3) NOT NULL,
+    "montantTVA" NUMERIC(14,2) NOT NULL,
+    "montantTTC" NUMERIC(14,2) NOT NULL,
+    "retenueSource" NUMERIC(14,2),
+    "netAPayer" NUMERIC(14,2) NOT NULL,
+    "lignes" JSONB NOT NULL,
+    "motif" TEXT,
+    "document" JSONB,
+    "hashContenu" TEXT,
+    "creePar" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "Facture_pkey" PRIMARY KEY ("id")
+);
+CREATE UNIQUE INDEX IF NOT EXISTS "Facture_numero_key" ON "Facture"("numero");
+CREATE INDEX IF NOT EXISTS "Facture_dossier_idx" ON "Facture"("dossierId", "dateEmission");
+-- Une seule facture active par échéance (une facture annulée par avoir libère l'échéance).
+CREATE UNIQUE INDEX IF NOT EXISTS "Facture_echeance_active_key" ON "Facture"("echeanceId") WHERE "type" <> 'AVOIR' AND "statut" <> 'ANNULEE';
+
+-- 10. Encaissements (spec §1.9) : virement, chèque, espèces, effet ; justificatif dans le dépôt commun (DocumentDepose).
+CREATE TABLE IF NOT EXISTS "Encaissement" (
+    "id" TEXT NOT NULL,
+    "factureId" TEXT NOT NULL,
+    "dossierId" TEXT NOT NULL,
+    "montant" NUMERIC(14,2) NOT NULL,
+    "date" DATE NOT NULL,
+    "mode" TEXT NOT NULL,
+    "reference" TEXT,
+    "justificatifId" TEXT,
+    "saisiPar" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "Encaissement_pkey" PRIMARY KEY ("id")
+);
+CREATE INDEX IF NOT EXISTS "Encaissement_facture_idx" ON "Encaissement"("factureId");
+
+-- 11. Déblocage motivé d'une phase non payée (point d'arrêt levé par l'admin, motif écrit obligatoire).
+CREATE TABLE IF NOT EXISTS "DeblocagePaiement" (
+    "id" TEXT NOT NULL,
+    "dossierId" TEXT NOT NULL,
+    "phaseCode" TEXT NOT NULL,
+    "motif" TEXT NOT NULL,
+    "par" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "DeblocagePaiement_pkey" PRIMARY KEY ("id")
+);
+CREATE INDEX IF NOT EXISTS "DeblocagePaiement_dossier_idx" ON "DeblocagePaiement"("dossierId", "phaseCode");
+
+DO $$ BEGIN
+  ALTER TABLE "EcheancePaiement" ADD CONSTRAINT "EcheancePaiement_devisId_fkey" FOREIGN KEY ("devisId") REFERENCES "Devis"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+  ALTER TABLE "Facture" ADD CONSTRAINT "Facture_dossierId_fkey" FOREIGN KEY ("dossierId") REFERENCES "Dossier"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+DO $$ BEGIN
+  ALTER TABLE "Encaissement" ADD CONSTRAINT "Encaissement_factureId_fkey" FOREIGN KEY ("factureId") REFERENCES "Facture"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
 -- ═════ docs/sql/gestion-projet-neon.sql ═════
 -- Gestion de projet (lots GP2 à GP4) — docs/gestion-projet/audit-et-ameliorations.md.
 -- Rejouable : n'efface ni ne modifie aucune donnée. Après dossiers-neon.sql (Dossier),

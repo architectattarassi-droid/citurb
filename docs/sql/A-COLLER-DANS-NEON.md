@@ -32,6 +32,6 @@ le script. Aucune table de production n'est créée par un agent.
 10. `docs/prix/sql/achat-en-ligne.sql` — Commande (après 5)
 11. `docs/sql/appels-video-neon.sql` — DemandeAppel, BlocageAppel
 12. `docs/sql/messagerie-neon.sql` — Conversation, MessageConversation (après 11)
-13. `docs/sql/devis-facturation-neon.sql` — Cabinet, colonnes projet du Dossier, DossierEtape, DossierEvenement, SequenceDocument, Devis (après 1)
+13. `docs/sql/devis-facturation-neon.sql` — Cabinet, colonnes projet du Dossier, DossierEtape, DossierEvenement, SequenceDocument, Devis, EcheancePaiement, Facture, Encaissement, DeblocagePaiement (après 1)
 14. `docs/sql/gestion-projet-neon.sql` — DocumentDepose (dépôt commun), DossierPiece (documents par phase), puis colonnes GP3/GP4 (après 1, 4 et 13)
 15. `docs/sql/documents-neon.sql` — dépôt de documents commun : colonnes ajoutées à DocumentDepose (support Neon/R2, versions, métadonnées, modération, envoi en morceaux, archive Drive) (après 14)

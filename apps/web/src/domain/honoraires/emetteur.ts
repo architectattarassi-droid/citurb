@@ -24,6 +24,8 @@ export interface Emetteur {
   rc: string | null;
   patente: string | null;
   cnss: string | null;
+  /** Coordonnées bancaires de HSE DECO pour les virements (à fournir par le fondateur). */
+  rib: string | null;
   telephone: string;
   whatsapp: string;
   site: string;
@@ -39,6 +41,7 @@ export const EMETTEUR: Emetteur = {
   rc: null,
   patente: null,
   cnss: null,
+  rib: null,
   telephone: CONTACT.telAffiche,
   whatsapp: CONTACT.whatsapp,
   site: "www.citurbarea.com",
