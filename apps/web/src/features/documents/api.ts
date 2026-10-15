@@ -36,11 +36,12 @@ export const apiDepot = {
   aModerer: () => appel<{ documents: DocumentVue[] }>({ type: "admin" }, "/a-moderer"),
 
   /** Envoi complet : démarrer, morceaux (avec progression), vignette éventuelle, terminer. */
-  async televerser(p: PorteDepot, o: { contexte: ContexteDepot; objetId: string; nom: string; type: string; octets: Blob; vignette?: Blob | null; meta?: MetaDocument },
+  /** `brouillon` (cabinet seulement) : déposé mais non publié, visible du cabinet seul jusqu'à la publication (moderer → VISIBLE). */
+  async televerser(p: PorteDepot, o: { contexte: ContexteDepot; objetId: string; nom: string; type: string; octets: Blob; vignette?: Blob | null; meta?: MetaDocument; brouillon?: boolean },
     progression?: (fraction: number) => void): Promise<Res<{ document: DocumentVue }>> {
     const d = await appel<{ id: string; mode: string; taillePartie: number; parties: number }>(p, "/televersements", {
       method: "POST", headers: { "content-type": "application/json" },
-      body: JSON.stringify({ contexte: o.contexte, objetId: o.objetId, nom: o.nom, type: o.type, taille: o.octets.size, meta: o.meta }),
+      body: JSON.stringify({ contexte: o.contexte, objetId: o.objetId, nom: o.nom, type: o.type, taille: o.octets.size, meta: o.meta, ...(o.brouillon ? { brouillon: true } : {}) }),
     });
     if (!d.ok) return d;
     const { id, taillePartie, parties } = d.data;

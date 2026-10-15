@@ -207,7 +207,7 @@ export type LigneDocument = {
   id: string; contexte: ContexteDepot; objetId: string; deposantCle: string; deposantNom: string; nom: string; nomNormalise: string; type: TypeDocument;
   taille: number; empreinte: string | null; support: Support; cleR2: string | null; largeur: number | null; hauteur: number | null;
   meta: MetaDocument; version: number; statut: StatutDocument; motif: string | null; moderePar: string | null; modereLe: string | null;
-  supprimePar: string | null; supprimeLe: string | null; televersement: { uploadId?: string; parties?: { partNumber: number; etag: string }[]; plan: Plan; vignette?: "oui" } | null;
+  supprimePar: string | null; supprimeLe: string | null; televersement: { uploadId?: string; parties?: { partNumber: number; etag: string }[]; plan: Plan; vignette?: "oui"; brouillon?: boolean } | null;
   aVignette: boolean; driveId: string | null; createdAt: string; updatedAt: string;
 };
 

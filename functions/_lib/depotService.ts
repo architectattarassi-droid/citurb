@@ -115,7 +115,9 @@ async function demarrer(c: CtxDepot, a: ActeurDepot, b: Record<string, unknown> 
   await c.depot.creer({
     id, contexte, objetId, deposantCle: a.cle, deposantNom: a.nom, nom: n.nom, nomNormalise: nomNormalise(n.nom), type: p.type, taille: p.taille, empreinte: null,
     support, cleR2, largeur: null, hauteur: null, meta: m.meta, version: 0, statut: "EN_COURS", motif: null, moderePar: null, modereLe: null,
-    supprimePar: null, supprimeLe: null, televersement: { plan: p.plan, ...(uploadId ? { uploadId, parties: [] } : {}) }, aVignette: false, driveId: null, createdAt: le, updatedAt: le,
+    supprimePar: null, supprimeLe: null,
+    // Cabinet : « brouillon » = déposé mais non publié (A_MODERER) jusqu'à POST /api/cc/depot/<id>/moderer { decision: "VISIBLE" }.
+    televersement: { plan: p.plan, ...(uploadId ? { uploadId, parties: [] } : {}), ...(cabinet && b.brouillon === true ? { brouillon: true } : {}) }, aVignette: false, driveId: null, createdAt: le, updatedAt: le,
   });
   return ok({ id, ...p.plan, nom: n.nom, nomMasque: n.types.length > 0 }, 201);
 }
@@ -208,7 +210,7 @@ async function terminer(c: CtxDepot, a: ActeurDepot, id: string): Promise<Repons
     }
   }
   const version = (await c.depot.versionMax(d.contexte, d.objetId, d.nomNormalise, d.meta.categorie ?? "")) + 1;
-  const statut = statutApresEnvoi(a.genre === "admin");
+  const statut = statutApresEnvoi(a.genre === "admin" && !d.televersement.brouillon);
   await c.depot.maj(id, { ...maj, version, statut });
   const fini = (await c.depot.lire(id))!;
   if (statut === "VISIBLE") lancerArchive(c, fini);

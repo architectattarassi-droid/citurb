@@ -74,8 +74,8 @@ function banc(avecR2 = false) {
   });
   const appel = (a: ActeurDepot, m: string, chemin: string[], corps?: unknown, q = "") => routeurDepot(c, req(m, `/api/x/${chemin.join("/")}${q}`, corps), a, chemin);
   /** Dépôt complet : démarrer, envoyer chaque morceau, terminer. */
-  async function deposer(a: ActeurDepot, nom: string, type: string, octets: Uint8Array, meta?: Record<string, string>) {
-    const d = await appel(a, "POST", ["televersements"], { contexte: "dossier", objetId: "dos_1", nom, type, taille: octets.length, meta });
+  async function deposer(a: ActeurDepot, nom: string, type: string, octets: Uint8Array, meta?: Record<string, string>, brouillon?: boolean) {
+    const d = await appel(a, "POST", ["televersements"], { contexte: "dossier", objetId: "dos_1", nom, type, taille: octets.length, meta, brouillon });
     if (d.status !== 201) return d;
     const { id, taillePartie, parties } = d.json as { id: string; taillePartie: number; parties: number };
     for (let n = 1; n <= parties; n++) {
@@ -160,6 +160,18 @@ describe("dépôt : parcours", () => {
     await deposer(CABINET, "aps-facades.pdf", "application/pdf", pdf("2 0 obj << >> endobj"), { categorie: "facade" });
     const l = await liste(CLIENT);
     expect(l.map((d) => [d.statut, d.version])).toEqual([["VISIBLE", 2], ["VISIBLE", 1]]);
+  });
+
+  it("brouillon du cabinet : non publié (visible du cabinet seul) jusqu'à la publication ; ignoré pour un client", async () => {
+    const { deposer, liste, appel } = banc();
+    const r = await deposer(CABINET, "APS-plan-niveau-r-1.pdf", "application/pdf", pdf(), { phase: "APS" }, true);
+    const id = (r.json.document as { id: string; statut: string }).id;
+    expect((r.json.document as { statut: string }).statut).toBe("A_MODERER");
+    expect(await liste(CLIENT)).toEqual([]);
+    expect((await appel(CABINET, "POST", [id, "moderer"], { decision: "VISIBLE" })).status).toBe(200);
+    expect((await liste(CLIENT)).map((d) => d.id)).toEqual([id]);
+    const c = await deposer(CLIENT, "photo.png", "image/png", png(false), undefined, true);
+    expect((c.json.document as { statut: string }).statut).toBe("A_MODERER");
   });
 
   it("refus automatiques : PDF actif, type incohérent, vidéo sans R2 ; trace gardée sans octets", async () => {

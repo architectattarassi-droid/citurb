@@ -45,7 +45,7 @@ Portes : `/api/cc/depot` (cabinet), `/api/client/depot` (client, cookie `cli_ses
 | Méthode | Chemin | Corps / réponse |
 |---|---|---|
 | `GET` | `…?contexte=&objetId=` | `{ documents: [{ id, nom, type, taille, statut, version, meta, deposant, moi, createdAt, apercu? }] }` (versions comprises, `SUPPRIME` exclus sauf cabinet) |
-| `POST` | `…/televersements` | `{ contexte, objetId, nom, type, taille, meta?: { phase?, categorie?, niveau?, version?, legende? } }` → `{ id, mode: "neon" \| "r2" \| "r2-multipart", taillePartie, parties }` |
+| `POST` | `…/televersements` | `{ contexte, objetId, nom, type, taille, meta?: { phase?, categorie?, niveau?, version?, legende? }, brouillon? }` (`brouillon`, cabinet seulement : déposé non publié, `A_MODERER`, publié par `…/moderer { decision: "VISIBLE" }`) → `{ id, mode: "neon" \| "r2" \| "r2-multipart", taillePartie, parties }` |
 | `PUT` | `…/televersements/<id>/<n>` | octets bruts du morceau `n` (1…parties) ; `…/televersements/<id>/vignette` pour une vignette d'image (facultatif) |
 | `POST` | `…/televersements/<id>/terminer` | contrôles (signature, plafonds, PDF, métadonnées retirées) → `{ document }` statut `A_MODERER` ou `VISIBLE` |
 | `GET` | `…/<id>/lien[?taille=vignette]` | `{ url, expire }` : lien signé 15 min vers `/api/depot/f/<id>?e=…&s=…` |
