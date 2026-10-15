@@ -9,7 +9,7 @@
 import { formatDH } from "./decimal";
 import type { Bloc, Cellule, DocumentDevis } from "./documentDevis";
 import { EMETTEUR, mentionsEmetteurManquantes, type Emetteur } from "./emetteur";
-import { totauxFacture } from "./facturation";
+import { totauxFacture } from "./acceptation";
 import { montantEnLettres } from "./lettres";
 
 export interface LigneFactureDoc { libelle: string; detail?: string; montantHT: string }

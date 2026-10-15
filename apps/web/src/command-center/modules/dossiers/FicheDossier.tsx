@@ -20,6 +20,7 @@ import DemanderAppelVideo from "../../../features/appels/DemanderAppelVideo";
 import EcrireMessage from "../../../features/messages/EcrireMessage";
 import { VueDossierClient, type DossierClient } from "../../../features/mon-dossier/MonDossierPage";
 import OngletDevis from "./devis/OngletDevis";
+import OngletFactures from "./devis/OngletFactures";
 import PanneauProfil, { type Profil } from "./PanneauProfil";
 import PanneauDates, { type Dates, type Echeance } from "./PanneauDates";
 import DocumentsParPhase from "../../../features/gestion/DocumentsParPhase";
@@ -260,7 +261,7 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
       {onglet === "factures" && (
         <section style={S.carte}>
           <h2 style={S.h2}>Factures et encaissements</h2>
-          <p style={S.sous}>Fourni par le module « Devis & facturation » (docs/architecture/contrat-devis-facturation.md). Missions déjà réglées : voir l'onglet Données (payload.missionsReglees).</p>
+          <OngletFactures dossierId={id} />
         </section>
       )}
 

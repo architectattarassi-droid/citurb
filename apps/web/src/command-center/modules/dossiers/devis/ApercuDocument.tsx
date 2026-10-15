@@ -5,8 +5,9 @@
  */
 import React from "react";
 import type { Bloc, Cellule, Colonne, DocumentDevis, StyleLigne } from "../../../../domain/honoraires/documentDevis";
-import { documentVersDocx } from "../../../../domain/honoraires/rendu/docx";
-import { documentVersPdf } from "../../../../domain/honoraires/rendu/pdf";
+import { telecharger } from "../../../../domain/honoraires/rendu/telecharger";
+
+export { telecharger };
 
 const NUIT = "#1F3864", CLAIR = "#EEF1F7", LIBELLE = "#F5F5F5", GRIS = "#595959", ROUGE = "#C00000", OR = "#7F6000";
 
@@ -70,16 +71,4 @@ export default function ApercuDocument({ document, pied }: { document: DocumentD
       <div style={{ borderTop: "1px solid #D9D9D9", marginTop: 12, paddingTop: 4, fontSize: 11, color: GRIS }}>{document.piedDePage} — {pied}</div>
     </div>
   );
-}
-
-/** Téléchargement PDF / DOCX dans le navigateur (aucun service tiers). */
-export function telecharger(document: DocumentDevis, pied: string, format: "pdf" | "docx") {
-  const octets = format === "pdf" ? documentVersPdf(document, pied) : documentVersDocx(document, pied);
-  const type = format === "pdf" ? "application/pdf" : "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-  const url = URL.createObjectURL(new Blob([octets as BlobPart], { type }));
-  const a = window.document.createElement("a");
-  a.href = url;
-  a.download = `${document.numero}.${format}`;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 2000);
 }

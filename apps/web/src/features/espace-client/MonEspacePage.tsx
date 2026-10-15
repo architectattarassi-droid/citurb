@@ -6,6 +6,7 @@
  * d'accès (/login), avec le formulaire « Recevoir mon lien ».
  * Avec session : mes dossiers (GET /api/client/moi), le dossier choisi tel que le
  * client le voit (GET /api/client/dossiers/<id>, même vue que /mon-dossier), et
+ * ses devis et factures (DevisFactures : consultation, PDF, acceptation en ligne, paiements par phase),
  * les échanges qui passent TOUS par la plateforme : message ou appel vidéo au
  * cabinet (contexte « dossier »), boîte de messages, appels. Documents : dépôt
  * commun à venir (docs/architecture/contrat-depot-fichiers.md), emplacement réservé.
@@ -21,6 +22,7 @@ const EcrireMessage = lazy(() => import("../messages/EcrireMessage"));
 const DemanderAppelVideo = lazy(() => import("../appels/DemanderAppelVideo"));
 const BoiteMessages = lazy(() => import("../messages/BoiteMessages"));
 const MesAppels = lazy(() => import("../appels/MesAppels"));
+const DevisFactures = lazy(() => import("./DevisFactures"));
 
 type Resume = { id: string; titre: string | null; commune: string | null; porte: string | null; creeLe: string | null; phase: { code: string; titre: string } | null };
 
@@ -104,6 +106,13 @@ export default function MonEspacePage() {
           {vue && choisi && (
             <>
               <VueDossierClient d={vue} langue={l} />
+
+              <section style={S.carte}>
+                <h2 style={S.h2}>{l === "ar" ? "عروض الأسعار والفواتير" : "Devis et factures"}</h2>
+                <Suspense fallback={<p style={S.doux}>{t("espace.charge")}</p>}>
+                  <DevisFactures key={choisi} dossierId={choisi} langue={l} />
+                </Suspense>
+              </section>
 
               <section style={{ ...S.carte, background: "#EEF1F7" }}>
                 <h2 style={S.h2}>{t("espace.echanger")}</h2>

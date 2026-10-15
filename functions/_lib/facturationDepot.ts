@@ -391,15 +391,17 @@ export async function vueFacturationClient(sql: Sql, dossierId: string, aujourdh
     const statutEffectif = statut === "EMIS" && aujourdhui > fin.toISOString().slice(0, 10) ? "EXPIRE" : statut;
     // Prestations facultatives que le client peut commander à l'acceptation (règle 4).
     let options: Array<{ code: string; libelle: string; montantHT: string }> = [];
+    let packs: Array<{ code: string; libelle: string; montantHT: string; mention: string | null }> = [];
     if (statutEffectif === "EMIS" && ctx) {
       const c = calculerDevisComplet(r.entree as Parameters<typeof calculerDevisComplet>[0], GRILLES[String(r.grilleVersionId)] ?? GRILLE_COURANTE, ctx);
       if (c.ok) options = c.resultat.lignes.filter((l) => l.caractere !== "OBLIGATOIRE" && l.montant && !l.horsHonoraires && !(c.resultat.presentation === "PACKS"))
         .map((l) => ({ code: l.code, libelle: l.libelle, montantHT: (l.montant as Dec).fixe2() }));
+      if (c.ok) packs = c.resultat.packs.map((p) => ({ code: p.code, libelle: p.libelle, montantHT: p.montant.fixe2(), mention: p.mentionRestrictive ?? null }));
     }
     return {
       id: String(r.id), numero: s(r.numero), statut: statutEffectif, presentation: String(r.presentation), dateEmission: s(r.dateEm), dateAcceptation: s(r.acc),
       montantTotal: r.montantTotal != null ? dec2(r.montantTotal) : null, montantAccepte: r.montantAccepte != null ? dec2(r.montantAccepte) : null, pack: s(r.packChoisi),
-      document: r.document ?? null, hash: s(r.hashContenu), options,
+      document: r.document ?? null, hash: s(r.hashContenu), options, packs,
     };
   });
   const f = await tablesFacturation(sql) ? await lireFacturation(sql, dossierId, aujourdhui) : null;

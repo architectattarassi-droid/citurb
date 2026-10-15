@@ -16,6 +16,7 @@ import { GRILLE_ARC_BATI_2026_10 as GRILLE } from "../../../../domain/honoraires
 import { libelleNiveau, parserGabarit, puElevationPropose, visitesProposees, type Niveau } from "../../../../domain/honoraires/metre";
 import type { CodeNiveau, ModalitePaiement, Typologie } from "../../../../domain/honoraires/types";
 import ApercuDocument, { telecharger } from "./ApercuDocument";
+import Acceptation from "./Acceptation";
 
 type Contexte = {
   typologie: Typologie | null; commune: string; missionsDejaReglees: string[]; autorisationExpiration: string | null;
@@ -26,6 +27,7 @@ type DevisResume = {
   id: string; numero: string | null; revision: number; type: string; presentation: string; statut: string; statutEffectif: string;
   dateEmission: string | null; montantTotal: string | null; hashContenu: string | null; remplacePar: string | null; createdAt: string | null;
   entree: EntreeDevisComplet; document?: DocumentDevis | null;
+  packChoisi?: string | null; montantAccepte?: string | null; dateAcceptation?: string | null; preuveAcceptation?: { type?: string } | null;
 };
 
 const ERREURS: Record<string, string> = {
@@ -146,7 +148,11 @@ function Devis({ ctx, id, onFin }: { ctx: Contexte; id: string; onFin: (autre?: 
         {!d.remplacePar && <button style={S.btnGhost} disabled={occupe} onClick={() => void action("reviser")}>Réviser (nouvelle version -R)</button>}
         {d.statut === "EMIS" && <button style={S.btnGhost} disabled={occupe} onClick={() => void action("refuser")}>Marquer refusé</button>}
       </div>
-      <p style={S.aide}>Statut : {STATUT[d.statutEffectif]?.[0] ?? d.statutEffectif} · {pied}. Un devis émis est figé ; toute modification passe par une révision. L'acceptation (pack, preuve) arrive à l'étape suivante.</p>
+      <p style={S.aide}>Statut : {STATUT[d.statutEffectif]?.[0] ?? d.statutEffectif} · {pied}. Un devis émis est figé ; toute modification passe par une révision.</p>
+      {d.statutEffectif === "EMIS" && !d.remplacePar && <Acceptation devisId={d.id} entree={d.entree} ctx={ctx} onFait={() => onFin()} />}
+      {(d.statut === "ACCEPTE" || d.statut === "FACTURE") && (
+        <div style={S.ok}>Accepté le {dateFr(d.dateAcceptation ?? null)}{d.packChoisi ? ` — pack ${d.packChoisi.toLowerCase()}` : ""} — montant engagé {d.montantAccepte ? formatDH(d.montantAccepte) : "—"} HT — preuve : {d.preuveAcceptation?.type === "EN_LIGNE" ? "acceptation en ligne horodatée" : "devis signé scanné"}. Échéancier et factures : onglet Factures.</div>
+      )}
       {d.document ? <ApercuDocument document={d.document} pied={pied} /> : <div style={S.erreur}>Document en cours de reconstruction : rechargez.</div>}
     </div>
   );

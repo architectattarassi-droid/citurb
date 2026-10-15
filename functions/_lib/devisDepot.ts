@@ -85,6 +85,7 @@ export interface DevisLu {
   type: string; presentation: string; statut: string; statutEffectif: string; grilleVersionId: string; dateEmission: string | null;
   validiteJours: number; montantTotal: string | null; assietteHonoraires: string | null; hashContenu: string | null;
   entree: EntreeDevisComplet; document: unknown | null; createdAt: string | null; creePar: string | null;
+  packChoisi: string | null; montantAccepte: string | null; dateAcceptation: string | null; preuveAcceptation: unknown | null;
 }
 
 const versDevis = (r: Record<string, unknown>, aujourdhui: string, avecDocument: boolean): DevisLu => ({
@@ -94,15 +95,16 @@ const versDevis = (r: Record<string, unknown>, aujourdhui: string, avecDocument:
   grilleVersionId: String(r.grilleVersionId), dateEmission: s(r.dateEm), validiteJours: Number(r.validiteJours) || 30,
   montantTotal: s(r.montantTotal), assietteHonoraires: s(r.assietteHonoraires), hashContenu: s(r.hashContenu),
   entree: r.entree as EntreeDevisComplet, document: avecDocument ? r.document ?? null : null, createdAt: iso(r.createdAt), creePar: s(r.creePar),
+  packChoisi: s(r.packChoisi), montantAccepte: s(r.montantAccepte), dateAcceptation: s(r.acc), preuveAcceptation: r.preuveAcceptation ?? null,
 });
 
 export async function listerDevis(sql: Sql, dossierId: string, aujourdhui: string): Promise<DevisLu[]> {
-  const rows = await sql`SELECT *, to_char("dateEmission", 'YYYY-MM-DD') AS "dateEm" FROM "Devis" WHERE "dossierId" = ${dossierId} ORDER BY "createdAt" DESC LIMIT 100`;
+  const rows = await sql`SELECT *, to_char("dateEmission", 'YYYY-MM-DD') AS "dateEm", to_char("dateAcceptation", 'YYYY-MM-DD') AS "acc" FROM "Devis" WHERE "dossierId" = ${dossierId} ORDER BY "createdAt" DESC LIMIT 100`;
   return rows.map((r) => versDevis(r, aujourdhui, false));
 }
 
 export async function lireDevis(sql: Sql, id: string, aujourdhui: string): Promise<DevisLu | null> {
-  const r = (await sql`SELECT *, to_char("dateEmission", 'YYYY-MM-DD') AS "dateEm" FROM "Devis" WHERE "id" = ${id}`)[0];
+  const r = (await sql`SELECT *, to_char("dateEmission", 'YYYY-MM-DD') AS "dateEm", to_char("dateAcceptation", 'YYYY-MM-DD') AS "acc" FROM "Devis" WHERE "id" = ${id}`)[0];
   return r ? versDevis(r, aujourdhui, true) : null;
 }
 
