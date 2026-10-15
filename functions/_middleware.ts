@@ -17,6 +17,7 @@ import { PAGES_SEO, PAGE_ESPACE_RDV, jsonLdChiffrage, pageTerrains, reecrire } f
 import { pageMateriaux } from "./_lib/seoMateriaux";
 import { CHEMIN_CERCLES, pageCercles } from "./_lib/seoCercles";
 import { apercu } from "./_lib/lecturePublique";
+import { redirectionAncienne } from "./_lib/anciennesAdresses";
 import type { Sql } from "./_lib/terrains";
 
 const HOTE_INDEXABLE = "citurbarea.com";
@@ -80,8 +81,11 @@ export function adresseConnue(chemin: string): boolean {
 }
 
 export async function onRequest(ctx: { request: Request; next: () => Promise<Response>; env?: Env }): Promise<Response> {
-  let res = await ctx.next();
   const url = new URL(ctx.request.url);
+  // Anciennes adresses encore connues de Google : 301 vers la page vivante la plus proche.
+  const ancienne = ctx.request.method === "GET" || ctx.request.method === "HEAD" ? redirectionAncienne(url.pathname) : null;
+  if (ancienne) return new Response(null, { status: 301, headers: { location: `${url.origin}${ancienne}${url.search}`, "cache-control": "public, max-age=86400" } });
+  let res = await ctx.next();
   // Adresse inconnue servie par le repli SPA (marqueur propre à index.html) : vrai 404,
   // la page « introuvable » de l'application s'affiche quand même.
   if (res.status === 200 && (res.headers.get("content-type") || "").includes("text/html") && !adresseConnue(url.pathname)) {
