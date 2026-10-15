@@ -14,6 +14,7 @@ import { frise, type PhaseFrise } from "../../packages/contracts/src/gestion/fri
 import { phaseDuCatalogue, typeProjetDepuis } from "../../packages/contracts/src/gestion/referentiel";
 import { profilDuDossier } from "../../packages/contracts/src/gestion/profil";
 import { documentsParPhase, type EtatPiece } from "../../packages/contracts/src/gestion/pieces";
+import { videosDe, type VideoLien } from "../../packages/contracts/src/gestion/plans";
 
 /** Frise (GP5) : phase du référentiel suivie par l'espace projet, sinon déduite de la phase du dossier. */
 function friseDuDossier(r: Record<string, unknown>, etats: Map<string, EtatPiece> = new Map()) {
@@ -27,7 +28,9 @@ function friseDuDossier(r: Record<string, unknown>, etats: Map<string, EtatPiece
   const aFournir = documentsParPhase(profil, etats, { client: true })
     .filter((p) => p.ordre <= enCours)
     .flatMap((p) => p.pieces.filter((x) => x.producteur === "MAITRE_OUVRAGE" && x.applicabilite === "EXIGE" && (x.statut === "MANQUANT" || x.statut === "REFUSE")).map((x) => ({ phase: p.code, libelleFr: x.libelleFr, libelleAr: x.libelleAr })));
-  return { frise: f.phases, dureeTotaleMois: f.dureeTotaleMois, libelleDuree: f.libelleDuree, piecesClient: aFournir };
+  // Vidéos publiées seulement (liens YouTube / Vimeo, hébergées hors CITURBAREA), sans l'auteur.
+  const videos = videosDe(payload).filter((v) => v.publie).map(({ auteur: _a, ...v }) => v);
+  return { frise: f.phases, dureeTotaleMois: f.dureeTotaleMois, libelleDuree: f.libelleDuree, piecesClient: aFournir, videos };
 }
 
 const s = (v: unknown) => (v == null ? null : String(v));
@@ -50,6 +53,8 @@ export type VueDossierClient = {
   libelleDuree?: string | null;
   /** Pièces que le client doit fournir jusqu'à la phase en cours (l'état exact est dans l'onglet Documents). */
   piecesClient?: Array<{ phase: string; libelleFr: string; libelleAr: string }>;
+  /** Liens vidéo publiés (pièces graphiques, en attendant R2). */
+  videos?: Array<Omit<VideoLien, "auteur">>;
 };
 
 /** Statuts d'étape comptés comme réalisés (création admin + fiche dossier du lot 3c). */

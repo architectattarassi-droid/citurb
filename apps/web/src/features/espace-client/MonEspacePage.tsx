@@ -17,6 +17,8 @@ import { useLang, useT } from "../../i18n/i18n";
 import Login from "../../tomes/tome5/pages/Login";
 import { VueDossierClient, type DossierClient } from "../mon-dossier/MonDossierPage";
 const DocumentsParPhase = lazy(() => import("../gestion/DocumentsParPhase"));
+const GaleriePlans = lazy(() => import("../gestion/GaleriePlans"));
+const PORTE_CLIENT = { type: "client" } as const;
 
 const EcrireMessage = lazy(() => import("../messages/EcrireMessage"));
 const DemanderAppelVideo = lazy(() => import("../appels/DemanderAppelVideo"));
@@ -122,6 +124,13 @@ export default function MonEspacePage() {
                     <EcrireMessage porte="client" contexte="dossier" objetId={choisi} invites={[{ type: "admin" }]} avecNom="CITURBAREA" sujet={vue.titre ?? undefined} langue={l} variante="navy" />
                     <DemanderAppelVideo porte="client" contexte="dossier" objetId={choisi} invites={[{ type: "admin" }]} avecNom="CITURBAREA" sujet={vue.titre ?? undefined} langue={l} />
                   </div>
+                </Suspense>
+              </section>
+
+              <section style={S.carte}>
+                <h2 style={S.h2}>{l === "ar" ? "التصاميم والمناظر" : "Plans et vues de mon projet"}</h2>
+                <Suspense fallback={<p style={S.doux}>{t("espace.charge")}</p>}>
+                  <GaleriePlans porte={PORTE_CLIENT} dossierId={choisi} mode="client" langue={l === "ar" ? "ar" : "fr"} videos={vue.videos ?? []} />
                 </Suspense>
               </section>
 

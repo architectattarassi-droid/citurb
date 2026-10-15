@@ -24,6 +24,10 @@ import OngletFactures from "./devis/OngletFactures";
 import PanneauProfil, { type Profil } from "./PanneauProfil";
 import PanneauDates, { type Dates, type Echeance } from "./PanneauDates";
 import DocumentsParPhase from "../../../features/gestion/DocumentsParPhase";
+import GaleriePlans from "../../../features/gestion/GaleriePlans";
+import { niveauxDuProjet, type VideoLien } from "../../../../../../packages/contracts/src/gestion/plans";
+
+const PORTE_ADMIN = { type: "admin" } as const;
 
 type Etape = {
   code: string; titre: string; famille: string; conditionnelle: boolean; statut: string; source: "saisie" | "deduite"; date: string | null; note: string | null; saisiPar: string | null;
@@ -43,6 +47,7 @@ type Fiche = {
   ordreRegional?: { conseil: string; antenne?: string; aVerifier: boolean; via: string; libelle: string } | null;
   dates?: Dates;
   echeances?: Echeance[];
+  videos?: VideoLien[];
   journal: Array<{ id: string; auteur: string | null; action: string | null; details: unknown; createdAt: string | null }>;
   sqlACollerDevisFacturation: boolean;
   statutsDossier: string[];
@@ -79,7 +84,7 @@ async function appel<T>(url: string, init: RequestInit = {}): Promise<T> {
   return j as T;
 }
 
-type Onglet = "parcours" | "documents" | "echanges" | "journal" | "devis" | "factures" | "donnees";
+type Onglet = "parcours" | "documents" | "plans" | "echanges" | "journal" | "devis" | "factures" | "donnees";
 
 export default function FicheDossier({ vueClientInitiale = false }: { vueClientInitiale?: boolean }) {
   const { id = "" } = useParams();
@@ -177,11 +182,17 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
         <div style={S.cadreClient}>
           <div style={S.badge}>Vue client — exactement ce que voit le client</div>
           {vueClient === "charge" ? <p style={S.sous}>Chargement…</p> : <div style={{ maxWidth: 640 }}><VueDossierClient d={vueClient} /></div>}
+          {vueClient !== "charge" && (
+            <div style={{ marginTop: 12 }}>
+              <h2 style={S.h2}>Plans et vues publiés (vus par le client)</h2>
+              <GaleriePlans porte={PORTE_ADMIN} dossierId={id} mode="apercu" videos={(f.videos ?? []).filter((v) => v.publie)} />
+            </div>
+          )}
         </div>
       )}
 
       <div style={S.onglets} role="tablist">
-        {([["parcours", "Parcours A → Z"], ["documents", "Documents par phase"], ["echanges", "Échanges"], ["journal", `Journal (${f.journal.length})`], ["devis", "Devis"], ["factures", "Factures"], ["donnees", "Données"]] as [Onglet, string][]).map(([k, l]) => (
+        {([["parcours", "Parcours A → Z"], ["documents", "Documents par phase"], ["plans", "Plans & vues"], ["echanges", "Échanges"], ["journal", `Journal (${f.journal.length})`], ["devis", "Devis"], ["factures", "Factures"], ["donnees", "Données"]] as [Onglet, string][]).map(([k, l]) => (
           <button key={k} role="tab" aria-selected={onglet === k} style={S.onglet(onglet === k)} onClick={() => setOnglet(k)}>{l}</button>
         ))}
       </div>
@@ -207,6 +218,15 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
           <h2 style={S.h2}>Documents attendus, normes et contrôles — phase par phase</h2>
           <p style={S.petit}>Chaque pièce absente est marquée « Document manquant ». Les pièces conditionnelles dépendent du profil du projet (onglet Parcours).</p>
           <DocumentsParPhase base={`/api/cc/dossiers/${encodeURIComponent(id)}/pieces`} mode="admin" />
+        </section>
+      )}
+
+      {onglet === "plans" && (
+        <section style={S.carte}>
+          <h2 style={S.h2}>Plans, vues et vidéos — Esquisse, APS, APD, EXE</h2>
+          <p style={S.petit}>Par phase, puis par catégorie et par niveau. Chaque nouvel envoi dans la même case crée une nouvelle version ; les précédentes restent consultables.</p>
+          <GaleriePlans porte={PORTE_ADMIN} dossierId={id} mode="admin" videos={f.videos ?? []} agirVideo={agir}
+            niveaux={niveauxDuProjet(f.profil?.sousSols ?? 0, f.profil?.etagesHorsSol ?? 1)} />
         </section>
       )}
 

@@ -19,6 +19,8 @@ import { PHASES_REF, phaseDuCatalogue, ordrePhase, typeProjetDepuis, VERSION_REF
 import { bureauControleObligatoire, profilDuDossier, validerProfil, SEUIL_BUREAU_CONTROLE_MDH, type ProfilProjet } from "../../packages/contracts/src/gestion/profil";
 import { libelleOrdre, ordreRegional, type OrdreRegional } from "../../packages/contracts/src/gestion/ordres";
 import { echeancesDuDossier, validerDates, type DatesGestion } from "../../packages/contracts/src/gestion/echeances";
+import { ajouterVideo, videosDe } from "../../packages/contracts/src/gestion/plans";
+import { masquerCoordonnees } from "./coordonnees";
 
 const s = (v: unknown) => (v == null || v === "" ? null : String(v));
 const iso = (v: unknown) => (v instanceof Date ? v.toISOString() : s(v));
@@ -132,7 +134,9 @@ export type Action =
   | { action: "note"; note: string | null }
   | { action: "debloquer"; motif: string }
   | { action: "profil"; profil: ProfilProjet }
-  | { action: "dates"; dates: DatesGestion };
+  | { action: "dates"; dates: DatesGestion }
+  | { action: "video_ajouter"; phase: string; titre: string; url: string; publie: boolean }
+  | { action: "video_publier"; id: string; publie: boolean };
 
 const texte = (v: unknown, n: number) => (typeof v === "string" && v.trim() ? v.trim().slice(0, n) : null);
 
@@ -164,6 +168,10 @@ export function lireAction(b: unknown): Action | { erreur: string } {
       return { action: "profil", profil: validerProfil(o.profil, null) };
     case "dates":
       return { action: "dates", dates: validerDates(o.dates) };
+    case "video_ajouter":
+      return { action: "video_ajouter", phase: String(o.phase ?? ""), titre: masquerCoordonnees(texte(o.titre, 120) ?? ""), url: String(o.url ?? "").slice(0, 300), publie: o.publie === true };
+    case "video_publier":
+      return typeof o.id === "string" && /^vid_[a-z0-9]{6,40}$/.test(o.id) ? { action: "video_publier", id: o.id, publie: o.publie === true } : { erreur: "video_inconnue" };
     default:
       return { erreur: "action_inconnue" };
   }
@@ -217,6 +225,25 @@ export async function appliquerAction(sql: Sql, dossierId: string, a: Action, ad
       const gestion = a.action === "profil" ? { ...avant, profil: a.profil } : { ...avant, dates: a.dates };
       await sql`UPDATE "Dossier" SET "payload" = ${JSON.stringify({ ...payload, gestion })}::jsonb, "updatedAt" = ${maintenant}::timestamp(3) WHERE "id" = ${dossierId}`;
       await tracer(a.action === "profil" ? "PROFIL_PROJET" : "DATES_CLES", a.action === "profil" ? { profil: a.profil } : { dates: a.dates });
+      break;
+    }
+    case "video_ajouter":
+    case "video_publier": {
+      // Liens vidéo (YouTube non répertorié / Vimeo) tant que R2 n'est pas activé : simples références.
+      const payload = { ...((d.payload && typeof d.payload === "object" ? d.payload : {}) as Record<string, unknown>) };
+      const avant = (payload.gestion && typeof payload.gestion === "object" ? payload.gestion : {}) as Record<string, unknown>;
+      let videos = videosDe(payload);
+      if (a.action === "video_ajouter") {
+        const r = ajouterVideo(videos, a, admin, maintenant, `vid_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`);
+        if (!r.ok) return { status: 400, json: { ok: false, error: r.erreur } };
+        videos = r.liste;
+        await tracer("VIDEO_AJOUTEE", { id: r.video.id, phase: r.video.phase, version: r.video.version, publie: r.video.publie });
+      } else {
+        if (!videos.some((v) => v.id === a.id)) return { status: 404, json: { ok: false, error: "video_inconnue" } };
+        videos = videos.map((v) => (v.id === a.id ? { ...v, publie: a.publie } : v));
+        await tracer(a.publie ? "VIDEO_PUBLIEE" : "VIDEO_DEPUBLIEE", { id: a.id });
+      }
+      await sql`UPDATE "Dossier" SET "payload" = ${JSON.stringify({ ...payload, gestion: { ...avant, videos } })}::jsonb, "updatedAt" = ${maintenant}::timestamp(3) WHERE "id" = ${dossierId}`;
       break;
     }
     case "debloquer": {
@@ -288,6 +315,7 @@ export async function lireFiche(sql: Sql, dossierId: string, maintenant = new Da
     profil,
     ordreRegional: ordre ? { ...ordre, libelle: libelleOrdre(ordre).fr } : null,
     dates,
+    videos: videosDe(payload),
     echeances: echeancesDuDossier({
       autorisationDate: iso(d.autorisationDate)?.slice(0, 10) ?? null, autorisationExpiration: iso(d.autorisationExpiration)?.slice(0, 10) ?? null, dates,
       fondationsCommencees: (PHASES.find((p) => p.code === d.phase)?.ordre ?? -1) >= (PHASES.find((p) => p.code === "84_FONDATIONS")?.ordre ?? 8400)

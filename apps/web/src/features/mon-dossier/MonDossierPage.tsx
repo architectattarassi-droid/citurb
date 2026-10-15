@@ -21,6 +21,7 @@ export type DossierClient = {
   frise?: Array<{ code: string; ordre: number; titre: string; titreAr: string; statut: "FAIT" | "EN_COURS" | "A_VENIR"; dureeSemaines: [number, number] | null }>;
   dureeTotaleMois?: [number, number] | null; libelleDuree?: string | null;
   piecesClient?: Array<{ phase: string; libelleFr: string; libelleAr: string }>;
+  videos?: Array<{ id: string; phase: "ESQ" | "APS" | "APD" | "EXE"; titre: string; lien: string; integration: string; fournisseur: "youtube" | "vimeo"; version: number; publie: boolean; createdAt: string }>;
 };
 
 const T = {
