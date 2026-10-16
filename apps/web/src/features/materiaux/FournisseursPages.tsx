@@ -9,7 +9,7 @@ import { Link, useParams } from "react-router-dom";
 import { useLang, type Lang } from "../../i18n/i18n";
 import { materiau } from "../../domain/materiaux/catalogue";
 import { nomRegion } from "../../domain/materiaux/regions";
-import { VILLES_COEF, slugMateriau } from "../../domain/materiaux/reference";
+import { SLUG_CATEGORIE, VILLES_COEF, slugMateriau } from "../../domain/materiaux/reference";
 import { CATEGORIES, type Categorie } from "../../domain/materiaux/types";
 import { texteLocal, useProduits } from "./catalogueProduits";
 import { useMateriaux } from "./etat";
@@ -54,9 +54,23 @@ export function FournisseursPage() {
       </label>
       {l === null ? <p className="mt-6 text-slate-500" aria-busy="true">{t("chargement")}</p>
         : l.length === 0 ? (
-          <div className="mt-6 rounded-xl bg-slate-50 p-4 text-slate-700">
-            <p>{t("fournisseursVide")}</p>
-            <Link to="/cercles/inscription" className="mt-2 inline-flex min-h-[44px] items-center font-semibold text-[#0B1B3A] underline">{t("inscrire")}</Link>
+          // Vitrine en attendant les fournisseurs : jamais une page vide.
+          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 lg:col-span-2">
+              <h2 className="text-lg font-bold text-[#0B1B3A]">{t("referencementTitre")}</h2>
+              <p className="mt-1 text-slate-700">{t("referencementTexte")}</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Link to="/materiaux" className="inline-flex min-h-[44px] items-center rounded-lg bg-[#C9A227] px-4 text-sm font-bold text-[#0B1B3A]" style={{ textDecoration: "none" }}>{t("demander")}</Link>
+                <Link to="/cercles/inscription" className="inline-flex min-h-[44px] items-center rounded-lg border border-[#0B1B3A] px-4 text-sm font-semibold text-[#0B1B3A]" style={{ textDecoration: "none" }}>{t("referencezVos")}</Link>
+              </div>
+            </div>
+            <nav className="rounded-2xl border border-slate-200 bg-white p-4 text-sm" aria-label={t("categorie")}>
+              <ul className="space-y-1 p-0">
+                {(Object.keys(CATEGORIES) as Categorie[]).map((c) => (
+                  <li key={c} className="list-none"><Link to={`/materiaux/famille/${SLUG_CATEGORIE[c]}`} className="text-[#0B1B3A] underline">{CATEGORIES[c]}</Link></li>
+                ))}
+              </ul>
+            </nav>
           </div>
         ) : (
           <ul className="mt-6 grid list-none gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3">
