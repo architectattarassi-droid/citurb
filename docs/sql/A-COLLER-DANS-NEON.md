@@ -35,3 +35,5 @@ le script. Aucune table de production n'est créée par un agent.
 13. `docs/sql/devis-facturation-neon.sql` — Cabinet, colonnes projet du Dossier, DossierEtape, DossierEvenement, SequenceDocument, Devis, EcheancePaiement, Facture, Encaissement, DeblocagePaiement (après 1)
 14. `docs/sql/gestion-projet-neon.sql` — DocumentDepose (dépôt commun), DossierPiece (documents par phase), puis colonnes GP3/GP4 (après 1, 4 et 13)
 15. `docs/sql/documents-neon.sql` — dépôt de documents commun : colonnes ajoutées à DocumentDepose (support Neon/R2, versions, métadonnées, modération, envoi en morceaux, archive Drive) (après 14)
+16. `docs/sql/materiaux-referentiel-amorcage.sql` — les 280 codes du catalogue recopiés dans MateriauReferentiel (généré par scripts/sql-referentiel-materiaux.mjs ; après 6)
+17. `docs/sql/carnet-materiaux-neon.sql` — DossierMateriau : carnet des matériaux du projet, propositions client et décisions de l'architecte (après 13)
