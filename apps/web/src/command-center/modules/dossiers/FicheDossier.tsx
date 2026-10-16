@@ -20,6 +20,7 @@ import DemanderAppelVideo from "../../../features/appels/DemanderAppelVideo";
 import EcrireMessage from "../../../features/messages/EcrireMessage";
 import { VueDossierClient, type DossierClient } from "../../../features/mon-dossier/MonDossierPage";
 import OngletDevis from "./devis/OngletDevis";
+import OngletMateriaux from "./OngletMateriaux";
 import OngletFactures from "./devis/OngletFactures";
 import PanneauProfil, { type Profil } from "./PanneauProfil";
 import PanneauDates, { type Dates, type Echeance } from "./PanneauDates";
@@ -89,7 +90,7 @@ async function appel<T>(url: string, init: RequestInit = {}): Promise<T> {
   return j as T;
 }
 
-type Onglet = "parcours" | "documents" | "plans" | "echanges" | "journal" | "devis" | "factures" | "donnees";
+type Onglet = "parcours" | "documents" | "plans" | "materiaux" | "echanges" | "journal" | "devis" | "factures" | "donnees";
 
 export default function FicheDossier({ vueClientInitiale = false }: { vueClientInitiale?: boolean }) {
   const { id = "" } = useParams();
@@ -197,7 +198,7 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
       )}
 
       <div style={S.onglets} role="tablist">
-        {([["parcours", "Parcours A → Z"], ["documents", "Documents par phase"], ["plans", "Plans & vues"], ["echanges", "Échanges"], ["journal", `Journal (${f.journal.length})`], ["devis", "Devis"], ["factures", "Factures"], ["donnees", "Données"]] as [Onglet, string][]).map(([k, l]) => (
+        {([["parcours", "Parcours A → Z"], ["documents", "Documents par phase"], ["plans", "Plans & vues"], ["materiaux", "Matériaux proposés"], ["echanges", "Échanges"], ["journal", `Journal (${f.journal.length})`], ["devis", "Devis"], ["factures", "Factures"], ["donnees", "Données"]] as [Onglet, string][]).map(([k, l]) => (
           <button key={k} role="tab" aria-selected={onglet === k} style={S.onglet(onglet === k)} onClick={() => setOnglet(k)}>{l}</button>
         ))}
       </div>
@@ -278,6 +279,7 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
         </section>
       )}
 
+      {onglet === "materiaux" && (<section style={S.carte}><h2 style={S.h2}>Matériaux proposés et carnet du projet</h2><OngletMateriaux dossierId={id} /></section>)}
       {onglet === "devis" && (
         <section style={S.carte}>
           <h2 style={S.h2}>Devis</h2>

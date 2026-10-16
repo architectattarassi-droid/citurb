@@ -20,7 +20,7 @@ type Dossier = {
   packSelected: string | null; packPriceMAD: number | null; budgetEstime: number | null; surfacePlancher: number | null; opsNote: string | null;
   payload: unknown;
   owner?: { email: string; phone: string | null };
-  _count?: { documents: number };
+  _count?: { documents: number; materiauxAValider?: number };
 };
 
 const ERREURS: Record<string, string> = {
@@ -102,7 +102,8 @@ export default function DossiersListe() {
                         {d.clientEmail && <div><a href={`mailto:${d.clientEmail}`} onClick={(e) => e.stopPropagation()}>{d.clientEmail}</a></div>}
                       </div>
                     </td>
-                    <td style={S.td}>{d.status}{d.phase ? <div style={S.petit}>{d.phase}</div> : null}</td>
+                    <td style={S.td}>{d.status}{d.phase ? <div style={S.petit}>{d.phase}</div> : null}
+                      {d._count?.materiauxAValider ? <div style={{ ...S.petit, color: "#9a6b00", fontWeight: 700 }} title="Matériaux proposés par le client, à valider par l'architecte">{d._count.materiauxAValider} matériau{d._count.materiauxAValider > 1 ? "x" : ""} à valider</div> : null}</td>
                     <td style={S.td}>
                       {d.packPriceMAD != null && <div>Pack : {mad(d.packPriceMAD)}</div>}
                       {d.budgetEstime != null && <div style={S.petit}>Budget : {mad(d.budgetEstime)}</div>}

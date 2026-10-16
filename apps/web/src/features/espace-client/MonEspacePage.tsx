@@ -25,6 +25,7 @@ const DemanderAppelVideo = lazy(() => import("../appels/DemanderAppelVideo"));
 const BoiteMessages = lazy(() => import("../messages/BoiteMessages"));
 const MesAppels = lazy(() => import("../appels/MesAppels"));
 const DevisFactures = lazy(() => import("./DevisFactures"));
+const CarnetClient = lazy(() => import("../materiaux/CarnetClient"));
 
 type Resume = { id: string; titre: string | null; commune: string | null; porte: string | null; creeLe: string | null; phase: { code: string; titre: string } | null };
 
@@ -113,6 +114,13 @@ export default function MonEspacePage() {
                 <h2 style={S.h2}>{l === "ar" ? "عروض الأسعار والفواتير" : "Devis et factures"}</h2>
                 <Suspense fallback={<p style={S.doux}>{t("espace.charge")}</p>}>
                   <DevisFactures key={choisi} dossierId={choisi} langue={l} />
+                </Suspense>
+              </section>
+              {/* Carnet des matériaux : propositions du client (à partir de l'APD) et décisions de l'architecte. */}
+              <section style={S.carte}>
+                <h2 style={S.h2}>{l === "ar" ? "دفتر مواد المشروع" : "Carnet des matériaux du projet"}</h2>
+                <Suspense fallback={<p style={S.doux}>{t("espace.charge")}</p>}>
+                  <CarnetClient key={choisi} dossierId={choisi} lang={l === "ar" ? "ar" : "fr"} />
                 </Suspense>
               </section>
 

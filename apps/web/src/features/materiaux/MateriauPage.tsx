@@ -23,6 +23,7 @@ import { medianeProduits, texteLocal, useCodesModeres, useProduits, type CodeMod
 import PanierDemande from "./PanierDemande";
 import { OngletEtude, OngletRealisation } from "./PhasesFiche";
 import Variantes from "./Variantes";
+import { ProposerPourProjet } from "./CarnetClient";
 import DemanderAppelVideo from "../appels/DemanderAppelVideo";
 import EcrireMessage from "../messages/EcrireMessage";
 import { VisuelMateriau } from "./IconeFamille";
@@ -127,12 +128,17 @@ export default function MateriauPage() {
             <h3 className="font-semibold text-[#0B1B3A]">{t("fournisseurs")}</h3>
             {marche?.mediane != null
               ? <p className="text-emerald-800">{t("medianeFournisseurs", { n: marche.nbFournisseurs })} : <strong>{fmtDH(marche.mediane, lang)}</strong> {t("ht")} / {uniteCourte(r.uniteRef)}</p>
-              : <p className="text-slate-600">{marche?.nbFournisseurs ? t("offresEnCours", { n: marche.nbFournisseurs }) : t("fournisseursAucun")}</p>}
+              : marche?.nbFournisseurs ? <p className="text-slate-600">{t("offresEnCours", { n: marche.nbFournisseurs })}</p>
+                : <p className="text-slate-700"><strong>{t("referencementTitre")}</strong><br />{t("referencementTexte")}</p>}
             {nbFournisseurs ? <p className="mt-1 text-xs text-slate-500">{t("fournisseursN", { n: nbFournisseurs })}</p> : null}
-            <Link to="/cercles/inscription" className="mt-1 inline-block text-xs text-[#0B1B3A] underline">{t("vousFournisseur")}</Link>
+            <Link to="/cercles/inscription" className="mt-1 inline-block text-xs font-semibold text-[#0B1B3A] underline">{t("referencezVos")}</Link>
           </div>
           <div>
             <DemanderAppelVideo contexte="fournisseur" objetId={r.code} invites={[{ type: "admin" }]} sujet={r.libelle} langue={lang === "ar" ? "ar" : "fr"} variante="contour" className="w-full" /> <EcrireMessage contexte="fournisseur" objetId={r.code} invites={[{ type: "admin" }]} sujet={r.libelle} langue={lang === "ar" ? "ar" : "fr"} variante="contour" />
+          </div>
+          <div>
+            {/* Client connecté : proposer ce matériau pour son dossier (à partir de l'APD, validation par l'architecte). */}
+            <ProposerPourProjet code={r.code} lang={lang} dossierPrefere={params.get("dossier")} />
           </div>
         </aside>
       </div>
