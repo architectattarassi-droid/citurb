@@ -19,8 +19,14 @@ type Sql = (strings: TemplateStringsArray, ...values: unknown[]) => Promise<Reco
 const iso = (v: unknown) => (v instanceof Date ? v.toISOString() : v == null ? null : String(v));
 
 export async function listerDossiers(sql: Sql) {
-  const t = await sql`SELECT to_regclass('public."Dossier"') IS NOT NULL AS d, to_regclass('public."DossierDocument"') IS NOT NULL AS docs`;
+  const t = await sql`SELECT to_regclass('public."Dossier"') IS NOT NULL AS d, to_regclass('public."DossierDocument"') IS NOT NULL AS docs,
+    to_regclass('public."DossierMateriau"') IS NOT NULL AS mat`;
   if (!t[0]?.d) return [];
+  // Matériaux proposés par les clients en attente de l'architecte (carnet des matériaux).
+  const aValider = new Map<string, number>();
+  if (t[0]?.mat)
+    for (const x of await sql`SELECT "dossierId", count(*)::int AS n FROM "DossierMateriau" WHERE "statut" IN ('PROPOSE', 'EN_ETUDE') GROUP BY "dossierId"`)
+      aValider.set(String(x.dossierId), Number(x.n) || 0);
   const rows = t[0]?.docs
     ? await sql`SELECT d.*, u."email" AS "o_email", u."username" AS "o_username", u."phone" AS "o_phone", u."emailVerifiedAt" AS "o_ev", u."phoneVerifiedAt" AS "o_pv",
         (SELECT count(*)::int FROM "DossierDocument" x WHERE x."dossierId" = d."id") AS "n_docs"
@@ -33,7 +39,7 @@ export async function listerDossiers(sql: Sql) {
     packSelected: r.packSelected ?? null, packPriceMAD: r.packPriceMAD ?? null, projectId: r.projectId ?? null, opsNote: r.opsNote ?? null, firmId: r.firmId ?? null,
     budgetEstime: r.budgetEstime ?? null, surfacePlancher: r.surfacePlancher ?? null, payload: r.payload,
     owner: { email: String(r.o_email ?? ""), username: r.o_username ?? null, phone: r.o_phone ?? null, emailVerifiedAt: iso(r.o_ev), phoneVerifiedAt: iso(r.o_pv) },
-    _count: { documents: Number(r.n_docs) || 0 },
+    _count: { documents: Number(r.n_docs) || 0, materiauxAValider: aValider.get(String(r.id)) || 0 },
     firm: null,
   }));
 }
