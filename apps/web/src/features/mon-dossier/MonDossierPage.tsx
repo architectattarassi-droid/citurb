@@ -117,7 +117,7 @@ export default function MonDossierPage({ langue = "fr" }: { langue?: "fr" | "ar"
 }
 
 /** Le dossier tel que le voit le client (titre, alertes, phase, projet, parcours). */
-export function VueDossierClient({ d, langue = "fr" }: { d: DossierClient; langue?: "fr" | "ar" }) {
+export function VueDossierClient({ d, langue = "fr", onOuvrirPhase }: { d: DossierClient; langue?: "fr" | "ar"; /** Espace client : une phase de la frise ouvre sa page d'étape. */ onOuvrirPhase?: (phase: string) => void }) {
   const ar = langue === "ar", t = T[langue];
   return (
     <>
@@ -166,7 +166,9 @@ export function VueDossierClient({ d, langue = "fr" }: { d: DossierClient; langu
               <li key={p.code} style={{ ...S.etape, alignItems: "flex-start", ...(cours ? { background: "#EEF1F7", borderRadius: 8, padding: "8px 6px" } : {}) }}>
                 <span style={{ ...S.puce, marginTop: 4, background: fait ? "#6B7F5C" : cours ? "#1F3864" : "#D9D9D9" }} aria-hidden />
                 <span style={{ flex: 1 }}>
-                  <span style={{ display: "block", fontWeight: cours ? 700 : 400, color: fait || cours ? "#1A1F2E" : "#8B91A1" }}>{ar ? p.titreAr : p.titre}</span>
+                  {onOuvrirPhase
+                    ? <button type="button" onClick={() => onOuvrirPhase(p.code)} style={{ display: "block", background: "none", border: "none", padding: 0, cursor: "pointer", textAlign: "start", textDecoration: "underline", textUnderlineOffset: 3, fontSize: "inherit", fontWeight: cours ? 700 : 400, color: fait || cours ? "#1A1F2E" : "#8B91A1", minHeight: 32 }}>{ar ? p.titreAr : p.titre}</button>
+                    : <span style={{ display: "block", fontWeight: cours ? 700 : 400, color: fait || cours ? "#1A1F2E" : "#8B91A1" }}>{ar ? p.titreAr : p.titre}</span>}
                   {p.dureeSemaines && !fait && <span style={S.petit}>{t.semaines(p.dureeSemaines[0], p.dureeSemaines[1])}</span>}
                   {p.parallele && <span style={{ ...S.petit, display: "block" }}>{t.parallele}</span>}
                   {p.miseAJourPermis && <span style={{ ...S.petit, display: "block", color: "#93370D" }}>{t.majPermis}</span>}

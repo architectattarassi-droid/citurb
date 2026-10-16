@@ -27,6 +27,8 @@ type Props = {
   contexte: Contexte; objetId: string; invites: Invite[]; avecNom?: string; sujet?: string;
   porte?: PorteMsg; langue?: LangueAppel; libelle?: string; variante?: "or" | "navy" | "contour" | "lien"; className?: string;
   onCree?: (r: CreationFil) => void;
+  /** Texte prérempli, modifiable avant l'envoi (ex. relance du client avec les pièces manquantes). */
+  texteInitial?: string;
 };
 
 export default function EcrireMessage(props: Props) {
@@ -45,13 +47,13 @@ export default function EcrireMessage(props: Props) {
   );
 }
 
-function Dialogue({ contexte, objetId, invites, avecNom, sujet, porte = "public", l, onCree, onFermer }: Props & { l: LangueAppel; onFermer: () => void }) {
+function Dialogue({ contexte, objetId, invites, avecNom, sujet, porte = "public", l, onCree, onFermer, texteInitial }: Props & { l: LangueAppel; onFermer: () => void }) {
   const t = TEXTES_MSG[l];
   const titreId = useId();
   const boite = useRef<HTMLDivElement>(null);
   const fermer = useRef(onFermer);
   fermer.current = onFermer;
-  const [f, setF] = useState({ texte: "", nom: "", email: "", telephone: "", consentement: false, website: "" });
+  const [f, setF] = useState({ texte: texteInitial ?? "", nom: "", email: "", telephone: "", consentement: false, website: "" });
   const [envoi, setEnvoi] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
   const [fait, setFait] = useState<CreationFil | null>(null);

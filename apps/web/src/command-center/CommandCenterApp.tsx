@@ -24,6 +24,7 @@ import CCLogin from './pages/CCLogin';
 import CCSimulateur from './modules/dossiers/CCSimulateur';
 import DossiersListe from './modules/dossiers/DossiersListe';
 import FicheDossier from './modules/dossiers/FicheDossier';
+import PageEtape from './modules/dossiers/PageEtape';
 import NouveauDossierAdmin from './modules/dossiers/creation/NouveauDossierAdmin';
 import EnSommeil from '../ui/EnSommeil';
 import TableauDeBordGestion from './modules/gestion/TableauDeBordGestion';
@@ -71,6 +72,8 @@ export default function CommandCenterApp() {
               {/* Fiche dossier (lot 3c) : parcours A → Z, déblocage, lien client, vue client. */}
               <Route path="dossiers/:id" element={<FicheDossier />} />
               <Route path="dossiers/:id/shadow" element={<FicheDossier vueClientInitiale />} />
+              {/* L'étape = une page entière (lot GP6). */}
+              <Route path="dossiers/:id/etapes/:code" element={<PageEtape />} />
               <Route path="terrains" element={<TerrainsModule />} />
               <Route path="materiaux" element={<MateriauxModule />} />
               <Route path="projets/*" element={<ProjetsModule />} />

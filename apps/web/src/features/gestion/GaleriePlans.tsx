@@ -64,18 +64,20 @@ const dateCourte = (s: string, l: Langue) => (s ? new Date(s).toLocaleDateString
 const estPhase = (p: unknown): p is PhasePlan => PHASES_PLANS.some((x) => x.code === p);
 const estCategorie = (c: unknown): c is CategoriePlan => CATEGORIES_PLANS.some((x) => x.code === c);
 
-export default function GaleriePlans({ porte, dossierId, mode, langue = "fr", videos = [], agirVideo, niveaux }: {
+export default function GaleriePlans({ porte, dossierId, mode, langue = "fr", videos = [], agirVideo, niveaux, phaseUnique }: {
   porte: PorteDepot; dossierId: string; mode: Mode; langue?: Langue; videos?: Video[];
   /** Admin : actions sur les liens vidéo (fiche dossier). */
   agirVideo?: (corps: Record<string, unknown>, message: string) => Promise<void>;
   /** Niveaux du projet (onglets des plans d'étage). */
   niveaux?: string[];
+  /** Page d'une étape : une seule phase graphique, sans onglets. */
+  phaseUnique?: PhasePlan | null;
 }) {
   const t = T[langue], l = langue;
   const [docs, setDocs] = useState<DocumentVue[] | null>(null);
   const [support, setSupport] = useState<"NEON" | "R2">("NEON");
   const [erreur, setErreur] = useState<string | null>(null);
-  const [phase, setPhase] = useState<PhasePlan>("ESQ");
+  const [phase, setPhase] = useState<PhasePlan>(phaseUnique ?? "ESQ");
   const [vue, setVue] = useState<Element | null>(null);
 
   const charger = useCallback(async () => {
@@ -101,6 +103,7 @@ export default function GaleriePlans({ porte, dossierId, mode, langue = "fr", vi
   const comptes = useMemo(() => Object.fromEntries(PHASES_PLANS.map((p) => [p.code, new Set(elements.filter((e) => e.phase === p.code).map((e) => e.serie)).size])), [elements]);
   useEffect(() => {
     // Ouvre la phase la plus avancée qui a des pièces.
+    if (phaseUnique) return;
     const derniere = [...PHASES_PLANS].reverse().find((p) => comptes[p.code] > 0);
     if (derniere) setPhase(derniere.code);
   }, [docs]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -110,13 +113,13 @@ export default function GaleriePlans({ porte, dossierId, mode, langue = "fr", vi
   return (
     <div dir={l === "ar" ? "rtl" : "ltr"} lang={l} style={{ display: "grid", gap: 10 }}>
       {erreur && <div style={S.erreur}>{erreur}</div>}
-      <div role="tablist" style={S.onglets}>
+      {!phaseUnique && <div role="tablist" style={S.onglets}>
         {PHASES_PLANS.map((p) => (
           <button key={p.code} role="tab" aria-selected={phase === p.code} style={S.onglet(phase === p.code)} onClick={() => setPhase(p.code)}>
             {lib(l, p)}{comptes[p.code] ? ` (${comptes[p.code]})` : ""}
           </button>
         ))}
-      </div>
+      </div>}
       {mode === "admin" && <Envoi porte={porte} dossierId={dossierId} phase={phase} support={support} niveaux={niveaux} t={t} onFini={charger} agirVideo={agirVideo} />}
       {docs === null ? <p style={S.petit}>…</p> : dePhase.length === 0 ? <p style={S.petit}>{t.aucun}</p> : (
         CATEGORIES_PLANS.map((c) => {

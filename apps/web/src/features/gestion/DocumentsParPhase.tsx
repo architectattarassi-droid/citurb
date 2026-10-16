@@ -86,7 +86,11 @@ const ERREURS_DEPOT: Record<string, string> = {
   quota_contexte: "Nombre ou volume maximal de documents atteint pour ce dossier.", stockage_plein: "Stockage de la plateforme plein.", trop_de_depots: "Trop d'envois aujourd'hui : réessayez demain.",
 };
 
-export default function DocumentsParPhase({ base, mode, langue = "fr", phaseInitiale, depot }: { base: string; mode: Mode; langue?: "fr" | "ar"; phaseInitiale?: string | null; depot: DepotCible }) {
+export default function DocumentsParPhase({ base, mode, langue = "fr", phaseInitiale, depot, seulementPhase }: {
+  base: string; mode: Mode; langue?: "fr" | "ar"; phaseInitiale?: string | null; depot: DepotCible;
+  /** Page d'une étape : seulement la phase de l'étape, ouverte. */
+  seulementPhase?: string | null;
+}) {
   const t = T[langue], ar = langue === "ar";
   const [r, setR] = useState<Reponse | null>(null);
   const [erreur, setErreur] = useState<string | null>(null);
@@ -162,8 +166,8 @@ export default function DocumentsParPhase({ base, mode, langue = "fr", phaseInit
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <button style={S.lienBtn} onClick={() => setOuvertes(new Set(r.phases!.map((p) => p.code)))}>{t.tout}</button>
       </div>
-      {r.phases.map((ph) => {
-        const ouvert = ouvertes.has(ph.code);
+      {r.phases.filter((ph) => !seulementPhase || ph.code === seulementPhase).map((ph) => {
+        const ouvert = ouvertes.has(ph.code) || ph.code === seulementPhase;
         const lots = new Map<string, Piece[]>();
         for (const p of ph.pieces) lots.set(p.lot, [...(lots.get(p.lot) ?? []), p]);
         const enCours = ph.code === actuelle;

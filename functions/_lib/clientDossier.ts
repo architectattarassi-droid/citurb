@@ -38,6 +38,42 @@ export type NouveauDossier = {
   projectType?: string | null; constructionLevel?: string | null; caseId?: string | null;
 };
 
+/**
+ * Un seul endroit pour un client (décision du 16/10/2026) : son dossier ouvert le plus récent
+ * (non archivé, non refusé, créé depuis moins de `jours`). `rdvSeulement` : seulement un dossier
+ * ouvert par une prise de rendez-vous et resté au cadrage (00_BRIEF), que la demande d'une porte complète.
+ */
+export async function dossierOuvertDuClient(sql: Sql, ownerId: string, o: { jours: number; rdvSeulement?: boolean }): Promise<string | null> {
+  const r = o.rdvSeulement
+    ? await sql`SELECT "id" FROM "Dossier" WHERE "ownerId" = ${ownerId} AND "archivedAt" IS NULL AND "status" <> 'REJECTED' AND "phase" = '00_BRIEF'
+        AND "payload"->>'source' = 'WEB_RDV' AND "createdAt" > now() - make_interval(days => ${o.jours}::int) ORDER BY "createdAt" DESC LIMIT 1`
+    : await sql`SELECT "id" FROM "Dossier" WHERE "ownerId" = ${ownerId} AND "archivedAt" IS NULL AND "status" <> 'REJECTED'
+        AND "createdAt" > now() - make_interval(days => ${o.jours}::int) ORDER BY "createdAt" DESC LIMIT 1`;
+  return r.length ? String(r[0].id) : null;
+}
+
+/** Les RDV sans dossier du même compte ou du même téléphone rejoignent ce dossier. */
+export async function rattacherRendezVous(sql: Sql, dossierId: string, ownerId: string, tel: string): Promise<void> {
+  const neuf = tel.replace(/\D/g, "").slice(-9);
+  await sql`UPDATE "RendezVous" SET "dossierId" = ${dossierId}, "userId" = COALESCE("userId", ${ownerId}), "updatedAt" = now()
+    WHERE "dossierId" IS NULL AND ("userId" = ${ownerId} OR (${neuf}::text <> '' AND right(regexp_replace("telephone", '[^0-9]', '', 'g'), 9) = ${neuf}::text))`.catch(() => []);
+}
+
+/** Complète un dossier existant avec une nouvelle demande (payload fusionné : rien n'est perdu). */
+export async function completerDossier(sql: Sql, dossierId: string, d: NouveauDossier, maintenant = new Date().toISOString()): Promise<void> {
+  await sql`UPDATE "Dossier" SET "title" = ${d.titre}, "commune" = COALESCE(${d.commune ?? null}, "commune"),
+      "payload" = COALESCE("payload", '{}'::jsonb) || ${JSON.stringify(d.payload)}::jsonb,
+      "porteType" = ${d.porte}, "gestionMode" = COALESCE(${d.gestionMode ?? null}, "gestionMode"), "clientEmail" = COALESCE("clientEmail", ${d.email}),
+      "raisonSociale" = COALESCE(${d.raisonSociale ?? null}, "raisonSociale"), "representant" = COALESCE(${d.representant ?? null}, "representant"),
+      "sousTypeP2" = COALESCE(${d.sousTypeP2 ?? null}, "sousTypeP2"), "natureProjet" = COALESCE(${d.natureProjet ?? null}, "natureProjet"),
+      "surfaceTerrain" = COALESCE(${d.surfaceTerrain ?? null}, "surfaceTerrain"), "surfacePlancher" = COALESCE(${d.surfacePlancher ?? null}, "surfacePlancher"),
+      "nbNiveaux" = COALESCE(${d.nbNiveaux ?? null}, "nbNiveaux"), "budgetEstime" = COALESCE(${d.budgetEstime ?? null}, "budgetEstime"),
+      "packSelected" = COALESCE(${d.packSelected ?? null}, "packSelected"), "packPriceMAD" = COALESCE(${d.packPriceMAD ?? null}, "packPriceMAD"),
+      "projectType" = COALESCE(${d.projectType ?? null}, "projectType"), "constructionLevel" = COALESCE(${d.constructionLevel ?? null}, "constructionLevel"),
+      "caseId" = COALESCE(${d.caseId ?? null}, "caseId"), "updatedAt" = ${maintenant}::timestamp(3)
+    WHERE "id" = ${dossierId}`;
+}
+
 /** Crée le dossier (phase 00_BRIEF) et y rattache le dernier lead du téléphone. Renvoie son id. */
 export async function creerDossier(sql: Sql, d: NouveauDossier, maintenant = new Date().toISOString()): Promise<string> {
   const dossierId = idAleatoire("dos_");

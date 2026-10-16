@@ -17,7 +17,7 @@
 
 import { neon } from "@neondatabase/serverless";
 import { telephoneLead, type Sql } from "./lead-funnel/capture";
-import { creerDossier, tablesDossierPresentes, trouverOuCreerClient } from "../_lib/clientDossier";
+import { completerDossier, creerDossier, dossierOuvertDuClient, rattacherRendezVous, tablesDossierPresentes, trouverOuCreerClient } from "../_lib/clientDossier";
 
 interface Env { DATABASE_URL?: string; RESEND_API_KEY?: string; LEAD_NOTIFY_TO?: string; LEAD_NOTIFY_FROM?: string }
 type Reponse = { status: number; json: Record<string, unknown>; nouveau?: { id: string; porte: string; nom: string; tel: string; titre: string } };
@@ -72,6 +72,8 @@ export async function traiterIntake(body: unknown, sql: Sql, ip = "inconnue"): P
   const maintenant = new Date().toISOString();
   // Compte client : retrouvé par e-mail ou téléphone, sinon créé sans mot de passe utilisable.
   const ownerId = await trouverOuCreerClient(sql, { nom, tel, email }, maintenant);
+  // Un seul endroit : un dossier ouvert par un rendez-vous récent (resté au cadrage) est complété par cette demande.
+  const dossierRdv = await dossierOuvertDuClient(sql, ownerId, { jours: 60, rdvSeulement: true }).catch(() => null);
 
   const brief = propre(b.brief);
   const payload = propre({
@@ -80,7 +82,7 @@ export async function traiterIntake(body: unknown, sql: Sql, ip = "inconnue"): P
   });
   const titre = clip(b.title, 200) || `${porte} — ${nom}${clip(b.commune, 60) ? ` (${clip(b.commune, 60)})` : ""}`;
   const nb = nombre(b.nbNiveaux);
-  const dossierId = await creerDossier(sql, {
+  const nouveau = {
     ownerId, titre, porte, nom, tel, email, payload, commune: clip(b.commune, 120) || null, gestionMode: clip(b.gestionMode, 30) || "AUTONOME",
     raisonSociale: clip(b.raisonSociale, 200) || null, representant: clip(b.representant, 120) || null,
     sousTypeP2: clip(b.sousTypeP2 ?? b.sousType, 60) || null, natureProjet: clip(b.natureProjet, 80) || null,
@@ -88,8 +90,10 @@ export async function traiterIntake(body: unknown, sql: Sql, ip = "inconnue"): P
     budgetEstime: nombre((brief as Record<string, unknown> | undefined)?.budgetPrevisionnelMAD),
     packSelected: pack, packPriceMAD: nombre(b.packPriceMAD), projectType: clip(b.projectType, 40) || null,
     constructionLevel: clip(b.constructionLevel, 40) || null, caseId: clip(b.caseId, 80) || null,
-  }, maintenant);
-  return { status: 201, json: { ok: true, dossierId }, nouveau: { id: dossierId, porte, nom, tel, titre } };
+  };
+  const dossierId = dossierRdv ? (await completerDossier(sql, dossierRdv, nouveau, maintenant), dossierRdv) : await creerDossier(sql, nouveau, maintenant);
+  await rattacherRendezVous(sql, dossierId, ownerId, tel);
+  return { status: dossierRdv ? 200 : 201, json: { ok: true, dossierId, ...(dossierRdv ? { complete: true } : {}) }, nouveau: { id: dossierId, porte, nom, tel, titre } };
 }
 
 async function alerter(env: Env, d: NonNullable<Reponse["nouveau"]>): Promise<void> {

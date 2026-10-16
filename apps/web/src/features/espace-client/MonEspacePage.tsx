@@ -18,6 +18,8 @@ import Login from "../../tomes/tome5/pages/Login";
 import { VueDossierClient, type DossierClient } from "../mon-dossier/MonDossierPage";
 const DocumentsParPhase = lazy(() => import("../gestion/DocumentsParPhase"));
 const GaleriePlans = lazy(() => import("../gestion/GaleriePlans"));
+const AccesChantier = lazy(() => import("./AccesChantier"));
+const EtapeClient = lazy(() => import("./EtapeClient"));
 const PORTE_CLIENT = { type: "client" } as const;
 
 const EcrireMessage = lazy(() => import("../messages/EcrireMessage"));
@@ -37,6 +39,7 @@ export default function MonEspacePage() {
   const [nom, setNom] = useState<string | null>(null);
   const [dossiers, setDossiers] = useState<Resume[]>([]);
   const [choisi, setChoisi] = useState<string | null>(null);
+  const [phaseOuverte, setPhaseOuverte] = useState<string | null>(null);
   const [vue, setVue] = useState<DossierClient | null>(null);
 
   useEffect(() => {
@@ -108,7 +111,9 @@ export default function MonEspacePage() {
 
           {vue && choisi && (
             <>
-              <VueDossierClient d={vue} langue={l} />
+              <VueDossierClient d={vue} langue={l} onOuvrirPhase={setPhaseOuverte} />
+              {phaseOuverte && <Suspense fallback={null}><EtapeClient dossierId={choisi} code={phaseOuverte} langue={l === "ar" ? "ar" : "fr"} fermer={() => setPhaseOuverte(null)} /></Suspense>}
+              <Suspense fallback={null}><AccesChantier dossierId={choisi} langue={l === "ar" ? "ar" : "fr"} /></Suspense>
 
               <section style={S.carte}>
                 <h2 style={S.h2}>{l === "ar" ? "عروض الأسعار والفواتير" : "Devis et factures"}</h2>

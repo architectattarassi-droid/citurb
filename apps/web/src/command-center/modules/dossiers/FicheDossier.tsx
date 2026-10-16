@@ -27,6 +27,7 @@ import PanneauDates, { type Dates, type Echeance } from "./PanneauDates";
 import DocumentsParPhase from "../../../features/gestion/DocumentsParPhase";
 import GaleriePlans from "../../../features/gestion/GaleriePlans";
 import BlocPhase, { type MajDexe, type Paiement } from "./BlocPhase";
+import EchangesDossier from "./EchangesDossier";
 import { niveauxDuProjet, type VideoLien } from "../../../../../../packages/contracts/src/gestion/plans";
 
 const PORTE_ADMIN = { type: "admin" } as const;
@@ -215,7 +216,7 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
               </h2>
               <BlocPhase dossierId={id} phase={code} paiement={f.paiements?.find((p) => p.phase === code) ?? null} majDexe={f.majDexe ?? null}
                 occupe={occupe} agir={agir} recharger={charger} setErreur={setErreur} />
-              {etapes.map((e) => <LigneEtape key={e.code} e={e} actuelle={e.code === d.phase} statuts={f.statutsEtape} occupe={occupe} agir={agir} />)}
+              {etapes.map((e) => <LigneEtape key={e.code} dossierId={id} e={e} actuelle={e.code === d.phase} statuts={f.statutsEtape} occupe={occupe} agir={agir} />)}
             </section>
           ))}
         </>
@@ -254,6 +255,10 @@ export default function FicheDossier({ vueClientInitiale = false }: { vueClientI
             <h2 style={S.h2}>Documents</h2>
             <p style={S.petit}>Pièces du dossier, phase par phase : onglet « Documents par phase ».</p>
             <button style={S.btnGhost} onClick={() => setOnglet("documents")}>Ouvrir les documents</button>
+          </section>
+          <section style={S.carte}>
+            <h2 style={S.h2}>Rendez-vous, appels vidéo et messages du dossier</h2>
+            <EchangesDossier dossierId={d.id} />
           </section>
           <section style={S.carte}>
             <h2 style={S.h2}>Historique commercial</h2>
@@ -333,7 +338,7 @@ function PanneauPilotage({ f, occupe, agir }: { f: Fiche; occupe: boolean; agir:
   );
 }
 
-function LigneEtape({ e, actuelle, statuts, occupe, agir }: { e: Etape; actuelle: boolean; statuts: string[]; occupe: boolean; agir: (c: Record<string, unknown>, m: string) => Promise<void> }) {
+function LigneEtape({ dossierId, e, actuelle, statuts, occupe, agir }: { dossierId: string; e: Etape; actuelle: boolean; statuts: string[]; occupe: boolean; agir: (c: Record<string, unknown>, m: string) => Promise<void> }) {
   const [ouvert, setOuvert] = useState(false);
   const [statut, setStatut] = useState(e.statut);
   const [date, setDate] = useState(e.date || "");
@@ -349,6 +354,7 @@ function LigneEtape({ e, actuelle, statuts, occupe, agir }: { e: Etape; actuelle
           {e.aide ? <span style={{ ...S.petit, display: "block" }}>{e.aide}</span> : null}
         </span>
         <span style={S.petit}>{LIB_STATUT_ETAPE[e.statut] || e.statut}{e.date ? ` · ${dateFr(e.date)}` : ""}{e.source === "saisie" && e.saisiPar ? ` · ${e.saisiPar}` : ""}</span>
+        <Link to={`/cc/dossiers/${encodeURIComponent(dossierId)}/etapes/${encodeURIComponent(e.code)}`} style={{ ...S.lien, fontSize: 12.5 }} onClick={(ev) => ev.stopPropagation()}>Ouvrir la page</Link>
         <button style={S.lienBtn} onClick={(ev) => { ev.stopPropagation(); setOuvert(!ouvert); }}>{ouvert ? "Fermer" : "Modifier"}</button>
       </div>
       {e.note && !ouvert && <div style={{ ...S.petit, paddingInlineStart: 22 }}>{e.note}</div>}

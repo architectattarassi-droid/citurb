@@ -18,7 +18,7 @@ import {
   validerReservation, type EnvMail, type Reservation, type Reponse, type Sql,
 } from "../../_lib/rdv";
 import { nouvelleSalle } from "../../_lib/visio";
-import { creerDossier, tablesDossierPresentes, trouverOuCreerClient } from "../../_lib/clientDossier";
+import { creerDossier, dossierOuvertDuClient, tablesDossierPresentes, trouverOuCreerClient } from "../../_lib/clientDossier";
 import { traiterCapture } from "../lead-funnel/capture";
 
 interface Env extends EnvMail { DATABASE_URL?: string; PUBLIC_WEB_URL?: string }
@@ -70,7 +70,8 @@ export async function reserver(body: unknown, sql: Sql, headers: Headers = new H
   try {
     if (await tablesDossierPresentes(sql)) {
       const userId = await trouverOuCreerClient(sql, { nom: r.nom, tel: r.telephone, email: r.email });
-      const dossierId = await creerDossier(sql, {
+      // Un seul endroit : un client qui a déjà un dossier ouvert y retrouve son rendez-vous (et son appel visio).
+      const dossierId = (await dossierOuvertDuClient(sql, userId, { jours: 365 })) ?? await creerDossier(sql, {
         ownerId: userId, titre: `${r.porte} — ${r.nom} (rendez-vous visio)`, porte: r.porte, nom: r.nom, tel: r.telephone, email: r.email,
         payload: { source: "WEB_RDV", rendezVousId: id, objet: r.objet, message: r.message ?? undefined, utm, lang: "fr", via: "pages-function" },
       });
